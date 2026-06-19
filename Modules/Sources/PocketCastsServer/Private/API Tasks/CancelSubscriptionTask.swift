@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class CancelSubscriptionTask: ApiBaseTask {
+class CancelSubscriptionTask: ApiBaseTask, @unchecked Sendable {
     private let bundleUuid: String
 
     var completion: ((Bool) -> Void)?

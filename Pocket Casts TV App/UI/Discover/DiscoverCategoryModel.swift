@@ -8,13 +8,20 @@ class DiscoverCategoryModel {
 
     let category: DiscoverCategory
 
-    var categoryDetails: DiscoverCategoryDetails?
+    private var categorySection: DiscoverCategorySection?
 
     var coverPodcastsUuids: [String] = []
 
-    init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    var podcasts: [DiscoverPodcast] = []
+
+    var sponsoredPodcastsUuids: Set<String> = []
+
+    let sponsoredPosition: Int
+
+    init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared, sponsoredPosition: Int = 5) {
         self.category = category
         self.discoverManager = discoverManager
+        self.sponsoredPosition = sponsoredPosition
     }
 
     enum State: Equatable, Hashable {
@@ -24,12 +31,19 @@ class DiscoverCategoryModel {
     }
 
     func load() async {
-        let detail = await discoverManager.loadDiscoverCategoryDetails(for: category)
+        let categorySection = await discoverManager.loadDiscoverCategoryDetails(for: category)
 
         await MainActor.run {
-            state = detail != nil ? .ready : .empty
-            self.categoryDetails = detail
-            if let podcasts = categoryDetails?.podcasts {
+            state = categorySection != nil ? .ready : .empty
+            self.categorySection = categorySection
+            self.podcasts = categorySection?.categoryDetails.podcasts ?? []
+            self.sponsoredPodcastsUuids = categorySection?.sponsoredPodcastsIDs ?? []
+            let indices = self.podcasts.indices(where: { podcast in
+                self.sponsoredPodcastsUuids.contains(podcast.uuid ?? "")
+            })
+            let position = podcasts.count > sponsoredPosition ? sponsoredPosition : 0
+            self.podcasts.moveSubranges(indices, to: position)
+            if let podcasts = categorySection?.categoryDetails.podcasts {
                 self.coverPodcastsUuids = podcasts.compactMap { $0.uuid }
             }
         }
@@ -43,10 +57,13 @@ class DiscoverCategoryModel {
     }
 
     var name: String {
-        return category.name ?? ""
+        return category.name?.localized ?? ""
     }
 
-    var podcasts: [DiscoverPodcast] {
-        return categoryDetails?.podcasts ?? []
+    func isSponsored(podcast: DiscoverPodcast) -> Bool {
+        guard let uuid = podcast.uuid else {
+            return false
+        }
+        return sponsoredPodcastsUuids.contains(uuid)
     }
 }

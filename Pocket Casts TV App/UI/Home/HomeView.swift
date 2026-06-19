@@ -12,7 +12,6 @@ struct HomeView: View {
 
     enum Layout {
         static let gridSize = CGFloat(250)
-        static let sectionSpacing = CGFloat(80)
     }
 
     enum Section: String {
@@ -33,6 +32,7 @@ struct HomeView: View {
                 emptyView
             }
         }
+        .animation(.easeInOut, value: model.state)
         .task {
             model.load()
         }
@@ -43,15 +43,21 @@ struct HomeView: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+        ContentUnavailableView {
+            Text(L10n.tvPodcastsEmptyTitle)
+        } description: {
+            Text(L10n.tvPodcastsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
+                VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
@@ -60,19 +66,19 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
-                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.selectedTab = .search
                         }
                     } else {
                         featuredRow
                         videoRow
-                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
                         categoriesRow
                         curatedRow
-                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.selectedTab = .search
                         }
                     }
@@ -95,13 +101,13 @@ struct HomeView: View {
 
     @ViewBuilder
     var nowPlayingRow: some View {
-        if let currentPlaying = model.currentPlaying {
-            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying) {
+        if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
+            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
                 .frame(width: 1242, alignment: .leading)
-                .setFocus(section: Section.homeNowPlaying)
+                .setFocus(section: Section.homeNowPlaying.rawValue)
             }
         } else {
             EmptyView()
@@ -109,64 +115,43 @@ struct HomeView: View {
     }
 
     var youMightLikeRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser) {
-            DiscoverPodcastRow(type: .recommendationsUser)
-        }
+        DiscoverPodcastRow(type: .recommendationsUser, source: DiscoverAnalytics.homeSource)
     }
 
-    @State private var sectionPodcast: String?
-
     var lovedByListenersOfRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial) {
-            DiscoverPodcastRow(type: .recommendationsSocial) { title in
-                sectionPodcast = title
-            }
-        }
+        DiscoverPodcastRow(type: .recommendationsSocial, source: DiscoverAnalytics.homeSource)
     }
 
     var trendingRow: some View {
-        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
-            DiscoverPodcastRow(type: .trending)
-        }
+        DiscoverPodcastRow(type: .trending, source: DiscoverAnalytics.homeSource)
     }
 
     var featuredRow: some View {
-        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
-            DiscoverFeaturedPodcastsRow(type: .featured)
-        }
+        DiscoverFeaturedPodcastsRow(type: .featured, source: DiscoverAnalytics.homeSource)
     }
 
     var videoRow: some View {
-        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
-            DiscoverVideoEpisodesRow(type: .video)
-        }
+        DiscoverVideoEpisodesRow(type: .video, source: DiscoverAnalytics.homeSource)
     }
 
-    @State private var curatedTitle: String?
     var curatedRow: some View {
-        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
-            DiscoverPodcastRow(type: .curatedList) { title in
-                curatedTitle = title
-            }
-        }
+        DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource)
     }
 
     var categoriesRow: some View {
-        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
-            DiscoverCategoriesRow()
-        }
+        DiscoverCategoriesRow(popularOnly: true, source: DiscoverAnalytics.homeSource)
     }
 
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext) {
+            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
                             upNextButton(model: episode)
                                 .frame(width: 864)
-                                .setFocus(section: Section.homeUpNext)
+                                .setFocus(section: Section.homeUpNext.rawValue)
                         }
                     }
                 }
@@ -182,21 +167,29 @@ struct HomeView: View {
             EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model, context: .upNext)
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases) {
+        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
                         EpisodePlayerButton(model: episode)
                             .frame(width: 864)
-                            .setFocus(section: Section.homeNewReleases)
+                            .setFocus(section: Section.homeNewReleases.rawValue)
                     }
                 }
             }
         }
     }
+}
+
+/// Single source of truth for the spacing between Home + Discover sections
+/// and between a section's title and its content row.
+enum HomeSectionLayout {
+    static let titleSpacing: CGFloat = 16
+    static let sectionSpacing: CGFloat = 64
 }
 
 struct HomeSection<Content: View>: View {
@@ -217,7 +210,7 @@ struct HomeSection<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
+        VStack(alignment: .leading, spacing: HomeSectionLayout.titleSpacing) {
             titleView
             content
         }
@@ -230,11 +223,11 @@ struct HomeSection<Content: View>: View {
     // bottom-aligned so its distance to the content below stays constant.
     private var titleView: some View {
         Text(title)
-            .font(.title2)
+            .font(.title3)
             .hidden()
             .overlay(alignment: .bottomLeading) {
                 Text(title)
-                    .font(isFocusedSection ? .title2 : .headline)
+                    .font(isFocusedSection ? .title3 : .headline)
                     .foregroundStyle(Color.pcTextPrimary)
             }
     }

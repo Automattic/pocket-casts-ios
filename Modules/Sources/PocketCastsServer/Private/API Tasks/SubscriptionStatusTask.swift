@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class SubscriptionStatusTask: ApiBaseTask {
+class SubscriptionStatusTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
     override func apiTokenAcquired(token: String) {

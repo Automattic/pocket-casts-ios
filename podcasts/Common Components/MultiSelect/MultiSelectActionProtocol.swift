@@ -8,6 +8,5 @@ protocol MultiSelectActionDelegate: AnyObject, Sendable {
     func multiSelectedPlayListEpisodes() -> [PlaylistEpisode]?
     func multiSelectActionBegan(status: String)
     func multiSelectActionCompleted()
-    func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle
     var multiSelectViewSource: AnalyticsSource { get }
 }

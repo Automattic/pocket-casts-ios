@@ -124,7 +124,7 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
             }
         ])
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionPicker.present()
     }
 }
 

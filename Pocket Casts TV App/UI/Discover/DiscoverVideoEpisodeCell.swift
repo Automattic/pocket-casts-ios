@@ -10,6 +10,10 @@ struct DiscoverVideoEpisodeCell: View {
     @Environment(FocusStore.self) var focusStore
 
     @State private var model: DiscoverVideoEpisodeModel
+    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
+
+    private let listId: String?
+    private let source: String
 
     enum FocusValues {
         case playEpisode
@@ -29,10 +33,14 @@ struct DiscoverVideoEpisodeCell: View {
         static let imageSize = CGFloat(72)
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
+        static let fadeDuration: TimeInterval = 0.5
+        static let playDelay: TimeInterval = 2
     }
 
-    init(episode: DiscoverEpisode) {
-        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
+    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
+        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration, playDelay: Layout.playDelay))
+        self.listId = listId
+        self.source = source
     }
 
     var body: some View {
@@ -50,7 +58,23 @@ struct DiscoverVideoEpisodeCell: View {
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .background {
-            backgroundThumbnail
+            Group {
+                if isFocused, let player = model.player, model.isPlaying {
+                    VideoPlayer(player: player)
+                        .focusable(false)
+                } else {
+                    backgroundThumbnail
+                }
+            }
+            .transition(.opacity)
+            .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
+        }
+        .onChange(of: isFocused) { _, newValue in
+            if newValue {
+                model.play()
+            } else {
+                model.pause()
+            }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
@@ -73,6 +97,19 @@ struct DiscoverVideoEpisodeCell: View {
             NowPlayingView()
                 .ignoresSafeArea()
         }
+        .sheet(item: $showNotesEpisode) { episode in
+            EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
+        }
+    }
+
+    private func trackEpisodeTapped() {
+        guard let listId, let episodeUuid = model.episode.uuid else { return }
+        DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
+    }
+
+    private func trackPodcastTapped() {
+        guard let listId, let podcastUuid = model.episode.podcastUuid else { return }
+        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
     }
 
     private func expand() {
@@ -101,7 +138,7 @@ struct DiscoverVideoEpisodeCell: View {
         .foregroundStyle(.clear)
         .focusable(!isFocused)
         .focused($isContainerFocused)
-        .setFocus(section: DiscoverType.video)
+        .setFocus(section: DiscoverType.video.rawValue)
         .buttonStyle(ChromelessButtonStyle())
         .onChange(of: isContainerFocused) { _, focused in
             if focused, !isAnimating {
@@ -111,8 +148,9 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var focusedContent: some View {
-        HStack(alignment: .bottom) {
+        HStack(alignment: .bottom, spacing: 16) {
             Button(L10n.tvDiscoverPlayEpisode) {
+                trackEpisodeTapped()
                 Task {
                     let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                     await MainActor.run {
@@ -125,16 +163,26 @@ struct DiscoverVideoEpisodeCell: View {
                 }
             }
             .focused($focusedButton, equals: FocusValues.playEpisode)
-            .setFocus(section: DiscoverType.video)
+            .setFocus(section: DiscoverType.video.rawValue)
+            .contextMenu {
+                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode)
+            }
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
                 .focused($focusedButton, equals: FocusValues.goPodcast)
-                .setFocus(section: DiscoverType.video)
+                .setFocus(section: DiscoverType.video.rawValue)
+                .simultaneousGesture(TapGesture().onEnded {
+                    trackPodcastTapped()
+                })
             }
             Spacer()
         }
+        // These buttons always sit over the card's black gradient overlay, so force the
+        // dark color scheme to keep the default tvOS button readable (light label / bright
+        // focus pill) in light mode too.
+        .environment(\.colorScheme, .dark)
         .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
@@ -150,13 +198,13 @@ struct DiscoverVideoEpisodeCell: View {
                     if let title = model.episode.podcastTitle {
                         Text(title)
                             .font(.caption)
-                            .foregroundColor(.pcTextSecondary)
+                            .foregroundColor(.pcTextOnColorSecondary)
                     }
                     if let description = model.episode.title {
                         Text(description)
                             .lineLimit(1)
                             .font(.caption)
-                            .foregroundColor(.pcTextPrimary)
+                            .foregroundColor(.pcTextOnColorPrimary)
                     }
                 }
                 Spacer()

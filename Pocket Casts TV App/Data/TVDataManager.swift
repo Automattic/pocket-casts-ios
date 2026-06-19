@@ -38,11 +38,11 @@ class TVDataManager {
         }
     }
 
-    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil) -> [Episode] {
+    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) -> [Episode] {
         guard let podcast else {
             return []
         }
-        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast, sortOrder: sortOrder)
+        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast, sortOrder: sortOrder, includeArchived: includeArchived)
         return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 
@@ -70,10 +70,18 @@ class TVDataManager {
         return await playEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
     }
 
-    func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
-        _ = await loadPodcast(podcastUuid: podcastUuid)
+    func loadEpisode(podcastUuid: String, episodeUuid: String) async -> (episode: Episode, podcast: Podcast?)? {
+        let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
         guard let episode = dataManager.findEpisode(uuid: episodeUuid) else {
+            return nil
+        }
+
+        return (episode, podcast)
+    }
+
+    func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
+        guard let (episode, _) = await loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return false
         }
 

@@ -205,7 +205,7 @@ class MultiSelectHelper {
             return
         }
 
-        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
+        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedCapitalized
         let downloadAction = OptionAction(label: downloadText, icon: nil) {
             MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
             actionDelegate.multiSelectActionCompleted()
@@ -238,7 +238,7 @@ class MultiSelectHelper {
             confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
         }
 
-        confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
+        confirmPicker.present()
     }
 
     private class func downloadEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {

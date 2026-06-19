@@ -69,7 +69,7 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
             Analytics.track(.miniPlayerLongPressMenuDismissed)
         }
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present()
     }
 
     @objc private func miniPlayerTapped() {

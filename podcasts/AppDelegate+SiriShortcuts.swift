@@ -7,15 +7,6 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        /// Temporary workaround: avoid the app handling the /pair urls as a share url until we implement proper pair URL handling.
-        /// Returning false causes the system to fall back to opening the universal link in the browser.
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let incomingURL = userActivity.webpageURL,
-               let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
-               let path = components.path, path.startsWith(string: "/pair") {
-                return false
-            }
-        }
 
         handleContinue(userActivity)
 
@@ -43,13 +34,6 @@ extension AppDelegate {
                 return
             }
 
-            // This is temporary workaround to avoid the app handling the /pair urls as a share url until we implement the proper pair URL handling on 8.15
-            // This will make the user to be redirected to the web page
-            if path.startsWith(string: "/pair") {
-                UIApplication.shared.open(incomingURL, options: [:])
-                return
-            }
-
             if path.startsWith(string: "/redeem") {
                 handleReferralsDeepLink(url: incomingURL)
                 return
@@ -57,6 +41,14 @@ extension AppDelegate {
 
             if path == "/discover" || path.startsWith(string: "/discover/") {
                 if let url = URL(string: "pktc:/\(path)") {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    JLRoutes.routeURL(url)
+                }
+                return
+            }
+
+            if path == "/pair" || path.startsWith(string: "/pair/") {
+                if let url = URL(string: "pktc:/\(path)?\(components.query ?? "")") {
                     NavigationManager.sharedManager.dismissPresentedViewController()
                     JLRoutes.routeURL(url)
                 }

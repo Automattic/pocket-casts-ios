@@ -19,7 +19,7 @@ struct SuggestedFolderPodcastView: View {
             .navigationTitle(folder.name)
         }
         // hack to allow the scroll indicator to be visible without overlapping the content
-        .customHorizontalMargin(margin: SuggestedFoldersView.Constants.margin)
+        .contentMargins(.horizontal, SuggestedFoldersView.Constants.margin, for: .scrollContent)
         .applyDefaultThemeOptions()
         .onAppear {
             Analytics.track(.suggestedFoldersPreviewFolderTapped, properties: ["source": source.rawValue, "folder_name": folder.name, "podcasts_count": folder.podcastUuids.count])

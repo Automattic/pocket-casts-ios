@@ -15,12 +15,12 @@ import SwiftProtobuf
 // incompatible with the version of SwiftProtobuf to which you are linking.
 // Please ensure that you are building against the same version of the API
 // that was used to generate this file.
-fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAPIVersionCheck {
+fileprivate nonisolated struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAPIVersionCheck {
   struct _2: SwiftProtobuf.ProtobufAPIVersion_2 {}
   typealias Version = _2
 }
 
-struct Files_File: @unchecked Sendable {
+nonisolated struct Files_File: @unchecked Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -120,7 +120,7 @@ struct Files_File: @unchecked Sendable {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
-struct Files_FileUpdate: Sendable {
+nonisolated struct Files_FileUpdate: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -175,7 +175,7 @@ struct Files_FileUpdate: Sendable {
   fileprivate var _colour: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
 }
 
-struct Files_AccountUsage: Sendable {
+nonisolated struct Files_AccountUsage: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -191,7 +191,7 @@ struct Files_AccountUsage: Sendable {
   init() {}
 }
 
-struct Files_FileListRequest: Sendable {
+nonisolated struct Files_FileListRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -201,7 +201,7 @@ struct Files_FileListRequest: Sendable {
   init() {}
 }
 
-struct Files_FileListResponse: Sendable {
+nonisolated struct Files_FileListResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -224,7 +224,7 @@ struct Files_FileListResponse: Sendable {
   fileprivate var _account: Files_AccountUsage? = nil
 }
 
-struct Files_FileListUpdateRequest: Sendable {
+nonisolated struct Files_FileListUpdateRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -236,7 +236,7 @@ struct Files_FileListUpdateRequest: Sendable {
   init() {}
 }
 
-struct Files_FileUploadRequest: Sendable {
+nonisolated struct Files_FileUploadRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -269,7 +269,7 @@ struct Files_FileUploadRequest: Sendable {
   fileprivate var _colour: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
 }
 
-struct Files_FileUploadResponse: Sendable {
+nonisolated struct Files_FileUploadResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -283,7 +283,7 @@ struct Files_FileUploadResponse: Sendable {
   init() {}
 }
 
-struct Files_ImageUploadRequest: Sendable {
+nonisolated struct Files_ImageUploadRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -299,7 +299,7 @@ struct Files_ImageUploadRequest: Sendable {
   init() {}
 }
 
-struct Files_ImageUploadResponse: Sendable {
+nonisolated struct Files_ImageUploadResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -311,7 +311,7 @@ struct Files_ImageUploadResponse: Sendable {
   init() {}
 }
 
-struct Files_FileUploadedStatusRequest: Sendable {
+nonisolated struct Files_FileUploadedStatusRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -345,7 +345,7 @@ struct Files_FileUploadedStatusRequest: Sendable {
   init() {}
 }
 
-struct Files_FileRequest: Sendable {
+nonisolated struct Files_FileRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -357,7 +357,7 @@ struct Files_FileRequest: Sendable {
   init() {}
 }
 
-struct Files_FileDeleteRequest: Sendable {
+nonisolated struct Files_FileDeleteRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -369,7 +369,7 @@ struct Files_FileDeleteRequest: Sendable {
   init() {}
 }
 
-struct Files_FileDeleteResponse: Sendable {
+nonisolated struct Files_FileDeleteResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -379,7 +379,7 @@ struct Files_FileDeleteResponse: Sendable {
   init() {}
 }
 
-struct Files_FilePlayRequest: Sendable {
+nonisolated struct Files_FilePlayRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -389,7 +389,7 @@ struct Files_FilePlayRequest: Sendable {
   init() {}
 }
 
-struct Files_FilePlayResponse: Sendable {
+nonisolated struct Files_FilePlayResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -401,7 +401,7 @@ struct Files_FilePlayResponse: Sendable {
   init() {}
 }
 
-struct Files_SuccessResponse: Sendable {
+nonisolated struct Files_SuccessResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -415,9 +415,9 @@ struct Files_SuccessResponse: Sendable {
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
-fileprivate let _protobuf_package = "files"
+fileprivate nonisolated let _protobuf_package = "files"
 
-extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".File"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}size\0\u{1}contentType\0\u{1}playedUpTo\0\u{1}playedUpToModified\0\u{1}playingStatus\0\u{1}playingStatusModified\0\u{1}duration\0\u{1}published\0\u{1}colour\0\u{1}imageUrl\0\u{1}hasCustomImage\0\u{1}modifiedAt\0\u{1}imageStatus\0\u{1}bookmarks\0")
 
@@ -592,7 +592,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   }
 }
 
-extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUpdate"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}playedUpTo\0\u{1}playingStatus\0\u{1}duration\0\u{1}colour\0")
 
@@ -651,7 +651,7 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   }
 }
 
-extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".AccountUsage"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}totalSize\0\u{1}usedSize\0\u{1}totalFiles\0")
 
@@ -691,7 +691,7 @@ extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   }
 }
 
-extension Files_FileListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileListRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
@@ -710,7 +710,7 @@ extension Files_FileListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
   }
 }
 
-extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileListResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}files\0\u{1}account\0")
 
@@ -749,7 +749,7 @@ extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   }
 }
 
-extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileListUpdateRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}files\0")
 
@@ -779,7 +779,7 @@ extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
   }
 }
 
-extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}size\0\u{1}contentType\0\u{1}duration\0\u{1}colour\0\u{1}hasCustomImage\0")
 
@@ -843,7 +843,7 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}url\0")
 
@@ -878,7 +878,7 @@ extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
-extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ImageUploadRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}size\0\u{1}contentType\0")
 
@@ -918,7 +918,7 @@ extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
-extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ImageUploadResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}url\0")
 
@@ -948,7 +948,7 @@ extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
   }
 }
 
-extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadedStatusRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}Type\0\u{1}MessageId\0\u{1}TopicArn\0\u{1}Subject\0\u{1}Token\0\u{1}Message\0\u{1}SubscribeURL\0\u{1}Timestamp\0\u{1}SignatureVersion\0\u{1}Signature\0\u{1}SigningCertURL\0\u{1}UnsubscribeURL\0")
 
@@ -1033,7 +1033,7 @@ extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf.
   }
 }
 
-extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0")
 
@@ -1063,7 +1063,7 @@ extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   }
 }
 
-extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileDeleteRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0")
 
@@ -1093,7 +1093,7 @@ extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension Files_FileDeleteResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FileDeleteResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileDeleteResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
@@ -1112,7 +1112,7 @@ extension Files_FileDeleteResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
-extension Files_FilePlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FilePlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FilePlayRequest"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
@@ -1131,7 +1131,7 @@ extension Files_FilePlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
   }
 }
 
-extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FilePlayResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}url\0")
 
@@ -1161,7 +1161,7 @@ extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   }
 }
 
-extension Files_SuccessResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+nonisolated extension Files_SuccessResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SuccessResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0")
 

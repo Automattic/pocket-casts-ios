@@ -19,8 +19,11 @@ struct RootView: View {
                 MainTabView()
             case .userSync:
                 SigningInView()
+            case .dataLossResync:
+                DataLossResyncView()
             }
         }
+        .animation(.easeInOut, value: coordinator.state)
         .environment(coordinator)
         .environment(focusStore)
         .task {

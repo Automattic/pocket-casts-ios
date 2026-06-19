@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
-class RefreshOperation: Operation {
+class RefreshOperation: Operation, @unchecked Sendable {
     private var refreshResult: RefreshResult
 
     private var completionHandler: ((RefreshFetchResult) -> Void)?

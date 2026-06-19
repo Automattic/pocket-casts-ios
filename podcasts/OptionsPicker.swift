@@ -2,19 +2,17 @@ import UIKit
 
 class OptionsPicker {
     private var title: String?
-    private var window: UIWindow?
     private var optionsController: OptionsPickerRootController?
 
     private var noActionCallback: (() -> Void)?
 
-    init(title: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
+    init(title: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil) {
         self.title = title
-        setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors, portraitOnly: portraitOnly)
+        setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
     }
 
-    private func setup(themeOverride: Theme.ThemeType?, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool) {
+    private func setup(themeOverride: Theme.ThemeType?, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil) {
         optionsController = OptionsPickerRootController()
-        optionsController?.portraitOnly = portraitOnly
         optionsController?.delegate = self
         optionsController?.setup(title: title, themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
     }
@@ -43,24 +41,6 @@ class OptionsPicker {
 
     func setNoActionCallback(_ callback: @escaping () -> Void) {
         noActionCallback = callback
-    }
-
-    func show(statusBarStyle: UIStatusBarStyle? = nil) {
-        guard let rootController = optionsController else { return }
-        //TODO: Figure this out and fix it
-        #if !APPCLIP
-        window = SceneHelper.newMainScreenWindow()
-        #endif
-        window?.rootViewController = rootController
-        window?.windowLevel = UIWindow.Level.alert
-        window?.makeKeyAndVisible()
-
-        let additionalPaddingRequired: CGFloat = window?.safeAreaInsets.bottom ?? 0
-        if let statusBarStyle {
-            rootController.overrideStatusBarStyle = statusBarStyle
-        }
-        rootController.aboutToPresentOptions(bottomPadding: additionalPaddingRequired)
-        rootController.animateIn()
     }
 
     /// Presents the options using a native, self-sizing sheet from the given
@@ -98,8 +78,6 @@ class OptionsPicker {
             noActionCallback()
         }
 
-        window?.resignKey()
-        window = nil
         optionsController?.delegate = nil
     }
 }

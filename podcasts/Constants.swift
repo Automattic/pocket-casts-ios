@@ -448,6 +448,7 @@ enum PlusUpgradeViewSource: String {
     case whatsNew
     case sonosLink = "sonos_link"
     case deepLink
+    case deviceApproval = "device_approval"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

@@ -362,7 +362,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 userEpisodeDetailVC = UserEpisodeDetailViewController(episode: fullEpisode)
                 userEpisodeDetailVC?.delegate = self
                 userEpisodeDetailVC?.themeOverride = themeOverride
-                userEpisodeDetailVC?.animateIn()
+                userEpisodeDetailVC?.present(from: self)
             }
         }
     }

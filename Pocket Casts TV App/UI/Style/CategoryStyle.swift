@@ -8,6 +8,9 @@ enum CategoryStyle: Int, CaseIterable {
     case blue
     case green
 
+    /// Subset used to color category pills. Yellow/green are excluded by design.
+    static let assignableCases: [CategoryStyle] = [.red, .purple, .blue]
+
     var gradient: LinearGradient {
         switch self {
         case .red:

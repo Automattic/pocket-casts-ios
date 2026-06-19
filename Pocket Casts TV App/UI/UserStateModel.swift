@@ -42,11 +42,4 @@ class UserStateModel {
         }
         .store(in: &cancellables)
     }
-
-    func logout() {
-        Task {
-            SignOutHelper.signout()
-            refresh()
-        }
-    }
 }

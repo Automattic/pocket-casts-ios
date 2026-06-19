@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveFileUploadStatusTask: ApiBaseTask {
+class RetrieveFileUploadStatusTask: ApiBaseTask, @unchecked Sendable {
     private let episode: UserEpisode
 
     init(episode: UserEpisode) {

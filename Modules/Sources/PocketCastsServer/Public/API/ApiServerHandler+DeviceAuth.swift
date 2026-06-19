@@ -80,4 +80,19 @@ public extension ApiServerHandler {
 
         return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
     }
+
+    func deviceApproveRequest(userCode: String, approve: Bool) async throws -> DeviceApproveResult {
+        return try await withCheckedThrowingContinuation { continuation in
+            let operation = DeviceApproveTask(userCode: userCode, approve: approve)
+            operation.completion = { result in
+                switch result {
+                case .success(let resultObject):
+                    continuation.resume(returning: resultObject)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+            apiQueue.addOperation(operation)
+        }
+    }
 }

@@ -30,6 +30,11 @@ public class DataManager {
 
     let dbQueue: PCDBQueue
 
+    /// `true` if the database was created from scratch during init (no tables existed).
+    /// On tvOS, where the database lives in the purgeable Caches directory, a logged-in
+    /// user seeing this means their data was wiped and a full resync is required.
+    public let databaseWasCreated: Bool
+
     public internal(set) static var sharedManager = DataManager()
 
     public static var logger: ErrorLogger?
@@ -82,18 +87,23 @@ public class DataManager {
     public init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
 
-        DatabaseHelper.setup(queue: dbQueue)
-
-        // closing it above won't affect these calls, since they will re-open it
-        podcastManager.setup(dbQueue: dbQueue)
-        folderManager.setup(dbQueue: dbQueue)
-        upNextManager.setup(dbQueue: dbQueue)
+        self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
         ratings = RatingsDataManager()
         // Force unwrap is safe here as dbQueue is always a GRDBQueue at runtime
         networkDataUsageManager = NetworkDataUsageManager(dbQueue: dbQueue as! GRDBQueue)
+
+        setupInMemoryCaches()
+    }
+
+    /// (Re)loads the in-memory caches that mirror database tables. Keep in sync when adding a
+    /// new cached manager.
+    private func setupInMemoryCaches() {
+        podcastManager.setup(dbQueue: dbQueue)
+        folderManager.setup(dbQueue: dbQueue)
+        upNextManager.setup(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
@@ -1154,6 +1164,12 @@ public class DataManager {
         return folderPath.appendingPathComponent("podcast_newDB_backup.sqlite3")
     }
 
+    /// The database file plus its WAL/SHM sidecars — the full on-disk file set.
+    public static func databaseFilePaths() -> [String] {
+        let dbPath = pathToDb()
+        return [dbPath, "\(dbPath)-wal", "\(dbPath)-shm"]
+    }
+
     private static func pathToDbFolder() -> String {
         #if os(tvOS)
         //tvOS does not allow the use of the application support or documents directory on a real device so we need to use the caches directory.
@@ -1369,5 +1385,27 @@ extension DataManager {
         }
 
         try? sourceDbQueue.close()
+    }
+}
+
+// MARK: - Full data wipe
+
+extension DataManager {
+    /// Deletes every row from every table, leaving the schema and the live database connection
+    /// intact so objects already holding a `DataManager` reference keep working. Used by tvOS
+    /// logout; a later login repopulates the database via a full sync.
+    public func deleteAllData() {
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                let tableNames = try String.fetchAll(db, sql: "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")
+                for tableName in tableNames {
+                    try db.execute(sql: "DELETE FROM \(tableName.quotedDatabaseIdentifier)")
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("DataManager.deleteAllData failed: \(error)")
+        }
+
+        setupInMemoryCaches()
     }
 }

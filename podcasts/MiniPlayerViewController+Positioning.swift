@@ -121,7 +121,7 @@ extension MiniPlayerViewController {
     }
 
     func closeUpNextAndFullPlayer(completion: (() -> Void)? = nil) {
-        if let fullScreenPlayer {
+        if fullScreenPlayer != nil {
             closeFullScreenPlayer(completion: {
                 completion?()
             })

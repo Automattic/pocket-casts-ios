@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveBookmarksTask: ApiBaseTask {
+class RetrieveBookmarksTask: ApiBaseTask, @unchecked Sendable {
     typealias BookmarkRetrievedHandler = ([Api_BookmarkResponse]?) -> Void
 
     let onBookmarksRetrieved: BookmarkRetrievedHandler

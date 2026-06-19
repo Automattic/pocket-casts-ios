@@ -187,6 +187,10 @@ public class ServerSettings {
         UserDefaults.standard.string(forKey: filesUsageLastModifiedKey)
     }
 
+    public class func removeFilesUsageLastModifiedKey() {
+        UserDefaults.standard.removeObject(forKey: filesUsageLastModifiedKey)
+    }
+
     // MARK: Custom Storage limit from user
 
     public class func setCustomStorageUserLimit(_ value: Int) {

@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveEpisodesTask: ApiBaseTask {
+class RetrieveEpisodesTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([EpisodeSyncInfo]?) -> Void)?
 
     private var podcastUuid: String

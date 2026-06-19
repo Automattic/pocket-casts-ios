@@ -34,10 +34,6 @@ extension PlaylistDetailViewController: MultiSelectActionDelegate {
             })
         }
 
-        func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
-            preferredStatusBarStyle
-        }
-
         var multiSelectViewSource: AnalyticsSource {
             analyticsSource
         }

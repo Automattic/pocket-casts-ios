@@ -1158,17 +1158,23 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func downloadSeasonTapped(season: Int) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
 
-            let listEpisodesForSeason = episodesForSeason(season)
-            let episodes = listEpisodesForSeason.map { $0.episode }
+        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { [weak self] later in
+            DispatchQueue.global().async {
+                guard let self else { return }
 
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
 
-            self.downloadItems(allObjects: listEpisodesForSeason)
-        }
+                if later {
+                    self.queueItems(allObjects: listEpisodesForSeason)
+                } else {
+                    self.downloadItems(allObjects: listEpisodesForSeason)
+                }
+            }
+        }, disallowed: nil)
     }
 
     func archiveAllSeasonTapped(season: Int) {

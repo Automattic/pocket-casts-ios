@@ -128,4 +128,10 @@ class AuthenticationHelper {
         // If we got to here it's because the max retries expired
         throw APIError.UNKNOWN
     }
+
+    @discardableResult
+    static func deviceApprove(userCode: String, approve: Bool) async throws -> DeviceApproveResult {
+        let response = try await ApiServerHandler.shared.deviceApproveRequest(userCode: userCode, approve: approve)
+        return response
+    }
 }

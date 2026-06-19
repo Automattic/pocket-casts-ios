@@ -45,6 +45,13 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private var lastWillLayoutWidth: CGFloat = 0
 
+    /// Height of the soft bottom fade edge shown over the grid under Liquid Glass.
+    /// The gradient fade means only the lower portion reads strongly, so this can be
+    /// generous without looking like a solid bar.
+    private static let bottomFadeHeight: CGFloat = 180
+
+    private lazy var bottomFadeView = ProgressiveFadeView()
+
     private var homeGridDataHelper = HomeGridDataHelper()
 
     private lazy var refreshQueue: OperationQueue = {
@@ -78,6 +85,11 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.reorderingCadence = .immediate
+        if #available(iOS 26, *) { // Only on iOS 26 for now
+            if #unavailable(iOS 27) {
+                setupBottomFade()
+            }
+        }
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
@@ -294,6 +306,37 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
+    /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass.
+    ///
+    /// The system scroll edge effect samples the scrolling content, so over a grid of
+    /// colorful artwork it washes out and barely registers — which is what hurts the
+    /// readability of the floating tab bar / mini player. A dedicated fade overlay,
+    /// pinned to the bottom of the screen behind the bar, dissolves the artwork into the
+    /// grid's own background for a consistently visible soft edge, replacing the system
+    /// scroll edge effect.
+    @available(iOS 26, *)
+    private func setupBottomFade() {
+        guard LiquidGlass.isEnabled else { return }
+
+        bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomFadeView)
+        NSLayoutConstraint.activate([
+            bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomFadeView.heightAnchor.constraint(equalToConstant: Self.bottomFadeHeight)
+        ])
+        podcastsCollectionView.bottomEdgeEffect.isHidden = true
+        updateBottomFadeColor()
+    }
+
+    /// Fades the grid into its own background color toward the bottom edge, so the
+    /// artwork dissolves out cleanly behind the floating bar in both themes.
+    private func updateBottomFadeColor() {
+        guard LiquidGlass.isEnabled else { return }
+        bottomFadeView.setColor(ThemeColor.primaryUi02())
+    }
+
     @objc func refreshGridItems() {
         refreshQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
@@ -474,6 +517,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     override func handleThemeChanged() {
         super.handleThemeChanged()
         podcastsCollectionView.reloadData()
+        updateBottomFadeColor()
     }
 
     private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {

@@ -157,42 +157,25 @@ struct NowPlayingWidgetEntryView: View {
 
     @ViewBuilder
     private func playToggleOrPlaybackLabel(playingEpisode: WidgetEpisode) -> some View {
-        if #available(iOS 17, *) {
-            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
+        Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
 
-                if entry.isPlaying {
-                    Text(L10n.nowPlaying)
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundColor(widgetColorScheme.topButtonTextColor)
-                        .backwardWidgetAccentable(isAccentedRenderingMode)
-                } else {
-                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundColor(widgetColorScheme.topButtonTextColor)
-                        .layoutPriority(1)
-                        .backwardWidgetAccentable(isAccentedRenderingMode)
-                }
-            }
-            .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
-            .padding(bottomTextPadding)
-        } else {
             if entry.isPlaying {
                 Text(L10n.nowPlaying)
                     .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                    .padding(bottomTextPadding)
+                    .fontWeight(.bold)
+                    .foregroundColor(widgetColorScheme.topButtonTextColor)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
             } else {
                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                     .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                    .padding(bottomTextPadding)
+                    .fontWeight(.bold)
+                    .foregroundColor(widgetColorScheme.topButtonTextColor)
                     .layoutPriority(1)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
             }
         }
+        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
+        .padding(bottomTextPadding)
     }
 
     private var nothingPlayingMedium: some View {

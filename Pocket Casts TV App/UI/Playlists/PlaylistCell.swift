@@ -9,6 +9,7 @@ struct PlaylistCell: View {
     }
 
     @Environment(\.isFocused) var isFocused: Bool
+    @Environment(\.colorScheme) var colorScheme
 
     enum Layout {
         static let imageSize = CGFloat(156)
@@ -35,6 +36,9 @@ struct PlaylistCell: View {
                     Spacer()
                 }
             }
+            // In light mode, use variable for light more over artwork (except for focus state)
+            .environment(\.colorScheme, colorScheme == .light ? (isFocused ? .light : .dark) : colorScheme)
+
             .padding(.vertical, 24)
             ZStack {
                 if model.state == .ready {

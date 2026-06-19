@@ -8,7 +8,16 @@ class DiscoverCategoriesModel {
 
     var categories = [DiscoverCategory]()
 
-    init(discoverManager: DiscoverManager = DiscoverManager.shared) {
+    let popularOnly: Bool
+
+    /// Analytics source ("home" or "search") used by `discover_categories_pill_tapped`.
+    let source: String
+
+    private(set) var region: String?
+
+    init(popularOnly: Bool = false, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
+        self.popularOnly = popularOnly
+        self.source = source
         self.discoverManager = discoverManager
     }
 
@@ -19,11 +28,17 @@ class DiscoverCategoriesModel {
     }
 
     func load() async {
-        let categories = await discoverManager.loadDiscoverPopularCategories()
+        let categories = await discoverManager.loadDiscoverCategories(popularOnly: popularOnly)
+        let region = await discoverManager.currentRegion()
 
         await MainActor.run {
             state = categories.isEmpty ? .empty : .ready
             self.categories = categories
+            self.region = region
         }
+    }
+
+    func trackPillTapped(_ category: DiscoverCategory) {
+        DiscoverAnalytics.categoryPillTapped(category, region: region, source: source)
     }
 }

@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class ChangeEmailTask: ApiBaseTask {
+class ChangeEmailTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
     private var newEmail: String

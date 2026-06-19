@@ -15,7 +15,7 @@ struct SignInView: View {
     }
 
     var enterCodePrompt: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairURLPretty, model.pairURLString)
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, model.pairing.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -64,13 +64,13 @@ struct SignInView: View {
                         usernamePasswordLogin
                             .padding(.top, 64)
                     case .qr:
-                        if case .error(_, let message) = model.state {
+                        if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
                         } else {
                             Text(L10n.tvSignInSubtitle)
                                 .font(.headline)
                                 .foregroundStyle(Color.pcTextSecondary)
-                            QRCodeView(url: model.pairURLString)
+                            QRCodeView(url: model.pairing.pairURLString)
                             separator
                             Text(enterCodePrompt)
                                 .font(.headline)
@@ -85,33 +85,55 @@ struct SignInView: View {
             .offset(y: -64)
         }
         .task(id: loginType) {
-            // Clear any leftover error so it doesn't leak across login modes.
-            model.state = .start
             switch loginType {
             case .qr:
-                await model.thirdPartyApprovalSignin()
+                await model.pairing.start()
             case .manual:
-                break
+                // Clear any leftover error so it doesn't leak across login modes.
+                model.state = .start
             }
         }
         .onChange(of: model.state) {
-            if case .finished = model.state {
-                dismiss()
-                coordinator.state = .userSync
+            switch model.state {
+            case .finished:
+                finishSignIn(source: "password")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error as NSError).code])
+            default:
+                break
             }
+        }
+        .onChange(of: model.pairing.state) {
+            switch model.pairing.state {
+            case .finished:
+                finishSignIn(source: "qr_code")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "qr_code", "error_code": (error as NSError).code])
+            default:
+                break
+            }
+        }
+        .onAppear {
+            Analytics.track(.signInShown)
         }
         .background(Color.pcBackgroundBase)
     }
 
+    private func finishSignIn(source: String) {
+        Analytics.track(.userSignedIn, properties: ["source": source])
+        dismiss()
+        coordinator.state = .userSync
+    }
+
     func qrCodeError(message: String) -> some View {
         ContentUnavailableView {
-            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+            Label(L10n.tvLogInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
         } description: {
             Text(message)
         } actions: {
             Button {
                 Task {
-                    await model.thirdPartyApprovalSignin()
+                    await model.pairing.start()
                 }
             } label: {
                 Text(L10n.tryAgain)
@@ -123,16 +145,16 @@ struct SignInView: View {
 
     var qrCodeDigits: some View {
         Group {
-            if model.codes.isEmpty {
+            if model.pairing.codes.isEmpty {
                 ProgressView()
             } else {
                 HStack(spacing: 8) {
-                    ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
+                    ForEach(Array(model.pairing.codes.enumerated()), id: \.offset) { _, code in
                         Text(code)
                             .font(.caption2)
                             .foregroundStyle(Color.pcTextSecondary)
                             .padding()
-                            .background(Color.pcBackgroundActive50)
+                            .background(Color.pcBackgroundActive20)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
@@ -158,13 +180,13 @@ struct SignInView: View {
 
     var usernamePasswordLogin: some View {
         VStack {
-            TextField("Username", text: $username)
+            TextField(L10n.tvUserSignInUsernamePlaceholder, text: $username)
                 .textContentType(.username)
                 .focused($focusedField, equals: .username)
                 .submitLabel(.next)
                 .onSubmit { focusedField = .password }
 
-            SecureField("Password", text: $password)
+            SecureField(L10n.signInPasswordPrompt, text: $password)
                 .textContentType(.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.done)
@@ -183,7 +205,7 @@ struct SignInView: View {
             } label: {
                 switch model.state {
                 case .start, .error:
-                    Text("Sign In")
+                    Text(L10n.accountLogin)
                         .frame(minWidth: 300)
                 case .waiting:
                     ProgressView()
