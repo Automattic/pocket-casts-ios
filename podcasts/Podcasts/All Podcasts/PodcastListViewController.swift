@@ -85,9 +85,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.reorderingCadence = .immediate
-        if #available(iOS 26, *) {
+        if #available(iOS 26, *) { // Only on iOS 26 for now
             if #unavailable(iOS 27) {
-                podcastsCollectionView.bottomEdgeEffect.isHidden = true
                 setupBottomFade()
             }
         }
@@ -305,7 +304,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
             themeableCollectionView.style = .primaryUi02
         }
-        updateBottomFade()
     }
 
     /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass.
@@ -314,8 +312,9 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// colorful artwork it washes out and barely registers — which is what hurts the
     /// readability of the floating tab bar / mini player. A dedicated fade overlay,
     /// pinned to the bottom of the screen behind the bar, dissolves the artwork into the
-    /// grid's own background for a consistently visible soft edge. List view keeps the
-    /// system default.
+    /// grid's own background for a consistently visible soft edge, replacing the system
+    /// scroll edge effect.
+    @available(iOS 26, *)
     private func setupBottomFade() {
         guard LiquidGlass.isEnabled else { return }
 
@@ -327,14 +326,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomFadeView.heightAnchor.constraint(equalToConstant: Self.bottomFadeHeight)
         ])
+        podcastsCollectionView.bottomEdgeEffect.isHidden = true
         updateBottomFadeColor()
-        updateBottomFade()
-    }
-
-    /// Shows the bottom fade only for the grid layouts, where readability suffers.
-    private func updateBottomFade() {
-        guard LiquidGlass.isEnabled else { return }
-        bottomFadeView.isHidden = Settings.libraryType() == .list
     }
 
     /// Fades the grid into its own background color toward the bottom edge, so the
