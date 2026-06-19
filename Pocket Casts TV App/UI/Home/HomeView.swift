@@ -155,6 +155,9 @@ struct HomeView: View {
                         }
                     }
                 }
+                // Otherwise the focused-card drop shadow gets clipped at the
+                // scroll-view boundary instead of pooling below the pill.
+                .scrollClipDisabled()
             }
         }
     }
@@ -181,6 +184,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .scrollClipDisabled()
         }
     }
 }
