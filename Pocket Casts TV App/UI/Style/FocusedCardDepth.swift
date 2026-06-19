@@ -25,10 +25,11 @@ private struct FocusedCardDepth: ViewModifier {
                     .fill(
                         LinearGradient(
                             stops: [
-                                .init(color: .white.opacity(0.45), location: 0.0),
-                                .init(color: .white.opacity(0.12), location: 0.35),
-                                .init(color: .clear, location: 0.55),
-                                .init(color: .black.opacity(0.28), location: 1.0)
+                                .init(color: .white.opacity(0.85), location: 0.0),
+                                .init(color: .white.opacity(0.45), location: 0.18),
+                                .init(color: .white.opacity(0.15), location: 0.40),
+                                .init(color: .clear, location: 0.58),
+                                .init(color: .black.opacity(0.45), location: 1.0)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
