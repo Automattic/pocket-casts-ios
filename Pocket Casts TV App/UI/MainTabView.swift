@@ -35,26 +35,24 @@ struct MainTabContentView: View {
     @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
 
     var body: some View {
-        ZStack {
-            switch tab {
-            case .home:
-                HomeView(model: mainTabViewModel.homeModel)
-                    .trackScrollOffset()
-            case .podcasts:
-                PodcastsView(model: mainTabViewModel.myPodcastsModel)
-                    .trackScrollOffset()
-            case .playlists:
-                PlaylistsView(model: mainTabViewModel.playlistsModel)
-                    .trackScrollOffset()
-            case .upNext:
-                UpNextView(model: mainTabViewModel.upNextModel)
-                    .trackScrollOffset()
-            case .search:
-                SearchView(model: mainTabViewModel.searchViewModel)
-                    .trackScrollOffset()
-            case .nowPlaying:
-                NowPlayingTab()
-            }
+        switch tab {
+        case .home:
+            HomeView(model: mainTabViewModel.homeModel)
+                .trackScrollOffset()
+        case .podcasts:
+            PodcastsView(model: mainTabViewModel.myPodcastsModel)
+                .trackScrollOffset()
+        case .playlists:
+            PlaylistsView(model: mainTabViewModel.playlistsModel)
+                .trackScrollOffset()
+        case .upNext:
+            UpNextView(model: mainTabViewModel.upNextModel)
+                .trackScrollOffset()
+        case .search:
+            SearchView(model: mainTabViewModel.searchViewModel)
+                .trackScrollOffset()
+        case .nowPlaying:
+            NowPlayingTab()
         }
     }
 }
