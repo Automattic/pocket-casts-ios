@@ -30,7 +30,15 @@ struct RootView: View {
             await coordinator.load()
         }
         .ignoresSafeArea()
-        .background(Color.pcBackgroundSurface)
+        .background(
+            // Subtle "lit from above" gradient instead of a flat fill: makes the
+            // page feel less plastic and lets focused-card shadows read against it.
+            LinearGradient(
+                colors: [Color.pcBackgroundTop, Color.pcBackgroundBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 }
 

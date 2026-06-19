@@ -113,7 +113,7 @@ struct DiscoverFeaturedPodcastCell: View {
         }
         .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .clipped()
+        .focusedCardDepth(isFocused: focusedButton != nil, cornerRadius: 12)
         .scaleEffect(focusedButton != nil ? 1 : 0.95)
         .animation(.default, value: focusedButton)
         .focusSection()

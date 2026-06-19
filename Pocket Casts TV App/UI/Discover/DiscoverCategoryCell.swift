@@ -71,7 +71,8 @@ struct DiscoverCategoryCell: View {
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
         .background(style(for: colorIndex))
-        .clipped()
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 16)
         .task {
             await model.load()
         }
