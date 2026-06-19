@@ -56,12 +56,21 @@ private struct FocusedCardDepth: ViewModifier {
     let cornerRadius: CGFloat
     let style: FocusedCardStyle
 
+    // Reduce-transparency users get the lift (shadow) but skip the blend-mode
+    // sheen — translucent overlays are exactly what the setting opts out of.
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    // Reduce-motion users get the focused/unfocused states applied without the
+    // easing curve, so focus changes feel snappy rather than animated.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     func body(content: Content) -> some View {
         content
             .overlay {
-                highlight
-                    .opacity(isFocused ? 1 : 0)
-                    .allowsHitTesting(false)
+                if !reduceTransparency {
+                    highlight
+                        .opacity(isFocused ? 1 : 0)
+                        .allowsHitTesting(false)
+                }
             }
             .shadow(
                 color: .black.opacity(isFocused ? 0.85 : 0),
@@ -69,7 +78,7 @@ private struct FocusedCardDepth: ViewModifier {
                 x: 0,
                 y: isFocused ? 36 : 0
             )
-            .animation(.easeInOut(duration: 0.2), value: isFocused)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: isFocused)
     }
 
     @ViewBuilder
@@ -133,4 +142,25 @@ private struct FocusedCardDepth: ViewModifier {
                 .blendMode(.overlay)
         }
     }
+}
+
+#Preview("Focused card styles") {
+    HStack(spacing: 64) {
+        VStack(spacing: 16) {
+            Text(".surface").font(.caption)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(LinearGradient(colors: [.indigo, .purple], startPoint: .top, endPoint: .bottom))
+                .frame(width: 220, height: 300)
+                .focusedCardDepth(isFocused: true, cornerRadius: 16, style: .surface)
+        }
+        VStack(spacing: 16) {
+            Text(".content").font(.caption)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(white: 0.85))
+                .frame(width: 220, height: 300)
+                .focusedCardDepth(isFocused: true, cornerRadius: 16, style: .content)
+        }
+    }
+    .padding(80)
+    .background(Color.pcBackgroundSurface)
 }

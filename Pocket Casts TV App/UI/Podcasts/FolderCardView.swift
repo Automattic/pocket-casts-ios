@@ -31,6 +31,7 @@ struct FolderCardView: View {
         .frame(width: cardSize, height: cardSize)
         .background(Color(uiColor: AppTheme.folderColor(colorInt: model.folder.color)))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .focusedCardDepth(cornerRadius: 12, style: .surface)
         .task {
             model.load()
         }
