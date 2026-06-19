@@ -1233,6 +1233,7 @@
 		F5F5097E2CEBFDE6007D6E39 /* skip.json in Resources */ = {isa = PBXBuildFile; fileRef = BD85E3A31E6670DF001B17C1 /* skip.json */; };
 		F5F884632CC9EAA6002BED2C /* Humane-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5F884622CC9EAA6002BED2C /* Humane-Bold.otf */; };
 		F5FDDD842E58E8B000FB1C33 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
+		FFFEB10A2F9BDA9A00E68E0C /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5FDDD852E58E94500FB1C33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		FCCC80732DD56B380080EB2C /* HowToUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC80722DD56B380080EB2C /* HowToUploadView.swift */; };
@@ -7799,6 +7800,7 @@
 				FF6033FC2FAB4C8300EB3AD5 /* AutoplayHelper.swift in Sources */,
 				FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */,
 				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
+				FFFEB10A2F9BDA9A00E68E0C /* FirebaseManager.swift in Sources */,
 				FF8FFE6E2FAA8F240086A867 /* TranscriptFormat.swift in Sources */,
 				FF65058B2FAA963100C3662E /* Notifications.swift in Sources */,
 				FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */,
