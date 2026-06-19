@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
 
@@ -236,7 +236,7 @@ struct PodcastDetailView: View {
 }
 
 #Preview {
-    let router = MainTabRouter()
+    let router = MainTabViewModel()
     PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makeStubPodcasts().first!))
         .environment(AppCoordinator())
         .environment(router)

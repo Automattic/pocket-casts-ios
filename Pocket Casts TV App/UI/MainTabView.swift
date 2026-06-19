@@ -32,38 +32,38 @@ enum MainTab: Int, CaseIterable, Identifiable, Equatable {
 struct MainTabContentView: View {
     let tab: MainTab
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
 
     var body: some View {
         ZStack {
             switch tab {
             case .home:
-                HomeView()
+                HomeView(model: mainTabViewModel.homeModel)
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
-                        tabRouter.scrollOffset = after
+                        mainTabViewModel.scrollOffset = after
                     }
             case .podcasts:
-                PodcastsView()
+                PodcastsView(model: mainTabViewModel.myPodcastsModel)
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
-                        tabRouter.scrollOffset = after
+                        mainTabViewModel.scrollOffset = after
                     }
             case .playlists:
                 PlaylistsView()
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
-                        tabRouter.scrollOffset = after
+                        mainTabViewModel.scrollOffset = after
                     }
             case .upNext:
                 UpNextView()
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
-                        tabRouter.scrollOffset = after
+                        mainTabViewModel.scrollOffset = after
                     }
             case .search:
                 SearchViewContainer()
@@ -90,7 +90,7 @@ struct CenterButton: View {
 struct MainTabView: View {
     @Namespace var mainTabFocusNS
 
-    @State private var tabRouter = MainTabRouter()
+    @State private var tabRouter = MainTabViewModel()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
     @Environment(AppCoordinator.self) var coordinator

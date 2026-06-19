@@ -3,7 +3,7 @@ import PocketCastsServer
 
 struct DiscoverAllView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model = DiscoverAllViewModel()
 

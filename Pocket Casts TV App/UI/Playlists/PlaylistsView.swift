@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = PlaylistsViewModel()
@@ -90,5 +90,5 @@ struct PlaylistsView: View {
 #Preview {
     PlaylistsView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

@@ -90,5 +90,5 @@ struct DiscoverCategoryCell: View {
 #Preview {
     DiscoverCategoryCell(category: DiscoverCategory(id: 1, name: "True Crime"), colorIndex: 0)
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

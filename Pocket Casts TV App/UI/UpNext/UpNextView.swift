@@ -3,7 +3,7 @@ import PocketCastsUtils
 
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = UpNextViewModel()
@@ -95,5 +95,5 @@ struct UpNextView: View {
 #Preview {
     UpNextView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

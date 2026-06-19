@@ -4,7 +4,7 @@ import PocketCastsDataModel
 
 @MainActor
 @Observable
-final class MainTabRouter {
+final class MainTabViewModel {
     private var cancellables: Set<AnyCancellable> = []
 
     var selectedTab: MainTab = .home
@@ -15,6 +15,9 @@ final class MainTabRouter {
     var scrollOffset: CGFloat = 0
 
     var currentPlayingEpisode: BaseEpisode?
+
+    var homeModel = HomeViewModel()
+    var myPodcastsModel = PodcastsViewModel()
 
     init() {
         currentPlayingEpisode = PlaybackManager.shared.currentEpisode()

@@ -3,7 +3,7 @@ import SwiftUI
 struct NowPlayingTab: View {
 
     @FocusState private var isFocused: Bool
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     var body: some View {
         NowPlayingView()

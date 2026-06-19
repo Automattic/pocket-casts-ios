@@ -239,5 +239,5 @@ struct DiscoverVideoEpisodeCell: View {
 #Preview {
     DiscoverVideoEpisodeCell(episode: MockData.makeStubVideoEpisodePodcasts().first!)
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }
