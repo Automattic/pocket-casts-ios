@@ -49,7 +49,10 @@ struct DiscoverPodcastRow: View {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     if let uuid = podcast.uuid {
                         NavigationLink(value: podcast) {
-                            FocusedPodcastCover(uuid: uuid, size: Layout.gridSize)
+                            PodcastImage(uuid: uuid, size: .page)
+                                .frame(width: Layout.gridSize, height: Layout.gridSize)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .focusedCardDepth(cornerRadius: 12, style: .surface)
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
@@ -62,22 +65,5 @@ struct DiscoverPodcastRow: View {
             })
         }
         .scrollClipDisabled()
-    }
-}
-
-/// Bare podcast cover that picks up the focused-card surface depth treatment.
-/// Has to live as its own `View` so `@Environment(\.isFocused)` resolves to the
-/// `.card` button's focus state rather than the row's.
-private struct FocusedPodcastCover: View {
-    let uuid: String
-    let size: CGFloat
-
-    @Environment(\.isFocused) private var isFocused
-
-    var body: some View {
-        PodcastImage(uuid: uuid, size: .page)
-            .frame(width: size, height: size)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .surface)
     }
 }

@@ -80,6 +80,8 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                     NavigationLink(value: podcast) {
                         PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .focusedCardDepth(cornerRadius: 12, style: .surface)
                     }
                     .buttonStyle(.card)
                     .simultaneousGesture(TapGesture().onEnded {

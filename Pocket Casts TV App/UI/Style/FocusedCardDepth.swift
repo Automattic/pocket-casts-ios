@@ -29,6 +29,26 @@ extension View {
     ) -> some View {
         modifier(FocusedCardDepth(isFocused: isFocused, cornerRadius: cornerRadius, style: style))
     }
+
+    /// Variant that picks up `\.isFocused` from the surrounding environment. Use
+    /// directly inside a `Button` / `NavigationLink` label so call sites that
+    /// don't already track focus don't need a wrapper struct just to read it.
+    func focusedCardDepth(
+        cornerRadius: CGFloat = 12,
+        style: FocusedCardStyle = .surface
+    ) -> some View {
+        modifier(EnvironmentFocusedCardDepth(cornerRadius: cornerRadius, style: style))
+    }
+}
+
+private struct EnvironmentFocusedCardDepth: ViewModifier {
+    @Environment(\.isFocused) private var isFocused
+    let cornerRadius: CGFloat
+    let style: FocusedCardStyle
+
+    func body(content: Content) -> some View {
+        content.focusedCardDepth(isFocused: isFocused, cornerRadius: cornerRadius, style: style)
+    }
 }
 
 private struct FocusedCardDepth: ViewModifier {
