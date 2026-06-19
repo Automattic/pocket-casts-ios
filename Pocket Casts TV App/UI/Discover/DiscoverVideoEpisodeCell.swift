@@ -78,10 +78,14 @@ struct DiscoverVideoEpisodeCell: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
-        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .focusSection()
         .focusScope(ns)
         .scaleEffect(isFocused ? 1.1 : 1.0)
+        // Applied after `scaleEffect` so the shadow renders at its native
+        // size — otherwise the cell's 1.1x focus scale enlarges the shadow
+        // alongside the cell, making it read as oversized next to pills
+        // that scale by only ~1.02x (Up Next, currently-playing).
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .animation(.easeInOut, value: isFocused)
         .onChange(of: focusedButton) { _, focused in
             if let focused {
