@@ -16,12 +16,23 @@ struct EpisodeRow: View {
 
     let model: EpisodeRowViewModel
     var isActive: Bool?
+    /// Whether the row should paint its own background, clip, and focused-card
+    /// depth. `EpisodeRowWithActions` wraps the row in a wider container that
+    /// provides those itself; everywhere else (standalone rows in Up Next, the
+    /// podcast detail list, the player button) renders the surface inline.
+    fileprivate var providesCardSurface: Bool = true
 
     @Environment(\.isFocused) private var isFocused: Bool
 
     init(model: EpisodeRowViewModel, isActive: Bool? = nil) {
         self.model = model
         self.isActive = isActive
+    }
+
+    fileprivate init(model: EpisodeRowViewModel, isActive: Bool?, providesCardSurface: Bool) {
+        self.model = model
+        self.isActive = isActive
+        self.providesCardSurface = providesCardSurface
     }
 
     enum Layout {
@@ -65,9 +76,12 @@ struct EpisodeRow: View {
             Spacer()
         }
         .padding(32)
-        .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
+        .if(providesCardSurface) { content in
+            content
+                .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
+        }
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
     }
@@ -134,12 +148,16 @@ struct EpisodeRowWithActions: View {
                 model.play()
             } label: {
                 HStack(spacing: 0) {
-                    EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    // Lets the outer container paint a single continuous card
+                    // surface across both the row and the more-button gutter,
+                    // so the depth treatment renders on the full width.
+                    EpisodeRow(model: model, isActive: isEpisodeFocused, providesCardSurface: false)
                     Spacer()
                         .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
                 }
                 .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
