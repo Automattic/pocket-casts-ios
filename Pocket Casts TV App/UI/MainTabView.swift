@@ -66,7 +66,7 @@ struct MainTabContentView: View {
                         mainTabViewModel.scrollOffset = after
                     }
             case .search:
-                SearchViewContainer()
+                SearchView(model: mainTabViewModel.searchViewModel)
             case .nowPlaying:
                 NowPlayingTab()
             }
