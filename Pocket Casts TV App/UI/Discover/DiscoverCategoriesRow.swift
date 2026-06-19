@@ -51,5 +51,6 @@ struct DiscoverCategoriesRow: View {
                 }
             })
         }
+        .scrollClipDisabled()
     }
 }

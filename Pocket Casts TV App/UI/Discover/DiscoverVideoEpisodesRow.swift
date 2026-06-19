@@ -62,5 +62,8 @@ struct DiscoverVideoEpisodesRow: View {
             .focusSection()
             .focusScope(focusNS)
         }
+        // Otherwise the focused-card drop shadow gets clipped at the
+        // scroll-view boundary instead of pooling below the pill.
+        .scrollClipDisabled()
     }
 }
