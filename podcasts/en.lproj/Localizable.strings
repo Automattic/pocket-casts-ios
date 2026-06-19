@@ -6217,6 +6217,24 @@
 /* tv player toast shown when trim silence setting changes. %1$@ is the selected option name */
 "tv_player_trim_silence_set" = "Trim silence: %1$@";
 
+/* tv toast confirming an episode was marked as played */
+"tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was archived */
+"tv_episode_archived" = "Archived";
+
+/* tv toast confirming an episode was unarchived */
+"tv_episode_unarchived" = "Unarchived";
+
+/* tv toast confirming an episode was removed from the Up Next queue */
+"tv_episode_removed_from_up_next" = "Removed from Up Next";
+
+/* tv toast confirming an episode was queued to play next in Up Next */
+"tv_episode_will_play_next" = "Will play next";
+
+/* tv toast confirming an episode was queued to play last in Up Next */
+"tv_episode_will_play_last" = "Will play last";
+
 /* tv up next empty title */
 "tv_up_next_empty_title" = "Nothing queued up";
 

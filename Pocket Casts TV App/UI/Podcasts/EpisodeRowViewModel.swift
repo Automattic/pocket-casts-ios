@@ -92,7 +92,7 @@ class EpisodeRowViewModel: Identifiable {
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.markPlayed)
+        ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
     }
 
     var canArchive: Bool {
@@ -110,17 +110,18 @@ class EpisodeRowViewModel: Identifiable {
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.podcastArchived)
+        ToastManager.shared.show(L10n.tvEpisodeArchived)
     }
 
     func unarchive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.tvEpisodeUnarchived)
     }
 
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-        ToastManager.shared.show(L10n.removeFromUpNext)
+        ToastManager.shared.show(L10n.tvEpisodeRemovedFromUpNext)
     }
 
     private func setupObservers() {
@@ -165,7 +166,7 @@ enum EpisodeUpNextActions {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
         }
-        ToastManager.shared.show(L10n.playNextInUpNext)
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayNext)
     }
 
     static func playLast(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
@@ -175,7 +176,7 @@ enum EpisodeUpNextActions {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
         }
-        ToastManager.shared.show(L10n.playLastInUpNext)
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayLast)
     }
 }
 
