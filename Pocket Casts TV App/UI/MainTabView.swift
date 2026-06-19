@@ -114,11 +114,6 @@ struct MainTabView: View {
         }
         .defaultFocus($focusedArea, .tabBar)
         .focusScope(mainTabFocusNS)
-        .if(tabRouter.selectedTab == .home) { content in
-            content.onMoveCommand { direction in
-                handleMove(direction)
-            }
-        }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
         .requireAccountSupport()
