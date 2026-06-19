@@ -59,7 +59,7 @@ struct MainTabContentView: View {
                         mainTabViewModel.scrollOffset = after
                     }
             case .upNext:
-                UpNextView()
+                UpNextView(model: mainTabViewModel.upNextModel)
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in

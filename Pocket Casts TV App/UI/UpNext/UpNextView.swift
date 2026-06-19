@@ -10,6 +10,9 @@ struct UpNextView: View {
 
     @Namespace private var rowNamespace
 
+    init(model: UpNextViewModel = UpNextViewModel()) {
+        _model = State(wrappedValue: model)
+    }
     var body: some View {
         ZStack {
             switch model.state {
