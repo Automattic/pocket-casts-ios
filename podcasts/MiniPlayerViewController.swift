@@ -250,7 +250,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
             let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
-            let buttonWidth: CGFloat = isInline ? 40 : 44
+            let buttonWidth: CGFloat = 44
             skipBackBtnWidthConstraint.constant = buttonWidth
             playPauseBtnWidthConstraint.constant = buttonWidth
             skipFwdBtnWidthConstraint.constant = buttonWidth
