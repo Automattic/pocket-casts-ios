@@ -74,19 +74,6 @@ struct MainTabContentView: View {
     }
 }
 
-struct CenterButton: View {
-    let title: String
-
-    var body: some View {
-        VStack {
-            Spacer()
-            Button(title) {
-            }
-            Spacer()
-        }
-    }
-}
-
 struct MainTabView: View {
     @Namespace var mainTabFocusNS
 
