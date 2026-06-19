@@ -64,10 +64,10 @@ private struct FocusedCardDepth: ViewModifier {
                     .allowsHitTesting(false)
             }
             .shadow(
-                color: .black.opacity(isFocused ? 0.6 : 0),
-                radius: isFocused ? 44 : 0,
+                color: .black.opacity(isFocused ? 0.85 : 0),
+                radius: isFocused ? 60 : 0,
                 x: 0,
-                y: isFocused ? 26 : 0
+                y: isFocused ? 36 : 0
             )
             .animation(.easeInOut(duration: 0.2), value: isFocused)
     }
@@ -86,9 +86,9 @@ private struct FocusedCardDepth: ViewModifier {
                     .fill(
                         LinearGradient(
                             stops: [
-                                .init(color: .white.opacity(0.55), location: 0.0),
-                                .init(color: .white.opacity(0.25), location: 0.20),
-                                .init(color: .white.opacity(0.08), location: 0.40),
+                                .init(color: .white.opacity(0.28), location: 0.0),
+                                .init(color: .white.opacity(0.12), location: 0.20),
+                                .init(color: .white.opacity(0.04), location: 0.40),
                                 .init(color: .clear, location: 0.60)
                             ],
                             startPoint: .topLeading,
@@ -102,8 +102,8 @@ private struct FocusedCardDepth: ViewModifier {
                         LinearGradient(
                             stops: [
                                 .init(color: .clear, location: 0.40),
-                                .init(color: .black.opacity(0.30), location: 0.85),
-                                .init(color: .black.opacity(0.55), location: 1.0)
+                                .init(color: .black.opacity(0.16), location: 0.85),
+                                .init(color: .black.opacity(0.30), location: 1.0)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
