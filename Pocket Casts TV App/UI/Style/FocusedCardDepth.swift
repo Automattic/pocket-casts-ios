@@ -56,24 +56,41 @@ private struct FocusedCardDepth: ViewModifier {
     private var highlight: some View {
         switch style {
         case .surface:
-            // `.overlay` blend brightens the white stops and darkens the black ones
-            // against whatever sits beneath, so both ends of the gradient contribute.
-            // `.plusLighter` would silently swallow the dark side.
-            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        stops: [
-                            .init(color: .white.opacity(0.85), location: 0.0),
-                            .init(color: .white.opacity(0.45), location: 0.18),
-                            .init(color: .white.opacity(0.15), location: 0.40),
-                            .init(color: .clear, location: 0.58),
-                            .init(color: .black.opacity(0.45), location: 1.0)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+            // Two stacked passes: a `.plusLighter` glint that's purely additive
+            // (always brightens, never darkens, so it pops on any underlying
+            // colour) and an `.overlay` falloff that adds bottom-trailing depth.
+            // `.overlay` on its own caps highlight intensity against busy
+            // artwork; splitting them out gives a stronger specular feel.
+            ZStack {
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .white.opacity(0.55), location: 0.0),
+                                .init(color: .white.opacity(0.25), location: 0.20),
+                                .init(color: .white.opacity(0.08), location: 0.40),
+                                .init(color: .clear, location: 0.60)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-                .blendMode(.overlay)
+                    .blendMode(.plusLighter)
+
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0.40),
+                                .init(color: .black.opacity(0.30), location: 0.85),
+                                .init(color: .black.opacity(0.55), location: 1.0)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .blendMode(.overlay)
+            }
 
         case .content:
             // Thin inner stroke that catches light along the top edge and lays a
