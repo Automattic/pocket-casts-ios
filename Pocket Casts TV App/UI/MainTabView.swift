@@ -39,34 +39,19 @@ struct MainTabContentView: View {
             switch tab {
             case .home:
                 HomeView(model: mainTabViewModel.homeModel)
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        mainTabViewModel.scrollOffset = after
-                    }
+                    .trackScrollOffset()
             case .podcasts:
                 PodcastsView(model: mainTabViewModel.myPodcastsModel)
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        mainTabViewModel.scrollOffset = after
-                    }
+                    .trackScrollOffset()
             case .playlists:
                 PlaylistsView(model: mainTabViewModel.playlistsModel)
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        mainTabViewModel.scrollOffset = after
-                    }
+                    .trackScrollOffset()
             case .upNext:
                 UpNextView(model: mainTabViewModel.upNextModel)
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        mainTabViewModel.scrollOffset = after
-                    }
+                    .trackScrollOffset()
             case .search:
                 SearchView(model: mainTabViewModel.searchViewModel)
+                    .trackScrollOffset()
             case .nowPlaying:
                 NowPlayingTab()
             }
@@ -248,6 +233,28 @@ struct MainTabView: View {
 
     var logoAccessory: some View {
         Image(ImageResource.pcLogo)
+    }
+}
+
+/// Reports the vertical scroll offset (content inset top + content offset y)
+/// of the attached scroll view whenever it changes.
+private struct MainTabScrollOffsetModifier: ViewModifier {
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
+
+    func body(content: Content) -> some View {
+        content
+            .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                geometry.contentInsets.top + geometry.contentOffset.y
+            } action: { _, after in
+                mainTabViewModel.scrollOffset = after
+            }
+    }
+}
+
+extension View {
+    /// Tracks the vertical scroll offset of the underlying scroll view
+    func trackScrollOffset() -> some View {
+        modifier(MainTabScrollOffsetModifier())
     }
 }
 
