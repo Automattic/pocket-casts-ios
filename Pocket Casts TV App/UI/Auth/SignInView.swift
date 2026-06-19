@@ -14,8 +14,11 @@ struct SignInView: View {
         static let qrSize = CGFloat(240)
     }
 
-    var enterCodePrompt: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, model.pairing.pairURLString)
+    var enterCodePrompt: AttributedString? {
+        guard let pairingURLComplete = model.pairing.pairURLComplete else {
+            return nil
+        }
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, pairingURLComplete)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -70,15 +73,18 @@ struct SignInView: View {
                             Text(L10n.tvSignInSubtitle)
                                 .font(.headline)
                                 .foregroundStyle(Color.pcTextSecondary)
-                            QRCodeView(url: model.pairing.pairURLString)
-                            separator
-                            Text(enterCodePrompt)
-                                .font(.headline)
-                                .foregroundStyle(Color.pcTextSecondary)
-                            qrCodeDigits
+                            if let urlComplete = model.pairing.pairURLComplete, let codePrompt = enterCodePrompt {
+                                QRCodeView(url: urlComplete)
+                                separator
+                                Text(codePrompt)
+                                    .font(.headline)
+                                    .foregroundStyle(Color.pcTextSecondary)
+                                qrCodeDigits
+                            }
                         }
                     }
                 }
+                .animation(.easeInOut, value: loginType)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .padding(.top, 80)
