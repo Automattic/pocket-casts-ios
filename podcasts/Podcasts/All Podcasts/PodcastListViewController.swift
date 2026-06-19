@@ -48,7 +48,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// Height of the soft bottom blur edge shown over the grid under Liquid Glass.
     /// The gradient fade means only the lower portion reads strongly, so this can be
     /// generous without looking like a solid bar.
-    private static let bottomBlurHeight: CGFloat = 220
+    private static let bottomBlurHeight: CGFloat = 180
 
     private lazy var bottomBlurView = ProgressiveBlurView()
 
