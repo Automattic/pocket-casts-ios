@@ -7,9 +7,6 @@ import PocketCastsDataModel
 class PlaylistDetailsViewModel {
 
     @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
-    /// Bumped when a podcast colour download lands so `playlistColor` re-runs
-    /// against the freshly-updated row instead of the stale defaults.
-    private var colorRefreshTrigger: Int = 0
 
     enum State: Equatable, Hashable {
         case loading
@@ -24,6 +21,8 @@ class PlaylistDetailsViewModel {
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
     var showArchived: Bool = false
+    /// Cached so SwiftUI doesn't redo the podcast lookup + colour reshaping on every `body` evaluation.
+    var playlistColor: Color
 
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
@@ -40,6 +39,7 @@ class PlaylistDetailsViewModel {
         self.dataManager = dataManager
         self.playbackManager = playbackManager
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist))
+        self.playlistColor = Self.fallbackPillColor(for: playlist.uuid)
         observePodcastColorDownloads()
     }
 
@@ -57,7 +57,7 @@ class PlaylistDetailsViewModel {
                     let uuid = notification.object as? String,
                     self.episodes.first?.podcastUuid == uuid
                 else { return }
-                self.colorRefreshTrigger &+= 1
+                self.refreshPlaylistColor()
             }
             .store(in: &cancellables)
     }
@@ -77,6 +77,7 @@ class PlaylistDetailsViewModel {
             await MainActor.run {
                 allEpisodes = playlistEpisodes
                 applyArchivedFilter()
+                refreshPlaylistColor()
                 state = .ready
             }
         }
@@ -90,6 +91,7 @@ class PlaylistDetailsViewModel {
         Analytics.track(value ? .filterShowArchivedTapped : .filterHideArchivedTapped)
         showArchived = value
         applyArchivedFilter()
+        refreshPlaylistColor()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
     }
 
@@ -132,21 +134,16 @@ class PlaylistDetailsViewModel {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
     }
 
-    /// Pill background colour. Pulled from the podcast whose artwork sits on
-    /// the front of the cover stack so the pill visually echoes that image.
-    /// Falls back to a deterministic palette while episodes haven't loaded,
-    /// for an empty playlist with no cover to sample, or when the server
-    /// hasn't provided usable colour metadata for the front cover podcast.
-    var playlistColor: Color {
-        // Touch the trigger so `@Observable` re-runs this getter when a
-        // delayed colour download lands.
-        _ = colorRefreshTrigger
+    /// Re-derive the pill colour from the front-cover podcast's tint, falling back to a
+    /// deterministic palette when no usable tint is available.
+    private func refreshPlaylistColor() {
         if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
            let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
-            return color
+            playlistColor = color
+        } else {
+            playlistColor = Self.fallbackPillColor(for: playlist.uuid)
         }
-        return Self.fallbackPillColor(for: playlist.uuid)
     }
 
     /// Reshape a podcast tint into something legible as a card background:
