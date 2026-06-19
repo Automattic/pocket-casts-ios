@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: bundler
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
     groups:
       ruby-minor-and-patch:
         update-types: [minor, patch]
