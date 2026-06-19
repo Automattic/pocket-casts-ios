@@ -73,12 +73,23 @@ private struct FocusedCardDepth: ViewModifier {
                 }
             }
             .shadow(
-                color: .black.opacity(isFocused ? 0.85 : 0),
-                radius: isFocused ? 60 : 0,
+                color: .black.opacity(isFocused ? shadow.opacity : 0),
+                radius: isFocused ? shadow.radius : 0,
                 x: 0,
-                y: isFocused ? 36 : 0
+                y: isFocused ? shadow.y : 0
             )
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: isFocused)
+    }
+
+    // Per-style shadow tuning. `.surface` cards are roughly square (covers,
+    // category cards) so a wide soft blur pools nicely below them. `.content`
+    // cards are wide pills where the same radius spills visibly out the sides;
+    // they get a tighter, more directional shadow that stays under the card.
+    private var shadow: (opacity: Double, radius: CGFloat, y: CGFloat) {
+        switch style {
+        case .surface: (0.85, 60, 36)
+        case .content: (0.7, 26, 22)
+        }
     }
 
     @ViewBuilder
