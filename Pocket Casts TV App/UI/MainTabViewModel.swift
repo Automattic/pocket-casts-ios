@@ -18,6 +18,7 @@ final class MainTabViewModel {
 
     var homeModel = HomeViewModel()
     var myPodcastsModel = PodcastsViewModel()
+    var playlistsModel = PlaylistsViewModel()
 
     init() {
         currentPlayingEpisode = PlaybackManager.shared.currentEpisode()

@@ -52,7 +52,7 @@ struct MainTabContentView: View {
                         mainTabViewModel.scrollOffset = after
                     }
             case .playlists:
-                PlaylistsView()
+                PlaylistsView(model: mainTabViewModel.playlistsModel)
                     .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
