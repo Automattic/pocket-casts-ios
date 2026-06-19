@@ -78,7 +78,7 @@ struct DiscoverVideoEpisodeCell: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
-        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12)
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .focusSection()
         .focusScope(ns)
         .scaleEffect(isFocused ? 1.1 : 1.0)
