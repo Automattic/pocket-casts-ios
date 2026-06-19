@@ -117,6 +117,6 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
-        }        
+        }
     }
 }
