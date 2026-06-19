@@ -6187,9 +6187,6 @@
 /* tv player playback effects menu title */
 "tv_player_playback_effects" = "Playback effects";
 
-/* tv player ellipsis menu title; sits above episode actions like Mark Played and Archive */
-"tv_player_more" = "More";
-
 /* tv player volume boost toggle title */
 "tv_player_volume_boost" = "Volume boost";
 
