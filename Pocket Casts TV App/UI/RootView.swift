@@ -12,7 +12,7 @@ struct RootView: View {
                     Spacer()
                     ProgressView()
                     Spacer()
-                }
+                }.frame(width: CGFloat.greatestFiniteMagnitude)
             case .welcome:
                 WelcomeView()
             case .browsing, .signedIn:
