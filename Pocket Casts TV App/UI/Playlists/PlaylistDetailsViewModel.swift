@@ -21,7 +21,6 @@ class PlaylistDetailsViewModel {
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
     var showArchived: Bool = false
-    /// Cached so SwiftUI doesn't redo the podcast lookup + colour reshaping on every `body` evaluation.
     var playlistColor: Color
 
     private var allEpisodes: [Episode] = []
@@ -43,10 +42,8 @@ class PlaylistDetailsViewModel {
         observePodcastColorDownloads()
     }
 
-    /// Newly-subscribed podcasts arrive with `colorVersion = 1`, so the
-    /// initial `ColorManager` lookup returns defaults and schedules a
-    /// background colour download. Listen for the resulting notification so
-    /// the pill can refresh its background once the metadata lands.
+    /// Newly-subscribed podcasts return defaults until colour metadata downloads — refresh
+    /// the pill when that happens.
     private func observePodcastColorDownloads() {
         NotificationCenter.default
             .publisher(for: Constants.Notifications.podcastColorsDownloaded)
@@ -64,9 +61,8 @@ class PlaylistDetailsViewModel {
 
     func load() {
         Task {
-            // `DataManager.playlistEpisodes(for:)` always filters archived out, so go through the
-            // query builder directly with `shouldShowArchived: true` to keep archived episodes in
-            // `allEpisodes` and let the local toggle decide what to display.
+            // `DataManager.playlistEpisodes(for:)` always filters archived out, so query directly
+            // with `shouldShowArchived: true` and let the local toggle decide what to display.
             let query = PlaylistQueryBuilder.query(
                 clause: .episode,
                 for: playlist,
@@ -134,8 +130,6 @@ class PlaylistDetailsViewModel {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
     }
 
-    /// Re-derive the pill colour from the front-cover podcast's tint, falling back to a
-    /// deterministic palette when no usable tint is available.
     private func refreshPlaylistColor() {
         if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
@@ -146,11 +140,8 @@ class PlaylistDetailsViewModel {
         }
     }
 
-    /// Reshape a podcast tint into something legible as a card background:
-    /// keep the hue, clamp the saturation/brightness into a calm-but-vivid
-    /// range. Returns `nil` for tints with no usable chroma (greys, near
-    /// black) — `getHue` reports `H = 0` on a grey, so a naïve saturation
-    /// floor would convert every metadata-less podcast into brown.
+    /// Returns `nil` for tints with no usable chroma — `getHue` reports `H = 0` for greys,
+    /// so a naïve saturation floor would turn every metadata-less podcast brown.
     private static func pillColor(from tint: UIColor) -> Color? {
         var h: CGFloat = 0
         var s: CGFloat = 0
@@ -166,8 +157,6 @@ class PlaylistDetailsViewModel {
         ))
     }
 
-    /// Deterministic per-seed palette so playlists whose front cover has no
-    /// usable colour metadata still render distinct from each other.
     private static let fallbackPalette: [Color] = [
         Color(red: 0.15, green: 0.25, blue: 0.5),
         Color(red: 0.5, green: 0.17, blue: 0.15),
@@ -178,9 +167,7 @@ class PlaylistDetailsViewModel {
     ]
 
     private static func fallbackPillColor(for seed: String) -> Color {
-        // `String.hashValue` is per-run randomised in Swift; sum the unicode
-        // scalars instead so a given playlist gets the same pill colour each
-        // launch.
+        // `String.hashValue` is per-run randomised; sum unicode scalars for a stable seed.
         let index = seed.unicodeScalars.reduce(0) { $0 + Int($1.value) } % fallbackPalette.count
         return fallbackPalette[index]
     }
