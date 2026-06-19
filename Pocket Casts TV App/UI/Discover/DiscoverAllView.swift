@@ -5,7 +5,11 @@ struct DiscoverAllView: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model = DiscoverAllViewModel()
+    @State private var model: DiscoverAllViewModel
+
+    init(model: DiscoverAllViewModel) {
+        _model = State(wrappedValue: model)
+    }
 
     var body: some View {
         Group {

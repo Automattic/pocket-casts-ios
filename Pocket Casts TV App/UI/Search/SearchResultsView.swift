@@ -8,7 +8,7 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
-    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    @Environment(MainTabViewModel.self) var mainTabModel: MainTabViewModel
 
     @Bindable var model: ViewModel
 
@@ -50,7 +50,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                DiscoverAllView()
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
             }
         }
         .animation(.easeInOut, value: model.state)

@@ -21,6 +21,7 @@ final class MainTabViewModel {
     var playlistsModel = PlaylistsViewModel()
     var upNextModel = UpNextViewModel()
     var searchViewModel = SearchViewModel()
+    var discoverAllViewModel = DiscoverAllViewModel()
 
     init() {
         currentPlayingEpisode = PlaybackManager.shared.currentEpisode()
