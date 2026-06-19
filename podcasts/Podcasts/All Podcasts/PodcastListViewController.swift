@@ -45,12 +45,12 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private var lastWillLayoutWidth: CGFloat = 0
 
-    /// Height of the soft bottom blur edge shown over the grid under Liquid Glass.
+    /// Height of the soft bottom fade edge shown over the grid under Liquid Glass.
     /// The gradient fade means only the lower portion reads strongly, so this can be
     /// generous without looking like a solid bar.
-    private static let bottomBlurHeight: CGFloat = 180
+    private static let bottomFadeHeight: CGFloat = 180
 
-    private lazy var bottomBlurView = ProgressiveBlurView()
+    private lazy var bottomFadeView = ProgressiveFadeView()
 
     private var homeGridDataHelper = HomeGridDataHelper()
 
@@ -85,10 +85,14 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.reorderingCadence = .immediate
+        if #available(iOS 26, *) { // Only on iOS 26 for now
+            if #unavailable(iOS 27) {
+                setupBottomFade()
+            }
+        }
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
-        setupBottomBlur()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -300,46 +304,37 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
             themeableCollectionView.style = .primaryUi02
         }
-        updateBottomBlur()
     }
 
-    /// Adds a soft progressive-blur edge to the bottom of the grid under Liquid Glass.
+    /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass.
     ///
     /// The system scroll edge effect samples the scrolling content, so over a grid of
     /// colorful artwork it washes out and barely registers — which is what hurts the
-    /// readability of the floating tab bar / mini player. A dedicated blur overlay,
-    /// pinned to the bottom of the screen behind the bar, gives a consistently visible
-    /// soft edge. List view keeps the system default.
-    private func setupBottomBlur() {
+    /// readability of the floating tab bar / mini player. A dedicated fade overlay,
+    /// pinned to the bottom of the screen behind the bar, dissolves the artwork into the
+    /// grid's own background for a consistently visible soft edge, replacing the system
+    /// scroll edge effect.
+    @available(iOS 26, *)
+    private func setupBottomFade() {
         guard LiquidGlass.isEnabled else { return }
 
-        bottomBlurView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomBlurView)
+        bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomFadeView)
         NSLayoutConstraint.activate([
-            bottomBlurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomBlurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomBlurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomBlurView.heightAnchor.constraint(equalToConstant: Self.bottomBlurHeight)
+            bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomFadeView.heightAnchor.constraint(equalToConstant: Self.bottomFadeHeight)
         ])
-        updateBottomBlurEffect()
-        updateBottomBlur()
+        podcastsCollectionView.bottomEdgeEffect.isHidden = true
+        updateBottomFadeColor()
     }
 
-    /// Shows the bottom blur only for the grid layouts, where readability suffers.
-    private func updateBottomBlur() {
+    /// Fades the grid into its own background color toward the bottom edge, so the
+    /// artwork dissolves out cleanly behind the floating bar in both themes.
+    private func updateBottomFadeColor() {
         guard LiquidGlass.isEnabled else { return }
-        bottomBlurView.isHidden = Settings.libraryType() == .list
-    }
-
-    /// Tunes the blur per theme. The same material reads heavier in dark mode, so use a
-    /// thinner one there to keep the blur subtle. In both modes layer in extra opacity
-    /// (fading toward the grid's own background) to dim the bright artwork enough — light
-    /// mode needs the heavier tint since the material washes out more there.
-    private func updateBottomBlurEffect() {
-        guard LiquidGlass.isEnabled else { return }
-        let isDark = Theme.sharedTheme.activeTheme.isDark
-        bottomBlurView.setBlurEffect(UIBlurEffect(style: isDark ? .systemThinMaterial : .systemMaterial))
-        bottomBlurView.setTintColor(ThemeColor.primaryUi02().withAlphaComponent(isDark ? 0.4 : 0.6))
+        bottomFadeView.setColor(ThemeColor.primaryUi02())
     }
 
     @objc func refreshGridItems() {
@@ -522,7 +517,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     override func handleThemeChanged() {
         super.handleThemeChanged()
         podcastsCollectionView.reloadData()
-        updateBottomBlurEffect()
+        updateBottomFadeColor()
     }
 
     private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {

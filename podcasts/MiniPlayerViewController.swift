@@ -73,7 +73,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         /// How much the Liquid Glass skip glyphs are scaled down from the asset.
         static let skipIconScale: CGFloat = 0.9
         /// Alpha of the thin `primaryUi02` layer tinting the glass.
-        static let tintAlpha: CGFloat = 0.2
+        static let tintAlpha: CGFloat = 0.33
     }
 
     /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
