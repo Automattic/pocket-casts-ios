@@ -7,10 +7,6 @@ struct NowPlayingView: View {
     @State private var isShowingDescription = false
     @State private var isShowingMarkAsPlayedConfirmation = false
     @State private var isShowingArchiveConfirmation = false
-    // `NowPlayingView` is hosted inside a `fullScreenCover`, which doesn't
-    // inherit the requireAccount environment from its presenter — read it
-    // back here so the ellipsis-menu actions can gate themselves.
-    @Environment(\.requireAccount) private var requireAccount
     // Mark Played and Archive both stop playback, which leaves the player
     // empty. Dismiss closes the fullScreenCover variants; the Now Playing
     // *tab* is separately swapped back to Home by `MainTabRouter`'s
@@ -22,8 +18,7 @@ struct NowPlayingView: View {
             model: model,
             isShowingDescription: $isShowingDescription,
             isShowingMarkAsPlayedConfirmation: $isShowingMarkAsPlayedConfirmation,
-            isShowingArchiveConfirmation: $isShowingArchiveConfirmation,
-            requireAccount: requireAccount
+            isShowingArchiveConfirmation: $isShowingArchiveConfirmation
         )
         .requireAccountSupport()
         .sheet(isPresented: $isShowingDescription) {
@@ -67,7 +62,11 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
     @Binding var isShowingDescription: Bool
     @Binding var isShowingMarkAsPlayedConfirmation: Bool
     @Binding var isShowingArchiveConfirmation: Bool
-    let requireAccount: RequireAccountAction
+    // Read here (rather than in the parent `NowPlayingView`) so the gated
+    // implementation installed by `.requireAccountSupport()` — applied to
+    // this representable above — is the one we see. Reading it upstream
+    // would resolve to the default no-op that runs actions immediately.
+    @Environment(\.requireAccount) private var requireAccount
     @State private var isTransportBarVisible = true
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
