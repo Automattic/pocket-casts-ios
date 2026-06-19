@@ -47,9 +47,10 @@ extension Color {
 
     static let pcBackgroundOverlay = Color(uiColor: .pcBackgroundOverlay)
 
-    // Focus highlight (`bg-active`). The focused surface inverts against the page: near-white in dark
-    // mode, near-black in light mode. Paired with `pcShadowFocus` to lift it off the page.
-    static let pcBackgroundActive = Color(uiColor: .appearance(light: "#161718", dark: "#FBFBFC"))
+    // Focus highlight (`bg-active`). The focused surface inverts against the page but stays a
+    // step back from pure black/white — a silvery card in dark mode, a charcoal card in light —
+    // so the sheen and shadow on focused cards do the lifting instead of raw brightness.
+    static let pcBackgroundActive = Color(uiColor: .appearance(light: "#2A2D31", dark: "#D4D6DB"))
 
     // `bg-active-20` token: the active color at 20% opacity. Alpha is applied inside each branch so
     // the color still re-resolves between light and dark (calling `withAlphaComponent` on a dynamic
