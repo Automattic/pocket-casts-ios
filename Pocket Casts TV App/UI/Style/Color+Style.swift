@@ -36,12 +36,13 @@ extension Color {
 
     static let pcBackgroundSurface = Color(uiColor: .appearance(light: "#F0F1F2", dark: "#1F2123"))
 
-    // Top/bottom stops of the page gradient applied in `RootView`. The top is a touch
-    // lighter than `pcBackgroundSurface` (to mimic light hitting the screen from above)
-    // and the bottom a touch darker, so focused-card shadows have something to read against.
-    static let pcBackgroundTop = Color(uiColor: .appearance(light: "#FFFFFF", dark: "#2B2E32"))
+    // Top/bottom stops of the page gradient applied in `RootView`. Lifted noticeably
+    // above `pcBackgroundSurface` (especially in dark mode) so focused-card drop
+    // shadows have a brighter canvas to read against; the gentle top→bottom fall
+    // mimics light hitting the screen from above.
+    static let pcBackgroundTop = Color(uiColor: .appearance(light: "#FFFFFF", dark: "#3D4045"))
 
-    static let pcBackgroundBottom = Color(uiColor: .appearance(light: "#E6E7E9", dark: "#171819"))
+    static let pcBackgroundBottom = Color(uiColor: .appearance(light: "#E6E7E9", dark: "#22252A"))
 
     static let pcBackgroundBase = Color(uiColor: .appearance(light: "#F7F7F8", dark: "#292B2E"))
 
