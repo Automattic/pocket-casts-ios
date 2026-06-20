@@ -101,7 +101,7 @@ struct DiscoverVideoEpisodeCell: View {
 
     var focusedContent: some View {
         HStack(alignment: .bottom, spacing: 16) {
-            Button(L10n.tvDiscoverPlayEpisode) {
+            Button() {
                 trackEpisodeTapped()
                 Task {
                     let successPlay = await TVDataManager.shared.playEpisode(model.episode)
@@ -113,6 +113,9 @@ struct DiscoverVideoEpisodeCell: View {
                         }
                     }
                 }
+            } label: {
+                Text(L10n.tvDiscoverPlayEpisode)
+                    .foregroundColor(isFocused ? nil : .clear)
             }
             .collapsedWhenUnfocused(isFocused)
             .focused($focusedButton, equals: FocusValues.playEpisode)
@@ -123,6 +126,7 @@ struct DiscoverVideoEpisodeCell: View {
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
+                        .foregroundColor(isFocused ? nil : .clear)
                 }
                 .collapsedWhenUnfocused(isFocused)
                 .focused($focusedButton, equals: FocusValues.goPodcast)
