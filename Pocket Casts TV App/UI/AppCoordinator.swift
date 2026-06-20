@@ -52,6 +52,8 @@ class AppCoordinator {
         }
 
         setupDiscover()
+
+        setupSignOutObservation()
     }
 
     func signIn() {
@@ -153,5 +155,23 @@ class AppCoordinator {
         Task {
             let _ = await DiscoverServerHandler.shared.discoverPage()
         }
+    }
+
+    private func setupSignOutObservation() {
+        NotificationCenter.default.addObserver(forName: .serverUserWillBeSignedOut, object: nil, queue: .main) { [weak self] notification in
+            self?.handleSignOutNotification(notification)
+        }
+    }
+
+    private func handleSignOutNotification(_ notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let userInitiated = userInfo["user_initiated"] as? Bool,
+            userInitiated == false
+        else {
+            return
+        }
+
+        //TODO: Handle signout notification that was cause by token expiration
     }
 }
