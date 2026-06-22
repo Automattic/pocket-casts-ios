@@ -12,7 +12,7 @@ struct PodcastMoreInfoView: View {
     private enum Layout {
         static let modalWidth = CGFloat(1280)
         static let modalHeight = CGFloat(880)
-        static let metadataColumnWidth = CGFloat(420)
+        static let metadataColumnWidth = CGFloat(360)
         static let artworkSize = CGFloat(240)
         static let columnGutter = CGFloat(40)
         static let contentInsets = EdgeInsets(top: 80, leading: 80, bottom: 0, trailing: 80)
@@ -23,13 +23,31 @@ struct PodcastMoreInfoView: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: Layout.columnGutter) {
-            metadataColumn
-                .frame(width: Layout.metadataColumnWidth, alignment: .leading)
-                .padding(.bottom, 40)
-            if !descriptionHTML.isEmpty {
-                aboutColumn
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        VStack {
+            HStack(alignment: .top) {
+                PodcastImage(uuid: podcast.uuid, size: .page)
+                    .frame(width: Layout.artworkSize, height: Layout.artworkSize)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                Spacer()
+                    .frame(width: Layout.metadataColumnWidth - Layout.artworkSize)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(podcast.author ?? "")
+                        .font(.caption)
+                        .foregroundStyle(Color.pcTextSecondary)
+                    Text(podcast.title ?? "")
+                        .font(.title2)
+                        .foregroundStyle(Color.pcTextPrimary)
+                }
+                Spacer()
+            }
+            HStack(alignment: .top, spacing: 0) {
+                metadataColumn
+                    .frame(width: Layout.metadataColumnWidth, alignment: .leading)
+                    .padding(.bottom, 40)
+                if !descriptionHTML.isEmpty {
+                    aboutColumn
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
             }
         }
         .padding(Layout.contentInsets)
@@ -39,17 +57,6 @@ struct PodcastMoreInfoView: View {
 
     private var metadataColumn: some View {
         VStack(alignment: .leading, spacing: 40) {
-            PodcastImage(uuid: podcast.uuid, size: .page)
-                .frame(width: Layout.artworkSize, height: Layout.artworkSize)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            VStack(alignment: .leading, spacing: 8) {
-                Text(podcast.author ?? "")
-                    .font(.caption)
-                    .foregroundStyle(Color.pcTextSecondary)
-                Text(podcast.title ?? "")
-                    .font(.title2)
-                    .foregroundStyle(Color.pcTextPrimary)
-            }
             VStack(alignment: .leading, spacing: 24) {
                 if let network = podcast.author {
                     infoRow(label: L10n.tvPodcastDetailNetwork, value: network)
