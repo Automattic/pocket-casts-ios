@@ -343,7 +343,11 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
-        bottomFadeHeightConstraint?.constant = bottomFadeHeight
+        guard let bottomFadeHeightConstraint else { return }
+        bottomFadeHeightConstraint.constant = bottomFadeHeight
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     /// Fades the grid into its own background color toward the bottom edge, so the
