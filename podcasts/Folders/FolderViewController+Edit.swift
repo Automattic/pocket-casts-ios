@@ -23,13 +23,13 @@ extension FolderViewController {
         if Settings.libraryType() == .list {
             addReorderHandle(to: cell)
         } else {
-            startWiggle(on: cell)
+            cell.startEditingWiggle()
         }
     }
 
     func removeEditingTreatment(from cell: UICollectionViewCell) {
         removeReorderHandle(from: cell)
-        stopWiggle(on: cell)
+        cell.stopEditingWiggle()
     }
 
     // MARK: Mode transitions
@@ -75,24 +75,6 @@ extension FolderViewController {
         folder.sortType = Int32(LibrarySort.Old.custom.rawValue)
         DataManager.sharedManager.save(folder: folder)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
-    }
-
-    // MARK: Wiggle (grid)
-
-    private static let wiggleAnimationKey = "folder.editingWiggle"
-
-    private func startWiggle(on cell: UICollectionViewCell) {
-        guard cell.layer.animation(forKey: Self.wiggleAnimationKey) == nil else { return }
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.values = [-0.012, 0.012, -0.012]
-        animation.duration = 0.28
-        animation.repeatCount = .infinity
-        animation.timeOffset = .random(in: 0...animation.duration) // stagger so cells don't move in unison
-        cell.layer.add(animation, forKey: Self.wiggleAnimationKey)
-    }
-
-    private func stopWiggle(on cell: UICollectionViewCell) {
-        cell.layer.removeAnimation(forKey: Self.wiggleAnimationKey)
     }
 
     // MARK: Reorder handle (list)
