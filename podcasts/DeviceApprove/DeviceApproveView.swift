@@ -36,6 +36,10 @@ class DeviceApproveViewModel: ObservableObject {
 
     let presentingViewController: UIViewController
 
+    func isCodeValid(_ code: String) -> Bool {
+        return code.trim().count >= 6
+    }
+
     func actionButtonTapped(userCode: String) {
         guard isUserLoggedIn else {
             Analytics.track(.deviceSetupAccountTapped)
@@ -183,6 +187,7 @@ struct DeviceApproveView: View {
 
     private var codeField: some View {
         TextField(L10n.deviceApproveCodePlaceholder, text: $userCode)
+            .submitLabel(.done)
             .multilineTextAlignment(.center)
             .font(.system(size: 24, weight: .semibold, design: .rounded))
             .padding()
@@ -191,9 +196,15 @@ struct DeviceApproveView: View {
             .cornerRadius(12)
             .padding(.horizontal)
             .textInputAutocapitalization(.characters)
-            .onChange(of: userCode) { newValue in
+            .autocorrectionDisabled(true)
+            .onChange(of: userCode) { _, newValue in
                 if newValue.count > 6 {
                     userCode = String(newValue.prefix(6))
+                }
+            }
+            .onSubmit {
+                if model.isCodeValid(userCode) {
+                    model.actionButtonTapped(userCode: userCode)
                 }
             }
     }
