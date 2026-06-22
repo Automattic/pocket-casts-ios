@@ -77,6 +77,8 @@ struct SignInView: View {
                                     .font(.headline)
                                     .foregroundStyle(Color.pcTextSecondary)
                                 qrCodeDigits
+                            } else {
+                                ProgressView()
                             }
                         }
                     }
