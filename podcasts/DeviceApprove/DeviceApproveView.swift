@@ -187,6 +187,7 @@ struct DeviceApproveView: View {
 
     private var codeField: some View {
         TextField(L10n.deviceApproveCodePlaceholder, text: $userCode)
+            .submitLabel(.done)
             .multilineTextAlignment(.center)
             .font(.system(size: 24, weight: .semibold, design: .rounded))
             .padding()
