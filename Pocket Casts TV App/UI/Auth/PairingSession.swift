@@ -82,8 +82,4 @@ class PairingSession {
         }
         return host + url.path()
     }
-
-    var pairURLString: String {
-        return pairURLComplete ?? ServerConstants.Urls.tvPair
-    }
 }
