@@ -14,7 +14,6 @@ struct PodcastMoreInfoView: View {
         static let modalHeight = CGFloat(880)
         static let metadataColumnWidth = CGFloat(360)
         static let artworkSize = CGFloat(240)
-        static let columnGutter = CGFloat(40)
         static let contentInsets = EdgeInsets(top: 80, leading: 80, bottom: 0, trailing: 80)
     }
 
