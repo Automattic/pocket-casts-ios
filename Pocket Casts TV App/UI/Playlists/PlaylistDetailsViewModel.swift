@@ -6,7 +6,7 @@ import PocketCastsDataModel
 @Observable
 class PlaylistDetailsViewModel {
 
-    private var cancellable: AnyCancellable?
+    @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
 
     enum State: Equatable, Hashable {
         case loading
@@ -21,6 +21,7 @@ class PlaylistDetailsViewModel {
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
     var showArchived: Bool = false
+    var playlistColor: Color
 
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
@@ -37,13 +38,31 @@ class PlaylistDetailsViewModel {
         self.dataManager = dataManager
         self.playbackManager = playbackManager
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist))
+        self.playlistColor = Self.fallbackPillColor(for: playlist.uuid)
+        observePodcastColorDownloads()
+    }
+
+    /// Newly-subscribed podcasts return defaults until colour metadata downloads — refresh
+    /// the pill when that happens.
+    private func observePodcastColorDownloads() {
+        NotificationCenter.default
+            .publisher(for: Constants.Notifications.podcastColorsDownloaded)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] notification in
+                guard
+                    let self,
+                    let uuid = notification.object as? String,
+                    self.episodes.first?.podcastUuid == uuid
+                else { return }
+                self.refreshPlaylistColor()
+            }
+            .store(in: &cancellables)
     }
 
     func load() {
         Task {
-            // `DataManager.playlistEpisodes(for:)` always filters archived out, so go through the
-            // query builder directly with `shouldShowArchived: true` to keep archived episodes in
-            // `allEpisodes` and let the local toggle decide what to display.
+            // `DataManager.playlistEpisodes(for:)` always filters archived out, so query directly
+            // with `shouldShowArchived: true` and let the local toggle decide what to display.
             let query = PlaylistQueryBuilder.query(
                 clause: .episode,
                 for: playlist,
@@ -54,6 +73,7 @@ class PlaylistDetailsViewModel {
             await MainActor.run {
                 allEpisodes = playlistEpisodes
                 applyArchivedFilter()
+                refreshPlaylistColor()
                 state = .ready
             }
         }
@@ -67,6 +87,7 @@ class PlaylistDetailsViewModel {
         Analytics.track(value ? .filterShowArchivedTapped : .filterHideArchivedTapped)
         showArchived = value
         applyArchivedFilter()
+        refreshPlaylistColor()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
     }
 
@@ -109,8 +130,46 @@ class PlaylistDetailsViewModel {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
     }
 
-    var playlistColor: Color {
-        return MockData.playlistsSpec[Int(playlist.sortPosition) % MockData.playlistsSpec.count].2
+    private func refreshPlaylistColor() {
+        if let uuid = episodes.first?.podcastUuid,
+           let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
+           let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
+            playlistColor = color
+        } else {
+            playlistColor = Self.fallbackPillColor(for: playlist.uuid)
+        }
+    }
+
+    /// Returns `nil` for tints with no usable chroma — `getHue` reports `H = 0` for greys,
+    /// so a naïve saturation floor would turn every metadata-less podcast brown.
+    private static func pillColor(from tint: UIColor) -> Color? {
+        var h: CGFloat = 0
+        var s: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        tint.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        guard s > 0.15, b > 0.1 else { return nil }
+        return Color(UIColor(
+            hue: h,
+            saturation: min(max(s, 0.5), 0.85),
+            brightness: min(max(b, 0.3), 0.45),
+            alpha: a
+        ))
+    }
+
+    private static let fallbackPalette: [Color] = [
+        Color(red: 0.15, green: 0.25, blue: 0.5),
+        Color(red: 0.5, green: 0.17, blue: 0.15),
+        Color(red: 0.21, green: 0.22, blue: 0.14),
+        Color(red: 0.5, green: 0.35, blue: 0.12),
+        Color(red: 0.15, green: 0.4, blue: 0.3),
+        Color(red: 0.3, green: 0.2, blue: 0.45)
+    ]
+
+    private static func fallbackPillColor(for seed: String) -> Color {
+        // `String.hashValue` is per-run randomised; sum unicode scalars for a stable seed.
+        let index = seed.unicodeScalars.reduce(0) { $0 + Int($1.value) } % fallbackPalette.count
+        return fallbackPalette[index]
     }
 
     var coverPodcastsUuids: [String] {
