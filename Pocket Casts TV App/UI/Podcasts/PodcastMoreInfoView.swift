@@ -23,27 +23,21 @@ struct PodcastMoreInfoView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack(alignment: .top) {
-                PodcastImage(uuid: podcast.uuid, size: .page)
-                    .frame(width: Layout.artworkSize, height: Layout.artworkSize)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                Spacer()
-                    .frame(width: Layout.metadataColumnWidth - Layout.artworkSize)
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(podcast.author ?? "")
+        HStack(alignment: .top, spacing: 0) {
+            metadataColumn
+                .frame(width: Layout.metadataColumnWidth, alignment: .leading)
+                .padding(.bottom, 40)
+            VStack(alignment: .leading, spacing: 8) {
+                if let author = podcast.author {
+                    Text(author)
                         .font(.caption)
                         .foregroundStyle(Color.pcTextSecondary)
-                    Text(podcast.title ?? "")
+                }
+                if let title = podcast.title {
+                    Text(title)
                         .font(.title2)
                         .foregroundStyle(Color.pcTextPrimary)
                 }
-                Spacer()
-            }
-            HStack(alignment: .top, spacing: 0) {
-                metadataColumn
-                    .frame(width: Layout.metadataColumnWidth, alignment: .leading)
-                    .padding(.bottom, 40)
                 if !descriptionHTML.isEmpty {
                     aboutColumn
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -56,26 +50,27 @@ struct PodcastMoreInfoView: View {
     }
 
     private var metadataColumn: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            VStack(alignment: .leading, spacing: 24) {
-                if let network = podcast.author {
-                    infoRow(label: L10n.tvPodcastDetailNetwork, value: network)
-                }
-                if let website = podcast.podcastUrl {
-                    infoRow(label: L10n.tvPodcastDetailWebsite, value: website)
-                }
-                if let frequency = podcast.displayableFrequency() {
-                    infoRow(label: L10n.tvPodcastDetailSchedule, value: frequency)
-                }
-                if let nextEpisode = podcast.displayableNextEpisodeDate() {
-                    infoRow(label: L10n.tvPodcastDetailNextEpisode, value: nextEpisode)
-                }
+        VStack(alignment: .leading, spacing: 24) {
+            PodcastImage(uuid: podcast.uuid, size: .page)
+                .frame(width: Layout.artworkSize, height: Layout.artworkSize)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            if let network = podcast.author {
+                infoRow(label: L10n.tvPodcastDetailNetwork, value: network)
+            }
+            if let website = podcast.podcastUrl {
+                infoRow(label: L10n.tvPodcastDetailWebsite, value: website)
+            }
+            if let frequency = podcast.displayableFrequency() {
+                infoRow(label: L10n.tvPodcastDetailSchedule, value: frequency)
+            }
+            if let nextEpisode = podcast.displayableNextEpisodeDate() {
+                infoRow(label: L10n.tvPodcastDetailNextEpisode, value: nextEpisode)
             }
         }
     }
 
     private var aboutColumn: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 24) {
             Text(L10n.tvPodcastDetailAbout)
                 .font(.title3)
                 .foregroundStyle(Color.pcTextPrimary)
@@ -87,6 +82,7 @@ struct PodcastMoreInfoView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
+        .padding(.top, 32)
     }
 
     private func infoRow(label: String, value: String) -> some View {
