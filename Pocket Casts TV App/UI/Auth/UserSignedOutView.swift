@@ -14,10 +14,8 @@ struct UserSignedOutView: View {
                 .foregroundColor(Color.pcTextSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 16)
-            HStack {
-                Button(L10n.tvWelcomeLogIn) {
-                    coordinator.logout()
-                }
+            Button(L10n.tvWelcomeLogIn) {
+                coordinator.logout()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
