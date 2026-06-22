@@ -235,6 +235,10 @@ class AnalyticsHelper {
         logEvent("siri_pause", parameters: nil)
     }
 
+    class func siriMarkAsPlayed() {
+        logEvent("siri_mark_as_played", parameters: nil)
+    }
+
     class func siriResume() {
         logEvent("siri_resume", parameters: nil)
     }

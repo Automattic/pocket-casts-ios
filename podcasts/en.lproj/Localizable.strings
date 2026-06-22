@@ -3142,6 +3142,12 @@
 /* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
 "siri_shortcut_extend_sleep_timer" = "Set sleep timer to %1$@";
 
+/* Siri shortcut title for marking the current episode as played */
+"siri_shortcut_mark_as_played_title" = "Mark Current Episode as Played";
+
+/* Siri shortcut invocation phrase for marking the current episode as played */
+"siri_shortcut_mark_as_played_phrase" = "Mark as Played";
+
 /* Siri shortcut title and phrase for having siri skip to the next chapter of a podcast */
 "siri_shortcut_next_chapter" = "Next chapter";
 

@@ -175,6 +175,8 @@ extension AppDelegate {
                 responseCode = SiriShortcutsManager.shared.skipToNextChapter()
             } else if identifier == Constants.SiriActions.previousChapterId {
                 responseCode = SiriShortcutsManager.shared.skipToPreviousChapter()
+            } else if identifier == Constants.SiriActions.markAsPlayedId {
+                responseCode = SiriShortcutsManager.shared.markAsPlayed()
             } else {
                 responseCode = SiriShortcutsManager.shared.resumePlayback()
             }
