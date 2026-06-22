@@ -1512,7 +1512,7 @@ platform :ios do
     project_path = XCODE_PROJECT_PATH
     project = Xcodeproj::Project.open(project_path)
 
-    native_targets = project.targets.select { |t| t.is_a?(Xcodeproj::Project::Object::PBXNativeTarget) }
+    native_targets = project.targets.grep(Xcodeproj::Project::Object::PBXNativeTarget)
     app_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application' }
     app_clip_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application.on-demand-install-capable' }
 
