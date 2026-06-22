@@ -171,7 +171,7 @@ class AppCoordinator {
             userInitiated == false
         else {
             return
-        }        
+        }
         state = .serverSignedOut
     }
 }

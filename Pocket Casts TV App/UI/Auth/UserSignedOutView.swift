@@ -6,12 +6,13 @@ struct UserSignedOutView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Text(L10n.accountSignedOutAlertTitle)
+            Text(L10n.tvAccountSignedOutAlertTitle)
                 .font(.title)
                 .foregroundColor(Color.pcTextPrimary)
-            Text(L10n.accountSignedOutAlertMessage)
+            Text(L10n.tvAccountSignedOutAlertMessage)
                 .font(.headline)
                 .foregroundColor(Color.pcTextSecondary)
+                .multilineTextAlignment(.center)
                 .padding(.bottom, 16)
             HStack {
                 Button(L10n.tvWelcomeLogIn) {
