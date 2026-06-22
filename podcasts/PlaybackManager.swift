@@ -2104,7 +2104,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio: \(interruptionOption) reason: \(interruptionReason?.description ?? "unknown")")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
-                play(userInitiated: false)
+                if FeatureFlag.rewindOnResumeAfterInterruption.enabled {
+                    let rewindInterval: TimeInterval = 1.0
+                    let resumeTime = max(0, currentTime() - rewindInterval)
+                    FileLog.shared.addMessage("PlaybackManager rewinding \(rewindInterval)s before resuming after interruption (from \(currentTime()) to \(resumeTime))")
+                    seekTo(time: resumeTime, startPlaybackAfterSeek: true)
+                } else {
+                    play(userInitiated: false)
+                }
                 wasPlayingBeforeInterruption = false
             }
         } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {

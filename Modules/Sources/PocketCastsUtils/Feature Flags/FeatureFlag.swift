@@ -319,6 +319,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Share Profile feature
     case shareProfile
 
+    /// Rewind ~1s on auto-resume after an audio interruption (e.g. CarPlay nav prompts)
+    case rewindOnResumeAfterInterruption
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -535,6 +538,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .shareProfile:
             BuildEnvironment.current == .debug
+        case .rewindOnResumeAfterInterruption:
+            true
         }
     }
 
