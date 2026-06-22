@@ -12,7 +12,7 @@ env:
 
 steps:
 
-  - label: "🛠 Release Build (App Store Connect)"
+  - label: "🛠 Release Builds (iOS + tvOS App Store Connect)"
     key: testflight_build
     command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}"
     priority: 1
@@ -23,7 +23,7 @@ steps:
     notify:
       - slack: "#build-and-ship"
 
-  - label: ":testflight: Release Upload (TestFlight, Sentry, GitHub)"
+  - label: ":testflight: Release Uploads (iOS + tvOS TestFlight, Sentry, GitHub)"
     depends_on: testflight_build
     command: .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}"
     priority: 1

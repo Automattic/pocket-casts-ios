@@ -9,5 +9,8 @@ RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
-echo "--- :hammer_and_wrench: Building"
+echo "--- :hammer_and_wrench: Building iOS"
 bundle exec fastlane build_app_store_connect
+
+echo "--- :hammer_and_wrench: Building tvOS"
+bundle exec fastlane build_app_store_connect_tvos

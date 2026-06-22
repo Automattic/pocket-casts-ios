@@ -20,19 +20,31 @@ install_gems
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
-echo "--- :testflight: Uploading to TestFlight"
+echo "--- :testflight: Uploading iOS to TestFlight"
 bundle exec fastlane upload_app_store_connect_build_to_testflight
 
-echo "--- :arrow_up: Uploading dSYM to Sentry"
-set +e
-bundle exec fastlane symbols_upload
-SENTRY_UPLOAD_STATUS=$?
-set -e
+echo "--- :testflight: Uploading tvOS to TestFlight"
+bundle exec fastlane upload_app_store_connect_build_to_testflight_tvos
 
-if [[ $SENTRY_UPLOAD_STATUS -ne 0 ]]; then
-  echo "^^^ +++ Failed to upload dSYM to Sentry! Make sure to download dSYM from the build step artifacts and upload manually."
-  buildkite-agent annotate --style error --context sentry-failure 'Failed to upload dSYM to Sentry! Make sure to download dSYM from the build step artifacts and upload manually.'
-fi
+upload_symbols() {
+  local platform="$1"
+  local dsym_path="$2"
+  local annotation_context="$3"
+
+  echo "--- :arrow_up: Uploading $platform dSYM to Sentry"
+  set +e
+  bundle exec fastlane symbols_upload "dsym_path:$dsym_path"
+  local sentry_upload_status=$?
+  set -e
+
+  if [[ $sentry_upload_status -ne 0 ]]; then
+    echo "^^^ +++ Failed to upload $platform dSYM to Sentry! Make sure to download dSYM from the build step artifacts and upload manually."
+    buildkite-agent annotate --style error --context "$annotation_context" "Failed to upload $platform dSYM to Sentry! Make sure to download dSYM from the build step artifacts and upload manually."
+  fi
+}
+
+upload_symbols "iOS" "$ARTIFACTS_DIR/pocket-casts.app.dSYM.zip" "sentry-failure-ios"
+upload_symbols "tvOS" "$ARTIFACTS_DIR/pocket-casts-tvos.app.dSYM.zip" "sentry-failure-tvos"
 
 echo "--- :github: Creating GitHub Release"
 bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE"
