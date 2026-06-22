@@ -53,9 +53,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var changedViaSwipeToRemove = false
 
     let remainingLabel = ThemeableLabel()
-    let shuffleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-    let sortButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-    let clearQueueButton = UIButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
+    // Use HitTargetButton so these small header controls meet Apple's recommended 44x44pt minimum tap target without changing their visible size.
+    let shuffleButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let sortButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let clearQueueButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
