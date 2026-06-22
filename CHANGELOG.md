@@ -8,6 +8,7 @@
 - Fix incorrect section heading when opening an episode on the Apple Watch [#4528](https://github.com/Automattic/pocket-casts-ios/pull/4528)
 - Make the mini player controls larger [#4566](https://github.com/Automattic/pocket-casts-ios/pull/4566)
 - Add a soft blur edge to the bottom of the podcast grid under Liquid Glass [#4567](https://github.com/Automattic/pocket-casts-ios/pull/4567)
+- Add a Siri shortcut to mark the current episode as played [#4591](https://github.com/Automattic/pocket-casts-ios/pull/4591)
 
 8.14
 -----
