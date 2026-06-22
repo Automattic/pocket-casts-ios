@@ -311,5 +311,5 @@ extension View {
 #Preview {
     EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
     .environment(AppCoordinator())
-    .environment(MainTabRouter())
+    .environment(MainTabViewModel())
 }

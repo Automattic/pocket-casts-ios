@@ -27,7 +27,7 @@ final class ProgressiveFadeView: UIView {
 
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        gradientLayer.locations = [0, 0.8, 1]
+        gradientLayer.locations = [0, 0.25, 0.8, 1]
         setColor(color)
     }
 
@@ -39,8 +39,6 @@ final class ProgressiveFadeView: UIView {
     /// holds solid across the lower portion. Pass `nil` for no fade.
     func setColor(_ color: UIColor?) {
         let color = color ?? .clear
-        // Fade from the *same* color at zero alpha (not `.clear`, which is transparent
-        // black) so the ramp doesn't dip through a grey band in the middle.
-        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.cgColor, color.cgColor]
+        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.66).cgColor, color.cgColor, color.cgColor]
     }
 }

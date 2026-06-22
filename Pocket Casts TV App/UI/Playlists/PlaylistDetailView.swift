@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct PlaylistDetailView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
 
@@ -218,7 +218,7 @@ struct PlaylistDetailView: View {
 }
 
 #Preview {
-    let router = MainTabRouter()
+    let router = MainTabViewModel()
     PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
         .environment(AppCoordinator())
         .environment(router)

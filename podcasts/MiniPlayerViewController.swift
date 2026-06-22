@@ -64,18 +64,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var glassButtonStack: UIStackView?
     private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
 
-    /// A thin themed layer behind the glass content. The tab accessory's glass samples
-    /// the grid scrolling behind it, so over bright artwork the controls lose contrast;
-    /// tinting toward the page background keeps them readable.
-    private var glassTintView: UIView?
-
-    private enum GlassMetrics {
-        /// How much the Liquid Glass skip glyphs are scaled down from the asset.
-        static let skipIconScale: CGFloat = 0.9
-        /// Alpha of the thin `primaryUi02` layer tinting the glass.
-        static let tintAlpha: CGFloat = 0.33
-    }
-
     /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
     private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
         let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .systemChromeMaterial), style: style)
@@ -159,8 +147,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         // play/pause button, so scale the (template) assets down slightly.
         for button in [skipBackBtn, skipFwdBtn] {
             guard let button, let image = button.image(for: .normal) else { continue }
-            let target = CGSize(width: image.size.width * GlassMetrics.skipIconScale,
-                                height: image.size.height * GlassMetrics.skipIconScale)
+            let target = CGSize(width: image.size.width, height: image.size.height)
             button.setImage(image.resizeProportionally(to: target).withRenderingMode(.alwaysTemplate), for: .normal)
         }
 
@@ -204,22 +191,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         buttonStack.alignment = .center
         glassButtonStack = buttonStack
 
-        let glassTint = UIView()
-        glassTint.translatesAutoresizingMaskIntoConstraints = false
-        glassTint.isUserInteractionEnabled = false
-        glassTintView = glassTint
-
-        view.addSubview(glassTint)
         view.addSubview(podcastArtwork)
         view.addSubview(textStack)
         view.addSubview(buttonStack)
-
-        NSLayoutConstraint.activate([
-            glassTint.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            glassTint.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            glassTint.topAnchor.constraint(equalTo: view.topAnchor),
-            glassTint.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
 
         timeLeftHost.didMove(toParent: self)
 
@@ -642,8 +616,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let actionColor = currentPodcastTintColor()
         let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
-
-        glassTintView?.backgroundColor = bgColor.withAlphaComponent(GlassMetrics.tintAlpha)
 
         // System color so the vibrancy wrapper can modulate it.
         episodeTitleLabel?.textColor = .label

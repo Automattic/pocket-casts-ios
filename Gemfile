@@ -6,7 +6,7 @@ gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.3'
 gem 'fastlane', '~> 2.236'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
-gem 'fastlane-plugin-sentry', '~> 1.14'
+gem 'fastlane-plugin-sentry', '~> 2.5'
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.7'
 # To avoid errors like:
 #
@@ -14,11 +14,10 @@ gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.7'
 #
 # See https://github.com/ruby/openssl/issues/949
 gem 'openssl', '~> 4.0'
-gem 'rubocop', '~> 1.88'
-gem 'watchbuild'
-
 # At some point, the Rake gem end up at version 13.x. At the time of writing,
 # the release-toolkit Fastlane pluging requires it to be `~> 12.3`. This repo
 # doesn't use Rake directly, so, to ensure the dependencies can resolve, let's
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
+gem 'rubocop', '~> 1.88'
+gem 'watchbuild'

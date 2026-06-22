@@ -45,12 +45,15 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private var lastWillLayoutWidth: CGFloat = 0
 
-    /// Height of the soft bottom fade edge shown over the grid under Liquid Glass.
+    /// Base height of the soft bottom fade edge shown over the grid under Liquid Glass,
+    /// measured from the bottom safe area upward. The bottom safe area inset is added on
+    /// top of this so the fade always clears the home indicator / floating bar.
     /// The gradient fade means only the lower portion reads strongly, so this can be
     /// generous without looking like a solid bar.
-    private static let bottomFadeHeight: CGFloat = 180
+    private static let bottomFadeHeight: CGFloat = 16
 
     private lazy var bottomFadeView = ProgressiveFadeView()
+    private var bottomFadeHeightConstraint: NSLayoutConstraint?
 
     private var homeGridDataHelper = HomeGridDataHelper()
 
@@ -320,14 +323,31 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
         bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomFadeView)
+        let heightConstraint = bottomFadeView.heightAnchor.constraint(equalToConstant: bottomFadeHeight)
+        bottomFadeHeightConstraint = heightConstraint
         NSLayoutConstraint.activate([
             bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomFadeView.heightAnchor.constraint(equalToConstant: Self.bottomFadeHeight)
+            heightConstraint
         ])
         podcastsCollectionView.bottomEdgeEffect.isHidden = true
         updateBottomFadeColor()
+    }
+
+    /// The fade is pinned to the very bottom of the view, so it must cover the bottom
+    /// safe area (home indicator / floating bar) plus the base fade height above it.
+    private var bottomFadeHeight: CGFloat {
+        Self.bottomFadeHeight + view.safeAreaInsets.bottom
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        guard let bottomFadeHeightConstraint else { return }
+        bottomFadeHeightConstraint.constant = bottomFadeHeight
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     /// Fades the grid into its own background color toward the bottom edge, so the

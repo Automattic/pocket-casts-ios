@@ -21,11 +21,10 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     @FocusState private var focusedButton: FocusValues?
-    @State private var lastFocusedButton: FocusValues? = nil
-    @FocusState private var isContainerFocused: Bool
 
-    @State private var isFocused = false
-    @State private var isAnimating = false
+    private var isFocused: Bool {
+        focusedButton != nil
+    }
 
     @State var showNowPlayingPlayer: Bool = false
 
@@ -44,15 +43,11 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            placeholderFocusView
-            VStack {
-                Spacer()
-                if isFocused {
-                    focusedContent
-                } else {
-                    nonFocusedContent
-                }
+        VStack {
+            Spacer()
+            ZStack {
+                focusedContent
+                nonFocusedContent
             }
         }
         .padding(32)
@@ -81,15 +76,7 @@ struct DiscoverVideoEpisodeCell: View {
         .focusSection()
         .focusScope(ns)
         .scaleEffect(isFocused ? 1.1 : 1.0)
-        .animation(.easeInOut, value: isFocused)
-        .onChange(of: focusedButton) { _, focused in
-            if let focused {
-                lastFocusedButton = focused
-            }
-            if focused == nil, isFocused, !isAnimating {
-                collapse()
-            }
-        }
+        .animation(.snappy, value: isFocused)
         .task {
             await model.load()
         }
@@ -112,44 +99,9 @@ struct DiscoverVideoEpisodeCell: View {
         DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
     }
 
-    private func expand() {
-        guard !isAnimating else { return }
-        isAnimating = true
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isFocused = true
-        } completion: {
-            isAnimating = false
-            focusedButton = lastFocusedButton ?? .playEpisode
-        }
-    }
-
-    private func collapse() {
-        guard !isAnimating else { return }
-        isAnimating = true
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isFocused = false
-        } completion: {
-            isAnimating = false
-        }
-    }
-
-    var placeholderFocusView: some View {
-        Rectangle()
-        .foregroundStyle(.clear)
-        .focusable(!isFocused)
-        .focused($isContainerFocused)
-        .setFocus(section: DiscoverType.video.rawValue)
-        .buttonStyle(ChromelessButtonStyle())
-        .onChange(of: isContainerFocused) { _, focused in
-            if focused, !isAnimating {
-                expand()
-            }
-        }
-    }
-
     var focusedContent: some View {
         HStack(alignment: .bottom, spacing: 16) {
-            Button(L10n.tvDiscoverPlayEpisode) {
+            Button() {
                 trackEpisodeTapped()
                 Task {
                     let successPlay = await TVDataManager.shared.playEpisode(model.episode)
@@ -161,7 +113,11 @@ struct DiscoverVideoEpisodeCell: View {
                         }
                     }
                 }
+            } label: {
+                Text(L10n.tvDiscoverPlayEpisode)
+                    .foregroundColor(isFocused ? nil : .clear)
             }
+            .collapsedWhenUnfocused(isFocused)
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
@@ -170,7 +126,9 @@ struct DiscoverVideoEpisodeCell: View {
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
+                        .foregroundColor(isFocused ? nil : .clear)
                 }
+                .collapsedWhenUnfocused(isFocused)
                 .focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video.rawValue)
                 .simultaneousGesture(TapGesture().onEnded {
@@ -187,30 +145,28 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var nonFocusedContent: some View {
-        Group {
-            HStack(alignment: .bottom, spacing: 48) {
-                if let podcastUuid = model.episode.podcastUuid {
-                    PodcastImage(uuid: podcastUuid, size: .list)
-                        .frame(width: Layout.imageSize, height: Layout.imageSize)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                VStack(alignment: .leading, spacing: 8) {
-                    if let title = model.episode.podcastTitle {
-                        Text(title)
-                            .font(.caption)
-                            .foregroundColor(.pcTextOnColorSecondary)
-                    }
-                    if let description = model.episode.title {
-                        Text(description)
-                            .lineLimit(1)
-                            .font(.caption)
-                            .foregroundColor(.pcTextOnColorPrimary)
-                    }
-                }
-                Spacer()
+        HStack(alignment: .bottom, spacing: 48) {
+            if let podcastUuid = model.episode.podcastUuid {
+                PodcastImage(uuid: podcastUuid, size: .list)
+                    .frame(width: Layout.imageSize, height: Layout.imageSize)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
+            VStack(alignment: .leading, spacing: 8) {
+                if let title = model.episode.podcastTitle {
+                    Text(title)
+                        .font(.caption)
+                        .foregroundColor(.pcTextOnColorSecondary)
+                }
+                if let description = model.episode.title {
+                    Text(description)
+                        .lineLimit(1)
+                        .font(.caption)
+                        .foregroundColor(.pcTextOnColorPrimary)
+                }
+            }
+            Spacer()
         }
-        .transition(.opacity.combined(with: .scale(scale: 0.95)))
+        .opacity(isFocused ? 0 : 1)
     }
 
     var backgroundThumbnail: some View {
@@ -236,8 +192,16 @@ struct DiscoverVideoEpisodeCell: View {
     }
 }
 
+private extension View {
+    /// Shrinks the view to a 1x1 frame when not focused so it stays in the tvOS
+    /// focus chain (reachable by the focus engine) while remaining visually hidden.
+    func collapsedWhenUnfocused(_ isFocused: Bool) -> some View {
+        frame(width: isFocused ? nil : 1, height: isFocused ? nil : 1)
+    }
+}
+
 #Preview {
     DiscoverVideoEpisodeCell(episode: MockData.makeStubVideoEpisodePodcasts().first!)
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }
