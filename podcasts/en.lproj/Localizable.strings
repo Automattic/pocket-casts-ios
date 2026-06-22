@@ -5048,10 +5048,10 @@
 /* Up Next sort option that orders episodes by release date, oldest first */
 "up_next_sort_oldest_to_newest" = "Oldest to newest";
 
-/* Up Next sort option that orders episodes by duration, shortest first */
+/* Up Next sort option that orders episodes by time remaining, shortest first */
 "up_next_sort_shortest_to_longest" = "Shortest to longest";
 
-/* Up Next sort option that orders episodes by duration, longest first */
+/* Up Next sort option that orders episodes by time remaining, longest first */
 "up_next_sort_longest_to_shortest" = "Longest to shortest";
 
 /* Title for manage downloads file space usage banner and modal */

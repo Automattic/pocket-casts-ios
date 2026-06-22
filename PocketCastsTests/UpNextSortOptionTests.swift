@@ -4,11 +4,12 @@ import XCTest
 
 final class UpNextSortOptionTests: XCTestCase {
 
-    private func episode(_ uuid: String, published: Date? = nil, duration: Double = 0, added: Date? = nil) -> Episode {
+    private func episode(_ uuid: String, published: Date? = nil, duration: Double = 0, playedUpTo: Double = 0, added: Date? = nil) -> Episode {
         let episode = Episode()
         episode.uuid = uuid
         episode.publishedDate = published
         episode.duration = duration
+        episode.playedUpTo = playedUpTo
         episode.addedDate = added
         return episode
     }
@@ -66,11 +67,11 @@ final class UpNextSortOptionTests: XCTestCase {
                        ["old", "new", "noDate"])
     }
 
-    func testShortestToLongestSortsByDurationAscending() {
+    func testShortestToLongestSortsByTimeRemainingAscending() {
         let episodes = [
-            episode("long", duration: 3_000),
             episode("short", duration: 600),
-            episode("medium", duration: 1_800)
+            episode("medium", duration: 1_800),
+            episode("long", duration: 3_000)
         ]
 
         let sorted = UpNextSortOption.shortestToLongest.sort(episodes).map { $0.uuid }
@@ -78,16 +79,31 @@ final class UpNextSortOptionTests: XCTestCase {
         XCTAssertEqual(sorted, ["short", "medium", "long"])
     }
 
-    func testLongestToShortestSortsByDurationDescending() {
+    func testLongestToShortestSortsByTimeRemainingDescending() {
         let episodes = [
-            episode("long", duration: 3_000),
             episode("short", duration: 600),
-            episode("medium", duration: 1_800)
+            episode("medium", duration: 1_800),
+            episode("long", duration: 3_000)
         ]
 
         let sorted = UpNextSortOption.longestToShortest.sort(episodes).map { $0.uuid }
 
         XCTAssertEqual(sorted, ["long", "medium", "short"])
+    }
+
+    func testTimeRemainingAccountsForAlreadyPlayedTime() {
+        // A long episode that's almost finished has less time remaining than a
+        // short, unplayed one, so it should sort first when shortest-to-longest.
+        let episodes = [
+            episode("longAlmostDone", duration: 3_000, playedUpTo: 2_900), // 100 remaining
+            episode("shortUnplayed", duration: 600, playedUpTo: 0),        // 600 remaining
+            episode("midHalfPlayed", duration: 1_800, playedUpTo: 900)     // 900 remaining
+        ]
+
+        XCTAssertEqual(UpNextSortOption.shortestToLongest.sort(episodes).map { $0.uuid },
+                       ["longAlmostDone", "shortUnplayed", "midHalfPlayed"])
+        XCTAssertEqual(UpNextSortOption.longestToShortest.sort(episodes).map { $0.uuid },
+                       ["midHalfPlayed", "shortUnplayed", "longAlmostDone"])
     }
 
     func testEpisodesWithoutDurationAlwaysGoToTheBottom() {
@@ -103,10 +119,10 @@ final class UpNextSortOptionTests: XCTestCase {
                        ["long", "short", "noDuration"])
     }
 
-    func testEqualDurationsBreakTieByAddedDate() {
+    func testEqualTimeRemainingBreakTieByAddedDate() {
         let episodes = [
-            episode("addedLater", duration: 1_000, added: date(2)),
-            episode("addedEarlier", duration: 1_000, added: date(1))
+            episode("addedLater", duration: 2_000, playedUpTo: 1_000, added: date(2)),  // 1_000 remaining
+            episode("addedEarlier", duration: 1_000, playedUpTo: 0, added: date(1))     // 1_000 remaining
         ]
 
         let sorted = UpNextSortOption.shortestToLongest.sort(episodes).map { $0.uuid }

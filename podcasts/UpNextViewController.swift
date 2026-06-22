@@ -593,7 +593,7 @@ enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
         }
     }
 
-    /// Returns the episodes reordered for this option. Both publish-date and duration sorts break ties by added date so the order is deterministic; for duration sorts, zero/unknown durations also sink to the bottom.
+    /// Returns the episodes reordered for this option. Both publish-date and time-remaining sorts break ties by added date so the order is deterministic; for time-remaining sorts, episodes with unknown duration also sink to the bottom.
     func sort(_ episodes: [BaseEpisode]) -> [BaseEpisode] {
         switch self {
         case .newestToOldest:
@@ -601,9 +601,9 @@ enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
         case .oldestToNewest:
             return sortedByPublishedDate(episodes, ascending: true)
         case .shortestToLongest:
-            return sortedByDuration(episodes, ascending: true)
+            return sortedByTimeRemaining(episodes, ascending: true)
         case .longestToShortest:
-            return sortedByDuration(episodes, ascending: false)
+            return sortedByTimeRemaining(episodes, ascending: false)
         }
     }
 
@@ -623,7 +623,7 @@ enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
         }
     }
 
-    private func sortedByDuration(_ episodes: [BaseEpisode], ascending: Bool) -> [BaseEpisode] {
+    private func sortedByTimeRemaining(_ episodes: [BaseEpisode], ascending: Bool) -> [BaseEpisode] {
         episodes.sorted { lhs, rhs in
             let lhsHasDuration = lhs.duration > 0
             let rhsHasDuration = rhs.duration > 0
@@ -633,12 +633,16 @@ enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
                 return lhsHasDuration
             }
 
-            // Same duration (including both unknown): keep the order they were added.
-            if lhs.duration == rhs.duration {
+            // Compare by the episodes time remaining.
+            let lhsRemaining = lhs.duration - lhs.playedUpTo
+            let rhsRemaining = rhs.duration - rhs.playedUpTo
+
+            // Same time remaining (including both unknown): keep the order they were added.
+            if lhsRemaining == rhsRemaining {
                 return (lhs.addedDate ?? .distantPast) < (rhs.addedDate ?? .distantPast)
             }
 
-            return ascending ? lhs.duration < rhs.duration : lhs.duration > rhs.duration
+            return ascending ? lhsRemaining < rhsRemaining : lhsRemaining > rhsRemaining
         }
     }
 }
