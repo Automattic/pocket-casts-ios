@@ -36,6 +36,10 @@ class DeviceApproveViewModel: ObservableObject {
 
     let presentingViewController: UIViewController
 
+    func isCodeValid(_ code: String) -> Bool {
+        return code.trim().count >= 6
+    }
+
     func actionButtonTapped(userCode: String) {
         guard isUserLoggedIn else {
             Analytics.track(.deviceSetupAccountTapped)
@@ -198,7 +202,9 @@ struct DeviceApproveView: View {
                 }
             }
             .onSubmit {
-                model.actionButtonTapped(userCode: userCode)
+                if model.isCodeValid(userCode) {
+                    model.actionButtonTapped(userCode: userCode)
+                }
             }
     }
 
