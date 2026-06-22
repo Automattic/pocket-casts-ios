@@ -6,7 +6,7 @@ gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.0'
 gem 'fastlane', '~> 2.233'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
-gem 'fastlane-plugin-sentry', '~> 1.14'
+gem 'fastlane-plugin-sentry', '~> 2.5'
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.3'
 # To avoid errors like:
 #
