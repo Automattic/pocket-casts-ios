@@ -21,6 +21,9 @@ struct UserSignedOutView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.pcBackgroundSurface)
         .ignoresSafeArea()
+        .onAppear {
+            Analytics.track(.signedOutAlertShown)
+        }
     }
 }
 
