@@ -191,7 +191,8 @@ struct DeviceApproveView: View {
             .cornerRadius(12)
             .padding(.horizontal)
             .textInputAutocapitalization(.characters)
-            .onChange(of: userCode) { newValue in
+            .autocorrectionDisabled(true)
+            .onChange(of: userCode) { _, newValue in
                 if newValue.count > 6 {
                     userCode = String(newValue.prefix(6))
                 }
