@@ -32,57 +32,27 @@ enum MainTab: Int, CaseIterable, Identifiable, Equatable {
 struct MainTabContentView: View {
     let tab: MainTab
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
 
     var body: some View {
-        ZStack {
-            switch tab {
-            case .home:
-                HomeView()
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        tabRouter.scrollOffset = after
-                    }
-            case .podcasts:
-                PodcastsView()
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        tabRouter.scrollOffset = after
-                    }
-            case .playlists:
-                PlaylistsView()
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        tabRouter.scrollOffset = after
-                    }
-            case .upNext:
-                UpNextView()
-                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
-                        geometry.contentInsets.top + geometry.contentOffset.y
-                    } action: { _, after in
-                        tabRouter.scrollOffset = after
-                    }
-            case .search:
-                SearchViewContainer()
-            case .nowPlaying:
-                NowPlayingTab()
-            }
-        }
-    }
-}
-
-struct CenterButton: View {
-    let title: String
-
-    var body: some View {
-        VStack {
-            Spacer()
-            Button(title) {
-            }
-            Spacer()
+        switch tab {
+        case .home:
+            HomeView(model: mainTabViewModel.homeModel)
+                .trackScrollOffset()
+        case .podcasts:
+            PodcastsView(model: mainTabViewModel.myPodcastsModel)
+                .trackScrollOffset()
+        case .playlists:
+            PlaylistsView(model: mainTabViewModel.playlistsModel)
+                .trackScrollOffset()
+        case .upNext:
+            UpNextView(model: mainTabViewModel.upNextModel)
+                .trackScrollOffset()
+        case .search:
+            SearchView(model: mainTabViewModel.searchViewModel)
+                .trackScrollOffset()
+        case .nowPlaying:
+            NowPlayingTab()
         }
     }
 }
@@ -90,7 +60,7 @@ struct CenterButton: View {
 struct MainTabView: View {
     @Namespace var mainTabFocusNS
 
-    @State private var tabRouter = MainTabRouter()
+    @State private var tabRouter = MainTabViewModel()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
     @Environment(AppCoordinator.self) var coordinator
@@ -127,11 +97,6 @@ struct MainTabView: View {
         }
         .defaultFocus($focusedArea, .tabBar)
         .focusScope(mainTabFocusNS)
-        .if(tabRouter.selectedTab == .home) { content in
-            content.onMoveCommand { direction in
-                handleMove(direction)
-            }
-        }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
         .requireAccountSupport()
@@ -151,24 +116,6 @@ struct MainTabView: View {
                 .offset(x: 0, y: -tabRouter.scrollOffset)
                 Spacer()
             }
-        }
-    }
-
-    private func handleMove(_ direction: MoveCommandDirection) {
-        switch (focusedArea, direction) {
-        case (.tabBar, .left):
-            // Dispatch async so the tab selection binding has time to settle
-            // after the focus engine handles the move — otherwise rapid lefts
-            // from Podcasts → Home → (try profile) read a stale selectedTab.
-            DispatchQueue.main.async {
-                if tabRouter.selectedTab == MainTab.allCases.first {
-                    focusedArea = .profile
-                }
-            }
-        case (.profile, .right):
-            focusedArea = .tabBar
-        default:
-            break
         }
     }
 
@@ -266,6 +213,28 @@ struct MainTabView: View {
 
     var logoAccessory: some View {
         Image(ImageResource.pcLogo)
+    }
+}
+
+/// Reports the vertical scroll offset (content inset top + content offset y)
+/// of the attached scroll view whenever it changes.
+private struct MainTabScrollOffsetModifier: ViewModifier {
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
+
+    func body(content: Content) -> some View {
+        content
+            .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                geometry.contentInsets.top + geometry.contentOffset.y
+            } action: { _, after in
+                mainTabViewModel.scrollOffset = after
+            }
+    }
+}
+
+private extension View {
+    /// Tracks the vertical scroll offset of the underlying scroll view
+    func trackScrollOffset() -> some View {
+        modifier(MainTabScrollOffsetModifier())
     }
 }
 

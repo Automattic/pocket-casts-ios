@@ -3,14 +3,18 @@ import PocketCastsDataModel
 
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
-    @State private var model = PlaylistsViewModel()
+    @State private var model: PlaylistsViewModel
     @State private var didTrackShown = false
 
     enum Layout {
         static let gridSize = CGFloat(496)
+    }
+
+    init(model: PlaylistsViewModel) {
+        _model = State(wrappedValue: model)
     }
 
     var body: some View {
@@ -88,7 +92,7 @@ struct PlaylistsView: View {
 }
 
 #Preview {
-    PlaylistsView()
+    PlaylistsView(model: PlaylistsViewModel())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

@@ -3,12 +3,16 @@ import PocketCastsUtils
 
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
-    @State private var model = UpNextViewModel()
+    @State private var model: UpNextViewModel
 
     @Namespace private var rowNamespace
+
+    init(model: UpNextViewModel) {
+        _model = State(wrappedValue: model)
+    }
 
     var body: some View {
         ZStack {
@@ -93,7 +97,7 @@ struct UpNextView: View {
 }
 
 #Preview {
-    UpNextView()
+    UpNextView(model: UpNextViewModel())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }
