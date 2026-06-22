@@ -21,7 +21,7 @@ struct RootView: View {
                 SigningInView()
             case .dataLossResync:
                 DataLossResyncView()
-            case .userSignedOut:
+            case .serverSignedOut:
                 UserSignedOutView()
             }
         }

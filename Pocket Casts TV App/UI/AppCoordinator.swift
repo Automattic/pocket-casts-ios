@@ -14,7 +14,7 @@ class AppCoordinator {
         case signedIn
         case userSync
         case dataLossResync
-        case userSignedOut
+        case serverSignedOut
     }
 
     var state: State = .loading
@@ -171,9 +171,7 @@ class AppCoordinator {
             userInitiated == false
         else {
             return
-        }
-
-        //TODO: Handle signout notification that was cause by token expiration
-        state = .userSignedOut
+        }        
+        state = .serverSignedOut
     }
 }

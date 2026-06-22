@@ -15,7 +15,7 @@ struct UserSignedOutView: View {
                 .padding(.bottom, 16)
             HStack {
                 Button(L10n.tvWelcomeLogIn) {
-                    coordinator.state = .welcome
+                    coordinator.logout()
                 }
             }
         }
