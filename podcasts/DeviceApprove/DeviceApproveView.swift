@@ -197,6 +197,9 @@ struct DeviceApproveView: View {
                     userCode = String(newValue.prefix(6))
                 }
             }
+            .onSubmit {
+                model.actionButtonTapped(userCode: userCode)
+            }
     }
 
     private var actionButton: some View {
