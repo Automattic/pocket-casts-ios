@@ -4,7 +4,6 @@ import PocketCastsUtils
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
-    @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: UpNextViewModel
 
@@ -90,7 +89,7 @@ struct UpNextView: View {
             Text(L10n.tvUpNextEmptySubtitle)
         } actions: {
             Button(L10n.tvUpNextEmptyActionTitle) {
-                requireAccount { tabRouter.selectedTab = .home }
+                tabRouter.selectedTab = .home
             }
         }
     }
