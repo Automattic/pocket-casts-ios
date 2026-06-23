@@ -406,7 +406,6 @@ class PlaybackManager: ServerPlaybackDelegate {
                 trackChapterSkipped()
             } else {
                 fireChapterChangeNotification()
-                // Rebuild the full now playing info so the chapter's artwork is refreshed, not just the progress.
                 updateAllNowPlayingData()
             }
         }
