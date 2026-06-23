@@ -75,12 +75,12 @@ struct DiscoverVideoEpisodeCell: View {
         .clipped()
         .focusSection()
         .focusScope(ns)
-        .scaleEffect(isFocused ? 1.1 : 1.0)
         // Applied after `scaleEffect` so the shadow renders at its native
         // size — otherwise the cell's 1.1x focus scale enlarges the shadow
         // alongside the cell, making it read as oversized next to pills
         // that scale by only ~1.02x (Up Next, currently-playing).
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
+        .scaleEffect(isFocused ? 1.1 : 1.0)
         .animation(.easeInOut, value: isFocused)
         .task {
             await model.load()
