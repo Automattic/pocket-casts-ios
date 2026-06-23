@@ -32,7 +32,7 @@ struct DiscoverVideoEpisodeCell: View {
         static let imageSize = CGFloat(72)
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
-        static let fadeDuration: TimeInterval = 0.5
+        static let fadeDuration: TimeInterval = 0.3
         static let playDelay: TimeInterval = 2
     }
 
