@@ -8,6 +8,7 @@ struct PodcastDetailView: View {
     @State var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
+    @FocusState private var rowFocus: EpisodeRowFocus?
     @State private var isShowingMoreInfo = false
 
     init(podcast: Podcast) {
@@ -130,7 +131,7 @@ struct PodcastDetailView: View {
     }
 
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(model: episode)
+        EpisodeRowWithActions(model: episode, focus: $rowFocus)
     }
 
     private var archivedFilterMenu: some View {

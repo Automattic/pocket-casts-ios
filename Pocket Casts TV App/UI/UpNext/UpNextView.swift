@@ -8,6 +8,7 @@ struct UpNextView: View {
     @State private var model: UpNextViewModel
 
     @Namespace private var rowNamespace
+    @FocusState private var rowFocus: EpisodeRowFocus?
 
     init(model: UpNextViewModel) {
         _model = State(wrappedValue: model)
@@ -39,7 +40,7 @@ struct UpNextView: View {
             LazyVStack(alignment: .leading, spacing: 24) {
                 headerRow
                 ForEach(queuedEpisodes) { episode in
-                    EpisodeRowWithActions(model: episode, context: .upNext)
+                    EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus)
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == queuedEpisodes.first?.id, in: rowNamespace)
                 }
