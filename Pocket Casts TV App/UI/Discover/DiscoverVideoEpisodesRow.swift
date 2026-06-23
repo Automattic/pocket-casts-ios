@@ -4,7 +4,7 @@ import PocketCastsServer
 struct DiscoverVideoEpisodesRow: View {
 
     fileprivate enum Layout {
-        static let spacing = CGFloat(48)
+        static let spacing = CGFloat(56)
     }
 
     @FocusState private var focusedID: String?
