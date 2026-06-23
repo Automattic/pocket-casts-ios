@@ -12,6 +12,7 @@
 - Add context menus and Edit-mode reordering to the Folder screen [#4590](https://github.com/Automattic/pocket-casts-ios/pull/4590)
 - Add Up Next queue sorting [#4550](https://github.com/Automattic/pocket-casts-ios/pull/4550)
 - Fix the Playlists tab background in dark mode [#4593](https://github.com/Automattic/pocket-casts-ios/pull/4593)
+- Show chapter artwork on the lock screen, Control Center, and CarPlay [#4596](https://github.com/Automattic/pocket-casts-ios/pull/4596)
 
 8.14
 -----
