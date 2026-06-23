@@ -323,6 +323,7 @@ struct Constants {
             static let pauseId = "Pause ID"
             static let nextChapterId = "Next Chapter ID"
             static let previousChapterId = "Previous Chapter ID"
+            static let markAsPlayedId = "Mark As Played ID"
         }
     #endif
 
