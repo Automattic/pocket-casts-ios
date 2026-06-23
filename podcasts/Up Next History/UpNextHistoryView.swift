@@ -29,7 +29,7 @@ struct UpNextHistoryView: View {
                 }
             }
         }
-        .modifier(HiddenScrollContentBackground())
+        .scrollContentBackground(.hidden)
         .background(theme.primaryUi04)
         .sheet(item: $selectedEntry) { entry in
             UpNextEntryView(entryDate: entry.date)
@@ -47,13 +47,6 @@ struct UpNextHistoryView: View {
             }
         })
         .applyDefaultThemeOptions()
-    }
-}
-
-struct HiddenScrollContentBackground: ViewModifier {
-    public func body(content: Content) -> some View {
-        content
-            .scrollContentBackground(.hidden)
     }
 }
 

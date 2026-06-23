@@ -69,7 +69,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
             userEpisodeDetailVC = UserEpisodeDetailViewController(episodeUuid: episode.uuid)
             userEpisodeDetailVC?.playlist = .files
             userEpisodeDetailVC?.delegate = self
-            userEpisodeDetailVC?.animateIn()
+            userEpisodeDetailVC?.present(from: self)
         }
     }
 

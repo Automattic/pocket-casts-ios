@@ -17,6 +17,7 @@ struct StarredEpisodesView: View {
             }
         }
         .task {
+            Analytics.track(.starredShown)
             model.load()
         }
     }
@@ -39,12 +40,16 @@ struct StarredEpisodesView: View {
     }
 
     private var emptyView: some View {
-        EmptyDataView(title: L10n.tvStarredEmptyTitle, subtitle: L10n.tvStarredEmptySubtitle)
+        ContentUnavailableView {
+            Text(L10n.tvStarredEmptyTitle)
+        } description: {
+            Text(L10n.tvStarredEmptySubtitle)
+        }
     }
 }
 
 #Preview {
     StarredEpisodesView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

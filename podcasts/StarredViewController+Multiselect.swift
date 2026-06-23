@@ -32,10 +32,6 @@ extension StarredViewController: MultiSelectActionDelegate {
         })
     }
 
-    func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
-        preferredStatusBarStyle
-    }
-
     var multiSelectViewSource: AnalyticsSource {
         analyticsSource
     }

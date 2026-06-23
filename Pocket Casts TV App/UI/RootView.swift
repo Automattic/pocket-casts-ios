@@ -12,15 +12,20 @@ struct RootView: View {
                     Spacer()
                     ProgressView()
                     Spacer()
-                }
+                }.frame(maxWidth: .infinity)
             case .welcome:
                 WelcomeView()
             case .browsing, .signedIn:
                 MainTabView()
             case .userSync:
                 SigningInView()
+            case .dataLossResync:
+                DataLossResyncView()
+            case .serverSignedOut:
+                UserSignedOutView()
             }
         }
+        .animation(.easeInOut, value: coordinator.state)
         .environment(coordinator)
         .environment(focusStore)
         .task {

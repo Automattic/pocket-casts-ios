@@ -249,6 +249,12 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Uppdaterar ditt omslag nu</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Aj aj, kapten</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Flikfält</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimera vid bläddring</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>När detta är aktiverat krymper flikfältet till ett kompakt fält när du bläddrar nedåt så att mer innehåll förblir synligt.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -2096,6 +2102,8 @@ Det är engagemang!</string>
     <string>Ordna om åtgärder</string>
     <key>player_archived_confirmation</key>
     <string>Arkivera det här avsnittet?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Dold från ditt flöde, inte borttagen.</string>
     <key>player_artwork</key>
     <string>Omslag för %1$@</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2134,8 @@ Det är engagemang!</string>
     <string>Öka tid</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Markera detta avsnitt som spelad?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Den kommer att flyttas från Nästa till din historik.</string>
     <key>player_options_play_all_message</key>
     <string>Detta kommer att rensa din nuvarande Nästa-kö.</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2526,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Kan inte läsa in podcastinformationen :(</string>
     <key>podcast_error_title</key>
     <string>Funkar inte överhuvudtaget</string>
+    <key>podcast_explicit_content</key>
+    <string>Känsligt innehåll</string>
     <key>podcast_extras</key>
     <string>Extra</string>
     <key>podcast_failed_download</key>
@@ -3640,6 +3652,12 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du har lyssnat i</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Färgdiagram över lyssningsaktivitet. Dagar med lyssning: %1$@ av 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Om lyssningsaktivitet</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>En uppskattning av när du har lyssnat, baserat på din uppspelningshistorik. Om du avslutar ett avsnitt under några dagar visas det på den sista dagen.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Lyssningsaktivitet</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Mindre</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3802,6 +3820,12 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Det finns ingen transkription tillgänglig för det här avsnittet</string>
     <key>transcript_error_not_supported</key>
     <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Synkroniserade transkriptioner är bara tillgängliga för de senaste avsnitten.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Läs snabbt, missa ingenting. Namnet du svepte förbi, boken de rekommenderade, statistiken du ville ha — tryck på ordet och hoppa tillbaka.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Läs med. Även vid 2x.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Ladda ner avsnittet och tryck för att söka</string>
     <key>trial_finished</key>
@@ -3812,22 +3836,50 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Försök igen</string>
     <key>try_it_now</key>
     <string>Prova nu</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Skapa ett gratis konto</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Dina följare, dina framsteg, precis där du lämnade dem.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Ett konto. Alla skärmar</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Upptäck fler program</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Din nästa favorit finns här någonstans.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Du har inte sett hälften än.</string>
     <key>tv_create_account_come_back</key>
     <string>När du har skapat ditt konto, kom tillbaka och logga in</string>
     <key>tv_create_account_subtitle</key>
     <string>Skanna denna kod för att komma igång på din telefon, det tar bara en minut.</string>
     <key>tv_create_account_title</key>
     <string>Skapa ditt gratis konto</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Gå till podcasten</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Spela det senaste avsnittet</string>
+    <key>tv_discover_play_episode</key>
+    <string>Spela upp avsnitt</string>
     <key>tv_episode_info</key>
     <string>Avsnittsinformation</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Bläddra i kategorier</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Utvalt på Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
     <string>Fortsätt där du slutade</string>
     <key>tv_home_new_releases</key>
     <string>Nya släpp</string>
     <key>tv_home_recently_played</key>
     <string>Senast spelade</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Älskad av lyssnare av %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Rekommenderat för dig</string>
+    <string>Du gillar nog de här</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Vad alla lyssnar på den här veckan</string>
+    <key>tv_home_video_section_title</key>
+    <string>Gjord för TV</string>
     <key>tv_player_playback_effects</key>
     <string>Uppspelningseffekter</string>
     <key>tv_player_playback_speed</key>
@@ -3916,14 +3968,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>går till [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>eller ange denna kod i [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>Det gick inte att hämta din inloggningskod</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öppna kameran och peka på denna QR-kod</string>
     <key>tv_sign_in_title</key>
     <string>Logga in i Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Dina podcasts synkroniseras, vi loggar in dig snart!</string>
+    <string>Laddar dina podcasts</string>
     <key>tv_signing_in_title</key>
-    <string>Välkommen tillbaka!</string>
+    <string>Kul att se dig.</string>
     <key>tv_tab_home</key>
     <string>Hem</string>
     <key>tv_tab_playlists</key>

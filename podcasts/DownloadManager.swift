@@ -215,6 +215,18 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
+    /// Deletes the contents of the download, buffer, and temp folders (keeping the folders). Used by tvOS logout.
+    func removeAllDownloadedFiles() {
+        let folders = [podcastsDirectory, streamingBufferDirectory, tempDownloadFolder]
+        for folder in folders where !folder.isEmpty {
+            guard let contents = try? FileManager.default.contentsOfDirectory(atPath: folder) else { continue }
+            for file in contents {
+                let path = (folder as NSString).appendingPathComponent(file)
+                try? FileManager.default.removeItem(atPath: path)
+            }
+        }
+    }
+
     func addLocalFile(url: URL, uuid: String) throws -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
         do {

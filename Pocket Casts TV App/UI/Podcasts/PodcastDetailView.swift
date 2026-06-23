@@ -3,7 +3,8 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
@@ -44,6 +45,7 @@ struct PodcastDetailView: View {
         .onAppear { tabRouter.isShowingDetail = true }
         .onDisappear { tabRouter.isShowingDetail = false }
         .task {
+            Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()
         }
     }
@@ -85,14 +87,17 @@ struct PodcastDetailView: View {
                 Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
                     .foregroundColor(.pcTextSecondary)
+                    .lineLimit(3)
             }
             HStack(spacing: 8) {
                 Button() {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        if model.isFollowing {
-                            model.unsubscribe()
-                        } else {
-                            model.subscribe()
+                    requireAccount {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            if model.isFollowing {
+                                model.unsubscribe()
+                            } else {
+                                model.subscribe()
+                            }
                         }
                     }
                 } label: {
@@ -105,6 +110,7 @@ struct PodcastDetailView: View {
                     .font(.caption2)
                 }
                 Button() {
+                    Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": true])
                     isShowingMoreInfo = true
                 } label: {
                     Text(L10n.tvPodcastDetailMoreInfoTitle)
@@ -118,7 +124,7 @@ struct PodcastDetailView: View {
             if let podcast = model.podcast {
                 PodcastMoreInfoView(podcast: podcast)
             } else {
-                Text("Loading Info")
+                Text(L10n.loading)
             }
         }
     }
@@ -155,7 +161,6 @@ struct PodcastDetailView: View {
 
     private struct ArchivedFilterLabel: View {
         let showArchived: Bool
-        @Environment(\.isFocused) private var isFocused: Bool
 
         var body: some View {
             HStack(spacing: 8) {
@@ -163,13 +168,31 @@ struct PodcastDetailView: View {
                 Image(systemName: "chevron.down")
             }
             .font(.caption2)
-            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+            .foregroundStyle(Color.pcTextPrimary)
         }
     }
 
     @Namespace private var episodeListNamespace
 
+    @ViewBuilder
     var episodeContent: some View {
+        if model.episodes.isEmpty {
+            noEpisodesView
+        } else {
+            episodeList
+        }
+    }
+
+    var noEpisodesView: some View {
+        ContentUnavailableView(
+            L10n.tvPodcastDetailNoEpisodesTitle,
+            systemImage: "list.bullet",
+            description: Text(L10n.tvPodcastDetailNoEpisodesSubtitle)
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    var episodeList: some View {
         List {
             if let recommended = model.recommendedEpisode {
                 Section {
@@ -213,7 +236,7 @@ struct PodcastDetailView: View {
 }
 
 #Preview {
-    let router = MainTabRouter()
+    let router = MainTabViewModel()
     PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makeStubPodcasts().first!))
         .environment(AppCoordinator())
         .environment(router)

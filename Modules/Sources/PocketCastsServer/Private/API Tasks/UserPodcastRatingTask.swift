@@ -3,7 +3,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 import PocketCastsDataModel
 
-class UserPodcastRatingAddTask: ApiBaseTask {
+class UserPodcastRatingAddTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
     private let uuid: String
@@ -45,7 +45,7 @@ class UserPodcastRatingAddTask: ApiBaseTask {
     }
 }
 
-class UserPodcastRatingGetTask: ApiBaseTask {
+class UserPodcastRatingGetTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool, UserPodcastRating?) -> Void)?
 
     private let uuid: String

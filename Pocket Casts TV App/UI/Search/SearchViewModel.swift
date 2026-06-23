@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum SearchScope: CaseIterable {
+enum SearchScope: CaseIterable, Equatable {
     case podcasts
     case episodes
 
@@ -14,14 +14,38 @@ enum SearchScope: CaseIterable {
             return L10n.episodes
         }
     }
+
+    /// Matches the iOS `SearchResultsListView.DisplayMode` analytics values.
+    var analyticsDescription: String {
+        switch self {
+        case .podcasts:
+            return "podcasts"
+        case .episodes:
+            return "episodes"
+        }
+    }
 }
 
-enum SearchState {
+enum SearchState: Equatable {
     case query
     case searching
     case results
     case error(Error)
     case empty
+
+    static func == (lhs: SearchState, rhs: SearchState) -> Bool {
+        switch (lhs, rhs) {
+        case (.query, .query),
+             (.searching, .searching),
+             (.results, .results),
+             (.empty, .empty):
+            return true
+        case let (.error(lhsError), .error(rhsError)):
+            return (lhsError as NSError) == (rhsError as NSError)
+        default:
+            return false
+        }
+    }
 }
 
 protocol SearchableViewModel: AnyObject, Observation.Observable {
@@ -38,6 +62,8 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     func saveHistory(_ term: String)
 
     func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
+
+    var isInSearchMode: Bool { get }
 }
 
 @Observable
@@ -54,6 +80,15 @@ class SearchViewModel: SearchableViewModel {
         self.dataManager = dataManager
         self.tvDataManager = tvDataManager
         self.searchModel = searchModel
+    }
+
+    var isInSearchMode: Bool {
+        switch state {
+        case .query:
+            false
+        default:
+            true
+        }
     }
 
     var searchTerm: String = ""
@@ -98,6 +133,7 @@ class SearchViewModel: SearchableViewModel {
             guard !Task.isCancelled else { return }
             var uuids: Set<String> = []
             state = .searching
+            Analytics.track(.searchPerformed, properties: ["source": "search"])
             var combinedPodcastsResults: [CombinedSearchResultType] = []
             var suggestions: [String] = []
             do {
@@ -149,11 +185,16 @@ class SearchViewModel: SearchableViewModel {
 
                 podcastResults = combinedPodcastsResults
                 episodeResults = episodes
-                state = (combinedPodcastsResults.isEmpty && episodes.isEmpty) ? .empty : .results
+                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty
+                if isEmpty {
+                    Analytics.track(.searchEmptyResults, properties: ["source": "search", "term": query])
+                }
+                state = isEmpty ? .empty : .results
             }  catch is CancellationError {
                 return
             } catch {
                 guard !Task.isCancelled else { return }
+                Analytics.track(.searchFailed, properties: ["source": "search", "error_code": (error as NSError).code])
                 state  = .error(error)
             }
         }

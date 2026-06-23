@@ -88,7 +88,7 @@ struct UpNextEntryView: View {
             .listRowBackground(theme.primaryUi02)
             .listRowSeparatorTint(theme.primaryUi05)
         }
-        .modifier(HiddenScrollContentBackground())
+        .scrollContentBackground(.hidden)
         .onAppear { model.loadEpisodes(for: entryDate) }
     }
 

@@ -6,7 +6,7 @@ struct QRCodeView: View {
     let url: String
     @State var uiImage: UIImage?
 
-    private let context = CIContext()
+    @State private var context = CIContext()
 
     enum Layout {
         static let qrSize = CGFloat(240)
@@ -50,5 +50,5 @@ struct QRCodeView: View {
 }
 
 #Preview {
-    QRCodeView(url: "https://pocketcasts.com")
+    QRCodeView(url: "https://pocketcasts.net/pair")
 }

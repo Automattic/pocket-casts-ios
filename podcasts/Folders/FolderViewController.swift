@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 import SwiftUI
 
-class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
+class FolderViewController: PCViewController {
     @IBOutlet var mainGrid: UICollectionView! {
         didSet {
             registerCells()
@@ -14,6 +14,9 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     var podcasts: [Podcast] = []
 
     let gridHelper = GridHelper()
+
+    var isEditingOrder = false
+    var savedRightBarButtonItem: UIBarButtonItem?
 
     private var lastWillLayoutWidth: CGFloat = 0
 
@@ -34,9 +37,10 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
 
         title = folder.name
 
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        mainGrid.addGestureRecognizer(longPressGesture)
-        longPressGesture.delegate = self
+        mainGrid.dragDelegate = self
+        mainGrid.dropDelegate = self
+        mainGrid.dragInteractionEnabled = false
+        mainGrid.reorderingCadence = .immediate
 
         miniPlayerStatusDidChange()
 
@@ -67,6 +71,14 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 
         Analytics.track(.folderShown, properties: ["number_of_podcasts": podcasts.count, "sort_order": folder.librarySort()])
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isEditingOrder {
+            setEditingOrder(false)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -101,10 +113,6 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         reloadPodcasts()
 
         updateNavTintColor()
-    }
-
-    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        gridHelper.handleLongPress(gesture, from: mainGrid, isList: Settings.libraryType() == .list, containerView: view)
     }
 
     @objc private func folderOptionsTapped(_ sender: UIBarButtonItem) {
@@ -151,6 +159,12 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "add_or_remove_podcasts"])
         }
         optionsPicker.addAction(action: addRemoveAction)
+
+        let reorderAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
+            self?.setEditingOrder(true)
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "edit"])
+        }
+        optionsPicker.addAction(action: reorderAction)
 
         optionsPicker.present(from: self)
 
@@ -274,10 +288,6 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             ])
         }
 
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
+        self.contentUnavailableConfiguration = config
     }
 }

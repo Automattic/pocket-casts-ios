@@ -1,7 +1,19 @@
 8.15
 -----
+- Fix "Download All" on a season not warning before using cellular data [#4523](https://github.com/Automattic/pocket-casts-ios/pull/4523)
+- Fix Share swipe action not dismissing on episode cells [#4522](https://github.com/Automattic/pocket-casts-ios/pull/4522)
+- Fix the Filters search header popping back when few episodes match [#4527](https://github.com/Automattic/pocket-casts-ios/pull/4527)
+- Fix incorrect section heading when opening an episode on the Apple Watch [#4528](https://github.com/Automattic/pocket-casts-ios/pull/4528)
+- Make the mini player controls larger [#4566](https://github.com/Automattic/pocket-casts-ios/pull/4566)
+- Add a soft blur edge to the bottom of the podcast grid under Liquid Glass [#4567](https://github.com/Automattic/pocket-casts-ios/pull/4567)
+- Add a Siri shortcut to mark the current episode as played [#4591](https://github.com/Automattic/pocket-casts-ios/pull/4591)
+- Add context menus and Edit-mode reordering to the Folder screen [#4590](https://github.com/Automattic/pocket-casts-ios/pull/4590)
+- Add Up Next queue sorting [#4550](https://github.com/Automattic/pocket-casts-ios/pull/4550)
+- Fix the Playlists tab background in dark mode [#4593](https://github.com/Automattic/pocket-casts-ios/pull/4593)
+- Show chapter artwork on the lock screen, Control Center, and CarPlay [#4596](https://github.com/Automattic/pocket-casts-ios/pull/4596)
 - Tag Ask AI widget tickets for dedicated inbox routing [#4227](https://github.com/Automattic/pocket-casts-ios/pull/4227)
 - Show episode count and time left in the Up Next header [#4462](https://github.com/Automattic/pocket-casts-ios/pull/4462)
+- Drop iOS 16 and watchOS 9 [#4521](https://github.com/Automattic/pocket-casts-ios/issues/4521)
 
 8.14
 -----

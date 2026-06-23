@@ -2096,6 +2096,8 @@ Això sí que és compromís!</string>
     <string>Reorganitza les accions</string>
     <key>player_archived_confirmation</key>
     <string>Vols arxivar aquest episodi?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Amagat del teu canal, no esborrat.</string>
     <key>player_artwork</key>
     <string>Caràtula de %1$@</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2128,8 @@ Això sí que és compromís!</string>
     <string>Temps addicional</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Vols marcar aquest episodi com a reproduït?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Sortirà de «Tot seguit» i passarà al teu historial.</string>
     <key>player_options_play_all_message</key>
     <string>Això esborrarà la cua actual de la llista «Tot seguit».</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2520,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>No s'ha pogut carregar la informació del pòdcast:(</string>
     <key>podcast_error_title</key>
     <string>Literalment, ni tan sols</string>
+    <key>podcast_explicit_content</key>
+    <string>Contingut explícit</string>
     <key>podcast_extras</key>
     <string>Extres</string>
     <key>podcast_failed_download</key>
@@ -3638,6 +3644,12 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Has escoltat durant</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Mapa de calor d'activitat d'escolta. Dies escoltats: %1$@ de 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Sobre l'activitat d'escolta</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Una estimació de quan has estat escoltant, basada en el teu historial de reproducció. Si acabes un episodi al llarg de diversos dies, es mostra en l'últim dia.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Activitat d'escolta</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Menys</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3800,6 +3812,12 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Aquest episodi no té transcripció disponible</string>
     <key>transcript_error_not_supported</key>
     <string>Aquest format de transcripció no és compatible: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Les transcripcions sincronitzades només estan disponibles per als episodis recents.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Llegeix ràpid, no et perdis res. El nom que vas passar per alt, el llibre que van recomanar, la dada que volies: toca la paraula i torna enrere.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Llegeix mentre escoltes. Fins i tot a 2x.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Descarrega l'episodi per moure't per la transcripció</string>
     <key>trial_finished</key>
@@ -3810,22 +3828,50 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Tornar-ho a provar</string>
     <key>try_it_now</key>
     <string>Prova-ho ara</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Crea un compte gratuït</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Els teus seguiments, el teu progrés... exactament on els vas deixar.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Un compte. Totes les pantalles</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Descobreix més programes</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>La teva propera obsessió és aquí, en algun lloc.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Encara no n'has vist ni la meitat.</string>
     <key>tv_create_account_come_back</key>
     <string>Un cop hagis creat el compte, torna i inicia la sessió</string>
     <key>tv_create_account_subtitle</key>
     <string>Escaneja aquest codi per començar al teu telèfon, només triga un minut.</string>
     <key>tv_create_account_title</key>
     <string>Crea el teu compte gratuït</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Ves al pòdcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Reprodueix l'últim episodi</string>
+    <key>tv_discover_play_episode</key>
+    <string>Reprodueix l'episodi</string>
     <key>tv_episode_info</key>
     <string>Informació de l'episodi</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Explora les categories</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Destacats a Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
     <string>Continuem on ho vau deixar</string>
     <key>tv_home_new_releases</key>
     <string>Novetats</string>
     <key>tv_home_recently_played</key>
     <string>Reproduïts recentment</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Estimat pels oients de %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Recomanats per a tu</string>
+    <string>Probablement t'agradaran aquests</string>
+    <key>tv_home_trending_section_title</key>
+    <string>El que tothom escolta aquesta setmana</string>
+    <key>tv_home_video_section_title</key>
+    <string>Fet per a la TV</string>
     <key>tv_player_playback_effects</key>
     <string>Efectes de reproducció</string>
     <key>tv_player_playback_speed</key>
@@ -3914,14 +3960,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>anant a [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>o introdueix aquest codi a [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>No s'ha pogut obtenir el codi d'accés</string>
     <key>tv_sign_in_subtitle</key>
     <string>Obre la càmera i apunta-la a aquest codi QR</string>
     <key>tv_sign_in_title</key>
     <string>Inicia sessió a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Els teus pòdcasts s'estan sincronitzant, aviat iniciaràs la sessió!</string>
+    <string>Carregant els teus pòdcasts.</string>
     <key>tv_signing_in_title</key>
-    <string>Benvingut!</string>
+    <string>Benvingut de nou.</string>
     <key>tv_tab_home</key>
     <string>Inici</string>
     <key>tv_tab_playlists</key>

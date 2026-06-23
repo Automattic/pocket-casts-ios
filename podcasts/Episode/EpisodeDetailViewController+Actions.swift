@@ -38,7 +38,7 @@ extension EpisodeDetailViewController {
         }
         addPicker.addAction(action: addToPlaylistAction)
 
-        addPicker.show(statusBarStyle: preferredStatusBarStyle)
+        addPicker.present(from: self)
     }
 
     @IBAction func episodeStatusTapped(_ sender: Any) {
@@ -103,7 +103,7 @@ extension EpisodeDetailViewController {
             yesAction.destructive = true
             confirmation.addAction(action: yesAction)
 
-            confirmation.show(statusBarStyle: preferredStatusBarStyle)
+            confirmation.present(from: self)
         } else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
         } else {

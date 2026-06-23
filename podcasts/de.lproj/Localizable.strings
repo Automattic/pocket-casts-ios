@@ -249,6 +249,12 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Deine Coverbilder werden jetzt aktualisiert</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>In der Mache</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Tab-Leiste</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Beim Scrollen minimieren</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Wenn diese Option aktiviert ist, wird die Tab-Leiste beim Scrollen nach unten zu einem kompakten Oval, sodass mehr Inhalte im Blick bleiben.</string>
     <key>appearance_theme_header</key>
     <string>Theme</string>
     <key>appearance_theme_select</key>
@@ -2096,6 +2102,8 @@ Das ist Hingabe!</string>
     <string>Aktionen neu anordnen</string>
     <key>player_archived_confirmation</key>
     <string>Diese Folge archivieren?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>In deinem Feed verborgen, nicht gelöscht.</string>
     <key>player_artwork</key>
     <string>Cover von %1$@</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2134,8 @@ Das ist Hingabe!</string>
     <string>Zeitsprung vergrößern</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Diese Folge als angehört markieren?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Sie wird aus „Als Nächstes“ in deinen Verlauf verschoben.</string>
     <key>player_options_play_all_message</key>
     <string>Dadurch wird deine aktuelle Warteschlange gelöscht.</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2526,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Podcast-Details können nicht geladen werden :(</string>
     <key>podcast_error_title</key>
     <string>Das hat wohl nicht gefunzt</string>
+    <key>podcast_explicit_content</key>
+    <string>Nicht jugendfreie Inhalte</string>
     <key>podcast_extras</key>
     <string>Extras</string>
     <key>podcast_failed_download</key>
@@ -3640,6 +3652,12 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Bis jetzt hast du angehört:</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Heatmap der Höraktivität. Tage angehört: %1$@ von 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Informationen zur Höraktivität</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Eine Schätzung, wann du gehört hast, basierend auf deinem Wiedergabeverlauf. Wenn du eine Folge über mehrere Tage anhörst, wird sie am letzten Tag angezeigt.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Höraktivität</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Weniger</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3802,6 +3820,12 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Entschuldigung! Für diese Folge ist kein Transkript verfügbar</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Synchronisierte Transkripte sind nur für die neuesten Folgen verfügbar.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Lies schnell, verpasse nichts. Der Name, den du überlesen hast, das Buch, das sie empfohlen haben, die Statistik, die du wolltest – tippe auf das Wort und springe zurück.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Lies mit. Sogar bei doppelter Geschwindigkeit.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Lade die Folge herunter, um zum Suchen zu tippen</string>
     <key>trial_finished</key>
@@ -3812,22 +3836,50 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Erneut versuchen</string>
     <key>try_it_now</key>
     <string>Jetzt ausprobieren</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Kostenloses Konto erstellen</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Deine Abos, dein Fortschritt... genau dort, wo du sie gelassen hast.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Ein Konto. Jeder Bildschirm</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Weitere Shows entdecken</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Deine nächste Faszination wartet auf dich.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Du hast noch nicht annähernd alles gesehen.</string>
     <key>tv_create_account_come_back</key>
     <string>Sobald du dein Konto erstellt hast, komm zurück und melde dich an</string>
     <key>tv_create_account_subtitle</key>
     <string>Scanne diesen Code, um auf deinem Mobiltelefon zu beginnen. Es dauert nur eine Minute.</string>
     <key>tv_create_account_title</key>
     <string>Kostenloses Konto erstellen</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Zum Podcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Neueste Folge wiedergeben</string>
+    <key>tv_discover_play_episode</key>
+    <string>Folge wiedergeben</string>
     <key>tv_episode_info</key>
     <string>Informationen zur Folge</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Kategorien durchsuchen</string>
+    <key>tv_home_featured_section_title</key>
+    <string>In Pocket Casts vorgestellt</string>
     <key>tv_home_keep_listening_title</key>
     <string>Fortfahren, wo du aufgehört hast …</string>
     <key>tv_home_new_releases</key>
     <string>Neue Veröffentlichungen</string>
     <key>tv_home_recently_played</key>
     <string>Zuletzt abgespielt</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Beliebt bei Hörern von %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Empfehlung für dich</string>
+    <string>Das willst du dir nicht entgehen lassen</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Was bei anderen diese Woche ansteht</string>
+    <key>tv_home_video_section_title</key>
+    <string>Für den Fernseher gemacht</string>
     <key>tv_player_playback_effects</key>
     <string>Wiedergabeeffekte</string>
     <key>tv_player_playback_speed</key>
@@ -3916,14 +3968,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Gehe zu [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>oder gib diesen Code ein: [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>Dein Anmeldecode konnte nicht abgerufen werden</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öffne deine Kamera und richte sie auf diesen QR-Code</string>
     <key>tv_sign_in_title</key>
     <string>Bei Pocket Casts anmelden</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Deine Podcasts werden gerade synchronisiert. Du wirst bald angemeldet!</string>
+    <string>Deine Podcasts werden geladen.</string>
     <key>tv_signing_in_title</key>
-    <string>Willkommen zurück!</string>
+    <string>Schön, dich zu sehen!</string>
     <key>tv_tab_home</key>
     <string>Startseite</string>
     <key>tv_tab_playlists</key>

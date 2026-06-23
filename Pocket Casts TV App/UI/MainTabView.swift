@@ -1,10 +1,11 @@
 import SwiftUI
 
-enum MainTab: Int, CaseIterable, Identifiable {
+enum MainTab: Int, CaseIterable, Identifiable, Equatable {
     case home = 0
     case podcasts
     case playlists
     case upNext
+    case nowPlaying
     case search
 
     var id: Int { return self.rawValue }
@@ -15,6 +16,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .podcasts: L10n.tvTabPodcasts
         case .playlists: L10n.tvTabPlaylists
         case .upNext: L10n.tvTabUpNext
+        case .nowPlaying: L10n.tvTabNowPlaying
         case .search: nil
         }
     }
@@ -30,63 +32,37 @@ enum MainTab: Int, CaseIterable, Identifiable {
 struct MainTabContentView: View {
     let tab: MainTab
 
-    @Binding var scrollOffset: Double
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
 
     var body: some View {
         switch tab {
         case .home:
-            HomeView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
+            HomeView(model: mainTabViewModel.homeModel)
+                .trackScrollOffset()
         case .podcasts:
-            PodcastsView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
+            PodcastsView(model: mainTabViewModel.myPodcastsModel)
+                .trackScrollOffset()
         case .playlists:
-            PlaylistsView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
+            PlaylistsView(model: mainTabViewModel.playlistsModel)
+                .trackScrollOffset()
         case .upNext:
-            UpNextView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
+            UpNextView(model: mainTabViewModel.upNextModel)
+                .trackScrollOffset()
         case .search:
-            SearchView(model: SearchViewModel())
-        }
-    }
-}
-
-struct CenterButton: View {
-    let title: String
-
-    var body: some View {
-        VStack {
-            Spacer()
-            Button(title) {
-            }
-            Spacer()
+            SearchView(model: mainTabViewModel.searchViewModel)
+                .trackScrollOffset()
+        case .nowPlaying:
+            NowPlayingTab()
         }
     }
 }
 
 struct MainTabView: View {
+    @Namespace var mainTabFocusNS
 
-    @State private var tabSelection = MainTabRouter()
+    @State private var tabRouter = MainTabViewModel()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
-    @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator
 
     enum FocusArea: Hashable {
@@ -97,36 +73,38 @@ struct MainTabView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TabView(selection: $tabSelection.selectedTab) {
+            TabView(selection: $tabRouter.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
-                    Tab(value: tab) {
-                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
-                            .environment(tabSelection)
-                            .focused($focusedArea, equals: .content)
-                    } label: {
-                        Label {
-                            if let title = tab.title { Text(title) }
-                        } icon: {
-                            if let icon = tab.icon { Image(systemName: icon) }
+                    if tabRouter.shouldShowTab(tab) {
+                        Tab(value: tab) {
+                            MainTabContentView(tab: tab)
+                                .environment(tabRouter)
+                                .focused($focusedArea, equals: .content)
+                        } label: {
+                            Label {
+                                if let title = tab.title { Text(title) }
+                            } icon: {
+                                if let icon = tab.icon { Image(systemName: icon) }
+                            }
                         }
                     }
                 }
             }
+            .animation(.easeInOut, value: tabRouter.selectedTab)
             .focused($focusedArea, equals: .tabBar)
         }.overlay(alignment: .top) {
             accessoryView
         }
         .defaultFocus($focusedArea, .tabBar)
-        .onMoveCommand { direction in
-            handleMove(direction)
-        }
+        .focusScope(mainTabFocusNS)
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
+        .requireAccountSupport()
     }
 
     @ViewBuilder
     var accessoryView: some View {
-        if !tabSelection.isShowingDetail {
+        if !tabRouter.isShowingDetail {
             VStack() {
                 HStack() {
                     profileAccessory
@@ -135,27 +113,9 @@ struct MainTabView: View {
                 }
                 .padding(.vertical, 48)
                 .padding(.horizontal, 84)
-                .offset(x: 0, y: -scrollOffset)
+                .offset(x: 0, y: -tabRouter.scrollOffset)
                 Spacer()
             }
-        }
-    }
-
-    private func handleMove(_ direction: MoveCommandDirection) {
-        switch (focusedArea, direction) {
-        case (.tabBar, .left):
-            // Dispatch async so the tab selection binding has time to settle
-            // after the focus engine handles the move — otherwise rapid lefts
-            // from Podcasts → Home → (try profile) read a stale selectedTab.
-            DispatchQueue.main.async {
-                if tabSelection.selectedTab == MainTab.allCases.first {
-                    focusedArea = .profile
-                }
-            }
-        case (.profile, .right):
-            focusedArea = .tabBar
-        default:
-            break
         }
     }
 
@@ -176,11 +136,11 @@ struct MainTabView: View {
                 }
             }
             .frame(width: 64, height: 64)
-            .background(Color.white.opacity(0.15), in: Circle())
+            .background(Color.pcTextPrimary.opacity(0.15), in: Circle())
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color.white, lineWidth: profileFocused ? 4 : 0)
+                    .stroke(Color.pcTextPrimary, lineWidth: profileFocused ? 4 : 0)
             )
         }
         .buttonStyle(ChromelessButtonStyle())
@@ -194,29 +154,31 @@ struct MainTabView: View {
         .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
-                tabSelection.pendingAuthFlow = destination
+                tabRouter.pendingAuthFlow = destination
                 showProfileMenu = false
             }, onProfileSelected: { destination in
-                tabSelection.profileDestination = destination
+                tabRouter.profileDestination = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $tabSelection.profileDestination) { destination in
+        .fullScreenCover(item: $tabRouter.profileDestination) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 switch destination {
                 case .starred:
                     StarredEpisodesView()
+                case .history:
+                    ListeningHistoryView()
                 }
             }
             .environment(coordinator)
-            .environment(tabSelection)
+            .environment(tabRouter)
             .onExitCommand {
-                tabSelection.profileDestination = nil
+                tabRouter.profileDestination = nil
             }
         }
-        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabRouter.pendingAuthFlow) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
@@ -225,7 +187,7 @@ struct MainTabView: View {
                         case .signIn:
                             SignInView()
                         case .createAccount:
-                            CreateAccountView()
+                            CreateAccountView(style: .fullScreen)
                         }
                     }
                     .navigationDestination(for: WelcomeView.Destination.self) { destination in
@@ -236,7 +198,7 @@ struct MainTabView: View {
                             case .signIn:
                                 SignInView()
                             case .createAccount:
-                                CreateAccountView()
+                                CreateAccountView(style: .fullScreen)
                             }
                         }
                     }
@@ -244,13 +206,35 @@ struct MainTabView: View {
             }
             .environment(coordinator)
             .onExitCommand {
-                tabSelection.pendingAuthFlow = nil
+                tabRouter.pendingAuthFlow = nil
             }
         }
     }
 
     var logoAccessory: some View {
         Image(ImageResource.pcLogo)
+    }
+}
+
+/// Reports the vertical scroll offset (content inset top + content offset y)
+/// of the attached scroll view whenever it changes.
+private struct MainTabScrollOffsetModifier: ViewModifier {
+    @Environment(MainTabViewModel.self) var mainTabViewModel: MainTabViewModel
+
+    func body(content: Content) -> some View {
+        content
+            .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                geometry.contentInsets.top + geometry.contentOffset.y
+            } action: { _, after in
+                mainTabViewModel.scrollOffset = after
+            }
+    }
+}
+
+private extension View {
+    /// Tracks the vertical scroll offset of the underlying scroll view
+    func trackScrollOffset() -> some View {
+        modifier(MainTabScrollOffsetModifier())
     }
 }
 

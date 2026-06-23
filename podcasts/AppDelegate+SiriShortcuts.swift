@@ -7,6 +7,7 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+
         handleContinue(userActivity)
 
         return true
@@ -40,6 +41,14 @@ extension AppDelegate {
 
             if path == "/discover" || path.startsWith(string: "/discover/") {
                 if let url = URL(string: "pktc:/\(path)") {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    JLRoutes.routeURL(url)
+                }
+                return
+            }
+
+            if path == "/pair" || path.startsWith(string: "/pair/") {
+                if let url = URL(string: "pktc:/\(path)?\(components.query ?? "")") {
                     NavigationManager.sharedManager.dismissPresentedViewController()
                     JLRoutes.routeURL(url)
                 }
@@ -166,6 +175,8 @@ extension AppDelegate {
                 responseCode = SiriShortcutsManager.shared.skipToNextChapter()
             } else if identifier == Constants.SiriActions.previousChapterId {
                 responseCode = SiriShortcutsManager.shared.skipToPreviousChapter()
+            } else if identifier == Constants.SiriActions.markAsPlayedId {
+                responseCode = SiriShortcutsManager.shared.markAsPlayed()
             } else {
                 responseCode = SiriShortcutsManager.shared.resumePlayback()
             }

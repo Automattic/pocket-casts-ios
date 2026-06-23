@@ -8,7 +8,7 @@ fileprivate enum Layout {
 
 struct DiscoverPodcastsListView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: DiscoverCategoryModel
 
@@ -34,6 +34,9 @@ struct DiscoverPodcastsListView: View {
         .task {
             await model.load()
         }
+        .toolbar(.hidden, for: .tabBar)
+        .onAppear { tabRouter.isShowingDetail = true }
+        .onDisappear { tabRouter.isShowingDetail = false }
     }
 
     var loadingView: some View {
@@ -43,7 +46,7 @@ struct DiscoverPodcastsListView: View {
     var podcastsView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
-                Text(model.name)
+                Text(L10n.mostPopularWithName(model.name))
                     .font(.title2)
                     .foregroundStyle(Color.pcTextPrimary)
                 podcastGrid
@@ -52,17 +55,22 @@ struct DiscoverPodcastsListView: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+        ContentUnavailableView {
+            Text(L10n.tvPodcastsEmptyTitle)
+        } description: {
+            Text(L10n.tvPodcastsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 
     var podcastGrid: some View {
         LazyVGrid(columns: gridColumns, spacing: 48) {
-            ForEach(model.categoryDetails?.podcasts ?? [], id: \.uuid) { podcast in
+            ForEach(model.podcasts, id: \.uuid) { podcast in
                 NavigationLink(value: podcast) {
-                    PodcastImage(uuid: podcast.uuid ?? "", size: .page)
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    DiscoverPodcastCell(podcastUuid: podcast.uuid ?? "", isSponsored: model.isSponsored(podcast: podcast))
                 }
                 .buttonStyle(.card)
             }
@@ -73,5 +81,5 @@ struct DiscoverPodcastsListView: View {
 #Preview {
     DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"))
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

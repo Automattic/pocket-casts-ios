@@ -67,6 +67,9 @@ class NavigationManager {
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
     static let redeemGuestPassURLKey = "redeemGuestPassURLKey"
 
+    static let deviceApprovePageKey = "deviceApprovePageKey"
+    static let deviceApproveCodeKey = "deviceApproveCodeKey"
+
     static let endOfYearStories = "endOfYearStories"
     static let onboardingFlow = "onboardingFlow"
 
@@ -257,6 +260,11 @@ class NavigationManager {
                 let source = data?[NavigationManager.manualPlaylistsChooserSourceKey] as? String ?? "swipe"
                 mainController?.presentManualPlaylistsChooser(for: episode, rootViewController: root, source: source)
             }
+        } else if place == NavigationManager.deviceApprovePageKey {
+            guard let data else { return }
+            let code = data[NavigationManager.deviceApproveCodeKey] as? String
+
+            mainController?.showApproveDevice(code: code)
         }
     }
 

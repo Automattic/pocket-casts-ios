@@ -8,6 +8,8 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
+    @Environment(MainTabViewModel.self) var mainTabModel: MainTabViewModel
+
     @Bindable var model: ViewModel
 
     @State private var showNowPlayingPlayer = false
@@ -48,11 +50,11 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                Text(L10n.tvSearchTypeSomething)
-                    .font(.headline)
-                    .foregroundStyle(Color.pcTextSecondary)
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
             }
         }
+        .animation(.easeInOut, value: model.state)
+        .animation(.easeInOut, value: model.scope)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
                 .ignoresSafeArea()
@@ -70,6 +72,13 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                                 .frame(width: Layout.cellSize, height: Layout.cellSize)
                         }
                         .buttonStyle(.card)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Analytics.track(.searchResultTapped, properties: [
+                                "source": "search",
+                                "uuid": podcast.uuid,
+                                "result_type": podcast.isLocal == true ? "podcast_local_result" : "podcast_remote_result"
+                            ])
+                        })
                     case .episode:
                         EmptyView()
                     }
@@ -86,6 +95,11 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             LazyVGrid(columns: episodeItems, spacing: 24, content: {
                 ForEach(model.episodeResults, id: \.self) { episode in
                     Button() {
+                        Analytics.track(.searchResultTapped, properties: [
+                            "source": "search",
+                            "uuid": episode.uuid,
+                            "result_type": "episode"
+                        ])
                         Task {
                             let playSuccess = await model.playEpisode(episode)
                             await MainActor.run {
@@ -100,6 +114,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         SearchEpisodeRow(model: episode)
                     }
                     .buttonStyle(.card)
+                    .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
         }

@@ -1,6 +1,6 @@
 import Foundation
 
-class PodcastSearchOperation: Operation {
+class PodcastSearchOperation: Operation, @unchecked Sendable {
     private let completion: (PodcastSearchResponse?) -> Void
     private let searchQuery: MainServerHandler.PodcastSearchQuery
 

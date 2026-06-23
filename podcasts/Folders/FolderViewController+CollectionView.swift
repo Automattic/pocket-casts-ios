@@ -40,6 +40,13 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let castCell = cell as! PodcastGridCell
             castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
         }
+
+        // Keep the reorder-edit treatment in sync so reused/recycled cells stay correct.
+        if isEditingOrder {
+            applyEditingTreatment(to: cell)
+        } else {
+            removeEditingTreatment(from: cell)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -48,36 +55,6 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let podcast = podcasts[safe: indexPath.row] else { return }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-    }
-
-    // MARK: - Re-ordering
-
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let podcastToMove = podcasts[safe: sourceIndexPath.row] else { return }
-
-        if let index = podcasts.firstIndex(of: podcastToMove) {
-            podcasts.remove(at: index)
-            podcasts.insert(podcastToMove, at: destinationIndexPath.row)
-
-            saveSortOrder()
-        }
-    }
-
-    private func saveSortOrder() {
-        for (index, podcast) in podcasts.enumerated() {
-            podcast.sortOrder = Int32(index)
-        }
-
-        DataManager.sharedManager.saveSortOrders(podcasts: podcasts)
-
-        folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
-        folder.sortType = Int32(LibrarySort.Old.custom.rawValue)
-        DataManager.sharedManager.save(folder: folder)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
     }
 
     // MARK: - Row Sizing

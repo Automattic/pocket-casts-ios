@@ -14,7 +14,7 @@
                 <outlet property="barView" destination="Lgm-04-Vea" id="xLZ-RY-pZI"/>
                 <outlet property="containerView" destination="rPk-NC-Zbc" id="Sbv-ag-cXW"/>
                 <outlet property="containerViewBottomConstraint" destination="QRi-zN-N1y" id="8PP-VR-ghA"/>
-                <outlet property="containerViewHeight" destination="K5Z-lB-6vg" id="kRT-8I-qUl"/>
+                <outlet property="errorContainerHeight" destination="bUh-eZ-DTR" id="eCH-He-ght"/>
                 <outlet property="dividerView" destination="lvd-qJ-KlQ" id="W5T-bU-gXy"/>
                 <outlet property="downloadStatusImage" destination="LQy-mY-4LR" id="mkV-fT-GZY"/>
                 <outlet property="downloadingIndicator" destination="d0a-H5-oSK" id="3ro-7b-PSx"/>
@@ -202,7 +202,8 @@
                         <constraint firstItem="lvd-qJ-KlQ" firstAttribute="leading" secondItem="rPk-NC-Zbc" secondAttribute="leading" id="9Zo-l0-Twi"/>
                         <constraint firstItem="9yI-6F-r4n" firstAttribute="top" secondItem="5vT-2y-mAd" secondAttribute="bottom" constant="24" id="FCD-PL-Jh5"/>
                         <constraint firstItem="3MH-20-muf" firstAttribute="leading" secondItem="9yI-6F-r4n" secondAttribute="trailing" constant="16" id="JuV-ru-6uu"/>
-                        <constraint firstAttribute="height" constant="410" id="K5Z-lB-6vg"/>
+                        <constraint firstItem="5vT-2y-mAd" firstAttribute="top" secondItem="rPk-NC-Zbc" secondAttribute="top" constant="16" id="eCt-To-pin"/>
+                        <constraint firstItem="rPk-NC-Zbc" firstAttribute="bottom" secondItem="blI-8r-cU7" secondAttribute="bottom" id="i7y-Cs-8Mg"/>
                         <constraint firstAttribute="trailing" secondItem="mS3-CC-CaQ" secondAttribute="trailing" constant="16" id="MVt-VS-OF3"/>
                         <constraint firstAttribute="trailing" secondItem="lvd-qJ-KlQ" secondAttribute="trailing" id="c9B-G4-E6s"/>
                         <constraint firstItem="5vT-2y-mAd" firstAttribute="leading" secondItem="rPk-NC-Zbc" secondAttribute="leading" constant="16" id="ffo-mF-O0a"/>
@@ -228,7 +229,7 @@
                 <constraint firstItem="bbX-qh-cTr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CeC-ut-8Ak"/>
                 <constraint firstAttribute="bottom" secondItem="rPk-NC-Zbc" secondAttribute="bottom" priority="750" id="QRi-zN-N1y"/>
                 <constraint firstAttribute="trailing" secondItem="rPk-NC-Zbc" secondAttribute="trailing" id="arz-w8-fAy"/>
-                <constraint firstItem="rPk-NC-Zbc" firstAttribute="bottom" secondItem="blI-8r-cU7" secondAttribute="bottom" id="i7y-Cs-8Mg"/>
+                <constraint firstItem="rPk-NC-Zbc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rPk-To-pRt"/>
                 <constraint firstAttribute="trailing" secondItem="bbX-qh-cTr" secondAttribute="trailing" id="tBD-i1-T7e"/>
             </constraints>
             <point key="canvasLocation" x="138" y="153"/>

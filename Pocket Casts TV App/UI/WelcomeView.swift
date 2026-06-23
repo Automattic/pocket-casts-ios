@@ -37,11 +37,17 @@ struct WelcomeView: View {
                         .padding(.bottom, 16)
                     HStack(spacing: 16) {
                         NavigationLink(value: Destination.signIn) {
-                            Text(L10n.tvWelcomeSignIn)
+                            Text(L10n.tvWelcomeLogIn)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
+                        })
                         NavigationLink(value: Destination.createAccount) {
                             Text(L10n.tvWelcomeCreateFreeAccount)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
+                        })
                     }
                     Spacer()
                     Button(L10n.tvWelcomeBrowseWithoutAccount) {
@@ -63,7 +69,7 @@ struct WelcomeView: View {
                     case .signIn:
                         SignInView()
                     case .createAccount:
-                        CreateAccountView()
+                        CreateAccountView(style: .fullScreen)
                     }
                 }
             }
@@ -73,6 +79,9 @@ struct WelcomeView: View {
                 podcastGrid
                 gradientView
             }
+        }
+        .task {
+            Analytics.track(.setupAccountShown)
         }
     }
 

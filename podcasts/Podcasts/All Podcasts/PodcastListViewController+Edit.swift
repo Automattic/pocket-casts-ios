@@ -21,13 +21,13 @@ extension PodcastListViewController {
         if Settings.libraryType() == .list {
             addReorderHandle(to: cell)
         } else {
-            startWiggle(on: cell)
+            cell.startEditingWiggle()
         }
     }
 
     func removeEditingTreatment(from cell: UICollectionViewCell) {
         removeReorderHandle(from: cell)
-        stopWiggle(on: cell)
+        cell.stopEditingWiggle()
     }
 
     // MARK: Mode transitions
@@ -58,24 +58,6 @@ extension PodcastListViewController {
         for cell in podcastsCollectionView.visibleCells {
             removeEditingTreatment(from: cell)
         }
-    }
-
-    // MARK: Wiggle (grid)
-
-    private static let wiggleAnimationKey = "podcasts.editingWiggle"
-
-    private func startWiggle(on cell: UICollectionViewCell) {
-        guard cell.layer.animation(forKey: Self.wiggleAnimationKey) == nil else { return }
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.values = [-0.012, 0.012, -0.012]
-        animation.duration = 0.28
-        animation.repeatCount = .infinity
-        animation.timeOffset = .random(in: 0...animation.duration) // stagger so cells don't move in unison
-        cell.layer.add(animation, forKey: Self.wiggleAnimationKey)
-    }
-
-    private func stopWiggle(on cell: UICollectionViewCell) {
-        cell.layer.removeAnimation(forKey: Self.wiggleAnimationKey)
     }
 
     // MARK: Reorder handle (list)

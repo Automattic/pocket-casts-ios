@@ -97,8 +97,13 @@ class DiscoverFeaturedView: ThemeableView {
         listType.text = isSponsored ? L10n.discoverSponsored : listName.uppercased()
         listType.setLetterSpacing(1.57)
 
+        let isExplicit = discoverPodcast.isExplicit ?? false
         if let title = discoverPodcast.title?.localized {
-            podcastTitle.text = title
+            if isExplicit {
+                podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+            } else {
+                podcastTitle.text = title
+            }
         }
 
         if let author = discoverPodcast.author {

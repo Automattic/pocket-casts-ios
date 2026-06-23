@@ -68,7 +68,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
                 podcastGrid
                 Spacer()
             }
-            Color.black
+            Color.pcBackgroundSunken
                 .opacity(blackOverlayOpaque ? 1 : 0)
                 .animation(reduceMotion ? nil : .easeInOut(duration: Pacing.fadeDuration), value: blackOverlayOpaque)
                 .allowsHitTesting(false)

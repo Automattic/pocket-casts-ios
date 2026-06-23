@@ -417,7 +417,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         }
         optionPicker.addAction(action: libraryAction)
 
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionPicker.present(from: self)
     }
 
     private func showError(message: String) {

@@ -166,7 +166,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             addAutoLimitOption(optionPicker: options, limit: 40, currentLimit: currentLimit)
             addAutoLimitOption(optionPicker: options, limit: 100, currentLimit: currentLimit)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         case .siriShortcut:
             isViewingShortcuts = true
             let singleFilterVC = PlaylistShortcutsViewController(playlist: filterToEdit)

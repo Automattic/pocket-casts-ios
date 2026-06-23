@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct PlaylistDetailView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
 
@@ -41,7 +41,9 @@ struct PlaylistDetailView: View {
             Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
                 model.buttonConfirmPlayPlaylistTapped()
             }
-            Button(L10n.cancel, role: .cancel) {}
+            Button(L10n.cancel, role: .cancel) {
+                Analytics.track(.filterPlayAllDismissed)
+            }
         } message: {
             Text(L10n.playlistPlayAllSheetDescription)
         }
@@ -50,6 +52,7 @@ struct PlaylistDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
+            Analytics.track(.filterShown)
             model.load()
         }
     }
@@ -202,7 +205,6 @@ struct PlaylistDetailView: View {
 
     private struct ArchivedFilterLabel: View {
         let showArchived: Bool
-        @Environment(\.isFocused) private var isFocused: Bool
 
         var body: some View {
             HStack(spacing: 8) {
@@ -210,13 +212,13 @@ struct PlaylistDetailView: View {
                 Image(systemName: "chevron.down")
             }
             .font(.caption2)
-            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+            .foregroundStyle(Color.pcTextPrimary)
         }
     }
 }
 
 #Preview {
-    let router = MainTabRouter()
+    let router = MainTabViewModel()
     PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
         .environment(AppCoordinator())
         .environment(router)

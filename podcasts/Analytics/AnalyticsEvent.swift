@@ -465,6 +465,7 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
     case upNextShuffleEnabled
+    case upNextSort
     case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
@@ -924,13 +925,13 @@ enum AnalyticsEvent: String {
     case episodeTranscriptShown
     case transcriptShared
     case transcriptTextHighlighted
-    case syncedTranscriptSeekUsed
-    case syncedTranscriptPreparationStarted
-    case syncedTranscriptPreparationCompleted
-    case syncedTranscriptPreparationFailed
-    case syncedTranscriptUnavailable
-    case syncedTranscriptSeekFailed
-    case syncedTranscriptAutoScrollResumed
+    case syncedTranscriptsSeekUsed
+    case syncedTranscriptsPreparationStarted
+    case syncedTranscriptsPreparationCompleted
+    case syncedTranscriptsPreparationFailed
+    case syncedTranscriptsUnavailable
+    case syncedTranscriptsSeekFailed
+    case syncedTranscriptsAutoScrollResumed
 
     // MARK: - Widgets
 
@@ -1026,4 +1027,13 @@ enum AnalyticsEvent: String {
     case bannerAdImpression
     case bannerAdTapped
     case bannerAdReport
+
+    // MARK: - Device Approval
+
+    case deviceApproveShown
+    case deviceApproveConnectTapped
+    case deviceApproveDismissed
+    case deviceSetupAccountTapped
+    case deviceApproveSuccessful
+    case deviceApproveFailed
 }

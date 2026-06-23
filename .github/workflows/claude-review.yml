@@ -26,12 +26,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6.0.3
         with:
           fetch-depth: 1
 
       - name: PR Review with Progress Tracking
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@4d7e1f0cd85743fdc93b1c8040ab54395da024e2 # v1.0.149
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           track_progress: true

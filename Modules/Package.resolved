@@ -1,5 +1,5 @@
 {
-  "originHash" : "9432273f1581b26f58e9b33ef1f1ef4c2a45f288df5ddc2d6346db54e774597d",
+  "originHash" : "2981f43f0683d1d38ce5837633fdba7ac14ed536a966f62359f8c3db9f9e91fb",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -42,7 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
-        "revision" : "ce83ea7dc017beb9a3b42710e9da74ac2b7f4913"
+        "revision" : "5b648ab79fc1857d4a8fecc78b73505c2be6fbdd",
+        "version" : "4.3.0"
       }
     },
     {
@@ -268,6 +269,15 @@
       "state" : {
         "revision" : "2bc86522d115234d1f588efe2bcb4ce4be8f8b82",
         "version" : "510.0.3"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "49dcadd93161f4a44b4994d3a3e8de9f085aface",
+        "version" : "2.13.5"
       }
     },
     {

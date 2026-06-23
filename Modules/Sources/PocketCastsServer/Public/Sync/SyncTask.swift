@@ -3,7 +3,7 @@ import SwiftProtobuf
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class SyncTask: ApiBaseTask {
+class SyncTask: ApiBaseTask, @unchecked Sendable {
     private static let processDataLock = NSObject()
 
     lazy var importQueue: OperationQueue = {

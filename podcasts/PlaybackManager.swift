@@ -97,6 +97,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRemoteCommands), name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCurrentlyPlayingEpisodeUpdated), name: Constants.Notifications.currentlyPlayingEpisodeUpdated, object: nil)
 
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
@@ -405,7 +406,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 trackChapterSkipped()
             } else {
                 fireChapterChangeNotification()
-                updateNowPlayingInfo()
+                updateAllNowPlayingData()
             }
         }
     }

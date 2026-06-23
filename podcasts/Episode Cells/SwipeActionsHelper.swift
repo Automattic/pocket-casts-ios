@@ -144,7 +144,7 @@ enum SwipeActionsHelper {
         }
 
         if let episode = episode as? Episode {
-            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { indexPath -> Bool in
+            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
                     swipeHandler.share(episode: episode, at: indexPath)
                     Self.performAction(.share, handler: swipeHandler, willBeRemoved: false)
                 return true

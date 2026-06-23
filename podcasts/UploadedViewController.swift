@@ -54,11 +54,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             ])
         }
 
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
+        self.contentUnavailableConfiguration = config
     }
 
     @MainActor
@@ -332,7 +328,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             openAddFilesVC.cancelTapped()
         }
         if let openUserEpiosdeDetails = userEpisodeDetailVC {
-            openUserEpiosdeDetails.animateOut()
+            openUserEpiosdeDetails.close()
         }
     }
 

@@ -7,7 +7,7 @@ fileprivate enum Layout {
 
 struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: ViewModel
 
@@ -30,8 +30,14 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 emptyView
             }
         }
+        .animation(.easeInOut, value: model.state)
         .task {
             await model.load()
+            Analytics.track(.podcastsListShown, properties: [
+                "sort_order": "name",
+                "number_of_podcasts": model.items.filter { $0.podcast != nil }.count,
+                "number_of_folders": model.items.filter { $0.folder != nil }.count
+            ])
         }
     }
 
@@ -53,8 +59,14 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+        ContentUnavailableView {
+            Text(L10n.tvPodcastsEmptyTitle)
+        } description: {
+            Text(L10n.tvPodcastsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 
@@ -69,11 +81,17 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        Analytics.track(.podcastsListPodcastTapped)
+                    })
                 } else if let folder = item.folder {
                     NavigationLink(value: folder) {
                         FolderCardView(folder: folder)
                     }
                     .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        Analytics.track(.podcastsListFolderTapped)
+                    })
                 }
             }
         }
@@ -90,5 +108,5 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 #Preview {
     PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

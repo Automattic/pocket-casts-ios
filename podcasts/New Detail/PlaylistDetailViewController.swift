@@ -472,6 +472,12 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Dismiss the search keyboard when the user starts scrolling the results, matching the
+        // Podcast detail page (PodcastViewController.scrollViewWillBeginDragging).
+        view.endEditing(true)
+    }
+
     /// Forces the standard (blurred) navigation bar appearance whenever multi-select is on or the
     /// user has scrolled past the header. Multi-select uses plain text bar buttons that can't sit
     /// on the transparent over-artwork chrome (pre-iOS 26), so we lock the bar to its blurred state

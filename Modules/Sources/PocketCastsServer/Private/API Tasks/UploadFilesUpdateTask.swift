@@ -3,7 +3,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 import UIKit
 
-class UploadFilesUpdateTask: ApiBaseTask {
+class UploadFilesUpdateTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Int) -> Void)?
 
     private var episodes = [UserEpisode]()

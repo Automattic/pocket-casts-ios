@@ -1,6 +1,5 @@
 import Foundation
 import PocketCastsDataModel
-import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 import Combine
@@ -14,7 +13,6 @@ class EpisodeRowViewModel: Identifiable {
 
     var episode: BaseEpisode
     var podcast: Podcast?
-    var imageData: Data?
     var progress: Double
     var id: String { episode.uuid }
 
@@ -27,15 +25,6 @@ class EpisodeRowViewModel: Identifiable {
         self.playbackManager = playbackManager
         self.progress = episode.playedUpTo / episode.duration
         setupObservers()
-    }
-
-    func loadEpisodeArtwork() {
-        Task.detached { [weak self] in
-            let data = await self?.loadEpisodeArtworkData()
-            await MainActor.run { [weak self] in
-                self?.imageData = data
-            }
-        }
     }
 
     var duration: Double {
@@ -70,10 +59,6 @@ class EpisodeRowViewModel: Identifiable {
         return episode.displayableTimeLeft()
     }
 
-    var displayImageData: Data? {
-        return imageData
-    }
-
     var currentPodcastTintColor: Color? {
         if let podcast {
             return Color(ColorManager.darkThemeTintForPodcast(podcast))
@@ -82,17 +67,6 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             return Color(AppTheme.userEpisodeColor(number: 1))
         }
-    }
-
-    private func loadEpisodeArtworkData() async -> Data? {
-        let imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 340)
-        guard let url = URL(string: imageUrl),
-              let (data, _) = try? await URLSession.shared.data(for: URLRequest(url: url)),
-              let uiImage = UIImage(data: data)
-        else {
-            return nil
-        }
-        return uiImage.pngData()
     }
 
     var podcastUuid: String? {
@@ -109,27 +83,16 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func playNext() {
-        if playbackManager.inUpNext(episode: episode) {
-            playbackManager.queue.move(episode: episode, to: 0)
-        } else {
-            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
-        }
-        ToastManager.shared.show(L10n.playNextInUpNext)
+        EpisodeUpNextActions.playNext(episode, playbackManager: playbackManager)
     }
 
     func playLast() {
-        if playbackManager.inUpNext(episode: episode) {
-            let queueCount = playbackManager.queue.upNextCount()
-            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
-        } else {
-            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
-        }
-        ToastManager.shared.show(L10n.playLastInUpNext)
+        EpisodeUpNextActions.playLast(episode, playbackManager: playbackManager)
     }
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.markPlayed)
+        ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
     }
 
     var canArchive: Bool {
@@ -147,12 +110,18 @@ class EpisodeRowViewModel: Identifiable {
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.podcastArchived)
+        ToastManager.shared.show(L10n.tvEpisodeArchived)
+    }
+
+    func unarchive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.tvEpisodeUnarchived)
     }
 
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-        ToastManager.shared.show(L10n.removeFromUpNext)
+        ToastManager.shared.show(L10n.tvEpisodeRemovedFromUpNext)
     }
 
     private func setupObservers() {
@@ -160,6 +129,20 @@ class EpisodeRowViewModel: Identifiable {
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
             self?.updateProgress()
+        }
+        .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] notification in
+            guard let self else {
+                return
+            }
+            if let uuid = notification.object as? String, uuid == episode.uuid {
+                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                    episode = newEpisode
+                }
+            }
         }
         .store(in: &cancellables)
     }
@@ -171,6 +154,29 @@ class EpisodeRowViewModel: Identifiable {
         episode.playedUpTo = currentEpisode.playedUpTo
         episode.duration = currentEpisode.duration
         progress = currentEpisode.playedUpTo / currentEpisode.duration
+    }
+}
+
+/// Up Next queue actions shared by the episode view model and the lazily-loaded
+/// discovery/search context menus, so the move-vs-add queue logic lives in one place.
+enum EpisodeUpNextActions {
+    static func playNext(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+        if playbackManager.inUpNext(episode: episode) {
+            playbackManager.queue.move(episode: episode, to: 0)
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+        }
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayNext)
+    }
+
+    static func playLast(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+        if playbackManager.inUpNext(episode: episode) {
+            let queueCount = playbackManager.queue.upNextCount()
+            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+        }
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayLast)
     }
 }
 
