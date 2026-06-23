@@ -14,6 +14,7 @@ class AppCoordinator {
         case signedIn
         case userSync
         case dataLossResync
+        case serverSignedOut
     }
 
     var state: State = .loading
@@ -52,6 +53,8 @@ class AppCoordinator {
         }
 
         setupDiscover()
+
+        setupSignOutObservation()
     }
 
     func signIn() {
@@ -153,5 +156,22 @@ class AppCoordinator {
         Task {
             let _ = await DiscoverServerHandler.shared.discoverPage()
         }
+    }
+
+    private func setupSignOutObservation() {
+        NotificationCenter.default.addObserver(forName: .serverUserWillBeSignedOut, object: nil, queue: .main) { [weak self] notification in
+            self?.handleSignOutNotification(notification)
+        }
+    }
+
+    private func handleSignOutNotification(_ notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let userInitiated = userInfo["user_initiated"] as? Bool,
+            userInitiated == false
+        else {
+            return
+        }
+        state = .serverSignedOut
     }
 }

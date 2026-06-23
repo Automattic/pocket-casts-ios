@@ -319,6 +319,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Share Profile feature
     case shareProfile
 
+    /// Enable the Up Next sort button
+    case upNextSort
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -534,6 +537,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .showExplicitBadges:
             true
         case .shareProfile:
+            BuildEnvironment.current == .debug
+        case .upNextSort:
             BuildEnvironment.current == .debug
         }
     }
