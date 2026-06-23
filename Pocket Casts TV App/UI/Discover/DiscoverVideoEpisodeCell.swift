@@ -121,8 +121,10 @@ struct DiscoverVideoEpisodeCell: View {
             } label: {
                 Text(L10n.tvDiscoverPlayEpisode)
                     .foregroundColor(isFocused ? nil : .clear)
+                    .animation(.default, value: isFocused)
             }
             .collapsedWhenUnfocused(isFocused)
+            .animation(.none, value: isFocused)
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
@@ -132,8 +134,10 @@ struct DiscoverVideoEpisodeCell: View {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         .foregroundColor(isFocused ? nil : .clear)
+                        .animation(.default, value: isFocused)
                 }
                 .collapsedWhenUnfocused(isFocused)
+                .animation(.none, value: isFocused)
                 .focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video.rawValue)
                 .simultaneousGesture(TapGesture().onEnded {
