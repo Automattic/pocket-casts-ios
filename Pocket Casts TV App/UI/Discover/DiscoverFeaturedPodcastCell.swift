@@ -128,5 +128,5 @@ struct DiscoverFeaturedPodcastCell: View {
 #Preview {
     DiscoverFeaturedPodcastCell(podcast: MockData.makeStubDiscoveryPodcast())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

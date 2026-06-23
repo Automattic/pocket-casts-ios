@@ -4,11 +4,15 @@ import PocketCastsServer
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model = HomeViewModel()
+    @State private var model: HomeViewModel
 
     @State private var showNowPlayingPlayer: Bool = false
+
+    init(model: HomeViewModel) {
+        _model = State(wrappedValue: model)
+    }
 
     enum Layout {
         static let gridSize = CGFloat(250)
@@ -238,7 +242,7 @@ struct HomeSection<Content: View>: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(model: HomeViewModel())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

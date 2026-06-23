@@ -7,7 +7,7 @@ fileprivate enum Layout {
 
 struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: ViewModel
@@ -111,5 +111,5 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 #Preview {
     PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

@@ -6,8 +6,10 @@
 - Fix the Filters search header popping back when few episodes match [#4527](https://github.com/Automattic/pocket-casts-ios/pull/4527)
 - Drop iOS 16 and watchOS 9 [#4521](https://github.com/Automattic/pocket-casts-ios/issues/4521)
 - Fix incorrect section heading when opening an episode on the Apple Watch [#4528](https://github.com/Automattic/pocket-casts-ios/pull/4528)
-- Make the mini player play/pause button larger [#4566](https://github.com/Automattic/pocket-casts-ios/pull/4566)
+- Make the mini player controls larger [#4566](https://github.com/Automattic/pocket-casts-ios/pull/4566)
 - Add a soft blur edge to the bottom of the podcast grid under Liquid Glass [#4567](https://github.com/Automattic/pocket-casts-ios/pull/4567)
+- Add Up Next queue sorting [#4550](https://github.com/Automattic/pocket-casts-ios/pull/4550)
+- Fix the Playlists tab background in dark mode [#4593](https://github.com/Automattic/pocket-casts-ios/pull/4593)
 
 8.14
 -----

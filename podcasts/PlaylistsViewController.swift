@@ -16,7 +16,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
-            filtersTable.themeStyle = .primaryUi01
+            filtersTable.themeStyle = .primaryUi02
             filtersTable.dragDelegate = self
             filtersTable.dropDelegate = self
             filtersTable.separatorStyle = .none

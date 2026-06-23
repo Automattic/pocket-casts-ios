@@ -8,7 +8,7 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var mainTabModel: MainTabViewModel
 
     @Bindable var model: ViewModel
 
@@ -50,7 +50,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                DiscoverAllView()
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
             }
         }
         .animation(.easeInOut, value: model.state)
@@ -88,11 +88,6 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
             }
         }
-        .onScrollGeometryChange(for: CGFloat.self) { geometry in
-            geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { _, after in
-            tabRouter.scrollOffset = after
-        }
     }
 
     var episodeResults: some View {
@@ -122,11 +117,6 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
-        }
-        .onScrollGeometryChange(for: CGFloat.self) { geometry in
-            geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { _, after in
-            tabRouter.scrollOffset = after
         }
     }
 }

@@ -38,7 +38,7 @@ class NewPlaylistCell: ThemeableCell {
 
         accessoryType = .disclosureIndicator
 
-        self.style = .primaryUi01
+        self.style = .primaryUi02
         iconStyle = .primaryIcon02
 
         updateColor()

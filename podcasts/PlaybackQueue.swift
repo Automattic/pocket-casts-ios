@@ -184,6 +184,34 @@ class PlaybackQueue: NSObject {
         refreshAppFiring(notificationName: Constants.Notifications.upNextQueueChanged)
     }
 
+    /// Reorders the Up Next queue to match `sortedEpisodes` (the queued episodes excluding now playing, which stays pinned at the top).
+    func reorderUpNext(sortedEpisodes: [BaseEpisode]) {
+        guard sortedEpisodes.count > 1 else { return }
+
+        // Up Next playlist entries, excluding the now playing episode at index 0.
+        var remaining = Array(DataManager.sharedManager.allUpNextPlaylistEpisodes().dropFirst())
+        var ordered = [PlaylistEpisode]()
+
+        // Match the sorted episodes back to their playlist entries...
+        for episode in sortedEpisodes {
+            if let index = remaining.firstIndex(where: { $0.episodeUuid == episode.uuid }) {
+                ordered.append(remaining.remove(at: index))
+            }
+        }
+        // ...and keep any entries without metadata (e.g. not-yet-synced episodes) at the bottom.
+        ordered.append(contentsOf: remaining)
+
+        for (index, playlistEpisode) in ordered.enumerated() {
+            // position 0 is the now playing episode, so the queue starts at 1
+            playlistEpisode.episodePosition = Int32(index + 1)
+        }
+        DataManager.sharedManager.save(playlistEpisodes: ordered)
+
+        saveReplaceIfRequired()
+
+        refreshAppFiring(notificationName: Constants.Notifications.upNextQueueChanged)
+    }
+
     func insert(episode: BaseEpisode, position: Int) {
         let existingEpisode = contains(episode: episode)
 

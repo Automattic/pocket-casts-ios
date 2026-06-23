@@ -73,5 +73,5 @@ struct PlaylistCell: View {
 #Preview {
     PlaylistCell(playlist: MockData.makeStubPlaylists().first!)
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

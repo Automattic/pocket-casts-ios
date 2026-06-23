@@ -8,7 +8,7 @@ fileprivate enum Layout {
 
 struct DiscoverPodcastsListView: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: DiscoverCategoryModel
 
@@ -81,5 +81,5 @@ struct DiscoverPodcastsListView: View {
 #Preview {
     DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"))
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

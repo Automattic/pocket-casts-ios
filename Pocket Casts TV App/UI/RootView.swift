@@ -12,7 +12,7 @@ struct RootView: View {
                     Spacer()
                     ProgressView()
                     Spacer()
-                }
+                }.frame(maxWidth: .infinity)
             case .welcome:
                 WelcomeView()
             case .browsing, .signedIn:
@@ -21,6 +21,8 @@ struct RootView: View {
                 SigningInView()
             case .dataLossResync:
                 DataLossResyncView()
+            case .serverSignedOut:
+                UserSignedOutView()
             }
         }
         .animation(.easeInOut, value: coordinator.state)

@@ -51,5 +51,5 @@ struct StarredEpisodesView: View {
 #Preview {
     StarredEpisodesView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

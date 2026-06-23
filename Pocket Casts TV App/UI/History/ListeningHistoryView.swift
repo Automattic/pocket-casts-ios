@@ -51,5 +51,5 @@ struct ListeningHistoryView: View {
 #Preview {
     ListeningHistoryView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }
