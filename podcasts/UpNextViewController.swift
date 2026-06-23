@@ -429,7 +429,15 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if let episode = PlaybackManager.shared.currentEpisode() {
             totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
         }
-        remainingLabel.text = L10n.queueTotalTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration))
+        let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+        let count = PlaybackManager.shared.queue.upNextCount()
+        if count == 0 {
+            remainingLabel.text = L10n.queueUpNextHeaderTimeLeft(time)
+        } else if count == 1 {
+            remainingLabel.text = L10n.queueUpNextHeaderOneEpisode(time)
+        } else {
+            remainingLabel.text = L10n.queueUpNextHeaderPlural(count.localized(), time)
+        }
     }
 
     // MARK: - UIGestureRecongizerDelegate
