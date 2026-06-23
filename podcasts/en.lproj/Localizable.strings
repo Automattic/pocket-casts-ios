@@ -5045,6 +5045,21 @@
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
 
+/* Title shown at the top of the Up Next sort options picker */
+"up_next_sort_title" = "Sort Up Next";
+
+/* Up Next sort option that orders episodes by release date, newest first */
+"up_next_sort_newest_to_oldest" = "Newest to oldest";
+
+/* Up Next sort option that orders episodes by release date, oldest first */
+"up_next_sort_oldest_to_newest" = "Oldest to newest";
+
+/* Up Next sort option that orders episodes by time remaining, shortest first */
+"up_next_sort_shortest_to_longest" = "Shortest to longest";
+
+/* Up Next sort option that orders episodes by time remaining, longest first */
+"up_next_sort_longest_to_shortest" = "Longest to shortest";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 
@@ -6379,7 +6394,6 @@
 /* tv app Now Playing tab */
 "tv_tab_now_playing" = "Now Playing";
 
-
 /* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
 "device_approve_title" = "Connect to Apple TV";
 
@@ -6412,3 +6426,10 @@
 
 /* Title of the alert shown when approval failed. */
 "device_approve_generic_error_alert_title" = "Device approval failed";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"tv_account_signed_out_alert_title" = "You've been logged out.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
+
