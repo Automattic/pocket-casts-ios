@@ -69,7 +69,7 @@ struct PodcastMoreInfoView: View {
     }
 
     private var aboutColumn: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .leading, spacing: 0) {
             if let descriptionText {
                 ScrollableTextView(attributedText: descriptionText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -78,7 +78,6 @@ struct PodcastMoreInfoView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-        .padding(.top, 32)
     }
 
     private func infoRow(label: String, value: String) -> some View {

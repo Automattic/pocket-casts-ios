@@ -13,7 +13,7 @@ struct ScrollableTextView: View {
     /// Height of the soft fade at the top and bottom edges. The inner text view insets its
     /// text by the same amount (see `ScrollableTextRepresentable`) so the first and last
     /// lines come to rest just past the fade rather than dissolving into it.
-    private let edgeFade = CGFloat(36)
+    private let edgeFade = CGFloat(24)
 
     @FocusState private var isFocused: Bool
     @State private var scrollCoordinator = ScrollableTextCoordinator()
