@@ -21,6 +21,8 @@ struct RootView: View {
                 SigningInView()
             case .dataLossResync:
                 DataLossResyncView()
+            case .serverSignedOut:
+                UserSignedOutView()
             }
         }
         .animation(.easeInOut, value: coordinator.state)
