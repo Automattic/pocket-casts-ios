@@ -70,9 +70,6 @@ struct PodcastMoreInfoView: View {
 
     private var aboutColumn: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvPodcastDetailAbout)
-                .font(.title3)
-                .foregroundStyle(Color.pcTextPrimary)
             if let descriptionText {
                 ScrollableTextView(attributedText: descriptionText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
