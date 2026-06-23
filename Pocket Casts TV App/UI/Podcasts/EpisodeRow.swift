@@ -96,32 +96,45 @@ struct MoreButtonStyle: ButtonStyle {
     }
 }
 
+/// Identifies which element of which episode row holds focus. Lifted out of the
+/// row (where it used to be per-row private `@FocusState` plus a per-row
+/// `defaultFocus`) into a single state the enclosing list owns and keys by
+/// episode UUID. This lets tvOS recover focus to a neighbouring row when the
+/// focused row is removed (archive, remove-from-Up-Next, …) instead of dropping
+/// focus entirely and recursing over the orphaned cell container.
+enum EpisodeRowFocus: Hashable {
+    case episode(String)
+    case more(String)
+
+    var episodeID: String {
+        switch self {
+        case .episode(let id), .more(let id):
+            return id
+        }
+    }
+}
+
 struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
     var context: EpisodeActionContext = .default
 
-    @FocusState private var focusedElement: FocusElement?
+    @FocusState.Binding var focus: EpisodeRowFocus?
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
     @State private var restoreFocus = false
-
-    private enum FocusElement: Hashable {
-        case episode
-        case more
-    }
 
     private enum Layout {
         static let spacing = CGFloat(32)
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || restoreFocus
+        focus?.episodeID == model.id || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
-        focusedElement == .episode
+        focus == .episode(model.id)
     }
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -141,7 +154,7 @@ struct EpisodeRowWithActions: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .buttonStyle(EpisodeRowButtonStyle())
-            .focused($focusedElement, equals: .episode)
+            .focused($focus, equals: .episode(model.id))
 
             if shouldShowMoreButton {
                 Button {
@@ -151,7 +164,7 @@ struct EpisodeRowWithActions: View {
                     Image(systemName: "ellipsis")
                 }
                 .buttonStyle(MoreButtonStyle())
-                .focused($focusedElement, equals: .more)
+                .focused($focus, equals: .more(model.id))
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
         }
@@ -161,7 +174,6 @@ struct EpisodeRowWithActions: View {
         .if(isFocused) { content in
             content.clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .defaultFocus($focusedElement, .episode)
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
         .onChange(of: isShowingActions) { _, showing in
             guard !showing else { return }
@@ -171,10 +183,14 @@ struct EpisodeRowWithActions: View {
             // the ellipsis ourselves, otherwise our assignment is overwritten.
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(100))
+                // If the action removed this row the list has already moved focus
+                // to a neighbour — only restore the ellipsis when focus was simply
+                // dropped or is still on us, never fight the hand-off.
+                guard focus == nil || focus?.episodeID == model.id else { return }
                 var transaction = Transaction()
                 transaction.disablesAnimations = true
                 withTransaction(transaction) {
-                    focusedElement = .more
+                    focus = .more(model.id)
                     restoreFocus = false
                 }
             }
@@ -309,7 +325,8 @@ extension View {
 }
 
 #Preview {
-    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
+    @Previewable @FocusState var focus: EpisodeRowFocus?
+    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!), focus: $focus)
     .environment(AppCoordinator())
     .environment(MainTabViewModel())
 }

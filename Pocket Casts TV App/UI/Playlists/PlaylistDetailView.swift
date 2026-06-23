@@ -6,6 +6,7 @@ struct PlaylistDetailView: View {
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
+    @FocusState private var rowFocus: EpisodeRowFocus?
 
     enum FocusSection: Hashable {
         case episodes
@@ -159,7 +160,7 @@ struct PlaylistDetailView: View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), focus: $rowFocus)
                         .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
                         .listRowInsets(Layout.rowInsets)
                 }
