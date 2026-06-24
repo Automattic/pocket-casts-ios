@@ -178,14 +178,12 @@ class AppCoordinator {
     }
 
     private func checkDefaults() {
-        let defaults = UserDefaults.standard
         performUpdateIfRequired(updateKey: "v1_run") {
             FileLog.shared.addMessage("AppCoordinator v1Run")
             // ensure that all previous log in information is wiped and database cleanup
             SyncManager.clearTokensFromKeyChain()
             DataManager.sharedManager.deleteAllData()
         }
-        defaults.synchronize()
     }
 
     private func performUpdateIfRequired(updateKey: String, update: () -> Void) {
