@@ -98,6 +98,9 @@ struct SignInView: View {
                 model.state = .start
             }
         }
+        .onChange(of: loginType) {
+            Analytics.track(.signInTypeTapped, properties: ["type": loginType == .qr ? "qr" : "password"])
+        }
         .onChange(of: model.state) {
             switch model.state {
             case .finished:
