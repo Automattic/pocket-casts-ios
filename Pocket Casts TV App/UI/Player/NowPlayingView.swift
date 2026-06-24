@@ -7,10 +7,6 @@ struct NowPlayingView: View {
     @State private var isShowingDescription = false
     @State private var isShowingMarkAsPlayedConfirmation = false
     @State private var isShowingArchiveConfirmation = false
-    // Mark Played and Archive both stop playback, which leaves the player
-    // empty. Dismiss closes the fullScreenCover variants; the Now Playing
-    // *tab* is separately swapped back to Home by `MainTabRouter`'s
-    // existing playback observer.
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -20,6 +16,9 @@ struct NowPlayingView: View {
             isShowingMarkAsPlayedConfirmation: $isShowingMarkAsPlayedConfirmation,
             isShowingArchiveConfirmation: $isShowingArchiveConfirmation
         )
+        .onAppear() {
+            model.load()
+        }
         .requireAccountSupport()
         .sheet(isPresented: $isShowingDescription) {
             if let episode = model.episode {
@@ -74,7 +73,6 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
         controller.appliesPreferredDisplayCriteriaAutomatically = false
-        model.load()
         addOverlay(to: controller)
         return controller
     }
