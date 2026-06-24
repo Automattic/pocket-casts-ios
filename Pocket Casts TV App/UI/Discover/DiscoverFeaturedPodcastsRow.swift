@@ -29,7 +29,9 @@ struct DiscoverFeaturedPodcastsRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                podcastList
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
+                    podcastList
+                }
             }
         }
         .task {
@@ -58,6 +60,7 @@ struct DiscoverFeaturedPodcastsRow: View {
         }
         .scrollPosition(id: $scrollPosition, anchor: .leading)
         .scrollDisabled(true)
+        .scrollClipDisabled()
         .onChange(of: focusedID) { _, id in
             withAnimation(.smooth) {
                 scrollPosition = id

@@ -16,7 +16,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
-            filtersTable.themeStyle = .primaryUi01
+            filtersTable.themeStyle = .primaryUi02
             filtersTable.dragDelegate = self
             filtersTable.dropDelegate = self
             filtersTable.separatorStyle = .none
@@ -291,11 +291,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func set(configuration: UIContentConfiguration?) {
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = configuration
-        } else {
-            self.setContentUnavailableConfiguration(configuration)
-        }
+        self.contentUnavailableConfiguration = configuration
     }
 
     // MARK: - Stale Cache Handling

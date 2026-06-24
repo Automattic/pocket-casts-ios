@@ -86,8 +86,19 @@ private extension View {
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
             .foregroundColor(highlighted ? theme.primaryUi01 : theme.primaryText02)
-            .background(highlighted ? theme.primaryText01 : nil)
-            .cornerRadius(8)
+            .background(tabBackground(theme: theme, highlighted: highlighted))
+    }
+
+    @ViewBuilder
+    func tabBackground(theme: Theme, highlighted: Bool) -> some View {
+        if highlighted {
+            if LiquidGlass.isEnabled {
+                // Render the selected tab as a proper pill to match the player controls.
+                Capsule().fill(theme.primaryText01)
+            } else {
+                RoundedRectangle(cornerRadius: 8).fill(theme.primaryText01)
+            }
+        }
     }
 }
 

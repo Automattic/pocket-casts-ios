@@ -45,6 +45,16 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private var lastWillLayoutWidth: CGFloat = 0
 
+    /// Base height of the soft bottom fade edge shown over the grid under Liquid Glass,
+    /// measured from the bottom safe area upward. The bottom safe area inset is added on
+    /// top of this so the fade always clears the home indicator / floating bar.
+    /// The gradient fade means only the lower portion reads strongly, so this can be
+    /// generous without looking like a solid bar.
+    private static let bottomFadeHeight: CGFloat = 16
+
+    private lazy var bottomFadeView = ProgressiveFadeView()
+    private var bottomFadeHeightConstraint: NSLayoutConstraint?
+
     private var homeGridDataHelper = HomeGridDataHelper()
 
     private lazy var refreshQueue: OperationQueue = {
@@ -78,6 +88,11 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.reorderingCadence = .immediate
+        if #available(iOS 26, *) { // Only on iOS 26 for now
+            if #unavailable(iOS 27) {
+                setupBottomFade()
+            }
+        }
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
@@ -294,6 +309,54 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
+    /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass.
+    ///
+    /// The system scroll edge effect samples the scrolling content, so over a grid of
+    /// colorful artwork it washes out and barely registers — which is what hurts the
+    /// readability of the floating tab bar / mini player. A dedicated fade overlay,
+    /// pinned to the bottom of the screen behind the bar, dissolves the artwork into the
+    /// grid's own background for a consistently visible soft edge, replacing the system
+    /// scroll edge effect.
+    @available(iOS 26, *)
+    private func setupBottomFade() {
+        guard LiquidGlass.isEnabled else { return }
+
+        bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomFadeView)
+        let heightConstraint = bottomFadeView.heightAnchor.constraint(equalToConstant: bottomFadeHeight)
+        bottomFadeHeightConstraint = heightConstraint
+        NSLayoutConstraint.activate([
+            bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            heightConstraint
+        ])
+        podcastsCollectionView.bottomEdgeEffect.isHidden = true
+        updateBottomFadeColor()
+    }
+
+    /// The fade is pinned to the very bottom of the view, so it must cover the bottom
+    /// safe area (home indicator / floating bar) plus the base fade height above it.
+    private var bottomFadeHeight: CGFloat {
+        Self.bottomFadeHeight + view.safeAreaInsets.bottom
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        guard let bottomFadeHeightConstraint else { return }
+        bottomFadeHeightConstraint.constant = bottomFadeHeight
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    /// Fades the grid into its own background color toward the bottom edge, so the
+    /// artwork dissolves out cleanly behind the floating bar in both themes.
+    private func updateBottomFadeColor() {
+        guard LiquidGlass.isEnabled else { return }
+        bottomFadeView.setColor(ThemeColor.primaryUi02())
+    }
+
     @objc func refreshGridItems() {
         refreshQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
@@ -474,6 +537,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     override func handleThemeChanged() {
         super.handleThemeChanged()
         podcastsCollectionView.reloadData()
+        updateBottomFadeColor()
     }
 
     private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {

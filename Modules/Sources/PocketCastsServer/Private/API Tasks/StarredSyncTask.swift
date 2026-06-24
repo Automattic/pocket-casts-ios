@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class StarredSyncTask: ApiBaseTask {
+class StarredSyncTask: ApiBaseTask, @unchecked Sendable {
     private let episode: Episode
 
     init(episode: Episode) {

@@ -323,6 +323,7 @@ struct Constants {
             static let pauseId = "Pause ID"
             static let nextChapterId = "Next Chapter ID"
             static let previousChapterId = "Previous Chapter ID"
+            static let markAsPlayedId = "Mark As Played ID"
         }
     #endif
 
@@ -438,7 +439,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
-    case transcriptsWhatsNew = "transcripts_whats_new"
+    case syncedTranscripts = "synced_transcripts"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber

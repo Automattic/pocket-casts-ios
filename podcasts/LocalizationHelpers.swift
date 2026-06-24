@@ -32,6 +32,8 @@ public extension String {
             return L10n.discoverPopular
         case "trending":
             return L10n.discoverTrending
+        case "made for tv":
+            return L10n.tvHomeVideoSectionTitle
 
         // Categories
         case "arts":

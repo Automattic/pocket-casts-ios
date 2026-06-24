@@ -12,8 +12,8 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 SearchResultsView(model: model)
             }
             .searchable(text: $searchText, prompt: L10n.tvSearchPrompt)
-            .if(model.isInSearchMode) { content in
-                content.searchSuggestions {
+            .searchSuggestions {
+                if model.isInSearchMode {
                     if searchText.isEmpty {
                         ForEach(model.searchHistory, id: \.self) { search in
                             Text(search).searchCompletion(search)
@@ -25,15 +25,14 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                         }
                     }
                 }
-                .searchScopes($model.scope, scopes: {
+            }
+            .searchScopes($model.scope) {
+                if model.isInSearchMode {
                     ForEach(SearchScope.allCases, id: \.self) { scope in
                         Text(scope.localizedName)
-                            .font(.caption2)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
                             .tag(scope)
                     }
-                })
+                }
             }
             .onSubmit {
                 model.saveHistory(searchText)

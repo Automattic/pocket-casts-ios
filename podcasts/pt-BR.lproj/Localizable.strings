@@ -249,6 +249,12 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Atualizando sua arte agora</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Entendido, capitão!</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Barra de guias</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimizar ao rolar</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Quando ativada, a barra de guias se transforma em uma pílula compacta à medida que você rola a página para baixo, permitindo que mais conteúdo permaneça visível.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -2096,6 +2102,8 @@ Isso que é compromisso!</string>
     <string>Reorganizar ações</string>
     <key>player_archived_confirmation</key>
     <string>Arquivar episódio?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Oculto do seu feed, mas não excluído.</string>
     <key>player_artwork</key>
     <string>Arte de %1$@</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2134,8 @@ Isso que é compromisso!</string>
     <string>Avançar no episódio</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Marcar episódio como reproduzido?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Ele sairá da lista de Próximos e entrará no seu histórico.</string>
     <key>player_options_play_all_message</key>
     <string>Isso limpa sua lista de Próximos atual.</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2526,8 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Não foi possível carregar os dados do podcast :(</string>
     <key>podcast_error_title</key>
     <string>Não rolou</string>
+    <key>podcast_explicit_content</key>
+    <string>Conteúdo explícito</string>
     <key>podcast_extras</key>
     <string>Extras</string>
     <key>podcast_failed_download</key>
@@ -3640,6 +3652,12 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você ouviu podcasts por</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Mapa de calor da atividade de escuta. Dias ouvidos: %1$@ de 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Sobre a atividade de escuta</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Uma estimativa de quando você estava ouvindo, com base no seu histórico de reprodução. Se você terminar um episódio depois de alguns dias, ele será exibido no último dia.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Atividade de escuta</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Menos</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3802,6 +3820,12 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Não há transcrição disponível para este episódio</string>
     <key>transcript_error_not_supported</key>
     <string>Este formato de transcrição não é aceito: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Transcrições sincronizadas disponíveis apenas para episódios recentes.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Leia rápido sem perder nada. Aquele nome que você deixou passar, o livro que indicaram, o dado que você queria conferir — toque na palavra e volte na hora.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Leia mais. Mesmo na velocidade 2x.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Baixe o episódio para tocar e procurar</string>
     <key>trial_finished</key>
@@ -3812,22 +3836,50 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Tente novamente</string>
     <key>try_it_now</key>
     <string>Experimente já</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Seus seguidores, seu progresso... exatamente onde você os deixou.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Uma conta. Todas as telas</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Conheça mais programas</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Seu próximo vício está aqui em algum lugar.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Você não viu nem a metade disso.</string>
     <key>tv_create_account_come_back</key>
     <string>Depois de criar sua conta, volte e faça login</string>
     <key>tv_create_account_subtitle</key>
     <string>Leia este código para começar a ouvir no seu telefone. Leva apenas um minuto.</string>
     <key>tv_create_account_title</key>
     <string>Crie uma conta gratuita</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Acessar podcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Reproduzir o episódio mais recente</string>
+    <key>tv_discover_play_episode</key>
+    <string>Reproduzir episódio</string>
     <key>tv_episode_info</key>
     <string>Informações do episódio</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Procurar categorias</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Em destaque no Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
     <string>Continuando de onde você parou</string>
     <key>tv_home_new_releases</key>
     <string>Novos lançamentos</string>
     <key>tv_home_recently_played</key>
     <string>Reproduzidos recentemente</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Queridinho dos ouvintes de %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Recomendado para você</string>
+    <string>Você provavelmente vai querer isso</string>
+    <key>tv_home_trending_section_title</key>
+    <string>O que todo mundo está ouvindo esta semana</string>
+    <key>tv_home_video_section_title</key>
+    <string>Produzido para TV</string>
     <key>tv_player_playback_effects</key>
     <string>Efeitos de reprodução</string>
     <key>tv_player_playback_speed</key>
@@ -3916,14 +3968,16 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>indo para [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>ou insira este código em [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>Não foi possível obter seu código de login</string>
     <key>tv_sign_in_subtitle</key>
     <string>Abra sua câmera e aponte para este código QR</string>
     <key>tv_sign_in_title</key>
     <string>Fazer login no Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Seus podcasts estão sendo sincronizados. Sua conta será conectada em breve.</string>
+    <string>Carregando os seus podcasts agora.</string>
     <key>tv_signing_in_title</key>
-    <string>Desejamos boas-vindas de volta!</string>
+    <string>Que bom ver você!</string>
     <key>tv_tab_home</key>
     <string>Início</string>
     <key>tv_tab_playlists</key>

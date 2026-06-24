@@ -67,6 +67,7 @@ struct EpisodeRow: View {
         .padding(32)
         .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
     }
@@ -96,58 +97,45 @@ struct MoreButtonStyle: ButtonStyle {
     }
 }
 
+/// Identifies which element of which episode row holds focus. Lifted out of the
+/// row (where it used to be per-row private `@FocusState` plus a per-row
+/// `defaultFocus`) into a single state the enclosing list owns and keys by
+/// episode UUID. This lets tvOS recover focus to a neighbouring row when the
+/// focused row is removed (archive, remove-from-Up-Next, …) instead of dropping
+/// focus entirely and recursing over the orphaned cell container.
+enum EpisodeRowFocus: Hashable {
+    case episode(String)
+    case more(String)
+
+    var episodeID: String {
+        switch self {
+        case .episode(let id), .more(let id):
+            return id
+        }
+    }
+}
+
 struct EpisodeRowWithActions: View {
 
-    enum Context {
-        case `default`
-        case upNext
-    }
-
     let model: EpisodeRowViewModel
-    var context: Context = .default
+    var context: EpisodeActionContext = .default
 
-    @Environment(\.requireAccount) private var requireAccount
-    @FocusState private var focusedElement: FocusElement?
+    @FocusState.Binding var focus: EpisodeRowFocus?
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
     @State private var restoreFocus = false
-
-    private enum FocusElement: Hashable {
-        case episode
-        case more
-    }
 
     private enum Layout {
         static let spacing = CGFloat(32)
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || restoreFocus
+        focus?.episodeID == model.id || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
-        focusedElement == .episode
-    }
-
-    @ViewBuilder
-    private var actionButtons: some View {
-        if model.podcastUuid != nil {
-            Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
-        }
-        switch context {
-        case .default:
-            Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
-            Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
-            Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
-            if model.canArchive {
-                Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
-            }
-        case .upNext:
-            Button(L10n.playNext) { requireAccount { model.playNext() } }
-            Button(L10n.playLast) { requireAccount { model.playLast() } }
-            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
-        }
+        focus == .episode(model.id)
     }
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -167,7 +155,7 @@ struct EpisodeRowWithActions: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .buttonStyle(EpisodeRowButtonStyle())
-            .focused($focusedElement, equals: .episode)
+            .focused($focus, equals: .episode(model.id))
 
             if shouldShowMoreButton {
                 Button {
@@ -177,22 +165,33 @@ struct EpisodeRowWithActions: View {
                     Image(systemName: "ellipsis")
                 }
                 .buttonStyle(MoreButtonStyle())
-                .focused($focusedElement, equals: .more)
+                .focused($focus, equals: .more(model.id))
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
+        }
+        .contextMenu {
+            EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
         .if(isFocused) { content in
             content.clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .defaultFocus($focusedElement, .episode)
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
         .onChange(of: isShowingActions) { _, showing in
             guard !showing else { return }
-            DispatchQueue.main.async {
+            // tvOS runs its own focus restoration as the dialog animates out,
+            // and it lands focus on whatever surrounds the row (often the tab
+            // bar). Wait for that pass to settle before pulling focus back to
+            // the ellipsis ourselves, otherwise our assignment is overwritten.
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(100))
+                // If the action removed this row the list has already moved focus
+                // to a neighbour — only restore the ellipsis when focus was simply
+                // dropped or is still on us, never fight the hand-off.
+                guard focus == nil || focus?.episodeID == model.id else { return }
                 var transaction = Transaction()
                 transaction.disablesAnimations = true
                 withTransaction(transaction) {
-                    focusedElement = .more
+                    focus = .more(model.id)
                     restoreFocus = false
                 }
             }
@@ -205,13 +204,130 @@ struct EpisodeRowWithActions: View {
             EpisodeShowNotesView(episode: model.episode, podcast: model.podcast)
         }
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
-            actionButtons
+            EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
     }
 }
 
+enum EpisodeActionContext {
+    case `default`
+    case upNext
+}
+
+struct EpisodeActionButtons: View {
+
+    let model: EpisodeRowViewModel
+    var context: EpisodeActionContext = .default
+    @Binding var isShowingShowNotes: Bool
+
+    @Environment(\.requireAccount) private var requireAccount
+
+    var body: some View {
+        if model.podcastUuid != nil {
+            Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
+        }
+        switch context {
+        case .default:
+            Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
+            Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
+            if model.canArchive {
+                Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
+            }
+        case .upNext:
+            Button(L10n.playNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLast) { requireAccount { model.playLast() } }
+            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
+        }
+    }
+}
+
+private struct EpisodeContextMenuModifier: ViewModifier {
+
+    let model: EpisodeRowViewModel
+    var context: EpisodeActionContext
+
+    @State private var isShowingShowNotes = false
+
+    func body(content: Content) -> some View {
+        content
+            .contextMenu {
+                EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
+            }
+            .sheet(isPresented: $isShowingShowNotes) {
+                EpisodeShowNotesView(episode: model.episode, podcast: model.podcast)
+            }
+    }
+}
+
+extension View {
+    func episodeContextMenu(model: EpisodeRowViewModel, context: EpisodeActionContext = .default) -> some View {
+        modifier(EpisodeContextMenuModifier(model: model, context: context))
+    }
+}
+
+/// An episode loaded from its UUIDs, ready to act on or present show notes for.
+struct DiscoveryLoadedEpisode: Identifiable {
+    let episode: Episode
+    let podcast: Podcast?
+    var id: String { episode.uuid }
+}
+
+/// Context menu for episodes known only by their UUIDs (Discover, Search). The
+/// `Episode` is loaded lazily the first time an action runs; show notes are
+/// surfaced through `showNotesEpisode` so the presenting view owns the sheet.
+struct DiscoveryEpisodeMenuButtons: View {
+
+    let podcastUuid: String
+    let episodeUuid: String
+    @Binding var showNotesEpisode: DiscoveryLoadedEpisode?
+
+    @Environment(\.requireAccount) private var requireAccount
+
+    var body: some View {
+        Button(L10n.tvEpisodeShowNotesAction) { load { showNotesEpisode = $0 } }
+        Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
+        Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
+    }
+
+    private func load(_ action: @escaping (DiscoveryLoadedEpisode) -> Void) {
+        Task {
+            guard let result = await TVDataManager.shared.loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
+                ToastManager.shared.show(L10n.playbackFailed)
+                return
+            }
+            action(DiscoveryLoadedEpisode(episode: result.episode, podcast: result.podcast))
+        }
+    }
+}
+
+private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
+
+    let podcastUuid: String
+    let episodeUuid: String
+
+    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
+
+    func body(content: Content) -> some View {
+        content
+            .contextMenu {
+                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode)
+            }
+            .sheet(item: $showNotesEpisode) { episode in
+                EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
+            }
+    }
+}
+
+extension View {
+    func discoveryEpisodeContextMenu(podcastUuid: String, episodeUuid: String) -> some View {
+        modifier(DiscoveryEpisodeContextMenuModifier(podcastUuid: podcastUuid, episodeUuid: episodeUuid))
+    }
+}
+
 #Preview {
-    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
+    @Previewable @FocusState var focus: EpisodeRowFocus?
+    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!), focus: $focus)
     .environment(AppCoordinator())
-    .environment(MainTabRouter())
+    .environment(MainTabViewModel())
 }

@@ -4,6 +4,7 @@ struct StarredEpisodesView: View {
 
     @State private var model = StarredEpisodesViewModel()
     @Namespace private var rowNamespace
+    @FocusState private var rowFocus: EpisodeRowFocus?
 
     var body: some View {
         ZStack {
@@ -26,7 +27,7 @@ struct StarredEpisodesView: View {
         List {
             Section {
                 ForEach(model.episodes) { episode in
-                    EpisodeRowWithActions(model: episode)
+                    EpisodeRowWithActions(model: episode, focus: $rowFocus)
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
@@ -40,12 +41,16 @@ struct StarredEpisodesView: View {
     }
 
     private var emptyView: some View {
-        EmptyDataView(title: L10n.tvStarredEmptyTitle, subtitle: L10n.tvStarredEmptySubtitle)
+        ContentUnavailableView {
+            Text(L10n.tvStarredEmptyTitle)
+        } description: {
+            Text(L10n.tvStarredEmptySubtitle)
+        }
     }
 }
 
 #Preview {
     StarredEpisodesView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

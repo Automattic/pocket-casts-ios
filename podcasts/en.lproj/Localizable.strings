@@ -2200,11 +2200,17 @@
 /* Accessibility label indicating the current podcast is playing and it's episode date. '%1$@' is a placeholder for the episode date. */
 "queue_now_playing_accessibility" = "Now Playing. %1$@";
 
-/* Label indicating the amount of time remains on an episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
-"queue_time_remaining" = "%1$@ remaining";
+/* Label on the Up Next now playing cell indicating how much time is left on the currently-playing episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
+"queue_time_remaining" = "%1$@ left";
 
-/* Information label indication the total time remaining in the queue. This is a total across all episodes in the up next queue. '%1$@' is a placeholder for the total time remaining in the queue. */
-"queue_total_time_remaining" = "%1$@ total time remaining";
+/* Up Next header showing episode count and time remaining for a single episode. '%1$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_one_episode" = "1 episode · %1$@ left";
+
+/* Up Next header showing episode count and time remaining for multiple episodes. '%1$@' is a placeholder for the episode count. '%2$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_plural" = "%1$@ episodes · %2$@ left";
+
+/* Up Next header shown when the queue is empty, showing only the time remaining for the currently playing episode. '%1$@' is a placeholder for the time remaining. */
+"queue_up_next_header_time_left" = "%1$@ left";
 
 /* A common string used throughout the app. Error title indicating that the refresh process has failed. */
 "refresh_failed" = "Refresh failed";
@@ -3141,6 +3147,12 @@
 
 /* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
 "siri_shortcut_extend_sleep_timer" = "Set sleep timer to %1$@";
+
+/* Siri shortcut title for marking the current episode as played */
+"siri_shortcut_mark_as_played_title" = "Mark Current Episode as Played";
+
+/* Siri shortcut invocation phrase for marking the current episode as played */
+"siri_shortcut_mark_as_played_phrase" = "Mark as Played";
 
 /* Siri shortcut title and phrase for having siri skip to the next chapter of a podcast */
 "siri_shortcut_next_chapter" = "Next chapter";
@@ -5039,6 +5051,21 @@
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
 
+/* Title shown at the top of the Up Next sort options picker */
+"up_next_sort_title" = "Sort Up Next";
+
+/* Up Next sort option that orders episodes by release date, newest first */
+"up_next_sort_newest_to_oldest" = "Newest to oldest";
+
+/* Up Next sort option that orders episodes by release date, oldest first */
+"up_next_sort_oldest_to_newest" = "Oldest to newest";
+
+/* Up Next sort option that orders episodes by time remaining, shortest first */
+"up_next_sort_shortest_to_longest" = "Shortest to longest";
+
+/* Up Next sort option that orders episodes by time remaining, longest first */
+"up_next_sort_longest_to_shortest" = "Longest to shortest";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 
@@ -6022,8 +6049,8 @@
 /* tv welcome subtitle */
 "tv_welcome_subtitle" = "Your podcasts. On the big screen. Obviously.";
 
-/* tv welcome sign in */
-"tv_welcome_sign_in" = "Sign in";
+/* tv welcome log in */
+"tv_welcome_log_in" = "Log in";
 
 /* tv welcome create free account */
 "tv_welcome_create_free_account" = "Create free account";
@@ -6046,8 +6073,8 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
-/* tv sign in error title shown when the app fails to fetch the QR sign in code */
-"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
+/* tv log in error title shown when the app fails to fetch the QR log in code */
+"tv_log_in_qr_code_error_title" = "Couldn't get your log in code";
 
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
@@ -6073,8 +6100,8 @@
 /* tv create account modal step - create your account */
 "tv_create_account_modal_step_create" = "Create your account";
 
-/* tv create account modal step - the TV signs you in automatically */
-"tv_create_account_modal_step_sign_in" = "The TV will sign you in";
+/* tv create account modal step - the TV logs you in automatically */
+"tv_create_account_modal_step_log_in" = "The TV will log you in";
 
 /* tv signing in title */
 "tv_signing_in_title" = "Good to see you.";
@@ -6217,6 +6244,24 @@
 /* tv player toast shown when trim silence setting changes. %1$@ is the selected option name */
 "tv_player_trim_silence_set" = "Trim silence: %1$@";
 
+/* tv toast confirming an episode was marked as played */
+"tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was archived */
+"tv_episode_archived" = "Archived";
+
+/* tv toast confirming an episode was unarchived */
+"tv_episode_unarchived" = "Unarchived";
+
+/* tv toast confirming an episode was removed from the Up Next queue */
+"tv_episode_removed_from_up_next" = "Removed from Up Next";
+
+/* tv toast confirming an episode was queued to play next in Up Next */
+"tv_episode_will_play_next" = "Will play next";
+
+/* tv toast confirming an episode was queued to play last in Up Next */
+"tv_episode_will_play_last" = "Will play last";
+
 /* tv up next empty title */
 "tv_up_next_empty_title" = "Nothing queued up";
 
@@ -6257,7 +6302,7 @@
 "tv_profile_menu_log_out_confirmation_title" = "Log out?";
 
 /* tv Profile menu — message warning that logging out erases all locally stored data from this Apple TV */
-"tv_profile_menu_log_out_confirmation_message" = "This removes all downloaded podcasts and data from this Apple TV. You can sign in again to restore them.";
+"tv_profile_menu_log_out_confirmation_message_version_2" = "This removes all downloaded podcasts and data from this Apple TV. You can log in again to restore them.";
 
 /* tv Profile menu — log in action (signed-out state) */
 "tv_profile_menu_log_in" = "Log in";
@@ -6355,7 +6400,6 @@
 /* tv app Now Playing tab */
 "tv_tab_now_playing" = "Now Playing";
 
-
 /* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
 "device_approve_title" = "Connect to Apple TV";
 
@@ -6388,3 +6432,10 @@
 
 /* Title of the alert shown when approval failed. */
 "device_approve_generic_error_alert_title" = "Device approval failed";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"tv_account_signed_out_alert_title" = "You've been logged out.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
+

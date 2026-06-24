@@ -83,27 +83,16 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func playNext() {
-        if playbackManager.inUpNext(episode: episode) {
-            playbackManager.queue.move(episode: episode, to: 0)
-        } else {
-            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
-        }
-        ToastManager.shared.show(L10n.playNextInUpNext)
+        EpisodeUpNextActions.playNext(episode, playbackManager: playbackManager)
     }
 
     func playLast() {
-        if playbackManager.inUpNext(episode: episode) {
-            let queueCount = playbackManager.queue.upNextCount()
-            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
-        } else {
-            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
-        }
-        ToastManager.shared.show(L10n.playLastInUpNext)
+        EpisodeUpNextActions.playLast(episode, playbackManager: playbackManager)
     }
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.markPlayed)
+        ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
     }
 
     var canArchive: Bool {
@@ -121,17 +110,18 @@ class EpisodeRowViewModel: Identifiable {
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        ToastManager.shared.show(L10n.podcastArchived)
+        ToastManager.shared.show(L10n.tvEpisodeArchived)
     }
 
     func unarchive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.tvEpisodeUnarchived)
     }
 
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-        ToastManager.shared.show(L10n.removeFromUpNext)
+        ToastManager.shared.show(L10n.tvEpisodeRemovedFromUpNext)
     }
 
     private func setupObservers() {
@@ -164,6 +154,29 @@ class EpisodeRowViewModel: Identifiable {
         episode.playedUpTo = currentEpisode.playedUpTo
         episode.duration = currentEpisode.duration
         progress = currentEpisode.playedUpTo / currentEpisode.duration
+    }
+}
+
+/// Up Next queue actions shared by the episode view model and the lazily-loaded
+/// discovery/search context menus, so the move-vs-add queue logic lives in one place.
+enum EpisodeUpNextActions {
+    static func playNext(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+        if playbackManager.inUpNext(episode: episode) {
+            playbackManager.queue.move(episode: episode, to: 0)
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+        }
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayNext)
+    }
+
+    static func playLast(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+        if playbackManager.inUpNext(episode: episode) {
+            let queueCount = playbackManager.queue.upNextCount()
+            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+        }
+        ToastManager.shared.show(L10n.tvEpisodeWillPlayLast)
     }
 }
 

@@ -1,17 +1,20 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 import Firebase
+import FirebaseRemoteConfig
 
 @Observable
 class AppCoordinator {
-    enum State {
+    enum State: Equatable {
         case loading
         case welcome
         case browsing
         case signedIn
         case userSync
         case dataLossResync
+        case serverSignedOut
     }
 
     var state: State = .loading
@@ -50,6 +53,8 @@ class AppCoordinator {
         }
 
         setupDiscover()
+
+        setupSignOutObservation()
     }
 
     func signIn() {
@@ -122,11 +127,51 @@ class AppCoordinator {
 
     private func setupFirebase() {
         FirebaseApp.configure()
+
+        FirebaseManager.refreshRemoteConfig { [weak self] _ in
+            self?.updateRemoteFeatureFlags()
+        }
+    }
+
+    /// Applies remotely overridden feature flags to the `FeatureFlagOverrideStore`, so the rest of
+    /// the app reads them through `FeatureFlag.enabled`. Mirrors `AppDelegate`/`AppClipAppDelegate`,
+    /// each of which owns its own copy; skipped in debug builds where local overrides take precedence.
+    private func updateRemoteFeatureFlags(forceReload: Bool = false) {
+        guard BuildEnvironment.current != .debug || forceReload else { return }
+
+        FeatureFlag.allCases.forEach { flag in
+            guard let remoteKey = flag.remoteKey else { return }
+            let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+            guard remoteValue.source == .remote else { return }
+            do {
+                FileLog.shared.console("Override \(flag): \(remoteValue.boolValue)")
+                try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+            } catch {
+                FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
+            }
+        }
     }
 
     private func setupDiscover() {
         Task {
             let _ = await DiscoverServerHandler.shared.discoverPage()
         }
+    }
+
+    private func setupSignOutObservation() {
+        NotificationCenter.default.addObserver(forName: .serverUserWillBeSignedOut, object: nil, queue: .main) { [weak self] notification in
+            self?.handleSignOutNotification(notification)
+        }
+    }
+
+    private func handleSignOutNotification(_ notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let userInitiated = userInfo["user_initiated"] as? Bool,
+            userInitiated == false
+        else {
+            return
+        }
+        state = .serverSignedOut
     }
 }

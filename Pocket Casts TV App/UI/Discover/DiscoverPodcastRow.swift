@@ -22,14 +22,16 @@ struct DiscoverPodcastRow: View {
     }
 
     var body: some View {
-        Group {
+        ZStack {
             switch model.state {
             case .loading:
                 ProgressView()
             case .empty:
                 EmptyView()
             case .ready:
-                podcastList
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
+                    podcastList
+                }
             }
         }
         .task {
@@ -49,6 +51,8 @@ struct DiscoverPodcastRow: View {
                         NavigationLink(value: podcast) {
                             PodcastImage(uuid: uuid, size: .page)
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .focusedCardDepth(cornerRadius: 12, style: .surface)
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
