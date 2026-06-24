@@ -51,6 +51,8 @@ struct DiscoverPodcastRow: View {
                         NavigationLink(value: podcast) {
                             PodcastImage(uuid: uuid, size: .page)
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .focusedCardDepth(cornerRadius: 12, style: .surface)
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)

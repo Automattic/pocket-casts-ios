@@ -67,6 +67,7 @@ struct EpisodeRow: View {
         .padding(32)
         .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
     }

@@ -60,6 +60,7 @@ struct DiscoverFeaturedPodcastsRow: View {
         }
         .scrollPosition(id: $scrollPosition, anchor: .leading)
         .scrollDisabled(true)
+        .scrollClipDisabled()
         .onChange(of: focusedID) { _, id in
             withAnimation(.smooth) {
                 scrollPosition = id

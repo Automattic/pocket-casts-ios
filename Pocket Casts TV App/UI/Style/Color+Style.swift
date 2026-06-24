@@ -36,13 +36,22 @@ extension Color {
 
     static let pcBackgroundSurface = Color(uiColor: .appearance(light: "#F0F1F2", dark: "#1F2123"))
 
+    // Top/bottom stops of the page gradient applied in `RootView`. Lifted noticeably
+    // above `pcBackgroundSurface` (especially in dark mode) so focused-card drop
+    // shadows have a brighter canvas to read against; the gentle top→bottom fall
+    // mimics light hitting the screen from above.
+    static let pcBackgroundTop = Color(uiColor: .appearance(light: "#FFFFFF", dark: "#3D4045"))
+
+    static let pcBackgroundBottom = Color(uiColor: .appearance(light: "#E6E7E9", dark: "#22252A"))
+
     static let pcBackgroundBase = Color(uiColor: .appearance(light: "#F7F7F8", dark: "#292B2E"))
 
     static let pcBackgroundOverlay = Color(uiColor: .pcBackgroundOverlay)
 
-    // Focus highlight (`bg-active`). The focused surface inverts against the page: near-white in dark
-    // mode, near-black in light mode. Paired with `pcShadowFocus` to lift it off the page.
-    static let pcBackgroundActive = Color(uiColor: .appearance(light: "#161718", dark: "#FBFBFC"))
+    // Focus highlight (`bg-active`). The focused surface inverts against the page but stays a
+    // step back from pure black/white — a silvery card in dark mode, a charcoal card in light —
+    // so the sheen and shadow on focused cards do the lifting instead of raw brightness.
+    static let pcBackgroundActive = Color(uiColor: .appearance(light: "#2A2D31", dark: "#D4D6DB"))
 
     // `bg-active-20` token: the active color at 20% opacity. Alpha is applied inside each branch so
     // the color still re-resolves between light and dark (calling `withAlphaComponent` on a dynamic

@@ -32,7 +32,7 @@ struct DiscoverVideoEpisodeCell: View {
         static let imageSize = CGFloat(72)
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
-        static let fadeDuration: TimeInterval = 0.5
+        static let fadeDuration: TimeInterval = 0.3
         static let playDelay: TimeInterval = 2
     }
 
@@ -75,8 +75,13 @@ struct DiscoverVideoEpisodeCell: View {
         .clipped()
         .focusSection()
         .focusScope(ns)
+        // Applied after `scaleEffect` so the shadow renders at its native
+        // size — otherwise the cell's 1.1x focus scale enlarges the shadow
+        // alongside the cell, making it read as oversized next to pills
+        // that scale by only ~1.02x (Up Next, currently-playing).
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .scaleEffect(isFocused ? 1.1 : 1.0)
-        .animation(.snappy, value: isFocused)
+        .animation(.easeInOut, value: isFocused)
         .task {
             await model.load()
         }
@@ -116,8 +121,10 @@ struct DiscoverVideoEpisodeCell: View {
             } label: {
                 Text(L10n.tvDiscoverPlayEpisode)
                     .foregroundColor(isFocused ? nil : .clear)
+                    .animation(.default, value: isFocused)
             }
             .collapsedWhenUnfocused(isFocused)
+            .animation(.none, value: isFocused)
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
@@ -127,8 +134,10 @@ struct DiscoverVideoEpisodeCell: View {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         .foregroundColor(isFocused ? nil : .clear)
+                        .animation(.default, value: isFocused)
                 }
                 .collapsedWhenUnfocused(isFocused)
+                .animation(.none, value: isFocused)
                 .focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video.rawValue)
                 .simultaneousGesture(TapGesture().onEnded {
