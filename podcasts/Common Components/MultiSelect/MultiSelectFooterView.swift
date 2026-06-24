@@ -225,12 +225,14 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             actions = actions.filter { $0 != .share }
         }
 
+        let isUpNextContext = actionDelegate.multiSelectedPlayListEpisodes() != nil
+
         let newLeftAction = MultiSelectHelper.invertActionIfRequired(action: actions[0], actionDelegate: actionDelegate)
         if leftAction != newLeftAction {
             leftAction = newLeftAction
             if let leftAction {
                 leftActionButton.setImage(UIImage(named: leftAction.iconName()), for: .normal)
-                leftActionButton.accessibilityLabel = leftAction.title()
+                leftActionButton.accessibilityLabel = leftAction.title(isUpNextContext: isUpNextContext)
             }
         }
 
@@ -240,7 +242,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
             if let rightAction {
                 rightActionButton.setImage(UIImage(named: rightAction.iconName()), for: .normal)
-                rightActionButton.accessibilityLabel = rightAction.title()
+                rightActionButton.accessibilityLabel = rightAction.title(isUpNextContext: isUpNextContext)
             }
         }
     }
