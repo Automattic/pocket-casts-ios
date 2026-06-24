@@ -68,7 +68,7 @@ struct UpNextView: View {
         let episodeText = count == 1
             ? L10n.podcastEpisodeCountSingular
             : L10n.podcastEpisodeCountPluralFormat(count.localized())
-        let totalSeconds =  model.episodes.reduce(0.0) { sum, episode in
+        let totalSeconds = model.episodes.reduce(0.0) { sum, episode in
             sum + max(0, episode.duration - episode.playedUpTo)
         }
         let timeText = L10n.podcastTimeLeft(

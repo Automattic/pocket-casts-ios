@@ -16,7 +16,7 @@ struct NowPlayingView: View {
             isShowingMarkAsPlayedConfirmation: $isShowingMarkAsPlayedConfirmation,
             isShowingArchiveConfirmation: $isShowingArchiveConfirmation
         )
-        .onAppear() {
+        .onAppear {
             model.load()
         }
         .requireAccountSupport()

@@ -50,13 +50,10 @@ struct MediaOverlayView: View {
     }
 
     private var loadingOverlay: some View {
-        VStack(spacing: 24) {
-            ProgressView()
-                .progressViewStyle(.circular)
-                .tint(.white)
-                .scaleEffect(1.3)
-        }
-        .padding(48)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ProgressView()
+            .progressViewStyle(.circular)
+            .tint(.white)
+            .scaleEffect(1.3)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
