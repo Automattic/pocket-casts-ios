@@ -1,5 +1,6 @@
 8.16
 -----
+- Add a Star Episodes action to Up Next multi-select and show a star indicator on Up Next cells [#4605](https://github.com/Automattic/pocket-casts-ios/pull/4605)
 
 
 8.15
