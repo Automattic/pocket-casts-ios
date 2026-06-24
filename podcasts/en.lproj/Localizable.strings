@@ -6196,6 +6196,12 @@
 /* tv playlists empty button action title */
 "tv_playlists_empty_action_title" = "Create a playlist";
 
+/* tv playlists download modal title */
+"tv_playlists_download_title" = "Create playlists on your phone";
+
+/* tv playlists download modal subtitle */
+"tv_playlists_download_subtitle" = "They'll be waiting here when you're done. Scan to get the app";
+
 /* tv keep listening title */
 "tv_home_keep_listening_title" = "Picking up where you left off";
 
