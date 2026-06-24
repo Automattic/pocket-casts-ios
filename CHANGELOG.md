@@ -1,6 +1,6 @@
 8.16
 -----
-
+- Add a "Remove from Up Next" multi-select action outside the Up Next screen [#4606](https://github.com/Automattic/pocket-casts-ios/pull/4606)
 
 8.15
 -----
