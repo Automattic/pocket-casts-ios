@@ -98,16 +98,18 @@ struct BannerRow: View {
                 }
                 .disabled(action == nil)
                 .setFocus(section: focusSection)
-                Spacer()
-                VStack(alignment: .trailing) {
+                Spacer().frame(width: 80)
+                VStack(alignment: .leading) {
                     Text(title)
                         .font(.headline)
                         .foregroundStyle(Color.pcTextPrimary)
+                        .lineLimit(1)
                     Text(subtitle)
                         .font(.headline)
                         .foregroundStyle(Color.pcTextSecondary)
+                        .lineLimit(2)
                 }
-                Spacer().frame(width: 400)
+                Spacer()
             }
         }
         .background(Color.pcBackgroundSunken)
