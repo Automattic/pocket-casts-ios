@@ -41,14 +41,14 @@ class UpNextViewModel {
             let episodes = self.loadEpisodeViewModels(using: dataManager)
             await MainActor.run { [weak self] in
                 guard let self else { return }
-                state = episodes.isEmpty ? .empty : .ready
+                state = episodes.isEmpty || episodes.count == 1 ? .empty : .ready
                 self.episodes = episodes
             }
         }
     }
 
     private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
-        dataManager.allUpNextEpisodes().map { episode in
+        dataManager.allUpNextEpisodes().dropFirst().map { episode in
             let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
             return EpisodeRowViewModel(episode: episode, podcast: podcast)
         }

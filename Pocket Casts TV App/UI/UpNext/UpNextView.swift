@@ -39,10 +39,10 @@ struct UpNextView: View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 24) {
                 headerRow
-                ForEach(queuedEpisodes) { episode in
+                ForEach(model.episodes) { episode in
                     EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus)
                         .frame(width: 1160)
-                        .prefersDefaultFocus(episode.id == queuedEpisodes.first?.id, in: rowNamespace)
+                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
             }
             .focusScope(rowNamespace)
@@ -54,7 +54,7 @@ struct UpNextView: View {
             Text(L10n.tvTabUpNext)
                 .font(.title2)
                 .foregroundStyle(Color.pcTextPrimary)
-            if !queuedEpisodes.isEmpty {
+            if !model.episodes.isEmpty {
                 Text(summaryText)
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
@@ -63,18 +63,12 @@ struct UpNextView: View {
         .frame(width: 1160, alignment: .leading)
     }
 
-    /// The Up Next queue minus the currently playing episode at index 0, which
-    /// the player surfaces elsewhere.
-    private var queuedEpisodes: [EpisodeRowViewModel] {
-        Array(model.episodes.dropFirst())
-    }
-
     private var summaryText: String {
-        let count = queuedEpisodes.count
+        let count = model.episodes.count
         let episodeText = count == 1
             ? L10n.podcastEpisodeCountSingular
             : L10n.podcastEpisodeCountPluralFormat(count.localized())
-        let totalSeconds = queuedEpisodes.reduce(0.0) { sum, episode in
+        let totalSeconds =  model.episodes.reduce(0.0) { sum, episode in
             sum + max(0, episode.duration - episode.playedUpTo)
         }
         let timeText = L10n.podcastTimeLeft(
