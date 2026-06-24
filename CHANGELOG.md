@@ -1,6 +1,6 @@
 8.16
 -----
-
+- Fix the Files navigation bar not being transparent [#4604](https://github.com/Automattic/pocket-casts-ios/pull/4604)
 
 8.15
 -----
