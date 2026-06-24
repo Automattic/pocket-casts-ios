@@ -6359,10 +6359,10 @@
 "tv_home_browse_categories_section_title" = "Browse categories";
 
 /* tv create account banner title */
-"tv_banner_create_account_title" = "One account. Every screen";
+"tv_banner_create_account_title" = "One account. Every screen.";
 
 /* tv create account banner subtitle */
-"tv_banner_create_account_subtitle" = "Your follows, your progress... exactly where you left them.";
+"tv_banner_create_account_subtitle" = "Your follows and progress exactly where you left them.";
 
 /* tv create account banner action button title */
 "tv_banner_create_account_action_title" = "Create a free account";
