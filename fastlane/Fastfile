@@ -420,12 +420,15 @@ platform :ios do
     create_backmerge_pr
   end
 
-  # Finalizes a release at the end of a sprint to submit to the App Store
+  # Finalizes release bookkeeping and triggers CI to upload final TestFlight builds.
   #
-  #  - Updates store metadata
+  # This lane does not submit builds to App Store Review. Submission remains a
+  # manual App Store Connect/Releases v2 step.
+  #
+  #  - Refreshes and lints localized strings and App Store Connect metadata
   #  - Bumps final version number
   #  - Removes branch protection and close milestone
-  #  - Triggers the final release on CI
+  #  - Triggers final iOS and tvOS release builds/uploads on CI
   #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
@@ -1135,22 +1138,18 @@ platform :ios do
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
   lane :update_metadata_on_app_store_connect do |with_screenshots: false|
-    # Skip screenshots by default. The naming is "with" to make it clear that
-    # callers need to opt-in to adding screenshots. The naming of the deliver
-    # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
-    skip_screenshots = with_screenshots == false
+    upload_metadata_to_app_store_connect(platform: 'ios', with_screenshots: with_screenshots)
+  end
 
-    upload_to_app_store(
-      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
-      app_version: release_version_current,
-      skip_binary_upload: true,
-      screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
-      skip_screenshots: skip_screenshots,
-      overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
-      phased_release: true,
-      precheck_include_in_app_purchases: false,
-      api_key: app_store_connect_api_key
-    )
+  # Upload the localized tvOS metadata (from `fastlane/metadata/`) to App Store Connect.
+  #
+  # The tvOS app currently reuses iOS release notes and metadata. Screenshots stay opt-in;
+  # callers should only use `with_screenshots:true` once tvOS screenshots are present.
+  #
+  # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
+  #
+  lane :update_metadata_on_app_store_connect_tvos do |with_screenshots: false|
+    upload_metadata_to_app_store_connect(platform: 'appletvos', with_screenshots: with_screenshots)
   end
 
   # Generates a HTML containing the libraries acknowledgments.
@@ -1314,6 +1313,31 @@ platform :ios do
         **pipeline_args
       )
     end
+  end
+
+  # Upload localized App Store Connect metadata for a specific App Store platform.
+  #
+  # @param platform [String] Fastlane deliver platform, such as `ios` or `appletvos`
+  # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC
+  #
+  def upload_metadata_to_app_store_connect(platform:, with_screenshots:)
+    # Skip screenshots by default. The naming is "with" to make it clear that
+    # callers need to opt-in to adding screenshots. The naming of the deliver
+    # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
+    skip_screenshots = with_screenshots == false
+
+    upload_to_app_store(
+      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
+      app_version: release_version_current,
+      platform: platform,
+      skip_binary_upload: true,
+      screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
+      skip_screenshots: skip_screenshots,
+      overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
+      phased_release: true,
+      precheck_include_in_app_purchases: false,
+      api_key: app_store_connect_api_key
+    )
   end
 
   # Update the milestone of still-open PRs
