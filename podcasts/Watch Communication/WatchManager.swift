@@ -380,7 +380,9 @@ class WatchManager: NSObject, WCSessionDelegate {
         // Last-write-wins: only apply if the watch's change is newer than what we already have.
         guard modifiedAt > episode.playedUpToModified else { return }
 
-        DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        episode.playedUpTo = playedUpTo
+        episode.playedUpToModified = modifiedAt
+        DataManager.sharedManager.save(episode: episode)
         DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
         FileLog.shared.addMessage("WatchManager: applied playback progress \(playedUpTo) from watch for \(uuid)")
 
