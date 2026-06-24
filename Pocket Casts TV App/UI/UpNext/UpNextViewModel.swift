@@ -41,7 +41,7 @@ class UpNextViewModel {
             let episodes = self.loadEpisodeViewModels(using: dataManager)
             await MainActor.run { [weak self] in
                 guard let self else { return }
-                state = episodes.isEmpty || episodes.count == 1 ? .empty : .ready
+                state = episodes.isEmpty ? .empty : .ready
                 self.episodes = episodes
             }
         }
