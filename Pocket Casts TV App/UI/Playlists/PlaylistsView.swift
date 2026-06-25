@@ -8,6 +8,7 @@ struct PlaylistsView: View {
 
     @State private var model: PlaylistsViewModel
     @State private var didTrackShown = false
+    @State private var showDownloadModal = false
 
     enum Layout {
         static let gridSize = CGFloat(496)
@@ -29,6 +30,9 @@ struct PlaylistsView: View {
             }
         }
         .animation(.easeInOut, value: model.state)
+        .sheet(isPresented: $showDownloadModal) {
+            DownloadAppModal()
+        }
         .task {
             model.load()
         }
@@ -63,7 +67,7 @@ struct PlaylistsView: View {
             Text(L10n.tvPlaylistsEmptySubtitle)
         } actions: {
             Button(L10n.tvPlaylistsEmptyActionTitle) {
-                requireAccount { tabRouter.selectedTab = .home }
+                showDownloadModal = true
             }
         }
     }
