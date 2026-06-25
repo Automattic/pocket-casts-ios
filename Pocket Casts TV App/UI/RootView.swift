@@ -12,20 +12,27 @@ struct RootView: View {
                     Spacer()
                     ProgressView()
                     Spacer()
-                }.frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+                .transition(.opacity)
             case .welcome:
                 WelcomeView()
+                    .transition(.opacity)
             case .browsing, .signedIn:
                 MainTabView()
+                    .transition(.opacity)
             case .userSync:
                 SigningInView()
+                    .transition(.opacity)
             case .dataLossResync:
                 DataLossResyncView()
+                    .transition(.opacity)
             case .serverSignedOut:
                 UserSignedOutView()
+                    .transition(.opacity)
             }
         }
-        .animation(.easeInOut, value: coordinator.state)
+        .animation(.smooth, value: coordinator.state)
         .environment(coordinator)
         .environment(focusStore)
         .task {

@@ -70,7 +70,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
             }
             Color.pcBackgroundSunken
                 .opacity(blackOverlayOpaque ? 1 : 0)
-                .animation(reduceMotion ? nil : .easeInOut(duration: Pacing.fadeDuration), value: blackOverlayOpaque)
+                .animation(reduceMotion ? nil : .smooth, value: blackOverlayOpaque)
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         }
