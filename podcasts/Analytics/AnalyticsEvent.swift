@@ -57,6 +57,7 @@ enum AnalyticsEvent: String {
 
     case signInShown
     case signInDismissed
+    case signInTypeTapped // tvOS: switching between QR code and password sign-in
 
     // MARK: - Select Account Type
 
@@ -416,6 +417,7 @@ enum AnalyticsEvent: String {
 
     // MARK: - Discover
 
+    case homeShown // tvOS Home tab
     case discoverShown
     case discoverCategoryShown
     case discoverCategoriesPillTapped

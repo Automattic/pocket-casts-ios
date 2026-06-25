@@ -38,6 +38,7 @@ struct HomeView: View {
         }
         .animation(.easeInOut, value: model.state)
         .task {
+            Analytics.track(.homeShown)
             model.load()
         }
     }
