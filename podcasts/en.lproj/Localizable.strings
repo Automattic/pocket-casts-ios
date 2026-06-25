@@ -6196,6 +6196,12 @@
 /* tv playlists empty button action title */
 "tv_playlists_empty_action_title" = "Create a playlist";
 
+/* tv playlists download modal title */
+"tv_playlists_download_title" = "Create playlists on your phone";
+
+/* tv playlists download modal subtitle */
+"tv_playlists_download_subtitle" = "They'll be waiting here when you're done. Scan to get the app";
+
 /* tv keep listening title */
 "tv_home_keep_listening_title" = "Picking up where you left off";
 
@@ -6362,16 +6368,16 @@
 "tv_banner_create_account_title" = "One account. Every screen";
 
 /* tv create account banner subtitle */
-"tv_banner_create_account_subtitle" = "Your follows, your progress... exactly where you left them.";
+"tv_banner_create_account_subtitle" = "Your follows and progress exactly where you left them";
 
 /* tv create account banner action button title */
 "tv_banner_create_account_action_title" = "Create a free account";
 
 /* tv discover more banner title */
-"tv_banner_discover_more_title" = "You haven't seen the half of it.";
+"tv_banner_discover_more_title" = "You haven't seen the half of it";
 
 /* tv discover more banner subtitle */
-"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere.";
+"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere";
 
 /* tv discover more banner action button title */
 "tv_banner_discover_more_action_title" = "Discover more shows";
@@ -6438,4 +6444,7 @@
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
 "tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
+
+/* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
+"tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
 

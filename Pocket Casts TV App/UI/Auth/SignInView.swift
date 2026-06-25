@@ -118,9 +118,6 @@ struct SignInView: View {
                 break
             }
         }
-        .onAppear {
-            Analytics.track(.signInShown)
-        }
         .background(Color.pcBackgroundBase)
     }
 

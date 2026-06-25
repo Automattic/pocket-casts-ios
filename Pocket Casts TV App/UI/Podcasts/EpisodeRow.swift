@@ -172,9 +172,6 @@ struct EpisodeRowWithActions: View {
         .contextMenu {
             EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
-        .if(isFocused) { content in
-            content.clipShape(RoundedRectangle(cornerRadius: 12))
-        }
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
         .onChange(of: isShowingActions) { _, showing in
             guard !showing else { return }
