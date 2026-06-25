@@ -153,6 +153,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
 
+    /// The episode's own artwork URL, when the show provides one and the user has opted in to
+    /// episode artwork. When set, it's displayed instead of the podcast artwork.
+    private var episodeArtworkURL: URL?
+
     var rawShowNotes: String?
     var lastThemeRenderedNotesIn: Theme.ThemeType?
     var downloadingShowNotes = false
@@ -255,6 +259,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         super.viewDidAppear(animated)
 
         loadShowNotes()
+        loadEpisodeArtwork()
 
         bookmarksController.view.isHidden = false
 
@@ -407,9 +412,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         episodeName.text = episode.displayableTitle()
         podcastName.text = podcast.title
-        if let uuid = episode.parentPodcast()?.uuid {
-            podcastImage.setPodcast(uuid: uuid, size: .page)
-        }
+        updateArtwork()
 
         episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
@@ -419,6 +422,36 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateProgress()
         updateMessageView()
         updateColors()
+    }
+
+    private func updateArtwork() {
+        // Once the episode artwork is available, the transition animation owns the artwork views,
+        // so we leave them untouched on subsequent updates.
+        guard episodeArtworkURL == nil else { return }
+
+        if let uuid = episode.parentPodcast()?.uuid {
+            podcastImage.setPodcast(uuid: uuid, size: .page)
+        }
+    }
+
+    /// Some shows provide custom artwork for individual episodes. When the user has opted in to
+    /// episode artwork, fetch the episode's artwork URL and display it instead of the show's artwork.
+    private func loadEpisodeArtwork() {
+        guard Settings.loadEmbeddedImages, episodeArtworkURL == nil else { return }
+
+        let podcastUuid = episode.parentIdentifier()
+        let episodeUuid = episode.uuid
+        Task {
+            guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
+                return
+            }
+
+            await MainActor.run { [weak self] in
+                guard let self, self.episode.uuid == episodeUuid else { return }
+                self.episodeArtworkURL = url
+                self.podcastImage.setEpisodeArtwork(url: url, size: .page, badgeBorderColor: ThemeColor.primaryUi01(for: self.themeOverride))
+            }
+        }
     }
 
     @objc private func playbackProgressDidChange() {

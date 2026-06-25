@@ -76,8 +76,7 @@ class EpisodeArtwork {
     /// Attempts to load episode artwork from show notes URL.
     /// - Returns: true if artwork was successfully loaded and saved, false otherwise
     private func loadArtworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> Bool {
-        guard let imageUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid),
-              let url = URL(string: imageUrl) else {
+        guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return false
         }
 
