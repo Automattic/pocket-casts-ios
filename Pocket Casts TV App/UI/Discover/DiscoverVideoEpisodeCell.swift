@@ -82,6 +82,14 @@ struct DiscoverVideoEpisodeCell: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .scaleEffect(isFocused ? 1.1 : 1.0)
         .animation(.easeInOut, value: isFocused)
+        .onChange(of: focusedButton) { oldValue, newValue in
+            // When focus first enters the card it can land on either collapsed
+            // button; force it onto Play so a single click starts playback.
+            // Moving within the card (left to "Go to podcast") is preserved.
+            if oldValue == nil, let newValue, newValue != .playEpisode {
+                focusedButton = .playEpisode
+            }
+        }
         .task {
             await model.load()
         }
@@ -106,6 +114,20 @@ struct DiscoverVideoEpisodeCell: View {
 
     var focusedContent: some View {
         HStack(alignment: .bottom, spacing: 16) {
+            if let podcast = model.podcast {
+                NavigationLink(value: podcast) {
+                    Text(L10n.tvDiscoverFeaturedGoToPodcast)
+                        .foregroundColor(isFocused ? nil : .clear)
+                        .animation(.default, value: isFocused)
+                }
+                .collapsedWhenUnfocused(isFocused)
+                .animation(.none, value: isFocused)
+                .focused($focusedButton, equals: FocusValues.goPodcast)
+                .setFocus(section: DiscoverType.video.rawValue)
+                .simultaneousGesture(TapGesture().onEnded {
+                    trackPodcastTapped()
+                })
+            }
             Button() {
                 trackEpisodeTapped()
                 Task {
@@ -129,20 +151,6 @@ struct DiscoverVideoEpisodeCell: View {
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
                 DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode)
-            }
-            if let podcast = model.podcast {
-                NavigationLink(value: podcast) {
-                    Text(L10n.tvDiscoverFeaturedGoToPodcast)
-                        .foregroundColor(isFocused ? nil : .clear)
-                        .animation(.default, value: isFocused)
-                }
-                .collapsedWhenUnfocused(isFocused)
-                .animation(.none, value: isFocused)
-                .focused($focusedButton, equals: FocusValues.goPodcast)
-                .setFocus(section: DiscoverType.video.rawValue)
-                .simultaneousGesture(TapGesture().onEnded {
-                    trackPodcastTapped()
-                })
             }
             Spacer()
         }
