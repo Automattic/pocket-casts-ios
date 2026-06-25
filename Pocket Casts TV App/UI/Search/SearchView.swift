@@ -16,12 +16,20 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 if model.isInSearchMode {
                     if searchText.isEmpty {
                         ForEach(model.searchHistory, id: \.self) { search in
-                            Text(search).searchCompletion(search)
+                            Button {
+                                Analytics.track(.searchHistoryItemTapped, properties: ["type" : "search_term"])
+                            } label: {
+                                Text(search).searchCompletion(search)
+                            }
                         }
                     } else {
                         ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
-                            Text(suggestion)
-                                .searchCompletion(suggestion)
+                            Button {
+                                Analytics.track(.searchPredictiveTermTapped, properties: ["term": suggestion])
+                            } label: {
+                                Text(suggestion)
+                                    .searchCompletion(suggestion)
+                            }
                         }
                     }
                 }
