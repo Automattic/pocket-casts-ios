@@ -7,7 +7,6 @@ struct PlaylistsView: View {
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: PlaylistsViewModel
-    @State private var didTrackShown = false
     @State private var showDownloadModal = false
 
     enum Layout {
