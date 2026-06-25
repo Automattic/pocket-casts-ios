@@ -1,5 +1,4 @@
 import Foundation
-import PocketCastsUtils
 
 extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -7,7 +6,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             return nil
         }
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             return PlayerZoomAnimator(
                 isPresenting: false,
                 fullPlayer: fullPlayer,
@@ -27,7 +26,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
         let presentVelocity = pendingPresentVelocity
         pendingPresentVelocity = 0
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             // Blank the player view before UIKit can position and render it
             // at its final frame — otherwise the first render shows the
             // fully-opaque player flashing in behind the panel.
