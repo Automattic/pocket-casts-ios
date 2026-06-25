@@ -9,8 +9,6 @@ class FolderDetailViewModel {
     var podcasts = [Podcast]()
     private var dataManager: DataManager
 
-    private var cancellables = Set<AnyCancellable>()
-
     enum State: Equatable, Hashable {
         case loading
         case ready
