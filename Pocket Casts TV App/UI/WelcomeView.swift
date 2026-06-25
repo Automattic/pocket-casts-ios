@@ -41,6 +41,7 @@ struct WelcomeView: View {
                         }
                         .simultaneousGesture(TapGesture().onEnded {
                             Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
+                            Analytics.track(.signInShown)
                         })
                         NavigationLink(value: Destination.createAccount) {
                             Text(L10n.tvWelcomeCreateFreeAccount)
