@@ -74,6 +74,7 @@ struct HomeView: View {
                             tabRouter.selectedTab = .search
                         }
                     } else {
+                        nowPlayingRow
                         featuredRow
                         videoRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
