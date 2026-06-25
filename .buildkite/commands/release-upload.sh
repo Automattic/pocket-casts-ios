@@ -5,14 +5,40 @@ RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
 "$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
 
 BETA_RELEASE=${2:-true} # use second call param, default to true for safety
+RELEASE_PLATFORM="${3:-${RELEASE_PLATFORM:-ios}}"
+NOTIFY_SLACK="${4:-${NOTIFY_SLACK:-true}}"
+CREATE_GITHUB_RELEASE="${5:-${CREATE_GITHUB_RELEASE:-true}}"
 
-echo "Running $0 with BETA_RELEASE = $BETA_RELEASE..."
+case "$RELEASE_PLATFORM" in
+  ios)
+    PLATFORM_NAME="iOS"
+    IPA_PATH="artifacts/pocket-casts.ipa"
+    DSYM_PATH="artifacts/pocket-casts.app.dSYM.zip"
+    ARCHIVE_ZIP_PATH="artifacts/pocket-casts.xcarchive.zip"
+    SENTRY_ANNOTATION_CONTEXT="sentry-failure-ios"
+    TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight"
+    ;;
+  tvos)
+    PLATFORM_NAME="tvOS"
+    IPA_PATH="artifacts/pocket-casts-tvos.ipa"
+    DSYM_PATH="artifacts/pocket-casts-tvos.app.dSYM.zip"
+    ARCHIVE_ZIP_PATH="artifacts/pocket-casts-tvos.xcarchive.zip"
+    SENTRY_ANNOTATION_CONTEXT="sentry-failure-tvos"
+    TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight_tvos"
+    ;;
+  *)
+    echo "Unsupported RELEASE_PLATFORM: $RELEASE_PLATFORM. Expected 'ios' or 'tvos'." >&2
+    exit 1
+    ;;
+esac
+
+echo "Running $0 with BETA_RELEASE = $BETA_RELEASE, RELEASE_PLATFORM = $RELEASE_PLATFORM, NOTIFY_SLACK = $NOTIFY_SLACK, CREATE_GITHUB_RELEASE = $CREATE_GITHUB_RELEASE..."
 
 echo "--- :arrow_down: Downloading Artifacts"
-ARTIFACTS_DIR='artifacts' # Defined in Fastlane, see ARTIFACTS_FOLDER
-STEP=testflight_build
-buildkite-agent artifact download "$ARTIFACTS_DIR/*.ipa" . --step $STEP
-buildkite-agent artifact download "$ARTIFACTS_DIR/*.zip" . --step $STEP
+STEP=release_build
+buildkite-agent artifact download "$IPA_PATH" . --step "$STEP"
+buildkite-agent artifact download "$DSYM_PATH" . --step "$STEP"
+buildkite-agent artifact download "$ARCHIVE_ZIP_PATH" . --step "$STEP"
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
@@ -20,11 +46,13 @@ install_gems
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
-echo "--- :testflight: Uploading iOS to TestFlight"
-bundle exec fastlane upload_app_store_connect_build_to_testflight
+if [[ "$CREATE_GITHUB_RELEASE" != "true" ]]; then
+  echo "--- :github: Verifying GitHub Release exists"
+  bundle exec fastlane ensure_github_release_exists beta_release:"$BETA_RELEASE"
+fi
 
-echo "--- :testflight: Uploading tvOS to TestFlight"
-bundle exec fastlane upload_app_store_connect_build_to_testflight_tvos
+echo "--- :testflight: Uploading $PLATFORM_NAME to TestFlight"
+bundle exec fastlane "$TESTFLIGHT_LANE" ipa_path:"$IPA_PATH"
 
 upload_symbols() {
   local platform="$1"
@@ -43,8 +71,7 @@ upload_symbols() {
   fi
 }
 
-upload_symbols "iOS" "$ARTIFACTS_DIR/pocket-casts.app.dSYM.zip" "sentry-failure-ios"
-upload_symbols "tvOS" "$ARTIFACTS_DIR/pocket-casts-tvos.app.dSYM.zip" "sentry-failure-tvos"
+upload_symbols "$PLATFORM_NAME" "$DSYM_PATH" "$SENTRY_ANNOTATION_CONTEXT"
 
-echo "--- :github: Creating GitHub Release"
-bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE"
+echo "--- :github: Updating GitHub Release"
+bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE" archive_zip_path:"$ARCHIVE_ZIP_PATH" notify_slack:"$NOTIFY_SLACK" create_release:"$CREATE_GITHUB_RELEASE"

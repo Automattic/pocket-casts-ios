@@ -289,7 +289,6 @@ platform :ios do
   # - Cuts a new release branch, Bumps the version
   # - Extracts the Release Notes
   # - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
-  # - Triggers the build of the first beta on CI
   # - Open backmerge PR
   # - Enables the GitHub branch protection for the new branch
   # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
@@ -356,7 +355,6 @@ platform :ios do
 
     push_to_git_remote(set_upstream: true, tags: false)
 
-    trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
 
     # Copy the branch protection settings from the default branch to the new release branch
@@ -368,7 +366,7 @@ platform :ios do
     update_milestone
   end
 
-  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
+  # Creates a new beta by bumping the app version appropriately.
   #
   # @param base_version [String] If set, bases the beta on the specified version and `release/<base_version>` branch
   #                              instead of using the current app version. Useful e.g. for triggering betas on hotfixes.
@@ -416,19 +414,18 @@ platform :ios do
 
     push_to_git_remote(tags: false)
 
-    trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
   end
 
-  # Finalizes release bookkeeping and triggers CI to upload final TestFlight builds.
+  # Finalizes release bookkeeping before separate CI jobs upload the final TestFlight builds.
   #
   # This lane does not submit builds to App Store Review. Submission remains a
-  # manual App Store Connect/Releases v2 step.
+  # manual App Store Connect/Releases v2 step. It also does not build or upload
+  # app binaries; Releases V2 starts those per-platform tasks separately.
   #
   #  - Refreshes and lints localized strings and App Store Connect metadata
   #  - Bumps final version number
   #  - Removes branch protection and close milestone
-  #  - Triggers final iOS and tvOS release builds/uploads on CI
   #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
@@ -462,9 +459,6 @@ platform :ios do
     set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
     close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
 
-    # Start the build
-
-    trigger_release_build(branch_to_build: release_branch_name)
     create_backmerge_pr
   end
 
@@ -582,7 +576,7 @@ platform :ios do
     push_to_git_remote(set_upstream: true, tags: false)
   end
 
-  # Finalizes a hotfix, by triggering a release build on CI
+  # Finalizes a hotfix before separate CI jobs upload the final TestFlight builds.
   #
   lane :finalize_hotfix_release do |skip_confirm: false|
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
@@ -591,10 +585,9 @@ platform :ios do
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
-    UI.important("Triggering hotfix build for version: #{release_version_current}")
+    UI.important("Finalizing hotfix for version: #{release_version_current}")
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
-    trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
     create_backmerge_pr
     begin
@@ -606,18 +599,30 @@ platform :ios do
 
   # Triggers a beta build on CI
   #
-  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # Kept for manual/ad-hoc triggering. Releases V2 starts release builds directly
+  # through `release-builds.yml` with platform-specific environment variables.
   #
-  lane :trigger_beta_build do |branch_to_build:|
-    trigger_buildkite_release_build(branch: branch_to_build, beta: true)
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
+  #
+  lane :trigger_beta_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: true, platform: platform, notify_slack: notify_slack, create_release: create_release)
   end
 
   # Triggers a stable release build on CI
   #
-  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # Kept for manual/ad-hoc triggering. Releases V2 starts release builds directly
+  # through `release-builds.yml` with platform-specific environment variables.
   #
-  lane :trigger_release_build do |branch_to_build:|
-    trigger_buildkite_release_build(branch: branch_to_build, beta: false)
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
+  #
+  lane :trigger_release_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: false, platform: platform, notify_slack: notify_slack, create_release: create_release)
   end
 
   # Builds the app binary for distribution to App Store Connect
@@ -843,13 +848,20 @@ platform :ios do
   #                               If false, the GitHub Release is for a final build and will not be marked as prerelease but will be created as Draft (to be manually published only once approved by Apple)
   # @param archive_zip_path [String, nil] Optional path to a single `.xcarchive.zip` file to attach as an asset to the created GitHub Release.
   # @param archive_zip_paths [Array<String>, nil] Optional paths to `.xcarchive.zip` files to attach as assets to the created GitHub Release.
+  # @param notify_slack [Boolean] If true, sends the release notification to Slack.
+  # @param create_release [Boolean] If true, creates the GitHub Release when it does not already exist.
   #
-  lane :create_release_on_github do |beta_release: true, archive_zip_path: nil, archive_zip_paths: nil|
-    require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
+  lane :create_release_on_github do |beta_release: true, archive_zip_path: nil, archive_zip_paths: nil, notify_slack: true, create_release: true|
+    beta_release = beta_release.to_s == 'true' unless [true, false].include?(beta_release)
+    notify_slack = notify_slack.to_s == 'true' unless [true, false].include?(notify_slack)
+    create_release = create_release.to_s == 'true' unless [true, false].include?(create_release)
+
+    require_env_vars!('GITHUB_TOKEN')
+    require_env_vars!('SLACK_WEBHOOK') if notify_slack
 
     app_version = release_version_current
     build_version = build_code_current
-    version = beta_release ? build_version : app_version
+    version = github_release_version(beta_release: beta_release)
     upload_assets = Array(archive_zip_paths || [archive_zip_path].compact)
     upload_assets = [APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH, APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH] if upload_assets.empty?
 
@@ -859,26 +871,57 @@ platform :ios do
     )
     changelog = '_`CHANGELOG.md` was empty for this version._' if changelog.empty?
 
-    UI.message("Creating #{version} release on GitHub...")
-    set_github_release(
-      repository_name: GITHUB_REPO,
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      name: version,
-      tag_name: version,
-      description: changelog,
-      commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
-      upload_assets: upload_assets.map(&:to_s),
-      is_draft: !beta_release,
-      is_prerelease: beta_release
-    )
+    api_token = get_required_env!('GITHUB_TOKEN')
+    release = get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
 
-    UI.message('Sending message to Slack...')
-    slack(
-      pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
-      default_payloads: [],
-      slack_url: get_required_env!('SLACK_WEBHOOK'),
-      fail_on_error: false
-    )
+    if release.nil? && create_release
+      UI.message("Creating #{version} release on GitHub...")
+      release = set_github_release(
+        repository_name: GITHUB_REPO,
+        api_token: api_token,
+        name: version,
+        tag_name: version,
+        description: changelog,
+        commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
+        is_draft: !beta_release,
+        is_prerelease: beta_release
+      )
+    end
+
+    release ||= get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
+    UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
+
+    upload_github_release_assets(release: release, assets: upload_assets, api_token: api_token)
+
+    if notify_slack
+      UI.message('Sending message to Slack...')
+      slack(
+        pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
+        default_payloads: [],
+        slack_url: get_required_env!('SLACK_WEBHOOK'),
+        fail_on_error: false
+      )
+    else
+      UI.message('Skipping Slack notification.')
+    end
+  end
+
+  # Verifies that the GitHub Release for the current build already exists.
+  #
+  # Used by platform upload jobs that should only attach an asset to an
+  # existing release, so they fail before non-idempotent upload steps if run
+  # before the release-owning platform job.
+  #
+  # @param beta_release [Boolean] If true, checks the beta release named after the build code. If false, checks the final release named after the app version.
+  #
+  lane :ensure_github_release_exists do |beta_release: true|
+    beta_release = beta_release.to_s == 'true' unless [true, false].include?(beta_release)
+
+    require_env_vars!('GITHUB_TOKEN')
+
+    version = github_release_version(beta_release: beta_release)
+    release = get_github_release(url: GITHUB_REPO, version: version, api_token: get_required_env!('GITHUB_TOKEN'))
+    UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
   end
 
   #####################################################################################
@@ -1288,18 +1331,58 @@ platform :ios do
     "release/#{release_version_current}"
   end
 
+  def github_release_version(beta_release:)
+    beta_release ? build_code_current : release_version_current
+  end
+
+  def upload_github_release_assets(release:, assets:, api_token:)
+    assets.each do |asset|
+      asset_path = asset.to_s
+      asset_name = File.basename(asset_path)
+      existing_assets = Array(release['assets']).select { |release_asset| release_asset['name'] == asset_name }
+
+      existing_assets.each do |existing_asset|
+        UI.message("Deleting existing GitHub release asset #{asset_name}...")
+        Fastlane::Actions::GithubApiAction.run(
+          server_url: 'https://api.github.com',
+          api_token: api_token,
+          http_method: 'DELETE',
+          path: "repos/#{GITHUB_REPO}/releases/assets/#{existing_asset['id']}",
+          error_handlers: {
+            '*' => proc do |result|
+              UI.user_error!("GitHub responded with #{result[:status]}:#{result[:body]}")
+            end
+          }
+        )
+      end
+
+      Fastlane::Actions::SetGithubReleaseAction.upload(asset_path, release['upload_url'], api_token, nil)
+    end
+  end
+
   # Kicks off a Buildkite build using the `release-builds.yml` pipeline
   #
   # @param branch [String] The git branch on which to trigger the CI build on
   # @param beta [Boolean] If true, build a beta; if false, build a final release
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
   # @return [String] The URL of the build that has been triggered
   #
-  def trigger_buildkite_release_build(branch:, beta:)
+  def trigger_buildkite_release_build(branch:, beta:, platform: 'ios', notify_slack: nil, create_release: nil)
+    platform = platform.to_s.downcase
+    UI.user_error!("Unsupported release platform '#{platform}'. Expected 'ios' or 'tvos'.") unless %w[ios tvos].include?(platform)
+    notify_slack = platform == 'ios' if notify_slack.nil?
+    create_release = platform == 'ios' if create_release.nil?
+
     pipeline_args = {
       pipeline_file: 'release-builds.yml',
       environment: {
         RELEASE_VERSION: release_version_current,
-        BETA_RELEASE: beta
+        BETA_RELEASE: beta,
+        RELEASE_PLATFORM: platform,
+        NOTIFY_SLACK: notify_slack,
+        CREATE_GITHUB_RELEASE: create_release
       }
     }
     if is_ci?
