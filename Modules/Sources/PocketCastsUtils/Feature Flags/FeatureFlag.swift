@@ -310,9 +310,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This does not control automatic crash reporting.
     case watchSentryLogs
 
-    /// Enable the Liquid Glass UI redesign
-    case liquidGlass
-
     /// Show explicit content badges on podcasts
     case showExplicitBadges
 
@@ -532,8 +529,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .watchSentryLogs:
             false
-        case .liquidGlass:
-            true
         case .showExplicitBadges:
             true
         case .shareProfile:
