@@ -6445,3 +6445,5 @@
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
 "tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
 
+"tv_folder_empty_message" = "Edit you folder in the mobile app, they'll be waiting here when you're done.";
+
