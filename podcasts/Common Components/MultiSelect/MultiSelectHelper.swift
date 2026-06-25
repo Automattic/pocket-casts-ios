@@ -303,9 +303,15 @@ class MultiSelectHelper {
     }
 
     private class func removeFromUpNext(actionDelegate: MultiSelectActionDelegate) {
-        guard let selectedUuids = actionDelegate.multiSelectedPlayListEpisodes()?.map(\.episodeUuid) else {
-            actionDelegate.multiSelectActionCompleted()
-            return
+        let selectedUuids: [String]
+        if let playlistUuids = actionDelegate.multiSelectedPlayListEpisodes()?.map(\.episodeUuid) {
+            selectedUuids = playlistUuids
+        } else {
+            // Outside the Up Next screen there are no playlist episodes, so fall back to
+            // the selected episodes that are currently queued.
+            selectedUuids = actionDelegate.multiSelectedBaseEpisodes()
+                .filter { PlaybackManager.shared.inUpNext(episode: $0) }
+                .map(\.uuid)
         }
         PlaybackManager.shared.bulkRemoveQueued(uuids: selectedUuids)
         actionDelegate.multiSelectActionCompleted()

@@ -125,7 +125,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
         let cell = tableView.dequeueReusableCell(withIdentifier: actionCellId, for: indexPath) as! MultiSelectActionCell
 
-        cell.nameLabel.text = action.title()
+        cell.nameLabel.text = action.title(isUpNextContext: actionDelegate.multiSelectedPlayListEpisodes() != nil)
         cell.iconView.image = UIImage(named: action.iconName())
         cell.iconView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         cell.style = .primaryUi01
