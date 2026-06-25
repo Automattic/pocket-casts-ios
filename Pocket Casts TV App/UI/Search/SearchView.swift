@@ -14,22 +14,20 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             .searchable(text: $searchText, prompt: L10n.tvSearchPrompt)
             .searchSuggestions {
                 if model.isInSearchMode {
-                    if searchText.isEmpty {
-                        ForEach(model.searchHistory, id: \.self) { search in
-                            Button {
-                                Analytics.track(.searchHistoryItemTapped, properties: ["type" : "search_term"])
-                            } label: {
-                                Text(search).searchCompletion(search)
-                            }
+                    ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
+                        Button {
+                            Analytics.track(.searchPredictiveTermTapped, properties: ["term": suggestion])
+                        } label: {
+                            Text(suggestion)
+                                .searchCompletion(suggestion)
                         }
-                    } else {
-                        ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
-                            Button {
-                                Analytics.track(.searchPredictiveTermTapped, properties: ["term": suggestion])
-                            } label: {
-                                Text(suggestion)
-                                    .searchCompletion(suggestion)
-                            }
+                    }
+                } else {
+                    ForEach(model.searchHistory, id: \.self) { search in
+                        Button {
+                            Analytics.track(.searchHistoryItemTapped, properties: ["type": "search_term"])
+                        } label: {
+                            Text(search).searchCompletion(search)
                         }
                     }
                 }
