@@ -116,6 +116,7 @@ struct ProfileMenuView: View {
     private var signedOutMenu: some View {
         VStack(spacing: 24) {
             Button {
+                Analytics.track(.signInShown)
                 onAuthSelected(.signIn)
             } label: {
                 Label(L10n.tvProfileMenuLogIn, systemImage: "person.crop.circle")
