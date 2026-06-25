@@ -243,6 +243,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if LiquidGlass.isEnabled {
+            // Slightly rounder artwork to match the pill-shaped controls.
+            episodeImage.layer.cornerRadius = 16
+        }
+
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
@@ -319,6 +324,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if LiquidGlass.isEnabled {
+            // Render the shelf as a proper pill instead of the default rounded rectangle.
+            shelfBg.layer.cornerRadius = shelfBg.bounds.height / 2
+        }
 
         // there's some expensive operations in resizeControls,
         // so only do them if the bounds has actually changed

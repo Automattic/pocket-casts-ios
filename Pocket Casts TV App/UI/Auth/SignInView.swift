@@ -14,8 +14,8 @@ struct SignInView: View {
         static let qrSize = CGFloat(240)
     }
 
-    var enterCodePrompt: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, model.pairing.pairURLString)
+    func enterCodePrompt(url: String) -> AttributedString {
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, url)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -70,15 +70,20 @@ struct SignInView: View {
                             Text(L10n.tvSignInSubtitle)
                                 .font(.headline)
                                 .foregroundStyle(Color.pcTextSecondary)
-                            QRCodeView(url: model.pairing.pairURLString)
-                            separator
-                            Text(enterCodePrompt)
-                                .font(.headline)
-                                .foregroundStyle(Color.pcTextSecondary)
-                            qrCodeDigits
+                            if let urlComplete = model.pairing.pairURLComplete {
+                                QRCodeView(url: urlComplete)
+                                separator
+                                Text(enterCodePrompt(url: urlComplete))
+                                    .font(.headline)
+                                    .foregroundStyle(Color.pcTextSecondary)
+                                qrCodeDigits
+                            } else {
+                                ProgressView()
+                            }
                         }
                     }
                 }
+                .animation(.easeInOut, value: loginType)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .padding(.top, 80)
@@ -94,13 +99,23 @@ struct SignInView: View {
             }
         }
         .onChange(of: model.state) {
-            if case .finished = model.state {
+            switch model.state {
+            case .finished:
                 finishSignIn(source: "password")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error as NSError).code])
+            default:
+                break
             }
         }
         .onChange(of: model.pairing.state) {
-            if case .finished = model.pairing.state {
+            switch model.pairing.state {
+            case .finished:
                 finishSignIn(source: "qr_code")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "qr_code", "error_code": (error as NSError).code])
+            default:
+                break
             }
         }
         .onAppear {
@@ -117,7 +132,7 @@ struct SignInView: View {
 
     func qrCodeError(message: String) -> some View {
         ContentUnavailableView {
-            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+            Label(L10n.tvLogInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
         } description: {
             Text(message)
         } actions: {
@@ -195,7 +210,7 @@ struct SignInView: View {
             } label: {
                 switch model.state {
                 case .start, .error:
-                    Text(L10n.signIn)
+                    Text(L10n.accountLogin)
                         .frame(minWidth: 300)
                 case .waiting:
                     ProgressView()

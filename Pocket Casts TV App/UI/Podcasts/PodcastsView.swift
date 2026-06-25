@@ -7,8 +7,7 @@ fileprivate enum Layout {
 
 struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    @Environment(\.requireAccount) private var requireAccount
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: ViewModel
 
@@ -31,6 +30,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 emptyView
             }
         }
+        .animation(.easeInOut, value: model.state)
         .task {
             await model.load()
             Analytics.track(.podcastsListShown, properties: [
@@ -59,8 +59,14 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            requireAccount { tabRouter.selectedTab = .home }
+        ContentUnavailableView {
+            Text(L10n.tvPodcastsEmptyTitle)
+        } description: {
+            Text(L10n.tvPodcastsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 
@@ -73,6 +79,8 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                     NavigationLink(value: podcast) {
                         PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .focusedCardDepth(cornerRadius: 12, style: .surface)
                     }
                     .buttonStyle(.card)
                     .simultaneousGesture(TapGesture().onEnded {
@@ -102,5 +110,5 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 #Preview {
     PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

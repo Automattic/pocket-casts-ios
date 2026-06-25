@@ -187,6 +187,38 @@ class NowPlayingViewModel: Identifiable {
         }
     }
 
+    var isPlayed: Bool {
+        episode?.played() ?? false
+    }
+
+    var canArchive: Bool {
+        episode is Episode
+    }
+
+    var isArchived: Bool {
+        (episode as? Episode)?.archived ?? false
+    }
+
+    func markAsPlayed() {
+        guard let episode else { return }
+        EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+    }
+
+    func markAsUnplayed() {
+        guard let episode else { return }
+        EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+    }
+
+    func archive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+    }
+
+    func unarchive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)

@@ -22,7 +22,9 @@ struct DiscoverCategoriesRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                list
+                HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
+                    list
+                }
             }
         }
         .task {
@@ -49,5 +51,6 @@ struct DiscoverCategoriesRow: View {
                 }
             })
         }
+        .scrollClipDisabled()
     }
 }

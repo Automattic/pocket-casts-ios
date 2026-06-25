@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class PositionSyncTask: ApiBaseTask {
+class PositionSyncTask: ApiBaseTask, @unchecked Sendable {
     private let upTo: TimeInterval
     private let duration: TimeInterval
     private let episode: Episode

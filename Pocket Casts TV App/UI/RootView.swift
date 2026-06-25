@@ -12,7 +12,7 @@ struct RootView: View {
                     Spacer()
                     ProgressView()
                     Spacer()
-                }
+                }.frame(maxWidth: .infinity)
             case .welcome:
                 WelcomeView()
             case .browsing, .signedIn:
@@ -21,15 +21,26 @@ struct RootView: View {
                 SigningInView()
             case .dataLossResync:
                 DataLossResyncView()
+            case .serverSignedOut:
+                UserSignedOutView()
             }
         }
+        .animation(.easeInOut, value: coordinator.state)
         .environment(coordinator)
         .environment(focusStore)
         .task {
             await coordinator.load()
         }
         .ignoresSafeArea()
-        .background(Color.pcBackgroundSurface)
+        .background(
+            // Subtle "lit from above" gradient instead of a flat fill: makes the
+            // page feel less plastic and lets focused-card shadows read against it.
+            LinearGradient(
+                colors: [Color.pcBackgroundTop, Color.pcBackgroundBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 }
 

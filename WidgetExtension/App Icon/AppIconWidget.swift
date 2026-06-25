@@ -28,7 +28,6 @@ struct AppIconWidgetEntryView: View {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 struct Previews_AppIconWidgetEntryView_Previews: PreviewProvider {
     static var previews: some View {
         AppIconWidgetEntryView(entry: StaticEntry(date: Date()))

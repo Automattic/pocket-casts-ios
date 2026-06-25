@@ -16,6 +16,7 @@ struct NowPlayingRow: View {
             NowPlayingRowLabel(model: model)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model)
     }
 }
 
@@ -66,6 +67,7 @@ private struct NowPlayingRowLabel: View {
         .padding(32)
         .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
     }
 }
 
@@ -73,5 +75,5 @@ private struct NowPlayingRowLabel: View {
 #Preview {
     NowPlayingRow(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
     .environment(AppCoordinator())
-    .environment(MainTabRouter())
+    .environment(MainTabViewModel())
 }

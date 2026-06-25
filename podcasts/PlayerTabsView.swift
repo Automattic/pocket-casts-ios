@@ -313,15 +313,23 @@ private class PlayerTabButton: UIButton {
             var config = UIBackgroundConfiguration.clear()
             config.backgroundColor = .clear
             if LiquidGlass.isEnabled {
-                config.cornerRadius = 8
+                config.cornerRadius = bounds.height / 2
             }
             return config
         }()
 
         // Background isn't animatable, so we'll default to using the layer
         layer.backgroundColor = background.cgColor
-        layer.cornerRadius = 8
+        // Render the selected tab as a proper pill under Liquid Glass.
+        layer.cornerRadius = LiquidGlass.isEnabled ? bounds.height / 2 : 8
 
         self.configuration = config
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if LiquidGlass.isEnabled {
+            layer.cornerRadius = bounds.height / 2
+        }
     }
 }

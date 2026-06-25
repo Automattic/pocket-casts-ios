@@ -10,11 +10,16 @@ struct ScrollableTextView: View {
     let attributedText: NSAttributedString
     var scrollStep: CGFloat = 150
 
+    /// Height of the soft fade at the top and bottom edges. The inner text view insets its
+    /// text by the same amount (see `ScrollableTextRepresentable`) so the first and last
+    /// lines come to rest just past the fade rather than dissolving into it.
+    private let edgeFade = CGFloat(24)
+
     @FocusState private var isFocused: Bool
     @State private var scrollCoordinator = ScrollableTextCoordinator()
 
     var body: some View {
-        ScrollableTextRepresentable(attributedText: attributedText, coordinator: scrollCoordinator)
+        ScrollableTextRepresentable(attributedText: attributedText, coordinator: scrollCoordinator, verticalInset: edgeFade)
             .focusable(true)
             .focused($isFocused)
             .onAppear { isFocused = true }
@@ -23,6 +28,15 @@ struct ScrollableTextView: View {
                 case .up:    scrollCoordinator.scroll(by: -scrollStep)
                 case .down:  scrollCoordinator.scroll(by: scrollStep)
                 default:     break
+                }
+            }
+            .mask {
+                VStack(spacing: 0) {
+                    LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
+                        .frame(height: edgeFade)
+                    Color.black
+                    LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
+                        .frame(height: edgeFade)
                 }
             }
     }
@@ -44,13 +58,21 @@ private struct ScrollableTextRepresentable: UIViewRepresentable {
     let attributedText: NSAttributedString
     let coordinator: ScrollableTextCoordinator
 
+    /// Top/bottom padding inside the scrollable content, matched to the view's edge fade so
+    /// the first and last lines rest just past the gradient instead of being clipped by it.
+    let verticalInset: CGFloat
+
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.isScrollEnabled = true
         textView.isSelectable = false
         textView.backgroundColor = .clear
-        textView.textContainerInset = .zero
+        textView.textContainerInset = UIEdgeInsets(top: verticalInset, left: 0, bottom: verticalInset, right: 0)
         textView.textContainer.lineFragmentPadding = 0
+        textView.linkTextAttributes = [
+            .foregroundColor: UIColor.pcTextPrimary,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
         textView.attributedText = themed(attributedText)
         textView.tag = attributedText.hash
         coordinator.textView = textView

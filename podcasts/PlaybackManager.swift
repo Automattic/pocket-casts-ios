@@ -97,6 +97,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRemoteCommands), name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCurrentlyPlayingEpisodeUpdated), name: Constants.Notifications.currentlyPlayingEpisodeUpdated, object: nil)
 
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
@@ -405,7 +406,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 trackChapterSkipped()
             } else {
                 fireChapterChangeNotification()
-                updateNowPlayingInfo()
+                updateAllNowPlayingData()
             }
         }
     }
@@ -1657,6 +1658,17 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Now Playing Info
 
+    /// The playback rate to report to the system Now Playing info center.
+    ///
+    /// When paused, the players still return their configured speed (e.g. `1.0`) from
+    /// `playbackRate()`, so reporting that to the system makes Control Center / the Lock
+    /// Screen extrapolate elapsed time and keep the timeline ticking even though playback
+    /// is stopped. Reporting `nil` here is interpreted as a rate of `0`, which holds the
+    /// timeline in place while paused. See PCIOS-274.
+    private var nowPlayingPlaybackRate: Double? {
+        playing() ? player?.playbackRate() : nil
+    }
+
     @objc private func updateNowPlayingInfo() {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
@@ -1675,9 +1687,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #if os(watchOS)
-            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
         #else
-            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
         #endif
     }
 
@@ -1706,9 +1718,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         #if os(watchOS)
-            WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
         #else
-            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
         #endif
     }
 

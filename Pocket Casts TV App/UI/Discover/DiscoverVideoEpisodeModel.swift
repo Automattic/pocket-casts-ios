@@ -8,33 +8,70 @@ class DiscoverVideoEpisodeModel {
 
     private let discoverManager: DiscoverManager
 
+    private let playbackManager: PlaybackManager
+
     let episode: DiscoverEpisode
+
+    let maxPreviewTime: Double
+
+    let fadeDuration: TimeInterval
+
+    let playDelay: TimeInterval
 
     var thumbnail: UIImage?
 
-    init(episode: DiscoverEpisode, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    var player: AVPlayer?
+
+    var isPlaying: Bool = false
+
+    private var timeObserver: Any?
+
+    private var fadeTimer: Timer?
+
+    private var playDelayTimer: Timer?
+
+    init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, fadeDuration: TimeInterval = 0.5,
+         playDelay: TimeInterval = 2,
+         discoverManager: DiscoverManager = DiscoverManager.shared,
+         playbackManager: PlaybackManager = .shared) {
         self.episode = episode
+        self.maxPreviewTime = maxPreviewTime
+        self.fadeDuration = fadeDuration
+        self.playDelay = playDelay
         self.discoverManager = discoverManager
+        self.playbackManager = playbackManager
+    }
+
+    deinit {
+        if let observer = timeObserver {
+            player?.removeTimeObserver(observer)
+        }
+        fadeTimer?.invalidate()
+        playDelayTimer?.invalidate()
     }
 
     func load() async {
-        if let urlString = episode.url, let videoUrl = URL(string: urlString) {
-            do {
-                var videoFrame: UIImage?
-                let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
-                if cachedVideoFrame != nil {
-                    videoFrame = cachedVideoFrame
-                } else {
-                    let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
-                    let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
-                    videoFrame = image
-                }
-                await MainActor.run { [videoFrame] in
-                    thumbnail = videoFrame
-                }
-            } catch {
-                FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to generate discover video thumbnail for episode \(episode.uuid ?? "unknown"): \(error.localizedDescription)")
+        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+            return
+        }
+
+        setupPlayer()
+
+        do {
+            var videoFrame: UIImage?
+            let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
+            if cachedVideoFrame != nil {
+                videoFrame = cachedVideoFrame
+            } else {
+                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                videoFrame = image
             }
+            await MainActor.run { [videoFrame] in
+                thumbnail = videoFrame
+            }
+        } catch {
+            FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to generate discover video thumbnail for episode \(episode.uuid ?? "unknown"): \(error.localizedDescription)")
         }
     }
 
@@ -51,6 +88,93 @@ class DiscoverVideoEpisodeModel {
 
     var podcast: DiscoverPodcast? {
         episode.discoverPodcast
+    }
+
+    private var isFadePausing: Bool { fadeTimer != nil }
+
+    private func setupPlayer() {
+        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+            return
+        }
+        player = AVPlayer(url: videoUrl)
+
+        let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
+
+        timeObserver = player?.addPeriodicTimeObserver(
+            forInterval: interval,
+            queue: .main
+        ) { [weak self] time in
+            guard let self else {
+                return
+            }
+            if time.seconds >= self.maxPreviewTime, self.isPlaying, !isFadePausing {
+                self.pause()
+            }
+        }
+    }
+
+    func play() {
+        // Wait a moment before starting so scrolling past a card doesn't trigger playback.
+        playDelayTimer?.invalidate()
+        playDelayTimer = Timer.scheduledTimer(withTimeInterval: playDelay, repeats: false) { [weak self] _ in
+            self?.playDelayTimer = nil
+            self?.startPlayback()
+        }
+    }
+
+    private func startPlayback() {
+        // Cancel any in-flight fade so it can't pause this fresh playback.
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+
+        guard let player else {
+            isPlaying = false
+            return
+        }
+
+        player.volume = playbackManager.playing() ? 0 : 1
+        player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+        player.play()
+        isPlaying = true
+    }
+
+    func pause() {
+        // Cancel a pending delayed play so an unfocused card never starts.
+        playDelayTimer?.invalidate()
+        playDelayTimer = nil
+
+        fadePause(duration: fadeDuration)
+        isPlaying = false
+    }
+
+    func fadePause(duration: TimeInterval) {
+        guard let player else {
+            return
+        }
+
+        // Nothing to fade when already muted (something else is playing) — just stop.
+        guard player.volume > 0 else {
+            player.pause()
+            return
+        }
+
+        let steps = 20
+        let stepDuration = duration / Double(steps)
+        let volumeStep = player.volume / Float(steps)
+
+        var currentStep = 0
+        fadeTimer?.invalidate()
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
+            currentStep += 1
+            player.volume = max(0, player.volume - volumeStep)
+
+            if currentStep >= steps {
+                timer.invalidate()
+                self?.fadeTimer = nil
+                player.pause()
+                player.volume = 1.0
+            }
+        }
     }
 }
 

@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 import EndOfYear
 
-class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
+class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource, @unchecked Sendable {
     private var text: String
 
     private let pocketCastsUrl = ServerConstants.Urls.share()

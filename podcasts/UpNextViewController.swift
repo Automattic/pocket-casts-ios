@@ -53,8 +53,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var changedViaSwipeToRemove = false
 
     let remainingLabel = ThemeableLabel()
-    let shuffleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-    let clearQueueButton = UIButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
+    // Use HitTargetButton so these small header controls meet Apple's recommended 44x44pt minimum tap target without changing their visible size.
+    let shuffleButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let sortButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let clearQueueButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
@@ -84,11 +86,27 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
         ])
 
+        if FeatureFlag.upNextSort.enabled {
+            headerView.addSubview(sortButton)
+            sortButton.translatesAutoresizingMaskIntoConstraints = false
+            sortButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+            NSLayoutConstraint.activate([
+                sortButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+                sortButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                sortButton.widthAnchor.constraint(equalToConstant: 24),
+                sortButton.heightAnchor.constraint(equalToConstant: 24)
+            ])
+        }
+
+        // When the sort button is shown, the shuffle/clear buttons sit to its left.
+        let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.trailingAnchor
+        let trailingButtonConstant: CGFloat = FeatureFlag.upNextSort.enabled ? -16 : -20
+
         headerView.addSubview(shuffleButton)
         shuffleButton.translatesAutoresizingMaskIntoConstraints = false
         shuffleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
-            shuffleButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+            shuffleButton.trailingAnchor.constraint(equalTo: trailingButtonAnchor, constant: trailingButtonConstant),
             shuffleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             shuffleButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10),
             shuffleButton.widthAnchor.constraint(equalToConstant: 24),
@@ -99,7 +117,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
         clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
-            clearQueueButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+            clearQueueButton.trailingAnchor.constraint(equalTo: trailingButtonAnchor, constant: trailingButtonConstant),
             clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
         ])
@@ -110,6 +128,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else {
             shuffleButton.isHidden = true
             clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        }
+        if FeatureFlag.upNextSort.enabled {
+            sortButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         }
         updateSize()
         return headerView
@@ -330,6 +351,42 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             clearQueueButton.titleLabel?.adjustsFontForContentSizeCategory = true
             clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
         }
+        setupSortButtonIfNecessary()
+    }
+
+    private func setupSortButtonIfNecessary() {
+        guard FeatureFlag.upNextSort.enabled, sortButton.allTargets.isEmpty else { return }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSortButtonImage), name: Constants.Notifications.themeChanged, object: nil)
+        updateSortButtonImage()
+        sortButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+    }
+
+    @objc private func updateSortButtonImage() {
+        let image = UIImage(named: "podcast-sort")?
+            .withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+        sortButton.setImage(image, for: .normal)
+        sortButton.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        sortButton.imageView?.contentMode = .scaleAspectFit
+        sortButton.accessibilityLabel = L10n.upNextSortTitle
+    }
+
+    @objc private func sortButtonTapped() {
+        let optionsPicker = makeSortOptionsPicker()
+        optionsPicker.present(from: self)
+    }
+
+    private func makeSortOptionsPicker() -> OptionsPicker {
+        let optionsPicker = OptionsPicker(title: L10n.upNextSortTitle.localizedUppercase, themeOverride: themeOverride)
+        for option in UpNextSortOption.allCases {
+            let action = OptionAction(label: option.description) { [weak self] in
+                let queue = PlaybackManager.shared.queue
+                queue.reorderUpNext(sortedEpisodes: option.sort(queue.allEpisodes(includeNowPlaying: false)))
+                self?.reloadTable()
+                self?.track(.upNextSort, properties: ["sort_type": option.analyticsDescription])
+            }
+            optionsPicker.addAction(action: action)
+        }
+        return optionsPicker
     }
 
     @objc private func updateShuffleButtonState() {
@@ -372,7 +429,15 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if let episode = PlaybackManager.shared.currentEpisode() {
             totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
         }
-        remainingLabel.text = L10n.queueTotalTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration))
+        let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+        let count = PlaybackManager.shared.queue.upNextCount()
+        if count == 0 {
+            remainingLabel.text = L10n.queueUpNextHeaderTimeLeft(time)
+        } else if count == 1 {
+            remainingLabel.text = L10n.queueUpNextHeaderOneEpisode(time)
+        } else {
+            remainingLabel.text = L10n.queueUpNextHeaderPlural(count.localized(), time)
+        }
     }
 
     // MARK: - UIGestureRecongizerDelegate
@@ -502,6 +567,94 @@ enum UpNextViewSource: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
+/// Sort orders offered by the Up Next sort button; a one-off reorder, so there's no persisted "current" option.
+enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
+    case newestToOldest
+    case oldestToNewest
+    case shortestToLongest
+    case longestToShortest
+
+    /// User facing label shown in the options picker.
+    var description: String {
+        switch self {
+        case .newestToOldest:
+            return L10n.upNextSortNewestToOldest
+        case .oldestToNewest:
+            return L10n.upNextSortOldestToNewest
+        case .shortestToLongest:
+            return L10n.upNextSortShortestToLongest
+        case .longestToShortest:
+            return L10n.upNextSortLongestToShortest
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+        case .newestToOldest:
+            return "newest_to_oldest"
+        case .oldestToNewest:
+            return "oldest_to_newest"
+        case .shortestToLongest:
+            return "shortest_to_longest"
+        case .longestToShortest:
+            return "longest_to_shortest"
+        }
+    }
+
+    /// Returns the episodes reordered for this option. Both publish-date and time-remaining sorts break ties by added date so the order is deterministic; for time-remaining sorts, episodes with unknown duration also sink to the bottom.
+    func sort(_ episodes: [BaseEpisode]) -> [BaseEpisode] {
+        switch self {
+        case .newestToOldest:
+            return sortedByPublishedDate(episodes, ascending: false)
+        case .oldestToNewest:
+            return sortedByPublishedDate(episodes, ascending: true)
+        case .shortestToLongest:
+            return sortedByTimeRemaining(episodes, ascending: true)
+        case .longestToShortest:
+            return sortedByTimeRemaining(episodes, ascending: false)
+        }
+    }
+
+    private func sortedByPublishedDate(_ episodes: [BaseEpisode], ascending: Bool) -> [BaseEpisode] {
+        // Missing dates sort last: to the future when ascending, to the past when descending.
+        let fallback: Date = ascending ? .distantFuture : .distantPast
+        return episodes.sorted { lhs, rhs in
+            let lhsDate = lhs.publishedDate ?? fallback
+            let rhsDate = rhs.publishedDate ?? fallback
+
+            // Same published date (including both missing): keep the order they were added.
+            if lhsDate == rhsDate {
+                return (lhs.addedDate ?? .distantPast) < (rhs.addedDate ?? .distantPast)
+            }
+
+            return ascending ? lhsDate < rhsDate : lhsDate > rhsDate
+        }
+    }
+
+    private func sortedByTimeRemaining(_ episodes: [BaseEpisode], ascending: Bool) -> [BaseEpisode] {
+        episodes.sorted { lhs, rhs in
+            let lhsHasDuration = lhs.duration > 0
+            let rhsHasDuration = rhs.duration > 0
+
+            // Episodes with no known duration always sink to the bottom.
+            if lhsHasDuration != rhsHasDuration {
+                return lhsHasDuration
+            }
+
+            // Compare by the episodes time remaining.
+            let lhsRemaining = lhs.duration - lhs.playedUpTo
+            let rhsRemaining = rhs.duration - rhs.playedUpTo
+
+            // Same time remaining (including both unknown): keep the order they were added.
+            if lhsRemaining == rhsRemaining {
+                return (lhs.addedDate ?? .distantPast) < (rhs.addedDate ?? .distantPast)
+            }
+
+            return ascending ? lhsRemaining < rhsRemaining : lhsRemaining > rhsRemaining
+        }
+    }
+}
+
 extension UpNextViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .upNext
@@ -515,6 +668,9 @@ extension UpNextViewController {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let buttonSize = max(24, metric.scaledValue(for: 24))
         shuffleButton.updateSizeConstraints(to: buttonSize)
+        if FeatureFlag.upNextSort.enabled {
+            sortButton.updateSizeConstraints(to: buttonSize)
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

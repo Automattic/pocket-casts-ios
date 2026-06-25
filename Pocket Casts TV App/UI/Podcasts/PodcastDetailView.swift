@@ -3,11 +3,12 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
+    @FocusState private var rowFocus: EpisodeRowFocus?
     @State private var isShowingMoreInfo = false
 
     init(podcast: Podcast) {
@@ -130,7 +131,7 @@ struct PodcastDetailView: View {
     }
 
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(model: episode)
+        EpisodeRowWithActions(model: episode, focus: $rowFocus)
     }
 
     private var archivedFilterMenu: some View {
@@ -161,7 +162,6 @@ struct PodcastDetailView: View {
 
     private struct ArchivedFilterLabel: View {
         let showArchived: Bool
-        @Environment(\.isFocused) private var isFocused: Bool
 
         var body: some View {
             HStack(spacing: 8) {
@@ -169,7 +169,7 @@ struct PodcastDetailView: View {
                 Image(systemName: "chevron.down")
             }
             .font(.caption2)
-            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+            .foregroundStyle(Color.pcTextPrimary)
         }
     }
 
@@ -237,7 +237,7 @@ struct PodcastDetailView: View {
 }
 
 #Preview {
-    let router = MainTabRouter()
+    let router = MainTabViewModel()
     PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makeStubPodcasts().first!))
         .environment(AppCoordinator())
         .environment(router)

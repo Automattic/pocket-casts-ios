@@ -7,15 +7,6 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        /// Temporary workaround: avoid the app handling the /pair urls as a share url until we implement proper pair URL handling.
-        /// Returning false causes the system to fall back to opening the universal link in the browser.
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let incomingURL = userActivity.webpageURL,
-               let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
-               let path = components.path, path.startsWith(string: "/pair") {
-                return false
-            }
-        }
 
         handleContinue(userActivity)
 
@@ -40,12 +31,6 @@ extension AppDelegate {
 
             //If path is just the base share URL let's return
             if path.isEmpty || path == "/", URL(string: ServerConstants.Urls.share())?.host == incomingURL.host {
-                return
-            }
-
-            // This is temporary workaround to avoid the app handling the /pair urls as a share url until we implement the proper pair URL handling on 8.15
-            // This will make the user to be redirected to the web page
-            if path.startsWith(string: "/pair") {
                 return
             }
 
@@ -190,6 +175,8 @@ extension AppDelegate {
                 responseCode = SiriShortcutsManager.shared.skipToNextChapter()
             } else if identifier == Constants.SiriActions.previousChapterId {
                 responseCode = SiriShortcutsManager.shared.skipToPreviousChapter()
+            } else if identifier == Constants.SiriActions.markAsPlayedId {
+                responseCode = SiriShortcutsManager.shared.markAsPlayed()
             } else {
                 responseCode = SiriShortcutsManager.shared.resumePlayback()
             }

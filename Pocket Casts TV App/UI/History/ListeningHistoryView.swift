@@ -4,6 +4,7 @@ struct ListeningHistoryView: View {
 
     @State private var model = ListeningHistoryViewModel()
     @Namespace private var rowNamespace
+    @FocusState private var rowFocus: EpisodeRowFocus?
 
     var body: some View {
         ZStack {
@@ -26,7 +27,7 @@ struct ListeningHistoryView: View {
         List {
             Section {
                 ForEach(model.episodes) { episode in
-                    EpisodeRowWithActions(model: episode)
+                    EpisodeRowWithActions(model: episode, focus: $rowFocus)
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
@@ -40,12 +41,16 @@ struct ListeningHistoryView: View {
     }
 
     private var emptyView: some View {
-        EmptyDataView(title: L10n.tvHistoryEmptyTitle, subtitle: L10n.tvHistoryEmptySubtitle)
+        ContentUnavailableView {
+            Text(L10n.tvHistoryEmptyTitle)
+        } description: {
+            Text(L10n.tvHistoryEmptySubtitle)
+        }
     }
 }
 
 #Preview {
     ListeningHistoryView()
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(MainTabViewModel())
 }

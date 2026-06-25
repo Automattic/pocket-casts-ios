@@ -8,6 +8,8 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
+    @Environment(MainTabViewModel.self) var mainTabModel: MainTabViewModel
+
     @Bindable var model: ViewModel
 
     @State private var showNowPlayingPlayer = false
@@ -48,9 +50,11 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                DiscoverAllView()
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
             }
         }
+        .animation(.easeInOut, value: model.state)
+        .animation(.easeInOut, value: model.scope)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
                 .ignoresSafeArea()
@@ -110,6 +114,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         SearchEpisodeRow(model: episode)
                     }
                     .buttonStyle(.card)
+                    .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
         }

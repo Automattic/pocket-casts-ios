@@ -49,21 +49,11 @@ struct MediaOverlayView: View {
         .ignoresSafeArea()
     }
 
-    /// Branded loading state shown while AVKit's system spinner is suppressed.
-    /// Sits centered over the artwork so the screen never looks empty during
-    /// initial load or mid-stream buffering.
     private var loadingOverlay: some View {
-        VStack(spacing: 24) {
-            ProgressView()
-                .progressViewStyle(.circular)
-                .tint(.white)
-                .scaleEffect(2.0)
-            Text(L10n.loading)
-                .font(.title3)
-                .foregroundStyle(.white.opacity(0.85))
-        }
-        .padding(48)
-        .background(.black.opacity(0.4), in: RoundedRectangle(cornerRadius: 24))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ProgressView()
+            .progressViewStyle(.circular)
+            .tint(.white)
+            .scaleEffect(1.3)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

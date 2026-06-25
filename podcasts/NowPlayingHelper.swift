@@ -27,6 +27,13 @@ class NowPlayingHelper {
         let playingInfo = nowPlayingInfo(for: episode, currentChapters: currentChapters)
         var nowPlayingInfoWithProgress = NowPlayingHelper.addUpToInformationToNowPlaying(playingInfo, duration: duration, upTo: upTo, playbackRate: playbackRate)
 
+        if let chapterArtwork = currentChapters.artwork {
+            let artwork = MPMediaItemArtwork(boundsSize: chapterArtwork.size, requestHandler: { _ in chapterArtwork })
+            nowPlayingInfoWithProgress[MPMediaItemPropertyArtwork] = artwork
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfoWithProgress
+            return
+        }
+
         let size = ImageManager.sizeFor(imageSize: .page)
         ImageManager.sharedManager.imageForEpisode(episode, size: .page) { image in
             let imageToUse = image ?? UIImage(named: "noartwork-page")!

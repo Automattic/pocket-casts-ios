@@ -34,7 +34,7 @@ class SignInViewModel {
     func manualSignIn(username: String, password: String) async {
         state = .waiting
         do {
-            let response = try await AuthenticationHelper.validateLogin(username: username, password: password, scope: .mobile)
+            let response = try await AuthenticationHelper.validateLogin(username: username, password: password)
             if response.token != nil {
                 state = .finished
             }

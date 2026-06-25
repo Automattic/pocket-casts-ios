@@ -64,11 +64,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var glassButtonStack: UIStackView?
     private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
 
-    private enum GlassMetrics {
-        /// How much the Liquid Glass skip glyphs are scaled down from the asset.
-        static let skipIconScale: CGFloat = 0.9
-    }
-
     /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
     private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
         let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .systemChromeMaterial), style: style)
@@ -146,14 +141,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         podcastArtwork.layer.cornerRadius = 6
         podcastArtwork.layer.masksToBounds = true
 
-        playPauseBtn.visualSize = 28
+        playPauseBtn.visualSize = 32
 
         // The skip glyphs read a touch heavy next to the smaller glass
         // play/pause button, so scale the (template) assets down slightly.
         for button in [skipBackBtn, skipFwdBtn] {
             guard let button, let image = button.image(for: .normal) else { continue }
-            let target = CGSize(width: image.size.width * GlassMetrics.skipIconScale,
-                                height: image.size.height * GlassMetrics.skipIconScale)
+            let target = CGSize(width: image.size.width, height: image.size.height)
             button.setImage(image.resizeProportionally(to: target).withRenderingMode(.alwaysTemplate), for: .normal)
         }
 
@@ -230,14 +224,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
             let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
-            let buttonWidth: CGFloat = isInline ? 40 : 44
+            let buttonWidth: CGFloat = 44
             skipBackBtnWidthConstraint.constant = buttonWidth
             playPauseBtnWidthConstraint.constant = buttonWidth
             skipFwdBtnWidthConstraint.constant = buttonWidth
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
-                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 44),
+                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52),
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)

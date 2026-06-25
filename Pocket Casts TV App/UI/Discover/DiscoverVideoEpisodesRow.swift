@@ -4,7 +4,7 @@ import PocketCastsServer
 struct DiscoverVideoEpisodesRow: View {
 
     fileprivate enum Layout {
-        static let spacing = CGFloat(48)
+        static let spacing = CGFloat(56)
     }
 
     @FocusState private var focusedID: String?
@@ -33,7 +33,9 @@ struct DiscoverVideoEpisodesRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                mainContent
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
+                    mainContent
+                }
             }
         }
         .task {
@@ -60,5 +62,8 @@ struct DiscoverVideoEpisodesRow: View {
             .focusSection()
             .focusScope(focusNS)
         }
+        // Otherwise the focused-card drop shadow gets clipped at the
+        // scroll-view boundary instead of pooling below the pill.
+        .scrollClipDisabled()
     }
 }
