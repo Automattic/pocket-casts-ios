@@ -1,6 +1,6 @@
 8.16
 -----
-
+- Fix Control Center timeline continuing to advance while playback is paused [#4530](https://github.com/Automattic/pocket-casts-ios/pull/4530)
 
 8.15
 -----
