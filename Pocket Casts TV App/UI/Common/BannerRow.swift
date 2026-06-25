@@ -72,29 +72,24 @@ struct BannerRow: View {
     }
 
     var body: some View {
-        ZStack(alignment: .leading) {
+        ZStack(alignment: .trailing) {
             Image(icon)
             if gradient {
+                // Solid dark on the left (where the CTA + text sit), fading to clear
+                // over the rightmost 18% so the artwork on the right blends into the
+                // dark surface instead of butting up against a hard edge.
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: Color.pcBackgroundSunken.opacity(0), location: 0.00),
-                        Gradient.Stop(color: Color.pcBackgroundSunken, location: 1.00),
+                        Gradient.Stop(color: Color.pcBackgroundSunken, location: 0.00),
+                        Gradient.Stop(color: Color.pcBackgroundSunken.opacity(0), location: 1.00),
                     ],
-                    startPoint: UnitPoint(x: 0, y: 0.5),
-                    endPoint: UnitPoint(x: 0.18, y: 0.5)
+                    startPoint: UnitPoint(x: 0.82, y: 0.5),
+                    endPoint: UnitPoint(x: 1.0, y: 0.5)
                 )
             }
             HStack(spacing: 0) {
-                Spacer().frame(width: 400)
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(.headline)
-                        .foregroundStyle(Color.pcTextPrimary)
-                    Text(subtitle)
-                        .font(.headline)
-                        .foregroundStyle(Color.pcTextSecondary)
-                }
                 Spacer()
+                    .frame(width: 72)
                 Button() {
                     action?()
                 } label: {
@@ -103,8 +98,18 @@ struct BannerRow: View {
                 }
                 .disabled(action == nil)
                 .setFocus(section: focusSection)
+                Spacer().frame(width: 80)
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.headline)
+                        .foregroundStyle(Color.pcTextPrimary)
+                        .lineLimit(1)
+                    Text(subtitle)
+                        .font(.headline)
+                        .foregroundStyle(Color.pcTextSecondary)
+                        .lineLimit(2)
+                }
                 Spacer()
-                    .frame(width: 72)
             }
         }
         .background(Color.pcBackgroundSunken)

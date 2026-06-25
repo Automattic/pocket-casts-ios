@@ -6368,16 +6368,16 @@
 "tv_banner_create_account_title" = "One account. Every screen";
 
 /* tv create account banner subtitle */
-"tv_banner_create_account_subtitle" = "Your follows, your progress... exactly where you left them.";
+"tv_banner_create_account_subtitle" = "Your follows and progress exactly where you left them";
 
 /* tv create account banner action button title */
 "tv_banner_create_account_action_title" = "Create a free account";
 
 /* tv discover more banner title */
-"tv_banner_discover_more_title" = "You haven't seen the half of it.";
+"tv_banner_discover_more_title" = "You haven't seen the half of it";
 
 /* tv discover more banner subtitle */
-"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere.";
+"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere";
 
 /* tv discover more banner action button title */
 "tv_banner_discover_more_action_title" = "Discover more shows";
