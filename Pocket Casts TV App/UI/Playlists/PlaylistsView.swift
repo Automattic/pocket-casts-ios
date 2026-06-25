@@ -33,13 +33,11 @@ struct PlaylistsView: View {
         .sheet(isPresented: $showDownloadModal) {
             DownloadAppModal()
         }
+        .onAppear {
+            Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
+        }
         .task {
             model.load()
-        }
-        .onChange(of: model.state) { _, newState in
-            guard !didTrackShown, newState != .loading else { return }
-            didTrackShown = true
-            Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
         }
     }
 
