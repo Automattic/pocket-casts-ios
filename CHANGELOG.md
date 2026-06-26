@@ -4,6 +4,7 @@
 - Add a Star Episodes action to Up Next multi-select and show a star indicator on Up Next cells [#4605](https://github.com/Automattic/pocket-casts-ios/pull/4605)
 - Fix the Files navigation bar not being transparent [#4604](https://github.com/Automattic/pocket-casts-ios/pull/4604)
 - Fix Control Center timeline continuing to advance while playback is paused [#4530](https://github.com/Automattic/pocket-casts-ios/pull/4530)
+- Fix non-square chapter artwork being cropped and losing rounded corners when opening the full-screen player [#4621](https://github.com/Automattic/pocket-casts-ios/pull/4621)
 
 8.15
 -----
