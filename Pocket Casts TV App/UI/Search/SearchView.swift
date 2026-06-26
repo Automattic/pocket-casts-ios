@@ -59,4 +59,5 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
 
 #Preview {
     SearchView(model: SearchViewModel())
+        .environment(MainTabViewModel())
 }
