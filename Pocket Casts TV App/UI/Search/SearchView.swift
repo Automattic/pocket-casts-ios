@@ -16,7 +16,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 if model.isInSearchMode {
                     ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
                         Button {
-                            Analytics.track(.searchPredictiveTermTapped, properties: ["term": suggestion])
+                            Analytics.track(.searchPredictiveTermTapped, properties: ["term": suggestion, "source": "search"])
                         } label: {
                             Text(suggestion)
                                 .searchCompletion(suggestion)
@@ -25,7 +25,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 } else {
                     ForEach(model.searchHistory, id: \.self) { search in
                         Button {
-                            Analytics.track(.searchHistoryItemTapped, properties: ["type": "search_term"])
+                            Analytics.track(.searchHistoryItemTapped, properties: ["type": "search_term", "source": "search"])
                         } label: {
                             Text(search).searchCompletion(search)
                         }
