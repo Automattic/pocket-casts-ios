@@ -31,7 +31,7 @@ struct PlaylistDetailView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
-        .defaultFocus($focusedSection, .episodes)        
+        .defaultFocus($focusedSection, .episodes)
         .confirmationDialog(
             L10n.playlistPlayAllSheetTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,

@@ -59,13 +59,7 @@ struct PlaylistsView: View {
                 }
             }
         }
-        .onChange(of: path) { _, newPath in
-            if newPath.isEmpty {
-                tabRouter.isShowingDetail = false
-            } else {
-                tabRouter.isShowingDetail = true
-            }
-        }
+        .syncNavigationDetail(path: path, tabRouter: tabRouter)
     }
 
     var emptyView: some View {

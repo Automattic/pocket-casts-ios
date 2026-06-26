@@ -42,7 +42,7 @@ struct PodcastDetailView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
-        .defaultFocus($focusedSection, .episodes)        
+        .defaultFocus($focusedSection, .episodes)
         .task {
             Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()

@@ -36,7 +36,7 @@ struct FolderDetailView: View {
         .task {
             model.load()
         }
-        .toolbar(.hidden, for: .tabBar)        
+        .toolbar(.hidden, for: .tabBar)
     }
 
     @ViewBuilder
