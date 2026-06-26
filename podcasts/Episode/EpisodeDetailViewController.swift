@@ -153,9 +153,12 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
 
-    /// The episode's own artwork URL, when the show provides one and the user has opted in to
-    /// episode artwork. When set, it's displayed instead of the podcast artwork.
+    /// The episode's own artwork URL once resolved, or `nil` if the show provides no
+    /// episode-specific artwork (in which case we fall back to the podcast artwork).
     private var episodeArtworkURL: URL?
+
+    /// Whether the episode artwork fetch has completed, regardless of its result.
+    private var didResolveEpisodeArtwork = false
 
     var rawShowNotes: String?
     var lastThemeRenderedNotesIn: Theme.ThemeType?
@@ -425,32 +428,30 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     private func updateArtwork() {
-        // Once the episode artwork is available, the transition animation owns the artwork views,
-        // so we leave them untouched on subsequent updates.
-        guard episodeArtworkURL == nil else { return }
-
-        if let uuid = episode.parentPodcast()?.uuid {
+        // While episode artwork is enabled but not yet resolved, show a placeholder. Once resolved,
+        // show the episode's own artwork, falling back to the podcast artwork when there is none.
+        if Settings.loadEmbeddedImages, !didResolveEpisodeArtwork {
+            podcastImage.setPlaceholder(size: .page)
+        } else if let episodeArtworkURL {
+            podcastImage.setEpisodeArtwork(url: episodeArtworkURL, size: .page)
+        } else if let uuid = episode.parentPodcast()?.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .page)
         }
     }
 
     /// Some shows provide custom artwork for individual episodes. When the user has opted in to
-    /// episode artwork, fetch the episode's artwork URL and display it instead of the show's artwork.
+    /// episode artwork, fetch the episode's artwork URL and display it (see `updateArtwork`).
     private func loadEpisodeArtwork() {
-        guard Settings.loadEmbeddedImages, episodeArtworkURL == nil else { return }
+        guard Settings.loadEmbeddedImages, !didResolveEpisodeArtwork else { return }
 
         let podcastUuid = episode.parentIdentifier()
         let episodeUuid = episode.uuid
-        Task {
-            guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
-                return
-            }
-
-            await MainActor.run { [weak self] in
-                guard let self, self.episode.uuid == episodeUuid else { return }
-                self.episodeArtworkURL = url
-                self.podcastImage.setEpisodeArtwork(url: url, size: .page, badgeBorderColor: ThemeColor.primaryUi01(for: self.themeOverride))
-            }
+        Task { @MainActor [weak self] in
+            let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+            guard let self, self.episode.uuid == episodeUuid else { return }
+            self.episodeArtworkURL = url
+            self.didResolveEpisodeArtwork = true
+            self.updateArtwork()
         }
     }
 

@@ -7,9 +7,6 @@ class PodcastImageView: UIView {
     private var shadowView: UIView?
     var imageView: UIImageView?
 
-    /// The show artwork shrunk into the bottom-right corner once episode artwork is displayed.
-    private var episodeArtworkBadge: UIImageView?
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -48,91 +45,22 @@ class PodcastImageView: UIView {
         adjustForSize(size)
     }
 
+    /// Loads the episode's own artwork, fading it in over whatever placeholder is currently shown.
     func setEpisodeArtwork(url: URL, size: PodcastThumbnailSize) {
         guard let imageView else { return }
         adjustForSize(size)
 
-        let placeholder = imageView.image ?? ImageManager.sharedManager.placeHolderImage(size)
-        let processor = DefaultImageProcessor.default
-        imageView.kf.setImage(with: url, placeholder: placeholder, options: [
-            .processor(processor),
-            .transition(.fade(Constants.Animation.defaultAnimationTime)),
-            .forceTransition
+        imageView.kf.setImage(with: url, options: [
+            .processor(DefaultImageProcessor.default),
+            .transition(.fade(Constants.Animation.defaultAnimationTime))
         ])
     }
 
-    /// Transitions from the currently displayed show artwork to the episode artwork: the show
-    /// artwork shrinks into a small rounded badge in the bottom-right corner while the episode
-    /// artwork is revealed from underneath, taking the main artwork's place.
-    func setEpisodeArtwork(url: URL, size: PodcastThumbnailSize, badgeBorderColor: UIColor) {
-        guard let imageView else { return }
+    /// Shows the standard gray placeholder, e.g. while artwork is being fetched.
+    func setPlaceholder(size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
+        imageView?.image = ImageManager.sharedManager.placeHolderImage(size)
         adjustForSize(size)
-
-        // We can only animate the show artwork into the corner if it's already on screen, and we
-        // only want to run the transition once. Otherwise just fade the episode artwork in.
-        guard let showArtwork = imageView.image, episodeArtworkBadge == nil else {
-            setEpisodeArtwork(url: url, size: size)
-            return
-        }
-
-        // Load the episode artwork up front so it's fully ready before we reveal it from under the
-        // show artwork, avoiding a placeholder flashing during the animation.
-        KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
-            guard let self, let imageView = self.imageView, self.episodeArtworkBadge == nil,
-                  case .success(let value) = result else { return }
-            self.animateToEpisodeArtwork(value.image, showArtwork: showArtwork, in: imageView, badgeBorderColor: badgeBorderColor)
-        }
-    }
-
-    private func animateToEpisodeArtwork(_ episodeImage: UIImage, showArtwork: UIImage, in imageView: UIImageView, badgeBorderColor: UIColor) {
-        // The badge holds the show artwork and starts out exactly overlapping the main artwork, so
-        // the transition begins seamlessly.
-        let badge = UIImageView(image: showArtwork)
-        badge.frame = bounds
-        badge.contentMode = .scaleAspectFill
-        badge.clipsToBounds = true
-        badge.layer.cornerRadius = imageView.layer.cornerRadius
-        badge.layer.cornerCurve = .continuous
-        badge.layer.borderColor = badgeBorderColor.cgColor
-        addSubview(badge)
-        episodeArtworkBadge = badge
-
-        // Reveal the episode artwork in the main image view (hidden under the badge for now), and
-        // start it slightly scaled down so it appears to scale up into place. The scale is anchored
-        // to the top-left corner so the artwork grows toward the bottom-right as the badge retreats
-        // there, keeping the two motions coherent and never exposing the edges.
-        imageView.image = episodeImage
-        let revealScale: CGFloat = 0.92
-        imageView.transform = CGAffineTransform(translationX: -bounds.width * (1 - revealScale) / 2,
-                                                y: -bounds.height * (1 - revealScale) / 2)
-            .scaledBy(x: revealScale, y: revealScale)
-
-        // The badge ends as a small square in the bottom-right corner, overhanging it slightly so
-        // it reads as sitting on top of the episode artwork.
-        let scale: CGFloat = 0.32
-        let protrusion: CGFloat = 10
-        let badgeSize = CGSize(width: bounds.width * scale, height: bounds.height * scale)
-        let finalFrame = CGRect(x: bounds.width - badgeSize.width + protrusion,
-                                y: bounds.height - badgeSize.height + protrusion,
-                                width: badgeSize.width,
-                                height: badgeSize.height)
-
-        let duration: TimeInterval = 0.7
-        let borderWidth: CGFloat = 2
-        let borderAnimation = CABasicAnimation(keyPath: "borderWidth")
-        borderAnimation.fromValue = 0
-        borderAnimation.toValue = borderWidth
-        borderAnimation.duration = duration
-        borderAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        badge.layer.borderWidth = borderWidth
-        badge.layer.add(borderAnimation, forKey: "borderWidth")
-
-        // A gently damped spring gives a smooth settle without a hard stop or noticeable bounce.
-        let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: 0.9) {
-            badge.frame = finalFrame
-            imageView.transform = .identity
-        }
-        animator.startAnimation()
     }
 
     func setTransparentNoArtwork(size: PodcastThumbnailSize) {
