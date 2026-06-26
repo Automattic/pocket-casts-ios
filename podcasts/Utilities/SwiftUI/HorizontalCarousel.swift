@@ -30,9 +30,9 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
     init(currentIndex: Binding<Int>? = .constant(0), items: [T], @ViewBuilder content: @escaping (T) -> Content) {
         self._index = currentIndex ?? .constant(0)
-        self.visibleIndex = currentIndex?.wrappedValue ?? 0
         self.items = items
         self.content = content
+        self.visibleIndex = currentIndex?.wrappedValue ?? 0
     }
 
     /// Sets the number of items to display per page
