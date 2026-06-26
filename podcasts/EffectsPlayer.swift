@@ -45,6 +45,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     private let serialSeekQueue = DispatchQueue(label: "effectsplayer.serial.queue")
 
+    @MainActor
     private lazy var episodeArtwork = EpisodeArtwork()
 
     // MARK: - PlaybackProtocol Impl

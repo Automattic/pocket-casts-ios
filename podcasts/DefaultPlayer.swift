@@ -38,29 +38,27 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var episodeUuid: String?
     private var podcastUuid: String?
 
-
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
     private var cellularTracker: StreamingCellularTracker?
 #endif
 
-    #if !os(watchOS)
-        private lazy var episodeArtwork: EpisodeArtwork = {
-            EpisodeArtwork()
-        }()
+#if !os(watchOS)
+    @MainActor
+    private lazy var episodeArtwork = EpisodeArtwork()
 
-        private var peakLimiter: AudioUnit?
-        private var highPassFilter: AudioUnit?
-        private var sampleCount: Float64 = 0
-        private var backgroundTaskId: UIBackgroundTaskIdentifier
-        private var voiceBoostNState: OpaquePointer?
-        private var cachedSampleRate: Double = 0
-    #endif
+    private var peakLimiter: AudioUnit?
+    private var highPassFilter: AudioUnit?
+    private var sampleCount: Float64 = 0
+    private var backgroundTaskId: UIBackgroundTaskIdentifier
+    private var voiceBoostNState: OpaquePointer?
+    private var cachedSampleRate: Double = 0
+#endif
 
     init() {
-        #if !os(watchOS)
-            backgroundTaskId = .invalid
-            NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        #endif
+#if !os(watchOS)
+        backgroundTaskId = .invalid
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+#endif
     }
 
     func loadEpisode(_ episode: BaseEpisode) {

@@ -83,9 +83,8 @@ class DownloadManager: NSObject, FilePathProtocol {
     #endif
 
     #if !os(watchOS)
-         private lazy var episodeArtwork: EpisodeArtwork = {
-             EpisodeArtwork()
-         }()
+    @MainActor
+    private lazy var episodeArtwork = EpisodeArtwork()
     #endif
 
     /// Eagerly initializes all URLSessions to avoid race conditions.

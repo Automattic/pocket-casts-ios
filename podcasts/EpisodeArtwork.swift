@@ -6,10 +6,6 @@ import PocketCastsUtils
 import AVFoundation
 
 /// Extracts artwork from a streaming episode (if there's any)
-///
-/// `@MainActor` isolated so that `inProgressArtworkLoads` is always accessed from
-/// a single thread. It was previously mutated both from the calling thread and from
-/// the load `Task`'s background executor, which could race and crash.
 @MainActor
 final class EpisodeArtwork {
     private let imageManager: ImageManager
@@ -17,7 +13,7 @@ final class EpisodeArtwork {
     /// Track in-progress artwork load tasks by episode UUID to prevent redundant requests and allow cancellation
     private var inProgressArtworkLoads: [String: Task<Void, Never>] = [:]
 
-    nonisolated init(imageManager: ImageManager = .sharedManager) {
+    init(imageManager: ImageManager = .sharedManager) {
         self.imageManager = imageManager
     }
 
@@ -70,11 +66,9 @@ final class EpisodeArtwork {
     }
 
     private func loadEpisodeArtwork(from asset: AVAsset?) async -> UIImage? {
-        guard let asset,
-              let commonMetadata = try? await asset.load(.commonMetadata) else {
+        guard let asset, let commonMetadata = try? await asset.load(.commonMetadata) else {
             return nil
         }
-
         let artworkItems = AVMetadataItem.metadataItems(from: commonMetadata, filteredByIdentifier: .commonIdentifierArtwork)
         for item in artworkItems {
             if let data = try? await item.load(.dataValue), let image = UIImage(data: data) {
