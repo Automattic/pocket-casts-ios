@@ -285,7 +285,11 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // try and cache the episode embedded artwork
         #if !os(watchOS)
-        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        let artworkPodcastUuid = episode.parentIdentifier()
+        let artworkEpisodeUuid = episode.uuid
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: artworkPodcastUuid, episodeUuid: artworkEpisodeUuid)
+        }
         #endif
 
         // download requested for something we already have buferred, just move it

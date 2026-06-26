@@ -51,7 +51,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     func loadEpisode(_ episode: BaseEpisode) {
         episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
-        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        let podcastUuid = episode.parentIdentifier()
+        let episodeUuid = episode.uuid
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
         self.episode = episode
     }
 

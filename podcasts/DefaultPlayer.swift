@@ -915,7 +915,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
         #endif
     }
 
