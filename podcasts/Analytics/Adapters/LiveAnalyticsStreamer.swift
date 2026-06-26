@@ -49,6 +49,14 @@ actor LiveAnalyticsStreamer: AnalyticsAdapter {
 
     private let encoder = JSONEncoder()
 
+    private static let platform: String = {
+#if os(tvOS)
+        "tvOS"
+#else
+        "iOS"
+#endif
+    }()
+
     private let dateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
@@ -65,7 +73,7 @@ actor LiveAnalyticsStreamer: AnalyticsAdapter {
             properties: properties.reduce(into: [String: String]()) { result, entry in
                 result[entry.key] = String(describing: entry.value)
             },
-            platform: "iOS"
+            platform: Self.platform
         )
         bufferEvent(event)
     }
