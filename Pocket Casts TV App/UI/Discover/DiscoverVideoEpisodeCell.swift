@@ -15,16 +15,8 @@ struct DiscoverVideoEpisodeCell: View {
     private let listId: String?
     private let source: String
 
-    enum FocusValues {
-        case playEpisode
-        case goPodcast
-    }
 
-    @FocusState private var focusedButton: FocusValues?
-
-    private var isFocused: Bool {
-        focusedButton != nil
-    }
+    @FocusState private var isFocused: Bool
 
     @State var showNowPlayingPlayer: Bool = false
 
@@ -43,53 +35,61 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var body: some View {
-        VStack {
-            Spacer()
-            ZStack {
-                focusedContent
-                nonFocusedContent
-            }
-        }
-        .padding(32)
-        .frame(width: Layout.cardWidth, height: Layout.cardHeight)
-        .background {
-            Group {
-                if isFocused, let player = model.player, model.isPlaying {
-                    VideoPlayer(player: player)
-                        .focusable(false)
-                } else {
-                    backgroundThumbnail
+        Button {
+            trackEpisodeTapped()
+            Task {
+                let successPlay = await TVDataManager.shared.playEpisode(model.episode)
+                await MainActor.run {
+                    if successPlay {
+                        showNowPlayingPlayer = true
+                    } else {
+                        ToastManager.shared.show(L10n.playbackFailed)
+                    }
                 }
             }
-            .transition(.opacity)
-            .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
-        }
-        .onChange(of: isFocused) { _, newValue in
-            if newValue {
-                model.play()
-            } else {
-                model.pause()
+        } label: {
+            VStack {
+                Spacer()
+                ZStack {
+                    //focusedContent
+                    nonFocusedContent
+                }
             }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .clipped()
-        .focusSection()
-        .focusScope(ns)
-        // Applied after `scaleEffect` so the shadow renders at its native
-        // size — otherwise the cell's 1.1x focus scale enlarges the shadow
-        // alongside the cell, making it read as oversized next to pills
-        // that scale by only ~1.02x (Up Next, currently-playing).
-        .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
-        .scaleEffect(isFocused ? 1.1 : 1.0)
-        .animation(.easeInOut, value: isFocused)
-        .onChange(of: focusedButton) { oldValue, newValue in
-            // When focus first enters the card it can land on either collapsed
-            // button; force it onto Play so a single click starts playback.
-            // Moving within the card (left to "Go to podcast") is preserved.
-            if oldValue == nil, let newValue, newValue != .playEpisode {
-                focusedButton = .playEpisode
+            .padding(32)
+            .frame(width: Layout.cardWidth, height: Layout.cardHeight)
+            .background {
+                Group {
+                    if isFocused, let player = model.player, model.isPlaying {
+                        VideoPlayer(player: player)
+                            .focusable(false)
+                    } else {
+                        backgroundThumbnail
+                    }
+                }
+                .transition(.opacity)
+                .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
             }
+            .onChange(of: isFocused) { _, newValue in
+                if newValue {
+                    model.play()
+                } else {
+                    model.pause()
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipped()
+            .focusSection()
+            .focusScope(ns)
+            // Applied after `scaleEffect` so the shadow renders at its native
+            // size — otherwise the cell's 1.1x focus scale enlarges the shadow
+            // alongside the cell, making it read as oversized next to pills
+            // that scale by only ~1.02x (Up Next, currently-playing).
+            .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
+            .scaleEffect(isFocused ? 1.1 : 1.0)
+            .animation(.easeInOut, value: isFocused)
         }
+        .focused($isFocused)
+        .buttonStyle(ChromelessButtonStyle())
         .task {
             await model.load()
         }
@@ -99,6 +99,9 @@ struct DiscoverVideoEpisodeCell: View {
         }
         .sheet(item: $showNotesEpisode) { episode in
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
+        }
+        .contextMenu {
+            DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast)
         }
     }
 
@@ -122,7 +125,7 @@ struct DiscoverVideoEpisodeCell: View {
                 }
                 .collapsedWhenUnfocused(isFocused)
                 .animation(.none, value: isFocused)
-                .focused($focusedButton, equals: FocusValues.goPodcast)
+                //.focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video.rawValue)
                 .simultaneousGesture(TapGesture().onEnded {
                     trackPodcastTapped()
@@ -147,10 +150,10 @@ struct DiscoverVideoEpisodeCell: View {
             }
             .collapsedWhenUnfocused(isFocused)
             .animation(.none, value: isFocused)
-            .focused($focusedButton, equals: FocusValues.playEpisode)
+            //.focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode)
+                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast)
             }
             Spacer()
         }
@@ -183,7 +186,6 @@ struct DiscoverVideoEpisodeCell: View {
             }
             Spacer()
         }
-        .opacity(isFocused ? 0 : 1)
     }
 
     var backgroundThumbnail: some View {

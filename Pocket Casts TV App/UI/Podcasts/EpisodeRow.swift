@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsUtils
 import PocketCastsDataModel
+import PocketCastsServer
 
 struct EpisodeRowButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
@@ -279,10 +280,19 @@ struct DiscoveryEpisodeMenuButtons: View {
     let episodeUuid: String
     @Binding var showNotesEpisode: DiscoveryLoadedEpisode?
 
+    var podcast: DiscoverPodcast?
+
     @Environment(\.requireAccount) private var requireAccount
 
     var body: some View {
-        Button(L10n.tvEpisodeShowNotesAction) { load { showNotesEpisode = $0 } }
+        if let podcast {
+            NavigationLink(value: podcast) {
+                Text(L10n.tvDiscoverFeaturedGoToPodcast)
+            }
+        }
+        Button(L10n.tvEpisodeShowNotesAction) {
+            load { showNotesEpisode = $0 }
+        }
         Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
         Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
     }
@@ -308,7 +318,7 @@ private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode)
+                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode, podcast: nil)
             }
             .sheet(item: $showNotesEpisode) { episode in
                 EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
