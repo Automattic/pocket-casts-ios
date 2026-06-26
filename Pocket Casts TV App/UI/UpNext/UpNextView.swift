@@ -40,9 +40,11 @@ struct UpNextView: View {
             LazyVStack(alignment: .leading, spacing: 24) {
                 headerRow
                 ForEach(model.episodes) { episode in
-                    EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus)
-                        .frame(width: 1160)
-                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
+                    EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus) {
+                        tabRouter.showFullScreenPlayer = true
+                    }
+                    .frame(width: 1160)
+                    .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
             }
             .focusScope(rowNamespace)

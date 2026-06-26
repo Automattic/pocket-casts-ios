@@ -119,8 +119,9 @@ struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
     var context: EpisodeActionContext = .default
-
     @FocusState.Binding var focus: EpisodeRowFocus?
+    var customPlayDisplayAction: (() -> ())? = nil
+    
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
@@ -143,7 +144,12 @@ struct EpisodeRowWithActions: View {
     var body: some View {
         HStack(spacing: Layout.spacing) {
             Button {
-                isPlaying = true
+                if customPlayDisplayAction != nil {
+                    customPlayDisplayAction?()
+                }
+                else {
+                    isPlaying = true
+                }
                 model.play()
             } label: {
                 HStack(spacing: 0) {

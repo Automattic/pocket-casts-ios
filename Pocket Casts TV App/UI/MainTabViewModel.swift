@@ -11,6 +11,7 @@ final class MainTabViewModel {
     var isShowingDetail: Bool = false
     var pendingAuthFlow: ProfileMenuView.AuthDestination?
     var profileDestination: ProfileMenuView.ProfileDestination?
+    var showFullScreenPlayer: Bool = false
 
     var scrollOffset: CGFloat = 0
 
