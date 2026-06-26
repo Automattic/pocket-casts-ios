@@ -33,7 +33,7 @@ struct PlaylistsView: View {
             DownloadAppModal()
         }
         .task {
-            model.load()
+            await model.load()
             Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
         }
     }
