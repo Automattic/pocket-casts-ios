@@ -153,11 +153,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
 
-    /// The episode's own artwork URL once resolved, or `nil` if the show provides no
-    /// episode-specific artwork (in which case we fall back to the podcast artwork).
     private var episodeArtworkURL: URL?
-
-    /// Whether the episode artwork fetch has completed, regardless of its result.
     private var didResolveEpisodeArtwork = false
 
     var rawShowNotes: String?
@@ -439,8 +435,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
     }
 
-    /// Some shows provide custom artwork for individual episodes. When the user has opted in to
-    /// episode artwork, fetch the episode's artwork URL and display it (see `updateArtwork`).
     private func loadEpisodeArtwork() {
         guard Settings.loadEmbeddedImages, !didResolveEpisodeArtwork else { return }
 

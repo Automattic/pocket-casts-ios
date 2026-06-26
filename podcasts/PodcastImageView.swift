@@ -45,7 +45,6 @@ class PodcastImageView: UIView {
         adjustForSize(size)
     }
 
-    /// Loads the episode's own artwork, fading it in over whatever placeholder is currently shown.
     func setEpisodeArtwork(url: URL, size: PodcastThumbnailSize) {
         guard let imageView else { return }
         adjustForSize(size)
@@ -56,7 +55,6 @@ class PodcastImageView: UIView {
         ])
     }
 
-    /// Shows the standard gray placeholder, e.g. while artwork is being fetched.
     func setPlaceholder(size: PodcastThumbnailSize) {
         imageView?.kf.cancelDownloadTask()
         imageView?.image = ImageManager.sharedManager.placeHolderImage(size)
