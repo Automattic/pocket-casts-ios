@@ -47,8 +47,9 @@ struct PlaylistsView: View {
         ProgressView()
     }
 
+    @State private var path = NavigationPath()
     var playlistsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
@@ -56,6 +57,13 @@ struct PlaylistsView: View {
                         .foregroundStyle(Color.pcTextPrimary)
                     playlistsCollection
                 }
+            }
+        }
+        .onChange(of: path) { _, newPath in
+            if newPath.isEmpty {
+                tabRouter.isShowingDetail = false
+            } else {
+                tabRouter.isShowingDetail = true
             }
         }
     }

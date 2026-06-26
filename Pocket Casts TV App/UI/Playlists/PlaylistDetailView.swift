@@ -31,9 +31,7 @@ struct PlaylistDetailView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
-        .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
+        .defaultFocus($focusedSection, .episodes)        
         .confirmationDialog(
             L10n.playlistPlayAllSheetTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,

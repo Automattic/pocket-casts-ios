@@ -45,8 +45,10 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
         ProgressView()
     }
 
+    @State private var path = NavigationPath()
+
     var podcastsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPodcasts)
@@ -54,6 +56,13 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                         .foregroundStyle(Color.pcTextPrimary)
                     podcastGrid
                 }
+            }
+        }
+        .onChange(of: path) { _, newPath in
+            if newPath.isEmpty {
+                tabRouter.isShowingDetail = false
+            } else {
+                tabRouter.isShowingDetail = true
             }
         }
     }

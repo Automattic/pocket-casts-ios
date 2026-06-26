@@ -59,8 +59,10 @@ struct HomeView: View {
         }
     }
 
+    @State private var path = NavigationPath()
+
     var homeView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
@@ -97,6 +99,13 @@ struct HomeView: View {
             }
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
                 DiscoverPodcastsListView(category: discoverCategory)
+            }
+            .onChange(of: path) { _, newPath in
+                if newPath.isEmpty {
+                    tabRouter.isShowingDetail = false
+                } else {
+                    tabRouter.isShowingDetail = true
+                }
             }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {

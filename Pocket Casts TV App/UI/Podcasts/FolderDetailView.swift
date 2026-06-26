@@ -36,13 +36,7 @@ struct FolderDetailView: View {
         .task {
             model.load()
         }
-        .toolbar(.hidden, for: .tabBar)
-        .onAppear {
-            tabRouter.isShowingDetail = true
-        }
-        .onDisappear {
-            tabRouter.isShowingDetail = false
-        }
+        .toolbar(.hidden, for: .tabBar)        
     }
 
     @ViewBuilder
