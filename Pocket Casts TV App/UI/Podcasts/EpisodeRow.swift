@@ -238,7 +238,7 @@ struct EpisodeActionButtons: View {
                 Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
             }
         }.onAppear {
-            Analytics.track(.multiSelectViewOverflowMenuShown)
+            Analytics.track(.episodeActionsShown)
         }
     }
 }
