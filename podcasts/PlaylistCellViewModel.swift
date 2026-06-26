@@ -71,7 +71,7 @@ class PlaylistCellViewModel: ObservableObject {
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    private let episodeArtWork: EpisodeArtwork
+    @MainActor private lazy var episodeArtWork = EpisodeArtwork(imageManager: imageManager)
 
     let displayType: DisplayType
 
@@ -86,7 +86,6 @@ class PlaylistCellViewModel: ObservableObject {
         self.displayType = displayType
         self.dataManager = dataManager
         self.imageManager = imageManager
-        self.episodeArtWork = .init(imageManager: imageManager)
         self.episodesDataManager = episodesDataManager
     }
 
