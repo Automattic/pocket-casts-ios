@@ -16,12 +16,19 @@ class EpisodeRowViewModel: Identifiable {
     var progress: Double
     var id: String { episode.uuid }
 
+    /// The analytics `source` for actions taken on this row, set by the screen that
+    /// builds it (Podcast, Up Next, Starred, …). This is the tvOS equivalent of iOS's
+    /// per-screen `AnalyticsSourceProvider`: actions push it onto the shared analytics
+    /// helpers so the events `EpisodeManager`/`PlaybackManager` fire carry the source.
+    let analyticsSource: AnalyticsSource
+
     private var cancellables: Set<AnyCancellable> = []
     private let playbackManager: PlaybackManager
 
-    init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
+    init(episode: BaseEpisode, podcast: Podcast?, analyticsSource: AnalyticsSource = .unknown, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
+        self.analyticsSource = analyticsSource
         self.playbackManager = playbackManager
         self.progress = episode.playedUpTo / episode.duration
         setupObservers()
@@ -83,14 +90,15 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func playNext() {
-        EpisodeUpNextActions.playNext(episode, playbackManager: playbackManager)
+        EpisodeUpNextActions.playNext(episode, source: analyticsSource, playbackManager: playbackManager)
     }
 
     func playLast() {
-        EpisodeUpNextActions.playLast(episode, playbackManager: playbackManager)
+        EpisodeUpNextActions.playLast(episode, source: analyticsSource, playbackManager: playbackManager)
     }
 
     func markAsPlayed() {
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
     }
@@ -109,17 +117,20 @@ class EpisodeRowViewModel: Identifiable {
 
     func archive() {
         guard let episode = episode as? Episode else { return }
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         ToastManager.shared.show(L10n.tvEpisodeArchived)
     }
 
     func unarchive() {
         guard let episode = episode as? Episode else { return }
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
         ToastManager.shared.show(L10n.tvEpisodeUnarchived)
     }
 
     func removeFromUpNext() {
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
         ToastManager.shared.show(L10n.tvEpisodeRemovedFromUpNext)
     }
@@ -160,22 +171,27 @@ class EpisodeRowViewModel: Identifiable {
 /// Up Next queue actions shared by the episode view model and the lazily-loaded
 /// discovery/search context menus, so the move-vs-add queue logic lives in one place.
 enum EpisodeUpNextActions {
-    static func playNext(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+    static func playNext(_ episode: BaseEpisode, source: AnalyticsSource = .unknown, playbackManager: PlaybackManager = .shared) {
         if playbackManager.inUpNext(episode: episode) {
             playbackManager.queue.move(episode: episode, to: 0)
-            Analytics.track(.upNextQueueReordered, properties: ["direction": "up", "is_next": true])
+            Analytics.track(.upNextQueueReordered, properties: ["direction": "up", "is_next": true, "source": source])
         } else {
+            // `addToUpNext` fires `episodeAddedToUpNext` through the shared helper, which
+            // consumes `currentSource`; set it only on this branch so it can't leak into a
+            // later event when we just reorder an episode that's already queued.
+            AnalyticsEpisodeHelper.shared.currentSource = source
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
         }
         ToastManager.shared.show(L10n.tvEpisodeWillPlayNext)
     }
 
-    static func playLast(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
+    static func playLast(_ episode: BaseEpisode, source: AnalyticsSource = .unknown, playbackManager: PlaybackManager = .shared) {
         if playbackManager.inUpNext(episode: episode) {
             let queueCount = playbackManager.queue.upNextCount()
             playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
-            Analytics.track(.upNextQueueReordered, properties: ["direction": "down", "is_next": queueCount == 1])
+            Analytics.track(.upNextQueueReordered, properties: ["direction": "down", "is_next": queueCount == 1, "source": source])
         } else {
+            AnalyticsEpisodeHelper.shared.currentSource = source
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
         }
         ToastManager.shared.show(L10n.tvEpisodeWillPlayLast)

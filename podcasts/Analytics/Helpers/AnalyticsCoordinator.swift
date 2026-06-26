@@ -62,6 +62,10 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case userSatisfactionSurvey = "user_satisfaction_survey"
     case recommendations
     case playlistEditor = "playlist_editor"
+    /// tvOS: episode actions performed from the Home tab and Search screens, which
+    /// have no iOS equivalent. Raw values match `DiscoverAnalytics.homeSource`/`searchSource`.
+    case home
+    case search
     case unknown
 
     var analyticsDescription: String { rawValue }

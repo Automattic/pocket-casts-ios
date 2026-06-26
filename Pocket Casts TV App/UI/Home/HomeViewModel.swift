@@ -40,7 +40,7 @@ class HomeViewModel {
                 guard let latest: Episode = dataManager.findLatestEpisode(podcast: podcast) else {
                     continue
                 }
-                let result = EpisodeRowViewModel(episode: latest, podcast: podcast)
+                let result = EpisodeRowViewModel(episode: latest, podcast: podcast, analyticsSource: .home)
                 newEpisodes.append(result)
             }
 
@@ -65,7 +65,7 @@ class HomeViewModel {
 
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
         let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-        return EpisodeRowViewModel(episode: episode, podcast: podcast)
+        return EpisodeRowViewModel(episode: episode, podcast: podcast, analyticsSource: .home)
     }
 
     private func observeDataChanges() {

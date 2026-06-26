@@ -281,14 +281,15 @@ struct DiscoveryEpisodeMenuButtons: View {
 
     let podcastUuid: String
     let episodeUuid: String
+    var source: AnalyticsSource = .unknown
     @Binding var showNotesEpisode: DiscoveryLoadedEpisode?
 
     @Environment(\.requireAccount) private var requireAccount
 
     var body: some View {
         Button(L10n.tvEpisodeShowNotesAction) { load { showNotesEpisode = $0 } }
-        Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
-        Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
+        Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode, source: source) } } }
+        Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode, source: source) } } }
     }
 
     private func load(_ action: @escaping (DiscoveryLoadedEpisode) -> Void) {
@@ -306,13 +307,14 @@ private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
 
     let podcastUuid: String
     let episodeUuid: String
+    var source: AnalyticsSource = .unknown
 
     @State private var showNotesEpisode: DiscoveryLoadedEpisode?
 
     func body(content: Content) -> some View {
         content
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode)
+                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, source: source, showNotesEpisode: $showNotesEpisode)
             }
             .sheet(item: $showNotesEpisode) { episode in
                 EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
@@ -321,8 +323,8 @@ private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
 }
 
 extension View {
-    func discoveryEpisodeContextMenu(podcastUuid: String, episodeUuid: String) -> some View {
-        modifier(DiscoveryEpisodeContextMenuModifier(podcastUuid: podcastUuid, episodeUuid: episodeUuid))
+    func discoveryEpisodeContextMenu(podcastUuid: String, episodeUuid: String, source: AnalyticsSource = .unknown) -> some View {
+        modifier(DiscoveryEpisodeContextMenuModifier(podcastUuid: podcastUuid, episodeUuid: episodeUuid, source: source))
     }
 }
 

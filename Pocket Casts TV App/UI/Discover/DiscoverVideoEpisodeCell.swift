@@ -150,7 +150,7 @@ struct DiscoverVideoEpisodeCell: View {
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode)
+                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", source: AnalyticsSource(rawValue: source) ?? .unknown, showNotesEpisode: $showNotesEpisode)
             }
             Spacer()
         }
