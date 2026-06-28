@@ -75,6 +75,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
                 .ignoresSafeArea()
         }
         .task {
+            Analytics.track(.signInSync)
             await runSyncAnimation()
         }
     }
