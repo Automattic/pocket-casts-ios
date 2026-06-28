@@ -23,6 +23,7 @@ struct EpisodeShowNotesView: View {
         .padding([.horizontal, .top], 80)
         .frame(width: 1200, height: 920, alignment: .topLeading)
         .task {
+            Analytics.track(.episodeDetailShown)
             await loadShowNotes()
         }
     }
