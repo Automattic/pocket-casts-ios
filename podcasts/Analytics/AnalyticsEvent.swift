@@ -58,7 +58,7 @@ enum AnalyticsEvent: String {
     case signInShown
     case signInDismissed
     case signInTypeTapped // tvOS: switching between QR code and password sign-in
-    case signInSync // tvOS: sync of user data
+    case signInSyncShown // tvOS: sync of user data
 
     // MARK: - Select Account Type
 
