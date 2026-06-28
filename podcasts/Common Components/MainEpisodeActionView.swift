@@ -105,7 +105,12 @@ class MainEpisodeActionView: UIView {
             updateDownloadProgress(progress)
         }
 
-        setPlaybackProgress(episode.playbackProgress)
+        if episode.duration > 0 {
+            let playbackProgress = episode.playedUpTo / episode.duration
+            setPlaybackProgress(playbackProgress)
+        } else {
+            setPlaybackProgress(0)
+        }
 
         // update button state
         let isPlaying = (isCurrent && PlaybackManager.shared.playing())
