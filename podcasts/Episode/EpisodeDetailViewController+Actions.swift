@@ -175,8 +175,8 @@ extension EpisodeDetailViewController {
         }
         else if episode.played() {
             progress = 1
-        } else if episode.playedUpTo > 0, episode.duration > 0 {
-            progress = min(1, CGFloat(episode.playedUpTo / episode.duration))
+        } else {
+            progress = CGFloat(episode.playbackProgress)
         }
 
         if progressWidthConstraint.multiplier != progress {

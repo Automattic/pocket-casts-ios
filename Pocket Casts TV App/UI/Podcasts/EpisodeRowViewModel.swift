@@ -23,9 +23,8 @@ class EpisodeRowViewModel: Identifiable {
         self.episode = episode
         self.podcast = podcast
         self.playbackManager = playbackManager
-        self.progress = 0
         setupObservers()
-        self.progress = calculateSafeProgress(from: episode)
+        self.progress = episode.playbackProgress
     }
 
     var duration: Double {
@@ -154,17 +153,7 @@ class EpisodeRowViewModel: Identifiable {
         }
         episode.playedUpTo = currentEpisode.playedUpTo
         episode.duration = currentEpisode.duration
-        progress = calculateSafeProgress(from: currentEpisode)
-    }
-
-    private func calculateSafeProgress(from episode: BaseEpisode) -> Double {
-        guard episode.duration > 0 else {
-            return 0
-        }
-        if episode.played() {
-            return 1
-        }
-        return min(1, episode.playedUpTo / episode.duration)
+        progress = currentEpisode.playbackProgress
     }
 }
 

@@ -73,4 +73,11 @@ extension BaseEpisode {
     public var isInDownloadProcess: Bool {
         return downloading() || queued() || waitingForWifi()
     }
+
+    /// Playback progress in the range [0, 1]. Returns 0 when duration is unknown, 1 when fully played.
+    public var playbackProgress: Double {
+        guard duration > 0 else { return 0 }
+        if played() { return 1 }
+        return min(1, playedUpTo / duration)
+    }
 }
