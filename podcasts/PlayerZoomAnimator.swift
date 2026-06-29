@@ -82,7 +82,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             let toView = toVC.viewIfLoaded,
             let mini = miniVC.viewIfLoaded,
             let miniArtwork = miniVC.podcastArtwork,
-            let toArtwork = toVC.nowPlayingItem.episodeImage
+            let toArtwork = toVC.nowPlayingItem.artworkImageView
         else {
             // This should never happen — fall back to a basic fade-in so the
             // user isn't left stranded.
@@ -259,7 +259,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             let fromView = fromVC.viewIfLoaded,
             let mini = miniVC.viewIfLoaded,
             let miniArtwork = miniVC.podcastArtwork,
-            let fromArtwork = fromVC.nowPlayingItem.episodeImage
+            let fromArtwork = fromVC.nowPlayingItem.artworkImageView
         else {
             // This should never happen — fall back to a basic fade-out.
             guard let fromView = fromVC.viewIfLoaded else {

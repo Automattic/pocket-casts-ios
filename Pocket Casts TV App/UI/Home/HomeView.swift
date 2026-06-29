@@ -49,7 +49,7 @@ struct HomeView: View {
 
     var emptyView: some View {
         ContentUnavailableView {
-            Text(L10n.tvPodcastsEmptyTitle)
+            Text(L10n.tvPodcastsEmptyTitleNew)
         } description: {
             Text(L10n.tvPodcastsEmptySubtitle)
         } actions: {
@@ -59,8 +59,10 @@ struct HomeView: View {
         }
     }
 
+    @State private var path = NavigationPath()
+
     var homeView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
@@ -98,6 +100,7 @@ struct HomeView: View {
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
                 DiscoverPodcastsListView(category: discoverCategory)
             }
+            .syncNavigationDetail(path: path, tabRouter: tabRouter)
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()

@@ -167,7 +167,7 @@ class SearchViewModel: SearchableViewModel {
                 autoCompleteSuggestions = suggestions
 
                 guard !Task.isCancelled else { return }
-
+                saveHistory(query)
                 let fullResults = try await fullSearchTask.search(term: query)
                 var episodes: [EpisodeSearchResult] = []
                 for searchResult in fullResults {

@@ -2739,10 +2739,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>In de wachtrij zetten voor later</string>
     <key>queue_now_playing_accessibility</key>
     <string>Bezig met afspelen. %1$@</string>
-    <key>queue_time_remaining</key>
-    <string>%1$@ resterend</string>
-    <key>queue_total_time_remaining</key>
-    <string>%1$@ totale resterende tijd</string>
     <key>rate</key>
     <string>Beoordelen</string>
     <key>rate_pocket_casts</key>
@@ -3962,8 +3958,6 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>naar [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>of voer deze code in [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Kon je inlogcode niet ophalen</string>
     <key>tv_sign_in_subtitle</key>
     <string>Open je camera en wijs naar deze QR-code</string>
     <key>tv_sign_in_title</key>
@@ -3998,8 +3992,6 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Browse zonder account</string>
     <key>tv_welcome_create_free_account</key>
     <string>Een gratis account aanmaken</string>
-    <key>tv_welcome_sign_in</key>
-    <string>Aanmelden</string>
     <key>tv_welcome_subtitle</key>
     <string>Je podcasts. Op het grote scherm. Duidelijk.</string>
     <key>tv_welcome_title</key>

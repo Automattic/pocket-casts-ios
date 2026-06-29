@@ -2745,10 +2745,6 @@ Pocket Casts Plus</string>
     <string>排入佇列以稍後播放</string>
     <key>queue_now_playing_accessibility</key>
     <string>正在播放。%1$@</string>
-    <key>queue_time_remaining</key>
-    <string>剩餘 %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>總計剩餘時間：%1$@</string>
     <key>rate</key>
     <string>稅率</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Pocket Casts Plus</string>
     <string>前往 [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>或在 [%1$@](%2$@) 中輸入此代碼</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>無法取得你的登入碼</string>
     <key>tv_sign_in_subtitle</key>
     <string>開啟相機並指向此 QR 碼</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Pocket Casts Plus</string>
     <string>在沒有帳號的情況下瀏覽</string>
     <key>tv_welcome_create_free_account</key>
     <string>建立免費帳號</string>
-    <key>tv_welcome_sign_in</key>
-    <string>登入</string>
     <key>tv_welcome_subtitle</key>
     <string>你的 Podcast。 用大螢幕播放。 很明顯。</string>
     <key>tv_welcome_title</key>

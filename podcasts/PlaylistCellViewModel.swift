@@ -71,7 +71,7 @@ class PlaylistCellViewModel: ObservableObject {
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    private let episodeArtWork: EpisodeArtwork
+    @MainActor private lazy var episodeArtWork = EpisodeArtwork(imageManager: imageManager)
 
     let displayType: DisplayType
 
@@ -86,7 +86,6 @@ class PlaylistCellViewModel: ObservableObject {
         self.displayType = displayType
         self.dataManager = dataManager
         self.imageManager = imageManager
-        self.episodeArtWork = .init(imageManager: imageManager)
         self.episodesDataManager = episodesDataManager
     }
 
@@ -158,8 +157,7 @@ class PlaylistCellViewModel: ObservableObject {
             for episode in episodes {
                 group.addTask {
                     if includingEpisodeArtwork,
-                       let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
-                       let url = URL(string: imageUrl) {
+                       let url = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid) {
                         return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
                     let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
