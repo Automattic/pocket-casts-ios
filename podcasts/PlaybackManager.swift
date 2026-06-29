@@ -2455,7 +2455,15 @@ extension PlaybackManager {
     // MARK: - Analytics
 
     private func trackChapterSkipped() {
-        analyticsPlaybackHelper.chapterSkipped()
+        analyticsPlaybackHelper.chapterSkipped(properties: chapterManager.chaptersAnalyticsProperties)
+    }
+
+    func trackChapterEvent(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
+        var baseProperties = chapterManager.chaptersAnalyticsProperties
+        if let extraProperties = properties {
+            baseProperties = baseProperties.merging(extraProperties, uniquingKeysWith: { current, _ in return current})
+        }
+        analyticsPlaybackHelper.track(event, properties: baseProperties)
     }
 }
 
