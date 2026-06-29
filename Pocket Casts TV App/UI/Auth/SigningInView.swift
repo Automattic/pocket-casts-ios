@@ -58,7 +58,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
             VStack(spacing: 96) {
                 Spacer()
                 VStack(spacing: 16) {
-                    Text(L10n.tvSigningInTitle)
+                    Text(L10n.tvSigningInTitleNew)
                         .font(.title)
                         .foregroundStyle(Color.pcTextPrimary)
                     Text(L10n.tvSigningInSubtitle)
@@ -75,6 +75,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
                 .ignoresSafeArea()
         }
         .task {
+            Analytics.track(.signInSyncShown)
             await runSyncAnimation()
         }
     }

@@ -37,9 +37,9 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> String? {
+    ) async throws -> URL? {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        return metadata?.image
+        return metadata?.image.flatMap(URL.init(string:))
     }
 
     public func loadChapters(

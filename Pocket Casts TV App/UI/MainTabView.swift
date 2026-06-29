@@ -209,6 +209,10 @@ struct MainTabView: View {
                 tabRouter.pendingAuthFlow = nil
             }
         }
+        .fullScreenCover(isPresented: $tabRouter.showFullScreenPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
     }
 
     var logoAccessory: some View {
