@@ -846,29 +846,19 @@ platform :ios do
   #
   # @param beta_release [Boolean] If true, the GitHub Release is for a beta and will be marked as prerelease and published immediately.
   #                               If false, the GitHub Release is for a final build and will not be marked as prerelease but will be created as Draft (to be manually published only once approved by Apple)
-  # @param archive_zip_path [String, nil] Optional path to a single `.xcarchive.zip` file to attach as an asset to the created GitHub Release.
-  # @param archive_zip_paths [Array<String>, nil] Optional paths to `.xcarchive.zip` files to attach as assets to the created GitHub Release.
+  # @param archive_zip_path [String] Path to the `.xcarchive.zip` file to attach as an asset to the created GitHub Release.
   # @param notify_slack [Boolean] If true, sends the release notification to Slack.
   # @param create_release [Boolean] If true, creates the GitHub Release when it does not already exist.
   #
-  lane :create_release_on_github do |beta_release: true, archive_zip_path: nil, archive_zip_paths: nil, notify_slack: true, create_release: true|
-    beta_release = beta_release.to_s == 'true' unless [true, false].include?(beta_release)
-    notify_slack = notify_slack.to_s == 'true' unless [true, false].include?(notify_slack)
-    create_release = create_release.to_s == 'true' unless [true, false].include?(create_release)
+  lane :create_release_on_github do |beta_release: true, archive_zip_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH, notify_slack: true, create_release: true|
+    beta_release = boolean_option(beta_release, default: true)
+    notify_slack = boolean_option(notify_slack, default: true)
+    create_release = boolean_option(create_release, default: true)
 
     require_env_vars!('GITHUB_TOKEN')
-    require_env_vars!('SLACK_WEBHOOK') if notify_slack
 
-    app_version = release_version_current
-    build_version = build_code_current
     version = github_release_version(beta_release: beta_release)
-    upload_assets = Array(archive_zip_paths || [archive_zip_path].compact)
-    upload_assets = [APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH, APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH] if upload_assets.empty?
-    missing_assets = upload_assets.reject { |path| File.exist?(path) }
-    upload_assets -= missing_assets
-
-    UI.user_error!("No GitHub release archive assets found. Expected at least one of: #{missing_assets.join(', ')}") if upload_assets.empty?
-    UI.important("Skipping missing GitHub release archive assets: #{missing_assets.join(', ')}") if missing_assets.any?
+    UI.user_error!("Can't find file #{archive_zip_path}!") unless File.file?(archive_zip_path.to_s)
 
     changelog = extract_release_notes_for_version(
       version: release_version_current,
@@ -891,48 +881,44 @@ platform :ios do
         is_draft: !beta_release,
         is_prerelease: beta_release
       )
+      release ||= get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
     end
 
-    release ||= get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
     UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
 
     upload_github_release_assets(
       repository: GITHUB_REPO,
       version: version,
-      release_assets: upload_assets,
+      release_assets: [archive_zip_path],
       replace_existing: true,
       github_token: api_token
     )
 
     if notify_slack
-      UI.message('Sending message to Slack...')
-      slack(
-        pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
-        default_payloads: [],
-        slack_url: get_required_env!('SLACK_WEBHOOK'),
-        fail_on_error: false
-      )
+      notify_release_on_slack(beta_release: beta_release)
     else
       UI.message('Skipping Slack notification.')
     end
   end
 
-  # Verifies that the GitHub Release for the current build already exists.
+  # Sends the release notification to Slack.
   #
-  # Used by platform upload jobs that should only attach an asset to an
-  # existing release, so they fail before non-idempotent upload steps if run
-  # before the release-owning platform job.
+  # Typically called after the build has been uploaded to TestFlight.
   #
-  # @param beta_release [Boolean] If true, checks the beta release named after the build code. If false, checks the final release named after the app version.
+  # @param beta_release [Boolean] If true, sends a beta notification. If false, sends a final/hotfix notification.
   #
-  lane :ensure_github_release_exists do |beta_release: true|
-    beta_release = beta_release.to_s == 'true' unless [true, false].include?(beta_release)
+  lane :notify_release_on_slack do |beta_release: true|
+    beta_release = boolean_option(beta_release, default: true)
 
-    require_env_vars!('GITHUB_TOKEN')
+    require_env_vars!('SLACK_WEBHOOK')
 
-    version = github_release_version(beta_release: beta_release)
-    release = get_github_release(url: GITHUB_REPO, version: version, api_token: get_required_env!('GITHUB_TOKEN'))
-    UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
+    UI.message('Sending message to Slack...')
+    slack(
+      pretext: slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release),
+      default_payloads: [],
+      slack_url: get_required_env!('SLACK_WEBHOOK'),
+      fail_on_error: false
+    )
   end
 
   #####################################################################################
@@ -1346,6 +1332,13 @@ platform :ios do
     beta_release ? build_code_current : release_version_current
   end
 
+  def boolean_option(value, default:)
+    return value if [true, false].include?(value)
+    return default if value.nil?
+
+    value.to_s == 'true'
+  end
+
   # Kicks off a Buildkite build using the `release-builds.yml` pipeline
   #
   # @param branch [String] The git branch on which to trigger the CI build on
@@ -1358,8 +1351,8 @@ platform :ios do
   def trigger_buildkite_release_build(branch:, beta:, platform: 'ios', notify_slack: nil, create_release: nil)
     platform = platform.to_s.downcase
     UI.user_error!("Unsupported release platform '#{platform}'. Expected 'ios' or 'tvos'.") unless %w[ios tvos].include?(platform)
-    notify_slack = platform == 'ios' if notify_slack.nil?
-    create_release = platform == 'ios' if create_release.nil?
+    notify_slack = boolean_option(notify_slack, default: platform == 'ios')
+    create_release = boolean_option(create_release, default: platform == 'ios')
 
     pipeline_args = {
       pipeline_file: 'release-builds.yml',

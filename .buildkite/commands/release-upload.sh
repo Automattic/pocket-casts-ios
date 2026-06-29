@@ -2,12 +2,16 @@
 
 # Ensure we get the latest commit of the `release/*` branch, especially to get last version bump commit before publishing the GitHub Release and creating the git tag
 RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
-"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
 
 BETA_RELEASE=${2:-true} # use second call param, default to true for safety
-RELEASE_PLATFORM="${3:-${RELEASE_PLATFORM:-ios}}"
-NOTIFY_SLACK="${4:-${NOTIFY_SLACK:-true}}"
-CREATE_GITHUB_RELEASE="${5:-${CREATE_GITHUB_RELEASE:-true}}"
+RELEASE_PLATFORM="${3:-${RELEASE_PLATFORM:-}}"
+NOTIFY_SLACK="${4:-${NOTIFY_SLACK:-}}"
+CREATE_GITHUB_RELEASE="${5:-${CREATE_GITHUB_RELEASE:-}}"
+
+if [[ -z "$RELEASE_PLATFORM" ]]; then
+  echo "RELEASE_PLATFORM parameter missing. Expected 'ios' or 'tvos'." >&2
+  exit 1
+fi
 
 case "$RELEASE_PLATFORM" in
   ios)
@@ -32,7 +36,25 @@ case "$RELEASE_PLATFORM" in
     ;;
 esac
 
+if [[ -z "$NOTIFY_SLACK" ]]; then
+  if [[ "$RELEASE_PLATFORM" == "ios" ]]; then
+    NOTIFY_SLACK="true"
+  else
+    NOTIFY_SLACK="false"
+  fi
+fi
+
+if [[ -z "$CREATE_GITHUB_RELEASE" ]]; then
+  if [[ "$RELEASE_PLATFORM" == "ios" ]]; then
+    CREATE_GITHUB_RELEASE="true"
+  else
+    CREATE_GITHUB_RELEASE="false"
+  fi
+fi
+
 echo "Running $0 with BETA_RELEASE = $BETA_RELEASE, RELEASE_PLATFORM = $RELEASE_PLATFORM, NOTIFY_SLACK = $NOTIFY_SLACK, CREATE_GITHUB_RELEASE = $CREATE_GITHUB_RELEASE..."
+
+"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
 
 echo "--- :arrow_down: Downloading Artifacts"
 STEP=release_build
@@ -46,13 +68,8 @@ install_gems
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
-if [[ "$CREATE_GITHUB_RELEASE" != "true" ]]; then
-  echo "--- :github: Verifying GitHub Release exists"
-  bundle exec fastlane ensure_github_release_exists beta_release:"$BETA_RELEASE"
-fi
-
-echo "--- :testflight: Uploading $PLATFORM_NAME to TestFlight"
-bundle exec fastlane "$TESTFLIGHT_LANE" ipa_path:"$IPA_PATH"
+echo "--- :github: Updating GitHub Release"
+bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE" archive_zip_path:"$ARCHIVE_ZIP_PATH" notify_slack:false create_release:"$CREATE_GITHUB_RELEASE"
 
 upload_symbols() {
   local platform="$1"
@@ -73,5 +90,12 @@ upload_symbols() {
 
 upload_symbols "$PLATFORM_NAME" "$DSYM_PATH" "$SENTRY_ANNOTATION_CONTEXT"
 
-echo "--- :github: Updating GitHub Release"
-bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE" archive_zip_path:"$ARCHIVE_ZIP_PATH" notify_slack:"$NOTIFY_SLACK" create_release:"$CREATE_GITHUB_RELEASE"
+echo "--- :testflight: Uploading $PLATFORM_NAME to TestFlight"
+bundle exec fastlane "$TESTFLIGHT_LANE" ipa_path:"$IPA_PATH"
+
+if [[ "$NOTIFY_SLACK" == "true" ]]; then
+  echo "--- :slack: Notifying Slack"
+  bundle exec fastlane notify_release_on_slack beta_release:"$BETA_RELEASE"
+else
+  echo "--- :slack: Skipping Slack notification"
+fi
