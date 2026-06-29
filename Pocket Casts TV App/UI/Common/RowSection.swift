@@ -37,13 +37,16 @@ struct RowSection<Content: View>: View {
     // the largest font sizes the slot; the visible title is overlaid and
     // bottom-aligned so its distance to the content below stays constant.
     private var titleView: some View {
-        Text(title)
-            .font(.title3)
-            .hidden()
-            .overlay(alignment: .bottomLeading) {
-                Text(title)
-                    .font(isFocusedSection ? .title3 : .headline)
-                    .foregroundStyle(Color.pcTextPrimary)
-            }
+        HStack {
+            Text(title)
+                .font(.title3)
+                .hidden()
+                .overlay(alignment: .bottomLeading) {
+                    Text(title)
+                        .font(isFocusedSection ? .title3 : .headline)
+                        .foregroundStyle(Color.pcTextPrimary)
+                }
+            Spacer()
+        }
     }
 }
