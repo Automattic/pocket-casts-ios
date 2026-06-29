@@ -51,16 +51,19 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?, [GeneratedChapter]?) {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
-        if let pocastIndexChapterUrl = metadata?.chaptersUrl,
-           let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
+        if let podcastIndexChapterUrl = metadata?.chaptersUrl,
+           let chapters = try? await podcastIndexChapterRetriever.loadChapters(podcastIndexChapterUrl) {
             return (nil, chapters.chapters, nil)
         }
 
-        if metadata?.chapters != nil {
-            return (metadata?.chapters, nil, nil)
+        if let chapters = metadata?.chapters, !chapters.isEmpty {
+            return (chapters, nil, nil)
         }
 
-        if FeatureFlag.generatedChapters.enabled, let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters, !chapters.isEmpty {
+        if FeatureFlag.generatedChapters.enabled,
+           let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters,
+           !chapters.isEmpty
+        {
             return (nil, nil, chapters)
         }
 
