@@ -481,12 +481,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if let episode = PlaybackManager.shared.currentEpisode() {
             setupForEpisode(episode)
             showMiniPlayer()
-            let shouldOpenAutomatically: Bool
-            if FeatureFlag.newSettingsStorage.enabled {
-                shouldOpenAutomatically = SettingsStore.appSettings.openPlayer
-            } else {
-                shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            }
+            let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
             if shouldOpenAutomatically || episode.videoPodcast(), lastEpisodeUuidAutoOpened != episode.uuid {
                 lastEpisodeUuidAutoOpened = episode.uuid
 

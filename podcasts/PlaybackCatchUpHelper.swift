@@ -10,12 +10,7 @@ struct PlaybackCatchUpHelper {
             return episode.playedUpTo
         #else
             // if it's a different episode, or not still at the time it was at when it was last paused, just play from where it's up to
-            let intelligentPlaybackResumption: Bool
-            if FeatureFlag.newSettingsStorage.enabled {
-                intelligentPlaybackResumption = SettingsStore.appSettings.intelligentResumption
-            } else {
-                intelligentPlaybackResumption = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-            }
+            let intelligentPlaybackResumption = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
             if !intelligentPlaybackResumption || episode.uuid != lastPausedEpisodeUuid() || episode.playedUpTo != lastPausedAt() { return episode.playedUpTo }
 
             guard let lastPauseTime = lastPauseTime() else { return episode.playedUpTo }
