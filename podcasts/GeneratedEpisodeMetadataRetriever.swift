@@ -40,8 +40,13 @@ public actor GeneratedEpisodeMetadataRetriever {
 
         let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
 
-        if let cachedResponse = cache.cachedResponse(for: request) {
-            return try metadata(from: cachedResponse.data)
+        if let cachedResponse = cache.cachedResponse(for: request),
+           let parsedData = try? metadata(from: cachedResponse.data) {
+            return parsedData
+        }
+
+        defer {
+            dataRequestMap[urlString] = nil
         }
 
         let task = Task<GeneratedMetadataEnvelope, Error> { [weak self] in
@@ -49,18 +54,12 @@ public actor GeneratedEpisodeMetadataRetriever {
             let (data, response) = try await URLSession.shared.data(for: request)
             let responseToCache = CachedURLResponse(response: response, data: data)
             cache.storeCachedResponse(responseToCache, for: request)
-            await setDataRequestMapToNil(for: urlString)
 
             return try await metadata(from: data)
         }
-
         dataRequestMap[urlString] = task
 
         return try await task.value
-    }
-
-    private func setDataRequestMapToNil(for urlString: String) {
-        dataRequestMap[urlString] = nil
     }
 
     private func metadata(from data: Data) throws -> GeneratedMetadataEnvelope {
