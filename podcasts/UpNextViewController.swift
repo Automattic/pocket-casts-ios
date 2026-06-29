@@ -1,7 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import PocketCastsServer
-import SwiftUI
 import UIKit
 
 class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -413,7 +412,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
 
-    /// The "Sort by duration" tooltip popover, while it's on screen. See UpNextViewController+Tip.
+    /// The "Sort by duration" tooltip popover, while it's on screen. See `UIViewController.presentTip` in TipView.swift.
     var upNextSortDurationTip: UIViewController?
 
     func showEpisodeDetailViewController(for episode: BaseEpisode?) {
