@@ -175,7 +175,16 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            strongSelf.playAndCatchExceptionIfNeeded()
+            do {
+                try SJCommonUtils.catchException {
+                    strongSelf.player?.play()
+                }
+            } catch {
+                FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
+                strongSelf.playerLock.unlock()
+                PlaybackManager.shared.pause(userInitiated: false)
+                return
+            }
 
             strongSelf.playerLock.unlock()
 
@@ -188,21 +197,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             }
 
             self?.aboutToPlay.value = false
-        }
-    }
-
-    // MARK: - Play
-
-    /// Try to play. If an exception happens, just pause it.
-    func playAndCatchExceptionIfNeeded() {
-        do {
-            try SJCommonUtils.catchException {
-                self.player?.play()
-            }
-        } catch {
-            FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
-            self.playerLock.unlock()
-            PlaybackManager.shared.pause(userInitiated: false)
         }
     }
 
