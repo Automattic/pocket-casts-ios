@@ -58,9 +58,9 @@ struct PodcastDetailView: View {
 
     var failedView: some View {
         ContentUnavailableView {
-            Text(L10n.podcastErrorTitle)
+            Text(L10n.tvPodcastErrorTitle)
         } description: {
-            Text(L10n.podcastErrorMessage)
+            Text(L10n.tvPodcastErrorMessage)
         } actions: {
             Button(L10n.ok) {
                 dismiss()
