@@ -604,8 +604,8 @@ platform :ios do
   #
   # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
   # @param platform [String] The platform build to trigger, either `ios` or `tvos`
-  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
-  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
   #
   lane :trigger_beta_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
     trigger_buildkite_release_build(branch: branch_to_build, beta: true, platform: platform, notify_slack: notify_slack, create_release: create_release)
@@ -618,8 +618,8 @@ platform :ios do
   #
   # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
   # @param platform [String] The platform build to trigger, either `ios` or `tvos`
-  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
-  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
   #
   lane :trigger_release_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
     trigger_buildkite_release_build(branch: branch_to_build, beta: false, platform: platform, notify_slack: notify_slack, create_release: create_release)
@@ -1370,8 +1370,8 @@ platform :ios do
   # @param branch [String] The git branch on which to trigger the CI build on
   # @param beta [Boolean] If true, build a beta; if false, build a final release
   # @param platform [String] The platform build to trigger, either `ios` or `tvos`
-  # @param notify_slack [Boolean, nil] If true, sends the GitHub release Slack notification. Defaults to true for iOS, false for tvOS.
-  # @param create_release [Boolean, nil] If true, creates the GitHub Release if missing. Defaults to true for iOS, false for tvOS.
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
   # @return [String] The URL of the build that has been triggered
   #
   def trigger_buildkite_release_build(branch:, beta:, platform: 'ios', notify_slack: nil, create_release: nil)
