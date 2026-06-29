@@ -18,13 +18,13 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
         podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
-        generatedMetadataDataRetriever: GeneratedEpisodeMetadataRetriever = GeneratedEpisodeMetadataRetriever(),
+        generatedEpisodeMetadataRetriever: GeneratedEpisodeMetadataRetriever = GeneratedEpisodeMetadataRetriever(),
         dataManager: DataManager = .sharedManager,
         transcriptDataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()
     ) {
         self.dataRetriever = dataRetriever
         self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
-        self.generatedEpisodeMetadataRetriever = generatedMetadataDataRetriever
+        self.generatedEpisodeMetadataRetriever = generatedEpisodeMetadataRetriever
         self.dataManager = dataManager
         self.transcriptDataRetriever = transcriptDataRetriever
     }
@@ -52,8 +52,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
         if let pocastIndexChapterUrl = metadata?.chaptersUrl,
-           let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl)
-        {
+           let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
             return (nil, chapters.chapters, nil)
         }
 

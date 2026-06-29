@@ -20,7 +20,7 @@ public actor GeneratedEpisodeMetadataRetriever {
     private var dataRequestMap: [String: Task<GeneratedMetadataEnvelope, Error>] = [:]
 
     public init() {
-        cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "generated_episde_metadata")
+        cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "generated_episode_metadata")
     }
 
     private func buildGeneratedMetadataURL(podcastUuid: String, episodeUuid: String) -> String {
