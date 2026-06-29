@@ -27,7 +27,7 @@ struct ContentSizeGeometryReader<Content: View>: View {
         }
         .frame(maxWidth: contentSize != .zero ? contentSize.width : nil)
         .frame(maxHeight: contentSize != .zero ? contentSize.height : nil)
-        .onChange(of: contentSize) { newValue in
+        .onChange(of: contentSize) { _, newValue in
             contentSizeUpdated?(newValue)
         }
     }

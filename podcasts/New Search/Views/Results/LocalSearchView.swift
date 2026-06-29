@@ -57,7 +57,7 @@ struct LocalSearchView: View {
                     view
                 }
             })
-            .onChange(of: navigationPath) { newValue in
+            .onChange(of: navigationPath) { _, newValue in
                 UIApplication.shared.endEditing(true) // Dismiss the keyboard and end editing any time we navigate between sections.
                 handleNavigationPathChange(newValue, previousPath: previousNavigationPath)
                 previousNavigationPath = newValue

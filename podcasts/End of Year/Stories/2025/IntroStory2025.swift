@@ -46,7 +46,7 @@ struct IntroStory2025: StoryView {
                 )
                 .opacity(animationFinished ? 0 : opacity)
         }
-        .onChange(of: animationProgress) { position in
+        .onChange(of: animationProgress) { _, position in
             if afterLoading {
                 self.opacity = 1
                 self.scale = 10
