@@ -13,7 +13,7 @@ struct GeneratedChapter: Decodable {
     let startTime: TimeInterval
 }
 
-/// Request information about an episode using the show notes endpoint
+/// Fetches AI-generated episode metadata and caches/coalesces in-flight requests.
 public actor GeneratedEpisodeMetadataRetriever {
     private let cache: URLCache
 
