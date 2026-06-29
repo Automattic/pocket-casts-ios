@@ -56,11 +56,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             return (nil, chapters.chapters, nil)
         }
 
+        if metadata?.chapters != nil {
+            return (metadata?.chapters, nil, nil)
+        }
+
         if FeatureFlag.generatedChapters.enabled, let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters, !chapters.isEmpty {
             return (nil, nil, chapters)
         }
 
-        return (metadata?.chapters, nil, nil)
+        return (nil, nil, nil)
     }
 
     private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {
