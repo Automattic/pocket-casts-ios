@@ -120,8 +120,8 @@ struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
     var context: EpisodeActionContext = .default
-
     @FocusState.Binding var focus: EpisodeRowFocus?
+    var customPlayDisplayAction: (() -> ())? = nil
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
@@ -144,7 +144,11 @@ struct EpisodeRowWithActions: View {
     var body: some View {
         HStack(spacing: Layout.spacing) {
             Button {
-                isPlaying = true
+                if let customPlayDisplayAction {
+                    customPlayDisplayAction()
+                } else {
+                    isPlaying = true
+                }
                 model.play()
             } label: {
                 HStack(spacing: 0) {
@@ -221,21 +225,25 @@ struct EpisodeActionButtons: View {
     @Environment(\.requireAccount) private var requireAccount
 
     var body: some View {
-        if model.podcastUuid != nil {
-            Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
-        }
-        switch context {
-        case .default:
-            Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
-            Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
-            Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
-            if model.canArchive {
-                Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
+        Group {
+            if model.podcastUuid != nil {
+                Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
             }
-        case .upNext:
-            Button(L10n.playNext) { requireAccount { model.playNext() } }
-            Button(L10n.playLast) { requireAccount { model.playLast() } }
-            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
+            switch context {
+            case .default:
+                Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
+                Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
+                Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
+                if model.canArchive {
+                    Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
+                }
+            case .upNext:
+                Button(L10n.playNext) { requireAccount { model.playNext() } }
+                Button(L10n.playLast) { requireAccount { model.playLast() } }
+                Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
+            }
+        }.onAppear {
+            Analytics.track(.episodeActionsShown)
         }
     }
 }

@@ -32,8 +32,6 @@ struct PlaylistDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .confirmationDialog(
             L10n.playlistPlayAllSheetTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,
@@ -53,7 +51,7 @@ struct PlaylistDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
-            Analytics.track(.filterShown)
+            Analytics.track(.filterShown, properties: ["filter_type": model.isManual ? "manual" : "smart"])
             model.load()
         }
     }

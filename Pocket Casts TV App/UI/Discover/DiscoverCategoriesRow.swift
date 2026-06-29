@@ -22,7 +22,7 @@ struct DiscoverCategoriesRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
+                RowSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
                     list
                 }
             }

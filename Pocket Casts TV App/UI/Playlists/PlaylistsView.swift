@@ -7,7 +7,6 @@ struct PlaylistsView: View {
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: PlaylistsViewModel
-    @State private var didTrackShown = false
     @State private var showDownloadModal = false
 
     enum Layout {
@@ -34,11 +33,7 @@ struct PlaylistsView: View {
             DownloadAppModal()
         }
         .task {
-            model.load()
-        }
-        .onChange(of: model.state) { _, newState in
-            guard !didTrackShown, newState != .loading else { return }
-            didTrackShown = true
+            await model.load()
             Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
         }
     }
@@ -47,8 +42,9 @@ struct PlaylistsView: View {
         ProgressView()
     }
 
+    @State private var path = NavigationPath()
     var playlistsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
@@ -58,6 +54,7 @@ struct PlaylistsView: View {
                 }
             }
         }
+        .syncNavigationDetail(path: path, tabRouter: tabRouter)
     }
 
     var emptyView: some View {

@@ -2745,10 +2745,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Für später in Warteschlange einreihen</string>
     <key>queue_now_playing_accessibility</key>
     <string>Wird abgespielt. %1$@</string>
-    <key>queue_time_remaining</key>
-    <string>%1$@ verbleibend</string>
-    <key>queue_total_time_remaining</key>
-    <string>Verbleibende Zeit insgesamt: %1$@</string>
     <key>rate</key>
     <string>Bewerten</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Gehe zu [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>oder gib diesen Code ein: [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Dein Anmeldecode konnte nicht abgerufen werden</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öffne deine Kamera und richte sie auf diesen QR-Code</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Ohne Konto durchsuchen</string>
     <key>tv_welcome_create_free_account</key>
     <string>Kostenloses Konto erstellen</string>
-    <key>tv_welcome_sign_in</key>
-    <string>Anmelden</string>
     <key>tv_welcome_subtitle</key>
     <string>Deine Podcasts. Auf dem großen Bildschirm. Offensichtlich.</string>
     <key>tv_welcome_title</key>
