@@ -55,8 +55,8 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
            let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
             return (nil, chapters.chapters, nil)
         }
-
-        if let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters, !chapters.isEmpty {
+        
+        if FeatureFlag.generatedChapters.enabled, let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters, !chapters.isEmpty {
             return (nil, nil, chapters)
         }
 
