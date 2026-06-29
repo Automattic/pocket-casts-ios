@@ -53,7 +53,7 @@ struct PlaylistDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
-            Analytics.track(.filterShown)
+            Analytics.track(.filterShown, properties: ["filter_type": model.isManual ? "manual" : "smart"])
             model.load()
         }
     }

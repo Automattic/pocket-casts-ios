@@ -49,7 +49,7 @@ struct HomeView: View {
 
     var emptyView: some View {
         ContentUnavailableView {
-            Text(L10n.tvPodcastsEmptyTitle)
+            Text(L10n.tvPodcastsEmptyTitleNew)
         } description: {
             Text(L10n.tvPodcastsEmptySubtitle)
         } actions: {

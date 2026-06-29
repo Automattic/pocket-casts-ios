@@ -153,6 +153,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
 
+    private var episodeArtworkURL: URL?
+    private var didResolveEpisodeArtwork = false
+
     var rawShowNotes: String?
     var lastThemeRenderedNotesIn: Theme.ThemeType?
     var downloadingShowNotes = false
@@ -255,6 +258,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         super.viewDidAppear(animated)
 
         loadShowNotes()
+        loadEpisodeArtwork()
 
         bookmarksController.view.isHidden = false
 
@@ -407,9 +411,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         episodeName.text = episode.displayableTitle()
         podcastName.text = podcast.title
-        if let uuid = episode.parentPodcast()?.uuid {
-            podcastImage.setPodcast(uuid: uuid, size: .page)
-        }
+        updateArtwork()
 
         episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
@@ -419,6 +421,32 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateProgress()
         updateMessageView()
         updateColors()
+    }
+
+    private func updateArtwork() {
+        // While episode artwork is enabled but not yet resolved, show a placeholder. Once resolved,
+        // show the episode's own artwork, falling back to the podcast artwork when there is none.
+        if Settings.loadEmbeddedImages, !didResolveEpisodeArtwork {
+            podcastImage.setPlaceholder(size: .page)
+        } else if let episodeArtworkURL {
+            podcastImage.setEpisodeArtwork(url: episodeArtworkURL, size: .page)
+        } else if let uuid = episode.parentPodcast()?.uuid {
+            podcastImage.setPodcast(uuid: uuid, size: .page)
+        }
+    }
+
+    private func loadEpisodeArtwork() {
+        guard Settings.loadEmbeddedImages, !didResolveEpisodeArtwork else { return }
+
+        let podcastUuid = episode.parentIdentifier()
+        let episodeUuid = episode.uuid
+        Task { @MainActor [weak self] in
+            let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+            guard let self, self.episode.uuid == episodeUuid else { return }
+            self.episodeArtworkURL = url
+            self.didResolveEpisodeArtwork = true
+            self.updateArtwork()
+        }
     }
 
     @objc private func playbackProgressDidChange() {
