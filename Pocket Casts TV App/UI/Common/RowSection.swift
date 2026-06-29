@@ -2,12 +2,12 @@ import SwiftUI
 
 /// Single source of truth for the spacing between Home + Discover sections
 /// and between a section's title and its content row.
-enum HomeSectionLayout {
+enum RowSectionLayout {
     static let titleSpacing: CGFloat = 16
     static let sectionSpacing: CGFloat = 64
 }
 
-struct HomeSection<Content: View>: View {
+struct RowSection<Content: View>: View {
     private let title: String
     private let focusSection: AnyHashable
     private let content: Content
@@ -25,7 +25,7 @@ struct HomeSection<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: HomeSectionLayout.titleSpacing) {
+        VStack(alignment: .leading, spacing: RowSectionLayout.titleSpacing) {
             titleView
             content
         }

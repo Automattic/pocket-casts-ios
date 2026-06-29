@@ -62,7 +62,7 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
+                VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
@@ -108,7 +108,7 @@ struct HomeView: View {
     @ViewBuilder
     var nowPlayingRow: some View {
         if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
-            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
+            RowSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
@@ -151,7 +151,7 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
+            RowSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
@@ -180,7 +180,7 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
+        RowSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
