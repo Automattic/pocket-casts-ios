@@ -2745,10 +2745,6 @@ Pocket Casts。</string>
     <string>稍后加入队列</string>
     <key>queue_now_playing_accessibility</key>
     <string>正在播放。%1$@</string>
-    <key>queue_time_remaining</key>
-    <string>剩余 %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>总剩余时间为 %1$@</string>
     <key>rate</key>
     <string>评分</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Pocket Casts。</string>
     <string>前往 [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>或在 [%1$@](%2$@) 中输入此代码</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>无法获取您的登录代码</string>
     <key>tv_sign_in_subtitle</key>
     <string>打开您的摄像头，对准此二维码</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Pocket Casts。</string>
     <string>无需账户即可浏览</string>
     <key>tv_welcome_create_free_account</key>
     <string>创建免费账户</string>
-    <key>tv_welcome_sign_in</key>
-    <string>登录</string>
     <key>tv_welcome_subtitle</key>
     <string>您的播客。 大屏呈现。 显而易见。</string>
     <key>tv_welcome_title</key>

@@ -2745,10 +2745,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Ajouter plus tard à la file d’attente</string>
     <key>queue_now_playing_accessibility</key>
     <string>En cours de lecture. %1$@</string>
-    <key>queue_time_remaining</key>
-    <string>Temps restant : %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>Temps total restant : %1$@</string>
     <key>rate</key>
     <string>Évaluer</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>aller à [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>ou saisir ce code dans [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Impossible d’obtenir votre code de connexion</string>
     <key>tv_sign_in_subtitle</key>
     <string>Ouvrez votre appareil photo et scannez ce code QR</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Parcourir sans compte</string>
     <key>tv_welcome_create_free_account</key>
     <string>Créer un compte gratuit</string>
-    <key>tv_welcome_sign_in</key>
-    <string>Se connecter</string>
     <key>tv_welcome_subtitle</key>
     <string>Vos podcasts Sur grand écran. Évidemment.</string>
     <key>tv_welcome_title</key>
