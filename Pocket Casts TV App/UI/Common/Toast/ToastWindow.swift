@@ -38,35 +38,3 @@ class ToastHostViewController: UIViewController {
         view.isUserInteractionEnabled = false
     }
 }
-
-class ToastView: UIView {
-    private let messageLabel = UILabel()
-
-    init(message: String) {
-        super.init(frame: .zero)
-        setupUI(message: message)
-    }
-
-    required init?(coder: NSCoder) { fatalError() }
-
-    private func setupUI(message: String) {
-        backgroundColor = .pcBackgroundOverlay
-        layer.cornerRadius = 10
-        translatesAutoresizingMaskIntoConstraints = false
-
-        messageLabel.text = message
-        messageLabel.textColor = .pcTextPrimary
-        messageLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        messageLabel.numberOfLines = 0
-        messageLabel.textAlignment = .center
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(messageLabel)
-        NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-        ])
-    }
-}

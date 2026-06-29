@@ -1,10 +1,11 @@
 import UIKit
+import SwiftUI
 
 class ToastManager {
     static let shared = ToastManager()
     private init() {}
 
-    private var currentToast: ToastView?
+    private var currentToast: UIView?
     private var dismissTask: Task<Void, Never>?
 
     func show(_ message: String, duration: TimeInterval = 3.0) {
@@ -14,21 +15,25 @@ class ToastManager {
 
             guard let hostView = ToastWindow.shared?.rootViewController?.view else { return }
 
-            let toast = ToastView(message: message)
+            let toastVC = UIHostingController(rootView: ToastView(message: message))
+            guard let toast = toastVC.view else {
+                return
+            }
+            toast.translatesAutoresizingMaskIntoConstraints = false
             hostView.addSubview(toast)
             currentToast = toast
 
             NSLayoutConstraint.activate([
                 toast.trailingAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-                toast.topAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.topAnchor, constant: 62),
+                toast.topAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.topAnchor, constant: -80),
                 toast.widthAnchor.constraint(lessThanOrEqualTo: hostView.widthAnchor, multiplier: 0.6)
             ])
 
             toast.alpha = 0
-            toast.transform = CGAffineTransform(translationX: 0, y: 20)
+            toast.transform = CGAffineTransform(translationX: 300, y: 0)
             UIView.animate(withDuration: 0.3) {
                 toast.alpha = 1
-                toast.transform = .identity
+                toast.transform = CGAffineTransform(translationX: 0, y: 0)
             }
 
             dismissTask = Task { [weak self] in
