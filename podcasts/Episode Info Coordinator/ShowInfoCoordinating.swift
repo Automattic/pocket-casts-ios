@@ -18,7 +18,7 @@ protocol ShowInfoCoordinating {
     func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?)
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?, [GeneratedChapter]?)
 
     func loadTranscriptsMetadata(
         podcastUuid: String,

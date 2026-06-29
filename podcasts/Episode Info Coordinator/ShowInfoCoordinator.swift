@@ -8,6 +8,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
     private let dataRetriever: ShowInfoDataRetriever
     private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
+    private let generatedEpisodeMetadataRetriever: GeneratedEpisodeMetadataRetriever
     private let dataManager: DataManager
     private let transcriptDataRetriever: TranscriptsDataRetriever
 
@@ -17,11 +18,13 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
         podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
+        generatedMetadataDataRetriever: GeneratedEpisodeMetadataRetriever = GeneratedEpisodeMetadataRetriever(),
         dataManager: DataManager = .sharedManager,
         transcriptDataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()
     ) {
         self.dataRetriever = dataRetriever
         self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
+        self.generatedEpisodeMetadataRetriever = generatedMetadataDataRetriever
         self.dataManager = dataManager
         self.transcriptDataRetriever = transcriptDataRetriever
     }
@@ -45,15 +48,20 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     public func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?) {
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?, [GeneratedChapter]?) {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
         if let pocastIndexChapterUrl = metadata?.chaptersUrl,
-            let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
-            return (nil, chapters.chapters)
+           let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl)
+        {
+            return (nil, chapters.chapters, nil)
         }
 
-        return (metadata?.chapters, nil)
+        if let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters, !chapters.isEmpty {
+            return (nil, nil, chapters)
+        }
+
+        return (metadata?.chapters, nil, nil)
     }
 
     private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {

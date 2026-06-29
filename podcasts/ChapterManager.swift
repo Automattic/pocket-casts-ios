@@ -121,20 +121,20 @@ class ChapterManager {
         // Parse chapters from the file and request external chapters
         async let fileChaptersAsync = loadChapters(for: episode, duration: duration)
 
-        async let (podloveChaptersAsync, podcastIndexChaptersAsync) = await
+        async let (podloveChaptersAsync, podcastIndexChaptersAsync, generatedChaptersAsync) = await
         showInfoCoordinator.loadChapters(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
 
         var chapters: [ChapterInfo]
 
         do {
-            let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
+            let (fileChapters, podloveChapters, podcastIndexChapters, generatedChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync, generatedChaptersAsync)
 
             // Prioritize embedded chapters, given for some shows it will take
             // into account dynamic ads
             if !fileChapters.isEmpty {
                 chapters = fileChapters
                 FileLog.shared.addMessage("ChapterManager: using file chapters")
-            } else if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
+            } else if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, generated: generatedChapters, duration: duration) {
                 chapters = externalChapters
                 FileLog.shared.addMessage("ChapterManager: using external chapters")
             } else {
@@ -161,13 +161,17 @@ class ChapterManager {
         return []
     }
 
-    private func parseExternalChapters(podlove: [Episode.Metadata.EpisodeChapter]?, podcastIndex: [PodcastIndexChapter]?, duration: TimeInterval) -> [ChapterInfo]? {
+    private func parseExternalChapters(podlove: [Episode.Metadata.EpisodeChapter]?, podcastIndex: [PodcastIndexChapter]?, generated: [GeneratedChapter]?, duration: TimeInterval) -> [ChapterInfo]? {
         if let podcastIndex {
             return chapterParser.parsePodcastIndexChapters(podcastIndex, episodeDuration: duration)
         }
 
         if let podlove {
             return chapterParser.parsePodloveChapters(podlove, episodeDuration: duration)
+        }
+
+        if let generated {
+            return chapterParser.parseGeneratedChapters(generated, episodeDuration: duration)
         }
 
         return nil
