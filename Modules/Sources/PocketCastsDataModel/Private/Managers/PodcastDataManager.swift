@@ -527,18 +527,28 @@ class PodcastDataManager {
                 let uuids = podcasts.map { $0.uuid }
 
                 if FeatureFlag.newSettingsStorage.enabled {
+                    let modified = ModifiedDate(wrappedValue: value.rawValue, modifiedAt: Date())
+                    let json = try JSONEncoder().encode(modified)
+                    guard let jsonString = String(data: json, encoding: .utf8) else {
+                        throw JSONError.failedStringConvert("addToUpNext", json)
+                    }
+
                     let query = """
-                    SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}')
+                    UPDATE \(DataManager.podcastTableName)
+                    SET settings = json_set(
+                        \(DataManager.podcastTableName).settings,
+                        '$.addToUpNext',
+                        json('\(jsonString)')
+                    )
                     WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
-                    FROM \(DataManager.podcastTableName)"
                     """
-                    try db.executeUpdate(query, values: [value.rawValue])
+                    try db.executeUpdate(query, values: [])
                 }
 
                 let query = """
                 UPDATE \(DataManager.podcastTableName)
                 SET autoAddToUpNext = ?
-                AND uuid IN (\(DataHelper.convertArrayToInString(uuids)))
+                WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
                 """
                 try db.executeUpdate(query, values: [value.rawValue])
             } catch {

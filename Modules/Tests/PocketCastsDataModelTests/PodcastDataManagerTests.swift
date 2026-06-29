@@ -725,6 +725,38 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - updateAutoAddToUpNext Tests
+
+    func testUpdateAutoAddToUpNextOnlyUpdatesTargetedPodcasts() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let target1 = self.createTestPodcast(uuid: "target-1", title: "Target 1", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+            let target2 = self.createTestPodcast(uuid: "target-2", title: "Target 2", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+            let untouched = self.createTestPodcast(uuid: "untouched", title: "Untouched", autoAddToUpNext: AutoAddToUpNextSetting.addLast.rawValue, dataManager: dataManager)
+
+            let foundTarget1 = try XCTUnwrap(dataManager.findPodcast(uuid: target1.uuid), "\(impl): target-1 should exist")
+            let foundTarget2 = try XCTUnwrap(dataManager.findPodcast(uuid: target2.uuid), "\(impl): target-2 should exist")
+
+            dataManager.updateAutoAddToUpNext(to: .addLast, for: [foundTarget1, foundTarget2])
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: target1.uuid)?.autoAddToUpNext, AutoAddToUpNextSetting.addLast.rawValue, "\(impl): target-1 should be updated")
+            XCTAssertEqual(dataManager.findPodcast(uuid: target2.uuid)?.autoAddToUpNext, AutoAddToUpNextSetting.addLast.rawValue, "\(impl): target-2 should be updated")
+            // A scoped update must NOT modify podcasts that weren't passed in.
+            XCTAssertEqual(dataManager.findPodcast(uuid: untouched.uuid)?.autoAddToUpNext, AutoAddToUpNextSetting.addLast.rawValue, "\(impl): podcast not in the list must keep its original setting")
+        }
+    }
+
+    func testUpdateAutoAddToUpNextStoresExactValue() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+            let found = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid), "\(impl): podcast should exist")
+
+            dataManager.updateAutoAddToUpNext(to: .addFirst, for: [found])
+
+            // addFirst (2) must round-trip exactly, not be clamped to addLast (1).
+            XCTAssertEqual(dataManager.findPodcast(uuid: podcast.uuid)?.autoAddToUpNext, AutoAddToUpNextSetting.addFirst.rawValue, "\(impl): addFirst should be stored exactly")
+        }
+    }
+
     // MARK: - setDownloadSettingForAllPodcasts Tests
 
     func testSetDownloadSettingForAllPodcastsUpdatesAll() throws {
