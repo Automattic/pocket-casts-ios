@@ -4,6 +4,7 @@
 - Add a Star Episodes action to Up Next multi-select and show a star indicator on Up Next cells [#4605](https://github.com/Automattic/pocket-casts-ios/pull/4605)
 - Fix the Files navigation bar not being transparent [#4604](https://github.com/Automattic/pocket-casts-ios/pull/4604)
 - Fix Control Center timeline continuing to advance while playback is paused [#4530](https://github.com/Automattic/pocket-casts-ios/pull/4530)
+- Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
 - Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
 
 8.15
