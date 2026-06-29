@@ -3,6 +3,7 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
+    @Environment(\.dismiss) var dismiss
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
@@ -56,8 +57,14 @@ struct PodcastDetailView: View {
     }
 
     var failedView: some View {
-        VStack {
+        ContentUnavailableView {
+            Text(L10n.podcastErrorTitle)
+        } description: {
             Text(L10n.podcastErrorMessage)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
         }
     }
 
