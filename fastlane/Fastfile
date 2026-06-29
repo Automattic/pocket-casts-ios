@@ -896,7 +896,13 @@ platform :ios do
     release ||= get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
     UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
 
-    upload_github_release_assets(release: release, assets: upload_assets, api_token: api_token)
+    upload_github_release_assets(
+      repository: GITHUB_REPO,
+      version: version,
+      release_assets: upload_assets,
+      replace_existing: true,
+      github_token: api_token
+    )
 
     if notify_slack
       UI.message('Sending message to Slack...')
@@ -1338,31 +1344,6 @@ platform :ios do
 
   def github_release_version(beta_release:)
     beta_release ? build_code_current : release_version_current
-  end
-
-  def upload_github_release_assets(release:, assets:, api_token:)
-    assets.each do |asset|
-      asset_path = asset.to_s
-      asset_name = File.basename(asset_path)
-      existing_assets = Array(release['assets']).select { |release_asset| release_asset['name'] == asset_name }
-
-      existing_assets.each do |existing_asset|
-        UI.message("Deleting existing GitHub release asset #{asset_name}...")
-        Fastlane::Actions::GithubApiAction.run(
-          server_url: 'https://api.github.com',
-          api_token: api_token,
-          http_method: 'DELETE',
-          path: "repos/#{GITHUB_REPO}/releases/assets/#{existing_asset['id']}",
-          error_handlers: {
-            '*' => proc do |result|
-              UI.user_error!("GitHub responded with #{result[:status]}:#{result[:body]}")
-            end
-          }
-        )
-      end
-
-      Fastlane::Actions::SetGithubReleaseAction.upload(asset_path, release['upload_url'], api_token, nil)
-    end
   end
 
   # Kicks off a Buildkite build using the `release-builds.yml` pipeline
