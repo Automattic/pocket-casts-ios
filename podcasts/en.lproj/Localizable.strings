@@ -6448,3 +6448,9 @@
 /* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
 "tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
 
+/* Title to shown when failed to load a podcast information*/
+"tv_podcast_error_title" = "Couldn't load podcast details";
+
+/* Message to shown when failed to load a podcast information*/
+"tv_podcast_error_message" = "Check your internet connection and try again";
+
