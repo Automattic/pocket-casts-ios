@@ -6,6 +6,8 @@ import PocketCastsDataModel
 /// and triggers stale marking with debounced refresh.
 final class PlaylistCacheInvalidationCoordinator {
 
+    static let shared = PlaylistCacheInvalidationCoordinator(playlistMetadataLoader: .shared)
+
     private let playlistMetadataLoader: PlaylistMetadataLoader
     private let dataManager: DataManager
     private var notificationObservers: [NSObjectProtocol] = []
