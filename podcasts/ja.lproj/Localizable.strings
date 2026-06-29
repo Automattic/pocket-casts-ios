@@ -2745,10 +2745,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>待機リストに追加して後で使用</string>
     <key>queue_now_playing_accessibility</key>
     <string>再生中。%1$@</string>
-    <key>queue_time_remaining</key>
-    <string>残り時間: %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>合計残り時間: %1$@</string>
     <key>rate</key>
     <string>評価する</string>
     <key>rate_pocket_casts</key>
@@ -3964,8 +3960,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>[%1$@](%2$@) に移動</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>または [%1$@](%2$@) にこのコードを入力</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>ログインコードを取得できませんでした</string>
     <key>tv_sign_in_subtitle</key>
     <string>カメラを開き、この QR コードに向けます</string>
     <key>tv_sign_in_title</key>
@@ -4000,8 +3994,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アカウントなしで閲覧</string>
     <key>tv_welcome_create_free_account</key>
     <string>無料アカウントを作成</string>
-    <key>tv_welcome_sign_in</key>
-    <string>ログイン</string>
     <key>tv_welcome_subtitle</key>
     <string>ポッドキャストを 大画面で お楽しみください</string>
     <key>tv_welcome_title</key>
