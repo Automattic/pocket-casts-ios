@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 public struct GeneratedMetadataEnvelope: Decodable {
-    let summary: String
+    let summary: String?
     let chapters: [GeneratedChapter]?
 }
 
