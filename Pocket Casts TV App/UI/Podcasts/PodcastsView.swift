@@ -45,8 +45,10 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
         ProgressView()
     }
 
+    @State private var path = NavigationPath()
+
     var podcastsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPodcasts)
@@ -56,6 +58,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 }
             }
         }
+        .syncNavigationDetail(path: path, tabRouter: tabRouter)
     }
 
     var emptyView: some View {

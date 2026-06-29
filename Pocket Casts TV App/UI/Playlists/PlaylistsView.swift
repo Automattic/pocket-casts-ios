@@ -42,8 +42,9 @@ struct PlaylistsView: View {
         ProgressView()
     }
 
+    @State private var path = NavigationPath()
     var playlistsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
@@ -53,6 +54,7 @@ struct PlaylistsView: View {
                 }
             }
         }
+        .syncNavigationDetail(path: path, tabRouter: tabRouter)
     }
 
     var emptyView: some View {

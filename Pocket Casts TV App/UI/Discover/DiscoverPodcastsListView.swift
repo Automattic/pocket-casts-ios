@@ -35,8 +35,6 @@ struct DiscoverPodcastsListView: View {
             await model.load()
         }
         .toolbar(.hidden, for: .tabBar)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
     }
 
     var loadingView: some View {

@@ -2,12 +2,16 @@ import SwiftUI
 
 struct SearchView<ViewModel: SearchableViewModel>: View {
 
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+
     @Bindable var model: ViewModel
     @State private var searchText = ""
     @State private var didTrackShown = false
 
+    @State private var path = NavigationPath()
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack {
                 SearchResultsView(model: model)
             }
@@ -55,9 +59,11 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 Analytics.track(.searchShown, properties: ["source": "search"])
             }
         }
+        .syncNavigationDetail(path: path, tabRouter: tabRouter)
     }
 }
 
 #Preview {
     SearchView(model: SearchViewModel())
+        .environment(MainTabViewModel())
 }

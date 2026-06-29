@@ -43,8 +43,6 @@ struct PodcastDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .task {
             Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()
