@@ -114,7 +114,7 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var infoContent: some View {
-        HStack(alignment: .bottom, spacing: 48) {
+        HStack(alignment: .bottom, spacing: 24) {
             if let podcastUuid = model.episode.podcastUuid {
                 PodcastImage(uuid: podcastUuid, size: .list)
                     .frame(width: Layout.imageSize, height: Layout.imageSize)
