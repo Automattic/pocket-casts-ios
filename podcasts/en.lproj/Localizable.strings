@@ -6454,3 +6454,4 @@
 /* Message to shown when failed to load a podcast information*/
 "tv_podcast_error_message" = "Check your internet connection and try again";
 
+"chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";

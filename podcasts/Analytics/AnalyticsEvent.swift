@@ -898,6 +898,7 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsBookmarkSoundToggled
 
     // MARK: - Skipping Chapters
+    case chapterLinkClicked
     case deselectChaptersToggledOn
     case deselectChaptersToggledOff
     case deselectChaptersChapterSelected
