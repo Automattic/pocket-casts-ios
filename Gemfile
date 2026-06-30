@@ -8,9 +8,7 @@ gem 'fastlane', '~> 2.236'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
 gem 'fastlane-plugin-sentry', '~> 2.5'
 # TODO: Switch back to a RubyGems version once release-toolkit PR #743 is released.
-gem 'fastlane-plugin-wpmreleasetoolkit',
-    git: 'https://github.com/wordpress-mobile/release-toolkit.git',
-    ref: '448e95925e9cd1ec5be6794eb2232b6f9a0c1ec4'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.9.0'
 # To avoid errors like:
 #
 # SSL_connect returned=1 errno=0 peeraddr=3.5.132.155:443 state=error: certificate verify failed (unable to get certificate CRL)
