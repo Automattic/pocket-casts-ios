@@ -6448,3 +6448,4 @@
 /* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
 "tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
 
+"chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
