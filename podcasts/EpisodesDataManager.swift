@@ -15,10 +15,6 @@ class EpisodesDataManager {
             }
         case .filter(uuid: let uuid):
             if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
-                // Use the same query the playlist screen uses so autoplay sees the
-                // exact list the user sees. The legacy `PlaylistQueryBuilder.queryFor(filter:)`
-                // path ignored `EpisodeFilter.manual` and excluded episodes from unsubscribed
-                // podcasts, which broke autoplay for manual playlists.
                 return playlistEpisodes(for: filter).map { $0.episode }
             }
         case .downloads:
