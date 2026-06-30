@@ -208,7 +208,6 @@ struct EpisodeRowWithActions: View {
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
             EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
-        
     }
 }
 

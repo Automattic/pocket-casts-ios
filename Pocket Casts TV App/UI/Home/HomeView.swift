@@ -59,10 +59,10 @@ struct HomeView: View {
         }
     }
 
-    @State private var path = NavigationPath()
+    @State private var path = StackPath()
 
     var homeView: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $path.navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
@@ -100,8 +100,12 @@ struct HomeView: View {
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
                 DiscoverPodcastsListView(category: discoverCategory)
             }
-            .syncNavigationDetail(path: path, tabRouter: tabRouter)
+            .navigationDestination(for: Podcast.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+            }
+            .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
         }
+        .environment(path)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
                 .ignoresSafeArea()
