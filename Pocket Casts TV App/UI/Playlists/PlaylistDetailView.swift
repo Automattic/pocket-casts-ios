@@ -158,7 +158,7 @@ struct PlaylistDetailView: View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), focus: $rowFocus)
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(true), focus: $rowFocus)
                         .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
                         .listRowInsets(Layout.rowInsets)
                 }

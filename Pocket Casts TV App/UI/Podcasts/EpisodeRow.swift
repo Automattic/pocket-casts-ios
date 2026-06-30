@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsUtils
 import PocketCastsDataModel
+import PocketCastsServer
 
 struct EpisodeRowButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
@@ -118,7 +119,7 @@ enum EpisodeRowFocus: Hashable {
 struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
-    var context: EpisodeActionContext = .default
+    var context: EpisodeActionContext = .other(false)
     @FocusState.Binding var focus: EpisodeRowFocus?
     var customPlayDisplayAction: (() -> ())? = nil
     @State private var isPlaying = false
@@ -207,21 +208,24 @@ struct EpisodeRowWithActions: View {
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
             EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
+        
     }
 }
 
 enum EpisodeActionContext {
-    case `default`
+    case other(Bool)
     case upNext
 }
 
 struct EpisodeActionButtons: View {
 
     let model: EpisodeRowViewModel
-    var context: EpisodeActionContext = .default
+    var context: EpisodeActionContext = .other(false)
     @Binding var isShowingShowNotes: Bool
 
     @Environment(\.requireAccount) private var requireAccount
+
+    @Environment(StackPath.self) private var stackPath: StackPath?
 
     var body: some View {
         Group {
@@ -229,7 +233,19 @@ struct EpisodeActionButtons: View {
                 Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
             }
             switch context {
-            case .default:
+            case .other(let showGoToPodcast):
+                if showGoToPodcast {
+                    Button(L10n.goToPodcast) {
+                        if let podcast = model.podcast {
+                            stackPath?.navigationPath.append(podcast)
+                        } else if let episode = model.episode as? Episode {
+                            let podcastUuid = episode.podcastUuid
+                            var podcast = DiscoverPodcast()
+                            podcast.uuid = podcastUuid
+                            stackPath?.navigationPath.append(podcast)
+                        }
+                    }
+                }
                 Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
                 Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
@@ -237,6 +253,11 @@ struct EpisodeActionButtons: View {
                     Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
                 }
             case .upNext:
+                if let podcast = model.podcast {
+                    Button(L10n.goToPodcast) {
+                        stackPath?.navigationPath.append(podcast)
+                    }
+                }
                 Button(L10n.playNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLast) { requireAccount { model.playLast() } }
                 Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
@@ -266,7 +287,7 @@ private struct EpisodeContextMenuModifier: ViewModifier {
 }
 
 extension View {
-    func episodeContextMenu(model: EpisodeRowViewModel, context: EpisodeActionContext = .default) -> some View {
+    func episodeContextMenu(model: EpisodeRowViewModel, context: EpisodeActionContext = .other(false)) -> some View {
         modifier(EpisodeContextMenuModifier(model: model, context: context))
     }
 }
