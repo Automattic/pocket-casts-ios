@@ -73,7 +73,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 cell.populateFrom(promotion, isSubscribed: isSubscribed)
                 return cell
             } else {
-                // The promotion occupies row 0, so data rows are shifted down by one.
                 podcastIndexRow -= 1
             }
         }
@@ -91,7 +90,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         guard let delegate else { return }
 
         if let cell = tableView.cellForRow(at: indexPath) as? DiscoverPodcastTableCell {
-            // The promotion occupies row 0, so data rows are shifted down by one.
             let podcastIndexRow = showPromotion() ? indexPath.row - 1 : indexPath.row
             let podcast = podcasts[podcastIndexRow]
 
