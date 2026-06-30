@@ -635,6 +635,29 @@ Deixa'ns ajudar-te primer</string>
     <string>Desselecciona tot l'anterior</string>
     <key>deselect_all_below</key>
     <string>Desselecciona tot el que apareix a continuació</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Insereix el codi</string>
+    <key>device_approve_connect_button</key>
+    <string>Connecta</string>
+    <key>device_approve_description</key>
+    <string>L'escolta se sincronitzarà automàticament.
+Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Torna al teu televisor per generar-ne un de nou.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>El teu codi QR ha caducat</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>L'aprovació del dispositiu ha fallat</string>
+    <key>device_approve_login_required</key>
+    <string>Per connectar el teu dispositiu necessites tenir un compte. Inicia sessió o crea un compte i torna-ho a provar.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Iniciant sessió com a...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>El teu Apple TV ara està connectat al teu compte.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV connectat</string>
+    <key>device_approve_title</key>
+    <string>Connecta a l'Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
     <key>discover</key>
@@ -2739,9 +2762,13 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <key>queue_now_playing_accessibility</key>
     <string>Ara sona. %1$@</string>
     <key>queue_time_remaining</key>
-    <string>Queden %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>Queda en total: %1$@</string>
+    <string>%1$@ queden</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 episodi · %1$@ queden</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ episodis · %2$@ queden</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>%1$@ queden</string>
     <key>rate</key>
     <string>Valora</string>
     <key>rate_pocket_casts</key>
@@ -2751,7 +2778,7 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <key>rating_listen_to_this_podcast_message</key>
     <string>Només els oients d'aquest pòdcast poden valorar-lo. Escolta alguns episodis i torna per deixar la teva valoració. Estem desitjant saber què t'ha semblat!</string>
     <key>rating_listen_to_this_podcast_title</key>
-    <string>Escolta aquest pòdcast primer abans de valorar-lo</string>
+    <string>Escolta primer aquest pòdcast abans de valorar-lo</string>
     <key>rating_login_required</key>
     <string>Has d'iniciar sessió per a deixar una valoració</string>
     <key>rating_no_ratings</key>
@@ -3523,6 +3550,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Configura el temporitzador en %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Amplia el temporitzador 5 minuts</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Marca com a reproduït</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Marca l'episodi actual com a reproduït</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Capítol següent</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3828,6 +3859,11 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Tornar-ho a provar</string>
     <key>try_it_now</key>
     <string>Prova-ho ara</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Hi ha hagut un problema i has tancat la sessió.
+Prem el botó de sota per tornar a iniciar sessió al teu compte de Pocket Casts.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Has tancat la sessió.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Crea un compte gratuït</string>
     <key>tv_banner_create_account_subtitle</key>
@@ -3842,18 +3878,56 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Encara no n'has vist ni la meitat.</string>
     <key>tv_create_account_come_back</key>
     <string>Un cop hagis creat el compte, torna i inicia la sessió</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Crea el teu compte</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>El televisor iniciarà sessió automàticament</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Escaneja el codi QR</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Crea un compte gratuït per seguir pòdcasts, construir la cua de «Tot seguit» i reprendre-ho exactament on ho vas deixar, a qualsevol dispositiu.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Els teus pòdcasts mereixen una llar</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Obre la càmera i apunta a aquest codi QR.</string>
     <key>tv_create_account_subtitle</key>
     <string>Escaneja aquest codi per començar al teu telèfon, només triga un minut.</string>
     <key>tv_create_account_title</key>
     <string>Crea el teu compte gratuït</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Comprova que estàs connectat a internet i torna-ho a provar.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>No s'ha pogut carregar «Descobreix».</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Ves al pòdcast</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Reprodueix l'últim episodi</string>
     <key>tv_discover_play_episode</key>
     <string>Reprodueix l'episodi</string>
+    <key>tv_episode_archived</key>
+    <string>Arxivat</string>
     <key>tv_episode_info</key>
     <string>Informació de l'episodi</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Marcat com a reproduït</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Eliminat de «Tot seguit»</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Detalls de l'episodi</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>S'estan carregant els detalls de l'episodi…</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Detalls de l'episodi</string>
+    <key>tv_episode_unarchived</key>
+    <string>Desarxivat</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Es reproduirà al final</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Es reproduirà a continuació</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Els episodis que reprodueixis apareixeran aquí</string>
+    <key>tv_history_empty_title</key>
+    <string>Sense historial d'escolta</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Explora les categories</string>
     <key>tv_home_featured_section_title</key>
@@ -3872,6 +3946,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>El que tothom escolta aquesta setmana</string>
     <key>tv_home_video_section_title</key>
     <string>Fet per a la TV</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>No s'ha pogut obtenir el teu codi d'accés</string>
     <key>tv_player_playback_effects</key>
     <string>Efectes de reproducció</string>
     <key>tv_player_playback_speed</key>
@@ -3910,18 +3986,28 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Quant a</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Tots els episodis</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Episodis arxivats</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Segueix aquest pòdcast</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Seguit</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Amaga els arxivats</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Més informació</string>
     <key>tv_podcast_detail_network</key>
     <string>Xarxa</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Episodi següent</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Els episodis d'aquest pòdcast apareixeran aquí.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Sense episodis</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Programació</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Mostra els arxivats</string>
     <key>tv_podcast_detail_start_here</key>
     <string>L'episodi per on començar</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3944,8 +4030,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Inicia sessió</string>
     <key>tv_profile_menu_log_out</key>
     <string>Tanca la sessió</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Això elimina tots els pòdcasts descarregats i les dades d'aquest Apple TV. Pots tornar a iniciar sessió per recuperar-los.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Vols tancar la sessió?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Episodis destacats</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>S'estan obtenint els darrers episodis</string>
     <key>tv_search_failed</key>
     <string>La cerca ha fallat: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3960,8 +4052,6 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>anant a [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>o introdueix aquest codi a [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>No s'ha pogut obtenir el codi d'accés</string>
     <key>tv_sign_in_subtitle</key>
     <string>Obre la càmera i apunta-la a aquest codi QR</string>
     <key>tv_sign_in_title</key>
@@ -3970,8 +4060,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Carregant els teus pòdcasts.</string>
     <key>tv_signing_in_title</key>
     <string>Benvingut de nou.</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Pocket Casts recomana</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Destaca episodis per tenir-los a mà i apareixeran aquí</string>
+    <key>tv_starred_empty_title</key>
+    <string>Sense episodis destacats</string>
     <key>tv_tab_home</key>
     <string>Inici</string>
+    <key>tv_tab_now_playing</key>
+    <string>Ara sona</string>
     <key>tv_tab_playlists</key>
     <string>Llistes de reproducció</string>
     <key>tv_tab_podcasts</key>
@@ -3992,11 +4090,13 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Usuari/Contrasenya</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Nom d'usuari</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Navega sense un compte</string>
     <key>tv_welcome_create_free_account</key>
     <string>Crea un compte gratuït</string>
-    <key>tv_welcome_sign_in</key>
+    <key>tv_welcome_log_in</key>
     <string>Inicia sessió</string>
     <key>tv_welcome_subtitle</key>
     <string>Els teus pòdcasts. A la pantalla gran. És clar.</string>
@@ -4032,6 +4132,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Presentem la reproducció aleatòria</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle està activat. Els episodis es reproduiran en ordre aleatori.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>De més llarg a més curt</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Del més nou al més antic</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Del més antic al més nou</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>De més curt a més llarg</string>
+    <key>up_next_sort_title</key>
+    <string>Ordena «Tot seguit»</string>
     <key>upgrade_account</key>
     <string>Actualitza el compte</string>
     <key>upgrade_account_info</key>

@@ -3,6 +3,7 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
+    @Environment(\.dismiss) var dismiss
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
@@ -43,8 +44,6 @@ struct PodcastDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .task {
             Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()
@@ -56,8 +55,14 @@ struct PodcastDetailView: View {
     }
 
     var failedView: some View {
-        VStack {
-            Text(L10n.podcastErrorMessage)
+        ContentUnavailableView {
+            Text(L10n.tvPodcastErrorTitle)
+        } description: {
+            Text(L10n.tvPodcastErrorMessage)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
         }
     }
 

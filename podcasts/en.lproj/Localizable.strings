@@ -6104,7 +6104,7 @@
 "tv_create_account_modal_step_log_in" = "The TV will log you in";
 
 /* tv signing in title */
-"tv_signing_in_title" = "Good to see you.";
+"tv_signing_in_title_new" = "Good to see you";
 
 /* tv signing in subtitle */
 "tv_signing_in_subtitle" = "Loading your podcasts now.";
@@ -6113,7 +6113,7 @@
 "tv_resync_fetching_episodes" = "Fetching latest episodes";
 
 /* tv podcasts empty title */
-"tv_podcasts_empty_title" = "Time to fill this up.";
+"tv_podcasts_empty_title_new" = "Time to fill this up";
 
 /* tv podcasts empty subtitle */
 "tv_podcasts_empty_subtitle" = "Followed podcasts show up here, ready to play.";
@@ -6398,7 +6398,7 @@
 "tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
 
 /* tv Discover failed to load title*/
-"tv_discover_failed_to_load_title" = "Discover failed to load.";
+"tv_discover_failed_to_load_title" = "Discover failed to load";
 
 /* tv Discover failed to load subtitle*/
 "tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
@@ -6440,12 +6440,18 @@
 "device_approve_generic_error_alert_title" = "Device approval failed";
 
 /* Title of an alert that informs the user that they have been signed out of their account */
-"tv_account_signed_out_alert_title" = "You've been logged out.";
+"tv_account_signed_out_alert_title" = "You've been logged out";
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
 "tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
 
 /* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
 "tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
+
+/* Title to shown when failed to load a podcast information*/
+"tv_podcast_error_title" = "Couldn't load podcast details";
+
+/* Message to shown when failed to load a podcast information*/
+"tv_podcast_error_message" = "Check your internet connection and try again";
 
 "chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";

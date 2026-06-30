@@ -7,7 +7,7 @@ gem 'danger-dangermattic', '~> 1.3'
 gem 'fastlane', '~> 2.236'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
 gem 'fastlane-plugin-sentry', '~> 2.5'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.7'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.9.0'
 # To avoid errors like:
 #
 # SSL_connect returned=1 errno=0 peeraddr=3.5.132.155:443 state=error: certificate verify failed (unable to get certificate CRL)

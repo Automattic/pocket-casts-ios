@@ -9,7 +9,7 @@ final class TranscriptManagerTests: XCTestCase {
             return ""
         }
 
-        func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> String? {
+        func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> URL? {
             return nil
         }
 

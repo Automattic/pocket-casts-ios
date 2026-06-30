@@ -49,7 +49,7 @@ struct HomeView: View {
 
     var emptyView: some View {
         ContentUnavailableView {
-            Text(L10n.tvPodcastsEmptyTitle)
+            Text(L10n.tvPodcastsEmptyTitleNew)
         } description: {
             Text(L10n.tvPodcastsEmptySubtitle)
         } actions: {
@@ -59,10 +59,12 @@ struct HomeView: View {
         }
     }
 
+    @State private var path = NavigationPath()
+
     var homeView: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
-                VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
+                VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
@@ -98,6 +100,7 @@ struct HomeView: View {
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
                 DiscoverPodcastsListView(category: discoverCategory)
             }
+            .syncNavigationDetail(path: path, tabRouter: tabRouter)
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
@@ -108,7 +111,7 @@ struct HomeView: View {
     @ViewBuilder
     var nowPlayingRow: some View {
         if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
-            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
+            RowSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
@@ -151,7 +154,7 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
+            RowSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
@@ -180,7 +183,7 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
+        RowSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
@@ -192,54 +195,6 @@ struct HomeView: View {
             }
             .scrollClipDisabled()
         }
-    }
-}
-
-/// Single source of truth for the spacing between Home + Discover sections
-/// and between a section's title and its content row.
-enum HomeSectionLayout {
-    static let titleSpacing: CGFloat = 16
-    static let sectionSpacing: CGFloat = 64
-}
-
-struct HomeSection<Content: View>: View {
-    private let title: String
-    private let focusSection: AnyHashable
-    private let content: Content
-
-    @Environment(FocusStore.self) var focusStore
-
-    init(title: String, focusSection: AnyHashable, @ViewBuilder content: () -> Content) {
-        self.title = title
-        self.content = content()
-        self.focusSection = focusSection
-    }
-
-    private var isFocusedSection: Bool {
-        focusStore.focusedID == focusSection
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: HomeSectionLayout.titleSpacing) {
-            titleView
-            content
-        }
-        .focusSection()
-    }
-
-    // Always reserve space for the larger (focused) title so the layout
-    // doesn't jump when the title resizes on focus changes. A hidden copy at
-    // the largest font sizes the slot; the visible title is overlaid and
-    // bottom-aligned so its distance to the content below stays constant.
-    private var titleView: some View {
-        Text(title)
-            .font(.title3)
-            .hidden()
-            .overlay(alignment: .bottomLeading) {
-                Text(title)
-                    .font(isFocusedSection ? .title3 : .headline)
-                    .foregroundStyle(Color.pcTextPrimary)
-            }
     }
 }
 
