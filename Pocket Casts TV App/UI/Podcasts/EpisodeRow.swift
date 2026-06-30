@@ -290,16 +290,21 @@ struct DiscoveryEpisodeMenuButtons: View {
 
     var podcast: DiscoverPodcast?
 
+    var podcastCallback: (()->())? = nil
+
     @Environment(\.requireAccount) private var requireAccount
 
     var body: some View {
+        Button(L10n.tvEpisodeShowNotesAction) {
+            load { showNotesEpisode = $0 }
+        }
         if let podcast {
             NavigationLink(value: podcast) {
                 Text(L10n.tvDiscoverFeaturedGoToPodcast)
             }
-        }
-        Button(L10n.tvEpisodeShowNotesAction) {
-            load { showNotesEpisode = $0 }
+            .simultaneousGesture(TapGesture().onEnded {
+                podcastCallback?()
+            })
         }
         Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
         Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }

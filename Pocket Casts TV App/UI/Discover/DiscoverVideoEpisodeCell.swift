@@ -49,7 +49,7 @@ struct DiscoverVideoEpisodeCell: View {
         } label: {
             VStack {
                 Spacer()
-                nonFocusedContent
+                infoContent
             }
             .padding(32)
             .frame(width: Layout.cardWidth, height: Layout.cardHeight)
@@ -97,7 +97,9 @@ struct DiscoverVideoEpisodeCell: View {
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
         }
         .contextMenu {
-            DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast)
+            DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast) {
+                trackPodcastTapped()
+            }
         }
     }
 
@@ -106,7 +108,12 @@ struct DiscoverVideoEpisodeCell: View {
         DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
     }
 
-    var nonFocusedContent: some View {
+    private func trackPodcastTapped() {
+        guard let listId, let podcastUuid = model.episode.podcastUuid else { return }
+        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
+    }
+
+    var infoContent: some View {
         HStack(alignment: .bottom, spacing: 48) {
             if let podcastUuid = model.episode.podcastUuid {
                 PodcastImage(uuid: podcastUuid, size: .list)
