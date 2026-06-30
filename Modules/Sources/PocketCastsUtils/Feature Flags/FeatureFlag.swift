@@ -539,7 +539,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .upNextSort:
-            BuildEnvironment.current == .debug
+            true
         }
     }
 
