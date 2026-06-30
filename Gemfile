@@ -7,7 +7,6 @@ gem 'danger-dangermattic', '~> 1.3'
 gem 'fastlane', '~> 2.236'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
 gem 'fastlane-plugin-sentry', '~> 2.5'
-# TODO: Switch back to a RubyGems version once release-toolkit PR #743 is released.
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.9.0'
 # To avoid errors like:
 #
