@@ -7,6 +7,7 @@ struct NowPlayingView: View {
     @State private var isShowingDescription = false
     @State private var isShowingMarkAsPlayedConfirmation = false
     @State private var isShowingArchiveConfirmation = false
+    @State private var isShowingPodcast = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -14,7 +15,8 @@ struct NowPlayingView: View {
             model: model,
             isShowingDescription: $isShowingDescription,
             isShowingMarkAsPlayedConfirmation: $isShowingMarkAsPlayedConfirmation,
-            isShowingArchiveConfirmation: $isShowingArchiveConfirmation
+            isShowingArchiveConfirmation: $isShowingArchiveConfirmation,
+            isShowingPodcast: $isShowingPodcast
         )
         .onAppear {
             model.load()
@@ -53,6 +55,12 @@ struct NowPlayingView: View {
         } message: {
             Text(L10n.playerArchivedConfirmationMessage)
         }
+        .fullScreenCover(isPresented: $isShowingPodcast) {
+            if let uuid = model.podcastUuid {
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+                    .background(Color.pcBackgroundSurface)
+            }
+        }
     }
 }
 
@@ -61,6 +69,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
     @Binding var isShowingDescription: Bool
     @Binding var isShowingMarkAsPlayedConfirmation: Bool
     @Binding var isShowingArchiveConfirmation: Bool
+    @Binding var isShowingPodcast: Bool
     // Read here (rather than in the parent `NowPlayingView`) so the gated
     // implementation installed by `.requireAccountSupport()` — applied to
     // this representable above — is the one we see. Reading it upstream
@@ -298,6 +307,16 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
                 }
             }
             children.append(archiveToggle)
+        }
+
+        if model.podcastUuid != nil {
+            let goToPodcast = UIAction(
+                title: L10n.goToPodcast,
+                image: UIImage(systemName: "archivebox")
+            ) { _ in
+                isShowingPodcast = true
+            }
+            children.append(goToPodcast)
         }
 
         // No title: the ellipsis icon already conveys "more", and the
