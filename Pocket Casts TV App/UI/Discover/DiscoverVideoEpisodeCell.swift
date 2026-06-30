@@ -15,7 +15,6 @@ struct DiscoverVideoEpisodeCell: View {
     private let listId: String?
     private let source: String
 
-
     @FocusState private var isFocused: Bool
 
     @State var showNowPlayingPlayer: Bool = false
@@ -50,10 +49,7 @@ struct DiscoverVideoEpisodeCell: View {
         } label: {
             VStack {
                 Spacer()
-                ZStack {
-                    //focusedContent
-                    nonFocusedContent
-                }
+                nonFocusedContent
             }
             .padding(32)
             .frame(width: Layout.cardWidth, height: Layout.cardHeight)
@@ -110,60 +106,6 @@ struct DiscoverVideoEpisodeCell: View {
         DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
     }
 
-    private func trackPodcastTapped() {
-        guard let listId, let podcastUuid = model.episode.podcastUuid else { return }
-        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
-    }
-
-    var focusedContent: some View {
-        HStack(alignment: .bottom, spacing: 16) {
-            if let podcast = model.podcast {
-                NavigationLink(value: podcast) {
-                    Text(L10n.tvDiscoverFeaturedGoToPodcast)
-                        .foregroundColor(isFocused ? nil : .clear)
-                        .animation(.default, value: isFocused)
-                }
-                .collapsedWhenUnfocused(isFocused)
-                .animation(.none, value: isFocused)
-                //.focused($focusedButton, equals: FocusValues.goPodcast)
-                .setFocus(section: DiscoverType.video.rawValue)
-                .simultaneousGesture(TapGesture().onEnded {
-                    trackPodcastTapped()
-                })
-            }
-            Button() {
-                trackEpisodeTapped()
-                Task {
-                    let successPlay = await TVDataManager.shared.playEpisode(model.episode)
-                    await MainActor.run {
-                        if successPlay {
-                            showNowPlayingPlayer = true
-                        } else {
-                            ToastManager.shared.show(L10n.playbackFailed)
-                        }
-                    }
-                }
-            } label: {
-                Text(L10n.tvDiscoverPlayEpisode)
-                    .foregroundColor(isFocused ? nil : .clear)
-                    .animation(.default, value: isFocused)
-            }
-            .collapsedWhenUnfocused(isFocused)
-            .animation(.none, value: isFocused)
-            //.focused($focusedButton, equals: FocusValues.playEpisode)
-            .setFocus(section: DiscoverType.video.rawValue)
-            .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast)
-            }
-            Spacer()
-        }
-        // These buttons always sit over the card's black gradient overlay, so force the
-        // dark color scheme to keep the default tvOS button readable (light label / bright
-        // focus pill) in light mode too.
-        .environment(\.colorScheme, .dark)
-        .transition(.opacity.combined(with: .scale(scale: 0.95)))
-    }
-
     var nonFocusedContent: some View {
         HStack(alignment: .bottom, spacing: 48) {
             if let podcastUuid = model.episode.podcastUuid {
@@ -208,14 +150,6 @@ struct DiscoverVideoEpisodeCell: View {
                 endPoint: UnitPoint(x: 0.59, y: 0.81)
             )
         }
-    }
-}
-
-private extension View {
-    /// Shrinks the view to a 1x1 frame when not focused so it stays in the tvOS
-    /// focus chain (reachable by the focus engine) while remaining visually hidden.
-    func collapsedWhenUnfocused(_ isFocused: Bool) -> some View {
-        frame(width: isFocused ? nil : 1, height: isFocused ? nil : 1)
     }
 }
 
