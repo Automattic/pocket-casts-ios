@@ -139,6 +139,28 @@ struct PodcastDetailView: View {
         EpisodeRowWithActions(model: episode, focus: $rowFocus)
     }
 
+    /// Standard "More" menu for the episode list, holding the episode sort options.
+    private var moreMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(PodcastEpisodeSortOrder.allCases, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            MoreMenuLabel()
+        }
+        .buttonStyle(MoreButtonStyle())
+    }
+
     private var archivedFilterMenu: some View {
         Menu {
             Button {
@@ -229,6 +251,7 @@ struct PodcastDetailView: View {
                         .foregroundStyle(Color.pcTextPrimary)
                     Spacer()
                     archivedFilterMenu
+                    moreMenu
                 }
                 .padding(.top, 40)
                 .padding(.bottom, 32)
