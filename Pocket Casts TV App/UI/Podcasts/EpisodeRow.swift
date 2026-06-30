@@ -119,7 +119,7 @@ enum EpisodeRowFocus: Hashable {
 struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
-    var context: EpisodeActionContext = .other(false)
+    var context: EpisodeActionContext = .other(showGoToPodcast: false)
     @FocusState.Binding var focus: EpisodeRowFocus?
     var customPlayDisplayAction: (() -> ())? = nil
     @State private var isPlaying = false
@@ -212,14 +212,14 @@ struct EpisodeRowWithActions: View {
 }
 
 enum EpisodeActionContext {
-    case other(Bool)
+    case other(showGoToPodcast: Bool)
     case upNext
 }
 
 struct EpisodeActionButtons: View {
 
     let model: EpisodeRowViewModel
-    var context: EpisodeActionContext = .other(false)
+    var context: EpisodeActionContext = .other(showGoToPodcast: false)
     @Binding var isShowingShowNotes: Bool
 
     @Environment(\.requireAccount) private var requireAccount
@@ -234,16 +234,7 @@ struct EpisodeActionButtons: View {
             switch context {
             case .other(let showGoToPodcast):
                 if showGoToPodcast {
-                    Button(L10n.goToPodcast) {
-                        if let podcast = model.podcast {
-                            stackPath?.navigationPath.append(podcast)
-                        } else if let episode = model.episode as? Episode {
-                            let podcastUuid = episode.podcastUuid
-                            var podcast = DiscoverPodcast()
-                            podcast.uuid = podcastUuid
-                            stackPath?.navigationPath.append(podcast)
-                        }
-                    }
+                    Button(L10n.goToPodcast) { goToPodcast() }
                 }
                 Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
@@ -252,10 +243,8 @@ struct EpisodeActionButtons: View {
                     Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
                 }
             case .upNext:
-                if let podcast = model.podcast {
-                    Button(L10n.goToPodcast) {
-                        stackPath?.navigationPath.append(podcast)
-                    }
+                if model.podcast != nil {
+                    Button(L10n.goToPodcast) { goToPodcast() }
                 }
                 Button(L10n.playNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLast) { requireAccount { model.playLast() } }
@@ -263,6 +252,19 @@ struct EpisodeActionButtons: View {
             }
         }.onAppear {
             Analytics.track(.episodeActionsShown)
+        }
+    }
+
+    /// Pushes the episode's podcast onto the navigation stack, preferring the
+    /// loaded `Podcast` and falling back to a `DiscoverPodcast` built from the
+    /// episode's podcast UUID when only the episode is known.
+    private func goToPodcast() {
+        if let podcast = model.podcast {
+            stackPath?.navigationPath.append(podcast)
+        } else if let episode = model.episode as? Episode {
+            var podcast = DiscoverPodcast()
+            podcast.uuid = episode.podcastUuid
+            stackPath?.navigationPath.append(podcast)
         }
     }
 }
@@ -286,7 +288,7 @@ private struct EpisodeContextMenuModifier: ViewModifier {
 }
 
 extension View {
-    func episodeContextMenu(model: EpisodeRowViewModel, context: EpisodeActionContext = .other(false)) -> some View {
+    func episodeContextMenu(model: EpisodeRowViewModel, context: EpisodeActionContext = .other(showGoToPodcast: false)) -> some View {
         modifier(EpisodeContextMenuModifier(model: model, context: context))
     }
 }

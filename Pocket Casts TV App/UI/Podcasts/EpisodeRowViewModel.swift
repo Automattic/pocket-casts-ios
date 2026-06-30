@@ -83,13 +83,6 @@ class EpisodeRowViewModel: Identifiable {
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
     }
 
-    func openPodcast() {
-        guard let podcast else {
-            return
-        }
-        print("Open Podcast: \(podcast)")
-    }
-
     func playNext() {
         EpisodeUpNextActions.playNext(episode, playbackManager: playbackManager)
     }

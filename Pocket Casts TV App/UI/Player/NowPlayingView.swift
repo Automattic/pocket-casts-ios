@@ -312,7 +312,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         if model.podcastUuid != nil {
             let goToPodcast = UIAction(
                 title: L10n.goToPodcast,
-                image: UIImage(systemName: "archivebox")
+                image: UIImage(systemName: "mic.fill")
             ) { _ in
                 isShowingPodcast = true
             }
