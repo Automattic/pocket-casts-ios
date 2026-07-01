@@ -183,6 +183,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
                 strongSelf.playerLock.unlock()
                 PlaybackManager.shared.pause(userInitiated: false)
+                completion?()
                 return
             }
 
