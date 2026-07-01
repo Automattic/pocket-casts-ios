@@ -11,6 +11,7 @@
 - Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
 - Fix a potential crash and wrong-podcast taps when opening a Discover category list that shows a sponsored podcast [#4652](https://github.com/Automattic/pocket-casts-ios/pull/4652)
 - Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
+- Fix "Select All" in Auto Add to Up Next resetting the setting on all other podcasts [#4639](https://github.com/Automattic/pocket-casts-ios/pull/4639)
 - Add support for generated chapters on episodes [#4630](https://github.com/Automattic/pocket-casts-ios/pull/4630)
 - Fix Autoplay stopping instead of continuing through manual playlists that contain episodes from podcasts you don't follow [#4624](https://github.com/Automattic/pocket-casts-ios/pull/4624)
 
