@@ -101,13 +101,13 @@ struct SearchField: View {
         .opacity(isEnabled ? 1 : 0.8)
 
         // Animate the shows cancel button in or out
-        .onChange(of: isFocused) { newValue in
+        .onChange(of: isFocused) { _, newValue in
             withAnimation {
                 isCancelVisible = newValue
             }
         }
         // If the disabled state changes, then remove focus from the field
-        .onChange(of: isEnabled) { newValue in
+        .onChange(of: isEnabled) { _, newValue in
             guard newValue else { return }
 
             isFocused = false

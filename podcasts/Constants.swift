@@ -181,6 +181,8 @@ struct Constants {
 
         static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
 
+        static let shouldShowUpNextSortDurationTip = "ShouldShowUpNextSortDurationTip"
+
         static let newFilterTip = "NewFilterTip"
         static let newFilterTipCreationView = "NewFilterTipCreationView"
         static let playlistDragAndDropTip = "PlaylistDragAndDropTip"

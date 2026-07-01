@@ -128,14 +128,14 @@ struct CategoriesPillsView: View {
                 .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.hidden)
         }
-        .onChange(of: showingCategories) { isShowing in
+        .onChange(of: showingCategories) { _, isShowing in
             if isShowing {
                 Analytics.track(.discoverCategoriesPickerShown, properties: ["region": region ?? "none"])
             } else {
                 Analytics.track(.discoverCategoriesPickerClosed, properties: ["region": region ?? "none"])
             }
         }
-        .onChange(of: selectedCategory) { _ in
+        .onChange(of: selectedCategory) {
             showingCategories = false
         }
     }

@@ -400,7 +400,7 @@ struct DeveloperMenu: View {
                 Toggle(isOn: $enableDebugPlaylistLimit) {
                     Text("Enable Debug Playlists limit")
                 }
-                .onChange(of: enableDebugPlaylistLimit) { newValue in
+                .onChange(of: enableDebugPlaylistLimit) { _, newValue in
                     Settings.debugPlaylistsLimit = newValue ? 6 : Constants.Limits.maxFilterItems
                 }
                 Button("Show Playlists Onboarding") {
@@ -420,6 +420,13 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Playlist Rebranding")
+            }
+            Section {
+                Button("Reset Up Next Sort Tooltip") {
+                    Settings.shouldShowUpNextSortDurationTip = true
+                }
+            } header: {
+                Text("Up Next")
             }
             Section {
                 Text(Bundle.main.identifier)
