@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import Combine
 
 @Observable
@@ -25,6 +26,7 @@ class PodcastDetailViewModel {
     var recommendedEpisode: EpisodeRowViewModel?
     var isFollowing: Bool = false
     var showArchived: Bool = false
+    var sortOrder: PodcastEpisodeSortOrder = .newestToOldest
 
     private static func archiveStorageKey(for podcastUuid: String) -> String {
         "showArchived_podcast_\(podcastUuid)"
@@ -36,6 +38,22 @@ class PodcastDetailViewModel {
         load()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: podcastUuid))
         Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": value])
+    }
+
+    /// Persists the sort order onto the (synced) podcast like iOS does, then
+    /// reloads — `fetchEpisodes` falls back to `podcast.podcastSortOrder`, so the
+    /// list comes back in the new order.
+    func setSortOrder(_ order: PodcastEpisodeSortOrder) {
+        guard order != sortOrder, let podcast else { return }
+        if FeatureFlag.newSettingsStorage.enabled {
+            podcast.settings.episodesSortOrder = order
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
+        podcast.episodeSortOrder = order.old.rawValue
+        DataManager.sharedManager.save(podcast: podcast)
+        sortOrder = order
+        load()
+        Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])
     }
 
     init(podcastUuid: String,
@@ -79,6 +97,7 @@ class PodcastDetailViewModel {
                 self.isFollowing = podcast.subscribed != 0
                 self.episodes = allEpisodes
                 self.recommendedEpisode = nil
+                self.sortOrder = podcast.podcastSortOrder ?? .newestToOldest
                 self.state = .ready
             }
         }
