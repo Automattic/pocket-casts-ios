@@ -255,6 +255,23 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", values: [podcast.id, limit], dbQueue: dbQueue)
     }
 
+    func findNewReleaseEpisodes(limit: Int, dbQueue: PCDBQueue) -> [Episode] {
+        let twoWeeksInSeconds: TimeInterval = 14 * 24 * 60 * 60
+        let twoWeeksAgo = Date(timeIntervalSinceNow: -twoWeeksInSeconds).timeIntervalSince1970
+        let query = """
+        SELECT episode.* FROM \(DataManager.episodeTableName) episode
+        JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
+        WHERE podcast.subscribed = 1
+        AND episode.playingStatus = \(PlayingStatus.notPlayed.rawValue)
+        AND episode.wasDeleted = 0
+        AND episode.archived = 0
+        AND episode.publishedDate > ?
+        ORDER BY episode.publishedDate DESC, episode.addedDate DESC
+        LIMIT ?
+        """
+        return loadMultiple(query: query, values: [twoWeeksAgo, limit], dbQueue: dbQueue)
+    }
+
     func allUpNextEpisodes(dbQueue: PCDBQueue) -> [Episode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let episodeTableName = DataManager.episodeTableName
