@@ -309,6 +309,10 @@ struct DiscoveryEpisodeMenuButtons: View {
     let episodeUuid: String
     @Binding var showNotesEpisode: DiscoveryLoadedEpisode?
 
+    var podcast: DiscoverPodcast?
+
+    var podcastCallback: (()->())? = nil
+
     @Environment(\.requireAccount) private var requireAccount
 
     @Environment(StackPath.self) private var stackPath: StackPath?
@@ -347,7 +351,7 @@ private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode)
+                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode, podcast: nil)
             }
             .sheet(item: $showNotesEpisode) { episode in
                 EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
