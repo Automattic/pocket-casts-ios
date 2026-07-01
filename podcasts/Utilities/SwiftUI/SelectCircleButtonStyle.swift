@@ -28,7 +28,7 @@ struct SelectCircleButtonStyle: ButtonStyle {
                 .animation(.linear(duration: 0.1), value: selected)
             )
             .contentShape(Circle())
-            .onChange(of: configuration.isPressed) { pressed in
+            .onChange(of: configuration.isPressed) { _, pressed in
                 if pressed {
                     selected.toggle()
                 }

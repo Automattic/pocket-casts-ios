@@ -5066,6 +5066,12 @@
 /* Up Next sort option that orders episodes by time remaining, longest first */
 "up_next_sort_longest_to_shortest" = "Longest to shortest";
 
+/* Title of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_title" = "Sort by duration";
+
+/* Description of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_body" = "Shortest to longest, or the reverse — fit the episode to the time you’ve actually got.";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 

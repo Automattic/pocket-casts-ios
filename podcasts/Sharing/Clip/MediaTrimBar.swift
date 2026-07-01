@@ -36,7 +36,7 @@ struct MediaTrimBar: View {
                                          bottomTrailingRadius: 0,
                                          topTrailingRadius: 0))
                 }
-                .onChange(of: isPlaying) { isPlaying in
+                .onChange(of: isPlaying) { _, isPlaying in
                     if isPlaying {
                         playbackManager.play(episode: episode, clipTime: _clipTime)
                     } else {
@@ -49,7 +49,7 @@ struct MediaTrimBar: View {
                     playbackManager.stop()
                 }
             MediaTrimView(duration: episode.duration, startTime: $clipTime.start, endTime: $clipTime.end, playTime: $clipTime.playback)
-                .onChange(of: clipTime.playback) { newValue in
+                .onChange(of: clipTime.playback) { _, newValue in
                     if let currentTime = playbackManager.currentTime, abs(currentTime - newValue) > 0.1 {
                         playbackManager.seek(to: CMTime(seconds: newValue, preferredTimescale: 600))
                     }
