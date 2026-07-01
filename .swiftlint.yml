@@ -3,6 +3,8 @@ swiftlint_version: 0.63.2
 # Project configuration
 #
 excluded:
+  # Claude Code harness directory, including transient git worktrees
+  - .claude
   - BuildTools/.build
   - DerivedData
   - fastlane
