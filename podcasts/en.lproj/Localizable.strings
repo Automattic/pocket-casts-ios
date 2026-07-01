@@ -6178,9 +6178,6 @@
 /* tv podcast detail option to show archived episodes in the list */
 "tv_podcast_detail_show_archived" = "Show archived";
 
-/* tv accessibility label for the More options (overflow) menu shown in section headers for sorting and filtering */
-"tv_more_menu" = "More";
-
 /* tv podcast detail empty state title shown when a podcast has no episodes */
 "tv_podcast_detail_no_episodes_title" = "No Episodes";
 
