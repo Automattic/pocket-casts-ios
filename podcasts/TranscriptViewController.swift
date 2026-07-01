@@ -277,13 +277,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
 
-        if FeatureFlag.shareTranscripts.enabled {
-            stackView.addArrangedSubview(shareButton)
-        }
+        shareButton.isHidden = !FeatureFlag.shareTranscripts.enabled
+        stackView.addArrangedSubview(shareButton)
 
-        if showFromEpisode {
-            stackView.addArrangedSubview(playButton)
-        }
+        playButton.isHidden = !showFromEpisode
+        stackView.addArrangedSubview(playButton)
 
         stackView.addArrangedSubview(searchButton)
 
@@ -602,16 +600,24 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func setupLoadingState() {
         transcriptView.isHidden = true
-        searchButton.isHidden = true
+        setControlButtonsVisible(false)
         errorView.isHidden = true
         activityIndicatorView.startAnimating()
     }
 
     private func setupShowTranscriptState() {
         transcriptView.isHidden = false
-        searchButton.isHidden = false
+        setControlButtonsVisible(true)
         errorView.isHidden = true
         activityIndicatorView.stopAnimating()
+    }
+
+    private func setControlButtonsVisible(_ visible: Bool) {
+        let buttons: [UIButton] = [searchButton, shareButton, playButton]
+        for button in buttons where !button.isHidden {
+            button.alpha = visible ? 1 : 0
+            button.isUserInteractionEnabled = visible
+        }
     }
 
     private var currentEpisodeUUID: String?
