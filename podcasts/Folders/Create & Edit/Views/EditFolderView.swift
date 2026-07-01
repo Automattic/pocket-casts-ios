@@ -22,7 +22,7 @@ struct EditFolderView: View {
                         .padding(.bottom, -8)
                         .padding(.top, 30)
                     TextField("", text: $model.name)
-                        .onChange(of: model.name, perform: model.validateFolderName)
+                        .onChange(of: model.name) { _, newValue in model.validateFolderName(newValue) }
                         .themedTextField()
                 }
                 .padding(.bottom, 10)

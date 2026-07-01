@@ -137,7 +137,7 @@ struct SourceInterfaceNavigationView: View {
                 refreshAccountSection
             }.onAppear {
                 model.willActivate()
-            }.onChange(of: activeSource) { newValue in
+            }.onChange(of: activeSource) { _, newValue in
                 guard let newValue, let newSource = Source(rawValue: newValue) else {
                     return
                 }

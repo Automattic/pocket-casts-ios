@@ -138,7 +138,7 @@ struct SuggestedFoldersView: View {
         .onAppear {
             track(.suggestedFoldersPageShown)
         }
-        .onChange(of: createFolderActive) { newFolder in
+        .onChange(of: createFolderActive) { _, newFolder in
             if newFolder {
                 track(.suggestedFoldersCreateCustomFolderTapped)
             }

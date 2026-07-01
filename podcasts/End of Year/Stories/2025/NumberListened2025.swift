@@ -122,7 +122,7 @@ struct NumberListened2025: ShareableStory {
                 stepCounter.start()
             }
         }
-        .onChange(of: stepCounter.counter) { _ in
+        .onChange(of: stepCounter.counter) {
             startCoverAnimation()
         }
     }

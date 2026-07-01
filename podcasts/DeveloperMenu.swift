@@ -400,7 +400,7 @@ struct DeveloperMenu: View {
                 Toggle(isOn: $enableDebugPlaylistLimit) {
                     Text("Enable Debug Playlists limit")
                 }
-                .onChange(of: enableDebugPlaylistLimit) { newValue in
+                .onChange(of: enableDebugPlaylistLimit) { _, newValue in
                     Settings.debugPlaylistsLimit = newValue ? 6 : Constants.Limits.maxFilterItems
                 }
                 Button("Show Playlists Onboarding") {
