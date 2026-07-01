@@ -9,6 +9,12 @@ class ChapterInfo: Equatable {
     var title = ""
     var url: String?
     var startTime = CMTime(seconds: 0, preferredTimescale: 0)
+
+    /// For generated chapters only: the original start time in the reference
+    /// (generated-transcript) timeline, before it's mapped onto the played
+    /// audio file's timeline via fingerprint timing. `nil` for every other
+    /// chapter source, which are already expressed in the played file's timeline.
+    var referenceStartTime: CMTime?
     #if !os(watchOS)
         var image: UIImage?
     #endif

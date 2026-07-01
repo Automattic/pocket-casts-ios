@@ -3,6 +3,26 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import CoreMedia
 
+/// Maps a time in the generated-content (reference) timeline onto the played
+/// audio file's timeline. In the main app this is implemented by
+/// `FingerprintTimingManager`; targets that don't include fingerprinting (App
+/// Clip, watchOS, tvOS) simply leave the provider unset, so the adjustment is a
+/// no-op there and generated chapters keep their reference times.
+protocol ChapterReferenceTimeMapping: AnyObject {
+    /// Whether a usable mapping is currently available.
+    var hasChapterReferenceMapping: Bool { get }
+
+    /// The played-file time for a time in the reference timeline, or `nil` if it
+    /// can't be mapped.
+    func playbackTime(forReferenceTime referenceTime: TimeInterval) -> TimeInterval?
+}
+
+/// Registered by the app once fingerprint timing is available. Stays `nil` in
+/// targets without fingerprinting.
+enum ChapterReferenceTimeMappingProvider {
+    static var current: ChapterReferenceTimeMapping?
+}
+
 enum ChapterOrigin {
     case podcastIndex
     case nativeMedia
@@ -38,6 +58,12 @@ class ChapterManager {
 
     private var lastEpisodeUuid = ""
 
+    /// Duration of the episode the current chapters belong to. Used to recompute
+    /// generated-chapter durations after their start times are re-mapped.
+    private var episodeDuration: TimeInterval = 0
+
+    private var mappingObserver: NSObjectProtocol?
+
     var numberOfChaptersSkipped = 0
 
     var currentChapters = Chapters()
@@ -53,6 +79,22 @@ class ChapterManager {
         showInfoCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
         self.chapterParser = chapterParser
         self.showInfoCoordinator = showInfoCoordinator
+
+        // The fingerprint mapping is built asynchronously and keeps growing during
+        // playback, so re-align generated chapters whenever it advances.
+        mappingObserver = NotificationCenter.default.addObserver(
+            forName: Constants.Notifications.fingerprintTimingMappingUpdated,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.applyGeneratedChapterTiming()
+        }
+    }
+
+    deinit {
+        if let mappingObserver {
+            NotificationCenter.default.removeObserver(mappingObserver)
+        }
     }
 
     func visibleChapterCount() -> Int {
@@ -138,6 +180,7 @@ class ChapterManager {
     func parseChapters(episode: BaseEpisode, duration: TimeInterval) async {
         // store the last episode uuid we were asked to check chapters for, we use that below in case this method is called multiple times to not return old results
         lastEpisodeUuid = episode.uuid
+        episodeDuration = duration
 
         try? await parseLocalAndRemoteChapters(for: episode, duration: duration)
     }
@@ -231,8 +274,53 @@ class ChapterManager {
             .compactMap { Int($0) }
             .forEach { self.chapters[safe: $0]?.shouldPlay = false }
 
+        // Apply any mapping that already exists; if none is ready yet the chapters
+        // keep their reference times and get re-aligned once the mapping advances.
+        // Skip the notification here since we post `podcastChaptersDidUpdate` below.
+        applyGeneratedChapterTiming(notifyIfChanged: false)
+
         updateCurrentChapter(time: PlaybackManager.shared.currentTime())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastChaptersDidUpdate)
+    }
+
+    /// Re-map generated chapter start times from the reference (transcript)
+    /// timeline onto the played audio file's timeline using fingerprint timing,
+    /// so chapter markers line up with what's actually playing when dynamic ads
+    /// have shifted the real positions. No-op for other chapter sources, when no
+    /// mapping is available, or in targets without fingerprinting.
+    private func applyGeneratedChapterTiming(notifyIfChanged: Bool = true) {
+        guard chaptersOrigin == .generated else { return }
+        guard let mapper = ChapterReferenceTimeMappingProvider.current, mapper.hasChapterReferenceMapping else { return }
+
+        // `chapters` is kept sorted by reference start time by the parser, and the
+        // mapping is monotonic, so this order also holds in the played timeline.
+        var didChange = false
+        for chapter in chapters {
+            guard let referenceTime = chapter.referenceStartTime?.seconds else { continue }
+            let mappedTime = mapper.playbackTime(forReferenceTime: referenceTime) ?? referenceTime
+            if abs(mappedTime - chapter.startTime.seconds) > 0.001 {
+                chapter.startTime = CMTime(seconds: mappedTime, preferredTimescale: 1000000)
+                didChange = true
+            }
+        }
+
+        guard didChange else { return }
+
+        // Durations are gaps between consecutive start times, so recompute them
+        // from the adjusted values (the last chapter runs to the episode end).
+        for (index, chapter) in chapters.enumerated() {
+            if let nextChapter = chapters[safe: index + 1] {
+                chapter.duration = max(0, nextChapter.startTime.seconds - chapter.startTime.seconds)
+            } else {
+                chapter.duration = max(0, episodeDuration - chapter.startTime.seconds)
+            }
+        }
+
+        updateCurrentChapter(time: PlaybackManager.shared.currentTime())
+
+        if notifyIfChanged {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastChaptersDidUpdate)
+        }
     }
 }

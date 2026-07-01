@@ -85,6 +85,50 @@ class ChapterManagerTests: XCTestCase {
         XCTAssertEqual(nextVisiblePlayableChapter, chapterInfo(startTime: 201, duration: 300, shouldPlay: true))
     }
 
+    /// Generated chapters are timed against the reference (clean) audio; when a
+    /// fingerprint mapping is available their start times should be re-mapped onto
+    /// the played file's timeline (here a flat +30s dynamic-ad shift).
+    func testGeneratedChaptersAreRemappedToPlaybackTimeline() async {
+        let parserMock = PodcastChapterParserMock() // no file chapters -> falls through to generated
+        let showInfoCoordinatorMock = GeneratedChaptersShowInfoCoordinatorMock(generatedChapters: [
+            GeneratedChapter(title: "One", timestamp: "00:00", startTime: 0),
+            GeneratedChapter(title: "Two", timestamp: "01:40", startTime: 100),
+            GeneratedChapter(title: "Three", timestamp: "03:20", startTime: 200)
+        ])
+        let mapper = ChapterReferenceTimeMappingMock(offset: 30, hasMapping: true)
+        ChapterReferenceTimeMappingProvider.current = mapper
+        defer { ChapterReferenceTimeMappingProvider.current = nil }
+
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 300)
+
+        XCTAssertEqual(chapterManager.chapterAt(index: 0)?.startTime.seconds ?? -1, 30, accuracy: 0.01)
+        XCTAssertEqual(chapterManager.chapterAt(index: 1)?.startTime.seconds ?? -1, 130, accuracy: 0.01)
+        XCTAssertEqual(chapterManager.chapterAt(index: 2)?.startTime.seconds ?? -1, 230, accuracy: 0.01)
+        // Durations are recomputed from the adjusted start times; the last runs to the episode end.
+        XCTAssertEqual(chapterManager.chapterAt(index: 0)?.duration ?? -1, 100, accuracy: 0.01)
+        XCTAssertEqual(chapterManager.chapterAt(index: 2)?.duration ?? -1, 70, accuracy: 0.01)
+    }
+
+    /// Without a usable mapping the generated chapters keep their reference times.
+    func testGeneratedChaptersKeepReferenceTimeWhenMappingUnavailable() async {
+        let parserMock = PodcastChapterParserMock()
+        let showInfoCoordinatorMock = GeneratedChaptersShowInfoCoordinatorMock(generatedChapters: [
+            GeneratedChapter(title: "One", timestamp: "00:00", startTime: 0),
+            GeneratedChapter(title: "Two", timestamp: "01:40", startTime: 100)
+        ])
+        // Mapping present but not yet active -> must be treated as unavailable.
+        let mapper = ChapterReferenceTimeMappingMock(offset: 30, hasMapping: false)
+        ChapterReferenceTimeMappingProvider.current = mapper
+        defer { ChapterReferenceTimeMappingProvider.current = nil }
+
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 300)
+
+        XCTAssertEqual(chapterManager.chapterAt(index: 0)?.startTime.seconds ?? -1, 0, accuracy: 0.01)
+        XCTAssertEqual(chapterManager.chapterAt(index: 1)?.startTime.seconds ?? -1, 100, accuracy: 0.01)
+    }
+
     func chapterInfo(startTime: TimeInterval, duration: TimeInterval, shouldPlay: Bool) -> ChapterInfo {
         let chapterInfo = ChapterInfo()
         chapterInfo.shouldPlay = shouldPlay
@@ -128,5 +172,43 @@ private class EpisodeMock: Episode {
     override var downloadUrl: String? {
         get { "https://pocketcasts.com/" }
         set {}
+    }
+}
+
+private class GeneratedChaptersShowInfoCoordinatorMock: ShowInfoCoordinating {
+    let generatedChapters: [GeneratedChapter]
+
+    init(generatedChapters: [GeneratedChapter]) {
+        self.generatedChapters = generatedChapters
+    }
+
+    func loadShowNotes(podcastUuid: String, episodeUuid: String) async throws -> String {
+        ""
+    }
+
+    func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> URL? {
+        nil
+    }
+
+    func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([PocketCastsDataModel.Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?, [GeneratedChapter]?) {
+        (nil, nil, generatedChapters)
+    }
+
+    func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+        return (transcripts: [], hasGeneratedTranscripts: true, isDisplayingGeneratedTranscript: true)
+    }
+}
+
+private class ChapterReferenceTimeMappingMock: ChapterReferenceTimeMapping {
+    let offset: TimeInterval
+    var hasChapterReferenceMapping: Bool
+
+    init(offset: TimeInterval, hasMapping: Bool) {
+        self.offset = offset
+        self.hasChapterReferenceMapping = hasMapping
+    }
+
+    func playbackTime(forReferenceTime referenceTime: TimeInterval) -> TimeInterval? {
+        referenceTime + offset
     }
 }

@@ -81,6 +81,11 @@ class PodcastChapterParser {
             chapterInfo.title = chapter.title
             chapterInfo.index = index
             chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
+            // Generated chapters are timed against the reference (clean) audio the
+            // transcript was generated from. Keep the reference time so the played
+            // file's timeline can be recovered via fingerprint timing (dynamic ads
+            // shift the real positions). See `ChapterManager.applyGeneratedChapterTiming`.
+            chapterInfo.referenceStartTime = chapterInfo.startTime
             if let nextChapterStartTime = sortedChapters[safe: index + 1]?.startTime {
                 chapterInfo.duration = nextChapterStartTime - chapter.startTime
             } else {
