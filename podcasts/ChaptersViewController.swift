@@ -28,6 +28,7 @@ class ChaptersViewController: PlayerItemViewController {
 
     override func willBeAddedToPlayer() {
         updateColors()
+        header.update()
         addObservers()
     }
 
@@ -64,6 +65,7 @@ class ChaptersViewController: PlayerItemViewController {
     @objc private func update() {
         chaptersTable.reloadData()
         updateColors()
+        header.update()
     }
 
     @objc private func enableOrDisableChapterSelectionIfUserJustPurchased() {

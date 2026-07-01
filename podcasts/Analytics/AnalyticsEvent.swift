@@ -367,6 +367,9 @@ enum AnalyticsEvent: String {
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
+    case upNextSortTooltipShown
+    case upNextSortTooltipClosed
+
     case episodeAddedToList
     case episodeRemovedFromList
 
@@ -898,6 +901,7 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsBookmarkSoundToggled
 
     // MARK: - Skipping Chapters
+    case chapterLinkClicked
     case deselectChaptersToggledOn
     case deselectChaptersToggledOff
     case deselectChaptersChapterSelected

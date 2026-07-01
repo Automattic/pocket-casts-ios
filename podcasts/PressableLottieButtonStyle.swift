@@ -34,7 +34,7 @@ struct PressableLottieButtonStyle: ButtonStyle {
 
                 configuration.label
             }
-            .onChange(of: configuration.isPressed) { isPressed in
+            .onChange(of: configuration.isPressed) { _, isPressed in
                 if isPressed && !lastPressed {
                     haptic()
                     if replayOnPress {
