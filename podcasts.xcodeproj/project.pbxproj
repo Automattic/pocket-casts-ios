@@ -2900,7 +2900,6 @@
 				"EpisodeFilter+ChangeType.swift",
 				PlaylistCacheInvalidationCoordinator.swift,
 				PlaylistMetadataLoader.swift,
-				"PlaylistMetadataLoader+Dependency.swift",
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
 		};
