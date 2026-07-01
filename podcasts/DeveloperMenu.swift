@@ -422,6 +422,13 @@ struct DeveloperMenu: View {
                 Text("Playlist Rebranding")
             }
             Section {
+                Button("Reset Up Next Sort Tooltip") {
+                    Settings.shouldShowUpNextSortDurationTip = true
+                }
+            } header: {
+                Text("Up Next")
+            }
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
