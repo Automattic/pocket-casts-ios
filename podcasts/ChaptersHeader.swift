@@ -15,10 +15,24 @@ class ChaptersHeader: UIView {
     private lazy var chaptersLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .font(ofSize: 12, scalingWith: .footnote)
+        label.font = .font(ofSize: 12, scalingWith: .largeTitle)
         label.numberOfLines = 0
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var generatedHeightConstraint: NSLayoutConstraint?
+
+    private lazy var generatedWarningLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = ThemeColor.playerContrast02()
+        label.font = .font(ofSize: 14, scalingWith: .largeTitle)
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.chaptersGeneratedWarningMessage
+        generatedHeightConstraint = label.heightAnchor.constraint(equalToConstant: 0)
         return label
     }()
 
@@ -36,7 +50,7 @@ class ChaptersHeader: UIView {
         button.configuration?.titleTextAttributesTransformer =
            UIConfigurationTextAttributesTransformer { incoming in
              var outgoing = incoming
-             outgoing.font = .font(ofSize: 12, scalingWith: .footnote)
+             outgoing.font = .font(ofSize: 12, scalingWith: .largeTitle)
              return outgoing
          }
         return button
@@ -71,6 +85,7 @@ class ChaptersHeader: UIView {
         updateChapterLabel()
         updateButtonLabel()
         updateButtonIcon()
+        generatedHeightConstraint?.isActive = !PlaybackManager.shared.chaptersAreGenerated
     }
 
     private func configure() {
@@ -78,6 +93,7 @@ class ChaptersHeader: UIView {
         container.addSubview(toggleButton)
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
+        container.addSubview(generatedWarningLabel)
         container.addSubview(divider)
         setUpConstraints()
     }
@@ -113,15 +129,19 @@ class ChaptersHeader: UIView {
             divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -2.0),
 
             chaptersLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
-            chaptersLabel.topAnchor.constraint(equalTo: container.topAnchor),
-            chaptersLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            chaptersLabel.topAnchor.constraint(equalTo: container.layoutMarginsGuide.topAnchor),
             chaptersLabel.trailingAnchor.constraint(greaterThanOrEqualTo: toggleButton.leadingAnchor, constant: 8),
             chaptersLabel.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.40),
 
             toggleButton.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
             toggleButton.topAnchor.constraint(equalTo: container.layoutMarginsGuide.topAnchor),
-            toggleButton.bottomAnchor.constraint(equalTo: container.layoutMarginsGuide.bottomAnchor),
+            toggleButton.bottomAnchor.constraint(equalTo: chaptersLabel.bottomAnchor),
             toggleButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5),
+
+            generatedWarningLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
+            generatedWarningLabel.topAnchor.constraint(equalTo: chaptersLabel.bottomAnchor, constant: 2),
+            generatedWarningLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
+            generatedWarningLabel.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
 
             container.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
         ])
@@ -130,6 +150,7 @@ class ChaptersHeader: UIView {
 
         chaptersLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         toggleButton.setContentCompressionResistancePriority(.required, for: .vertical)
+        generatedWarningLabel.setContentCompressionResistancePriority(.required, for: .vertical)
     }
 }
 

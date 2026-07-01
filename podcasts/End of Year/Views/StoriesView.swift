@@ -96,7 +96,7 @@ struct StoriesView: View {
                 notNowAction: model.start
             )
         )
-        .onChange(of: pauseState.isPaused) { isPaused in
+        .onChange(of: pauseState.isPaused) { _, isPaused in
             if isPaused {
                 model.pause()
             } else {

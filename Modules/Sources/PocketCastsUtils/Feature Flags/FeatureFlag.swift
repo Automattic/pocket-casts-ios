@@ -319,6 +319,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Up Next sort button
     case upNextSort
 
+    /// Enable Generated Chapters
+    case generatedChapters
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -484,9 +487,13 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignorePlayWithOtherAudio:
             true
         case .activateAudioSessionInBackground:
+#if os(tvOS)
+            false
+#else
             true
+#endif
         case .useCellularNetworkApis:
-			true
+            true
         case .optimizeManualPlaylistQueries:
             true
         case .useBackgroundQueueForStreamingCallback:
@@ -534,6 +541,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .upNextSort:
+            BuildEnvironment.current == .debug
+        case .generatedChapters:
             BuildEnvironment.current == .debug
         }
     }
