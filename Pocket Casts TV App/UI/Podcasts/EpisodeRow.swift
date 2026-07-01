@@ -311,8 +311,11 @@ struct DiscoveryEpisodeMenuButtons: View {
 
     @Environment(\.requireAccount) private var requireAccount
 
+    @Environment(StackPath.self) private var stackPath: StackPath?
+
     var body: some View {
         Button(L10n.tvEpisodeShowNotesAction) { load { showNotesEpisode = $0 } }
+        Button(L10n.goToPodcast) { goToPodcast() }
         Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
         Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
     }
@@ -325,6 +328,12 @@ struct DiscoveryEpisodeMenuButtons: View {
             }
             action(DiscoveryLoadedEpisode(episode: result.episode, podcast: result.podcast))
         }
+    }
+
+    private func goToPodcast() {
+        var podcast = DiscoverPodcast()
+        podcast.uuid = podcastUuid
+        stackPath?.navigationPath.append(podcast)
     }
 }
 
