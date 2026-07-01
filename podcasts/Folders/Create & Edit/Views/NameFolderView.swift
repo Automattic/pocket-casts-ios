@@ -21,7 +21,7 @@ struct NameFolderView: View {
             Text(L10n.name.localizedUppercase)
                 .textStyle(SecondaryText())
                 .font(.subheadline)
-                .onChange(of: model.name, perform: model.validateFolderName)
+                .onChange(of: model.name) { _, newValue in model.validateFolderName(newValue) }
             TextField(L10n.folderName, text: $model.name)
                 .focusMe(state: $focusOnTextField)
                 .themedTextField()
@@ -64,7 +64,7 @@ struct FocusModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content.focused($focused, equals: true)
-            .onChange(of: state, perform: changeFocus)
+            .onChange(of: state) { _, newValue in changeFocus(newValue) }
     }
 
     private func changeFocus(_ value: Bool) {

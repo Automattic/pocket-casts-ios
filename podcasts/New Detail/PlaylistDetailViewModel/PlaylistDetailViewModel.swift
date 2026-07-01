@@ -3,10 +3,9 @@ import Combine
 import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
-import PocketCastsDependencyInjection
 
 class PlaylistDetailViewModel: ObservableObject {
-    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+    let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
     typealias DataSourceValue = [ArraySection<Section, ListItem>]
 
@@ -278,8 +277,7 @@ class PlaylistDetailViewModel: ObservableObject {
             for episode in episodes {
                 group.addTask {
                     if includingEpisodeArtwork,
-                       let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
-                       let url = URL(string: imageUrl) {
+                       let url = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid) {
                         return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
                     let url = self.imageManager.podcastUrl(imageSize: .detail, uuid: episode.episode.podcastUuid)

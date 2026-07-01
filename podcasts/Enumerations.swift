@@ -504,7 +504,7 @@ extension PlayerAction: AnalyticsDescribable {
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
     case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory, addToPlaylist
 
-    func title() -> String {
+    func title(isUpNextContext: Bool = false) -> String {
         switch self {
         case .playLast:
             return L10n.playLast
@@ -523,7 +523,9 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         case .moveToBottom:
             return L10n.moveToBottom
         case .removeFromUpNext:
-            return L10n.remove
+            // Inside the Up Next screen the context is obvious, so the shorter label is enough.
+            // Elsewhere, spell out where the episodes are being removed from.
+            return isUpNextContext ? L10n.remove : L10n.removeFromUpNext
         case .unstar:
             return L10n.multiSelectUnstar
         case .unarchive:
@@ -629,6 +631,10 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         case .addToPlaylist:
             // Always show the option; toast will be shown if files are selected
             return true
+
+        case .removeFromUpNext:
+            // Only relevant when at least one selected episode is currently in Up Next
+            return episodes.contains { PlaybackManager.shared.inUpNext(episode: $0) }
 
         default:
             return true

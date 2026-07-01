@@ -24,14 +24,11 @@ class PlaylistsViewModel {
     }
     var playlists: [EpisodeFilter] = []
 
-    func load() {
-        Task { [weak self] in
-            guard let self else { return }
-            let playlists = dataManager.allPlaylists(includeDeleted: false)
-            await MainActor.run {
-                self.playlists = playlists
-                self.state = playlists.isEmpty ? .empty : .ready
-            }
+    func load() async {
+        let playlists = dataManager.allPlaylists(includeDeleted: false)
+        await MainActor.run {
+            self.playlists = playlists
+            self.state = playlists.isEmpty ? .empty : .ready
         }
     }
 
@@ -42,7 +39,9 @@ class PlaylistsViewModel {
         )
         .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
         .sink { [weak self] _ in
-            self?.load()
+            Task {
+                await self?.load()
+            }
         }
         .store(in: &cancellables)
     }

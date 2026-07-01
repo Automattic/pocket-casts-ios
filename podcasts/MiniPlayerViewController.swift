@@ -100,7 +100,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             setupLiquidGlassLayout()
         } else {
             setupCorners()
@@ -224,15 +224,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
             let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
-            let buttonWidth: CGFloat = 44
-            skipBackBtnWidthConstraint.constant = buttonWidth
-            playPauseBtnWidthConstraint.constant = buttonWidth
-            skipFwdBtnWidthConstraint.constant = buttonWidth
+            skipBackBtnWidthConstraint.constant = 47
+            playPauseBtnWidthConstraint.constant = 47
+            skipFwdBtnWidthConstraint.constant = 47
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
                 glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52),
-                glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
+                glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
         }
@@ -583,7 +582,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func updateColors() {
         view.backgroundColor = .clear
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             updateColorsLiquidGlass()
         } else {
             updateColorsLegacy()

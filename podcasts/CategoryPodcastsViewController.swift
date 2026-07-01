@@ -73,7 +73,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 cell.populateFrom(promotion, isSubscribed: isSubscribed)
                 return cell
             } else {
-                podcastIndexRow += 1
+                podcastIndexRow -= 1
             }
         }
 
@@ -90,7 +90,8 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         guard let delegate else { return }
 
         if let cell = tableView.cellForRow(at: indexPath) as? DiscoverPodcastTableCell {
-            let podcast = podcasts[indexPath.row]
+            let podcastIndexRow = showPromotion() ? indexPath.row - 1 : indexPath.row
+            let podcast = podcasts[podcastIndexRow]
 
             let categoryName = category?.name ?? "unknown"
             let listUuid = "category-\(categoryName.lowercased())-\(region ?? "unknown")"

@@ -111,12 +111,12 @@ private class ShowInfoCoordinatorMock: ShowInfoCoordinating {
         ""
     }
 
-    func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> String? {
+    func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> URL? {
         nil
     }
 
-    func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([PocketCastsDataModel.Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?) {
-        (nil, nil)
+    func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([PocketCastsDataModel.Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?, [GeneratedChapter]?) {
+        (nil, nil, nil)
     }
 
     func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {

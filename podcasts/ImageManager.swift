@@ -46,9 +46,6 @@ class ImageManager {
         return cache
     }()
 
-    // Track in-progress artwork loads by UUID
-    private var inProgressArtworkLoads = Set<String>()
-
     public var biggestPodcastImageSize: Int {
         availablePodcastImageSizes.max()!
     }

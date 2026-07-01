@@ -2745,10 +2745,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Lägg till i kön för senare uppspelning</string>
     <key>queue_now_playing_accessibility</key>
     <string>Spelar nu upp %1$@</string>
-    <key>queue_time_remaining</key>
-    <string>%1$@ återstår</string>
-    <key>queue_total_time_remaining</key>
-    <string>%1$@ återstår</string>
     <key>rate</key>
     <string>Omdöme</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>går till [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>eller ange denna kod i [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Det gick inte att hämta din inloggningskod</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öppna kameran och peka på denna QR-kod</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Använd utan konto</string>
     <key>tv_welcome_create_free_account</key>
     <string>Skapa gratiskonto</string>
-    <key>tv_welcome_sign_in</key>
-    <string>Logga in</string>
     <key>tv_welcome_subtitle</key>
     <string>Dina podcasts. På den stora skärmen. Uppenbarligen.</string>
     <key>tv_welcome_title</key>

@@ -861,7 +861,7 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
-        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .addToPlaylist, .download, .archive, .share, .markAsPlayed, .star]
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .removeFromUpNext, .addToPlaylist, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
             return defaultActions
         }
@@ -879,7 +879,7 @@ class Settings: NSObject {
 
     private static let listeningHistoryMultiSelectActionsKey = "ListeningHistoryMultiSelectActions"
     class func listeningHistoryMultiSelectActions() -> [MultiSelectAction] {
-        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .removeListeningHistory, .markAsPlayed, .star]
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .removeFromUpNext, .download, .archive, .share, .removeListeningHistory, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.listeningHistoryMultiSelectActionsKey) as? [Int32] else {
             return defaultActions
         }
@@ -913,7 +913,7 @@ class Settings: NSObject {
 
     private static let upNextMultiSelectActionsKey = "UpNextMultiSelectActions"
     class func upNextMultiSelectActions() -> [MultiSelectAction] {
-        let defaultActions: [MultiSelectAction] = [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive, .addToPlaylist]
+        let defaultActions: [MultiSelectAction] = [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive, .addToPlaylist, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.upNextMultiSelectActionsKey) as? [Int32] else {
             return defaultActions
         }
@@ -1499,6 +1499,18 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip)
+        }
+    }
+
+    // MARK: - Up Next Sort by Duration Tip
+
+    // Defaults to true so upgrading users are told about the new duration sort once; AppDelegate suppresses it for fresh installs.
+    static var shouldShowUpNextSortDurationTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowUpNextSortDurationTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowUpNextSortDurationTip)
         }
     }
 

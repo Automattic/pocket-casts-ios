@@ -99,10 +99,10 @@ struct UpgradeLandingView: View {
                                 contentIsScrollable = true
                             }
                         }
-                        .onChange(of: currentPage) { value in
+                        .onChange(of: currentPage) { _, value in
                             viewModel.changedSubscriptionTier(value)
                         }
-                        .onChange(of: currentSubscriptionPeriod) { value in
+                        .onChange(of: currentSubscriptionPeriod) { _, value in
                             viewModel.changedSubscriptionPeriod(value)
                         }
                     }

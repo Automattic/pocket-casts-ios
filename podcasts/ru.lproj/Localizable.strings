@@ -2745,10 +2745,6 @@ Pocket Casts на полную мощность.</string>
     <string>Отложить</string>
     <key>queue_now_playing_accessibility</key>
     <string>Сейчас воспроизводится. %1$@</string>
-    <key>queue_time_remaining</key>
-    <string>Осталось %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>Оставшееся время %1$@</string>
     <key>rate</key>
     <string>Оценить</string>
     <key>rate_pocket_casts</key>
@@ -3968,8 +3964,6 @@ Pocket Casts на полную мощность.</string>
     <string>переход к [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>или введите этот код в [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Не удалось получить код для входа</string>
     <key>tv_sign_in_subtitle</key>
     <string>Откройте камеру и наведите на этот QR-код</string>
     <key>tv_sign_in_title</key>
@@ -4004,8 +3998,6 @@ Pocket Casts на полную мощность.</string>
     <string>Просмотр без учётной записи</string>
     <key>tv_welcome_create_free_account</key>
     <string>Создать бесплатную учётную запись</string>
-    <key>tv_welcome_sign_in</key>
-    <string>Вход</string>
     <key>tv_welcome_subtitle</key>
     <string>Ваши подкасты. На большом экране. Очевидно.</string>
     <key>tv_welcome_title</key>

@@ -125,7 +125,7 @@ class PlayerChapterCell: UITableViewCell {
 
     @IBAction func linkTapped(_ sender: Any) {
         guard let link = chapter?.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
-
+        PlaybackManager.shared.trackChapterEvent(.chapterLinkClicked)
         linkTapped(url)
     }
 
@@ -180,6 +180,6 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func track(_ event: AnalyticsEvent) {
-        Analytics.track(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
+        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
     }
 }

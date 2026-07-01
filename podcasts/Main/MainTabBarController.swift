@@ -1202,7 +1202,7 @@ private extension MainTabBarController {
     }
 
     func loadProfileTabAvatar(forceRefresh: Bool) {
-        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+        guard #available(iOS 26.0, *) else { return }
 
         guard let email = ServerSettings.syncingEmail(), !email.isEmpty,
               let url = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=256") else {
@@ -1234,7 +1234,7 @@ private extension MainTabBarController {
 
 extension MainTabBarController {
     @objc func refreshUpNextTabBadge() {
-        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+        guard #available(iOS 26.0, *) else { return }
 
         // Clamping lives in `composeUpNextTabImage`; track the true count here.
         let count = PlaybackManager.shared.queue.upNextCount()

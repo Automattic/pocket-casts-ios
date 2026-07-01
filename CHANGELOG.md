@@ -1,10 +1,23 @@
 8.16
 -----
+- Fix episode lists jumping when a background download finishes [#4648](https://github.com/Automattic/pocket-casts-ios/pull/4648)
+- Fix a rare crash during playback when an audio buffer fails to allocate [#4645](https://github.com/Automattic/pocket-casts-ios/pull/4645)
+- Add a "Remove from Up Next" multi-select action outside the Up Next screen [#4606](https://github.com/Automattic/pocket-casts-ios/pull/4606)
+- Add a Star Episodes action to Up Next multi-select and show a star indicator on Up Next cells [#4605](https://github.com/Automattic/pocket-casts-ios/pull/4605)
+- Fix the Files navigation bar not being transparent [#4604](https://github.com/Automattic/pocket-casts-ios/pull/4604)
 - Fix Control Center timeline continuing to advance while playback is paused [#4530](https://github.com/Automattic/pocket-casts-ios/pull/4530)
 - Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
+- Fix a crash on Apple Watch when a background sync starts while the app is being suspended [#4622](https://github.com/Automattic/pocket-casts-ios/pull/4622)
+- Fix non-square chapter artwork being cropped and losing rounded corners when opening the full-screen player [#4621](https://github.com/Automattic/pocket-casts-ios/pull/4621)
+- Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
+- Fix a potential crash and wrong-podcast taps when opening a Discover category list that shows a sponsored podcast [#4652](https://github.com/Automattic/pocket-casts-ios/pull/4652)
+- Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
+- Add support for generated chapters on episodes [#4630](https://github.com/Automattic/pocket-casts-ios/pull/4630)
+- Fix Autoplay stopping instead of continuing through manual playlists that contain episodes from podcasts you don't follow [#4624](https://github.com/Automattic/pocket-casts-ios/pull/4624)
 
 8.15
 -----
+- Fix a rare crash when leaving a podcast page while it's still scrolling [#4623](https://github.com/Automattic/pocket-casts-ios/pull/4623)
 - Fix "Download All" on a season not warning before using cellular data [#4523](https://github.com/Automattic/pocket-casts-ios/pull/4523)
 - Fix Share swipe action not dismissing on episode cells [#4522](https://github.com/Automattic/pocket-casts-ios/pull/4522)
 - Fix the Filters search header popping back when few episodes match [#4527](https://github.com/Automattic/pocket-casts-ios/pull/4527)

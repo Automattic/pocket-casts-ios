@@ -105,7 +105,7 @@ class WatchSyncManager {
                 isFirstSyncInProgress: SyncManager.isFirstSyncInProgress()
             ) {
                let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-               BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
+               BackgroundSyncManager.shared.performBackgroundRefreshSafely(subscribedPodcasts: subscribedPodcasts)
             } else {
                 loginAndRefreshIfRequired()
             }
@@ -337,5 +337,22 @@ class WatchSyncManager {
 
     func isPlusUser() -> Bool {
         SyncManager.isUserLoggedIn() && SubscriptionHelper.hasActiveSubscription()
+    }
+}
+
+extension BackgroundSyncManager {
+    /// Runs `performBackgroundRefresh` while guarding against the Objective-C `NSGenericException`
+    /// ("Task created in a session that has been invalidated") that `URLSession.downloadTask(with:)`
+    /// can raise when the system has invalidated a freshly created background session — typically
+    /// because the watch app is being suspended as the refresh starts. That exception originates in
+    /// Foundation and can't be caught with Swift's `do/catch`, so without this guard it crashes the app.
+    func performBackgroundRefreshSafely(subscribedPodcasts: [Podcast]) {
+        do {
+            try SJCommonUtils.catchException {
+                self.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
+            }
+        } catch {
+            FileLog.shared.addMessage("Skipped background refresh, URLSession was invalidated: \(error.localizedDescription)")
+        }
     }
 }

@@ -9,12 +9,12 @@ final class TranscriptManagerTests: XCTestCase {
             return ""
         }
 
-        func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> String? {
+        func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> URL? {
             return nil
         }
 
-        func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?) {
-            return (nil, nil)
+        func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?, [GeneratedChapter]?) {
+            return (nil, nil, nil)
         }
 
         func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
