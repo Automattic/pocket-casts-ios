@@ -6461,3 +6461,9 @@
 "tv_podcast_error_message" = "Check your internet connection and try again";
 
 "chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
+
+/* Title shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_title" = "No episodes";
+
+/* Subtitle shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more";

@@ -4,6 +4,8 @@ import PocketCastsDataModel
 struct PlaylistDetailView: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    @Environment(\.dismiss) var dismiss
+
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
     @FocusState private var rowFocus: EpisodeRowFocus?
@@ -28,8 +30,11 @@ struct PlaylistDetailView: View {
                 loadingView
             case .ready:
                 playlistView
+            case .empty:
+                emptyView
             }
         }
+        .animation(.smooth, value: model.state)
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
         .confirmationDialog(
@@ -58,6 +63,18 @@ struct PlaylistDetailView: View {
 
     var loadingView: some View {
         ProgressView()
+    }
+
+    var emptyView: some View {
+        ContentUnavailableView {
+            Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
+        } description: {
+            Text(L10n.tvPlaylistEmptySubtitle)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
+        }
     }
 
     var playlistView: some View {

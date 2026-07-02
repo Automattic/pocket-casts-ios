@@ -10,6 +10,7 @@ class PlaylistDetailsViewModel {
 
     enum State: Equatable, Hashable {
         case loading
+        case empty
         case ready
     }
 
@@ -74,7 +75,7 @@ class PlaylistDetailsViewModel {
                 allEpisodes = playlistEpisodes
                 applyArchivedFilter()
                 refreshPlaylistColor()
-                state = .ready
+                state = playlistEpisodes.isEmpty ? .empty : .ready
             }
         }
     }
