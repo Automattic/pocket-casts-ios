@@ -47,6 +47,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let shouldDeactivateSession = AtomicBool()
     private var haveCalledPlayerLoad = false
 
+    /// Set at runtime when the currently playing stream is found to contain video tracks
+    /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
+    /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
+    private(set) var currentStreamContainsVideo = false
+
     private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
@@ -739,6 +744,21 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
+    /// Whether the current episode should be presented as video, considering both the feed
+    /// metadata (`videoPodcast()`) and any video tracks detected at runtime in the stream.
+    func isCurrentEpisodeVideo() -> Bool {
+        currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo
+    }
+
+    /// Called by the player when it detects video tracks in the stream it is playing.
+    /// Used for HLS streams whose video content isn't reflected in the episode's file type.
+    func handleVideoTracksDetected(forEpisode episodeUuid: String) {
+        guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo else { return }
+        currentStreamContainsVideo = true
+        setAudioSessionVideoProperties()
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
+    }
+
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -1395,6 +1415,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
+        currentStreamContainsVideo = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         if let player {
