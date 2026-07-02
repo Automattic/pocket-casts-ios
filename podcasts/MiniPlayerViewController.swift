@@ -222,7 +222,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    /// Adds a springy scale-down-and-bounce-back response to the play/pause
+    /// Adds a springy scale-up-and-settle-back response to the play/pause
     /// button so the translucent accent circle feels tactile on tap.
     private func addPlayButtonBounce() {
         playPauseBtn.addTarget(self, action: #selector(playButtonTouchedDown), for: .touchDown)
@@ -231,18 +231,21 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func playButtonTouchedDown() {
         guard !UIAccessibility.isReduceMotionEnabled else { return }
-        UIView.animate(withDuration: 0.12, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState]) {
-            self.playPauseBtn.transform = CGAffineTransform(scaleX: 0.86, y: 0.86)
+        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: [.allowUserInteraction, .beginFromCurrentState]) {
+            self.playPauseBtn.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.playPauseBtn.alpha = 0.75
         }
     }
 
     @objc private func playButtonReleased() {
         guard !UIAccessibility.isReduceMotionEnabled else {
             playPauseBtn.transform = .identity
+            playPauseBtn.alpha = 1
             return
         }
         UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.7, options: [.allowUserInteraction, .beginFromCurrentState]) {
             self.playPauseBtn.transform = .identity
+            self.playPauseBtn.alpha = 1
         }
     }
 
@@ -647,11 +650,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         // A slightly translucent accent circle lets the tab bar's glass show
         // through for a vibrant, glassy feel (without the buggy UIGlassEffect).
+        // The skip glyphs reuse that same translucent accent so all three
+        // controls share one color.
+        let accentColor = iconColor.withAlphaComponent(0.8)
         playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = iconColor.withAlphaComponent(0.8)
+        playPauseBtn.circleColor = accentColor
 
-        skipBackBtn.tintColor = iconColor
-        skipFwdBtn.tintColor = iconColor
+        skipBackBtn.tintColor = accentColor
+        skipFwdBtn.tintColor = accentColor
 
         glassProgressView?.tintColorOverride = actionColor
     }
