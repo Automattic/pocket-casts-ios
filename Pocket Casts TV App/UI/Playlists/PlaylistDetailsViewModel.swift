@@ -107,9 +107,6 @@ class PlaylistDetailsViewModel {
         }
     }
 
-    /// Saves the current Up Next queue as a manual playlist (splitting into several playlists if it
-    /// exceeds the per-playlist limit) and then plays the selected playlist. The queue is captured
-    /// before playback starts, since playing replaces the current Up Next.
     func saveUpNextAndPlay() {
         Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": true]))
         Task { [weak self] in
