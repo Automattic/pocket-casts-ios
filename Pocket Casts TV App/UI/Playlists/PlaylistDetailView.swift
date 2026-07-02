@@ -33,18 +33,21 @@ struct PlaylistDetailView: View {
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
         .confirmationDialog(
-            L10n.playlistPlayAllSheetTitle,
+            L10n.tvPlaylistPlayAllClearUpNextTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,
             titleVisibility: .visible
         ) {
-            Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
-                model.buttonConfirmPlayPlaylistTapped()
+            Button(L10n.tvPlaylistPlayAllSaveAndPlay, role: .confirm) {
+                model.saveUpNextAndPlay()
+            }
+            Button(L10n.tvPlaylistPlayAllPlayWithoutSaving) {
+                model.playWithoutSaving()
             }
             Button(L10n.cancel, role: .cancel) {
-                Analytics.track(.filterPlayAllDismissed)
+                model.replaceUpNextConfirmationDismissed()
             }
         } message: {
-            Text(L10n.playlistPlayAllSheetDescription)
+            Text(L10n.tvPlaylistPlayAllClearUpNextMessage)
         }
         .fullScreenCover(isPresented: $model.isShowingNowPlaying) {
             NowPlayingView()

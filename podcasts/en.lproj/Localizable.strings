@@ -6193,6 +6193,18 @@
 /* tv playlist detail play all button title */
 "tv_playlist_detail_play_all" = "Play all episodes";
 
+/* tv Play all dialog title, shown when starting a playlist would clear the current Up Next queue */
+"tv_playlist_play_all_clear_up_next_title" = "This will clear your Up Next";
+
+/* tv Play all dialog message, offering to save the current Up Next queue as a playlist before it is cleared */
+"tv_playlist_play_all_clear_up_next_message" = "We can save your current Up Next as a playlist";
+
+/* tv Play all dialog button that saves the current Up Next as a playlist and then plays the selected playlist */
+"tv_playlist_play_all_save_and_play" = "Save and play";
+
+/* tv Play all dialog button that plays the selected playlist without saving the current Up Next */
+"tv_playlist_play_all_play_without_saving" = "Play without saving";
+
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
 

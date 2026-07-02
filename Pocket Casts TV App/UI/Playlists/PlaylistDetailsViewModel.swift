@@ -98,7 +98,7 @@ class PlaylistDetailsViewModel {
     func playAll() {
         guard !episodes.isEmpty else { return }
 
-        Analytics.track(.filterPlayAllTapped)
+        Analytics.track(.filterPlayAllTapped, properties: analyticsProperties())
 
         if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
             isShowingNowPlaying = true
@@ -107,10 +107,85 @@ class PlaylistDetailsViewModel {
         }
     }
 
-    func buttonConfirmPlayPlaylistTapped() {
-        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: ["save_up_next": Settings.saveCurrentUpNextQueueIntoPlaylist])
+    /// Saves the current Up Next queue as a manual playlist (splitting into several playlists if it
+    /// exceeds the per-playlist limit) and then plays the selected playlist. The queue is captured
+    /// before playback starts, since playing replaces the current Up Next.
+    func saveUpNextAndPlay() {
+        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": true]))
+        Task { [weak self] in
+            guard let self else { return }
+            let batches = await self.batchedUpNextEpisodes()
+            await MainActor.run {
+                self.playbackManager.play(playlist: self.playlist)
+                self.isShowingNowPlaying = true
+            }
+            if await self.createPlaylists(from: batches) {
+                await MainActor.run {
+                    ToastManager.shared.show(batches.count > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
+                }
+            }
+        }
+    }
+
+    func playWithoutSaving() {
+        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": false]))
         playbackManager.play(playlist: playlist)
         isShowingNowPlaying = true
+    }
+
+    func replaceUpNextConfirmationDismissed() {
+        Analytics.track(.filterPlayAllDismissed, properties: analyticsProperties())
+    }
+
+    private func analyticsProperties(_ additional: [String: Sendable] = [:]) -> [String: Sendable] {
+        var properties: [String: Sendable] = ["filter_type": isManual ? "manual" : "smart"]
+        additional.forEach { properties[$0.key] = $0.value }
+        return properties
+    }
+
+    private func batchedUpNextEpisodes(batchSize: Int = Constants.Limits.maxFilterItems) async -> [[Episode]] {
+        let uuids = dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
+        let allEpisodes = dataManager.allUpNextEpisodes(from: uuids)
+
+        guard !allEpisodes.isEmpty else { return [] }
+        guard allEpisodes.count > batchSize else { return [allEpisodes] }
+
+        var result: [[Episode]] = []
+        var startIndex = 0
+        while startIndex < allEpisodes.count {
+            let endIndex = min(startIndex + batchSize, allEpisodes.count)
+            result.append(Array(allEpisodes[startIndex..<endIndex]))
+            startIndex += batchSize
+        }
+        return result
+    }
+
+    private func createPlaylists(from batches: [[Episode]]) async -> Bool {
+        guard !batches.isEmpty else { return false }
+        let firstSortPosition = max(0, dataManager.firstSortPositionForPlaylist())
+        dataManager.bumpSortPositionForAllPlaylists(adding: batches.count)
+        for (index, batch) in batches.enumerated() {
+            let playlist = newManualPlaylist(index: index + 1, sortPosition: firstSortPosition + index)
+            dataManager.save(playlist: playlist)
+            _ = dataManager.add(episodes: batch, to: playlist)
+        }
+        return true
+    }
+
+    private func newManualPlaylist(index: Int, sortPosition: Int) -> EpisodeFilter {
+        var playlistName = "\(L10n.upNext) - \(Date().monthDayString())"
+        if index > 1 {
+            playlistName += " (\(index))"
+        }
+        let playlist = EpisodeFilter()
+        playlist.uuid = UUID().uuidString
+        playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
+        playlist.manual = true
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        playlist.isNew = false
+        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
+        playlist.sortPosition = Int32(sortPosition)
+        return playlist
     }
 
     var playlistName: String {
