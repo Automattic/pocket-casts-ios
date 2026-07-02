@@ -121,6 +121,7 @@ class PlaylistDetailsViewModel {
             self.isShowingNowPlaying = true
 
             if created > 0 {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
                 ToastManager.shared.show(created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
             }
         }
