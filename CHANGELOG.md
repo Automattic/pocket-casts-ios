@@ -19,7 +19,6 @@
 - Fix Autoplay stopping instead of continuing through manual playlists that contain episodes from podcasts you don't follow [#4624](https://github.com/Automattic/pocket-casts-ios/pull/4624)
 - Fix separator alignment and list background color on the Discover category list [#4653](https://github.com/Automattic/pocket-casts-ios/pull/4653)
 - Add episode sorting to the podcast screen on tvOS [#4650](https://github.com/Automattic/pocket-casts-ios/pull/4650)
-- Offer to save your current Up Next as a playlist when using Play All on tvOS [#4670](https://github.com/Automattic/pocket-casts-ios/pull/4670)
 
 8.15
 -----
