@@ -1,5 +1,6 @@
 8.16
 -----
+- Scale the mini player title with Dynamic Type under Liquid Glass [#4676](https://github.com/Automattic/pocket-casts-ios/pull/4676)
 
 
 8.15
