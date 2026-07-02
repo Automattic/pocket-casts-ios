@@ -37,11 +37,11 @@ struct PlaylistDetailView: View {
             isPresented: $model.isShowingReplaceUpNextConfirmation,
             titleVisibility: .visible
         ) {
-            Button(L10n.tvPlaylistPlayAllSaveAndPlay, role: .confirm) {
-                model.saveUpNextAndPlay()
-            }
-            Button(L10n.tvPlaylistPlayAllPlayWithoutSaving) {
+            Button(L10n.tvPlaylistPlayAllPlayWithoutSaving, role: .confirm) {
                 model.playWithoutSaving()
+            }
+            Button(L10n.tvPlaylistPlayAllSaveAndPlay) {
+                model.saveUpNextAndPlay()
             }
             Button(L10n.cancel, role: .cancel) {
                 model.replaceUpNextConfirmationDismissed()
