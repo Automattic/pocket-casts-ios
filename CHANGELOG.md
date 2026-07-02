@@ -14,6 +14,7 @@
 - Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
 - Fix "Select All" in Auto Add to Up Next resetting the setting on all other podcasts [#4639](https://github.com/Automattic/pocket-casts-ios/pull/4639)
 - Add support for generated chapters on episodes [#4630](https://github.com/Automattic/pocket-casts-ios/pull/4630)
+- Add Up Next queue sorting [#4550](https://github.com/Automattic/pocket-casts-ios/pull/4550)
 - Fix Autoplay stopping instead of continuing through manual playlists that contain episodes from podcasts you don't follow [#4624](https://github.com/Automattic/pocket-casts-ios/pull/4624)
 - Add episode sorting to the podcast screen on tvOS [#4650](https://github.com/Automattic/pocket-casts-ios/pull/4650)
 
@@ -28,7 +29,6 @@
 - Add a soft blur edge to the bottom of the podcast grid under Liquid Glass [#4567](https://github.com/Automattic/pocket-casts-ios/pull/4567)
 - Add a Siri shortcut to mark the current episode as played [#4591](https://github.com/Automattic/pocket-casts-ios/pull/4591)
 - Add context menus and Edit-mode reordering to the Folder screen [#4590](https://github.com/Automattic/pocket-casts-ios/pull/4590)
-- Add Up Next queue sorting [#4550](https://github.com/Automattic/pocket-casts-ios/pull/4550)
 - Fix the Playlists tab background in dark mode [#4593](https://github.com/Automattic/pocket-casts-ios/pull/4593)
 - Show chapter artwork on the lock screen, Control Center, and CarPlay [#4596](https://github.com/Automattic/pocket-casts-ios/pull/4596)
 - Tag Ask AI widget tickets for dedicated inbox routing [#4227](https://github.com/Automattic/pocket-casts-ios/pull/4227)

@@ -541,7 +541,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .upNextSort:
-            BuildEnvironment.current == .debug
+            true
         case .generatedChapters:
             BuildEnvironment.current == .debug
         }
