@@ -37,7 +37,7 @@ public extension Episode {
     func populateFromMap(_ episodeMap: [String: String]) {
         addedDate = decodeDateFromString(date: episodeMap["addedDate"])
         downloadUrl = episodeMap["downloadUrl"]
-        hlsUrl = episodeMap["hlsUrl"]
+        hlsUrl = decodeOptionalStringFromString(value: episodeMap["hlsUrl"])
         episodeDescription = episodeMap["episodeDescription"]
         episodeStatus = decodeInt32FromString(value: episodeMap["episodeStatus"])
         fileType = episodeMap["fileType"]
