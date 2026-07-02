@@ -1761,19 +1761,19 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Remote Control support
+    func remotePlayPauseToggle() {
+        analyticsPlaybackHelper.currentSource = self.commandCenterSource
+        FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
+        playPause()
+    }
 
     private var lastSeekTime = Date()
     private func setupRemoteControlSupport() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-            guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
-
-            FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
-            strongSelf.playPause()
-
+            guard let self, let _ = self.currentEpisode() else { return .noActionableNowPlayingItem }
+            remotePlayPauseToggle()
             return .success
         }
 
