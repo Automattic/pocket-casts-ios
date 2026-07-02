@@ -69,7 +69,12 @@ struct PlaylistDetailView: View {
         ContentUnavailableView {
             Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
         } description: {
-            Text(L10n.tvPlaylistEmptySubtitle)
+            VStack {
+                Text(L10n.tvPlaylistEmptySubtitle)
+                if model.hasDownloadFilter {
+                    Text(L10n.tvPlaylistDownloadRulesUnsupported)
+                }
+            }.padding(24)
         } actions: {
             Button(L10n.ok) {
                 dismiss()

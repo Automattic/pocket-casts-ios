@@ -24,6 +24,8 @@ class PlaylistDetailsViewModel {
     var showArchived: Bool = false
     var playlistColor: Color
 
+    var hasDownloadFilter: Bool { playlist.filterDownloaded }
+
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
     private let playbackManager: PlaybackManager
