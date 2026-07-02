@@ -160,7 +160,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     }
 
     override public func isEqual(_ object: Any?) -> Bool {
-        guard let otherEpisode = object as? Episode else { return false }
+        guard let otherEpisode = object as? UserEpisode else { return false }
 
         return otherEpisode.uuid == uuid
     }

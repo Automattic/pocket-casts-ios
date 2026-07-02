@@ -95,7 +95,7 @@ class PlayerCell: ThemeableSwipeCell {
         }
     }
 
-    private var episode: BaseEpisode!
+    private var episode: BaseEpisode?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -199,6 +199,12 @@ class PlayerCell: ThemeableSwipeCell {
     }
 
     func updateDownloadStatus() {
+        guard let episode else {
+            downloadingIndicator.isHidden = true
+            downloadedIndicator.isHidden = true
+            return
+        }
+
         if let episode = episode as? UserEpisode, episode.uploadStatus == UploadStatus.missing.rawValue {
             episodeInfo.text = L10n.downloadErrorNotUploaded
             downloadingIndicator.isHidden = true

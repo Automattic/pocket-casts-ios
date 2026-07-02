@@ -206,11 +206,7 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var podcastUuid: String? {
-        if let episode = episode as? Episode {
-            return episode.podcastUuid
-        } else {
-            return nil
-        }
+        return podcast?.uuid ?? (episode as? Episode)?.podcastUuid
     }
 
     var isPlayed: Bool {

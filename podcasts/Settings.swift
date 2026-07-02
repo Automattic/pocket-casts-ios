@@ -1502,6 +1502,18 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Up Next Sort by Duration Tip
+
+    // Defaults to true so upgrading users are told about the new duration sort once; AppDelegate suppresses it for fresh installs.
+    static var shouldShowUpNextSortDurationTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowUpNextSortDurationTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowUpNextSortDurationTip)
+        }
+    }
+
     // MARK: - Playlists
 
     static var shouldShowNewFilterTip: Bool {

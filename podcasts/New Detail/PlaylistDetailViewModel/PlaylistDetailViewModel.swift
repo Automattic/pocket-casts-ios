@@ -3,10 +3,9 @@ import Combine
 import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
-import PocketCastsDependencyInjection
 
 class PlaylistDetailViewModel: ObservableObject {
-    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+    let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
     typealias DataSourceValue = [ArraySection<Section, ListItem>]
 

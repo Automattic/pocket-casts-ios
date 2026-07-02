@@ -87,6 +87,9 @@ class DiscoverPodcastTableCell: ThemeableCell {
         if itemNumber.text == nil {
             numberWidth.constant = 0
             podcastImageLeadingConstraint.constant = 16
+        } else {
+            // Start the separator where the artwork does, so it doesn't run under the ranking number.
+            separatorInset = UIEdgeInsets(top: 0, left: podcastImageLeadingConstraint.constant, bottom: 0, right: 0)
         }
 
         subscribeButton.currentlyOn = false
