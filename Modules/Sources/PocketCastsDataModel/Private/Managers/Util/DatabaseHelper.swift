@@ -920,6 +920,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 75 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN hlsUrl TEXT;", values: nil)
+                schemaVersion = 75
+            } catch {
+                failedAt(75)
+                return
+            }
+        }
+
         db.commit()
     }
 }
