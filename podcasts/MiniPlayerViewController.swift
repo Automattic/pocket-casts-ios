@@ -152,7 +152,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let title = MiniPlayerScrollingTitleView()
-        title.font = .systemFont(ofSize: 13, weight: .medium)
+        title.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge)
         episodeTitleLabel = title
         let titleVibrancy = Self.makeVibrancyWrapper(style: .label, content: title)
 
