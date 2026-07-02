@@ -30,6 +30,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
     private var timeControlStatusObserver: NSKeyValueObservation?
+    private var presentationSizeObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -103,6 +104,30 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         #endif
 
         configurePlayer(videoPodcast: episode.videoPodcast())
+
+        detectVideoTracksIfNeeded(for: episode, playerItem: playerItem)
+    }
+
+    /// An HLS stream can carry video that isn't reflected in the episode's file type. HLS doesn't
+    /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
+    /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
+    private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
+        guard EpisodeManager.isStreamingHLS(episode), !episode.videoPodcast() else { return }
+
+        let episodeUuid = episode.uuid
+        presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in
+            let size = item.presentationSize
+            guard size.width > 0, size.height > 0 else { return }
+
+            DispatchQueue.main.async {
+                guard let self, self.presentationSizeObserver != nil else { return }
+                self.presentationSizeObserver = nil
+#if !os(watchOS)
+                self.player?.allowsExternalPlayback = true
+#endif
+                PlaybackManager.shared.handleVideoTracksDetected(forEpisode: episodeUuid)
+            }
+        }
     }
 
     func isReadyToPlay() -> Bool {
@@ -879,6 +904,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playerStatusObserver = nil
         playerItemStatusObserver = nil
         timeControlStatusObserver = nil
+        presentationSizeObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)
