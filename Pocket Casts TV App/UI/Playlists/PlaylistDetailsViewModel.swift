@@ -109,19 +109,19 @@ class PlaylistDetailsViewModel {
 
     func saveUpNextAndPlay() {
         Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": true]))
-        Task { [weak self] in
-            guard let self else { return }
-            let episodes = self.currentUpNextEpisodes()
-            await MainActor.run {
-                self.playbackManager.play(playlist: self.playlist)
-                self.isShowingNowPlaying = true
-            }
-            let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
-            let created = self.dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
+        Task { await _saveUpNextAndPlay() }
+    }
+
+    @concurrent private func _saveUpNextAndPlay() async {
+        let episodes = currentUpNextEpisodes()
+        let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
+        let created = dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
+        await MainActor.run {
+            self.playbackManager.play(playlist: self.playlist)
+            self.isShowingNowPlaying = true
+
             if created > 0 {
-                await MainActor.run {
-                    ToastManager.shared.show(created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
-                }
+                ToastManager.shared.show(created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
             }
         }
     }
