@@ -487,9 +487,13 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignorePlayWithOtherAudio:
             true
         case .activateAudioSessionInBackground:
+#if os(tvOS)
+            false
+#else
             true
+#endif
         case .useCellularNetworkApis:
-			true
+            true
         case .optimizeManualPlaylistQueries:
             true
         case .useBackgroundQueueForStreamingCallback:
@@ -537,7 +541,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .upNextSort:
-            BuildEnvironment.current == .debug
+            true
         case .generatedChapters:
             BuildEnvironment.current == .debug
         }

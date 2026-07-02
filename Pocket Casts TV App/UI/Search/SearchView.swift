@@ -8,10 +8,10 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
     @State private var searchText = ""
     @State private var didTrackShown = false
 
-    @State private var path = NavigationPath()
+    @State private var path = StackPath()
 
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $path.navigationPath) {
             VStack {
                 SearchResultsView(model: model)
             }
@@ -59,7 +59,8 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 Analytics.track(.searchShown, properties: ["source": "search"])
             }
         }
-        .syncNavigationDetail(path: path, tabRouter: tabRouter)
+        .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
+        .environment(path)
     }
 }
 

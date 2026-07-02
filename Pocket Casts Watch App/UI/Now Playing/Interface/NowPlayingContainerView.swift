@@ -28,7 +28,7 @@ struct NowPlayingContainerView: View {
         }
         .navigationTitle(L10n.nowPlayingShortTitle.prefixSourceUnicode)
         .restorable(.nowPlaying)
-        .onChange(of: optionSelected) { _ in
+        .onChange(of: optionSelected) {
             withAnimation {
                 selection = 2
             }

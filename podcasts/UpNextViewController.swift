@@ -241,6 +241,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         track(.upNextShown, properties: ["source": source])
 
         AnalyticsHelper.upNextOpened()
+
+        showUpNextSortDurationTipIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -371,6 +373,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func sortButtonTapped() {
+        // If the tooltip is still up, opening the picker counts as discovering the feature: dismiss and mark it seen.
+        dismissUpNextSortDurationTip()
         let optionsPicker = makeSortOptionsPicker()
         optionsPicker.present(from: self)
     }
@@ -407,6 +411,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
+
+    /// The "Sort by duration" tooltip popover, while it's on screen. See `UIViewController.presentTip` in TipView.swift.
+    var upNextSortDurationTip: UIViewController?
 
     func showEpisodeDetailViewController(for episode: BaseEpisode?) {
         if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
@@ -677,5 +684,47 @@ extension UpNextViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
         updateSize()
+    }
+}
+
+// MARK: - Sort by Duration tooltip
+
+/// Shows a one-time "Sort by duration" tooltip on the Up Next tab, only for upgrading users since AppDelegate suppresses the flag on fresh installs.
+extension UpNextViewController {
+    func showUpNextSortDurationTipIfNeeded() {
+        guard
+            Settings.shouldShowUpNextSortDurationTip,
+            FeatureFlag.upNextSort.enabled,
+            source == .tabBar,
+            upNextSortDurationTip == nil,
+            // Only when the sort button is actually on screen (it's hidden while the queue is empty).
+            !sortButton.isHidden,
+            PlaybackManager.shared.queue.upNextCount() > 0
+        else {
+            return
+        }
+        upNextSortDurationTip = presentTip(
+            title: L10n.upNextSortDurationTooltipTitle,
+            message: L10n.upNextSortDurationTooltipBody,
+            anchor: .item(sortButton),
+            onTap: { [weak self] in
+                self?.dismissUpNextSortDurationTip()
+            },
+            onDismiss: { [weak self] in
+                self?.dismissUpNextSortDurationTip()
+            },
+            onShow: { [weak self] in
+                self?.track(.upNextSortTooltipShown)
+            }
+        )
+    }
+
+    func dismissUpNextSortDurationTip() {
+        guard upNextSortDurationTip != nil else { return }
+        Settings.shouldShowUpNextSortDurationTip = false
+        track(.upNextSortTooltipClosed)
+        upNextSortDurationTip?.dismiss(animated: true) { [weak self] in
+            self?.upNextSortDurationTip = nil
+        }
     }
 }

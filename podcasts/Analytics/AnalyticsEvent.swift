@@ -367,6 +367,9 @@ enum AnalyticsEvent: String {
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
+    case upNextSortTooltipShown
+    case upNextSortTooltipClosed
+
     case episodeAddedToList
     case episodeRemovedFromList
 
