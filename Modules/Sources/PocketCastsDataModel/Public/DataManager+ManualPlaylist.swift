@@ -30,21 +30,11 @@ public extension DataManager {
     }
 
     private static func manualPlaylist(named name: String, sortPosition: Int) -> EpisodeFilter {
-        let playlist = EpisodeFilter()
-        playlist.uuid = UUID().uuidString
+        let playlist = EpisodeFilter.makeDefault()
         playlist.playlistName = name
         playlist.manual = true
-        playlist.syncStatus = SyncStatus.notSynced.rawValue
-        playlist.isNew = false
         playlist.sortType = PlaylistSort.dragAndDrop.rawValue
         playlist.sortPosition = Int32(sortPosition)
-        playlist.filterAllPodcasts = true
-        playlist.filterUnplayed = true
-        playlist.filterPartiallyPlayed = true
-        playlist.filterFinished = true
-        playlist.filterDownloaded = true
-        playlist.filterNotDownloaded = true
-        playlist.filterAudioVideoType = AudioVideoFilter.all.rawValue
         return playlist
     }
 }
