@@ -111,14 +111,16 @@ class PlaylistDetailsViewModel {
         Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": true]))
         Task { [weak self] in
             guard let self else { return }
-            let batches = await self.batchedUpNextEpisodes()
+            let episodes = self.currentUpNextEpisodes()
             await MainActor.run {
                 self.playbackManager.play(playlist: self.playlist)
                 self.isShowingNowPlaying = true
             }
-            if await self.createPlaylists(from: batches) {
+            let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
+            let created = self.dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
+            if created > 0 {
                 await MainActor.run {
-                    ToastManager.shared.show(batches.count > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
+                    ToastManager.shared.show(created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
                 }
             }
         }
@@ -140,49 +142,9 @@ class PlaylistDetailsViewModel {
         return properties
     }
 
-    private func batchedUpNextEpisodes(batchSize: Int = Constants.Limits.maxFilterItems) async -> [[Episode]] {
+    private func currentUpNextEpisodes() -> [Episode] {
         let uuids = dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
-        let allEpisodes = dataManager.allUpNextEpisodes(from: uuids)
-
-        guard !allEpisodes.isEmpty else { return [] }
-        guard allEpisodes.count > batchSize else { return [allEpisodes] }
-
-        var result: [[Episode]] = []
-        var startIndex = 0
-        while startIndex < allEpisodes.count {
-            let endIndex = min(startIndex + batchSize, allEpisodes.count)
-            result.append(Array(allEpisodes[startIndex..<endIndex]))
-            startIndex += batchSize
-        }
-        return result
-    }
-
-    private func createPlaylists(from batches: [[Episode]]) async -> Bool {
-        guard !batches.isEmpty else { return false }
-        let firstSortPosition = max(0, dataManager.firstSortPositionForPlaylist())
-        dataManager.bumpSortPositionForAllPlaylists(adding: batches.count)
-        for (index, batch) in batches.enumerated() {
-            let playlist = newManualPlaylist(index: index + 1, sortPosition: firstSortPosition + index)
-            dataManager.save(playlist: playlist)
-            _ = dataManager.add(episodes: batch, to: playlist)
-        }
-        return true
-    }
-
-    private func newManualPlaylist(index: Int, sortPosition: Int) -> EpisodeFilter {
-        var playlistName = "\(L10n.upNext) - \(Date().monthDayString())"
-        if index > 1 {
-            playlistName += " (\(index))"
-        }
-        let playlist = EpisodeFilter()
-        playlist.uuid = UUID().uuidString
-        playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
-        playlist.manual = true
-        playlist.syncStatus = SyncStatus.notSynced.rawValue
-        playlist.isNew = false
-        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
-        playlist.sortPosition = Int32(sortPosition)
-        return playlist
+        return dataManager.allUpNextEpisodes(from: uuids)
     }
 
     var playlistName: String {
