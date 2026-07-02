@@ -11,6 +11,7 @@
 - Fix non-square chapter artwork being cropped and losing rounded corners when opening the full-screen player [#4621](https://github.com/Automattic/pocket-casts-ios/pull/4621)
 - Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
 - Fix a rare crash when an episode is deleted while its download status is updating [#4642](https://github.com/Automattic/pocket-casts-ios/pull/4642)
+- Fix a potential rare crash when playback fails to start [#4641](https://github.com/Automattic/pocket-casts-ios/pull/4641)
 - Fix a potential crash and wrong-podcast taps when opening a Discover category list that shows a sponsored podcast [#4652](https://github.com/Automattic/pocket-casts-ios/pull/4652)
 - Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
 - Fix "Select All" in Auto Add to Up Next resetting the setting on all other podcasts [#4639](https://github.com/Automattic/pocket-casts-ios/pull/4639)
