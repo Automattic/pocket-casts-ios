@@ -2,11 +2,15 @@ import Foundation
 import PocketCastsUtils
 
 extension MiniPlayerViewController {
-    func hideMiniPlayer(_ animated: Bool) {
+    /// - parameter isTransient: If enabled, hiding temporarily with an intention to
+    /// quickly show it again later.
+    func hideMiniPlayer(_ animated: Bool, isTransient: Bool = false) {
         if LiquidGlass.isEnabled, #available(iOS 26, *) {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
             tabBarController.setBottomAccessory(nil, animated: animated)
-            tabBarController.tabBarMinimizeBehavior = .never
+            if !isTransient {
+                tabBarController.tabBarMinimizeBehavior = .never
+            }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
             return
         }
@@ -35,8 +39,8 @@ extension MiniPlayerViewController {
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
             let accessory = UITabAccessory(contentView: view)
-            tabBarController.setBottomAccessory(accessory, animated: true)
             tabBarController.tabBarMinimizeBehavior = Settings.tabBarMinimizingEnabled ? .onScrollDown : .never
+            tabBarController.setBottomAccessory(accessory, animated: true)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
             return
         }
