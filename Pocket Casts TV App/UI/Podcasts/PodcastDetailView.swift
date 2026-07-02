@@ -139,8 +139,7 @@ struct PodcastDetailView: View {
         EpisodeRowWithActions(model: episode, focus: $rowFocus)
     }
 
-    /// Standard "More" menu for the episode list, holding the episode sort options.
-    private var moreMenu: some View {
+    private var sortMenu: some View {
         Menu {
             Section(L10n.sortBy) {
                 ForEach(PodcastEpisodeSortOrder.allCases, id: \.self) { order in
@@ -156,7 +155,8 @@ struct PodcastDetailView: View {
                 }
             }
         } label: {
-            MoreMenuLabel()
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
         }
         .buttonStyle(MoreButtonStyle())
     }
@@ -245,13 +245,13 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack(alignment: .center) {
+                HStack(alignment: .center, spacing: 8) {
                     Text(L10n.tvPodcastDetailAllEpisodes)
                         .font(.title3)
                         .foregroundStyle(Color.pcTextPrimary)
                     Spacer()
                     archivedFilterMenu
-                    moreMenu
+                    sortMenu
                 }
                 .padding(.top, 40)
                 .padding(.bottom, 32)
