@@ -133,9 +133,10 @@ public struct BookmarkDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: [episodeUuid])
-                _ = resultSet.next()
-                count = resultSet.long(forColumnIndex: 0)
-                resultSet.close()
+                defer { resultSet.close() }
+                if resultSet.next() {
+                    count = resultSet.long(forColumnIndex: 0)
+                }
             } catch {
                 FileLog.shared.addMessage("BookmarkManager.bookmarkCount failed: \(error)")
             }
