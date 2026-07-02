@@ -28,6 +28,17 @@ final class EpisodeAlternateEnclosuresTests: XCTestCase {
         XCTAssertEqual(Episode.hlsUrl(fromEpisodeJson: json), "https://example.com/stream.m3u8")
     }
 
+    func testMatchesHlsTypeCaseInsensitively() {
+        let json: [String: Any] = [
+            "alternate_enclosures": [
+                ["type": "application/x-mpegurl",
+                 "sources": [["uri": "https://example.com/stream.m3u8"]]]
+            ]
+        ]
+
+        XCTAssertEqual(Episode.hlsUrl(fromEpisodeJson: json), "https://example.com/stream.m3u8")
+    }
+
     func testReturnsNilWhenNoHlsType() {
         let json: [String: Any] = [
             "alternate_enclosures": [

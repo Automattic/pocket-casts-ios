@@ -17,7 +17,7 @@ extension Episode {
             return nil
         }
 
-        let hlsEnclosure = alternateEnclosures.first { ($0["type"] as? String) == hlsEnclosureType }
+        let hlsEnclosure = alternateEnclosures.first { ($0["type"] as? String)?.caseInsensitiveCompare(hlsEnclosureType) == .orderedSame }
         let sources = hlsEnclosure?["sources"] as? [[String: Any]]
         return sources?.first?["uri"] as? String
     }
