@@ -98,6 +98,9 @@ struct SignInView: View {
                 model.state = .start
             }
         }
+        .onChange(of: loginType) {
+            Analytics.track(.signInTypeTapped, properties: ["type": loginType == .qr ? "qr" : "password"])
+        }
         .onChange(of: model.state) {
             switch model.state {
             case .finished:
@@ -117,9 +120,6 @@ struct SignInView: View {
             default:
                 break
             }
-        }
-        .onAppear {
-            Analytics.track(.signInShown)
         }
         .background(Color.pcBackgroundBase)
     }

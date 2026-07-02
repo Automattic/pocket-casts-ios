@@ -62,7 +62,8 @@ struct PlaylistCell: View {
         .frame(height: Layout.cardHeight)
         .background(isFocused ? Color.pcBackgroundActive : model.playlistColor)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
-        .clipped()
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .focusedCardDepth(isFocused: isFocused, cornerRadius: 16, style: .content)
         .task {
             model.load()
         }

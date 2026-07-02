@@ -68,6 +68,7 @@ class NowPlayingViewModel: Identifiable {
         timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new, .initial]) { [weak self] _, _ in
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
+                self?.updatePlayState()
             }
         }
 
@@ -88,6 +89,31 @@ class NowPlayingViewModel: Identifiable {
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
             }
+        }
+    }
+
+    private var previousTimeStatus: AVPlayer.TimeControlStatus?
+
+    private func updatePlayState() {
+        guard let player else {
+            return
+        }
+        let currentTimeStatus = player.timeControlStatus
+        guard previousTimeStatus != currentTimeStatus else {
+            return
+        }
+        previousTimeStatus = currentTimeStatus
+        switch currentTimeStatus {
+        case .playing:
+            AnalyticsPlaybackHelper.shared.currentSource = .player
+            AnalyticsPlaybackHelper.shared.play()
+        case .paused:
+            AnalyticsPlaybackHelper.shared.currentSource = .player
+            AnalyticsPlaybackHelper.shared.pause()
+        case .waitingToPlayAtSpecifiedRate:
+            break
+        @unknown default:
+            break
         }
     }
 
@@ -180,11 +206,39 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var podcastUuid: String? {
-        if let episode = episode as? Episode {
-            return episode.podcastUuid
-        } else {
-            return nil
-        }
+        return podcast?.uuid ?? (episode as? Episode)?.podcastUuid
+    }
+
+    var isPlayed: Bool {
+        episode?.played() ?? false
+    }
+
+    var canArchive: Bool {
+        episode is Episode
+    }
+
+    var isArchived: Bool {
+        (episode as? Episode)?.archived ?? false
+    }
+
+    func markAsPlayed() {
+        guard let episode else { return }
+        EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+    }
+
+    func markAsUnplayed() {
+        guard let episode else { return }
+        EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+    }
+
+    func archive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+    }
+
+    func unarchive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
     }
 
     fileprivate func observeUpNextChanges() {

@@ -25,6 +25,8 @@ class AppCoordinator {
         // Ensure database and tables are setup before we go forward
         let _ = DataManager.sharedManager
 
+        checkDefaults()
+
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 
@@ -173,5 +175,22 @@ class AppCoordinator {
             return
         }
         state = .serverSignedOut
+    }
+
+    private func checkDefaults() {
+        performUpdateIfRequired(updateKey: "v1_run") {
+            FileLog.shared.addMessage("AppCoordinator v1Run")
+            // ensure that all previous log in information is wiped and database cleanup
+            SyncManager.clearTokensFromKeyChain()
+            DataManager.sharedManager.deleteAllData()
+        }
+    }
+
+    private func performUpdateIfRequired(updateKey: String, update: () -> Void) {
+        if UserDefaults.standard.bool(forKey: updateKey) { return } // already performed this update
+
+        update()
+        UserDefaults.standard.set(true, forKey: updateKey)
+        UserDefaults.standard.synchronize()
     }
 }

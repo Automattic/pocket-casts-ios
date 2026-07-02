@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -7,7 +8,7 @@ struct PlaylistsView: View {
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: PlaylistsViewModel
-    @State private var didTrackShown = false
+    @State private var showDownloadModal = false
 
     enum Layout {
         static let gridSize = CGFloat(496)
@@ -29,12 +30,11 @@ struct PlaylistsView: View {
             }
         }
         .animation(.easeInOut, value: model.state)
-        .task {
-            model.load()
+        .sheet(isPresented: $showDownloadModal) {
+            DownloadAppModal()
         }
-        .onChange(of: model.state) { _, newState in
-            guard !didTrackShown, newState != .loading else { return }
-            didTrackShown = true
+        .task {
+            await model.load()
             Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
         }
     }
@@ -43,8 +43,9 @@ struct PlaylistsView: View {
         ProgressView()
     }
 
+    @State private var path = StackPath()
     var playlistsView: some View {
-        NavigationStack {
+        NavigationStack(path: $path.navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
@@ -53,7 +54,14 @@ struct PlaylistsView: View {
                     playlistsCollection
                 }
             }
+            .navigationDestination(for: DiscoverPodcast.self) { podcast in
+                if let uuid = podcast.uuid {
+                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+                }
+            }
         }
+        .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
+        .environment(path)
     }
 
     var emptyView: some View {
@@ -63,7 +71,7 @@ struct PlaylistsView: View {
             Text(L10n.tvPlaylistsEmptySubtitle)
         } actions: {
             Button(L10n.tvPlaylistsEmptyActionTitle) {
-                requireAccount { tabRouter.selectedTab = .home }
+                showDownloadModal = true
             }
         }
     }

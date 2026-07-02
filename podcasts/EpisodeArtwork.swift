@@ -6,7 +6,8 @@ import PocketCastsUtils
 import AVFoundation
 
 /// Extracts artwork from a streaming episode (if there's any)
-class EpisodeArtwork {
+@MainActor
+final class EpisodeArtwork {
     private let imageManager: ImageManager
 
     /// Track in-progress artwork load tasks by episode UUID to prevent redundant requests and allow cancellation
@@ -46,7 +47,7 @@ class EpisodeArtwork {
             guard !Task.isCancelled else { return }
 
             // Priority 2: Embedded artwork from audio file metadata
-            if let assetEpisodeArtwork = self.loadEpisodeArtwork(from: asset) {
+            if let assetEpisodeArtwork = await self.loadEpisodeArtwork(from: asset) {
                 self.imageManager.save(assetEpisodeArtwork, for: episodeUuid)
             }
         }
@@ -64,20 +65,23 @@ class EpisodeArtwork {
         imageManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 
-    private func loadEpisodeArtwork(from asset: AVAsset?) -> UIImage? {
-        guard let asset else {
+    private func loadEpisodeArtwork(from asset: AVAsset?) async -> UIImage? {
+        guard let asset, let commonMetadata = try? await asset.load(.commonMetadata) else {
             return nil
         }
-
-        let artworkItems = AVMetadataItem.metadataItems(from: asset.commonMetadata, filteredByIdentifier: .commonIdentifierArtwork)
-        return artworkItems.compactMap { $0.dataValue.flatMap { UIImage(data: $0) } }.first
+        let artworkItems = AVMetadataItem.metadataItems(from: commonMetadata, filteredByIdentifier: .commonIdentifierArtwork)
+        for item in artworkItems {
+            if let data = try? await item.load(.dataValue), let image = UIImage(data: data) {
+                return image
+            }
+        }
+        return nil
     }
 
     /// Attempts to load episode artwork from show notes URL.
     /// - Returns: true if artwork was successfully loaded and saved, false otherwise
     private func loadArtworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> Bool {
-        guard let imageUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid),
-              let url = URL(string: imageUrl) else {
+        guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return false
         }
 

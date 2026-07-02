@@ -22,7 +22,7 @@ struct NowPlayingTab: View {
                     DispatchQueue.main.async {
                         PlaybackManager.shared.play(completion: {
                             DispatchQueue.main.async {
-                                PlaybackManager.shared.pause()
+                                PlaybackManager.shared.pause(userInitiated: false)
                             }
                         }, userInitiated: false)
                     }

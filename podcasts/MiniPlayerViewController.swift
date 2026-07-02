@@ -100,7 +100,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             setupLiquidGlassLayout()
         } else {
             setupCorners()
@@ -582,7 +582,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func updateColors() {
         view.backgroundColor = .clear
 
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+        if #available(iOS 26.0, *) {
             updateColorsLiquidGlass()
         } else {
             updateColorsLegacy()

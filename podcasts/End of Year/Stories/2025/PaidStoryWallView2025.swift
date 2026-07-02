@@ -102,7 +102,7 @@ struct PaidStoryWallView2025: StoryView {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .onChange(of: subscriptionModel.subscriptionTier) { newValue in
+        .onChange(of: subscriptionModel.subscriptionTier) { _, newValue in
             if newValue != subscriptionTier, newValue != .none {
                 pauseState.play()
                 storyModel.next()

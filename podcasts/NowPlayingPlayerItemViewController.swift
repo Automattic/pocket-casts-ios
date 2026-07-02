@@ -52,6 +52,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    private(set) var artworkImageView: UIImageView!
+
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
 #if APPCLIP
@@ -243,10 +245,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if LiquidGlass.isEnabled {
-            // Slightly rounder artwork to match the pill-shaped controls.
-            episodeImage.layer.cornerRadius = 16
-        }
+        setUpArtworkImageView()
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -370,9 +369,42 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         view.layoutIfNeeded()
     }
 
+    private var artworkCornerRadius: CGFloat {
+        LiquidGlass.isEnabled ? 16 : 8
+    }
+
+    /// Puts the artwork in an aspect-fitting inner view (so `cornerRadius` rounds
+    /// the real image) and turns `episodeImage` into the reserved square slot.
+    private func setUpArtworkImageView() {
+        let artwork = AspectFitArtworkImageView()
+        artwork.translatesAutoresizingMaskIntoConstraints = false
+        artwork.contentMode = .scaleAspectFill
+        artwork.clipsToBounds = true
+        artwork.layer.cornerRadius = artworkCornerRadius
+        artwork.isAccessibilityElement = true
+        artwork.accessibilityTraits = .image
+        episodeImage.addSubview(artwork)
+        episodeImage.layer.cornerRadius = 0
+        artworkImageView = artwork
+
+        // Aspect-fit, centred inside the square slot.
+        let fillWidth = artwork.widthAnchor.constraint(equalTo: episodeImage.widthAnchor)
+        fillWidth.priority = .defaultHigh
+        let fillHeight = artwork.heightAnchor.constraint(equalTo: episodeImage.heightAnchor)
+        fillHeight.priority = .defaultHigh
+        NSLayoutConstraint.activate([
+            artwork.centerXAnchor.constraint(equalTo: episodeImage.centerXAnchor),
+            artwork.centerYAnchor.constraint(equalTo: episodeImage.centerYAnchor),
+            artwork.widthAnchor.constraint(lessThanOrEqualTo: episodeImage.widthAnchor),
+            artwork.heightAnchor.constraint(lessThanOrEqualTo: episodeImage.heightAnchor),
+            fillWidth,
+            fillHeight,
+        ])
+    }
+
     override func willBeAddedToPlayer() {
-        if episodeImage.image == nil, let placeholderArtwork {
-            episodeImage.image = placeholderArtwork
+        if artworkImageView.image == nil, let placeholderArtwork {
+            artworkImageView.image = placeholderArtwork
             self.placeholderArtwork = nil
         }
         update(notification: nil)
@@ -446,12 +478,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
-        Analytics.track(.playerPreviousChapterTapped)
+        PlaybackManager.shared.trackChapterEvent(.playerPreviousChapterTapped)
     }
 
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
-        Analytics.track(.playerNextChapterTapped)
+        PlaybackManager.shared.trackChapterEvent(.playerNextChapterTapped)
     }
 
     @objc private func chapterLinkTapped() {
@@ -471,7 +503,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @objc private func imageTapped() {
 #if !APPCLIP
-        guard let artwork = episodeImage.image else { return }
+        guard let artwork = artworkImageView.image else { return }
 
         let agrume = Agrume(image: artwork, background: .blurred(.regular))
         agrume.show(from: self)
@@ -681,4 +713,25 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     #endif
+}
+
+/// A `UIImageView` that constrains itself to its image's aspect ratio, so when
+/// aspect-fit in a container its `cornerRadius` rounds the visible image (no mask).
+final class AspectFitArtworkImageView: UIImageView {
+    private var aspectRatioConstraint: NSLayoutConstraint?
+
+    override var image: UIImage? {
+        didSet { updateAspectRatioConstraint() }
+    }
+
+    private func updateAspectRatioConstraint() {
+        aspectRatioConstraint?.isActive = false
+        guard let size = image?.size, size.width > 0, size.height > 0 else {
+            aspectRatioConstraint = nil
+            return
+        }
+        let constraint = widthAnchor.constraint(equalTo: heightAnchor, multiplier: size.width / size.height)
+        constraint.isActive = true
+        aspectRatioConstraint = constraint
+    }
 }

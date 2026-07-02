@@ -1,6 +1,27 @@
 import Foundation
 
 extension Episode {
+    /// MIME type advertised for HLS streams inside a feed's `alternate_enclosures`.
+    static let hlsEnclosureType = "application/x-mpegURL"
+
+    /// Extracts the HLS stream URL from a feed episode's `alternate_enclosures` array, if one is present.
+    ///
+    /// The structure looks like:
+    /// ```
+    /// "alternate_enclosures": [
+    ///   { "type": "application/x-mpegURL", "sources": [ { "uri": "https://.../file.m3u8" } ] }
+    /// ]
+    /// ```
+    public static func hlsUrl(fromEpisodeJson episodeJson: [String: Any]) -> String? {
+        guard let alternateEnclosures = episodeJson["alternate_enclosures"] as? [[String: Any]] else {
+            return nil
+        }
+
+        let hlsEnclosure = alternateEnclosures.first { ($0["type"] as? String)?.caseInsensitiveCompare(hlsEnclosureType) == .orderedSame }
+        let sources = hlsEnclosure?["sources"] as? [[String: Any]]
+        return sources?.first?["uri"] as? String
+    }
+
     public static func from(episodeJson: [String: Any], podcastId: Int64, podcastUuid: String, isoFormatter: ISO8601DateFormatter) -> Episode {
         let episode = Episode()
         episode.addedDate = Date()
@@ -44,6 +65,8 @@ extension Episode {
         } else {
             episode.hasGeneratedTranscript = nil
         }
+
+        episode.hlsUrl = hlsUrl(fromEpisodeJson: episodeJson)
 
         return episode
     }

@@ -36,10 +36,10 @@ struct MediaTrimView: View {
                 AudioWaveformView(width: geometry.size.width * scale)
                     .border(Colors.trimBorderColor, width: Constants.trimLineWidth)
                 PlayheadView(position: scaledPosition($playPosition), validRange: scaledPosition($startPosition).wrappedValue...scaledPosition($endPosition).wrappedValue)
-                    .onChange(of: playTime) { playTime in
+                    .onChange(of: playTime) { _, playTime in
                         playPosition = durationRelative(value: playTime, for: geometry.size.width).clamped(to: startPosition...endPosition)
                     }
-                    .onChange(of: playPosition) { playPosition in
+                    .onChange(of: playPosition) { _, playPosition in
                         playTime = (playPosition * duration) / geometry.size.width
                     }
                     .frame(width: Constants.playLineWidth)

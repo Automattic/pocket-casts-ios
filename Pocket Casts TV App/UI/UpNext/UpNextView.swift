@@ -1,11 +1,13 @@
 import SwiftUI
 import PocketCastsUtils
+import PocketCastsDataModel
 
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: UpNextViewModel
+    @State private var path = StackPath()
 
     @Namespace private var rowNamespace
     @FocusState private var rowFocus: EpisodeRowFocus?
@@ -36,17 +38,25 @@ struct UpNextView: View {
     }
 
     var upNextView: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 24) {
-                headerRow
-                ForEach(queuedEpisodes) { episode in
-                    EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus)
+        NavigationStack(path: $path.navigationPath) {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 24) {
+                    headerRow
+                    ForEach(model.episodes) { episode in
+                        EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus) {
+                            tabRouter.showFullScreenPlayer = true
+                        }
                         .frame(width: 1160)
-                        .prefersDefaultFocus(episode.id == queuedEpisodes.first?.id, in: rowNamespace)
+                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
+                    }
                 }
+                .focusScope(rowNamespace)
             }
-            .focusScope(rowNamespace)
-        }
+            .navigationDestination(for: Podcast.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+            }
+            .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
+        }.environment(path)
     }
 
     private var headerRow: some View {
@@ -54,7 +64,7 @@ struct UpNextView: View {
             Text(L10n.tvTabUpNext)
                 .font(.title2)
                 .foregroundStyle(Color.pcTextPrimary)
-            if !queuedEpisodes.isEmpty {
+            if !model.episodes.isEmpty {
                 Text(summaryText)
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
@@ -63,18 +73,12 @@ struct UpNextView: View {
         .frame(width: 1160, alignment: .leading)
     }
 
-    /// The Up Next queue minus the currently playing episode at index 0, which
-    /// the player surfaces elsewhere.
-    private var queuedEpisodes: [EpisodeRowViewModel] {
-        Array(model.episodes.dropFirst())
-    }
-
     private var summaryText: String {
-        let count = queuedEpisodes.count
+        let count = model.episodes.count
         let episodeText = count == 1
             ? L10n.podcastEpisodeCountSingular
             : L10n.podcastEpisodeCountPluralFormat(count.localized())
-        let totalSeconds = queuedEpisodes.reduce(0.0) { sum, episode in
+        let totalSeconds = model.episodes.reduce(0.0) { sum, episode in
             sum + max(0, episode.duration - episode.playedUpTo)
         }
         let timeText = L10n.podcastTimeLeft(

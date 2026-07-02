@@ -5,6 +5,10 @@ struct FolderDetailView: View {
 
     @State var model: FolderDetailViewModel
 
+    @Environment(\.dismiss) var dismiss
+
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+
     init(folder: Folder) {
         self.model = FolderDetailViewModel(folder: folder)
     }
@@ -19,6 +23,24 @@ struct FolderDetailView: View {
     @Namespace private var podcastGridNamespace
 
     var body: some View {
+        ZStack {
+            switch model.state {
+                case .loading:
+                    ProgressView()
+                case .empty:
+                    emptyView
+                case .ready:
+                    podcastList
+            }
+        }
+        .task {
+            model.load()
+        }
+        .toolbar(.hidden, for: .tabBar)
+    }
+
+    @ViewBuilder
+    var podcastList: some View {
         let firstID = model.podcasts.first?.id
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
@@ -41,8 +63,17 @@ struct FolderDetailView: View {
         .navigationDestination(for: Podcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
         }
-        .task {
-            model.load()
+    }
+
+    var emptyView: some View {
+        ContentUnavailableView {
+            Text(L10n.folderEmptyTitle)
+        } description: {
+            Text(L10n.tvFolderEmptyMessage)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
         }
     }
 }

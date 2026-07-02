@@ -15,7 +15,7 @@ class EpisodesDataManager {
             }
         case .filter(uuid: let uuid):
             if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
-                return episodes(for: filter).map { $0.episode }
+                return playlistEpisodes(for: filter).map { $0.episode }
             }
         case .downloads:
             return downloadedEpisodes().flatMap { $0.elements.map { $0.episode } }
@@ -137,17 +137,6 @@ class EpisodesDataManager {
     }
 
     // MARK: - Playlists
-
-    func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems) -> [ListEpisode] {
-        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: limit)
-        #if os(tvOS)
-        // Just a placeholder, because this is not going to be used on tvOS
-        let tintColor = UIColor.white
-        #else
-        let tintColor = filter.playlistColor()
-        #endif
-        return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
-    }
 
     func playlistEpisodes(
         for playlist: EpisodeFilter,

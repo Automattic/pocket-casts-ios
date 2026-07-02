@@ -1233,7 +1233,6 @@
 		F5F5097E2CEBFDE6007D6E39 /* skip.json in Resources */ = {isa = PBXBuildFile; fileRef = BD85E3A31E6670DF001B17C1 /* skip.json */; };
 		F5F884632CC9EAA6002BED2C /* Humane-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5F884622CC9EAA6002BED2C /* Humane-Bold.otf */; };
 		F5FDDD842E58E8B000FB1C33 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
-		FFFEB10A2F9BDA9A00E68E0C /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5FDDD852E58E94500FB1C33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		FCCC80732DD56B380080EB2C /* HowToUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC80722DD56B380080EB2C /* HowToUploadView.swift */; };
@@ -1310,6 +1309,10 @@
 		FF5453EF2DFC6C890045977B /* DiscoveryPageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5453EE2DFC6C890045977B /* DiscoveryPageIndicatorView.swift */; };
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
+		FF5DF8D92FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */; };
+		FF5DF8DA2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */; };
+		FF5DF8DB2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */; };
+		FF5DF8DC2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */; };
 		FF60249D2FAB443300EB3AD5 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8E76C51B9E9C03000E20C7 /* AppTheme.swift */; };
 		FF60249E2FAB450500EB3AD5 /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */; };
 		FF60249F2FAB458900EB3AD5 /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */; };
@@ -1404,6 +1407,7 @@
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */; };
 		FFFCD23F2C7768F900A345ED /* Referrals.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFFCD23E2C7768F900A345ED /* Referrals.xcassets */; };
+		FFFEB10A2F9BDA9A00E68E0C /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2713,6 +2717,7 @@
 		FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormat.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedEpisodeMetadataRetriever.swift; sourceTree = "<group>"; };
 		FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionList.swift; sourceTree = "<group>"; };
 		FF68E8BD2DF33D5700114FC7 /* HorizontalCollectionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionListViewController.swift; sourceTree = "<group>"; };
 		FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsDataRetriever.swift; sourceTree = "<group>"; };
@@ -2895,7 +2900,6 @@
 				"EpisodeFilter+ChangeType.swift",
 				PlaylistCacheInvalidationCoordinator.swift,
 				PlaylistMetadataLoader.swift,
-				"PlaylistMetadataLoader+Dependency.swift",
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
 		};
@@ -4115,6 +4119,7 @@
 				BD35E9171D45AC3E00CAE2A7 /* ChapterInfo.swift */,
 				BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */,
 				8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */,
+				FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */,
 				BDD6F0332140E1A3005FD8A3 /* ChapterManager.swift */,
 				E3F37445291F0DD1005916ED /* Chapters.swift */,
 			);
@@ -6963,6 +6968,7 @@
 				F51D3A0C2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift in Sources */,
 				466DE3EE27877ACC0046F722 /* ExpandedEpisodeListViewController.swift in Sources */,
 				BD35E9181D45AC3E00CAE2A7 /* ChapterInfo.swift in Sources */,
+				FF5DF8D92FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */,
 				8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */,
 				BD74F15127F28E6600222785 /* HomeGridDataHelper.swift in Sources */,
 				BDE954F22366900900CEB6DA /* PlayerTabsView.swift in Sources */,
@@ -7555,6 +7561,7 @@
 				F58189C22DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift in Sources */,
 				BDE48A2B2410D27300ECA6CA /* PlaylistEpisode+Formatting.swift in Sources */,
 				BDE48A2F2410D3F000ECA6CA /* PodcastManager.swift in Sources */,
+				FF5DF8DA2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */,
 				FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */,
 				BDE48A232410D0CA00ECA6CA /* Enumerations.swift in Sources */,
 				BD11C4232524799F00E308E6 /* SharedConstants.swift in Sources */,
@@ -7591,6 +7598,7 @@
 				FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */,
 				F5F509312CEBEF9C007D6E39 /* DownloadManager+Logging.swift in Sources */,
 				F5F509352CEBF1D0007D6E39 /* TimeSliderDelegate.swift in Sources */,
+				FF5DF8DC2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */,
 				F553A1672CECF9E1006581A1 /* CustomStepper.swift in Sources */,
 				F5F508F22CEBE966007D6E39 /* PlaybackManager.swift in Sources */,
 				F5F509582CEBF64D007D6E39 /* ShiftyRoundButton.swift in Sources */,
@@ -7743,6 +7751,7 @@
 				FF32F3E22FAB846400226E58 /* PlaylistArchiveViewCellPlaceholder.swift in Sources */,
 				FF65059B2FAA9B6E00C3662E /* FileManager+Helper.swift in Sources */,
 				FF8FFE5B2FAA60A30086A867 /* DownloadProgress.swift in Sources */,
+				FF5DF8DB2FF28BC400DEFA75 /* GeneratedEpisodeMetadataRetriever.swift in Sources */,
 				FF8FFE6F2FAA8F3E0086A867 /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				FF32F3E62FAB851800226E58 /* PlaylistHeaderViewCellPlaceholder.swift in Sources */,
 				FF65058A2FAA95D500C3662E /* UserEpisode+Formatting.swift in Sources */,
@@ -9961,7 +9970,6 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;
@@ -10014,7 +10022,6 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;
@@ -10067,7 +10074,6 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;
@@ -10120,7 +10126,6 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;

@@ -9,7 +9,7 @@ import AuthenticationServices
 class AuthenticationHelper {
 
     @discardableResult
-    static func refreshLogin(scope: AuthenticationScope = .mobile) async throws -> String? {
+    static func refreshLogin(scope: AuthenticationScope = .default) async throws -> String? {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
@@ -22,7 +22,7 @@ class AuthenticationHelper {
 
     // MARK: Password
 
-    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope = .default) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
         handleSuccessfulSignIn(response)
 
@@ -39,7 +39,7 @@ class AuthenticationHelper {
 
     // MARK: Apple SSO
 
-    static func validateLogin(identityToken: String, scope: AuthenticationScope = .mobile)  async throws -> AuthenticationResponse {
+    static func validateLogin(identityToken: String, scope: AuthenticationScope = .default)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, scope: scope)
         handleSuccessfulSignIn(response)
 
@@ -90,14 +90,14 @@ class AuthenticationHelper {
     // MARK: Code Login - For tv login using a QR Code
 
     @discardableResult
-    static func deviceAuthorizeCode(scope: AuthenticationScope = .tv) async throws -> DeviceAuthorizationResponse {
+    static func deviceAuthorizeCode(scope: AuthenticationScope = .default) async throws -> DeviceAuthorizationResponse {
         let response = try await ApiServerHandler.shared.deviceAuthorizeRequest(scope: scope.rawValue)
         return response
     }
 
     @discardableResult
-    static func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .tv) async throws -> AuthenticationResponse {
-        let response = try await ApiServerHandler.shared.deviceGetToken(deviceCode: deviceCode)
+    static func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .default) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.deviceGetToken(deviceCode: deviceCode, scope: scope)
         handleSuccessfulSignIn(response)
 
         return response

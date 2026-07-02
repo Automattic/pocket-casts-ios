@@ -29,12 +29,16 @@ struct ProfileMenuView: View {
     }
 
     var body: some View {
-        Group {
+        VStack {
             if coordinator.userState.isLoggedIn {
                 signedInMenu
             } else {
                 signedOutMenu
             }
+            Text(Settings.displayableVersion())
+                .font(.caption)
+                .foregroundStyle(Color.pcTextSecondary)
+                .padding(.top, 5)
         }
         .padding(80)
         .frame(width: 862, alignment: .center)
@@ -116,6 +120,7 @@ struct ProfileMenuView: View {
     private var signedOutMenu: some View {
         VStack(spacing: 24) {
             Button {
+                Analytics.track(.signInShown)
                 onAuthSelected(.signIn)
             } label: {
                 Label(L10n.tvProfileMenuLogIn, systemImage: "person.crop.circle")

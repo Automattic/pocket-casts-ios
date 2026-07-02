@@ -17,6 +17,9 @@ struct PocketCastsTVApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+            .task {
+                appLifecycleAnalytics.didBecomeActive()
+            }
         }
         .onChange(of: scenePhase) { _, newPhase in
             appLifecycleAnalytics.handle(scenePhase: newPhase)

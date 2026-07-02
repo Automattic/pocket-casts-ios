@@ -32,8 +32,6 @@ struct PlaylistDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .confirmationDialog(
             L10n.playlistPlayAllSheetTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,
@@ -53,7 +51,7 @@ struct PlaylistDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
-            Analytics.track(.filterShown)
+            Analytics.track(.filterShown, properties: ["filter_type": model.isManual ? "manual" : "smart"])
             model.load()
         }
     }
@@ -160,7 +158,7 @@ struct PlaylistDetailView: View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), focus: $rowFocus)
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(showGoToPodcast: true), focus: $rowFocus)
                         .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
                         .listRowInsets(Layout.rowInsets)
                 }

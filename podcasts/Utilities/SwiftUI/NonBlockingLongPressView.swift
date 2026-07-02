@@ -21,7 +21,7 @@ struct NonBlockingLongPressView<Content: View>: View {
         // ScrollView drag will stop working
         .simultaneousGesture(longPressGesture)
         .highPriorityGesture(tapGesture)
-        .onChange(of: pressed) { newValue in
+        .onChange(of: pressed) { _, newValue in
             onPressed?(newValue)
         }
     }

@@ -45,6 +45,22 @@ class PodcastImageView: UIView {
         adjustForSize(size)
     }
 
+    func setEpisodeArtwork(url: URL, size: PodcastThumbnailSize) {
+        guard let imageView else { return }
+        adjustForSize(size)
+
+        imageView.kf.setImage(with: url, options: [
+            .processor(DefaultImageProcessor.default),
+            .transition(.fade(Constants.Animation.defaultAnimationTime))
+        ])
+    }
+
+    func setPlaceholder(size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
+        imageView?.image = ImageManager.sharedManager.placeHolderImage(size)
+        adjustForSize(size)
+    }
+
     func setTransparentNoArtwork(size: PodcastThumbnailSize) {
         imageView?.kf.cancelDownloadTask()
         imageView?.image = nil

@@ -118,7 +118,7 @@ extension MainTabBarController {
     static let upNextGenieViewTag = 776_611
 
     @objc func animateEpisodeAddedToUpNext(_ notification: Notification) {
-        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+        guard #available(iOS 26.0, *) else { return }
         guard let episodeUuid = notification.object as? String,
               let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
             // Nothing to animate — just keep the count current.

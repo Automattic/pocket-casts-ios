@@ -13,85 +13,109 @@ class String
   end
 end
 
-def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
-  if token_name.start_with?('filterU') || token_name.start_with?('filterI') || token_name.start_with?('filterT')
-    str = ''
-    # deal with special filter overlay colours
-    if ['filter', '$filter', '#filter'].include?(hex_val)
-      # the ones without any custom opacity are easy
-      if opacity == '100%' || opacity.nil? || opacity.empty?
-        str = "
+# Build an Xcode colour literal (which renders as a colour swatch in the editor)
+# alongside a trailing comment with the HEX and RGB values for readability.
+# `alpha` is a float in 0...1 and `opacity_label` (e.g. "10%") is appended to the
+# comment when the colour isn't fully opaque. Returns [literal, comment].
+def color_literal(hex_val, alpha = 1.0, opacity_label = nil)
+  hex = hex_val.delete('#')
+  red = hex[0, 2].to_i(16)
+  green = hex[2, 2].to_i(16)
+  blue = hex[4, 2].to_i(16)
+  literal = "#colorLiteral(red: #{red / 255.0}, green: #{green / 255.0}, blue: #{blue / 255.0}, alpha: #{alpha})"
+  comment = "// #{hex_val} (#{red},#{green},#{blue})"
+  comment += " #{opacity_label}" unless opacity_label.nil?
+  [literal, comment]
+end
+
+# Special filter overlay colours: these are functions of the runtime filter
+# colour, so concrete-hex cases get a colour-literal swatch while the dynamic
+# (`$filter` / blended) cases keep their computed expression.
+def filter_theme_value(hex_val, opacity, token_name, theme_name)
+  str = ''
+  if ['filter', '$filter', '#filter'].include?(hex_val)
+    # the ones without any custom opacity are easy
+    if opacity == '100%' || opacity.nil? || opacity.empty?
+      str = "
     static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {
         filterColor
     }\n"
-      else
-        # tokenize the filter colour to figure out what it should be
-        # example string: filter 15% on white
-        words = opacity.split
+    else
+      # tokenize the filter colour to figure out what it should be
+      # example string: filter 15% on white
+      words = opacity.split
 
-        actual_opacity = words[1].gsub('%', '')
-        original_color = if words[3] == 'white'
-                           'UIColor(hex: "#FFFFFF")'
-                         elsif words[3].start_with?('#')
-                           "UIColor(hex: \"#{words[3]}\")"
-                         else
-                           'UIColor(hex: "#000000")'
-                         end
-        overlay_color = "filterColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
+      actual_opacity = words[1].gsub('%', '')
+      original_color = if words[3] == 'white'
+                         'UIColor(hex: "#FFFFFF")'
+                       elsif words[3].start_with?('#')
+                         "UIColor(hex: \"#{words[3]}\")"
+                       else
+                         'UIColor(hex: "#000000")'
+                       end
+      overlay_color = "filterColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
 
-        str = "
+      str = "
     static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})
     }\n"
-      end
-
-    else
-      str = "
-    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n"
     end
+  else
+    literal, comment = color_literal(hex_val)
+    str = "
+    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor { #{literal} } #{comment}\n"
+  end
+  str
+end
 
-    File.write(file_path, str, mode: 'a')
-    return
-  elsif token_name.start_with?('podcast') || token_name.start_with?('playerBackground') || token_name.start_with?('playerHighlight')
-    str = ''
-    # deal with special podcast overlay colours
-    if ['podcast', '$podcast', '#podcast'].include?(hex_val)
-      # the ones without any custom opacity are easy
-      if opacity == '100%' || opacity.nil? || opacity.empty?
-        str = "
-    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        podcastColor\n    }\n"
-      elsif opacity.split.size == 1
-        opacity = opacity.gsub('%', '')
-        str = "
-    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
-        podcastColor.withAlphaComponent(#{opacity.to_f / 100.0})
-    }\n"
-      else
-        # tokenize the podcast colour to figure out what it should be
-        # example string: podcast 15% on #3D3D3D
-        words = opacity.split
-
-        actual_opacity = words[1].gsub('%', '')
-        original_color = "UIColor(hex: \"#{words[3]}\")"
-        overlay_color = "podcastColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
-
-        str = "
-    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
-        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})
-    }\n"
-      end
-    elsif opacity == '100%' || opacity.nil? || opacity.empty?
+# Special podcast overlay colours: same idea as the filter variants, computed
+# from the runtime podcast colour, with concrete-hex cases rendered as swatches.
+def podcast_theme_value(hex_val, opacity, token_name, theme_name)
+  str = ''
+  if ['podcast', '$podcast', '#podcast'].include?(hex_val)
+    # the ones without any custom opacity are easy
+    if opacity == '100%' || opacity.nil? || opacity.empty?
       str = "
-    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n"
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        podcastColor\n    }\n"
     elsif opacity.split.size == 1
       opacity = opacity.gsub('%', '')
       str = "
     static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: \"#{hex_val}\").withAlphaComponent(#{opacity.to_f / 100.0})
+        podcastColor.withAlphaComponent(#{opacity.to_f / 100.0})
+    }\n"
+    else
+      # tokenize the podcast colour to figure out what it should be
+      # example string: podcast 15% on #3D3D3D
+      words = opacity.split
+
+      actual_opacity = words[1].gsub('%', '')
+      original_color = "UIColor(hex: \"#{words[3]}\")"
+      overlay_color = "podcastColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
+
+      str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
+        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})
     }\n"
     end
+  elsif opacity == '100%' || opacity.nil? || opacity.empty?
+    literal, comment = color_literal(hex_val)
+    str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor { #{literal} } #{comment}\n"
+  elsif opacity.split.size == 1
+    pct = opacity.gsub('%', '')
+    literal, comment = color_literal(hex_val, pct.to_f / 100.0, "#{pct}%")
+    str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor { #{literal} } #{comment}\n"
+  end
+  str
+end
 
-    File.write(file_path, str, mode: 'a')
+def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
+  if token_name.start_with?('filterU') || token_name.start_with?('filterI') || token_name.start_with?('filterT')
+    File.write(file_path, filter_theme_value(hex_val, opacity, token_name, theme_name), mode: 'a')
+    return
+  elsif token_name.start_with?('podcast') || token_name.start_with?('playerBackground') || token_name.start_with?('playerHighlight')
+    File.write(file_path, podcast_theme_value(hex_val, opacity, token_name, theme_name), mode: 'a')
     return
   end
 
@@ -100,13 +124,14 @@ def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
     return
   end
 
-  variable_str = "    private static let #{token_name}#{theme_name} = UIColor(hex: \"#{hex_val}\")"
   if opacity == '100%' || opacity.nil? || opacity.empty?
-    File.write(file_path, "#{variable_str}\n", mode: 'a')
+    literal, comment = color_literal(hex_val)
   else
-    opacity = opacity.gsub('%', '')
-    File.write(file_path, "#{variable_str}.withAlphaComponent(#{opacity.to_f / 100.0})\n", mode: 'a')
+    pct = opacity.gsub('%', '')
+    label = pct.strip.empty? ? nil : "#{pct.strip}%"
+    literal, comment = color_literal(hex_val, pct.to_f / 100.0, label)
   end
+  File.write(file_path, "    private static let #{token_name}#{theme_name}: UIColor = #{literal} #{comment}\n", mode: 'a')
 end
 
 File.truncate(file_path_colors, 0) if File.exist?(file_path_colors)

@@ -112,7 +112,13 @@ public enum ServerConstants {
     }
 
     public enum Values {
-        static let apiScope = "mobile"
+        static var apiScope: String {
+            #if os(tvOS)
+            return "tv"
+            #else
+            return "mobile"
+            #endif
+        }
         static let deviceTypeiOS: Int32 = 1
         static let syncingEmailKey = "SJSyncingEmail"
         static let syncingPasswordKey = "SJSyncingPwd"

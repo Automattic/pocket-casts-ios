@@ -28,7 +28,7 @@ struct PlayheadView: View {
                             position = realPosition
                         }
                 )
-                .onChange(of: position) { position in
+                .onChange(of: position) { _, position in
                     // Only update playhead when not dragging
                     if lastTranslation == nil {
                         realPosition = position

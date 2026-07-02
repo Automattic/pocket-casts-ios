@@ -9,7 +9,13 @@ class FolderDetailViewModel {
     var podcasts = [Podcast]()
     private var dataManager: DataManager
 
-    private var cancellables = Set<AnyCancellable>()
+    enum State: Equatable, Hashable {
+        case loading
+        case ready
+        case empty
+    }
+
+    var state: State = .loading
 
     init(folder: Folder, dataManager: DataManager = DataManager.sharedManager) {
         self.folder = folder
@@ -21,6 +27,7 @@ class FolderDetailViewModel {
             let podcasts = dataManager.allPodcastsInFolder(folder: folder)
             await MainActor.run {
                 self.podcasts = podcasts
+                self.state = podcasts.isEmpty ? .empty : .ready
                 Analytics.track(.folderShown, properties: [
                     "number_of_podcasts": podcasts.count,
                     "sort_order": Self.sortOrderAnalyticsValue(for: folder)

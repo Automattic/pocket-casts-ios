@@ -12,9 +12,9 @@ env:
 
 steps:
 
-  - label: "🛠 Release Build (App Store Connect)"
-    key: testflight_build
-    command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}"
+  - label: "🛠 Release Build (${RELEASE_PLATFORM})"
+    key: release_build
+    command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}" "${RELEASE_PLATFORM}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     artifact_paths:
@@ -23,9 +23,9 @@ steps:
     notify:
       - slack: "#build-and-ship"
 
-  - label: ":testflight: Release Upload (TestFlight, Sentry, GitHub)"
-    depends_on: testflight_build
-    command: .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}"
+  - label: ":testflight: Release Upload (${RELEASE_PLATFORM})"
+    depends_on: release_build
+    command: .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}" "${RELEASE_PLATFORM}" "${NOTIFY_SLACK}" "${CREATE_GITHUB_RELEASE}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     notify:

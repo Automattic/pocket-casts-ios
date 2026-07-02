@@ -3,6 +3,7 @@ import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
+    @Environment(\.dismiss) var dismiss
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
@@ -43,8 +44,6 @@ struct PodcastDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .task {
             Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()
@@ -56,8 +55,14 @@ struct PodcastDetailView: View {
     }
 
     var failedView: some View {
-        VStack {
-            Text(L10n.podcastErrorMessage)
+        ContentUnavailableView {
+            Text(L10n.tvPodcastErrorTitle)
+        } description: {
+            Text(L10n.tvPodcastErrorMessage)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
         }
     }
 
@@ -132,6 +137,28 @@ struct PodcastDetailView: View {
 
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
         EpisodeRowWithActions(model: episode, focus: $rowFocus)
+    }
+
+    private var sortMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(PodcastEpisodeSortOrder.allCases, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
+        }
+        .buttonStyle(MoreButtonStyle())
     }
 
     private var archivedFilterMenu: some View {
@@ -218,12 +245,13 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack(alignment: .center) {
+                HStack(alignment: .center, spacing: 8) {
                     Text(L10n.tvPodcastDetailAllEpisodes)
                         .font(.title3)
                         .foregroundStyle(Color.pcTextPrimary)
                     Spacer()
                     archivedFilterMenu
+                    sortMenu
                 }
                 .padding(.top, 40)
                 .padding(.bottom, 32)

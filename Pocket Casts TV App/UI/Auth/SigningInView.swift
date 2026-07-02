@@ -58,7 +58,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
             VStack(spacing: 96) {
                 Spacer()
                 VStack(spacing: 16) {
-                    Text(L10n.tvSigningInTitle)
+                    Text(L10n.tvSigningInTitleNew)
                         .font(.title)
                         .foregroundStyle(Color.pcTextPrimary)
                     Text(L10n.tvSigningInSubtitle)
@@ -70,11 +70,12 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
             }
             Color.pcBackgroundSunken
                 .opacity(blackOverlayOpaque ? 1 : 0)
-                .animation(reduceMotion ? nil : .easeInOut(duration: Pacing.fadeDuration), value: blackOverlayOpaque)
+                .animation(reduceMotion ? nil : .smooth, value: blackOverlayOpaque)
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         }
         .task {
+            Analytics.track(.signInSyncShown)
             await runSyncAnimation()
         }
     }
