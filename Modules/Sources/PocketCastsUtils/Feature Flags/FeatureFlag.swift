@@ -322,6 +322,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Generated Chapters
     case generatedChapters
 
+    /// Enable HLS streaming playback
+    case hls
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -543,6 +546,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .upNextSort:
             true
         case .generatedChapters:
+            BuildEnvironment.current == .debug
+        case .hls:
             BuildEnvironment.current == .debug
         }
     }
