@@ -68,7 +68,8 @@ class NowPlayingHelper {
         var nowPlayingInfo = [String: AnyObject]()
 
         nowPlayingInfo[MPMediaItemPropertyMediaType] = NSNumber(value: MPMediaType.podcast.rawValue)
-        let nowPlayingMediaType = episode.videoPodcast() ? MPNowPlayingInfoMediaType.video.rawValue : MPNowPlayingInfoMediaType.audio.rawValue
+        let isVideo = episode.videoPodcast() || (PlaybackManager.shared.currentEpisode()?.uuid == episode.uuid && PlaybackManager.shared.currentStreamContainsVideo)
+        let nowPlayingMediaType = isVideo ? MPNowPlayingInfoMediaType.video.rawValue : MPNowPlayingInfoMediaType.audio.rawValue
         nowPlayingInfo[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: nowPlayingMediaType)
         nowPlayingInfo[MPMediaItemPropertyAlbumTrackCount] = NSNumber(value: 1)
         nowPlayingInfo[MPMediaItemPropertyAlbumTrackNumber] = NSNumber(value: 1)

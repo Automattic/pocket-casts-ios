@@ -36,12 +36,14 @@ extension NowPlayingPlayerItemViewController {
 
     @objc private func videoPlaybackEngineSwitched() {
         floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
+        // Video may have been detected at runtime (e.g. an HLS stream), so refresh to reveal the view
+        update(notification: nil)
     }
 
     @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
-        if playingEpisode.videoPodcast() {
+        if PlaybackManager.shared.isCurrentEpisodeVideo() {
             if floatingVideoView.isHidden {
                 floatingVideoView.isHidden = false
                 floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
