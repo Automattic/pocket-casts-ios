@@ -74,6 +74,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.fileType, original.fileType, "\(implementationName): fileType should match")
             XCTAssertEqual(loaded.contentType, original.contentType, "\(implementationName): contentType should match")
             XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "\(implementationName): downloadUrl should match")
+            XCTAssertEqual(loaded.hlsUrl, original.hlsUrl, "\(implementationName): hlsUrl should match")
             XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "\(implementationName): downloadTaskId should match")
             XCTAssertEqual(loaded.keepEpisode, original.keepEpisode, "\(implementationName): keepEpisode should match")
             XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "\(implementationName): cachedFrameCount should match")
@@ -163,6 +164,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.downloadErrorDetails = "Test error"
         episode.downloadTaskId = "download-task-123"
         episode.downloadUrl = "https://example.com/episode.mp3"
+        episode.hlsUrl = "https://example.com/episode.m3u8"
         episode.episodeStatus = DownloadStatus.downloaded.rawValue
         episode.fileType = "audio/mpeg"
         episode.contentType = "audio/mpeg"
