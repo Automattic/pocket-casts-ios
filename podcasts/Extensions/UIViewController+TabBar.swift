@@ -11,7 +11,7 @@ extension UIViewController {
 
         let miniPlayer = appDelegate()?.miniPlayer()
         if hidden {
-            miniPlayer?.hideMiniPlayer(animated)
+            miniPlayer?.hideMiniPlayer(animated, isTransient: true)
         } else {
             miniPlayer?.showMiniPlayer()
         }
