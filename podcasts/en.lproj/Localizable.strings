@@ -6458,7 +6458,7 @@
 "tv_podcast_error_title" = "Couldn't load podcast details";
 
 /* Message to shown when failed to load a podcast information*/
-"tv_podcast_error_message" = "Check your internet connection and try again";
+"tv_podcast_error_message" = "Check your internet connection and try again.";
 
 "chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
 
@@ -6466,7 +6466,7 @@
 "tv_playlist_empty_title" = "No episodes";
 
 /* Subtitle shown when a playlist has no episodes on the TV app */
-"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more";
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more.";
 
 /* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
-"tv_playlist_download_rules_unsupported" = "Download rules are only supported on the mobile apps";
+"tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
