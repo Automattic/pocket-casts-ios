@@ -633,6 +633,29 @@ Laat ons eerst helpen</string>
     <string>Alles hierboven deselecteren</string>
     <key>deselect_all_below</key>
     <string>Alles hieronder deselecteren</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Code invoegen</string>
+    <key>device_approve_connect_button</key>
+    <string>Verbinden</string>
+    <key>device_approve_description</key>
+    <string>Je luistergedrag wordt automatisch gesynchroniseerd.
+Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Ga terug naar je tv om een nieuwe te genereren.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Je QR-code is verlopen</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Apparaatgoedkeuring mislukt</string>
+    <key>device_approve_login_required</key>
+    <string>Om je apparaat te verbinden, moet je een account hebben. Log in of maak een account aan en probeer het opnieuw.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Aanmelden als ...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Je Apple TV is nu verbonden met je account.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV aangesloten</string>
+    <key>device_approve_title</key>
+    <string>Verbinden met Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>
@@ -2739,6 +2762,14 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>In de wachtrij zetten voor later</string>
     <key>queue_now_playing_accessibility</key>
     <string>Bezig met afspelen. %1$@</string>
+    <key>queue_time_remaining</key>
+    <string>%1$@ resterend</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 aflevering · %1$@ resterend</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ afleveringen · %2$@ resterend</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>%1$@ resterend</string>
     <key>rate</key>
     <string>Beoordelen</string>
     <key>rate_pocket_casts</key>
@@ -3520,6 +3551,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Slaaptimer instellen op %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Slaaptimer verlengen met 5 minuten</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Markeren als afgespeeld</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Huidige aflevering markeren als afgespeeld</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Volgend hoofdstuk</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3826,6 +3861,11 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Probeer opnieuw</string>
     <key>try_it_now</key>
     <string>Probeer het nu</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Er is een probleem opgetreden. Je bent uitgelogd.
+Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Je bent uitgelogd.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Een gratis account aanmaken</string>
     <key>tv_banner_create_account_subtitle</key>
@@ -3840,18 +3880,56 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Je hebt nog lang niet alles gezien.</string>
     <key>tv_create_account_come_back</key>
     <string>Zodra je je account hebt aangemaakt, kom je terug en meld je je aan</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Je account aanmaken</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>De tv zal je inloggen</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Scan de QR-code</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Maak een gratis account aan om podcasts te volgen, je Hierna op te bouwen en op elk apparaat verder te gaan waar je gebleven was.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Je podcasts verdienen een thuis</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Open de camera en wijs naar deze QR-code.</string>
     <key>tv_create_account_subtitle</key>
     <string>Scan deze code om aan de slag te gaan op je telefoon, het duurt maar een minuut.</string>
     <key>tv_create_account_title</key>
     <string>Je gratis account aanmaken</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Laden van ontdekken mislukt</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Naar podcast</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Nieuwste aflevering afspelen</string>
     <key>tv_discover_play_episode</key>
     <string>Aflevering afspelen</string>
+    <key>tv_episode_archived</key>
+    <string>Gearchiveerd</string>
     <key>tv_episode_info</key>
     <string>Informatie over aflevering</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Markeren als afgespeeld</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Verwijderd uit Hierna</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Informatie over aflevering</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Informatie over aflevering aan het laden …</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Informatie over aflevering</string>
+    <key>tv_episode_unarchived</key>
+    <string>Niet gearchiveerd</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Wordt als laatste afgespeeld</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Wordt hierna afgespeeld</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Afleveringen die je afspeelt, worden hier weergegeven</string>
+    <key>tv_history_empty_title</key>
+    <string>Geen luistergeschiedenis</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Door categorieën bladeren</string>
     <key>tv_home_featured_section_title</key>
@@ -3870,6 +3948,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Wat iedereen deze week doet</string>
     <key>tv_home_video_section_title</key>
     <string>Gemaakt voor tv</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Kon je inlogcode niet ophalen</string>
     <key>tv_player_playback_effects</key>
     <string>Afspeeleffecten</string>
     <key>tv_player_playback_speed</key>
@@ -3908,18 +3988,28 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Over</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Alle afleveringen</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Gearchiveerde afleveringen</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Volg deze podcast</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Volgend</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Gearchiveerde verbergen</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Meer informatie</string>
     <key>tv_podcast_detail_network</key>
     <string>Netwerk</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Nieuwe aflevering</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Afleveringen van deze podcast worden hier weergegeven.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Geen afleveringen</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Inplannen</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Gearchiveerde tonen</string>
     <key>tv_podcast_detail_start_here</key>
     <string>De aflevering die je als eerste wilt proberen</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3942,8 +4032,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Inloggen</string>
     <key>tv_profile_menu_log_out</key>
     <string>Uitloggen</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Hiermee verwijder je alle gedownloade podcasts en gegevens van deze Apple TV. Je kunt opnieuw inloggen om ze te herstellen.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Uitloggen?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Favoriete afleveringen</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Nieuwste afleveringen ophalen</string>
     <key>tv_search_failed</key>
     <string>Zoekopdracht mislukt: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3966,8 +4062,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Je podcasts worden geladen.</string>
     <key>tv_signing_in_title</key>
     <string>Goed je te zien.</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Aanbevolen door Pocket Casts</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Maak afleveringen favoriet om ze bij de hand te houden, en ze zullen hier verschijnen</string>
+    <key>tv_starred_empty_title</key>
+    <string>Geen favoriete afleveringen</string>
     <key>tv_tab_home</key>
     <string>Home</string>
+    <key>tv_tab_now_playing</key>
+    <string>Bezig met afspelen</string>
     <key>tv_tab_playlists</key>
     <string>Afspeellijsten</string>
     <key>tv_tab_podcasts</key>
@@ -3988,10 +4092,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Gebruiker/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Gebruikersnaam</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Browse zonder account</string>
     <key>tv_welcome_create_free_account</key>
     <string>Een gratis account aanmaken</string>
+    <key>tv_welcome_log_in</key>
+    <string>Inloggen</string>
     <key>tv_welcome_subtitle</key>
     <string>Je podcasts. Op het grote scherm. Duidelijk.</string>
     <key>tv_welcome_title</key>
@@ -4026,6 +4134,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Maak kennis met shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Langste naar kortste</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Nieuwste naar oudste</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Oudste naar nieuwste</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Kortste naar langste</string>
+    <key>up_next_sort_title</key>
+    <string>Hierna sorteren</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
     <key>upgrade_account_info</key>

@@ -131,6 +131,12 @@ extension ServerPodcastManager {
                     episodeChanged = true
                 }
 
+                let hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
+                if existingEpisode.hlsUrl != hlsUrl {
+                    existingEpisode.hlsUrl = hlsUrl
+                    episodeChanged = true
+                }
+
                 if episodeChanged {
                     DataManager.sharedManager.save(episode: existingEpisode)
                 }
@@ -196,6 +202,8 @@ extension ServerPodcastManager {
             if let type = episodeJson["has_generated_transcript"] as? Bool? {
                 episode.hasGeneratedTranscript = type
             }
+
+            episode.hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
 
             DataManager.sharedManager.save(episode: episode)
         }

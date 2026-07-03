@@ -49,6 +49,22 @@ public class EpisodeFilter: NSObject {
 
     override public init() {}
 
+    /// A new filter pre-populated with the default "match everything" rules used when creating a playlist.
+    /// Callers set the name, sort position, and any distinguishing fields (e.g. `manual`, `sortType`).
+    public static func makeDefault() -> EpisodeFilter {
+        let filter = EpisodeFilter()
+        filter.uuid = UUID().uuidString
+        filter.syncStatus = SyncStatus.notSynced.rawValue
+        filter.filterAllPodcasts = true
+        filter.filterUnplayed = true
+        filter.filterPartiallyPlayed = true
+        filter.filterFinished = true
+        filter.filterDownloaded = true
+        filter.filterNotDownloaded = true
+        filter.filterAudioVideoType = AudioVideoFilter.all.rawValue
+        return filter
+    }
+
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             playlistName = defaultTitle

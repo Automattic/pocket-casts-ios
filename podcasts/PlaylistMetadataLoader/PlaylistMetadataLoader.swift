@@ -7,6 +7,8 @@ import PocketCastsUtils
 
 actor PlaylistMetadataLoader {
 
+    static let shared = PlaylistMetadataLoader()
+
     // MARK: - Update Types
 
     /// Represents an update to a playlist's metadata

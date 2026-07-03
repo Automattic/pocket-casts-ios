@@ -14,6 +14,7 @@ extension Episode {
         episode.downloadErrorDetails = rs.string(forColumn: "downloadErrorDetails")
         episode.downloadTaskId = rs.string(forColumn: "downloadTaskId")
         episode.downloadUrl = rs.string(forColumn: "downloadUrl")
+        episode.hlsUrl = rs.string(forColumn: "hlsUrl")
         episode.episodeDescription = rs.string(forColumn: "episodeDescription")
         episode.episodeStatus = rs.int(forColumn: "episodeStatus")
         episode.fileType = rs.string(forColumn: "fileType")
