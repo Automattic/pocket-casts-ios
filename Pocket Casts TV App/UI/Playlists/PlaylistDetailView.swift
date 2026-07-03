@@ -4,6 +4,8 @@ import PocketCastsDataModel
 struct PlaylistDetailView: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    @Environment(\.dismiss) var dismiss
+
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
     @FocusState private var rowFocus: EpisodeRowFocus?
@@ -28,8 +30,11 @@ struct PlaylistDetailView: View {
                 loadingView
             case .ready:
                 playlistView
+            case .empty:
+                emptyView
             }
         }
+        .animation(.smooth, value: model.state)
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
         .confirmationDialog(
@@ -63,11 +68,50 @@ struct PlaylistDetailView: View {
         ProgressView()
     }
 
+    var allArchivedEmptyView: some View {
+        ContentUnavailableView {
+            Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
+        } description: {
+            VStack {
+                HStack {
+                    Spacer()
+                    Text(L10n.tvPlaylistManualArchivedEpisodesPlaceholder(model.allEpisodesCount))
+                    Spacer()
+                }
+            }.padding(24)
+        } actions: {
+            VStack {
+                Button(L10n.tvPodcastDetailShowArchived) {
+                    model.setShowArchived(true)
+                }
+                Spacer()
+            }
+        }
+    }
+
+    var emptyView: some View {
+        ContentUnavailableView {
+            Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
+        } description: {
+            VStack {
+                model.hasDownloadFilter ? Text(L10n.tvPlaylistDownloadRulesUnsupported) : Text(L10n.tvPlaylistEmptySubtitle)
+            }.padding(24)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
+        }
+    }
+
     var playlistView: some View {
         HStack(alignment: .top, spacing: Layout.gutter) {
             playlistInfo
                 .frame(width: Layout.infoPanelWidth)
-            episodeList
+            if model.areAllEpisodesArchived {
+                allArchivedEmptyView
+            } else {
+                episodeList
+            }
         }
         .blurredCoverBackground(size: Layout.mosaicSize) {
             blurredMosaic
@@ -98,10 +142,14 @@ struct PlaylistDetailView: View {
         let images = model.coverPodcastsUuids
         switch images.count {
         case 0:
-            Image(ImageResource.pcLogo)
-                .resizable()
-                .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            ZStack {
+                Image(ImageResource.pcLogo)
+                    .resizable()
+                    .frame(width: Layout.mosaicSize * 0.75, height: Layout.mosaicSize * 0.75)
+            }
+            .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
+            .background(Color.pcBackgroundSurface)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         case 1...3:
             PodcastImage(uuid: images[0], size: .page)
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)

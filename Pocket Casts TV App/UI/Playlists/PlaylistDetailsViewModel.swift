@@ -10,6 +10,7 @@ class PlaylistDetailsViewModel {
 
     enum State: Equatable, Hashable {
         case loading
+        case empty
         case ready
     }
 
@@ -22,6 +23,8 @@ class PlaylistDetailsViewModel {
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
+
+    var hasDownloadFilter: Bool { playlist.isDownloadFilterActive }
 
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
@@ -74,7 +77,7 @@ class PlaylistDetailsViewModel {
                 allEpisodes = playlistEpisodes
                 applyArchivedFilter()
                 refreshPlaylistColor()
-                state = .ready
+                state = playlistEpisodes.isEmpty ? .empty : .ready
             }
         }
     }
@@ -163,6 +166,14 @@ class PlaylistDetailsViewModel {
 
     var episodeCountText: String {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
+    }
+
+    var allEpisodesCount: Int {
+        return allEpisodes.count
+    }
+
+    var areAllEpisodesArchived: Bool {
+        return episodes.isEmpty && !allEpisodes.isEmpty
     }
 
     private func refreshPlaylistColor() {
