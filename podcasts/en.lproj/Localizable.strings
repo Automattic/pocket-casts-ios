@@ -6178,9 +6178,6 @@
 /* tv podcast detail option to show archived episodes in the list */
 "tv_podcast_detail_show_archived" = "Show archived";
 
-/* tv accessibility label for the More options (overflow) menu shown in section headers for sorting and filtering */
-"tv_more_menu" = "More";
-
 /* tv podcast detail empty state title shown when a podcast has no episodes */
 "tv_podcast_detail_no_episodes_title" = "No Episodes";
 
@@ -6195,6 +6192,18 @@
 
 /* tv playlist detail play all button title */
 "tv_playlist_detail_play_all" = "Play all episodes";
+
+/* tv Play all dialog title, shown when starting a playlist would clear the current Up Next queue */
+"tv_playlist_play_all_clear_up_next_title" = "This will clear your Up Next";
+
+/* tv Play all dialog message, offering to save the current Up Next queue as a playlist before it is cleared */
+"tv_playlist_play_all_clear_up_next_message" = "We can save your current Up Next as a playlist";
+
+/* tv Play all dialog button that saves the current Up Next as a playlist and then plays the selected playlist */
+"tv_playlist_play_all_save_and_play" = "Save and play";
+
+/* tv Play all dialog button that plays the selected playlist without saving the current Up Next */
+"tv_playlist_play_all_play_without_saving" = "Play without saving";
 
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
@@ -6461,6 +6470,19 @@
 "tv_podcast_error_title" = "Couldn't load podcast details";
 
 /* Message to shown when failed to load a podcast information*/
-"tv_podcast_error_message" = "Check your internet connection and try again";
+"tv_podcast_error_message" = "Check your internet connection and try again.";
 
 "chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
+
+/* Title shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_title" = "No episodes";
+
+/* Subtitle shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more.";
+
+/* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
+"tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
+
+/* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
+"tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
+

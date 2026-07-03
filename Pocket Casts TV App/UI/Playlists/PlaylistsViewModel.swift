@@ -25,7 +25,17 @@ class PlaylistsViewModel {
     var playlists: [EpisodeFilter] = []
 
     func load() async {
-        let playlists = dataManager.allPlaylists(includeDeleted: false)
+        let originalPlaylists = dataManager.allPlaylists(includeDeleted: false)
+        let playlists = originalPlaylists.sorted { a, b in
+            switch (a.isDownloadFilterActive, b.isDownloadFilterActive) {
+            case (true, true), (false, false):
+                return a.sortPosition < b.sortPosition
+            case (true, false):
+                return false
+            case (false, true):
+                return true
+            }
+        }
         await MainActor.run {
             self.playlists = playlists
             self.state = playlists.isEmpty ? .empty : .ready
@@ -44,5 +54,12 @@ class PlaylistsViewModel {
             }
         }
         .store(in: &cancellables)
+    }
+}
+
+extension EpisodeFilter {
+
+    var isDownloadFilterActive: Bool {
+        return !(filterDownloaded && filterDownloading && filterNotDownloaded) && (filterDownloaded)
     }
 }

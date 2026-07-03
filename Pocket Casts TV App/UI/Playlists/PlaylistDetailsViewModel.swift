@@ -10,6 +10,7 @@ class PlaylistDetailsViewModel {
 
     enum State: Equatable, Hashable {
         case loading
+        case empty
         case ready
     }
 
@@ -22,6 +23,8 @@ class PlaylistDetailsViewModel {
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
+
+    var hasDownloadFilter: Bool { playlist.isDownloadFilterActive }
 
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
@@ -74,7 +77,7 @@ class PlaylistDetailsViewModel {
                 allEpisodes = playlistEpisodes
                 applyArchivedFilter()
                 refreshPlaylistColor()
-                state = .ready
+                state = playlistEpisodes.isEmpty ? .empty : .ready
             }
         }
     }
@@ -98,7 +101,7 @@ class PlaylistDetailsViewModel {
     func playAll() {
         guard !episodes.isEmpty else { return }
 
-        Analytics.track(.filterPlayAllTapped)
+        Analytics.track(.filterPlayAllTapped, properties: analyticsProperties())
 
         if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
             isShowingNowPlaying = true
@@ -107,10 +110,45 @@ class PlaylistDetailsViewModel {
         }
     }
 
-    func buttonConfirmPlayPlaylistTapped() {
-        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: ["save_up_next": Settings.saveCurrentUpNextQueueIntoPlaylist])
+    func saveUpNextAndPlay() {
+        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": true]))
+        Task { await _saveUpNextAndPlay() }
+    }
+
+    @concurrent private func _saveUpNextAndPlay() async {
+        let episodes = currentUpNextEpisodes()
+        let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
+        let created = dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
+        await MainActor.run {
+            self.playbackManager.play(playlist: self.playlist)
+            self.isShowingNowPlaying = true
+
+            if created > 0 {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
+                ToastManager.shared.show(created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved)
+            }
+        }
+    }
+
+    func playWithoutSaving() {
+        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": false]))
         playbackManager.play(playlist: playlist)
         isShowingNowPlaying = true
+    }
+
+    func replaceUpNextConfirmationDismissed() {
+        Analytics.track(.filterPlayAllDismissed, properties: analyticsProperties())
+    }
+
+    private func analyticsProperties(_ additional: [String: Sendable] = [:]) -> [String: Sendable] {
+        var properties: [String: Sendable] = ["filter_type": isManual ? "manual" : "smart"]
+        additional.forEach { properties[$0.key] = $0.value }
+        return properties
+    }
+
+    private func currentUpNextEpisodes() -> [Episode] {
+        let uuids = dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
+        return dataManager.allUpNextEpisodes(from: uuids)
     }
 
     var playlistName: String {
@@ -128,6 +166,14 @@ class PlaylistDetailsViewModel {
 
     var episodeCountText: String {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
+    }
+
+    var allEpisodesCount: Int {
+        return allEpisodes.count
+    }
+
+    var areAllEpisodesArchived: Bool {
+        return episodes.isEmpty && !allEpisodes.isEmpty
     }
 
     private func refreshPlaylistColor() {
