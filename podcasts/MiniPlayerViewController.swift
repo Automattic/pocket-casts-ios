@@ -188,7 +188,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
-        buttonStack.alignment = .center
+        buttonStack.alignment = .fill
         glassButtonStack = buttonStack
 
         view.addSubview(podcastArtwork)
