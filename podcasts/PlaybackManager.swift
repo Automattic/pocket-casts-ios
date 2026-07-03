@@ -757,6 +757,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
         currentStreamContainsVideo.value = true
         setAudioSessionVideoProperties()
+        // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
+        refreshNowPlayingInfo(forceFullRebuild: true)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
     }
 
@@ -1696,6 +1698,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func updateNowPlayingInfo() {
+        refreshNowPlayingInfo(forceFullRebuild: false)
+    }
+
+    /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
+    ///   only refreshing progress. Needed when a value like the media type changes for the same
+    ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
+    private func refreshNowPlayingInfo(forceFullRebuild: Bool) {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
@@ -1713,9 +1722,17 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #if os(watchOS)
-            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #else
-            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #endif
     }
 

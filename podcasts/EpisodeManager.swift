@@ -442,9 +442,10 @@ class EpisodeManager: NSObject {
 
         // For streaming or when no local files, return remote URL
         if let episode = episode as? Episode {
-            // When available, default to the HLS stream over the progressive file
-            if isStreamingHLS(episode), let hlsUrl = episode.hlsUrl {
-                return URL(string: hlsUrl)
+            // When available, default to the HLS stream over the progressive file.
+            // If the HLS url is malformed, fall through to the progressive url rather than failing.
+            if isStreamingHLS(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
+                return url
             }
             if let url = episode.downloadUrl {
                 return URL(string: url)
