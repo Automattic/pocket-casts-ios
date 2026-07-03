@@ -6470,3 +6470,7 @@
 
 /* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
 "tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
+
+/* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
+"tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
+

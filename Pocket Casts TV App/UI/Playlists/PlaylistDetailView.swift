@@ -72,7 +72,7 @@ struct PlaylistDetailView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Text(L10n.playlistManualArchivedEpisodesPlaceholder(model.allEpisodesCount))
+                    Text(L10n.tvPlaylistManualArchivedEpisodesPlaceholder(model.allEpisodesCount))
                     Spacer()
                 }
             }.padding(24)
@@ -140,9 +140,9 @@ struct PlaylistDetailView: View {
         switch images.count {
         case 0:
             ZStack {
-                Image(systemName: "list.bullet")
+                Image(ImageResource.pcLogo)
                     .resizable()
-                    .frame(width: Layout.mosaicSize * 0.5, height: Layout.mosaicSize * 0.5)
+                    .frame(width: Layout.mosaicSize * 0.75, height: Layout.mosaicSize * 0.75)
             }
             .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
             .background(Color.pcBackgroundSurface)
