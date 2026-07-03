@@ -422,12 +422,14 @@ class EpisodeManager: NSObject {
     }
 
     /// Whether the episode should be streamed via its HLS alternate enclosure.
-    /// When an HLS stream is available we default to it; HLS is streamed directly and never cached.
+    /// When a valid HLS stream is available we default to it; HLS is streamed directly and never cached.
+    /// Requires a parseable url so this stays consistent with `urlForEpisode`, which falls back to the
+    /// progressive url when the HLS string can't be turned into a `URL`.
     class func isStreamingHLS(_ episode: BaseEpisode) -> Bool {
-        guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl else {
+        guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
             return false
         }
-        return !hlsUrl.isEmpty
+        return URL(string: hlsUrl) != nil
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
