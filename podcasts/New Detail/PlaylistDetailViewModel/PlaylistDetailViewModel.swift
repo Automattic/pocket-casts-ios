@@ -162,17 +162,15 @@ class PlaylistDetailViewModel: ObservableObject {
             shouldShowArchived: playlist.showArchivedEpisodes
         ) { [weak self] newData, archivedEpisodeCount in
             guard let self else { return }
-            DispatchQueue.main.async {
-                self.archivedEpisodesCount = archivedEpisodeCount
-                let isFirstReload = self.firstTimeLoading
-                self.firstTimeLoading = false
-                let changeSetTuple = self.buildChangeSet(source: self.episodes, newData: newData)
-                let contentHasChanged = changeSetTuple.0
-                if contentHasChanged {
-                    self.dataManager.updatePlaylistUpdateDate(for: self.playlist)
-                }
-                self.onChange(changeSetTuple.1, animated && !isFirstReload, contentHasChanged)
+            self.archivedEpisodesCount = archivedEpisodeCount
+            let isFirstReload = self.firstTimeLoading
+            self.firstTimeLoading = false
+            let changeSetTuple = self.buildChangeSet(source: self.episodes, newData: newData)
+            let contentHasChanged = changeSetTuple.0
+            if contentHasChanged {
+                self.dataManager.updatePlaylistUpdateDate(for: self.playlist)
             }
+            self.onChange(changeSetTuple.1, animated && !isFirstReload, contentHasChanged)
         }
         operationQueue.addOperation(refreshOperation)
     }
