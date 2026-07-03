@@ -1762,6 +1762,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Remote Control support
     func remotePlayPauseToggle() {
+        guard self.currentEpisode() != nil else {
+            return
+        }
         analyticsPlaybackHelper.currentSource = self.commandCenterSource
         FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
         playPause()
