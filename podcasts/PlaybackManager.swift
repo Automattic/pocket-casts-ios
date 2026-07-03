@@ -50,7 +50,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Set at runtime when the currently playing stream is found to contain video tracks
     /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
     /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
-    private(set) var currentStreamContainsVideo = false
+    /// Atomic because it's read from now-playing updates that can run off the main queue.
+    private let currentStreamContainsVideo = AtomicBool()
 
     private let updateTimerInterval = 1 as TimeInterval
 
@@ -747,14 +748,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Whether the current episode should be presented as video, considering both the feed
     /// metadata (`videoPodcast()`) and any video tracks detected at runtime in the stream.
     func isCurrentEpisodeVideo() -> Bool {
-        currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo
+        currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo.value
     }
 
     /// Called by the player when it detects video tracks in the stream it is playing.
     /// Used for HLS streams whose video content isn't reflected in the episode's file type.
     func handleVideoTracksDetected(forEpisode episodeUuid: String) {
-        guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo else { return }
-        currentStreamContainsVideo = true
+        guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
+        currentStreamContainsVideo.value = true
         setAudioSessionVideoProperties()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
     }
@@ -1415,7 +1416,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
-        currentStreamContainsVideo = false
+        currentStreamContainsVideo.value = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         if let player {
@@ -2296,6 +2297,7 @@ class PlaybackManager: ServerPlaybackDelegate {
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
            // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
+           !EpisodeManager.isStreamingHLS(refreshedEpisode) {
             return false
         } else {
             if !episodeIsChanging {
