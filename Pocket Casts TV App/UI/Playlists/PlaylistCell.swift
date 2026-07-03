@@ -2,9 +2,12 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct PlaylistCell: View {
+
+    var playlist: EpisodeFilter
     @State var model: PlaylistDetailsViewModel
 
     init(playlist: EpisodeFilter) {
+        self.playlist = playlist
         self.model = PlaylistDetailsViewModel(playlist: playlist)
     }
 
@@ -65,6 +68,10 @@ struct PlaylistCell: View {
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 16, style: .content)
         .task {
+            model.load()
+        }
+        .onChange(of: playlist) {
+            model.playlist = playlist
             model.load()
         }
     }

@@ -115,7 +115,7 @@ public class EpisodeFilter: NSObject {
     override public func isEqual(_ object: Any?) -> Bool {
         guard let otherFilter = object as? EpisodeFilter else { return false }
 
-        return otherFilter.uuid == uuid
+        return otherFilter.uuid == uuid && otherFilter.playlistName == playlistName
     }
 
     override public var hash: Int {

@@ -19,7 +19,7 @@ class PlaylistDetailsViewModel {
     var isShowingReplaceUpNextConfirmation = false
     var isShowingNowPlaying = false
 
-    let playlist: EpisodeFilter
+    var playlist: EpisodeFilter
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
