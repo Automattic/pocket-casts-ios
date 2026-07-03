@@ -133,6 +133,14 @@ class PlaylistDetailsViewModel {
         return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
     }
 
+    var allEpisodesCount: Int {
+        return allEpisodes.count
+    }
+
+    var areAllEpisodesArchived: Bool {
+        return episodes.isEmpty && !allEpisodes.isEmpty
+    }
+
     private func refreshPlaylistColor() {
         if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
