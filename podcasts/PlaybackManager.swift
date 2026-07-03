@@ -2295,8 +2295,7 @@ class PlaybackManager: ServerPlaybackDelegate {
            effects().trimSilence == .off,
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
-           // HLS is streamed directly, not cached to the downloaded file, so we must reload to switch to it
-           !EpisodeManager.isStreamingHLS(refreshedEpisode) {
+           // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
             return false
         } else {
             if !episodeIsChanging {
