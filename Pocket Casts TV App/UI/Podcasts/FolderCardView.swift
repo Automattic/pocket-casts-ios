@@ -37,8 +37,9 @@ struct FolderCardView: View {
         .task {
             model.load()
         }
-        .onChange(of: folder) { _, _ in
+        .onChange(of: folder) {
             model.folder = folder
+            model.load()
         }
     }
 
