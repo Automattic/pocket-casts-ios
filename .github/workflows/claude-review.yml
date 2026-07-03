@@ -26,7 +26,7 @@ jobs:
 
     steps:
       # issue_comment payloads identify PR comments, but do not include the PR
-      # head repo. Query the PR before allowing Claude to run on fork PRs.
+      # head repo. Query the PR and skip running Claude if the PR comes from a fork.
       - name: Check PR origin
         id: pr-origin
         env:
