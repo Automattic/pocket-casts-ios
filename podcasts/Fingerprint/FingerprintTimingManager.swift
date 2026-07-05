@@ -371,8 +371,18 @@ final class FingerprintTimingManager: NSObject {
 
     /// Tell interested consumers (e.g. `ChapterManager`, to re-align generated
     /// chapters) that the reference↔playback mapping has advanced.
+    ///
+    /// Posted with a non-blocking `async` hop rather than `postOnMainThread`'s
+    /// `main.sync`: this is called from within `queue`, and the consumers it
+    /// wakes (`playbackTime(forReferenceTime:)`, `matchedReferenceTime(...)`,
+    /// etc.) re-enter `queue` via `queue.sync` from the main thread. A blocking
+    /// `main.sync` here would cross those two synchronous hops and deadlock /
+    /// trip the `dispatchPrecondition(.notOnQueue(queue))` guard. Nothing needs
+    /// the post to complete synchronously.
     private func postMappingUpdated() {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.fingerprintTimingMappingUpdated)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Constants.Notifications.fingerprintTimingMappingUpdated, object: nil)
+        }
     }
 
     // MARK: - Track Preparation
