@@ -100,6 +100,16 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let previous = resolvingIndexPath, previous != indexPath {
             (chaptersTable.cellForRow(at: previous) as? PlayerChapterCell)?.setResolving(false)
         }
+        if let seekTime = chapter.resolvedPlaybackStartTime {
+            PlaybackManager.shared.seekTo(time: seekTime, startPlaybackAfterSeek: true)
+            Analytics.track(.syncedTranscriptsChapterSeekUsed, properties: [
+                "episode_uuid": episodeUuid,
+                "from_position_seconds": Int(fromPosition),
+                "to_position_seconds": Int(seekTime),
+                "reference_time_seconds": Int(referenceTime)
+            ])
+            return
+        }
         resolvingIndexPath = indexPath
         (chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(true)
         PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
