@@ -184,7 +184,7 @@ class PlayerChapterCell: UITableViewCell {
 
         layoutIfNeeded()
 
-        let lapsedTime = PlaybackManager.shared.currentTime() - chapter.startTime.seconds
+        let lapsedTime = PlaybackManager.shared.currentTime() - chapter.effectiveStartTime
         let percentageLapsed = CGFloat(lapsedTime / chapter.duration.seconds)
 
         if percentageLapsed.isFinite, !percentageLapsed.isNaN {

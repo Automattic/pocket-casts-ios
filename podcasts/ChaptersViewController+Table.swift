@@ -125,6 +125,10 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             switch result {
             case let .resolved(playbackTime, usedPrior, isStreaming, resolveDurationMs):
                 let seekTime = ceil(playbackTime)
+                // Record where the chapter actually starts on the playback timeline
+                // so its progress bar fills from 0% rather than from the ad-shifted
+                // offset (see `ChapterInfo.effectiveStartTime`).
+                chapter.resolvedPlaybackStartTime = seekTime
                 PlaybackManager.shared.seekTo(time: seekTime, startPlaybackAfterSeek: true)
                 Analytics.track(.syncedTranscriptsChapterSeekUsed, properties: [
                     "episode_uuid": episodeUuid,

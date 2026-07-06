@@ -149,7 +149,7 @@ extension NowPlayingPlayerItemViewController {
             return
         }
 
-        let remainingTime = chapter.duration + chapter.startTime.seconds - playheadPosition
+        let remainingTime = chapter.duration + chapter.effectiveStartTime - playheadPosition
         chapterTimeLeftLabel.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: remainingTime)
         let percentageCompleted = 1 - (remainingTime / chapter.duration)
         chapterProgress.startingAngle = CGFloat((percentageCompleted * 360) - 90)
