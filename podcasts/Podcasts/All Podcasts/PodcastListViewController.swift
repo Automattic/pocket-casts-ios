@@ -50,11 +50,15 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// applied while the bottom fade is enabled.
     private static let bottomSpacingFraction: CGFloat = 0.2
 
-    /// How far the fade's top extends above the bottom safe area edge, so it's taller and
-    /// eases in earlier.
+    /// How far the fade's top extends above the bottom safe area edge while the tab bar is
+    /// expanded, so it's taller and eases in earlier. Dropped to 0 when the bar collapses to
+    /// its compact pill (see `updateBottomFadeOvershoot`), which needs less covering.
     private static let bottomFadeTopOvershoot: CGFloat = 9
 
     private lazy var bottomFadeView = ProgressiveFadeView()
+
+    /// The fade's top constraint, kept so its constant can track the tab bar's collapsed state.
+    private var bottomFadeTopConstraint: NSLayoutConstraint?
 
     /// Pins the grid's bottom to the view's bottom; raised by `bottomSpacingFraction` of the
     /// bottom safe area while the fade is enabled.
@@ -351,6 +355,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
         installBottomFadeViewIfNeeded()
         bottomFadeView.isHidden = false
+        updateBottomFadeOvershoot()
 
         // Size the gap below the grid and paint the exposed strip in the grid's own
         // background color so the fade dissolves into it seamlessly.
@@ -369,14 +374,26 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
         bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomFadeView)
+        // Start a bit above the bottom safe area (where the floating bar begins) so the fade
+        // is taller and eases in earlier. The overshoot is dropped when the bar collapses.
+        let topConstraint = bottomFadeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Self.bottomFadeTopOvershoot)
+        bottomFadeTopConstraint = topConstraint
         NSLayoutConstraint.activate([
             bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // Start a bit above the bottom safe area (where the floating bar begins) so the
-            // fade is taller and eases in earlier.
-            bottomFadeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Self.bottomFadeTopOvershoot),
+            topConstraint,
             bottomFadeView.bottomAnchor.constraint(equalTo: podcastsCollectionView.bottomAnchor)
         ])
+    }
+
+    /// The fade overshoots above the safe area only while the tab bar is expanded. When it
+    /// collapses to its compact pill there's less bar to cover, so drop the overshoot.
+    func updateBottomFadeOvershoot() {
+        guard isBottomFadeEnabled, let bottomFadeTopConstraint else { return }
+        let minimized = (tabBarController as? MainTabBarController)?.isTabBarMinimized ?? false
+        let constant = -(minimized ? 0 : Self.bottomFadeTopOvershoot)
+        guard bottomFadeTopConstraint.constant != constant else { return }
+        bottomFadeTopConstraint.constant = constant
     }
 
     /// Sizes the gap below the grid as a fraction of the current bottom safe area, so it
