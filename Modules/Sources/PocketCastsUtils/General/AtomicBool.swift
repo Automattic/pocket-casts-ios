@@ -27,4 +27,14 @@ public class AtomicBool {
             }
         }
     }
+
+    /// Atomically flips the value and returns the new value. Use this instead of
+    /// `value.toggle()`, which performs a separate read and write and can race.
+    @discardableResult
+    public func toggle() -> Bool {
+        atomicQueue.sync {
+            storageValue.toggle()
+            return storageValue
+        }
+    }
 }

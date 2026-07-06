@@ -776,7 +776,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// (this is a display-only switch).
     func toggleVideoRendering() {
         guard canToggleVideoRendering() else { return }
-        videoRenderingEnabled.value.toggle()
+        videoRenderingEnabled.toggle()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
     }
 
