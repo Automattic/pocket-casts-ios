@@ -45,15 +45,22 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private var lastWillLayoutWidth: CGFloat = 0
 
-    /// Base height of the soft bottom fade edge shown over the grid under Liquid Glass,
-    /// measured from the bottom safe area upward. The bottom safe area inset is added on
-    /// top of this so the fade always clears the home indicator / floating bar.
-    /// The gradient fade means only the lower portion reads strongly, so this can be
-    /// generous without looking like a solid bar.
-    private static let bottomFadeHeight: CGFloat = 16
+    /// Gap left below the grid under Liquid Glass so its last content clears the floating
+    /// tab bar / mini player, expressed as a fraction of the bottom safe area so it tracks
+    /// the home indicator / floating bar / mini player as those insets change. The fade
+    /// fills the rest of the safe area above the gap. Applied only when the bottom fade is
+    /// enabled (see `setupBottomFade`).
+    private static let bottomSpacingFraction: CGFloat = 0.2
 
     private lazy var bottomFadeView = ProgressiveFadeView()
-    private var bottomFadeHeightConstraint: NSLayoutConstraint?
+
+    /// Pins the grid's bottom to the view's bottom; its constant is raised to a fraction
+    /// of the bottom safe area (`bottomSpacingFraction`) while the bottom fade is enabled.
+    @IBOutlet private var collectionViewBottomConstraint: NSLayoutConstraint!
+
+    /// Whether the Liquid Glass bottom fade / spacing is active, so the safe-area-driven
+    /// spacing keeps updating as insets change.
+    private var isBottomFadeEnabled = false
 
     private var homeGridDataHelper = HomeGridDataHelper()
 
@@ -309,45 +316,51 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
-    /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass.
+    /// Adds a soft progressive fade edge to the bottom of the grid under Liquid Glass on
+    /// iPhone.
     ///
     /// The system scroll edge effect samples the scrolling content, so over a grid of
     /// colorful artwork it washes out and barely registers — which is what hurts the
-    /// readability of the floating tab bar / mini player. A dedicated fade overlay,
-    /// pinned to the bottom of the screen behind the bar, dissolves the artwork into the
-    /// grid's own background for a consistently visible soft edge, replacing the system
-    /// scroll edge effect.
+    /// readability of the floating tab bar / mini player. Instead we leave a gap below the
+    /// grid (a fraction of the bottom safe area, see `updateBottomSpacing`) and draw a
+    /// dedicated fade overlay spanning from the top of the bottom safe area down to the
+    /// grid's bottom edge, dissolving the artwork into the grid's background for a
+    /// consistently visible soft edge, replacing the system scroll edge effect.
     @available(iOS 26, *)
     private func setupBottomFade() {
-        guard LiquidGlass.isEnabled else { return }
+        guard LiquidGlass.isEnabled, traitCollection.userInterfaceIdiom == .phone else { return }
+
+        isBottomFadeEnabled = true
+
+        // Size the gap below the grid and paint the exposed strip in the grid's own
+        // background color so the fade dissolves into it seamlessly.
+        updateBottomSpacing()
+        (view as? ThemeableView)?.style = .primaryUi02
 
         bottomFadeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomFadeView)
-        let heightConstraint = bottomFadeView.heightAnchor.constraint(equalToConstant: bottomFadeHeight)
-        bottomFadeHeightConstraint = heightConstraint
         NSLayoutConstraint.activate([
             bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomFadeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            heightConstraint
+            // Ramp smoothly from transparent at the top of the bottom safe area (where the
+            // floating bar begins) down to solid at the grid's bottom edge.
+            bottomFadeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            bottomFadeView.bottomAnchor.constraint(equalTo: podcastsCollectionView.bottomAnchor)
         ])
         podcastsCollectionView.bottomEdgeEffect.isHidden = true
         updateBottomFadeColor()
     }
 
-    /// The fade is pinned to the very bottom of the view, so it must cover the bottom
-    /// safe area (home indicator / floating bar) plus the base fade height above it.
-    private var bottomFadeHeight: CGFloat {
-        Self.bottomFadeHeight + view.safeAreaInsets.bottom
+    /// Sizes the gap below the grid as a fraction of the current bottom safe area, so it
+    /// keeps clearing the floating bar / mini player as those insets change.
+    private func updateBottomSpacing() {
+        guard isBottomFadeEnabled else { return }
+        collectionViewBottomConstraint.constant = view.safeAreaInsets.bottom * Self.bottomSpacingFraction
     }
 
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
-        guard let bottomFadeHeightConstraint else { return }
-        bottomFadeHeightConstraint.constant = bottomFadeHeight
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
+        updateBottomSpacing()
     }
 
     /// Fades the grid into its own background color toward the bottom edge, so the

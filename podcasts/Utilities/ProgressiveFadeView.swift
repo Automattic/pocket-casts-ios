@@ -27,7 +27,6 @@ final class ProgressiveFadeView: UIView {
 
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        gradientLayer.locations = [0, 0.25, 0.8, 1]
         setColor(color)
     }
 
@@ -35,10 +34,10 @@ final class ProgressiveFadeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// Sets the fade color: transparent at the top ramping to this color, which then
-    /// holds solid across the lower portion. Pass `nil` for no fade.
+    /// Sets the fade color: transparent at the top ramping linearly to this solid color at
+    /// the bottom. Pass `nil` for no fade.
     func setColor(_ color: UIColor?) {
         let color = color ?? .clear
-        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.66).cgColor, color.cgColor, color.cgColor]
+        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.cgColor]
     }
 }
