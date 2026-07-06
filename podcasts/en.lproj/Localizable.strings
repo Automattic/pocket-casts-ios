@@ -1534,6 +1534,12 @@
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
 
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
+
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
 
