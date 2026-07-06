@@ -50,6 +50,20 @@ class PlayerChapterCell: UITableViewCell {
 
     private var isChapterToggleEnabled: Bool = false
 
+    /// Shown in place of the chapter number while a fingerprint-based seek is being
+    /// resolved for this row (generated chapters — see `ChaptersViewController`).
+    private lazy var resolvingSpinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        contentView.addSubview(spinner)
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: chapterNumber.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: chapterNumber.centerYAnchor)
+        ])
+        return spinner
+    }()
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -121,6 +135,20 @@ class PlayerChapterCell: UITableViewCell {
         toggleChapterButton.isHidden = false
         chapterButtonWidth.constant = 48
         setColors(dim: chapter?.isPlayable() == false)
+    }
+
+    /// Toggle the resolving spinner for this row. Driven from
+    /// `ChaptersViewController`'s `resolvingIndexPath` in `cellForRowAt` so it
+    /// survives cell reuse.
+    func setResolving(_ resolving: Bool) {
+        if resolving {
+            resolvingSpinner.color = ThemeColor.playerContrast01()
+            resolvingSpinner.startAnimating()
+            chapterNumber.isHidden = true
+        } else {
+            resolvingSpinner.stopAnimating()
+            chapterNumber.isHidden = false
+        }
     }
 
     @IBAction func linkTapped(_ sender: Any) {
