@@ -248,6 +248,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
                     // 1. If the new episode exists in the local database already, then just add it to the queue
                     if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
                         FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
+                        // The server may carry the HLS stream in the episode's alternate enclosures; pick it
+                        // up here so synced episodes can stream HLS without waiting for a full feed refresh.
+                        updateHLSUrlIfNeeded(for: localEpisode, from: episodeInfo)
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
@@ -410,6 +413,20 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
     private func clearSyncedData(latestActionTime: Int64) {
         DataManager.sharedManager.deleteChangesOlderThan(utcTime: latestActionTime)
+    }
+
+    /// Populates an episode's `hlsUrl` from the alternate enclosures in an Up Next sync response.
+    /// Only sets a non-empty value so we never clear an HLS url a feed refresh already provided
+    /// (the server may omit alternate enclosures even when the episode has one).
+    private func updateHLSUrlIfNeeded(for baseEpisode: BaseEpisode, from episodeInfo: Api_UpNextResponse.EpisodeResponse) {
+        guard FeatureFlag.hls.enabled,
+              let episode = baseEpisode as? Episode,
+              let hlsUrl = episodeInfo.alternateEnclosures.hlsUrl, !hlsUrl.isEmpty,
+              episode.hlsUrl != hlsUrl else {
+            return
+        }
+        episode.hlsUrl = hlsUrl
+        DataManager.sharedManager.save(episode: episode)
     }
 
     private func convertToProto(action: UpNextChanges) -> Api_UpNextChanges.Change? {
