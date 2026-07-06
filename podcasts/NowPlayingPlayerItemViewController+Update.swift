@@ -61,10 +61,8 @@ extension NowPlayingPlayerItemViewController {
             episodeImage.layer.opacity = 1
             if wasShowingVideo {
                 // The artwork slot was invisible while the video was showing, so its aspect-fit
-                // subview may not have been laid out yet. Force a pass so the artwork appears.
-                if !showingCustomImage {
-                    ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
-                }
+                // subview may not have been laid out yet. Force a pass so the artwork (reloaded at
+                // the end of this method) appears the first time.
                 episodeImage.layoutIfNeeded()
             }
         }
