@@ -306,6 +306,7 @@ public enum PlayerAction: String, Codable, Equatable {
     case transcript = "transcript"
     case download = "download"
     case addToPlaylist = "playlist"
+    case videoToggle = "video"
 }
 
 extension Array: @retroactive RawRepresentable where Element: RawRepresentable<String> {
