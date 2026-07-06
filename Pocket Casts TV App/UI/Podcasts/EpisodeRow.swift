@@ -280,6 +280,7 @@ private struct EpisodeContextMenuModifier: ViewModifier {
         content
             .contextMenu {
                 EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
+                    .remotePlayPause()
             }
             .sheet(isPresented: $isShowingShowNotes) {
                 EpisodeShowNotesView(episode: model.episode, podcast: model.podcast)

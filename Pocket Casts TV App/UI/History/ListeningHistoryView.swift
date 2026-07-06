@@ -21,6 +21,7 @@ struct ListeningHistoryView: View {
             Analytics.track(.listeningHistoryShown)
             model.load()
         }
+        .remotePlayPause()
     }
 
     private var episodeList: some View {

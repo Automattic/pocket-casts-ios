@@ -59,6 +59,7 @@ struct ProfileMenuView: View {
         .onAppear {
             Analytics.track(.profileShown)
         }
+        .remotePlayPause()
     }
 
     // MARK: - Signed-in

@@ -26,6 +26,7 @@ struct EpisodeShowNotesView: View {
             Analytics.track(.episodeDetailShown)
             await loadShowNotes()
         }
+        .remotePlayPause()
     }
 
     @ViewBuilder
