@@ -75,15 +75,6 @@ struct ProfileMenuView: View {
                     .padding(.bottom, 24)
             }
 
-            // Group 1
-            Button {
-                Analytics.track(.profileSettingsButtonTapped)
-                // Settings destination not yet implemented for TV
-            } label: {
-                Label(L10n.settings, systemImage: "gearshape")
-                    .frame(minWidth: 400)
-            }
-
             Divider()
                 .frame(maxWidth: 400)
 
