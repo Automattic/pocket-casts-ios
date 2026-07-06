@@ -19,12 +19,12 @@ class PlaylistDetailsViewModel {
     var isShowingReplaceUpNextConfirmation = false
     var isShowingNowPlaying = false
 
-    let playlist: EpisodeFilter
+    var playlist: PlaylistItem
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
 
-    var hasDownloadFilter: Bool { playlist.isDownloadFilterActive }
+    var hasDownloadFilter: Bool { playlist.playlist.isDownloadFilterActive }
 
     private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
@@ -34,14 +34,14 @@ class PlaylistDetailsViewModel {
         "showArchived_playlist_\(playlist.uuid)"
     }
 
-    init(playlist: EpisodeFilter,
+    init(playlist: PlaylistItem,
          dataManager: DataManager = DataManager.sharedManager,
          playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playlist = playlist
         self.dataManager = dataManager
         self.playbackManager = playbackManager
-        self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist))
-        self.playlistColor = Self.fallbackPillColor(for: playlist.uuid)
+        self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist.playlist))
+        self.playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)
         observePodcastColorDownloads()
     }
 
@@ -68,7 +68,7 @@ class PlaylistDetailsViewModel {
             // with `shouldShowArchived: true` and let the local toggle decide what to display.
             let query = PlaylistQueryBuilder.query(
                 clause: .episode,
-                for: playlist,
+                for: playlist.playlist,
                 limit: Self.playlistEpisodeLimit,
                 shouldShowArchived: true
             )
@@ -91,7 +91,7 @@ class PlaylistDetailsViewModel {
         showArchived = value
         applyArchivedFilter()
         refreshPlaylistColor()
-        UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
+        UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist.playlist))
     }
 
     private func applyArchivedFilter() {
@@ -103,7 +103,7 @@ class PlaylistDetailsViewModel {
 
         Analytics.track(.filterPlayAllTapped, properties: analyticsProperties())
 
-        if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
+        if playbackManager.playIfSafe(playlist: playlist.playlist, episodeIDs: episodes.map(\.uuid)) {
             isShowingNowPlaying = true
         } else {
             isShowingReplaceUpNextConfirmation = true
@@ -120,7 +120,7 @@ class PlaylistDetailsViewModel {
         let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
         let created = dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
         await MainActor.run {
-            self.playbackManager.play(playlist: self.playlist)
+            self.playbackManager.play(playlist: self.playlist.playlist)
             self.isShowingNowPlaying = true
 
             if created > 0 {
@@ -132,7 +132,7 @@ class PlaylistDetailsViewModel {
 
     func playWithoutSaving() {
         Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: analyticsProperties(["save_up_next": false]))
-        playbackManager.play(playlist: playlist)
+        playbackManager.play(playlist: playlist.playlist)
         isShowingNowPlaying = true
     }
 
@@ -152,11 +152,11 @@ class PlaylistDetailsViewModel {
     }
 
     var playlistName: String {
-        return playlist.playlistName
+        return playlist.playlist.playlistName
     }
 
     var isManual: Bool {
-        return playlist.manual
+        return playlist.playlist.manual
     }
 
     var totalDuration: String {
@@ -182,7 +182,7 @@ class PlaylistDetailsViewModel {
            let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
             playlistColor = color
         } else {
-            playlistColor = Self.fallbackPillColor(for: playlist.uuid)
+            playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)
         }
     }
 

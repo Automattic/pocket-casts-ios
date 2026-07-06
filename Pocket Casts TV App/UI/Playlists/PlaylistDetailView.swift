@@ -269,7 +269,7 @@ struct PlaylistDetailView: View {
 
 #Preview {
     let router = MainTabViewModel()
-    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: PlaylistItem(playlist: MockData.makeStubPlaylists().first!)))
         .environment(AppCoordinator())
         .environment(router)
 }
