@@ -14,7 +14,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
     private var isVideoPodcast: Bool {
-        PlaybackManager.shared.isCurrentEpisodeVideo()
+        PlaybackManager.shared.shouldRenderVideo()
     }
 
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }

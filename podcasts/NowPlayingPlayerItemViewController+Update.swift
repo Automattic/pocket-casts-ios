@@ -35,24 +35,37 @@ extension NowPlayingPlayerItemViewController {
     }
 
     @objc private func videoPlaybackEngineSwitched() {
-        floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
-        // Video may have been detected at runtime (e.g. an HLS stream), so refresh to reveal the view
+        // Video may have been detected at runtime (e.g. an HLS stream) or toggled via the shelf,
+        // so refresh to reveal or hide the view accordingly.
+        if PlaybackManager.shared.shouldRenderVideo() {
+            floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
+        }
         update(notification: nil)
     }
 
     @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
-        if PlaybackManager.shared.isCurrentEpisodeVideo() {
+        if PlaybackManager.shared.shouldRenderVideo() {
             if floatingVideoView.isHidden {
                 floatingVideoView.isHidden = false
                 floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
                 episodeImage.alpha = CGFloat.leastNonzeroMagnitude
             }
         } else {
+            let wasShowingVideo = !floatingVideoView.isHidden
             floatingVideoView.player = nil
             floatingVideoView.isHidden = true
             episodeImage.alpha = 1.0
+            episodeImage.layer.opacity = 1
+            if wasShowingVideo {
+                // The artwork slot was invisible while the video was showing, so its aspect-fit
+                // subview may not have been laid out yet. Force a pass so the artwork appears.
+                if !showingCustomImage {
+                    ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+                }
+                episodeImage.layoutIfNeeded()
+            }
         }
 
         let skipBackAmount = Settings.skipBackTime
