@@ -52,6 +52,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// enabled (see `setCustomBottomFadeEnabled`).
     private static let bottomSpacingFraction: CGFloat = 0.2
 
+    /// How far the fade's top extends above the bottom safe area edge, so the fade is taller
+    /// and eases in before the floating bar begins.
+    private static let bottomFadeTopOvershoot: CGFloat = 28
+
     private lazy var bottomFadeView = ProgressiveFadeView()
 
     /// Pins the grid's bottom to the view's bottom; its constant is raised to a fraction
@@ -375,9 +379,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         NSLayoutConstraint.activate([
             bottomFadeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomFadeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // Ramp smoothly from transparent at the top of the bottom safe area (where the
-            // floating bar begins) down to solid at the grid's bottom edge.
-            bottomFadeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            // Ramp smoothly from transparent down to solid at the grid's bottom edge. The top
+            // starts a bit above the bottom safe area (where the floating bar begins) so the
+            // fade is taller and eases in earlier.
+            bottomFadeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Self.bottomFadeTopOvershoot),
             bottomFadeView.bottomAnchor.constraint(equalTo: podcastsCollectionView.bottomAnchor)
         ])
     }
@@ -386,7 +391,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// keeps clearing the floating bar / mini player as those insets change.
     private func updateBottomSpacing() {
         guard isBottomFadeEnabled else { return }
-        collectionViewBottomConstraint.constant = view.safeAreaInsets.bottom * Self.bottomSpacingFraction
+        collectionViewBottomConstraint.constant = max(36, view.safeAreaInsets.bottom * Self.bottomSpacingFraction)
     }
 
     override func viewSafeAreaInsetsDidChange() {
