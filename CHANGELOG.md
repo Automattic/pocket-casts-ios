@@ -1,5 +1,6 @@
 8.16
 -----
+- Fix the floating tab bar and mini player turning gray over the podcast grid under Liquid Glass on iOS 26 [#4689](https://github.com/Automattic/pocket-casts-ios/pull/4689)
 - Fix the smart playlist and podcast page header showing the system light/dark appearance instead of the in-app theme when scrolling on iOS 18 [#4662](https://github.com/Automattic/pocket-casts-ios/pull/4662)
 - Fix episode lists jumping when a background download finishes [#4648](https://github.com/Automattic/pocket-casts-ios/pull/4648)
 - Fix a rare crash during playback when an audio buffer fails to allocate [#4645](https://github.com/Automattic/pocket-casts-ios/pull/4645)
