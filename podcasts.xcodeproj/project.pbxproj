@@ -1397,6 +1397,10 @@
 		FF9BCB342EA659C900A25F12 /* playback_2025_listened.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */; };
 		FF9CBAF22EC9293000989151 /* playback2025_listening_time_numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
+		FFB537852FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */; };
+		FFB537862FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */; };
+		FFB537872FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */; };
+		FFB537882FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */; };
 		FFB74B0F2E993A8C00F16857 /* end_of_year_2025_intro.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */; };
 		FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FFE4107F2FBB5FED00716EAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -2732,6 +2736,7 @@
 		FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback_2025_listened.json; sourceTree = "<group>"; };
 		FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time_numbers.json; sourceTree = "<group>"; };
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
+		FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersFingerprintSync.swift; sourceTree = "<group>"; };
 		FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = end_of_year_2025_intro.json; sourceTree = "<group>"; };
 		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
 		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
@@ -4116,6 +4121,7 @@
 		BD3E3CD5170426AC0066AE3D /* Chapters */ = {
 			isa = PBXGroup;
 			children = (
+				FFB537842FFBCFA10068E0E1 /* ChaptersFingerprintSync.swift */,
 				BD35E9171D45AC3E00CAE2A7 /* ChapterInfo.swift */,
 				BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */,
 				8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */,
@@ -7183,6 +7189,7 @@
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				8B5BD0B82C50235400C687CB /* Episode+Transcript.swift in Sources */,
+				FFB537882FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */,
 				C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */,
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				9AD809AF2EA12D940050649B /* PlaylistDetailFetchOperation.swift in Sources */,
@@ -7530,6 +7537,7 @@
 				BDE48A1B2410D06C00ECA6CA /* PlaybackItem.swift in Sources */,
 				8B1F88072C6404D00038E0D2 /* ArrayExtension.swift in Sources */,
 				BDE48A182410D05A00ECA6CA /* PlaybackQueue.swift in Sources */,
+				FFB537872FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */,
 				BDE48A3D2410D83100ECA6CA /* SJCommonUtils.m in Sources */,
 				BDE48A292410D27300ECA6CA /* BaseEpisode+Formatting.swift in Sources */,
 				FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */,
@@ -7660,6 +7668,7 @@
 				F5F509232CEBEE87007D6E39 /* BaseEpisode+Formatting.swift in Sources */,
 				F5F5094E2CEBF451007D6E39 /* DescriptiveActionView.swift in Sources */,
 				F5F509712CEBF8C1007D6E39 /* SJMediaMetadataHelper.m in Sources */,
+				FFB537862FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */,
 				F5D5F7C82CEBE865001F492D /* PlayerTabsView.swift in Sources */,
 				F5F509042CEBEA73007D6E39 /* AppTheme.swift in Sources */,
 				F5F509522CEBF4AC007D6E39 /* Settings.swift in Sources */,
@@ -7780,6 +7789,7 @@
 				FF8FFE442FAA49BE0086A867 /* PodcastManager+Cleanup.swift in Sources */,
 				FFE477202FBE0D8100716EAA /* ServerPodcastManager+Subscription.swift in Sources */,
 				FF6033FD2FAB4C9700EB3AD5 /* EpisodesDataManager.swift in Sources */,
+				FFB537852FFBCFB50068E0E1 /* ChaptersFingerprintSync.swift in Sources */,
 				FF8FFE612FAA63750086A867 /* Enumerations.swift in Sources */,
 				FF8FFE652FAA8E5B0086A867 /* PodcastChapterParser.swift in Sources */,
 				FF8FFE6B2FAA8EA00086A867 /* Chapters.swift in Sources */,

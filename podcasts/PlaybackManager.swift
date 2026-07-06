@@ -17,7 +17,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     private static let notSeeking: TimeInterval = -1
     private var seekingTo: TimeInterval = PlaybackManager.notSeeking
 
-    private let chapterManager = ChapterManager()
+    private lazy var chapterManager: ChapterManager = {
+        let chapterManager = ChapterManager()
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
+        ChapterReferenceTimeMappingProvider.current = FingerprintTimingManager.shared
+#endif
+        return chapterManager
+    }()
 
     var sleepTimeRemaining = -1 as TimeInterval
 

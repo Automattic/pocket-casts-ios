@@ -100,7 +100,7 @@ final class FingerprintTimingManager: NSObject {
 
     override init() {
         super.init()
-        ChapterReferenceTimeMappingProvider.current = self
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleEpisodeDownloaded(_:)),
@@ -1328,20 +1328,6 @@ final class FingerprintTimingManager: NSObject {
         }
         let preferred = FeatureFlag.streamAndCachePlayingEpisode.enabled ? tempPath : streamingPath
         return .streaming(URL(fileURLWithPath: preferred))
-    }
-}
-
-// MARK: - ChapterReferenceTimeMapping
-
-extension FingerprintTimingManager: ChapterReferenceTimeMapping {
-    /// A mapping is usable once we've reached `.active` (enough coverage to trust
-    /// the reference↔playback interpolation). `playbackTime(forReferenceTime:)`
-    /// is already declared above and satisfies the protocol requirement.
-    var hasChapterReferenceMapping: Bool {
-        if case .active = state {
-            return true
-        }
-        return false
     }
 }
 
