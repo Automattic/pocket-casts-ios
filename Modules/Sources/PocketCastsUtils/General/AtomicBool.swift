@@ -11,6 +11,10 @@ public class AtomicBool {
 
     public init() {}
 
+    public init(_ initialValue: Bool) {
+        storageValue = initialValue
+    }
+
     public var value: Bool {
         get {
             atomicQueue.sync {
