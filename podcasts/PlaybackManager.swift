@@ -771,11 +771,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         FeatureFlag.hls.enabled && currentStreamContainsVideo.value && (currentEpisode() is Episode)
     }
 
-    /// Toggles whether the current HLS stream's video is rendered. When disabled the player shows
-    /// the episode artwork and plays audio-only.
+    /// Toggles whether the current HLS stream's video surface is shown. When disabled the player
+    /// shows the episode artwork instead of the video; playback and video decoding are unaffected
+    /// (this is a display-only switch).
     func toggleVideoRendering() {
+        guard canToggleVideoRendering() else { return }
         videoRenderingEnabled.value.toggle()
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
     }
 
     /// Called by the player when it detects video tracks in the stream it is playing.

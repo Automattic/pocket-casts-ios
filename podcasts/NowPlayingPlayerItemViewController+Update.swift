@@ -12,6 +12,7 @@ extension NowPlayingPlayerItemViewController {
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackChanged))
         addCustomObserver(Constants.Notifications.videoPlaybackEngineSwitched, selector: #selector(videoPlaybackEngineSwitched))
+        addCustomObserver(Constants.Notifications.videoRenderingToggled, selector: #selector(videoPlaybackEngineSwitched))
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(update(notification:)))
