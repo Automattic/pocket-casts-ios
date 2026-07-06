@@ -78,7 +78,6 @@ struct ProfileMenuView: View {
             Divider()
                 .frame(maxWidth: 400)
 
-            // Group 2
             Button {
                 onProfileSelected(.starred)
             } label: {
@@ -95,7 +94,6 @@ struct ProfileMenuView: View {
             Divider()
                 .frame(maxWidth: 400)
 
-            // Group 3
             Button {
                 isShowingLogoutConfirmation = true
             } label: {
