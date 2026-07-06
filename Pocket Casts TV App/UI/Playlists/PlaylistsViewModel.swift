@@ -22,7 +22,7 @@ class PlaylistsViewModel {
         self.dataManager = dataManager
         observePlaylistChanges()
     }
-    var playlists: [EpisodeFilter] = []
+    var playlists: [PlaylistItem] = []
 
     func load() async {
         let originalPlaylists = dataManager.allPlaylists(includeDeleted: false)
@@ -37,7 +37,9 @@ class PlaylistsViewModel {
             }
         }
         await MainActor.run {
-            self.playlists = playlists
+            self.playlists = playlists.map({ playlist in
+                PlaylistItem(playlist: playlist)
+            })
             self.state = playlists.isEmpty ? .empty : .ready
         }
     }

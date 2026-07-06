@@ -3,10 +3,10 @@ import PocketCastsDataModel
 
 struct PlaylistCell: View {
 
-    var playlist: EpisodeFilter
+    var playlist: PlaylistItem
     @State var model: PlaylistDetailsViewModel
 
-    init(playlist: EpisodeFilter) {
+    init(playlist: PlaylistItem) {
         self.playlist = playlist
         self.model = PlaylistDetailsViewModel(playlist: playlist)
     }
@@ -78,7 +78,7 @@ struct PlaylistCell: View {
 }
 
 #Preview {
-    PlaylistCell(playlist: MockData.makeStubPlaylists().first!)
+    PlaylistCell(playlist: PlaylistItem(playlist: MockData.makeStubPlaylists().first!))
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }
