@@ -614,10 +614,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func setControlButtonsVisible(_ visible: Bool) {
         let buttons: [UIButton] = [searchButton, shareButton, playButton]
-        for button in buttons where !button.isHidden {
-            button.alpha = visible ? 1 : 0
-            button.isUserInteractionEnabled = visible
-        }
+        buttons.forEach { setControlButton($0, visible: visible) }
+    }
+
+    private func setControlButton(_ button: UIButton, visible: Bool) {
+        guard !button.isHidden else { return }
+        button.alpha = visible ? 1 : 0
+        button.isUserInteractionEnabled = visible
     }
 
     private var currentEpisodeUUID: String?
@@ -845,6 +848,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
+        setControlButton(playButton, visible: true)
         var message = L10n.transcriptErrorFailedToLoad
         if let transcriptError = error as? TranscriptError {
             message = transcriptError.localizedDescription
