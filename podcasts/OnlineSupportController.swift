@@ -37,6 +37,9 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        overrideUserInterfaceStyle = .light
+        navigationController?.overrideUserInterfaceStyle = .light
+
         view.backgroundColor = .white
 
         presentationController?.delegate = self
