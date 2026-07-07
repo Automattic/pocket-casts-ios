@@ -53,4 +53,29 @@ final class RefreshEpisodeHLSTests: XCTestCase {
         """)
         XCTAssertNil(episode.hlsUrl)
     }
+
+    // MARK: - populate(fromEpisode:)
+
+    func testPopulateSetsHlsUrlOnEpisode() throws {
+        let refreshEpisode = try decode("""
+        { "uuid": "abc", "url": "https://example.com/ep.mp3",
+          "alternate_enclosures": [
+            { "type": "application/x-mpegurl", "sources": [{ "uri": "https://example.com/master.m3u8" }] }
+          ] }
+        """)
+
+        let episode = Episode()
+        episode.populate(fromEpisode: refreshEpisode)
+
+        XCTAssertEqual(episode.hlsUrl, "https://example.com/master.m3u8")
+    }
+
+    func testPopulateLeavesHlsUrlNilWhenAbsent() throws {
+        let refreshEpisode = try decode(#"{ "uuid": "abc", "url": "https://example.com/ep.mp3" }"#)
+
+        let episode = Episode()
+        episode.populate(fromEpisode: refreshEpisode)
+
+        XCTAssertNil(episode.hlsUrl)
+    }
 }
