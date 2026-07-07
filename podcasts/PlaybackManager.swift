@@ -252,11 +252,22 @@ class PlaybackManager: ServerPlaybackDelegate {
             haveCalledPlayerLoad = true
         }
 
-        let shouldReportSourceResolved = !hasReportedSourceResolved
+        // Marked synchronously (before the async audio-session activation) so concurrent `play()`
+        // calls can't each capture `true` and report twice for the same player. Only engaged when
+        // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
+        // later in the session.
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved
+        if shouldReportSourceResolved {
+            hasReportedSourceResolved = true
+        }
 
         activateAudioSession(completion: { activated in
             if !activated {
                 self.aboutToPlay.value = false
+                // Playback didn't start, so allow a later retry to report the resolved source.
+                if shouldReportSourceResolved {
+                    self.hasReportedSourceResolved = false
+                }
                 return
             }
 
@@ -272,7 +283,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             // Report the source the player resolved now that playback has actually started, once per
             // player (resumes/seeks reuse the same player and don't re-report).
             if shouldReportSourceResolved {
-                self.hasReportedSourceResolved = true
                 self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
             }
 
