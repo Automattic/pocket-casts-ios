@@ -1,3 +1,7 @@
+8.17
+-----
+- Fix the Help & Feedback screen following the system/in-app dark theme instead of always showing light [#4698](https://github.com/Automattic/pocket-casts-ios/pull/4698)
+
 8.16
 -----
 - Make the Liquid Glass mini player's play button translucent with a springy bounce on tap [#4677](https://github.com/Automattic/pocket-casts-ios/pull/4677)
