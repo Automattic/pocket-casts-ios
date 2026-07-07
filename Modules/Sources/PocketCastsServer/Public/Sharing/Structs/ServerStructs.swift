@@ -142,10 +142,12 @@ public struct RefreshEpisode: Decodable {
     }
 
     /// The HLS stream URL from the episode's alternate enclosures, if one is present.
+    /// Normalises an empty `uri` to `nil` so it isn't persisted as a bogus "missing-but-present" url.
     public var hlsUrl: String? {
-        alternateEnclosures?
+        let uri = alternateEnclosures?
             .first { $0.type?.caseInsensitiveCompare(Episode.hlsEnclosureType) == .orderedSame }?
             .sources?.first?.uri
+        return (uri?.isEmpty ?? true) ? nil : uri
     }
 }
 
