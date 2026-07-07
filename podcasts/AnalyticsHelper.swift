@@ -1,4 +1,4 @@
-#if !os(watchOS) && !os(tvOS)
+#if !os(watchOS)
     import Firebase
 #endif
 
@@ -441,7 +441,7 @@ private extension AnalyticsHelper {
         guard optedOut == false else { return }
 
         // assuming for now we don't want analytics on a watch
-        #if !os(watchOS) && !os(tvOS)
+        #if !os(watchOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
         if FeatureFlag.firebaseLogging.enabled {
