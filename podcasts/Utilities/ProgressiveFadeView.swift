@@ -1,18 +1,15 @@
 import UIKit
 
-/// A vertical gradient overlay that fades from fully transparent at the top to a solid
-/// color at the bottom, producing a soft fade-out edge.
+/// A vertical gradient overlay fading from transparent at the top to a solid color at the
+/// bottom, giving a soft fade-out edge.
 ///
-/// The system scroll edge effect samples the scrolling content, so over busy,
-/// multicolor content (such as a grid of podcast artwork) it washes out and barely
-/// registers. Rather than blur, this view fades the content into its own background
-/// color toward the bottom so it dissolves cleanly behind floating bottom bars.
+/// Used instead of the system scroll edge effect, which washes out over busy multicolor
+/// content like a grid of podcast artwork. Fading the content into its own background
+/// color dissolves it cleanly behind floating bottom bars.
 ///
-/// The fade is drawn as the layer's own gradient content — not an opaque view behind a
-/// `CAGradientLayer` mask. A masked-opaque approach flashes solid at the top edge while
-/// the Liquid Glass tab bar captures its backdrop snapshot on expand (the snapshot path
-/// doesn't honor the layer mask), so baking the alpha straight into the gradient avoids
-/// ever presenting an opaque rectangle.
+/// The alpha is baked into the gradient rather than masking an opaque view with a
+/// `CAGradientLayer`: the mask isn't honored when the Liquid Glass tab bar snapshots its
+/// backdrop on expand, which would flash a solid rectangle at the top edge.
 final class ProgressiveFadeView: UIView {
     override class var layerClass: AnyClass { CAGradientLayer.self }
 
@@ -27,7 +24,7 @@ final class ProgressiveFadeView: UIView {
 
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        gradientLayer.locations = [0, 0.25, 0.8, 1]
+        gradientLayer.locations = [0, 0.33, 1]
         setColor(color)
     }
 
@@ -35,10 +32,10 @@ final class ProgressiveFadeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// Sets the fade color: transparent at the top ramping to this color, which then
-    /// holds solid across the lower portion. Pass `nil` for no fade.
+    /// Sets the fade color: transparent at the top ramping to solid at the bottom.
+    /// Pass `nil` for no fade.
     func setColor(_ color: UIColor?) {
         let color = color ?? .clear
-        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.66).cgColor, color.cgColor, color.cgColor]
+        gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.5).cgColor, color.cgColor]
     }
 }

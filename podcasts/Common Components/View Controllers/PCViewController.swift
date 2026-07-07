@@ -238,13 +238,16 @@ class PCViewController: SimpleNotificationsViewController {
         }
 
         guard let navigationBar = navigationController?.navigationBar else {
-            assertionFailure("navigationBar is missing")
+            // `navigationController` is nil once this view controller has been popped off the stack.
+            // A scroll view can still fire `scrollViewDidScroll` mid-deceleration after the pop, which
+            // funnels here — there's simply no bar left to style, so this is expected, not an error.
             return
         }
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         if scrolled {
             appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = navBgColor ?? ThemeColor.secondaryUi01()
         }
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance

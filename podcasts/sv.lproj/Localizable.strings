@@ -635,6 +635,29 @@ Låt oss hjälpa dig först</string>
     <string>Avmarkera alla ovan</string>
     <key>deselect_all_below</key>
     <string>Avmarkera alla nedan</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Infoga kod</string>
+    <key>device_approve_connect_button</key>
+    <string>Anslut</string>
+    <key>device_approve_description</key>
+    <string>Din lyssning synkroniseras automatiskt.
+Du kan när som helst koppla från Inställningar.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Gå tillbaka till din TV för att generera en ny.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Din QR-kod har löpt ut</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Godkännande av enhet misslyckades</string>
+    <key>device_approve_login_required</key>
+    <string>För att ansluta din enhet måste du ha ett konto. Logga in eller skapa ett konto och försök igen.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Loggar in som ...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Din Apple TV är nu ansluten till ditt konto.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV ansluten</string>
+    <key>device_approve_title</key>
+    <string>Anslut till Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Vilolägestimern återstartades när enheten skakades</string>
     <key>discover</key>
@@ -2746,9 +2769,13 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>queue_now_playing_accessibility</key>
     <string>Spelar nu upp %1$@</string>
     <key>queue_time_remaining</key>
-    <string>%1$@ återstår</string>
-    <key>queue_total_time_remaining</key>
-    <string>%1$@ återstår</string>
+    <string>%1$@ kvar</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 avsnitt · %1$@ left</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ avsnitt · %2$@ kvar</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>%1$@ kvar</string>
     <key>rate</key>
     <string>Omdöme</string>
     <key>rate_pocket_casts</key>
@@ -3530,6 +3557,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ställ in Sovtimer på %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Förläng sovtimer med 5 minuter</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Markera som Uppspelat</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Markera aktuellt avsnitt som Uppspelat</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Nästa kapitel</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3836,6 +3867,11 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Försök igen</string>
     <key>try_it_now</key>
     <string>Prova nu</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Det uppstod ett problem och du har blivit utloggad.
+Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Du har loggats ut.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Skapa ett gratis konto</string>
     <key>tv_banner_create_account_subtitle</key>
@@ -3850,18 +3886,56 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du har inte sett hälften än.</string>
     <key>tv_create_account_come_back</key>
     <string>När du har skapat ditt konto, kom tillbaka och logga in</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Skapa ditt konto</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>TV:n kommer att logga in dig</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Skanna QR-koden</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Skapa ett gratis konto för att följa podcasts, bygga din Nästa och fortsätta där du slutade på vilken enhet som helst.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Dina podcasts förtjänar ett hem</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Öppna kameran och peka på denna QR-kod.</string>
     <key>tv_create_account_subtitle</key>
     <string>Skanna denna kod för att komma igång på din telefon, det tar bara en minut.</string>
     <key>tv_create_account_title</key>
     <string>Skapa ditt gratis konto</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Se till att du är ansluten till internet och försök igen.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Upptäckten misslyckades att laddas.</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Gå till podcasten</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Spela det senaste avsnittet</string>
     <key>tv_discover_play_episode</key>
     <string>Spela upp avsnitt</string>
+    <key>tv_episode_archived</key>
+    <string>Arkiverad</string>
     <key>tv_episode_info</key>
     <string>Avsnittsinformation</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Markera som spelad</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Borttagen från Nästa</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Avsnittsinformation</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Laddar in avsnittsinformation ...</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Avsnittsinformation</string>
+    <key>tv_episode_unarchived</key>
+    <string>Avarkiverad</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Spelas upp sist</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Spelas upp härnäst</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Avsnitt du spelar kommer att visas här</string>
+    <key>tv_history_empty_title</key>
+    <string>Ingen lyssningshistorik</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Bläddra i kategorier</string>
     <key>tv_home_featured_section_title</key>
@@ -3880,6 +3954,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Vad alla lyssnar på den här veckan</string>
     <key>tv_home_video_section_title</key>
     <string>Gjord för TV</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Kunde inte hämta din inloggningskod</string>
     <key>tv_player_playback_effects</key>
     <string>Uppspelningseffekter</string>
     <key>tv_player_playback_speed</key>
@@ -3918,18 +3994,28 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Om</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Alla avsnitt</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Arkiverade avsnitt</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Följ denna podcast</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Följer</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Dölj arkiverade</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Mer info</string>
     <key>tv_podcast_detail_network</key>
     <string>Nätverk</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Nästa avsnitt</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Avsnitt från den här podcasten visas här.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Inga avsnitt</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Schema</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Visa arkiverade</string>
     <key>tv_podcast_detail_start_here</key>
     <string>Avsnittet att prova först</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3952,8 +4038,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Logga in</string>
     <key>tv_profile_menu_log_out</key>
     <string>Logga ut</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Detta tar bort alla nedladdade podcasts och data från denna Apple TV. Du kan logga in igen för att återställa dem.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Logga ut?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Stjärnmärkta avsnitt</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Hämtar de senaste avsnitten</string>
     <key>tv_search_failed</key>
     <string>Sökning misslyckades: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3968,8 +4060,6 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>går till [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>eller ange denna kod i [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Det gick inte att hämta din inloggningskod</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öppna kameran och peka på denna QR-kod</string>
     <key>tv_sign_in_title</key>
@@ -3978,8 +4068,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Laddar dina podcasts</string>
     <key>tv_signing_in_title</key>
     <string>Kul att se dig.</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Pocket Casts rekommenderar</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Stjärnmärk avsnitt för att hålla dem praktiska, och de kommer att dyka upp här</string>
+    <key>tv_starred_empty_title</key>
+    <string>Inga stjärnmärkta avsnitt</string>
     <key>tv_tab_home</key>
     <string>Hem</string>
+    <key>tv_tab_now_playing</key>
+    <string>Spelar nu upp</string>
     <key>tv_tab_playlists</key>
     <string>Spellistor</string>
     <key>tv_tab_podcasts</key>
@@ -4000,11 +4098,13 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Användare/pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Användarnamn</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Använd utan konto</string>
     <key>tv_welcome_create_free_account</key>
     <string>Skapa gratiskonto</string>
-    <key>tv_welcome_sign_in</key>
+    <key>tv_welcome_log_in</key>
     <string>Logga in</string>
     <key>tv_welcome_subtitle</key>
     <string>Dina podcasts. På den stora skärmen. Uppenbarligen.</string>
@@ -4040,6 +4140,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Vi introducerar slumpmässig uppspelning</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Längsta till kortaste</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Nyaste till äldsta</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Äldsta till nyaste</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Kortaste till längsta</string>
+    <key>up_next_sort_title</key>
+    <string>Sortera Nästa</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
     <key>upgrade_account_info</key>

@@ -23,6 +23,8 @@ fastlane/report.xml
 fastlane/test_output/
 fastlane/screenshots/screenshots.html
 fastlane/screenshots/**/*.png
+fastlane/screenshots-tvos/screenshots.html
+fastlane/screenshots-tvos/**/*.png
 # Locations where we download temporary files with localizations
 fastlane/app-localization-downloads/*.lproj
 

@@ -2,13 +2,12 @@ import Combine
 import UIKit
 import SwiftUI
 import PocketCastsDataModel
-import PocketCastsDependencyInjection
 import PocketCastsUtils
 
 class NewPlaylistCell: ThemeableCell {
     typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
 
-    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+    let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
     lazy var artworkImageSource: UIView = {
         let view = UIView()

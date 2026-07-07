@@ -64,8 +64,8 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackEffectVolumeBoostToggled, currentSettings: currentSettings, properties: ["enabled": enabled])
     }
 
-    func chapterSkipped() {
-        track(.playbackChapterSkipped)
+    func chapterSkipped(properties: [String: Any]?) {
+        track(.playbackChapterSkipped, properties: properties)
     }
 
     func viewDidAppear(currentSettings: String) {

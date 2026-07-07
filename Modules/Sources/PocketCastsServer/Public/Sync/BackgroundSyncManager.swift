@@ -42,7 +42,6 @@ public class BackgroundSyncManager: NSObject {
 
     public func performBackgroundRefresh(subscribedPodcasts: [Podcast]) {
         guard DateUtil.hasEnoughTimePassed(since: lastBgSyncDate, time: 5.minutes) else { return }
-        lastBgSyncDate = Date()
 
         // a background refresh only does the essential things to keep the app up to date, a regular refresh is:
         // Refresh, Retrieve Custom Files, Up Next Sync, Regular Sync, History Sync, Settings Sync
@@ -53,8 +52,15 @@ public class BackgroundSyncManager: NSObject {
         // we also need to perform all these on the same URLSession as download tasks, so the app can be put to sleep and woken up when they are done later
 
         let urlSession = createUrlSession(identifier: BackgroundSyncManager.sessionIdPrefix + UUID().uuidString)
-        guard let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey), let refreshTask = refreshDownloadTask(subscribedPodcasts: subscribedPodcasts, urlSession: urlSession), let upNextTask = upNextDownloadTask(token: token, urlSession: urlSession), let syncTask = syncDownloadTask(token: token, urlSession: urlSession) else {
+        guard let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey),
+              let refreshTask = refreshDownloadTask(subscribedPodcasts: subscribedPodcasts, urlSession: urlSession),
+              let upNextTask = upNextDownloadTask(token: token, urlSession: urlSession),
+              let syncTask = syncDownloadTask(token: token, urlSession: urlSession) else {
             FileLog.shared.addMessage("Unable to create tasks required to perform background refresh")
+
+            // Tear down the session we just created so we don't leak an un-invalidated
+            // background session (these accumulate in the system's background session store).
+            urlSession.invalidateAndCancel()
 
             return
         }
@@ -69,6 +75,12 @@ public class BackgroundSyncManager: NSObject {
 
         syncTask.resume()
         pendingTasks.append(syncTask)
+
+        // Advance the throttle timestamp only once the tasks have been created and resumed.
+        // If task creation throws (the background URLSession was invalidated out from under us)
+        // or a required token/request is missing, `lastBgSyncDate` is left untouched so the guard
+        // above won't suppress the next scheduled refresh — the attempt can safely retry later.
+        lastBgSyncDate = Date()
     }
 
     private func refreshDownloadTask(subscribedPodcasts: [Podcast], urlSession: URLSession) -> URLSessionDownloadTask? {

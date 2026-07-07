@@ -22,6 +22,13 @@ class FeaturedTableViewCell: UITableViewCell {
         }
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        // Push the separator off-screen so the featured cell renders edge-to-edge.
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 

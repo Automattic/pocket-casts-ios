@@ -139,7 +139,7 @@ extension MainTabBarController {
     /// compact pill. There's no public "is minimized" API, but UIKit sets the
     /// bottom accessory's `tabAccessoryEnvironment` trait to `.inline` exactly
     /// while the tab bar is minimized, so we read it back off the mini player.
-    private var isTabBarMinimized: Bool {
+    var isTabBarMinimized: Bool {
         guard #available(iOS 26.0, *) else { return false }
         return bottomAccessory?.contentView.traitCollection.tabAccessoryEnvironment == .inline
     }

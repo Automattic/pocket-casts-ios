@@ -4,6 +4,8 @@ import PocketCastsDataModel
 struct PlaylistDetailView: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    @Environment(\.dismiss) var dismiss
+
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
     @FocusState private var rowFocus: EpisodeRowFocus?
@@ -28,32 +30,36 @@ struct PlaylistDetailView: View {
                 loadingView
             case .ready:
                 playlistView
+            case .empty:
+                emptyView
             }
         }
+        .animation(.smooth, value: model.state)
         .toolbar(.hidden, for: .tabBar)
         .defaultFocus($focusedSection, .episodes)
-        .onAppear { tabRouter.isShowingDetail = true }
-        .onDisappear { tabRouter.isShowingDetail = false }
         .confirmationDialog(
-            L10n.playlistPlayAllSheetTitle,
+            L10n.tvPlaylistPlayAllClearUpNextTitle,
             isPresented: $model.isShowingReplaceUpNextConfirmation,
             titleVisibility: .visible
         ) {
-            Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
-                model.buttonConfirmPlayPlaylistTapped()
+            Button(L10n.tvPlaylistPlayAllPlayWithoutSaving, role: .confirm) {
+                model.playWithoutSaving()
+            }
+            Button(L10n.tvPlaylistPlayAllSaveAndPlay) {
+                model.saveUpNextAndPlay()
             }
             Button(L10n.cancel, role: .cancel) {
-                Analytics.track(.filterPlayAllDismissed)
+                model.replaceUpNextConfirmationDismissed()
             }
         } message: {
-            Text(L10n.playlistPlayAllSheetDescription)
+            Text(L10n.tvPlaylistPlayAllClearUpNextMessage)
         }
         .fullScreenCover(isPresented: $model.isShowingNowPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
         }
         .task {
-            Analytics.track(.filterShown)
+            Analytics.track(.filterShown, properties: ["filter_type": model.isManual ? "manual" : "smart"])
             model.load()
         }
     }
@@ -62,11 +68,50 @@ struct PlaylistDetailView: View {
         ProgressView()
     }
 
+    var allArchivedEmptyView: some View {
+        ContentUnavailableView {
+            Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
+        } description: {
+            VStack {
+                HStack {
+                    Spacer()
+                    Text(L10n.tvPlaylistManualArchivedEpisodesPlaceholder(model.allEpisodesCount))
+                    Spacer()
+                }
+            }.padding(24)
+        } actions: {
+            VStack {
+                Button(L10n.tvPodcastDetailShowArchived) {
+                    model.setShowArchived(true)
+                }
+                Spacer()
+            }
+        }
+    }
+
+    var emptyView: some View {
+        ContentUnavailableView {
+            Label(L10n.tvPlaylistEmptyTitle, systemImage: "info.circle")
+        } description: {
+            VStack {
+                model.hasDownloadFilter ? Text(L10n.tvPlaylistDownloadRulesUnsupported) : Text(L10n.tvPlaylistEmptySubtitle)
+            }.padding(24)
+        } actions: {
+            Button(L10n.ok) {
+                dismiss()
+            }
+        }
+    }
+
     var playlistView: some View {
         HStack(alignment: .top, spacing: Layout.gutter) {
             playlistInfo
                 .frame(width: Layout.infoPanelWidth)
-            episodeList
+            if model.areAllEpisodesArchived {
+                allArchivedEmptyView
+            } else {
+                episodeList
+            }
         }
         .blurredCoverBackground(size: Layout.mosaicSize) {
             blurredMosaic
@@ -97,10 +142,14 @@ struct PlaylistDetailView: View {
         let images = model.coverPodcastsUuids
         switch images.count {
         case 0:
-            Image(ImageResource.pcLogo)
-                .resizable()
-                .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            ZStack {
+                Image(ImageResource.pcLogo)
+                    .resizable()
+                    .frame(width: Layout.mosaicSize * 0.75, height: Layout.mosaicSize * 0.75)
+            }
+            .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
+            .background(Color.pcBackgroundSurface)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         case 1...3:
             PodcastImage(uuid: images[0], size: .page)
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
@@ -160,7 +209,7 @@ struct PlaylistDetailView: View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), focus: $rowFocus)
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(showGoToPodcast: true), focus: $rowFocus)
                         .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
                         .listRowInsets(Layout.rowInsets)
                 }
@@ -220,7 +269,7 @@ struct PlaylistDetailView: View {
 
 #Preview {
     let router = MainTabViewModel()
-    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: PlaylistItem(playlist: MockData.makeStubPlaylists().first!)))
         .environment(AppCoordinator())
         .environment(router)
 }

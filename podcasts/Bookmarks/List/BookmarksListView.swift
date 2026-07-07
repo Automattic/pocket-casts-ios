@@ -223,8 +223,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             if useExternalActionBar {
                 content()
                     .onAppear { notifyExternalActionBar() }
-                    .onChange(of: viewModel.numberOfSelectedItems) { _ in notifyExternalActionBar() }
-                    .onChange(of: viewModel.isMultiSelecting) { _ in notifyExternalActionBar() }
+                    .onChange(of: viewModel.numberOfSelectedItems) { notifyExternalActionBar() }
+                    .onChange(of: viewModel.isMultiSelecting) { notifyExternalActionBar() }
                     .onDisappear {
                         externalActionBarHandler?(ExternalActionBarState(visible: false, title: nil, showEdit: false, showShare: false, isMultiSelecting: false))
                     }

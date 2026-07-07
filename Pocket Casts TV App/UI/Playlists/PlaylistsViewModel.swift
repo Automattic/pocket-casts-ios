@@ -22,16 +22,25 @@ class PlaylistsViewModel {
         self.dataManager = dataManager
         observePlaylistChanges()
     }
-    var playlists: [EpisodeFilter] = []
+    var playlists: [PlaylistItem] = []
 
-    func load() {
-        Task { [weak self] in
-            guard let self else { return }
-            let playlists = dataManager.allPlaylists(includeDeleted: false)
-            await MainActor.run {
-                self.playlists = playlists
-                self.state = playlists.isEmpty ? .empty : .ready
+    func load() async {
+        let originalPlaylists = dataManager.allPlaylists(includeDeleted: false)
+        let playlists = originalPlaylists.sorted { a, b in
+            switch (a.isDownloadFilterActive, b.isDownloadFilterActive) {
+            case (true, true), (false, false):
+                return a.sortPosition < b.sortPosition
+            case (true, false):
+                return false
+            case (false, true):
+                return true
             }
+        }
+        await MainActor.run {
+            self.playlists = playlists.map({ playlist in
+                PlaylistItem(playlist: playlist)
+            })
+            self.state = playlists.isEmpty ? .empty : .ready
         }
     }
 
@@ -42,8 +51,17 @@ class PlaylistsViewModel {
         )
         .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
         .sink { [weak self] _ in
-            self?.load()
+            Task {
+                await self?.load()
+            }
         }
         .store(in: &cancellables)
+    }
+}
+
+extension EpisodeFilter {
+
+    var isDownloadFilterActive: Bool {
+        return !(filterDownloaded && filterDownloading && filterNotDownloaded) && (filterDownloaded)
     }
 }

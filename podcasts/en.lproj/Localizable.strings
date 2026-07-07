@@ -5066,6 +5066,12 @@
 /* Up Next sort option that orders episodes by time remaining, longest first */
 "up_next_sort_longest_to_shortest" = "Longest to shortest";
 
+/* Title of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_title" = "Sort by duration";
+
+/* Description of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_body" = "Shortest to longest, or the reverse — fit the episode to the time you’ve actually got.";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 
@@ -6104,7 +6110,7 @@
 "tv_create_account_modal_step_log_in" = "The TV will log you in";
 
 /* tv signing in title */
-"tv_signing_in_title" = "Good to see you";
+"tv_signing_in_title_new" = "Good to see you";
 
 /* tv signing in subtitle */
 "tv_signing_in_subtitle" = "Loading your podcasts now.";
@@ -6113,7 +6119,7 @@
 "tv_resync_fetching_episodes" = "Fetching latest episodes";
 
 /* tv podcasts empty title */
-"tv_podcasts_empty_title" = "Time to fill this up.";
+"tv_podcasts_empty_title_new" = "Time to fill this up";
 
 /* tv podcasts empty subtitle */
 "tv_podcasts_empty_subtitle" = "Followed podcasts show up here, ready to play.";
@@ -6186,6 +6192,18 @@
 
 /* tv playlist detail play all button title */
 "tv_playlist_detail_play_all" = "Play all episodes";
+
+/* tv Play all dialog title, shown when starting a playlist would clear the current Up Next queue */
+"tv_playlist_play_all_clear_up_next_title" = "This will clear your Up Next";
+
+/* tv Play all dialog message, offering to save the current Up Next queue as a playlist before it is cleared */
+"tv_playlist_play_all_clear_up_next_message" = "We can save your current Up Next as a playlist";
+
+/* tv Play all dialog button that saves the current Up Next as a playlist and then plays the selected playlist */
+"tv_playlist_play_all_save_and_play" = "Save and play";
+
+/* tv Play all dialog button that plays the selected playlist without saving the current Up Next */
+"tv_playlist_play_all_play_without_saving" = "Play without saving";
 
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
@@ -6398,7 +6416,7 @@
 "tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
 
 /* tv Discover failed to load title*/
-"tv_discover_failed_to_load_title" = "Discover failed to load.";
+"tv_discover_failed_to_load_title" = "Discover failed to load";
 
 /* tv Discover failed to load subtitle*/
 "tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
@@ -6440,11 +6458,31 @@
 "device_approve_generic_error_alert_title" = "Device approval failed";
 
 /* Title of an alert that informs the user that they have been signed out of their account */
-"tv_account_signed_out_alert_title" = "You've been logged out.";
+"tv_account_signed_out_alert_title" = "You've been logged out";
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
 "tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
 
 /* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
 "tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
+
+/* Title to shown when failed to load a podcast information*/
+"tv_podcast_error_title" = "Couldn't load podcast details";
+
+/* Message to shown when failed to load a podcast information*/
+"tv_podcast_error_message" = "Check your internet connection and try again.";
+
+"chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
+
+/* Title shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_title" = "No episodes";
+
+/* Subtitle shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more.";
+
+/* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
+"tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
+
+/* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
+"tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
 

@@ -635,6 +635,29 @@ Lass uns dir zuerst helfen</string>
     <string>Alle oben angezeigten abwählen</string>
     <key>deselect_all_below</key>
     <string>Alle unten angezeigten abwählen</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Code einfügen</string>
+    <key>device_approve_connect_button</key>
+    <string>Verbinden</string>
+    <key>device_approve_description</key>
+    <string>Dein Hörverlauf wird automatisch synchronisiert.
+Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Bitte gehe zurück zu deinem Fernseher, um einen neuen Code zu generieren.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Dein QR-Code ist abgelaufen</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Gerätegenehmigung fehlgeschlagen</string>
+    <key>device_approve_login_required</key>
+    <string>Um dein Gerät zu verbinden, benötigst du ein Konto. Bitte melde dich an oder erstelle ein Konto und versuche es erneut.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Anmelden als …</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Dein Apple TV ist jetzt mit deinem Konto verbunden.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV verbunden</string>
+    <key>device_approve_title</key>
+    <string>Mit Apple TV verbinden</string>
     <key>device_shake_sleep_timer</key>
     <string>Die Schlummerfunktion wurde durch das Schütteln des Geräts neu gestartet</string>
     <key>discover</key>
@@ -2746,9 +2769,13 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>queue_now_playing_accessibility</key>
     <string>Wird abgespielt. %1$@</string>
     <key>queue_time_remaining</key>
-    <string>%1$@ verbleibend</string>
-    <key>queue_total_time_remaining</key>
-    <string>Verbleibende Zeit insgesamt: %1$@</string>
+    <string>Noch %1$@</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 Folge ・ noch %1$@</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ Folgen ・ noch %2$@</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>Noch %1$@</string>
     <key>rate</key>
     <string>Bewerten</string>
     <key>rate_pocket_casts</key>
@@ -3530,6 +3557,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Schlummerfunktion einstellen auf %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Schlummerfunktion um 5 Minuten verlängern</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Als gehört markieren</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Aktuelle Folge als gehört markieren</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Nächstes Kapitel</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3836,6 +3867,11 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Erneut versuchen</string>
     <key>try_it_now</key>
     <string>Jetzt ausprobieren</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Es ist ein Problem aufgetreten und du wurdest abgemeldet.
+Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumelden.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Du wurdest abgemeldet.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Kostenloses Konto erstellen</string>
     <key>tv_banner_create_account_subtitle</key>
@@ -3850,18 +3886,56 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Du hast noch nicht annähernd alles gesehen.</string>
     <key>tv_create_account_come_back</key>
     <string>Sobald du dein Konto erstellt hast, komm zurück und melde dich an</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Konto erstellen</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>Der Fernseher meldet dich an</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>QR-Code scannen</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Erstelle ein kostenloses Konto, um Podcasts zu abonnieren, deine Liste „Als Nächstes“ zu erstellen und genau dort weiterzumachen, wo du aufgehört hast – auf jedem Gerät.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Deine Podcasts verdienen ein Zuhause</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Öffne die Kamera und richte sie auf diesen QR-Code.</string>
     <key>tv_create_account_subtitle</key>
     <string>Scanne diesen Code, um auf deinem Mobiltelefon zu beginnen. Es dauert nur eine Minute.</string>
     <key>tv_create_account_title</key>
     <string>Kostenloses Konto erstellen</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Stelle sicher, dass du mit dem Internet verbunden bist, und versuche es erneut.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>„Entdecken“ konnte nicht geladen werden.</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Zum Podcast</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Neueste Folge wiedergeben</string>
     <key>tv_discover_play_episode</key>
     <string>Folge wiedergeben</string>
+    <key>tv_episode_archived</key>
+    <string>Archiviert</string>
     <key>tv_episode_info</key>
     <string>Informationen zur Folge</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Als gehört markiert</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Aus „Als Nächstes“ entfernt</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Details zur Folge</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Details zur Folge werden geladen …</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Details zur Folge</string>
+    <key>tv_episode_unarchived</key>
+    <string>Wiederhergestellt</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Wird zuletzt abgespielt</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Wird als Nächstes abgespielt</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Wiedergegebene Folgen werden hier angezeigt</string>
+    <key>tv_history_empty_title</key>
+    <string>Kein Hörverlauf</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Kategorien durchsuchen</string>
     <key>tv_home_featured_section_title</key>
@@ -3880,6 +3954,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Was bei anderen diese Woche ansteht</string>
     <key>tv_home_video_section_title</key>
     <string>Für den Fernseher gemacht</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Dein Anmeldecode konnte nicht abgerufen werden</string>
     <key>tv_player_playback_effects</key>
     <string>Wiedergabeeffekte</string>
     <key>tv_player_playback_speed</key>
@@ -3918,18 +3994,28 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Über</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Alle Folgen</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Archivierte Folgen</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Diesem Podcast folgen</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Abonniert</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Archivierte ausblenden</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Weitere Informationen</string>
     <key>tv_podcast_detail_network</key>
     <string>Netzwerk</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Nächste Folge</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Folgen aus diesem Podcast werden hier angezeigt.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Keine Folgen</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Zeitplan</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Archivierte einblenden</string>
     <key>tv_podcast_detail_start_here</key>
     <string>Diese Folge solltest du zuerst abspielen</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3952,8 +4038,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Anmelden</string>
     <key>tv_profile_menu_log_out</key>
     <string>Abmelden</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Dadurch werden alle heruntergeladenen Podcasts und Daten von diesem Apple TV entfernt. Du kannst dich erneut anmelden, um sie wiederherzustellen.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Abmelden?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Mit Stern markierte Folgen</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Neueste Folgen werden abgerufen</string>
     <key>tv_search_failed</key>
     <string>Suche fehlgeschlagen: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3968,8 +4060,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Gehe zu [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>oder gib diesen Code ein: [%1$@](%2$@)</string>
-    <key>tv_sign_in_qr_code_error_title</key>
-    <string>Dein Anmeldecode konnte nicht abgerufen werden</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öffne deine Kamera und richte sie auf diesen QR-Code</string>
     <key>tv_sign_in_title</key>
@@ -3978,8 +4068,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Deine Podcasts werden geladen.</string>
     <key>tv_signing_in_title</key>
     <string>Schön, dich zu sehen!</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Pocket Casts empfiehlt</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Markiere Folgen mit einem Stern, damit du sie immer zur Hand hast, und sie werden hier angezeigt</string>
+    <key>tv_starred_empty_title</key>
+    <string>Keine mit Stern markierten Folgen</string>
     <key>tv_tab_home</key>
     <string>Startseite</string>
+    <key>tv_tab_now_playing</key>
+    <string>Jetzt läuft</string>
     <key>tv_tab_playlists</key>
     <string>Playlists</string>
     <key>tv_tab_podcasts</key>
@@ -4000,11 +4098,13 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Benutzer/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Benutzername</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Ohne Konto durchsuchen</string>
     <key>tv_welcome_create_free_account</key>
     <string>Kostenloses Konto erstellen</string>
-    <key>tv_welcome_sign_in</key>
+    <key>tv_welcome_log_in</key>
     <string>Anmelden</string>
     <key>tv_welcome_subtitle</key>
     <string>Deine Podcasts. Auf dem großen Bildschirm. Offensichtlich.</string>
@@ -4040,6 +4140,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Jetzt neu: Mischen</string>
     <key>up_next_shuffle_toast_message</key>
     <string>„Mischen“ ist aktiviert. Folgen werden in zufälliger Reihenfolge wiedergegeben.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Lang nach kurz</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Neu nach alt</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Alt nach neu</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Kurz nach lang</string>
+    <key>up_next_sort_title</key>
+    <string>„Als Nächstes“ sortieren</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
     <key>upgrade_account_info</key>

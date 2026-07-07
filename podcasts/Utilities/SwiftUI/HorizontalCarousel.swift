@@ -155,7 +155,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                     })
                 , including: scrollEnabled ? .all : .subviews)
             // Update the internal visible index if the selection index changes
-            .onChange(of: index) { newValue in
+            .onChange(of: index) { _, newValue in
                 visibleIndex = newValue
             }
         }
@@ -263,14 +263,14 @@ struct CarouselEqualHeightsView<Content: View>: View {
         ContentSizeReader(contentSize: $contentSize) {
             content()
         }
-        .onChange(of: contentSize, perform: { newValue in
+        .onChange(of: contentSize) { _, newValue in
             // Don't send changes for small increments
             guard Int(newValue.height) != Int(calculatedHeight) else {
                 return
             }
 
             calculatedHeight = newValue.height
-        })
+        }
         .preference(key: CarouselEqualHeightsKey.self, value: [calculatedHeight])
     }
 }

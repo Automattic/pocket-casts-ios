@@ -46,6 +46,7 @@ struct PodcastMoreInfoView: View {
         .padding(Layout.contentInsets)
         .frame(width: Layout.modalWidth, height: Layout.modalHeight, alignment: .topLeading)
         .task { buildDescription() }
+        .remotePlayPause()
     }
 
     private var metadataColumn: some View {

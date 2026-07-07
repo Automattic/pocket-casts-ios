@@ -55,8 +55,8 @@ struct OnPressedActionButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .contentShape(Rectangle())
-            .onChange(of: configuration.isPressed, perform: { newValue in
+            .onChange(of: configuration.isPressed) { _, newValue in
                 onPressed(newValue)
-            })
+            }
     }
 }

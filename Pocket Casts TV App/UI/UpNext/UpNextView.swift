@@ -1,11 +1,13 @@
 import SwiftUI
 import PocketCastsUtils
+import PocketCastsDataModel
 
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
     @State private var model: UpNextViewModel
+    @State private var path = StackPath()
 
     @Namespace private var rowNamespace
     @FocusState private var rowFocus: EpisodeRowFocus?
@@ -36,17 +38,25 @@ struct UpNextView: View {
     }
 
     var upNextView: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 24) {
-                headerRow
-                ForEach(model.episodes) { episode in
-                    EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus)
+        NavigationStack(path: $path.navigationPath) {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 24) {
+                    headerRow
+                    ForEach(model.episodes) { episode in
+                        EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus) {
+                            tabRouter.showFullScreenPlayer = true
+                        }
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
+                    }
                 }
+                .focusScope(rowNamespace)
             }
-            .focusScope(rowNamespace)
-        }
+            .navigationDestination(for: Podcast.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+            }
+            .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
+        }.environment(path)
     }
 
     private var headerRow: some View {

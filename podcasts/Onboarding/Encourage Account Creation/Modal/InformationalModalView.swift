@@ -48,7 +48,7 @@ struct InformationalModalView: View {
                 }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
-        .onChange(of: currentIndex ?? 0) { newValue in
+        .onChange(of: currentIndex ?? 0) { _, newValue in
             viewModel.pageDidChange(newValue)
         }
     }

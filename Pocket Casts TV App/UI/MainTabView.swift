@@ -100,6 +100,7 @@ struct MainTabView: View {
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
         .requireAccountSupport()
+        .remotePlayPause()
     }
 
     @ViewBuilder
@@ -208,6 +209,10 @@ struct MainTabView: View {
             .onExitCommand {
                 tabRouter.pendingAuthFlow = nil
             }
+        }
+        .fullScreenCover(isPresented: $tabRouter.showFullScreenPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 

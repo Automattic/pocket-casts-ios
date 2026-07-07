@@ -68,6 +68,7 @@ class NowPlayingViewModel: Identifiable {
         timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new, .initial]) { [weak self] _, _ in
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
+                self?.updatePlayState()
             }
         }
 
@@ -88,6 +89,31 @@ class NowPlayingViewModel: Identifiable {
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
             }
+        }
+    }
+
+    private var previousTimeStatus: AVPlayer.TimeControlStatus?
+
+    private func updatePlayState() {
+        guard let player else {
+            return
+        }
+        let currentTimeStatus = player.timeControlStatus
+        guard previousTimeStatus != currentTimeStatus else {
+            return
+        }
+        previousTimeStatus = currentTimeStatus
+        switch currentTimeStatus {
+        case .playing:
+            AnalyticsPlaybackHelper.shared.currentSource = .player
+            AnalyticsPlaybackHelper.shared.play()
+        case .paused:
+            AnalyticsPlaybackHelper.shared.currentSource = .player
+            AnalyticsPlaybackHelper.shared.pause()
+        case .waitingToPlayAtSpecifiedRate:
+            break
+        @unknown default:
+            break
         }
     }
 
@@ -180,11 +206,7 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var podcastUuid: String? {
-        if let episode = episode as? Episode {
-            return episode.podcastUuid
-        } else {
-            return nil
-        }
+        return podcast?.uuid ?? (episode as? Episode)?.podcastUuid
     }
 
     var isPlayed: Bool {

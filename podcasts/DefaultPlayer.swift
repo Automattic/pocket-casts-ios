@@ -30,6 +30,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
     private var timeControlStatusObserver: NSKeyValueObservation?
+    private var presentationSizeObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -38,29 +39,27 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var episodeUuid: String?
     private var podcastUuid: String?
 
-
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
     private var cellularTracker: StreamingCellularTracker?
 #endif
 
-    #if !os(watchOS)
-        private lazy var episodeArtwork: EpisodeArtwork = {
-            EpisodeArtwork()
-        }()
+#if !os(watchOS)
+    @MainActor
+    private lazy var episodeArtwork = EpisodeArtwork()
 
-        private var peakLimiter: AudioUnit?
-        private var highPassFilter: AudioUnit?
-        private var sampleCount: Float64 = 0
-        private var backgroundTaskId: UIBackgroundTaskIdentifier
-        private var voiceBoostNState: OpaquePointer?
-        private var cachedSampleRate: Double = 0
-    #endif
+    private var peakLimiter: AudioUnit?
+    private var highPassFilter: AudioUnit?
+    private var sampleCount: Float64 = 0
+    private var backgroundTaskId: UIBackgroundTaskIdentifier
+    private var voiceBoostNState: OpaquePointer?
+    private var cachedSampleRate: Double = 0
+#endif
 
     init() {
-        #if !os(watchOS)
-            backgroundTaskId = .invalid
-            NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        #endif
+#if !os(watchOS)
+        backgroundTaskId = .invalid
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+#endif
     }
 
     func loadEpisode(_ episode: BaseEpisode) {
@@ -105,6 +104,30 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         #endif
 
         configurePlayer(videoPodcast: episode.videoPodcast())
+
+        detectVideoTracksIfNeeded(for: episode, playerItem: playerItem)
+    }
+
+    /// An HLS stream can carry video that isn't reflected in the episode's file type. HLS doesn't
+    /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
+    /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
+    private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
+        guard EpisodeManager.isStreamingHLS(episode), !episode.videoPodcast() else { return }
+
+        let episodeUuid = episode.uuid
+        presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in
+            let size = item.presentationSize
+            guard size.width > 0, size.height > 0 else { return }
+
+            DispatchQueue.main.async {
+                guard let self, self.presentationSizeObserver != nil else { return }
+                self.presentationSizeObserver = nil
+#if !os(watchOS)
+                self.player?.allowsExternalPlayback = true
+#endif
+                PlaybackManager.shared.handleVideoTracksDetected(forEpisode: episodeUuid)
+            }
+        }
     }
 
     func isReadyToPlay() -> Bool {
@@ -881,6 +904,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playerStatusObserver = nil
         playerItemStatusObserver = nil
         timeControlStatusObserver = nil
+        presentationSizeObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)
@@ -915,7 +939,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
         #endif
     }
 

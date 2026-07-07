@@ -3,9 +3,11 @@ import PocketCastsDataModel
 
 struct FolderCardView: View {
 
+    var folder: Folder
     @State var model: FolderCardViewModel
 
     init(folder: Folder) {
+        self.folder = folder
         self.model = FolderCardViewModel(folder: folder)
     }
 
@@ -33,6 +35,10 @@ struct FolderCardView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .focusedCardDepth(cornerRadius: 12, style: .surface)
         .task {
+            model.load()
+        }
+        .onChange(of: folder) {
+            model.folder = folder
             model.load()
         }
     }

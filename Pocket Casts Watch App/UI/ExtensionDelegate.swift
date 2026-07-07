@@ -97,7 +97,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
 
         FileLog.shared.addMessage("Starting a background refresh")
         let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-        BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
+        BackgroundSyncManager.shared.performBackgroundRefreshSafely(subscribedPodcasts: subscribedPodcasts)
     }
 
     private func scheduleNextRefresh() {

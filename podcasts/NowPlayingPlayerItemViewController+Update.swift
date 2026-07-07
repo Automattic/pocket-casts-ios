@@ -36,12 +36,14 @@ extension NowPlayingPlayerItemViewController {
 
     @objc private func videoPlaybackEngineSwitched() {
         floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
+        // Video may have been detected at runtime (e.g. an HLS stream), so refresh to reveal the view
+        update(notification: nil)
     }
 
     @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
-        if playingEpisode.videoPodcast() {
+        if PlaybackManager.shared.isCurrentEpisodeVideo() {
             if floatingVideoView.isHidden {
                 floatingVideoView.isHidden = false
                 floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
@@ -71,7 +73,7 @@ extension NowPlayingPlayerItemViewController {
             updateError()
         }
         if !showingCustomImage {
-            ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
+            ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
         }
     }
 
@@ -124,12 +126,12 @@ extension NowPlayingPlayerItemViewController {
 
             if let artwork = chapters.artwork {
                 showingCustomImage = true
-                episodeImage.image = artwork
-                episodeImage.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
+                artworkImageView.image = artwork
+                artworkImageView.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
             } else if showingCustomImage {
                 showingCustomImage = false
-                ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
-                episodeImage.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
+                ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+                artworkImageView.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
             chapterLink.isHidden = chapters.url == nil
         } else {
