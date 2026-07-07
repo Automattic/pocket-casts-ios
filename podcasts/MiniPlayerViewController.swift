@@ -171,10 +171,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let timeLeftVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: timeLeftHost.view)
 
         let progressView = MiniPlayerGlassProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
         glassProgressView = progressView
-        let progressVibrancy = Self.makeVibrancyWrapper(style: .fill, content: progressView)
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressVibrancy, timeLeftVibrancy])
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftVibrancy])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
@@ -656,7 +656,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @available(iOS 26.0, *)
     private func updateColorsLiquidGlass() {
         let actionColor = currentPodcastTintColor()
-        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
 
         // System color so the vibrancy wrapper can modulate it.
@@ -667,14 +666,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         // through for a vibrant, glassy feel (without the buggy UIGlassEffect).
         // The skip glyphs reuse that same translucent accent so all three
         // controls share one color.
-        let accentColor = iconColor.withAlphaComponent(0.8)
+        let accentColor = actionColor.withAlphaComponent(0.9)
         playPauseBtn.playButtonColor = bgColor
         playPauseBtn.circleColor = accentColor
 
         skipBackBtn.tintColor = accentColor
         skipFwdBtn.tintColor = accentColor
 
-        glassProgressView?.tintColorOverride = actionColor
+        glassProgressView?.tintColorOverride = accentColor
     }
 
     private func currentPodcastTintColor() -> UIColor {
