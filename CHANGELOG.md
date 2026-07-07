@@ -1,3 +1,7 @@
+8.17
+-----
+
+
 8.16
 -----
 - Make the Liquid Glass mini player's play button translucent with a springy bounce on tap [#4677](https://github.com/Automattic/pocket-casts-ios/pull/4677)
