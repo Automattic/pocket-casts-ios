@@ -6104,7 +6104,7 @@
 "tv_create_account_modal_step_log_in" = "The TV will log you in";
 
 /* tv signing in title */
-"tv_signing_in_title" = "Good to see you.";
+"tv_signing_in_title" = "Good to see you";
 
 /* tv signing in subtitle */
 "tv_signing_in_subtitle" = "Loading your podcasts now.";

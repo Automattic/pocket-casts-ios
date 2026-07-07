@@ -58,9 +58,26 @@ struct EpisodeRow: View {
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
-                Text(model.displayDuration)
-                    .font(.caption)
-                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                HStack(spacing: 16) {
+                    Text(isInProgress ? model.timeLeft : model.displayDuration)
+                        .font(.caption)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                    if isInProgress {
+                        let trackColor = (isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(trackColor.opacity(0.3))
+                                .frame(width: 96, height: 4)
+                            Capsule()
+                                .fill(trackColor)
+                                .frame(width: max(0, min(96, 96 * model.progress)), height: 4)
+                        }
+                    } else if model.isPlayed {
+                        Image(systemName: "checkmark.circle")
+                            .font(.caption2)
+                            .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                    }
+                }
             }
             Spacer()
         }
@@ -70,6 +87,10 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+    }
+
+    private var isInProgress: Bool {
+        !model.isPlayed && model.duration > 0 && model.playedUpTo > 0 && model.progress < 1.0
     }
 
     private var archivedOpacity: Double {
