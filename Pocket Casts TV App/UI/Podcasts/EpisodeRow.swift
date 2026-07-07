@@ -65,15 +65,9 @@ struct EpisodeRow: View {
                         .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                     if isInProgress {
                         let trackColor = (isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
-                        ZStack(alignment: .leading) {
-                            Capsule()
-                                .fill(trackColor.opacity(0.3))
-                                .frame(width: 96, height: 6)
-                            Capsule()
-                                .fill(trackColor)
-                                .frame(width: max(0, min(96, 96 * model.progress)), height: 6)
-                        }
-                        .padding(.leading, 8)
+                        RoundProgressView(trackColor: trackColor, progress: model.progress)
+                            .frame(width: 96, height: 6)
+                            .padding(.leading, 8)
                     } else if model.isPlayed {
                         Image(systemName: "checkmark.circle")
                             .font(.caption2)
@@ -92,7 +86,7 @@ struct EpisodeRow: View {
     }
 
     private var isInProgress: Bool {
-        !model.isPlayed && model.duration > 0 && model.playedUpTo > 0 && model.progress < 1.0
+        !model.isPlayed && model.duration > 0 && model.playedUpTo > 0 && model.progress < 1.0        
     }
 
     private var archivedOpacity: Double {

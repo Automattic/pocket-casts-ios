@@ -54,17 +54,7 @@ private struct NowPlayingRowLabel: View {
                     .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
                 let trackColor = isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .fill(trackColor.opacity(0.3))
-                            .frame(height: 6)
-                        Capsule()
-                            .fill(trackColor)
-                            .frame(width: max(0, geo.size.width * model.progress), height: 6)
-                    }
-                }
-                .frame(height: 6)
+                RoundProgressView(trackColor: trackColor, progress: model.progress)
                 Text(model.timeLeft)
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
