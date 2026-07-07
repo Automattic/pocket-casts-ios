@@ -172,6 +172,7 @@ public class ServerPodcastManager: NSObject {
         episode.downloadUrl = upNextItem.url
         episode.publishedDate = upNextItem.published
         episode.podcast_id = podcast.id
+        episode.hlsUrl = upNextItem.hlsUrl
 
         DataManager.sharedManager.save(episode: episode)
     }
@@ -244,6 +245,7 @@ public class ServerPodcastManager: NSObject {
                 episode.seasonNumber = updatedEpisode.seasonNumber
                 episode.episodeType = updatedEpisode.episodeType
                 episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
+                episode.hlsUrl = updatedEpisode.hlsUrl
 
                 if episode.addedDate == nil {
                     episode.addedDate = updatedEpisode.addedDate

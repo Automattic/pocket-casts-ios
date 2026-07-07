@@ -272,7 +272,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
                         // we don't have this episode locally, so try and find it and add it to our database
                         // if we can't find it, don't add it to Up Next, since we can't support episodes that don't have parent podcasts
-                        let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date)
+                        let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date, hlsUrl: episodeInfo.alternateEnclosures.hlsUrl)
                         let dispatchGroup = DispatchGroup()
                         dispatchGroup.enter()
                         ServerPodcastManager.shared.addPodcastFromUpNextItem(upNextItem) { added in
@@ -417,10 +417,11 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
     /// Populates an episode's `hlsUrl` from the alternate enclosures in an Up Next sync response.
     /// Only sets a non-empty value so we never clear an HLS url a feed refresh already provided
-    /// (the server may omit alternate enclosures even when the episode has one).
+    /// (the server may omit alternate enclosures even when the episode has one). Not gated behind
+    /// `FeatureFlag.hls` — like the feed-refresh paths, we always store the url; the flag only gates
+    /// whether it's actually used for streaming (`EpisodeManager.isStreamingHLS`).
     private func updateHLSUrlIfNeeded(for baseEpisode: BaseEpisode, from episodeInfo: Api_UpNextResponse.EpisodeResponse) {
-        guard FeatureFlag.hls.enabled,
-              let episode = baseEpisode as? Episode,
+        guard let episode = baseEpisode as? Episode,
               let hlsUrl = episodeInfo.alternateEnclosures.hlsUrl, !hlsUrl.isEmpty,
               episode.hlsUrl != hlsUrl else {
             return
