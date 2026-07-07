@@ -70,6 +70,7 @@
 - Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
 - [tvOS] Improve thumbnail algorithm for videos [#4861](https://github.com/Automattic/pocket-casts-ios/pull/4861)
 - [tvOS] Show correct number of playlist items, and update playlists episode status on changes [#4869](https://github.com/Automattic/pocket-casts-ios/pull/4869)
+- Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 
 8.16.1
 ------
