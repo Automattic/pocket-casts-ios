@@ -18,8 +18,8 @@ enum DiscoverAnalytics {
         AnalyticsHelper.listImpression(listId: listId, category: nil, source: source)
     }
 
-    static func podcastTapped(listId: String, podcastUuid: String, source: String) {
-        AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid, source: source)
+    static func podcastTapped(listId: String, podcastUuid: String, dateTime: String? = nil, source: String) {
+        AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: dateTime, source: source)
     }
 
     static func episodeTapped(listId: String, podcastUuid: String?, episodeUuid: String, source: String) {

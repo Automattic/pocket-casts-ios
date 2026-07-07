@@ -33,13 +33,15 @@ struct DiscoverSection {
     let sponsoredPodcastsIDs: Set<String>
     /// Analytics list identifier for the section, used by the `discover_list_*` events.
     let listId: String?
+    let dateTime: String?
 
-    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, dateTime: String? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
         self.listId = listId
+        self.dateTime = dateTime
     }
 }
 
@@ -147,7 +149,7 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId)
+        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, dateTime: podcastCollection?.datetime)
     }
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {
