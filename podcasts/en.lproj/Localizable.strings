@@ -2983,6 +2983,51 @@
 /* Failure message for the podcast host check. */
 "settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
 
+/* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
+"troubleshooting_title" = "Troubleshooting";
+
+/* Section header for the orphaned episodes troubleshooting tool. */
+"troubleshooting_orphaned_episodes_header" = "Orphaned Episodes";
+
+/* Explains what orphaned episodes are and what problems they can cause, shown below the orphaned episodes section. */
+"troubleshooting_orphaned_episodes_description" = "A rare syncing issue can leave behind duplicate episode entries that are no longer linked to their podcast. These can cause an episode's download or playback status to appear incorrect in some parts of the app.";
+
+/* Shown while the app is counting how many orphaned episodes exist on the device. */
+"troubleshooting_orphaned_episodes_checking" = "Checking for orphaned episodes…";
+
+/* Shown when no orphaned episodes are found on the device. */
+"troubleshooting_orphaned_episodes_none_found" = "No orphaned episodes were found";
+
+/* Shown when exactly 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. */
+"troubleshooting_orphaned_episodes_found_singular" = "1 orphaned episode";
+
+/* Shown when more than 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. %1$@ is the number found. */
+"troubleshooting_orphaned_episodes_found_plural_format" = "%1$@ orphaned episodes";
+
+/* Shown while orphaned episodes are being removed. */
+"troubleshooting_orphaned_episodes_removing" = "Removing orphaned episodes…";
+
+/* Button that pushes a screen listing the orphaned episodes found on the device, grouped by podcast. */
+"troubleshooting_view_orphaned_episodes" = "View Orphaned Episodes";
+
+/* Button, and destructive confirmation action, that removes orphaned episodes from the device. */
+"troubleshooting_remove_orphaned_episodes" = "Remove Orphaned Episodes";
+
+/* Title of the confirmation alert shown before removing orphaned episodes. */
+"troubleshooting_remove_orphaned_episodes_confirm_title" = "Remove Orphaned Episodes?";
+
+/* Message of the confirmation alert shown before removing orphaned episodes, warning this is destructive but best-effort preserves episode state. */
+"troubleshooting_remove_orphaned_episodes_confirm_message" = "This will delete the duplicate episode entries found on this device. This action can't be undone, but Pocket Casts will do its best to preserve your playback progress, download status, and other episode details before removing them.";
+
+/* Shown after removing orphaned episodes when none could be removed. */
+"troubleshooting_remove_orphaned_episodes_result_none" = "No orphaned episodes were removed";
+
+/* Shown after removing orphaned episodes when exactly 1 was removed. */
+"troubleshooting_remove_orphaned_episodes_result_singular" = "1 orphaned episode was removed";
+
+/* Shown after removing orphaned episodes when more than 1 was removed. %1$@ is the number removed. */
+"troubleshooting_remove_orphaned_episodes_result_plural_format" = "%1$@ orphaned episodes were removed";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 

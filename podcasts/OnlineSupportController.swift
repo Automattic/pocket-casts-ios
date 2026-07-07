@@ -117,6 +117,9 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
             UIAction(title: L10n.settingsConnectionStatus) { [weak self] _ in
                 self?.showStatusPage()
             },
+            UIAction(title: L10n.troubleshootingTitle) { [weak self] _ in
+                self?.showTroubleshooting()
+            },
             UIAction(title: L10n.exportDatabase) { [weak self] _ in
                 guard let self, let sender = customRightBtn else { return }
                 export(sender)
@@ -130,6 +133,11 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
 
     private func showStatusPage() {
         let hostingController = ThemedHostingController(rootView: StatusPageView(source: source))
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    private func showTroubleshooting() {
+        let hostingController = ThemedHostingController(rootView: TroubleshootingView(source: source))
         navigationController?.pushViewController(hostingController, animated: true)
     }
 

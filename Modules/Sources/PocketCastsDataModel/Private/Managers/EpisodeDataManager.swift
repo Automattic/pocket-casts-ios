@@ -1261,3 +1261,48 @@ extension EpisodeDataManager {
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
     }
 }
+
+// MARK: - Orphaned Episodes (duplicate uuid, phantom podcast_id)
+
+extension EpisodeDataManager {
+    // Distinct from findGhostEpisodes: that join is keyed on podcastUuid, so it misses rows whose
+    // podcastUuid still resolves to a real podcast but whose internal podcast_id does not.
+    func findOrphanedEpisodes(_ dbQueue: PCDBQueue) -> [Episode] {
+        let query = """
+        SELECT SJEpisode.*
+        FROM SJEpisode
+        LEFT JOIN SJPodcast ON SJEpisode.podcast_id = SJPodcast.id
+        WHERE SJPodcast.id IS NULL
+        """
+
+        return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+    }
+
+    func deleteOrphanedEpisodes(ids: [Int64], dbQueue: PCDBQueue) {
+        guard !ids.isEmpty else { return }
+
+        dbQueue.write { db in
+            let query = "DELETE FROM \(DataManager.episodeTableName) WHERE id IN (\(ids.map(String.init).joined(separator: ",")))"
+
+            try? db.executeUpdate(query, values: nil)
+        }
+    }
+
+    /// Repoints `survivorId` at `realPodcastId` and deletes `idsToDelete` in the same write, so a crash
+    /// mid-migration can't commit the repoint without also removing the now-redundant duplicate row(s)
+    /// (which would otherwise become permanently invisible to `findOrphanedEpisodes`).
+    func reconcileOrphanedEpisode(survivorId: Int64, realPodcastId: Int64, idsToDelete: [Int64], dbQueue: PCDBQueue) {
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET podcast_id = ? WHERE id = ?", values: [realPodcastId, survivorId])
+
+                if !idsToDelete.isEmpty {
+                    let query = "DELETE FROM \(DataManager.episodeTableName) WHERE id IN (\(idsToDelete.map(String.init).joined(separator: ",")))"
+                    try db.executeUpdate(query, values: nil)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.reconcileOrphanedEpisode error: \(error)")
+            }
+        }
+    }
+}

@@ -736,6 +736,11 @@ enum AnalyticsEvent: String {
     case settingsLeaveFeedback
     case exportDatabaseTapped
 
+    // MARK: - Settings: Troubleshooting
+
+    case troubleshootingOrphanedEpisodesRemoveConfirmed
+    case troubleshootingOrphanedEpisodesRemoved
+
     // MARK: - Settings: Import / Export OPML
 
     case settingsImportShown
