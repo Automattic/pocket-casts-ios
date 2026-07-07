@@ -36,6 +36,9 @@ struct TroubleshootingView: View {
                 .disabled(!canRemove)
             } header: {
                 Text(L10n.troubleshootingOrphanedEpisodesHeader)
+            } footer: {
+                Text(L10n.troubleshootingOrphanedEpisodesDescription)
+                    .foregroundColor(theme.primaryText02)
             }
         }
         .scrollContentBackground(.hidden)
@@ -63,29 +66,21 @@ struct TroubleshootingView: View {
     }
 
     private var headerView: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "wrench.and.screwdriver.fill")
-                .font(.system(size: 32))
-                .foregroundColor(theme.primaryIcon02)
-
-            Text(L10n.troubleshootingOrphanedEpisodesDescription)
-                .font(.subheadline)
-                .foregroundColor(theme.primaryText02)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
-        .padding(.horizontal, 32)
+        Image(systemName: "wrench.and.screwdriver.fill")
+            .font(.system(size: 32))
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 8)
     }
 
     private var emptyStateView: some View {
         VStack(spacing: 8) {
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 28))
-                .foregroundColor(theme.support02)
+                .foregroundStyle(.green)
 
             Text(L10n.troubleshootingOrphanedEpisodesNoneFound)
-                .foregroundColor(theme.primaryText02)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
