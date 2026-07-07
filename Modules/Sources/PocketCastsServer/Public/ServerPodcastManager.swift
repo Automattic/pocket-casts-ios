@@ -245,7 +245,11 @@ public class ServerPodcastManager: NSObject {
                 episode.seasonNumber = updatedEpisode.seasonNumber
                 episode.episodeType = updatedEpisode.episodeType
                 episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
-                episode.hlsUrl = updatedEpisode.hlsUrl
+                // Only overwrite when the response actually carries an HLS url — the server can omit
+                // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
+                if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
+                    episode.hlsUrl = hlsUrl
+                }
 
                 if episode.addedDate == nil {
                     episode.addedDate = updatedEpisode.addedDate
