@@ -20,9 +20,12 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     private static let loadingSpinnerDelay: TimeInterval = 0.5
 
+    private var cancellables = Set<AnyCancellable>()
+
     init(episode: EpisodeSearchResult?, podcastFolder: PodcastFolderSearchResult?) {
         self.episode = episode
         self.podcastFolder = podcastFolder
+        reloadRealEpisode()
         setupObservers()
     }
 
@@ -55,15 +58,53 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         PlaybackActionHelper.pause()
     }
 
-    func downloadTapped() {}
+    func downloadTapped() {
+        guard let episode else { return }
 
-    func stopDownloadTapped() {}
+        // A search result's episode isn't necessarily in the database yet (the user might
+        // not be subscribed to the podcast), so make sure it exists before queuing it for
+        // download — mirroring `playEpisodeSearchResult`.
+        if DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) != nil {
+            PlaybackActionHelper.download(episodeUuid: episode.uuid)
+            return
+        }
 
-    func errorTapped() {}
+        let uuid = episode.uuid
+        let podcastUuid = episode.podcastUuid
+        // `addMissingPodcastAndEpisode` performs a synchronous network request, so keep it off
+        // the main thread.
+        DispatchQueue.global().async {
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: uuid, podcastUuid: podcastUuid) { [weak self] addedEpisode in
+                guard addedEpisode != nil else { return }
+                DispatchQueue.main.async {
+                    PlaybackActionHelper.download(episodeUuid: uuid)
+                    self?.reloadRealEpisode()
+                    self?.refreshTrigger.toggle()
+                }
+            }
+        }
+    }
 
-    func waitingForWifiTapped() {}
+    func stopDownloadTapped() {
+        guard let episode else { return }
+        PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
+    }
 
-    private var cancellables = Set<AnyCancellable>()
+    func errorTapped() {
+        guard let episode else { return }
+        // In search the error state is effectively always a failed download, so retry it.
+        PlaybackActionHelper.download(episodeUuid: episode.uuid)
+    }
+
+    func waitingForWifiTapped() {
+        guard let episode else { return }
+        PlaybackActionHelper.overrideWaitingForWifi(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
+    }
+
+    private func reloadRealEpisode() {
+        guard let episode else { return }
+        realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid)
+    }
 
     private func setupObservers() {
         guard let episode else {
@@ -90,10 +131,37 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
                 else {
                     return
                 }
-                let realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID)
-                self.realEpisode = realEpisode
+                self.realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID)
                 self.refreshTrigger.toggle()
             })
             .store(in: &cancellables)
+
+        // Keep the download/play action button in sync while a download is queued, in progress,
+        // finishes, or fails — otherwise the button never reflects the tap. Mirrors `EpisodeCell`.
+        NotificationCenter.default.publisher(for: Constants.Notifications.downloadProgress)
+            .receive(on: OperationQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                guard let self,
+                      DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) != nil else { return }
+                // Only hit the DB when our cached episode doesn't yet reflect the download; live
+                // progress is read straight from the DownloadManager when the button repopulates.
+                if self.realEpisode?.downloading() != true {
+                    self.reloadRealEpisode()
+                }
+                self.refreshTrigger.toggle()
+            })
+            .store(in: &cancellables)
+
+        Publishers.Merge(
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodeDownloadStatusChanged),
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodeDownloaded)
+        )
+        .receive(on: OperationQueue.main)
+        .sink(receiveValue: { [weak self] notification in
+            guard let self, notification.object as? String == episode.uuid else { return }
+            self.reloadRealEpisode()
+            self.refreshTrigger.toggle()
+        })
+        .store(in: &cancellables)
     }
 }
