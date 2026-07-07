@@ -92,7 +92,7 @@ struct EpisodeRow: View {
     }
 
     private var isInProgress: Bool {
-        !model.isPlayed && model.duration > 0 && model.playedUpTo > 0 && model.progress < 1.0
+        model.episode.inProgress()
     }
 
     private var archivedOpacity: Double {
