@@ -1,5 +1,6 @@
 8.16
 -----
+- Add a Troubleshooting screen under Help & Feedback to find and remove orphaned duplicate episodes [#4697](https://github.com/Automattic/pocket-casts-ios/pull/4697)
 - Make the Liquid Glass mini player's play button translucent with a springy bounce on tap [#4677](https://github.com/Automattic/pocket-casts-ios/pull/4677)
 - Fix the smart playlist and podcast page header showing the system light/dark appearance instead of the in-app theme when scrolling on iOS 18 [#4662](https://github.com/Automattic/pocket-casts-ios/pull/4662)
 - Fix episode lists jumping when a background download finishes [#4648](https://github.com/Automattic/pocket-casts-ios/pull/4648)
