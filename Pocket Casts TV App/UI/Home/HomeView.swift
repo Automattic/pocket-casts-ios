@@ -191,7 +191,7 @@ struct HomeView: View {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
-                        EpisodePlayerButton(model: episode)
+                        newReleaseButton(model: episode)
                             .frame(width: 864)
                             .setFocus(section: Section.homeNewReleases.rawValue)
                     }
@@ -199,6 +199,17 @@ struct HomeView: View {
             }
             .scrollClipDisabled()
         }
+    }
+
+    func newReleaseButton(model: EpisodeRowViewModel) -> some View {
+        Button {
+            model.play()
+            showNowPlayingPlayer = true
+        } label: {
+            EpisodeRow(model: model, isActive: false)
+        }
+        .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model, context: .other(showGoToPodcast: true))
     }
 }
 
