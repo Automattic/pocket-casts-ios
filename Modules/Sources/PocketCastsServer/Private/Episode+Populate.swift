@@ -15,5 +15,6 @@ public extension Episode {
         seasonNumber = updateEpisode.seasonNumber ?? 0
         episodeNumber = updateEpisode.episodeNumber ?? 0
         publishedDate = JsonUtil.convert(jsonDate: updateEpisode.publishedDate)
+        hlsUrl = updateEpisode.hlsUrl
     }
 }

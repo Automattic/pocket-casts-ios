@@ -123,6 +123,7 @@ public struct RefreshEpisode: Decodable {
     public var seasonNumber: Int64?
     public var episodeNumber: Int64?
     public var publishedDate: String?
+    public var alternateEnclosures: [RefreshAlternateEnclosure]?
 
     enum CodingKeys: String, CodingKey {
         case title
@@ -137,7 +138,24 @@ public struct RefreshEpisode: Decodable {
         case seasonNumber = "epSeason"
         case episodeNumber = "epNumber"
         case publishedDate = "publishedAt"
+        case alternateEnclosures = "alternate_enclosures"
     }
+
+    /// The HLS stream URL from the episode's alternate enclosures, if one is present.
+    public var hlsUrl: String? {
+        alternateEnclosures?
+            .first { $0.type?.caseInsensitiveCompare(Episode.hlsEnclosureType) == .orderedSame }?
+            .sources?.first?.uri
+    }
+}
+
+public struct RefreshAlternateEnclosure: Decodable {
+    public struct Source: Decodable {
+        public var uri: String?
+    }
+
+    public var type: String?
+    public var sources: [Source]?
 }
 
 public struct PodcastSearchResponse: Decodable {
