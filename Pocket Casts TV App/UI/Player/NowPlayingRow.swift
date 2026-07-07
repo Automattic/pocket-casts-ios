@@ -58,13 +58,13 @@ private struct NowPlayingRowLabel: View {
                     ZStack(alignment: .leading) {
                         Capsule()
                             .fill(trackColor.opacity(0.3))
-                            .frame(height: 4)
+                            .frame(height: 6)
                         Capsule()
                             .fill(trackColor)
-                            .frame(width: max(0, geo.size.width * model.progress), height: 4)
+                            .frame(width: max(0, geo.size.width * model.progress), height: 6)
                     }
                 }
-                .frame(height: 4)
+                .frame(height: 6)
                 Text(model.timeLeft)
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)

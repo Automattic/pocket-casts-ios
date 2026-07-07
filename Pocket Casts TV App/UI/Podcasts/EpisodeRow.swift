@@ -42,7 +42,7 @@ struct EpisodeRow: View {
             thumbnail
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     if model.isVideo {
                         Image(systemName: "play.rectangle.fill")
@@ -58,7 +58,7 @@ struct EpisodeRow: View {
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
-                HStack(spacing: 16) {
+                HStack(spacing: 8) {
                     Text(isInProgress ? model.timeLeft : model.displayDuration)
                         .font(.caption)
                         .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
@@ -67,11 +67,12 @@ struct EpisodeRow: View {
                         ZStack(alignment: .leading) {
                             Capsule()
                                 .fill(trackColor.opacity(0.3))
-                                .frame(width: 96, height: 4)
+                                .frame(width: 96, height: 6)
                             Capsule()
                                 .fill(trackColor)
-                                .frame(width: max(0, min(96, 96 * model.progress)), height: 4)
+                                .frame(width: max(0, min(96, 96 * model.progress)), height: 6)
                         }
+                        .padding(.leading, 8)
                     } else if model.isPlayed {
                         Image(systemName: "checkmark.circle")
                             .font(.caption2)
