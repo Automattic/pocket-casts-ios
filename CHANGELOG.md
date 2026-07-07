@@ -10,6 +10,7 @@
 - Fix a crash on Apple Watch when a background sync starts while the app is being suspended [#4622](https://github.com/Automattic/pocket-casts-ios/pull/4622)
 - Fix non-square chapter artwork being cropped and losing rounded corners when opening the full-screen player [#4621](https://github.com/Automattic/pocket-casts-ios/pull/4621)
 - Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
+- Fix the floating tab bar and mini player turning gray over the podcast grid under some conditions [#4689](https://github.com/Automattic/pocket-casts-ios/pull/4689)
 - Fix a rare crash when an episode is deleted while its download status is updating [#4642](https://github.com/Automattic/pocket-casts-ios/pull/4642)
 - Fix a potential rare crash when playback fails to start [#4641](https://github.com/Automattic/pocket-casts-ios/pull/4641)
 - Fix a potential crash and wrong-podcast taps when opening a Discover category list that shows a sponsored podcast [#4652](https://github.com/Automattic/pocket-casts-ios/pull/4652)
