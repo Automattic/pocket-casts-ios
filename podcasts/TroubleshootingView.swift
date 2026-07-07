@@ -13,6 +13,12 @@ struct TroubleshootingView: View {
     var body: some View {
         List {
             Section {
+                headerView
+            }
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets())
+
+            Section {
                 statusRow
 
                 if let lastRemovedCount = viewModel.lastRemovedCount {
@@ -30,9 +36,6 @@ struct TroubleshootingView: View {
                 .disabled(!canRemove)
             } header: {
                 Text(L10n.troubleshootingOrphanedEpisodesHeader)
-            } footer: {
-                Text(L10n.troubleshootingOrphanedEpisodesDescription)
-                    .foregroundColor(theme.primaryText02)
             }
         }
         .scrollContentBackground(.hidden)
@@ -59,6 +62,36 @@ struct TroubleshootingView: View {
         return false
     }
 
+    private var headerView: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "wrench.and.screwdriver.fill")
+                .font(.system(size: 32))
+                .foregroundColor(theme.primaryIcon02)
+
+            Text(L10n.troubleshootingOrphanedEpisodesDescription)
+                .font(.subheadline)
+                .foregroundColor(theme.primaryText02)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 24)
+        .padding(.horizontal, 32)
+    }
+
+    private var emptyStateView: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 28))
+                .foregroundColor(theme.support02)
+
+            Text(L10n.troubleshootingOrphanedEpisodesNoneFound)
+                .foregroundColor(theme.primaryText02)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+    }
+
     @ViewBuilder
     private var statusRow: some View {
         switch viewModel.orphanedEpisodesState {
@@ -67,8 +100,7 @@ struct TroubleshootingView: View {
         case .removing:
             busyRow(L10n.troubleshootingOrphanedEpisodesRemoving)
         case .found(let episodes) where episodes.isEmpty:
-            Text(L10n.troubleshootingOrphanedEpisodesNoneFound)
-                .foregroundColor(theme.primaryText02)
+            emptyStateView
         case .found(let episodes):
             // Environment objects aren't reliably propagated across a NavigationLink push when the
             // source view has no ancestor NavigationView/NavigationStack (this screen is pushed onto
