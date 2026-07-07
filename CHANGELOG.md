@@ -1,6 +1,6 @@
 8.17
 -----
-
+- Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
 
 8.16
 -----
