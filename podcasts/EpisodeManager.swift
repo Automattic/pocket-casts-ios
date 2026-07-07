@@ -421,6 +421,17 @@ class EpisodeManager: NSObject {
         return totalFilesSize
     }
 
+    /// Whether the episode should be streamed via its HLS alternate enclosure.
+    /// When a valid HLS stream is available we default to it; HLS is streamed directly and never cached.
+    /// Requires a parseable url so this stays consistent with `urlForEpisode`, which falls back to the
+    /// progressive url when the HLS string can't be turned into a `URL`.
+    class func isStreamingHLS(_ episode: BaseEpisode) -> Bool {
+        guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
+            return false
+        }
+        return URL(string: hlsUrl) != nil
+    }
+
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if !streamingOnly {
             // For local playback, prefer downloaded files
@@ -432,8 +443,15 @@ class EpisodeManager: NSObject {
         }
 
         // For streaming or when no local files, return remote URL
-        if let episode = episode as? Episode, let url = episode.downloadUrl {
-            return URL(string: url)
+        if let episode = episode as? Episode {
+            // When available, default to the HLS stream over the progressive file.
+            // If the HLS url is malformed, fall through to the progressive url rather than failing.
+            if isStreamingHLS(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
+                return url
+            }
+            if let url = episode.downloadUrl {
+                return URL(string: url)
+            }
         } else if let episode = episode as? UserEpisode {
             if let token = ServerSettings.syncingV2Token, episode.uploadStatus != UploadStatus.missing.rawValue {
                 return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)")

@@ -193,4 +193,8 @@ class AppCoordinator {
         UserDefaults.standard.set(true, forKey: updateKey)
         UserDefaults.standard.synchronize()
     }
+
+    func remotePlayPauseToggle() {
+        PlaybackManager.shared.remotePlayPauseToggle()
+    }
 }

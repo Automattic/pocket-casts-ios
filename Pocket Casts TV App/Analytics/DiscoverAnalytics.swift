@@ -15,11 +15,11 @@ enum DiscoverAnalytics {
     static let searchSource = "search"
 
     static func listImpression(listId: String, source: String) {
-        Analytics.track(.discoverListImpression, properties: ["list_id": listId, "source": source])
+        AnalyticsHelper.listImpression(listId: listId, category: nil, source: source)
     }
 
-    static func podcastTapped(listId: String, podcastUuid: String, source: String) {
-        Analytics.track(.discoverListPodcastTapped, properties: ["list_id": listId, "podcast_uuid": podcastUuid, "source": source])
+    static func podcastTapped(listId: String, podcastUuid: String, dateTime: String? = nil, source: String) {
+        AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: dateTime, source: source)
     }
 
     static func episodeTapped(listId: String, podcastUuid: String?, episodeUuid: String, source: String) {
@@ -27,7 +27,7 @@ enum DiscoverAnalytics {
         if let podcastUuid {
             properties["podcast_uuid"] = podcastUuid
         }
-        Analytics.track(.discoverListEpisodeTapped, properties: properties)
+        AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid ?? "", episodeUuid: episodeUuid, source: source)
     }
 
     static func categoryPillTapped(_ category: DiscoverCategory, region: String?, source: String) {

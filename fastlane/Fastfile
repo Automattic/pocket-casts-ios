@@ -12,6 +12,11 @@ PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 XCODE_PROJECT_PATH = File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcodeproj')
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
+APP_STORE_TVOS_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata-tvos')
+APP_STORE_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots')
+APP_STORE_TVOS_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots-tvos')
+APP_STORE_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStrings.po')
+APP_STORE_TVOS_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStringsTVOS.po')
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
@@ -150,6 +155,7 @@ SPELLCHECK_KNOWN_WORDS = %w[
 GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
 # URL of the GlotPress project containing App Store Connect metadata
 GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
+GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/tvos-release-notes/'
 
 # List of locales used for the app strings (GlotPress code => `*.lproj` folder name`).
 # Sorted like Xcode sorts them in the File Inspector for easier comparison.
@@ -1016,6 +1022,7 @@ platform :ios do
   lane :download_localized_strings_and_metadata_from_glotpress do
     download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
+    download_localized_app_store_metadata_from_glotpress_tvos
   end
 
   # Lint the `.strings` files
@@ -1031,30 +1038,18 @@ platform :ios do
   # Updates the `AppStoreStrings.po` file using the content from the `release_notes.txt` file and other `.txt` sources
   #
   lane :update_app_store_strings do
-    source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = release_version_current
+    update_app_store_strings_source(
+      metadata_folder: APP_STORE_METADATA_FOLDER,
+      po_file_path: APP_STORE_STRINGS_PO_PATH
+    )
+  end
 
-    files = {
-      whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
-      app_store_subtitle: {
-        path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
-      },
-      app_store_desc: {
-        path: File.join(source_metadata_folder, 'description.txt'),
-        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
-      },
-      app_store_keywords: {
-        path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
-      }
-    }
-
-    gp_update_metadata_source(
-      po_file_path: File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'AppStoreStrings.po'),
-      source_files: files,
-      release_version: version,
-      commit_changes: true
+  # Updates the `AppStoreStringsTVOS.po` file using the tvOS metadata source files.
+  #
+  lane :update_app_store_strings_tvos do
+    update_app_store_strings_source(
+      metadata_folder: APP_STORE_TVOS_METADATA_FOLDER,
+      po_file_path: APP_STORE_TVOS_STRINGS_PO_PATH
     )
   end
 
@@ -1093,56 +1088,20 @@ platform :ios do
   # Downloads localized metadata for App Store Connect from GlotPress
   #
   lane :download_localized_app_store_metadata_from_glotpress do
-    # FIXME: Replace this with a call to the future replacement of
-    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
-    # paaHJt-31O-p2).
-    target_files = {
-      "v#{release_version_current}-whats-new": {
-        desc: 'release_notes.txt',
-        max_size: 4000
-      },
-      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
-      app_store_desc: { desc: 'description.txt', max_size: 4000 },
-      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
-    }
-
-    gp_downloadmetadata(
+    download_localized_app_store_metadata(
       project_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
-      target_files: target_files,
-      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
-      download_path: APP_STORE_METADATA_FOLDER
+      metadata_folder: APP_STORE_METADATA_FOLDER,
+      commit_message: 'Update App Store metadata translations'
     )
-    files_to_commit = [File.join(APP_STORE_METADATA_FOLDER, '**', '*.txt')]
+  end
 
-    # Ensure that none of the `.txt` files in `en-US` would accidentally
-    # override our originals in `default`
-    target_files.values.map { |h| h[:desc] }.each do |file|
-      en_file_path = File.join(APP_STORE_METADATA_FOLDER, 'en-US', file)
-      next unless File.exist?(en_file_path)
-
-      UI.user_error! <<~ERROR
-        File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default`, but `default/` is the source of truth.
-        Delete the `#{en_file_path}` file, ensure the `default/` one has the expected original copy, and try again.
-      ERROR
-    end
-
-    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
-    # we don't have any translation at all ready for some locales)
-    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
-      gitkeep = File.join(APP_STORE_METADATA_FOLDER, locale, '.gitkeep')
-      next if File.exist?(gitkeep)
-
-      FileUtils.mkdir_p(File.dirname(gitkeep))
-      FileUtils.touch(gitkeep)
-      files_to_commit.append(gitkeep)
-    end
-
-    # Commit
-    git_add(path: files_to_commit, shell_escape: false)
-    git_commit(
-      path: files_to_commit,
-      message: 'Update App Store metadata translations',
-      allow_nothing_to_commit: true
+  # Downloads localized tvOS metadata for App Store Connect from GlotPress
+  #
+  lane :download_localized_app_store_metadata_from_glotpress_tvos do
+    download_localized_app_store_metadata(
+      project_url: GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL,
+      metadata_folder: APP_STORE_TVOS_METADATA_FOLDER,
+      commit_message: 'Update tvOS App Store metadata translations'
     )
   end
 
@@ -1171,25 +1130,43 @@ platform :ios do
       abort_on_violations: abort_on_violations,
       skip_confirm: skip_confirm
     )
+
+    UI.header('Checking tvOS release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL,
+      language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
+    )
   end
 
-  # Upload the localized metadata (from `fastlane/metadata/`) to App Store Connect
+  # Upload the localized iOS metadata (from `fastlane/metadata/`) to App Store Connect
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
   lane :update_metadata_on_app_store_connect do |with_screenshots: false|
-    upload_metadata_to_app_store_connect(platform: 'ios', with_screenshots: with_screenshots)
+    upload_metadata_to_app_store_connect(
+      platform: 'ios',
+      metadata_path: APP_STORE_METADATA_FOLDER,
+      screenshots_path: APP_STORE_SCREENSHOTS_FOLDER,
+      with_screenshots: with_screenshots
+    )
   end
 
-  # Upload the localized tvOS metadata (from `fastlane/metadata/`) to App Store Connect.
+  # Upload the localized tvOS metadata (from `fastlane/metadata-tvos/`) to App Store Connect.
   #
-  # The tvOS app currently reuses iOS release notes and metadata. Screenshots stay opt-in;
-  # callers should only use `with_screenshots:true` once tvOS screenshots are present.
+  # Screenshots stay opt-in; callers should only use `with_screenshots:true`
+  # once tvOS screenshots are present in `fastlane/screenshots-tvos/`.
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
   lane :update_metadata_on_app_store_connect_tvos do |with_screenshots: false|
-    upload_metadata_to_app_store_connect(platform: 'appletvos', with_screenshots: with_screenshots)
+    upload_metadata_to_app_store_connect(
+      platform: 'appletvos',
+      metadata_path: APP_STORE_TVOS_METADATA_FOLDER,
+      screenshots_path: APP_STORE_TVOS_SCREENSHOTS_FOLDER,
+      with_screenshots: with_screenshots
+    )
   end
 
   # Generates a HTML containing the libraries acknowledgments.
@@ -1377,12 +1354,117 @@ platform :ios do
     end
   end
 
+  # Updates a GlotPress metadata source `.po` file using App Store metadata files.
+  #
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @param po_file_path [String] Path to the GlotPress source `.po` file to update
+  #
+  def update_app_store_strings_source(metadata_folder:, po_file_path:)
+    gp_update_metadata_source(
+      po_file_path: po_file_path,
+      source_files: app_store_metadata_source_files(metadata_folder: metadata_folder),
+      release_version: release_version_current,
+      commit_changes: true
+    )
+  end
+
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @return [Hash] Source file mapping expected by `gp_update_metadata_source`
+  #
+  def app_store_metadata_source_files(metadata_folder:)
+    source_metadata_folder = File.join(metadata_folder, 'default')
+
+    {
+      whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
+      app_store_subtitle: {
+        path: File.join(source_metadata_folder, 'subtitle.txt'),
+        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
+      },
+      app_store_desc: {
+        path: File.join(source_metadata_folder, 'description.txt'),
+        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
+      },
+      app_store_keywords: {
+        path: File.join(source_metadata_folder, 'keywords.txt'),
+        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+      }
+    }
+  end
+
+  # @return [Hash] Target file mapping expected by `gp_downloadmetadata`
+  #
+  def app_store_metadata_target_files
+    {
+      "v#{release_version_current}-whats-new": {
+        desc: 'release_notes.txt',
+        max_size: 4000
+      },
+      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
+      app_store_desc: { desc: 'description.txt', max_size: 4000 },
+      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
+    }
+  end
+
+  # Downloads localized App Store metadata from a GlotPress project into a platform-specific metadata folder.
+  #
+  # @param project_url [String] GlotPress project URL
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @param commit_message [String] Commit message for downloaded metadata changes
+  #
+  def download_localized_app_store_metadata(project_url:, metadata_folder:, commit_message:)
+    # FIXME: Replace this with a call to the future replacement of
+    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
+    # paaHJt-31O-p2).
+    target_files = app_store_metadata_target_files
+
+    gp_downloadmetadata(
+      project_url: project_url,
+      target_files: target_files,
+      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
+      download_path: metadata_folder
+    )
+    files_to_commit = [File.join(metadata_folder, '**', '*.txt')]
+
+    # Ensure that none of the `.txt` files in `en-US` would accidentally
+    # override our originals in `default`
+    target_files.values.map { |h| h[:desc] }.each do |file|
+      en_file_path = File.join(metadata_folder, 'en-US', file)
+      next unless File.exist?(en_file_path)
+
+      UI.user_error! <<~ERROR
+        File `#{en_file_path}` would override the same one in `#{metadata_folder}/default`, but `default/` is the source of truth.
+        Delete the `#{en_file_path}` file, ensure the `default/` one has the expected original copy, and try again.
+      ERROR
+    end
+
+    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
+    # we don't have any translation at all ready for some locales)
+    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
+      gitkeep = File.join(metadata_folder, locale, '.gitkeep')
+      next if File.exist?(gitkeep)
+
+      FileUtils.mkdir_p(File.dirname(gitkeep))
+      FileUtils.touch(gitkeep)
+      files_to_commit.append(gitkeep)
+    end
+
+    # Commit
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: commit_message,
+      allow_nothing_to_commit: true
+    )
+  end
+
   # Upload localized App Store Connect metadata for a specific App Store platform.
   #
   # @param platform [String] Fastlane deliver platform, such as `ios` or `appletvos`
+  # @param metadata_path [String] Path to the Fastlane deliver metadata folder for this platform
+  # @param screenshots_path [String] Path to the Fastlane deliver screenshots folder for this platform
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC
   #
-  def upload_metadata_to_app_store_connect(platform:, with_screenshots:)
+  def upload_metadata_to_app_store_connect(platform:, metadata_path:, screenshots_path:, with_screenshots:)
     # Skip screenshots by default. The naming is "with" to make it clear that
     # callers need to opt-in to adding screenshots. The naming of the deliver
     # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
@@ -1393,7 +1475,8 @@ platform :ios do
       app_version: release_version_current,
       platform: platform,
       skip_binary_upload: true,
-      screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
+      metadata_path: metadata_path,
+      screenshots_path: screenshots_path,
       skip_screenshots: skip_screenshots,
       overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
       phased_release: true,

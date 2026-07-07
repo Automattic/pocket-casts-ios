@@ -10,7 +10,9 @@
 - Fix a crash on Apple Watch when a background sync starts while the app is being suspended [#4622](https://github.com/Automattic/pocket-casts-ios/pull/4622)
 - Fix non-square chapter artwork being cropped and losing rounded corners when opening the full-screen player [#4621](https://github.com/Automattic/pocket-casts-ios/pull/4621)
 - Fix a rare crash when loading embedded episode artwork [#4619](https://github.com/Automattic/pocket-casts-ios/pull/4619)
+- Fix the floating tab bar and mini player turning gray over the podcast grid under some conditions [#4689](https://github.com/Automattic/pocket-casts-ios/pull/4689)
 - Fix a rare crash when an episode is deleted while its download status is updating [#4642](https://github.com/Automattic/pocket-casts-ios/pull/4642)
+- Fix a potential rare crash when playback fails to start [#4641](https://github.com/Automattic/pocket-casts-ios/pull/4641)
 - Fix a potential crash and wrong-podcast taps when opening a Discover category list that shows a sponsored podcast [#4652](https://github.com/Automattic/pocket-casts-ios/pull/4652)
 - Show episode artwork on the episode details page [#4616](https://github.com/Automattic/pocket-casts-ios/pull/4616)
 - Fix "Select All" in Auto Add to Up Next resetting the setting on all other podcasts [#4639](https://github.com/Automattic/pocket-casts-ios/pull/4639)
@@ -19,7 +21,7 @@
 - Fix Autoplay stopping instead of continuing through manual playlists that contain episodes from podcasts you don't follow [#4624](https://github.com/Automattic/pocket-casts-ios/pull/4624)
 - Fix separator alignment and list background color on the Discover category list [#4653](https://github.com/Automattic/pocket-casts-ios/pull/4653)
 - Add episode sorting to the podcast screen on tvOS [#4650](https://github.com/Automattic/pocket-casts-ios/pull/4650)
-- Fix a potential hang when a database query hits a transient error while loading results [#4667](https://github.com/Automattic/pocket-casts-ios/pull/4667)
+- Scale the mini player title with Dynamic Type under Liquid Glass [#4676](https://github.com/Automattic/pocket-casts-ios/pull/4676)
 
 8.15
 -----

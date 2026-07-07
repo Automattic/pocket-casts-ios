@@ -62,7 +62,7 @@ final class MiniPlayerScrollingTitleView: UIView {
         for label in [primaryLabel, trailingLabel] {
             label.numberOfLines = 1
             label.lineBreakMode = .byClipping
-            label.adjustsFontForContentSizeCategory = false
+            label.adjustsFontForContentSizeCategory = true
             scrollContainer.addSubview(label)
         }
 
@@ -85,6 +85,11 @@ final class MiniPlayerScrollingTitleView: UIView {
             name: UIAccessibility.reduceMotionStatusDidChangeNotification,
             object: nil
         )
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: MiniPlayerScrollingTitleView, _) in
+            view.invalidateIntrinsicContentSize()
+            view.setNeedsLayout()
+        }
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

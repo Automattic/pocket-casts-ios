@@ -21,6 +21,7 @@ struct StarredEpisodesView: View {
             Analytics.track(.starredShown)
             model.load()
         }
+        .remotePlayPause()
     }
 
     private var episodeList: some View {

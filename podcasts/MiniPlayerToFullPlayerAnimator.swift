@@ -42,7 +42,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     }
 
     private var isVideoPodcast: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+        PlaybackManager.shared.isCurrentEpisodeVideo()
     }
 
     init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0, fullPlayerYPosition: CGFloat = 0) {

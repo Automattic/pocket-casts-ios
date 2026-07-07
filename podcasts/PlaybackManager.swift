@@ -47,6 +47,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let shouldDeactivateSession = AtomicBool()
     private var haveCalledPlayerLoad = false
 
+    /// Set at runtime when the currently playing stream is found to contain video tracks
+    /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
+    /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
+    /// Atomic because it's read from now-playing updates that can run off the main queue.
+    private let currentStreamContainsVideo = AtomicBool()
+
     private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
@@ -739,6 +745,23 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
+    /// Whether the current episode should be presented as video, considering both the feed
+    /// metadata (`videoPodcast()`) and any video tracks detected at runtime in the stream.
+    func isCurrentEpisodeVideo() -> Bool {
+        currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo.value
+    }
+
+    /// Called by the player when it detects video tracks in the stream it is playing.
+    /// Used for HLS streams whose video content isn't reflected in the episode's file type.
+    func handleVideoTracksDetected(forEpisode episodeUuid: String) {
+        guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
+        currentStreamContainsVideo.value = true
+        setAudioSessionVideoProperties()
+        // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
+        refreshNowPlayingInfo(forceFullRebuild: true)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
+    }
+
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -1395,6 +1418,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
+        currentStreamContainsVideo.value = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         if let player {
@@ -1674,6 +1698,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func updateNowPlayingInfo() {
+        refreshNowPlayingInfo(forceFullRebuild: false)
+    }
+
+    /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
+    ///   only refreshing progress. Needed when a value like the media type changes for the same
+    ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
+    private func refreshNowPlayingInfo(forceFullRebuild: Bool) {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
@@ -1691,9 +1722,17 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #if os(watchOS)
-            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #else
-            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #endif
     }
 
@@ -1761,19 +1800,22 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Remote Control support
+    func remotePlayPauseToggle() {
+        guard self.currentEpisode() != nil else {
+            return
+        }
+        analyticsPlaybackHelper.currentSource = self.commandCenterSource
+        FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
+        playPause()
+    }
 
     private var lastSeekTime = Date()
     private func setupRemoteControlSupport() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-            guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
-
-            FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
-            strongSelf.playPause()
-
+            guard let self, let _ = self.currentEpisode() else { return .noActionableNowPlayingItem }
+            remotePlayPauseToggle()
             return .success
         }
 
@@ -2273,7 +2315,9 @@ class PlaybackManager: ServerPlaybackDelegate {
            !episodeIsChanging,
            effects().trimSilence == .off,
            !playerSwitchRequired(),
-           !refreshedEpisode.videoPodcast() {
+           !refreshedEpisode.videoPodcast(),
+           // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
+           !EpisodeManager.isStreamingHLS(refreshedEpisode) {
             return false
         } else {
             if !episodeIsChanging {
