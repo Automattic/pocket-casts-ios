@@ -395,7 +395,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextListChanged))
         addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(upNextListChanged))
 
-        addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(playbackStateDidChange))
+        addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(appDidBecomeActive))
 
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeChanged))
         addCustomObserver(Constants.Notifications.currentlyPlayingEpisodeUpdated, selector: #selector(updateRequired))
@@ -528,6 +528,26 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func upNextListChanged() {
         playbackStateDidChange()
+    }
+
+    @objc private func appDidBecomeActive() {
+        playbackStateDidChange()
+
+        guard #available(iOS 26.0, *), LiquidGlass.isEnabled else { return }
+        guard let tabBarController = parent as? UITabBarController,
+              tabBarController.bottomAccessory != nil else { return }
+
+        // When the app returns from background, iOS purges the GPU-backed
+        // rendering state of views inside the tab accessory. If the episode
+        // hasn't changed, setupForEpisode() short-circuits without marking
+        // any view as needing layout/display, so the content stays blank.
+        // Force a full layout + display pass to restore the rendered content.
+        episodeTitleLabel?.setNeedsLayout()
+        glassProgressView?.setNeedsLayout()
+        glassProgressView?.setNeedsDisplay()
+        podcastArtwork.setNeedsDisplay()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
     @objc private func playbackStateDidChange() {
