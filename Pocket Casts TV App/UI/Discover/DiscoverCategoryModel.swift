@@ -16,6 +16,8 @@ class DiscoverCategoryModel {
 
     var sponsoredPodcastsUuids: Set<String> = []
 
+    var listId: String?
+
     let sponsoredPosition: Int
 
     init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared, sponsoredPosition: Int = 5) {
@@ -46,6 +48,7 @@ class DiscoverCategoryModel {
             if let podcasts = categorySection?.categoryDetails.podcasts {
                 self.coverPodcastsUuids = podcasts.compactMap { $0.uuid }
             }
+            self.listId = categorySection?.listId
         }
     }
 
@@ -65,5 +68,17 @@ class DiscoverCategoryModel {
             return false
         }
         return sponsoredPodcastsUuids.contains(uuid)
+    }
+
+    func trackPodcastTapped(_ podcast: DiscoverPodcast) {
+        guard let podcastUuid = podcast.uuid else { return }
+
+        if let listId {
+            DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, dateTime: nil, source: "discover")
+        }
+
+        if isSponsored(podcast: podcast) {
+            DiscoverAnalytics.adTapped(categoryName: category.name, region: categorySection?.region, podcastUUID: podcastUuid, categoryID: category.id)
+        }
     }
 }

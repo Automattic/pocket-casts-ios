@@ -71,6 +71,9 @@ struct DiscoverPodcastsListView: View {
                     DiscoverPodcastCell(podcastUuid: podcast.uuid ?? "", isSponsored: model.isSponsored(podcast: podcast))
                 }
                 .buttonStyle(.card)
+                .simultaneousGesture(TapGesture().onEnded {
+                    model.trackPodcastTapped(podcast)
+                })
             }
         }
     }

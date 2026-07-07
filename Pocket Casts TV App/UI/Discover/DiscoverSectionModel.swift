@@ -6,6 +6,8 @@ class DiscoverSectionModel {
 
     var state: State = .loading
 
+    private var section: DiscoverSection?
+
     var podcasts = [DiscoverPodcast]()
 
     var sponsored = Set<String>()
@@ -57,6 +59,7 @@ class DiscoverSectionModel {
         }
 
         await MainActor.run {
+            self.section = section
             state = section.podcasts.isEmpty ? .empty : .ready
             podcasts = section.podcasts
             var composedTitle = section.title?.localized ?? ""
@@ -80,6 +83,10 @@ class DiscoverSectionModel {
     func trackPodcastTapped(_ podcast: DiscoverPodcast) {
         guard let listId, let podcastUuid = podcast.uuid else { return }
         DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, dateTime: dateTime, source: source)
+
+        if isSponsored {
+            DiscoverAnalytics.adTapped(categoryName: "unknown", region: section?.region, podcastUUID: podcastUuid, categoryID: item?.categoryID)
+        }
     }
 
     var focusStoreID: String {

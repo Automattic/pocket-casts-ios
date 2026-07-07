@@ -1,4 +1,5 @@
 import PocketCastsServer
+import SwiftUI
 
 /// Centralizes the tvOS Discover list analytics events.
 ///
@@ -37,5 +38,13 @@ enum DiscoverAnalytics {
             "id": category.id ?? -1,
             "source": source
         ])
+    }
+
+    static func adTapped(categoryName: String?, region: String?, podcastUUID: String, categoryID: Int?) {
+        AnalyticsHelper.adTapped(categoryName: categoryName ?? "unknown", region: region ?? "unknown", podcastUUID: podcastUUID, categoryID: categoryID ?? 0)
+    }
+
+    static func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+        AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: listDateTime)
     }
 }
