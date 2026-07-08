@@ -145,6 +145,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
+    case heatmapInfoOpened
 
     // MARK: - Folders
 
