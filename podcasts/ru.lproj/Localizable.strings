@@ -635,6 +635,29 @@ Pocket Casts Plus</string>
     <string>Отменить выбор всех выше</string>
     <key>deselect_all_below</key>
     <string>Отменить выбор всех ниже</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Вставить код</string>
+    <key>device_approve_connect_button</key>
+    <string>Подключить</string>
+    <key>device_approve_description</key>
+    <string>Ваше прослушивание будет синхронизироваться автоматически.
+Вы можете отключиться в любой момент на странице «Настройки».</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Вернитесь к телевизору, чтобы сгенерировать новый.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Срок действия QR-кода истёк</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Не удалось одобрить устройство</string>
+    <key>device_approve_login_required</key>
+    <string>Чтобы подключить устройство, требуется учётная запись. Войдите или создайте учётную запись и повторите попытку.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Вход в систему как...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Apple TV теперь подключено к вашей учётной записи.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV подключено</string>
+    <key>device_approve_title</key>
+    <string>Подключиться к Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
     <key>discover</key>
@@ -2745,6 +2768,14 @@ Pocket Casts на полную мощность.</string>
     <string>Отложить</string>
     <key>queue_now_playing_accessibility</key>
     <string>Сейчас воспроизводится. %1$@</string>
+    <key>queue_time_remaining</key>
+    <string>Осталось %1$@</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 выпуск · Осталось %1$@</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ вып. · Осталось %2$@</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>Осталось %1$@</string>
     <key>rate</key>
     <string>Оценить</string>
     <key>rate_pocket_casts</key>
@@ -3526,6 +3557,10 @@ Pocket Casts на полную мощность.</string>
     <string>Установить таймер спящего режима на %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Отложить таймер спящего режима на 5 минут</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Отметить как прослушанный</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Пометить текущий выпуск как прослушанный</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Следующая глава</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3832,6 +3867,11 @@ Pocket Casts на полную мощность.</string>
     <string>Попробуйте еще раз.</string>
     <key>try_it_now</key>
     <string>Попробовать</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Возникла проблема, и был выполнен выход из системы.
+Коснитесь кнопки ниже, чтобы повторно войти в учётную запись Pocket Casts.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Вы вышли из системы.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Создать бесплатную учётную запись</string>
     <key>tv_banner_create_account_subtitle</key>
@@ -3846,18 +3886,56 @@ Pocket Casts на полную мощность.</string>
     <string>Вы не видели ещё и половины.</string>
     <key>tv_create_account_come_back</key>
     <string>Создайте учётную запись, а затем вернитесь и выполните вход</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Создайте учётную запись</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>TV выполнит вход</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Отсканируйте QR-код</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Создайте бесплатную учётную запись, чтобы подписываться на подкасты, создавать свой список «Следующих» и продолжать прослушивание с того места, на котором остановились, на любом устройстве.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Вашим подкастам нужен свой дом</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Откройте камеру и наведите на этот QR-код.</string>
     <key>tv_create_account_subtitle</key>
     <string>Отсканируйте этот код, чтобы начать работу с телефона. Это займёт всего минуту.</string>
     <key>tv_create_account_title</key>
     <string>Создать бесплатную учётную запись</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Проверьте интернет-соединение и повторите попытку.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Не удалось загрузить поиск.</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Перейти к подкасту</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Воспроизвести последний выпуск</string>
     <key>tv_discover_play_episode</key>
     <string>Воспроизвести выпуск</string>
+    <key>tv_episode_archived</key>
+    <string>Перенесено в архив</string>
     <key>tv_episode_info</key>
     <string>Информация о выпуске</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Отмечено как прослушанный</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Удалено из следующих</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Сведения о выпуске</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Загрузка сведений о выпуске…</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Сведения о выпуске</string>
+    <key>tv_episode_unarchived</key>
+    <string>Разархивировано</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Будет воспроизводиться последний</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Будет воспроизводиться следующий</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Здесь будут показаны воспроизведённые выпуски</string>
+    <key>tv_history_empty_title</key>
+    <string>История прослушивания отсутствует</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Просмотр рубрик</string>
     <key>tv_home_featured_section_title</key>
@@ -3876,6 +3954,8 @@ Pocket Casts на полную мощность.</string>
     <string>Тренды недели</string>
     <key>tv_home_video_section_title</key>
     <string>Создано для телевидения</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Не удалось получить код для входа</string>
     <key>tv_player_playback_effects</key>
     <string>Эффекты воспроизведения</string>
     <key>tv_player_playback_speed</key>
@@ -3914,18 +3994,28 @@ Pocket Casts на полную мощность.</string>
     <string>Сведения</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Все выпуски</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Архивированные выпуски</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Подписаться на этот подкаст</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Подписка</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Скрыть архивированные</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Подробнее</string>
     <key>tv_podcast_detail_network</key>
     <string>Сеть</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Следующий выпуск</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Выпуски этого подкаста будут показаны здесь.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Нет выпусков</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Планировать</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Показать архивированные</string>
     <key>tv_podcast_detail_start_here</key>
     <string>Выпуск, который стоит прослушать первым</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3948,8 +4038,14 @@ Pocket Casts на полную мощность.</string>
     <string>Войти</string>
     <key>tv_profile_menu_log_out</key>
     <string>Выйти</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Все скачанные подкасты и данные будут удалены из этого Apple TV. Вы можете войти снова, чтобы восстановить их.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Выйти?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Отмеченные выпуски</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Получение последних выпусков</string>
     <key>tv_search_failed</key>
     <string>Не удалось выполнить поиск: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3972,8 +4068,16 @@ Pocket Casts на полную мощность.</string>
     <string>Мы загружаем ваши подкасты.</string>
     <key>tv_signing_in_title</key>
     <string>Рады вас видеть!</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Pocket Casts рекомендует</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Отмечайте выпуски, чтобы они всегда были под рукой, и они появятся здесь</string>
+    <key>tv_starred_empty_title</key>
+    <string>Отмеченные выпуски отсутствуют</string>
     <key>tv_tab_home</key>
     <string>Главная</string>
+    <key>tv_tab_now_playing</key>
+    <string>Сейчас воспроизводится</string>
     <key>tv_tab_playlists</key>
     <string>Плейлисты</string>
     <key>tv_tab_podcasts</key>
@@ -3994,10 +4098,14 @@ Pocket Casts на полную мощность.</string>
     <string>Пользователь/пароль</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR-код</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Имя пользователя</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Просмотр без учётной записи</string>
     <key>tv_welcome_create_free_account</key>
     <string>Создать бесплатную учётную запись</string>
+    <key>tv_welcome_log_in</key>
+    <string>Войти</string>
     <key>tv_welcome_subtitle</key>
     <string>Ваши подкасты. На большом экране. Очевидно.</string>
     <key>tv_welcome_title</key>
@@ -4032,6 +4140,16 @@ Pocket Casts на полную мощность.</string>
     <string>Представляем режим случайного воспроизведения</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>От длинных к коротким</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>От новых к старым</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>От старых к новым</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>От коротких к длинным</string>
+    <key>up_next_sort_title</key>
+    <string>Сортировать следующие</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
     <key>upgrade_account_info</key>

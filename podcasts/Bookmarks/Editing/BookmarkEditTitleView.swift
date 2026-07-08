@@ -32,7 +32,7 @@ struct BookmarkEditTitleView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(theme.background)
-        .onChange(of: viewModel.didAppear) { _ in
+        .onChange(of: viewModel.didAppear) {
             focusedField = .title
         }
     }
@@ -126,12 +126,12 @@ struct BookmarkEditTitleView: View {
                 .frame(height: textFieldSize.height)
 
                 // Enforce the max length of the title
-                .onChange(of: bookmarkTitle, perform: { newValue in
+                .onChange(of: bookmarkTitle) { _, newValue in
                     let max = Constants.Values.bookmarkMaxTitleLength
                     guard newValue.count > max else { return }
 
                     bookmarkTitle = String(newValue.prefix(max))
-                })
+                }
 
                 // Trigger the save action
                 .onSubmit {

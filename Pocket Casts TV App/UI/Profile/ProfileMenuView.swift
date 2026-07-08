@@ -59,6 +59,7 @@ struct ProfileMenuView: View {
         .onAppear {
             Analytics.track(.profileShown)
         }
+        .remotePlayPause()
     }
 
     // MARK: - Signed-in
@@ -75,19 +76,9 @@ struct ProfileMenuView: View {
                     .padding(.bottom, 24)
             }
 
-            // Group 1
-            Button {
-                Analytics.track(.profileSettingsButtonTapped)
-                // Settings destination not yet implemented for TV
-            } label: {
-                Label(L10n.settings, systemImage: "gearshape")
-                    .frame(minWidth: 400)
-            }
-
             Divider()
                 .frame(maxWidth: 400)
 
-            // Group 2
             Button {
                 onProfileSelected(.starred)
             } label: {
@@ -104,7 +95,6 @@ struct ProfileMenuView: View {
             Divider()
                 .frame(maxWidth: 400)
 
-            // Group 3
             Button {
                 isShowingLogoutConfirmation = true
             } label: {

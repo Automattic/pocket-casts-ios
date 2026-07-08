@@ -8,7 +8,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     var showRankingNumber = false
     var labelTitle: String?
 
-    @IBOutlet var chartsTable: UITableView!
+    @IBOutlet var chartsTable: ThemeableTable!
 
     private weak var delegate: DiscoverDelegate?
     private static let cellId = "DiscoverCell"
@@ -33,6 +33,8 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        chartsTable.themeStyle = .primaryUi02
 
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)

@@ -6,6 +6,14 @@ extension UIViewController {
     /// tab bar controller, this is a no-op.
     func setEnclosingTabBarHidden(_ hidden: Bool, animated: Bool) {
         guard #available(iOS 26, *), let tabBarController else { return }
+
         tabBarController.setTabBarHidden(hidden, animated: animated)
+
+        let miniPlayer = appDelegate()?.miniPlayer()
+        if hidden {
+            miniPlayer?.hideMiniPlayer(animated, isTransient: true)
+        } else {
+            miniPlayer?.showMiniPlayer()
+        }
     }
 }

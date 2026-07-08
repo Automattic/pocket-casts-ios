@@ -72,7 +72,7 @@ class AnalyticsCoordinator {
     var currentSource: AnalyticsSource?
 
     private var currentEpisodeIsVideo: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+        PlaybackManager.shared.isCurrentEpisodeVideo()
     }
 
     var currentAnalyticsSource: AnalyticsSource {

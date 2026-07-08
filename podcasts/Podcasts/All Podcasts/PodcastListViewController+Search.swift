@@ -8,6 +8,10 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // The tab bar collapses/expands as the grid scrolls, so keep the fade's overshoot in
+        // step with it. Cheap: only mutates the constraint when the collapsed state flips.
+        updateBottomFadeOvershoot()
+
         guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)

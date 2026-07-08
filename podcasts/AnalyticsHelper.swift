@@ -1,4 +1,4 @@
-#if !os(watchOS) && !os(tvOS)
+#if !os(watchOS)
     import Firebase
 #endif
 
@@ -116,10 +116,13 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_subscribe", parameters: properties)
     }
 
-    class func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+    class func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil, source: String? = nil) {
         var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         if let listDateTime {
             properties["list_datetime"] = listDateTime
+        }
+        if let source {
+            properties["source"] = source
         }
         Analytics.track(.discoverListPodcastTapped, properties: properties)
         bumpStat("discover_list_podcast_tap", parameters: properties)
@@ -135,9 +138,11 @@ class AnalyticsHelper {
         Analytics.track(.discoverAdCategorySubscribed, properties: properties)
     }
 
-    class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String) {
-        let properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
-
+    class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String, source: String? = nil) {
+        var properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
+        if let source {
+            properties["source"] = source
+        }
         Analytics.track(.discoverListEpisodeTapped, properties: properties)
         bumpStat("discover_list_podcast_episode_tap", parameters: properties)
     }
@@ -151,10 +156,13 @@ class AnalyticsHelper {
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
-    class func listImpression(listId: String, category: String?) {
+    class func listImpression(listId: String, category: String?, source: String? = nil) {
         var properties = ["list_id": listId]
         if let category {
             properties["category"] = category
+        }
+        if let source {
+            properties["source"] = source
         }
         Analytics.track(.discoverListImpression, properties: properties)
         bumpStat("discover_list_impression", parameters: properties)
@@ -441,7 +449,7 @@ private extension AnalyticsHelper {
         guard optedOut == false else { return }
 
         // assuming for now we don't want analytics on a watch
-        #if !os(watchOS) && !os(tvOS)
+        #if !os(watchOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
         if FeatureFlag.firebaseLogging.enabled {

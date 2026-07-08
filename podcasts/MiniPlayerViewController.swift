@@ -152,7 +152,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let title = MiniPlayerScrollingTitleView()
-        title.font = .systemFont(ofSize: 13, weight: .medium)
+        title.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge)
         episodeTitleLabel = title
         let titleVibrancy = Self.makeVibrancyWrapper(style: .label, content: title)
 
@@ -185,10 +185,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         textStack.alignment = .leading
         textStack.spacing = 2
 
+        addPlayButtonBounce()
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
-        buttonStack.alignment = .center
+        buttonStack.alignment = .fill
         glassButtonStack = buttonStack
 
         view.addSubview(podcastArtwork)
@@ -218,6 +219,33 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.registerForTraitChanges([UITraitTabAccessoryEnvironment.self]) { (view: UIView, _) in
             view.setNeedsUpdateConstraints()
+        }
+    }
+
+    /// Adds a springy scale-up-and-settle-back response to the play/pause
+    /// button so the translucent accent circle feels tactile on tap.
+    private func addPlayButtonBounce() {
+        playPauseBtn.addTarget(self, action: #selector(playButtonTouchedDown), for: .touchDown)
+        playPauseBtn.addTarget(self, action: #selector(playButtonReleased), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+    }
+
+    @objc private func playButtonTouchedDown() {
+        guard !UIAccessibility.isReduceMotionEnabled else { return }
+        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: [.allowUserInteraction, .beginFromCurrentState]) {
+            self.playPauseBtn.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.playPauseBtn.alpha = 0.75
+        }
+    }
+
+    @objc private func playButtonReleased() {
+        guard !UIAccessibility.isReduceMotionEnabled else {
+            playPauseBtn.transform = .identity
+            playPauseBtn.alpha = 1
+            return
+        }
+        UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.7, options: [.allowUserInteraction, .beginFromCurrentState]) {
+            self.playPauseBtn.transform = .identity
+            self.playPauseBtn.alpha = 1
         }
     }
 
@@ -380,6 +408,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func addUINotificationObservers() {
         addCustomObserver(Constants.Notifications.playbackStarting, selector: #selector(playbackStarting))
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(playbackStarted))
+        addCustomObserver(Constants.Notifications.videoPlaybackEngineSwitched, selector: #selector(videoPlaybackEngineSwitched))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackStateDidChange))
@@ -481,18 +510,32 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if let episode = PlaybackManager.shared.currentEpisode() {
             setupForEpisode(episode)
             showMiniPlayer()
-            let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            if shouldOpenAutomatically || episode.videoPodcast(), lastEpisodeUuidAutoOpened != episode.uuid {
-                lastEpisodeUuidAutoOpened = episode.uuid
-
-                // we called show mini player above, which might have spent time animating itself into view, so give that time to finish
-                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.Animation.defaultAnimationTime) {
-                    self.openFullScreenPlayer()
-                }
-            }
+            autoOpenFullScreenPlayerIfNeeded(for: episode)
         } else {
             hideMiniPlayer(true)
         }
+    }
+
+    /// Opens the full screen player automatically when the user's setting is on, or when the
+    /// current episode is video. For HLS the video isn't known at playback start, so this is also
+    /// called when video is detected at runtime (via `videoPlaybackEngineSwitched`).
+    private func autoOpenFullScreenPlayerIfNeeded(for episode: BaseEpisode) {
+        let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+        if shouldOpenAutomatically || PlaybackManager.shared.isCurrentEpisodeVideo(), lastEpisodeUuidAutoOpened != episode.uuid {
+            lastEpisodeUuidAutoOpened = episode.uuid
+
+            // we called show mini player above, which might have spent time animating itself into view, so give that time to finish
+            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.Animation.defaultAnimationTime) {
+                self.openFullScreenPlayer()
+            }
+        }
+    }
+
+    @objc private func videoPlaybackEngineSwitched() {
+        // Video can be detected after playback starts (e.g. an HLS stream), so give it the same
+        // automatic full screen treatment a video podcast gets.
+        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        autoOpenFullScreenPlayerIfNeeded(for: episode)
     }
 
     @objc private func playbackStarting() {
@@ -615,11 +658,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
+        // A slightly translucent accent circle lets the tab bar's glass show
+        // through for a vibrant, glassy feel (without the buggy UIGlassEffect).
+        // The skip glyphs reuse that same translucent accent so all three
+        // controls share one color.
+        let accentColor = iconColor.withAlphaComponent(0.8)
         playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = iconColor
+        playPauseBtn.circleColor = accentColor
 
-        skipBackBtn.tintColor = iconColor
-        skipFwdBtn.tintColor = iconColor
+        skipBackBtn.tintColor = accentColor
+        skipFwdBtn.tintColor = accentColor
 
         glassProgressView?.tintColorOverride = actionColor
     }

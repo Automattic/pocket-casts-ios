@@ -12,6 +12,11 @@ PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 XCODE_PROJECT_PATH = File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcodeproj')
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
+APP_STORE_TVOS_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata-tvos')
+APP_STORE_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots')
+APP_STORE_TVOS_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots-tvos')
+APP_STORE_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStrings.po')
+APP_STORE_TVOS_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStringsTVOS.po')
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
@@ -150,6 +155,7 @@ SPELLCHECK_KNOWN_WORDS = %w[
 GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
 # URL of the GlotPress project containing App Store Connect metadata
 GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
+GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/tvos-release-notes/'
 
 # List of locales used for the app strings (GlotPress code => `*.lproj` folder name`).
 # Sorted like Xcode sorts them in the File Inspector for easier comparison.
@@ -289,7 +295,6 @@ platform :ios do
   # - Cuts a new release branch, Bumps the version
   # - Extracts the Release Notes
   # - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
-  # - Triggers the build of the first beta on CI
   # - Open backmerge PR
   # - Enables the GitHub branch protection for the new branch
   # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
@@ -356,7 +361,6 @@ platform :ios do
 
     push_to_git_remote(set_upstream: true, tags: false)
 
-    trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
 
     # Copy the branch protection settings from the default branch to the new release branch
@@ -368,7 +372,7 @@ platform :ios do
     update_milestone
   end
 
-  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
+  # Creates a new beta by bumping the app version appropriately.
   #
   # @param base_version [String] If set, bases the beta on the specified version and `release/<base_version>` branch
   #                              instead of using the current app version. Useful e.g. for triggering betas on hotfixes.
@@ -416,16 +420,18 @@ platform :ios do
 
     push_to_git_remote(tags: false)
 
-    trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
   end
 
-  # Finalizes a release at the end of a sprint to submit to the App Store
+  # Finalizes release bookkeeping before separate CI jobs upload the final TestFlight builds.
   #
-  #  - Updates store metadata
+  # This lane does not submit builds to App Store Review. Submission remains a
+  # manual App Store Connect/Releases v2 step. It also does not build or upload
+  # app binaries; Releases V2 starts those per-platform tasks separately.
+  #
+  #  - Refreshes and lints localized strings and App Store Connect metadata
   #  - Bumps final version number
   #  - Removes branch protection and close milestone
-  #  - Triggers the final release on CI
   #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
@@ -459,9 +465,6 @@ platform :ios do
     set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
     close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
 
-    # Start the build
-
-    trigger_release_build(branch_to_build: release_branch_name)
     create_backmerge_pr
   end
 
@@ -579,7 +582,7 @@ platform :ios do
     push_to_git_remote(set_upstream: true, tags: false)
   end
 
-  # Finalizes a hotfix, by triggering a release build on CI
+  # Finalizes a hotfix before separate CI jobs upload the final TestFlight builds.
   #
   lane :finalize_hotfix_release do |skip_confirm: false|
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
@@ -588,10 +591,9 @@ platform :ios do
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
-    UI.important("Triggering hotfix build for version: #{release_version_current}")
+    UI.important("Finalizing hotfix for version: #{release_version_current}")
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
-    trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
     create_backmerge_pr
     begin
@@ -603,18 +605,30 @@ platform :ios do
 
   # Triggers a beta build on CI
   #
-  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # Kept for manual/ad-hoc triggering. Releases V2 starts release builds directly
+  # through `release-builds.yml` with platform-specific environment variables.
   #
-  lane :trigger_beta_build do |branch_to_build:|
-    trigger_buildkite_release_build(branch: branch_to_build, beta: true)
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
+  #
+  lane :trigger_beta_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: true, platform: platform, notify_slack: notify_slack, create_release: create_release)
   end
 
   # Triggers a stable release build on CI
   #
-  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # Kept for manual/ad-hoc triggering. Releases V2 starts release builds directly
+  # through `release-builds.yml` with platform-specific environment variables.
   #
-  lane :trigger_release_build do |branch_to_build:|
-    trigger_buildkite_release_build(branch: branch_to_build, beta: false)
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
+  #
+  lane :trigger_release_build do |branch_to_build:, platform: 'ios', notify_slack: nil, create_release: nil|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: false, platform: platform, notify_slack: notify_slack, create_release: create_release)
   end
 
   # Builds the app binary for distribution to App Store Connect
@@ -697,6 +711,7 @@ platform :ios do
   #
   lane :upload_app_store_connect_build_to_testflight do |ipa_path: APP_STORE_CONNECT_BUILD_IPA_PATH|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
+    ipa_path = project_path(ipa_path)
 
     changelog = extract_release_notes_for_version(
       version: release_version_current,
@@ -728,6 +743,7 @@ platform :ios do
   #
   lane :upload_app_store_connect_build_to_testflight_tvos do |ipa_path: APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
+    ipa_path = project_path(ipa_path)
 
     # TODO: This is currently the same as the iOS changelog. We'll need a mechanism to filter tvOS-only notes (or just accept the compromise.)
     changelog = extract_release_notes_for_version(
@@ -826,6 +842,7 @@ platform :ios do
     require_env_vars!('SENTRY_AUTH_TOKEN')
 
     symbols_path = dsym_path || lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    symbols_path = project_path(symbols_path)
     sentry_debug_files_upload(
       auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
@@ -838,14 +855,20 @@ platform :ios do
   #
   # @param beta_release [Boolean] If true, the GitHub Release is for a beta and will be marked as prerelease and published immediately.
   #                               If false, the GitHub Release is for a final build and will not be marked as prerelease but will be created as Draft (to be manually published only once approved by Apple)
-  # @param archive_zip_path [String] Path to the `.xcarchive.zip` file to attach as an asset to the created GitHub Release
+  # @param archive_zip_path [String] Path to the `.xcarchive.zip` file to attach as an asset to the created GitHub Release.
+  # @param notify_slack [Boolean] If true, sends the release notification to Slack.
+  # @param create_release [Boolean] If true, creates the GitHub Release when it does not already exist.
   #
-  lane :create_release_on_github do |beta_release: true, archive_zip_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH|
-    require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
+  lane :create_release_on_github do |beta_release: true, archive_zip_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH, notify_slack: true, create_release: true|
+    beta_release = boolean_option(beta_release, default: true)
+    notify_slack = boolean_option(notify_slack, default: true)
+    create_release = boolean_option(create_release, default: true)
 
-    app_version = release_version_current
-    build_version = build_code_current
-    version = beta_release ? build_version : app_version
+    require_env_vars!('GITHUB_TOKEN')
+
+    version = github_release_version(beta_release: beta_release)
+    archive_zip_path = project_path(archive_zip_path)
+    UI.user_error!("Can't find file #{archive_zip_path}!") unless File.file?(archive_zip_path.to_s)
 
     changelog = extract_release_notes_for_version(
       version: release_version_current,
@@ -853,22 +876,53 @@ platform :ios do
     )
     changelog = '_`CHANGELOG.md` was empty for this version._' if changelog.empty?
 
-    UI.message("Creating #{version} release on GitHub...")
-    set_github_release(
-      repository_name: GITHUB_REPO,
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      name: version,
-      tag_name: version,
-      description: changelog,
-      commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
-      upload_assets: [archive_zip_path.to_s],
-      is_draft: !beta_release,
-      is_prerelease: beta_release
+    api_token = get_required_env!('GITHUB_TOKEN')
+    release = get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
+
+    if release.nil? && create_release
+      UI.message("Creating #{version} release on GitHub...")
+      release = set_github_release(
+        repository_name: GITHUB_REPO,
+        api_token: api_token,
+        name: version,
+        tag_name: version,
+        description: changelog,
+        commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
+        is_draft: !beta_release,
+        is_prerelease: beta_release
+      )
+      release ||= get_github_release(url: GITHUB_REPO, version: version, api_token: api_token)
+    end
+
+    UI.user_error!("GitHub release #{version} does not exist yet. Run the iOS release upload first, then retry this upload step.") unless release && release['upload_url']
+
+    upload_assets_to_github_release(
+      release: release,
+      assets: [archive_zip_path],
+      api_token: api_token
     )
+
+    if notify_slack
+      notify_release_on_slack(beta_release: beta_release)
+    else
+      UI.message('Skipping Slack notification.')
+    end
+  end
+
+  # Sends the release notification to Slack.
+  #
+  # Typically called after the build has been uploaded to TestFlight.
+  #
+  # @param beta_release [Boolean] If true, sends a beta notification. If false, sends a final/hotfix notification.
+  #
+  lane :notify_release_on_slack do |beta_release: true|
+    beta_release = boolean_option(beta_release, default: true)
+
+    require_env_vars!('SLACK_WEBHOOK')
 
     UI.message('Sending message to Slack...')
     slack(
-      pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
+      pretext: slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release),
       default_payloads: [],
       slack_url: get_required_env!('SLACK_WEBHOOK'),
       fail_on_error: false
@@ -970,6 +1024,7 @@ platform :ios do
   lane :download_localized_strings_and_metadata_from_glotpress do
     download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
+    download_localized_app_store_metadata_from_glotpress_tvos
   end
 
   # Lint the `.strings` files
@@ -985,30 +1040,18 @@ platform :ios do
   # Updates the `AppStoreStrings.po` file using the content from the `release_notes.txt` file and other `.txt` sources
   #
   lane :update_app_store_strings do
-    source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = release_version_current
+    update_app_store_strings_source(
+      metadata_folder: APP_STORE_METADATA_FOLDER,
+      po_file_path: APP_STORE_STRINGS_PO_PATH
+    )
+  end
 
-    files = {
-      whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
-      app_store_subtitle: {
-        path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
-      },
-      app_store_desc: {
-        path: File.join(source_metadata_folder, 'description.txt'),
-        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
-      },
-      app_store_keywords: {
-        path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
-      }
-    }
-
-    gp_update_metadata_source(
-      po_file_path: File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'AppStoreStrings.po'),
-      source_files: files,
-      release_version: version,
-      commit_changes: true
+  # Updates the `AppStoreStringsTVOS.po` file using the tvOS metadata source files.
+  #
+  lane :update_app_store_strings_tvos do
+    update_app_store_strings_source(
+      metadata_folder: APP_STORE_TVOS_METADATA_FOLDER,
+      po_file_path: APP_STORE_TVOS_STRINGS_PO_PATH
     )
   end
 
@@ -1047,56 +1090,20 @@ platform :ios do
   # Downloads localized metadata for App Store Connect from GlotPress
   #
   lane :download_localized_app_store_metadata_from_glotpress do
-    # FIXME: Replace this with a call to the future replacement of
-    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
-    # paaHJt-31O-p2).
-    target_files = {
-      "v#{release_version_current}-whats-new": {
-        desc: 'release_notes.txt',
-        max_size: 4000
-      },
-      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
-      app_store_desc: { desc: 'description.txt', max_size: 4000 },
-      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
-    }
-
-    gp_downloadmetadata(
+    download_localized_app_store_metadata(
       project_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
-      target_files: target_files,
-      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
-      download_path: APP_STORE_METADATA_FOLDER
+      metadata_folder: APP_STORE_METADATA_FOLDER,
+      commit_message: 'Update App Store metadata translations'
     )
-    files_to_commit = [File.join(APP_STORE_METADATA_FOLDER, '**', '*.txt')]
+  end
 
-    # Ensure that none of the `.txt` files in `en-US` would accidentally
-    # override our originals in `default`
-    target_files.values.map { |h| h[:desc] }.each do |file|
-      en_file_path = File.join(APP_STORE_METADATA_FOLDER, 'en-US', file)
-      next unless File.exist?(en_file_path)
-
-      UI.user_error! <<~ERROR
-        File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default`, but `default/` is the source of truth.
-        Delete the `#{en_file_path}` file, ensure the `default/` one has the expected original copy, and try again.
-      ERROR
-    end
-
-    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
-    # we don't have any translation at all ready for some locales)
-    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
-      gitkeep = File.join(APP_STORE_METADATA_FOLDER, locale, '.gitkeep')
-      next if File.exist?(gitkeep)
-
-      FileUtils.mkdir_p(File.dirname(gitkeep))
-      FileUtils.touch(gitkeep)
-      files_to_commit.append(gitkeep)
-    end
-
-    # Commit
-    git_add(path: files_to_commit, shell_escape: false)
-    git_commit(
-      path: files_to_commit,
-      message: 'Update App Store metadata translations',
-      allow_nothing_to_commit: true
+  # Downloads localized tvOS metadata for App Store Connect from GlotPress
+  #
+  lane :download_localized_app_store_metadata_from_glotpress_tvos do
+    download_localized_app_store_metadata(
+      project_url: GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL,
+      metadata_folder: APP_STORE_TVOS_METADATA_FOLDER,
+      commit_message: 'Update tvOS App Store metadata translations'
     )
   end
 
@@ -1125,28 +1132,42 @@ platform :ios do
       abort_on_violations: abort_on_violations,
       skip_confirm: skip_confirm
     )
+
+    UI.header('Checking tvOS release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STORE_TVOS_METADATA_PROJECT_URL,
+      language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
+    )
   end
 
-  # Upload the localized metadata (from `fastlane/metadata/`) to App Store Connect
+  # Upload the localized iOS metadata (from `fastlane/metadata/`) to App Store Connect
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
   lane :update_metadata_on_app_store_connect do |with_screenshots: false|
-    # Skip screenshots by default. The naming is "with" to make it clear that
-    # callers need to opt-in to adding screenshots. The naming of the deliver
-    # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
-    skip_screenshots = with_screenshots == false
+    upload_metadata_to_app_store_connect(
+      platform: 'ios',
+      metadata_path: APP_STORE_METADATA_FOLDER,
+      screenshots_path: APP_STORE_SCREENSHOTS_FOLDER,
+      with_screenshots: with_screenshots
+    )
+  end
 
-    upload_to_app_store(
-      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
-      app_version: release_version_current,
-      skip_binary_upload: true,
-      screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
-      skip_screenshots: skip_screenshots,
-      overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
-      phased_release: true,
-      precheck_include_in_app_purchases: false,
-      api_key: app_store_connect_api_key
+  # Upload the localized tvOS metadata (from `fastlane/metadata-tvos/`) to App Store Connect.
+  #
+  # Screenshots stay opt-in; callers should only use `with_screenshots:true`
+  # once tvOS screenshots are present in `fastlane/screenshots-tvos/`.
+  #
+  # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
+  #
+  lane :update_metadata_on_app_store_connect_tvos do |with_screenshots: false|
+    upload_metadata_to_app_store_connect(
+      platform: 'appletvos',
+      metadata_path: APP_STORE_TVOS_METADATA_FOLDER,
+      screenshots_path: APP_STORE_TVOS_SCREENSHOTS_FOLDER,
+      with_screenshots: with_screenshots
     )
   end
 
@@ -1286,18 +1307,40 @@ platform :ios do
     "release/#{release_version_current}"
   end
 
+  def github_release_version(beta_release:)
+    beta_release ? build_code_current : release_version_current
+  end
+
+  def boolean_option(value, default:)
+    return value if [true, false].include?(value)
+    return default if value.nil?
+
+    value.to_s == 'true'
+  end
+
   # Kicks off a Buildkite build using the `release-builds.yml` pipeline
   #
   # @param branch [String] The git branch on which to trigger the CI build on
   # @param beta [Boolean] If true, build a beta; if false, build a final release
+  # @param platform [String] The platform build to trigger, either `ios` or `tvos`
+  # @param notify_slack [Boolean, nil] Optional Slack notification override. nil keeps the platform default: true for iOS, false for tvOS.
+  # @param create_release [Boolean, nil] Optional GitHub Release creation override. nil keeps the platform default: true for iOS, false for tvOS.
   # @return [String] The URL of the build that has been triggered
   #
-  def trigger_buildkite_release_build(branch:, beta:)
+  def trigger_buildkite_release_build(branch:, beta:, platform: 'ios', notify_slack: nil, create_release: nil)
+    platform = platform.to_s.downcase
+    UI.user_error!("Unsupported release platform '#{platform}'. Expected 'ios' or 'tvos'.") unless %w[ios tvos].include?(platform)
+    notify_slack = boolean_option(notify_slack, default: platform == 'ios')
+    create_release = boolean_option(create_release, default: platform == 'ios')
+
     pipeline_args = {
       pipeline_file: 'release-builds.yml',
       environment: {
         RELEASE_VERSION: release_version_current,
-        BETA_RELEASE: beta
+        BETA_RELEASE: beta,
+        RELEASE_PLATFORM: platform,
+        NOTIFY_SLACK: notify_slack,
+        CREATE_GITHUB_RELEASE: create_release
       }
     }
     if is_ci?
@@ -1311,6 +1354,175 @@ platform :ios do
         **pipeline_args
       )
     end
+  end
+
+  # Resolve repo-relative file paths from callers before passing them to lane
+  # code. Fastlane executes lane Ruby from the `fastlane/` directory, while our
+  # Buildkite scripts pass paths relative to the repository root.
+  #
+  def project_path(path)
+    return nil if path.nil?
+
+    path = path.to_s
+    return path if path.start_with?('/')
+
+    File.expand_path(path, PROJECT_ROOT_FOLDER)
+  end
+
+  def upload_assets_to_github_release(release:, assets:, api_token:)
+    assets.each do |asset|
+      asset_path = project_path(asset)
+      asset_name = File.basename(asset_path)
+      existing_assets = Array(release['assets']).select { |release_asset| release_asset['name'] == asset_name }
+
+      existing_assets.each do |existing_asset|
+        UI.message("Deleting existing GitHub Release asset #{asset_name}...")
+        Fastlane::Actions::GithubApiAction.run(
+          server_url: 'https://api.github.com',
+          api_token: api_token,
+          http_method: 'DELETE',
+          path: "repos/#{GITHUB_REPO}/releases/assets/#{existing_asset['id']}",
+          error_handlers: {
+            '*' => proc do |result|
+              UI.user_error!("GitHub responded with #{result[:status]}:#{result[:body]}")
+            end
+          }
+        )
+      end
+
+      Fastlane::Actions::SetGithubReleaseAction.upload(asset_path, release['upload_url'], api_token, nil)
+    end
+  end
+
+  # Updates a GlotPress metadata source `.po` file using App Store metadata files.
+  #
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @param po_file_path [String] Path to the GlotPress source `.po` file to update
+  #
+  def update_app_store_strings_source(metadata_folder:, po_file_path:)
+    gp_update_metadata_source(
+      po_file_path: po_file_path,
+      source_files: app_store_metadata_source_files(metadata_folder: metadata_folder),
+      release_version: release_version_current,
+      commit_changes: true
+    )
+  end
+
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @return [Hash] Source file mapping expected by `gp_update_metadata_source`
+  #
+  def app_store_metadata_source_files(metadata_folder:)
+    source_metadata_folder = File.join(metadata_folder, 'default')
+
+    {
+      whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
+      app_store_subtitle: {
+        path: File.join(source_metadata_folder, 'subtitle.txt'),
+        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
+      },
+      app_store_desc: {
+        path: File.join(source_metadata_folder, 'description.txt'),
+        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
+      },
+      app_store_keywords: {
+        path: File.join(source_metadata_folder, 'keywords.txt'),
+        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+      }
+    }
+  end
+
+  # @return [Hash] Target file mapping expected by `gp_downloadmetadata`
+  #
+  def app_store_metadata_target_files
+    {
+      "v#{release_version_current}-whats-new": {
+        desc: 'release_notes.txt',
+        max_size: 4000
+      },
+      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
+      app_store_desc: { desc: 'description.txt', max_size: 4000 },
+      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
+    }
+  end
+
+  # Downloads localized App Store metadata from a GlotPress project into a platform-specific metadata folder.
+  #
+  # @param project_url [String] GlotPress project URL
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  # @param commit_message [String] Commit message for downloaded metadata changes
+  #
+  def download_localized_app_store_metadata(project_url:, metadata_folder:, commit_message:)
+    # FIXME: Replace this with a call to the future replacement of
+    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
+    # paaHJt-31O-p2).
+    target_files = app_store_metadata_target_files
+
+    gp_downloadmetadata(
+      project_url: project_url,
+      target_files: target_files,
+      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
+      download_path: metadata_folder
+    )
+    files_to_commit = [File.join(metadata_folder, '**', '*.txt')]
+
+    # Ensure that none of the `.txt` files in `en-US` would accidentally
+    # override our originals in `default`
+    target_files.values.map { |h| h[:desc] }.each do |file|
+      en_file_path = File.join(metadata_folder, 'en-US', file)
+      next unless File.exist?(en_file_path)
+
+      UI.user_error! <<~ERROR
+        File `#{en_file_path}` would override the same one in `#{metadata_folder}/default`, but `default/` is the source of truth.
+        Delete the `#{en_file_path}` file, ensure the `default/` one has the expected original copy, and try again.
+      ERROR
+    end
+
+    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
+    # we don't have any translation at all ready for some locales)
+    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
+      gitkeep = File.join(metadata_folder, locale, '.gitkeep')
+      next if File.exist?(gitkeep)
+
+      FileUtils.mkdir_p(File.dirname(gitkeep))
+      FileUtils.touch(gitkeep)
+      files_to_commit.append(gitkeep)
+    end
+
+    # Commit
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: commit_message,
+      allow_nothing_to_commit: true
+    )
+  end
+
+  # Upload localized App Store Connect metadata for a specific App Store platform.
+  #
+  # @param platform [String] Fastlane deliver platform, such as `ios` or `appletvos`
+  # @param metadata_path [String] Path to the Fastlane deliver metadata folder for this platform
+  # @param screenshots_path [String] Path to the Fastlane deliver screenshots folder for this platform
+  # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC
+  #
+  def upload_metadata_to_app_store_connect(platform:, metadata_path:, screenshots_path:, with_screenshots:)
+    # Skip screenshots by default. The naming is "with" to make it clear that
+    # callers need to opt-in to adding screenshots. The naming of the deliver
+    # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
+    skip_screenshots = with_screenshots == false
+
+    upload_to_app_store(
+      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
+      app_version: release_version_current,
+      platform: platform,
+      skip_binary_upload: true,
+      metadata_path: metadata_path,
+      screenshots_path: screenshots_path,
+      skip_screenshots: skip_screenshots,
+      overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
+      phased_release: true,
+      precheck_include_in_app_purchases: false,
+      api_key: app_store_connect_api_key
+    )
   end
 
   # Update the milestone of still-open PRs

@@ -31,8 +31,8 @@ struct CancelSubscriptionPlanRow: View {
                                 .onAppear {
                                     badgeHeight = proxy.size.height
                                 }
-                                .onChange(of: proxy.size.height) {
-                                    badgeHeight = $0
+                                .onChange(of: proxy.size.height) { _, newValue in
+                                    badgeHeight = newValue
                                 }
                         }
                     )

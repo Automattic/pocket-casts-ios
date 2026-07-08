@@ -539,6 +539,11 @@ public class DataManager {
         episodeManager.findLatestEpisodes(podcast: podcast, limit: limit, dbQueue: dbQueue)
     }
 
+    /// Unplayed episodes from subscribed podcasts, most recently published first.
+    public func findNewReleaseEpisodes(limit: Int) -> [Episode] {
+        episodeManager.findNewReleaseEpisodes(limit: limit, dbQueue: dbQueue)
+    }
+
     public func unsyncedEpisodes(limit: Int) -> [Episode] {
         episodeManager.unsyncedEpisodes(limit: limit, dbQueue: dbQueue)
     }

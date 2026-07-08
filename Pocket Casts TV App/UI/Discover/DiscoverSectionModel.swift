@@ -23,6 +23,8 @@ class DiscoverSectionModel {
 
     private(set) var listId: String?
 
+    private(set) var dateTime: String?
+
     init(type: DiscoverType, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = type
         self.item = nil
@@ -65,6 +67,7 @@ class DiscoverSectionModel {
             sponsored = section.sponsoredPodcastsIDs
             isSponsored = item?.isSponsored ?? false
             listId = section.listId
+            dateTime = section.dateTime
         }
     }
 
@@ -76,7 +79,7 @@ class DiscoverSectionModel {
 
     func trackPodcastTapped(_ podcast: DiscoverPodcast) {
         guard let listId, let podcastUuid = podcast.uuid else { return }
-        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
+        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, dateTime: dateTime, source: source)
     }
 
     var focusStoreID: String {

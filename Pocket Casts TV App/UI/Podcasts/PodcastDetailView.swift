@@ -139,6 +139,28 @@ struct PodcastDetailView: View {
         EpisodeRowWithActions(model: episode, focus: $rowFocus)
     }
 
+    private var sortMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(PodcastEpisodeSortOrder.allCases, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
+        }
+        .buttonStyle(MoreButtonStyle())
+    }
+
     private var archivedFilterMenu: some View {
         Menu {
             Button {
@@ -223,12 +245,13 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack(alignment: .center) {
+                HStack(alignment: .center, spacing: 8) {
                     Text(L10n.tvPodcastDetailAllEpisodes)
                         .font(.title3)
                         .foregroundStyle(Color.pcTextPrimary)
                     Spacer()
                     archivedFilterMenu
+                    sortMenu
                 }
                 .padding(.top, 40)
                 .padding(.bottom, 32)

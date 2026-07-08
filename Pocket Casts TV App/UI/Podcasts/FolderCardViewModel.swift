@@ -3,7 +3,7 @@ import PocketCastsDataModel
 @Observable
 class FolderCardViewModel {
 
-    let folder: Folder
+    var folder: Folder
     let dataManager: DataManager
 
     var topPodcastsUuids: [String] = []

@@ -53,6 +53,11 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                 DiscoverAllView(model: mainTabModel.discoverAllViewModel)
             }
         }
+        .navigationDestination(for: DiscoverPodcast.self) { podcast in
+            if let uuid = podcast.uuid {
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+            }
+        }
         .animation(.easeInOut, value: model.state)
         .animation(.easeInOut, value: model.scope)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {

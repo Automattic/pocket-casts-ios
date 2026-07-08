@@ -51,6 +51,9 @@ struct Constants {
         static let currentlyPlayingEpisodeUpdated = NSNotification.Name(rawValue: "SJCurrentlyPlayingEpisodeUpdated")
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
         static let videoPlaybackEngineSwitched = NSNotification.Name(rawValue: "SJVideoPlaybackEngineSwitched")
+        /// Posted when the user toggles the audio/video shelf action. Distinct from
+        /// `videoPlaybackEngineSwitched` (runtime video detection) so it doesn't trigger auto-open behaviour.
+        static let videoRenderingToggled = NSNotification.Name(rawValue: "SJVideoRenderingToggled")
 
         // episode notifications
         static let episodePlayStatusChanged = NSNotification.Name(rawValue: "SJEpPlayStatusChanged")
@@ -180,6 +183,8 @@ struct Constants {
         static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
 
         static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
+
+        static let shouldShowUpNextSortDurationTip = "ShouldShowUpNextSortDurationTip"
 
         static let newFilterTip = "NewFilterTip"
         static let newFilterTipCreationView = "NewFilterTipCreationView"

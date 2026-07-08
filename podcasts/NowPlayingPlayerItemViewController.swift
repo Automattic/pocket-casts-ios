@@ -478,12 +478,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
-        Analytics.track(.playerPreviousChapterTapped)
+        PlaybackManager.shared.trackChapterEvent(.playerPreviousChapterTapped)
     }
 
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
-        Analytics.track(.playerNextChapterTapped)
+        PlaybackManager.shared.trackChapterEvent(.playerNextChapterTapped)
     }
 
     @objc private func chapterLinkTapped() {
@@ -511,9 +511,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
-        if episode.videoPodcast() {
+        if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
             videoViewController?.modalTransitionStyle = .crossDissolve

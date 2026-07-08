@@ -412,7 +412,7 @@ extension View {
         self
             .scaleEffect(isPressed ? scaleEffectNumber : 1.0, anchor: .center)
             .animation(.interpolatingSpring(stiffness: 350, damping: 10, initialVelocity: 10), value: isPressed)
-            .onChange(of: isPressed) { pressed in
+            .onChange(of: isPressed) { _, pressed in
                 guard enableHaptic, pressed else { return }
 
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()

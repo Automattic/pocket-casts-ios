@@ -285,7 +285,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @objc private func trackChanged() {
-        guard let currentEpisode = PlaybackManager.shared.currentEpisode(), currentEpisode.videoPodcast() else {
+        guard PlaybackManager.shared.currentEpisode() != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
             dismiss(animated: true, completion: nil)
             return
         }

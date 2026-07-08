@@ -13,8 +13,8 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
-    private var isVideoPodcast: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    private var isVideoShown: Bool {
+        PlaybackManager.shared.shouldRenderVideo()
     }
 
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
@@ -71,7 +71,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // Drop the mini-player handoff artwork for video — otherwise it would
         // be installed on `episodeImage` in `willBeAddedToPlayer` and bleed
         // through the floating video's letterbox bands.
-        if isVideoPodcast {
+        if isVideoShown {
             toVC.nowPlayingItem.placeholderArtwork = nil
         }
         toVC.loadViewIfNeeded()
@@ -184,7 +184,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
         let floating: UIImageView?
-        if isVideoPodcast {
+        if isVideoShown {
             floating = nil
         } else {
             let art = makeFloatingArtwork(
@@ -238,7 +238,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             self.miniSnapshotController = nil
             // Restore the artwork only for audio — `update()` on the player
             // controller already left video artwork effectively hidden.
-            if !self.isVideoPodcast {
+            if !self.isVideoShown {
                 toArtwork.alpha = 1
             }
             context.completeTransition(!context.transitionWasCancelled)
@@ -296,7 +296,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // Skip the morph entirely in that case and let the mini snapshot's
         // own artwork appear in place instead. Video podcasts also skip the
         // morph because `episodeImage` is hidden behind the floating video.
-        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoPodcast
+        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoShown
         let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline

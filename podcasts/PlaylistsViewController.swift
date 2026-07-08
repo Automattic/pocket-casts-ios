@@ -2,15 +2,14 @@ import SwiftUI
 import DifferenceKit
 import UIKit
 import PocketCastsDataModel
-import PocketCastsDependencyInjection
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
-    @Dependency(\.playlistMetadataLoader) private var playlistMetadataLoader: PlaylistMetadataLoader
-    @Dependency(\.playlistCacheInvalidationCoordinator) private var cacheInvalidationCoordinator: PlaylistCacheInvalidationCoordinator
+    private let playlistMetadataLoader = PlaylistMetadataLoader.shared
+    private let cacheInvalidationCoordinator = PlaylistCacheInvalidationCoordinator.shared
 
     private var staleCancellable: AnyCancellable?
     @IBOutlet var filtersTable: ThemeableTable! {

@@ -1,5 +1,6 @@
 import GRDB
 import Foundation
+import PocketCastsUtils
 
 class GRDBResultSet: PCDBResultSet {
     private let rowCursor: RowCursor
@@ -20,7 +21,19 @@ class GRDBResultSet: PCDBResultSet {
             fatalError("Result set is closed")
         }
 
-        try? row = rowCursor.next()
+        // Reset `row` before stepping so a cursor error (e.g. SQLITE_BUSY /
+        // SQLITE_IOERR) surfaces as end-of-results instead of leaving the
+        // previous row in place, which would make `while next()` loops spin.
+        do {
+            row = try rowCursor.next()
+        } catch {
+            // A cursor failure (SQLITE_BUSY/SQLITE_IOERR, etc.) silently
+            // truncates the result set: callers see end-of-results and get
+            // whatever rows were read so far. Log it so partial reads are
+            // diagnosable rather than invisible.
+            FileLog.shared.addMessage("GRDBResultSet.next() cursor error: \(error)")
+            row = nil
+        }
         return row != nil
     }
 
