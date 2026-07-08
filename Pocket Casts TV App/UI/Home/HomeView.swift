@@ -94,7 +94,7 @@ struct HomeView: View {
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
                 if let uuid = podcast.uuid {
-                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscovery: true))
+                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscover: true))
                 }
             }
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
