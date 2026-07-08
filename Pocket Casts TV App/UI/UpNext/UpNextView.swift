@@ -12,6 +12,9 @@ struct UpNextView: View {
     @Namespace private var rowNamespace
     @FocusState private var rowFocus: EpisodeRowFocus?
 
+    @State private var lastFocus: String?
+    @FocusState private var currentFocus: String?
+
     init(model: UpNextViewModel) {
         _model = State(wrappedValue: model)
     }
@@ -27,6 +30,7 @@ struct UpNextView: View {
                 emptyView
             }
         }
+        .focusScope(rowNamespace)
         .task {
             Analytics.track(.upNextShown, properties: ["source": "tab_bar"])
             model.load()
@@ -43,14 +47,24 @@ struct UpNextView: View {
                 LazyVStack(alignment: .leading, spacing: 24) {
                     headerRow
                     ForEach(model.episodes) { episode in
-                        EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus) {
+                        EpisodeRowWithActions(model: episode, context: .upNext, focus: $rowFocus, customPlayDisplayAction: {
                             tabRouter.showFullScreenPlayer = true
-                        }
+                        }, detailsDismissed: {
+                            currentFocus = lastFocus
+                        })
                         .frame(width: 1160)
-                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
+                        .focused($currentFocus, equals: episode.id)
                     }
                 }
-                .focusScope(rowNamespace)
+            }
+            .focusSection()
+            .onChange(of: rowFocus) { _, new in
+                if let new {
+                    lastFocus = new.episodeID
+                }
+            }
+            .onAppear() {
+                currentFocus = lastFocus
             }
             .navigationDestination(for: Podcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
