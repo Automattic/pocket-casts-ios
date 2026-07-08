@@ -53,10 +53,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Atomic because it's read from now-playing updates that can run off the main queue.
     private let currentStreamContainsVideo = AtomicBool()
 
-    /// Whether the video of the current stream should be rendered. Defaults to on; the user can
-    /// switch an HLS video stream to audio-only via the player shelf toggle. Reset per episode.
-    private let videoRenderingEnabled = AtomicBool(true)
-
     private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
@@ -755,31 +751,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo.value
     }
 
-    /// Whether the video surface should currently be shown. Video content can be present
-    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle.
-    func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.value
-    }
-
-    var isVideoRenderingEnabled: Bool {
-        videoRenderingEnabled.value
-    }
-
-    /// Whether the audio/video toggle should be offered for the current stream. Only HLS streams
-    /// found to carry video (not static video podcasts) can be switched to audio-only.
-    func canToggleVideoRendering() -> Bool {
-        FeatureFlag.hls.enabled && currentStreamContainsVideo.value && (currentEpisode() is Episode)
-    }
-
-    /// Toggles whether the current HLS stream's video surface is shown. When disabled the player
-    /// shows the episode artwork instead of the video; playback and video decoding are unaffected
-    /// (this is a display-only switch).
-    func toggleVideoRendering() {
-        guard canToggleVideoRendering() else { return }
-        videoRenderingEnabled.toggle()
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
-    }
-
     /// Called by the player when it detects video tracks in the stream it is playing.
     /// Used for HLS streams whose video content isn't reflected in the episode's file type.
     func handleVideoTracksDetected(forEpisode episodeUuid: String) {
@@ -1448,7 +1419,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
         currentStreamContainsVideo.value = false
-        videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         if let player {

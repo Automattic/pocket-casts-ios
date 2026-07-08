@@ -17,7 +17,6 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func bookmarkTapped()
     func transcriptTapped()
     func downloadTapped()
-    func videoToggleTapped()
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
     func presentManualPlaylistsChooser()
 }
@@ -34,7 +33,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #endif
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering(), videoRenderingEnabled: PlaybackManager.shared.isVideoRenderingEnabled) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -185,16 +184,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
             addToShelf(on: button)
 #endif
-        case .videoToggle:
-            let renderingVideo = PlaybackManager.shared.shouldRenderVideo()
-            let button = UIButton(frame: CGRect.zero)
-            button.isPointerInteractionEnabled = true
-            button.imageView?.tintColor = ThemeColor.playerContrast02()
-            button.setImage(UIImage(named: renderingVideo ? "video_off" : "video_on"), for: .normal)
-            button.addTarget(self, action: #selector(videoToggleBtnTapped(_:)), for: .touchUpInside)
-            button.accessibilityLabel = renderingVideo ? L10n.playerActionHideVideo : L10n.playerActionShowVideo
-
-            addToShelf(on: button)
         }
 
         return true
@@ -289,10 +278,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #if !APPCLIP
         displayTranscript = true
         #endif
-    }
-
-    func videoToggleTapped() {
-        PlaybackManager.shared.toggleVideoRendering()
     }
 
     func downloadTapped() {
@@ -428,11 +413,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         shelfButtonTapped(.download)
         downloadTapped()
         #endif
-    }
-
-    @objc private func videoToggleBtnTapped(_ sender: UIButton) {
-        shelfButtonTapped(.videoToggle)
-        videoToggleTapped()
     }
 
     // MARK: - Sleep Timer

@@ -84,11 +84,6 @@ class PlayerTabsView: UIScrollView {
         showsHorizontalScrollIndicator = false
         clipsToBounds = true
 
-        // Keep the tabs left-to-right in every language so their order stays in
-        // sync with the paged player content, which is also forced LTR. See #1952.
-        semanticContentAttribute = .forceLeftToRight
-        tabsStackView.semanticContentAttribute = .forceLeftToRight
-
         updateTabs()
 
         addSubview(tabsStackView)

@@ -23,12 +23,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var mainScrollView: RegionCancellingScrollView! {
         didSet {
-            // The player tabs are a spatial carousel, not text, so keep the paging
-            // left-to-right in every language. Otherwise UIKit mirrors the scroll
-            // view under RTL and the index-based paging math (offset == index * width)
-            // opens the last tab (Bookmarks) instead of Now Playing. See #1952.
-            mainScrollView.semanticContentAttribute = .forceLeftToRight
-
             // We don't need to handle the scroll view because it is not dismissable in App Clip
             #if !APPCLIP
             mainScrollView.delegate = self

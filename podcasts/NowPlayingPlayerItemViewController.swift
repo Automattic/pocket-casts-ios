@@ -513,7 +513,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @objc private func videoTapped() {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
-        if PlaybackManager.shared.shouldRenderVideo() {
+        if PlaybackManager.shared.isCurrentEpisodeVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
             videoViewController?.modalTransitionStyle = .crossDissolve

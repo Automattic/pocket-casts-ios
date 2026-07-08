@@ -23,8 +23,7 @@ final class SettingsTests: XCTestCase {
             .goToPodcast,
             .starEpisode,
             .chromecast,
-            .archive,
-            .videoToggle
+            .archive
         ]
         return actions
     }()
