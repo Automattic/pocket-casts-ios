@@ -9,7 +9,6 @@ class ThemeTests: XCTestCase {
     override func setUp() {
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.themeKey)
-        flagMock.set(.newSettingsStorage, value: false)
     }
 
     override func tearDown() {

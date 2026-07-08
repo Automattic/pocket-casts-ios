@@ -27,26 +27,16 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     }
 
     @objc func pushEnabled() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.notifications
-        } else {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
-        }
+        UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
     }
 
     func enablePush() {
         if pushEnabled() { return } // already enabled
 
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.notifications = true
-        }
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.pushEnabled)
     }
 
     func disablePush() {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.notifications = false
-        }
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.pushEnabled)
     }
 

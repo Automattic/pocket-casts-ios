@@ -14,12 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
-    case newSettingsStorage
-
-    /// Syncing all app and podcast settings
-    case settingsSync
-
     /// Show the modal about the partnership with Slumber Studios
     case slumber
 
@@ -347,10 +341,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .endOfYear:
             false
-        case .newSettingsStorage:
-            shouldEnableSyncedSettings
-        case .settingsSync:
-            shouldEnableSyncedSettings
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
@@ -552,20 +542,12 @@ public enum FeatureFlag: String, CaseIterable {
         }
     }
 
-    private var shouldEnableSyncedSettings: Bool {
-        false
-    }
-
     /// Remote Feature Flag
     /// This should match a Firebase Remote Config Parameter name (key)
     public var remoteKey: String? {
         switch self {
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
-        case .newSettingsStorage:
-            shouldEnableSyncedSettings ? "new_settings_storage" : nil
-        case .settingsSync:
-            shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
         case .endOfYear2025:

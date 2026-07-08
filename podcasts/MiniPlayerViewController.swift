@@ -520,12 +520,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// current episode is video. For HLS the video isn't known at playback start, so this is also
     /// called when video is detected at runtime (via `videoPlaybackEngineSwitched`).
     private func autoOpenFullScreenPlayerIfNeeded(for episode: BaseEpisode) {
-        let shouldOpenAutomatically: Bool
-        if FeatureFlag.newSettingsStorage.enabled {
-            shouldOpenAutomatically = SettingsStore.appSettings.openPlayer
-        } else {
-            shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-        }
+        let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
         if shouldOpenAutomatically || PlaybackManager.shared.isCurrentEpisodeVideo(), lastEpisodeUuidAutoOpened != episode.uuid {
             lastEpisodeUuidAutoOpened = episode.uuid
 
