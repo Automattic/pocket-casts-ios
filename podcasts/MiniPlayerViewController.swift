@@ -662,18 +662,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
-        // A slightly translucent accent circle lets the tab bar's glass show
-        // through for a vibrant, glassy feel (without the buggy UIGlassEffect).
-        // The skip glyphs reuse that same translucent accent so all three
-        // controls share one color.
-        let accentColor = actionColor.withAlphaComponent(0.9)
         playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = accentColor
+        playPauseBtn.circleColor = actionColor
 
-        skipBackBtn.tintColor = accentColor
-        skipFwdBtn.tintColor = accentColor
+        skipBackBtn.tintColor = actionColor
+        skipFwdBtn.tintColor = actionColor
 
-        glassProgressView?.tintColorOverride = accentColor
+        glassProgressView?.tintColorOverride = actionColor
     }
 
     private func currentPodcastTintColor() -> UIColor {
