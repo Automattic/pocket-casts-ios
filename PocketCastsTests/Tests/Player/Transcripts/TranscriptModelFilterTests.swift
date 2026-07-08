@@ -217,6 +217,28 @@ final class TranscriptModelFilterTests: XCTestCase {
         XCTAssertEqual(model.cues.count, 2)
     }
 
+    func testJSONPodcastIndexWithoutSpeaker() throws {
+        let transcript = """
+        {
+            "version": "1.0.0",
+            "segments": [
+                { "startTime": 0.0, "endTime": 1.0, "body": "Hello world" },
+                { "startTime": 1.0, "endTime": 2.0, "body": "Hi there" }
+            ]
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Hello world"))
+        XCTAssertTrue(text.contains("Hi there"))
+        XCTAssertEqual(model.cues.count, 2)
+    }
+
     func testFlightcastJSONUsesEmbeddedVTT() throws {
         let transcript = """
         {

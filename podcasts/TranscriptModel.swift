@@ -99,8 +99,9 @@ struct TranscriptModel: Sendable {
 
         let segments = (json["segments"] as? [Any])?.compactMap { $0 as? [String: Any] } ?? []
 
-        // Podcast Index style: segments with speaker/body.
-        if let first = segments.first, first["speaker"] is String, first["body"] is String {
+        // Podcast Index style: segments carry `body` (the `speaker` field is
+        // optional, so we key off `body`, which the decoder requires).
+        if let first = segments.first, first["body"] is String {
             return try Subtitles(content: text, expectedExtension: TranscriptFormat.jsonPodcastIndex.fileExtension)
         }
 
