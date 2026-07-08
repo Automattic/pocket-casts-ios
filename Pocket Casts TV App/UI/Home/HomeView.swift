@@ -98,7 +98,7 @@ struct HomeView: View {
                 }
             }
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-                DiscoverPodcastsListView(category: discoverCategory)
+                DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.homeSource)
             }
             .navigationDestination(for: Podcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))

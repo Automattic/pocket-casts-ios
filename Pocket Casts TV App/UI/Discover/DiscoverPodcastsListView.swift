@@ -12,8 +12,8 @@ struct DiscoverPodcastsListView: View {
 
     @State private var model: DiscoverCategoryModel
 
-    init(category: DiscoverCategory) {
-        _model = State(wrappedValue: DiscoverCategoryModel(category: category))
+    init(category: DiscoverCategory, source: String) {
+        _model = State(wrappedValue: DiscoverCategoryModel(category: category, source: source))
     }
 
     let gridColumns: [GridItem] = (0..<6).map { _ in
@@ -80,7 +80,7 @@ struct DiscoverPodcastsListView: View {
 }
 
 #Preview {
-    DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"))
+    DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"), source: DiscoverAnalytics.homeSource)
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }

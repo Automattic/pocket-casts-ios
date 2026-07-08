@@ -38,7 +38,7 @@ struct DiscoverAllView: View {
             }
         }
         .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-            DiscoverPodcastsListView(category: discoverCategory)
+            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
         }
     }
 }

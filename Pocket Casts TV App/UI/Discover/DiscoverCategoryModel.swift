@@ -16,12 +16,15 @@ class DiscoverCategoryModel {
 
     var sponsoredPodcastsUuids: Set<String> = []
 
+    var source: String
+
     var listId: String?
 
     let sponsoredPosition: Int
 
-    init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared, sponsoredPosition: Int = 5) {
+    init(category: DiscoverCategory, source: String, discoverManager: DiscoverManager = DiscoverManager.shared, sponsoredPosition: Int = 5) {
         self.category = category
+        self.source = source
         self.discoverManager = discoverManager
         self.sponsoredPosition = sponsoredPosition
     }
@@ -74,7 +77,7 @@ class DiscoverCategoryModel {
         guard let podcastUuid = podcast.uuid else { return }
 
         if let listId {
-            DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, dateTime: nil, source: "discover")
+            DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, dateTime: nil, source: source)
         }
 
         if isSponsored(podcast: podcast) {
