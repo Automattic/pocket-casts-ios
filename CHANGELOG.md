@@ -1,6 +1,6 @@
 8.18
 -----
-
+- Load the podcasts grid earlier so it's populated by the time the tab is shown [#4715](https://github.com/Automattic/pocket-casts-ios/pull/4715)
 
 8.17
 -----
