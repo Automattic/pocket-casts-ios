@@ -135,8 +135,14 @@ struct PodcastDetailView: View {
         }
     }
 
+    @State private var lastFocus: String?
+    @FocusState private var currentFocus: String?
+
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(model: episode, focus: $rowFocus)
+        EpisodeRowWithActions(model: episode, focus: $rowFocus, detailsDismissed: {
+            currentFocus = lastFocus
+        })
+        .focused($currentFocus, equals: episode.id)
     }
 
     private var sortMenu: some View {
@@ -261,6 +267,14 @@ struct PodcastDetailView: View {
         .padding(.horizontal, 24)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
+        .onChange(of: rowFocus) { _, new in
+            if let new {
+                lastFocus = new.episodeID
+            }
+        }
+        .onAppear {
+            currentFocus = lastFocus
+        }
     }
 }
 
