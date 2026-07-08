@@ -49,8 +49,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
     /// emitted once when playback actually starts (not on resume/seek) and again after the player
-    /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`.
-    private var hasReportedSourceResolved = false
+    /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`. Atomic because it's mutated
+    /// from the `activateAudioSession` completion, which can run off the main queue.
+    private let hasReportedSourceResolved = AtomicBool()
 
     /// Set at runtime when the currently playing stream is found to contain video tracks
     /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
@@ -256,9 +257,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         // calls can't each capture `true` and report twice for the same player. Only engaged when
         // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
         // later in the session.
-        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
         if shouldReportSourceResolved {
-            hasReportedSourceResolved = true
+            hasReportedSourceResolved.value = true
         }
 
         activateAudioSession(completion: { activated in
@@ -266,7 +267,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 self.aboutToPlay.value = false
                 // Playback didn't start, so allow a later retry to report the resolved source.
                 if shouldReportSourceResolved {
-                    self.hasReportedSourceResolved = false
+                    self.hasReportedSourceResolved.value = false
                 }
                 return
             }
@@ -1461,7 +1462,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
-        hasReportedSourceResolved = false
+        hasReportedSourceResolved.value = false
         currentStreamContainsVideo.value = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
