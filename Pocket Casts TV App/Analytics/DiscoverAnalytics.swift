@@ -1,5 +1,4 @@
 import PocketCastsServer
-import SwiftUI
 
 /// Centralizes the tvOS Discover list analytics events.
 ///

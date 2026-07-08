@@ -36,7 +36,7 @@ struct DiscoverSection {
     let dateTime: String?
     let region: String?
 
-    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, dateTime: String? = nil, region: String?) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, dateTime: String? = nil, region: String? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.podcasts = podcasts
@@ -68,7 +68,7 @@ struct DiscoverCategorySection {
     let listId: String?
     let region: String?
 
-    init(categoryDetails: DiscoverCategoryDetails, sponsoredPodcastsIDs: Set<String> = [], listId: String?, region: String?) {
+    init(categoryDetails: DiscoverCategoryDetails, sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, region: String? = nil) {
         self.categoryDetails = categoryDetails
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
         self.listId = listId
@@ -137,7 +137,7 @@ actor DiscoverManager {
 
     func loadDiscoverSection(sourceItem: DiscoverItem) async -> DiscoverSection {
         guard  let discoverLayout = await getLayout(), let source = sourceItem.source else {
-            return DiscoverSection(title: nil, podcasts: [], listId: sourceItem.listId(collection: nil), region: nil)
+            return DiscoverSection(title: nil, podcasts: [], listId: sourceItem.listId(collection: nil))
         }
         let regionCode = regionCode(for: discoverLayout)
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
@@ -145,7 +145,7 @@ actor DiscoverManager {
         let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated)
         let listId = sourceItem.listId(collection: podcastCollection)
         guard var listOfPodcasts = podcastCollection?.podcasts else {
-            return DiscoverSection(title: podcastCollection?.title, podcasts: [], listId: listId, region: nil)
+            return DiscoverSection(title: podcastCollection?.title, podcasts: [], listId: listId)
         }
 
         let sponsoredPodcasts = await loadSponsoredPodcasts(item: sourceItem)
@@ -176,7 +176,7 @@ actor DiscoverManager {
 
     func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
         guard let sourceItem = await findItem(of: type) else {
-            return DiscoverSection(title: nil, podcasts: [], region: nil)
+            return DiscoverSection(title: nil, podcasts: [])
         }
 
         return await loadDiscoverSection(sourceItem: sourceItem)
