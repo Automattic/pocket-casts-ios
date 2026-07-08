@@ -1,5 +1,6 @@
 8.17
 -----
+- Add support for Flightcast JSON transcripts [#4706](https://github.com/Automattic/pocket-casts-ios/pull/4706)
 
 
 8.16

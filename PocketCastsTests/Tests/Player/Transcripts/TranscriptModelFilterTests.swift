@@ -222,7 +222,7 @@ final class TranscriptModelFilterTests: XCTestCase {
         {
             "text": "Hello world from flightcast",
             "segments": [{ "start": 0.03, "end": 2.35, "text": "Hello world from flightcast" }],
-            "vtt": "WEBVTT\\n\\n1\\n00:00:00.031 --> 00:00:02.356\\nHello world from flightcast\\n"
+            "vtt": "WEBVTT\\n\\n1\\n00:00:00.031 --> 00:00:02.356\\n<v Speaker 1>Hello world from flightcast\\n"
         }
         """
 
@@ -231,7 +231,11 @@ final class TranscriptModelFilterTests: XCTestCase {
             return
         }
 
-        XCTAssertTrue(model.attributedText.string.contains("Hello world from flightcast"))
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Hello world from flightcast"))
+        // The embedded VTT's <v Speaker 1> voice tag should surface as a speaker heading.
+        XCTAssertTrue(text.contains("Speaker 1"))
+        XCTAssertFalse(text.contains("<v"))
         XCTAssertFalse(model.cues.isEmpty)
     }
 
