@@ -43,6 +43,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     var isEditingOrder = false
     var savedRightBarButtonItem: UIBarButtonItem?
 
+    /// The initial grid load is kicked off in viewDidLoad; this lets the first viewDidAppear skip
+    /// its redundant refresh so we don't run the (potentially expensive) badge queries twice at launch.
+    private var didLoadInitialGridItems = false
+
     private var lastWillLayoutWidth: CGFloat = 0
 
     /// Gap below the grid (as a fraction of the bottom safe area) so its last content clears
@@ -104,13 +108,24 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
+
+        refreshGridItems()
+        didLoadInitialGridItems = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         updateInsets()
-        refreshGridItems()
+
+        // The initial load already ran in viewDidLoad; skip the first redundant refresh but keep
+        // refreshing on every subsequent appearance so returning to the tab reflects changes.
+        if didLoadInitialGridItems {
+            didLoadInitialGridItems = false
+        } else {
+            refreshGridItems()
+        }
+
         addEventObservers()
         updateNavigationButtons()
 
