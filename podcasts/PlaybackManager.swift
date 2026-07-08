@@ -281,8 +281,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
 
             // Report the source the player resolved now that playback has actually started, once per
-            // player (resumes/seeks reuse the same player and don't re-report).
-            if shouldReportSourceResolved {
+            // player (resumes/seeks reuse the same player and don't re-report). Only report if the
+            // current episode still matches the one we started: activation can run async, and if the
+            // user has since switched episodes the new play cycle reports its own resolved source.
+            if shouldReportSourceResolved, self.currentEpisode()?.uuid == currEpisode.uuid {
                 self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
             }
 
