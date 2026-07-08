@@ -1273,6 +1273,9 @@
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. */
 "mark_played" = "Mark as Played";
 
+/* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
+"mark_unplayed" = "Mark as Unplayed";
+
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. Similar to 'Mark as Played' but more concise. */
 "mark_played_short" = "Mark Played";
 
@@ -6276,6 +6279,9 @@
 
 /* tv toast confirming an episode was marked as played */
 "tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was marked as unplayed */
+"tv_episode_marked_as_unplayed" = "Marked as unplayed";
 
 /* tv toast confirming an episode was archived */
 "tv_episode_archived" = "Archived";

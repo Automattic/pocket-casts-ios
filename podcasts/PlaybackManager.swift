@@ -1255,6 +1255,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 episode.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
             }
             DataManager.sharedManager.save(episode: episode)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
 
             if SyncManager.isUserLoggedIn() {
                 FileLog.shared.addMessage("Sending playback completed to API server")
