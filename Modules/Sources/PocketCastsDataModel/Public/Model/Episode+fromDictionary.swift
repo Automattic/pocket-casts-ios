@@ -2,7 +2,7 @@ import Foundation
 
 extension Episode {
     /// MIME type advertised for HLS streams inside a feed's `alternate_enclosures`.
-    static let hlsEnclosureType = "application/x-mpegURL"
+    public static let hlsEnclosureType = "application/x-mpegURL"
 
     /// Extracts the HLS stream URL from a feed episode's `alternate_enclosures` array, if one is present.
     ///
