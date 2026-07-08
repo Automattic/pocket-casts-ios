@@ -81,6 +81,9 @@ class EpisodeRowViewModel: Identifiable {
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+        if let podcastUuid {
+            DiscoverAnalytics.discoverPodcastPlayed(podcastUuid: podcastUuid)
+        }
     }
 
     func playNext() {

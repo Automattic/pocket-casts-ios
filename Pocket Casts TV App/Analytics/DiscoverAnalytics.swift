@@ -44,7 +44,19 @@ enum DiscoverAnalytics {
         AnalyticsHelper.adTapped(categoryName: categoryName ?? "unknown", region: region ?? "unknown", podcastUUID: podcastUUID, categoryID: categoryID ?? 0)
     }
 
-    static func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
-        AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: listDateTime)
+    static func discoverPodcastSubscribed(podcastUuid: String) {
+        Task {
+            if let listID = await DiscoverManager.shared.listIdForPodcast(podcastUuid) {
+                AnalyticsHelper.podcastSubscribedFromList(listId: listID, podcastUuid: podcastUuid, listDateTime: nil)
+            }
+        }
+    }
+
+    static func discoverPodcastPlayed(podcastUuid: String) {
+        Task {
+            if let listID = await DiscoverManager.shared.listIdForPodcast(podcastUuid) {
+                AnalyticsHelper.podcastEpisodePlayedFromList(listId: listID, podcastUuid: podcastUuid)
+            }
+        }
     }
 }

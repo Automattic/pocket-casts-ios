@@ -107,6 +107,7 @@ class PodcastDetailViewModel {
         guard let podcast else { return }
         Analytics.track(.podcastScreenSubscribeTapped)
         Analytics.track(.podcastSubscribed, properties: ["source": "podcast_screen", "uuid": podcast.uuid])
+        DiscoverAnalytics.discoverPodcastSubscribed(podcastUuid: podcast.uuid)
         isFollowing = true
         serverPodcastManager.subscribe(to: podcast.uuid, completion: nil)
     }
