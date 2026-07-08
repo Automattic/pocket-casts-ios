@@ -117,6 +117,10 @@ class EpisodeRowViewModel: Identifiable {
         episode.videoPodcast()
     }
 
+    var isPlayed: Bool {
+        episode.played()
+    }
+
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
