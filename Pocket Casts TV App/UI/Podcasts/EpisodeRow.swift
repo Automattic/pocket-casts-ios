@@ -254,7 +254,7 @@ struct EpisodeActionButtons: View {
                 }
                 Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
-                Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
+                Button(model.isPlayed ? L10n.markUnplayed : L10n.markPlayed) { requireAccount { model.isPlayed ? model.markAsUnplayed() : model.markAsPlayed() } }
                 if model.canArchive {
                     Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
                 }
