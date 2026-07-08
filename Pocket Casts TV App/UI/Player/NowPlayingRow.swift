@@ -53,10 +53,8 @@ private struct NowPlayingRowLabel: View {
                     .font(.title3)
                     .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
-                ProgressView(value: model.progress)
-                    .foregroundStyle(.blue)
-                    .tint(model.currentPodcastTintColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                let trackColor = isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary
+                RoundProgressView(trackColor: trackColor, progress: model.progress)
                 Text(model.timeLeft)
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)

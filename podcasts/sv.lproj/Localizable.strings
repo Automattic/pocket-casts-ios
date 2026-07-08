@@ -3874,8 +3874,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Du har loggats ut.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Skapa ett gratis konto</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Dina följare, dina framsteg, precis där du lämnade dem.</string>
     <key>tv_banner_create_account_title</key>
     <string>Ett konto. Alla skärmar</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4026,8 +4024,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Upptäck podcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Följda podcasts visas här, redo att spelas upp.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>Dags att fylla upp detta.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Öppnar profil- och kontoalternativ</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4066,8 +4062,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Logga in i Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Laddar dina podcasts</string>
-    <key>tv_signing_in_title</key>
-    <string>Kul att se dig.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts rekommenderar</string>
     <key>tv_starred_empty_subtitle</key>

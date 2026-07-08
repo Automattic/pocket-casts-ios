@@ -43,7 +43,7 @@ struct EpisodeRow: View {
             thumbnail
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     if model.isVideo {
                         Image(systemName: "play.rectangle.fill")
@@ -59,9 +59,21 @@ struct EpisodeRow: View {
                     .font(.body)
                     .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
-                Text(model.displayDuration)
-                    .font(.caption)
-                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                HStack(spacing: 8) {
+                    Text(isInProgress ? model.timeLeft : model.displayDuration)
+                        .font(.caption)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                    if isInProgress {
+                        let trackColor = (isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
+                        RoundProgressView(trackColor: trackColor, progress: model.progress)
+                            .frame(width: 96, height: 6)
+                            .padding(.leading, 8)
+                    } else if model.isPlayed {
+                        Image(systemName: "checkmark.circle")
+                            .font(.caption2)
+                            .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                    }
+                }
             }
             Spacer()
         }
@@ -71,6 +83,10 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+    }
+
+    private var isInProgress: Bool {
+        model.episode.inProgress()
     }
 
     private var archivedOpacity: Double {
@@ -122,6 +138,8 @@ struct EpisodeRowWithActions: View {
     var context: EpisodeActionContext = .other(showGoToPodcast: false)
     @FocusState.Binding var focus: EpisodeRowFocus?
     var customPlayDisplayAction: (() -> ())? = nil
+    var detailsDismissed: (() -> ())? = nil
+
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
@@ -198,6 +216,11 @@ struct EpisodeRowWithActions: View {
                 }
             }
         }
+        .onChange(of: isShowingShowNotes) { _, showing in
+            if !showing {
+                detailsDismissed?()
+            }
+        }
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
@@ -238,7 +261,7 @@ struct EpisodeActionButtons: View {
                 }
                 Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
                 Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
-                Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
+                Button(model.isPlayed ? L10n.markUnplayed : L10n.markPlayed) { requireAccount { model.isPlayed ? model.markAsUnplayed() : model.markAsPlayed() } }
                 if model.canArchive {
                     Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
                 }

@@ -205,13 +205,19 @@ struct PlaylistDetailView: View {
 
     @Namespace private var episodeListNamespace
 
+    @State private var lastFocus: String?
+    @FocusState private var currentFocus: String?
+
     var episodeList: some View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(showGoToPodcast: true), focus: $rowFocus)
-                        .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
-                        .listRowInsets(Layout.rowInsets)
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(showGoToPodcast: true), focus: $rowFocus, detailsDismissed: {
+                        currentFocus = lastFocus
+                    })
+                    .focused($currentFocus, equals: episode.uuid)
+                    .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                    .listRowInsets(Layout.rowInsets)
                 }
             } header: {
                 HStack {
@@ -220,6 +226,14 @@ struct PlaylistDetailView: View {
                 }
                 .padding(.bottom, 32)
             }
+        }
+        .onChange(of: rowFocus) { _, new in
+            if let new {
+                lastFocus = new.episodeID
+            }
+        }
+        .onAppear {
+            currentFocus = lastFocus
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)

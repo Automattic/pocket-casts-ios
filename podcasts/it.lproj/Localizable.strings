@@ -3874,8 +3874,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Sei stato disconnesso.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Crea un account gratuito</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>I tuoi seguiti, i tuoi progressi... esattamente dove li avevi lasciati.</string>
     <key>tv_banner_create_account_title</key>
     <string>Un account. Ogni schermo</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4024,8 +4022,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Scopri nuovi podcast</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>I podcast che segui compaiono qui, pronti per essere riprodotti.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>È il momento di riempirla.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Apre le opzioni del profilo e dell'account</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4064,8 +4060,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Accesso a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Caricamento dei podcast in corso.</string>
-    <key>tv_signing_in_title</key>
-    <string>È bello vederti.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts consiglia</string>
     <key>tv_starred_empty_subtitle</key>
