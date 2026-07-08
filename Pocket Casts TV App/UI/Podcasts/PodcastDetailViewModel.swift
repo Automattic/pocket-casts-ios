@@ -27,6 +27,7 @@ class PodcastDetailViewModel {
     var isFollowing: Bool = false
     var showArchived: Bool = false
     var sortOrder: PodcastEpisodeSortOrder = .newestToOldest
+    var isDiscovery: Bool
 
     private static func archiveStorageKey(for podcastUuid: String) -> String {
         "showArchived_podcast_\(podcastUuid)"
@@ -57,6 +58,7 @@ class PodcastDetailViewModel {
     }
 
     init(podcastUuid: String,
+         isDiscovery: Bool = false,
          dataManager: TVDataManager = TVDataManager.shared,
          serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
          podcastManager: PodcastManager = PodcastManager.shared) {
@@ -65,6 +67,7 @@ class PodcastDetailViewModel {
         self.serverPodcastManager = serverPodcastManager
         self.podcastManager = podcastManager
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: podcastUuid))
+        self.isDiscovery = isDiscovery
         setupObservers()
     }
 
@@ -73,6 +76,7 @@ class PodcastDetailViewModel {
                      serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
                      podcastManager: PodcastManager = PodcastManager.shared) {
         self.init(podcastUuid: podcast.uuid,
+                  isDiscovery: false,
                   dataManager: dataManager,
                   serverPodcastManager: serverPodcastManager,
                   podcastManager: podcastManager)
@@ -107,7 +111,9 @@ class PodcastDetailViewModel {
         guard let podcast else { return }
         Analytics.track(.podcastScreenSubscribeTapped)
         Analytics.track(.podcastSubscribed, properties: ["source": "podcast_screen", "uuid": podcast.uuid])
-        DiscoverAnalytics.discoverPodcastSubscribed(podcastUuid: podcast.uuid)
+        if isDiscovery {
+            DiscoverAnalytics.discoverPodcastSubscribed(podcastUuid: podcast.uuid)
+        }
         isFollowing = true
         serverPodcastManager.subscribe(to: podcast.uuid, completion: nil)
     }
