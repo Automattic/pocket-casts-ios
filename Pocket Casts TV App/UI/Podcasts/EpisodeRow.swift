@@ -138,6 +138,8 @@ struct EpisodeRowWithActions: View {
     var context: EpisodeActionContext = .other(showGoToPodcast: false)
     @FocusState.Binding var focus: EpisodeRowFocus?
     var customPlayDisplayAction: (() -> ())? = nil
+    var detailsDismissed: (() -> ())? = nil
+
     @State private var isPlaying = false
     @State private var isShowingActions = false
     @State private var isShowingShowNotes = false
@@ -212,6 +214,11 @@ struct EpisodeRowWithActions: View {
                     focus = .more(model.id)
                     restoreFocus = false
                 }
+            }
+        }
+        .onChange(of: isShowingShowNotes) { _, showing in
+            if !showing {
+                detailsDismissed?()
             }
         }
         .fullScreenCover(isPresented: $isPlaying) {
