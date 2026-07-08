@@ -216,11 +216,6 @@ struct PlaylistDetailView: View {
                         currentFocus = lastFocus
                     })
                     .focused($currentFocus, equals: episode.uuid)
-                    .onChange(of: rowFocus) { _, new in
-                        if let new {
-                            lastFocus = new.episodeID
-                        }
-                    }
                     .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
                     .listRowInsets(Layout.rowInsets)
                 }
@@ -230,6 +225,11 @@ struct PlaylistDetailView: View {
                     archivedFilterMenu
                 }
                 .padding(.bottom, 32)
+            }
+        }
+        .onChange(of: rowFocus) { _, new in
+            if let new {
+                lastFocus = new.episodeID
             }
         }
         .onAppear {

@@ -143,11 +143,6 @@ struct PodcastDetailView: View {
             currentFocus = lastFocus
         })
         .focused($currentFocus, equals: episode.id)
-        .onChange(of: rowFocus) { _, new in
-            if let new {
-                lastFocus = new.episodeID
-            }
-        }
     }
 
     private var sortMenu: some View {
@@ -272,6 +267,11 @@ struct PodcastDetailView: View {
         .padding(.horizontal, 24)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
+        .onChange(of: rowFocus) { _, new in
+            if let new {
+                lastFocus = new.episodeID
+            }
+        }
         .onAppear {
             currentFocus = lastFocus
         }
