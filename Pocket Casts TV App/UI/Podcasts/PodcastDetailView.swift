@@ -272,7 +272,7 @@ struct PodcastDetailView: View {
         .padding(.horizontal, 24)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
-        .onAppear() {
+        .onAppear {
             currentFocus = lastFocus
         }
     }

@@ -63,7 +63,7 @@ struct UpNextView: View {
                     lastFocus = new.episodeID
                 }
             }
-            .onAppear() {
+            .onAppear {
                 currentFocus = lastFocus
             }
             .navigationDestination(for: Podcast.self) { podcast in

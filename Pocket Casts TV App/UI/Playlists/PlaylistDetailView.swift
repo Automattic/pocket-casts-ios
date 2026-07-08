@@ -232,7 +232,7 @@ struct PlaylistDetailView: View {
                 .padding(.bottom, 32)
             }
         }
-        .onAppear() {
+        .onAppear {
             currentFocus = lastFocus
         }
         .focusScope(episodeListNamespace)
