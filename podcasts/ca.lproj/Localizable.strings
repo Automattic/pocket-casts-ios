@@ -3866,8 +3866,6 @@ Prem el botó de sota per tornar a iniciar sessió al teu compte de Pocket Casts
     <string>Has tancat la sessió.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Crea un compte gratuït</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Els teus seguiments, el teu progrés... exactament on els vas deixar.</string>
     <key>tv_banner_create_account_title</key>
     <string>Un compte. Totes les pantalles</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4018,8 +4016,6 @@ Prem el botó de sota per tornar a iniciar sessió al teu compte de Pocket Casts
     <string>Descobreix pòdcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Els pòdcasts que segueixes apareixeran aquí, a punt per reproduir.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>És hora d'omplir-ho.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Obre les opcions de perfil i compte</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4058,8 +4054,6 @@ Prem el botó de sota per tornar a iniciar sessió al teu compte de Pocket Casts
     <string>Inicia sessió a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Carregant els teus pòdcasts.</string>
-    <key>tv_signing_in_title</key>
-    <string>Benvingut de nou.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts recomana</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4132,6 +4126,8 @@ Prem el botó de sota per tornar a iniciar sessió al teu compte de Pocket Casts
     <string>Presentem la reproducció aleatòria</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle està activat. Els episodis es reproduiran en ordre aleatori.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Ordena per durada</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>De més llarg a més curt</string>
     <key>up_next_sort_newest_to_oldest</key>

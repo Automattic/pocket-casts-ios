@@ -3874,8 +3874,6 @@ Pocket Casts на полную мощность.</string>
     <string>Вы вышли из системы.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Создать бесплатную учётную запись</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Ваши подписки, ваши успехи… всё на своих местах.</string>
     <key>tv_banner_create_account_title</key>
     <string>Одна учётная запись. На всех экранах</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4026,8 +4024,6 @@ Pocket Casts на полную мощность.</string>
     <string>Найти подкасты</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Подкасты, на которые вы подписаны, появятся здесь и будут готовы к воспроизведению.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>Пора заполнить пустоту.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Открывает настройки профиля и учётной записи</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4066,8 +4062,6 @@ Pocket Casts на полную мощность.</string>
     <string>Войти в Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Мы загружаем ваши подкасты.</string>
-    <key>tv_signing_in_title</key>
-    <string>Рады вас видеть!</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts рекомендует</string>
     <key>tv_starred_empty_subtitle</key>
