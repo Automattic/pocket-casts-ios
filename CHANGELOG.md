@@ -1,6 +1,6 @@
 8.17
 -----
-
+- Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)
 
 8.16
 -----
