@@ -34,14 +34,16 @@ struct DiscoverSection {
     /// Analytics list identifier for the section, used by the `discover_list_*` events.
     let listId: String?
     let dateTime: String?
+    let region: String?
 
-    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, dateTime: String? = nil) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, dateTime: String? = nil, region: String? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
         self.listId = listId
         self.dateTime = dateTime
+        self.region = region
     }
 }
 
@@ -63,10 +65,14 @@ struct DiscoverEpisodesSection {
 struct DiscoverCategorySection {
     let categoryDetails: DiscoverCategoryDetails
     let sponsoredPodcastsIDs: Set<String>
+    let listId: String?
+    let region: String?
 
-    init(categoryDetails: DiscoverCategoryDetails, sponsoredPodcastsIDs: Set<String> = []) {
+    init(categoryDetails: DiscoverCategoryDetails, sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, region: String? = nil) {
         self.categoryDetails = categoryDetails
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
+        self.listId = listId
+        self.region = region
     }
 }
 
@@ -146,10 +152,27 @@ actor DiscoverManager {
         for position in Array(sponsoredPodcasts.keys).sorted() {
             if let podcast = sponsoredPodcasts[position] {
                 listOfPodcasts.insert(podcast, at: position)
+                if let uuid = podcast.uuid {
+                    sponsoredPodcastsCache[uuid] = listId
+                }
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, dateTime: podcastCollection?.datetime)
+        if sourceItem.isSponsored == true {
+            for podcast in listOfPodcasts {
+                if let uuid = podcast.uuid {
+                    sponsoredPodcastsCache[uuid] = listId
+                }
+            }
+        }
+
+        for podcast in listOfPodcasts {
+            if let podcastUuid = podcast.uuid {
+                podcastListCache[podcastUuid] = listId
+            }
+        }
+
+        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, dateTime: podcastCollection?.datetime, region: regionCode)
     }
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {
@@ -208,17 +231,40 @@ actor DiscoverManager {
         }
 
         var sponsoredUuids = Set<String>()
+        var listId: String?
         for item in discoverLayout.layout ?? [] {
             if item.categoryID == category.id,
                item.isSponsored == true,
                let source = item.source,
-               let podcasts = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated == true)?.podcasts {
+               let collection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated == true),
+               let podcasts = collection.podcasts {
+                listId = item.listId(collection: collection)
                 details.podcasts?.append(contentsOf: podcasts)
                 sponsoredUuids = sponsoredUuids.union(Set(podcasts.compactMap({$0.uuid})))
             }
         }
+        for podcastUuid in sponsoredUuids {
+            sponsoredPodcastsCache[podcastUuid] = listId
+        }
+        if let podcasts = details.podcasts {
+            for podcast in podcasts {
+                if let podcastUuid = podcast.uuid {
+                    podcastListCache[podcastUuid] = listId
+                }
+            }
+        }
+        return DiscoverCategorySection(categoryDetails: details, sponsoredPodcastsIDs: sponsoredUuids, listId: listId, region: regionCode)
+    }
 
-        return DiscoverCategorySection(categoryDetails: details, sponsoredPodcastsIDs: sponsoredUuids)
+    private var sponsoredPodcastsCache: [String: String] = [:]
+    private var podcastListCache: [String: String] = [:]
+
+    func listIdForPodcast(_ uuid: String) -> String? {
+        return podcastListCache[uuid]
+    }
+
+    func listIdForSponsoredPodcast(_ uuid: String) -> String? {
+        return sponsoredPodcastsCache[uuid]
     }
 
     func loadSponsoredPodcasts(item: DiscoverItem) async -> [Int: DiscoverPodcast] {
@@ -260,7 +306,6 @@ actor DiscoverManager {
         guard let listOfEpisodes = podcastCollection?.episodes else {
             return DiscoverEpisodesSection(listId: listId)
         }
-
         return DiscoverEpisodesSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, episodes: listOfEpisodes, listId: listId)
     }
 

@@ -42,6 +42,9 @@ class NowPlayingViewModel: Identifiable {
         timeControlStatusObservation?.invalidate()
         itemStatusObservation?.invalidate()
         currentItemObservation?.invalidate()
+        timeControlStatusObservation = nil
+        itemStatusObservation = nil
+        currentItemObservation = nil
     }
 
     func load() {

@@ -27,6 +27,7 @@ class PodcastDetailViewModel {
     var isFollowing: Bool = false
     var showArchived: Bool = false
     var sortOrder: PodcastEpisodeSortOrder = .newestToOldest
+    var isDiscover: Bool
 
     private static func archiveStorageKey(for podcastUuid: String) -> String {
         "showArchived_podcast_\(podcastUuid)"
@@ -57,6 +58,7 @@ class PodcastDetailViewModel {
     }
 
     init(podcastUuid: String,
+         isDiscover: Bool = false,
          dataManager: TVDataManager = TVDataManager.shared,
          serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
          podcastManager: PodcastManager = PodcastManager.shared) {
@@ -65,6 +67,7 @@ class PodcastDetailViewModel {
         self.serverPodcastManager = serverPodcastManager
         self.podcastManager = podcastManager
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: podcastUuid))
+        self.isDiscover = isDiscover
         setupObservers()
     }
 
@@ -73,6 +76,7 @@ class PodcastDetailViewModel {
                      serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
                      podcastManager: PodcastManager = PodcastManager.shared) {
         self.init(podcastUuid: podcast.uuid,
+                  isDiscover: false,
                   dataManager: dataManager,
                   serverPodcastManager: serverPodcastManager,
                   podcastManager: podcastManager)
@@ -90,7 +94,7 @@ class PodcastDetailViewModel {
                 return
             }
             let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
-                EpisodeRowViewModel(episode: $0, podcast: podcast, source: .podcastScreen)
+                EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
             }
             await MainActor.run {
                 self.podcast = podcast
@@ -107,6 +111,9 @@ class PodcastDetailViewModel {
         guard let podcast else { return }
         Analytics.track(.podcastScreenSubscribeTapped)
         Analytics.track(.podcastSubscribed, properties: ["source": "podcast_screen", "uuid": podcast.uuid])
+        if isDiscover {
+            DiscoverAnalytics.discoverPodcastSubscribed(podcastUuid: podcast.uuid)
+        }
         isFollowing = true
         serverPodcastManager.subscribe(to: podcast.uuid, completion: nil)
     }

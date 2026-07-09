@@ -38,7 +38,7 @@ struct DiscoverCategoriesRow: View {
                 ForEach(Array(model.categories.enumerated()), id: \.element.id) { index, category in
                     if category.id != nil {
                         NavigationLink(value: category) {
-                            DiscoverCategoryCell(category: category, colorIndex: index)
+                            DiscoverCategoryCell(category: category, colorIndex: index, source: model.source)
                                 .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)
