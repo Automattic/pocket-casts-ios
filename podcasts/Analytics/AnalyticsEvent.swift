@@ -280,6 +280,10 @@ enum AnalyticsEvent: String {
     case playbackErrorShown
     case playbackErrorTapped
 
+    /// Emitted once playback actually starts, reporting the protocol the source resolved to
+    /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
+    case playbackSourceResolved
+
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
     case autoplayStarted

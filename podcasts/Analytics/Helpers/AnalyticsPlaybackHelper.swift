@@ -10,7 +10,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     private var ignoreNextSeek = false
 
     func play() {
-        track(.playbackPlay)
+        track(.playbackPlay, properties: Self.hlsLifecycleProperties(for: PlaybackManager.shared.currentEpisode()))
     }
 
     func pause() {
@@ -76,10 +76,34 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackEffectSettingsChanged, properties: ["settings": currentSettings])
     }
 
-    func playbackFailed(episodeUUID: String, error: String, player: PlaybackProtocol?) {
-        track(.playbackFailed, properties: ["episode_uuid": episodeUUID,
-                                            "error": error,
-                                            "player": playerString(player: player)])
+    func playbackFailed(episode: BaseEpisode?, error: String, hlsErrorDetail: String?, player: PlaybackProtocol?) {
+        var properties: [String: Any] = ["episode_uuid": episode?.uuid ?? "unknown",
+                                         "error": error,
+                                         "player": playerString(player: player)]
+
+        // HLS context so HLS failures can be told apart from progressive (MP3) ones. Gated behind
+        // the HLS flag so it only ships while HLS playback is enabled — mirrors the web player.
+        if FeatureFlag.hls.enabled, let episode {
+            properties.merge(Self.hlsProtocolProperties(for: episode)) { current, _ in current }
+            if EpisodeManager.isStreamingHLS(episode), let hlsErrorDetail {
+                properties["hls_error_detail"] = hlsErrorDetail
+            }
+        }
+
+        track(.playbackFailed, properties: properties)
+    }
+
+    /// Emitted once playback actually starts, reporting the protocol the source resolved to.
+    /// Empty/no-op unless the HLS feature flag is on. Mirrors the web player's
+    /// `playback_source_resolved` event.
+    func playbackSourceResolved(for episode: BaseEpisode?) {
+        guard FeatureFlag.hls.enabled, let episode else { return }
+
+        var properties: [String: Any] = ["episode_uuid": episode.uuid,
+                                         "podcast_uuid": episode.parentIdentifier()]
+        properties.merge(Self.hlsProtocolProperties(for: episode)) { current, _ in current }
+
+        track(.playbackSourceResolved, properties: properties)
     }
 
     enum PlayerSource: String {
@@ -101,6 +125,31 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
             properties?["settings"] = currentSettings
         }
         track(event, properties: properties)
+    }
+
+    // MARK: - HLS
+
+    /// HLS-related properties for playback lifecycle events (play / completed / autoplayed).
+    /// Returns an empty dictionary unless the HLS feature flag is on, so these properties only ship
+    /// while HLS playback is enabled — mirrors the web player's `getHlsPlaybackProperties`.
+    /// `hls_available` reflects whether the episode *offers* an HLS stream; the protocol actually
+    /// played is reported separately via `playback_source_resolved`.
+    static func hlsLifecycleProperties(for episode: BaseEpisode?) -> [String: Any] {
+        guard FeatureFlag.hls.enabled else { return [:] }
+        return ["hls_available": episodeOffersHLS(episode)]
+    }
+
+    /// The protocol an episode's source resolves to for playback (`hls`/`progressive`), for events
+    /// where the source is known. Empty unless the HLS feature flag is on.
+    static func hlsProtocolProperties(for episode: BaseEpisode) -> [String: Any] {
+        guard FeatureFlag.hls.enabled else { return [:] }
+        return ["playback_protocol": EpisodeManager.isStreamingHLS(episode) ? "hls" : "progressive"]
+    }
+
+    /// Whether the episode advertises an HLS stream, independent of whether it's the selected source.
+    private static func episodeOffersHLS(_ episode: BaseEpisode?) -> Bool {
+        guard let episode = episode as? Episode, let hlsUrl = episode.hlsUrl else { return false }
+        return !hlsUrl.isEmpty
     }
 
     func playerString(player: PlaybackProtocol?) -> String {
