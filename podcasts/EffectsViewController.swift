@@ -432,12 +432,19 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private func updateSpeedBtn() {
         let effects = PlaybackManager.shared.effects()
+        // HLS can't play above 2x, so never show a higher speed even if the stored global/podcast speed
+        // is higher. The applied rate is already capped in DefaultPlayer; this keeps the display honest
+        // without persisting a change to the user's non-HLS preference.
+        var displaySpeed = effects.playbackSpeed
+        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+            displaySpeed = min(displaySpeed, 2)
+        }
         speedBtn.fillColor = ThemeColor.playerContrast01()
-        speedBtn.isOn = (effects.playbackSpeed != 1)
-        speedBtn.buttonTitle = "  " + L10n.playbackSpeed(effects.playbackSpeed.localized())
+        speedBtn.isOn = (displaySpeed != 1)
+        speedBtn.buttonTitle = "  " + L10n.playbackSpeed(displaySpeed.localized())
         speedBtn.strokeColor = speedBtn.isOn ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
         speedBtn.textColor = speedBtn.isOn ? PlayerColorHelper.playerBackgroundColor01() : ThemeColor.playerContrast01()
-        speedBtn.accessibilityLabel = L10n.accessibilityPlayerEffectsPlaybackSpeed(effects.playbackSpeed.localized(.spellOut))
+        speedBtn.accessibilityLabel = L10n.accessibilityPlayerEffectsPlaybackSpeed(displaySpeed.localized(.spellOut))
 
         // Post accessibility notification for speed changes
         UIAccessibility.post(notification: .announcement, argument: speedBtn.accessibilityLabel)
