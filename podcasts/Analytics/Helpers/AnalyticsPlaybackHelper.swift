@@ -9,7 +9,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// Whether to ignore the next seek event
     private var ignoreNextSeek = false
 
-    // variable track play/pause actions time for tv remote
+    /// Set when the TV remote triggers play/pause, so the AVPlayer status observer can skip re-tracking that same action.
     var timestampOfLastRemoteAction: Date?
 
     func play() {
