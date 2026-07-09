@@ -15,7 +15,7 @@ public enum HTMLToAttributedStringConverter {
         guard !html.isEmpty else { return NSAttributedString() }
 
         guard containsHTMLTags(html) else {
-            return NSAttributedString(string: normalizedPlainText(html))
+            return NSAttributedString(string: normalizedPlainText(decodingEntities(html)))
         }
 
         do {
@@ -38,6 +38,13 @@ public enum HTMLToAttributedStringConverter {
 
     private static func containsHTMLTags(_ string: String) -> Bool {
         string.range(of: "<[a-zA-Z/!][^>]*>", options: .regularExpression) != nil
+    }
+
+    /// Feeds sometimes contain entity references (`&#39;`, `&amp;`) with no tags at all,
+    /// which skips SwiftSoup parsing and would otherwise leave them undecoded.
+    private static func decodingEntities(_ text: String) -> String {
+        guard text.contains("&") else { return text }
+        return (try? Entities.unescape(text)) ?? text
     }
 
     private static func normalizedPlainText(_ text: String) -> String {

@@ -44,6 +44,13 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         XCTAssertEqual(string("Line one\nLine two"), "Line one\nLine two")
     }
 
+    func testEntitiesInTagFreeTextAreDecoded() {
+        // Real-world feed description (TED Talks Daily): no HTML tags at all,
+        // but apostrophes arrive as numeric character references.
+        let html = "Raised listening to his dad&#39;s old records, Joey Alexander plays a brand of sharp, modern piano jazz that you likely wouldn&#39;t expect to hear from a pre-teenager."
+        XCTAssertEqual(string(html), "Raised listening to his dad's old records, Joey Alexander plays a brand of sharp, modern piano jazz that you likely wouldn't expect to hear from a pre-teenager.")
+    }
+
     // MARK: - Blocks
 
     func testParagraphsBecomeBlankLineSeparated() {
