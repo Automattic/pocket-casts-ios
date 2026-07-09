@@ -125,7 +125,7 @@ class SimpleActionView: UIView {
             previousView = imageView
         }
         if previousView != label {
-            label.trailingAnchor.constraint(equalTo: previousView.leadingAnchor, constant: -16).isActive = true
+            label.trailingAnchor.constraint(equalTo: previousView.leadingAnchor, constant: -24).isActive = true
         }
         trailingAnchor.constraint(equalTo: previousView.trailingAnchor, constant: 20).isActive = true
 
