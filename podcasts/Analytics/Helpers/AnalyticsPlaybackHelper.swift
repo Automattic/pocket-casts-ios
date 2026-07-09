@@ -9,7 +9,8 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// Whether to ignore the next seek event
     private var ignoreNextSeek = false
 
-    // variable track play/pause actions time for tv remote
+    /// Timestamp of the last tvOS remote play/pause action, used to de-duplicate analytics events between
+    /// remote handlers and TV player observation.
     var timestampOfLastRemoteAction: Date?
 
     func play() {
