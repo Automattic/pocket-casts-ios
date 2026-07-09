@@ -194,8 +194,7 @@ class AppCoordinator {
         UserDefaults.standard.synchronize()
     }
 
-    func remotePlayPauseToggle() {
-        PlaybackManager.shared.remotePlayPauseToggle()
-        AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction = .now
-    }
+func remotePlayPauseToggle() {
+    AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction = .now
+    PlaybackManager.shared.remotePlayPauseToggle()
 }
