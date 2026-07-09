@@ -108,10 +108,14 @@ class NowPlayingViewModel: Identifiable {
             return
         }
         previousTimeStatus = currentTimeStatus
-        guard AnalyticsPlaybackHelper.shared.currentSource != .nowPlayingWidget else {
-            // Do not need to track changes made by remote
+
+        if let interval = AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction?.timeIntervalSinceNow,
+             abs(interval) < 1 {
+            // Do not need to track playback changes made by remote just now
+            AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction = nil
             return
         }
+
         switch currentTimeStatus {
         case .playing:
             AnalyticsPlaybackHelper.shared.currentSource = .player
