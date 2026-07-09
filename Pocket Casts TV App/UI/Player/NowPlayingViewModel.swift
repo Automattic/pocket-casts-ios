@@ -99,10 +99,19 @@ class NowPlayingViewModel: Identifiable {
             return
         }
         let currentTimeStatus = player.timeControlStatus
+        if previousTimeStatus == nil {
+            //ignore first change on load
+            previousTimeStatus = currentTimeStatus
+            return
+        }
         guard previousTimeStatus != currentTimeStatus else {
             return
         }
         previousTimeStatus = currentTimeStatus
+        guard AnalyticsPlaybackHelper.shared.currentSource != .nowPlayingWidget else {
+            // Do not need to track changes made by remote
+            return
+        }
         switch currentTimeStatus {
         case .playing:
             AnalyticsPlaybackHelper.shared.currentSource = .player
