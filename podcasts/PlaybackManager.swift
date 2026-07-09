@@ -1489,7 +1489,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !os(watchOS) && !os(tvOS)
         // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
         // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+        let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
