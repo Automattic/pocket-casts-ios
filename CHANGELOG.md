@@ -1,6 +1,7 @@
 8.17
 -----
 - Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
+- Fix the Discover search screen using a lighter background than other list screens on iOS 26 in dark themes [#4719](https://github.com/Automattic/pocket-casts-ios/pull/4719)
 
 8.16
 -----
