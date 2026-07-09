@@ -205,6 +205,7 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func playEpisode(_ episode: EpisodeSearchResult) async -> Bool {
+        AnalyticsPlaybackHelper.shared.currentSource = .search
         return await tvDataManager.playEpisode(episode)
     }
 }

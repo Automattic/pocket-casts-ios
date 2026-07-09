@@ -15,13 +15,15 @@ class EpisodeRowViewModel: Identifiable {
     var podcast: Podcast?
     var progress: Double
     var id: String { episode.uuid }
+    var source: AnalyticsSource
 
     private var cancellables: Set<AnyCancellable> = []
     private let playbackManager: PlaybackManager
 
-    init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
+    init(episode: BaseEpisode, podcast: Podcast?, source: AnalyticsSource, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
+        self.source = source
         self.playbackManager = playbackManager
         self.progress = 0
         setupObservers()
@@ -80,6 +82,7 @@ class EpisodeRowViewModel: Identifiable {
 
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
+        AnalyticsPlaybackHelper.shared.currentSource = source
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
     }
 

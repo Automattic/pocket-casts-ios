@@ -391,7 +391,7 @@ extension View {
 
 #Preview {
     @Previewable @FocusState var focus: EpisodeRowFocus?
-    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!), focus: $focus)
+    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!, source: .unknown), focus: $focus)
     .environment(AppCoordinator())
     .environment(MainTabViewModel())
 }
