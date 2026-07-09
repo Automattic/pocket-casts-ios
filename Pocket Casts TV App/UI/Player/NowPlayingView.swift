@@ -79,6 +79,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
+        controller.allowsPictureInPicturePlayback = true
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
         controller.appliesPreferredDisplayCriteriaAutomatically = false
