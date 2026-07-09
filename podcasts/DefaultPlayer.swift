@@ -92,7 +92,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         isWaitingForInitialPlayback = true
 
-        isStreamingHLS = EpisodeManager.isStreamingHLS(episode)
+        isStreamingHLS = EpisodeManager.willPlayViaHLS(episode)
 
         // Set the pitch algorithm once here rather than re-applying it on every rate change. For HLS,
         // give the pipeline more buffered audio so higher playback rates don't starve it and stall.

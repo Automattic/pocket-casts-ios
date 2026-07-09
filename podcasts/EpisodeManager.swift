@@ -432,6 +432,16 @@ class EpisodeManager: NSObject {
         return URL(string: hlsUrl) != nil
     }
 
+    /// Whether the episode will actually play via HLS right now. Downloaded copies take precedence over
+    /// the HLS stream in `urlForEpisode`, so a downloaded episode plays its local (progressive) file and
+    /// is not treated as HLS — this distinguishes that case from `isStreamingHLS`.
+    class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
+        guard isStreamingHLS(episode) else { return false }
+        if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
+        if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
+        return true
+    }
+
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if !streamingOnly {
             // For local playback, prefer downloaded files
