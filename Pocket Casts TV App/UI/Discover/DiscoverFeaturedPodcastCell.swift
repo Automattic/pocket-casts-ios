@@ -95,6 +95,7 @@ struct DiscoverFeaturedPodcastCell: View {
                             }
                             Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUuid])
                             AnalyticsHelper.openedFeaturedPodcast()
+                            DiscoverAnalytics.currentFeaturedPodcast = podcastUuid
                         })
                         .focused($focusedButton, equals: FocusValues.goPodcast)
                     }

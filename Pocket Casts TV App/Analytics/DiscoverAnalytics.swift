@@ -43,10 +43,17 @@ enum DiscoverAnalytics {
         AnalyticsHelper.adTapped(categoryName: categoryName ?? "unknown", region: region ?? "unknown", podcastUUID: podcastUUID, categoryID: categoryID ?? 0)
     }
 
+    static var currentFeaturedPodcast: String?
+
     static func discoverPodcastSubscribed(podcastUuid: String) {
         Task {
             if let listID = await DiscoverManager.shared.listIdForPodcast(podcastUuid) {
                 AnalyticsHelper.podcastSubscribedFromList(listId: listID, podcastUuid: podcastUuid, listDateTime: nil)
+            }
+            let isFeatured = currentFeaturedPodcast == podcastUuid
+            if isFeatured {
+                Analytics.track(.discoverFeaturedPodcastSubscribed, properties: ["podcast_uuid": podcastUuid])
+                AnalyticsHelper.subscribedToFeaturedPodcast()
             }
         }
     }
