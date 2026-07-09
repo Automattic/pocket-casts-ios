@@ -1,5 +1,6 @@
 8.17
 -----
+- Add support for Flightcast JSON transcripts [#4706](https://github.com/Automattic/pocket-casts-ios/pull/4706)
 - Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
 - Fix the mini player initial loading shimmer not showing up when Reduce Motion is enabled [#4713](https://github.com/Automattic/pocket-casts-ios/pull/4713)
 
