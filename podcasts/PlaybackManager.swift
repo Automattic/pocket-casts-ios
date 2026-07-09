@@ -1045,8 +1045,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't expose.
-        #if !os(watchOS) && !os(tvOS)
+        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't
+        // expose. The tap logic in DefaultPlayer is compiled on tvOS too, so exclude HLS there as well.
+        #if !os(watchOS)
         if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
             return false
         }
