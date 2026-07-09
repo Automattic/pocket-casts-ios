@@ -39,8 +39,8 @@ struct PredictiveList: View {
             predictiveRow(for: predictiveSearch)
         }
         ForEach(searchResults.podcasts, id: \.self) { localPodcast in
-            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: !FeatureFlag.searchImprovements.enabled)
+                .listRowBackground(theme.primaryUi02)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
                 }
@@ -63,14 +63,14 @@ struct PredictiveList: View {
                 .if(!FeatureFlag.searchImprovements.enabled) { content in
                     content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
                 }
-                .listRowBackground(theme.primaryUi01)
+                .listRowBackground(theme.primaryUi02)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
                 }
-                .background(theme.primaryUi01)
+                .background(theme.primaryUi02)
             case .podcast:
-                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                    .listRowBackground(theme.primaryUi01)
+                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled)
+                    .listRowBackground(theme.primaryUi02)
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
                     }
@@ -108,7 +108,7 @@ struct PredictiveList: View {
                     .font(style: .subheadline, weight: .medium)
                 Spacer()
             }
-            .background(theme.primaryUi01)
+            .background(theme.primaryUi02)
         })
     }
 }
