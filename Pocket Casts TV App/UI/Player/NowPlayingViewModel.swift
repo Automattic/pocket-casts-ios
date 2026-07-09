@@ -100,11 +100,13 @@ class NowPlayingViewModel: Identifiable {
         }
         let currentTimeStatus = player.timeControlStatus
         if previousTimeStatus == nil {
-            //ignore first change on load
+            //ignore first change on load, or changes that are not coming from play/pause
             previousTimeStatus = currentTimeStatus
             return
         }
-        guard previousTimeStatus != currentTimeStatus else {
+
+        guard previousTimeStatus != currentTimeStatus, previousTimeStatus == .paused || previousTimeStatus == .playing else {
+            previousTimeStatus = currentTimeStatus
             return
         }
         previousTimeStatus = currentTimeStatus
