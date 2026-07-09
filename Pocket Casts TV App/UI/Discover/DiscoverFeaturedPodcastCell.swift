@@ -87,9 +87,15 @@ struct DiscoverFeaturedPodcastCell: View {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
-                            if let listId, let podcastUuid = podcast.uuid {
+                            guard let podcastUuid = podcast.uuid else {
+                                return
+                            }
+                            if let listId {
                                 DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
                             }
+                            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUuid])
+                            AnalyticsHelper.openedFeaturedPodcast()
+                            DiscoverAnalytics.currentFeaturedPodcast = podcastUuid
                         })
                         .focused($focusedButton, equals: FocusValues.goPodcast)
                     }

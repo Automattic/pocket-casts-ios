@@ -38,4 +38,31 @@ enum DiscoverAnalytics {
             "source": source
         ])
     }
+
+    static func adTapped(categoryName: String?, region: String?, podcastUUID: String, categoryID: Int?) {
+        AnalyticsHelper.adTapped(categoryName: categoryName ?? "unknown", region: region ?? "unknown", podcastUUID: podcastUUID, categoryID: categoryID ?? 0)
+    }
+
+    static var currentFeaturedPodcast: String?
+
+    static func discoverPodcastSubscribed(podcastUuid: String) {
+        Task {
+            if let listID = await DiscoverManager.shared.listIdForPodcast(podcastUuid) {
+                AnalyticsHelper.podcastSubscribedFromList(listId: listID, podcastUuid: podcastUuid, listDateTime: nil)
+            }
+            let isFeatured = currentFeaturedPodcast == podcastUuid
+            if isFeatured {
+                Analytics.track(.discoverFeaturedPodcastSubscribed, properties: ["podcast_uuid": podcastUuid])
+                AnalyticsHelper.subscribedToFeaturedPodcast()
+            }
+        }
+    }
+
+    static func discoverPodcastPlayed(podcastUuid: String) {
+        Task {
+            if let listID = await DiscoverManager.shared.listIdForPodcast(podcastUuid) {
+                AnalyticsHelper.podcastEpisodePlayedFromList(listId: listID, podcastUuid: podcastUuid)
+            }
+        }
+    }
 }
