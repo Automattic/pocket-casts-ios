@@ -14,13 +14,20 @@ public enum HTMLToAttributedStringConverter {
     public static func attributedString(from html: String) -> NSAttributedString {
         guard !html.isEmpty else { return NSAttributedString() }
 
-        guard containsHTMLTags(html) else {
-            return NSAttributedString(string: normalizedPlainText(decodingEntities(html)))
-        }
-
         do {
             let document = try SwiftSoup.parse(html)
             let root = document.body() ?? document
+
+            // Tag-free input is a plain-text description: take the decoded text
+            // directly so the author's line breaks survive, rather than letting the
+            // block builder collapse them per HTML whitespace rules.
+            if root.getChildNodes().allSatisfy({ $0 is TextNode }) {
+                let text = root.getChildNodes()
+                    .compactMap { ($0 as? TextNode)?.getWholeText() }
+                    .joined()
+                return NSAttributedString(string: normalizedPlainText(text))
+            }
+
             let builder = AttributedStringBuilder()
             try builder.append(node: root, context: InlineContext())
             let result = builder.finalized()
@@ -34,17 +41,6 @@ public enum HTMLToAttributedStringConverter {
 
     private static func plainText(from html: String) -> String {
         (try? SwiftSoup.parse(html).text()) ?? html
-    }
-
-    private static func containsHTMLTags(_ string: String) -> Bool {
-        string.range(of: "<[a-zA-Z/!][^>]*>", options: .regularExpression) != nil
-    }
-
-    /// Feeds sometimes contain entity references (`&#39;`, `&amp;`) with no tags at all,
-    /// which skips SwiftSoup parsing and would otherwise leave them undecoded.
-    private static func decodingEntities(_ text: String) -> String {
-        guard text.contains("&") else { return text }
-        return (try? Entities.unescape(text)) ?? text
     }
 
     private static func normalizedPlainText(_ text: String) -> String {

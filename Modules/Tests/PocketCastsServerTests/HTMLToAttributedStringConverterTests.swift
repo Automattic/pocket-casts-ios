@@ -65,6 +65,11 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         XCTAssertEqual(string("<p>Tom &amp; Jerry</p>"), "Tom & Jerry")
     }
 
+    func testNumericEntitiesInsideTagsAreDecoded() {
+        let html = "<p>Raised listening to his dad&#39;s old records &#8212; jazz you wouldn&#8217;t expect.</p>"
+        XCTAssertEqual(string(html), "Raised listening to his dad's old records — jazz you wouldn’t expect.")
+    }
+
     func testUnknownTagsAreStripped() {
         XCTAssertEqual(string("<span class=\"x\">Hello</span>"), "Hello")
     }
