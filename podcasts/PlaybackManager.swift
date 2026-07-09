@@ -228,6 +228,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
+    func loadCurrentEpisode() {
+        guard let currEpisode = currentEpisode() else { return }
+        if playerSwitchRequired() {
+            load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
+        }
+        if !haveCalledPlayerLoad {
+            player?.loadEpisode(currEpisode)
+            haveCalledPlayerLoad = true
+        }
+    }
+
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 
@@ -306,6 +317,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             play()
         }
+    }
+
+    func isReadyToPlay() -> Bool {
+        player?.isReadyToPlay() ?? false
     }
 
     func skipBack() {
