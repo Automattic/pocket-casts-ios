@@ -782,10 +782,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo.value
     }
 
+    /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
+    /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
+    private var isAudioOnlyForced: Bool {
+        FeatureFlag.hls.enabled && Settings.audioOnly
+    }
+
     /// Whether the video surface should currently be shown. Video content can be present
-    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle.
+    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
+    /// or the global "Audio only" setting.
     func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.value
+        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
     }
 
     var isVideoRenderingEnabled: Bool {
@@ -793,9 +800,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     /// Whether the audio/video toggle should be offered for the current stream. Only HLS streams
-    /// found to carry video (not static video podcasts) can be switched to audio-only.
+    /// found to carry video (not static video podcasts) can be switched to audio-only. When the global
+    /// "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
-        FeatureFlag.hls.enabled && currentStreamContainsVideo.value && (currentEpisode() is Episode)
+        FeatureFlag.hls.enabled && !isAudioOnlyForced && currentStreamContainsVideo.value && (currentEpisode() is Episode)
     }
 
     /// Toggles whether the current HLS stream's video surface is shown. When disabled the player
