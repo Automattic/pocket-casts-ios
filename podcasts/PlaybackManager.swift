@@ -250,7 +250,13 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         aboutToPlay.value = true
 
-        loadCurrentEpisode()
+        if playerSwitchRequired() {
+            load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
+        }
+        if !haveCalledPlayerLoad {
+            player?.loadEpisode(currEpisode)
+            haveCalledPlayerLoad = true
+        }
 
         activateAudioSession(completion: { activated in
             if !activated {
