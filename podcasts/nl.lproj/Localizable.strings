@@ -3868,8 +3868,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Je bent uitgelogd.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Een gratis account aanmaken</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Je volgers, je voortgang ... precies waar je ze hebt achtergelaten.</string>
     <key>tv_banner_create_account_title</key>
     <string>Eén account. Elk scherm</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4020,8 +4018,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Podcasts ontdekken</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Gevolgde podcasts verschijnen hier, klaar om af te spelen.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>Tijd om dit in te vullen.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Opent profiel- en accountopties</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4060,8 +4056,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Log in bij Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Je podcasts worden geladen.</string>
-    <key>tv_signing_in_title</key>
-    <string>Goed je te zien.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Aanbevolen door Pocket Casts</string>
     <key>tv_starred_empty_subtitle</key>

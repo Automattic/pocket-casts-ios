@@ -171,10 +171,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let timeLeftVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: timeLeftHost.view)
 
         let progressView = MiniPlayerGlassProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
         glassProgressView = progressView
-        let progressVibrancy = Self.makeVibrancyWrapper(style: .fill, content: progressView)
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressVibrancy, timeLeftVibrancy])
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftVibrancy])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
@@ -520,12 +520,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// current episode is video. For HLS the video isn't known at playback start, so this is also
     /// called when video is detected at runtime (via `videoPlaybackEngineSwitched`).
     private func autoOpenFullScreenPlayerIfNeeded(for episode: BaseEpisode) {
-        let shouldOpenAutomatically: Bool
-        if FeatureFlag.newSettingsStorage.enabled {
-            shouldOpenAutomatically = SettingsStore.appSettings.openPlayer
-        } else {
-            shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-        }
+        let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
         if shouldOpenAutomatically || PlaybackManager.shared.isCurrentEpisodeVideo(), lastEpisodeUuidAutoOpened != episode.uuid {
             lastEpisodeUuidAutoOpened = episode.uuid
 
@@ -656,23 +651,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @available(iOS 26.0, *)
     private func updateColorsLiquidGlass() {
         let actionColor = currentPodcastTintColor()
-        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
 
         // System color so the vibrancy wrapper can modulate it.
         episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
-        // A slightly translucent accent circle lets the tab bar's glass show
-        // through for a vibrant, glassy feel (without the buggy UIGlassEffect).
-        // The skip glyphs reuse that same translucent accent so all three
-        // controls share one color.
-        let accentColor = iconColor.withAlphaComponent(0.8)
         playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = accentColor
+        playPauseBtn.circleColor = actionColor
 
-        skipBackBtn.tintColor = accentColor
-        skipFwdBtn.tintColor = accentColor
+        skipBackBtn.tintColor = actionColor
+        skipFwdBtn.tintColor = actionColor
 
         glassProgressView?.tintColorOverride = actionColor
     }

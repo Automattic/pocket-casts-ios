@@ -3874,8 +3874,6 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Vous avez été déconnecté.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Créer un compte gratuit</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Vos abonnements, votre progression… Reprenez exactement là où vous aviez arrêté.</string>
     <key>tv_banner_create_account_title</key>
     <string>Un seul compte pour tous vos appareils</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -4026,8 +4024,6 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Découvrir des podcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Les podcasts suivis s’affichent ici, prêts à être lus.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>Il est temps de remplir cette liste.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Ouvre le profil et les options du compte</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4066,8 +4062,6 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Se connecter à Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Nous chargeons vos podcasts.</string>
-    <key>tv_signing_in_title</key>
-    <string>Ravis de vous revoir.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts recommande</string>
     <key>tv_starred_empty_subtitle</key>
