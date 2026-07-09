@@ -18,14 +18,8 @@ struct NowPlayingTab: View {
             .onAppear {
                 Analytics.track(.playerShown)
                 //This is to force the player to load the current episode
-                if !PlaybackManager.shared.playing() {
-                    DispatchQueue.main.async {
-                        PlaybackManager.shared.play(completion: {
-                            DispatchQueue.main.async {
-                                PlaybackManager.shared.pause(userInitiated: false)
-                            }
-                        }, userInitiated: false)
-                    }
+                if !PlaybackManager.shared.playing(), !PlaybackManager.shared.isReadyToPlay() {
+                    PlaybackManager.shared.loadCurrentEpisode()
                 }
             }
             .toolbar(!isFocused ? .visible : .hidden, for: .tabBar)
