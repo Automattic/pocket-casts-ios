@@ -600,6 +600,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func setupLoadingState() {
         transcriptView.isHidden = true
+        restoreControlButtonsLayout()
         setControlButtonsVisible(false)
         errorView.isHidden = true
         activityIndicatorView.startAnimating()
@@ -621,6 +622,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         guard !button.isHidden else { return }
         button.alpha = visible ? 1 : 0
         button.isUserInteractionEnabled = visible
+    }
+
+    private func restoreControlButtonsLayout() {
+        shareButton.isHidden = !FeatureFlag.shareTranscripts.enabled
+        searchButton.isHidden = false
     }
 
     private var currentEpisodeUUID: String?
@@ -848,6 +854,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
+        // Collapse the transcript-only controls so the play button sits at the trailing edge.
+        shareButton.isHidden = true
+        searchButton.isHidden = true
         setControlButton(playButton, visible: true)
         var message = L10n.transcriptErrorFailedToLoad
         if let transcriptError = error as? TranscriptError {
