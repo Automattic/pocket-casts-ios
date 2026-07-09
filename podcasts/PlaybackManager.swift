@@ -1476,7 +1476,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         #if !os(watchOS) && !os(tvOS)
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+        // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
+        // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.isStreamingHLS(currEpisode), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
