@@ -20,6 +20,7 @@ struct NowPlayingView: View {
         )
         .onAppear {
             model.load()
+            Analytics.track(.playerShown)
         }
         .requireAccountSupport()
         .sheet(isPresented: $isShowingDescription) {
