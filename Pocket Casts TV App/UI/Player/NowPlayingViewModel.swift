@@ -250,7 +250,7 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var errorMessage: String {
-        return PlaybackManager.shared.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError
+        return playbackManager.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError
     }
 
     fileprivate func observeUpNextChanges() {
