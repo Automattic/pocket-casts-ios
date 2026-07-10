@@ -83,6 +83,7 @@ class ClipPlaybackManager: ObservableObject {
         currentTime = 0
         duration = 0
         removeTimeObserver()
+        cancellables.removeAll()
     }
 
     private func setupTimeObserver() {
