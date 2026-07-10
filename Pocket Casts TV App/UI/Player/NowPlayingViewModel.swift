@@ -54,6 +54,9 @@ class NowPlayingViewModel: Identifiable {
         episode = newEpisode
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
+        if !playbackManager.playing(), !playbackManager.isReadyToPlay() {
+            playbackManager.loadCurrentEpisode()
+        }
         loadEpisodeArtwork()
     }
 
