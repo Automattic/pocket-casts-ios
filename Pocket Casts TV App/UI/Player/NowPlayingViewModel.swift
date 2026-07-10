@@ -246,6 +246,10 @@ class NowPlayingViewModel: Identifiable {
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
     }
 
+    var errorMessage: String {
+        return PlaybackManager.shared.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)

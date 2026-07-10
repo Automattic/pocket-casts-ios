@@ -64,7 +64,7 @@ struct MediaOverlayView: View {
     }
 
     private var failureOverlay: some View {
-        Text(PlaybackManager.shared.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError)
+        Text(model.errorMessage)
             .font(.caption)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 30)
