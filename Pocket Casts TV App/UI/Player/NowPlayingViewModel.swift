@@ -49,8 +49,9 @@ class NowPlayingViewModel: Identifiable {
         currentItemObservation = nil
     }
 
+    private var seekAfterLoad = false
+
     func load() {
-        isFailed = false
         let newEpisode = playbackManager.currentEpisode()
         guard newEpisode?.uuid != episode?.uuid else {
             return
@@ -60,6 +61,7 @@ class NowPlayingViewModel: Identifiable {
         player = playbackManager.avPlayer
         if !playbackManager.playing(), !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
+            seekAfterLoad = true
         }
         loadEpisodeArtwork()
     }
@@ -112,6 +114,10 @@ class NowPlayingViewModel: Identifiable {
         let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
+        if !isLoading, seekAfterLoad {
+            seekAfterLoad = false
+            playbackManager.seekToStartingPosition()
+        }
     }
 
     func loadEpisodeArtwork() {
