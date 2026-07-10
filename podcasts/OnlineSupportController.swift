@@ -1,6 +1,7 @@
 import MessageUI
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 import WebKit
 
@@ -117,9 +118,9 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
             UIAction(title: L10n.settingsConnectionStatus) { [weak self] _ in
                 self?.showStatusPage()
             },
-            UIAction(title: L10n.troubleshootingTitle) { [weak self] _ in
+            FeatureFlag.troubleshooting.enabled ? UIAction(title: L10n.troubleshootingTitle) { [weak self] _ in
                 self?.showTroubleshooting()
-            },
+            } : nil,
             UIAction(title: L10n.exportDatabase) { [weak self] _ in
                 guard let self, let sender = customRightBtn else { return }
                 export(sender)
@@ -128,7 +129,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
                 guard let self, let sender = customRightBtn else { return }
                 viewLogs(sender)
             },
-        ])
+        ].compactMap { $0 })
     }
 
     private func showStatusPage() {
