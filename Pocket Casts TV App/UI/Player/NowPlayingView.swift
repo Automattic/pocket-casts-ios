@@ -232,23 +232,29 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             children: [volumeBoostOff, volumeBoostOn]
         )
 
-        let trimActions = TrimSilenceAmount.allCases.map { option in
-            UIAction(title: option.description, state: model.trimSilence == option ? .on : .off) { _ in
-                model.trimSilence = option
-                AnalyticsPlaybackHelper.shared.trimSilenceAmountChanged(amount: option)
-                ToastManager.shared.show(L10n.tvPlayerTrimSilenceSet(option.description))
+        var sections: [UIMenu] = [volumeBoostSection]
+
+        if  model.isTrimSilenceAvailable {
+            let trimActions = TrimSilenceAmount.allCases.map { option in
+                UIAction(title: option.description, state: model.trimSilence == option ? .on : .off) { _ in
+                    model.trimSilence = option
+                    AnalyticsPlaybackHelper.shared.trimSilenceAmountChanged(amount: option)
+                    ToastManager.shared.show(L10n.tvPlayerTrimSilenceSet(option.description))
+                }
             }
+
+            let trimSection = UIMenu(
+                title: L10n.tvPlayerTrimSilence,
+                options: [.displayInline, .singleSelection],
+                children: trimActions
+            )
+            sections.append(trimSection)
         }
-        let trimSection = UIMenu(
-            title: L10n.tvPlayerTrimSilence,
-            options: [.displayInline, .singleSelection],
-            children: trimActions
-        )
 
         return UIMenu(
             title: L10n.tvPlayerPlaybackEffects,
             image: UIImage(systemName: "speaker.wave.3"),
-            children: [volumeBoostSection]
+            children: sections
         )
     }
 
@@ -326,6 +332,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         // No title: the ellipsis icon already conveys "more", and the
         // action labels (Mark Played / Archive) speak for themselves.
         return UIMenu(
+            title: L10n.accessibilityMoreActions,
             image: UIImage(systemName: "ellipsis"),
             children: children
         )

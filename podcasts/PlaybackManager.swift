@@ -239,6 +239,38 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
+    func seekToStartingPosition() {
+        let startingTime = requiredStartingPosition()
+        player?.play { [weak self] in
+            self?.seekTo(time: startingTime, startPlaybackAfterSeek: false)
+            self?.player?.pause()
+        }
+    }
+
+    func ensureAudioSessionActivated() {
+        guard let currEpisode = currentEpisode() else { return }
+        activateAudioSession(completion: { activated in
+            if !activated {
+                self.aboutToPlay.value = false
+                return
+            }
+
+            self.startUpdateTimer()
+            self.updateCommandCenterSkipTimes(addTarget: false)
+            self.updateExtraActions()
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
+
+            if currEpisode.videoPodcast() {
+                self.setAudioSessionVideoProperties()
+            }
+
+            self.updateIdleTimer()
+
+            self.sleepTimerManager.restartSleepTimerIfNeeded()
+        })
+    }
+
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 
@@ -319,7 +351,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func isReadyToPlay() -> Bool {
+    var isReadyToPlay: Bool {
         player?.isReadyToPlay() ?? false
     }
 

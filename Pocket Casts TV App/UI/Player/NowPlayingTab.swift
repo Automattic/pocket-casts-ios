@@ -15,12 +15,6 @@ struct NowPlayingTab: View {
                 }
             }
             .animation(.easeIn, value: isFocused)
-            .onAppear {
-                //This is to force the player to load the current episode
-                if !PlaybackManager.shared.playing(), !PlaybackManager.shared.isReadyToPlay() {
-                    PlaybackManager.shared.loadCurrentEpisode()
-                }
-            }
             .toolbar(!isFocused ? .visible : .hidden, for: .tabBar)
     }
 }
