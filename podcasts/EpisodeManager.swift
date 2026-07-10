@@ -421,10 +421,12 @@ class EpisodeManager: NSObject {
         return totalFilesSize
     }
 
-    /// Whether the episode should be streamed via its HLS alternate enclosure.
-    /// When a valid HLS stream is available we default to it; HLS is streamed directly and never cached.
-    /// Requires a parseable url so this stays consistent with `urlForEpisode`, which falls back to the
-    /// progressive url when the HLS string can't be turned into a `URL`.
+    /// Whether the episode has a usable HLS stream given the current feature-flag state — i.e. the HLS
+    /// feature is enabled and the episode advertises a parseable HLS URL. This is a capability check, not
+    /// a resolved-source check: a downloaded episode can still return `true` here even though it will play
+    /// its local file (use `willPlayViaHLS` for the "what will actually play" question). Requires a
+    /// parseable url so this stays consistent with `urlForEpisode`, which falls back to the progressive
+    /// url when the HLS string can't be turned into a `URL`.
     class func hasHLSStream(_ episode: BaseEpisode) -> Bool {
         guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
             return false
