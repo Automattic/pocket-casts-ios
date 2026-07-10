@@ -146,6 +146,10 @@ class PlayerChapterCell: UITableViewCell {
             resolvingSpinner.startAnimating()
             chapterNumber.isHidden = true
         } else {
+            // Only tear down when a spinner was actually shown (chapter number
+            // hidden). Otherwise skip — touching `resolvingSpinner` here would
+            // force-create the lazy view for every non-resolving row.
+            guard chapterNumber.isHidden else { return }
             resolvingSpinner.stopAnimating()
             chapterNumber.isHidden = false
         }
