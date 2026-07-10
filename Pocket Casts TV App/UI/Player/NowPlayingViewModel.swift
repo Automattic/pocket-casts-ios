@@ -73,7 +73,7 @@ class NowPlayingViewModel: Identifiable {
             return
         }
 
-        PlayerStatusAnalytics.shared.observe(player: player)
+        PlayerStatusObserver.shared.observe(player: player)
         timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new, .initial]) { [weak self] _, _ in
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
