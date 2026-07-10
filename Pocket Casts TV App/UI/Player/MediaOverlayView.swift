@@ -35,16 +35,22 @@ struct MediaOverlayView: View {
                                 .animation(.smooth, value: isTransportBarVisible)
                             Spacer()
                         }
+                        if model.isFailed {
+                            failureOverlay
+                                .transition(.opacity)
+                        }
                         Spacer()
                     }
                 }
 
-                if model.isLoading {
+                if model.isLoading, !model.isFailed {
                     loadingOverlay
                         .transition(.opacity)
                 }
             }
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
+            .animation(.easeInOut(duration: 0.2), value: model.isFailed)
+            .background(model.isVideo ? Color.clear : Color.pcBackgroundBase)
         }
         .ignoresSafeArea()
     }
@@ -55,5 +61,14 @@ struct MediaOverlayView: View {
             .tint(.white)
             .scaleEffect(1.3)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var failureOverlay: some View {
+        Text(PlaybackManager.shared.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError)
+            .font(.caption)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 20)
+            .glassEffect(.regular)
     }
 }

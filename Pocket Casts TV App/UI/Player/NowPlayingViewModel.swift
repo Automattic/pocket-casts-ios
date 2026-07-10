@@ -28,6 +28,8 @@ class NowPlayingViewModel: Identifiable {
     /// spinner by toggling `showsPlaybackControls`.
     var isLoading: Bool = true
 
+    var isFailed: Bool = false
+
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var currentItemObservation: NSKeyValueObservation?
@@ -120,11 +122,14 @@ class NowPlayingViewModel: Identifiable {
     private func updateLoadingState() {
         guard let player else {
             isLoading = true
+            isFailed = false
             return
         }
         let waiting = player.timeControlStatus == .waitingToPlayAtSpecifiedRate
-        let itemNotReady = (player.currentItem?.status ?? .unknown) != .readyToPlay
+        let status = (player.currentItem?.status ?? .unknown)
+        let itemNotReady =  status != .readyToPlay && status != .failed
         isLoading = waiting || itemNotReady
+        isFailed = status == .failed
     }
 
     func loadEpisodeArtwork() {
