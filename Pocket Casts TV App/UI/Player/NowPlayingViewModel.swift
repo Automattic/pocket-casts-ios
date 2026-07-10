@@ -129,8 +129,8 @@ class NowPlayingViewModel: Identifiable {
             return
         }
         let waiting = player.timeControlStatus == .waitingToPlayAtSpecifiedRate
-        let status = (player.currentItem?.status ?? .unknown)
-        let itemNotReady =  status != .readyToPlay && status != .failed
+        let status = player.currentItem?.status ?? .unknown
+        let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
     }
