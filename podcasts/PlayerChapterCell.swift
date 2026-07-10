@@ -185,7 +185,10 @@ class PlayerChapterCell: UITableViewCell {
         layoutIfNeeded()
 
         let lapsedTime = PlaybackManager.shared.currentTime() - chapter.effectiveStartTime
-        let percentageLapsed = CGFloat(lapsedTime / chapter.duration.seconds)
+        // Clamp to [0, 1]: the playhead can sit before a generated chapter's
+        // resolved start (detection uses the raw start), which would otherwise
+        // give a negative width.
+        let percentageLapsed = min(1, max(0, CGFloat(lapsedTime / chapter.duration.seconds)))
 
         if percentageLapsed.isFinite, !percentageLapsed.isNaN {
             progressViewWidth.constant = percentageLapsed * isPlayingView.frame.width

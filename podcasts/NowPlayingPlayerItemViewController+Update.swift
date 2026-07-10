@@ -149,7 +149,11 @@ extension NowPlayingPlayerItemViewController {
             return
         }
 
-        let remainingTime = chapter.duration + chapter.effectiveStartTime - playheadPosition
+        // Current-chapter detection keys off the raw `startTime`, so the playhead
+        // can be inside the chapter's reference window but before its resolved
+        // playback start — clamp to [0, duration] so the ring can't run backwards
+        // or overshoot.
+        let remainingTime = min(chapter.duration, max(0, chapter.duration + chapter.effectiveStartTime - playheadPosition))
         chapterTimeLeftLabel.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: remainingTime)
         let percentageCompleted = 1 - (remainingTime / chapter.duration)
         chapterProgress.startingAngle = CGFloat((percentageCompleted * 360) - 90)
