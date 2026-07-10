@@ -41,6 +41,15 @@ struct MediaOverlayView: View {
                         }
                         Spacer()
                     }
+                } else {
+                    VStack {
+                        Spacer()
+                        if model.isFailed {
+                            failureOverlay
+                                .transition(.opacity)
+                        }
+                        Spacer()
+                    }
                 }
 
                 if model.isLoading, !model.isFailed {
