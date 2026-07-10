@@ -22,6 +22,9 @@ struct NowPlayingView: View {
             model.load()
             Analytics.track(.playerShown)
         }
+        .onDisappear {
+            Analytics.track(.playerDismissed)
+        }
         .requireAccountSupport()
         .sheet(isPresented: $isShowingDescription) {
             if let episode = model.episode {
