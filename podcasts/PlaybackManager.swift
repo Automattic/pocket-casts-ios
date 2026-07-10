@@ -776,8 +776,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
-    /// Whether the current episode should be presented as video, considering both the feed
-    /// metadata (`videoPodcast()`) and any video tracks detected at runtime in the stream.
+    /// Whether the current episode should be presented as video, considering the feed metadata
+    /// (`videoPodcast()`), any video tracks detected at runtime in the stream, and actual HLS playback
+    /// (`willPlayViaHLS`), which we assume is video.
     func isCurrentEpisodeVideo() -> Bool {
         guard let episode = currentEpisode() else { return false }
         // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
