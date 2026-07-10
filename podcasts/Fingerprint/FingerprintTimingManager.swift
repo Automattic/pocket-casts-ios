@@ -387,9 +387,15 @@ final class FingerprintTimingManager: NSObject {
 
     /// Cancel any in-flight one-shot chapter resolve without delivering a result.
     /// Called on view teardown so a backgrounded chapters list can't seek later.
+    ///
+    /// Swapping in a fresh `onDemandFlag` supersedes the running task the same way
+    /// a newer resolve would: even if it finishes, its `onDemandFlag === flag`
+    /// guard now fails, so its completion (and any fallback seek) is dropped.
     func cancelPendingChapterResolve() {
         onDemandFlag.cancel()
+        onDemandFlag = CancellationFlag()
         onDemandTask?.cancel()
+        onDemandTask = nil
     }
 
     private func performResolve(
