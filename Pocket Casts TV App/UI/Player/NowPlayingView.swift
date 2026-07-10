@@ -332,6 +332,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         // No title: the ellipsis icon already conveys "more", and the
         // action labels (Mark Played / Archive) speak for themselves.
         return UIMenu(
+            title: L10n.accessibilityMoreActions,
             image: UIImage(systemName: "ellipsis"),
             children: children
         )
