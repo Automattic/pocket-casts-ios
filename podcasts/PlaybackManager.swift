@@ -239,9 +239,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func seekToStart() {
+    func seekToStartingPosition() {
         let startingTime = requiredStartingPosition()
-        seekTo(time: startingTime, startPlaybackAfterSeek: false)
+        player?.play { [weak self] in
+            self?.seekTo(time: startingTime, startPlaybackAfterSeek: false)
+            self?.player?.pause()
+        }
     }
 
     func ensureAudioSessionActivated() {
