@@ -74,9 +74,9 @@ class AnalyticsCoordinator {
     private var currentEpisodeIsVideo: Bool {
         // For HLS we can't tell synchronously whether the stream carries video — it isn't reflected
         // in the episode's MIME type and is only detected once frames render — so assume video rather
-        // than mislabel it as audio. `isStreamingHLS` is already gated behind the HLS flag, so this
+        // than mislabel it as audio. `hasHLSStream` is already gated behind the HLS flag, so this
         // only affects analytics while HLS playback is enabled.
-        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.isStreamingHLS(episode) {
+        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.hasHLSStream(episode) {
             return true
         }
         return PlaybackManager.shared.isCurrentEpisodeVideo()

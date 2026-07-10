@@ -191,7 +191,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         // HLS streams can carry video that isn't reflected in the episode's file type, and the phone
         // only knows for sure once it's decoded locally. To keep things simple we assume any HLS
         // stream is video so the receiver renders it rather than presenting audio-only.
-        let isHLS = EpisodeManager.isStreamingHLS(episode)
+        let isHLS = EpisodeManager.hasHLSStream(episode)
         let episodeMetadata = GCKMediaMetadata(metadataType: (episode.videoPodcast() || isHLS) ? .movie : .musicTrack)
 
         if let episode = episode as? Episode, let uuid = episode.parentPodcast()?.uuid {

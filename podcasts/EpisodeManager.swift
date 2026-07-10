@@ -425,7 +425,7 @@ class EpisodeManager: NSObject {
     /// When a valid HLS stream is available we default to it; HLS is streamed directly and never cached.
     /// Requires a parseable url so this stays consistent with `urlForEpisode`, which falls back to the
     /// progressive url when the HLS string can't be turned into a `URL`.
-    class func isStreamingHLS(_ episode: BaseEpisode) -> Bool {
+    class func hasHLSStream(_ episode: BaseEpisode) -> Bool {
         guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
             return false
         }
@@ -434,9 +434,9 @@ class EpisodeManager: NSObject {
 
     /// Whether the episode will actually play via HLS right now. Downloaded copies take precedence over
     /// the HLS stream in `urlForEpisode`, so a downloaded episode plays its local (progressive) file and
-    /// is not treated as HLS — this distinguishes that case from `isStreamingHLS`.
+    /// is not treated as HLS — this distinguishes that case from `hasHLSStream`.
     class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
-        guard isStreamingHLS(episode) else { return false }
+        guard hasHLSStream(episode) else { return false }
         if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
         if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
         return true
@@ -456,7 +456,7 @@ class EpisodeManager: NSObject {
         if let episode = episode as? Episode {
             // When available, default to the HLS stream over the progressive file.
             // If the HLS url is malformed, fall through to the progressive url rather than failing.
-            if isStreamingHLS(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
+            if hasHLSStream(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
                 return url
             }
             if let url = episode.downloadUrl {

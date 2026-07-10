@@ -378,7 +378,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         guard FeatureFlag.streamAndCachePlayingEpisode.enabled,
-              !EpisodeManager.isStreamingHLS(episode), // HLS is streamed directly, never cached
+              !EpisodeManager.hasHLSStream(episode), // HLS is streamed directly, never cached
               !episode.videoPodcast(),
               !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
