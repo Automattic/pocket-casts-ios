@@ -36,6 +36,11 @@ enum GeneratedChapterSeeker {
         willBeginResolving: (() -> Void)? = nil,
         didEndResolving: (() -> Void)? = nil
     ) {
+        // Supersede any in-flight resolve up front so this tap wins — including a
+        // cache hit, which seeks synchronously and would otherwise let an earlier
+        // resolve complete afterwards and yank playback back to its chapter.
+        FingerprintTimingManager.shared.cancelPendingChapterResolve()
+
         guard let episode = PlaybackManager.shared.currentEpisode() else {
             PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: startPlayback)
             return
