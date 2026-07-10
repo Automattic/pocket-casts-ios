@@ -39,7 +39,7 @@ struct PredictiveList: View {
             predictiveRow(for: predictiveSearch)
         }
         ForEach(searchResults.podcasts, id: \.self) { localPodcast in
-            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
                 .listRowBackground(theme.searchBackground)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
@@ -54,22 +54,14 @@ struct PredictiveList: View {
     func predictiveRow(for predictiveSearch: PredictiveSearchResult) -> some View {
         switch predictiveSearch.type {
             case .term(let searchTerm):
-                VStack {
-                    termRow(term: searchTerm)
-                    if !FeatureFlag.searchImprovements.enabled {
-                        ThemedDivider()
+                termRow(term: searchTerm)
+                    .listRowBackground(theme.searchBackground)
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
+                        return 0
                     }
-                }
-                .if(!FeatureFlag.searchImprovements.enabled) { content in
-                    content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
-                }
-                .listRowBackground(theme.searchBackground)
-                .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    return 0
-                }
-                .background(theme.searchBackground)
+                    .background(theme.searchBackground)
             case .podcast:
-                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
                     .listRowBackground(theme.searchBackground)
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
