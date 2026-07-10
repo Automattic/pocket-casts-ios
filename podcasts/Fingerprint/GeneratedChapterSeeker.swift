@@ -95,9 +95,6 @@ enum GeneratedChapterSeeker {
             case let .unresolved(reason, isStreaming):
                 // Graceful fallback: seek to the raw reference-timeline start.
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: startPlayback)
-                if reason == "region_not_local" {
-                    Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
-                }
                 Analytics.track(.syncedTranscriptsChapterSeekFailed, properties: [
                     "episode_uuid": episodeUuid,
                     "reason": reason,
