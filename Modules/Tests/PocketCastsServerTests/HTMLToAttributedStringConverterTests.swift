@@ -31,6 +31,10 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         XCTAssertEqual(string(""), "")
     }
 
+    func testWhitespaceOnlyInputIsEmpty() {
+        XCTAssertEqual(string("  \n  \n"), "")
+    }
+
     func testPlainTextPassthrough() {
         XCTAssertEqual(string("Just a description."), "Just a description.")
     }
@@ -42,6 +46,26 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
 
     func testPlainTextPreservesLineBreaks() {
         XCTAssertEqual(string("Line one\nLine two"), "Line one\nLine two")
+    }
+
+    func testPlainTextNormalizesWindowsLineEndings() {
+        XCTAssertEqual(string("Line one\r\nLine two"), "Line one\nLine two")
+    }
+
+    func testPlainTextCollapsesExcessBlankLines() {
+        XCTAssertEqual(string("One\n\n\n\nTwo"), "One\n\nTwo")
+    }
+
+    func testAngleBracketBeforeNonLetterStaysText() {
+        // "<" followed by a non-letter can't open a tag, so this is still plain text.
+        XCTAssertEqual(string("I <3 podcasts & jazz"), "I <3 podcasts & jazz")
+    }
+
+    func testEntitiesInTagFreeTextAreDecoded() {
+        // Real-world feed description (TED Talks Daily): no HTML tags at all,
+        // but apostrophes arrive as numeric character references.
+        let html = "Raised listening to his dad&#39;s old records, Joey Alexander plays a brand of sharp, modern piano jazz that you likely wouldn&#39;t expect to hear from a pre-teenager."
+        XCTAssertEqual(string(html), "Raised listening to his dad's old records, Joey Alexander plays a brand of sharp, modern piano jazz that you likely wouldn't expect to hear from a pre-teenager.")
     }
 
     // MARK: - Blocks
@@ -58,12 +82,49 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         XCTAssertEqual(string("<p>Tom &amp; Jerry</p>"), "Tom & Jerry")
     }
 
+    func testNumericEntitiesInsideTagsAreDecoded() {
+        let html = "<p>Raised listening to his dad&#39;s old records &#8212; jazz you wouldn&#8217;t expect.</p>"
+        XCTAssertEqual(string(html), "Raised listening to his dad's old records — jazz you wouldn’t expect.")
+    }
+
     func testUnknownTagsAreStripped() {
         XCTAssertEqual(string("<span class=\"x\">Hello</span>"), "Hello")
     }
 
     func testImagesAreDropped() {
         XCTAssertEqual(string("<p>Before<img src=\"x.png\">After</p>"), "BeforeAfter")
+    }
+
+    func testCommentsAreDropped() {
+        XCTAssertEqual(string("<p>Before<!-- hidden -->After</p>"), "BeforeAfter")
+    }
+
+    func testScriptAndStyleContentsAreDropped() {
+        // Script/style bodies are DataNodes, not TextNodes, so their contents
+        // must never leak into the rendered description.
+        XCTAssertEqual(string("<p>Hello</p><script>alert(1)</script><style>p { color: red }</style>"), "Hello")
+    }
+
+    func testWhitespaceInsideParagraphCollapses() {
+        // Inside markup, raw newlines follow HTML whitespace rules.
+        XCTAssertEqual(string("<p>Line one\n   Line two</p>"), "Line one Line two")
+    }
+
+    func testWhitespaceBetweenInlineElementsIsKept() {
+        XCTAssertEqual(string("<b>bold</b> <i>italic</i>"), "bold italic")
+    }
+
+    func testBlockquoteIsBlockSeparated() {
+        XCTAssertEqual(string("Before<blockquote>Quote</blockquote>After"), "Before\n\nQuote\n\nAfter")
+    }
+
+    func testTrailingLineBreaksAreTrimmed() {
+        XCTAssertEqual(string("<p>Hello</p><br><br>"), "Hello")
+    }
+
+    func testCDATAContentIsKept() {
+        // A feed that leaks a literal CDATA wrapper must not lose its content.
+        XCTAssertEqual(string("<![CDATA[Hello]]>"), "Hello")
     }
 
     // MARK: - Inline emphasis
@@ -139,6 +200,17 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         let result = attributed(#"<a href="/episodes/1">Episode</a>"#)
         XCTAssertEqual(result.string, "Episode")
         XCTAssertNil(link(result, at: 0))
+    }
+
+    func testDataSchemeIsNotLinked() {
+        let result = attributed(#"<a href="data:text/plain;base64,SGVsbG8=">Tap</a>"#)
+        XCTAssertEqual(result.string, "Tap")
+        XCTAssertNil(link(result, at: 0))
+    }
+
+    func testSchemeCheckIsCaseInsensitive() {
+        XCTAssertNil(link(attributed(#"<a href="JavaScript:alert(1)">Tap</a>"#), at: 0))
+        XCTAssertEqual(link(attributed(#"<a href="HTTPS://pca.st">Tap</a>"#), at: 0), URL(string: "HTTPS://pca.st"))
     }
 
     // MARK: - Lists

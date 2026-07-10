@@ -39,7 +39,7 @@ class ListeningHistoryViewModel {
 
     nonisolated private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
         dataManager.fetchHistoryEpisodes().map { episode in
-            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager))
+            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager), source: .listeningHistory)
         }
     }
 

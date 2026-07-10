@@ -15,9 +15,7 @@ struct NowPlayingTab: View {
                 }
             }
             .animation(.easeIn, value: isFocused)
-            .onAppear {
-                Analytics.track(.playerShown)
-            }
+
             .toolbar(!isFocused ? .visible : .hidden, for: .tabBar)
     }
 }

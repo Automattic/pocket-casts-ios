@@ -57,7 +57,7 @@ class StarredEpisodesViewModel {
 
     nonisolated private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
         dataManager.fetchStarredEpisodes().map { episode in
-            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager))
+            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager), source: .starred)
         }
     }
 

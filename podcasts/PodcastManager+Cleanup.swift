@@ -54,6 +54,45 @@ extension PodcastManager {
         FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
     }
 
+    func deleteOrphanedEpisodesIfNeeded() {
+        let orphans = dataManager.findOrphanedEpisodes()
+        guard !orphans.isEmpty else {
+            return
+        }
+
+        FileLog.shared.addMessage("Found \(orphans.count) Orphaned Episodes")
+
+        var deletedCount = 0
+
+        for (uuid, orphanRows) in Dictionary(grouping: orphans, by: \.uuid) {
+            // Only act when there's exactly one unambiguous "live" row (valid podcast_id) to reconcile
+            // against; anything else is a different/rarer shape of duplicate and is left alone.
+            let liveRows = dataManager.findEpisodesWhere(customWhere: "uuid = ? AND podcast_id IN (SELECT id FROM \(DataManager.podcastTableName))", arguments: [uuid])
+            guard liveRows.count == 1, let live = liveRows.first else {
+                continue
+            }
+
+            let survivor = orphanRows
+                .filter { $0.userHasInteractedWithEpisode() }
+                .max { ($0.lastPlaybackInteractionDate ?? $0.addedDate ?? .distantPast) < ($1.lastPlaybackInteractionDate ?? $1.addedDate ?? .distantPast) }
+
+            if let survivor {
+                // The orphan already holds the real state (podcastUuid is still correct, only
+                // podcast_id is dangling), so repoint it at the real podcast instead of copying
+                // its fields onto the stale, pristine "live" row. Repoint + delete happen in one
+                // write so a crash mid-migration can't commit one without the other.
+                let otherOrphanIds = orphanRows.filter { $0.id != survivor.id }.map(\.id)
+                dataManager.reconcileOrphanedEpisode(survivorId: survivor.id, realPodcastId: live.podcast_id, idsToDelete: [live.id] + otherOrphanIds)
+                deletedCount += 1 + otherOrphanIds.count
+            } else {
+                dataManager.deleteOrphanedEpisodes(ids: orphanRows.map(\.id))
+                deletedCount += orphanRows.count
+            }
+        }
+
+        FileLog.shared.addMessage("Deleted \(deletedCount) Orphaned Episodes")
+    }
+
     func checkForUnusedPodcasts() async {
         let podcasts = dataManager.allUnsubscribedPodcasts()
         for podcast in podcasts {
