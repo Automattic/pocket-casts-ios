@@ -222,31 +222,31 @@ final class EpisodeManagerTests: DBTestCase {
         return episode
     }
 
-    func testIsStreamingHLSWhenFlagEnabledAndHlsUrlPresent() throws {
+    func testHasHLSStreamWhenFlagEnabledAndHlsUrlPresent() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
-        XCTAssertTrue(EpisodeManager.isStreamingHLS(makeStreamingHLSEpisode()))
+        XCTAssertTrue(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
     }
 
-    func testIsNotStreamingHLSWhenFlagDisabled() throws {
+    func testDoesNotHaveHLSStreamWhenFlagDisabled() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
-        XCTAssertFalse(EpisodeManager.isStreamingHLS(makeStreamingHLSEpisode()))
+        XCTAssertFalse(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
     }
 
-    func testIsNotStreamingHLSWhenHlsUrlMissingOrEmpty() throws {
+    func testDoesNotHaveHLSStreamWhenHlsUrlMissingOrEmpty() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
         let noHls = makeStreamingHLSEpisode()
         noHls.hlsUrl = nil
-        XCTAssertFalse(EpisodeManager.isStreamingHLS(noHls))
+        XCTAssertFalse(EpisodeManager.hasHLSStream(noHls))
 
         let emptyHls = makeStreamingHLSEpisode()
         emptyHls.hlsUrl = ""
-        XCTAssertFalse(EpisodeManager.isStreamingHLS(emptyHls))
+        XCTAssertFalse(EpisodeManager.hasHLSStream(emptyHls))
     }
 
-    func testIsNotStreamingHLSForUserEpisode() throws {
+    func testDoesNotHaveHLSStreamForUserEpisode() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
-        XCTAssertFalse(EpisodeManager.isStreamingHLS(UserEpisode()))
+        XCTAssertFalse(EpisodeManager.hasHLSStream(UserEpisode()))
     }
 
     func testUrlForEpisodeStreamsHLSWhenAvailableAndFlagEnabled() throws {
