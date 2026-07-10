@@ -147,7 +147,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
     /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
     private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
-        guard EpisodeManager.hasHLSStream(episode), !episode.videoPodcast() else { return }
+        guard isStreamingHLS, !episode.videoPodcast() else { return }
 
         let episodeUuid = episode.uuid
         presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in

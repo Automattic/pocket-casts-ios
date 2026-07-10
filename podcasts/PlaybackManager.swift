@@ -781,8 +781,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     func isCurrentEpisodeVideo() -> Bool {
         guard let episode = currentEpisode() else { return false }
         // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
-        // detect video tracks at runtime.
-        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.hasHLSStream(episode)
+        // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
+        // is actually HLS (a downloaded episode plays its local file, which may not be video).
+        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
     }
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode

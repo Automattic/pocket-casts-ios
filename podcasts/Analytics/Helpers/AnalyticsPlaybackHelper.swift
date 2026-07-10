@@ -143,7 +143,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// where the source is known. Empty unless the HLS feature flag is on.
     static func hlsProtocolProperties(for episode: BaseEpisode) -> [String: Any] {
         guard FeatureFlag.hls.enabled else { return [:] }
-        return ["playback_protocol": EpisodeManager.hasHLSStream(episode) ? "hls" : "progressive"]
+        return ["playback_protocol": EpisodeManager.willPlayViaHLS(episode) ? "hls" : "progressive"]
     }
 
     /// Whether the episode advertises an HLS stream, independent of whether it's the selected source.
