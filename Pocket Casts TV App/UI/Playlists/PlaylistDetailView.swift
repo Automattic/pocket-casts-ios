@@ -212,7 +212,7 @@ struct PlaylistDetailView: View {
         List {
             Section {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil), context: .other(showGoToPodcast: true), focus: $rowFocus, detailsDismissed: {
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil, source: .filters), context: .other(showGoToPodcast: true), focus: $rowFocus, detailsDismissed: {
                         currentFocus = lastFocus
                     })
                     .focused($currentFocus, equals: episode.uuid)

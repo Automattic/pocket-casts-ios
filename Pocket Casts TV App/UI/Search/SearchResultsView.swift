@@ -106,6 +106,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                             "result_type": "episode"
                         ])
                         Task {
+
                             let playSuccess = await model.playEpisode(episode)
                             await MainActor.run {
                                 if playSuccess {

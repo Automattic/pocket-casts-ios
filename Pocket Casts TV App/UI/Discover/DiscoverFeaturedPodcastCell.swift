@@ -72,6 +72,7 @@ struct DiscoverFeaturedPodcastCell: View {
                     HStack(spacing: 24) {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
+                                AnalyticsPlaybackHelper.shared.currentSource = .discover
                                 let successPlay = await TVDataManager.shared.playLatestEpisode(of: podcast)
                                 await MainActor.run {
                                     if successPlay {
