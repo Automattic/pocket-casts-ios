@@ -73,10 +73,14 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     private func resolveAndSeek(to chapter: ChapterInfo, at indexPath: IndexPath) {
-        // Move the spinner to the tapped row (clearing any previous one).
-        if let previous = resolvingIndexPath, previous != indexPath {
+        // Clear any spinner from a previously-resolving row and reset the pointer.
+        // The async path re-sets it for the tapped row via willBeginResolving; a
+        // cache hit resolves synchronously and leaves resolvingIndexPath nil, so a
+        // stale pointer can't resurface the wrong spinner on reuse/reload.
+        if let previous = resolvingIndexPath {
             (chaptersTable.cellForRow(at: previous) as? PlayerChapterCell)?.setResolving(false)
         }
+        resolvingIndexPath = nil
 
         // Fire on every tap — including the cache hit that resolves synchronously
         // without a spinner — so the selection event matches the non-generated path.
