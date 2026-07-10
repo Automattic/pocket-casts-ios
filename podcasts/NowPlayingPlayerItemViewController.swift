@@ -477,14 +477,85 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
-        PlaybackManager.shared.skipToPreviousChapter()
         PlaybackManager.shared.trackChapterEvent(.playerPreviousChapterTapped)
+
+        #if !APPCLIP
+        // Generated chapters carry reference-timeline starts that dynamic ads have
+        // shifted, so resolve the true playback position by fingerprinting before
+        // seeking — matching the chapters-list tap flow.
+        if GeneratedChapterSeeker.isEnabled,
+           let previous = PlaybackManager.shared.previousPlayableChapter() {
+            GeneratedChapterSeeker.seek(
+                to: previous,
+                startPlayback: false,
+                willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: false) },
+                didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: false) }
+            )
+            return
+        }
+        #endif
+
+        PlaybackManager.shared.skipToPreviousChapter()
     }
 
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
-        PlaybackManager.shared.skipToNextChapter()
         PlaybackManager.shared.trackChapterEvent(.playerNextChapterTapped)
+
+        #if !APPCLIP
+        if GeneratedChapterSeeker.isEnabled {
+            guard let next = PlaybackManager.shared.nextPlayableChapter() else {
+                // No next chapter — respect the producer's end of the last chapter
+                // (the same fallback `skipToNextChapter` makes). This isn't a
+                // chapter start, so there's nothing to fingerprint-resolve.
+                PlaybackManager.shared.skipToEndOfLastChapter()
+                return
+            }
+            GeneratedChapterSeeker.seek(
+                to: next,
+                startPlayback: false,
+                willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: true) },
+                didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: true) }
+            )
+            return
+        }
+        #endif
+
+        PlaybackManager.shared.skipToNextChapter()
     }
+
+    #if !APPCLIP
+    /// Show/hide a spinner over the tapped chapter-skip button while its generated
+    /// chapter is being fingerprint-resolved. The button is dimmed to alpha 0
+    /// (which also stops it receiving taps) so a slow resolve can't be double-fired.
+    private func setChapterSkipResolving(_ resolving: Bool, forward: Bool) {
+        let button = forward ? chapterSkipFwdBtn : chapterSkipBackBtn
+        let spinner = forward ? chapterSkipFwdSpinner : chapterSkipBackSpinner
+        button?.alpha = resolving ? 0 : 1
+        if resolving {
+            spinner.startAnimating()
+        } else {
+            spinner.stopAnimating()
+        }
+    }
+
+    private lazy var chapterSkipBackSpinner = makeChapterSkipSpinner(centeredOn: chapterSkipBackBtn)
+    private lazy var chapterSkipFwdSpinner = makeChapterSkipSpinner(centeredOn: chapterSkipFwdBtn)
+
+    private func makeChapterSkipSpinner(centeredOn button: UIButton?) -> UIActivityIndicatorView {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        spinner.color = ThemeColor.playerContrast01()
+        if let button, let container = button.superview {
+            container.addSubview(spinner)
+            NSLayoutConstraint.activate([
+                spinner.centerXAnchor.constraint(equalTo: button.centerXAnchor),
+                spinner.centerYAnchor.constraint(equalTo: button.centerYAnchor)
+            ])
+        }
+        return spinner
+    }
+    #endif
 
     @objc private func chapterLinkTapped() {
         let chapters = PlaybackManager.shared.currentChapters()
