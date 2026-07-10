@@ -78,13 +78,16 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             (chaptersTable.cellForRow(at: previous) as? PlayerChapterCell)?.setResolving(false)
         }
 
+        // Fire on every tap — including the cache hit that resolves synchronously
+        // without a spinner — so the selection event matches the non-generated path.
+        PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
+
         GeneratedChapterSeeker.seek(
             to: chapter,
             startPlayback: true,
             willBeginResolving: { [weak self] in
                 self?.resolvingIndexPath = indexPath
                 (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(true)
-                PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
             },
             didEndResolving: { [weak self] in
                 self?.resolvingIndexPath = nil
