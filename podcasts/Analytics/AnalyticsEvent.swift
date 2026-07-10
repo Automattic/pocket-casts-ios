@@ -145,6 +145,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
+    case heatmapInfoOpened
 
     // MARK: - Folders
 
@@ -278,6 +279,10 @@ enum AnalyticsEvent: String {
     case playbackFailed
     case playbackErrorShown
     case playbackErrorTapped
+
+    /// Emitted once playback actually starts, reporting the protocol the source resolved to
+    /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
+    case playbackSourceResolved
 
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed

@@ -1273,6 +1273,9 @@
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. */
 "mark_played" = "Mark as Played";
 
+/* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
+"mark_unplayed" = "Mark as Unplayed";
+
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. Similar to 'Mark as Played' but more concise. */
 "mark_played_short" = "Mark Played";
 
@@ -1533,6 +1536,12 @@
 
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
+
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
 
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
@@ -6270,6 +6279,9 @@
 
 /* tv toast confirming an episode was marked as played */
 "tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was marked as unplayed */
+"tv_episode_marked_as_unplayed" = "Marked as unplayed";
 
 /* tv toast confirming an episode was archived */
 "tv_episode_archived" = "Archived";

@@ -96,6 +96,15 @@ class EpisodeRowViewModel: Identifiable {
         ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
     }
 
+    func markAsUnplayed() {
+        EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.tvEpisodeMarkedAsUnplayed)
+    }
+
+    var isPlayed: Bool {
+        episode.played()
+    }
+
     var canArchive: Bool {
         episode is Episode
     }
@@ -134,6 +143,20 @@ class EpisodeRowViewModel: Identifiable {
         .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] notification in
+            guard let self else {
+                return
+            }
+            if let uuid = notification.object as? String, uuid == episode.uuid {
+                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                    episode = newEpisode
+                }
+            }
+        }
+        .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.episodePlayStatusChanged)
         .receive(on: DispatchQueue.main)
         .sink { [weak self] notification in
             guard let self else {
