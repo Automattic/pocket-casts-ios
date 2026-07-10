@@ -231,6 +231,10 @@ class NowPlayingViewModel: Identifiable {
         return playbackManager.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError
     }
 
+    var isTrimSilenceAvailable: Bool {
+        return playbackManager.silenceRemovalAvailable()
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)
