@@ -239,6 +239,35 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
+    func seekToStart() {
+        let startingTime = requiredStartingPosition()
+        seekTo(time: startingTime, startPlaybackAfterSeek: false)
+    }
+
+    func ensureAudioSessionActivated() {
+        guard let currEpisode = currentEpisode() else { return }
+        activateAudioSession(completion: { activated in
+            if !activated {
+                self.aboutToPlay.value = false
+                return
+            }
+
+            self.startUpdateTimer()
+            self.updateCommandCenterSkipTimes(addTarget: false)
+            self.updateExtraActions()
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
+
+            if currEpisode.videoPodcast() {
+                self.setAudioSessionVideoProperties()
+            }
+
+            self.updateIdleTimer()
+
+            self.sleepTimerManager.restartSleepTimerIfNeeded()
+        })
+    }
+
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 

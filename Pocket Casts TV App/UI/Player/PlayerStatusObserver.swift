@@ -60,7 +60,7 @@ class PlayerStatusObserver {
             AnalyticsPlaybackHelper.shared.currentSource = .player
             AnalyticsPlaybackHelper.shared.play()
             // this was triggered by the player UI so let's sync with playback manager
-            PlaybackManager.shared.play(userInitiated: false)
+            PlaybackManager.shared.ensureAudioSessionActivated()
         case .paused:
             AnalyticsPlaybackHelper.shared.currentSource = .player
             AnalyticsPlaybackHelper.shared.pause()
