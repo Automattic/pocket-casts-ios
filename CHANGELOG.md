@@ -3,6 +3,7 @@
 - Add support for Flightcast JSON transcripts [#4706](https://github.com/Automattic/pocket-casts-ios/pull/4706)
 - Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
 - Fix the Discover search screen background color and colors in filters on some themes [#4719](https://github.com/Automattic/pocket-casts-ios/pull/4719)
+- Fix the Bookmarks tab being slow to open when bookmarks reference episodes that are no longer available locally [#4721](https://github.com/Automattic/pocket-casts-ios/pull/4721)
 - Fix the mini player initial loading shimmer not showing up when Reduce Motion is enabled [#4713](https://github.com/Automattic/pocket-casts-ios/pull/4713)
 - Fix options picker rows like "Sort By" wrapping their labels to multiple lines when there is enough space [#4722](https://github.com/Automattic/pocket-casts-ios/pull/4722)
 
