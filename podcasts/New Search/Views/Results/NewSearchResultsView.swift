@@ -30,7 +30,7 @@ struct NewSearchResultsView: View {
                     )
                 }
                 .frame(maxHeight: .infinity)
-                .background(Theme.sharedTheme.primaryUi01)
+                .background(Theme.sharedTheme.searchBackground)
             } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts || (searchResults.isSearchingPredictive && searchResults.predictive.isEmpty) {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -40,7 +40,7 @@ struct NewSearchResultsView: View {
                     VStack {
                         Spacer()
                     }
-                    .background(Theme.sharedTheme.primaryUi01)
+                    .background(Theme.sharedTheme.searchBackground)
                 } else {
                     HStack(alignment: .center) {
                         EmptyStateView(title: L10n.searchResultsEmptyTitle,
@@ -50,7 +50,7 @@ struct NewSearchResultsView: View {
                         )
                     }
                     .frame(maxHeight: .infinity)
-                    .background(Theme.sharedTheme.primaryUi01)
+                    .background(Theme.sharedTheme.searchBackground)
                 }
             } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
                 List {
@@ -62,7 +62,7 @@ struct NewSearchResultsView: View {
                     }, footer: {
                         showFullResultsButton
                     })
-                    .listRowBackground(theme.primaryUi01)
+                    .listRowBackground(theme.searchBackground)
                     .listSectionSeparator(.hidden, edges: .bottom)
                 }
                 .scrollDismissesKeyboard(.immediately)
@@ -91,7 +91,7 @@ struct NewSearchResultsView: View {
                 }
             }
         }
-        .background(theme.primaryUi01.ignoresSafeArea())
+        .background(theme.searchBackground.ignoresSafeArea())
     }
 
     @ViewBuilder var showFullResultsButton: some View {
@@ -103,7 +103,7 @@ struct NewSearchResultsView: View {
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
         })
-        .background(theme.primaryUi01)
+        .background(theme.searchBackground)
     }
 
     @ViewBuilder var filterPicker: some View {
@@ -111,7 +111,7 @@ struct NewSearchResultsView: View {
             Text(item.localizedDescription)
         }
         .padding(.bottom, 8)
-        .background(theme.secondaryUi01)
+        .background(LiquidGlass.isEnabled ? theme.searchBackground : theme.secondaryUi01)
         .onChange(of: displayMode) { _, newValue in
             searchAnalyticsHelper.trackFilterTapped(newValue.analyticsDescription)
         }
@@ -154,15 +154,15 @@ struct NewSearchResultsView: View {
         ForEach(filteredResults, id: \.self) { result in
             switch result {
                 case .podcast(let podcast):
-                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                        .listRowBackground(theme.primaryUi01)
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
                 case .episode(let episode):
                     let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                        .listRowBackground(theme.primaryUi01)
+                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
@@ -172,8 +172,8 @@ struct NewSearchResultsView: View {
 
     @ViewBuilder var localResults: some View {
         ForEach(searchResults.podcasts, id: \.self) { localPodcast in
-            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                .listRowBackground(theme.searchBackground)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
                 }
@@ -185,13 +185,13 @@ struct NewSearchResultsView: View {
             switch predictiveSearch.type {
                 case .term(let searchTerm):
                     termRow(term: searchTerm)
-                    .listRowBackground(theme.primaryUi01)
+                    .listRowBackground(theme.searchBackground)
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
                     }
                 case .podcast:
-                    SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                        .listRowBackground(theme.primaryUi01)
+                    SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
@@ -233,6 +233,20 @@ struct NewSearchResultsView: View {
 
     enum Constants {
         static let maxNumberOfEpisodes = 20
+    }
+}
+
+/// Under Liquid Glass, search uses the standard list background to match other list
+/// screens; the legacy appearance keeps the original `primaryUi01`.
+private extension ThemeStyle {
+    static var searchBackground: ThemeStyle {
+        LiquidGlass.isEnabled ? .primaryUi02 : .primaryUi01
+    }
+}
+
+private extension Theme {
+    var searchBackground: Color {
+        AppTheme.color(for: .searchBackground, theme: self)
     }
 }
 

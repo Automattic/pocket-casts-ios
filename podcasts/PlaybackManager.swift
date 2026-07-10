@@ -47,6 +47,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let shouldDeactivateSession = AtomicBool()
     private var haveCalledPlayerLoad = false
 
+    /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
+    /// emitted once when playback actually starts (not on resume/seek) and again after the player
+    /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`. Atomic because it's mutated
+    /// from the `activateAudioSession` completion, which can run off the main queue.
+    private let hasReportedSourceResolved = AtomicBool()
+
     /// Set at runtime when the currently playing stream is found to contain video tracks
     /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
     /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
@@ -251,9 +257,22 @@ class PlaybackManager: ServerPlaybackDelegate {
             haveCalledPlayerLoad = true
         }
 
+        // Marked synchronously (before the async audio-session activation) so concurrent `play()`
+        // calls can't each capture `true` and report twice for the same player. Only engaged when
+        // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
+        // later in the session.
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
+        if shouldReportSourceResolved {
+            hasReportedSourceResolved.value = true
+        }
+
         activateAudioSession(completion: { activated in
             if !activated {
                 self.aboutToPlay.value = false
+                // Playback didn't start, so allow a later retry to report the resolved source.
+                if shouldReportSourceResolved {
+                    self.hasReportedSourceResolved.value = false
+                }
                 return
             }
 
@@ -265,6 +284,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             self.updateExtraActions()
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
+
+            // Report the source the player resolved now that playback has actually started, once per
+            // player (resumes/seeks reuse the same player and don't re-report). Only report if the
+            // current episode still matches the one we started: activation can run async, and if the
+            // user has since switched episodes the new play cycle reports its own resolved source.
+            if shouldReportSourceResolved, self.currentEpisode()?.uuid == currEpisode.uuid {
+                self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
+            }
 
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
@@ -1140,6 +1167,23 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         static let knownURLErrors: [Int] = [NSURLErrorResourceUnavailable, NSURLErrorBadServerResponse, NSURLErrorUserAuthenticationRequired, NSURLErrorFileDoesNotExist, NSURLErrorZeroByteResource]
+
+        /// A short, stable, human-readable category for the failure, reported as `hls_error_detail`
+        /// on `playback_failed` (mirrors the web player). Distinct from the free-form `logMessage`.
+        var analyticsDetail: String {
+            switch self {
+            case .internetConnection:
+                return "internet_connection"
+            case .episodeNotAvailable:
+                return "episode_not_available"
+            case .fileCorrupted:
+                return "file_corrupted"
+            case .chromecastError:
+                return "chromecast_error"
+            case .playbackError:
+                return "playback_error"
+            }
+        }
     }
 
     var activeError: PlaybackError?
@@ -1147,7 +1191,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
-        AnalyticsPlaybackHelper.shared.playbackFailed(episodeUUID: currentEpisode()?.uuid ?? "unknown", error: error.logMessage ?? "Unknown", player: player)
+        AnalyticsPlaybackHelper.shared.playbackFailed(episode: currentEpisode(), error: error.logMessage ?? "Unknown", hlsErrorDetail: error.analyticsDetail, player: player)
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
@@ -1240,7 +1284,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             Analytics.track(.playerEpisodeCompleted, properties: [
                 "podcast_uuid": episode.parentIdentifier(),
                 "episode_uuid": episode.uuid
-            ])
+            ].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: episode)) { current, _ in current })
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
@@ -1436,6 +1480,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
+        hasReportedSourceResolved.value = false
         currentStreamContainsVideo.value = false
         videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
@@ -2416,7 +2461,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
                 FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
                 queue.add(episode: nextEpisode, fireNotification: false)
-                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
+                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode)) { current, _ in current })
                 return
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)
