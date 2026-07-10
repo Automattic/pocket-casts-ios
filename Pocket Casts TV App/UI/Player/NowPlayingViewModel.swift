@@ -61,7 +61,9 @@ class NowPlayingViewModel: Identifiable {
         player = playbackManager.avPlayer
         if !playbackManager.playing(), !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
-            seekAfterLoad = true
+            if !playbackManager.isCurrentEpisodeVideo() {
+                seekAfterLoad = true
+            }
         }
         loadEpisodeArtwork()
     }
