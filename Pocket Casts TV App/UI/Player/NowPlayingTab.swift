@@ -15,7 +15,6 @@ struct NowPlayingTab: View {
                 }
             }
             .animation(.easeIn, value: isFocused)
-
             .toolbar(!isFocused ? .visible : .hidden, for: .tabBar)
     }
 }
