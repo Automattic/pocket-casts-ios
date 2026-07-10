@@ -319,7 +319,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func isReadyToPlay() -> Bool {
+    var isReadyToPlay: Bool {
         player?.isReadyToPlay() ?? false
     }
 
