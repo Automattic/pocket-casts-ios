@@ -224,7 +224,7 @@ platform :ios do
   # Decrypt the app secrets into the local `a8c-secrets` directory the build reads from.
   #
   lane :configure_secrets do
-    unless system('command -v a8c-secrets > /dev/null 2>&1')
+    unless FastlaneCore::CommandExecutor.which('a8c-secrets')
       UI.user_error!('`a8c-secrets` was not found on your PATH. See https://github.com/Automattic/a8c-secrets for installation and usage instructions.')
     end
 
