@@ -204,6 +204,13 @@ before_all do
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
 
+  # Decrypt the secrets.
+  #
+  # This is redundant on dev machines most of the time, but it
+  # has such a negligible overhead that it's worth running it
+  # here to keep the individual lanes cleaner.
+  configure_secrets
+
   Dotenv.load(USER_ENV_FILE_PATH)
 end
 
@@ -226,7 +233,12 @@ platform :ios do
   #
   lane :configure_secrets do
     unless FastlaneCore::CommandExecutor.which('a8c-secrets')
-      UI.user_error!('`a8c-secrets` was not found on your PATH. See https://github.com/Automattic/a8c-secrets for installation and usage instructions.')
+      if is_ci?
+        UI.important('`a8c-secrets` was not found on the PATH, but given CI execution was detected, we assume secrets has already been decrypted. See https://linear.app/a8c/issue/AINFRA-2681.')
+        next
+      else
+        UI.user_error!('`a8c-secrets` was not found on your PATH. See https://github.com/Automattic/a8c-secrets for installation and usage instructions.')
+      end
     end
 
     sh('a8c-secrets', 'decrypt')
