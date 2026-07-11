@@ -61,9 +61,7 @@ class NowPlayingViewModel: Identifiable {
         player = playbackManager.avPlayer
         if !playbackManager.playing(), !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
-            if !playbackManager.isCurrentEpisodeVideo() {
-                seekAfterLoad = true
-            }
+            seekAfterLoad = true
         }
         loadEpisodeArtwork()
     }
@@ -118,7 +116,9 @@ class NowPlayingViewModel: Identifiable {
         isFailed = status == .failed
         if !isLoading, seekAfterLoad {
             seekAfterLoad = false
-            playbackManager.seekToStartingPosition()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) {
+                self.playbackManager.seekToStartingPosition()
+            }
         }
     }
 
