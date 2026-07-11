@@ -199,7 +199,7 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
 
 import 'lib/helpers.rb'
 
-before_all do
+before_all do |lane|
   # This is necessary for 'match' to work correctly in CI. When running
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
@@ -209,7 +209,7 @@ before_all do
   # This is redundant on dev machines most of the time, but it
   # has such a negligible overhead that it's worth running it
   # here to keep the individual lanes cleaner.
-  configure_secrets
+  configure_secrets unless lane == :configure_secrets
 
   Dotenv.load(USER_ENV_FILE_PATH)
 end
