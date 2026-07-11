@@ -225,13 +225,7 @@ platform :ios do
   #
   lane :configure_secrets do
     unless system('command -v a8c-secrets > /dev/null 2>&1')
-      UI.user_error!(<<~MSG)
-        `a8c-secrets` was not found on your PATH. Install it with:
-
-            curl -fsSL https://raw.githubusercontent.com/Automattic/a8c-secrets/main/install.sh | bash
-
-        See https://github.com/Automattic/a8c-secrets for details.
-      MSG
+      UI.user_error!('`a8c-secrets` was not found on your PATH. See https://github.com/Automattic/a8c-secrets for installation and usage instructions.')
     end
 
     sh('a8c-secrets', 'decrypt')
