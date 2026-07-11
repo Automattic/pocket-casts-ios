@@ -5,11 +5,6 @@ Pods/
 .DS_Store
 GoogleService-Info.plist
 
-# All secrets should be stored under .configure-files
-# Everything without a .enc extension is ignored
-.configure-files/*
-!.configure-files/*.enc
-
 # Ruby tooling
 vendor
 

@@ -18,7 +18,7 @@ steps:
       install_gems
 
       echo '--- 🔐 Access Secrets'
-      bundle exec fastlane run configure_apply
+      a8c-secrets decrypt --non-interactive
 
       echo '--- 🚀 New Beta Release'
       bundle exec fastlane new_beta_release skip_confirm:true

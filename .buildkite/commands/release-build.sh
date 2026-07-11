@@ -14,7 +14,7 @@ fi
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :closed_lock_with_key: Installing Secrets"
-bundle exec fastlane run configure_apply
+a8c-secrets decrypt --non-interactive
 
 case "$RELEASE_PLATFORM" in
   ios)

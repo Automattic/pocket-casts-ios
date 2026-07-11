@@ -62,7 +62,7 @@ rescue StandardError => e
   warn("\n🚨🚨 Failed to generate credentials file from template: #{File.basename(template_path)} 🚨🚨")
   warn("\n-> Exception: #{e.message}")
   warn('-> Reason: Secrets are most likely out of date.')
-  warn("-> Solution: Run: bundle exec fastlane run configure_apply\n\n")
+  warn("-> Solution: Run: a8c-secrets decrypt\n\n")
   exit(false)
 end
 

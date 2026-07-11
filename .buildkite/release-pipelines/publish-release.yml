@@ -18,7 +18,7 @@ steps:
       install_gems
 
       echo '--- 🔐 Access Secrets'
-      bundle exec fastlane run configure_apply
+      a8c-secrets decrypt --non-interactive
 
       echo '--- :github: Publish Release'
       bundle exec fastlane publish_release skip_confirm:true
