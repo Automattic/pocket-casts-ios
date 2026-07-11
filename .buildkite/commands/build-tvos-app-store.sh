@@ -8,9 +8,6 @@ fi
 
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
-echo "--- :closed_lock_with_key: Installing Secrets"
-a8c-secrets decrypt --non-interactive
-
 echo "--- :hammer_and_wrench: Building"
 # CI-driven tvOS uploads use a low 0.x build number. App Store Connect may
 # reject these after a release build already exists for the same version.

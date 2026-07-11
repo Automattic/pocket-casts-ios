@@ -13,9 +13,6 @@ fi
 
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
-echo "--- :closed_lock_with_key: Installing Secrets"
-a8c-secrets decrypt --non-interactive
-
 case "$RELEASE_PLATFORM" in
   ios)
     echo "--- :hammer_and_wrench: Building iOS"
