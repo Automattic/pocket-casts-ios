@@ -16,7 +16,7 @@ steps:
       install_gems
 
       echo '--- 🔐 Access Secrets'
-      bundle exec fastlane run configure_apply
+      a8c-secrets decrypt --non-interactive
 
       echo '--- ❄️ Code Freeze'
       bundle exec fastlane code_freeze version:"${RELEASE_VERSION}" skip_confirm:true

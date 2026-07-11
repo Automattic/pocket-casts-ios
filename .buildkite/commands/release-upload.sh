@@ -66,7 +66,7 @@ echo "--- :rubygems: Setting up Gems"
 install_gems
 
 echo "--- :closed_lock_with_key: Installing Secrets"
-bundle exec fastlane run configure_apply
+a8c-secrets decrypt --non-interactive
 
 echo "--- :github: Updating GitHub Release"
 bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE" archive_zip_path:"$ARCHIVE_ZIP_PATH" notify_slack:false create_release:"$CREATE_GITHUB_RELEASE"

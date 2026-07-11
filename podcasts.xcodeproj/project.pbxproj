@@ -8131,7 +8131,7 @@
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
+				FIREBASE_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -8149,7 +8149,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
+				SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -8167,7 +8167,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -8380,7 +8380,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8894,7 +8894,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8904,7 +8904,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8914,7 +8914,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -9225,7 +9225,7 @@
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
-				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
+				FIREBASE_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -9243,7 +9243,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
-				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
+				SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -9261,7 +9261,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -9461,7 +9461,7 @@
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
+				FIREBASE_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -9479,7 +9479,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
+				SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -9519,7 +9519,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
+				FIREBASE_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -9530,7 +9530,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
+				SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -9549,7 +9549,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -9574,7 +9574,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
