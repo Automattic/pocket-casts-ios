@@ -203,11 +203,6 @@ before_all do
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
 
-  # Decrypt the secrets. This is redundant on dev machines most of the time,
-  # but it has such a negligible overhead that it's worth running it here to
-  # keep the individual lanes cleaner.
-  sh('a8c-secrets', 'decrypt', '--non-interactive')
-
   Dotenv.load(USER_ENV_FILE_PATH)
 end
 
@@ -224,6 +219,22 @@ platform :ios do
       devices: ['iPhone 17 Pro'],
       output_types: 'junit'
     )
+  end
+
+  # Decrypt the app secrets into the local `a8c-secrets` directory the build reads from.
+  #
+  lane :configure_secrets do
+    unless system('command -v a8c-secrets > /dev/null 2>&1')
+      UI.user_error!(<<~MSG)
+        `a8c-secrets` was not found on your PATH. Install it with:
+
+            curl -fsSL https://raw.githubusercontent.com/Automattic/a8c-secrets/main/install.sh | bash
+
+        See https://github.com/Automattic/a8c-secrets for details.
+      MSG
+    end
+
+    sh('a8c-secrets', 'decrypt')
   end
 
   # Download and configure code signing certificates and provisioning profiles for the App Store build.

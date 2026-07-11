@@ -14,8 +14,7 @@ buildkite-agent artifact download "artifacts/*.app.dSYM.zip" . --step build_prot
 echo "--- :rubygems: Setting up Gems"
 install_gems
 
-echo "--- :closed_lock_with_key: Installing Secrets"
-a8c-secrets decrypt --non-interactive
+"$(dirname "${BASH_SOURCE[0]}")/install-secrets.sh"
 
 echo "--- :hammer_and_wrench: Uploading"
 bundle exec fastlane upload_enterprise
