@@ -25,7 +25,7 @@ fi
 ## Validate Secrets!
 ##
 if [ ! -f $SECRETS_PATH ]; then
-    echo "error: $SECRETS_PATH not found! Please run \`a8c-secrets decrypt\`."
+    echo "error: $SECRETS_PATH not found! Please run \`bundle exec fastlane configure_secrets\`."
     exit 1
 else
     echo ">> Loading Secrets from ${SECRETS_PATH}"
