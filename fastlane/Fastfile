@@ -203,6 +203,13 @@ before_all do
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
 
+  # PROBE (mokagio/before-all-decrypt-ci-probe): can the parent lane process
+  # reach the `a8c-secrets` binary? `install-secrets.sh` now installs it but
+  # does not decrypt, so this call is the only decrypt path. Unguarded on
+  # purpose: if the binary isn't on PATH here, `configure_secrets` fails loudly
+  # and proves the install-secrets PATH export doesn't survive to this process.
+  configure_secrets
+
   Dotenv.load(USER_ENV_FILE_PATH)
 end
 
