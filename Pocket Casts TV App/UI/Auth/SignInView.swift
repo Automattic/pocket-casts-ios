@@ -35,8 +35,8 @@ struct SignInView: View {
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 500)
-                // Mode-specific content area, fixed height so the logo,
-                // title, and picker above never shift when switching modes.
+                // Mode-specific content area, fixed height so the title
+                // and picker above never shift when switching modes.
                 VStack(spacing: 64) {
                     switch loginType {
                     case .manual:
