@@ -61,8 +61,7 @@ struct SignInView: View {
                 VStack(spacing: 64) {
                     switch loginType {
                     case .manual:
-                        usernamePasswordLogin
-                            .padding(.top, 64)
+                        usernamePasswordLogin                            
                     case .qr:
                         if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
@@ -190,7 +189,7 @@ struct SignInView: View {
     @State private var password = ""
 
     var usernamePasswordLogin: some View {
-        VStack {
+        VStack(spacing: 32) {
             TextField(L10n.tvUserSignInUsernamePlaceholder, text: $username)
                 .textContentType(.username)
                 .focused($focusedField, equals: .username)
