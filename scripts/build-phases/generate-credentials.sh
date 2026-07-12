@@ -24,7 +24,7 @@ fi
 
 ## Validate Secrets!
 ##
-if [ ! -f $SECRETS_PATH ]; then
+if [ ! -f "$SECRETS_PATH" ]; then
     echo "error: $SECRETS_PATH not found! Please run \`bundle exec fastlane configure_secrets\`."
     exit 1
 else
