@@ -61,7 +61,7 @@ class PlayerStatusObserver {
             AnalyticsPlaybackHelper.shared.play()
         case .paused:
             AnalyticsPlaybackHelper.shared.currentSource = .player
-            AnalyticsPlaybackHelper.shared.pause()            
+            AnalyticsPlaybackHelper.shared.pause()
         case .waitingToPlayAtSpecifiedRate:
             break
         @unknown default:
