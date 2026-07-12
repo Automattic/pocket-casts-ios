@@ -113,13 +113,7 @@ actor DiscoverManager {
         layoutFetchTask = task
         let (result, _) = await task.value
 
-        // Release the shared fetch slot once the request settles. Without this a failed
-        // attempt would leave `layoutFetchTask` pointing at a finished task, wedging every
-        // future caller on the same failure with no way to retry. The `== task` guard avoids
-        // clobbering a fresh fetch that another caller may have started in the meantime.
-        if layoutFetchTask == task {
-            layoutFetchTask = nil
-        }
+        layoutFetchTask = nil
 
         guard let layout = result else {
             throw DiscoverError.failedToLoad
