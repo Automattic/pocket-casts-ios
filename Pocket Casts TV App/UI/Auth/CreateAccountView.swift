@@ -20,12 +20,6 @@ struct CreateAccountView: View {
 
     @State private var pairing = PairingSession()
 
-    private let steps = [
-        L10n.tvCreateAccountModalStepScanNew,
-        L10n.tvCreateAccountModalStepCreateNew,
-        L10n.tvCreateAccountModalStepLogInNew
-    ]
-
     var body: some View {
         layout
             .task {
@@ -130,6 +124,14 @@ struct CreateAccountView: View {
                 .foregroundStyle(Color.pcTextSecondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
+    }
+
+    var steps: [String] {
+        [
+            L10n.tvCreateAccountStepScan(pairing.pairURLPretty),
+            L10n.tvCreateAccountStepCreate,
+            L10n.tvCreateAccountStepConfirmCode
+        ]
     }
 
     private var modalSteps: some View {

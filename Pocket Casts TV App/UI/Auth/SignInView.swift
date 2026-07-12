@@ -44,10 +44,10 @@ struct SignInView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(spacing: 32) {
-                Image(ImageResource.pcLogo)
+            VStack(spacing: 64) {
+                Spacer()
                 Text(L10n.tvSignInTitle)
-                    .font(.title)
+                    .font(.title3.weight(.medium))
                     .foregroundColor(Color.pcTextPrimary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
@@ -58,7 +58,7 @@ struct SignInView: View {
                 .frame(width: 500)
                 // Mode-specific content area, fixed height so the logo,
                 // title, and picker above never shift when switching modes.
-                VStack(spacing: 32) {
+                VStack(spacing: 64) {
                     switch loginType {
                     case .manual:
                         usernamePasswordLogin
@@ -67,19 +67,11 @@ struct SignInView: View {
                         if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
                         } else {
-                            Text(L10n.tvSignInSubtitle)
-                                .font(.headline)
-                                .foregroundStyle(Color.pcTextSecondary)
-                            if let urlComplete = model.pairing.pairURLComplete {
-                                QRCodeView(url: urlComplete)
-                                separator
-                                Text(enterCodePrompt(url: urlComplete))
-                                    .font(.headline)
-                                    .foregroundStyle(Color.pcTextSecondary)
-                                QRCodeDigits(digits: model.pairing.codes)
-                            } else {
-                                ProgressView()
+                            HStack {
+                                QRCodeView(url: model.pairing.pairURLComplete)
+                                fullScreenSteps
                             }
+                            QRCodeDigits(digits: model.pairing.codes)
                         }
                     }
                 }
@@ -122,6 +114,39 @@ struct SignInView: View {
             }
         }
         .background(Color.pcBackgroundBase)
+    }
+
+    var steps: [String] {
+        [
+            L10n.tvCreateAccountStepScan(model.pairing.pairURLPretty),
+            L10n.tvCreateAccountStepLogin,
+            L10n.tvCreateAccountStepConfirmCode
+        ]
+    }
+    @ViewBuilder
+    private var fullScreenSteps: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
+                stepBadge(number: index + 1, text: step)
+            }
+        }
+    }
+
+    private func stepBadge(number: Int, text: String) -> some View {
+        HStack(spacing: 12) {
+            Text("\(number)")
+                .font(.caption2)
+                .foregroundStyle(Color.pcTextSecondary)
+                .frame(width: 40, height: 40)
+                .background(Color.pcBackgroundActive20, in: Circle())
+            Text(text)
+                .font(.body)
+                .foregroundStyle(Color.pcTextSecondary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+        }
+        // Read each step as a single unit rather than landing on the bare badge.
+        .accessibilityElement(children: .combine)
     }
 
     private func finishSignIn(source: String) {
