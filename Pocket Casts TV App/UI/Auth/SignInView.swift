@@ -76,7 +76,7 @@ struct SignInView: View {
                                 Text(enterCodePrompt(url: urlComplete))
                                     .font(.headline)
                                     .foregroundStyle(Color.pcTextSecondary)
-                                qrCodeDigits
+                                QRCodeDigits(digits: model.pairing.codes)
                             } else {
                                 ProgressView()
                             }
@@ -146,25 +146,6 @@ struct SignInView: View {
             }
         }
         .padding(.top, 64)
-    }
-
-    var qrCodeDigits: some View {
-        Group {
-            if model.pairing.codes.isEmpty {
-                ProgressView()
-            } else {
-                HStack(spacing: 8) {
-                    ForEach(Array(model.pairing.codes.enumerated()), id: \.offset) { _, code in
-                        Text(code)
-                            .font(.caption2)
-                            .foregroundStyle(Color.pcTextSecondary)
-                            .padding()
-                            .background(Color.pcBackgroundActive20)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-                }
-            }
-        }
     }
 
     var separator: some View {
