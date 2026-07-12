@@ -24,6 +24,21 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         return cache
     }()
 
+    /// A dedicated session with a bounded resource timeout.
+    ///
+    /// `URLSession.shared` defaults to a `timeoutIntervalForResource` of 7 days, so a
+    /// stalled Discover request (a server that trickles bytes or never closes the
+    /// connection) can keep callers awaiting effectively forever. On tvOS every Discover
+    /// section funnels through a single layout fetch, so one hung request leaves the whole
+    /// screen stuck on its loading spinner. Capping the timeouts guarantees each request
+    /// completes — succeeding or failing — within a predictable window.
+    private lazy var discoverURLSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 60
+        return URLSession(configuration: config)
+    }()
+
     /**
      * Valid image sizes: 130,140,200,210,280,340,400,420,680,960
      */
@@ -177,7 +192,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 completion(data, response, error, false)
             }
         } else {
-            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            discoverURLSession.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error, false)
             }).resume()
         }

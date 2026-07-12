@@ -39,16 +39,22 @@ class DiscoverSectionEpisodesModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
         let section: DiscoverEpisodesSection
-        if let type {
-            section = await discoverManager.loadDiscoverEpisodesSection(type: type)
-        } else if let item {
-            section = await discoverManager.loadDiscoverEpisodesSection(item: item)
-        } else {
-            state = .empty
+        do {
+            if let type {
+                section = try await discoverManager.loadDiscoverEpisodesSection(type: type)
+            } else if let item {
+                section = try await discoverManager.loadDiscoverEpisodesSection(item: item)
+            } else {
+                await MainActor.run { state = .empty }
+                return
+            }
+        } catch {
+            await MainActor.run { state = .failed }
             return
         }
 
@@ -62,6 +68,12 @@ class DiscoverSectionEpisodesModel {
             title = composedTitle
             listId = section.listId
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     /// Fires once the section's episodes are on screen, mirroring iOS's `viewDidAppear` impression.

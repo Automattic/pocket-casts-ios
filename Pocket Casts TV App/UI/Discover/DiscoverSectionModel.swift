@@ -45,16 +45,25 @@ class DiscoverSectionModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
         let section: DiscoverSection
-        if let type {
-            section = await discoverManager.loadDiscoverSection(type: type)
-        } else if let item {
-            section = await discoverManager.loadDiscoverSection(sourceItem: item)
-        } else {
-            state = .empty
+        do {
+            if let type {
+                section = try await discoverManager.loadDiscoverSection(type: type)
+            } else if let item {
+                section = try await discoverManager.loadDiscoverSection(sourceItem: item)
+            } else {
+                await MainActor.run { state = .empty }
+                return
+            }
+        } catch {
+            await MainActor.run {
+                title = item?.title?.localized ?? ""
+                state = .failed
+            }
             return
         }
 
@@ -72,6 +81,12 @@ class DiscoverSectionModel {
             listId = section.listId
             dateTime = section.dateTime
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     /// Fires once the section's podcasts are on screen, mirroring iOS's `viewDidAppear` impression.
