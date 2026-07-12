@@ -116,8 +116,8 @@ class NowPlayingViewModel: Identifiable {
         isFailed = status == .failed
         if !isLoading, seekAfterLoad {
             seekAfterLoad = false
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) {
-                self.playbackManager.seekToStartingPosition()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) { [weak self] in
+                self?.playbackManager.seekToStartingPosition()
             }
         }
     }
