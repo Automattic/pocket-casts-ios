@@ -32,6 +32,7 @@
 - Fix separator alignment and list background color on the Discover category list [#4653](https://github.com/Automattic/pocket-casts-ios/pull/4653)
 - Add episode sorting to the podcast screen on tvOS [#4650](https://github.com/Automattic/pocket-casts-ios/pull/4650)
 - Scale the mini player title with Dynamic Type under Liquid Glass [#4676](https://github.com/Automattic/pocket-casts-ios/pull/4676)
+- Add a Troubleshooting screen under Help & Feedback to find and remove orphaned duplicate episodes [#4697](https://github.com/Automattic/pocket-casts-ios/pull/4697)
 
 8.15
 -----

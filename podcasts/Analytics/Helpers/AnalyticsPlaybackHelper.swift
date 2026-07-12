@@ -9,6 +9,10 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// Whether to ignore the next seek event
     private var ignoreNextSeek = false
 
+    /// Timestamp of the last tvOS remote play/pause action, used to de-duplicate analytics events between
+    /// remote handlers and TV player observation.
+    var timestampOfLastRemoteAction: Date?
+
     func play() {
         track(.playbackPlay, properties: Self.hlsLifecycleProperties(for: PlaybackManager.shared.currentEpisode()))
     }

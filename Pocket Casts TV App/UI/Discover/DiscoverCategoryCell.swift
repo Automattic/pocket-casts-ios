@@ -16,8 +16,8 @@ struct DiscoverCategoryCell: View {
         static let iconSize = CGFloat(48)
     }
 
-    init(category: DiscoverCategory, colorIndex: Int) {
-        _model = State(wrappedValue: DiscoverCategoryModel(category: category))
+    init(category: DiscoverCategory, colorIndex: Int, source: String) {
+        _model = State(wrappedValue: DiscoverCategoryModel(category: category, source: source))
         self.colorIndex = colorIndex
     }
 
@@ -89,7 +89,7 @@ struct DiscoverCategoryCell: View {
 }
 
 #Preview {
-    DiscoverCategoryCell(category: DiscoverCategory(id: 1, name: "True Crime"), colorIndex: 0)
+    DiscoverCategoryCell(category: DiscoverCategory(id: 1, name: "True Crime"), colorIndex: 0, source: DiscoverAnalytics.searchSource)
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }

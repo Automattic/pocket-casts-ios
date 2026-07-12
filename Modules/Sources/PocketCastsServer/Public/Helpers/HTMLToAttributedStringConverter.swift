@@ -14,30 +14,33 @@ public enum HTMLToAttributedStringConverter {
     public static func attributedString(from html: String) -> NSAttributedString {
         guard !html.isEmpty else { return NSAttributedString() }
 
-        guard containsHTMLTags(html) else {
+        guard let document = try? SwiftSoup.parse(html) else {
+            // Last resort: the input defeated the parser, show it as-is.
             return NSAttributedString(string: normalizedPlainText(html))
         }
+        let root = document.body() ?? document
 
-        do {
-            let document = try SwiftSoup.parse(html)
-            let root = document.body() ?? document
-            let builder = AttributedStringBuilder()
-            try builder.append(node: root, context: InlineContext())
-            let result = builder.finalized()
-            return result.length > 0
-                ? result
-                : NSAttributedString(string: normalizedPlainText(plainText(from: html)))
-        } catch {
-            return NSAttributedString(string: normalizedPlainText(plainText(from: html)))
+        if let text = plainTextOnly(root) {
+            return NSAttributedString(string: normalizedPlainText(text))
         }
+
+        let builder = AttributedStringBuilder()
+        builder.append(node: root, context: InlineContext())
+        let result = builder.finalized()
+        return result.length > 0
+            ? result
+            : NSAttributedString(string: normalizedPlainText((try? root.text()) ?? html))
     }
 
-    private static func plainText(from html: String) -> String {
-        (try? SwiftSoup.parse(html).text()) ?? html
-    }
-
-    private static func containsHTMLTags(_ string: String) -> Bool {
-        string.range(of: "<[a-zA-Z/!][^>]*>", options: .regularExpression) != nil
+    /// Tag-free input is a plain-text description: returns its decoded text so the
+    /// author's line breaks survive, rather than letting the block builder collapse
+    /// them per HTML whitespace rules. Returns nil once any element is present.
+    private static func plainTextOnly(_ root: Element) -> String? {
+        let children = root.getChildNodes()
+        guard children.allSatisfy({ $0 is TextNode }) else { return nil }
+        return children
+            .compactMap { ($0 as? TextNode)?.getWholeText() }
+            .joined()
     }
 
     private static func normalizedPlainText(_ text: String) -> String {
@@ -95,13 +98,13 @@ private final class AttributedStringBuilder {
         return NSAttributedString(attributedString: output)
     }
 
-    func append(node: Node, context: InlineContext) throws {
+    func append(node: Node, context: InlineContext) {
         for child in node.getChildNodes() {
-            try appendChild(child, context: context)
+            appendChild(child, context: context)
         }
     }
 
-    private func appendChild(_ node: Node, context: InlineContext) throws {
+    private func appendChild(_ node: Node, context: InlineContext) {
         if let textNode = node as? TextNode {
             let collapsed = textNode.getWholeText()
                 .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
@@ -124,29 +127,29 @@ private final class AttributedStringBuilder {
         case "p", "div", "section", "article":
             if listStack.isEmpty {
                 ensureBlockSeparation()
-                try append(node: element, context: context)
+                append(node: element, context: context)
                 ensureBlockSeparation()
             } else {
                 // Inside a list item, a block wrapper must not inject blank lines
                 // or bump content off the marker line.
                 ensureSpace()
-                try append(node: element, context: context)
+                append(node: element, context: context)
             }
         case "strong", "b":
             var context = context
             context.presentationIntent.insert(.stronglyEmphasized)
-            try append(node: element, context: context)
+            append(node: element, context: context)
         case "em", "i":
             var context = context
             context.presentationIntent.insert(.emphasized)
-            try append(node: element, context: context)
+            append(node: element, context: context)
         case "a":
             var context = context
             if let href = try? element.attr("href").trimmingCharacters(in: .whitespaces),
                let url = safeLinkURL(href) {
                 context.link = url
             }
-            try append(node: element, context: context)
+            append(node: element, context: context)
         case "ul", "ol":
             if listStack.isEmpty {
                 ensureBlockSeparation()
@@ -154,7 +157,7 @@ private final class AttributedStringBuilder {
                 ensureNewline()
             }
             listStack.append(ListContext(ordered: tag == "ol", index: 1))
-            try append(node: element, context: context)
+            append(node: element, context: context)
             listStack.removeLast()
             if listStack.isEmpty {
                 ensureBlockSeparation()
@@ -162,20 +165,20 @@ private final class AttributedStringBuilder {
         case "li":
             ensureNewline()
             appendText(listItemPrefix(), context: context)
-            try append(node: element, context: context)
+            append(node: element, context: context)
             ensureNewline()
         case "h1", "h2", "h3", "h4", "h5", "h6":
             ensureBlockSeparation()
             var context = context
             context.presentationIntent.insert(.stronglyEmphasized)
-            try append(node: element, context: context)
+            append(node: element, context: context)
             ensureBlockSeparation()
         case "blockquote":
             ensureBlockSeparation()
-            try append(node: element, context: context)
+            append(node: element, context: context)
             ensureBlockSeparation()
         default:
-            try append(node: element, context: context)
+            append(node: element, context: context)
         }
     }
 

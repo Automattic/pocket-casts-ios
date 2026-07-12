@@ -319,6 +319,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable HLS streaming playback
     case hls
 
+    /// A new "Troubleshooting" screen for detecting orphaned episodes and more.
+    case troubleshooting
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -539,6 +542,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .hls:
             BuildEnvironment.current == .debug
+        case .troubleshooting:
+            true
         }
     }
 

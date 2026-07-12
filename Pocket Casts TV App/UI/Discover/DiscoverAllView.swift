@@ -37,13 +37,8 @@ struct DiscoverAllView: View {
                 }
             }
         }
-        .navigationDestination(for: DiscoverPodcast.self) { podcast in
-            if let uuid = podcast.uuid {
-                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
-            }
-        }
         .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-            DiscoverPodcastsListView(category: discoverCategory)
+            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
         }
     }
 }
