@@ -21,9 +21,9 @@ struct CreateAccountView: View {
     @State private var pairing = PairingSession()
 
     private let steps = [
-        L10n.tvCreateAccountModalStepScan,
-        L10n.tvCreateAccountModalStepCreate,
-        L10n.tvCreateAccountModalStepLogIn
+        L10n.tvCreateAccountModalStepScanNew,
+        L10n.tvCreateAccountModalStepCreateNew,
+        L10n.tvCreateAccountModalStepLogInNew
     ]
 
     var body: some View {
@@ -63,15 +63,18 @@ struct CreateAccountView: View {
 
     private var fullScreenLayout: some View {
         VStack(spacing: 64) {
-            Spacer()
             fullScreenHeader
-            if case .error(_, let message) = pairing.state {
-                pairingError(message: message)
-            } else {
-                QRCodeTile(url: pairing.pairURLComplete)
+            HStack {
+                Spacer()
+                if case .error(_, let message) = pairing.state {
+                    pairingError(message: message)
+                } else {
+                    QRCodeTile(url: pairing.pairURLComplete)
+                }
+                fullScreenSteps
+                Spacer()
             }
-            Spacer()
-            fullScreenSteps
+            QRCodeDigits(digits: pairing.codes)
         }
         .padding(80)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -82,21 +85,13 @@ struct CreateAccountView: View {
             Text(L10n.tvCreateAccountTitle)
                 .font(.title3.weight(.medium))
                 .foregroundStyle(Color.pcTextPrimary)
-            Text(L10n.tvCreateAccountQrInstruction)
-                .font(.body.weight(.medium))
-                .foregroundStyle(Color.pcTextSecondary)
         }
         .multilineTextAlignment(.center)
     }
 
     private var fullScreenSteps: some View {
-        HStack(spacing: 24) {
+        VStack(alignment: .leading, spacing: 24) {
             ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                if index > 0 {
-                    Image(systemName: "arrow.right")
-                        .font(.body)
-                        .foregroundStyle(Color.pcTextDisabled)
-                }
                 stepBadge(number: index + 1, text: step)
             }
         }
@@ -105,7 +100,7 @@ struct CreateAccountView: View {
     // MARK: - Modal
 
     private var modalLayout: some View {
-        VStack(alignment: .leading, spacing: 64) {
+        VStack(alignment: .center, spacing: 64) {
             modalHeader
             if case .error(_, let message) = pairing.state {
                 pairingError(message: message)
@@ -115,9 +110,10 @@ struct CreateAccountView: View {
                     modalSteps
                 }
             }
+            QRCodeDigits(digits: pairing.codes)
         }
         .padding(80)
-        .frame(width: 952, alignment: .leading)
+        .frame(width: 1200, alignment: .leading)
     }
 
     private var modalHeader: some View {
@@ -156,6 +152,8 @@ struct CreateAccountView: View {
             Text(text)
                 .font(.body)
                 .foregroundStyle(Color.pcTextSecondary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
         }
         // Read each step as a single unit rather than landing on the bare badge.
         .accessibilityElement(children: .combine)

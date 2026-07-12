@@ -6537,3 +6537,14 @@
 /* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
 "tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
 
+/* tv create account modal step - scan the QR code */
+"tv_create_account_modal_step_scan_new" = "Scan the QR code or go to pocketcasts.com/pair";
+
+/* tv create account modal step - create your account */
+"tv_create_account_modal_step_create_new" = "Create your account or log in";
+
+/* tv create account modal step - the TV logs you in automatically */
+"tv_create_account_modal_step_log_in_new" = "If asked, confirm the code below";
+
+
+
