@@ -65,7 +65,7 @@ struct CreateAccountView: View {
                 } else {
                     QRCodeView(url: pairing.pairURLComplete)
                 }
-                fullScreenSteps
+                StepList(steps: steps)
                 Spacer()
             }
             QRCodeDigits(digits: pairing.codes)
@@ -75,20 +75,10 @@ struct CreateAccountView: View {
     }
 
     private var fullScreenHeader: some View {
-        VStack(spacing: 16) {
-            Text(L10n.tvCreateAccountTitle)
-                .font(.title3.weight(.medium))
-                .foregroundStyle(Color.pcTextPrimary)
-        }
-        .multilineTextAlignment(.center)
-    }
-
-    private var fullScreenSteps: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                stepBadge(number: index + 1, text: step)
-            }
-        }
+        Text(L10n.tvCreateAccountTitle)
+            .font(.title3.weight(.medium))
+            .foregroundStyle(Color.pcTextPrimary)
+            .multilineTextAlignment(.center)
     }
 
     // MARK: - Modal
@@ -101,7 +91,7 @@ struct CreateAccountView: View {
             } else {
                 HStack(alignment: .center, spacing: 64) {
                     QRCodeView(url: pairing.pairURLComplete)
-                    modalSteps
+                    StepList(steps: steps, spacing: 40)
                 }
             }
             QRCodeDigits(digits: pairing.codes)
@@ -134,32 +124,7 @@ struct CreateAccountView: View {
         ]
     }
 
-    private var modalSteps: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                stepBadge(number: index + 1, text: step)
-            }
-        }
-    }
-
     // MARK: - Shared
-
-    private func stepBadge(number: Int, text: String) -> some View {
-        HStack(spacing: 12) {
-            Text("\(number)")
-                .font(.caption2)
-                .foregroundStyle(Color.pcTextSecondary)
-                .frame(width: 40, height: 40)
-                .background(Color.pcBackgroundActive20, in: Circle())
-            Text(text)
-                .font(.body)
-                .foregroundStyle(Color.pcTextSecondary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-        }
-        // Read each step as a single unit rather than landing on the bare badge.
-        .accessibilityElement(children: .combine)
-    }
 
     private func pairingError(message: String) -> some View {
         ContentUnavailableView {

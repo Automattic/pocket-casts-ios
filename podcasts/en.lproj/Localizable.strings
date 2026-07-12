@@ -6544,10 +6544,8 @@
 "tv_create_account_step_create" = "Create your account or log in";
 
 /* tv create account confirm step - confirm code */
-"tv_create_account_step_confirm_code" = "If asked, confirm the code bellow";
+"tv_create_account_step_confirm_code" = "If asked, confirm the code below";
 
 /* tv create account login step - log in to your account */
 "tv_create_account_step_login" = "Log in to your account";
-
-
 

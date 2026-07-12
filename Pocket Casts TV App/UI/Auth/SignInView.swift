@@ -7,27 +7,6 @@ struct SignInView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    let manualLogin: Bool = true
-
-    enum Layout {
-        static let gridSize = CGFloat(272)
-        static let qrSize = CGFloat(240)
-    }
-
-    func enterCodePrompt(url: String) -> AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, url)
-        var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
-
-        var linkStyle = AttributeContainer()
-        linkStyle.foregroundColor = Color.pcTextPrimary
-        linkStyle.underlineStyle = .single
-
-        for run in attributedString.runs where run.link != nil {
-            attributedString[run.range].mergeAttributes(linkStyle)
-        }
-        return attributedString
-    }
-
     enum LoginType: Int, CaseIterable {
         case qr
         case manual
@@ -61,14 +40,14 @@ struct SignInView: View {
                 VStack(spacing: 64) {
                     switch loginType {
                     case .manual:
-                        usernamePasswordLogin                            
+                        usernamePasswordLogin
                     case .qr:
                         if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
                         } else {
                             HStack {
                                 QRCodeView(url: model.pairing.pairURLComplete)
-                                fullScreenSteps
+                                StepList(steps: steps)
                             }
                             QRCodeDigits(digits: model.pairing.codes)
                         }
@@ -122,31 +101,6 @@ struct SignInView: View {
             L10n.tvCreateAccountStepConfirmCode
         ]
     }
-    @ViewBuilder
-    private var fullScreenSteps: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                stepBadge(number: index + 1, text: step)
-            }
-        }
-    }
-
-    private func stepBadge(number: Int, text: String) -> some View {
-        HStack(spacing: 12) {
-            Text("\(number)")
-                .font(.caption2)
-                .foregroundStyle(Color.pcTextSecondary)
-                .frame(width: 40, height: 40)
-                .background(Color.pcBackgroundActive20, in: Circle())
-            Text(text)
-                .font(.body)
-                .foregroundStyle(Color.pcTextSecondary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-        }
-        // Read each step as a single unit rather than landing on the bare badge.
-        .accessibilityElement(children: .combine)
-    }
 
     private func finishSignIn(source: String) {
         Analytics.track(.userSignedIn, properties: ["source": source])
@@ -170,13 +124,6 @@ struct SignInView: View {
             }
         }
         .padding(.top, 64)
-    }
-
-    var separator: some View {
-        Rectangle()
-        .foregroundColor(.clear)
-        .frame(width: 566, height: 1)
-        .background(Color.pcTextDisabled)
     }
 
     @FocusState private var focusedField: Field?
