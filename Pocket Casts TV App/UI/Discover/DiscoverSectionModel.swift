@@ -61,7 +61,9 @@ class DiscoverSectionModel {
             }
         } catch {
             await MainActor.run {
-                title = item?.title?.localized ?? ""
+                if let itemTitle = item?.title?.localized, !itemTitle.isEmpty {
+                    title = itemTitle
+                }
                 state = .failed
             }
             return
