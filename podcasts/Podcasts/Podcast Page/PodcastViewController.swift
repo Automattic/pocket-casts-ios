@@ -673,10 +673,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             var needsNoSearchResultsMessage = false
             let searching = self.searchController?.searchTextField?.text?.count ?? 0 > 0
             if podcast.podcastGrouping() == .none {
-                let episodeLimit = Int(podcast.autoArchiveEpisodeLimitCount)
+                let episodeLimit = Int(podcast.autoArchiveEpisodeLimit)
                 var episodes = newData[safe: 1]?.elements
                 let episodeCount = episodes?.count ?? 0
-                if episodeCount > 0, episodeLimit > 0, podcast.isAutoArchiveOverridden {
+                if episodeCount > 0, episodeLimit > 0, podcast.overrideGlobalArchive {
                     var indexToInsertAt = -1
 
                     let episodeSortOrder = podcast.podcastSortOrder
@@ -971,7 +971,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         guard let podcast else {
             return
         }
-        let newValue = !podcast.isPushEnabled
+        let newValue = !podcast.pushEnabled
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
         NotificationsHelper.shared.setNotificationsEnabled(newValue, for: podcast)
     }
@@ -1001,15 +1001,15 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     func toggleShowArchived() {
         guard let podcast else { return }
 
-        podcast.shouldShowArchived = !podcast.shouldShowArchived
+        podcast.showArchived = !podcast.showArchived
         DataManager.sharedManager.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
-        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.shouldShowArchived])
+        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
     }
 
     func showingArchived() -> Bool {
-        podcast?.shouldShowArchived ?? false
+        podcast?.showArchived ?? false
     }
 
     func archiveAllTapped(playedOnly: Bool) {

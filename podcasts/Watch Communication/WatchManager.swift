@@ -719,8 +719,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         podcastsWithOverride.forEach {
             var podcastSettings = [String: Any]()
             podcastSettings[WatchConstants.Keys.podcastUuid] = $0.uuid
-            podcastSettings[WatchConstants.Keys.podcastOverrideGlobalArchive] = $0.isAutoArchiveOverridden
-            podcastSettings[WatchConstants.Keys.podcastAutoArchivePlayedAfter] = $0.autoArchivePlayedAfterTime
+            podcastSettings[WatchConstants.Keys.podcastOverrideGlobalArchive] = $0.overrideGlobalArchive
+            podcastSettings[WatchConstants.Keys.podcastAutoArchivePlayedAfter] = $0.autoArchivePlayedAfter
             podcastArchiveSettings.append(podcastSettings)
         }
         return podcastArchiveSettings

@@ -19,7 +19,7 @@ extension PodcastManager {
             podcast.subscribed = 0
             podcast.autoArchiveEpisodeLimit = 0
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-            podcast.isPushEnabled = false
+            podcast.pushEnabled = false
             podcast.syncStatus = SyncStatus.notSynced.rawValue
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
             podcast.settings = PodcastSettings.defaults

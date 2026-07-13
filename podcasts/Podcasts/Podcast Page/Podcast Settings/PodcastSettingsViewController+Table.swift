@@ -57,7 +57,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellLabel.text = L10n.settingsNotifications
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "settings_notifications")
-            cell.cellSwitch.isOn = podcast.isPushEnabled && NotificationsHelper.shared.pushEnabled()
+            cell.cellSwitch.isOn = podcast.pushEnabled && NotificationsHelper.shared.pushEnabled()
 
             cell.cellSwitch.removeTarget(self, action: #selector(notificationChanged(_:)), for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(notificationChanged(_:)), for: UIControl.Event.valueChanged)
@@ -94,7 +94,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         case .playbackEffects:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = PlayerAction.effects.title()
-            let imageName = podcast.isEffectsOverridden ? "podcast-effects-on" : "podcast-effects-off"
+            let imageName = podcast.overrideGlobalEffects ? "podcast-effects-on" : "podcast-effects-off"
             cell.setImage(imageName: imageName, tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
             cell.showSecondaryLabel = false
@@ -114,10 +114,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
 
-                podcast.autoStartFrom = Int32(value)
+                podcast.startFrom = Int32(value)
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.autoStartFrom))
+                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
 
                 self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipFirstChanged, properties: ["value": value])
@@ -134,16 +134,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.maximumValue = 40.minutes
             cell.timeStepper.bigIncrements = 5.seconds
             cell.timeStepper.smallIncrements = 5.seconds
-            cell.timeStepper.currentValue = TimeInterval(podcast.autoSkipLast)
+            cell.timeStepper.currentValue = TimeInterval(podcast.skipLast)
             cell.configureWithImage(imageName: "settings-skipoutros", tintColor: podcast.iconTintColor())
 
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
 
-                podcast.autoSkipLast = Int32(value)
+                podcast.skipLast = Int32(value)
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.autoSkipLast))
+                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
 
                 self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipLastChanged, properties: ["value": value])

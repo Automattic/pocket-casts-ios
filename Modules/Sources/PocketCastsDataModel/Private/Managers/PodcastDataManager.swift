@@ -304,7 +304,7 @@ class PodcastDataManager {
         var podcastsOverrideArchive = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
-                if podcast.isSubscribed(), podcast.isAutoArchiveOverridden {
+                if podcast.isSubscribed(), podcast.overrideGlobalArchive {
                     podcastsOverrideArchive.append(podcast)
                 }
             }
@@ -444,7 +444,7 @@ class PodcastDataManager {
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: PCDBQueue) {
-        podcast.isPushEnabled = pushEnabled
+        podcast.pushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
@@ -466,7 +466,7 @@ class PodcastDataManager {
     }
 
     func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: PCDBQueue) {
-        podcast.autoArchiveEpisodeLimitCount = limit
+        podcast.autoArchiveEpisodeLimit = limit
         podcast.settings.autoArchiveEpisodeLimit = limit
         saveSingleValue(name: "episodeKeepSetting", value: limit, podcastUuid: podcast.uuid, dbQueue: dbQueue)
     }

@@ -14,7 +14,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        podcast.isAutoArchiveOverridden ? PodcastArchiveViewController.tableData.count : 1
+        podcast.overrideGlobalArchive ? PodcastArchiveViewController.tableData.count : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -29,7 +29,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsCustom
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.cellSwitch.isOn = podcast.isAutoArchiveOverridden
+            cell.cellSwitch.isOn = podcast.overrideGlobalArchive
 
             cell.cellSwitch.removeTarget(self, action: #selector(overrideArchiveToggled(_:)), for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(overrideArchiveToggled(_:)), for: UIControl.Event.valueChanged)
@@ -39,7 +39,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsArchivePlayedEpisodes
 
-            let playedValue = podcast.isAutoArchiveOverridden ? podcast.autoArchivePlayedAfterTime : Settings.autoArchivePlayedAfter()
+            let playedValue = podcast.overrideGlobalArchive ? podcast.autoArchivePlayedAfter : Settings.autoArchivePlayedAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(playedValue)
 
             return cell
@@ -47,14 +47,14 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsArchiveInactiveEpisodes
 
-            let inactiveValue = podcast.isAutoArchiveOverridden ? podcast.autoArchiveInactiveAfterTime : Settings.autoArchiveInactiveAfter()
+            let inactiveValue = podcast.overrideGlobalArchive ? podcast.autoArchiveInactiveAfter : Settings.autoArchiveInactiveAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(inactiveValue)
 
             return cell
         case .episodeLimit:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsEpisodeLimit
-            cell.cellSecondaryLabel.text = stringForLimit(podcast.autoArchiveEpisodeLimitCount)
+            cell.cellSecondaryLabel.text = stringForLimit(podcast.autoArchiveEpisodeLimit)
 
             return cell
         }
@@ -115,7 +115,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         let firstRow = PodcastArchiveViewController.tableData[section][0]
 
         if firstRow == .customForPodcast {
-            return podcast.isAutoArchiveOverridden ? nil : L10n.settingsCustomAutoArchiveMsg
+            return podcast.overrideGlobalArchive ? nil : L10n.settingsCustomAutoArchiveMsg
         } else if firstRow == .playedEpisodes {
             return L10n.settingsInactiveEpisodesMsg
         } else if firstRow == .episodeLimit {
@@ -132,11 +132,11 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Settings changes
 
     @objc private func overrideArchiveToggled(_ sender: UISwitch) {
-        podcast.isAutoArchiveOverridden = sender.isOn
+        podcast.overrideGlobalArchive = sender.isOn
 
         if sender.isOn {
-            podcast.autoArchivePlayedAfterTime = Settings.autoArchivePlayedAfter()
-            podcast.autoArchiveInactiveAfterTime = Settings.autoArchiveInactiveAfter()
+            podcast.autoArchivePlayedAfter = Settings.autoArchivePlayedAfter()
+            podcast.autoArchiveInactiveAfter = Settings.autoArchiveInactiveAfter()
         }
 
         DataManager.sharedManager.save(podcast: podcast)
@@ -148,11 +148,11 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
 
     private func addEpisodeLimitAction(limit: Int32, to: OptionsPicker) {
-        let selectedSetting = podcast.autoArchiveEpisodeLimitCount
+        let selectedSetting = podcast.autoArchiveEpisodeLimit
         let action = OptionAction(label: stringForLimit(limit), selected: selectedSetting == limit) { [weak self] in
             guard let self else { return }
 
-            self.podcast.autoArchiveEpisodeLimitCount = limit
+            self.podcast.autoArchiveEpisodeLimit = limit
             DataManager.sharedManager.saveAutoArchiveLimit(podcast: self.podcast, limit: limit)
             DataManager.sharedManager.save(podcast: self.podcast)
 
@@ -165,11 +165,11 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
 
     private func addArchivePlayedAction(time: TimeInterval, to: OptionsPicker) {
-        let selectedSetting = podcast.autoArchivePlayedAfterTime
+        let selectedSetting = podcast.autoArchivePlayedAfter
         let action = OptionAction(label: ArchiveHelper.archiveTimeToText(time), selected: selectedSetting == time) { [weak self] in
             guard let self else { return }
 
-            self.podcast.autoArchivePlayedAfterTime = time
+            self.podcast.autoArchivePlayedAfter = time
             DataManager.sharedManager.save(podcast: self.podcast)
 
             self.archiveTable.reloadData()
@@ -183,11 +183,11 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
 
     private func addArchiveInactiveAction(time: TimeInterval, to: OptionsPicker) {
-        let selectedSetting = podcast.autoArchiveInactiveAfterTime
+        let selectedSetting = podcast.autoArchiveInactiveAfter
         let action = OptionAction(label: ArchiveHelper.archiveTimeToText(time), selected: selectedSetting == time) { [weak self] in
             guard let self else { return }
 
-            self.podcast.autoArchiveInactiveAfterTime = time
+            self.podcast.autoArchiveInactiveAfter = time
             DataManager.sharedManager.save(podcast: self.podcast)
 
             self.archiveTable.reloadData()
