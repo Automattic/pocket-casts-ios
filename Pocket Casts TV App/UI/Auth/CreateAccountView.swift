@@ -58,17 +58,16 @@ struct CreateAccountView: View {
     private var fullScreenLayout: some View {
         VStack(spacing: 64) {
             fullScreenHeader
-            HStack {
-                Spacer()
-                if case .error(_, let message) = pairing.state {
-                    pairingError(message: message)
-                } else {
-                    QRCodeView(url: pairing.pairURLComplete)
-                }
-                StepList(steps: steps)
-                Spacer()
+            if case .error(_, let message) = pairing.state {
+                pairingError(message: message)
             }
-            QRCodeDigits(digits: pairing.codes)
+            else {
+                HStack(alignment: .center, spacing: 64) {
+                    QRCodeView(url: pairing.pairURLComplete)                    
+                    StepList(steps: steps)
+                }
+                QRCodeDigits(digits: pairing.codes)
+            }
         }
         .padding(80)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -93,8 +92,8 @@ struct CreateAccountView: View {
                     QRCodeView(url: pairing.pairURLComplete)
                     StepList(steps: steps, spacing: 40)
                 }
+                QRCodeDigits(digits: pairing.codes)
             }
-            QRCodeDigits(digits: pairing.codes)
         }
         .padding(80)
         .frame(width: 1200, alignment: .leading)
