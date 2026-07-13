@@ -1753,8 +1753,8 @@ extension PodcastViewController: SFSafariViewControllerDelegate {
 // MARK: - BookmarkListRouter
 
 extension PodcastViewController: BookmarkListRouter {
-    func bookmarkPlay(_ bookmark: Bookmark) {
-        PlaybackManager.shared.playBookmark(bookmark, source: .podcasts)
+    func bookmarkPlay(_ bookmark: Bookmark) async {
+        await PlaybackManager.shared.playBookmark(bookmark, source: .podcasts)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

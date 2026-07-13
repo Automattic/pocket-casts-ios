@@ -119,9 +119,6 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         let isLoading: Bool
         @ObservedObject var style: ButtonStyle
 
-        /// Mirrors `isLoading` after a short delay so quick loads don't flash the indicator
-        @State private var showsLoadingIndicator = false
-
         var body: some View {
             HStack(spacing: 10) {
                 Text(title)
@@ -130,10 +127,9 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
                 Image("bookmarks-icon-play")
                     .renderingMode(.template)
-                    // Hide the icon instead of replacing it so the button keeps its size while loading
-                    .opacity(showsLoadingIndicator ? 0 : 1)
+                    .opacity(isLoading ? 0 : 1)
                     .overlay {
-                        if showsLoadingIndicator {
+                        if isLoading {
                             ProgressView()
                                 .tint(style.playButtonText)
                                 .scaleEffect(0.8)
@@ -152,18 +148,6 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                         .stroke($0, lineWidth: 2)
                 }
             )
-            .task(id: isLoading) {
-                guard isLoading else {
-                    showsLoadingIndicator = false
-                    return
-                }
-
-                try? await Task.sleep(for: .milliseconds(250))
-
-                if !Task.isCancelled {
-                    showsLoadingIndicator = true
-                }
-            }
         }
     }
 }

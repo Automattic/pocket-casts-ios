@@ -76,10 +76,8 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
     }
 
     func loadEpisode() async -> Bool {
-        // Adds the missing episode, and the podcast too if it's not in the database yet
         _ = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
 
-        // Verify they were added
         return podcast != nil && episode != nil
     }
 
