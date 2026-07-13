@@ -351,6 +351,7 @@ final class FingerprintTimingManager: NSObject {
         episode: BaseEpisode,
         completion: @escaping (ChapterSeekResult) -> Void
     ) {
+        dispatchPrecondition(condition: .onQueue(.main))
         // Supersede any prior in-flight resolve.
         onDemandFlag.cancel()
         let flag = CancellationFlag()
@@ -392,6 +393,7 @@ final class FingerprintTimingManager: NSObject {
     /// a newer resolve would: even if it finishes, its `onDemandFlag === flag`
     /// guard now fails, so its completion (and any fallback seek) is dropped.
     func cancelPendingChapterResolve() {
+        dispatchPrecondition(condition: .onQueue(.main))
         onDemandFlag.cancel()
         onDemandFlag = CancellationFlag()
         onDemandTask?.cancel()
