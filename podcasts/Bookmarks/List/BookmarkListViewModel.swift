@@ -37,6 +37,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     let feature: PaidFeature = .bookmarks
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
+    /// The uuid of a bookmark whose missing episode is being fetched after its play button was tapped
+    @Published private(set) var loadingBookmarkUuid: String?
+
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
         self._sortSettingValue = sortOption
@@ -95,7 +98,27 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
 extension BookmarkListViewModel {
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
-        router?.bookmarkPlay(bookmark)
+        // If the bookmark's episode isn't in the database yet, fetch it first so the row can show progress
+        guard bookmark.episode == nil,
+              DataManager.sharedManager.findBaseEpisode(uuid: bookmark.episodeUuid) == nil,
+              let podcastUuid = bookmark.podcastUuid
+        else {
+            router?.bookmarkPlay(bookmark)
+            return
+        }
+
+        guard loadingBookmarkUuid == nil else { return }
+        loadingBookmarkUuid = bookmark.uuid
+
+        Task { @MainActor [weak self] in
+            let episode = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid)
+
+            self?.loadingBookmarkUuid = nil
+
+            if episode != nil {
+                self?.router?.bookmarkPlay(bookmark)
+            }
+        }
     }
 
     func editSelectedBookmarks() {

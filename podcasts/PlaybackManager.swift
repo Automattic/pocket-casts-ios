@@ -2698,8 +2698,8 @@ extension PlaybackManager {
         // Get the bookmark's BaseEpisode so we can load it
         guard let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) else {
             if firstTry, let podcastUuid = bookmark.podcastUuid {
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid) { [weak self] episode in
-                    if episode != nil {
+                Task { @MainActor [weak self] in
+                    if (try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid)) != nil {
                         self?.playBookmark(bookmark, source: source, firstTry: false)
                     }
                 }
