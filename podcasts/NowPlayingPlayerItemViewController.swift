@@ -483,15 +483,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         // Generated chapters carry reference-timeline starts that dynamic ads have
         // shifted, so resolve the true playback position by fingerprinting before
         // seeking — matching the chapters-list tap flow.
-        if GeneratedChapterSeeker.isEnabled,
-           let previous = PlaybackManager.shared.previousPlayableChapter() {
-            GeneratedChapterSeeker.seek(
-                to: previous,
-                startPlayback: false,
-                willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: false) },
-                didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: false) }
-            )
-            return
+        if GeneratedChapterSeeker.isEnabled {
+            // Clear any spinner left over from a resolve this tap supersedes.
+            resetChapterSkipResolving()
+            if let previous = PlaybackManager.shared.previousPlayableChapter() {
+                PlaybackManager.shared.trackChapterSkippedIfNeeded(to: previous)
+                GeneratedChapterSeeker.seek(
+                    to: previous,
+                    startPlayback: false,
+                    willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: false) },
+                    didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: false) }
+                )
+                return
+            }
         }
         #endif
 
@@ -503,6 +507,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         #if !APPCLIP
         if GeneratedChapterSeeker.isEnabled {
+            // Clear any spinner left over from a resolve this tap supersedes.
+            resetChapterSkipResolving()
             guard let next = PlaybackManager.shared.nextPlayableChapter() else {
                 // No next chapter — respect the producer's end of the last chapter
                 // (the same fallback `skipToNextChapter` makes). This isn't a
@@ -510,6 +516,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
                 PlaybackManager.shared.skipToEndOfLastChapter()
                 return
             }
+            PlaybackManager.shared.trackChapterSkippedIfNeeded(to: next)
             GeneratedChapterSeeker.seek(
                 to: next,
                 startPlayback: false,
@@ -536,6 +543,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         } else {
             spinner.stopAnimating()
         }
+    }
+
+    /// Restore both chapter-skip buttons to idle. Called before starting a new
+    /// resolve: a superseded resolve's completion is intentionally dropped (the
+    /// `onDemandFlag` identity guard), so `didEndResolving` may never fire to clear
+    /// the spinner of the resolve this tap supersedes — leaving it spinning forever.
+    private func resetChapterSkipResolving() {
+        setChapterSkipResolving(false, forward: true)
+        setChapterSkipResolving(false, forward: false)
     }
 
     private lazy var chapterSkipBackSpinner = makeChapterSkipSpinner(centeredOn: chapterSkipBackBtn)
