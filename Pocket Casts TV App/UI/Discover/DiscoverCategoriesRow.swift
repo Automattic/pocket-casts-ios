@@ -21,6 +21,10 @@ struct DiscoverCategoriesRow: View {
                 ProgressView()
             case .empty:
                 EmptyView()
+            case .failed:
+                RowSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
+                    DiscoverRetryView(style: .row) { await model.retry() }
+                }
             case .ready:
                 RowSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
                     list

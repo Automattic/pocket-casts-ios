@@ -33,10 +33,17 @@ class DiscoverCategoryModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
-        let categorySection = await discoverManager.loadDiscoverCategoryDetails(for: category)
+        let categorySection: DiscoverCategorySection?
+        do {
+            categorySection = try await discoverManager.loadDiscoverCategoryDetails(for: category)
+        } catch {
+            await MainActor.run { state = .failed }
+            return
+        }
 
         await MainActor.run {
             state = categorySection != nil ? .ready : .empty
@@ -53,6 +60,12 @@ class DiscoverCategoryModel {
             }
             self.listId = categorySection?.listId
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     var icon: URL? {
