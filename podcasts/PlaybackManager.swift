@@ -1026,6 +1026,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         let playbackEffects = effects()
         if playbackEffects.playbackSpeed > 4.9 { return }
 
+        // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
+        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= 2 { return }
+
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
     }
@@ -1074,13 +1077,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
+        // Trim silence relies on the EffectsPlayer audio engine; HLS plays through AVPlayer, which can't do it.
         #if APPCLIP
         if let episode = currentEpisode() {
-            return !episode.videoPodcast()
+            return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode)
         }
         #elseif !os(watchOS) && !os(tvOS)
             if let episode = currentEpisode() {
-                return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
         #endif
 
@@ -1088,6 +1092,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
+        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't
+        // expose. The tap logic in DefaultPlayer is compiled on tvOS too, so exclude HLS there as well.
+        #if !os(watchOS)
+        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+            return false
+        }
+        #endif
+
         #if APPCLIP || os(tvOS)
             return true
         #elseif os(watchOS)
@@ -1523,7 +1535,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         #if !os(watchOS) && !os(tvOS)
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+        // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
+        // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
+        let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
