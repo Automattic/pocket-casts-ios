@@ -76,20 +76,11 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
     }
 
     func loadEpisode() async -> Bool {
-        await withCheckedContinuation { continuation in
-            // If we're missing the podcast, then load that and the episode
-            if self.podcast == nil {
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-            }
-            // If we're missing just the episode then get that
-            else {
-                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-            }
+        // Adds the missing episode, and the podcast too if it's not in the database yet
+        _ = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
 
-            // Verify they were added
-            let success = podcast != nil && episode != nil
-            continuation.resume(with: .success(success))
-        }
+        // Verify they were added
+        return podcast != nil && episode != nil
     }
 
     @MainActor func doneLoading() {
