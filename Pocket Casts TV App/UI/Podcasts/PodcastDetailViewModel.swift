@@ -94,7 +94,7 @@ class PodcastDetailViewModel {
                 return
             }
             let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
-                EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover)
+                EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
             }
             await MainActor.run {
                 self.podcast = podcast

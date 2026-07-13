@@ -3,7 +3,7 @@ import PocketCastsServer
 enum DiscoverType: String, CaseIterable {
     case featured
     case trending
-    case video
+    case video = "tv_featured_videos"
     case recommendationsUser = "recommendations_user" // You might like ...
     case recommendationsSocial = "recommendations_social" // Loved By Users of ...
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
@@ -144,16 +144,10 @@ actor DiscoverManager {
         }
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
 
-        var filteredItems = items.filter { item in
+        let filteredItems = items.filter { item in
             item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
         }
 
-        let videoItem = makeVideoItem(layout: discoverLayout)
-        if filteredItems.count > 2 {
-            filteredItems.insert(videoItem, at: 2)
-        } else {
-            filteredItems.append(videoItem)
-        }
         return filteredItems
     }
 
@@ -333,20 +327,5 @@ actor DiscoverManager {
             return DiscoverEpisodesSection(listId: listId)
         }
         return DiscoverEpisodesSection(title: podcastCollection.title, subtitle: podcastCollection.subtitle, episodes: listOfEpisodes, listId: listId)
-    }
-
-    func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
-        let videoItem = DiscoverItem(id: "video",
-                                     uuid: "video",
-                                     title: "made for tv",
-                                     type: "episode_video_list",
-                                     summaryStyle: "collection",
-                                     summaryItemCount: nil,
-                                     expandedStyle: "plain_list",
-                                     source: "https://lists.pocketcasts.com/tv_featured_videos.json",
-                                     sponsoredPodcasts: nil,
-                                     expandedTopItemLabel: nil,
-                                     regions: Array(layout.regions?.keys.sorted() ?? []) )
-        return videoItem
     }
 }

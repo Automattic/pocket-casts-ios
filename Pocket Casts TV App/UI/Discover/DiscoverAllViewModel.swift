@@ -77,7 +77,7 @@ extension DiscoverItem {
             return .singleEpisode
         case ("episode_list", "collection", "plain_list"):
             return .listEpisode
-        case ("episode_video_list", "collection", "plain_list"):
+        case ("episode_list", "video_preview_list", "plain_list"):
             return .listVideoEpisode
         case ("category_podcast_list", _, _):
             return .categories
