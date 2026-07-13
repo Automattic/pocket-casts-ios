@@ -302,19 +302,4 @@ actor DiscoverManager {
         }
         return DiscoverEpisodesSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, episodes: listOfEpisodes, listId: listId)
     }
-
-    func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
-        let videoItem = DiscoverItem(id: "video",
-                                     uuid: "video",
-                                     title: "made for tv",
-                                     type: "episode_list",
-                                     summaryStyle: "video_preview_list",
-                                     summaryItemCount: nil,
-                                     expandedStyle: "plain_list",
-                                     source: "https://lists.pocketcasts.com/tv_featured_videos.json",
-                                     sponsoredPodcasts: nil,
-                                     expandedTopItemLabel: nil,
-                                     regions: Array(layout.regions?.keys.sorted() ?? []) )
-        return videoItem
-    }
 }
