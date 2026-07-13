@@ -32,6 +32,10 @@ struct DiscoverVideoEpisodesRow: View {
                 ProgressView()
             case .empty:
                 EmptyView()
+            case .failed:
+                RowSection(title: model.title, focusSection: model.focusStoreID) {
+                    DiscoverRetryView(style: .row) { await model.retry() }
+                }
             case .ready:
                 RowSection(title: model.title, focusSection: model.focusStoreID) {
                     mainContent

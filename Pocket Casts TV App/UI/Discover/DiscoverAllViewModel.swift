@@ -17,17 +17,30 @@ class DiscoverAllViewModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
-        let items = await discoverManager.loadDiscoverItems().filter { item in
-            item.categoryID == nil
+        let items: [DiscoverItem]
+        do {
+            items = try await discoverManager.loadDiscoverItems().filter { item in
+                item.categoryID == nil
+            }
+        } catch {
+            await MainActor.run { state = .failed }
+            return
         }
 
         await MainActor.run {
             state = items.isEmpty ? .empty : .ready
             self.sections = items
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 }
 

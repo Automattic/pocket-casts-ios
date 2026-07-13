@@ -6537,3 +6537,7 @@
 /* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
 "tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
 
+/* tv Discover row failed to load title*/
+"tv_discover_row_failed_to_load_title" = "Failed to load";
+
+
