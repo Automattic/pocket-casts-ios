@@ -89,6 +89,16 @@ final class FingerprintTimingManager: NSObject {
         label: "au.com.pocketcasts.FingerprintTimingManager.generation",
         qos: .utility
     )
+    /// Decode queue reserved for the one-shot chapter resolve. Kept separate from
+    /// `generationQueue` — which the continuous transcript stream occupies as one
+    /// long-running block that only yields via `Thread.sleep` — so a chapter tap's
+    /// bounded decode can't be starved behind it (which would hang the resolve past
+    /// its timeout, since a queued-but-never-started block can't observe
+    /// cancellation). Higher QoS because a spinner is blocked on it.
+    private let onDemandQueue = DispatchQueue(
+        label: "au.com.pocketcasts.FingerprintTimingManager.onDemand",
+        qos: .userInitiated
+    )
     private var context: GenerationContext?
     private var cancellationFlag = CancellationFlag()
     private var fetchTask: Task<Void, Never>?
@@ -464,10 +474,11 @@ final class FingerprintTimingManager: NSObject {
         if flag.isCancelled { return .unresolved(reason: "timeout", isStreaming: isStreaming) }
 
         // Fingerprint + match the bounded region into a local scratch accumulator
-        // on `generationQueue` (heavy decode) while matching stays serialized on
+        // on `onDemandQueue` (heavy decode, dedicated so the continuous stream on
+        // `generationQueue` can't starve it) while matching stays serialized on
         // `queue` — `main` is never touched.
         let outcome: Result<MappingAccumulator, StreamError> = await withCheckedContinuation { continuation in
-            generationQueue.async {
+            onDemandQueue.async {
                 var scratch = MappingAccumulator()
                 do {
                     try self.streamFingerprintBounded(
