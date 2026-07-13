@@ -63,7 +63,7 @@ struct CreateAccountView: View {
             }
             else {
                 HStack(alignment: .center, spacing: 64) {
-                    QRCodeView(url: pairing.pairURLComplete)                    
+                    QRCodeView(url: pairing.pairURLComplete)
                     StepList(steps: steps)
                 }
                 QRCodeDigits(digits: pairing.codes)
