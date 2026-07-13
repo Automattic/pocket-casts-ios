@@ -354,7 +354,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
         listenForBookmarkChanges()
         setupLogin()
-        setupBookmarkViewModel()
 
         setupRefreshControl()
 
@@ -1709,9 +1708,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             }
         case .bookmarks:
             if bookmarkViewModel == nil {
-                setupBookmarkViewModel()
+                setupBookmarkViewModel() // Reloads on init
+            } else {
+                bookmarkViewModel?.reload()
             }
-            bookmarkViewModel?.reload()
         }
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
         reloadData()
