@@ -203,9 +203,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
-    /// Use the new search endpoint and new UI
-    case searchImprovements
-
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
 
@@ -459,8 +456,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgradeTrialTimeline:
             true
         case .newOnboardingRecommendationChanges:
-            true
-        case .searchImprovements:
             true
         case .searchPredictive:
             true
