@@ -452,7 +452,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             navigationController?.pushViewController(historyController, animated: true)
         case .help:
             dismiss(animated: true)
-            let navController = SJUIUtils.navController(for: OnlineSupportController())
+            let navController = SJUIUtils.navController(for: OnlineSupportController(), themeOverride: .light)
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             dismiss(animated: true)
