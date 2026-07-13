@@ -425,14 +425,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            let sortOption: LibrarySort
-            if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
-                Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
-                sortOption = .dateAddedNewestToOldest
-            } else {
-                sortOption = Settings.homeFolderSortOrder()
-            }
-            var newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
 
             if newData.isEmpty {
                 newData = [HomeGridListItem.empty]
@@ -477,11 +470,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption: LibrarySort = if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
-            .dateAddedNewestToOldest
-        } else {
-            Settings.homeFolderSortOrder()
-        }
+        let sortOption = Settings.homeFolderSortOrder()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") {
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])
         }
