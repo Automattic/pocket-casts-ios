@@ -48,6 +48,7 @@ class DiscoverSectionModel {
         case failed
     }
 
+    @MainActor
     func load() async {
         let section: DiscoverSection
         do {
@@ -60,29 +61,25 @@ class DiscoverSectionModel {
                 return
             }
         } catch {
-            await MainActor.run {
-                if let itemTitle = item?.title?.localized ?? type?.title, !itemTitle.isEmpty {
-                    title = itemTitle
-                }
-                state = .failed
+            if let itemTitle = item?.title?.localized ?? type?.title, !itemTitle.isEmpty {
+                title = itemTitle
             }
+            state = .failed
             return
         }
 
-        await MainActor.run {
-            self.section = section
-            state = section.podcasts.isEmpty ? .empty : .ready
-            podcasts = section.podcasts
-            var composedTitle = section.title?.localized ?? ""
-            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
-                composedTitle = subtitle + ": " + composedTitle
-            }
-            title = composedTitle
-            sponsored = section.sponsoredPodcastsIDs
-            isSponsored = item?.isSponsored ?? false
-            listId = section.listId
-            dateTime = section.dateTime
+        self.section = section
+        state = section.podcasts.isEmpty ? .empty : .ready
+        podcasts = section.podcasts
+        var composedTitle = section.title?.localized ?? ""
+        if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
+            composedTitle = subtitle + ": " + composedTitle
         }
+        title = composedTitle
+        sponsored = section.sponsoredPodcastsIDs
+        isSponsored = item?.isSponsored ?? false
+        listId = section.listId
+        dateTime = section.dateTime
     }
 
     @MainActor

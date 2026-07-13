@@ -42,6 +42,7 @@ class DiscoverSectionEpisodesModel {
         case failed
     }
 
+    @MainActor
     func load() async {
         let section: DiscoverEpisodesSection
         do {
@@ -50,24 +51,25 @@ class DiscoverSectionEpisodesModel {
             } else if let item {
                 section = try await discoverManager.loadDiscoverEpisodesSection(item: item)
             } else {
-                await MainActor.run { state = .empty }
+                state = .empty
                 return
             }
         } catch {
-            await MainActor.run { state = .failed }
+            if let itemTitle = item?.title?.localized ?? type?.title, !itemTitle.isEmpty {
+                title = itemTitle
+            }
+            state = .failed
             return
         }
 
-        await MainActor.run {
-            state = section.episodes.isEmpty ? .empty : .ready
-            self.episodes = section.episodes
-            var composedTitle = section.title?.localized ?? ""
-            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
-                composedTitle = subtitle + ": " + composedTitle
-            }
-            title = composedTitle
-            listId = section.listId
+        state = section.episodes.isEmpty ? .empty : .ready
+        self.episodes = section.episodes
+        var composedTitle = section.title?.localized ?? ""
+        if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
+            composedTitle = subtitle + ": " + composedTitle
         }
+        title = composedTitle
+        listId = section.listId
     }
 
     @MainActor
