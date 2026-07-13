@@ -19,6 +19,8 @@ struct QRCodeDigits: View {
                             .clipShape(Circle())
                     }
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(digits.joined(separator: " ")))
             }
         }
     }
