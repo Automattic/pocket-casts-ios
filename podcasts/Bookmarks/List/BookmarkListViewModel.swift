@@ -104,7 +104,11 @@ extension BookmarkListViewModel {
                 self?.loadingBookmarkUuid = bookmark.uuid
             }
 
-            await self?.router?.bookmarkPlay(bookmark)
+            do {
+                try await self?.router?.bookmarkPlay(bookmark)
+            } catch {
+                Toast.show(L10n.discoverEpisodeFailToLoad)
+            }
 
             spinnerTask.cancel()
             self?.loadingBookmarkUuid = nil

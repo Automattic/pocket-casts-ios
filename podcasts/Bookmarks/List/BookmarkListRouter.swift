@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import UIKit
 
 protocol BookmarkListRouter: AnyObject {
-    func bookmarkPlay(_ bookmark: Bookmark) async
+    func bookmarkPlay(_ bookmark: Bookmark) async throws
     func bookmarkEdit(_ bookmark: Bookmark)
     func bookmarkShare(_ bookmark: Bookmark)
 

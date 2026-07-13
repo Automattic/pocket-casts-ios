@@ -2687,11 +2687,15 @@ extension PlaybackManager {
         bookmarkManager.playTone()
     }
 
+    enum BookmarkPlayError: Error {
+        case episodeNotFound
+    }
+
     /// Plays the given bookmark
     /// - if the episode is not currently playing we'll load it and then play at the bookmark time
     /// - if the episode is playing, we trigger a seek to the bookmark time
     @MainActor
-    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) async {
+    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) async throws {
         guard bookmarksEnabled else { return }
 
         let dataManager = DataManager.sharedManager
@@ -2700,11 +2704,11 @@ extension PlaybackManager {
         var foundEpisode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid)
 
         if foundEpisode == nil, let podcastUuid = bookmark.podcastUuid {
-            foundEpisode = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid)
+            foundEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid)
         }
 
         guard let episode = foundEpisode else {
-            return
+            throw BookmarkPlayError.episodeNotFound
         }
 
         Analytics.track(.bookmarkPlayTapped, source: source)

@@ -40,8 +40,8 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 // MARK: - BookmarkListRouter
 
 extension BookmarkEpisodeListController: BookmarkListRouter {
-    func bookmarkPlay(_ bookmark: Bookmark) async {
-        await playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
+    func bookmarkPlay(_ bookmark: Bookmark) async throws {
+        try await playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
