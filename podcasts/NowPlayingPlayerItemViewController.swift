@@ -418,6 +418,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if FeatureFlag.bannerAdPlayer.enabled {
             removeBannerAd()
         }
+        // Drop any in-flight generated-chapter resolve so a dismissed player can't
+        // seek later (matching ChaptersViewController), and clear a skip spinner
+        // left mid-resolve so a reused player doesn't reappear with a dimmed button.
+        FingerprintTimingManager.shared.cancelPendingChapterResolve()
+        resetChapterSkipResolving()
         #endif
     }
 
