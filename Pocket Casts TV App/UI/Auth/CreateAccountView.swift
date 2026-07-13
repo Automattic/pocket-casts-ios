@@ -20,12 +20,6 @@ struct CreateAccountView: View {
 
     @State private var pairing = PairingSession()
 
-    private let steps = [
-        L10n.tvCreateAccountModalStepScan,
-        L10n.tvCreateAccountModalStepCreate,
-        L10n.tvCreateAccountModalStepLogIn
-    ]
-
     var body: some View {
         layout
             .task {
@@ -63,61 +57,46 @@ struct CreateAccountView: View {
 
     private var fullScreenLayout: some View {
         VStack(spacing: 64) {
-            Spacer()
             fullScreenHeader
             if case .error(_, let message) = pairing.state {
                 pairingError(message: message)
-            } else {
-                QRCodeTile(url: pairing.pairURLComplete)
             }
-            Spacer()
-            fullScreenSteps
+            else {
+                HStack(alignment: .center, spacing: 64) {
+                    QRCodeView(url: pairing.pairURLComplete)
+                    StepList(steps: steps)
+                }
+                QRCodeDigits(digits: pairing.codes)
+            }
         }
         .padding(80)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var fullScreenHeader: some View {
-        VStack(spacing: 16) {
-            Text(L10n.tvCreateAccountTitle)
-                .font(.title3.weight(.medium))
-                .foregroundStyle(Color.pcTextPrimary)
-            Text(L10n.tvCreateAccountQrInstruction)
-                .font(.body.weight(.medium))
-                .foregroundStyle(Color.pcTextSecondary)
-        }
-        .multilineTextAlignment(.center)
-    }
-
-    private var fullScreenSteps: some View {
-        HStack(spacing: 24) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                if index > 0 {
-                    Image(systemName: "arrow.right")
-                        .font(.body)
-                        .foregroundStyle(Color.pcTextDisabled)
-                }
-                stepBadge(number: index + 1, text: step)
-            }
-        }
+        Text(L10n.tvCreateAccountTitle)
+            .font(.title3.weight(.medium))
+            .foregroundStyle(Color.pcTextPrimary)
+            .multilineTextAlignment(.center)
     }
 
     // MARK: - Modal
 
     private var modalLayout: some View {
-        VStack(alignment: .leading, spacing: 64) {
+        VStack(alignment: .center, spacing: 64) {
             modalHeader
             if case .error(_, let message) = pairing.state {
                 pairingError(message: message)
             } else {
                 HStack(alignment: .center, spacing: 64) {
-                    QRCodeTile(url: pairing.pairURLComplete)
-                    modalSteps
+                    QRCodeView(url: pairing.pairURLComplete)
+                    StepList(steps: steps, spacing: 40)
                 }
+                QRCodeDigits(digits: pairing.codes)
             }
         }
         .padding(80)
-        .frame(width: 952, alignment: .leading)
+        .frame(width: 1200, alignment: .leading)
     }
 
     private var modalHeader: some View {
@@ -136,30 +115,15 @@ struct CreateAccountView: View {
         }
     }
 
-    private var modalSteps: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            ForEach(Array(steps.enumerated()), id: \.offset) { index, step in
-                stepBadge(number: index + 1, text: step)
-            }
-        }
+    var steps: [String] {
+        [
+            L10n.tvCreateAccountStepScan(pairing.pairURLPretty),
+            L10n.tvCreateAccountStepCreate,
+            L10n.tvCreateAccountStepConfirmCode
+        ]
     }
 
     // MARK: - Shared
-
-    private func stepBadge(number: Int, text: String) -> some View {
-        HStack(spacing: 12) {
-            Text("\(number)")
-                .font(.caption2)
-                .foregroundStyle(Color.pcTextSecondary)
-                .frame(width: 40, height: 40)
-                .background(Color.pcBackgroundActive20, in: Circle())
-            Text(text)
-                .font(.body)
-                .foregroundStyle(Color.pcTextSecondary)
-        }
-        // Read each step as a single unit rather than landing on the bare badge.
-        .accessibilityElement(children: .combine)
-    }
 
     private func pairingError(message: String) -> some View {
         ContentUnavailableView {
@@ -176,57 +140,6 @@ struct CreateAccountView: View {
                     .frame(minWidth: 300)
             }
         }
-    }
-}
-
-/// Renders the device-pairing QR code onto a white rounded tile, falling back to
-/// a spinner of the same size until the code arrives.
-private struct QRCodeTile: View {
-
-    enum Layout {
-        static let tileSize = CGFloat(268)
-        static let padding = CGFloat(22)
-        static let cornerRadius = CGFloat(24)
-    }
-
-    /// The pairing URL to encode, or `nil` while the device code is being fetched.
-    let url: String?
-
-    @State private var image: UIImage?
-    @State private var context = CIContext()
-
-    var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .interpolation(.none)
-                    .scaledToFit()
-                    .padding(Layout.padding)
-                    .frame(width: Layout.tileSize, height: Layout.tileSize)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
-            } else {
-                ProgressView()
-                    .frame(width: Layout.tileSize, height: Layout.tileSize)
-            }
-        }
-        // Regenerate on every code change, clearing first so a stale QR isn't
-        // shown while the new one is fetched.
-        .onChange(of: url, initial: true) { _, url in
-            image = url.flatMap(makeImage)
-        }
-    }
-
-    private func makeImage(from string: String) -> UIImage? {
-        let generator = CIFilter.qrCodeGenerator()
-        generator.message = Data(string.utf8)
-        generator.correctionLevel = "H"
-        guard let output = generator.outputImage else { return nil }
-        // Scale up so the QR stays crisp when enlarged on a TV screen.
-        let scaled = output.transformed(by: CGAffineTransform(scaleX: 10, y: 10))
-        guard let cgImage = context.createCGImage(scaled, from: scaled.extent) else { return nil }
-        return UIImage(cgImage: cgImage)
     }
 }
 
