@@ -63,7 +63,7 @@ struct MediaOverlayView: View {
             }
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
             .animation(.easeInOut(duration: 0.2), value: model.isFailed)
-            .background(model.isVideo ? Color.clear : Color.pcBackgroundBase)
+            .background(model.isVideo && !model.isLoading && !model.isFailed ? Color.clear : Color.pcBackgroundBase)
         }
         .ignoresSafeArea()
     }
