@@ -13,7 +13,7 @@ struct QRCodeDigits: View {
                     ForEach(Array(digits.enumerated()), id: \.offset) { _, code in
                         Text(code)
                             .font(.caption2)
-                            .foregroundStyle(Color.pcTextSecondary)
+                            .foregroundStyle(Color.pcBackgroundActive)
                             .padding(32)
                             .background(Color.pcBackgroundActive20)
                             .clipShape(Circle())

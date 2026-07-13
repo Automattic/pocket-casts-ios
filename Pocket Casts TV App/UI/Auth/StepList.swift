@@ -5,7 +5,7 @@ import SwiftUI
 struct StepList: View {
 
     let steps: [String]
-    var spacing: CGFloat = 24
+    var spacing: CGFloat = 40
 
     var body: some View {
         VStack(alignment: .leading, spacing: spacing) {

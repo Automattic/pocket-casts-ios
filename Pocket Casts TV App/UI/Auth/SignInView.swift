@@ -45,7 +45,7 @@ struct SignInView: View {
                         if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
                         } else {
-                            HStack {
+                            HStack(spacing: 64) {
                                 QRCodeView(url: model.pairing.pairURLComplete)
                                 StepList(steps: steps)
                             }
@@ -56,8 +56,7 @@ struct SignInView: View {
                 .animation(.easeInOut, value: loginType)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .padding(.top, 80)
-            .offset(y: -64)
+            .padding(.top, 80)            
         }
         .task(id: loginType) {
             switch loginType {

@@ -6,9 +6,9 @@ import CoreImage.CIFilterBuiltins
 struct QRCodeView: View {
 
     enum Layout {
-        static let tileSize = CGFloat(268)
-        static let padding = CGFloat(22)
-        static let cornerRadius = CGFloat(24)
+        static let tileSize = CGFloat(272)
+        static let padding = CGFloat(14)
+        static let cornerRadius = CGFloat(8)
     }
 
     /// The pairing URL to encode, or `nil` while the device code is being fetched.
