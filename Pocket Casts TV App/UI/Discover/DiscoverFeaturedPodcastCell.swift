@@ -110,7 +110,7 @@ struct DiscoverFeaturedPodcastCell: View {
             if axis == .vertical {
                 return Layout.cardHeight
             } else {
-                return length * 0.92
+                return length * 0.9
             }
         }
         .blurredCoverBackground(size: Layout.imageSize) {
@@ -121,7 +121,7 @@ struct DiscoverFeaturedPodcastCell: View {
         .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .focusedCardDepth(isFocused: focusedButton != nil, cornerRadius: 12)
-        .scaleEffect(focusedButton != nil ? 1 : 0.95)
+        .scaleEffect(focusedButton != nil ? 1.05 : 1)
         .animation(.default, value: focusedButton)
         .focusSection()
         .focusScope(ns)
