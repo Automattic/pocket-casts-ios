@@ -24,6 +24,21 @@ enum DiscoverType: String, CaseIterable {
             return item.id == self.rawValue || item.uuid == self.rawValue
         }
     }
+
+    var title: String {
+        switch self {
+        case .featured: L10n.discoverFeatured
+        case .trending: L10n.discoverTrending
+        case .video: L10n.tvHomeVideoSectionTitle
+        case .recommendationsUser: L10n.youMightLike
+        case .recommendationsSocial: L10n.tvHomeRecommendUserPodcastSectionTitle("...")
+        case .recommendationsUserPodcast: L10n.tvHomeRecommendedForYouTitle
+        case .popularRegion: L10n.discoverPopular
+        case .curatedList: L10n.discoverFreshPick
+        case .categories: L10n.tvHomeBrowseCategoriesSectionTitle
+        case .other: L10n.discover
+        }
+    }
 }
 
 struct DiscoverSection {
