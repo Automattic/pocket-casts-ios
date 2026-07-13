@@ -38,11 +38,14 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     }
 
     public func discoverPage() async -> (DiscoverLayout?, Bool) {
-        let contentPath: String
+        var contentPath: String = "ios"
+        #if os(tvOS)
+            contentPath = "tv"
+        #endif
         if FeatureFlag.recommendations.enabled {
-            contentPath = "ios/content_v3.json"
+            contentPath.append("/content_v3.json")
         } else {
-            contentPath = "ios/content_v2.json"
+            contentPath.append("/content_v2.json")
         }
         return await withCheckedContinuation { continuation in
             discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
