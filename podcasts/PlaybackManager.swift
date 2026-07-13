@@ -823,10 +823,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
-    /// Whether the current episode should be presented as video, considering both the feed
-    /// metadata (`videoPodcast()`) and any video tracks detected at runtime in the stream.
+    /// Whether the current episode should be presented as video, considering the feed metadata
+    /// (`videoPodcast()`), any video tracks detected at runtime in the stream, and actual HLS playback
+    /// (`willPlayViaHLS`), which we assume is video.
     func isCurrentEpisodeVideo() -> Bool {
-        currentEpisode()?.videoPodcast() == true || currentStreamContainsVideo.value
+        guard let episode = currentEpisode() else { return false }
+        // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
+        // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
+        // is actually HLS (a downloaded episode plays its local file, which may not be video).
+        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
     }
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
@@ -2451,7 +2456,7 @@ class PlaybackManager: ServerPlaybackDelegate {
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
            // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
-           !EpisodeManager.isStreamingHLS(refreshedEpisode) {
+           !EpisodeManager.hasHLSStream(refreshedEpisode) {
             return false
         } else {
             if !episodeIsChanging {
