@@ -39,29 +39,43 @@ class DiscoverSectionEpisodesModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
+    @MainActor
     func load() async {
         let section: DiscoverEpisodesSection
-        if let type {
-            section = await discoverManager.loadDiscoverEpisodesSection(type: type)
-        } else if let item {
-            section = await discoverManager.loadDiscoverEpisodesSection(item: item)
-        } else {
-            state = .empty
+        do {
+            if let type {
+                section = try await discoverManager.loadDiscoverEpisodesSection(type: type)
+            } else if let item {
+                section = try await discoverManager.loadDiscoverEpisodesSection(item: item)
+            } else {
+                state = .empty
+                return
+            }
+        } catch {
+            if let itemTitle = item?.title?.localized ?? type?.title, !itemTitle.isEmpty {
+                title = itemTitle
+            }
+            state = .failed
             return
         }
 
-        await MainActor.run {
-            state = section.episodes.isEmpty ? .empty : .ready
-            self.episodes = section.episodes
-            var composedTitle = section.title?.localized ?? ""
-            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
-                composedTitle = subtitle + ": " + composedTitle
-            }
-            title = composedTitle
-            listId = section.listId
+        state = section.episodes.isEmpty ? .empty : .ready
+        self.episodes = section.episodes
+        var composedTitle = section.title?.localized ?? ""
+        if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
+            composedTitle = subtitle + ": " + composedTitle
         }
+        title = composedTitle
+        listId = section.listId
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     /// Fires once the section's episodes are on screen, mirroring iOS's `viewDidAppear` impression.

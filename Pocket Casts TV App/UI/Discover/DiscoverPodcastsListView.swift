@@ -29,6 +29,8 @@ struct DiscoverPodcastsListView: View {
                 podcastsView
             case .empty:
                 emptyView
+            case .failed:
+                DiscoverRetryView(style: .fullScreen) { await model.retry() }
             }
         }
         .task {
