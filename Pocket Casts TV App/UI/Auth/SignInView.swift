@@ -56,7 +56,7 @@ struct SignInView: View {
                 .animation(.easeInOut, value: loginType)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .padding(.top, 80)            
+            .padding(.top, 80)
         }
         .task(id: loginType) {
             switch loginType {
