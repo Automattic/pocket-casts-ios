@@ -84,9 +84,7 @@ class ListeningHistoryViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if FeatureFlag.listeningHistorySearch.enabled {
-            setupSearchController()
-        }
+        setupSearchController()
 
         operationQueue.maxConcurrentOperationCount = 1
         title = L10n.listeningHistory

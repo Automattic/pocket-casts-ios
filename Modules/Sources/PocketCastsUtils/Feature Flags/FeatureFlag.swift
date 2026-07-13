@@ -70,9 +70,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
-    // Shows the searchbar in Listening History view
-    case listeningHistorySearch
-
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
 
@@ -368,8 +365,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .playerIsReadyToPlay:
-            true
-        case .listeningHistorySearch:
             true
         case .useMimetypePackage:
             true
