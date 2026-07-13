@@ -156,6 +156,8 @@ public enum ServerConstants {
         static let subscriptionTier = "SJSubscriptionTier"
         public static let marketingOptInKey = "SJMarketingOptIn"
         static let marketingOptInNeedsSyncKey = "SJMarketingOptInNeedsSync"
+        public static let audioOnlyKey = "SJAudioOnly"
+        static let audioOnlyNeedsSyncKey = "SJAudioOnlyNeedsSync"
         static let subscriptionGiftAcknowledgementNeedsSyncKey = "SJGiftAcknowledgementNeedsSync"
         static let filesLastModifiedKey = "UserFilesLastModified"
         static let statsStartDate = "StatsStartDate"

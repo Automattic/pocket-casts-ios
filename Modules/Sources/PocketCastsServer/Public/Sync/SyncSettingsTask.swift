@@ -20,6 +20,9 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             if ServerSettings.marketingOptInNeedsSyncing() {
                 settingsRequest.settings.marketingOptIn.value = ServerSettings.marketingOptIn()
             }
+            if ServerSettings.audioOnlyNeedsSyncing() {
+                settingsRequest.settings.audioOnly.value = ServerSettings.audioOnly()
+            }
             if SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() {
                 settingsRequest.settings.freeGiftAcknowledgement.value = SubscriptionHelper.subscriptionGiftAcknowledgement()
             }
@@ -63,6 +66,10 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
                 ServerSettings.setMarketingOptIn(marketingOptIn)
             }
 
+            if settings.audioOnly.changed.value {
+                ServerSettings.setAudioOnly(settings.audioOnly.value.value)
+            }
+
             if settings.freeGiftAcknowledgement.changed.value {
                 let acknowledgement = settings.freeGiftAcknowledgement.value.value
                 SubscriptionHelper.setSubscriptionGiftAcknowledgement(acknowledgement)
@@ -77,6 +84,7 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             ServerSettings.setSkipBackSynced()
             ServerSettings.setSkipForwardSynced()
             ServerSettings.marketingOptInSynced()
+            ServerSettings.audioOnlySynced()
             ServerSettings.setHomeGridSortOrderSynced()
             SubscriptionHelper.subscriptionGiftAcknowledgementSynced()
         } catch {
