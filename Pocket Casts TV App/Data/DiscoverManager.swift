@@ -3,7 +3,7 @@ import PocketCastsServer
 enum DiscoverType: String, CaseIterable {
     case featured
     case trending
-    case video
+    case video = "tv_featured_videos"
     case recommendationsUser = "recommendations_user" // You might like ...
     case recommendationsSocial = "recommendations_social" // Loved By Users of ...
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
@@ -122,16 +122,10 @@ actor DiscoverManager {
         }
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
 
-        var filteredItems = items.filter { item in
+        let filteredItems = items.filter { item in
             item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
         }
 
-        let videoItem = makeVideoItem(layout: discoverLayout)
-        if filteredItems.count > 2 {
-            filteredItems.insert(videoItem, at: 2)
-        } else {
-            filteredItems.append(videoItem)
-        }
         return filteredItems
     }
 
