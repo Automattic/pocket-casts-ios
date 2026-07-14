@@ -85,6 +85,10 @@
             argument = "-FIRInfoEnabled"
             isEnabled = "YES">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-PCSQLTracing"
+            isEnabled = "NO">
+         </CommandLineArgument>
       </CommandLineArguments>
       <StoreKitConfigurationFileReference
          identifier = "../../Pocket Casts Configuration.storekit">

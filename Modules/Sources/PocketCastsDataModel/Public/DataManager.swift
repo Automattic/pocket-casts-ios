@@ -1,5 +1,6 @@
 import GRDB
 import Foundation
+import OSLog
 import PocketCastsUtils
 import SQLite3
 
@@ -47,6 +48,20 @@ public class DataManager {
 
         var config = Configuration()
         config.busyMode = .timeout(10)
+#if DEBUG
+        // Launch with `-PCSQLTracing` (Edit Scheme ▸ Run ▸ Arguments, off by default) to log
+        // every SQL statement with its arguments to the unified logging system.
+        // Filter with `subsystem:<bundle id> category:SQL`.
+        if ProcessInfo.processInfo.arguments.contains("-PCSQLTracing") {
+            let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PocketCasts", category: "SQL")
+            config.publicStatementArguments = true
+            config.prepareDatabase { db in
+                db.trace(options: .statement) { event in
+                    logger.debug("\(event, privacy: .public)")
+                }
+            }
+        }
+#endif
         let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
         let dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
         DataManager.setDatabaseFileProtectionToNone()
