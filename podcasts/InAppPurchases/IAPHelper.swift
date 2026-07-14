@@ -206,12 +206,8 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    /// Initiates a purchase for the given product.
-    /// - Parameter source: The analytics source that triggered the purchase. It is captured and
-    ///   persisted here — at purchase-initiation time, when the source is known — so it can be
-    ///   attached to the transaction when it later completes, even across app relaunches. When
-    ///   `nil`, the current `OnboardingFlow` source is used, which is the correct value for
-    ///   purchases initiated from an onboarding / upsell flow.
+    /// - Parameter source: analytics source that triggered the purchase, persisted now so it can
+    ///   be attached when the transaction completes. Defaults to the current `OnboardingFlow` source.
     public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil, source: PlusUpgradeViewSource? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
@@ -233,12 +229,9 @@ class IAPHelper: NSObject {
 
     // MARK: - Purchase source persistence
 
-    /// Key for the persisted map of product identifier -> analytics source raw value.
-    /// Purchases can complete asynchronously — potentially after an app relaunch — so the source
-    /// that initiated a purchase is stored here rather than read from shared state at completion.
+    /// Persisted `[product id: source raw value]`, so an async purchase keeps its source across relaunches.
     private static let pendingPurchaseSourcesKey = "IAPPendingPurchaseSources"
 
-    /// Persists the source that initiated a purchase, keyed by product identifier.
     private func storePurchaseSource(_ source: PlusUpgradeViewSource?, for productId: IAPProductID) {
         guard let source else { return }
         var sources = UserDefaults.standard.dictionary(forKey: Self.pendingPurchaseSourcesKey) as? [String: String] ?? [:]
@@ -246,10 +239,8 @@ class IAPHelper: NSObject {
         UserDefaults.standard.set(sources, forKey: Self.pendingPurchaseSourcesKey)
     }
 
-    /// Returns and removes the persisted source raw value for a product, if one was recorded when
-    /// the purchase was initiated. Returns `nil` for transactions we have no record of initiating.
-    /// The raw value is returned as-is (not round-tripped through `PlusUpgradeViewSource`) so
-    /// attribution is preserved even if the enum's cases change while a transaction is pending.
+    /// Removes and returns the raw source for a product. Raw (not via `PlusUpgradeViewSource`) so
+    /// attribution survives enum changes while a transaction is pending. `nil` if none was recorded.
     private func consumePurchaseSource(for productId: IAPProductID) -> String? {
         var sources = UserDefaults.standard.dictionary(forKey: Self.pendingPurchaseSourcesKey) as? [String: String] ?? [:]
         guard let rawValue = sources.removeValue(forKey: productId.rawValue) else { return nil }
@@ -703,10 +694,7 @@ private extension IAPHelper {
                                               "tier": productId.subscriptionTier.rawValue.lowercased(),
                                               "frequency": productId.frequency.rawValue]
 
-        // Resolve the source in priority order so it is *always* defined:
-        // 1. The source captured when this purchase was initiated (survives app relaunches).
-        // 2. The current onboarding flow source, for purchases we didn't record a source for.
-        // 3. `.unattributed`, for transactions StoreKit re-delivers outside of any purchase flow.
+        // Always defined: captured-at-initiation source, else current flow source, else `.unattributed`.
         let source = consumePurchaseSource(for: productId)
             ?? OnboardingFlow.shared.source?.rawValue
             ?? PlusUpgradeViewSource.unattributed.rawValue
