@@ -444,6 +444,27 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekTo(time: ceil(chapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
+    /// The chapter the next/previous skip controls would move to. Exposed so
+    /// callers can resolve a generated chapter's true playback position via
+    /// fingerprinting before seeking (see `GeneratedChapterSeeker`).
+    func nextPlayableChapter() -> ChapterInfo? {
+        chapterManager.nextVisiblePlayableChapter()
+    }
+
+    func previousPlayableChapter() -> ChapterInfo? {
+        chapterManager.previousVisibleChapter()
+    }
+
+    /// Emit the "chapter skipped" analytics when the jump to `chapter` spans more
+    /// than one chapter (i.e. deselected chapters were skipped over). Exposed so the
+    /// generated-chapter seek path preserves parity with
+    /// `skipToNextChapter`/`skipToPreviousChapter`, which it routes around.
+    func trackChapterSkippedIfNeeded(to chapter: ChapterInfo) {
+        if abs(currentChapters().index - chapter.index) > 1 {
+            trackChapterSkipped()
+        }
+    }
+
     func skipToEndOfLastChapter() {
         if let lastChapter = chapterManager.lastChapter {
             seekTo(time: ceil(lastChapter.startTime.seconds) + lastChapter.duration)
