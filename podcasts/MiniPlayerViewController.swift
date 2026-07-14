@@ -396,6 +396,23 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playbackProgressDidChange()
     }
 
+    /// A `dismiss(animated: false)` anywhere up the presentation chain
+    /// (notification taps, deep links, stacked-sheet teardowns) never consults
+    /// the transitioning delegate, so the animators' dismiss completions —
+    /// which restore the contents `PlayerZoomAnimator` blanked on present and
+    /// close out `playerOpenState` — don't run, leaving the mini player
+    /// permanently empty and frozen. Called from the player's presentation
+    /// controller only for those non-animated teardowns; animated dismissals
+    /// are fully handled by the animators.
+    func fullScreenPlayerDidDismiss(_ player: PlayerContainerViewController) {
+        guard fullScreenPlayer == nil || fullScreenPlayer === player else { return }
+
+        view.alpha = 1
+        view.subviews.forEach { $0.alpha = 1 }
+        playerOpenState = .closed
+        finishedWithFullScreenPlayer()
+    }
+
     func changeHeightTo(_ height: CGFloat) {
         if heightConstraint == nil {
             heightConstraint = view.heightAnchor.constraint(equalToConstant: height)
