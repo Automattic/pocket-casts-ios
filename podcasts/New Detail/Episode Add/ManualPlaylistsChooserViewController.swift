@@ -9,8 +9,10 @@ private enum TableSection: Int, CaseIterable {
 }
 
 class ManualPlaylistsChooserViewController: PCViewController {
+    /// The complete, authoritative list of playlists. Never filtered — used to apply changes on Done.
+    private var allManualPlaylists: [EpisodeFilter] = []
+    /// The list currently shown in the table. Equal to `allManualPlaylists` unless a search is filtering it.
     private var manualPlaylists: [EpisodeFilter] = []
-    private var tempManualPlaylists: [EpisodeFilter] = []
     private var initialSelectedPlaylists: Set<String> = []
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
@@ -139,7 +141,8 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         view.layoutSubviews()
 
-        manualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
+        allManualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
+        manualPlaylists = allManualPlaylists
 
         if episodes.count == 1, let episode = episodes.first {
             let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
@@ -147,7 +150,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         } else {
             // For bulk episodes, find playlists that contain ALL selected episodes
             var playlistsContainingAllEpisodes: Set<String> = []
-            for playlist in manualPlaylists {
+            for playlist in allManualPlaylists {
                 let allEpisodesInPlaylist = episodes.allSatisfy { episode in
                     dataManager.manualPlaylistUUIDs(for: episode.uuid).contains(playlist.uuid)
                 }
@@ -181,7 +184,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         let maxPlaylistItems = Constants.Limits.maxFilterItems
 
-        manualPlaylists.forEach { playlist in
+        allManualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
                 if episodes.count > maxPlaylistItems {
                     Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
@@ -327,20 +330,17 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 }
 
 extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
-    func searchDidBegin() {
-        tempManualPlaylists = manualPlaylists
-    }
+    func searchDidBegin() { }
 
     func searchDidEnd() {
-        manualPlaylists = tempManualPlaylists
-        tempManualPlaylists.removeAll()
+        manualPlaylists = allManualPlaylists
         tableView.reload(section: .playlists, with: .automatic)
     }
 
     func searchWasCleared() {
         // TODO: Add analytics
 
-        manualPlaylists = tempManualPlaylists
+        manualPlaylists = allManualPlaylists
         tableView.reload(section: .playlists, with: .automatic)
     }
 
@@ -349,7 +349,7 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         // TODO: Add analytics
 
-        manualPlaylists = tempManualPlaylists.filter {
+        manualPlaylists = allManualPlaylists.filter {
             $0.playlistName.localizedCaseInsensitiveContains(searchTerm)
         }
         tableView.reload(section: .playlists, with: .automatic)
