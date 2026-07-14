@@ -138,23 +138,11 @@ class SessionManager: NSObject, WCSessionDelegate {
     /// and never override an episode the watch is actively playing. `handleStateUpdate` has already
     /// rejected stale updates, and we add a last-write-wins guard on `playedUpToModified`.
     private func applyPhoneNowPlayingProgress() {
-        // Feature-off is an intentional no-op, not a failure, so return without logging to avoid noise.
-        guard FeatureFlag.watchPlaybackProgressLocalSync.enabled else { return }
+        guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
+              !WatchDataManager.isPlaying(),
+              let phoneEpisode = WatchDataManager.playingEpisode(),
+              let localCurrent = PlaybackManager.shared.currentEpisode() else { return }
 
-        // Each remaining condition logs why it bailed. Without this the apply fails silently and there
-        // is no way to tell from a device log which precondition rejected a phone→watch update.
-        guard !WatchDataManager.isPlaying() else {
-            FileLog.shared.addMessage("SessionManager: skipping phone progress - phone reports still playing")
-            return
-        }
-        guard let phoneEpisode = WatchDataManager.playingEpisode() else {
-            FileLog.shared.addMessage("SessionManager: skipping phone progress - no phone now-playing episode")
-            return
-        }
-        guard let localCurrent = PlaybackManager.shared.currentEpisode() else {
-            FileLog.shared.addMessage("SessionManager: skipping phone progress - no local current episode (phone episode \(phoneEpisode.uuid))")
-            return
-        }
         guard localCurrent.uuid == phoneEpisode.uuid else {
             FileLog.shared.addMessage("SessionManager: skipping phone progress - episode mismatch (local \(localCurrent.uuid), phone \(phoneEpisode.uuid))")
             return
@@ -165,15 +153,8 @@ class SessionManager: NSObject, WCSessionDelegate {
         }
 
         let phonePlayedUpTo = WatchDataManager.currentTime()
-        let phoneModified = WatchDataManager.nowPlayingPlayedUpToModified()
-        guard phoneModified > localCurrent.playedUpToModified else {
-            FileLog.shared.addMessage("SessionManager: skipping phone progress - not newer (phone modified \(phoneModified) <= local \(localCurrent.playedUpToModified)) for \(localCurrent.uuid)")
-            return
-        }
-        guard Int64(localCurrent.playedUpTo) != Int64(phonePlayedUpTo) else {
-            FileLog.shared.addMessage("SessionManager: skipping phone progress - position unchanged (\(phonePlayedUpTo)) for \(localCurrent.uuid)")
-            return
-        }
+        guard WatchDataManager.nowPlayingPlayedUpToModified() > localCurrent.playedUpToModified,
+              Int64(localCurrent.playedUpTo) != Int64(phonePlayedUpTo) else { return }
 
         FileLog.shared.addMessage("SessionManager: applying phone playback progress \(phonePlayedUpTo) for \(localCurrent.uuid)")
         DispatchQueue.main.async {
