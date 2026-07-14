@@ -206,11 +206,19 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil) -> Bool {
+    /// Initiates a purchase for the given product.
+    /// - Parameter source: The analytics source that triggered the purchase. It is captured and
+    ///   persisted here — at purchase-initiation time, when the source is known — so it can be
+    ///   attached to the transaction when it later completes, even across app relaunches. When
+    ///   `nil`, the current `OnboardingFlow` source is used, which is the correct value for
+    ///   purchases initiated from an onboarding / upsell flow.
+    public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil, source: PlusUpgradeViewSource? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
+
+        storePurchaseSource(source ?? OnboardingFlow.shared.source, for: identifier)
 
         FileLog.shared.addMessage("IAPHelper Buying \(product.productIdentifier)")
         let payment = SKMutablePayment(product: product)
@@ -221,6 +229,30 @@ class IAPHelper: NSObject {
         SKPaymentQueue.default().add(payment)
 
         return true
+    }
+
+    // MARK: - Purchase source persistence
+
+    /// Key for the persisted map of product identifier -> analytics source raw value.
+    /// Purchases can complete asynchronously — potentially after an app relaunch — so the source
+    /// that initiated a purchase is stored here rather than read from shared state at completion.
+    private static let pendingPurchaseSourcesKey = "IAPPendingPurchaseSources"
+
+    /// Persists the source that initiated a purchase, keyed by product identifier.
+    private func storePurchaseSource(_ source: PlusUpgradeViewSource?, for productId: IAPProductID) {
+        guard let source else { return }
+        var sources = UserDefaults.standard.dictionary(forKey: Self.pendingPurchaseSourcesKey) as? [String: String] ?? [:]
+        sources[productId.rawValue] = source.rawValue
+        UserDefaults.standard.set(sources, forKey: Self.pendingPurchaseSourcesKey)
+    }
+
+    /// Returns and removes the persisted source for a product, if one was recorded when the
+    /// purchase was initiated. Returns `nil` for transactions we have no record of initiating.
+    private func consumePurchaseSource(for productId: IAPProductID) -> PlusUpgradeViewSource? {
+        var sources = UserDefaults.standard.dictionary(forKey: Self.pendingPurchaseSourcesKey) as? [String: String] ?? [:]
+        guard let rawValue = sources.removeValue(forKey: productId.rawValue) else { return nil }
+        UserDefaults.standard.set(sources, forKey: Self.pendingPurchaseSourcesKey)
+        return PlusUpgradeViewSource(rawValue: rawValue)
     }
 
     public func getPaymentFrequency(for identifier: IAPProductID) -> String {
@@ -668,9 +700,13 @@ private extension IAPHelper {
                                               "offer_type": offerType,
                                               "tier": productId.subscriptionTier.rawValue.lowercased(),
                                               "frequency": productId.frequency.rawValue]
-        if let source = OnboardingFlow.shared.source {
-            properties["source"] = source.rawValue
-        }
+
+        // Resolve the source in priority order so it is *always* defined:
+        // 1. The source captured when this purchase was initiated (survives app relaunches).
+        // 2. The current onboarding flow source, for purchases we didn't record a source for.
+        // 3. `.unattributed`, for transactions StoreKit re-delivers outside of any purchase flow.
+        let source = consumePurchaseSource(for: productId) ?? OnboardingFlow.shared.source ?? .unattributed
+        properties["source"] = source.rawValue
 
         let flow = OnboardingFlow.shared.currentFlow
         properties["flow"] = flow.rawValue
