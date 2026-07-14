@@ -7,27 +7,6 @@ struct SignInView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    let manualLogin: Bool = true
-
-    enum Layout {
-        static let gridSize = CGFloat(272)
-        static let qrSize = CGFloat(240)
-    }
-
-    func enterCodePrompt(url: String) -> AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, url)
-        var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
-
-        var linkStyle = AttributeContainer()
-        linkStyle.foregroundColor = Color.pcTextPrimary
-        linkStyle.underlineStyle = .single
-
-        for run in attributedString.runs where run.link != nil {
-            attributedString[run.range].mergeAttributes(linkStyle)
-        }
-        return attributedString
-    }
-
     enum LoginType: Int, CaseIterable {
         case qr
         case manual
@@ -44,10 +23,10 @@ struct SignInView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(spacing: 32) {
-                Image(ImageResource.pcLogo)
+            VStack(spacing: 64) {
+                Spacer()
                 Text(L10n.tvSignInTitle)
-                    .font(.title)
+                    .font(.title3.weight(.medium))
                     .foregroundColor(Color.pcTextPrimary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
@@ -56,30 +35,21 @@ struct SignInView: View {
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 500)
-                // Mode-specific content area, fixed height so the logo,
-                // title, and picker above never shift when switching modes.
-                VStack(spacing: 32) {
+                // Mode-specific content area, fixed height so the title
+                // and picker above never shift when switching modes.
+                VStack(spacing: 64) {
                     switch loginType {
                     case .manual:
                         usernamePasswordLogin
-                            .padding(.top, 64)
                     case .qr:
                         if case .error(_, let message) = model.pairing.state {
                             qrCodeError(message: message)
                         } else {
-                            Text(L10n.tvSignInSubtitle)
-                                .font(.headline)
-                                .foregroundStyle(Color.pcTextSecondary)
-                            if let urlComplete = model.pairing.pairURLComplete {
-                                QRCodeView(url: urlComplete)
-                                separator
-                                Text(enterCodePrompt(url: urlComplete))
-                                    .font(.headline)
-                                    .foregroundStyle(Color.pcTextSecondary)
-                                qrCodeDigits
-                            } else {
-                                ProgressView()
+                            HStack(spacing: 64) {
+                                QRCodeView(url: model.pairing.pairURLComplete)
+                                StepList(steps: steps)
                             }
+                            QRCodeDigits(digits: model.pairing.codes)
                         }
                     }
                 }
@@ -87,7 +57,6 @@ struct SignInView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .padding(.top, 80)
-            .offset(y: -64)
         }
         .task(id: loginType) {
             switch loginType {
@@ -124,6 +93,14 @@ struct SignInView: View {
         .background(Color.pcBackgroundBase)
     }
 
+    var steps: [String] {
+        [
+            L10n.tvCreateAccountStepScan(model.pairing.pairURLPretty),
+            L10n.tvCreateAccountStepLogin,
+            L10n.tvCreateAccountStepConfirmCode
+        ]
+    }
+
     private func finishSignIn(source: String) {
         Analytics.track(.userSignedIn, properties: ["source": source])
         dismiss()
@@ -148,32 +125,6 @@ struct SignInView: View {
         .padding(.top, 64)
     }
 
-    var qrCodeDigits: some View {
-        Group {
-            if model.pairing.codes.isEmpty {
-                ProgressView()
-            } else {
-                HStack(spacing: 8) {
-                    ForEach(Array(model.pairing.codes.enumerated()), id: \.offset) { _, code in
-                        Text(code)
-                            .font(.caption2)
-                            .foregroundStyle(Color.pcTextSecondary)
-                            .padding()
-                            .background(Color.pcBackgroundActive20)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-                }
-            }
-        }
-    }
-
-    var separator: some View {
-        Rectangle()
-        .foregroundColor(.clear)
-        .frame(width: 566, height: 1)
-        .background(Color.pcTextDisabled)
-    }
-
     @FocusState private var focusedField: Field?
 
     enum Field {
@@ -184,7 +135,7 @@ struct SignInView: View {
     @State private var password = ""
 
     var usernamePasswordLogin: some View {
-        VStack {
+        VStack(spacing: 32) {
             TextField(L10n.tvUserSignInUsernamePlaceholder, text: $username)
                 .textContentType(.username)
                 .focused($focusedField, equals: .username)

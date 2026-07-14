@@ -378,7 +378,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         guard FeatureFlag.streamAndCachePlayingEpisode.enabled,
-              !EpisodeManager.isStreamingHLS(episode), // HLS is streamed directly, never cached
+              !EpisodeManager.hasHLSStream(episode), // HLS is streamed directly, never cached
               !episode.videoPodcast(),
               !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
@@ -512,7 +512,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.lastArchiveInteractionDate = Date()
 
             // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
-            if let parentPodcast = episode.parentPodcast(), parentPodcast.autoArchiveEpisodeLimitCount > 0 {
+            if let parentPodcast = episode.parentPodcast(), parentPodcast.autoArchiveEpisodeLimit > 0 {
                 episode.excludeFromEpisodeLimit = true
             }
 

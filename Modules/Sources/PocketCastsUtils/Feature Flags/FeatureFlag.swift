@@ -70,9 +70,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
-    // Shows the searchbar in Listening History view
-    case listeningHistorySearch
-
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
 
@@ -203,9 +200,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
-    /// Use the new search endpoint and new UI
-    case searchImprovements
-
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
 
@@ -286,6 +280,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Remove the 50-episode limit when syncing Up Next to Apple Watch
     case unlimitedWatchUpNextSync
 
+    /// On pause, sync the playback position directly between the watch and phone over
+    /// WatchConnectivity (both directions) so progress appears on the other device without a manual refresh
+    case watchPlaybackProgressLocalSync
+
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
@@ -318,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable HLS streaming playback
     case hls
+
+    /// A new "Troubleshooting" screen for detecting orphaned episodes and more.
+    case troubleshooting
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -368,8 +369,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .playerIsReadyToPlay:
-            true
-        case .listeningHistorySearch:
             true
         case .useMimetypePackage:
             true
@@ -457,8 +456,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newOnboardingRecommendationChanges:
             true
-        case .searchImprovements:
-            true
         case .searchPredictive:
             true
         case .podcastBookmarksInline:
@@ -517,6 +514,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .unlimitedWatchUpNextSync:
             true
+        case .watchPlaybackProgressLocalSync:
+            true
         case .cleanUpTmpFiles:
             true
         case .displayErrorsOnPlayer:
@@ -539,6 +538,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .hls:
             BuildEnvironment.current == .debug
+        case .troubleshooting:
+            true
         }
     }
 

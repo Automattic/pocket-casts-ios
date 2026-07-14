@@ -28,6 +28,10 @@ struct DiscoverFeaturedPodcastsRow: View {
                 ProgressView()
             case .empty:
                 EmptyView()
+            case .failed:
+                RowSection(title: model.title, focusSection: model.focusStoreID) {
+                    DiscoverRetryView(style: .row) { await model.retry() }
+                }
             case .ready:
                 RowSection(title: model.title, focusSection: model.focusStoreID) {
                     podcastList
@@ -48,7 +52,7 @@ struct DiscoverFeaturedPodcastsRow: View {
 
     var podcastList: some View {
         ScrollView(.horizontal) {
-            LazyHStack(spacing: 48, content: {
+            LazyHStack(spacing: 64, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""), listId: model.listId, source: model.source)
                         .setFocus(section: model.focusStoreID)

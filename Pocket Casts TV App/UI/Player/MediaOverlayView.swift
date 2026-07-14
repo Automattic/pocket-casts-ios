@@ -16,7 +16,7 @@ struct MediaOverlayView: View {
     var body: some View {
         GeometryReader() { proxy in
             ZStack {
-                if !model.isVideo, let uiImage = model.displayImage {
+                if !model.isVideo || model.isLoading || model.isFailed, let uiImage = model.displayImage {
                     VStack(alignment: .center) {
                         if isTransportBarVisible {
                             Spacer().frame(height: 100)
@@ -35,16 +35,35 @@ struct MediaOverlayView: View {
                                 .animation(.smooth, value: isTransportBarVisible)
                             Spacer()
                         }
+                        if model.isFailed {
+                            failureOverlay
+                                .transition(.opacity)
+                        }
+                        Spacer()
+                    }
+                } else {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            if model.isFailed {
+                                failureOverlay
+                                    .transition(.opacity)
+                            }
+                            Spacer()
+                        }
                         Spacer()
                     }
                 }
 
-                if model.isLoading {
+                if model.isLoading, !model.isFailed {
                     loadingOverlay
                         .transition(.opacity)
                 }
             }
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
+            .animation(.easeInOut(duration: 0.2), value: model.isFailed)
+            .background(model.isVideo && !model.isLoading && !model.isFailed ? Color.clear : Color.pcBackgroundBase)
         }
         .ignoresSafeArea()
     }
@@ -55,5 +74,14 @@ struct MediaOverlayView: View {
             .tint(.white)
             .scaleEffect(1.3)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var failureOverlay: some View {
+        Text(model.errorMessage)
+            .font(.caption)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 20)
+            .glassEffect(.regular)
     }
 }

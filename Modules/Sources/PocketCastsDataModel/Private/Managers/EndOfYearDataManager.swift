@@ -33,7 +33,6 @@ class EndOfYearDataManager {
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     isEligible = true
@@ -67,7 +66,6 @@ class EndOfYearDataManager {
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     isFullListeningHistory = true
@@ -92,7 +90,6 @@ class EndOfYearDataManager {
                             \(listenedEpisodes(year: year))
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     numberOfEpisodes = Int(resultSet.int(forColumn: "numberOfEpisodes"))
@@ -117,7 +114,6 @@ class EndOfYearDataManager {
             do {
                 let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year))"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     listeningTime = resultSet.double(forColumn: "totalPlayedTime")
@@ -154,7 +150,6 @@ class EndOfYearDataManager {
 """
 
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "numberOfPodcasts"))
@@ -194,7 +189,6 @@ class EndOfYearDataManager {
                             """
 
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "podcasts"))
@@ -227,7 +221,6 @@ class EndOfYearDataManager {
                             LIMIT \(limit)
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let numberOfPlayedEpisodes = Int(resultSet.int(forColumn: "played_episodes"))
@@ -261,7 +254,6 @@ class EndOfYearDataManager {
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     episode = Episode.from(resultSet: resultSet)
@@ -285,7 +277,6 @@ class EndOfYearDataManager {
                                 \(listenedEpisodes(year: year))
                             """
                 let resultSet = try db.executeQuery(query, values: uuids)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let uuid = resultSet.string(forColumn: "uuid") {
@@ -311,7 +302,6 @@ class EndOfYearDataManager {
                         LIMIT 1
                         """
             let resultSet = try db.executeQuery(query, values: nil)
-            defer { resultSet.close() }
 
             if resultSet.next() {
                 numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
@@ -333,7 +323,6 @@ class EndOfYearDataManager {
             do {
                 let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year)) UNION ALL SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year - 1))"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     listeningTimeThisYear = resultSet.double(forColumn: "totalPlayedTime")
@@ -360,7 +349,6 @@ class EndOfYearDataManager {
             do {
                 let query = "SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE (playingStatus = 3 OR playedUpTo >= 0.9 * duration) AND \(listenedEpisodes(year: year)) UNION SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year))"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     completed = Int(resultSet.int(forColumn: "episodesPlayed"))

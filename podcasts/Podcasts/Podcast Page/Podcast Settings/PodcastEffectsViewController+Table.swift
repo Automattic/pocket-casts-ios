@@ -16,7 +16,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return podcast.isEffectsOverridden ? 2 : 1
+        return podcast.overrideGlobalEffects ? 2 : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -134,7 +134,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Table Footer Text
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        podcast.isEffectsOverridden ? nil : L10n.settingsCustomMsg
+        podcast.overrideGlobalEffects ? nil : L10n.settingsCustomMsg
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -188,7 +188,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
-        podcast.isEffectsOverridden = sender.isOn
+        podcast.overrideGlobalEffects = sender.isOn
         podcast.syncStatus = SyncStatus.notSynced.rawValue
         saveUpdates()
 
@@ -197,7 +197,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
     private func tableData() -> [[TableRow]] {
         let hasTrimSilence = podcast.trimSilenceAmount > 0
-        if podcast.isEffectsOverridden && hasTrimSilence {
+        if podcast.overrideGlobalEffects && hasTrimSilence {
             return [[.customForPodcast], [.playbackSpeed, .trimSilence, .trimSilenceAmount, .volumeBoost]]
         }
 

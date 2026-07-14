@@ -54,13 +54,23 @@ struct DiscoverVideoEpisodeCell: View {
             .padding(32)
             .frame(width: Layout.cardWidth, height: Layout.cardHeight)
             .background {
-                Group {
+                ZStack {
                     if isFocused, let player = model.player, model.isPlaying {
-                        VideoPlayer(player: player)
-                            .focusable(false)
+                        ZStack {
+                            VideoPlayer(player: player)
+                                .focusable(false)
+                        }
                     } else {
                         backgroundThumbnail
                     }
+                    LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                            Gradient.Stop(color: .black, location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: 0.59, y: 0.11),
+                        endPoint: UnitPoint(x: 0.59, y: 0.81)
+                    )
                 }
                 .transition(.opacity)
                 .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
@@ -148,14 +158,6 @@ struct DiscoverVideoEpisodeCell: View {
             } else {
                 ProgressView()
             }
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                    Gradient.Stop(color: .black, location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.59, y: 0.11),
-                endPoint: UnitPoint(x: 0.59, y: 0.81)
-            )
         }
     }
 }

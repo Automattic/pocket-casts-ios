@@ -13,6 +13,19 @@ extension SessionManager {
         sendResponseless(messageType: WatchConstants.Messages.MinorSyncableUpdate.type)
     }
 
+    /// Pushes the latest playback position for an episode straight to the phone so it can update
+    /// without waiting on a server round-trip. Uses guaranteed delivery (sendMessage with a
+    /// transferUserInfo fallback) so the update still arrives if the phone is briefly unreachable.
+    func sendPlaybackProgress(episodeUuid: String, playedUpTo: TimeInterval, modifiedAt: Int64) {
+        let progressUpdate = [
+            WatchConstants.Messages.messageType: WatchConstants.Messages.PlaybackProgressUpdate.type,
+            WatchConstants.Messages.PlaybackProgressUpdate.episodeUuid: episodeUuid,
+            WatchConstants.Messages.PlaybackProgressUpdate.playedUpTo: playedUpTo,
+            WatchConstants.Messages.PlaybackProgressUpdate.modifiedAt: modifiedAt
+        ] as [String: Any]
+        sendWithFallback(progressUpdate)
+    }
+
     func play(episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
         guard validateSessionActivated() else { return }
         if !WCSession.default.isReachable { return }

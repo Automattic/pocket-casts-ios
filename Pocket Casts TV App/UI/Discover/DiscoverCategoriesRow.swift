@@ -21,6 +21,10 @@ struct DiscoverCategoriesRow: View {
                 ProgressView()
             case .empty:
                 EmptyView()
+            case .failed:
+                RowSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
+                    DiscoverRetryView(style: .row) { await model.retry() }
+                }
             case .ready:
                 RowSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
                     list
@@ -38,7 +42,7 @@ struct DiscoverCategoriesRow: View {
                 ForEach(Array(model.categories.enumerated()), id: \.element.id) { index, category in
                     if category.id != nil {
                         NavigationLink(value: category) {
-                            DiscoverCategoryCell(category: category, colorIndex: index)
+                            DiscoverCategoryCell(category: category, colorIndex: index, source: model.source)
                                 .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)

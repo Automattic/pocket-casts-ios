@@ -146,7 +146,6 @@ class PodcastDataManager {
                 }
                 let query = "SELECT DISTINCT p.id, p.* FROM \(DataManager.podcastTableName) p LEFT JOIN \(DataManager.episodeTableName) e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM \(DataManager.episodeTableName) e WHERE e.podcast_id = p.id AND e.playingStatus != 3 AND e.archived = 0 ORDER BY e.publishedDate DESC LIMIT 1) \(whereClause) ORDER BY CASE WHEN e.publishedDate IS NULL THEN 1 ELSE 0 END, e.publishedDate DESC, p.latestEpisodeDate DESC"
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
@@ -174,7 +173,6 @@ class PodcastDataManager {
                 }
                 let query = "SELECT DISTINCT p.id, p.* FROM \(DataManager.podcastTableName) p LEFT JOIN \(DataManager.episodeTableName) e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM \(DataManager.episodeTableName) e WHERE e.podcast_id = p.id ORDER BY e.lastPlaybackInteractionDate DESC LIMIT 1) \(whereClause) ORDER BY CASE WHEN e.lastPlaybackInteractionDate IS NULL THEN 1 ELSE 0 END, e.lastPlaybackInteractionDate DESC"
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
@@ -196,7 +194,6 @@ class PodcastDataManager {
             do {
                 let query = "SELECT * FROM SJPodcast ORDER BY RANDOM() LIMIT 5"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
@@ -304,7 +301,7 @@ class PodcastDataManager {
         var podcastsOverrideArchive = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
-                if podcast.isSubscribed(), podcast.isAutoArchiveOverridden {
+                if podcast.isSubscribed(), podcast.overrideGlobalArchive {
                     podcastsOverrideArchive.append(podcast)
                 }
             }
@@ -370,7 +367,6 @@ class PodcastDataManager {
             do {
                 let query = "SELECT p.uuid as uuid, count(e.id) as count FROM \(DataManager.episodeTableName) e, \(DataManager.podcastTableName) p WHERE e.podcast_id = p.id AND playingStatus <> \(PlayingStatus.completed.rawValue) AND archived = 0 GROUP BY p.uuid"
                 let rs = try db.executeQuery(query, values: nil)
-                defer { rs.close() }
 
                 while rs.next() {
                     guard let uuid = rs.string(forColumn: "uuid") else { continue }
@@ -444,7 +440,7 @@ class PodcastDataManager {
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: PCDBQueue) {
-        podcast.isPushEnabled = pushEnabled
+        podcast.pushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
@@ -466,7 +462,7 @@ class PodcastDataManager {
     }
 
     func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: PCDBQueue) {
-        podcast.autoArchiveEpisodeLimitCount = limit
+        podcast.autoArchiveEpisodeLimit = limit
         podcast.settings.autoArchiveEpisodeLimit = limit
         saveSingleValue(name: "episodeKeepSetting", value: limit, podcastUuid: podcast.uuid, dbQueue: dbQueue)
     }
@@ -592,7 +588,6 @@ class PodcastDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName)", values: nil)
-                defer { resultSet.close() }
 
                 var newPodcasts = [String: Podcast]()
                 while resultSet.next() {

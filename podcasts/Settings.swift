@@ -966,6 +966,18 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Audio only
+
+    /// When enabled, video episodes play as audio only. Backed by `ServerSettings` so it syncs with the server.
+    static var audioOnly: Bool {
+        set {
+            ServerSettings.setAudioOnly(newValue)
+        }
+        get {
+            ServerSettings.audioOnly()
+        }
+    }
+
     // MARK: - Sleep Timer
 
     static var autoRestartSleepTimer: Bool {

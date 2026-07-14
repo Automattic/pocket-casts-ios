@@ -17,17 +17,30 @@ class DiscoverAllViewModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
-        let items = await discoverManager.loadDiscoverItems().filter { item in
-            item.categoryID == nil
+        let items: [DiscoverItem]
+        do {
+            items = try await discoverManager.loadDiscoverItems().filter { item in
+                item.categoryID == nil
+            }
+        } catch {
+            await MainActor.run { state = .failed }
+            return
         }
 
         await MainActor.run {
             state = items.isEmpty ? .empty : .ready
             self.sections = items
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 }
 
@@ -64,7 +77,7 @@ extension DiscoverItem {
             return .singleEpisode
         case ("episode_list", "collection", "plain_list"):
             return .listEpisode
-        case ("episode_video_list", "collection", "plain_list"):
+        case ("episode_list", "video_preview_list", "plain_list"):
             return .listVideoEpisode
         case ("category_podcast_list", _, _):
             return .categories

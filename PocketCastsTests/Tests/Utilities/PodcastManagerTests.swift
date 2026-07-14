@@ -96,6 +96,50 @@ final class PodcastManagerTests: DBTestCase {
         XCTAssertFalse(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
     }
 
+    func testDeleteOrphanedEpisodesIfNeededRepointsInteractedOrphanAndDropsStaleLiveRow() throws {
+        let podcast = Podcast()
+        podcast.uuid = UUID().uuidString
+        podcast.subscribed = 1
+        podcast.addedDate = Date()
+        dataManager.save(podcast: podcast)
+
+        let episodeUuid = UUID().uuidString
+
+        // The "live" row: visible to podcast_id-scoped queries, but pristine.
+        let live = Episode()
+        live.uuid = episodeUuid
+        live.podcastUuid = podcast.uuid
+        live.podcast_id = podcast.id
+        live.addedDate = Date()
+        live.playingStatus = PlayingStatus.notPlayed.rawValue
+        dataManager.save(episode: live)
+
+        // The orphan: same uuid, phantom podcast_id, holds the real user state.
+        let orphan = Episode()
+        orphan.uuid = episodeUuid
+        orphan.podcastUuid = podcast.uuid
+        orphan.podcast_id = 999_999_999
+        orphan.addedDate = Date()
+        orphan.playingStatus = PlayingStatus.inProgress.rawValue
+        orphan.playedUpTo = 123.4
+        orphan.archived = true
+        orphan.lastPlaybackInteractionDate = Date()
+        dataManager.save(episode: orphan)
+
+        let podcastManager = PodcastManager(dataManager: dataManager, downloadManager: downloadManager)
+        podcastManager.deleteOrphanedEpisodesIfNeeded()
+
+        let remaining = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [episodeUuid])
+        XCTAssertEqual(remaining.map(\.id), [orphan.id], "The row with real interaction should survive, repointed at the real podcast")
+
+        let survivor = try XCTUnwrap(remaining.first)
+        XCTAssertEqual(survivor.podcast_id, podcast.id)
+        XCTAssertEqual(survivor.playingStatus, PlayingStatus.inProgress.rawValue)
+        XCTAssertEqual(survivor.playedUpTo, 123.4)
+        XCTAssertTrue(survivor.archived)
+        XCTAssertNotNil(dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true))
+    }
+
     private func makeDownloadedPodcastAndEpisode() -> (Podcast, Episode) {
         let podcast = Podcast()
         podcast.uuid = UUID().uuidString

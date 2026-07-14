@@ -12,8 +12,8 @@ struct DiscoverPodcastsListView: View {
 
     @State private var model: DiscoverCategoryModel
 
-    init(category: DiscoverCategory) {
-        _model = State(wrappedValue: DiscoverCategoryModel(category: category))
+    init(category: DiscoverCategory, source: String) {
+        _model = State(wrappedValue: DiscoverCategoryModel(category: category, source: source))
     }
 
     let gridColumns: [GridItem] = (0..<6).map { _ in
@@ -29,6 +29,8 @@ struct DiscoverPodcastsListView: View {
                 podcastsView
             case .empty:
                 emptyView
+            case .failed:
+                DiscoverRetryView(style: .fullScreen) { await model.retry() }
             }
         }
         .task {
@@ -71,13 +73,16 @@ struct DiscoverPodcastsListView: View {
                     DiscoverPodcastCell(podcastUuid: podcast.uuid ?? "", isSponsored: model.isSponsored(podcast: podcast))
                 }
                 .buttonStyle(.card)
+                .simultaneousGesture(TapGesture().onEnded {
+                    model.trackPodcastTapped(podcast)
+                })
             }
         }
     }
 }
 
 #Preview {
-    DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"))
+    DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"), source: DiscoverAnalytics.homeSource)
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }

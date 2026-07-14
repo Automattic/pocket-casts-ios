@@ -39,8 +39,8 @@ struct PredictiveList: View {
             predictiveRow(for: predictiveSearch)
         }
         ForEach(searchResults.podcasts, id: \.self) { localPodcast in
-            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                .listRowBackground(theme.searchBackground)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
                 }
@@ -54,23 +54,15 @@ struct PredictiveList: View {
     func predictiveRow(for predictiveSearch: PredictiveSearchResult) -> some View {
         switch predictiveSearch.type {
             case .term(let searchTerm):
-                VStack {
-                    termRow(term: searchTerm)
-                    if !FeatureFlag.searchImprovements.enabled {
-                        ThemedDivider()
+                termRow(term: searchTerm)
+                    .listRowBackground(theme.searchBackground)
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
+                        return 0
                     }
-                }
-                .if(!FeatureFlag.searchImprovements.enabled) { content in
-                    content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
-                }
-                .listRowBackground(theme.primaryUi01)
-                .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    return 0
-                }
-                .background(theme.primaryUi01)
+                    .background(theme.searchBackground)
             case .podcast:
-                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                    .listRowBackground(theme.primaryUi01)
+                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                    .listRowBackground(theme.searchBackground)
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
                     }
@@ -108,7 +100,21 @@ struct PredictiveList: View {
                     .font(style: .subheadline, weight: .medium)
                 Spacer()
             }
-            .background(theme.primaryUi01)
+            .background(theme.searchBackground)
         })
+    }
+}
+
+/// Under Liquid Glass, search uses the standard list background to match other list
+/// screens; the legacy appearance keeps the original `primaryUi01`.
+private extension ThemeStyle {
+    static var searchBackground: ThemeStyle {
+        LiquidGlass.isEnabled ? .primaryUi02 : .primaryUi01
+    }
+}
+
+private extension Theme {
+    var searchBackground: Color {
+        AppTheme.color(for: .searchBackground, theme: self)
     }
 }

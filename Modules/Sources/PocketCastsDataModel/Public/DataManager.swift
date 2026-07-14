@@ -1146,7 +1146,6 @@ public class DataManager {
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
-                resultSet.close()
             } catch {
                 FileLog.shared.addMessage("DataManager.count error: \(error)")
             }
@@ -1206,9 +1205,9 @@ public class DataManager {
         let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
-            podcast.isPushEnabled = true
+            podcast.pushEnabled = true
         } else {
-            podcast.isPushEnabled = false
+            podcast.pushEnabled = false
         }
 
         DataManager.sharedManager.save(podcast: podcast)
@@ -1260,6 +1259,23 @@ public extension DataManager {
 
             try? db.executeUpdate(query, values: nil)
         }
+    }
+}
+
+// MARK: - Orphaned Episode Cleanup
+
+public extension DataManager {
+    func findOrphanedEpisodes() -> [Episode] {
+        episodeManager.findOrphanedEpisodes(dbQueue)
+    }
+
+    /// Deletes episode rows by internal id (not uuid), so a duplicate "live" row sharing the same uuid is left untouched.
+    func deleteOrphanedEpisodes(ids: [Int64]) {
+        episodeManager.deleteOrphanedEpisodes(ids: ids, dbQueue: dbQueue)
+    }
+
+    func reconcileOrphanedEpisode(survivorId: Int64, realPodcastId: Int64, idsToDelete: [Int64]) {
+        episodeManager.reconcileOrphanedEpisode(survivorId: survivorId, realPodcastId: realPodcastId, idsToDelete: idsToDelete, dbQueue: dbQueue)
     }
 }
 

@@ -145,6 +145,25 @@ public class ServerSettings {
         UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.marketingOptInNeedsSyncKey)
     }
 
+    // MARK: Audio Only
+
+    public class func setAudioOnly(_ value: Bool) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.audioOnlyKey)
+        UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
+    }
+
+    public class func audioOnly() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.audioOnlyKey)
+    }
+
+    public class func audioOnlyNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
+    }
+
+    public class func audioOnlySynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"
@@ -315,7 +334,7 @@ public class ServerSettings {
     }
 
     public class func syncSettings() {
-        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
+        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
 
         ApiServerHandler.shared.syncSettings()
     }

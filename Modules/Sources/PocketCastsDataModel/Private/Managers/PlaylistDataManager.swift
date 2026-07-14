@@ -39,7 +39,6 @@ class PlaylistDataManager {
             do {
                 let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.playlistsTableName)" : "SELECT COUNT(*) from \(DataManager.playlistsTableName) WHERE wasDeleted = 0"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
@@ -57,7 +56,6 @@ class PlaylistDataManager {
             do {
                 let query = PlaylistQueryBuilder.query(clause: clause, for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived)
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
@@ -76,7 +74,6 @@ class PlaylistDataManager {
             do {
                 let query = PlaylistQueryBuilder.podcastExistsInPlaylistEpisodesQuery(includeDeleted: includeDeleted)
                 let resultSet = try db.executeQuery(query, values: [podcastUuid])
-                defer { resultSet.close() }
 
                 exists = resultSet.next()
             } catch {
@@ -107,7 +104,6 @@ class PlaylistDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistsTableName) WHERE uuid = ?", values: [uuid])
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     playlist = self.createPlaylistFrom(resultSet: resultSet)
@@ -146,7 +142,6 @@ class PlaylistDataManager {
                 }
 
                 let resultSet = try db.executeQuery(query, values: [episodeUuid])
-                defer { resultSet.close() }
 
                 exists = resultSet.next()
             } catch {
@@ -168,7 +163,6 @@ class PlaylistDataManager {
                         GROUP BY playlist_uuid
                     """
                 let resultSet = try db.executeQuery(query, values: [episodeUUID])
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let uuid = resultSet.string(forColumn: "playlist_uuid") {
@@ -200,7 +194,6 @@ class PlaylistDataManager {
             do {
                 // Load existing order (id + episodeUuid) for this playlist
                 let rs = try db.executeQuery("SELECT id, episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC", values: [playlist.uuid])
-                defer { rs.close() }
 
                 var items = [(id: Int64, uuid: String)]()
                 while rs.next() {
@@ -248,7 +241,6 @@ class PlaylistDataManager {
 
                 // Reindex remaining
                 let rs = try db.executeQuery("SELECT id FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC", values: [playlist.uuid])
-                defer { rs.close() }
                 var ids = [Int64]()
                 while rs.next() { ids.append(rs.longLongInt(forColumn: "id")) }
                 for (index, id) in ids.enumerated() {
@@ -376,7 +368,6 @@ class PlaylistDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let filter = self.createPlaylistFrom(resultSet: resultSet)
@@ -395,7 +386,6 @@ class PlaylistDataManager {
             do {
                 let query = "SELECT MAX(sortPosition) from \(DataManager.playlistsTableName)"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     highestPosition = resultSet.long(forColumnIndex: 0)
@@ -414,7 +404,6 @@ class PlaylistDataManager {
             do {
                 let query = "SELECT MIN(sortPosition) from \(DataManager.playlistsTableName)"
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     lowestPosition = resultSet.long(forColumnIndex: 0)
@@ -467,7 +456,6 @@ class PlaylistDataManager {
                 var startPosition: Int32 = 0
                 do {
                     let rs = try db.executeQuery("SELECT COALESCE(MAX(episodePosition), 0) FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ?", values: [playlist.uuid])
-                    defer { rs.close() }
                     if rs.next() {
                         startPosition = rs.int(forColumnIndex: 0)
                     }

@@ -45,16 +45,18 @@ class AudioClipExporter {
         let progressObserver = Task {
             while !Task.isCancelled {
                 progress.completedUnitCount = Int64(exportSession.progress * 100)
-                try await Task.sleep(nanoseconds: 100*1000)
+                try await Task.sleep(for: .milliseconds(100))
             }
         }
 
+        // cancelExport() is documented as safe to call from any thread.
+        let cancellableSession = UnsafeTransfer(exportSession)
         await withTaskCancellationHandler {
             FileLog.shared.addMessage("AudioClipExporter Started Audio Export: \(date.timeIntervalSinceNow)")
             await exportSession.export()
             FileLog.shared.addMessage("AudioClipExporter Ended Audio Export: \(date.timeIntervalSinceNow)")
         } onCancel: {
-            exportSession.cancelExport()
+            cancellableSession.wrappedValue.cancelExport()
         }
 
         progressObserver.cancel()

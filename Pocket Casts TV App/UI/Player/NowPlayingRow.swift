@@ -71,7 +71,7 @@ private struct NowPlayingRowLabel: View {
 
 
 #Preview {
-    NowPlayingRow(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
+    NowPlayingRow(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!, source: .unknown))
     .environment(AppCoordinator())
     .environment(MainTabViewModel())
 }

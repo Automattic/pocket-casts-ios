@@ -28,6 +28,8 @@ class NowPlayingViewModel: Identifiable {
     /// spinner by toggling `showsPlaybackControls`.
     var isLoading: Bool = true
 
+    var isFailed: Bool = false
+
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var currentItemObservation: NSKeyValueObservation?
@@ -42,7 +44,12 @@ class NowPlayingViewModel: Identifiable {
         timeControlStatusObservation?.invalidate()
         itemStatusObservation?.invalidate()
         currentItemObservation?.invalidate()
+        timeControlStatusObservation = nil
+        itemStatusObservation = nil
+        currentItemObservation = nil
     }
+
+    private var seekAfterLoad = false
 
     func load() {
         let newEpisode = playbackManager.currentEpisode()
@@ -52,6 +59,10 @@ class NowPlayingViewModel: Identifiable {
         episode = newEpisode
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
+        if !playbackManager.playing(), !playbackManager.isReadyToPlay {
+            playbackManager.loadCurrentEpisode()
+            seekAfterLoad = true
+        }
         loadEpisodeArtwork()
     }
 
@@ -65,10 +76,10 @@ class NowPlayingViewModel: Identifiable {
             return
         }
 
+        PlayerStatusObserver.shared.observe(player: player)
         timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new, .initial]) { [weak self] _, _ in
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
-                self?.updatePlayState()
             }
         }
 
@@ -92,39 +103,25 @@ class NowPlayingViewModel: Identifiable {
         }
     }
 
-    private var previousTimeStatus: AVPlayer.TimeControlStatus?
-
-    private func updatePlayState() {
-        guard let player else {
-            return
-        }
-        let currentTimeStatus = player.timeControlStatus
-        guard previousTimeStatus != currentTimeStatus else {
-            return
-        }
-        previousTimeStatus = currentTimeStatus
-        switch currentTimeStatus {
-        case .playing:
-            AnalyticsPlaybackHelper.shared.currentSource = .player
-            AnalyticsPlaybackHelper.shared.play()
-        case .paused:
-            AnalyticsPlaybackHelper.shared.currentSource = .player
-            AnalyticsPlaybackHelper.shared.pause()
-        case .waitingToPlayAtSpecifiedRate:
-            break
-        @unknown default:
-            break
-        }
-    }
-
     private func updateLoadingState() {
         guard let player else {
             isLoading = true
+            isFailed = false
             return
         }
         let waiting = player.timeControlStatus == .waitingToPlayAtSpecifiedRate
-        let itemNotReady = (player.currentItem?.status ?? .unknown) != .readyToPlay
+        let status = player.currentItem?.status ?? .unknown
+        let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
+        isFailed = status == .failed
+        if !isLoading, seekAfterLoad {
+            seekAfterLoad = false
+            // The delay is needed only for videos episodes.
+            // For some reason the AVPlayerViewController does not accept seeks immediately after loading, and resets the position to zero
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) { [weak self] in
+                self?.playbackManager.seekToStartingPosition()
+            }
+        }
     }
 
     func loadEpisodeArtwork() {
@@ -239,6 +236,14 @@ class NowPlayingViewModel: Identifiable {
     func unarchive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+    }
+
+    var errorMessage: String {
+        return playbackManager.activeError?.shortUserMessage ?? L10n.playerErrorShortPlaybackError
+    }
+
+    var isTrimSilenceAvailable: Bool {
+        return playbackManager.silenceRemovalAvailable()
     }
 
     fileprivate func observeUpNextChanges() {

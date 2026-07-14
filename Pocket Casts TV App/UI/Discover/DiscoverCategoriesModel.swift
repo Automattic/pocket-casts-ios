@@ -25,10 +25,17 @@ class DiscoverCategoriesModel {
         case loading
         case ready
         case empty
+        case failed
     }
 
     func load() async {
-        let categories = await discoverManager.loadDiscoverCategories(popularOnly: popularOnly)
+        let categories: [DiscoverCategory]
+        do {
+            categories = try await discoverManager.loadDiscoverCategories(popularOnly: popularOnly)
+        } catch {
+            await MainActor.run { state = .failed }
+            return
+        }
         let region = await discoverManager.currentRegion()
 
         await MainActor.run {
@@ -36,6 +43,12 @@ class DiscoverCategoriesModel {
             self.categories = categories
             self.region = region
         }
+    }
+
+    @MainActor
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     func trackPillTapped(_ category: DiscoverCategory) {

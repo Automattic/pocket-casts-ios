@@ -50,8 +50,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
-    var changedViaSwipeToRemove = false
-
     let remainingLabel = ThemeableLabel()
     // Use HitTargetButton so these small header controls meet Apple's recommended 44x44pt minimum tap target without changing their visible size.
     let shuffleButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
