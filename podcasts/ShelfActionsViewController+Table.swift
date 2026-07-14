@@ -56,8 +56,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             // Disable transcript if not available
             let isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
             if isTranscriptsAndIsDisable {
-                cell.actionIcon.tintColor = ThemeColor.playerContrast06()
-                cell.actionName.textColor = ThemeColor.playerContrast06()
+                cell.actionIcon.tintColor = ThemeColor.playerContrast04()
+                cell.actionName.textColor = ThemeColor.playerContrast04()
             }
         } else {
             cell.actionName.text = action.title(episode: nil)

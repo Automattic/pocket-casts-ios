@@ -16,7 +16,6 @@ class UpNextChangesDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type = ?", values: [UpNextChanges.Actions.replace.rawValue])
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     replaceAction = self.createFrom(resultSet: resultSet)
@@ -34,7 +33,6 @@ class UpNextChangesDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type != ?", values: [UpNextChanges.Actions.replace.rawValue])
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let action = self.createFrom(resultSet: resultSet)

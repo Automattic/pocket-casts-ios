@@ -419,7 +419,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     /// Only sets a non-empty value so we never clear an HLS url a feed refresh already provided
     /// (the server may omit alternate enclosures even when the episode has one). Not gated behind
     /// `FeatureFlag.hls` — like the feed-refresh paths, we always store the url; the flag only gates
-    /// whether it's actually used for streaming (`EpisodeManager.isStreamingHLS`).
+    /// whether the HLS url is eligible for use (`EpisodeManager.hasHLSStream`). Whether it's the
+    /// resolved playback source is a separate question (`EpisodeManager.willPlayViaHLS`) — a downloaded
+    /// episode still plays its local/progressive file.
     private func updateHLSUrlIfNeeded(for baseEpisode: BaseEpisode, from episodeInfo: Api_UpNextResponse.EpisodeResponse) {
         guard let episode = baseEpisode as? Episode,
               let hlsUrl = episodeInfo.alternateEnclosures.hlsUrl, !hlsUrl.isEmpty,

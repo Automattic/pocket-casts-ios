@@ -648,6 +648,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
+    case settingsGeneralAudioOnlyToggled
     case settingsGeneralExtraPlaybackActionsToggled
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
@@ -740,6 +741,11 @@ enum AnalyticsEvent: String {
     case settingsGetSupport
     case settingsLeaveFeedback
     case exportDatabaseTapped
+
+    // MARK: - Settings: Troubleshooting
+
+    case troubleshootingOrphanedEpisodesRemoveConfirmed
+    case troubleshootingOrphanedEpisodesRemoved
 
     // MARK: - Settings: Import / Export OPML
 

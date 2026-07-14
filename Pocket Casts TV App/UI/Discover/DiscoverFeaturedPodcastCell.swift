@@ -72,6 +72,7 @@ struct DiscoverFeaturedPodcastCell: View {
                     HStack(spacing: 24) {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
+                                AnalyticsPlaybackHelper.shared.currentSource = .discover
                                 let successPlay = await TVDataManager.shared.playLatestEpisode(of: podcast)
                                 await MainActor.run {
                                     if successPlay {
@@ -87,9 +88,15 @@ struct DiscoverFeaturedPodcastCell: View {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
-                            if let listId, let podcastUuid = podcast.uuid {
+                            guard let podcastUuid = podcast.uuid else {
+                                return
+                            }
+                            if let listId {
                                 DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
                             }
+                            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUuid])
+                            AnalyticsHelper.openedFeaturedPodcast()
+                            DiscoverAnalytics.currentFeaturedPodcast = podcastUuid
                         })
                         .focused($focusedButton, equals: FocusValues.goPodcast)
                     }
@@ -103,7 +110,7 @@ struct DiscoverFeaturedPodcastCell: View {
             if axis == .vertical {
                 return Layout.cardHeight
             } else {
-                return length * 0.92
+                return length * 0.9
             }
         }
         .blurredCoverBackground(size: Layout.imageSize) {
@@ -114,7 +121,7 @@ struct DiscoverFeaturedPodcastCell: View {
         .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .focusedCardDepth(isFocused: focusedButton != nil, cornerRadius: 12)
-        .scaleEffect(focusedButton != nil ? 1 : 0.95)
+        .scaleEffect(focusedButton != nil ? 1.05 : 1)
         .animation(.default, value: focusedButton)
         .focusSection()
         .focusScope(ns)

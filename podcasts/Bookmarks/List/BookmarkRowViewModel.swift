@@ -3,45 +3,44 @@ import PocketCastsUtils
 import PocketCastsDataModel
 import PocketCastsServer
 
+@MainActor
 class BookmarkRowViewModel: ObservableObject {
-    @Published var heading: String?
-    let title: String
-    let subtitle: String
-    let playButton: String
-    @Published var episode: BaseEpisode?
+    @Published private(set) var heading: String?
+    @Published private(set) var episode: BaseEpisode?
 
-    init(bookmark: Bookmark) {
-        self.episode = bookmark.episode
-        self.title = bookmark.title
-        self.playButton = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
-        self.subtitle = DateFormatter.localizedString(from: bookmark.created,
-                                                      dateStyle: .medium,
-                                                      timeStyle: .short)
-        if let episode {
-            updateFromEpisode(episode)
-        } else {
-            loadEpisode(from: bookmark)
-        }
-    }
+    private var episodeUuid: String?
 
-    private func updateFromEpisode(_ episode: BaseEpisode) {
-        self.episode = episode
-        self.heading = episode.title
-    }
+    /// Loads the bookmark's episode so the row can display its title and artwork
+    func configure(with bookmark: Bookmark) async {
+        guard episodeUuid != bookmark.episodeUuid else { return }
+        episodeUuid = bookmark.episodeUuid
 
-    private func loadEpisode(from bookmark: Bookmark) {
-        // Get the bookmark's BaseEpisode so we can load it
-        let dataManager = DataManager.sharedManager
-        if let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
-            updateFromEpisode(episode)
-        } else if let podcastUuid = bookmark.podcastUuid {
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid) { [weak self] episode in
-                if let episode {
-                    DispatchQueue.main.async {
-                        self?.updateFromEpisode(episode)
-                    }
-                }
+        let episode = await Self.loadEpisode(for: bookmark)
+
+        if Task.isCancelled {
+            // Let the next appearance retry the interrupted load
+            if episodeUuid == bookmark.episodeUuid {
+                episodeUuid = nil
             }
+            return
         }
+
+        if let episode {
+            self.episode = episode
+            self.heading = episode.title
+        }
+    }
+
+    @concurrent
+    nonisolated private static func loadEpisode(for bookmark: Bookmark) async -> BaseEpisode? {
+        if let episode = bookmark.episode ?? DataManager.sharedManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
+            return episode
+        }
+
+        guard let podcastUuid = bookmark.podcastUuid else {
+            return nil
+        }
+
+        return try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid)
     }
 }
