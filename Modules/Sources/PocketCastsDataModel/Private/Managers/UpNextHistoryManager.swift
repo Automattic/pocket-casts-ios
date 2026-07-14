@@ -38,7 +38,6 @@ public class UpNextHistoryManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT COUNT(*) as count, date FROM PlaylistEpisodeHistory GROUP BY (date) ORDER BY date DESC", values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next(), let date = resultSet.date(forColumn: "date") {
                     entries.append(UpNextHistoryEntry(date: date, episodeCount: Int(resultSet.int(forColumn: "count"))))
@@ -56,7 +55,6 @@ public class UpNextHistoryManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT episodeUuid FROM PlaylistEpisodeHistory WHERE date = ? ORDER BY episodePosition ASC", values: [entry])
-                defer { resultSet.close() }
 
                 while resultSet.next(), let episodeUuid = resultSet.string(forColumn: "episodeUuid") {
                     episodesUuid.append(episodeUuid)

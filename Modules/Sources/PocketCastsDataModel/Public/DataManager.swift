@@ -1146,7 +1146,6 @@ public class DataManager {
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
-                resultSet.close()
             } catch {
                 FileLog.shared.addMessage("DataManager.count error: \(error)")
             }

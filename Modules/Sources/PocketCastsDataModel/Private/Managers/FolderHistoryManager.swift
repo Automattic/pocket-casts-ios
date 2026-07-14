@@ -33,7 +33,6 @@ public class FolderHistoryManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT COUNT(*) as count, date FROM PodcastFoldersHistory GROUP BY (date) ORDER BY date DESC", values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let date = resultSet.date(forColumn: "date") {
@@ -53,7 +52,6 @@ public class FolderHistoryManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT podcastUuid, folderUuid FROM PodcastFoldersHistory WHERE date = ?", values: [entry])
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let podcastUuid = resultSet.string(forColumn: "podcastUuid"),
