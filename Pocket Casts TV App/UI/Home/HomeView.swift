@@ -94,11 +94,11 @@ struct HomeView: View {
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
                 if let uuid = podcast.uuid {
-                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscover: true))
                 }
             }
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-                DiscoverPodcastsListView(category: discoverCategory)
+                DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.homeSource)
             }
             .navigationDestination(for: Podcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
@@ -191,7 +191,7 @@ struct HomeView: View {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
-                        EpisodePlayerButton(model: episode)
+                        newReleaseButton(model: episode)
                             .frame(width: 864)
                             .setFocus(section: Section.homeNewReleases.rawValue)
                     }
@@ -199,6 +199,17 @@ struct HomeView: View {
             }
             .scrollClipDisabled()
         }
+    }
+
+    func newReleaseButton(model: EpisodeRowViewModel) -> some View {
+        Button {
+            model.play()
+            showNowPlayingPlayer = true
+        } label: {
+            EpisodeRow(model: model, isActive: false)
+        }
+        .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model, context: .other(showGoToPodcast: true))
     }
 }
 

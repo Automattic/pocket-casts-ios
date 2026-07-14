@@ -301,13 +301,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
 
-        if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.importUserDefaults()
-                DataManager.sharedManager.importPodcastSettings()
-            }
-        }
-
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
         FeatureFlag.allCases.forEach { flag in

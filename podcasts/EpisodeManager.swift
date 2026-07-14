@@ -421,6 +421,29 @@ class EpisodeManager: NSObject {
         return totalFilesSize
     }
 
+    /// Whether the episode has a usable HLS stream given the current feature-flag state — i.e. the HLS
+    /// feature is enabled and the episode advertises a parseable HLS URL. This is a capability check, not
+    /// a resolved-source check: a downloaded episode can still return `true` here even though it will play
+    /// its local file (use `willPlayViaHLS` for the "what will actually play" question). Requires a
+    /// parseable url so this stays consistent with `urlForEpisode`, which falls back to the progressive
+    /// url when the HLS string can't be turned into a `URL`.
+    class func hasHLSStream(_ episode: BaseEpisode) -> Bool {
+        guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
+            return false
+        }
+        return URL(string: hlsUrl) != nil
+    }
+
+    /// Whether the episode will actually play via HLS right now. Downloaded copies take precedence over
+    /// the HLS stream in `urlForEpisode`, so a downloaded episode plays its local (progressive) file and
+    /// is not treated as HLS — this distinguishes that case from `hasHLSStream`.
+    class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
+        guard hasHLSStream(episode) else { return false }
+        if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
+        if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
+        return true
+    }
+
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if !streamingOnly {
             // For local playback, prefer downloaded files
@@ -432,8 +455,15 @@ class EpisodeManager: NSObject {
         }
 
         // For streaming or when no local files, return remote URL
-        if let episode = episode as? Episode, let url = episode.downloadUrl {
-            return URL(string: url)
+        if let episode = episode as? Episode {
+            // When available, default to the HLS stream over the progressive file.
+            // If the HLS url is malformed, fall through to the progressive url rather than failing.
+            if hasHLSStream(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
+                return url
+            }
+            if let url = episode.downloadUrl {
+                return URL(string: url)
+            }
         } else if let episode = episode as? UserEpisode {
             if let token = ServerSettings.syncingV2Token, episode.uploadStatus != UploadStatus.missing.rawValue {
                 return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)")

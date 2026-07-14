@@ -247,6 +247,7 @@ class PCViewController: SimpleNotificationsViewController {
         appearance.configureWithTransparentBackground()
         if scrolled {
             appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = navBgColor ?? ThemeColor.secondaryUi01()
         }
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance

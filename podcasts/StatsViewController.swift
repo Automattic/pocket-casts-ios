@@ -249,6 +249,8 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     @objc private func showHeatmapInfo() {
+        Analytics.track(.heatmapInfoOpened)
+
         let view = ModalMessageView(
             title: L10n.statsListeningActivityInfoTitle,
             message: L10n.statsListeningActivityInfoMessage,

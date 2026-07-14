@@ -49,7 +49,7 @@ public extension UserEpisode {
         uploadStatus = decodeInt32FromString(value: episodeMap["uploadStatus"])
         imageUrl = episodeMap["imageUrl"]
         imageColor = decodeInt32FromString(value: episodeMap["imageColor"])
-        hasCustomImage = decodeBoolFromString(value: "hasCustomImage")
+        hasCustomImage = decodeBoolFromString(value: episodeMap["hasCustomImage"])
         id = decodeInt64FromString(value: episodeMap["episodeId"])
         sizeInBytes = decodeInt64FromString(value: episodeMap["sizeInBytes"])
     }

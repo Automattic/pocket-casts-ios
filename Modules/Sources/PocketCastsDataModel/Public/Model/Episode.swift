@@ -16,6 +16,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var downloadErrorDetails: String?
     @objc public var downloadTaskId: String?
     @objc public var downloadUrl: String?
+    @objc public var hlsUrl: String?
     @objc public var episodeDescription: String?
     @objc public var episodeStatus = 0 as Int32
     @objc public var fileType: String?

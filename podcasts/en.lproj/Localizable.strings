@@ -1273,6 +1273,9 @@
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. */
 "mark_played" = "Mark as Played";
 
+/* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
+"mark_unplayed" = "Mark as Unplayed";
+
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. Similar to 'Mark as Played' but more concise. */
 "mark_played_short" = "Mark Played";
 
@@ -1533,6 +1536,12 @@
 
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
+
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
 
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
@@ -2719,6 +2728,12 @@
 /* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
 "settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
 
+/* Setting toggle to make video episodes play as audio only. */
+"settings_general_audio_only" = "Audio only";
+
+/* Subtitle explaining the toggle that makes video episodes play as audio only. */
+"settings_general_audio_only_subtitle" = "If on, video episodes will play as audio only.";
+
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
 
@@ -2982,6 +2997,51 @@
 
 /* Failure message for the podcast host check. */
 "settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+
+/* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
+"troubleshooting_title" = "Troubleshooting";
+
+/* Section header for the orphaned episodes troubleshooting tool. */
+"troubleshooting_orphaned_episodes_header" = "Orphaned Episodes";
+
+/* Explains what orphaned episodes are and what problems they can cause, shown below the orphaned episodes section. */
+"troubleshooting_orphaned_episodes_description" = "A rare syncing issue can leave behind duplicate episode entries that are no longer linked to their podcast. These can cause an episode's download or playback status to appear incorrect in some parts of the app.";
+
+/* Shown while the app is counting how many orphaned episodes exist on the device. */
+"troubleshooting_orphaned_episodes_checking" = "Checking for orphaned episodes…";
+
+/* Shown when no orphaned episodes are found on the device. */
+"troubleshooting_orphaned_episodes_none_found" = "No orphaned episodes were found";
+
+/* Shown when exactly 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. */
+"troubleshooting_orphaned_episodes_found_singular" = "1 orphaned episode";
+
+/* Shown when more than 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. %1$@ is the number found. */
+"troubleshooting_orphaned_episodes_found_plural_format" = "%1$@ orphaned episodes";
+
+/* Shown while orphaned episodes are being removed. */
+"troubleshooting_orphaned_episodes_removing" = "Removing orphaned episodes…";
+
+/* Button that pushes a screen listing the orphaned episodes found on the device, grouped by podcast. */
+"troubleshooting_view_orphaned_episodes" = "View Orphaned Episodes";
+
+/* Button, and destructive confirmation action, that removes orphaned episodes from the device. */
+"troubleshooting_remove_orphaned_episodes" = "Remove Orphaned Episodes";
+
+/* Title of the confirmation alert shown before removing orphaned episodes. */
+"troubleshooting_remove_orphaned_episodes_confirm_title" = "Remove Orphaned Episodes?";
+
+/* Message of the confirmation alert shown before removing orphaned episodes, warning this is destructive but best-effort preserves episode state. */
+"troubleshooting_remove_orphaned_episodes_confirm_message" = "This will delete the duplicate episode entries found on this device. This action can't be undone, but Pocket Casts will do its best to preserve your playback progress, download status, and other episode details before removing them.";
+
+/* Shown after removing orphaned episodes when none could be removed. */
+"troubleshooting_remove_orphaned_episodes_result_none" = "No orphaned episodes were removed";
+
+/* Shown after removing orphaned episodes when exactly 1 was removed. */
+"troubleshooting_remove_orphaned_episodes_result_singular" = "1 orphaned episode was removed";
+
+/* Shown after removing orphaned episodes when more than 1 was removed. %1$@ is the number removed. */
+"troubleshooting_remove_orphaned_episodes_result_plural_format" = "%1$@ orphaned episodes were removed";
 
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
@@ -6193,6 +6253,18 @@
 /* tv playlist detail play all button title */
 "tv_playlist_detail_play_all" = "Play all episodes";
 
+/* tv Play all dialog title, shown when starting a playlist would clear the current Up Next queue */
+"tv_playlist_play_all_clear_up_next_title" = "This will clear your Up Next";
+
+/* tv Play all dialog message, offering to save the current Up Next queue as a playlist before it is cleared */
+"tv_playlist_play_all_clear_up_next_message" = "We can save your current Up Next as a playlist";
+
+/* tv Play all dialog button that saves the current Up Next as a playlist and then plays the selected playlist */
+"tv_playlist_play_all_save_and_play" = "Save and play";
+
+/* tv Play all dialog button that plays the selected playlist without saving the current Up Next */
+"tv_playlist_play_all_play_without_saving" = "Play without saving";
+
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
 
@@ -6258,6 +6330,9 @@
 
 /* tv toast confirming an episode was marked as played */
 "tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was marked as unplayed */
+"tv_episode_marked_as_unplayed" = "Marked as unplayed";
 
 /* tv toast confirming an episode was archived */
 "tv_episode_archived" = "Archived";
@@ -6458,6 +6533,19 @@
 "tv_podcast_error_title" = "Couldn't load podcast details";
 
 /* Message to shown when failed to load a podcast information*/
-"tv_podcast_error_message" = "Check your internet connection and try again";
+"tv_podcast_error_message" = "Check your internet connection and try again.";
 
 "chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
+
+/* Title shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_title" = "No episodes";
+
+/* Subtitle shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more.";
+
+/* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
+"tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
+
+/* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
+"tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
+

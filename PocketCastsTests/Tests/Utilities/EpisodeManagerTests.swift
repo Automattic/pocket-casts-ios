@@ -2,6 +2,7 @@ import XCTest
 @testable import podcasts
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 final class EpisodeManagerTests: DBTestCase {
 
@@ -203,5 +204,83 @@ final class EpisodeManagerTests: DBTestCase {
       // Then
       XCTAssertFalse(FileManager.default.fileExists(atPath: oldFilePath), "Old file should be removed")
       XCTAssertTrue(FileManager.default.fileExists(atPath: recentFilePath), "Recent file should be kept")
+    }
+
+    // MARK: - HLS streaming
+
+    override func tearDown() {
+        FeatureFlagOverrideStore().resetOverrides()
+        super.tearDown()
+    }
+
+    private func makeStreamingHLSEpisode() -> Episode {
+        let episode = Episode()
+        episode.uuid = "hls-episode"
+        episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+        episode.downloadUrl = "https://example.com/episode.mp3"
+        episode.hlsUrl = "https://example.com/stream.m3u8"
+        return episode
+    }
+
+    func testHasHLSStreamWhenFlagEnabledAndHlsUrlPresent() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        XCTAssertTrue(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
+    }
+
+    func testDoesNotHaveHLSStreamWhenFlagDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
+        XCTAssertFalse(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
+    }
+
+    func testDoesNotHaveHLSStreamWhenHlsUrlMissingOrEmpty() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let noHls = makeStreamingHLSEpisode()
+        noHls.hlsUrl = nil
+        XCTAssertFalse(EpisodeManager.hasHLSStream(noHls))
+
+        let emptyHls = makeStreamingHLSEpisode()
+        emptyHls.hlsUrl = ""
+        XCTAssertFalse(EpisodeManager.hasHLSStream(emptyHls))
+    }
+
+    func testDoesNotHaveHLSStreamForUserEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        XCTAssertFalse(EpisodeManager.hasHLSStream(UserEpisode()))
+    }
+
+    func testUrlForEpisodeStreamsHLSWhenAvailableAndFlagEnabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode())
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/stream.m3u8", "Should stream the HLS url when available")
+    }
+
+    func testUrlForEpisodeStreamsHLSWhenStreamingOnly() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode(), streamingOnly: true)
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/stream.m3u8", "Should stream the HLS url when available")
+    }
+
+    func testUrlForEpisodeUsesProgressiveWhenHLSFlagDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
+
+        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode())
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should fall back to the progressive file when the flag is off")
+    }
+
+    func testUrlForEpisodeUsesProgressiveWhenNoHLS() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.hlsUrl = nil
+
+        let url = EpisodeManager.urlForEpisode(episode)
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should use the progressive file when there is no HLS url")
     }
 }

@@ -635,6 +635,29 @@ Deixe a gente ajudar você primeiro</string>
     <string>Desmarcar tudo acima</string>
     <key>deselect_all_below</key>
     <string>Desmarcar tudo abaixo</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Insira o código</string>
+    <key>device_approve_connect_button</key>
+    <string>Conectar</string>
+    <key>device_approve_description</key>
+    <string>Seu streaming será sincronizado automaticamente.
+Você pode se desconectar a qualquer momento nas Configurações.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Volte para sua TV para gerar um novo.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Seu código QR expirou</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Falha na aprovação do dispositivo</string>
+    <key>device_approve_login_required</key>
+    <string>Para conectar seu dispositivo, você precisa ter uma conta. Faça login ou crie uma conta e tente novamente.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Fazendo login como…</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Seu Apple TV agora está conectado à sua conta.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV conectado</string>
+    <key>device_approve_title</key>
+    <string>Conectar ao Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
     <key>discover</key>
@@ -2745,6 +2768,14 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Adicionar à fila para mais tarde</string>
     <key>queue_now_playing_accessibility</key>
     <string>Reproduzindo agora. %1$@</string>
+    <key>queue_time_remaining</key>
+    <string>Tempo restante: %1$@</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 episódio · Tempo restante: %1$@</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ episódios · Tempo restante: %2$@</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>Tempo restante: %1$@</string>
     <key>rate</key>
     <string>Avaliar</string>
     <key>rate_pocket_casts</key>
@@ -3526,6 +3557,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Definir o temporizador de soneca para %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Estender o temporizador de soneca por 5 minutos</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Marcar como reproduzido</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Marcar episódio atual como reproduzido</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Próximo capítulo</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3832,10 +3867,13 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Tente novamente</string>
     <key>try_it_now</key>
     <string>Experimente já</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Ocorreu um problema e você foi desconectado.
+Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Você foi desconectado.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Crie uma conta gratuita</string>
-    <key>tv_banner_create_account_subtitle</key>
-    <string>Seus seguidores, seu progresso... exatamente onde você os deixou.</string>
     <key>tv_banner_create_account_title</key>
     <string>Uma conta. Todas as telas</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3846,18 +3884,56 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você não viu nem a metade disso.</string>
     <key>tv_create_account_come_back</key>
     <string>Depois de criar sua conta, volte e faça login</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Crie sua conta</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>A TV conectará sua conta</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Leia o código QR</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Crie uma conta gratuita para seguir podcasts, criar sua lista de Próximos e continuar de onde você parou, em qualquer dispositivo.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Seus podcasts merecem um lugar só deles</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Abra a câmera e aponte para este código QR.</string>
     <key>tv_create_account_subtitle</key>
     <string>Leia este código para começar a ouvir no seu telefone. Leva apenas um minuto.</string>
     <key>tv_create_account_title</key>
     <string>Crie uma conta gratuita</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Confirme se você está conectado à internet e tente novamente.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Falha ao carregar Explorar.</string>
     <key>tv_discover_featured_go_to_podcast</key>
     <string>Acessar podcast</string>
     <key>tv_discover_featured_play_latest_episode</key>
     <string>Reproduzir o episódio mais recente</string>
     <key>tv_discover_play_episode</key>
     <string>Reproduzir episódio</string>
+    <key>tv_episode_archived</key>
+    <string>Arquivado</string>
     <key>tv_episode_info</key>
     <string>Informações do episódio</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Marcado como reproduzido</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Removido dos Próximos</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Detalhes do episódio</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Carregando detalhes do episódio…</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Detalhes do episódio</string>
+    <key>tv_episode_unarchived</key>
+    <string>Desarquivado</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Será reproduzido por último</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Será reproduzido em seguida</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Os episódios reproduzidos aparecerão aqui</string>
+    <key>tv_history_empty_title</key>
+    <string>Sem histórico de reprodução</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Procurar categorias</string>
     <key>tv_home_featured_section_title</key>
@@ -3876,6 +3952,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>O que todo mundo está ouvindo esta semana</string>
     <key>tv_home_video_section_title</key>
     <string>Produzido para TV</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Não foi possível obter o código de login</string>
     <key>tv_player_playback_effects</key>
     <string>Efeitos de reprodução</string>
     <key>tv_player_playback_speed</key>
@@ -3914,18 +3992,28 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Sobre</string>
     <key>tv_podcast_detail_all_episodes</key>
     <string>Todos os episódios</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Episódios arquivados</string>
     <key>tv_podcast_detail_follow_title</key>
     <string>Seguir este podcast</string>
     <key>tv_podcast_detail_following_title</key>
     <string>Seguindo</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Ocultar arquivados</string>
     <key>tv_podcast_detail_more_info_title</key>
     <string>Mais informações</string>
     <key>tv_podcast_detail_network</key>
     <string>Rede</string>
     <key>tv_podcast_detail_next_episode</key>
     <string>Próximo episódio</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Os episódios deste podcast aparecerão aqui.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Sem episódios</string>
     <key>tv_podcast_detail_schedule</key>
     <string>Programação</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Mostrar arquivados</string>
     <key>tv_podcast_detail_start_here</key>
     <string>Comece por este episódio</string>
     <key>tv_podcast_detail_start_here_subtitle</key>
@@ -3936,8 +4024,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Encontrar podcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Os podcasts seguidos aparecem aqui, prontos para reprodução.</string>
-    <key>tv_podcasts_empty_title</key>
-    <string>Hora de encher esta seção.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Abre as opções de perfil e conta</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -3948,8 +4034,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Fazer login</string>
     <key>tv_profile_menu_log_out</key>
     <string>Fazer logout</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Isso remove todos os podcasts e dados baixados deste Apple TV. Você pode fazer login novamente para restaurá-los.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Fazer logout?</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Episódios favoritos</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Buscando episódios mais recentes</string>
     <key>tv_search_failed</key>
     <string>Falha na pesquisa: %1$@</string>
     <key>tv_search_prompt</key>
@@ -3970,10 +4062,16 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Fazer login no Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Carregando os seus podcasts agora.</string>
-    <key>tv_signing_in_title</key>
-    <string>Que bom ver você!</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Recomendação do Pocket Casts</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Favorite episódios para mantê-los fáceis de acessar, e eles aparecerão aqui</string>
+    <key>tv_starred_empty_title</key>
+    <string>Sem episódios favoritados</string>
     <key>tv_tab_home</key>
     <string>Início</string>
+    <key>tv_tab_now_playing</key>
+    <string>Reproduzindo agora</string>
     <key>tv_tab_playlists</key>
     <string>Playlists</string>
     <key>tv_tab_podcasts</key>
@@ -3994,10 +4092,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Usuário/senha</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Nome de usuário</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Navegar sem uma conta</string>
     <key>tv_welcome_create_free_account</key>
     <string>Crie uma conta gratuita</string>
+    <key>tv_welcome_log_in</key>
+    <string>Fazer login</string>
     <key>tv_welcome_subtitle</key>
     <string>Seus podcasts agora na TV. Nada faz mais sentido.</string>
     <key>tv_welcome_title</key>
@@ -4032,6 +4134,16 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Apresentamos a ordem aleatória</string>
     <key>up_next_shuffle_toast_message</key>
     <string>A ordem aleatória está ativada. Os episódios serão reproduzidos aleatoriamente.</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Mais longo para o mais curto</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Mais recente para o mais antigo</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Mais antigo para o mais recente</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Mais curto para o mais longo</string>
+    <key>up_next_sort_title</key>
+    <string>Ordenar Próximos</string>
     <key>upgrade_account</key>
     <string>Fazer upgrade de conta</string>
     <key>upgrade_account_info</key>

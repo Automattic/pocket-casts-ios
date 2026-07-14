@@ -135,8 +135,36 @@ struct PodcastDetailView: View {
         }
     }
 
+    @State private var lastFocus: String?
+    @FocusState private var currentFocus: String?
+
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(model: episode, focus: $rowFocus)
+        EpisodeRowWithActions(model: episode, focus: $rowFocus, detailsDismissed: {
+            currentFocus = lastFocus
+        })
+        .focused($currentFocus, equals: episode.id)
+    }
+
+    private var sortMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(PodcastEpisodeSortOrder.allCases, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
+        }
+        .buttonStyle(MoreButtonStyle())
     }
 
     private var archivedFilterMenu: some View {
@@ -223,12 +251,13 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack(alignment: .center) {
+                HStack(alignment: .center, spacing: 8) {
                     Text(L10n.tvPodcastDetailAllEpisodes)
                         .font(.title3)
                         .foregroundStyle(Color.pcTextPrimary)
                     Spacer()
                     archivedFilterMenu
+                    sortMenu
                 }
                 .padding(.top, 40)
                 .padding(.bottom, 32)
@@ -238,6 +267,14 @@ struct PodcastDetailView: View {
         .padding(.horizontal, 24)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
+        .onChange(of: rowFocus) { _, new in
+            if let new {
+                lastFocus = new.episodeID
+            }
+        }
+        .onAppear {
+            currentFocus = lastFocus
+        }
     }
 }
 

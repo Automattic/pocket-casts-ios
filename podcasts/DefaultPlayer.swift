@@ -21,6 +21,17 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private var isPlayingLocalFile = false
 
+    /// Whether the current episode is being streamed over HLS. HLS is streamed directly (never cached),
+    /// so it needs extra buffering headroom and a capped playback rate to avoid stalling.
+    private var isStreamingHLS = false
+
+    /// Larger forward buffer for HLS so higher playback rates don't starve the pipeline and stall.
+    private static let hlsForwardBufferDuration: TimeInterval = 60
+
+    /// HLS streams can't reliably sustain playback above this rate, and the time-domain pitch
+    /// algorithm degrades past it, so the applied rate is capped here for HLS.
+    private static let hlsMaxPlaybackRate: Double = 2.0
+
     // Keep track of the previous playback and waiting state
     private var previousReasonForWaiting: AVPlayer.WaitingReason?
     private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
@@ -30,6 +41,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
     private var timeControlStatusObserver: NSKeyValueObservation?
+    private var presentationSizeObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -80,6 +92,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         isWaitingForInitialPlayback = true
 
+        isStreamingHLS = EpisodeManager.willPlayViaHLS(episode)
+
+        // Set the pitch algorithm once here rather than re-applying it on every rate change. For HLS,
+        // give the pipeline more buffered audio so higher playback rates don't starve it and stall.
+        playerItem.audioTimePitchAlgorithm = .timeDomain
+        if isStreamingHLS {
+            playerItem.preferredForwardBufferDuration = Self.hlsForwardBufferDuration
+        }
+
         player = AVPlayer(playerItem: playerItem)
 
         episodeUuid = episode.uuid
@@ -103,6 +124,45 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         #endif
 
         configurePlayer(videoPodcast: episode.videoPodcast())
+
+        disableSubtitles(for: playerItem)
+
+        detectVideoTracksIfNeeded(for: episode, playerItem: playerItem)
+    }
+
+    /// We don't offer a subtitle/caption UI, but AVPlayer will otherwise turn subtitles on by default
+    /// when a stream has a `DEFAULT=YES` legible rendition or when the system "Closed Captions + SDH"
+    /// accessibility setting is enabled. Prevent automatic selection and deselect any legible track.
+    private func disableSubtitles(for playerItem: AVPlayerItem) {
+        player?.appliesMediaSelectionCriteriaAutomatically = false
+
+        Task { @MainActor in
+            if let group = try? await playerItem.asset.loadMediaSelectionGroup(for: .legible) {
+                playerItem.select(nil, in: group)
+            }
+        }
+    }
+
+    /// An HLS stream can carry video that isn't reflected in the episode's file type. HLS doesn't
+    /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
+    /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
+    private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
+        guard isStreamingHLS, !episode.videoPodcast() else { return }
+
+        let episodeUuid = episode.uuid
+        presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in
+            let size = item.presentationSize
+            guard size.width > 0, size.height > 0 else { return }
+
+            DispatchQueue.main.async {
+                guard let self, self.presentationSizeObserver != nil else { return }
+                self.presentationSizeObserver = nil
+#if !os(watchOS)
+                self.player?.allowsExternalPlayback = true
+#endif
+                PlaybackManager.shared.handleVideoTracksDetected(forEpisode: episodeUuid)
+            }
+        }
     }
 
     func isReadyToPlay() -> Bool {
@@ -321,8 +381,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             }
 
             #if !os(watchOS)
-                createAudioMix()
-                player?.currentItem?.audioMix = audioMix
+                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
+                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
+                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
+                // video honors it. Only attach it when we actually found an audio track.
+                if assetTrack != nil {
+                    createAudioMix()
+                    player?.currentItem?.audioMix = audioMix
+                }
             #endif
 
             isWaitingForInitialPlayback = false
@@ -669,9 +735,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             requiredPlaybackRate = 1.0
         }
 
-        player?.rate = Float(requiredPlaybackRate)
+        // Cap the applied rate for HLS streams; they can't sustain higher rates without stalling.
+        let effectiveRate = isStreamingHLS ? min(requiredPlaybackRate, Self.hlsMaxPlaybackRate) : requiredPlaybackRate
 
-        player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
+        player?.rate = Float(effectiveRate)
     }
 
     private func jumpToStartingPosition() {
@@ -865,7 +932,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
             guard let self else { return }
             FileLog.shared.addMessage("Received notification of playback stall")
-            if self.shouldKeepPlaying {
+            guard self.shouldKeepPlaying else { return }
+
+            if self.isStreamingHLS {
+                // Recovering an HLS stall via play() re-seeks to the resume position, which flushes the
+                // HLS buffer and triggers another stall — a runaway loop at higher rates. Just re-apply
+                // the rate and let AVPlayer resume once it has buffered enough, without seeking.
+                FileLog.shared.addMessage("Trying to recover from HLS stall without seeking")
+                self.performSetPlaybackRate()
+            } else {
                 FileLog.shared.addMessage("Trying to recover from stall by playing")
                 self.play(completion: nil)
             }
@@ -879,6 +954,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playerStatusObserver = nil
         playerItemStatusObserver = nil
         timeControlStatusObserver = nil
+        presentationSizeObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)

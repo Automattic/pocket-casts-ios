@@ -47,6 +47,22 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let shouldDeactivateSession = AtomicBool()
     private var haveCalledPlayerLoad = false
 
+    /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
+    /// emitted once when playback actually starts (not on resume/seek) and again after the player
+    /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`. Atomic because it's mutated
+    /// from the `activateAudioSession` completion, which can run off the main queue.
+    private let hasReportedSourceResolved = AtomicBool()
+
+    /// Set at runtime when the currently playing stream is found to contain video tracks
+    /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
+    /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
+    /// Atomic because it's read from now-playing updates that can run off the main queue.
+    private let currentStreamContainsVideo = AtomicBool()
+
+    /// Whether the video of the current stream should be rendered. Defaults to on; the user can
+    /// switch an HLS video stream to audio-only via the player shelf toggle. Reset per episode.
+    private let videoRenderingEnabled = AtomicBool(true)
+
     private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
@@ -222,6 +238,49 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
+    func loadCurrentEpisode() {
+        guard let currEpisode = currentEpisode() else { return }
+        if playerSwitchRequired() {
+            load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
+        }
+        if !haveCalledPlayerLoad {
+            player?.loadEpisode(currEpisode)
+            haveCalledPlayerLoad = true
+        }
+    }
+
+    func seekToStartingPosition() {
+        let startingTime = requiredStartingPosition()
+        player?.play { [weak self] in
+            self?.seekTo(time: startingTime, startPlaybackAfterSeek: false)
+            self?.player?.pause()
+        }
+    }
+
+    func ensureAudioSessionActivated() {
+        guard let currEpisode = currentEpisode() else { return }
+        activateAudioSession(completion: { activated in
+            if !activated {
+                self.aboutToPlay.value = false
+                return
+            }
+
+            self.startUpdateTimer()
+            self.updateCommandCenterSkipTimes(addTarget: false)
+            self.updateExtraActions()
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
+
+            if currEpisode.videoPodcast() {
+                self.setAudioSessionVideoProperties()
+            }
+
+            self.updateIdleTimer()
+
+            self.sleepTimerManager.restartSleepTimerIfNeeded()
+        })
+    }
+
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 
@@ -241,9 +300,22 @@ class PlaybackManager: ServerPlaybackDelegate {
             haveCalledPlayerLoad = true
         }
 
+        // Marked synchronously (before the async audio-session activation) so concurrent `play()`
+        // calls can't each capture `true` and report twice for the same player. Only engaged when
+        // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
+        // later in the session.
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
+        if shouldReportSourceResolved {
+            hasReportedSourceResolved.value = true
+        }
+
         activateAudioSession(completion: { activated in
             if !activated {
                 self.aboutToPlay.value = false
+                // Playback didn't start, so allow a later retry to report the resolved source.
+                if shouldReportSourceResolved {
+                    self.hasReportedSourceResolved.value = false
+                }
                 return
             }
 
@@ -255,6 +327,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             self.updateExtraActions()
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
+
+            // Report the source the player resolved now that playback has actually started, once per
+            // player (resumes/seeks reuse the same player and don't re-report). Only report if the
+            // current episode still matches the one we started: activation can run async, and if the
+            // user has since switched episodes the new play cycle reports its own resolved source.
+            if shouldReportSourceResolved, self.currentEpisode()?.uuid == currEpisode.uuid {
+                self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
+            }
 
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
@@ -300,6 +380,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             play()
         }
+    }
+
+    var isReadyToPlay: Bool {
+        player?.isReadyToPlay() ?? false
     }
 
     func skipBack() {
@@ -739,6 +823,61 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
+    /// Whether the current episode should be presented as video, considering the feed metadata
+    /// (`videoPodcast()`), any video tracks detected at runtime in the stream, and actual HLS playback
+    /// (`willPlayViaHLS`), which we assume is video.
+    func isCurrentEpisodeVideo() -> Bool {
+        guard let episode = currentEpisode() else { return false }
+        // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
+        // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
+        // is actually HLS (a downloaded episode plays its local file, which may not be video).
+        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
+    }
+
+    /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
+    /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
+    private var isAudioOnlyForced: Bool {
+        FeatureFlag.hls.enabled && Settings.audioOnly
+    }
+
+    /// Whether the video surface should currently be shown. Video content can be present
+    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
+    /// or the global "Audio only" setting.
+    func shouldRenderVideo() -> Bool {
+        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
+    }
+
+    var isVideoRenderingEnabled: Bool {
+        videoRenderingEnabled.value
+    }
+
+    /// Whether the audio/video toggle should be offered for the current stream. Only HLS streams
+    /// found to carry video (not static video podcasts) can be switched to audio-only. When the global
+    /// "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
+    func canToggleVideoRendering() -> Bool {
+        FeatureFlag.hls.enabled && !isAudioOnlyForced && currentStreamContainsVideo.value && (currentEpisode() is Episode)
+    }
+
+    /// Toggles whether the current HLS stream's video surface is shown. When disabled the player
+    /// shows the episode artwork instead of the video; playback and video decoding are unaffected
+    /// (this is a display-only switch).
+    func toggleVideoRendering() {
+        guard canToggleVideoRendering() else { return }
+        videoRenderingEnabled.toggle()
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
+    }
+
+    /// Called by the player when it detects video tracks in the stream it is playing.
+    /// Used for HLS streams whose video content isn't reflected in the episode's file type.
+    func handleVideoTracksDetected(forEpisode episodeUuid: String) {
+        guard currentEpisode()?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
+        currentStreamContainsVideo.value = true
+        setAudioSessionVideoProperties()
+        // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
+        refreshNowPlayingInfo(forceFullRebuild: true)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
+    }
+
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -857,22 +996,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // persist changes
         if effects.isGlobal {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.trimSilence = TrimSilence(amount: effects.trimSilence)
-                SettingsStore.appSettings.volumeBoost = effects.volumeBoost
-                SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
-            } else {
-                UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
-                UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
-                UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
-            }
+            UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
+            UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
+            UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
-            if FeatureFlag.newSettingsStorage.enabled {
-                podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
-                podcast.settings.playbackSpeed = effects.playbackSpeed
-                podcast.settings.boostVolume = effects.volumeBoost
-                podcast.syncStatus = SyncStatus.notSynced.rawValue
-            }
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
@@ -903,6 +1030,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     func increasePlaybackSpeed() {
         let playbackEffects = effects()
         if playbackEffects.playbackSpeed > 4.9 { return }
+
+        // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
+        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= 2 { return }
 
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
@@ -952,13 +1082,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
+        // Trim silence relies on the EffectsPlayer audio engine; HLS plays through AVPlayer, which can't do it.
         #if APPCLIP
         if let episode = currentEpisode() {
-            return !episode.videoPodcast()
+            return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode)
         }
         #elseif !os(watchOS) && !os(tvOS)
             if let episode = currentEpisode() {
-                return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
         #endif
 
@@ -966,6 +1097,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
+        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't
+        // expose. The tap logic in DefaultPlayer is compiled on tvOS too, so exclude HLS there as well.
+        #if !os(watchOS)
+        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+            return false
+        }
+        #endif
+
         #if APPCLIP || os(tvOS)
             return true
         #elseif os(watchOS)
@@ -1100,6 +1239,23 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         static let knownURLErrors: [Int] = [NSURLErrorResourceUnavailable, NSURLErrorBadServerResponse, NSURLErrorUserAuthenticationRequired, NSURLErrorFileDoesNotExist, NSURLErrorZeroByteResource]
+
+        /// A short, stable, human-readable category for the failure, reported as `hls_error_detail`
+        /// on `playback_failed` (mirrors the web player). Distinct from the free-form `logMessage`.
+        var analyticsDetail: String {
+            switch self {
+            case .internetConnection:
+                return "internet_connection"
+            case .episodeNotAvailable:
+                return "episode_not_available"
+            case .fileCorrupted:
+                return "file_corrupted"
+            case .chromecastError:
+                return "chromecast_error"
+            case .playbackError:
+                return "playback_error"
+            }
+        }
     }
 
     var activeError: PlaybackError?
@@ -1107,7 +1263,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
-        AnalyticsPlaybackHelper.shared.playbackFailed(episodeUUID: currentEpisode()?.uuid ?? "unknown", error: error.logMessage ?? "Unknown", player: player)
+        AnalyticsPlaybackHelper.shared.playbackFailed(episode: currentEpisode(), error: error.logMessage ?? "Unknown", hlsErrorDetail: error.analyticsDetail, player: player)
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
@@ -1200,7 +1356,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             Analytics.track(.playerEpisodeCompleted, properties: [
                 "podcast_uuid": episode.parentIdentifier(),
                 "episode_uuid": episode.uuid
-            ])
+            ].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: episode)) { current, _ in current })
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
@@ -1215,6 +1371,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 episode.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
             }
             DataManager.sharedManager.save(episode: episode)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
 
             if SyncManager.isUserLoggedIn() {
                 FileLog.shared.addMessage("Sending playback completed to API server")
@@ -1383,7 +1540,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         #if !os(watchOS) && !os(tvOS)
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+        // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
+        // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
+        let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
@@ -1395,6 +1555,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
+        hasReportedSourceResolved.value = false
+        currentStreamContainsVideo.value = false
+        videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         if let player {
@@ -1674,6 +1837,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func updateNowPlayingInfo() {
+        refreshNowPlayingInfo(forceFullRebuild: false)
+    }
+
+    /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
+    ///   only refreshing progress. Needed when a value like the media type changes for the same
+    ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
+    private func refreshNowPlayingInfo(forceFullRebuild: Bool) {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
@@ -1691,9 +1861,17 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #if os(watchOS)
-            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #else
-            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            if forceFullRebuild {
+                NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            } else {
+                NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+            }
         #endif
     }
 
@@ -1761,19 +1939,22 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Remote Control support
+    func remotePlayPauseToggle() {
+        guard self.currentEpisode() != nil else {
+            return
+        }
+        analyticsPlaybackHelper.currentSource = self.commandCenterSource
+        FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
+        playPause()
+    }
 
     private var lastSeekTime = Date()
     private func setupRemoteControlSupport() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-            guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
-
-            FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
-            strongSelf.playPause()
-
+            guard let self, let _ = self.currentEpisode() else { return .noActionableNowPlayingItem }
+            remotePlayPauseToggle()
             return .success
         }
 
@@ -2273,7 +2454,9 @@ class PlaybackManager: ServerPlaybackDelegate {
            !episodeIsChanging,
            effects().trimSilence == .off,
            !playerSwitchRequired(),
-           !refreshedEpisode.videoPodcast() {
+           !refreshedEpisode.videoPodcast(),
+           // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
+           !EpisodeManager.hasHLSStream(refreshedEpisode) {
             return false
         } else {
             if !episodeIsChanging {
@@ -2331,12 +2514,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !os(watchOS)
             DispatchQueue.main.async {
                 if self.playing() {
-                    let keepScreenOn: Bool
-                    if FeatureFlag.newSettingsStorage.enabled {
-                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
-                    } else {
-                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
-                    }
+                    let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false
@@ -2358,7 +2536,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
                 FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
                 queue.add(episode: nextEpisode, fireNotification: false)
-                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
+                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode)) { current, _ in current })
                 return
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)

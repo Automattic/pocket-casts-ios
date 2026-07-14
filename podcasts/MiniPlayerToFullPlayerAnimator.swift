@@ -41,8 +41,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         transition == .presenting
     }
 
-    private var isVideoPodcast: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    private var isVideoShown: Bool {
+        PlaybackManager.shared.shouldRenderVideo()
     }
 
     init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0, fullPlayerYPosition: CGFloat = 0) {
@@ -143,7 +143,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
 
         // Artwork is not animated if it's a video podcast
-        if !isVideoPodcast {
+        if !isVideoShown {
 
             // We need a mini player artwork snapshot when dismissing
             // to ensure a smooth transition and that the shadows are
@@ -272,7 +272,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             gradientView.layer.opacity = isPresenting ? 0 : 1
         } completion: { _ in
-            self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
+            self.fullPlayerArtwork.layer.opacity = !self.isVideoShown ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
 
             artwork?.removeFromSuperview()

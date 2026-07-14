@@ -199,7 +199,7 @@ private extension SearchResultCell {
                         .renderingMode(.template)
                         .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                         .frame(width: 48, height: 48)
-                } else if FeatureFlag.searchImprovements.enabled && !showEpisodeAddButton {
+                } else if !showEpisodeAddButton {
                     EpisodeActionButton(model: self.model)
                         .frame(width: 48, height: 48)
                 }

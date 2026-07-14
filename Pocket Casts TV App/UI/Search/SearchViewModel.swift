@@ -15,7 +15,7 @@ enum SearchScope: CaseIterable, Equatable {
         }
     }
 
-    /// Matches the iOS `SearchResultsListView.DisplayMode` analytics values.
+    /// Matches the iOS `SearchDisplayMode` analytics values.
     var analyticsDescription: String {
         switch self {
         case .podcasts:
@@ -205,6 +205,7 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func playEpisode(_ episode: EpisodeSearchResult) async -> Bool {
+        AnalyticsPlaybackHelper.shared.currentSource = .search
         return await tvDataManager.playEpisode(episode)
     }
 }

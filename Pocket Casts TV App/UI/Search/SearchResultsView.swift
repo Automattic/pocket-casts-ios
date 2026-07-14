@@ -55,7 +55,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
         }
         .navigationDestination(for: DiscoverPodcast.self) { podcast in
             if let uuid = podcast.uuid {
-                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscover: true))
             }
         }
         .animation(.easeInOut, value: model.state)
@@ -106,6 +106,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                             "result_type": "episode"
                         ])
                         Task {
+
                             let playSuccess = await model.playEpisode(episode)
                             await MainActor.run {
                                 if playSuccess {

@@ -129,19 +129,12 @@ public class ServerSettings {
     // MARK: Marketing Opt In
 
     public class func setMarketingOptIn(_ value: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.marketingOptIn = value
-        }
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.marketingOptInKey)
         UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.marketingOptInNeedsSyncKey)
     }
 
     public class func marketingOptIn() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.marketingOptIn
-        } else {
-            return UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey)
-        }
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey)
     }
 
     public class func marketingOptInNeedsSyncing() -> Bool {
@@ -150,6 +143,25 @@ public class ServerSettings {
 
     public class func marketingOptInSynced() {
         UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.marketingOptInNeedsSyncKey)
+    }
+
+    // MARK: Audio Only
+
+    public class func setAudioOnly(_ value: Bool) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.audioOnlyKey)
+        UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
+    }
+
+    public class func audioOnly() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.audioOnlyKey)
+    }
+
+    public class func audioOnlyNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
+    }
+
+    public class func audioOnlySynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
     }
 
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
@@ -303,40 +315,26 @@ public class ServerSettings {
 
     public static let autoAddLimitKey = "AutoAddToUpNextLimit"
     public class func autoAddToUpNextLimit() -> Int {
-        if FeatureFlag.newSettingsStorage.enabled {
-            Int(SettingsStore.appSettings.autoUpNextLimit)
-        } else {
-            UserDefaults.standard.integer(forKey: autoAddLimitKey)
-        }
+        UserDefaults.standard.integer(forKey: autoAddLimitKey)
     }
 
     public class func setAutoAddToUpNextLimit(_ limit: Int) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.autoUpNextLimit = Int32(limit)
-        }
         UserDefaults.standard.setValue(limit, forKey: autoAddLimitKey)
     }
 
     public static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
     public class func onAutoAddLimitReached() -> AutoAddLimitReachedAction {
-        if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.autoUpNextLimitReached
-        } else {
-            let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
+        let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
 
-            return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
-        }
+        return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
     }
 
     public class func setOnAutoAddLimitReached(action: AutoAddLimitReachedAction) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.autoUpNextLimitReached = action
-        }
         UserDefaults.standard.setValue(action.rawValue, forKey: onAutoAddLimitReachedKey)
     }
 
     public class func syncSettings() {
-        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
+        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
 
         ApiServerHandler.shared.syncSettings()
     }

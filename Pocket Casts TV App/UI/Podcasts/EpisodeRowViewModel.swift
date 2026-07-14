@@ -15,15 +15,19 @@ class EpisodeRowViewModel: Identifiable {
     var podcast: Podcast?
     var progress: Double
     var id: String { episode.uuid }
+    var isDiscover: Bool
+    var source: AnalyticsSource
 
     private var cancellables: Set<AnyCancellable> = []
     private let playbackManager: PlaybackManager
 
-    init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
+    init(episode: BaseEpisode, podcast: Podcast?, isDiscover: Bool = false, source: AnalyticsSource, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
+        self.source = source
         self.playbackManager = playbackManager
         self.progress = 0
+        self.isDiscover = isDiscover
         setupObservers()
         self.progress = calculateSafeProgress(from: episode)
     }
@@ -80,7 +84,11 @@ class EpisodeRowViewModel: Identifiable {
 
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
+        AnalyticsPlaybackHelper.shared.currentSource = source
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+        if isDiscover, let podcastUuid {
+            DiscoverAnalytics.discoverPodcastPlayed(podcastUuid: podcastUuid)
+        }
     }
 
     func playNext() {
@@ -94,6 +102,15 @@ class EpisodeRowViewModel: Identifiable {
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         ToastManager.shared.show(L10n.tvEpisodeMarkedAsPlayed)
+    }
+
+    func markAsUnplayed() {
+        EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.tvEpisodeMarkedAsUnplayed)
+    }
+
+    var isPlayed: Bool {
+        episode.played()
     }
 
     var canArchive: Bool {
@@ -134,6 +151,20 @@ class EpisodeRowViewModel: Identifiable {
         .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] notification in
+            guard let self else {
+                return
+            }
+            if let uuid = notification.object as? String, uuid == episode.uuid {
+                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                    episode = newEpisode
+                }
+            }
+        }
+        .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.episodePlayStatusChanged)
         .receive(on: DispatchQueue.main)
         .sink { [weak self] notification in
             guard let self else {

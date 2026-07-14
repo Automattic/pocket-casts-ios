@@ -19,18 +19,8 @@ extension PCSearchBarController {
     @objc private func searchTimerFired() {
         searchTimer = nil
 
-        guard let searchTerm = searchTextField.text?.trim() else { return }
-        if FeatureFlag.searchImprovements.enabled {
-            if searchTerm.isEmpty { return }
-        } else {
-            let characterCount = searchTerm.count
-            if characterCount < 2 { return }
+        guard let searchTerm = searchTextField.text?.trim(), !searchTerm.isEmpty else { return }
 
-            let lowerCaseSearch = searchTerm.lowercased()
-
-            // don't auto search for feed URLs
-            if (characterCount == 2 && lowerCaseSearch.startsWith(string: "ht")) || (characterCount == 3 && lowerCaseSearch.startsWith(string: "htt")) || lowerCaseSearch.startsWith(string: "http") { return }
-        }
         search(searchTerm: searchTerm, triggerdByTimer: true)
     }
 

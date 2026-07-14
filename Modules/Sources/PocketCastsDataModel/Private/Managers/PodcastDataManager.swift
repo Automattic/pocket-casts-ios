@@ -449,26 +449,10 @@ class PodcastDataManager {
     }
 
     func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: PCDBQueue) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            saveSingleSetting("notification", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
-        }
         saveSingleValue(name: "pushEnabled", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
     func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
-                if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
-                    podcast.setAutoAddToUpNext(setting: setting)
-                    podcast.syncStatus = SyncStatus.notSynced.rawValue
-                    save(podcast: podcast, dbQueue: dbQueue)
-                } else {
-                    FileLog.shared.addMessage("Podcast Data: Failed to create AutoAddToUpNextSetting type for saving")
-                }
-            } else {
-                FileLog.shared.addMessage("Podcast Data: Couldn't find podcast for saving AutoAddToUpNext with UUID: \(podcastUuid)")
-            }
-        }
         saveSingleValue(name: "autoAddToUpNext", value: autoAddToUpNext, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
@@ -508,16 +492,10 @@ class PodcastDataManager {
     }
 
     func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: PCDBQueue) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            setOnAllPodcasts(value: pushEnabled, settingName: "notification", subscribedOnly: true, dbQueue: dbQueue)
-        }
         setOnAllPodcasts(value: pushEnabled, propertyName: "pushEnabled", subscribedOnly: true, dbQueue: dbQueue)
     }
 
     func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            setOnAllPodcasts(value: autoAddToUpNext, settingName: "addToUpNext", subscribedOnly: true, dbQueue: dbQueue)
-        }
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
@@ -526,19 +504,10 @@ class PodcastDataManager {
             do {
                 let uuids = podcasts.map { $0.uuid }
 
-                if FeatureFlag.newSettingsStorage.enabled {
-                    let query = """
-                    SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}')
-                    WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
-                    FROM \(DataManager.podcastTableName)"
-                    """
-                    try db.executeUpdate(query, values: [value.rawValue])
-                }
-
                 let query = """
                 UPDATE \(DataManager.podcastTableName)
                 SET autoAddToUpNext = ?
-                AND uuid IN (\(DataHelper.convertArrayToInString(uuids)))
+                WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
                 """
                 try db.executeUpdate(query, values: [value.rawValue])
             } catch {
@@ -551,44 +520,6 @@ class PodcastDataManager {
 
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
-    }
-
-    enum JSONError: Error {
-        case failedStringConvert(String, Data)
-
-        var description: String {
-            switch self {
-            case .failedStringConvert(let name, let data):
-                "Failed to convert JSON to String for \(name) with \(data)"
-            }
-        }
-    }
-
-    func setOnAllPodcasts<Value: Codable & Equatable>(value: Value, settingName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
-            do {
-
-                let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
-                let json = try JSONEncoder().encode(modified)
-                guard let jsonString = String(data: json, encoding: .utf8) else {
-                    throw JSONError.failedStringConvert(settingName, json)
-                }
-
-                let query = """
-                UPDATE \(DataManager.podcastTableName)
-                SET settings = json_set(
-                    \(DataManager.podcastTableName).settings,
-                    '$.\(settingName)',
-                    json('\(jsonString)')
-                ), syncStatus = \(SyncStatus.notSynced.rawValue)
-                """
-                try db.executeUpdate(query, values: [])
-            } catch {
-                FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
-            }
-        }
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
@@ -649,32 +580,6 @@ class PodcastDataManager {
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
-        cachePodcasts(dbQueue: dbQueue)
-    }
-
-    private func saveSingleSetting<Value: Codable & Equatable>(_ name: String, value: Value, podcastUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
-            do {
-                let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
-                let json = try JSONEncoder().encode(modified)
-                guard let jsonString = String(data: json, encoding: .utf8) else {
-                    throw JSONError.failedStringConvert(name, json)
-                }
-
-                let query = """
-                UPDATE \(DataManager.podcastTableName)
-                SET settings = json_set(
-                    \(DataManager.podcastTableName).settings,
-                    '$.notification',
-                    json('\(jsonString)')
-                ), syncStatus = \(SyncStatus.notSynced.rawValue)
-                WHERE uuid = '\(podcastUuid)'
-                """
-                try db.executeUpdate(query, values: [])
-            } catch {
-                FileLog.shared.addMessage("PodcastDataManager.saveSingleSetting for \(name) error: \(error)")
-            }
-        }
         cachePodcasts(dbQueue: dbQueue)
     }
 

@@ -50,7 +50,7 @@ class UpNextViewModel {
     private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
         dataManager.allUpNextEpisodes().dropFirst().map { episode in
             let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-            return EpisodeRowViewModel(episode: episode, podcast: podcast)
+            return EpisodeRowViewModel(episode: episode, podcast: podcast, source: .upNext)
         }
     }
 

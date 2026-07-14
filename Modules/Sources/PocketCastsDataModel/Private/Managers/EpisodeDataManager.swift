@@ -46,7 +46,8 @@ class EpisodeDataManager {
         "deselectedChapters",
         "deselectedChaptersModified",
         "wasDeleted",
-        "hasGeneratedTranscript"
+        "hasGeneratedTranscript",
+        "hlsUrl"
     ]
 
     enum Constants {
@@ -253,6 +254,23 @@ class EpisodeDataManager {
 
     func findLatestEpisodes(podcast: Podcast, limit: Int, dbQueue: PCDBQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", values: [podcast.id, limit], dbQueue: dbQueue)
+    }
+
+    func findNewReleaseEpisodes(limit: Int, dbQueue: PCDBQueue) -> [Episode] {
+        let twoWeeksInSeconds: TimeInterval = 14 * 24 * 60 * 60
+        let twoWeeksAgo = Date(timeIntervalSinceNow: -twoWeeksInSeconds).timeIntervalSince1970
+        let query = """
+        SELECT episode.* FROM \(DataManager.episodeTableName) episode
+        JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
+        WHERE podcast.subscribed = 1
+        AND episode.playingStatus = \(PlayingStatus.notPlayed.rawValue)
+        AND episode.wasDeleted = 0
+        AND episode.archived = 0
+        AND episode.publishedDate > ?
+        ORDER BY episode.publishedDate DESC, episode.addedDate DESC
+        LIMIT ?
+        """
+        return loadMultiple(query: query, values: [twoWeeksAgo, limit], dbQueue: dbQueue)
     }
 
     func allUpNextEpisodes(dbQueue: PCDBQueue) -> [Episode] {
@@ -1208,6 +1226,7 @@ class EpisodeDataManager {
         values.append(episode.deselectedChaptersModified)
         values.append(episode.wasDeleted)
         values.append(DBUtils.nullIfNil(value: episode.hasGeneratedTranscript))
+        values.append(DBUtils.nullIfNil(value: episode.hlsUrl))
 
         if includeIdForWhere {
             values.append(episode.id)
@@ -1240,5 +1259,50 @@ extension EpisodeDataManager {
         """
 
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Orphaned Episodes (duplicate uuid, phantom podcast_id)
+
+extension EpisodeDataManager {
+    // Distinct from findGhostEpisodes: that join is keyed on podcastUuid, so it misses rows whose
+    // podcastUuid still resolves to a real podcast but whose internal podcast_id does not.
+    func findOrphanedEpisodes(_ dbQueue: PCDBQueue) -> [Episode] {
+        let query = """
+        SELECT SJEpisode.*
+        FROM SJEpisode
+        LEFT JOIN SJPodcast ON SJEpisode.podcast_id = SJPodcast.id
+        WHERE SJPodcast.id IS NULL
+        """
+
+        return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+    }
+
+    func deleteOrphanedEpisodes(ids: [Int64], dbQueue: PCDBQueue) {
+        guard !ids.isEmpty else { return }
+
+        dbQueue.write { db in
+            let query = "DELETE FROM \(DataManager.episodeTableName) WHERE id IN (\(ids.map(String.init).joined(separator: ",")))"
+
+            try? db.executeUpdate(query, values: nil)
+        }
+    }
+
+    /// Repoints `survivorId` at `realPodcastId` and deletes `idsToDelete` in the same write, so a crash
+    /// mid-migration can't commit the repoint without also removing the now-redundant duplicate row(s)
+    /// (which would otherwise become permanently invisible to `findOrphanedEpisodes`).
+    func reconcileOrphanedEpisode(survivorId: Int64, realPodcastId: Int64, idsToDelete: [Int64], dbQueue: PCDBQueue) {
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET podcast_id = ? WHERE id = ?", values: [realPodcastId, survivorId])
+
+                if !idsToDelete.isEmpty {
+                    let query = "DELETE FROM \(DataManager.episodeTableName) WHERE id IN (\(idsToDelete.map(String.init).joined(separator: ",")))"
+                    try db.executeUpdate(query, values: nil)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.reconcileOrphanedEpisode error: \(error)")
+            }
+        }
     }
 }

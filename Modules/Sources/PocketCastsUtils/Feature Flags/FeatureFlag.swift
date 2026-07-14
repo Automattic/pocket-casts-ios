@@ -14,12 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
-    case newSettingsStorage
-
-    /// Syncing all app and podcast settings
-    case settingsSync
-
     /// Show the modal about the partnership with Slumber Studios
     case slumber
 
@@ -75,9 +69,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This makes the skip unusable as the player doesn't have its task set yet.
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
-
-    // Shows the searchbar in Listening History view
-    case listeningHistorySearch
 
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
@@ -209,9 +200,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
-    /// Use the new search endpoint and new UI
-    case searchImprovements
-
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
 
@@ -326,6 +314,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Generated Chapters
     case generatedChapters
 
+    /// Enable HLS streaming playback
+    case hls
+
+    /// A new "Troubleshooting" screen for detecting orphaned episodes and more.
+    case troubleshooting
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -348,10 +342,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .endOfYear:
             false
-        case .newSettingsStorage:
-            shouldEnableSyncedSettings
-        case .settingsSync:
-            shouldEnableSyncedSettings
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
@@ -379,8 +369,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .playerIsReadyToPlay:
-            true
-        case .listeningHistorySearch:
             true
         case .useMimetypePackage:
             true
@@ -468,8 +456,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newOnboardingRecommendationChanges:
             true
-        case .searchImprovements:
-            true
         case .searchPredictive:
             true
         case .podcastBookmarksInline:
@@ -547,14 +533,14 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .upNextSort:
-            BuildEnvironment.current == .debug
+            true
         case .generatedChapters:
             BuildEnvironment.current == .debug
+        case .hls:
+            BuildEnvironment.current == .debug
+        case .troubleshooting:
+            true
         }
-    }
-
-    private var shouldEnableSyncedSettings: Bool {
-        false
     }
 
     /// Remote Feature Flag
@@ -563,10 +549,6 @@ public enum FeatureFlag: String, CaseIterable {
         switch self {
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
-        case .newSettingsStorage:
-            shouldEnableSyncedSettings ? "new_settings_storage" : nil
-        case .settingsSync:
-            shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
         case .endOfYear2025:

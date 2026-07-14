@@ -35,13 +35,8 @@ class HomeViewModel {
         Task {
             let podcasts = fetchPodcasts()
             let upNextEpisodes = dataManager.allUpNextEpisodes()
-            var newEpisodes = [EpisodeRowViewModel]()
-            for podcast in podcasts.prefix(8) {
-                guard let latest: Episode = dataManager.findLatestEpisode(podcast: podcast) else {
-                    continue
-                }
-                let result = EpisodeRowViewModel(episode: latest, podcast: podcast)
-                newEpisodes.append(result)
+            let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
+                makeRowViewModel(for: episode)
             }
 
             await MainActor.run { [weak self, newEpisodes] in
@@ -65,7 +60,7 @@ class HomeViewModel {
 
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
         let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-        return EpisodeRowViewModel(episode: episode, podcast: podcast)
+        return EpisodeRowViewModel(episode: episode, podcast: podcast, source: .home)
     }
 
     private func observeDataChanges() {
