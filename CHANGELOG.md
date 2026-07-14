@@ -10,7 +10,6 @@
 - Fix the disabled Transcript action in the player being nearly invisible when the episode has no transcript [#4729](https://github.com/Automattic/pocket-casts-ios/pull/4729)
 - Fix non-square artwork being stretched in bookmark rows; it is now cropped to a square thumbnail [#4746](https://github.com/Automattic/pocket-casts-ios/pull/4746)
 - Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
-- Fix excessive CPU and battery use while exporting an audio clip for sharing [#4751](https://github.com/Automattic/pocket-casts-ios/pull/4751)
 
 8.16
 -----
