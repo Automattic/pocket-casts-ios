@@ -342,7 +342,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBAction func clearForPodcastTapped(_ sender: Any) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else { return }
 
-        podcast.isEffectsOverridden = false
+        podcast.overrideGlobalEffects = false
         DataManager.sharedManager.save(podcast: podcast)
         PlaybackManager.shared.effectsChangedExternally()
         updateClearView()
@@ -382,8 +382,8 @@ class EffectsViewController: SimpleNotificationsViewController {
             return
         }
 
-        customEffectsToVolumeBoostConstraint.isActive = podcast.isEffectsOverridden
-        clearForPodcastView.isHidden = !podcast.isEffectsOverridden
+        customEffectsToVolumeBoostConstraint.isActive = podcast.overrideGlobalEffects
+        clearForPodcastView.isHidden = !podcast.overrideGlobalEffects
     }
 
     private func updateRemoveSilenceViews() {

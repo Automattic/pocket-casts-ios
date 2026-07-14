@@ -52,6 +52,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     private var imageView: some View {
         if let episode = rowModel.episode {
             EpisodeImage(episode: episode)
+                .aspectRatio(contentMode: .fill)
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
         } else {

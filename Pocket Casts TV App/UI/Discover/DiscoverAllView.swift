@@ -22,6 +22,8 @@ struct DiscoverAllView: View {
                 } description: {
                     Text(L10n.tvDiscoverFailedToLoadSubtitle)
                 }
+            case .failed:
+                DiscoverRetryView(style: .fullScreen) { await model.retry() }
             }
         }
         .task {

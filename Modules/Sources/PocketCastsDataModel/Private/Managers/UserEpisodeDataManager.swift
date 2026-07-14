@@ -138,7 +138,6 @@ class UserEpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     episode = self.createEpisodeFrom(resultSet: resultSet)
@@ -157,7 +156,6 @@ class UserEpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT cachedFrameCount from \(DataManager.userEpisodeTableName) WHERE id = ?", values: [episodeId])
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     frameCount = resultSet.longLongInt(forColumn: "cachedFrameCount")
@@ -175,7 +173,6 @@ class UserEpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let episode = self.createEpisodeFrom(resultSet: resultSet)
@@ -195,7 +192,6 @@ class UserEpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     count = Int(resultSet.int(forColumn: "Count"))

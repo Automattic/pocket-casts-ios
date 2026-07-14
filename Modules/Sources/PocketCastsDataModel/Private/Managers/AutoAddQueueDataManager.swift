@@ -68,7 +68,6 @@ public struct AutoAddCandidatesDataManager {
 
                 let resultSet = try db.executeQuery(query, values: nil)
 
-                defer { resultSet.close() }
                 while resultSet.next() {
                     if let result = AutoAddCandidate(from: resultSet) {
                         results.append(result)

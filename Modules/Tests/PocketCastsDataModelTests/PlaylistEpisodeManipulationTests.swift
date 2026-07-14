@@ -92,7 +92,6 @@ final class PlaylistEpisodeManipulationTests: DataManagerTestCase {
         dataManager.testDbQueue.read { db in
             do {
                 let rs = try db.executeQuery(sql, values: [playlistUuid])
-                defer { rs.close() }
                 while rs.next() {
                     actual.append(DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "episodeUuid"))
                 }
@@ -111,7 +110,6 @@ final class PlaylistEpisodeManipulationTests: DataManagerTestCase {
                     "SELECT COUNT(*) c FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ?",
                     values: [playlistUuid]
                 )
-                defer { rs.close() }
                 if rs.next() { count = rs.long(forColumn: "c") }
             } catch {
                 count = -1

@@ -136,7 +136,6 @@ class FolderDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.folderTableName)", values: nil)
-                defer { resultSet.close() }
 
                 var newFolders = [Folder]()
                 while resultSet.next() {

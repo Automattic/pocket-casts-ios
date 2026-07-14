@@ -1,14 +1,18 @@
 8.17
 -----
+- Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)
 - Fix the Help & Feedback screen following the system/in-app dark theme and using incorrect colors in the navigation bar [#4698](https://github.com/Automattic/pocket-casts-ios/pull/4698)
 - Add support for Flightcast JSON transcripts [#4706](https://github.com/Automattic/pocket-casts-ios/pull/4706)
 - Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
+- Fix Add to Playlist dropping selections made while searching [#4712](https://github.com/Automattic/pocket-casts-ios/pull/4712)
 - Fix the Discover search screen background color and colors in filters on some themes [#4719](https://github.com/Automattic/pocket-casts-ios/pull/4719)
 - Fix the Bookmarks tab being slow to open when bookmarks reference episodes that are no longer available locally [#4721](https://github.com/Automattic/pocket-casts-ios/pull/4721)
 - Fix the mini player initial loading shimmer not showing up when Reduce Motion is enabled [#4713](https://github.com/Automattic/pocket-casts-ios/pull/4713)
 - Fix options picker rows like "Sort By" wrapping their labels to multiple lines when there is enough space [#4722](https://github.com/Automattic/pocket-casts-ios/pull/4722)
 - Fix the disabled Transcript action in the player being nearly invisible when the episode has no transcript [#4729](https://github.com/Automattic/pocket-casts-ios/pull/4729)
 - Fix some actions that require loading a missing episode blocking the app for a brief period of time [#4744](https://github.com/Automattic/pocket-casts-ios/pull/4744)
+- Fix non-square artwork being stretched in bookmark rows; it is now cropped to a square thumbnail [#4746](https://github.com/Automattic/pocket-casts-ios/pull/4746)
+- Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
 
 8.16
 -----

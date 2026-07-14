@@ -40,7 +40,6 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             let deleteAction = SwipeAction(style: .destructive, title: nil) { [weak self] _, indexPath in
                 guard let self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
-                self.changedViaSwipeToRemove = true
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
                 Analytics.track(.episodeSwipeActionPerformed, properties: ["action": "delete", "source": "up_next"])
                 let remainingEpisodes = PlaybackManager.shared.queue.upNextCount()
@@ -60,7 +59,6 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                         updateNavBarButtons()
                     }
                 }
-                self.changedViaSwipeToRemove = false
             }
 
             // customize the action appearance

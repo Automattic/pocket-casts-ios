@@ -59,13 +59,9 @@ class PlayerStatusObserver {
         case .playing:
             AnalyticsPlaybackHelper.shared.currentSource = .player
             AnalyticsPlaybackHelper.shared.play()
-            // this was triggered by the player UI so let's sync with playback manager
-            PlaybackManager.shared.ensureAudioSessionActivated()
         case .paused:
             AnalyticsPlaybackHelper.shared.currentSource = .player
             AnalyticsPlaybackHelper.shared.pause()
-            // this was triggered by the player UI so let's sync with playback manager
-            PlaybackManager.shared.pause(userInitiated: false)
         case .waitingToPlayAtSpecifiedRate:
             break
         @unknown default:

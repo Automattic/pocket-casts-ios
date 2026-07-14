@@ -16,7 +16,7 @@ struct MediaOverlayView: View {
     var body: some View {
         GeometryReader() { proxy in
             ZStack {
-                if !model.isVideo, let uiImage = model.displayImage {
+                if !model.isVideo || model.isLoading || model.isFailed, let uiImage = model.displayImage {
                     VStack(alignment: .center) {
                         if isTransportBarVisible {
                             Spacer().frame(height: 100)
@@ -44,9 +44,13 @@ struct MediaOverlayView: View {
                 } else {
                     VStack {
                         Spacer()
-                        if model.isFailed {
-                            failureOverlay
-                                .transition(.opacity)
+                        HStack {
+                            Spacer()
+                            if model.isFailed {
+                                failureOverlay
+                                    .transition(.opacity)
+                            }
+                            Spacer()
                         }
                         Spacer()
                     }
@@ -59,7 +63,7 @@ struct MediaOverlayView: View {
             }
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
             .animation(.easeInOut(duration: 0.2), value: model.isFailed)
-            .background(model.isVideo ? Color.clear : Color.pcBackgroundBase)
+            .background(model.isVideo && !model.isLoading && !model.isFailed ? Color.clear : Color.pcBackgroundBase)
         }
         .ignoresSafeArea()
     }

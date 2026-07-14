@@ -299,7 +299,6 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                     "SELECT episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC",
                     values: [playlistUuid]
                 )
-                defer { rs.close() }
                 while rs.next() {
                     order.append(DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "episodeUuid"))
                 }

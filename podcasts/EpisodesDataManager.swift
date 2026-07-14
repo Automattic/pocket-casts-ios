@@ -125,7 +125,7 @@ class EpisodesDataManager {
         }
 
         var whereClauses = ["podcast_id = \(podcast.id)", "wasDeleted = 0"]
-        if !podcast.shouldShowArchived {
+        if !podcast.showArchived {
             whereClauses.append("archived = 0")
         }
         if let uuids = uuidsToFilter { // ignore uuid filtering if uuid list is empty or nil
