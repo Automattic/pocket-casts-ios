@@ -246,13 +246,15 @@ class IAPHelper: NSObject {
         UserDefaults.standard.set(sources, forKey: Self.pendingPurchaseSourcesKey)
     }
 
-    /// Returns and removes the persisted source for a product, if one was recorded when the
-    /// purchase was initiated. Returns `nil` for transactions we have no record of initiating.
-    private func consumePurchaseSource(for productId: IAPProductID) -> PlusUpgradeViewSource? {
+    /// Returns and removes the persisted source raw value for a product, if one was recorded when
+    /// the purchase was initiated. Returns `nil` for transactions we have no record of initiating.
+    /// The raw value is returned as-is (not round-tripped through `PlusUpgradeViewSource`) so
+    /// attribution is preserved even if the enum's cases change while a transaction is pending.
+    private func consumePurchaseSource(for productId: IAPProductID) -> String? {
         var sources = UserDefaults.standard.dictionary(forKey: Self.pendingPurchaseSourcesKey) as? [String: String] ?? [:]
         guard let rawValue = sources.removeValue(forKey: productId.rawValue) else { return nil }
         UserDefaults.standard.set(sources, forKey: Self.pendingPurchaseSourcesKey)
-        return PlusUpgradeViewSource(rawValue: rawValue)
+        return rawValue
     }
 
     public func getPaymentFrequency(for identifier: IAPProductID) -> String {
@@ -705,8 +707,10 @@ private extension IAPHelper {
         // 1. The source captured when this purchase was initiated (survives app relaunches).
         // 2. The current onboarding flow source, for purchases we didn't record a source for.
         // 3. `.unattributed`, for transactions StoreKit re-delivers outside of any purchase flow.
-        let source = consumePurchaseSource(for: productId) ?? OnboardingFlow.shared.source ?? .unattributed
-        properties["source"] = source.rawValue
+        let source = consumePurchaseSource(for: productId)
+            ?? OnboardingFlow.shared.source?.rawValue
+            ?? PlusUpgradeViewSource.unattributed.rawValue
+        properties["source"] = source
 
         let flow = OnboardingFlow.shared.currentFlow
         properties["flow"] = flow.rawValue
