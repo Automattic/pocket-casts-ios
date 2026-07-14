@@ -128,7 +128,38 @@ class SessionManager: NSObject, WCSessionDelegate {
         UserDefaults.standard.set(stateData, forKey: WatchConstants.UserDefaults.data)
         UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
         updateFeatureFlags(stateData)
+        applyPhoneNowPlayingProgress()
         NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
+    }
+
+    /// When the phone pauses an episode the watch also has loaded locally (Watch source), apply the
+    /// phone's position to the local player so the watch's Now Playing reflects it without a relaunch.
+    /// This is the reverse of the watch→phone fast-path. We only mirror the settled (paused) position
+    /// and never override an episode the watch is actively playing. `handleStateUpdate` has already
+    /// rejected stale updates, and we add a last-write-wins guard on `playedUpToModified`.
+    private func applyPhoneNowPlayingProgress() {
+        guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
+              !WatchDataManager.isPlaying(),
+              let phoneEpisode = WatchDataManager.playingEpisode(),
+              let localCurrent = PlaybackManager.shared.currentEpisode() else { return }
+
+        guard localCurrent.uuid == phoneEpisode.uuid else {
+            FileLog.shared.addMessage("SessionManager: skipping phone progress - episode mismatch (local \(localCurrent.uuid), phone \(phoneEpisode.uuid))")
+            return
+        }
+        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: localCurrent.uuid) else {
+            FileLog.shared.addMessage("SessionManager: skipping phone progress - watch is actively playing \(localCurrent.uuid)")
+            return
+        }
+
+        let phonePlayedUpTo = WatchDataManager.currentTime()
+        guard WatchDataManager.nowPlayingPlayedUpToModified() > localCurrent.playedUpToModified,
+              Int64(localCurrent.playedUpTo) != Int64(phonePlayedUpTo) else { return }
+
+        FileLog.shared.addMessage("SessionManager: applying phone playback progress \(phonePlayedUpTo) for \(localCurrent.uuid)")
+        DispatchQueue.main.async {
+            PlaybackManager.shared.seekToFromSync(time: phonePlayedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
+        }
     }
 
     // MARK: - Offline watch messages

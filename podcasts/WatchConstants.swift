@@ -9,6 +9,7 @@ public enum WatchConstants {
         public static let nowPlayingEpisode = "episode"
         public static let nowPlayingStatus = "status"
         public static let nowPlayingCurrentTime = "upto"
+        public static let nowPlayingPlayedUpToModified = "uptoModified"
         public static let nowPlayingDuration = "duration"
         public static let nowPlayingColor = "color"
         public static let nowPlayingUpNextCount = "upcount"
@@ -91,6 +92,13 @@ public enum WatchConstants {
 
         enum MinorSyncableUpdate {
             public static let type = "minSyncUpdate"
+        }
+
+        enum PlaybackProgressUpdate {
+            public static let type = "playbackProgressUpdate"
+            public static let episodeUuid = "uuid"
+            public static let playedUpTo = "playedUpTo"
+            public static let modifiedAt = "modifiedAt" // playedUpToModified (UTC millis)
         }
 
         enum DataRequest {

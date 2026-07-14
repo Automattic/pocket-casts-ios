@@ -70,9 +70,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
-    // Shows the searchbar in Listening History view
-    case listeningHistorySearch
-
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
 
@@ -283,6 +280,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Remove the 50-episode limit when syncing Up Next to Apple Watch
     case unlimitedWatchUpNextSync
 
+    /// On pause, sync the playback position directly between the watch and phone over
+    /// WatchConnectivity (both directions) so progress appears on the other device without a manual refresh
+    case watchPlaybackProgressLocalSync
+
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
@@ -368,8 +369,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .playerIsReadyToPlay:
-            true
-        case .listeningHistorySearch:
             true
         case .useMimetypePackage:
             true
@@ -514,6 +513,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchTransferUserInfoApi:
             true
         case .unlimitedWatchUpNextSync:
+            true
+        case .watchPlaybackProgressLocalSync:
             true
         case .cleanUpTmpFiles:
             true
