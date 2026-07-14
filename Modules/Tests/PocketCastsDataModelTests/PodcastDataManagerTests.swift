@@ -465,7 +465,7 @@ final class PodcastDataManagerTests: DataManagerTestCase {
             let podcasts = dataManager.allOverrideGlobalArchivePodcasts()
 
             XCTAssertEqual(podcasts.count, 2, "\(impl): Should return 2 podcasts with override")
-            XCTAssertTrue(podcasts.allSatisfy { $0.isAutoArchiveOverridden }, "\(impl): All should have override")
+            XCTAssertTrue(podcasts.allSatisfy { $0.overrideGlobalArchive }, "\(impl): All should have override")
         }
     }
 
@@ -924,7 +924,7 @@ final class PodcastDataManagerTests: DataManagerTestCase {
             XCTAssertEqual(found?.showArchived, true, "\(impl): showArchived should match")
             XCTAssertEqual(found?.episodeGrouping, PodcastGrouping.season.rawValue, "\(impl): episodeGrouping should match")
             XCTAssertEqual(found?.isPaid, true, "\(impl): isPaid should match")
-            XCTAssertEqual(found?.isAutoArchiveOverridden, true, "\(impl): overrideGlobalArchive should match")
+            XCTAssertEqual(found?.overrideGlobalArchive, true, "\(impl): overrideGlobalArchive should match")
             XCTAssertEqual(found?.pushEnabled, true, "\(impl): pushEnabled should match")
             XCTAssertEqual(found?.autoAddToUpNext, AutoAddToUpNextSetting.addFirst.rawValue, "\(impl): autoAddToUpNext should match")
             XCTAssertEqual(found?.autoDownloadSetting, AutoDownloadSetting.latest.rawValue, "\(impl): autoDownloadSetting should match")

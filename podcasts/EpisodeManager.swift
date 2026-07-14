@@ -215,7 +215,7 @@ class EpisodeManager: NSObject {
 
         // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
         if let parentPodcast = episode.parentPodcast() {
-            if parentPodcast.autoArchivePlayedAfterTime > 0 {
+            if parentPodcast.autoArchivePlayedAfter > 0 {
                 DataManager.sharedManager.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
             }
         }
@@ -476,8 +476,8 @@ class EpisodeManager: NSObject {
     class func shouldArchiveOnCompletion(episode: BaseEpisode) -> Bool {
         #if !APPCLIP
         if let episode = episode as? Episode {
-            if let podcast = episode.parentPodcast(), podcast.isAutoArchiveOverridden {
-                return podcast.autoArchivePlayedAfterTime == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
+            if let podcast = episode.parentPodcast(), podcast.overrideGlobalArchive {
+                return podcast.autoArchivePlayedAfter == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
             }
 
             return Settings.autoArchivePlayedAfter() == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)

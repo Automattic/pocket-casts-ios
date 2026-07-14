@@ -1053,7 +1053,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func overrideEffectsToggled(applyLocalSettings: Bool, for podcast: Podcast) {
-        podcast.isEffectsOverridden = applyLocalSettings
+        podcast.overrideGlobalEffects = applyLocalSettings
 
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
@@ -2499,13 +2499,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func startFromTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.autoStartFrom)
+        return TimeInterval(parentPodcast.startFrom)
     }
 
     private func skipLastTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.autoSkipLast)
+        return TimeInterval(parentPodcast.skipLast)
     }
 
     // MARK: - Keep Screen on

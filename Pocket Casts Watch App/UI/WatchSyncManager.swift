@@ -254,11 +254,11 @@ class WatchSyncManager {
             guard let podcastUuid = podcastSetting[WatchConstants.Keys.podcastUuid] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { continue }
 
             if let overrideGlobalArchive = podcastSetting[WatchConstants.Keys.podcastOverrideGlobalArchive] as? Bool {
-                podcast.isAutoArchiveOverridden = overrideGlobalArchive
+                podcast.overrideGlobalArchive = overrideGlobalArchive
             }
 
             if let autoArchivePlayedAfter = podcastSetting[WatchConstants.Keys.podcastAutoArchivePlayedAfter] as? TimeInterval {
-                podcast.autoArchivePlayedAfterTime = autoArchivePlayedAfter
+                podcast.autoArchivePlayedAfter = autoArchivePlayedAfter
             }
             DataManager.sharedManager.save(podcast: podcast)
         }
