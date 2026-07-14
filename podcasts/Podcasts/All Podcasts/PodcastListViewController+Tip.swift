@@ -5,7 +5,6 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
     func showRecentlyPlayedSortingTipIfNeeded() {
         guard
             Settings.shouldShowRecentlyPlayedSortingTip,
-            FeatureFlag.podcastsSortChanges.enabled,
             recentlyPlayedSortingTip == nil
         else {
             return

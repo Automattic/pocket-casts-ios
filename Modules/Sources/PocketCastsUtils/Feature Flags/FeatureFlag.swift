@@ -131,9 +131,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
     case avoidReplaceOnEpisodeSwap
 
-    /// Enable the new podcast sorting options
-    case podcastsSortChanges
-
     /// Recommendations including discover v3 support
     case recommendations
 
@@ -409,8 +406,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
-            true
-        case .podcastsSortChanges:
             true
         case .recommendations:
             true
