@@ -122,7 +122,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var isVideo: Bool {
-        return (episode.videoPodcast() || EpisodeManager.hasHLSStream(episode))
+        return EpisodeManager.isVideo(episode)
     }
 
     func archive() {

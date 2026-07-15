@@ -140,7 +140,7 @@ class NowPlayingViewModel: Identifiable {
         guard let episode else {
             return false
         }
-        return (episode.videoPodcast() || EpisodeManager.hasHLSStream(episode))
+        return EpisodeManager.isVideo(episode)
     }
 
     var displayTitle: String {
