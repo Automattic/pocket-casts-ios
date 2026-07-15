@@ -250,24 +250,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     func ensureAudioSessionActivated() {
         guard let currEpisode = currentEpisode() else { return }
         activateAudioSession(completion: { activated in
-            if !activated {
-                self.aboutToPlay.value = false
-                return
-            }
-
-            self.startUpdateTimer()
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
 
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
             }
-
-            self.updateIdleTimer()
-
-            self.sleepTimerManager.restartSleepTimerIfNeeded()
         })
     }
 
@@ -1745,14 +1733,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         playing() ? player?.playbackRate() : nil
     }
 
-    @objc private func updateNowPlayingInfo() {
+    @objc func updateNowPlayingInfo() {
         refreshNowPlayingInfo(forceFullRebuild: false)
     }
 
     /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
     ///   only refreshing progress. Needed when a value like the media type changes for the same
     ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
-    private func refreshNowPlayingInfo(forceFullRebuild: Bool) {
+    public func refreshNowPlayingInfo(forceFullRebuild: Bool) {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
