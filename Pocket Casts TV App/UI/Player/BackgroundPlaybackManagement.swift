@@ -20,7 +20,7 @@ class BackgroundPlaybackManagement {
         }
     }
 
-    func didEnterBackground() {        
-        playbackManager.ensureAudioSessionActivated()
+    func didEnterBackground() {
+        playbackManager.ensureBackgroundMediaSessionConfiguration()
     }
 }

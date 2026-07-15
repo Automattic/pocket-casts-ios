@@ -247,10 +247,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func ensureAudioSessionActivated() {
+    func ensureBackgroundMediaSessionConfiguration() {
         guard let currEpisode = currentEpisode() else { return }
         refreshNowPlayingInfo(forceFullRebuild: true)
-        activateAudioSession(completion: { activated in
+        activateAudioSession(completion: { _ in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
             if currEpisode.videoPodcast() {
