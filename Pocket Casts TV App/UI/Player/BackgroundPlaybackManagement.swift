@@ -20,8 +20,7 @@ class BackgroundPlaybackManagement {
         }
     }
 
-    func didEnterBackground() {
-        playbackManager.refreshNowPlayingInfo(forceFullRebuild: true)
+    func didEnterBackground() {        
         playbackManager.ensureAudioSessionActivated()
     }
 }

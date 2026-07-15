@@ -249,10 +249,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func ensureAudioSessionActivated() {
         guard let currEpisode = currentEpisode() else { return }
+        refreshNowPlayingInfo(forceFullRebuild: true)
         activateAudioSession(completion: { activated in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
             }
@@ -1740,7 +1740,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
     ///   only refreshing progress. Needed when a value like the media type changes for the same
     ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
-    public func refreshNowPlayingInfo(forceFullRebuild: Bool) {
+    private func refreshNowPlayingInfo(forceFullRebuild: Bool) {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
