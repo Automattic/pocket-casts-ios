@@ -14,7 +14,7 @@ class BackgroundPlaybackManagement {
     /// `AppDelegate` (e.g. tvOS).
     func handle(scenePhase: ScenePhase) {
         switch scenePhase {
-        case .background:
+        case .background, .inactive:
             didEnterBackground()
         default:
             break
