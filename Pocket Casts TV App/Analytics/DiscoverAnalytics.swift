@@ -60,7 +60,11 @@ enum DiscoverAnalytics {
 
     static func discoverPodcastPlayed(podcastUuid: String, listID: String? = nil) {
         Task {
-            if let listID = await (listID ?? DiscoverManager.shared.listIdForPodcast(podcastUuid)) {
+            var solvedListID = listID
+            if solvedListID == nil {
+                solvedListID = await DiscoverManager.shared.listIdForPodcast(podcastUuid)
+            }
+            if let listID = solvedListID {
                 AnalyticsHelper.podcastEpisodePlayedFromList(listId: listID, podcastUuid: podcastUuid)
             }
         }
