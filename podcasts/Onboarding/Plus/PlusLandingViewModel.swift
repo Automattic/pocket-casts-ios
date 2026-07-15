@@ -26,7 +26,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
     }
 
     func unlockTapped(_ product: ProductInfo) {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped, properties: ["frequency": product.frequency.rawValue])
 
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: product)
