@@ -116,6 +116,9 @@ struct DiscoverVideoEpisodeCell: View {
     private func trackEpisodeTapped() {
         guard let listId, let episodeUuid = model.episode.uuid else { return }
         DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
+        if let podcastUuid = model.episode.podcastUuid {
+            DiscoverAnalytics.discoverPodcastPlayed(podcastUuid: podcastUuid, listID: listId)
+        }
     }
 
     private func trackPodcastTapped() {
