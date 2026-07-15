@@ -1733,7 +1733,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         playing() ? player?.playbackRate() : nil
     }
 
-    @objc func updateNowPlayingInfo() {
+    @objc private func updateNowPlayingInfo() {
         refreshNowPlayingInfo(forceFullRebuild: false)
     }
 

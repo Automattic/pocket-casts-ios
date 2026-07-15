@@ -9,8 +9,9 @@ class BackgroundPlaybackManagement {
         self.playbackManager = playbackManager
     }
 
-    /// Drives the open/closed events from SwiftUI `scenePhase` changes, for apps
-    /// that use the SwiftUI app lifecycle instead of an `AppDelegate` (e.g. tvOS).
+    /// Configures the background media session in response to SwiftUI `scenePhase`
+    /// changes, for apps that use the SwiftUI app lifecycle instead of an
+    /// `AppDelegate` (e.g. tvOS).
     func handle(scenePhase: ScenePhase) {
         switch scenePhase {
         case .background:
