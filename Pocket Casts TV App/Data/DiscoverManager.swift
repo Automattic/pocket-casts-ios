@@ -112,6 +112,7 @@ actor DiscoverManager {
     enum DiscoverError: Error {
         /// The layout or a section failed to load (network error, timeout, or bad response).
         case failedToLoad
+        case failedToLoadAuthenticated
     }
 
     private var cachedLayout: DiscoverLayout?
@@ -160,7 +161,7 @@ actor DiscoverManager {
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
 
         guard let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated) else {
-            throw DiscoverError.failedToLoad
+            throw sourceItem.authenticated == true ? DiscoverError.failedToLoadAuthenticated : DiscoverError.failedToLoad
         }
         let listId = sourceItem.listId(collection: podcastCollection)
         guard var listOfPodcasts = podcastCollection.podcasts else {
