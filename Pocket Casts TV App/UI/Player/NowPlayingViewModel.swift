@@ -27,7 +27,7 @@ class NowPlayingViewModel: Identifiable {
     /// `MediaOverlayView` and lets `NowPlayingView` suppress AVKit's system
     /// spinner by toggling `showsPlaybackControls`.
     var isLoading: Bool = true
-
+    var isFirstLoad: Bool = true
     var isFailed: Bool = false
 
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
@@ -57,6 +57,7 @@ class NowPlayingViewModel: Identifiable {
             return
         }
         episode = newEpisode
+        isFirstLoad = true
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
         if !playbackManager.playing(), !playbackManager.isReadyToPlay {
@@ -115,6 +116,7 @@ class NowPlayingViewModel: Identifiable {
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
         if !isLoading, seekAfterLoad {
+            isFirstLoad = false
             seekAfterLoad = false
             // The delay is needed only for videos episodes.
             // For some reason the AVPlayerViewController does not accept seeks immediately after loading, and resets the position to zero
