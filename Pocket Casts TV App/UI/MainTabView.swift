@@ -90,6 +90,7 @@ struct MainTabView: View {
                     }
                 }
             }
+            .tabViewStyle(.sidebarAdaptable)
             .animation(.easeInOut, value: tabRouter.selectedTab)
             .focused($focusedArea, equals: .tabBar)
         }.overlay(alignment: .top) {
