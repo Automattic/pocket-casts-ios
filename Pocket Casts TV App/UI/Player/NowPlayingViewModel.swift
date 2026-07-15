@@ -115,8 +115,10 @@ class NowPlayingViewModel: Identifiable {
         let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
-        if !isLoading, seekAfterLoad {
+        if !isLoading {
             isFirstLoad = false
+        }
+        if !isLoading, seekAfterLoad {
             seekAfterLoad = false
             // The delay is needed only for videos episodes.
             // For some reason the AVPlayerViewController does not accept seeks immediately after loading, and resets the position to zero
