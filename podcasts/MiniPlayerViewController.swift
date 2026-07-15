@@ -383,6 +383,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func finishedWithFullScreenPlayer() {
+        // Undo the blanking `PlayerZoomAnimator` applies to the mini player when
+        // presenting the full screen player. The animated dismissal already
+        // restores this itself, so re-applying it here is a no-op there, but it
+        // keeps the mini player visible after any teardown path.
+        view.alpha = 1
+        view.subviews.forEach { $0.alpha = 1 }
+
         guard rootViewController() != nil else { return }
 
         rootViewController()?.setNeedsStatusBarAppearanceUpdate()
@@ -394,6 +401,20 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         // update the mini player on full screen player close
         playbackStateDidChange()
         playbackProgressDidChange()
+    }
+
+    /// A `dismiss(animated: false)` anywhere up the presentation chain
+    /// (notification taps, deep links, stacked-sheet teardowns) never consults
+    /// the transitioning delegate, so the animators' dismiss completions —
+    /// which restore the mini player and close out `playerOpenState` — don't
+    /// run, leaving the mini player permanently empty and frozen. Called from
+    /// the player's presentation controller only for those non-animated
+    /// teardowns; animated dismissals are fully handled by the animators.
+    func fullScreenPlayerDidDismiss(_ player: PlayerContainerViewController) {
+        guard fullScreenPlayer == nil || fullScreenPlayer === player else { return }
+
+        playerOpenState = .closed
+        finishedWithFullScreenPlayer()
     }
 
     func changeHeightTo(_ height: CGFloat) {
