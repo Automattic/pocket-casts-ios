@@ -27,7 +27,7 @@ class NowPlayingViewModel: Identifiable {
     /// `MediaOverlayView` and lets `NowPlayingView` suppress AVKit's system
     /// spinner by toggling `showsPlaybackControls`.
     var isLoading: Bool = true
-    var isFirstLoad: Bool = true
+    var isFirstLoad: Bool = false
     var isFailed: Bool = false
 
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
