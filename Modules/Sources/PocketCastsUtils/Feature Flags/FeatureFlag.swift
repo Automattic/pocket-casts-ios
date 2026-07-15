@@ -317,6 +317,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// A new "Troubleshooting" screen for detecting orphaned episodes and more.
     case troubleshooting
 
+    /// Enable Smart Bookmarks
+    case smartBookmarks
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -535,6 +538,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .troubleshooting:
             true
+        case .smartBookmarks:
+            BuildEnvironment.current == .debug
         }
     }
 
