@@ -61,6 +61,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
 
         if FeatureFlag.generatedChapters.enabled,
+           !Settings.disableAiChapters,
            let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters,
            !chapters.isEmpty {
             return (nil, nil, chapters)

@@ -12,11 +12,14 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
     private var tableData: [[TableRow]] {
         var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
         if FeatureFlag.hls.enabled {
             data.insert([.audioOnly], at: 2)
+        }
+        if FeatureFlag.generatedChapters.enabled {
+            data.append([.generatedChapters])
         }
         if FeatureFlag.voiceBoostN.enabled {
             data.append([.voiceBoostN])
@@ -265,6 +268,17 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             return cell
 
+        case .generatedChapters:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralGeneratedChapters
+            cell.cellSwitch.isOn = !Settings.disableAiChapters
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(generatedChaptersToggled(_:)), for: .valueChanged)
+
+            return cell
+
         case .autoplay:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
@@ -463,6 +477,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralMultiSelectGestureSubtitle
         case .publishChapterTitles:
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
+        case .generatedChapters:
+            return L10n.settingsGeneralGeneratedChaptersSubtitle
         case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
         case .audioOnly:
@@ -570,6 +586,13 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         Settings.autoplay = sender.isOn
 
         Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
+    }
+
+    @objc private func generatedChaptersToggled(_ sender: UISwitch) {
+        Settings.disableAiChapters = !sender.isOn
+        ServerSettings.syncSettings()
+
+        Settings.trackValueToggled(.settingsGeneralGeneratedChaptersToggled, enabled: sender.isOn)
     }
 
     @objc private func audioOnlyToggled(_ sender: UISwitch) {

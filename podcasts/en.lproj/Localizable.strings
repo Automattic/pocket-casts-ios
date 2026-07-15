@@ -2683,6 +2683,12 @@
 /* Subtitle explaining the toggle to publish chapter titles. */
 "settings_general_publish_chapter_titles_subtitle" = "If on, this will send chapter titles over Bluetooth and other connected devices instead of the episode title.";
 
+/* Setting toggle to show automatically generated chapters in the player. */
+"settings_general_generated_chapters" = "Generated chapters";
+
+/* Subtitle explaining the toggle to show automatically generated chapters. */
+"settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
+
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
 
