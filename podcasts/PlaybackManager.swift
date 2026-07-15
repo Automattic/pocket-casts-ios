@@ -247,27 +247,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func ensureAudioSessionActivated() {
+    func ensureBackgroundMediaSessionConfiguration() {
         guard let currEpisode = currentEpisode() else { return }
-        activateAudioSession(completion: { activated in
-            if !activated {
-                self.aboutToPlay.value = false
-                return
-            }
-
-            self.startUpdateTimer()
+        refreshNowPlayingInfo(forceFullRebuild: true)
+        activateAudioSession(completion: { _ in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
-
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
             }
-
-            self.updateIdleTimer()
-
-            self.sleepTimerManager.restartSleepTimerIfNeeded()
         })
     }
 
