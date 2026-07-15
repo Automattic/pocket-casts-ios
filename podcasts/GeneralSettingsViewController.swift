@@ -592,6 +592,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         Settings.disableAiChapters = !sender.isOn
         ServerSettings.syncSettings()
 
+        // Re-parse the current episode's chapters so the player and Now Playing info react immediately
+        PlaybackManager.shared.forceUpdateChapterInfo()
+
         Settings.trackValueToggled(.settingsGeneralGeneratedChaptersToggled, enabled: sender.isOn)
     }
 
