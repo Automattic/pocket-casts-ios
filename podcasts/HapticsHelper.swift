@@ -29,6 +29,10 @@ class HapticsHelper {
         triggerImpactOccurredHaptic(style: .heavy)
     }
 
+    class func triggerEpisodeLoadFailedHaptic() {
+        triggerErrorHaptic()
+    }
+
     #if os(tvOS)
     enum FeedbackStyle {
         case heavy
@@ -42,6 +46,10 @@ class HapticsHelper {
     private class func triggerSuccessHaptic() {
         //No op
     }
+
+    private class func triggerErrorHaptic() {
+        //No op
+    }
     #else
     private class func triggerImpactOccurredHaptic(style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let feedbackGenerator = UIImpactFeedbackGenerator(style: style)
@@ -51,6 +59,11 @@ class HapticsHelper {
     private class func triggerSuccessHaptic() {
         let feedbackGenerator = UINotificationFeedbackGenerator()
         feedbackGenerator.notificationOccurred(.success)
+    }
+
+    private class func triggerErrorHaptic() {
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(.error)
     }
     #endif
 }

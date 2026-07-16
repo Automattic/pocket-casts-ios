@@ -43,6 +43,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             do {
                 try await PlaybackManager.shared.playEpisodeSearchResult(episode)
             } catch {
+                HapticsHelper.triggerEpisodeLoadFailedHaptic()
                 Toast.show(L10n.discoverEpisodeFailToLoad)
             }
         }
