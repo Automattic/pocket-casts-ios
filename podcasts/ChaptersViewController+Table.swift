@@ -134,7 +134,8 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     private static func trackChapterSelected(episodeUuid: String, podcastUuid: String, latencyMs: Int?) {
-        var properties: [String: Any] = [
+        var properties: [String: Sendable] = [
+            "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
             "source": "fullscreen_player",
             "episode_uuid": episodeUuid,
             "podcast_uuid": podcastUuid
@@ -142,7 +143,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let latencyMs {
             properties["playback_start_latency_ms"] = latencyMs
         }
-        PlaybackManager.shared.trackChapterEvent(.playerChapterSelected, properties: properties)
+        // Tracked directly rather than through `trackChapterEvent`: the playback
+        // helper merges in a default "source" (the current view) that wins over
+        // ours, but this event's source is typed as `chapters_shown_source` and
+        // must be "fullscreen_player", matching Android.
+        Analytics.track(.playerChapterSelected, properties: properties)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
