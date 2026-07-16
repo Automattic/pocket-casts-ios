@@ -28,13 +28,17 @@ enum GeneratedChapterSeeker {
     ///   already-resolved cache hit, which seeks synchronously.
     /// - `startPlayback` matches each call site's existing behaviour: the chapters
     ///   list starts playback on a tap, the player's skip buttons don't.
+    /// - `onSeek` reports the final playback position seeked to and the time spent
+    ///   fingerprint-resolving it (0 when no resolve happened), so callers can
+    ///   measure playback-start latency while excluding the resolve time.
     ///
     /// Must be called on the main queue.
     static func seek(
         to chapter: ChapterInfo,
         startPlayback: Bool,
         willBeginResolving: (() -> Void)? = nil,
-        didEndResolving: (() -> Void)? = nil
+        didEndResolving: (() -> Void)? = nil,
+        onSeek: ((_ targetTime: TimeInterval, _ fingerprintMs: Int) -> Void)? = nil
     ) {
         // Supersede any in-flight resolve up front so this tap wins — including a
         // cache hit, which seeks synchronously and would otherwise let an earlier
@@ -42,7 +46,9 @@ enum GeneratedChapterSeeker {
         FingerprintTimingManager.shared.cancelPendingChapterResolve()
 
         guard let episode = PlaybackManager.shared.currentEpisode() else {
+            let target = ceil(chapter.startTime.seconds)
             PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: startPlayback)
+            onSeek?(target, 0)
             return
         }
 
@@ -53,6 +59,7 @@ enum GeneratedChapterSeeker {
         // Already resolved this session — seek straight there without re-fingerprinting.
         if let seekTime = chapter.resolvedPlaybackStartTime {
             PlaybackManager.shared.seekTo(time: seekTime, startPlaybackAfterSeek: startPlayback)
+            onSeek?(seekTime, 0)
             Analytics.track(.syncedTranscriptsChapterSeekUsed, properties: [
                 "episode_uuid": episodeUuid,
                 "from_position_seconds": Int(fromPosition),
@@ -63,6 +70,7 @@ enum GeneratedChapterSeeker {
         }
 
         willBeginResolving?()
+        let resolveStart = Date()
 
         FingerprintTimingManager.shared.resolvePlaybackTime(forReferenceTime: referenceTime, episode: episode) { result in
             didEndResolving?()
@@ -87,6 +95,7 @@ enum GeneratedChapterSeeker {
                 // offset (see `ChapterInfo.effectiveStartTime`).
                 chapter.resolvedPlaybackStartTime = seekTime
                 PlaybackManager.shared.seekTo(time: seekTime, startPlaybackAfterSeek: startPlayback)
+                onSeek?(seekTime, resolveDurationMs)
                 Analytics.track(.syncedTranscriptsChapterSeekUsed, properties: [
                     "episode_uuid": episodeUuid,
                     "from_position_seconds": Int(fromPosition),
@@ -99,7 +108,9 @@ enum GeneratedChapterSeeker {
 
             case let .unresolved(reason, isStreaming):
                 // Graceful fallback: seek to the raw reference-timeline start.
+                let target = ceil(chapter.startTime.seconds)
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: startPlayback)
+                onSeek?(target, Int(Date().timeIntervalSince(resolveStart) * 1000))
                 Analytics.track(.syncedTranscriptsChapterSeekFailed, properties: [
                     "episode_uuid": episodeUuid,
                     "reason": reason,

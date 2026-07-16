@@ -66,8 +66,9 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             } else if GeneratedChapterSeeker.isEnabled {
                 resolveAndSeek(to: chapter, at: indexPath)
             } else {
+                beginTrackingChapterSelection()
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
-                PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
+                chapterSelectionLatencyTracker.arm(targetTime: ceil(chapter.startTime.seconds), targetDuration: chapter.duration)
             }
         }
     }
@@ -82,9 +83,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         }
         resolvingIndexPath = nil
 
-        // Fire on every tap — including the cache hit that resolves synchronously
-        // without a spinner — so the selection event matches the non-generated path.
-        PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
+        beginTrackingChapterSelection()
 
         GeneratedChapterSeeker.seek(
             to: chapter,
@@ -96,8 +95,32 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             didEndResolving: { [weak self] in
                 self?.resolvingIndexPath = nil
                 (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(false)
+            },
+            onSeek: { [weak self] targetTime, fingerprintMs in
+                self?.chapterSelectionLatencyTracker.arm(targetTime: targetTime, targetDuration: chapter.duration, fingerprintMs: fingerprintMs)
             }
         )
+    }
+
+    /// Start measuring playback-start latency for the current chapter tap and
+    /// fire `player_chapter_selected` once playback resumes (or times out). The
+    /// event is deferred so it can carry `playback_start_latency_ms`, matching
+    /// Android's `player_chapter_selected` (pocket-casts-android#5522).
+    private func beginTrackingChapterSelection() {
+        let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"
+        let podcastUuid = PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
+
+        chapterSelectionLatencyTracker.begin(tapDate: Date(), episodeUuid: episodeUuid) { latencyMs in
+            var properties: [String: Any] = [
+                "source": "fullscreen_player",
+                "episode_uuid": episodeUuid,
+                "podcast_uuid": podcastUuid
+            ]
+            if let latencyMs {
+                properties["playback_start_latency_ms"] = latencyMs
+            }
+            PlaybackManager.shared.trackChapterEvent(.playerChapterSelected, properties: properties)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -11,6 +11,9 @@ class ChaptersViewController: PlayerItemViewController {
     /// Drives the per-row spinner from `cellForRowAt` so it survives cell reuse.
     var resolvingIndexPath: IndexPath?
 
+    /// Measures playback-start latency for the `player_chapter_selected` event.
+    let chapterSelectionLatencyTracker = ChapterSelectionLatencyTracker()
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()
@@ -41,6 +44,7 @@ class ChaptersViewController: PlayerItemViewController {
         removeAllCustomObservers()
         // Drop any in-flight chapter resolve so a backgrounded list can't seek later.
         FingerprintTimingManager.shared.cancelPendingChapterResolve()
+        chapterSelectionLatencyTracker.cancel()
         resolvingIndexPath = nil
     }
 
