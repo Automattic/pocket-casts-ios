@@ -456,6 +456,10 @@ enum PlusUpgradeViewSource: String {
     case deepLink
     case deviceApproval = "device_approval"
 
+    /// Purchase completed with no record of its originating source (e.g. StoreKit re-delivering a
+    /// deferred/pending transaction). Keeps `source` defined and distinct from a real `unknown`.
+    case unattributed
+
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
         return rawValue.uppercased()

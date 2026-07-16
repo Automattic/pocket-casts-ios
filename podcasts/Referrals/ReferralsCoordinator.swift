@@ -103,7 +103,7 @@ class ReferralsCoordinator {
 
         let discountInfo = makeDiscountInfo(from: offer)
 
-        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo, source: .referral) else {
             return false
         }
 

@@ -131,9 +131,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
     case avoidReplaceOnEpisodeSwap
 
-    /// Enable the new podcast sorting options
-    case podcastsSortChanges
-
     /// Recommendations including discover v3 support
     case recommendations
 
@@ -320,6 +317,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// A new "Troubleshooting" screen for detecting orphaned episodes and more.
     case troubleshooting
 
+    /// Enable Smart Bookmarks
+    case smartBookmarks
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -409,8 +409,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
-            true
-        case .podcastsSortChanges:
             true
         case .recommendations:
             true
@@ -540,6 +538,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .troubleshooting:
             true
+        case .smartBookmarks:
+            BuildEnvironment.current == .debug
         }
     }
 

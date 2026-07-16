@@ -13,6 +13,7 @@
 - Fix non-square artwork being stretched in bookmark rows; it is now cropped to a square thumbnail [#4746](https://github.com/Automattic/pocket-casts-ios/pull/4746)
 - Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
 - Fix the Stats screen getting stuck loading when the stats request fails [#4753](https://github.com/Automattic/pocket-casts-ios/pull/4753)
+- Fix the mini player showing empty and stuck after opening the app from an episode notification or a deep link while the full-screen player was open [#4757](https://github.com/Automattic/pocket-casts-ios/pull/4757)
 
 8.16
 -----
