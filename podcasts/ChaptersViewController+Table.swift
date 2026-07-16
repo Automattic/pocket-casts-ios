@@ -63,6 +63,12 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
+                // Playback is already inside the tapped chapter: no seek happens, so
+                // report zero latency when playing and none when paused, as Android
+                // does. Cancelling first drops any previous tap's pending event, the
+                // way each Android tap cancels the previous `playChapterJob`.
+                chapterSelectionLatencyTracker.cancel()
+                trackChapterSelected(latencyMs: PlaybackManager.shared.playing() ? 0 : nil)
             } else if GeneratedChapterSeeker.isEnabled {
                 resolveAndSeek(to: chapter, at: indexPath)
             } else {
@@ -96,31 +102,47 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 self?.resolvingIndexPath = nil
                 (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(false)
             },
-            onSeek: { [weak self] targetTime, fingerprintMs in
-                self?.chapterSelectionLatencyTracker.arm(targetTime: targetTime, targetDuration: chapter.duration, fingerprintMs: fingerprintMs)
+            onSeek: { [weak self] targetTime in
+                self?.chapterSelectionLatencyTracker.arm(targetTime: targetTime, targetDuration: chapter.duration)
             }
         )
     }
 
     /// Start measuring playback-start latency for the current chapter tap and
-    /// fire `player_chapter_selected` once playback resumes (or times out). The
-    /// event is deferred so it can carry `playback_start_latency_ms`, matching
-    /// Android's `player_chapter_selected` (pocket-casts-android#5522).
+    /// fire `player_chapter_selected` once playback resumes (or times out with
+    /// no latency). The event is deferred so it can carry the raw tap-to-playback
+    /// `playback_start_latency_ms`, matching Android's `player_chapter_selected`
+    /// (pocket-casts-android#5522).
     private func beginTrackingChapterSelection() {
         let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"
         let podcastUuid = PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
 
         chapterSelectionLatencyTracker.begin(tapDate: Date(), episodeUuid: episodeUuid) { latencyMs in
-            var properties: [String: Any] = [
-                "source": "fullscreen_player",
-                "episode_uuid": episodeUuid,
-                "podcast_uuid": podcastUuid
-            ]
-            if let latencyMs {
-                properties["playback_start_latency_ms"] = latencyMs
-            }
-            PlaybackManager.shared.trackChapterEvent(.playerChapterSelected, properties: properties)
+            Self.trackChapterSelected(episodeUuid: episodeUuid, podcastUuid: podcastUuid, latencyMs: latencyMs)
         }
+    }
+
+    /// The uuids are captured at tap time (as Android does) so a deferred event
+    /// still reports the episode the chapter belonged to, even if the listener
+    /// switches episodes before the latency resolves.
+    func trackChapterSelected(latencyMs: Int?) {
+        Self.trackChapterSelected(
+            episodeUuid: PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            podcastUuid: PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            latencyMs: latencyMs
+        )
+    }
+
+    private static func trackChapterSelected(episodeUuid: String, podcastUuid: String, latencyMs: Int?) {
+        var properties: [String: Any] = [
+            "source": "fullscreen_player",
+            "episode_uuid": episodeUuid,
+            "podcast_uuid": podcastUuid
+        ]
+        if let latencyMs {
+            properties["playback_start_latency_ms"] = latencyMs
+        }
+        PlaybackManager.shared.trackChapterEvent(.playerChapterSelected, properties: properties)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

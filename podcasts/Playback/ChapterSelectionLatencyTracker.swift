@@ -4,23 +4,24 @@ import Foundation
 /// chapter's position, so `player_chapter_selected` can report
 /// `playback_start_latency_ms` (see Android PR pocket-casts-android#5522).
 ///
-/// Flow: `begin` at tap time, then `arm` once the seek to the target position has
-/// been issued. The tracker watches playback notifications until playback is
-/// running at the target position and reports the elapsed time, excluding any
-/// fingerprint-resolve time passed to `arm` (generated chapters resolve their
-/// real playback position via fingerprinting first, which must not count towards
-/// the latency).
+/// Flow: `begin` at tap time, then `arm` once the seek to the target position
+/// has been issued. The tracker watches playback notifications until playback
+/// is running at the target position and reports the raw elapsed time since the
+/// tap — matching Android, which measures `tapMark.elapsedNow()` with no
+/// exclusions (any generated-chapter alignment wait is included).
 final class ChapterSelectionLatencyTracker {
 
     /// How long to wait, once the seek has been issued, for playback to resume
     /// before giving up and reporting a nil latency. Mirrors Android's
-    /// playback-start timeout.
+    /// `PLAYBACK_START_TIMEOUT`.
     private let playbackTimeout: TimeInterval = 5
 
-    /// Safety net used before `arm` is called (e.g. while a generated chapter is
-    /// still resolving, or if the resolve never seeks because the episode
-    /// changed) so the tracker always resolves and never leaks.
-    private let safetyTimeout: TimeInterval = 20
+    /// Safety net used before `arm` is called: covers the fingerprint resolve
+    /// timeout (`FingerprintConstants.onDemandSeekTimeoutSeconds`) plus the
+    /// playback timeout, so the tracker always resolves and never leaks — e.g.
+    /// if the resolve never seeks because the episode changed. Mirrors Android's
+    /// alignment timeout + playback timeout structure.
+    private let safetyTimeout: TimeInterval = FingerprintConstants.onDemandSeekTimeoutSeconds + 5
 
     /// Playback is considered to have reached the target once it is playing at or
     /// past the target position. The tolerance absorbs the `ceil` rounding the
@@ -34,7 +35,6 @@ final class ChapterSelectionLatencyTracker {
     private var episodeUuid: String?
     private var targetTime: TimeInterval?
     private var targetDuration: TimeInterval = 0
-    private var fingerprintDuration: TimeInterval = 0
     private var completion: ((Int?) -> Void)?
 
     /// Begin measuring for a chapter tapped at `tapDate` on `episodeUuid`.
@@ -61,13 +61,11 @@ final class ChapterSelectionLatencyTracker {
     /// playback should reach and `targetDuration` the tapped chapter's length —
     /// together they bound the window that counts as "reached", so a stray
     /// progress tick from the pre-seek position (always in another chapter) can't
-    /// match. `fingerprintMs` is the time already spent resolving the position
-    /// (0 for non-generated chapters) and is excluded from the reported latency.
-    func arm(targetTime: TimeInterval, targetDuration: TimeInterval, fingerprintMs: Int = 0) {
+    /// match.
+    func arm(targetTime: TimeInterval, targetDuration: TimeInterval) {
         guard completion != nil else { return }
         self.targetTime = targetTime
         self.targetDuration = targetDuration
-        fingerprintDuration = TimeInterval(fingerprintMs) / 1000
         // The seek has been issued; the latency clock now runs until playback
         // resumes, so restart the timeout to cover just that window.
         scheduleTimeout(after: playbackTimeout)
@@ -85,7 +83,6 @@ final class ChapterSelectionLatencyTracker {
         episodeUuid = nil
         targetTime = nil
         targetDuration = 0
-        fingerprintDuration = 0
         completion = nil
     }
 
@@ -111,7 +108,8 @@ final class ChapterSelectionLatencyTracker {
             return
         }
 
-        let elapsed = Date().timeIntervalSince(tapDate) - fingerprintDuration
+        // Raw tap-to-playback time, matching Android's `tapMark.elapsedNow()`.
+        let elapsed = Date().timeIntervalSince(tapDate)
         finish(latencyMs: Int(max(0, elapsed) * 1000))
     }
 
