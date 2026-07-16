@@ -10,6 +10,7 @@
 - Fix the mini player initial loading shimmer not showing up when Reduce Motion is enabled [#4713](https://github.com/Automattic/pocket-casts-ios/pull/4713)
 - Fix options picker rows like "Sort By" wrapping their labels to multiple lines when there is enough space [#4722](https://github.com/Automattic/pocket-casts-ios/pull/4722)
 - Fix the disabled Transcript action in the player being nearly invisible when the episode has no transcript [#4729](https://github.com/Automattic/pocket-casts-ios/pull/4729)
+- Fix some actions that require loading a missing episode blocking the app for a brief period of time [#4744](https://github.com/Automattic/pocket-casts-ios/pull/4744)
 - Fix non-square artwork being stretched in bookmark rows; it is now cropped to a square thumbnail [#4746](https://github.com/Automattic/pocket-casts-ios/pull/4746)
 - Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
 - Fix misaligned time values in the Stats screen's Time Saved rows; they are now right-aligned and no longer wrap when there is enough space [#4754](https://github.com/Automattic/pocket-casts-ios/pull/4754)
