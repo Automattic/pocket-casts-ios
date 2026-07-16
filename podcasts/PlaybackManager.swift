@@ -2743,18 +2743,21 @@ extension PlaybackManager {
 // MARK: - SearchResults
 extension PlaybackManager {
 
-    func playEpisodeSearchResult(_ searchEpisode: EpisodeSearchResult, firstTry: Bool = true) {
-        let dataManager = DataManager.sharedManager
+    enum SearchResultPlayError: Error {
+        case episodeNotFound
+    }
 
-        // Get the bookmark's BaseEpisode so we can load it
-        guard let episode = dataManager.findBaseEpisode(uuid: searchEpisode.uuid) else {
-            guard firstTry else { return }
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid) { [weak self] episode in
-                if episode != nil {
-                    self?.playEpisodeSearchResult(searchEpisode, firstTry: false)
-                }
-            }
-            return
+    @MainActor
+    func playEpisodeSearchResult(_ searchEpisode: EpisodeSearchResult) async throws {
+        // Get the search result's BaseEpisode so we can load it, fetching it from the server if it's missing
+        var foundEpisode = DataManager.sharedManager.findBaseEpisode(uuid: searchEpisode.uuid)
+
+        if foundEpisode == nil {
+            foundEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid)
+        }
+
+        guard let episode = foundEpisode else {
+            throw SearchResultPlayError.episodeNotFound
         }
 
         #if !os(watchOS)

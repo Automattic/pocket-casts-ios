@@ -11,6 +11,14 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     @Published var refreshTrigger: Bool = true
 
+    /// True while the episode is being fetched from the server before playback can start.
+    @Published private(set) var isLoadingEpisode = false
+
+    /// Delayed so the spinner doesn't flash when the episode loads quickly.
+    @Published private(set) var showsLoadingSpinner = false
+
+    private static let loadingSpinnerDelay: TimeInterval = 0.5
+
     init(episode: EpisodeSearchResult?, podcastFolder: PodcastFolderSearchResult?) {
         self.episode = episode
         self.podcastFolder = podcastFolder
@@ -18,10 +26,26 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func playTapped() {
-        guard let episode else {
+        guard let episode, !isLoadingEpisode else {
             return
         }
-        PlaybackManager.shared.playEpisodeSearchResult(episode)
+        isLoadingEpisode = true
+        Task { @MainActor in
+            let spinnerTask = Task { @MainActor in
+                try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
+                showsLoadingSpinner = true
+            }
+            defer {
+                spinnerTask.cancel()
+                isLoadingEpisode = false
+                showsLoadingSpinner = false
+            }
+            do {
+                try await PlaybackManager.shared.playEpisodeSearchResult(episode)
+            } catch {
+                Toast.show(L10n.discoverEpisodeFailToLoad)
+            }
+        }
     }
 
     func pauseTapped() {
