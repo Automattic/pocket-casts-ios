@@ -491,6 +491,8 @@ Låt oss hjälpa dig först</string>
     <string>Måste innehålla minst 6 tecken</string>
     <key>chapters</key>
     <string>Kapitel</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Dessa kapitel genereras automatiskt och är kanske inte helt korrekta.</string>
     <key>check_internet_connection</key>
     <string>Kontrollera din internetanslutning</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1609,6 +1611,8 @@ podcasts med dig</string>
     <string>Markera som spelad</string>
     <key>mark_played_short</key>
     <string>Markera som spelad</string>
+    <key>mark_unplayed</key>
+    <string>Markera som ej uppspelat</string>
     <key>mark_unplayed_short</key>
     <string>Markera som ospelad</string>
     <key>maybe_later</key>
@@ -3863,6 +3867,36 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>
     <string>Trimma tystnad</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Kontrollerar efter föräldralösa avsnitt…</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Ett sällsynt synkroniseringsproblem kan lämna efter sig dubbletter av avsnittsinlägg som inte längre är länkade till sin podcast. Dessa kan göra att ett avsnitts nedladdnings- eller uppspelningsstatus verkar vara felaktig i vissa delar av appen.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ föräldralösa avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 föräldralöst avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Föräldralösa avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Inga föräldralösa avsnitt hittades</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Tar bort föräldralösa avsnitt…</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Ta bort föräldralösa avsnitt</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Detta kommer att ta bort dubbletter av avsnittsinlägg som hittas på den här enheten. Denna åtgärd kan inte ångras, men Pocket Casts kommer att göra sitt bästa för att bevara ditt uppspelningsförlopp, din nedladdningsstatus och annan avsnittsinformation innan du tar bort dem.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Ta bort föräldralösa avsnitt?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Inga föräldralösa avsnitt togs bort</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ föräldralösa avsnitt togs bort</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 föräldralöst avsnitt togs bort</string>
+    <key>troubleshooting_title</key>
+    <string>Felsökning</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Visa föräldralösa avsnitt</string>
     <key>try_again</key>
     <string>Försök igen</string>
     <key>try_it_now</key>
@@ -3874,6 +3908,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Du har loggats ut.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Skapa ett gratis konto</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Dina följningar och ditt förlopp exakt där du lämnade dem</string>
     <key>tv_banner_create_account_title</key>
     <string>Ett konto. Alla skärmar</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3916,6 +3952,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Avsnittsinformation</string>
     <key>tv_episode_marked_as_played</key>
     <string>Markera som spelad</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Markerat som ej uppspelat</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Borttagen från Nästa</string>
     <key>tv_episode_show_notes_action</key>
@@ -3930,6 +3968,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Spelas upp sist</string>
     <key>tv_episode_will_play_next</key>
     <string>Spelas upp härnäst</string>
+    <key>tv_folder_empty_message</key>
+    <string>Redigera din mapp i mobilappen. De väntar här när du är klar.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Avsnitt du spelar kommer att visas här</string>
     <key>tv_history_empty_title</key>
@@ -3982,6 +4022,26 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>%1$@ avsnitt</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Spela alla avsnitt</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Denna spellista filtrerar efter nedladdade avsnitt. TV:ns lagringsutrymme är begränsat, så nedladdningar stöds inte.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Det är antingen dags att fira att den här listan är slutförd eller att redigera dina regler i mobilappen för att hitta mer.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Inga avsnitt</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Alla %1$@ avsnitt i den här spellistan har arkiverats.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>Vi kan spara din nuvarande Nästa som en spellista</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Detta kommer att rensa din Nästa</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Spela upp utan att spara</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Spara och spela</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>De väntar här när du är klar. Skanna för att hämta appen</string>
+    <key>tv_playlists_download_title</key>
+    <string>Skapa spellistor på din telefon</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Skapa en spellista</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4020,10 +4080,16 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Det här är den som får folk att fastna</string>
     <key>tv_podcast_detail_website</key>
     <string>Webbplats</string>
+    <key>tv_podcast_error_message</key>
+    <string>Kontrollera din Internetanslutning och försök igen.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Det gick inte att ladda podcastinformationen</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Upptäck podcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Följda podcasts visas här, redo att spelas upp.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Dags att fylla detta</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Öppnar profil- och kontoalternativ</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4062,6 +4128,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Logga in i Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Laddar dina podcasts</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Kul att se dig</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts rekommenderar</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4134,6 +4202,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Vi introducerar slumpmässig uppspelning</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Kortaste till längsta, eller tvärtom – passa avsnittet till den tid du faktiskt har.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Sortera efter varaktighet</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>Längsta till kortaste</string>
     <key>up_next_sort_newest_to_oldest</key>

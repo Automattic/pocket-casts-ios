@@ -64,7 +64,11 @@ class DiscoverSectionModel {
             if let itemTitle = item?.title?.localized ?? type?.title, !itemTitle.isEmpty {
                 title = itemTitle
             }
-            state = .failed
+            if let discoverError = error as? DiscoverManager.DiscoverError, discoverError == .failedToLoadAuthenticated {
+                state = .empty
+            } else {
+                state = .failed
+            }
             return
         }
 

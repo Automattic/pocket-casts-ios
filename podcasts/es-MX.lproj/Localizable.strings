@@ -491,6 +491,8 @@ Deja que te ayudemos</string>
     <string>Debe tener 6 caracteres como mínimo</string>
     <key>chapters</key>
     <string>Capítulos</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Estos capítulos se generan automáticamente y puede que no sean realmente precisos.</string>
     <key>check_internet_connection</key>
     <string>Comprueba tu conexión a Internet</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1609,6 +1611,8 @@ pódcast contigo</string>
     <string>Marcar como reproducido</string>
     <key>mark_played_short</key>
     <string>Marcar como reproducido</string>
+    <key>mark_unplayed</key>
+    <string>Marcar como no reproducido</string>
     <key>mark_unplayed_short</key>
     <string>Marcar como no reproducido</string>
     <key>maybe_later</key>
@@ -3863,6 +3867,36 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>La prueba ha finalizado</string>
     <key>trim_silence</key>
     <string>Recortar silencio</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Buscando episodios huérfanos...</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Un problema de sincronización poco habitual puede dejar entradas de episodios duplicadas que ya no están vinculadas a su podcast. Esto puede hacer que el estado de descarga o reproducción de un episodio parezca incorrecto en algunas partes de la aplicación.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ episodios huérfanos</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 episodio huérfano</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Episodios huérfanos</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>No se han encontrado episodios huérfanos</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Eliminando episodios huérfanos…</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Eliminar episodios huérfanos</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Se eliminarán las entradas de episodios duplicadas que se hayan encontrado en este dispositivo. Esta acción no se puede deshacer, pero Pocket Casts hará todo lo posible para conservar el progreso de reproducción, el estado de descarga y otros detalles del episodio antes de eliminarlos.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>¿Eliminar episodios huérfanos?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>No se ha eliminado ningún episodio huérfano</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>Se han eliminado %1$@ episodios huérfanos</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>Se ha eliminado 1 episodio huérfano</string>
+    <key>troubleshooting_title</key>
+    <string>Solución de problemas</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Ver episodios huérfanos</string>
     <key>try_again</key>
     <string>Vuelve a intentarlo</string>
     <key>try_it_now</key>
@@ -3874,6 +3908,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Te has desconectado.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Crear una cuenta gratuita</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Tus seguimientos y progresos exactamente donde los dejaste</string>
     <key>tv_banner_create_account_title</key>
     <string>Una cuenta. Todas las pantallas</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3916,6 +3952,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Información del episodio</string>
     <key>tv_episode_marked_as_played</key>
     <string>Marcado como reproducido</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Marcado como no reproducido</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Eliminado de "A continuación"</string>
     <key>tv_episode_show_notes_action</key>
@@ -3930,6 +3968,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Se reproducirá el último</string>
     <key>tv_episode_will_play_next</key>
     <string>Se reproducirá a continuación</string>
+    <key>tv_folder_empty_message</key>
+    <string>Edita tu carpeta en la aplicación móvil, te estarán esperando aquí cuando termines.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Los episodios que reproduces aparecerán aquí</string>
     <key>tv_history_empty_title</key>
@@ -3982,6 +4022,26 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>%1$@ episodios</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Reproducir todos los episodios</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Esta lista de reproducción filtra por episodios descargados. El almacenamiento del televisor es escaso, por lo que no se admiten descargas.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Llegados aquí, puedes celebrar que la lista está terminada o modificar las reglas en la aplicación móvil para obtener más.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>No hay episodios</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Se han archivados los %1$@ episodios de este podcast.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>Podemos guardar la actual lista para reproducir a continuación como una lista de reproducción</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Esto borrará tu lista para reproducior a continuación</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Reproducir sin guardar</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Guardar y reproducir</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>Estarán esperando aquí cuando termines. Escanear para obtener la aplicación</string>
+    <key>tv_playlists_download_title</key>
+    <string>Crea listas de reproducción en tu teléfono</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Crear una lista de reproducción</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4020,10 +4080,16 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Este es el que engancha a la gente</string>
     <key>tv_podcast_detail_website</key>
     <string>Web</string>
+    <key>tv_podcast_error_message</key>
+    <string>Comprueba tu conexión a Internet e inténtalo de nuevo.</string>
+    <key>tv_podcast_error_title</key>
+    <string>No se han podido cargar los detalles del podcast</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Descubrir podcasts</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Los podcasts que sigues se muestran aquí, listos para reproducirse.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Es hora de rellenar esto</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Abre las opciones de perfil y cuenta</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4062,6 +4128,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Acceder a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Cargando tus pódcasts.</string>
+    <key>tv_signing_in_title_new</key>
+    <string>¡Nos alegramos de verte!</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Recomendaciones de Pocket Casts</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4134,6 +4202,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Te presentamos Shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>La reproducción aleatoria está activada. Los episodios se reproducirán en orden aleatorio.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>De más cortos a más largos, o al revés: ajusta el episodio al tiempo que realmente tienes.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Ordenar por duración</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>De más largos a más cortos</string>
     <key>up_next_sort_newest_to_oldest</key>
