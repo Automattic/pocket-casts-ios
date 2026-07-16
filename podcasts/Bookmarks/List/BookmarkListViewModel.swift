@@ -107,7 +107,7 @@ extension BookmarkListViewModel {
             do {
                 try await self?.router?.bookmarkPlay(bookmark)
             } catch {
-                HapticsHelper.triggerEpisodeLoadFailedHaptic()
+                HapticsHelper.triggerErrorHaptic()
                 Toast.show(L10n.discoverEpisodeFailToLoad)
             }
 
