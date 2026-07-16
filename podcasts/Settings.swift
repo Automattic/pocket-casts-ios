@@ -978,6 +978,19 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Generated chapters
+
+    /// When enabled, AI-generated chapters are hidden from the player. Stored as the inverse of the positive
+    /// "Generated chapters" toggle and backed by `ServerSettings` so it syncs globally with the server.
+    static var disableAiChapters: Bool {
+        set {
+            ServerSettings.setDisableAiChapters(newValue)
+        }
+        get {
+            ServerSettings.disableAiChapters()
+        }
+    }
+
     // MARK: - Sleep Timer
 
     static var autoRestartSleepTimer: Bool {

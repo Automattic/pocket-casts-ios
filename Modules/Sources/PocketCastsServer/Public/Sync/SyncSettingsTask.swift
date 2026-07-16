@@ -23,6 +23,9 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             if ServerSettings.audioOnlyNeedsSyncing() {
                 settingsRequest.settings.audioOnly.value = ServerSettings.audioOnly()
             }
+            if ServerSettings.disableAiChaptersNeedsSyncing() {
+                settingsRequest.settings.disableAiChapters.value = ServerSettings.disableAiChapters()
+            }
             if SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() {
                 settingsRequest.settings.freeGiftAcknowledgement.value = SubscriptionHelper.subscriptionGiftAcknowledgement()
             }
@@ -70,6 +73,10 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
                 ServerSettings.setAudioOnly(settings.audioOnly.value.value)
             }
 
+            if settings.disableAiChapters.changed.value {
+                ServerSettings.setDisableAiChapters(settings.disableAiChapters.value.value)
+            }
+
             if settings.freeGiftAcknowledgement.changed.value {
                 let acknowledgement = settings.freeGiftAcknowledgement.value.value
                 SubscriptionHelper.setSubscriptionGiftAcknowledgement(acknowledgement)
@@ -85,6 +92,7 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             ServerSettings.setSkipForwardSynced()
             ServerSettings.marketingOptInSynced()
             ServerSettings.audioOnlySynced()
+            ServerSettings.disableAiChaptersSynced()
             ServerSettings.setHomeGridSortOrderSynced()
             SubscriptionHelper.subscriptionGiftAcknowledgementSynced()
         } catch {
