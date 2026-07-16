@@ -253,6 +253,10 @@ class NowPlayingViewModel: Identifiable {
         return playbackManager.silenceRemovalAvailable()
     }
 
+    var isVolumeBoostAvailable: Bool {
+        return playbackManager.volumeBoostAvailable()
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)
