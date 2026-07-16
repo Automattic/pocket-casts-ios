@@ -139,7 +139,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func purchaseTapped() {
-        track(.plusPromotionUpgradeButtonTapped)
+        track(.plusPromotionUpgradeButtonTapped, properties: ["frequency": selectedProduct.frequency.rawValue])
 
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: ProductInfo(plan: upgradeTier.plan, frequency: selectedFrequency))

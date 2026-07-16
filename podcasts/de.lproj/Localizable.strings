@@ -491,6 +491,8 @@ Lass uns dir zuerst helfen</string>
     <string>Muss mindestens 6 Zeichen lang sein</string>
     <key>chapters</key>
     <string>Kapitel</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Diese Kapitel werden automatisch generiert und sind möglicherweise nicht ganz korrekt.</string>
     <key>check_internet_connection</key>
     <string>Bitte prüfe deine Internetverbindung</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1609,6 +1611,8 @@ Podcasts mit</string>
     <string>Als angehört markieren</string>
     <key>mark_played_short</key>
     <string>Als angehört markieren</string>
+    <key>mark_unplayed</key>
+    <string>Als nicht angehört markieren</string>
     <key>mark_unplayed_short</key>
     <string>Als nicht angehört markieren</string>
     <key>maybe_later</key>
@@ -3863,6 +3867,36 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Testzeitraum abgelaufen</string>
     <key>trim_silence</key>
     <string>Stille kürzen</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Suche nach verwaisten Folgen …</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Ein seltenes Synchronisationsproblem kann doppelte Folgeneinträge verursachen, die nicht mehr mit ihrem Podcast verknüpft sind. Dies kann dazu führen, dass der Download- oder Wiedergabestatus einer Folge in einigen Teilen der App falsch angezeigt wird.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ verwaiste Folgen</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 verwaiste Folge</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Verwaiste Folgen</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Keine verwaisten Folgen gefunden</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Verwaiste Folgen werden entfernt …</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Verwaiste Folgen entfernen</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Dadurch werden die doppelten Folgeneinträge auf diesem Gerät gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Pocket Casts versucht jedoch, deinen Wiedergabeverlauf, deinen Downloadstatus und andere Folgendetails beizubehalten, bevor du sie entfernst.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Verwaiste Folgen entfernen?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Es wurden keine verwaisten Folgen entfernt</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ verwaiste Folgen wurden entfernt</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 verwaiste Folge wurde entfernt</string>
+    <key>troubleshooting_title</key>
+    <string>Problembehandlung</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Verwaiste Folgen anzeigen</string>
     <key>try_again</key>
     <string>Erneut versuchen</string>
     <key>try_it_now</key>
@@ -3874,6 +3908,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Du wurdest abgemeldet.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Kostenloses Konto erstellen</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Deine Abos und Fortschritte werden unverändert gespeichert</string>
     <key>tv_banner_create_account_title</key>
     <string>Ein Konto. Jeder Bildschirm</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3916,6 +3952,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Informationen zur Folge</string>
     <key>tv_episode_marked_as_played</key>
     <string>Als gehört markiert</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Als nicht angehört markiert</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Aus „Als Nächstes“ entfernt</string>
     <key>tv_episode_show_notes_action</key>
@@ -3930,6 +3968,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Wird zuletzt abgespielt</string>
     <key>tv_episode_will_play_next</key>
     <string>Wird als Nächstes abgespielt</string>
+    <key>tv_folder_empty_message</key>
+    <string>Bearbeite deinen Ordner in der Mobil-App. Wenn du fertig bist, kannst du deine Podcasts hier abrufen.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Wiedergegebene Folgen werden hier angezeigt</string>
     <key>tv_history_empty_title</key>
@@ -3982,6 +4022,26 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>%1$@ Folgen</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Alle Folgen abspielen</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Diese Playlist filtert nach heruntergeladenen Folgen. Der Speicherplatz des Fernsehers ist knapp. Daher werden Downloads nicht unterstützt.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Jetzt kannst du entweder stolz darauf sein, deine Liste durchgehört zu haben, oder deine Regeln in der Mobil-App bearbeiten, um dir noch mehr Podcasts vorzuknöpfen.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Keine Folgen</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Alle %1$@ Folgen dieser Playlist wurden archiviert</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>Wir können deine aktuelle Liste „Als Nächstes“ als Playlist speichern</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Dadurch wird deine Liste „Als Nächstes“ gelöscht</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Ohne Speichern abspielen</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Speichern und abspielen</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>Wenn du fertig bist, kannst du deine Podcasts hier abrufen. Scannen, um die App zu laden</string>
+    <key>tv_playlists_download_title</key>
+    <string>Playlists auf deinem Mobiltelefon erstellen</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Playlist erstellen</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4020,10 +4080,16 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Diese Folge macht die Leute süchtig</string>
     <key>tv_podcast_detail_website</key>
     <string>Website</string>
+    <key>tv_podcast_error_message</key>
+    <string>Überprüfe deine Internetverbindung und versuche es erneut.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Podcast-Details konnten nicht geladen werden</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Podcasts entdecken</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Abonnierte Podcasts werden hier angezeigt und können jetzt abgespielt werden.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Zeit für neue Podcasts</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Öffnet Profil- und Kontooptionen</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4062,6 +4128,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Bei Pocket Casts anmelden</string>
     <key>tv_signing_in_subtitle</key>
     <string>Deine Podcasts werden geladen.</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Schön, dich zu sehen</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts empfiehlt</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4134,6 +4202,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Jetzt neu: Mischen</string>
     <key>up_next_shuffle_toast_message</key>
     <string>„Mischen“ ist aktiviert. Folgen werden in zufälliger Reihenfolge wiedergegeben.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Kurz nach lang, oder umgekehrt – passe die Folge an deine verfügbare Zeit an.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Nach Dauer sortieren</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>Lang nach kurz</string>
     <key>up_next_sort_newest_to_oldest</key>

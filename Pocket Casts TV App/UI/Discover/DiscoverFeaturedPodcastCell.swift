@@ -74,6 +74,9 @@ struct DiscoverFeaturedPodcastCell: View {
                             Task {
                                 AnalyticsPlaybackHelper.shared.currentSource = .discover
                                 let successPlay = await TVDataManager.shared.playLatestEpisode(of: podcast)
+                                if successPlay {
+                                    trackEpisodeTapped()
+                                }
                                 await MainActor.run {
                                     if successPlay {
                                         showNowPlayingPlayer = true
@@ -129,6 +132,16 @@ struct DiscoverFeaturedPodcastCell: View {
             NowPlayingView()
                 .ignoresSafeArea()
         }
+    }
+
+    private func trackEpisodeTapped() {
+        guard let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid,
+              let podcastUuid = podcast.uuid,
+              let listId else {
+            return
+        }
+        DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid, source: source)
+        DiscoverAnalytics.discoverPodcastPlayed(podcastUuid: podcastUuid, listID: listId)
     }
 }
 
