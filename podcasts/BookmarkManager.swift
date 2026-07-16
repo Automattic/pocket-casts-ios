@@ -142,7 +142,7 @@ class BookmarkManager {
         if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
            let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
             do {
-                return try await enricher.enrich(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle).title
+                return try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
             } catch {
                 FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
             }

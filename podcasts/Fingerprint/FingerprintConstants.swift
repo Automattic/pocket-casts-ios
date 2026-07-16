@@ -139,4 +139,26 @@ enum FingerprintConstants {
     /// cancelled and the caller falls back to a raw skip, so a pathological decode
     /// can't hang the tap behind an indefinite spinner.
     static let onDemandSeekTimeoutSeconds: TimeInterval = 5
+
+    // MARK: - Bookmark position resolve
+
+    /// Local audio fingerprinted around a bookmark's playback position when
+    /// resolving it to the reference timeline (for transcript snippet
+    /// extraction). Unlike the chapter seek there's no searching involved — the
+    /// audio at the bookmark's playback offset IS the moment we want to
+    /// identify — so the region only needs to be big enough to commit anchors
+    /// bracketing the position (windows are 8s long at a 1s stride, and the
+    /// drift filter needs 3 consecutive rate-1 candidates). Reaches further
+    /// back than forward to mirror the transcript capture window.
+    static let bookmarkResolveBackwardSeconds: Double = 35
+    static let bookmarkResolveForwardSeconds: Double = 10
+
+    /// Minimum committed anchors in the one-shot scratch mapping before a
+    /// resolved reference time is trusted. Mirrors `onDemandSeekMinAnchors`.
+    static let bookmarkResolveMinAnchors: Int = 2
+
+    /// Hard timeout for a one-shot bookmark position resolve. On expiry the
+    /// caller falls back to the raw playback time — snippet alignment degrades
+    /// gracefully instead of stalling title generation.
+    static let bookmarkResolveTimeoutSeconds: TimeInterval = 5
 }

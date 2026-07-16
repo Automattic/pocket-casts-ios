@@ -4495,6 +4495,9 @@
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
 
+/* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
+"bookmark_suggested_title" = "Suggested title: %1$@";
+
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
 

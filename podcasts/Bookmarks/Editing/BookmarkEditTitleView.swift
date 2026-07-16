@@ -11,6 +11,15 @@ struct BookmarkEditTitleView: View {
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
+    /// Whether the user has changed the title themselves. Once they have, an
+    /// arriving suggestion is offered below the field instead of replacing
+    /// their text.
+    @State private var hasEdited = false
+
+    /// The value about to be written into `bookmarkTitle` programmatically, so
+    /// its `onChange` doesn't count it as a user edit.
+    @State private var pendingSuggestion: String?
+
     init(viewModel: BookmarkEditViewModel, theme: BookmarkEditTheme) {
         self.viewModel = viewModel
         self.theme = theme
@@ -44,11 +53,57 @@ struct BookmarkEditTitleView: View {
         VStack(spacing: EditConstants.padding) {
             headerView
             Spacer()
-            textField
+            titleSection
             Spacer()
             saveButton
         }
         .padding(.top, EditConstants.padding)
+    }
+
+    /// The title field plus the suggestion affordances that ride along with it:
+    /// a spinner on the field's trailing side while a suggestion is generated,
+    /// and — when the user edited the title before it arrived — the suggestion
+    /// itself below the field, tappable to apply.
+    private var titleSection: some View {
+        VStack(spacing: EditConstants.suggestionSpacing) {
+            textField
+                .overlay(alignment: .trailing) {
+                    if viewModel.titleSuggestion == .generating, !hasEdited {
+                        ProgressView()
+                            .tint(theme.subTitle)
+                    }
+                }
+
+            if case .available(let suggestion) = viewModel.titleSuggestion {
+                suggestionView(suggestion)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.titleSuggestion)
+        .onReceive(viewModel.autoApplySuggestion) { suggestion in
+            apply(suggestion: suggestion)
+        }
+    }
+
+    /// A generated title suggestion the user can tap to use
+    private func suggestionView(_ suggestion: String) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: "sparkles")
+            Text(suggestion)
+                .lineLimit(2)
+        }
+        .font(style: .callout)
+        .foregroundStyle(theme.subTitle)
+        .buttonize {
+            apply(suggestion: suggestion)
+            viewModel.suggestionHandled()
+        }
+        .accessibilityLabel(L10n.bookmarkSuggestedTitle(suggestion))
+        .transition(.opacity.combined(with: .move(edge: .top)))
+    }
+
+    private func apply(suggestion: String) {
+        pendingSuggestion = suggestion
+        bookmarkTitle = suggestion
     }
 
     /// The title and subtitle views
@@ -125,8 +180,15 @@ struct BookmarkEditTitleView: View {
                 // Force the height to be equal to the invisible text view
                 .frame(height: textFieldSize.height)
 
-                // Enforce the max length of the title
+                // Track user edits and enforce the max length of the title
                 .onChange(of: bookmarkTitle) { _, newValue in
+                    if newValue == pendingSuggestion {
+                        pendingSuggestion = nil
+                    } else {
+                        hasEdited = true
+                        viewModel.userDidEditTitle()
+                    }
+
                     let max = Constants.Values.bookmarkMaxTitleLength
                     guard newValue.count > max else { return }
 
@@ -148,6 +210,7 @@ struct BookmarkEditTitleView: View {
 
     private enum EditConstants {
         static let padding = 18.0
+        static let suggestionSpacing = 12.0
     }
 }
 

@@ -534,6 +534,132 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    // MARK: - On-demand bookmark position resolve
+
+    /// Resolve a playback-timeline position (e.g. a bookmark's time) to the
+    /// reference timeline, so reference-timed content like a generated
+    /// transcript can be read at the right spot despite dynamic-ad shifting.
+    ///
+    /// The inverse of the chapter resolve, and simpler: the audio at
+    /// `playbackTime` in the local file IS the moment to identify, so there's
+    /// no search window — we fingerprint a bounded region around it, match
+    /// against the reference, and interpolate. Like `resolvePlaybackTime`
+    /// this is one-shot and side-effect-free: it uses its own matcher,
+    /// cancellation flag, and scratch mapping, and never mutates the
+    /// continuous transcript mapping (`main`), `context`, or `state` — except
+    /// for the warm fast path, which reads the continuous mapping when it
+    /// already confidently covers `playbackTime`.
+    ///
+    /// Returns nil when no reference exists for the episode, the audio region
+    /// isn't local, no confident match is found, or the timeout expires —
+    /// callers should fall back to the raw playback time.
+    func resolveReferenceTime(forPlaybackTime playbackTime: Double, episode: BaseEpisode) async -> Double? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        let episodeUuid = episode.uuid
+
+        // Warm fast path: the continuous transcript mapping already brackets
+        // this position with confident anchors — interpolate straight off it.
+        let warm: Double? = queue.sync {
+            guard let ctx = context, ctx.episodeUuid == episodeUuid,
+                  Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: main.playbackToReference) else {
+                return nil
+            }
+            return Self.interpolate(
+                time: playbackTime,
+                in: main.playbackToReference,
+                keyPath: \.playbackTime,
+                valuePath: \.referenceTime
+            )
+        }
+        if let warm { return warm }
+
+        // Hard timeout: the flag is observed once per decoded chunk, so a slow
+        // decode can't stall the caller indefinitely.
+        let flag = CancellationFlag()
+        let timeoutTask = Task {
+            try? await Task.sleep(
+                nanoseconds: UInt64(FingerprintConstants.bookmarkResolveTimeoutSeconds * 1_000_000_000)
+            )
+            flag.cancel()
+        }
+        defer { timeoutTask.cancel() }
+
+        // Resolve reference data: warm context → disk → server.
+        var referenceData: Data? = queue.sync {
+            guard let ctx = context, ctx.episodeUuid == episodeUuid else { return nil }
+            return ctx.referenceData
+        }
+        referenceData = referenceData ?? loadReference(for: episode)?.data
+        if referenceData == nil {
+            referenceData = await FingerprintReferenceRetriever.shared.fetchReferenceData(
+                podcastUuid: episode.parentIdentifier(),
+                episodeUuid: episodeUuid
+            )
+            if let referenceData { saveReferenceData(referenceData, for: episode) }
+        }
+
+        guard !flag.isCancelled,
+              let referenceData,
+              let reference = ReferenceFingerprint.decode(from: referenceData) else {
+            return nil
+        }
+
+        let duration = episode.duration
+        guard duration > 0,
+              let (matcher, _) = buildMatcher(from: reference, episodeUuid: episodeUuid, audioDuration: duration) else {
+            return nil
+        }
+
+        let start = Self.alignToWindowGrid(
+            max(0, playbackTime - FingerprintConstants.bookmarkResolveBackwardSeconds)
+        )
+        let end = playbackTime + FingerprintConstants.bookmarkResolveForwardSeconds
+
+        let audioURL: URL
+        switch resolveAudioSource(for: episode) {
+        case .downloaded(let url), .streaming(let url):
+            audioURL = url
+        }
+
+        // Fingerprint + match the bounded region into a local scratch
+        // accumulator on `onDemandQueue`; matching stays serialized on `queue`
+        // inside `streamFingerprintBounded`. `main` is never touched.
+        let scratch: MappingAccumulator? = await withCheckedContinuation { continuation in
+            onDemandQueue.async {
+                var acc = MappingAccumulator()
+                do {
+                    try self.streamFingerprintBounded(
+                        audioFileURL: audioURL,
+                        startSeconds: start,
+                        endSeconds: end,
+                        matcher: matcher,
+                        flag: flag,
+                        into: &acc
+                    )
+                    continuation.resume(returning: acc)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+
+        guard let scratch,
+              scratch.playbackToReference.count >= FingerprintConstants.bookmarkResolveMinAnchors,
+              let referenceTime = Self.interpolate(
+                  time: playbackTime,
+                  in: scratch.playbackToReference,
+                  keyPath: \.playbackTime,
+                  valuePath: \.referenceTime
+              ) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve found no confident match "
+                    + "at playback \(String(format: "%.1f", playbackTime))s for \(episodeUuid)"
+            )
+            return nil
+        }
+        return referenceTime
+    }
+
     #if DEBUG
     var totalDuration: Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
