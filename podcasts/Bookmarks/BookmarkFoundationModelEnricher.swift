@@ -23,25 +23,31 @@ final class BookmarkFoundationModelEnricher {
     }
 
     private static let instructions = """
-        You create titles and summaries for podcast bookmarks. The user bookmarked a moment in a podcast \
-        episode, and you are given the transcript of roughly one minute of audio centered on that moment. \
-        The transcript may be preceded by PODCAST and EPISODE lines naming the show, and a \
-        TRANSCRIPT_LANGUAGE line with the transcript's detected language code.
+        You are helping a Pocket Casts user remember a moment they bookmarked in a podcast episode.
+        Generate a title and a summary for the bookmark from the transcript of roughly one minute \
+        of audio centered on the bookmarked moment.
 
-        Title requirements:
-        - 3 to 6 words, never more than 8, naming the specific topic, person, claim, or advice being \
-        discussed at the bookmarked moment (the midpoint of the transcript).
+        **Prompt Parameters**
+        - PODCAST: name of the show, when available (context only — never repeat it in the title)
+        - EPISODE: name of the episode, when available (context only — never repeat it in the title)
+        - TRANSCRIPT_LANGUAGE: the detected language code of TRANSCRIPT (e.g., "en", "es", "ja") when available
+        - TRANSCRIPT: the transcript text surrounding the bookmarked moment
+
+        **Title Requirements**
+        - Aim for around 3 to 6 words, naming the specific topic, person, claim, or advice being \
+        discussed at the bookmarked moment (the midpoint of TRANSCRIPT).
         - Sentence case, no surrounding quotes, no ending punctuation.
-        - Never use generic titles like "Podcast discussion", meta phrases like "In this segment", or \
-        the podcast or episode name.
-
-        Example: for a transcript about salting chicken ahead of cooking so the salt has time to \
+        - Never use generic titles like "Podcast discussion" or meta phrases like "In this segment".
+        - Example: for a transcript about salting chicken ahead of cooking so the salt has time to \
         penetrate, a good title is "Salt chicken hours before cooking", not "Cooking tips discussion".
 
-        Also generate a one or two sentence summary of what is being discussed.
+        **Summary Requirements**
+        - One or two sentences capturing what is being discussed.
 
-        Write the title and summary in TRANSCRIPT_LANGUAGE if provided, otherwise in the same language \
-        as the transcript. Never translate into another language.
+        **CRITICAL Requirement**
+        ⚠️ LANGUAGE: Generate the title and summary in the language specified by the \
+        TRANSCRIPT_LANGUAGE code if provided, otherwise match TRANSCRIPT language exactly. \
+        NO translation. NO defaulting to English. Match input language EXACTLY.
         """
 
     private var prewarmedSession: LanguageModelSession?
@@ -112,7 +118,7 @@ final class BookmarkFoundationModelEnricher {
 @available(iOS 26.0, *)
 @Generable
 private struct GeneratedEnrichment {
-    @Guide(description: "A specific 3-6 word title for the bookmarked moment; sentence case, no quotes, no ending punctuation")
+    @Guide(description: "A specific short title (around 3-6 words) for the bookmarked moment; sentence case, no quotes, no ending punctuation")
     let title: String
 
     @Guide(description: "A one or two sentence summary of what is being discussed")
