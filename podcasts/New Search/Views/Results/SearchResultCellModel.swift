@@ -33,6 +33,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         Task { @MainActor in
             let spinnerTask = Task { @MainActor in
                 try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
+                try Task.checkCancellation()
                 showsLoadingSpinner = true
             }
             defer {
