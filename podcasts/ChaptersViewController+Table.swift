@@ -114,7 +114,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             "source": "fullscreen_player",
             "content_type": AnalyticsPlaybackHelper.shared.currentEpisodeIsVideo ? "video" : "audio",
             "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
-            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "user_file"
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
         ])
     }
 
