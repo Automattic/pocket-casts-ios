@@ -71,7 +71,7 @@ struct InformationalModalView: View {
 
     private var buttons: some View {
         VStack(spacing: 0) {
-            Button(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.createAccount : L10n.eacInformationalViewModalGetStartedButton) {
+            Button(L10n.createAccount) {
                 viewModel.getStarted()
             }
             .buttonStyle(RoundedButtonStyle(theme: theme))
