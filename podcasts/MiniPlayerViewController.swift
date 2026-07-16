@@ -619,7 +619,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         if let timeLeftModel {
-            let remaining = max(0, duration - currentTime)
+            let remaining = max(0, duration - currentTime - PlaybackManager.shared.remainingDeselectedDuration())
             let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
             if timeLeftModel.text != newText {
                 let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled

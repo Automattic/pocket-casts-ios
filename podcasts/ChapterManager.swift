@@ -219,6 +219,21 @@ class ChapterManager {
         Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time })
     }
 
+    func deselectedDuration(after time: TimeInterval) -> TimeInterval {
+        visibleChapters
+            .filter { !$0.isPlayable() }
+            .reduce(0) { total, chapter in
+                let chapterEnd = chapter.startTime.seconds + chapter.duration
+                if chapterEnd <= time {
+                    return total
+                } else if chapter.startTime.seconds >= time {
+                    return total + chapter.duration
+                } else {
+                    return total + (chapterEnd - time)
+                }
+            }
+    }
+
     var chaptersAnalyticsProperties: [String: Any] {
         return ["origin": chaptersOrigin.analyticsDescription]
     }

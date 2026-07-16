@@ -319,7 +319,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {
-        let remaining = max(0, duration - upTo)
+        let remaining = max(0, duration - upTo - PlaybackManager.shared.remainingDeselectedDuration())
         updateTimeLabels(upTo: upTo, remaining: remaining)
 
         if moveSlider {

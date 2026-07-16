@@ -109,7 +109,7 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         guard duration > 0, currentTime.isFinite else { return }
 
-        let remaining = duration - currentTime
+        let remaining = max(0, duration - currentTime - PlaybackManager.shared.remainingDeselectedDuration())
         timeRemainingLabel.text = L10n.queueTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining))
 
         let percentageLapsed = CGFloat(currentTime / duration)
