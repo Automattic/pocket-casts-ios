@@ -913,6 +913,7 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsBookmarkSoundToggled
 
     // MARK: - Skipping Chapters
+    case chaptersShown
     case chapterLinkClicked
     case deselectChaptersToggledOn
     case deselectChaptersToggledOff
@@ -952,8 +953,6 @@ enum AnalyticsEvent: String {
     case syncedTranscriptsUnavailable
     case syncedTranscriptsSeekFailed
     case syncedTranscriptsAutoScrollResumed
-    case syncedTranscriptsChapterSeekUsed
-    case syncedTranscriptsChapterSeekFailed
 
     // MARK: - Widgets
 

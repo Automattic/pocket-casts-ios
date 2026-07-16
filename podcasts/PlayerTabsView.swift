@@ -49,6 +49,7 @@ class PlayerTabsView: UIScrollView {
                 AnalyticsHelper.playerShowNotesOpened()
             case .chapters:
                 AnalyticsHelper.chaptersOpened()
+                trackChaptersShown()
             case .bookmarks:
                 break
             }
@@ -265,6 +266,20 @@ private extension PlayerTabsView {
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])
+    }
+
+    /// Emitted when the user switches to the Chapters tab and the episode has
+    /// chapters, matching Android's `chapters_shown` (fired from its player
+    /// pager with the same guard against empty chapter lists).
+    private func trackChaptersShown() {
+        guard PlaybackManager.shared.chapterCount() > 0 else { return }
+
+        Analytics.track(.chaptersShown, properties: [
+            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
+            "source": "fullscreen_player"
+        ])
     }
 }
 

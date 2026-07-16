@@ -467,6 +467,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         return chapterManager.chaptersOrigin == .generated
     }
 
+    /// The loaded chapters' origin as its Tracks value (e.g. "generated",
+    /// "native_media"). Exposed for events that are tracked outside
+    /// `trackChapterEvent` but still carry the chapter origin.
+    var chaptersOriginAnalyticsValue: String {
+        chapterManager.chaptersOrigin.analyticsDescription
+    }
+
     func index(for chapter: Chapters) -> Int? {
         chapterManager.index(for: chapter)
     }
