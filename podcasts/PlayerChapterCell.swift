@@ -158,7 +158,7 @@ class PlayerChapterCell: UITableViewCell {
     @IBAction func linkTapped(_ sender: Any) {
         guard let chapter, let link = chapter.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
         PlaybackManager.shared.trackChapterEvent(.chapterLinkClicked, properties: [
-            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "user_file",
             "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
             "chapter_title": chapter.title
         ])

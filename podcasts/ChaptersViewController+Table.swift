@@ -106,13 +106,15 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     /// Tracked directly rather than through `trackChapterEvent`: the playback
     /// helper merges in a default "source" (the current view) that wins over
     /// ours, but this event's source is typed as `chapters_shown_source` and
-    /// must be "fullscreen_player", matching Android.
+    /// must be "fullscreen_player", matching Android. Bypassing the helper also
+    /// drops its auto-injected `content_type`, so re-add it from the same source.
     private func trackChapterSelected() {
         Analytics.track(.playerChapterSelected, properties: [
             "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
             "source": "fullscreen_player",
+            "content_type": AnalyticsPlaybackHelper.shared.currentEpisodeIsVideo ? "video" : "audio",
             "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
-            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "user_file"
         ])
     }
 

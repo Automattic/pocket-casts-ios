@@ -276,7 +276,7 @@ private extension PlayerTabsView {
 
         Analytics.track(.chaptersShown, properties: [
             "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
-            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "user_file",
             "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
             "source": "fullscreen_player"
         ])
