@@ -489,6 +489,8 @@ Laat ons eerst helpen</string>
     <string>Moet ten minste 6 tekens bevatten</string>
     <key>chapters</key>
     <string>Hoofdstukken</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Deze hoofdstukken worden automatisch gegenereerd en zijn mogelijk niet perfect nauwkeurig.</string>
     <key>check_internet_connection</key>
     <string>Controleer je internetverbinding</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1607,6 +1609,8 @@ podcasts mee</string>
     <string>Markeren als afgespeeld</string>
     <key>mark_played_short</key>
     <string>Afgespeeld markeren</string>
+    <key>mark_unplayed</key>
+    <string>Markeren als niet-afgespeeld</string>
     <key>mark_unplayed_short</key>
     <string>Niet-afgespeeld markeren</string>
     <key>maybe_later</key>
@@ -3857,6 +3861,36 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Proefperiode afgelopen</string>
     <key>trim_silence</key>
     <string>Stiltes wegfilteren</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Bezig met controleren op niet-gekoppelde afleveringen …</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Een zeldzaam synchronisatieprobleem kan dubbele afleveringberichten achterlaten die niet langer aan hun podcast zijn gekoppeld. Hierdoor kan de download- of afspeelstatus van een aflevering op sommige plaatsen in de app onjuist lijken.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ niet-gekoppelde afleveringen</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 niet-gekoppelde aflevering</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Niet-gekoppelde afleveringen</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Geen niet-gekoppelde afleveringen gevonden</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Niet-gekoppelde afleveringen verwijderen …</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Niet-gekoppelde afleveringen verwijderen</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Hierdoor worden de dubbele afleveringgegevens op dit apparaat verwijderd. Deze actie kan niet ongedaan worden gemaakt, maar Pocket Casts zal zijn best doen om je afspeelvoortgang, downloadstatus en andere afleveringgegevens te behouden voordat je ze verwijdert.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Niet-gekoppelde afleveringen verwijderen?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Er zijn geen niet-gekoppelde afleveringen verwijderd</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ niet-gekoppelde afleveringen zijn verwijderd</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 niet-gekoppelde aflevering is verwijderd</string>
+    <key>troubleshooting_title</key>
+    <string>Probleemoplossing</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Bekijk niet-gekoppelde afleveringen</string>
     <key>try_again</key>
     <string>Probeer opnieuw</string>
     <key>try_it_now</key>
@@ -3868,6 +3902,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Je bent uitgelogd.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Een gratis account aanmaken</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Je volgt en ontwikkelt precies waar je ze hebt achtergelaten</string>
     <key>tv_banner_create_account_title</key>
     <string>Eén account. Elk scherm</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3910,6 +3946,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Informatie over aflevering</string>
     <key>tv_episode_marked_as_played</key>
     <string>Markeren als afgespeeld</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Markeren als niet-afgespeeld</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Verwijderd uit Hierna</string>
     <key>tv_episode_show_notes_action</key>
@@ -3924,6 +3962,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Wordt als laatste afgespeeld</string>
     <key>tv_episode_will_play_next</key>
     <string>Wordt hierna afgespeeld</string>
+    <key>tv_folder_empty_message</key>
+    <string>Bewerk je map in de mobiele app. Ze staan hier als je klaar bent.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Afleveringen die je afspeelt, worden hier weergegeven</string>
     <key>tv_history_empty_title</key>
@@ -3976,6 +4016,26 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>%1$@ afleveringen</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Alle afleveringen afspelen</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Deze afspeellijst filtert op gedownloade afleveringen. De opslagruimte van de tv is beperkt, dus downloads worden niet ondersteund.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Het wordt ofwel tijd om te vieren dat je deze lijst hebt afgerond of om je regels in de mobiele app te bewerken om er meer te krijgen.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Geen afleveringen</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Alle %1$@ de afleveringen van deze afspeellijst zijn gearchiveerd.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>We kunnen je huidige Hierna opslaan als een afspeellijst</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Hierdoor wordt je Hierna gewist</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Afspelen zonder op te slaan</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Opslaan en afspelen</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>Ze staan hier als je klaar bent. Scan om de app te krijgen</string>
+    <key>tv_playlists_download_title</key>
+    <string>Maak afspeellijsten aan op je telefoon</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Maak een afspeellijst aan</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4014,10 +4074,16 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Dit is de aflevering die mensen aantrekt</string>
     <key>tv_podcast_detail_website</key>
     <string>Site</string>
+    <key>tv_podcast_error_message</key>
+    <string>Controleer je internetverbinding en probeer het nogmaals.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Kan podcastgegevens niet laden</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Podcasts ontdekken</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Gevolgde podcasts verschijnen hier, klaar om af te spelen.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Tijd om dit in te vullen</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Opent profiel- en accountopties</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4056,6 +4122,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Log in bij Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Je podcasts worden geladen.</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Goed je te zien</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Aanbevolen door Pocket Casts</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4128,6 +4196,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Maak kennis met shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Kortste naar langste, of andersom - pas de aflevering aan op de tijd die je daadwerkelijk hebt.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Sorteren op duur</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>Langste naar kortste</string>
     <key>up_next_sort_newest_to_oldest</key>

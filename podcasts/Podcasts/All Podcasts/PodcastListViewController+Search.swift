@@ -33,13 +33,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     func makeSortOrderOptionsPicker() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        let sortOption: LibrarySort
-        if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
-            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
-            sortOption = .dateAddedNewestToOldest
-        } else {
-            sortOption = Settings.homeFolderSortOrder()
-        }
+        let sortOption = Settings.homeFolderSortOrder()
 
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             guard let strongSelf = self else { return }
@@ -81,18 +75,11 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.recentlyPlayed])
         }
 
-        if FeatureFlag.podcastsSortChanges.enabled {
-            options.addAction(action: subscribedOrder)
-            options.addAction(action: releaseDateAction)
-            options.addAction(action: recentlyPlayedOrder)
-            options.addAction(action: podcastNameAction)
-            options.addAction(action: dragAndDropAction)
-        } else {
-            options.addAction(action: podcastNameAction)
-            options.addAction(action: releaseDateAction)
-            options.addAction(action: subscribedOrder)
-            options.addAction(action: dragAndDropAction)
-        }
+        options.addAction(action: subscribedOrder)
+        options.addAction(action: releaseDateAction)
+        options.addAction(action: recentlyPlayedOrder)
+        options.addAction(action: podcastNameAction)
+        options.addAction(action: dragAndDropAction)
 
         return options
     }

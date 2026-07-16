@@ -257,27 +257,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func ensureAudioSessionActivated() {
+    func ensureBackgroundMediaSessionConfiguration() {
         guard let currEpisode = currentEpisode() else { return }
-        activateAudioSession(completion: { activated in
-            if !activated {
-                self.aboutToPlay.value = false
-                return
-            }
-
-            self.startUpdateTimer()
+        refreshNowPlayingInfo(forceFullRebuild: true)
+        activateAudioSession(completion: { _ in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
-
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
             }
-
-            self.updateIdleTimer()
-
-            self.sleepTimerManager.restartSleepTimerIfNeeded()
         })
     }
 
@@ -442,6 +430,27 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func skipToChapter(_ chapter: ChapterInfo, startPlaybackAfterSkip: Bool = false) {
         seekTo(time: ceil(chapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
+    }
+
+    /// The chapter the next/previous skip controls would move to. Exposed so
+    /// callers can resolve a generated chapter's true playback position via
+    /// fingerprinting before seeking (see `GeneratedChapterSeeker`).
+    func nextPlayableChapter() -> ChapterInfo? {
+        chapterManager.nextVisiblePlayableChapter()
+    }
+
+    func previousPlayableChapter() -> ChapterInfo? {
+        chapterManager.previousVisibleChapter()
+    }
+
+    /// Emit the "chapter skipped" analytics when the jump to `chapter` spans more
+    /// than one chapter (i.e. deselected chapters were skipped over). Exposed so the
+    /// generated-chapter seek path preserves parity with
+    /// `skipToNextChapter`/`skipToPreviousChapter`, which it routes around.
+    func trackChapterSkippedIfNeeded(to chapter: ChapterInfo) {
+        if abs(currentChapters().index - chapter.index) > 1 {
+            trackChapterSkipped()
+        }
     }
 
     func skipToEndOfLastChapter() {
