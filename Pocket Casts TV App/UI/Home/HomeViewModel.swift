@@ -69,6 +69,8 @@ class HomeViewModel {
             Constants.Notifications.podcastAdded,
             Constants.Notifications.podcastDeleted,
             Constants.Notifications.upNextQueueChanged,
+            Constants.Notifications.upNextEpisodeRemoved,
+            Constants.Notifications.upNextEpisodeAdded,
             Constants.Notifications.manyEpisodesChanged,
             ServerNotifications.podcastsRefreshed,
             ServerNotifications.syncCompleted,
