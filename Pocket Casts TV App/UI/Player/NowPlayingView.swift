@@ -193,7 +193,6 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
     }
 
     private func makePlaybackSpeedMenu() -> UIMenu {
-
         let speeds = Array(stride(from: SharedConstants.PlaybackEffects.minimumPlaybackSpeed,
                                   through: model.maxPlaybackSpeed,
                                   by: 0.1))
