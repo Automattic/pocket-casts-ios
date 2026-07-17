@@ -242,6 +242,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func seekToStartingPosition() {
         let startingTime = requiredStartingPosition()
         player?.play { [weak self] in
+            self?.analyticsPlaybackHelper.currentSource = .sync
             self?.seekTo(time: startingTime, startPlaybackAfterSeek: false)
             self?.player?.pause()
         }

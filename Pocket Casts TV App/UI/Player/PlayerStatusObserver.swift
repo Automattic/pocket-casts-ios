@@ -11,6 +11,8 @@ class PlayerStatusObserver {
     private var timeControlStatusObservation: NSKeyValueObservation?
     private var previousTimeStatus: AVPlayer.TimeControlStatus?
 
+    private var remainingEventsToSkip: UInt = 0
+
     private init() {
     }
 
@@ -31,6 +33,10 @@ class PlayerStatusObserver {
         }
     }
 
+    func skipNextEvents(_ amount: UInt) {
+        remainingEventsToSkip = amount
+    }
+
     private func updatePlayState() {
         guard let player else {
             return
@@ -47,6 +53,11 @@ class PlayerStatusObserver {
             return
         }
         previousTimeStatus = currentTimeStatus
+
+        if remainingEventsToSkip > 0, currentTimeStatus == .playing || currentTimeStatus == .paused {
+            remainingEventsToSkip -= 1
+            return
+        }
 
         if let interval = AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction?.timeIntervalSinceNow,
              abs(interval) < 1 {
