@@ -1347,7 +1347,7 @@ platform :ios do
         CREATE_GITHUB_RELEASE: create_release
       }
     }
-    if is_ci?
+    if is_ci
       buildkite_pipeline_upload(**pipeline_args)
     else
       require_env_vars!('BUILDKITE_TOKEN')
@@ -1584,7 +1584,7 @@ platform :ios do
     MESSAGE
 
     UI.error(error_message)
-    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci?
+    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
   end
 
   # Private helper to create backmerge Pull Requests after new betas or final build
