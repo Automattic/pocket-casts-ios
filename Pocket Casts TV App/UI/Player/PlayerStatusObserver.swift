@@ -52,7 +52,7 @@ class PlayerStatusObserver {
             skipNextEvents -= 1
             return
         }
-        
+
         guard previousTimeStatus != currentTimeStatus, previousTimeStatus == .paused || previousTimeStatus == .playing else {
             previousTimeStatus = currentTimeStatus
             return
