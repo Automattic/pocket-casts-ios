@@ -257,6 +257,17 @@ class NowPlayingViewModel: Identifiable {
         return playbackManager.volumeBoostAvailable()
     }
 
+    var maxPlaybackSpeed: Double {
+        var maxSpeed = SharedConstants.PlaybackEffects.maximumPlaybackSpeed
+        guard let episode else {
+            return maxSpeed
+        }
+        if EpisodeManager.hasHLSStream(episode) {
+            maxSpeed = SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed
+        }
+        return maxSpeed
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)
