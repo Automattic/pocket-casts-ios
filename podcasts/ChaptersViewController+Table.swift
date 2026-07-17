@@ -63,11 +63,14 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
+                // Android also emits the selection event when the tapped chapter is
+                // already playing, so keep parity even though nothing seeks here.
+                trackChapterSelected()
             } else if GeneratedChapterSeeker.isEnabled {
                 resolveAndSeek(to: chapter, at: indexPath)
             } else {
+                trackChapterSelected()
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
-                PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
             }
         }
     }
@@ -84,7 +87,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
         // Fire on every tap — including the cache hit that resolves synchronously
         // without a spinner — so the selection event matches the non-generated path.
-        PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
+        trackChapterSelected()
 
         GeneratedChapterSeeker.seek(
             to: chapter,
@@ -98,6 +101,21 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(false)
             }
         )
+    }
+
+    /// Tracked directly rather than through `trackChapterEvent`: the playback
+    /// helper merges in a default "source" (the current view) that wins over
+    /// ours, but this event's source is typed as `chapters_shown_source` and
+    /// must be "fullscreen_player", matching Android. Bypassing the helper also
+    /// drops its auto-injected `content_type`, so re-add it from the same source.
+    private func trackChapterSelected() {
+        Analytics.track(.playerChapterSelected, properties: [
+            "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
+            "source": "fullscreen_player",
+            "content_type": AnalyticsPlaybackHelper.shared.currentEpisodeIsVideo ? "video" : "audio",
+            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
+        ])
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

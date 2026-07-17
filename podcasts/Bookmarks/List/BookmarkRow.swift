@@ -101,7 +101,9 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
-        PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), style: style).buttonize {
+        let isLoading = viewModel.loadingBookmarkUuid == bookmark.uuid
+
+        return PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), isLoading: isLoading, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label
@@ -109,12 +111,13 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                 .applyButtonEffect(isPressed: config.isPressed)
         }
         .opacity(viewModel.isMultiSelecting ? 0.3 : 1)
-        .disabled(viewModel.isMultiSelecting)
+        .disabled(viewModel.isMultiSelecting || isLoading)
     }
 
     // MARK: - Play Button View
     private struct PlayButton<ButtonStyle: BookmarksStyle>: View {
         let title: String
+        let isLoading: Bool
         @ObservedObject var style: ButtonStyle
 
         var body: some View {
@@ -125,6 +128,14 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
                 Image("bookmarks-icon-play")
                     .renderingMode(.template)
+                    .opacity(isLoading ? 0 : 1)
+                    .overlay {
+                        if isLoading {
+                            ProgressView()
+                                .tint(style.playButtonText)
+                                .scaleEffect(0.8)
+                        }
+                    }
             }
             .foregroundStyle(style.playButtonText)
             .padding(.horizontal, RowConstants.horizontalPadding)

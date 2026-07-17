@@ -202,6 +202,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
                 state: speed == model.playbackSpeed ? .on : .off
             ) { action in
                 model.playbackSpeed = speed
+                AnalyticsPlaybackHelper.shared.currentSource = .player
                 AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: speed)
                 if let menu = action.sender as? UIMenu {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
@@ -224,11 +225,13 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
                 ToastManager.shared.show(L10n.tvPlayerVolumeBoostOff)
                 model.volumeBoost = false
+                AnalyticsPlaybackHelper.shared.currentSource = .player
                 AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: false)
             }
             let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
                 ToastManager.shared.show(L10n.tvPlayerVolumeBoostOn)
                 model.volumeBoost = true
+                AnalyticsPlaybackHelper.shared.currentSource = .player
                 AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: true)
             }
             let volumeBoostSection = UIMenu(
@@ -243,6 +246,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             let trimActions = TrimSilenceAmount.allCases.map { option in
                 UIAction(title: option.description, state: model.trimSilence == option ? .on : .off) { _ in
                     model.trimSilence = option
+                    AnalyticsPlaybackHelper.shared.currentSource = .player
                     AnalyticsPlaybackHelper.shared.trimSilenceAmountChanged(amount: option)
                     ToastManager.shared.show(L10n.tvPlayerTrimSilenceSet(option.description))
                 }

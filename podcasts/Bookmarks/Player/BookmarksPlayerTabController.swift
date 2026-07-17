@@ -129,8 +129,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 // MARK: - BookmarkListRouter
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
-    func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark, source: .player)
+    func bookmarkPlay(_ bookmark: Bookmark) async throws {
+        try await playbackManager.playBookmark(bookmark, source: .player)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

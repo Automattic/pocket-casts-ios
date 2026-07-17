@@ -197,7 +197,7 @@ extension SyncTask {
         let startSyncTime = Int64(StatsManager.shared.statsStartDate().timeIntervalSince1970)
 
         // check to see if there's actually any stats we need to sync
-        if StatsManager.shared.syncStatus() != .notSynced || (timeSavedDynamicSpeed == nil && totalSkippedTime == nil && totalSkippedTime == nil && timeSavedVariableSpeed == nil && totalListeningTime == nil) {
+        if StatsManager.shared.syncStatus() != .notSynced || (timeSavedDynamicSpeed == nil && totalSkippedTime == nil && totalIntroSkippedTime == nil && timeSavedVariableSpeed == nil && totalListeningTime == nil) {
             return nil
         }
 

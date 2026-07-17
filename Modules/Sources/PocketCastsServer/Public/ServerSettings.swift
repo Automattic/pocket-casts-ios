@@ -164,6 +164,25 @@ public class ServerSettings {
         UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
     }
 
+    // MARK: Disable AI Chapters
+
+    public class func setDisableAiChapters(_ value: Bool) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.disableAiChaptersKey)
+        UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.disableAiChaptersNeedsSyncKey)
+    }
+
+    public class func disableAiChapters() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.disableAiChaptersKey)
+    }
+
+    public class func disableAiChaptersNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.disableAiChaptersNeedsSyncKey)
+    }
+
+    public class func disableAiChaptersSynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.disableAiChaptersNeedsSyncKey)
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"
@@ -334,7 +353,7 @@ public class ServerSettings {
     }
 
     public class func syncSettings() {
-        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
+        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || ServerSettings.disableAiChaptersNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
 
         ApiServerHandler.shared.syncSettings()
     }

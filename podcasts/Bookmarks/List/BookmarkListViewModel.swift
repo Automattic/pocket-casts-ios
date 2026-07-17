@@ -37,6 +37,8 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     let feature: PaidFeature = .bookmarks
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
+    @Published private(set) var loadingBookmarkUuid: String?
+
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
         self._sortSettingValue = sortOption
@@ -95,7 +97,22 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
 extension BookmarkListViewModel {
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
-        router?.bookmarkPlay(bookmark)
+        Task { @MainActor [weak self] in
+            let spinnerTask = Task { @MainActor in
+                try await Task.sleep(for: .milliseconds(250))
+                try Task.checkCancellation()
+                self?.loadingBookmarkUuid = bookmark.uuid
+            }
+
+            do {
+                try await self?.router?.bookmarkPlay(bookmark)
+            } catch {
+                Toast.show(L10n.discoverEpisodeFailToLoad)
+            }
+
+            spinnerTask.cancel()
+            self?.loadingBookmarkUuid = nil
+        }
     }
 
     func editSelectedBookmarks() {
