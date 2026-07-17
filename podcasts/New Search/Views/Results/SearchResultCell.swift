@@ -200,8 +200,16 @@ private extension SearchResultCell {
                         .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                         .frame(width: 48, height: 48)
                 } else if !showEpisodeAddButton {
-                    EpisodeActionButton(model: self.model)
-                        .frame(width: 48, height: 48)
+                    ZStack {
+                        if model.showsLoadingSpinner {
+                            ProgressView()
+                                .tint(AppTheme.color(for: .primaryIcon01, theme: theme))
+                        } else {
+                            EpisodeActionButton(model: self.model)
+                        }
+                    }
+                    .allowsHitTesting(!model.isLoadingEpisode)
+                    .frame(width: 48, height: 48)
                 }
                 if showEpisodeAddButton {
                     Button(action: {
