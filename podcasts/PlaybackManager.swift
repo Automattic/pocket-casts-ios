@@ -1049,7 +1049,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if playbackEffects.playbackSpeed > 4.9 { return }
 
         // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
-        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= 2 { return }
+        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed { return }
 
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)

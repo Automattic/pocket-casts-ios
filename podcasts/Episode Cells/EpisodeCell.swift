@@ -240,7 +240,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             starIndicator.isHidden = !episode.keepEpisode
             // Treat episodes with a usable HLS stream (HLS feature enabled + valid HLS URL) as video, so
             // we show the video indicator without parsing the stream.
-            videoIndicator.isHidden = !(episode.videoPodcast() || EpisodeManager.hasHLSStream(episode))
+            videoIndicator.isHidden = !EpisodeManager.isVideo(episode)
             videoIndicator.tintColor = ThemeColor.support01()
             setUpNextIndicator(visible: PlaybackManager.shared.inUpNext(episode: episode), animated: false)
             upNextIndicator.tintColor = ThemeColor.support01()
