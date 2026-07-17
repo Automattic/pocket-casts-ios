@@ -11,6 +11,8 @@ class PlayerStatusObserver {
     private var timeControlStatusObservation: NSKeyValueObservation?
     private var previousTimeStatus: AVPlayer.TimeControlStatus?
 
+    private var skipNextEvents: UInt = 0
+
     private init() {
     }
 
@@ -31,6 +33,10 @@ class PlayerStatusObserver {
         }
     }
 
+    func skipNextEvents(_ amount: UInt) {
+        skipNextEvents = amount
+    }
+
     private func updatePlayState() {
         guard let player else {
             return
@@ -42,6 +48,11 @@ class PlayerStatusObserver {
             return
         }
 
+        if skipNextEvents > 0 {
+            skipNextEvents -= 1
+            return
+        }
+        
         guard previousTimeStatus != currentTimeStatus, previousTimeStatus == .paused || previousTimeStatus == .playing else {
             previousTimeStatus = currentTimeStatus
             return

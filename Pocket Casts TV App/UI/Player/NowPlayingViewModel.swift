@@ -122,6 +122,7 @@ class NowPlayingViewModel: Identifiable {
             seekAfterLoad = false
             // The delay is needed only for videos episodes.
             // For some reason the AVPlayerViewController does not accept seeks immediately after loading, and resets the position to zero
+            PlayerStatusObserver.shared.skipNextEvents(2)
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) { [weak self] in
                 self?.playbackManager.seekToStartingPosition()
             }
