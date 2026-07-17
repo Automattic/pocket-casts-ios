@@ -48,16 +48,16 @@ class PlayerStatusObserver {
             return
         }
 
-        if skipNextEvents > 0 {
-            skipNextEvents -= 1
-            return
-        }
-
         guard previousTimeStatus != currentTimeStatus, previousTimeStatus == .paused || previousTimeStatus == .playing else {
             previousTimeStatus = currentTimeStatus
             return
         }
         previousTimeStatus = currentTimeStatus
+
+        if skipNextEvents > 0 {
+            skipNextEvents -= 1
+            return
+        }
 
         if let interval = AnalyticsPlaybackHelper.shared.timestampOfLastRemoteAction?.timeIntervalSinceNow,
              abs(interval) < 1 {
