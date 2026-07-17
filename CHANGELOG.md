@@ -17,6 +17,7 @@
 - Fix misaligned time values in the Stats screen's Time Saved rows; they are now right-aligned and no longer wrap when there is enough space [#4754](https://github.com/Automattic/pocket-casts-ios/pull/4754)
 - Fix the Stats screen getting stuck loading when the stats request fails [#4753](https://github.com/Automattic/pocket-casts-ios/pull/4753)
 - Fix the mini player showing empty and stuck after opening the app from an episode notification or a deep link while the full-screen player was open [#4757](https://github.com/Automattic/pocket-casts-ios/pull/4757)
+- Fix the player not opening automatically when playing an episode from its details card with Open Player Automatically enabled [#4781](https://github.com/Automattic/pocket-casts-ios/pull/4781)
 
 8.16
 -----
