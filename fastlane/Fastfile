@@ -440,7 +440,7 @@ platform :ios do
   lane :finalize_release do |skip_confirm: false|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if current_version_hotfix?
 
-    require_env_vars!('GITHUB_TOKEN')
+    require_env_vars!('GITHUB_TOKEN', *ASC_API_KEY_ENV_VARS)
 
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
