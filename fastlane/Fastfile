@@ -1523,6 +1523,8 @@ platform :ios do
     # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
     skip_screenshots = with_screenshots == false
 
+    # Fastlane loads every release_notes.txt in metadata_path and cannot skip only release notes.
+    # Use a filtered copy to upload the remaining metadata without changing the existing release notes.
     temporary_metadata_path = nil
     unless with_release_notes
       temporary_metadata_path = Dir.mktmpdir('pocket-casts-app-store-metadata')
