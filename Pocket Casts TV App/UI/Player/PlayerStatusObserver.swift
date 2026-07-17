@@ -54,7 +54,7 @@ class PlayerStatusObserver {
         }
         previousTimeStatus = currentTimeStatus
 
-        if remainingEventsToSkip > 0 {
+        if remainingEventsToSkip > 0, currentTimeStatus == .playing || currentTimeStatus == .paused {
             remainingEventsToSkip -= 1
             return
         }
