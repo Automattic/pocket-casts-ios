@@ -11,7 +11,7 @@ class PlayerStatusObserver {
     private var timeControlStatusObservation: NSKeyValueObservation?
     private var previousTimeStatus: AVPlayer.TimeControlStatus?
 
-    private var skipNextEvents: UInt = 0
+    private var remainingEventsToSkip: UInt = 0
 
     private init() {
     }
@@ -34,7 +34,7 @@ class PlayerStatusObserver {
     }
 
     func skipNextEvents(_ amount: UInt) {
-        skipNextEvents = amount
+        remainingEventsToSkip = amount
     }
 
     private func updatePlayState() {
@@ -54,8 +54,8 @@ class PlayerStatusObserver {
         }
         previousTimeStatus = currentTimeStatus
 
-        if skipNextEvents > 0 {
-            skipNextEvents -= 1
+        if remainingEventsToSkip > 0 {
+            remainingEventsToSkip -= 1
             return
         }
 
