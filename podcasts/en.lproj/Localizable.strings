@@ -4312,6 +4312,9 @@
 /* Subtitle of the login view */
 "login_landing_subtitle" = "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.";
 
+/* Label of a button on the login landing view that lets the user sign up for an account using their email address */
+"login_landing_sign_up_with_email" = "Sign up with email";
+
 /* Title of the plus marketing view */
 "plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 

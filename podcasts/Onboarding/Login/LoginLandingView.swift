@@ -328,7 +328,7 @@ private struct LoginButtons: View {
         VStack(spacing: 16) {
             SocialLoginButtons(coordinator: coordinator)
 
-            Button("Sign up with email") {
+            Button(L10n.loginLandingSignUpWithEmail) {
                 coordinator.signUpTapped()
             }.buttonStyle(RoundedButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
 
