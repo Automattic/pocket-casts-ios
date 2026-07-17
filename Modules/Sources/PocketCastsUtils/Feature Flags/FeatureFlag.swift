@@ -535,7 +535,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedChapters:
             BuildEnvironment.current == .debug
         case .hls:
-            BuildEnvironment.current == .debug
+            true
         case .troubleshooting:
             true
         case .smartBookmarks:
