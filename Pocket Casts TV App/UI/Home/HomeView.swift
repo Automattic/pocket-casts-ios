@@ -74,6 +74,7 @@ struct HomeView: View {
                         lovedByListenersOfRow
                         trendingRow
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
+                            Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
                             tabRouter.selectedTab = .search
                         }
                     } else {
