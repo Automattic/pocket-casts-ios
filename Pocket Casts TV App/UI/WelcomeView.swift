@@ -53,6 +53,7 @@ struct WelcomeView: View {
                     Spacer()
                     Button(L10n.tvWelcomeBrowseWithoutAccount) {
                         coordinator.state = .browsing
+                        Analytics.track(.browseNoAccountTapped)
                     }
                 }
             }

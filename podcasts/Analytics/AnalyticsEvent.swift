@@ -1049,4 +1049,9 @@ enum AnalyticsEvent: String {
     case deviceSetupAccountTapped
     case deviceApproveSuccessful
     case deviceApproveFailed
+
+    // MARK: TV
+
+    case browseNoAccountTapped
+    case bannerRowTapped
 }

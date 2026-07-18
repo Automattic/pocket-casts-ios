@@ -81,12 +81,14 @@ struct HomeView: View {
                         featuredRow
                         videoRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
+                            Analytics.track(.bannerRowTapped, properties: ["type": "create_account"])
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
                         categoriesRow
                         curatedRow
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
+                            Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
                             tabRouter.selectedTab = .search
                         }
                     }
