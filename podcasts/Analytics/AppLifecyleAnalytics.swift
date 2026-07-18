@@ -25,9 +25,9 @@ extension AppLifecycleAnalytics {
     /// Drives the open/closed events from SwiftUI `scenePhase` changes, for apps
     /// that use the SwiftUI app lifecycle instead of an `AppDelegate` (e.g. tvOS).
     func handle(scenePhase: ScenePhase) {
-        _ = checkApplicationInstalledOrUpgraded()
         switch scenePhase {
         case .active:
+            _ = checkApplicationInstalledOrUpgraded()
             didBecomeActive()
         case .background:
             didEnterBackground()
