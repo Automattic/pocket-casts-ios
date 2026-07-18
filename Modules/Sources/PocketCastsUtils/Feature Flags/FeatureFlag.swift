@@ -320,6 +320,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Smart Bookmarks
     case smartBookmarks
 
+    /// Enable the "Rewind after interruptions" setting: rewind playback after calls, alarms and other audio interruptions
+    case interruptionRewind
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -539,6 +542,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .troubleshooting:
             true
         case .smartBookmarks:
+            BuildEnvironment.current == .debug
+        case .interruptionRewind:
             BuildEnvironment.current == .debug
         }
     }

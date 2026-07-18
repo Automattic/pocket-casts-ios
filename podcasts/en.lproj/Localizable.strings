@@ -2713,6 +2713,12 @@
 /* Subtitle explaining the feature that adjusts the playback position when resuming. */
 "settings_general_smart_playback_subtitle" = "If on, Pocket Casts will go back a little in episodes you resume so you can catch up more comfortably.";
 
+/* Setting to choose how many seconds playback rewinds after an audio interruption. */
+"settings_general_interruption_rewind" = "Rewind after interruptions";
+
+/* Subtitle explaining the setting that rewinds playback after an audio interruption. */
+"settings_general_interruption_rewind_subtitle" = "Go back a little after playback is interrupted by calls, alarms, navigation and other audio.";
+
 /* Setting toggle to enable the feature that disables the lock screen scrubber. */
 "settings_general_lock_screen_disabled" = "Enable Lock Screen Scrubbing";
 

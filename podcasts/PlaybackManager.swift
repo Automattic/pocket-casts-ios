@@ -2348,7 +2348,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             if let episode = currentEpisode() {
-                catchUpHelper.playbackDidPause(of: episode)
+                // record the frozen player position and stop the progress timer before storing the pause,
+                // otherwise the timer keeps moving playedUpTo and the catch up helper's position guard
+                // rejects the adjustment when playback resumes
+                recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
+                cancelUpdateTimer()
+
+                // interruptInProgress is false here when this began event is a route disconnection being ignored,
+                // those aren't real interruptions so they shouldn't trigger the interruption rewind either
+                catchUpHelper.playbackDidPause(of: episode, dueToInterruption: interruptInProgress && wasPlayingBeforeInterruption)
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
         }
