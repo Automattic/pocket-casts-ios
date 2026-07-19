@@ -1,5 +1,6 @@
 8.17
 -----
+- Add an optional "Rewind after interruptions" setting that jumps back a little when playback resumes after calls, alarms, navigation and other audio [#4788](https://github.com/Automattic/pocket-casts-ios/pull/4788)
 - Fix intro-skipped time not syncing to your account when it is the only listening stat that changed [#4755](https://github.com/Automattic/pocket-casts-ios/pull/4755)
 - Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)
 - Fix the Help & Feedback screen following the system/in-app dark theme and using incorrect colors in the navigation bar [#4698](https://github.com/Automattic/pocket-casts-ios/pull/4698)
