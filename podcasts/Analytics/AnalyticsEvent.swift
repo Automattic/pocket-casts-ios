@@ -646,6 +646,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralOpenPlayerAutomaticallyToggled
     case settingsGeneralDisableLockScreenScrubberToggled
     case settingsGeneralIntelligentPlaybackToggled
+    case settingsGeneralInterruptionRewindChanged
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
     case settingsGeneralAudioOnlyToggled

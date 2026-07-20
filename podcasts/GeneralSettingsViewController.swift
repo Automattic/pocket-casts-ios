@@ -12,11 +12,15 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, interruptionRewind, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
     private var tableData: [[TableRow]] {
         var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
         if FeatureFlag.hls.enabled {
             data.insert([.audioOnly], at: 2)
+        }
+        // its own section (directly below the player section) so both it and intelligent playback resumption keep their footer descriptions
+        if FeatureFlag.interruptionRewind.enabled {
+            data.insert([.interruptionRewind], at: 2)
         }
         if FeatureFlag.generatedChapters.enabled {
             data.append([.generatedChapters])
@@ -186,6 +190,13 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
+
+            return cell
+        case .interruptionRewind:
+            let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
+            cell.cellLabel.text = L10n.settingsGeneralInterruptionRewind
+            let rewindTime = Settings.interruptionRewindTime
+            cell.cellSecondaryLabel.text = rewindTime > 0 ? L10n.timeShorthand(rewindTime) : L10n.off
 
             return cell
         case .defaultRowAction:
@@ -445,6 +456,20 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: playLastAction)
             options.present(from: self)
+        } else if row == .interruptionRewind {
+            let currentTime = Settings.interruptionRewindTime
+
+            let options = OptionsPicker(title: L10n.settingsGeneralInterruptionRewind)
+            for seconds in [0, 5, 10, 15, 30, 60] {
+                let label = seconds > 0 ? L10n.timeShorthand(seconds) : L10n.off
+                let action = OptionAction(label: label, selected: currentTime == seconds) {
+                    Settings.interruptionRewindTime = seconds
+                    tableView.reloadData()
+                    Settings.trackValueChanged(.settingsGeneralInterruptionRewindChanged, value: seconds)
+                }
+                options.addAction(action: action)
+            }
+            options.present(from: self)
         }
     }
 
@@ -467,6 +492,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         switch lastSectionItem {
         case .intelligentPlaybackResumption:
             return L10n.settingsGeneralSmartPlaybackSubtitle
+        case .interruptionRewind:
+            return L10n.settingsGeneralInterruptionRewindSubtitle
         case .playUpNextOnTap:
             return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
         case .extraMediaActions:

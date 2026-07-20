@@ -1078,6 +1078,17 @@ class Settings: NSObject {
         }
     }
 
+    /// How many seconds to rewind when playback resumes after an audio interruption, 0 means off.
+    /// Stored on device only, not synced.
+    static var interruptionRewindTime: Int {
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.interruptionRewindTime) as? Int ?? Constants.Values.defaultInterruptionRewindTime
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.interruptionRewindTime)
+        }
+    }
+
     static var skipForwardTime: Int {
         get {
             ServerSettings.skipForwardTime()

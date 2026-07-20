@@ -119,6 +119,7 @@ struct Constants {
         static let keepScreenOnWhilePlaying = "SJKeepScreenOnWhenPlaying"
         static let openPlayerAutomatically = "SJOpenPlayerAutomatically"
         static let intelligentPlaybackResumption = "SJIntelligentPlaybackResumption"
+        static let interruptionRewindTime = "SJInterruptionRewindTime"
         static let hideImagesInShowNotes = "HideImagesInShowNotes"
         static let loadEmbeddedImages = "SJLoadEmbeddedArt"
         static let appBadge = "SJEppBadgeShows"
@@ -275,6 +276,8 @@ struct Constants {
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
         static let tableRowHeaderHeight: CGFloat = 64
+
+        static let defaultInterruptionRewindTime = 5
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
