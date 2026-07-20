@@ -167,9 +167,12 @@ struct HomeView: View {
         }
     }
 
+    @ViewBuilder
     var newReleasesRow: some View {
-        EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue, episodes: model.newReleases, episodeContext: .other(showGoToPodcast: true)) {
-            showNowPlayingPlayer = true
+        if !model.newReleases.isEmpty {
+            EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue, episodes: model.newReleases, episodeContext: .other(showGoToPodcast: true)) {
+                showNowPlayingPlayer = true
+            }
         }
     }
 }
