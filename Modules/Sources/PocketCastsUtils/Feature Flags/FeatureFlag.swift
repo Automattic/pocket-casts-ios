@@ -224,7 +224,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
-    /// Ignores play remote commands when other audio is playing
+    /// Ignores play remote commands when another app is playing non-mixable audio
     case ignorePlayWithOtherAudio
 
     /// activates the audio session in the background to avoid locks in the main thread
