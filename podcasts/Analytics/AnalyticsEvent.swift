@@ -495,6 +495,7 @@ enum AnalyticsEvent: String {
     case playerTabSelected
     case playerShowNotesLinkTapped
     case playerChapterSelected
+    case playerChapterFingerprintCalculated
     case playerPodcastNameTapped
 
     case playerPreviousChapterTapped

@@ -2,12 +2,14 @@ import Foundation
 import AVFoundation
 import Combine
 import PocketCastsDataModel
+import PocketCastsServer
 import PocketCastsUtils
 
 class BookmarkManager {
     private let dataManager: BookmarkDataManager
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
+    private let cacheServerHandler: CacheServerHandler
 
     /// Called when a bookmark is created
     let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
@@ -20,10 +22,12 @@ class BookmarkManager {
 
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks,
          generalManager: DataManager = .sharedManager,
-         playbackManager: PlaybackManager = .shared) {
+         playbackManager: PlaybackManager = .shared,
+         cacheServerHandler: CacheServerHandler = .shared) {
         self.dataManager = dataManager
         self.generalManager = generalManager
         self.playbackManager = playbackManager
+        self.cacheServerHandler = cacheServerHandler
     }
 
     /// Plays the "bookmark created" tone
@@ -107,6 +111,51 @@ class BookmarkManager {
     /// Gets the `BaseEpisode` for the given bookmark
     func episode(for bookmark: Bookmark) -> BaseEpisode? {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
+    }
+
+    // MARK: - Title Generation
+
+    #if canImport(FoundationModels)
+    /// Stored as `Any` because stored properties can't be marked potentially unavailable.
+    private lazy var foundationModelEnricher: Any? = {
+        if #available(iOS 26.0, *) {
+            return BookmarkFoundationModelEnricher()
+        }
+        return nil
+    }()
+    #endif
+
+    /// Preloads on-device model resources so an upcoming `generateTitle` call responds faster.
+    func prewarmTitleGeneration() {
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, *) {
+            (foundationModelEnricher as? BookmarkFoundationModelEnricher)?.prewarm()
+        }
+        #endif
+    }
+
+    func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> String {
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
+           let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
+            do {
+                return try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
+            } catch {
+                FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
+            }
+        }
+        #endif
+
+        let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
+        guard let title = response.title, !title.isEmpty else {
+            FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
+            throw TitleGenerationError.noTitleReturned
+        }
+        return title
+    }
+
+    enum TitleGenerationError: Error {
+        case noTitleReturned
     }
 
     // MARK: - Named Events
