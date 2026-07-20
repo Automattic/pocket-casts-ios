@@ -37,8 +37,12 @@ class PlaylistDetailFetchOperation: Operation, @unchecked Sendable {
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
 
+            if self.isCancelled { return }
+
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
+                if strongSelf.isCancelled { return }
+
                 strongSelf.completion(newData, archivedEpisodesCount)
             }
         }
