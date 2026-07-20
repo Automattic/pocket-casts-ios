@@ -74,12 +74,7 @@ class ReferralsCoordinator {
                 onComplete?()
             })
             viewModel.onComplete = {
-                viewController.dismiss(animated: true) {
-                    if viewModel.accountCreated && !FeatureFlag.newOnboardingAccountCreation.enabled {
-                        let welcomeVC = WelcomeViewModel.make(in: nil, displayType: .newAccount)
-                        viewController.present(welcomeVC, animated: true)
-                    }
-                }
+                viewController.dismiss(animated: true)
                 onComplete?()
             }
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)

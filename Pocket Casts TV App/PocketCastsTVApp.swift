@@ -12,7 +12,6 @@ struct PocketCastsTVApp: App {
         DataLossSimulator.simulateIfRequested()
 
         AnalyticsSetup.setupIfNeeded()
-        _ = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
     }
 
     var body: some Scene {

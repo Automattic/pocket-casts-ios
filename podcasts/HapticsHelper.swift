@@ -42,6 +42,10 @@ class HapticsHelper {
     private class func triggerSuccessHaptic() {
         //No op
     }
+
+    class func triggerErrorHaptic() {
+        //No op
+    }
     #else
     private class func triggerImpactOccurredHaptic(style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let feedbackGenerator = UIImpactFeedbackGenerator(style: style)
@@ -51,6 +55,11 @@ class HapticsHelper {
     private class func triggerSuccessHaptic() {
         let feedbackGenerator = UINotificationFeedbackGenerator()
         feedbackGenerator.notificationOccurred(.success)
+    }
+
+    class func triggerErrorHaptic() {
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(.error)
     }
     #endif
 }
