@@ -87,11 +87,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         if SubscriptionHelper.activeTier == .patron {
             controller = PatronWelcomeViewModel.make(in: navigationController)
         } else {
-            if !FeatureFlag.newOnboardingAccountCreation.enabled {
-                controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
-            } else {
-                controller = nil
-            }
+            controller = nil
         }
 
         let presentNextBlock: () -> Void = {
