@@ -32,6 +32,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         didSet {
             informationLabel.style = .primaryText02
             informationLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+            informationLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

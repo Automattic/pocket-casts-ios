@@ -8,6 +8,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.adjustsFontForContentSizeCategory = true
             podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         }
     }
@@ -23,6 +24,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         didSet {
             typeBadgeLabel.layer.cornerRadius = 4
             typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontForContentSizeCategory = true
             typeBadgeLabel.adjustsFontSizeToFitWidth = true
         }
     }

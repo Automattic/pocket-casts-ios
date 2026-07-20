@@ -12,6 +12,7 @@ class CheckboxCell: ThemeableCell {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            episodeTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
