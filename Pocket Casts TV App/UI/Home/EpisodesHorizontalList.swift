@@ -42,3 +42,15 @@ struct EpisodesHorizontalList: View {
         .episodeContextMenu(model: model, context: episodeContext)
     }
 }
+
+#Preview {
+    EpisodesHorizontalList(title: "Episode",
+                           focusSection: "Episodes",
+                           episodes: MockData.makeStubEpisodes().map({EpisodeRowViewModel(episode: $0, podcast: nil, source: .unknown)}),
+                           episodeContext: .other(showGoToPodcast: true)) {
+        //no-op
+    }
+    .environment(AppCoordinator())
+    .environment(MainTabViewModel())
+    .environment(FocusStore())
+}
