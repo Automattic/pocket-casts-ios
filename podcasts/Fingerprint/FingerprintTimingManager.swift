@@ -516,6 +516,15 @@ final class FingerprintTimingManager: NSObject {
                 return .unresolved(reason: "no_match", isStreaming: isStreaming)
             }
             let resolveDurationMs = Int(Date().timeIntervalSince(startDate) * 1000)
+            // Comparable across platforms: Android fingerprints eagerly and iOS
+            // reactively on tap, but both report the calculation time here, decoupled
+            // from `playerChapterSelected` (the tap) which stays untouched.
+            Analytics.track(.playerChapterFingerprintCalculated, properties: [
+                "duration_ms": resolveDurationMs,
+                "is_streaming": isStreaming,
+                "episode_uuid": episodeUuid,
+                "podcast_uuid": episode.parentIdentifier()
+            ])
             return .resolved(
                 playbackTime: max(referenceTime, playback),
                 usedPrior: usedPrior,

@@ -174,7 +174,7 @@ struct SharingView: View {
                 case .increment:
                     nextIndex = currentIndex.advanced(by: 1) % styles.count
                 case .decrement:
-                    nextIndex = currentIndex.advanced(by: -1) % styles.count
+                    nextIndex = (currentIndex - 1 + styles.count) % styles.count
                 default:
                     nextIndex = nil
                 }

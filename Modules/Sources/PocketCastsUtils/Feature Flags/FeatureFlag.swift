@@ -164,9 +164,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enabled the attributed text view in the Data Usage warning Sheet
     case useDescriptiveActionAttributedTextView
 
-    /// Use the new upgrade screens
-    case newOnboardingUpgrade
-
     /// Use the new upgrade screens with Variant B timeline before features
     case newOnboardingVariant
 
@@ -182,9 +179,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Limit playback position changes when switching episodes
     case limitPlaybackPositionChanges
 
-    /// Use the new upgrade screens for account creation
-    case newOnboardingAccountCreation
-
     /// Adds a sharing button to the transcript view
     case shareTranscripts
 
@@ -193,9 +187,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Do not show the free trial timeline on the upgrade screens on all variants
     case newOnboardingUpgradeTrialTimeline
-
-    /// Use the new interests and recommendations flow
-    case newOnboardingRecommendationChanges
 
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
@@ -432,8 +423,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .useDescriptiveActionAttributedTextView:
             true
-        case .newOnboardingUpgrade:
-            true
         case .newOnboardingVariant:
             true
         case .retryWithoutUserAgent:
@@ -444,15 +433,11 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .limitPlaybackPositionChanges:
             true
-        case .newOnboardingAccountCreation:
-            true
         case .shareTranscripts:
             true
         case .doNotSwitchToDownloadedFile:
             true
         case .newOnboardingUpgradeTrialTimeline:
-            true
-        case .newOnboardingRecommendationChanges:
             true
         case .searchPredictive:
             true
@@ -535,7 +520,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedChapters:
             BuildEnvironment.current == .debug
         case .hls:
-            BuildEnvironment.current == .debug
+            true
         case .troubleshooting:
             true
         case .smartBookmarks:

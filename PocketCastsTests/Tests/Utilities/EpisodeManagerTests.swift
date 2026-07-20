@@ -283,4 +283,37 @@ final class EpisodeManagerTests: DBTestCase {
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should use the progressive file when there is no HLS url")
     }
+
+    // MARK: - isVideo
+
+    private func makeVideoEpisode() -> Episode {
+        let episode = Episode()
+        episode.uuid = "video-episode"
+        episode.fileType = "video/mp4"
+        return episode
+    }
+
+    func testIsVideoForNativeVideoPodcastWhenHLSFlagDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
+        XCTAssertTrue(EpisodeManager.isVideo(makeVideoEpisode()), "A native video podcast should be treated as video regardless of the HLS flag")
+    }
+
+    func testIsVideoForHLSStreamWhenFlagEnabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        XCTAssertTrue(EpisodeManager.isVideo(makeStreamingHLSEpisode()), "An episode with a usable HLS stream should be treated as video")
+    }
+
+    func testIsNotVideoForHLSStreamWhenFlagDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
+        XCTAssertFalse(EpisodeManager.isVideo(makeStreamingHLSEpisode()), "An audio episode should not be treated as video when the HLS flag is off")
+    }
+
+    func testIsNotVideoForAudioEpisodeWithoutHLS() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.hlsUrl = nil
+
+        XCTAssertFalse(EpisodeManager.isVideo(episode), "A plain audio episode should not be treated as video")
+    }
 }

@@ -13,5 +13,6 @@ enum SharedConstants {
     enum PlaybackEffects {
         public static let maximumPlaybackSpeed = 3.0
         public static let minimumPlaybackSpeed = 0.5
+        public static let maximumHlsPlaybackSpeed = 2.0
     }
 }
