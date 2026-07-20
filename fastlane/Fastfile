@@ -462,8 +462,12 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
-    close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    begin
+      set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
+      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    rescue StandardError => e
+      report_milestone_error(error_title: "Error unfreezing or closing the milestone `#{release_version_current}`: #{e.message}")
+    end
 
     create_backmerge_pr
   end
@@ -599,7 +603,7 @@ platform :ios do
     begin
       close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
     rescue StandardError => e
-      UI.important("Could not find a GitHub milestone for hotfix #{release_version_current} to close: #{e}")
+      report_milestone_error(error_title: "Error closing the milestone `#{release_version_current}` for the hotfix: #{e.message}")
     end
   end
 
@@ -1343,7 +1347,7 @@ platform :ios do
         CREATE_GITHUB_RELEASE: create_release
       }
     }
-    if is_ci?
+    if is_ci
       buildkite_pipeline_upload(**pipeline_args)
     else
       require_env_vars!('BUILDKITE_TOKEN')
@@ -1553,16 +1557,7 @@ platform :ios do
       )
     rescue StandardError => e
       moved_prs = []
-
-      error_message = <<-MESSAGE
-        Error freezing milestone `#{new_version}`: #{e.message}
-
-        - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
-        - Otherwise if this is the first you are running the release task for this version, please investigate the error.
-      MESSAGE
-
-      UI.error(error_message)
-      buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
+      report_milestone_error(error_title: "Error freezing the `#{new_version}` milestone: #{e.message}")
     end
 
     UI.message("Moved the following PRs to milestone #{next_version}: #{moved_prs.join(', ')}")
@@ -1575,6 +1570,21 @@ platform :ios do
                          + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GITHUB_REPO}/pull/#{pr_num})" }.join(', ')
                      end
     buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
+  end
+
+  # Reports a milestone-related error, both in the logs and — on CI — as a Buildkite annotation,
+  # clarifying that the error is expected when the release task is not being run for the first time.
+  #
+  def report_milestone_error(error_title:)
+    error_message = <<~MESSAGE
+      #{error_title}
+
+      - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+      - Otherwise if this is the first you are running the release task for this version, please investigate the error.
+    MESSAGE
+
+    UI.error(error_message)
+    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
   end
 
   # Private helper to create backmerge Pull Requests after new betas or final build
