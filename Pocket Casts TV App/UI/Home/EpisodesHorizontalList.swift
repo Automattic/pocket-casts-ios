@@ -7,7 +7,7 @@ struct EpisodesHorizontalList: View {
     let episodes: [EpisodeRowViewModel]
     let episodeContext: EpisodeActionContext
 
-    let callback: (()->())?
+    let onPlay: () -> Void
 
     var body: some View {
         RowSection(title: title, focusSection: focusSection) {
@@ -20,6 +20,8 @@ struct EpisodesHorizontalList: View {
                     }
                 }
             }
+            // Otherwise the focused-card drop shadow gets clipped at the
+            // scroll-view boundary instead of pooling below the pill.
             .scrollClipDisabled()
         }
     }
@@ -27,7 +29,7 @@ struct EpisodesHorizontalList: View {
     func episodeButton(model: EpisodeRowViewModel) -> some View {
         Button {
             model.play()
-            callback?()
+            onPlay()
         } label: {
             EpisodeRow(model: model, isActive: false)
         }
