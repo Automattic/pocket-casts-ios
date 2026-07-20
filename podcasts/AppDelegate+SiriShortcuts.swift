@@ -191,6 +191,8 @@ extension AppDelegate {
                         responseCode = SiriShortcutsManager.shared.playPodcast(uuid: uuid)
                     }
                 }
+            } else if thisIntent.resumePlayback == true, thisIntent.playbackRepeatMode == .one {
+                responseCode = SiriShortcutsManager.shared.resumePlayback()
             }
         }
 

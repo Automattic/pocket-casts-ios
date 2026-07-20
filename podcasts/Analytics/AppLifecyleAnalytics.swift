@@ -27,6 +27,7 @@ extension AppLifecycleAnalytics {
     func handle(scenePhase: ScenePhase) {
         switch scenePhase {
         case .active:
+            _ = checkApplicationInstalledOrUpgraded()
             didBecomeActive()
         case .background:
             didEnterBackground()
