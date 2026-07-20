@@ -9,13 +9,18 @@ struct EpisodesHorizontalList: View {
 
     let onPlay: () -> Void
 
+    enum Layout {
+        static var buttonSpacing = CGFloat(24)
+        static var buttonWidth = CGFloat(864)
+    }
+
     var body: some View {
         RowSection(title: title, focusSection: focusSection) {
             ScrollView(.horizontal) {
-                LazyHStack(spacing: 24) {
+                LazyHStack(spacing: Layout.buttonSpacing) {
                     ForEach(episodes) { episode in
                         episodeButton(model: episode)
-                            .frame(width: 864)
+                            .frame(width: Layout.buttonWidth)
                             .setFocus(section: focusSection)
                     }
                 }
