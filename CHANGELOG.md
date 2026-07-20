@@ -20,6 +20,7 @@
 - Fix the Stats screen getting stuck loading when the stats request fails [#4753](https://github.com/Automattic/pocket-casts-ios/pull/4753)
 - Fix the mini player showing empty and stuck after opening the app from an episode notification or a deep link while the full-screen player was open [#4757](https://github.com/Automattic/pocket-casts-ios/pull/4757)
 - Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
+- Fix an issue where the now playing episode was not being auto-downloaded when setting was active for UpNext [#4792](https://github.com/Automattic/pocket-casts-ios/pull/4792)
 
 8.16
 -----
