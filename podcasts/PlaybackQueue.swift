@@ -392,7 +392,7 @@ class PlaybackQueue: NSObject {
 
         DispatchQueue.global().async { [weak self] in
             guard let self else { return }
-            let episodes = self.allEpisodes(includeNowPlaying: !FeatureFlag.streamAndCachePlayingEpisode.enabled)
+            let episodes = self.allEpisodes(includeNowPlaying: true)
             for episode in episodes {
                 self.autoDownloadIfRequired(episode: episode)
             }
