@@ -22,6 +22,7 @@
 - Fix the New Episodes notification setting being reset when updating the app [#4782](https://github.com/Automattic/pocket-casts-ios/pull/4782)
 - Fix the player not opening automatically when playing an episode from its details card with Open Player Automatically enabled [#4781](https://github.com/Automattic/pocket-casts-ios/pull/4781)
 - Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
+- Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
 
 8.16
 -----

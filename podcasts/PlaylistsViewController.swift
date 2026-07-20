@@ -216,6 +216,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                     self.newFilterButton.isHidden = false
                     self.loadingIndicator.stopAnimating()
                     self.firstTimeLoading = false
+                    self.refreshContentUnavailable()
                 }
                 return
             }
