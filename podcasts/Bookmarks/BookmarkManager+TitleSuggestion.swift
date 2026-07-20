@@ -4,15 +4,12 @@ import PocketCastsUtils
 
 extension BookmarkManager {
 
-    /// Whether bookmark title suggestions can be generated at all.
     static var isTitleSuggestionEnabled: Bool {
         FeatureFlag.smartBookmarks.enabled
     }
 
-    /// Generates a suggested title for the bookmark from the transcript text
-    /// surrounding its position. Returns nil when suggestions are disabled, the
-    /// episode has no usable transcript, or generation fails — the bookmark
-    /// keeps its original title in every failure case.
+    /// Returns nil when suggestions are disabled, the episode has no usable
+    /// transcript, or generation fails.
     func suggestTitle(for bookmark: Bookmark) async -> String? {
         guard Self.isTitleSuggestionEnabled, let episode = episode(for: bookmark) else {
             return nil

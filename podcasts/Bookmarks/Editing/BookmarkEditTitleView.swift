@@ -11,9 +11,6 @@ struct BookmarkEditTitleView: View {
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
-    /// Whether the user has changed the title themselves. Once they have, an
-    /// arriving suggestion is offered below the field instead of replacing
-    /// their text.
     @State private var hasEdited = false
 
     /// The value about to be written into `bookmarkTitle` programmatically, so
@@ -60,10 +57,6 @@ struct BookmarkEditTitleView: View {
         .padding(.top, EditConstants.padding)
     }
 
-    /// The title field plus the suggestion affordances that ride along with it:
-    /// a spinner on the field's trailing side while a suggestion is generated,
-    /// and — when the user edited the title before it arrived — the suggestion
-    /// itself below the field, tappable to apply.
     private var titleSection: some View {
         VStack(spacing: EditConstants.suggestionSpacing) {
             textField

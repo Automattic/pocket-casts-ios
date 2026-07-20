@@ -25,8 +25,7 @@ class BookmarkEditViewModel: ObservableObject {
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
 
-    /// Emits a generated title that should directly replace the field's text,
-    /// because the user hasn't edited it yet.
+    /// Emits a generated title that should directly replace the field's text (the user hasn't edited it yet)
     let autoApplySuggestion = PassthroughSubject<String, Never>()
 
     private let bookmarkManager: BookmarkManager
@@ -67,9 +66,6 @@ class BookmarkEditViewModel: ObservableObject {
 
     // MARK: - Title Suggestion
 
-    /// Kicks off generating a title suggestion for a newly created bookmark
-    /// from the transcript text around its position. Fails silently — the
-    /// suggestion simply never appears.
     private func generateTitleSuggestion() {
         guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled else { return }
 
@@ -87,8 +83,7 @@ class BookmarkEditViewModel: ObservableObject {
                 }
 
                 if self.userHasEditedTitle {
-                    // Never replace the user's own words — offer the
-                    // suggestion below the field instead.
+                    // Never replace the user's own words — offer the suggestion instead
                     self.titleSuggestion = .available(trimmed)
                 } else {
                     self.titleSuggestion = .none
@@ -98,26 +93,18 @@ class BookmarkEditViewModel: ObservableObject {
         }
     }
 
-    /// The view calls this when the user changes the title themselves, so an
-    /// arriving suggestion is offered rather than applied.
     func userDidEditTitle() {
         userHasEditedTitle = true
     }
 
-    /// The view calls this once it has consumed the current suggestion
-    /// (applied it to the title field).
+    /// The view calls this once it has applied the current suggestion to the title field
     func suggestionHandled() {
         titleSuggestion = .none
     }
 
     enum TitleSuggestion: Equatable {
-        /// Nothing to show: suggestions are disabled, generation failed, or the suggestion was consumed
         case none
-
-        /// A suggestion is being generated
         case generating
-
-        /// A suggestion is ready and waiting for the user to accept it
         case available(String)
     }
 

@@ -536,29 +536,22 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - On-demand bookmark position resolve
 
-    /// Resolve a playback-timeline position (e.g. a bookmark's time) to the
+    /// Resolves a playback-timeline position (e.g. a bookmark's time) to the
     /// reference timeline, so reference-timed content like a generated
     /// transcript can be read at the right spot despite dynamic-ad shifting.
     ///
-    /// The inverse of the chapter resolve, and simpler: the audio at
-    /// `playbackTime` in the local file IS the moment to identify, so there's
-    /// no search window — we fingerprint a bounded region around it, match
-    /// against the reference, and interpolate. Like `resolvePlaybackTime`
-    /// this is one-shot and side-effect-free: it uses its own matcher,
-    /// cancellation flag, and scratch mapping, and never mutates the
-    /// continuous transcript mapping (`main`), `context`, or `state` — except
-    /// for the warm fast path, which reads the continuous mapping when it
-    /// already confidently covers `playbackTime`.
+    /// Like `resolvePlaybackTime` this is one-shot and side-effect-free: it uses
+    /// its own matcher, cancellation flag, and scratch mapping, and never mutates
+    /// the continuous transcript mapping (`main`), `context`, or `state`.
     ///
-    /// Returns nil when no reference exists for the episode, the audio region
-    /// isn't local, no confident match is found, or the timeout expires —
-    /// callers should fall back to the raw playback time.
+    /// Returns nil when no confident match is found (no reference, audio not
+    /// local, timeout) — callers should fall back to the raw playback time.
     func resolveReferenceTime(forPlaybackTime playbackTime: Double, episode: BaseEpisode) async -> Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
         let episodeUuid = episode.uuid
 
-        // Warm fast path: the continuous transcript mapping already brackets
-        // this position with confident anchors — interpolate straight off it.
+        // Warm fast path: interpolate off the continuous transcript mapping when
+        // it already confidently covers this position.
         let warm: Double? = queue.sync {
             guard let ctx = context, ctx.episodeUuid == episodeUuid,
                   Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: main.playbackToReference) else {
@@ -573,8 +566,7 @@ final class FingerprintTimingManager: NSObject {
         }
         if let warm { return warm }
 
-        // Hard timeout: the flag is observed once per decoded chunk, so a slow
-        // decode can't stall the caller indefinitely.
+        // Hard timeout, observed once per decoded chunk
         let flag = CancellationFlag()
         let timeoutTask = Task {
             try? await Task.sleep(
@@ -621,9 +613,8 @@ final class FingerprintTimingManager: NSObject {
             audioURL = url
         }
 
-        // Fingerprint + match the bounded region into a local scratch
-        // accumulator on `onDemandQueue`; matching stays serialized on `queue`
-        // inside `streamFingerprintBounded`. `main` is never touched.
+        // Fingerprint + match the bounded region into a local scratch accumulator;
+        // matching stays serialized on `queue` inside `streamFingerprintBounded`.
         let scratch: MappingAccumulator? = await withCheckedContinuation { continuation in
             onDemandQueue.async {
                 var acc = MappingAccumulator()

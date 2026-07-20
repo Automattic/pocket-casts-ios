@@ -10,21 +10,13 @@ import NaturalLanguage
 final class BookmarkFoundationModelEnricher {
     enum EnrichmentError: Error {
         case modelUnavailable(SystemLanguageModel.Availability)
-        /// The model responded with something that can't be a title
-        /// (empty, or long enough to be a refusal/explanation instead).
         case unexpectedResponse
     }
 
-    /// The model configured with permissive content-transformation guardrails,
-    /// so titling transcripts that cover heavy podcast topics (true crime,
-    /// health, violent news) isn't rejected with a `guardrailViolation`
-    /// ("May contain sensitive content").
-    ///
-    /// IMPORTANT: the permissive guardrails only apply when generating a plain
-    /// `String` — with guided generation (`@Generable`) the default guardrails
-    /// still run and the error comes back. That's why this class generates only
-    /// the title, as raw text, instead of using guided generation.
-    /// https://developer.apple.com/documentation/foundationmodels/systemlanguagemodel/guardrails/permissivecontenttransformations
+    /// Permissive guardrails keep transcripts covering heavy podcast topics (true crime,
+    /// health, violent news) from being rejected with a `guardrailViolation`. They only
+    /// apply to plain `String` generation — with guided generation (`@Generable`) the
+    /// default guardrails still run — which is why this class generates the title as raw text.
     private static let model = SystemLanguageModel(guardrails: .permissiveContentTransformations)
 
     /// Whether the on-device model can be used (device eligible, Apple Intelligence enabled, model downloaded).
@@ -32,9 +24,8 @@ final class BookmarkFoundationModelEnricher {
         model.isAvailable
     }
 
-    /// Titles longer than this many words are treated as the model explaining
-    /// or refusing rather than titling, and rejected (the caller falls back to
-    /// the server). The instructions ask for around 3 to 6 words.
+    /// Responses longer than this are treated as the model explaining or refusing
+    /// rather than titling, and rejected. The instructions ask for around 3 to 6 words.
     private static let maxTitleWordCount = 12
 
     private static let instructions = """
@@ -68,7 +59,6 @@ final class BookmarkFoundationModelEnricher {
     private var prewarmedSession: LanguageModelSession?
 
     /// Preloads model resources so an upcoming `generateTitle` call responds faster.
-    /// Call when a bookmark is about to be created (e.g. when the bookmark UI is shown).
     func prewarm() {
         guard Self.isAvailable, prewarmedSession == nil else { return }
 

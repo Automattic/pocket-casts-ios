@@ -126,7 +126,6 @@ class BookmarkManager {
     #endif
 
     /// Preloads on-device model resources so an upcoming `generateTitle` call responds faster.
-    /// Call when a bookmark is about to be created (e.g. when the bookmark UI is shown).
     func prewarmTitleGeneration() {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
@@ -135,8 +134,6 @@ class BookmarkManager {
         #endif
     }
 
-    /// Generates a title for a bookmark from the transcript text surrounding its position.
-    /// Prefers the on-device model when it's available, falling back to the server otherwise.
     func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> String {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
@@ -158,7 +155,6 @@ class BookmarkManager {
     }
 
     enum TitleGenerationError: Error {
-        /// The server responded without a usable title
         case noTitleReturned
     }
 
