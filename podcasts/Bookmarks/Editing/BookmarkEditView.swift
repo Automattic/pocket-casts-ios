@@ -12,12 +12,13 @@ struct BookmarkEditView: View {
         ZStack(alignment: .topTrailing) {
             VStack(spacing: Layout.spacing) {
                 header
-                Spacer()
                 titleSection
+                transcriptSection
                 Spacer()
                 saveButton
             }
             .padding(.top, Layout.spacing)
+            .animation(.easeInOut(duration: 0.2), value: viewModel.transcript)
 
             closeButton
         }
@@ -43,14 +44,28 @@ struct BookmarkEditView: View {
     }
 
     private var titleSection: some View {
-        VStack(spacing: Layout.suggestionSpacing) {
-            titleField
+        VStack(alignment: .leading, spacing: Layout.suggestionSpacing) {
+            section(L10n.bookmarkTitleLabel) {
+                titleField
+            }
 
             if case .available(let suggestion) = viewModel.titleSuggestion {
                 suggestionButton(suggestion)
             }
         }
         .animation(.easeInOut(duration: 0.2), value: viewModel.titleSuggestion)
+    }
+
+    /// A labelled section of the form, e.g. the title field
+    private func section(_ label: String, @ViewBuilder content: () -> some View) -> some View {
+        VStack(alignment: .leading, spacing: Layout.labelSpacing) {
+            Text(label)
+                .font(style: .footnote)
+                .foregroundStyle(theme.subTitle)
+
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     /// An empty line of the same font pins the field to a single line height, so it
@@ -87,6 +102,23 @@ struct BookmarkEditView: View {
             .onSubmit {
                 viewModel.save()
             }
+    }
+
+    /// The transcript the title was generated from, so the user can see the captured moment
+    @ViewBuilder
+    private var transcriptSection: some View {
+        if let transcript = viewModel.transcript {
+            section(L10n.bookmarkTranscriptCaptured) {
+                Text(transcript)
+                    .font(style: .subheadline)
+                    .foregroundStyle(theme.title)
+                    .lineLimit(Layout.transcriptLineLimit)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(Layout.transcriptPadding)
+                    .background(theme.transcriptBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.transcriptCornerRadius))
+            }
+        }
     }
 
     /// A generated title suggestion the user can tap to use
@@ -126,7 +158,17 @@ struct BookmarkEditView: View {
         static let suggestionSpacing = 12.0
         static let suggestionIconSpacing = 6.0
         static let underlineOffset = 6.0
+        static let labelSpacing = 8.0
+        static let transcriptPadding = 16.0
+        static let transcriptCornerRadius = 8.0
+        static let transcriptLineLimit = 4
     }
+}
+
+// MARK: - Theme
+
+private extension BookmarkEditTheme {
+    var transcriptBackground: Color { theme.playerContrast06 }
 }
 
 // MARK: - Private Extensions
@@ -136,7 +178,7 @@ private extension View {
         self
             .lineLimit(1)
             .minimumScaleFactor(0.5)
-            .font(size: 31, style: .largeTitle, weight: .bold)
+            .font(size: 24, style: .title2, weight: .bold)
     }
 
     /// Selects all the text when the text field gains focus
