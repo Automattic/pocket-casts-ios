@@ -13,6 +13,7 @@ class AccountActionCell: ThemeableCell {
         didSet {
             cellLabel.style = iconStyle
             cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

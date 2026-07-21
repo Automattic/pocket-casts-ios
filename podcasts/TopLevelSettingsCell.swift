@@ -5,6 +5,7 @@ class TopLevelSettingsCell: ThemeableCell {
     @IBOutlet var settingsLabel: UILabel! {
         didSet {
             settingsLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            settingsLabel.adjustsFontForContentSizeCategory = true
         }
     }
     @IBOutlet var plusIndicator: UIImageView!

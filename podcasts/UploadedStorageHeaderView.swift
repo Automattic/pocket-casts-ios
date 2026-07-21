@@ -17,6 +17,7 @@ class UploadedStorageHeaderView: UIView {
         didSet {
             numFilesLabel.style = .primaryText02
             numFilesLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            numFilesLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -24,6 +25,7 @@ class UploadedStorageHeaderView: UIView {
         didSet {
             storageSizeLabel.style = .primaryText02
             storageSizeLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            storageSizeLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -44,6 +46,7 @@ class UploadedStorageHeaderView: UIView {
     @IBOutlet var percentageLabel: ThemeableLabel! {
         didSet {
             percentageLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            percentageLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

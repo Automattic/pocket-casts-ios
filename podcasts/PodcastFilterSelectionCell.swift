@@ -24,6 +24,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
     @IBOutlet var podcastTitle: UILabel! {
         didSet {
             podcastTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            podcastTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -31,6 +32,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
         didSet {
             podcastAuthor.style = .primaryText02
             podcastAuthor.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
         }
     }
 

@@ -12,6 +12,7 @@ class RadioButtonCell: ThemeableCell {
     @IBOutlet var title: ThemeableLabel! {
         didSet {
             title.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            title.adjustsFontForContentSizeCategory = true
         }
     }
 

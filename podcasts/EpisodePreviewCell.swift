@@ -21,6 +21,7 @@ class EpisodePreviewCell: ThemeableCell {
         didSet {
             dateLabel.style = .primaryText02
             dateLabel.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            dateLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

@@ -5,6 +5,7 @@ class TimeStepperCell: ThemeableCell {
     @IBOutlet var cellLabel: UILabel! {
         didSet {
             cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -12,6 +13,7 @@ class TimeStepperCell: ThemeableCell {
         didSet {
             cellSecondaryLabel.style = .primaryText02
             cellSecondaryLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellSecondaryLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
