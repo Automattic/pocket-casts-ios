@@ -189,7 +189,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     func updateSize() {
         let isSponsored = item?.isSponsored ?? false
         podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
-        podcastDescription.updateNumberOfLines(regular: isSponsored ? 0 : 4, accessibility: 6)
+        podcastDescription.updateNumberOfLines(regular: isSponsored ? 0 : 4, accessibility: isSponsored ? 0 : 6)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
