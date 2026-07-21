@@ -13,7 +13,9 @@ if [[ ! -s "$XCODE_VERSION_FILE" ]]; then
 fi
 XCODE_VERSION=$(sed -E 's/^~> ?//' "$XCODE_VERSION_FILE")
 
-CI_TOOLKIT_PLUGIN_VERSION="6.1.1"
+# TEMPORARY: the head of a8c-ci-toolkit#218, to exercise `install_a8c-secrets_binary`
+# before it ships. Move back to a released version before merging this PR.
+CI_TOOLKIT_PLUGIN_VERSION="387d2e123b55c76b909475847cacb5d4c95a9ad6"
 
 TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
