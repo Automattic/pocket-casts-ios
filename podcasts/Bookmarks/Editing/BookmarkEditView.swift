@@ -10,14 +10,14 @@ struct BookmarkEditView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            VStack(spacing: Layout.spacing) {
+            VStack(spacing: 18) {
                 header
                 titleSection
                 transcriptSection
                 Spacer()
                 saveButton
             }
-            .padding(.top, Layout.spacing)
+            .padding(.top, 18)
             .animation(.easeInOut(duration: 0.2), value: viewModel.transcript)
 
             closeButton
@@ -44,7 +44,7 @@ struct BookmarkEditView: View {
     }
 
     private var titleSection: some View {
-        VStack(alignment: .leading, spacing: Layout.suggestionSpacing) {
+        VStack(alignment: .leading, spacing: 12) {
             section(L10n.bookmarkTitleLabel) {
                 titleField
             }
@@ -58,7 +58,7 @@ struct BookmarkEditView: View {
 
     /// A labelled section of the form, e.g. the title field
     private func section(_ label: String, @ViewBuilder content: () -> some View) -> some View {
-        VStack(alignment: .leading, spacing: Layout.labelSpacing) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(label)
                 .font(style: .footnote)
                 .foregroundStyle(theme.subTitle)
@@ -79,7 +79,7 @@ struct BookmarkEditView: View {
             .overlay(alignment: .bottom) {
                 Divider()
                     .background(theme.textFieldUnderline)
-                    .offset(y: Layout.underlineOffset)
+                    .offset(y: 6)
             }
             .overlay(alignment: .trailing) {
                 if viewModel.titleSuggestion == .generating {
@@ -112,18 +112,18 @@ struct BookmarkEditView: View {
                 Text(transcript)
                     .font(style: .subheadline)
                     .foregroundStyle(theme.title)
-                    .lineLimit(Layout.transcriptLineLimit)
+                    .lineLimit(4)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(Layout.transcriptPadding)
+                    .padding(16)
                     .background(theme.transcriptBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: Layout.transcriptCornerRadius))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
     }
 
     /// A generated title suggestion the user can tap to use
     private func suggestionButton(_ suggestion: String) -> some View {
-        HStack(spacing: Layout.suggestionIconSpacing) {
+        HStack(spacing: 6) {
             Image(systemName: "sparkles")
             Text(suggestion)
                 .lineLimit(2)
@@ -151,17 +151,6 @@ struct BookmarkEditView: View {
             .buttonize {
                 viewModel.cancel()
             }
-    }
-
-    private enum Layout {
-        static let spacing = 18.0
-        static let suggestionSpacing = 12.0
-        static let suggestionIconSpacing = 6.0
-        static let underlineOffset = 6.0
-        static let labelSpacing = 8.0
-        static let transcriptPadding = 16.0
-        static let transcriptCornerRadius = 8.0
-        static let transcriptLineLimit = 4
     }
 }
 
