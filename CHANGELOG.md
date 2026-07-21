@@ -1,3 +1,7 @@
+8.18
+-----
+
+
 8.17
 -----
 - Enable HLS streaming playback [#4775](https://github.com/Automattic/pocket-casts-ios/pull/4775)
