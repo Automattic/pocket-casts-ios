@@ -11,8 +11,8 @@ extension BookmarkManager {
     /// The transcript text surrounding the bookmark, which the title is generated from.
     ///
     /// Returns nil when suggestions are disabled or the episode has no usable transcript.
-    func transcriptSnippet(for bookmark: Bookmark) async -> String? {
-        guard Self.isTitleSuggestionEnabled, let episode = episode(for: bookmark) else {
+    func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> String? {
+        guard Self.isTitleSuggestionEnabled else {
             return nil
         }
 
@@ -23,10 +23,10 @@ extension BookmarkManager {
     }
 
     /// Returns nil when generation fails.
-    func suggestTitle(from snippet: String, for bookmark: Bookmark) async -> String? {
+    func suggestTitle(from snippet: String, for bookmark: Bookmark, episode: BaseEpisode) async -> String? {
         let podcastTitle = bookmark.podcastUuid.flatMap { DataManager.sharedManager.findPodcast(uuid: $0)?.title }
         do {
-            return try await generateTitle(transcriptSnippet: snippet, podcastTitle: podcastTitle, episodeTitle: episode(for: bookmark)?.title)
+            return try await generateTitle(transcriptSnippet: snippet, podcastTitle: podcastTitle, episodeTitle: episode.title)
         } catch {
             FileLog.shared.addMessage("[Bookmarks] Title suggestion failed: \(error)")
             return nil

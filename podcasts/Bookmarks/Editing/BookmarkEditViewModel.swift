@@ -76,11 +76,12 @@ class BookmarkEditViewModel: ObservableObject {
     // MARK: - Title Suggestion
 
     private func generateTitleSuggestion() {
-        guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled else { return }
+        guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled,
+              let episode = bookmarkManager.episode(for: bookmark) else { return }
 
         titleSuggestion = .generating
         suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength] in
-            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark)
+            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode)
             guard !Task.isCancelled else { return }
 
             await MainActor.run {
@@ -92,7 +93,7 @@ class BookmarkEditViewModel: ObservableObject {
                 return
             }
 
-            let suggestion = await bookmarkManager.suggestTitle(from: snippet, for: bookmark)
+            let suggestion = await bookmarkManager.suggestTitle(from: snippet, for: bookmark, episode: episode)
             guard !Task.isCancelled else { return }
 
             let trimmed = suggestion.map { String($0.trim().prefix(maxTitleLength)) }
