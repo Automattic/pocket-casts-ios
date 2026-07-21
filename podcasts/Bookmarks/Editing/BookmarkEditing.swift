@@ -10,6 +10,11 @@ protocol BookmarkEditing: AnyObject {
     func viewDidAppear()
 }
 
+extension BookmarkEditing {
+    /// `BookmarkEditView` focuses its field in `onAppear`, so it has nothing to do here
+    func viewDidAppear() {}
+}
+
 extension BookmarkEditViewModel: BookmarkEditing {}
 
 extension BookmarkEditTitleViewModel: BookmarkEditing {}

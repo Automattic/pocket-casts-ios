@@ -14,8 +14,6 @@ class BookmarkEditViewModel: ObservableObject {
     let saveButtonTitle: String
     let placeholder: String = L10n.bookmarkDefaultTitle
 
-    @Published var didAppear = false
-
     /// The title being edited, kept within `maxTitleLength`
     @Published var title: String {
         didSet {
@@ -68,10 +66,6 @@ class BookmarkEditViewModel: ObservableObject {
 
     deinit {
         suggestionTask?.cancel()
-    }
-
-    func viewDidAppear() {
-        didAppear = true
     }
 
     // MARK: - Title Suggestion

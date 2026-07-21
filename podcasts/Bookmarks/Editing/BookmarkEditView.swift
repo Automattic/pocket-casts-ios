@@ -24,7 +24,7 @@ struct BookmarkEditView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(theme.background)
-        .onChange(of: viewModel.didAppear) {
+        .onAppear {
             isTitleFocused = true
         }
     }
