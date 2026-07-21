@@ -1,11 +1,5 @@
-import Combine
 import Foundation
 import PocketCastsDataModel
-
-protocol BookmarkEditRouter: AnyObject {
-    func titleUpdated(title: String)
-    func dismiss()
-}
 
 class BookmarkEditViewModel: ObservableObject {
     weak var router: BookmarkEditRouter?
@@ -22,17 +16,32 @@ class BookmarkEditViewModel: ObservableObject {
 
     @Published var didAppear = false
 
+    /// The title being edited, kept within `maxTitleLength`
+    @Published var title: String {
+        didSet {
+            let trimmed = String(title.prefix(maxTitleLength))
+            if trimmed != title {
+                title = trimmed
+            }
+
+            guard !isApplyingSuggestion else { return }
+
+            userHasEditedTitle = true
+            if titleSuggestion == .generating {
+                titleSuggestion = .none
+            }
+        }
+    }
+
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
-
-    /// Emits a generated title that should directly replace the field's text (the user hasn't edited it yet)
-    let autoApplySuggestion = PassthroughSubject<String, Never>()
 
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
 
     private var suggestionTask: Task<Void, Never>?
     private var userHasEditedTitle = false
+    private var isApplyingSuggestion = false
 
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
@@ -40,6 +49,7 @@ class BookmarkEditViewModel: ObservableObject {
         self.bookmarkManager = manager
         self.bookmark = bookmark
         self.originalTitle = bookmark.title
+        self.title = bookmark.title
         self.editState = state
 
         switch editState {
@@ -86,19 +96,17 @@ class BookmarkEditViewModel: ObservableObject {
                     // Never replace the user's own words — offer the suggestion instead
                     self.titleSuggestion = .available(trimmed)
                 } else {
-                    self.titleSuggestion = .none
-                    self.autoApplySuggestion.send(trimmed)
+                    self.applySuggestion(trimmed)
                 }
             }
         }
     }
 
-    func userDidEditTitle() {
-        userHasEditedTitle = true
-    }
+    func applySuggestion(_ suggestion: String) {
+        isApplyingSuggestion = true
+        title = suggestion
+        isApplyingSuggestion = false
 
-    /// The view calls this once it has applied the current suggestion to the title field
-    func suggestionHandled() {
         titleSuggestion = .none
     }
 
@@ -108,6 +116,10 @@ class BookmarkEditViewModel: ObservableObject {
         case available(String)
     }
 
+    enum EditState {
+        case adding, updating
+    }
+
     // MARK: - View Methods
 
     func cancel() {
@@ -115,7 +127,7 @@ class BookmarkEditViewModel: ObservableObject {
         router?.dismiss()
     }
 
-    func save(title: String) {
+    func save() {
         suggestionTask?.cancel()
         Task {
             let title = String(title.trim().prefix(maxTitleLength))
@@ -130,9 +142,5 @@ class BookmarkEditViewModel: ObservableObject {
                 router?.titleUpdated(title: title)
             }
         }
-    }
-
-    enum EditState {
-        case adding, updating
     }
 }
