@@ -3,7 +3,7 @@ import SwiftUI
 
 struct NowPlayingControls: View {
     @StateObject var viewModel: NowPlayingViewModel
-    @Binding var presentView: WatchInterfaceType?
+    @EnvironmentObject private var navigationModel: NavigationManager
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -92,7 +92,7 @@ struct NowPlayingControls: View {
         HStack {
             Button {
                 WKInterfaceDevice.current().play(.click)
-                presentView = .effects
+                navigationModel.push(.effects)
             } label: {
                 Image(viewModel.effectsIconName)
             }
@@ -103,7 +103,7 @@ struct NowPlayingControls: View {
 
             Button {
                 WKInterfaceDevice.current().play(.click)
-                presentView = .upnext
+                navigationModel.push(.upnext)
             } label: {
                 switch viewModel.upNextCount {
                 case 0 ... 8:
@@ -133,7 +133,8 @@ private extension Image {
 struct NowPlayingView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(PreviewDevice.previewDevices) {
-            NowPlayingControls(viewModel: NowPlayingViewModel(), presentView: .constant(nil))
+            NowPlayingControls(viewModel: NowPlayingViewModel())
+                .environmentObject(NavigationManager.shared)
                 .previewDevice($0)
         }
     }

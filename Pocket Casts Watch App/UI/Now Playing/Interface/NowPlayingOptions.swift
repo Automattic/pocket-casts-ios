@@ -2,8 +2,8 @@ import SwiftUI
 
 struct NowPlayingOptions: View {
     @StateObject var viewModel: NowPlayingViewModel
-    @Binding var presentView: WatchInterfaceType?
     @Binding var optionSelected: Bool
+    @EnvironmentObject private var navigationModel: NavigationManager
 
     var body: some View {
         GeometryReader { geo in
@@ -16,7 +16,7 @@ struct NowPlayingOptions: View {
                     .frame(maxWidth: geo.size.width / 2)
 
                     NowPlayingOption(iconName: "episodedetails", title: L10n.watchEpisodeDetails) {
-                        presentView = .episodeDetails
+                        navigationModel.push(.episodeDetails)
                         optionSelected.toggle()
                     }
                     .frame(maxWidth: geo.size.width / 2)
@@ -78,7 +78,8 @@ private struct NowPlayingOption: View {
 struct NowPlayingOptions_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(PreviewDevice.previewDevices) {
-            NowPlayingOptions(viewModel: NowPlayingViewModel(), presentView: .constant(nil), optionSelected: .constant(false))
+            NowPlayingOptions(viewModel: NowPlayingViewModel(), optionSelected: .constant(false))
+                .environmentObject(NavigationManager.shared)
                 .previewDevice($0)
         }
     }

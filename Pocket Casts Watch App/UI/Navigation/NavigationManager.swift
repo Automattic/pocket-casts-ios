@@ -1,19 +1,11 @@
 import Foundation
-import PocketCastsDataModel
-import PocketCastsUtils
-import WatchKit
+import SwiftUI
 
 class NavigationManager: ObservableObject {
     static let shared = NavigationManager()
 
-    @Published var currentInterface: Int?
-
-    func navigateToMainMenu() {
-        guard let topController = topMostController() else {
-            return
-        }
-        topController.popToRootController()
-    }
+    /// The app launches showing the current source's interface list.
+    @Published var path: [WatchRoute] = [.source(SourceManager.shared.currentSource())]
 
     func navigateToRestorable(name: String, context: Any?) {
         let interfaceType = WatchInterfaceType(rawValue: name)
@@ -25,8 +17,18 @@ class NavigationManager: ObservableObject {
         }
     }
 
+    /// Replaces the stack with the current source's interface list plus `type`.
     func navigateTo(_ type: WatchInterfaceType, context: Any?) {
-        currentInterface = type.interfacePosition
+        guard let route = WatchRoute(type) else { return }
+
+        path = [.source(SourceManager.shared.currentSource()), route]
+    }
+
+    /// Pushes on top of whatever is already on the stack.
+    func push(_ type: WatchInterfaceType) {
+        guard let route = WatchRoute(type) else { return }
+
+        path.append(route)
     }
 
     private var navigatingToNowPlaying = false
@@ -37,13 +39,7 @@ class NavigationManager: ObservableObject {
         if source != SourceManager.shared.currentSource() {
             SourceManager.shared.setSource(newSource: source)
         }
-        navigateTo(.nowPlaying, context: nil)
+        path = [.source(source), .interface(.nowPlaying)]
         navigatingToNowPlaying = false
-    }
-
-    private func topMostController() -> WKInterfaceController? {
-        let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
-
-        return visibleController
     }
 }
