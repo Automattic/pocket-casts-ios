@@ -884,7 +884,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// When the global "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
         guard FeatureFlag.hls.enabled, !isAudioOnlyForced, let episode = currentEpisode(), episode is Episode else { return false }
-        return EpisodeManager.hasHLSStream(episode) || currentStreamContainsVideo.value
+        return EpisodeManager.hasHLSStream(episode)
     }
 
     /// Whether the current episode should stream its HLS video source even though a local download exists,
