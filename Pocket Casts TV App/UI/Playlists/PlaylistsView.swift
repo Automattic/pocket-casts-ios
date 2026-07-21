@@ -71,6 +71,7 @@ struct PlaylistsView: View {
             Text(L10n.tvPlaylistsEmptySubtitle)
         } actions: {
             Button(L10n.tvPlaylistsEmptyActionTitle) {
+                Analytics.track(.filterCreateButtonTapped)
                 showDownloadModal = true
             }
         }
