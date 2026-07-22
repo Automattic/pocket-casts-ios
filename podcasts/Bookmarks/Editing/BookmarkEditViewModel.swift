@@ -37,7 +37,15 @@ class BookmarkEditViewModel: ObservableObject {
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
 
-    @Published private(set) var snippet: BookmarkTranscriptSnippet?
+    /// Storing the passage as it's captured, and again on every change, keeps it around
+    /// even when the sheet is dismissed without saving the title
+    @Published private(set) var snippet: BookmarkTranscriptSnippet? {
+        didSet {
+            guard let snippet, snippet.range != oldValue?.range else { return }
+
+            bookmarkManager.setPassage(snippet.text, for: bookmark)
+        }
+    }
 
     /// Whether the transcript is still being fetched, so the passage can be shown as a
     /// placeholder rather than appearing out of nowhere
