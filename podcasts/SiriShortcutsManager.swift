@@ -424,11 +424,16 @@ class SiriShortcutsManager: CustomObserver {
     func skipToNextEpisode() { // ? in podcast or playlist
     }
 
-    func sleepTimer(newTime: Int) -> Bool {
+    func setSleepTimer(duration: TimeInterval) -> Bool {
         AnalyticsHelper.siriSleeptimer()
-        guard let timeInterval = TimeInterval(exactly: newTime) else { return false }
-        PlaybackManager.shared.setSleepTimerInterval(timeInterval)
+        guard duration > 0 else { return false }
+        PlaybackManager.shared.setSleepTimerInterval(duration)
         return true
+    }
+
+    func sleepTimer(newTime: Int) -> Bool {
+        guard let duration = TimeInterval(exactly: newTime) else { return false }
+        return setSleepTimer(duration: duration)
     }
 
     func extendSleepTimer(addTime: Int) -> Bool {
@@ -502,5 +507,15 @@ class SiriShortcutsManager: CustomObserver {
         } catch {
             FileLog.shared.addMessage("Unable to encode data for Siri Podcast Search: \(error.localizedDescription)")
         }
+    }
+}
+
+enum SleepTimerIntentDuration {
+    static func migratedValue(_ legacySeconds: Int?, defaultDuration: TimeInterval) -> TimeInterval {
+        guard let legacySeconds, legacySeconds > 0 else {
+            return defaultDuration
+        }
+
+        return TimeInterval(legacySeconds)
     }
 }
