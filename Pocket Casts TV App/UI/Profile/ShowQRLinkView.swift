@@ -1,7 +1,4 @@
 import SwiftUI
-import PocketCastsDataModel
-import PocketCastsServer
-import PocketCastsUtils
 
 struct ShowQRLinkView: View {
     let title: String

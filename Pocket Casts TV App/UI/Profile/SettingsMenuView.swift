@@ -2,7 +2,6 @@ import SwiftUI
 import PocketCastsServer
 
 struct SettingsMenuView: View {
-    @Environment(AppCoordinator.self) private var coordinator
     @Environment(\.dismiss) private var dismiss
 
     @State private var isShowingPrivacyPolicy = false
@@ -31,18 +30,16 @@ struct SettingsMenuView: View {
             Analytics.track(.settingsGeneralShown)
         }
         .sheet(isPresented: $isShowingPrivacyPolicy) {
-            ShowQRLinkView(title: L10n.accountPrivacyPolicy, message: "Scan the QR code bellow, or open the url in your phone to access the Privacy Policy.", urlString: ServerConstants.Urls.privacyPolicy)
+            ShowQRLinkView(title: L10n.accountPrivacyPolicy, message: L10n.tvSettingsPrivacyPolicyQrMessage, urlString: ServerConstants.Urls.privacyPolicy)
                 .onAppear {
                     Analytics.track(.accountDetailsShowPrivacyPolicy)
                 }
-                .environment(coordinator)
         }
         .sheet(isPresented: $isShowingTermsOfUse) {
-            ShowQRLinkView(title: L10n.termsOfUse, message: "Scan the QR code bellow, or open the url in your phone to access the Terms of Use.", urlString: ServerConstants.Urls.termsOfUse)
+            ShowQRLinkView(title: L10n.termsOfUse, message: L10n.tvSettingsTermsOfUseQrMessage, urlString: ServerConstants.Urls.termsOfUse)
                 .onAppear {
                     Analytics.track(.accountDetailsShowTOS)
                 }
-                .environment(coordinator)
         }
         .remotePlayPause()
     }
