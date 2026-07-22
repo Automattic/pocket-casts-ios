@@ -1541,6 +1541,12 @@
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
 
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
+
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
 
@@ -2681,6 +2687,12 @@
 /* Subtitle explaining the toggle to publish chapter titles. */
 "settings_general_publish_chapter_titles_subtitle" = "If on, this will send chapter titles over Bluetooth and other connected devices instead of the episode title.";
 
+/* Setting toggle to show automatically generated chapters in the player. */
+"settings_general_generated_chapters" = "Generated chapters";
+
+/* Subtitle explaining the toggle to show automatically generated chapters. */
+"settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
+
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
 
@@ -2725,6 +2737,12 @@
 
 /* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
 "settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
+
+/* Setting toggle to make video episodes play as audio only. */
+"settings_general_audio_only" = "Audio only";
+
+/* Subtitle explaining the toggle that makes video episodes play as audio only. */
+"settings_general_audio_only_subtitle" = "If on, video episodes will play as audio only.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
@@ -4304,6 +4322,9 @@
 /* Subtitle of the login view */
 "login_landing_subtitle" = "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.";
 
+/* Label of a button on the login landing view that lets the user sign up for an account using their email address */
+"login_landing_sign_up_with_email" = "Sign up with email";
+
 /* Title of the plus marketing view */
 "plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 
@@ -4477,6 +4498,9 @@
 
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
+
+/* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
+"bookmark_suggested_title" = "Suggested title: %1$@";
 
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";

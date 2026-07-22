@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import PocketCastsDataModel
 
@@ -21,8 +22,17 @@ class BookmarkEditViewModel: ObservableObject {
 
     @Published var didAppear = false
 
+    /// A title suggestion generated from the transcript around the bookmark's position
+    @Published private(set) var titleSuggestion: TitleSuggestion = .none
+
+    /// Emits a generated title that should directly replace the field's text (the user hasn't edited it yet)
+    let autoApplySuggestion = PassthroughSubject<String, Never>()
+
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
+
+    private var suggestionTask: Task<Void, Never>?
+    private var userHasEditedTitle = false
 
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
@@ -42,19 +52,71 @@ class BookmarkEditViewModel: ObservableObject {
             headerSubTitle = L10n.changeBookmarkSubtitle
             saveButtonTitle = L10n.changeBookmarkTitle
         }
+
+        generateTitleSuggestion()
+    }
+
+    deinit {
+        suggestionTask?.cancel()
     }
 
     func viewDidAppear() {
         didAppear = true
     }
 
+    // MARK: - Title Suggestion
+
+    private func generateTitleSuggestion() {
+        guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled else { return }
+
+        titleSuggestion = .generating
+        suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength] in
+            let suggestion = await bookmarkManager.suggestTitle(for: bookmark)
+            guard !Task.isCancelled else { return }
+
+            let trimmed = suggestion.map { String($0.trim().prefix(maxTitleLength)) }
+            await MainActor.run {
+                guard let self else { return }
+                guard let trimmed, !trimmed.isEmpty else {
+                    self.titleSuggestion = .none
+                    return
+                }
+
+                if self.userHasEditedTitle {
+                    // Never replace the user's own words — offer the suggestion instead
+                    self.titleSuggestion = .available(trimmed)
+                } else {
+                    self.titleSuggestion = .none
+                    self.autoApplySuggestion.send(trimmed)
+                }
+            }
+        }
+    }
+
+    func userDidEditTitle() {
+        userHasEditedTitle = true
+    }
+
+    /// The view calls this once it has applied the current suggestion to the title field
+    func suggestionHandled() {
+        titleSuggestion = .none
+    }
+
+    enum TitleSuggestion: Equatable {
+        case none
+        case generating
+        case available(String)
+    }
+
     // MARK: - View Methods
 
     func cancel() {
+        suggestionTask?.cancel()
         router?.dismiss()
     }
 
     func save(title: String) {
+        suggestionTask?.cancel()
         Task {
             let title = String(title.trim().prefix(maxTitleLength))
 

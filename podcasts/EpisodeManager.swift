@@ -402,7 +402,6 @@ class EpisodeManager: NSObject {
             let fileSize = attributes[.size] as? UInt64 ?? 0
             let fullFilePath = (folderPath as NSString).appendingPathComponent(tmpFile)
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
-            StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
             if StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath)) {
                 totalFilesSize += fileSize
             } else {

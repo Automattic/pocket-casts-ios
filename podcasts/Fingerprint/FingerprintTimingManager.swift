@@ -516,6 +516,15 @@ final class FingerprintTimingManager: NSObject {
                 return .unresolved(reason: "no_match", isStreaming: isStreaming)
             }
             let resolveDurationMs = Int(Date().timeIntervalSince(startDate) * 1000)
+            // Comparable across platforms: Android fingerprints eagerly and iOS
+            // reactively on tap, but both report the calculation time here, decoupled
+            // from `playerChapterSelected` (the tap) which stays untouched.
+            Analytics.track(.playerChapterFingerprintCalculated, properties: [
+                "duration_ms": resolveDurationMs,
+                "is_streaming": isStreaming,
+                "episode_uuid": episodeUuid,
+                "podcast_uuid": episode.parentIdentifier()
+            ])
             return .resolved(
                 playbackTime: max(referenceTime, playback),
                 usedPrior: usedPrior,
@@ -523,6 +532,123 @@ final class FingerprintTimingManager: NSObject {
                 resolveDurationMs: resolveDurationMs
             )
         }
+    }
+
+    // MARK: - On-demand bookmark position resolve
+
+    /// Resolves a playback-timeline position (e.g. a bookmark's time) to the
+    /// reference timeline, so reference-timed content like a generated
+    /// transcript can be read at the right spot despite dynamic-ad shifting.
+    ///
+    /// Like `resolvePlaybackTime` this is one-shot and side-effect-free: it uses
+    /// its own matcher, cancellation flag, and scratch mapping, and never mutates
+    /// the continuous transcript mapping (`main`), `context`, or `state`.
+    ///
+    /// Returns nil when no confident match is found (no reference, audio not
+    /// local, timeout) — callers should fall back to the raw playback time.
+    func resolveReferenceTime(forPlaybackTime playbackTime: Double, episode: BaseEpisode) async -> Double? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        let episodeUuid = episode.uuid
+
+        // Warm fast path: interpolate off the continuous transcript mapping when
+        // it already confidently covers this position.
+        let warm: Double? = queue.sync {
+            guard let ctx = context, ctx.episodeUuid == episodeUuid,
+                  Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: main.playbackToReference) else {
+                return nil
+            }
+            return Self.interpolate(
+                time: playbackTime,
+                in: main.playbackToReference,
+                keyPath: \.playbackTime,
+                valuePath: \.referenceTime
+            )
+        }
+        if let warm { return warm }
+
+        // Hard timeout, observed once per decoded chunk
+        let flag = CancellationFlag()
+        let timeoutTask = Task {
+            try? await Task.sleep(
+                nanoseconds: UInt64(FingerprintConstants.bookmarkResolveTimeoutSeconds * 1_000_000_000)
+            )
+            flag.cancel()
+        }
+        defer { timeoutTask.cancel() }
+
+        // Resolve reference data: warm context → disk → server.
+        var referenceData: Data? = queue.sync {
+            guard let ctx = context, ctx.episodeUuid == episodeUuid else { return nil }
+            return ctx.referenceData
+        }
+        referenceData = referenceData ?? loadReference(for: episode)?.data
+        if referenceData == nil {
+            referenceData = await FingerprintReferenceRetriever.shared.fetchReferenceData(
+                podcastUuid: episode.parentIdentifier(),
+                episodeUuid: episodeUuid
+            )
+            if let referenceData { saveReferenceData(referenceData, for: episode) }
+        }
+
+        guard !flag.isCancelled,
+              let referenceData,
+              let reference = ReferenceFingerprint.decode(from: referenceData) else {
+            return nil
+        }
+
+        let duration = episode.duration
+        guard duration > 0,
+              let (matcher, _) = buildMatcher(from: reference, episodeUuid: episodeUuid, audioDuration: duration) else {
+            return nil
+        }
+
+        let start = Self.alignToWindowGrid(
+            max(0, playbackTime - FingerprintConstants.bookmarkResolveBackwardSeconds)
+        )
+        let end = playbackTime + FingerprintConstants.bookmarkResolveForwardSeconds
+
+        let audioURL: URL
+        switch resolveAudioSource(for: episode) {
+        case .downloaded(let url), .streaming(let url):
+            audioURL = url
+        }
+
+        // Fingerprint + match the bounded region into a local scratch accumulator;
+        // matching stays serialized on `queue` inside `streamFingerprintBounded`.
+        let scratch: MappingAccumulator? = await withCheckedContinuation { continuation in
+            onDemandQueue.async {
+                var acc = MappingAccumulator()
+                do {
+                    try self.streamFingerprintBounded(
+                        audioFileURL: audioURL,
+                        startSeconds: start,
+                        endSeconds: end,
+                        matcher: matcher,
+                        flag: flag,
+                        into: &acc
+                    )
+                    continuation.resume(returning: acc)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+
+        guard let scratch,
+              scratch.playbackToReference.count >= FingerprintConstants.bookmarkResolveMinAnchors,
+              let referenceTime = Self.interpolate(
+                  time: playbackTime,
+                  in: scratch.playbackToReference,
+                  keyPath: \.playbackTime,
+                  valuePath: \.referenceTime
+              ) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve found no confident match "
+                    + "at playback \(String(format: "%.1f", playbackTime))s for \(episodeUuid)"
+            )
+            return nil
+        }
+        return referenceTime
     }
 
     #if DEBUG
