@@ -4,8 +4,6 @@ import UIKit
 /// full transcript in the editor.
 enum BookmarkTranscriptStyle {
     static let fontSize: Double = 16
-
-    /// The line height, as a proportion of the font size
     static let lineHeightMultiple: Double = 1.5
 
     /// New York, scaling with the body text style
@@ -37,9 +35,9 @@ enum BookmarkTranscriptStyle {
         max(0, lineHeight - font.lineHeight)
     }
 
-    /// TextKit puts the room a taller line height buys entirely above the glyphs, which
-    /// leaves them sitting at the bottom of their line, and of any selection drawn over
-    /// it. Raising the baseline by half splits that room evenly.
+    /// TextKit puts the room a taller line height buys entirely above the glyphs, leaving
+    /// them at the bottom of their line, and of any selection drawn over it. Raising the
+    /// baseline by half splits that room evenly.
     static var baselineOffset: CGFloat {
         lineSpacing / 2
     }

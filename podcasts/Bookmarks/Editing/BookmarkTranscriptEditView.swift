@@ -24,7 +24,6 @@ struct BookmarkTranscriptEditView: View {
         .frame(maxWidth: .infinity)
         .padding([.horizontal, .top])
         .background(theme.background.ignoresSafeArea())
-        // The transcript runs off the bottom of the screen rather than stopping short of it
         .ignoresSafeArea(edges: .bottom)
         .navigationTitle(L10n.bookmarkEditTranscriptTitle)
         .navigationBarTitleDisplayMode(.inline)
@@ -34,8 +33,7 @@ struct BookmarkTranscriptEditView: View {
                 backButton
             }
 
-            // The screen is painted in the player's colors, which the bar's own title
-            // knows nothing about
+            // The bar's own title knows nothing about the player's colors
             ToolbarItem(placement: .principal) {
                 Text(L10n.bookmarkEditTranscriptTitle)
                     .font(style: .headline, weight: .semibold)
@@ -67,11 +65,9 @@ struct BookmarkTranscriptEditView: View {
 
 // MARK: - TranscriptSelectionTextView
 
-/// The transcript as selectable text, scrolled to the bookmark's passage.
-///
-/// The passage is UIKit's own text selection, so it's adjusted with the standard grab
-/// handles. A tap selects the sentence it lands in rather than collapsing the selection
-/// to a caret, which would leave the bookmark with no passage at all.
+/// The transcript as selectable text, scrolled to the bookmark's passage. A tap selects
+/// the sentence it lands in, rather than collapsing the selection to a caret and leaving
+/// the bookmark with no passage at all.
 private struct TranscriptSelectionTextView: UIViewRepresentable {
     let transcript: TranscriptModel
 
@@ -80,8 +76,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
     let textColor: UIColor
     let selectionColor: UIColor
 
-    /// Where the passage sits vertically once scrolled to, leaving room to drag the
-    /// selection in either direction
+    /// Where the passage sits vertically once scrolled to
     private let verticalAnchor: CGFloat = 0.3
 
     func makeUIView(context: Context) -> SelectableTextView {
@@ -94,11 +89,10 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         textView.textContainer.lineFragmentPadding = 0
         textView.tintColor = selectionColor
         textView.showsVerticalScrollIndicator = false
-        // The text runs under the home indicator, so it needs room to scroll clear of it
+        // Leaves room to scroll the text clear of the home indicator it runs under
         textView.contentInsetAdjustmentBehavior = .always
 
-        // The passage can only be scrolled to once the text has a width to be laid out
-        // in, so the transcript is kept hidden until it's in position
+        // The passage can only be scrolled to once the text has a width to be laid out in
         textView.alpha = 0
         textView.onFirstLayout = { [weak textView] in
             guard let textView else { return }
@@ -111,9 +105,8 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
                 textView.alpha = 1
             }
 
-            // Listen only from here on: the passage above would report itself back
-            // as a change, and the empty selection the text view starts out with
-            // would be snapped to a sentence and overwrite the passage
+            // Listen only from here on: the passage above would report itself back as a
+            // change, and the empty selection it starts out with would overwrite it
             textView.delegate = context.coordinator
         }
 
@@ -156,8 +149,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         return text
     }
 
-    /// A text view that reports the first layout pass its text is laid out in, and that
-    /// it has a window to become the first responder in
+    /// A text view that reports the first layout pass it can scroll and select in
     class SelectableTextView: UITextView {
         var onFirstLayout: (() -> Void)?
 
@@ -195,8 +187,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
             selection = range
         }
 
-        /// The passage is what's being picked here, so the copy and share actions the
-        /// selection would otherwise offer are just in the way
+        /// The copy and share actions a selection normally offers are just in the way here
         func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
             nil
         }

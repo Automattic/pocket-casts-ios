@@ -37,7 +37,6 @@ class BookmarkEditViewModel: ObservableObject {
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
 
-    /// The transcript passage captured around the bookmark's position, once it's available
     @Published private(set) var snippet: BookmarkTranscriptSnippet?
 
     /// Whether the transcript is still being fetched, so the passage can be shown as a
@@ -45,8 +44,8 @@ class BookmarkEditViewModel: ObservableObject {
     @Published private(set) var isCapturingTranscript = false
 
     /// The captured passage, which the transcript editor changes as the user picks a
-    /// different one. It deliberately doesn't regenerate the title: the suggestion
-    /// belongs to the moment that was bookmarked, not to whatever is selected after.
+    /// different one. It deliberately doesn't regenerate the title, which belongs to the
+    /// moment that was bookmarked.
     var transcriptRange: NSRange {
         get { snippet?.range ?? NSRange(location: 0, length: 0) }
         set { snippet?.range = newValue }

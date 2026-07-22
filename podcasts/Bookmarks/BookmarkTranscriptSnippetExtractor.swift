@@ -3,8 +3,8 @@ import NaturalLanguage
 import PocketCastsDataModel
 import PocketCastsUtils
 
-/// The transcript passage captured for a bookmark, kept alongside the transcript
-/// it was taken from so the passage can be re-selected later.
+/// The transcript passage captured for a bookmark, kept alongside the transcript it was
+/// taken from so it can be re-selected later.
 struct BookmarkTranscriptSnippet {
     let transcript: TranscriptModel
     var range: NSRange
@@ -67,8 +67,6 @@ struct BookmarkTranscriptSnippetExtractor {
         return snippet
     }
 
-    /// The range of the sentence `index` falls in, used to turn a tap on the transcript
-    /// into a passage
     static func sentenceRange(containing index: Int, in text: String) -> NSRange {
         let length = (text as NSString).length
         guard length > 0 else {

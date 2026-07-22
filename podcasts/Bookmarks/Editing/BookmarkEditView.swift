@@ -48,8 +48,7 @@ struct BookmarkEditView: View {
                 closeButton
             }
 
-            // The sheet is painted in the player's colors, which the bar's own title
-            // knows nothing about
+            // The bar's own title knows nothing about the player's colors
             ToolbarItem(placement: .principal) {
                 Text(viewModel.headerTitle)
                     .font(style: .headline, weight: .semibold)
@@ -86,8 +85,7 @@ struct BookmarkEditView: View {
         .animation(.easeInOut(duration: 0.2), value: viewModel.titleSuggestion)
     }
 
-    /// A section of the form, e.g. the title field. The header is styled as a label, so
-    /// a section that only needs one passes its `Text` and nothing else.
+    /// A section of the form, with its header styled as a label
     private func section<Header: View>(@ViewBuilder header: () -> Header,
                                        @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -139,8 +137,6 @@ struct BookmarkEditView: View {
             }
     }
 
-    /// The transcript the title was generated from, so the user can see the captured
-    /// moment and pick a different passage
     @ViewBuilder
     private var transcriptSection: some View {
         if viewModel.snippet != nil || viewModel.isCapturingTranscript {
@@ -154,7 +150,6 @@ struct BookmarkEditView: View {
                         editTranscriptButton
                     }
                 }
-                // Set in towards the passage below, which its own padding insets
                 .padding(.horizontal, 8)
             } content: {
                 if let snippet = viewModel.snippet {
@@ -180,8 +175,8 @@ struct BookmarkEditView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    /// Stands in for the passage while the transcript loads. It's never read: the
-    /// redaction blocks it out, it only gives the placeholder the shape of a passage.
+    /// Stands in for the passage while the transcript loads. The redaction blocks it out,
+    /// so it's never read, it only gives the placeholder the shape of a passage.
     private static let transcriptPlaceholder = """
     The passage captured around this moment lands here once the episode transcript has \
     been fetched, and it runs long enough to fill out the four lines it is given.
