@@ -31,14 +31,14 @@ struct SettingsMenuView: View {
             Analytics.track(.settingsGeneralShown)
         }
         .sheet(isPresented: $isShowingPrivacyPolicy) {
-            ShowHTMLView(title: L10n.accountPrivacyPolicy, urlString: ServerConstants.Urls.privacyPolicy)
+            ShowQRLinkView(title: L10n.accountPrivacyPolicy, message: "Scan the QR code bellow, or open the url in your phone to access the Privacy Policy.", urlString: ServerConstants.Urls.privacyPolicy)
                 .onAppear {
                     Analytics.track(.accountDetailsShowPrivacyPolicy)
                 }
                 .environment(coordinator)
         }
         .sheet(isPresented: $isShowingTermsOfUse) {
-            ShowHTMLView(title: L10n.termsOfUse, urlString: ServerConstants.Urls.termsOfUse)
+            ShowQRLinkView(title: L10n.termsOfUse, message: "Scan the QR code bellow, or open the url in your phone to access the Terms of Use.", urlString: ServerConstants.Urls.termsOfUse)
                 .onAppear {
                     Analytics.track(.accountDetailsShowTOS)
                 }
