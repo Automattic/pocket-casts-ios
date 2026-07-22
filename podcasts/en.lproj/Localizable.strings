@@ -4510,6 +4510,9 @@
 /* Label above the text field where the user edits the bookmark title */
 "bookmark_title_label" = "Title";
 
+/* The title of a view showing a single bookmark and the transcript passage it captured */
+"bookmark_details_title" = "Bookmark";
+
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
 
