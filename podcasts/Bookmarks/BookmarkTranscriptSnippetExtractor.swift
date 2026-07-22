@@ -3,6 +3,17 @@ import NaturalLanguage
 import PocketCastsDataModel
 import PocketCastsUtils
 
+/// The transcript passage captured for a bookmark, kept alongside the transcript
+/// it was taken from so the passage can be re-selected later.
+struct BookmarkTranscriptSnippet {
+    let transcript: TranscriptModel
+    var range: NSRange
+
+    var text: String {
+        BookmarkTranscriptSnippetExtractor.text(in: range, of: transcript.attributedText)
+    }
+}
+
 /// Extracts the transcript text surrounding a bookmark's position, used as the
 /// input for generating a bookmark title.
 ///
@@ -20,7 +31,7 @@ struct BookmarkTranscriptSnippetExtractor {
     /// Snippets with fewer words than this carry too little signal to generate a meaningful title from
     static let minimumWordCount = 10
 
-    func snippet(forTime time: TimeInterval, episode: BaseEpisode) async -> String? {
+    func snippet(forTime time: TimeInterval, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
         let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.parentIdentifier())
         guard let model = try? await transcriptManager.loadTranscript() else {
             return nil
@@ -36,7 +47,7 @@ struct BookmarkTranscriptSnippetExtractor {
         return Self.extractSnippet(from: model, at: center)
     }
 
-    static func extractSnippet(from model: TranscriptModel, at time: TimeInterval) -> String? {
+    static func extractSnippet(from model: TranscriptModel, at time: TimeInterval) -> BookmarkTranscriptSnippet? {
         let windowStart = max(0, time - backwardWindowSeconds)
         let windowEnd = time + forwardWindowSeconds
 
@@ -49,12 +60,23 @@ struct BookmarkTranscriptSnippetExtractor {
         let windowRange = NSRange(location: location, length: last.characterRange.upperBound - location)
         let snappedRange = snapToSentenceBoundaries(windowRange, in: model.attributedText.string)
 
-        let raw = plainText(in: snappedRange, of: model.attributedText)
-        let words = raw.split(whereSeparator: \.isWhitespace)
-        guard words.count >= minimumWordCount else {
+        let snippet = BookmarkTranscriptSnippet(transcript: model, range: snappedRange)
+        guard snippet.text.split(whereSeparator: \.isWhitespace).count >= minimumWordCount else {
             return nil
         }
-        return words.joined(separator: " ")
+        return snippet
+    }
+
+    /// The range of the sentence `index` falls in, used to turn a tap on the transcript
+    /// into a passage
+    static func sentenceRange(containing index: Int, in text: String) -> NSRange {
+        let length = (text as NSString).length
+        guard length > 0 else {
+            return NSRange(location: 0, length: 0)
+        }
+
+        let clamped = min(max(index, 0), length - 1)
+        return snapToSentenceBoundaries(NSRange(location: clamped, length: 1), in: text)
     }
 
     private static func snapToSentenceBoundaries(_ range: NSRange, in text: String) -> NSRange {
@@ -73,8 +95,9 @@ struct BookmarkTranscriptSnippetExtractor {
         return NSRange(lowerBound..<upperBound, in: text)
     }
 
-    /// The plain text within `range`, skipping the speaker-name runs interleaved between cues
-    private static func plainText(in range: NSRange, of attributedText: NSAttributedString) -> String {
+    /// The plain text within `range`, skipping the speaker-name runs interleaved between
+    /// cues and collapsing the line breaks between them
+    static func text(in range: NSRange, of attributedText: NSAttributedString) -> String {
         let clamped = NSIntersectionRange(range, NSRange(location: 0, length: attributedText.length))
         guard clamped.length > 0 else {
             return ""
@@ -86,6 +109,6 @@ struct BookmarkTranscriptSnippetExtractor {
             guard value == nil else { return }
             parts.append(string.substring(with: subrange))
         }
-        return parts.joined(separator: " ")
+        return parts.joined(separator: " ").split(whereSeparator: \.isWhitespace).joined(separator: " ")
     }
 }

@@ -4501,6 +4501,12 @@
 /* Label above the section showing the transcript text captured around the bookmarked moment */
 "bookmark_transcript_captured" = "Transcript captured";
 
+/* The title of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_title" = "Edit transcript";
+
+/* The subtitle of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_subtitle" = "Select a transcript passage for this bookmark";
+
 /* Label above the text field where the user edits the bookmark title */
 "bookmark_title_label" = "Title";
 

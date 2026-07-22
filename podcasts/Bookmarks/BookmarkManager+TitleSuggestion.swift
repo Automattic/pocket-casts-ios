@@ -8,10 +8,10 @@ extension BookmarkManager {
         FeatureFlag.smartBookmarks.enabled
     }
 
-    /// The transcript text surrounding the bookmark, which the title is generated from.
+    /// The transcript passage surrounding the bookmark, which the title is generated from.
     ///
     /// Returns nil when suggestions are disabled or the episode has no usable transcript.
-    func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> String? {
+    func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
         guard Self.isTitleSuggestionEnabled else {
             return nil
         }
