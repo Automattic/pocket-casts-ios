@@ -59,6 +59,10 @@ extension NowPlayingPlayerItemViewController {
             floatingVideoView.isHidden = true
             episodeImage.alpha = 1.0
             episodeImage.layer.opacity = 1
+            // The player-open zoom transition (PlayerZoomAnimator) leaves the artwork subview at
+            // alpha 0 when the player opens with video showing, since the video covers it. Restore it
+            // here so the cover art reappears once video is turned off.
+            artworkImageView.alpha = 1
             if wasShowingVideo {
                 // The artwork slot was invisible while the video was showing, so its aspect-fit
                 // subview may not have been laid out yet. Force a pass so the artwork (reloaded at
