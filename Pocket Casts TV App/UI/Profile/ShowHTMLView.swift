@@ -35,7 +35,7 @@ struct ShowHTMLView: View {
         } else {
             HStack(spacing: 16) {
                 ProgressView()
-                Text("Loading...")
+                Text(L10n.loading)
                     .font(.body)
                     .foregroundStyle(Color.pcTextSecondary)
             }
@@ -48,7 +48,7 @@ struct ShowHTMLView: View {
         do {
             html = try await fetchHTML(from: urlString)
         } catch {
-            html = "Failed to load"
+            html = L10n.tvDiscoverRowFailedToLoadTitle
         }
         htmlContent = HTMLToAttributedStringConverter.attributedString(from: html)
     }
@@ -60,8 +60,7 @@ struct ShowHTMLView: View {
 
         let (data, response) = try await URLSession.shared.data(from: url)
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
+        guard (200...299).contains(response.extractStatusCode()) else {
             throw URLError(.badServerResponse)
         }
 

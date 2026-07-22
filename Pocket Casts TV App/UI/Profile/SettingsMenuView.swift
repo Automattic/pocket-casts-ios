@@ -11,19 +11,13 @@ struct SettingsMenuView: View {
 
     var body: some View {
         VStack {
-            Button() {
-
-            } label: {
-                Text("Subscription")
-                    .frame(minWidth: 400)
-            }
-            Button() {
+            Button {
                 isShowingPrivacyPolicy = true
             } label: {
                 Text(L10n.accountPrivacyPolicy)
                     .frame(minWidth: 400)
             }
-            Button() {
+            Button {
                 isShowingTermsOfUse = true
             } label: {
                 Text(L10n.termsOfUse)
@@ -38,10 +32,16 @@ struct SettingsMenuView: View {
         }
         .sheet(isPresented: $isShowingPrivacyPolicy) {
             ShowHTMLView(title: L10n.accountPrivacyPolicy, urlString: ServerConstants.Urls.privacyPolicy)
+                .onAppear {
+                    Analytics.track(.accountDetailsShowPrivacyPolicy)
+                }
                 .environment(coordinator)
         }
         .sheet(isPresented: $isShowingTermsOfUse) {
             ShowHTMLView(title: L10n.termsOfUse, urlString: ServerConstants.Urls.termsOfUse)
+                .onAppear {
+                    Analytics.track(.accountDetailsShowTOS)
+                }
                 .environment(coordinator)
         }
         .remotePlayPause()

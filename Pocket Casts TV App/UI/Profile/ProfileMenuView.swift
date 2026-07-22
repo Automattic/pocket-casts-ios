@@ -84,7 +84,6 @@ struct ProfileMenuView: View {
 
             Divider()
                 .frame(maxWidth: 400)
-
             Button {
                 onProfileSelected(.starred)
             } label: {
@@ -100,10 +99,9 @@ struct ProfileMenuView: View {
             Button {
                 isShowingSettings = true
             } label: {
-                Text("Settings")
+                Text(L10n.settings)
                     .frame(minWidth: 400)
             }
-
             Divider()
                 .frame(maxWidth: 400)
 
@@ -137,7 +135,7 @@ struct ProfileMenuView: View {
             Button {
                 isShowingSettings = true
             } label: {
-                Text("Settings")
+                Text(L10n.settings)
                     .frame(minWidth: 400)
             }
         }
