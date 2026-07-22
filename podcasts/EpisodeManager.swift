@@ -444,13 +444,18 @@ class EpisodeManager: NSObject {
     /// is not treated as HLS — this distinguishes that case from `hasHLSStream`.
     class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
         guard hasHLSStream(episode) else { return false }
+        // The user can choose to watch a downloaded episode's video, which streams the HLS source instead
+        // of its local (audio-only) file, so this takes precedence over the downloaded-copy checks below.
+        if PlaybackManager.shared.shouldStreamVideoDespiteDownload(episode) { return true }
         if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
         if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
         return true
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
-        if !streamingOnly {
+        // Streaming the HLS video of a downloaded episode ignores the local (audio-only) file.
+        let preferStreaming = streamingOnly || PlaybackManager.shared.shouldStreamVideoDespiteDownload(episode)
+        if !preferStreaming {
             // For local playback, prefer downloaded files
             if episode.downloaded(pathFinder: DownloadManager.shared) {
                 return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
