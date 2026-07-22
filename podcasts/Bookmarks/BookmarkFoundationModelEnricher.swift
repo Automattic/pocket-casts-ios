@@ -2,6 +2,8 @@ import Foundation
 import FoundationModels
 import NaturalLanguage
 
+#if os(iOS)
+
 /// Generates a title for a bookmark on-device using Apple's Foundation Models,
 /// from the transcript text surrounding the bookmark's position.
 ///
@@ -130,3 +132,5 @@ final class BookmarkFoundationModelEnricher {
         return recognizer.dominantLanguage?.rawValue
     }
 }
+
+#endif
