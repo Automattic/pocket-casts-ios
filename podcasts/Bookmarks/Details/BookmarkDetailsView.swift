@@ -33,14 +33,16 @@ struct BookmarkDetailsView: View {
             VStack(alignment: .leading, spacing: 2) {
                 viewModel.podcastTitle.map {
                     Text($0)
-                        .font(style: .footnote, weight: .medium)
+                        .font(size: 11, style: .caption2, weight: .semibold)
+                        .kerning(-0.4)
                         .foregroundStyle(theme.primaryText02)
                         .lineLimit(1)
                 }
 
                 viewModel.episode.map {
                     Text($0.displayableTitle())
-                        .font(style: .subheadline, weight: .semibold)
+                        .font(size: 15, style: .subheadline, weight: .semibold)
+                        .kerning(-0.4)
                         .foregroundStyle(theme.primaryText01)
                         .lineLimit(2)
                 }
