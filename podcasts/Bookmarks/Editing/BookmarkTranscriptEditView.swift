@@ -10,8 +10,6 @@ struct BookmarkTranscriptEditView: View {
 
     @ObservedObject var theme: BookmarkEditTheme
 
-    @Environment(\.dismiss) private var dismiss
-
     var body: some View {
         VStack(spacing: 18) {
             subtitle
@@ -25,14 +23,11 @@ struct BookmarkTranscriptEditView: View {
         .padding([.horizontal, .top])
         .background(theme.background.ignoresSafeArea())
         .ignoresSafeArea(edges: .bottom)
+        // Colors the back button the bar gives us for free
+        .tint(theme.title)
         .navigationTitle(L10n.bookmarkEditTranscriptTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                backButton
-            }
-
             // The bar's own title knows nothing about the player's colors
             ToolbarItem(placement: .principal) {
                 Text(L10n.bookmarkEditTranscriptTitle)
@@ -49,17 +44,6 @@ struct BookmarkTranscriptEditView: View {
             .foregroundStyle(theme.subTitle)
             .font(style: .callout)
             .multilineTextAlignment(.center)
-    }
-
-    private var backButton: some View {
-        Button {
-            dismiss()
-        } label: {
-            Image("nav-back")
-                .renderingMode(.template)
-                .foregroundStyle(theme.title)
-        }
-        .accessibilityLabel(L10n.back)
     }
 }
 
@@ -88,7 +72,6 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.tintColor = selectionColor
-        textView.showsVerticalScrollIndicator = false
         // Leaves room to scroll the text clear of the home indicator it runs under
         textView.contentInsetAdjustmentBehavior = .always
 
