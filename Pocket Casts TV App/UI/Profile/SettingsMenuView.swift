@@ -4,7 +4,7 @@ import PocketCastsServer
 struct SettingsMenuView: View {
 
     @Environment(AppCoordinator.self) private var coordinator
-    
+
     @State private var isShowingPrivacyPolicy = false
     @State private var isShowingTermsOfUse = false
 
