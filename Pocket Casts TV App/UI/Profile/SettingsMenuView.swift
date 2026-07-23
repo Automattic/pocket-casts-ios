@@ -40,7 +40,7 @@ struct SettingsMenuView: View {
         .sheet(isPresented: $isShowingSubscription) {
             SubscriptionInfoView()
                 .onAppear {
-                    Analytics.track(.accountDetailSubscription)
+                    Analytics.track(.accountDetailsSubscription)
                 }
         }
         .sheet(isPresented: $isShowingPrivacyPolicy) {
