@@ -14,7 +14,8 @@ final class ZendeskSupportServiceTests: XCTestCase {
     }
 
     func testServerErrorPreservesUTF8WhenExcerptLimitSplitsScalarBytes() {
-        let body = String(repeating: "a", count: 255) + "é"
+        let expectedExcerpt = "description: " + String(repeating: "a", count: 242) + "é"
+        let body = #"{"description":"\#(String(repeating: "a", count: 242))é"}"#
         ZendeskURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 400, httpVersion: nil, headerFields: nil)!
             return (response, Data(body.utf8))
@@ -42,7 +43,72 @@ final class ZendeskSupportServiceTests: XCTestCase {
             return
         }
         XCTAssertEqual(statusCode, 400)
-        XCTAssertEqual(bodyExcerpt, body)
+        XCTAssertEqual(bodyExcerpt, expectedExcerpt)
+    }
+
+    func testServerErrorOnlyIncludesSanitizedDocumentedJSONFields() {
+        let body = """
+        {
+          "error": "RecordInvalid",
+          "description": "Contact user@example.com\\nfor help",
+          "details": {"email": "second@example.com", "type": "invalid"},
+          "requester": {"email": "private@example.com"}
+        }
+        """
+        ZendeskURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 422, httpVersion: nil, headerFields: nil)!
+            return (response, Data(body.utf8))
+        }
+
+        let receivedError = submitRequestAndWait()
+
+        guard case let .serverError(statusCode, bodyExcerpt) = receivedError else {
+            XCTFail("Expected a server error")
+            return
+        }
+        XCTAssertEqual(statusCode, 422)
+        XCTAssertEqual(
+            bodyExcerpt,
+            #"error: RecordInvalid, description: Contact <redacted-email> for help, details: {"email":"<redacted-email>","type":"invalid"}"#
+        )
+        XCTAssertFalse(bodyExcerpt?.contains("requester") == true)
+        XCTAssertFalse(bodyExcerpt?.contains("private@example.com") == true)
+        XCTAssertFalse(bodyExcerpt?.contains("\n") == true)
+    }
+
+    func testServerErrorOmitsArbitraryPlainTextBody() {
+        ZendeskURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 400, httpVersion: nil, headerFields: nil)!
+            return (response, Data("private user text".utf8))
+        }
+
+        let receivedError = submitRequestAndWait()
+
+        guard case let .serverError(_, bodyExcerpt) = receivedError else {
+            XCTFail("Expected a server error")
+            return
+        }
+        XCTAssertEqual(bodyExcerpt, "<non-JSON response omitted>")
+    }
+
+    private func submitRequestAndWait() -> ZendeskSupportService.SupportRequestError? {
+        let completionExpectation = expectation(description: "Request completes")
+        var receivedError: ZendeskSupportService.SupportRequestError?
+
+        makeService()
+            .submitSupportRequest(makeSupportRequest())
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    receivedError = error as? ZendeskSupportService.SupportRequestError
+                }
+                completionExpectation.fulfill()
+            }, receiveValue: { _ in
+                XCTFail("Expected the request to fail")
+            })
+            .store(in: &cancellables)
+
+        wait(for: [completionExpectation], timeout: 1)
+        return receivedError
     }
 
     private func makeService() -> ZendeskSupportService {
