@@ -14,7 +14,7 @@ struct SettingsMenuView: View {
                 Button {
                     isShowingSubscription = true
                 } label: {
-                    Text("Subscription")
+                    Text(L10n.tvSettingsSubscriptionTitle)
                         .frame(minWidth: 400)
                 }
             }
