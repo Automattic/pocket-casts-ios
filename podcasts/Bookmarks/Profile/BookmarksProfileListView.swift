@@ -73,6 +73,7 @@ struct BookmarksProfileListView: View {
     }
 
     func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
+        guard !LiquidGlass.isEnabled else { return 0 }
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
         return min(Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, 40)
     }
