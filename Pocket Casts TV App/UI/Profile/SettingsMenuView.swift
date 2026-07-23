@@ -2,11 +2,11 @@ import SwiftUI
 import PocketCastsServer
 
 struct SettingsMenuView: View {
-    @Environment(\.dismiss) private var dismiss
 
+    @Environment(AppCoordinator.self) private var coordinator
+    
     @State private var isShowingPrivacyPolicy = false
     @State private var isShowingTermsOfUse = false
-
 
     var body: some View {
         VStack {
