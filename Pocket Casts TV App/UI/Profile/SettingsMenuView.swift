@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 
 struct SettingsMenuView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(AppCoordinator.self) private var coordinator
 
     @State private var isShowingSubscription = false
     @State private var isShowingPrivacyPolicy = false
@@ -10,11 +10,13 @@ struct SettingsMenuView: View {
 
     var body: some View {
         VStack {
-            Button {
-                isShowingSubscription = true
-            } label: {
-                Text("Subscription")
-                    .frame(minWidth: 400)
+            if coordinator.userState.isLoggedIn {
+                Button {
+                    isShowingSubscription = true
+                } label: {
+                    Text("Subscription")
+                        .frame(minWidth: 400)
+                }
             }
             Button {
                 isShowingPrivacyPolicy = true
