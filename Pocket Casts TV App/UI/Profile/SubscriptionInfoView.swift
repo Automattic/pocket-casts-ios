@@ -13,6 +13,9 @@ class SubscriptionInfoViewModel {
     func refresh(isiOS: Bool, tier: SubscriptionTier, frequency: SubscriptionFrequency) async {
         if isiOS, let productID = resolveProductID(tier: tier, frequency: frequency) {
             price = await getSubscriptionPrice(productID: productID.rawValue)
+            if price == nil {
+                price = L10n.tvSettingsSubscriptionPriceUnavailable
+            }
         }
         isLoading = false
     }

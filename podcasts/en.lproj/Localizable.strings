@@ -6558,6 +6558,9 @@
 /* tv settings - label for the row showing the subscription price */
 "tv_settings_subscription_price" = "Price";
 
+/* tv settings - value shown for the subscription price when it could not be retrieved */
+"tv_settings_subscription_price_unavailable" = "Unavailable";
+
 /* tv settings - value shown for the renewal date when the user has a lifetime subscription */
 "tv_settings_subscription_lifetime" = "Lifetime";
 
