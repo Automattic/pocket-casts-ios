@@ -140,7 +140,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             makePlaybackSpeedMenu(),
             makePlaybackEffectsMenu(),
             makeEpisodeActionsMenu()
-        ]
+        ].compactMap({$0})
         ensureEpisodeDescriptionInfoAction(on: uiViewController)
         // Suppress AVKit's system loading spinner while the player is still
         // preparing. Hiding playback controls also hides the spinner that
@@ -193,7 +193,9 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
     }
 
     private func makePlaybackSpeedMenu() -> UIMenu {
-        let speeds = Array(stride(from: SharedConstants.PlaybackEffects.minimumPlaybackSpeed, through: SharedConstants.PlaybackEffects.maximumPlaybackSpeed, by: 0.1))
+        let speeds = Array(stride(from: SharedConstants.PlaybackEffects.minimumPlaybackSpeed,
+                                  through: model.maxPlaybackSpeed,
+                                  by: 0.1))
         let actions = speeds.map { speed in
             UIAction(
                 title: String(format: "%.1fx", speed),
@@ -216,26 +218,29 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         )
     }
 
-    private func makePlaybackEffectsMenu() -> UIMenu {
-        let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
-            ToastManager.shared.show(L10n.tvPlayerVolumeBoostOff)
-            model.volumeBoost = false
-            AnalyticsPlaybackHelper.shared.currentSource = .player
-            AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: false)
-        }
-        let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
-            ToastManager.shared.show(L10n.tvPlayerVolumeBoostOn)
-            model.volumeBoost = true
-            AnalyticsPlaybackHelper.shared.currentSource = .player
-            AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: true)
-        }
-        let volumeBoostSection = UIMenu(
-            title: L10n.tvPlayerVolumeBoost,
-            options: [.displayInline, .singleSelection],
-            children: [volumeBoostOff, volumeBoostOn]
-        )
+    private func makePlaybackEffectsMenu() -> UIMenu? {
+        var sections: [UIMenu] = []
 
-        var sections: [UIMenu] = [volumeBoostSection]
+        if model.isVolumeBoostAvailable {
+            let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
+                ToastManager.shared.show(L10n.tvPlayerVolumeBoostOff)
+                model.volumeBoost = false
+                AnalyticsPlaybackHelper.shared.currentSource = .player
+                AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: false)
+            }
+            let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
+                ToastManager.shared.show(L10n.tvPlayerVolumeBoostOn)
+                model.volumeBoost = true
+                AnalyticsPlaybackHelper.shared.currentSource = .player
+                AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: true)
+            }
+            let volumeBoostSection = UIMenu(
+                title: L10n.tvPlayerVolumeBoost,
+                options: [.displayInline, .singleSelection],
+                children: [volumeBoostOff, volumeBoostOn]
+            )
+            sections.append(volumeBoostSection)
+        }
 
         if  model.isTrimSilenceAvailable {
             let trimActions = TrimSilenceAmount.allCases.map { option in
@@ -254,12 +259,15 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             )
             sections.append(trimSection)
         }
-
-        return UIMenu(
-            title: L10n.tvPlayerPlaybackEffects,
-            image: UIImage(systemName: "speaker.wave.3"),
-            children: sections
-        )
+        if sections.isEmpty {
+            return nil
+        } else {
+            return UIMenu(
+                title: L10n.tvPlayerPlaybackEffects,
+                image: UIImage(systemName: "speaker.wave.3"),
+                children: sections
+            )
+        }
     }
 
     /// Builds the ellipsis menu sitting alongside the playback-speed and

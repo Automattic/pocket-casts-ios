@@ -161,58 +161,19 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            RowSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 24) {
-                        ForEach(model.upNext) { episode in
-                            upNextButton(model: episode)
-                                .frame(width: 864)
-                                .setFocus(section: Section.homeUpNext.rawValue)
-                        }
-                    }
-                }
-                // Otherwise the focused-card drop shadow gets clipped at the
-                // scroll-view boundary instead of pooling below the pill.
-                .scrollClipDisabled()
+            EpisodesHorizontalList(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue, episodes: model.upNext, episodeContext: .upNext) {
+                showNowPlayingPlayer = true
             }
         }
     }
 
-    func upNextButton(model: EpisodeRowViewModel) -> some View {
-        Button {
-            model.play()
-            showNowPlayingPlayer = true
-        } label: {
-            EpisodeRow(model: model, isActive: false)
-        }
-        .buttonStyle(EpisodeRowButtonStyle())
-        .episodeContextMenu(model: model, context: .upNext)
-    }
-
+    @ViewBuilder
     var newReleasesRow: some View {
-        RowSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 24) {
-                    ForEach(model.newReleases) { episode in
-                        newReleaseButton(model: episode)
-                            .frame(width: 864)
-                            .setFocus(section: Section.homeNewReleases.rawValue)
-                    }
-                }
+        if !model.newReleases.isEmpty {
+            EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue, episodes: model.newReleases, episodeContext: .other(showGoToPodcast: true)) {
+                showNowPlayingPlayer = true
             }
-            .scrollClipDisabled()
         }
-    }
-
-    func newReleaseButton(model: EpisodeRowViewModel) -> some View {
-        Button {
-            model.play()
-            showNowPlayingPlayer = true
-        } label: {
-            EpisodeRow(model: model, isActive: false)
-        }
-        .buttonStyle(EpisodeRowButtonStyle())
-        .episodeContextMenu(model: model, context: .other(showGoToPodcast: true))
     }
 }
 

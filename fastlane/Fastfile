@@ -2,6 +2,7 @@
 
 require 'dotenv'
 require 'open3'
+require 'tmpdir'
 
 fastlane_version '2.0'
 
@@ -430,6 +431,7 @@ platform :ios do
   # app binaries; Releases V2 starts those per-platform tasks separately.
   #
   #  - Refreshes and lints localized strings and App Store Connect metadata
+  #  - Uploads localized App Store metadata for iOS and tvOS, excluding release notes
   #  - Bumps final version number
   #  - Removes branch protection and close milestone
   #
@@ -438,7 +440,7 @@ platform :ios do
   lane :finalize_release do |skip_confirm: false|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if current_version_hotfix?
 
-    require_env_vars!('GITHUB_TOKEN')
+    require_env_vars!('GITHUB_TOKEN', *ASC_API_KEY_ENV_VARS)
 
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
@@ -453,6 +455,8 @@ platform :ios do
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
+    update_metadata_on_app_store_connect(with_release_notes: false)
+    update_metadata_on_app_store_connect_tvos(with_release_notes: false)
 
     # Bump the build code
     UI.message 'Bumping build code...'
@@ -462,8 +466,12 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
-    close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    begin
+      set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
+      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    rescue StandardError => e
+      report_milestone_error(error_title: "Error unfreezing or closing the milestone `#{release_version_current}`: #{e.message}")
+    end
 
     create_backmerge_pr
   end
@@ -599,7 +607,7 @@ platform :ios do
     begin
       close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
     rescue StandardError => e
-      UI.important("Could not find a GitHub milestone for hotfix #{release_version_current} to close: #{e}")
+      report_milestone_error(error_title: "Error closing the milestone `#{release_version_current}` for the hotfix: #{e.message}")
     end
   end
 
@@ -1145,13 +1153,17 @@ platform :ios do
   # Upload the localized iOS metadata (from `fastlane/metadata/`) to App Store Connect
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
+  # @param with_release_notes [Boolean] If true, will also upload localized release notes (default: true)
   #
-  lane :update_metadata_on_app_store_connect do |with_screenshots: false|
+  lane :update_metadata_on_app_store_connect do |with_screenshots: false, with_release_notes: true|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
     upload_metadata_to_app_store_connect(
       platform: 'ios',
       metadata_path: APP_STORE_METADATA_FOLDER,
       screenshots_path: APP_STORE_SCREENSHOTS_FOLDER,
-      with_screenshots: with_screenshots
+      with_screenshots: with_screenshots,
+      with_release_notes: with_release_notes
     )
   end
 
@@ -1161,13 +1173,17 @@ platform :ios do
   # once tvOS screenshots are present in `fastlane/screenshots-tvos/`.
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
+  # @param with_release_notes [Boolean] If true, will also upload localized release notes (default: true)
   #
-  lane :update_metadata_on_app_store_connect_tvos do |with_screenshots: false|
+  lane :update_metadata_on_app_store_connect_tvos do |with_screenshots: false, with_release_notes: true|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
     upload_metadata_to_app_store_connect(
       platform: 'appletvos',
       metadata_path: APP_STORE_TVOS_METADATA_FOLDER,
       screenshots_path: APP_STORE_TVOS_SCREENSHOTS_FOLDER,
-      with_screenshots: with_screenshots
+      with_screenshots: with_screenshots,
+      with_release_notes: with_release_notes
     )
   end
 
@@ -1343,7 +1359,7 @@ platform :ios do
         CREATE_GITHUB_RELEASE: create_release
       }
     }
-    if is_ci?
+    if is_ci
       buildkite_pipeline_upload(**pipeline_args)
     else
       require_env_vars!('BUILDKITE_TOKEN')
@@ -1503,12 +1519,23 @@ platform :ios do
   # @param metadata_path [String] Path to the Fastlane deliver metadata folder for this platform
   # @param screenshots_path [String] Path to the Fastlane deliver screenshots folder for this platform
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC
+  # @param with_release_notes [Boolean] If true, will also upload localized release notes
   #
-  def upload_metadata_to_app_store_connect(platform:, metadata_path:, screenshots_path:, with_screenshots:)
+  def upload_metadata_to_app_store_connect(platform:, metadata_path:, screenshots_path:, with_screenshots:, with_release_notes:)
     # Skip screenshots by default. The naming is "with" to make it clear that
     # callers need to opt-in to adding screenshots. The naming of the deliver
     # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
     skip_screenshots = with_screenshots == false
+
+    # Fastlane loads every release_notes.txt in metadata_path and cannot skip only release notes.
+    # Use a filtered copy to upload the remaining metadata without changing the existing release notes.
+    temporary_metadata_path = nil
+    unless with_release_notes
+      temporary_metadata_path = Dir.mktmpdir('pocket-casts-app-store-metadata')
+      FileUtils.cp_r(File.join(metadata_path, '.'), temporary_metadata_path)
+      Dir.glob(File.join(temporary_metadata_path, '**', 'release_notes.txt')).each { |path| FileUtils.rm_f(path) }
+      metadata_path = temporary_metadata_path
+    end
 
     upload_to_app_store(
       app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
@@ -1523,6 +1550,8 @@ platform :ios do
       precheck_include_in_app_purchases: false,
       api_key: app_store_connect_api_key
     )
+  ensure
+    FileUtils.remove_entry(temporary_metadata_path) unless temporary_metadata_path.nil?
   end
 
   # Update the milestone of still-open PRs
@@ -1553,16 +1582,7 @@ platform :ios do
       )
     rescue StandardError => e
       moved_prs = []
-
-      error_message = <<-MESSAGE
-        Error freezing milestone `#{new_version}`: #{e.message}
-
-        - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
-        - Otherwise if this is the first you are running the release task for this version, please investigate the error.
-      MESSAGE
-
-      UI.error(error_message)
-      buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
+      report_milestone_error(error_title: "Error freezing the `#{new_version}` milestone: #{e.message}")
     end
 
     UI.message("Moved the following PRs to milestone #{next_version}: #{moved_prs.join(', ')}")
@@ -1575,6 +1595,21 @@ platform :ios do
                          + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GITHUB_REPO}/pull/#{pr_num})" }.join(', ')
                      end
     buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
+  end
+
+  # Reports a milestone-related error, both in the logs and — on CI — as a Buildkite annotation,
+  # clarifying that the error is expected when the release task is not being run for the first time.
+  #
+  def report_milestone_error(error_title:)
+    error_message = <<~MESSAGE
+      #{error_title}
+
+      - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+      - Otherwise if this is the first you are running the release task for this version, please investigate the error.
+    MESSAGE
+
+    UI.error(error_message)
+    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
   end
 
   # Private helper to create backmerge Pull Requests after new betas or final build

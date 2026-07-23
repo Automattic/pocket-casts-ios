@@ -80,7 +80,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
@@ -106,7 +105,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
@@ -127,7 +125,6 @@ class EpisodeDataManager {
             dbQueue.read { db in
                 do {
                     let resultSet = try db.executeQuery(query, values: [podcastId])
-                    defer { resultSet.close() }
 
                     if resultSet.next() {
                         count = Int(resultSet.int(forColumn: "Count"))
@@ -146,7 +143,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT id from \(DataManager.episodeTableName) WHERE episodeStatus = ? AND uuid = ?", values: [DownloadStatus.downloaded.rawValue, uuid])
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     found = true
@@ -233,7 +229,6 @@ class EpisodeDataManager {
                     ORDER BY listenDate ASC
                     """
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let day = resultSet.string(forColumn: "listenDate") {
@@ -314,7 +309,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     episode = self.createEpisodeFrom(resultSet: resultSet)
@@ -332,7 +326,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
 
                 while resultSet.next() {
                     if let episode = self.createEpisodeFrom(resultSet: resultSet) {
@@ -353,7 +346,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     count = Int(resultSet.int(forColumn: "Count"))
@@ -372,7 +364,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     count = Int(resultSet.int(forColumn: "Count"))
@@ -392,7 +383,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     date = resultSet.date(forColumn: "lastDownloadAttemptDate")
@@ -651,7 +641,6 @@ class EpisodeDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT cachedFrameCount from \(DataManager.episodeTableName) WHERE id = ?", values: [episodeId])
-                defer { resultSet.close() }
 
                 if resultSet.next() {
                     frameCount = resultSet.longLongInt(forColumn: "cachedFrameCount")
@@ -1086,7 +1075,7 @@ class EpisodeDataManager {
                         values.append(DBUtils.currentUTCTimeInMillis())
                     }
 
-                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimitCount, podcastAutoArchiveLimit > 0 {
+                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimit, podcastAutoArchiveLimit > 0 {
                         fields.append("excludeFromEpisodeLimit")
                         values.append(true)
                     }

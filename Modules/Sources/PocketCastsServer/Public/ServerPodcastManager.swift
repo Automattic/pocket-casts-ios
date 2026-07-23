@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 public class ServerPodcastManager: NSObject {
     private static let maxAutoDownloadSeperationTime = 12.hours
@@ -144,6 +145,9 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
+    /// Soft-deprecated: performs synchronous networking, blocking the calling thread, and never calls
+    /// the completion on failure. Use the async ``addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:)`` instead.
+    @available(*, deprecated, message: "Performs synchronous networking and blocks the calling thread. Use the async addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:) instead.")
     public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false, completion: ((Episode?) -> ())? = nil) {
         let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
 
@@ -155,6 +159,27 @@ public class ServerPodcastManager: NSObject {
 
             let episode = addEpisode(podcastInfo: info, shouldUpdate: shouldUpdateEpisode)
             completion?(episode)
+        }
+    }
+
+    @discardableResult
+    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false) async throws -> Episode? {
+        let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
+
+        do {
+            guard let info = try await loadFrom(url: url) else {
+                return nil
+            }
+
+            // Ensure podcast is added, otherwise episode won't be
+            if !PodcastExistsHelper.shared.exists(uuid: podcastUuid) {
+                _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
+            }
+
+            return addEpisode(podcastInfo: info, shouldUpdate: shouldUpdateEpisode)
+        } catch {
+            FileLog.shared.addMessage("ServerPodcastManager: failed to load missing episode \(episodeUuid): \(error)")
+            throw error
         }
     }
 
@@ -172,6 +197,7 @@ public class ServerPodcastManager: NSObject {
         episode.downloadUrl = upNextItem.url
         episode.publishedDate = upNextItem.published
         episode.podcast_id = podcast.id
+        episode.hlsUrl = upNextItem.hlsUrl
 
         DataManager.sharedManager.save(episode: episode)
     }
@@ -244,6 +270,11 @@ public class ServerPodcastManager: NSObject {
                 episode.seasonNumber = updatedEpisode.seasonNumber
                 episode.episodeType = updatedEpisode.episodeType
                 episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
+                // Only overwrite when the response actually carries an HLS url — the server can omit
+                // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
+                if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
+                    episode.hlsUrl = hlsUrl
+                }
 
                 if episode.addedDate == nil {
                     episode.addedDate = updatedEpisode.addedDate
@@ -305,6 +336,27 @@ public class ServerPodcastManager: NSObject {
         decoder.dateDecodingStrategy = .iso8601
 
         return try decoder.decode(PodcastCollection.self, from: data)
+    }
+
+    /// Sends the request and returns the parsed JSON, or nil when the server responds with 304 Not Modified
+    private func loadFrom(url: String) async throws -> [String: Any]? {
+        var request = URLRequest(url: ServerHelper.asUrl(url), cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.addLocalizationHeaders()
+
+        let (data, response) = try await urlConnection.send(request: request)
+
+        if (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.notModified {
+            return nil
+        }
+
+        guard let data else {
+            return nil
+        }
+
+        return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
     }
 
     private func loadFrom(url: String) -> [String: Any]? {

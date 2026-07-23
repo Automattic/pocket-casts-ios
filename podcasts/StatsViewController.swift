@@ -166,7 +166,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 castCell.statsIcon.image = UIImage(named: "stats_skip_both")
                 castCell.statValue.text = formatStat(autoSkipStat())
             }
-            castCell.statValue.style = .primaryText01
+            castCell.statValue.style = .primaryText02
             return castCell
         case .timeSavedTotal:
             let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
@@ -249,6 +249,8 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     @objc private func showHeatmapInfo() {
+        Analytics.track(.heatmapInfoOpened)
+
         let view = ModalMessageView(
             title: L10n.statsListeningActivityInfoTitle,
             message: L10n.statsListeningActivityInfoMessage,

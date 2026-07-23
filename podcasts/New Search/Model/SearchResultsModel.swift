@@ -5,7 +5,6 @@ import PocketCastsUtils
 
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
-    private let episodeSearch = EpisodeSearchTask()
     private let predictiveSearch = PredictiveSearchTask()
     private let combinedSearch = CombinedSearchTask()
 
@@ -15,26 +14,20 @@ class SearchResultsModel: ObservableObject {
     @Published var isSearchingPredictive = false
 
     @Published var isSearchingForPodcasts = false
-    @Published var isSearchingForEpisodes = false
 
-    @Published var episodeSearchError: Error?
     @Published var podcastSearchError: Error?
     @Published var predictiveSearchError: Error?
 
     @Published var podcasts: [PodcastFolderSearchResult] = []
-    @Published var episodes: [EpisodeSearchResult] = []
     @Published var predictive: [PredictiveSearchResult] = []
     @Published var combinedResults: [CombinedSearchResultType] = []
 
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
 
-    @Published var hideEpisodes = false
-
     private(set) var currentSearchTerm: String = ""
     private(set) var currentPredictiveSearchTerm: String = ""
 
-    private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
 
     let showLocalResults: Bool
@@ -47,20 +40,17 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty && combinedResults.isEmpty
+        podcasts.isEmpty && predictive.isEmpty && combinedResults.isEmpty
     }
 
     func clearSearch() {
         podcasts = []
-        episodes = []
         combinedResults = []
-        playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
     }
 
     func clearErrors() {
-        episodeSearchError = nil
         podcastSearchError = nil
         predictiveSearchError = nil
     }
@@ -96,7 +86,7 @@ class SearchResultsModel: ObservableObject {
 
     @MainActor
     func search(term: String) {
-        if FeatureFlag.searchImprovements.enabled, !isTermAnURL(term) {
+        if !isTermAnURL(term) {
             combinedSearch(term: term)
             return
         }
@@ -119,25 +109,6 @@ class SearchResultsModel: ObservableObject {
             }
 
             isSearchingForPodcasts = false
-        }
-
-        if !isTermAnURL(term) {
-            hideEpisodes = false
-            Task {
-                isSearchingForEpisodes = true
-                do {
-                    let results = try await episodeSearch.search(term: term)
-                    playedEpisodesUUIDs = buildPlayedEpisodesUUIDs(results)
-                    episodes = results
-                } catch {
-                    episodeSearchError = error
-                    analyticsHelper.trackFailed(error)
-                }
-
-                isSearchingForEpisodes = false
-            }
-        } else {
-            hideEpisodes = true
         }
 
         analyticsHelper.trackSearchPerformed()
@@ -202,17 +173,6 @@ class SearchResultsModel: ObservableObject {
 
         resultsContainLocalPodcasts = true
         isShowingLocalResultsOnly = true
-    }
-
-    private func buildPlayedEpisodesUUIDs(_ episodes: [EpisodeSearchResult]) -> Set<String> {
-        if episodes.isEmpty {
-            return []
-        }
-        let uuids = episodes.map { $0.uuid }
-        return dataMangager.findPlayedEpisodes(uuids: uuids)
-            .reduce(into: Set<String>()) { list, uuid in
-                list.insert(uuid)
-            }
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {

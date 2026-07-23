@@ -76,6 +76,10 @@ class WatchDataManager {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingCurrentTime) as? TimeInterval ?? 0
     }
 
+    class func nowPlayingPlayedUpToModified() -> Int64 {
+        (nowPlayingValue(key: WatchConstants.Keys.nowPlayingPlayedUpToModified) as? NSNumber)?.int64Value ?? 0
+    }
+
     class func duration() -> TimeInterval {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingDuration) as? TimeInterval ?? 0
     }

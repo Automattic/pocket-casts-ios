@@ -80,35 +80,14 @@ public class Podcast: NSObject, Identifiable {
     }
 
     public func autoAddToUpNextOn() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            return settings.addToUpNext
-        } else {
-            return autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
-        }
+        autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
     }
 
     public func autoAddToUpNextSetting() -> AutoAddToUpNextSetting? {
-        if FeatureFlag.newSettingsStorage.enabled {
-            if settings.addToUpNext {
-                switch settings.addToUpNextPosition {
-                case .top:
-                    return .addFirst
-                case .bottom:
-                    return .addLast
-                }
-            } else {
-                return .off
-            }
-        } else {
-            return AutoAddToUpNextSetting(rawValue: autoAddToUpNext)
-        }
+        AutoAddToUpNextSetting(rawValue: autoAddToUpNext)
     }
 
     public func setAutoAddToUpNext(setting: AutoAddToUpNextSetting) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            settings.addToUpNext = setting != .off
-            settings.addToUpNextPosition = setting == .addFirst ? .top : .bottom
-        }
         autoAddToUpNext = setting.rawValue
     }
 

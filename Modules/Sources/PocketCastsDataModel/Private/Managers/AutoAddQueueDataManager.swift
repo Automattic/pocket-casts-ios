@@ -51,43 +51,23 @@ public struct AutoAddCandidatesDataManager {
         dbQueue.read { db in
             do {
 
-                let query: String
+                let query = """
+                SELECT
+                    -- Get the Podcast Auto Add Setting
+                    podcast.autoAddToUpNext AS \(Constants.autoAddSettingColumnName),
 
-                if FeatureFlag.newSettingsStorage.enabled {
-                    query = """
-                    SELECT
-                        -- Get the Podcast Auto Add Setting
-                        json_extract(podcast.settings, '$.addToUpNextPosition.value') AS \(Constants.autoAddSettingColumnName),
-
-                        -- Get the episode UUID
-                        queue.id AS \(Constants.idColumnName),
-                        queue.episode_uuid AS \(Constants.episodeColumnName)
-                    FROM
-                        \(Constants.tableName) AS queue
-                        JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
-                    -- Process the oldest items first
-                    ORDER BY queue.id ASC
-                    """
-                } else {
-                    query = """
-                    SELECT
-                        -- Get the Podcast Auto Add Setting
-                        podcast.autoAddToUpNext AS \(Constants.autoAddSettingColumnName),
-
-                        -- Get the episode UUID
-                        queue.id AS \(Constants.idColumnName),
-                        queue.episode_uuid AS \(Constants.episodeColumnName)
-                    FROM
-                        \(Constants.tableName) AS queue
-                        JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
-                    -- Process the oldest items first
-                    ORDER BY queue.id ASC
-                    """
-                }
+                    -- Get the episode UUID
+                    queue.id AS \(Constants.idColumnName),
+                    queue.episode_uuid AS \(Constants.episodeColumnName)
+                FROM
+                    \(Constants.tableName) AS queue
+                    JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
+                -- Process the oldest items first
+                ORDER BY queue.id ASC
+                """
 
                 let resultSet = try db.executeQuery(query, values: nil)
 
-                defer { resultSet.close() }
                 while resultSet.next() {
                     if let result = AutoAddCandidate(from: resultSet) {
                         results.append(result)
@@ -116,21 +96,7 @@ public struct AutoAddCandidatesDataManager {
 
         init?(from resultSet: PCDBResultSet) {
 
-            let setting: Int32
-            if FeatureFlag.newSettingsStorage.enabled {
-                let value = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
-                let position = UpNextPosition(rawValue: value)
-                switch position {
-                case .top:
-                    setting = AutoAddToUpNextSetting.addFirst.rawValue
-                case .bottom:
-                    setting = AutoAddToUpNextSetting.addLast.rawValue
-                default:
-                    setting = AutoAddToUpNextSetting.off.rawValue
-                }
-            } else {
-                setting = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
-            }
+            let setting = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
 
             guard
                 let idObj = resultSet.object(forColumn: Constants.idColumnName) as? NSNumber,

@@ -104,14 +104,11 @@ extension SyncTask {
         if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
             if let podcast = existingPodcast {
                 podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-                podcast.isPushEnabled = false
+                podcast.pushEnabled = false
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
                 podcast.settings = PodcastSettings.defaults
-                if FeatureFlag.settingsSync.enabled {
-                    podcast.processSettings(podcastItem.settings)
-                }
 
                 DataManager.sharedManager.save(podcast: podcast)
             }
@@ -166,10 +163,6 @@ extension SyncTask {
 
         if checkIsDeleted, podcastItem.hasIsDeleted {
             podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
-        }
-
-        if FeatureFlag.settingsSync.enabled {
-            podcast.processSettings(podcastItem.settings)
         }
     }
 
@@ -491,28 +484,5 @@ private extension Api_SyncUserBookmark {
 
     var logDescription: String {
         (try? jsonString()) ?? "invalid api bookmark"
-    }
-}
-
-extension Podcast {
-    func processSettings(_ settings: Api_PodcastSettings) {
-        let oldSettings = self.settings
-        self.settings.$customEffects.update(setting: settings.playbackEffects)
-        self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
-        self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
-        self.settings.$trimSilence.update(setting: settings.trimSilence)
-        self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
-        self.settings.$boostVolume.update(setting: settings.volumeBoost)
-        self.settings.$notification.update(setting: settings.notification)
-        self.settings.$addToUpNext.update(setting: settings.addToUpNext)
-        self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
-        self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
-        self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
-        self.settings.$showArchived.update(setting: settings.showArchived)
-        self.settings.$autoArchive.update(setting: settings.autoArchive)
-        self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
-        self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
-        self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
-        oldSettings.printDiff(from: self.settings, withIdentifier: self.uuid)
     }
 }

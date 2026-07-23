@@ -49,8 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let appInstallState {
             switch appInstallState {
             case .updated:
-                Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
-
                 if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
                     Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
                 }
@@ -300,13 +298,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
-
-        if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.importUserDefaults()
-                DataManager.sharedManager.importPodcastSettings()
-            }
-        }
 
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 

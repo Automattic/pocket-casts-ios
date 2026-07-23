@@ -163,7 +163,10 @@ public class StatsManager {
 
     public func loadRemoteStats(completion: ((Bool) -> Void)?) {
         ApiServerHandler.shared.loadStatsRequest { [weak self] remoteStats in
-            guard let strongSelf = self, let remoteStats else { return }
+            guard let strongSelf = self, let remoteStats else {
+                completion?(false)
+                return
+            }
 
             strongSelf.saveTime(remoteStats.silenceRemovalTime, key: ServerConstants.UserDefaults.statsDynamicSpeedSecondsServer)
             strongSelf.saveTime(remoteStats.totalListenTime, key: ServerConstants.UserDefaults.statsListenedToServer)

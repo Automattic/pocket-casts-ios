@@ -6,21 +6,11 @@ class GRDBResultSet: PCDBResultSet {
     private let rowCursor: RowCursor
     private var row: Row!
 
-    private var closed = false
-
     init(rowCursor: RowCursor) {
         self.rowCursor = rowCursor
     }
 
-    func close() {
-        closed = true
-    }
-
     func next() -> Bool {
-        if closed {
-            fatalError("Result set is closed")
-        }
-
         // Reset `row` before stepping so a cursor error (e.g. SQLITE_BUSY /
         // SQLITE_IOERR) surfaces as end-of-results instead of leaving the
         // previous row in place, which would make `while next()` loops spin.

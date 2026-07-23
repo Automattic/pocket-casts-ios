@@ -248,6 +248,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
                     // 1. If the new episode exists in the local database already, then just add it to the queue
                     if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
                         FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
+                        // The server may carry the HLS stream in the episode's alternate enclosures; pick it
+                        // up here so synced episodes can stream HLS without waiting for a full feed refresh.
+                        updateHLSUrlIfNeeded(for: localEpisode, from: episodeInfo)
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
@@ -269,7 +272,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
                         // we don't have this episode locally, so try and find it and add it to our database
                         // if we can't find it, don't add it to Up Next, since we can't support episodes that don't have parent podcasts
-                        let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date)
+                        let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date, hlsUrl: episodeInfo.alternateEnclosures.hlsUrl)
                         let dispatchGroup = DispatchGroup()
                         dispatchGroup.enter()
                         ServerPodcastManager.shared.addPodcastFromUpNextItem(upNextItem) { added in
@@ -410,6 +413,23 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
     private func clearSyncedData(latestActionTime: Int64) {
         DataManager.sharedManager.deleteChangesOlderThan(utcTime: latestActionTime)
+    }
+
+    /// Populates an episode's `hlsUrl` from the alternate enclosures in an Up Next sync response.
+    /// Only sets a non-empty value so we never clear an HLS url a feed refresh already provided
+    /// (the server may omit alternate enclosures even when the episode has one). Not gated behind
+    /// `FeatureFlag.hls` — like the feed-refresh paths, we always store the url; the flag only gates
+    /// whether the HLS url is eligible for use (`EpisodeManager.hasHLSStream`). Whether it's the
+    /// resolved playback source is a separate question (`EpisodeManager.willPlayViaHLS`) — a downloaded
+    /// episode still plays its local/progressive file.
+    private func updateHLSUrlIfNeeded(for baseEpisode: BaseEpisode, from episodeInfo: Api_UpNextResponse.EpisodeResponse) {
+        guard let episode = baseEpisode as? Episode,
+              let hlsUrl = episodeInfo.alternateEnclosures.hlsUrl, !hlsUrl.isEmpty,
+              episode.hlsUrl != hlsUrl else {
+            return
+        }
+        episode.hlsUrl = hlsUrl
+        DataManager.sharedManager.save(episode: episode)
     }
 
     private func convertToProto(action: UpNextChanges) -> Api_UpNextChanges.Change? {

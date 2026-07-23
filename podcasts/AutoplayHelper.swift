@@ -38,27 +38,7 @@ class AutoplayHelper {
 
     /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
-        if FeatureFlag.newSettingsStorage.enabled {
-            switch SettingsStore.appSettings.autoPlayLastListUuid {
-            case .downloads:
-                return .downloads
-            case .files:
-                return .files
-            case .starred:
-                return .starred
-            case .uuid(let uuid):
-                guard uuid.isEmpty == false else {
-                    return nil
-                }
-                if DataManager.sharedManager.findPlaylist(uuid: uuid) != nil {
-                    return .filter(uuid: uuid)
-                } else {
-                    return .podcast(uuid: uuid)
-                }
-            }
-        } else {
-            return userDefaultsPlaylist
-        }
+        userDefaultsPlaylist
     }
 
     var userDefaultsPlaylist: Playlist? {
@@ -108,15 +88,6 @@ class AutoplayHelper {
     }
 
     private func save(selectedPlaylist playlist: Playlist?) {
-
-        if FeatureFlag.newSettingsStorage.enabled {
-            if let playlist {
-                SettingsStore.appSettings.autoPlayLastListUuid = AutoPlaySource(playlist: playlist)
-            } else {
-                SettingsStore.appSettings.autoPlayLastListUuid = .uuid("")
-            }
-        }
-
         guard let playlist else {
             userDefaults.removeObject(forKey: userDefaultsKey)
             FileLog.shared.addMessage("Autoplay: reset the last playlist")

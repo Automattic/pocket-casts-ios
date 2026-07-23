@@ -1,6 +1,34 @@
-8.17
+8.18
 -----
 
+
+8.17
+-----
+- Fix headphone and Bluetooth play controls failing to resume playback after pausing [#4785](https://github.com/Automattic/pocket-casts-ios/pull/4785)
+- Enable HLS streaming playback [#4775](https://github.com/Automattic/pocket-casts-ios/pull/4775)
+- Fix intro-skipped time not syncing to your account when it is the only listening stat that changed [#4755](https://github.com/Automattic/pocket-casts-ios/pull/4755)
+- Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)
+- Fix the Help & Feedback screen following the system/in-app dark theme and using incorrect colors in the navigation bar [#4698](https://github.com/Automattic/pocket-casts-ios/pull/4698)
+- Add support for Flightcast JSON transcripts [#4706](https://github.com/Automattic/pocket-casts-ios/pull/4706)
+- Episode details loads show notes and artwork a little bit faster [#4714](https://github.com/Automattic/pocket-casts-ios/pull/4714)
+- Fix player opening on Bookmarks tab in RTL languages [#4696](https://github.com/Automattic/pocket-casts-ios/pull/4696)
+- Fix Add to Playlist dropping selections made while searching [#4712](https://github.com/Automattic/pocket-casts-ios/pull/4712)
+- Fix the Discover search screen background color and colors in filters on some themes [#4719](https://github.com/Automattic/pocket-casts-ios/pull/4719)
+- Fix the Bookmarks tab being slow to open when bookmarks reference episodes that are no longer available locally [#4721](https://github.com/Automattic/pocket-casts-ios/pull/4721)
+- Fix the mini player initial loading shimmer not showing up when Reduce Motion is enabled [#4713](https://github.com/Automattic/pocket-casts-ios/pull/4713)
+- Fix options picker rows like "Sort By" wrapping their labels to multiple lines when there is enough space [#4722](https://github.com/Automattic/pocket-casts-ios/pull/4722)
+- Fix the disabled Transcript action in the player being nearly invisible when the episode has no transcript [#4729](https://github.com/Automattic/pocket-casts-ios/pull/4729)
+- Fix some actions that require loading a missing episode blocking the app for a brief period of time [#4744](https://github.com/Automattic/pocket-casts-ios/pull/4744)
+- Fix non-square artwork being stretched in bookmark rows; it is now cropped to a square thumbnail [#4746](https://github.com/Automattic/pocket-casts-ios/pull/4746)
+- Sync Apple Watch and phone playback progress instantly when you pause [#4535](https://github.com/Automattic/pocket-casts-ios/pull/4535)
+- Fix misaligned time values in the Stats screen's Time Saved rows; they are now right-aligned and no longer wrap when there is enough space [#4754](https://github.com/Automattic/pocket-casts-ios/pull/4754)
+- Fix the Stats screen getting stuck loading when the stats request fails [#4753](https://github.com/Automattic/pocket-casts-ios/pull/4753)
+- Fix the mini player showing empty and stuck after opening the app from an episode notification or a deep link while the full-screen player was open [#4757](https://github.com/Automattic/pocket-casts-ios/pull/4757)
+- Fix the New Episodes notification setting being reset when updating the app [#4782](https://github.com/Automattic/pocket-casts-ios/pull/4782)
+- Fix the player not opening automatically when playing an episode from its details card with Open Player Automatically enabled [#4781](https://github.com/Automattic/pocket-casts-ios/pull/4781)
+- Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
+- Fix an issue where the now playing episode was not being auto-downloaded when setting was active for UpNext [#4792](https://github.com/Automattic/pocket-casts-ios/pull/4792)
+- Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
 
 8.16
 -----
