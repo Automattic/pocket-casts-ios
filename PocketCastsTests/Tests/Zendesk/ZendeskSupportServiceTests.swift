@@ -98,6 +98,19 @@ final class ZendeskSupportServiceTests: XCTestCase {
         XCTAssertEqual(bodyExcerpt, "<non-JSON response omitted>")
     }
 
+    func testOfflineErrorMapsToNoInternetConnection() {
+        ZendeskURLProtocol.requestHandler = { _ in
+            throw URLError(.notConnectedToInternet)
+        }
+
+        let receivedError = submitRequestAndWait()
+
+        guard case .noInternetConnection = receivedError else {
+            XCTFail("Expected a no-internet-connection error")
+            return
+        }
+    }
+
     private func submitRequestAndWait() -> ZendeskSupportService.SupportRequestError? {
         let completionExpectation = expectation(description: "Request completes")
         var receivedError: ZendeskSupportService.SupportRequestError?

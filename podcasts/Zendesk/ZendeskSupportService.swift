@@ -80,6 +80,9 @@ class ZendeskSupportService {
                 }
                 if let urlError = error as? URLError {
                     FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — URLError \(urlError.code.rawValue) \(urlError.localizedDescription)")
+                    if urlError.code == .notConnectedToInternet {
+                        return SupportRequestError.noInternetConnection
+                    }
                 } else {
                     FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — \(error)")
                 }
