@@ -1,5 +1,6 @@
 8.18
 -----
+- Fix the Bookmarks multi-select layout on iOS 26: rows keep their text width instead of shrinking, and the selection bar hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
 
 
 8.17
