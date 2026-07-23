@@ -32,7 +32,7 @@ class UserStateModel {
         usernameEmail = ServerSettings.syncingEmail()
         expirationDate = SubscriptionHelper.subscriptionRenewalDate()
         frequency = SubscriptionHelper.subscriptionFrequencyValue()
-        subscriptionTier = SubscriptionHelper.subscriptionTier
+        subscriptionTier = SubscriptionHelper.activeTier
         platform = SubscriptionHelper.subscriptionPlatform()
 
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
