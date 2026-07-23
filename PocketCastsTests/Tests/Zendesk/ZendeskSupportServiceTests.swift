@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import PocketCastsUtils
 import XCTest
 @testable import podcasts
 
@@ -60,12 +61,79 @@ final class ZendeskSupportServiceTests: XCTestCase {
     }
 }
 
+final class MessageSupportViewModelTests: XCTestCase {
+    private var cancellables = Set<AnyCancellable>()
+
+    override func tearDown() {
+        ZendeskURLProtocol.requestHandler = nil
+        cancellables.removeAll()
+        super.tearDown()
+    }
+
+    func testWatchLogPreflightFailureDoesNotSubmitOrRetry() {
+        var requestCount = 0
+        ZendeskURLProtocol.requestHandler = { request in
+            requestCount += 1
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data())
+        }
+
+        let completionExpectation = expectation(description: "Preflight failure is surfaced")
+        let viewModel = MessageSupportViewModel(
+            config: WatchLogMissingConfig(),
+            requesterName: "Test User",
+            requesterEmail: "test@example.com",
+            comment: "My watch is not working",
+            session: makeSession(),
+            isUserSignedIn: false
+        )
+
+        viewModel.$completion
+            .compactMap { $0 }
+            .sink { completion in
+                guard case let .failure(error) = completion,
+                      case MessageSupportViewModel.MessageSupportFailure.watchLogMissing = error
+                else {
+                    XCTFail("Expected a missing Watch log failure")
+                    return
+                }
+                completionExpectation.fulfill()
+            }
+            .store(in: &cancellables)
+
+        viewModel.submitRequest()
+
+        wait(for: [completionExpectation], timeout: 1)
+        XCTAssertEqual(requestCount, 0)
+        XCTAssertFalse(viewModel.isWorking)
+    }
+
+    private func makeSession() -> URLSession {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [ZendeskURLProtocol.self]
+        return URLSession(configuration: configuration)
+    }
+}
+
 private struct ZendeskTestConfig: ZDConfig {
     let apiKey = "api-key"
     let baseURL = "https://example.com"
     let newBaseURL = "https://retry.example.com"
     let subject = "Support"
     let type = ZDType.support
+}
+
+private struct WatchLogMissingConfig: ZDConfig {
+    let apiKey = "api-key"
+    let baseURL = "https://example.com"
+    let newBaseURL = "https://retry.example.com"
+    let subject = "Support"
+    let type = ZDType.support
+
+    func customFields(forDisplay: Bool, optOut: Bool) -> AnyPublisher<[ZDCustomField], Never> {
+        Just([ZDCustomField(id: 0, value: FileLog.noWearableLogsAvailable)])
+            .eraseToAnyPublisher()
+    }
 }
 
 private final class ZendeskURLProtocol: URLProtocol {
