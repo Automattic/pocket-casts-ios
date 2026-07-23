@@ -1,4 +1,5 @@
 import BackgroundTasks
+import AppIntents
 import AutomatticRemoteLogging
 import Firebase
 import FirebasePerformance
@@ -79,6 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GoogleCastManager.sharedManager.setup()
 
         setupRoutes()
+        PocketCastsAppShortcutsProvider.updateAppShortcutParameters()
 
         if Settings.shouldResultEndOfYearSyncStatus {
             Settings.setHasSyncedEpisodesForPlayback(false, year: 2025)

@@ -26,6 +26,7 @@
 /* Begin PBXBuildFile section */
 		A13200320100000000000001 /* SetSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000003 /* SetSleepTimerIntent.swift */; };
 		A13200320100000000000002 /* MigratedSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000004 /* MigratedSleepTimerIntent.swift */; };
+		A13200320100000000000005 /* PocketCastsAppShortcutsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000006 /* PocketCastsAppShortcutsProvider.swift */; };
 		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
 		0C52E9EA2FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */; };
 		0C52E9EC2FFD8DAD00C2B9D1 /* TroubleshootingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */; };
@@ -1626,6 +1627,7 @@
 /* Begin PBXFileReference section */
 		A13200320100000000000003 /* SetSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSleepTimerIntent.swift; sourceTree = "<group>"; };
 		A13200320100000000000004 /* MigratedSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigratedSleepTimerIntent.swift; sourceTree = "<group>"; };
+		A13200320100000000000006 /* PocketCastsAppShortcutsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsAppShortcutsProvider.swift; sourceTree = "<group>"; };
 		0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerLongPressPreviewViewController.swift; sourceTree = "<group>"; };
 		0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewModel.swift; sourceTree = "<group>"; };
 		0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingView.swift; sourceTree = "<group>"; };
@@ -4376,6 +4378,7 @@
 			children = (
 				A13200320100000000000003 /* SetSleepTimerIntent.swift */,
 				A13200320100000000000004 /* MigratedSleepTimerIntent.swift */,
+				A13200320100000000000006 /* PocketCastsAppShortcutsProvider.swift */,
 				3F584D262F567EE1005A3593 /* Lists */,
 				3F584D252F567EA6005A3593 /* Watch Communication */,
 				3F584D242F567E73005A3593 /* InAppPurchases */,
@@ -6980,6 +6983,7 @@
 			files = (
 				A13200320100000000000001 /* SetSleepTimerIntent.swift in Sources */,
 				A13200320100000000000002 /* MigratedSleepTimerIntent.swift in Sources */,
+				A13200320100000000000005 /* PocketCastsAppShortcutsProvider.swift in Sources */,
 				BD424B0B2575F30800C9447B /* PodcastDisclosureCell.swift in Sources */,
 				4029E3E42293AD410003BEEB /* ChangePasswordViewController.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
