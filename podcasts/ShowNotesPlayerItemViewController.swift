@@ -60,6 +60,10 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ShowNotesPlayerItemViewController, _) in
+            controller.updateSize()
+        }
+
         setupWebView()
         updateColors()
         updateSize()
@@ -270,12 +274,5 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         let size = max(metric.scaledValue(for: 24), 24)
         durationImageView.updateSizeConstraints(to: size)
         dateImageView.updateSizeConstraints(to: size)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

@@ -67,14 +67,10 @@ class PlusLockedInfoView: ThemeableView {
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
         updateSize()
-    }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateCloseButtonImage()
-            updateSize()
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PlusLockedInfoView, _) in
+            view.updateCloseButtonImage()
+            view.updateSize()
         }
     }
 

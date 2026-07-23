@@ -61,6 +61,10 @@ class UpNextNowPlayingCell: ThemeableCell {
         super.awakeFromNib()
         style = .primaryUi04
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: UpNextNowPlayingCell, _) in
+            view.updateSize()
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackStarted, object: nil)
@@ -254,11 +258,5 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
         dateLabel.updateNumberOfLines(regular: 1, accessibility: 2)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

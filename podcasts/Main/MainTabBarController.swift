@@ -93,6 +93,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitUserInterfaceStyle.self, UITraitHorizontalSizeClass.self]) { (controller: MainTabBarController, _) in
+            if let scene = controller.view.window?.windowScene {
+                Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
+            }
+            controller.fixTarBarTraitCollectionOnIpadForiOS18()
+            controller.fireSystemThemeMayHaveChanged()
+        }
+
         fixTarBarTraitCollectionOnIpadForiOS18()
 
         pcTabs = [.podcasts, .filter, .discover, .upNext, .profile]
@@ -261,15 +269,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                 }
             }
         }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if let scene = view.window?.windowScene {
-            Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
-        }
-        fixTarBarTraitCollectionOnIpadForiOS18()
-        fireSystemThemeMayHaveChanged()
     }
 
     @objc func themeDidChange() {

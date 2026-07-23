@@ -91,6 +91,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitUserInterfaceIdiom.self]) { (controller: PodcastListViewController, _) in
+            controller.updateCustomBottomFade()
+        }
+
         updateNavigationButtons()
         title = L10n.podcastsPlural
         setupSearchBar()
@@ -406,11 +410,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
         updateBottomSpacing()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateCustomBottomFade()
     }
 
     /// Fades the grid into its own background color, so the artwork dissolves cleanly

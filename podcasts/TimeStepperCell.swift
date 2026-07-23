@@ -27,6 +27,10 @@ class TimeStepperCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: TimeStepperCell, _) in
+            view.updateSize()
+        }
+
         cellTextToImageConstraint.isActive = false
         cellTextToMarginConstraint.isActive = true
 
@@ -69,12 +73,5 @@ class TimeStepperCell: ThemeableCell {
 
         let settingsSize = max(24, metric.scaledValue(for: 24))
         cellImage.updateSizeConstraints(to: settingsSize)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

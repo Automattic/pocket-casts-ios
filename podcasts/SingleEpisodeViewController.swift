@@ -46,6 +46,10 @@ class SingleEpisodeViewController: UIViewController {
         (view as? ThemeableView)?.style = .primaryUi02
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SingleEpisodeViewController, _) in
+            controller.updateSize()
+        }
+
         observeEpisodeChanges()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didSelectEpisode))
@@ -126,13 +130,6 @@ class SingleEpisodeViewController: UIViewController {
         podcastTitle.sizeToFit()
         playButton.sizeToFit()
         view.sizeToFit()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }
 

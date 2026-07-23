@@ -24,6 +24,10 @@ class ShelfCell: UITableViewCell {
         setHighlightedState(false)
         overrideUserInterfaceStyle = .dark
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: ShelfCell, _) in
+            view.updateSize()
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,14 +59,6 @@ class ShelfCell: UITableViewCell {
         super.prepareForReuse()
 
         customViewContainer.removeAllSubviews()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     private func updateSize() {
