@@ -54,7 +54,12 @@ struct SubscriptionInfoView: View {
     @State var model = SubscriptionInfoViewModel()
 
     var plan: String {
-        "\(coordinator.userState.subscriptionTier.localizedDescription) \(coordinator.userState.frequency.localizedDescription)"
+        [
+            coordinator.userState.subscriptionTier.localizedDescription,
+            coordinator.userState.frequency.localizedDescription
+        ]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
     }
 
     var length: String {
