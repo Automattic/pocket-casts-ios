@@ -51,7 +51,13 @@ final class ZendeskSupportServiceTests: XCTestCase {
         {
           "error": "RecordInvalid",
           "description": "Contact user@example.com\\nfor help",
-          "details": {"email": "second@example.com", "type": "invalid"},
+          "details": {
+            "value": [{
+              "type": "invalid",
+              "description": "Contact second@example.com",
+              "submitted_value": "private user text"
+            }]
+          },
           "requester": {"email": "private@example.com"}
         }
         """
@@ -69,10 +75,11 @@ final class ZendeskSupportServiceTests: XCTestCase {
         XCTAssertEqual(statusCode, 422)
         XCTAssertEqual(
             bodyExcerpt,
-            #"error: RecordInvalid, description: Contact <redacted-email> for help, details: {"email":"<redacted-email>","type":"invalid"}"#
+            #"error: RecordInvalid, description: Contact <redacted-email> for help, details: {"value":[{"description":"Contact <redacted-email>","type":"invalid"}]}"#
         )
         XCTAssertFalse(bodyExcerpt?.contains("requester") == true)
         XCTAssertFalse(bodyExcerpt?.contains("private@example.com") == true)
+        XCTAssertFalse(bodyExcerpt?.contains("private user text") == true)
         XCTAssertFalse(bodyExcerpt?.contains("\n") == true)
     }
 

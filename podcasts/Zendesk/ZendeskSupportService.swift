@@ -14,7 +14,30 @@ class ZendeskSupportService {
     private let config: ZDConfig
 
     private static let responseExcerptCharacterLimit = 256
-    private static let documentedErrorKeys = ["error", "description", "details"]
+
+    private struct ZendeskErrorResponse: Decodable {
+        let error: String?
+        let description: String?
+        let details: [String: [ZendeskErrorDetail]]?
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case description
+            case details
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            error = try? container.decode(String.self, forKey: .error)
+            description = try? container.decode(String.self, forKey: .description)
+            details = try? container.decode([String: [ZendeskErrorDetail]].self, forKey: .details)
+        }
+    }
+
+    private struct ZendeskErrorDetail: Codable {
+        let type: String?
+        let description: String?
+    }
 
     init(config: ZDConfig, session: URLSession = URLSession.shared) {
         self.session = session
@@ -70,19 +93,24 @@ class ZendeskSupportService {
             return nil
         }
 
-        guard let response = try? JSONSerialization.jsonObject(with: data),
-              let response = response as? [String: Any]
+        guard let response = try? JSONDecoder().decode(ZendeskErrorResponse.self, from: data)
         else {
             return "<non-JSON response omitted>"
         }
 
-        let fields = documentedErrorKeys.compactMap { key -> String? in
-            guard let value = response[key],
-                  let value = stringValue(for: value)
-            else {
-                return nil
+        var fields = [String]()
+        if let error = response.error {
+            fields.append("error: \(error)")
+        }
+        if let description = response.description {
+            fields.append("description: \(description)")
+        }
+        if let details = response.details {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.sortedKeys]
+            if let data = try? encoder.encode(details) {
+                fields.append("details: \(String(decoding: data, as: UTF8.self))")
             }
-            return "\(key): \(value)"
         }
 
         guard !fields.isEmpty else {
@@ -90,20 +118,6 @@ class ZendeskSupportService {
         }
 
         return sanitizedExcerpt(fields.joined(separator: ", "))
-    }
-
-    private static func stringValue(for value: Any) -> String? {
-        if let value = value as? String {
-            return value
-        }
-
-        guard JSONSerialization.isValidJSONObject(value),
-              let data = try? JSONSerialization.data(withJSONObject: value, options: [.sortedKeys])
-        else {
-            return nil
-        }
-
-        return String(decoding: data, as: UTF8.self)
     }
 
     private static func sanitizedExcerpt(_ value: String) -> String {
