@@ -7,4 +7,5 @@ install_dir="$HOME/.local/bin"
 install_a8c-secrets_binary --install-dir "$install_dir"
 export PATH="$install_dir:$PATH"
 
-bundle exec fastlane configure_secrets
+echo "--- :closed_lock_with_key: Decrypt secrets"
+a8c-secrets decrypt

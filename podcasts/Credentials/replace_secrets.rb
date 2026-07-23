@@ -62,7 +62,7 @@ rescue StandardError => e
   warn("\n🚨🚨 Failed to generate credentials file from template: #{File.basename(template_path)} 🚨🚨")
   warn("\n-> Exception: #{e.message}")
   warn('-> Reason: Secrets are most likely out of date.')
-  warn("-> Solution: Run: bundle exec fastlane configure_secrets\n\n")
+  warn("-> Solution: Install a8c-secrets from https://github.com/Automattic/a8c-secrets and follow the set up instructions. If already installed, try a8c-secrets decrypt.\n\n")
   exit(false)
 end
 
