@@ -511,6 +511,22 @@ class SiriShortcutsManager: CustomObserver {
 }
 
 enum SleepTimerIntentDuration {
+    static func resolvedValue(
+        _ selectedDuration: Measurement<UnitDuration>?,
+        defaultDuration: TimeInterval
+    ) -> TimeInterval {
+        guard let selectedDuration else {
+            return defaultDuration
+        }
+
+        let seconds = selectedDuration.converted(to: .seconds).value
+        guard seconds.isFinite, seconds > 0 else {
+            return defaultDuration
+        }
+
+        return seconds
+    }
+
     static func migratedValue(_ legacySeconds: Int?, defaultDuration: TimeInterval) -> TimeInterval {
         guard let legacySeconds, legacySeconds > 0 else {
             return defaultDuration
