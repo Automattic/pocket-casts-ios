@@ -13,9 +13,6 @@ class UserStateModel {
     var expirationDate: Date?
     var frequency: SubscriptionFrequency = .none
     var subscriptionTier: SubscriptionTier = .none
-    var giftDays: Int = 0
-    var hasLifeTime: Bool = false
-    var hasRenewing: Bool = false
     var platform: SubscriptionPlatform = .iOS
     var subscriptionStatus: SubscriptionStatus = .freeAccount
 
@@ -36,11 +33,12 @@ class UserStateModel {
         expirationDate = SubscriptionHelper.subscriptionRenewalDate()
         frequency = SubscriptionHelper.subscriptionFrequencyValue()
         subscriptionTier = SubscriptionHelper.subscriptionTier
-        giftDays = SubscriptionHelper.subscriptionGiftDays()
-        hasLifeTime = SubscriptionHelper.hasLifetimeGift()
-        hasRenewing = SubscriptionHelper.hasRenewingSubscription()
         platform = SubscriptionHelper.subscriptionPlatform()
-        subscriptionStatus = SubscriptionStatus.make(hasActiveSubscription: SubscriptionHelper.hasActiveSubscription(), type: subscriptionTier, hasRenewing: hasRenewing, platform: platform, hasLifeTime: hasLifeTime, frequency: frequency, expirationDate: expirationDate, giftDays: giftDays)
+
+        let giftDays = SubscriptionHelper.subscriptionGiftDays()
+        let hasLifeTime = SubscriptionHelper.hasLifetimeGift()
+        let hasRenewing = SubscriptionHelper.hasRenewingSubscription()
+        subscriptionStatus = SubscriptionStatus.make(hasActiveSubscription: isPlusUser, type: subscriptionTier, hasRenewing: hasRenewing, platform: platform, hasLifeTime: hasLifeTime, frequency: frequency, expirationDate: expirationDate, giftDays: giftDays)
     }
 
     private func setupObservers() {
@@ -68,7 +66,7 @@ enum SubscriptionStatus {
     case paymentCancelled(SubscriptionTier, SubscriptionFrequency)
 
     static func make(hasActiveSubscription: Bool, type: SubscriptionTier, hasRenewing: Bool, platform: SubscriptionPlatform, hasLifeTime: Bool, frequency: SubscriptionFrequency, expirationDate: Date?, giftDays: Int) -> SubscriptionStatus {
-        guard SubscriptionHelper.hasActiveSubscription() else {
+        guard hasActiveSubscription else {
             return .freeAccount
         }
 

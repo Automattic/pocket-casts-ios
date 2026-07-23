@@ -18,16 +18,21 @@ class SubscriptionInfoViewModel {
     }
 
     func resolveProductID(tier: SubscriptionTier, frequency: SubscriptionFrequency) -> IAPProductID? {
-        switch(tier, frequency) {
-        case (.plus, .monthly):
-            return .monthly
-        case (.plus, .yearly):
-            return .yearly
-        case (.patron, .yearly):
-            return .patronYearly
-        case (.patron, .monthly):
-            return .patronMonthly
-        default:
+        let plan: Plan
+        switch tier {
+        case .plus:
+            plan = .plus
+        case .patron:
+            plan = .patron
+        case .none:
+            return nil
+        }
+        switch frequency {
+        case .yearly:
+            return plan.yearly
+        case .monthly:
+            return plan.monthly
+        case .none:
             return nil
         }
     }
@@ -49,25 +54,14 @@ struct SubscriptionInfoView: View {
     @State var model = SubscriptionInfoViewModel()
 
     var plan: String {
-        var result = ""
-        result = coordinator.userState.subscriptionTier.localizedDescription
-        result += " "
-        result += coordinator.userState.frequency.localizedDescription
-        return result
+        "\(coordinator.userState.subscriptionTier.localizedDescription) \(coordinator.userState.frequency.localizedDescription)"
     }
 
     var length: String {
-        var result = ""
-        if case SubscriptionStatus.lifetime = coordinator.userState.subscriptionStatus {
-            result = "Lifetime"
-            return result
+        if case .lifetime = coordinator.userState.subscriptionStatus {
+            return "Lifetime"
         }
-        result = DateFormatHelper.sharedHelper.longLocalizedFormat(coordinator.userState.expirationDate)
-        return result
-    }
-
-    var price: String? {
-        model.price
+        return DateFormatHelper.sharedHelper.longLocalizedFormat(coordinator.userState.expirationDate)
     }
 
     var body: some View {
@@ -76,12 +70,10 @@ struct SubscriptionInfoView: View {
                 .font(.headline)
                 .foregroundStyle(Color.pcTextPrimary)
             if case .freeAccount = coordinator.userState.subscriptionStatus {
-                Text("Free Account")
+                Text(L10n.accountDetailsFreeAccount)
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .wrappingMultiline()
             } else {
                 InfoRow(label: "Plan", value: self.plan)
                 InfoRow(label: "Next renewal", value: self.length)
@@ -94,9 +86,7 @@ struct SubscriptionInfoView: View {
                         Text("This subscription was made on another platform. Please use that platform to manage the subscription.")
                             .font(.caption)
                             .foregroundStyle(Color.pcTextSecondary)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(nil)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .wrappingMultiline()
                     }
                 }
             }
@@ -123,11 +113,24 @@ struct InfoRow: View {
             Text(value)
                 .font(.body)
                 .foregroundStyle(Color.pcTextPrimary)
-                .multilineTextAlignment(.center)
-                .lineLimit(nil)
-                .fixedSize(horizontal: false, vertical: true)
+                .wrappingMultiline()
         }
         .frame(minWidth: 400, maxWidth: 500)
+    }
+}
+
+private struct WrappingMultiline: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+private extension View {
+    func wrappingMultiline() -> some View {
+        modifier(WrappingMultiline())
     }
 }
 
