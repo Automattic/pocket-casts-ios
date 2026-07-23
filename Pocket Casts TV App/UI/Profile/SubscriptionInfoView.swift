@@ -59,14 +59,14 @@ struct SubscriptionInfoView: View {
 
     var length: String {
         if case .lifetime = coordinator.userState.subscriptionStatus {
-            return "Lifetime"
+            return L10n.tvSettingsSubscriptionLifetime
         }
         return DateFormatHelper.sharedHelper.longLocalizedFormat(coordinator.userState.expirationDate)
     }
 
     var body: some View {
         VStack(spacing: 48) {
-            Text("Subscription")
+            Text(L10n.tvSettingsSubscriptionTitle)
                 .font(.headline)
                 .foregroundStyle(Color.pcTextPrimary)
             if case .freeAccount = coordinator.userState.subscriptionStatus {
@@ -75,15 +75,15 @@ struct SubscriptionInfoView: View {
                     .foregroundStyle(Color.pcTextSecondary)
                     .wrappingMultiline()
             } else {
-                InfoRow(label: "Plan", value: self.plan)
-                InfoRow(label: "Next renewal", value: self.length)
+                InfoRow(label: L10n.tvSettingsSubscriptionPlan, value: self.plan)
+                InfoRow(label: L10n.tvSettingsSubscriptionNextRenewal, value: self.length)
                 if model.isLoading {
                     ProgressView()
                 } else {
                     if let price = model.price {
-                        InfoRow(label: "Price", value: price)
+                        InfoRow(label: L10n.tvSettingsSubscriptionPrice, value: price)
                     } else {
-                        Text("This subscription was made on another platform. Please use that platform to manage the subscription.")
+                        Text(L10n.tvSettingsSubscriptionOtherPlatform)
                             .font(.caption)
                             .foregroundStyle(Color.pcTextSecondary)
                             .wrappingMultiline()
@@ -138,7 +138,7 @@ private extension SubscriptionTier {
     var localizedDescription: String {
         switch self {
         case .none:
-            return "None"
+            return L10n.none
         case .plus:
             return L10n.pocketCastsPlusShort
         case .patron:
