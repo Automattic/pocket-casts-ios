@@ -40,7 +40,7 @@ class ZendeskSupportService {
 
                 let status = httpResponse.statusCode
                 guard 200 ..< 300 ~= status else {
-                    let bodyExcerpt = String(data: data.prefix(256), encoding: .utf8)
+                    let bodyExcerpt = String(data: data, encoding: .utf8).map { String($0.prefix(256)) }
                     FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — HTTP \(status), body: \(bodyExcerpt ?? "<non-utf8>")")
                     throw SupportRequestError.serverError(statusCode: status, bodyExcerpt: bodyExcerpt)
                 }
