@@ -5,6 +5,7 @@ struct ShowQRLinkView: View {
     let message: String
     let urlString: String
 
+    @Environment(AppCoordinator.self) private var coordinator
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -30,5 +31,6 @@ struct ShowQRLinkView: View {
             }
         }
         .padding(80)
+        .remotePlayPause()
     }
 }
