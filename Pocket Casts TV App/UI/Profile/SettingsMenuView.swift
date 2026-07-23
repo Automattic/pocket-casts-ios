@@ -4,12 +4,18 @@ import PocketCastsServer
 struct SettingsMenuView: View {
     @Environment(\.dismiss) private var dismiss
 
+    @State private var isShowingSubscription = false
     @State private var isShowingPrivacyPolicy = false
     @State private var isShowingTermsOfUse = false
 
-
     var body: some View {
         VStack {
+            Button {
+                isShowingSubscription = true
+            } label: {
+                Text("Subscription")
+                    .frame(minWidth: 400)
+            }
             Button {
                 isShowingPrivacyPolicy = true
             } label: {
@@ -28,6 +34,12 @@ struct SettingsMenuView: View {
         .fixedSize(horizontal: true, vertical: false)
         .onAppear {
             Analytics.track(.settingsGeneralShown)
+        }
+        .sheet(isPresented: $isShowingSubscription) {
+            SubscriptionInfoView()
+                .onAppear {
+                    Analytics.track(.accountDetailsShowPrivacyPolicy)
+                }
         }
         .sheet(isPresented: $isShowingPrivacyPolicy) {
             ShowQRLinkView(title: L10n.accountPrivacyPolicy, message: L10n.tvSettingsPrivacyPolicyQrMessage, urlString: ServerConstants.Urls.privacyPolicy)
