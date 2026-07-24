@@ -356,9 +356,13 @@ final class FingerprintTimingManager: NSObject {
     ///
     /// Must be called on the main queue. `completion` is delivered on the main
     /// queue; a superseded resolve never calls back.
+    /// - Parameter analyticsEvent: The resolve-duration event to emit on a successful
+    ///   match, or nil to skip it. Defaults to the chapter event; bookmark seeks pass a
+    ///   different one so the chapter metric stays comparable across platforms.
     func resolvePlaybackTime(
         forReferenceTime referenceTime: Double,
         episode: BaseEpisode,
+        analyticsEvent: AnalyticsEvent? = .playerChapterFingerprintCalculated,
         completion: @escaping (ChapterSeekResult) -> Void
     ) {
         dispatchPrecondition(condition: .onQueue(.main))
@@ -385,6 +389,7 @@ final class FingerprintTimingManager: NSObject {
             let result = await self.performResolve(
                 forReferenceTime: referenceTime,
                 episode: episode,
+                analyticsEvent: analyticsEvent,
                 flag: flag
             )
 
@@ -413,6 +418,7 @@ final class FingerprintTimingManager: NSObject {
     private func performResolve(
         forReferenceTime referenceTime: Double,
         episode: BaseEpisode,
+        analyticsEvent: AnalyticsEvent?,
         flag: CancellationFlag
     ) async -> ChapterSeekResult {
         let startDate = Date()
@@ -519,12 +525,14 @@ final class FingerprintTimingManager: NSObject {
             // Comparable across platforms: Android fingerprints eagerly and iOS
             // reactively on tap, but both report the calculation time here, decoupled
             // from `playerChapterSelected` (the tap) which stays untouched.
-            Analytics.track(.playerChapterFingerprintCalculated, properties: [
-                "duration_ms": resolveDurationMs,
-                "is_streaming": isStreaming,
-                "episode_uuid": episodeUuid,
-                "podcast_uuid": episode.parentIdentifier()
-            ])
+            if let analyticsEvent {
+                Analytics.track(analyticsEvent, properties: [
+                    "duration_ms": resolveDurationMs,
+                    "is_streaming": isStreaming,
+                    "episode_uuid": episodeUuid,
+                    "podcast_uuid": episode.parentIdentifier()
+                ])
+            }
             return .resolved(
                 playbackTime: max(referenceTime, playback),
                 usedPrior: usedPrior,

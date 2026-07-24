@@ -2787,16 +2787,44 @@ extension PlaybackManager {
 
         analyticsPlaybackHelper.currentSource = .bookmark
 
+        #if os(watchOS)
+        startBookmarkPlayback(bookmark, episode: episode, atTime: bookmark.time)
+        #else
+        // A bookmark's `referenceTime` sits on the transcript's canonical timeline, which
+        // dynamic ads have shifted in this device's audio, so resolve it to the real
+        // playback position first. Only worth it when the audio is local; otherwise, and
+        // whenever no confident match is found, fall back to the raw playback time.
+        guard let referenceTime = bookmark.referenceTime, FeatureFlag.syncedTranscripts.enabled,
+              isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) || episode.downloaded(pathFinder: DownloadManager.shared) else {
+            startBookmarkPlayback(bookmark, episode: episode, atTime: bookmark.time)
+            return
+        }
+
+        FingerprintTimingManager.shared.resolvePlaybackTime(forReferenceTime: referenceTime, episode: episode, analyticsEvent: nil) { [weak self] result in
+            let time: TimeInterval
+            switch result {
+            case let .resolved(playbackTime, _, _, _):
+                time = playbackTime
+            case .unresolved:
+                time = bookmark.time
+            }
+            self?.startBookmarkPlayback(bookmark, episode: episode, atTime: time)
+        }
+        #endif
+    }
+
+    @MainActor
+    private func startBookmarkPlayback(_ bookmark: Bookmark, episode: BaseEpisode, atTime time: TimeInterval) {
         // If we're already the now playing episode, then just seek to the bookmark time
         if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
-            seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
+            seekTo(time: time, startPlaybackAfterSeek: true)
             return
         }
 
         #if !os(watchOS)
         // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
-        dataManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
-        dataManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
+        DataManager.sharedManager.saveEpisode(playedUpTo: time, episode: episode, updateSyncFlag: false)
+        DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
         // Start the play process
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif
