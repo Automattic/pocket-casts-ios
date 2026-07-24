@@ -31,8 +31,8 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
                     .padding(.bottom)
             }
         }
-        // Automatically add space when the mini player is visible
-        .miniPlayerSafeAreaInset(multiplier: 1.7)
+        // Reserve space for the mini player so the bar floats just above it
+        .miniPlayerSafeAreaInset()
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
     }

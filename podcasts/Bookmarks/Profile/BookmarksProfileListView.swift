@@ -73,12 +73,5 @@ struct BookmarksProfileListView: View {
 
     private var bookmarkListView: some View {
         BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
-            .padding(.bottom, bottomInset(multiSelectEnabled: viewModel.isMultiSelecting))
-    }
-
-    func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
-        guard !LiquidGlass.isEnabled else { return 0 }
-        let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        return min(Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, 40)
     }
 }
