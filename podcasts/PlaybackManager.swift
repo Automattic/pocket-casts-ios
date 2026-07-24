@@ -863,7 +863,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
     /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
-    private var isAudioOnlyForced: Bool {
+    var isAudioOnlyForced: Bool {
         FeatureFlag.hls.enabled && Settings.audioOnly
     }
 
@@ -2608,7 +2608,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
                 FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
                 queue.add(episode: nextEpisode, fireNotification: false)
-                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode)) { current, _ in current })
+                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode, isCurrentEpisode: false)) { current, _ in current })
                 return
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)

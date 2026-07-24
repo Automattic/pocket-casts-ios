@@ -61,6 +61,15 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
                      "audio_only_mode is only meaningful while streaming via HLS")
     }
 
+    func testHlsLifecyclePropertiesReportAudioOnlyModeForUpcomingEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        // An upcoming (autoplay) episode reflects only the global "Audio only" setting, not the finishing
+        // episode's per-session toggle, but audio_only_mode is still reported for an HLS episode.
+        let properties = AnalyticsPlaybackHelper.hlsLifecycleProperties(for: makeHLSEpisode(), isCurrentEpisode: false)
+        XCTAssertNotNil(properties["audio_only_mode"] as? Bool)
+    }
+
     // MARK: - hlsProtocolProperties
 
     func testHlsProtocolPropertiesReportProtocolWhenFlagEnabled() throws {
