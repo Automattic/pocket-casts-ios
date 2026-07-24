@@ -68,6 +68,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
             Text(L10n.tvPodcastsEmptySubtitle)
         } actions: {
             Button(L10n.tvPodcastsEmptyActionTitle) {
+                Analytics.track(.podcastsListDiscoverButtonTapped)
                 tabRouter.selectedTab = .home
             }
         }

@@ -400,6 +400,10 @@ class PlaybackQueue: NSObject {
     }
 
     private func autoDownloadIfRequired(episode: BaseEpisode) {
+        // HLS is streamed directly and never cached, so downloading it in parallel would just
+        // interrupt the stream once the download completes. Skip it. See DownloadManager.downloadParallelToStream.
+        if EpisodeManager.hasHLSStream(episode) { return }
+
         if !Settings.downloadUpNextEpisodes() || episode.queued() || episode.downloaded(pathFinder: DownloadManager.shared) { return }
 
         if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {

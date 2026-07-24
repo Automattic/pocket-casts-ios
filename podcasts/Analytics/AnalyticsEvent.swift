@@ -136,6 +136,7 @@ enum AnalyticsEvent: String {
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
+    case accountDetailsSubscription
 
     // MARK: - Upgrade banner
 
