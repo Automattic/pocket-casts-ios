@@ -1,5 +1,6 @@
 8.18
 -----
+- Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
 
 
 8.17
