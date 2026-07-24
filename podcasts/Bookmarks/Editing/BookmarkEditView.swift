@@ -8,44 +8,73 @@ struct BookmarkEditView: View {
 
     @FocusState private var isTitleFocused: Bool
 
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(spacing: 18) {
-                header
-                titleSection
-                transcriptSection
-                Spacer()
-                saveButton
-            }
-            .padding(.top, 18)
-            .animation(.easeInOut(duration: 0.2), value: viewModel.transcript)
+    /// The title is only focused the first time the form appears, so coming back from
+    /// the transcript editor doesn't pop the keyboard and select the title again
+    @State private var hasFocusedTitle = false
 
-            closeButton
-        }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(theme.background)
-        .onAppear {
-            isTitleFocused = true
+    @State private var isEditingTranscript = false
+
+    var body: some View {
+        NavigationStack {
+            form
+                .navigationDestination(isPresented: $isEditingTranscript) {
+                    transcriptEditor
+                }
         }
     }
 
     // MARK: - Views
 
-    @ViewBuilder
-    private var header: some View {
-        Text(viewModel.headerTitle)
-            .foregroundStyle(theme.title)
-            .font(size: 19, style: .title3, weight: .bold)
+    private var form: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 32) {
+                titleSection
+                transcriptSection
+            }
 
-        Text(viewModel.headerSubTitle)
-            .foregroundStyle(theme.subTitle)
-            .font(style: .callout)
+            Spacer(minLength: 32)
+
+            saveButton
+        }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.snippet?.text)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.isCapturingTranscript)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(theme.background.ignoresSafeArea())
+        .navigationTitle(viewModel.headerTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                closeButton
+            }
+
+            // The bar's own title knows nothing about the player's colors
+            ToolbarItem(placement: .principal) {
+                Text(viewModel.headerTitle)
+                    .font(style: .headline, weight: .semibold)
+                    .foregroundStyle(theme.title)
+            }
+        }
+        .onAppear {
+            guard !hasFocusedTitle else { return }
+
+            hasFocusedTitle = true
+            isTitleFocused = true
+        }
+    }
+
+    @ViewBuilder
+    private var transcriptEditor: some View {
+        if let transcript = viewModel.snippet?.transcript {
+            BookmarkTranscriptEditView(transcript: transcript, selection: $viewModel.transcriptRange, theme: theme)
+        }
     }
 
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            section(L10n.bookmarkTitleLabel) {
+            section {
+                Text(L10n.bookmarkTitleLabel)
+            } content: {
                 titleField
             }
 
@@ -56,12 +85,14 @@ struct BookmarkEditView: View {
         .animation(.easeInOut(duration: 0.2), value: viewModel.titleSuggestion)
     }
 
-    /// A labelled section of the form, e.g. the title field
-    private func section(_ label: String, @ViewBuilder content: () -> some View) -> some View {
+    /// A section of the form, with its header styled as a label
+    private func section<Header: View>(@ViewBuilder header: () -> Header,
+                                       @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(label)
+            header()
                 .font(style: .footnote)
                 .foregroundStyle(theme.subTitle)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             content()
         }
@@ -71,22 +102,24 @@ struct BookmarkEditView: View {
     /// An empty line of the same font pins the field to a single line height, so it
     /// doesn't jump around as the text scales down to fit
     private var titleField: some View {
-        Text(" ")
-            .titleFont()
-            .frame(maxWidth: .infinity)
-            .hidden()
-            .overlay { textField }
-            .overlay(alignment: .bottom) {
-                Divider()
-                    .background(theme.textFieldUnderline)
-                    .offset(y: 6)
+        ZStack {
+            Text(" ")
+                .titleFont()
+                .frame(maxWidth: .infinity)
+                .hidden()
+            textField
+        }
+        .overlay(alignment: .bottom) {
+            Divider()
+                .background(theme.textFieldUnderline)
+                .offset(y: 6)
+        }
+        .overlay(alignment: .trailing) {
+            if viewModel.titleSuggestion == .generating {
+                ProgressView()
+                    .tint(theme.subTitle)
             }
-            .overlay(alignment: .trailing) {
-                if viewModel.titleSuggestion == .generating {
-                    ProgressView()
-                        .tint(theme.subTitle)
-                }
-            }
+        }
     }
 
     private var textField: some View {
@@ -104,21 +137,60 @@ struct BookmarkEditView: View {
             }
     }
 
-    /// The transcript the title was generated from, so the user can see the captured moment
     @ViewBuilder
     private var transcriptSection: some View {
-        if let transcript = viewModel.transcript {
-            section(L10n.bookmarkTranscriptCaptured) {
-                Text(transcript)
-                    .font(style: .subheadline)
-                    .foregroundStyle(theme.title)
-                    .lineLimit(4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(16)
-                    .background(theme.transcriptBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+        if viewModel.snippet != nil || viewModel.isCapturingTranscript {
+            section {
+                HStack {
+                    Text(L10n.bookmarkTranscriptCaptured)
+
+                    Spacer()
+
+                    if viewModel.snippet != nil {
+                        editTranscriptButton
+                    }
+                }
+                .padding(.horizontal, 8)
+            } content: {
+                if let snippet = viewModel.snippet {
+                    transcript(snippet.text)
+                } else {
+                    transcript(Self.transcriptPlaceholder)
+                        .redacted(reason: .placeholder)
+                        .accessibilityHidden(true)
+                }
             }
         }
+    }
+
+    private func transcript(_ text: String) -> some View {
+        Text(text)
+            .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
+            .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
+            .foregroundStyle(theme.title)
+            .lineLimit(4)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(16)
+            .background(theme.transcriptBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    /// Stands in for the passage while the transcript loads. The redaction blocks it out,
+    /// so it's never read, it only gives the placeholder the shape of a passage.
+    private static let transcriptPlaceholder = """
+    The passage captured around this moment lands here once the episode transcript has \
+    been fetched, and it runs long enough to fill out the four lines it is given.
+    """
+
+    private var editTranscriptButton: some View {
+        Text(L10n.edit)
+            .font(style: .footnote)
+            .foregroundStyle(theme.editButton)
+            .buttonize {
+                isTitleFocused = false
+                isEditingTranscript = true
+            }
+            .accessibilityLabel(L10n.bookmarkEditTranscriptTitle)
     }
 
     /// A generated title suggestion the user can tap to use
@@ -145,12 +217,14 @@ struct BookmarkEditView: View {
     }
 
     private var closeButton: some View {
-        Image("close")
-            .renderingMode(.template)
-            .foregroundStyle(theme.closeButton)
-            .buttonize {
-                viewModel.cancel()
-            }
+        Button {
+            viewModel.cancel()
+        } label: {
+            Image("close")
+                .renderingMode(.template)
+                .foregroundStyle(theme.closeButton)
+        }
+        .accessibilityLabel(L10n.accessibilityCloseDialog)
     }
 }
 
@@ -158,6 +232,7 @@ struct BookmarkEditView: View {
 
 private extension BookmarkEditTheme {
     var transcriptBackground: Color { theme.playerContrast06 }
+    var editButton: Color { textFieldAccent }
 }
 
 // MARK: - Private Extensions
@@ -166,7 +241,7 @@ private extension View {
     func titleFont() -> some View {
         self
             .lineLimit(1)
-            .minimumScaleFactor(0.5)
+            .minimumScaleFactor(0.7)
             .font(size: 24, style: .title2, weight: .bold)
     }
 

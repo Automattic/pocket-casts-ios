@@ -1,6 +1,7 @@
 import Combine
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
@@ -51,6 +52,18 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     func reload() { }
 
+    /// Outside of the multi selection, a tap opens the bookmark's details
+    override func tapped(item: Bookmark) {
+        guard !isMultiSelecting else {
+            super.tapped(item: item)
+            return
+        }
+
+        guard FeatureFlag.smartBookmarks.enabled else { return }
+
+        router?.bookmarkDetails(item, source: analyticsSource)
+    }
+
     func dismiss() {
         router?.dismissBookmarksList()
     }
@@ -63,6 +76,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     }
 
     func addListeners() {
+        // Bookmarks can also be deleted from outside the list, such as from their details
+        bookmarkManager.onBookmarksDeleted
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }
+            .store(in: &cancellables)
+
         bookmarkManager.onBookmarkChanged
             .filter { [weak self] event in
                 self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
