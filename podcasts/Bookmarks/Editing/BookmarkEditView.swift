@@ -155,7 +155,7 @@ struct BookmarkEditView: View {
                 if let passage = viewModel.passage {
                     transcript(passage)
                 } else {
-                    transcript(Self.transcriptPlaceholder)
+                    transcript(Self.transcriptPlaceholder, showsBackground: false)
                         .redacted(reason: .placeholder)
                         .accessibilityHidden(true)
                 }
@@ -163,7 +163,7 @@ struct BookmarkEditView: View {
         }
     }
 
-    private func transcript(_ text: String) -> some View {
+    private func transcript(_ text: String, showsBackground: Bool = true) -> some View {
         Text(text)
             .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
             .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
@@ -171,7 +171,7 @@ struct BookmarkEditView: View {
             .lineLimit(4)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
-            .background(theme.transcriptBackground)
+            .background(showsBackground ? theme.transcriptBackground : .clear)
             .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
