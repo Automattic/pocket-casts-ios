@@ -12,18 +12,20 @@ class BadgeHelper {
     private var cancelable: Cancellable?
 
     func setup() {
-        let notifications: [NSNotification.Name] = [Constants.Notifications.playlistChanged,
-                                                    Constants.Notifications.episodePlayStatusChanged,
-                                                    Constants.Notifications.episodeArchiveStatusChanged,
-                                                    Constants.Notifications.episodeStarredChanged,
-                                                    Constants.Notifications.episodeDownloadStatusChanged,
-                                                    Constants.Notifications.manyEpisodesChanged,
-                                                    ServerNotifications.podcastsRefreshed,
-                                                    Constants.Notifications.opmlImportCompleted,
-                                                    Constants.Notifications.episodeDownloaded,
-                                                    Constants.Notifications.playbackTrackChanged,
-                                                    Constants.Notifications.playbackEnded,
-                                                    Constants.Notifications.playbackStarted]
+        let notifications: [NSNotification.Name] = [
+            Constants.Notifications.playlistChanged,
+            Constants.Notifications.episodePlayStatusChanged,
+            Constants.Notifications.episodeArchiveStatusChanged,
+            Constants.Notifications.episodeStarredChanged,
+            Constants.Notifications.episodeDownloadStatusChanged,
+            Constants.Notifications.manyEpisodesChanged,
+            ServerNotifications.podcastsRefreshed,
+            Constants.Notifications.opmlImportCompleted,
+            Constants.Notifications.episodeDownloaded,
+            Constants.Notifications.playbackTrackChanged,
+            Constants.Notifications.playbackEnded,
+            Constants.Notifications.playbackStarted
+        ]
 
         let mergedNotifications = notifications
             .map { NotificationCenter.default.publisher(for: $0) }
