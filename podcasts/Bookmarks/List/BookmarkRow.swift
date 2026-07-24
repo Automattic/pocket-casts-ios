@@ -102,22 +102,23 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
         let isLoading = viewModel.loadingBookmarkUuid == bookmark.uuid
+        let isMultiSelecting = viewModel.isMultiSelecting
 
-        return PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), isLoading: isLoading, style: style).buttonize {
+        return PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), isLoading: isLoading, isCollapsed: isMultiSelecting, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label
                 .opacity(config.isPressed ? 0.9 : 1)
                 .applyButtonEffect(isPressed: config.isPressed)
         }
-        .opacity(viewModel.isMultiSelecting ? 0.3 : 1)
-        .disabled(viewModel.isMultiSelecting || isLoading)
+        .disabled(isMultiSelecting || isLoading)
     }
 
     // MARK: - Play Button View
     private struct PlayButton<ButtonStyle: BookmarksStyle>: View {
         let title: String
         let isLoading: Bool
+        let isCollapsed: Bool
         @ObservedObject var style: ButtonStyle
 
         var body: some View {
@@ -128,7 +129,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
                 Image("bookmarks-icon-play")
                     .renderingMode(.template)
-                    .opacity(isLoading ? 0 : 1)
+                    .opacity(isCollapsed || isLoading ? 0 : 1)
                     .overlay {
                         if isLoading {
                             ProgressView()
@@ -137,13 +138,13 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                         }
                     }
             }
-            .foregroundStyle(style.playButtonText)
+            .foregroundStyle(isCollapsed ? style.secondaryText : style.playButtonText)
             .padding(.horizontal, RowConstants.horizontalPadding)
             .padding(.vertical, RowConstants.playButtonVerticalPadding)
-            .background(style.playButtonBackground)
+            .background(isCollapsed ? nil : style.playButtonBackground)
             .cornerRadius(.infinity) // Always rounded
             .overlay(
-                style.playButtonStroke.map {
+                isCollapsed ? nil : style.playButtonStroke.map {
                     RoundedRectangle(cornerRadius: .infinity, style: .continuous)
                         .inset(by: 1)
                         .stroke($0, lineWidth: 2)

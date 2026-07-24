@@ -20,6 +20,10 @@ struct BookmarksProfileListView: View {
         .background(style.background.ignoresSafeArea())
     }
 
+    private var navBarTint: Color? {
+        ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: style.theme.activeTheme))
+    }
+
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
@@ -33,7 +37,7 @@ struct BookmarksProfileListView: View {
                         Text(L10n.selectAll)
                     }
                 }
-                .tint(style.theme.secondaryIcon01)
+                .tint(navBarTint)
             }
         }
 
@@ -54,7 +58,7 @@ struct BookmarksProfileListView: View {
                 }
                 .disabled(!viewModel.feature.isUnlocked)
                 .opacity(viewModel.feature.isUnlocked ? 1 : 0)
-                .tint(style.theme.secondaryIcon01)
+                .tint(navBarTint)
             }
         }
     }
@@ -69,11 +73,5 @@ struct BookmarksProfileListView: View {
 
     private var bookmarkListView: some View {
         BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
-            .padding(.bottom, bottomInset(multiSelectEnabled: viewModel.isMultiSelecting))
-    }
-
-    func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
-        let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        return min(Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, 40)
     }
 }
