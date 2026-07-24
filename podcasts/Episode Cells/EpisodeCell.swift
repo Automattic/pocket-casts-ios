@@ -70,7 +70,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
-            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .footnote)
         }
     }
 

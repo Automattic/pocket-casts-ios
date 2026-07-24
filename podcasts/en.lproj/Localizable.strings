@@ -4498,6 +4498,21 @@
 /* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
 "bookmark_suggested_title" = "Suggested title: %1$@";
 
+/* Label above the section showing the transcript text captured around the bookmarked moment */
+"bookmark_transcript_captured" = "Transcript captured";
+
+/* The title of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_title" = "Edit transcript";
+
+/* The subtitle of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_subtitle" = "Select a transcript passage for this bookmark";
+
+/* Label above the text field where the user edits the bookmark title */
+"bookmark_title_label" = "Title";
+
+/* The title of a view showing a single bookmark and the transcript passage it captured */
+"bookmark_details_title" = "Bookmark";
+
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
 
