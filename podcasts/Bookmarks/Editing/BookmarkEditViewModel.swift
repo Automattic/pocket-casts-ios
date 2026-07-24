@@ -10,36 +10,59 @@ class BookmarkEditViewModel: ObservableObject {
 
     /// Localized Strings
     let headerTitle: String
-    let headerSubTitle: String
     let saveButtonTitle: String
     let placeholder: String = L10n.bookmarkDefaultTitle
 
     /// The title being edited, kept within `maxTitleLength`
     @Published var title: String {
         didSet {
+            guard title != oldValue else { return }
+
             let trimmed = String(title.prefix(maxTitleLength))
             if trimmed != title {
                 title = trimmed
             }
 
-            guard !isApplyingSuggestion else { return }
-
-            userHasEditedTitle = true
             if titleSuggestion == .generating {
                 titleSuggestion = .none
             }
         }
     }
 
+    /// Whether the title still is the one the bookmark was created with
+    private var isTitleUnchanged: Bool {
+        title == originalTitle
+    }
+
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
+
+    /// Storing the passage as it's captured, and again on every change, keeps it around
+    /// even when the sheet is dismissed without saving the title
+    @Published private(set) var snippet: BookmarkTranscriptSnippet? {
+        didSet {
+            guard let snippet, snippet.range != oldValue?.range else { return }
+
+            bookmarkManager.setPassage(snippet.text, for: bookmark)
+        }
+    }
+
+    /// Whether the transcript is still being fetched, so the passage can be shown as a
+    /// placeholder rather than appearing out of nowhere
+    @Published private(set) var isCapturingTranscript = false
+
+    /// The captured passage, which the transcript editor changes as the user picks a
+    /// different one. It deliberately doesn't regenerate the title, which belongs to the
+    /// moment that was bookmarked.
+    var transcriptRange: NSRange {
+        get { snippet?.range ?? NSRange(location: 0, length: 0) }
+        set { snippet?.range = newValue }
+    }
 
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
 
     private var suggestionTask: Task<Void, Never>?
-    private var userHasEditedTitle = false
-    private var isApplyingSuggestion = false
 
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
@@ -53,11 +76,9 @@ class BookmarkEditViewModel: ObservableObject {
         switch editState {
         case .adding:
             headerTitle = L10n.addBookmark
-            headerSubTitle = L10n.addBookmarkSubtitle
             saveButtonTitle = L10n.saveBookmark
         case .updating:
             headerTitle = L10n.changeBookmarkTitle
-            headerSubTitle = L10n.changeBookmarkSubtitle
             saveButtonTitle = L10n.changeBookmarkTitle
         }
 
@@ -71,11 +92,26 @@ class BookmarkEditViewModel: ObservableObject {
     // MARK: - Title Suggestion
 
     private func generateTitleSuggestion() {
-        guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled else { return }
+        guard editState == .adding, BookmarkManager.isTitleSuggestionEnabled,
+              let episode = bookmarkManager.episode(for: bookmark) else { return }
 
         titleSuggestion = .generating
+        isCapturingTranscript = true
         suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength] in
-            let suggestion = await bookmarkManager.suggestTitle(for: bookmark)
+            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode)
+            guard !Task.isCancelled else { return }
+
+            await MainActor.run {
+                self?.snippet = snippet
+                self?.isCapturingTranscript = false
+            }
+
+            guard let snippet else {
+                await MainActor.run { self?.titleSuggestion = .none }
+                return
+            }
+
+            let suggestion = await bookmarkManager.suggestTitle(from: snippet.text, for: bookmark, episode: episode)
             guard !Task.isCancelled else { return }
 
             let trimmed = suggestion.map { String($0.trim().prefix(maxTitleLength)) }
@@ -86,21 +122,18 @@ class BookmarkEditViewModel: ObservableObject {
                     return
                 }
 
-                if self.userHasEditedTitle {
+                if self.isTitleUnchanged {
+                    self.applySuggestion(trimmed)
+                } else {
                     // Never replace the user's own words — offer the suggestion instead
                     self.titleSuggestion = .available(trimmed)
-                } else {
-                    self.applySuggestion(trimmed)
                 }
             }
         }
     }
 
     func applySuggestion(_ suggestion: String) {
-        isApplyingSuggestion = true
         title = suggestion
-        isApplyingSuggestion = false
-
         titleSuggestion = .none
     }
 
