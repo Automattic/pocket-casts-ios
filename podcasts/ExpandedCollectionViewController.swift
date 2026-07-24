@@ -63,6 +63,10 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ExpandedCollectionViewController, _) in
+            controller.updateSize()
+        }
+
         if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
             title = collectionSubtitle
         } else {
@@ -138,13 +142,5 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
     func updateSize() {
         updateFlowLayoutSize()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

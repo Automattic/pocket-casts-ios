@@ -76,6 +76,10 @@ class LargeListSummaryCellHeaderView: UIView {
     }
 
     private func setup() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: LargeListSummaryCellHeaderView, _) in
+            view.updateSize()
+        }
+
         addSubview(horizontalStack)
         horizontalStack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -110,13 +114,5 @@ class LargeListSummaryCellHeaderView: UIView {
     func updateSize() {
         topLabel.updateNumberOfLines(regular: 1, accessibility: 2)
         bottomLabel.updateNumberOfLines(regular: 1, accessibility: 2)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

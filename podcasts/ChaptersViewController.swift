@@ -29,6 +29,10 @@ class ChaptersViewController: PlayerItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         chaptersTable.sectionHeaderTopPadding = 0
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ChaptersViewController, _) in
+            controller.updateSize()
+        }
     }
 
     override func willBeAddedToPlayer() {
@@ -89,13 +93,6 @@ class ChaptersViewController: PlayerItemViewController {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     func updateSize() {

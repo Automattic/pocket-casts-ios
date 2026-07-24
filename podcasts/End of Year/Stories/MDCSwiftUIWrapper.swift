@@ -34,6 +34,17 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     }
 
     private func setup(content: ContentView, backgroundStyle: ThemeStyle? = nil, backgroundColor: UIColor? = nil) {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: BottomSheetSwiftUIWrapper<ContentView>, _) in
+            guard let sheetController = controller.sheetPresentationController else { return }
+            controller.updatePreferredContentSize()
+            //Dispatch to main to allow changes in content to reflect
+            DispatchQueue.main.async {
+                sheetController.animateChanges {
+                    sheetController.invalidateDetents()
+                }
+            }
+        }
+
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -120,22 +131,6 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.dismissCallback?()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            if let sheetController = sheetPresentationController {
-                updatePreferredContentSize()
-                //Dispatch to main to allow changes in content to reflect
-                DispatchQueue.main.async {
-                    sheetController.animateChanges {
-                        sheetController.invalidateDetents()
-                    }
-                }
-            }
-        }
     }
 }
 

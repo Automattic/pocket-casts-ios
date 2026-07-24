@@ -45,6 +45,10 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: LargeListSummaryViewController, _) in
+            controller.updateSize()
+        }
+
         (view as? ThemeableView)?.style = .primaryUi02
 
         collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: LargeListSummaryViewController.cellId)
@@ -262,13 +266,5 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         lastLayedOutWidth = 0
         largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
         view.setNeedsLayout()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

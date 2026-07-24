@@ -84,6 +84,11 @@ class PCSearchBarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateColors()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: PCSearchBarController, _) in
+            controller.updateSize()
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
         updateSize()
@@ -228,11 +233,5 @@ class PCSearchBarController: UIViewController {
         clearSearchBtn.updateSizeConstraints(to: clearSearchSize)
 
         view.updateSizeConstraints(to: Self.defaultHeight)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

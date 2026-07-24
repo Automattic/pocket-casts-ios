@@ -153,6 +153,10 @@ class DiscoverPodcastTableCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DiscoverPodcastTableCell, _) in
+            view.updateSize()
+        }
     }
 
     // MARK: - Dynamic Type support
@@ -170,13 +174,5 @@ class DiscoverPodcastTableCell: ThemeableCell {
 
         podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
         podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

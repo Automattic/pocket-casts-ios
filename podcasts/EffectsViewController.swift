@@ -197,6 +197,10 @@ class EffectsViewController: SimpleNotificationsViewController {
         super.viewDidLoad()
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: EffectsViewController, _) in
+            controller.updateSize()
+        }
+
         updateColors()
         updateControls()
         setupAccessibility()
@@ -568,14 +572,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         accessibilityElements.append(volumeBoostSwitch!)
 
         view.accessibilityElements = accessibilityElements
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     private func updateSize() {
