@@ -13,6 +13,7 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
     private func makeHLSEpisode() -> Episode {
         let episode = Episode()
         episode.uuid = "hls-episode"
+        episode.podcastUuid = "hls-podcast"
         episode.downloadUrl = "https://example.com/episode.mp3"
         episode.hlsUrl = "https://example.com/stream.m3u8"
         return episode
@@ -21,6 +22,7 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
     private func makeProgressiveEpisode() -> Episode {
         let episode = Episode()
         episode.uuid = "progressive-episode"
+        episode.podcastUuid = "progressive-podcast"
         episode.downloadUrl = "https://example.com/episode.mp3"
         return episode
     }
@@ -44,6 +46,19 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
         XCTAssertEqual(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nil)["hls_available"] as? Bool, false)
+    }
+
+    func testHlsLifecyclePropertiesIncludeAudioOnlyModeForHLSEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        XCTAssertNotNil(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: makeHLSEpisode())["audio_only_mode"] as? Bool)
+    }
+
+    func testHlsLifecyclePropertiesOmitAudioOnlyModeForProgressiveEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        XCTAssertNil(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: makeProgressiveEpisode())["audio_only_mode"],
+                     "audio_only_mode is only meaningful while streaming via HLS")
     }
 
     // MARK: - hlsProtocolProperties
@@ -72,6 +87,15 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
         XCTAssertEqual(helper.lastEvent?.event, .playbackFailed)
         XCTAssertEqual(helper.lastEvent?.properties?["playback_protocol"] as? String, "hls")
         XCTAssertEqual(helper.lastEvent?.properties?["hls_error_detail"] as? String, "internet_connection")
+    }
+
+    func testPlaybackFailedIncludesPodcastUUID() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        let helper = AnalyticsPlaybackHelperMock()
+
+        helper.playbackFailed(episode: makeHLSEpisode(), error: "boom", hlsErrorDetail: nil, player: nil)
+
+        XCTAssertEqual(helper.lastEvent?.properties?["podcast_uuid"] as? String, "hls-podcast")
     }
 
     func testPlaybackFailedOmitsErrorDetailForProgressiveEpisode() throws {
@@ -106,6 +130,8 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
         XCTAssertEqual(helper.lastEvent?.event, .playbackSourceResolved)
         XCTAssertEqual(helper.lastEvent?.properties?["playback_protocol"] as? String, "hls")
         XCTAssertEqual(helper.lastEvent?.properties?["episode_uuid"] as? String, "hls-episode")
+        XCTAssertEqual(helper.lastEvent?.properties?["podcast_uuid"] as? String, "hls-podcast")
+        XCTAssertEqual(helper.lastEvent?.properties?["is_fallback"] as? Bool, false)
     }
 
     func testPlaybackSourceResolvedIsNotEmittedWhenFlagDisabled() throws {
@@ -115,6 +141,38 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
         helper.playbackSourceResolved(for: makeHLSEpisode())
 
         XCTAssertNil(helper.lastEvent, "playback_source_resolved must not fire while the HLS flag is off")
+    }
+
+    // MARK: - videoRenderingToggled
+
+    func testVideoRenderingToggledEmitsEventWhenFlagEnabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        let helper = AnalyticsPlaybackHelperMock()
+
+        helper.videoRenderingToggled(switchedToVideo: false, episode: makeHLSEpisode())
+
+        XCTAssertEqual(helper.lastEvent?.event, .playbackHlsToggled)
+        XCTAssertEqual(helper.lastEvent?.properties?["switched_to"] as? String, "audio")
+        XCTAssertEqual(helper.lastEvent?.properties?["episode_uuid"] as? String, "hls-episode")
+        XCTAssertEqual(helper.lastEvent?.properties?["podcast_uuid"] as? String, "hls-podcast")
+    }
+
+    func testVideoRenderingToggledReportsVideoTarget() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        let helper = AnalyticsPlaybackHelperMock()
+
+        helper.videoRenderingToggled(switchedToVideo: true, episode: makeHLSEpisode())
+
+        XCTAssertEqual(helper.lastEvent?.properties?["switched_to"] as? String, "video")
+    }
+
+    func testVideoRenderingToggledIsNotEmittedWhenFlagDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
+        let helper = AnalyticsPlaybackHelperMock()
+
+        helper.videoRenderingToggled(switchedToVideo: true, episode: makeHLSEpisode())
+
+        XCTAssertNil(helper.lastEvent, "playback_hls_toggled must not fire while the HLS flag is off")
     }
 
     func testCurrentSourceIsRemovedAfterEventIsTriggered() {

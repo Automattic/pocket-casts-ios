@@ -868,6 +868,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         videoRenderingEnabled.value
     }
 
+    /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
+    /// or they've switched the current stream's video off via the shelf toggle. Reported as the
+    /// `audio_only_mode` analytics property.
+    var isAudioOnlyMode: Bool {
+        isAudioOnlyForced || !videoRenderingEnabled.value
+    }
+
     /// Whether the audio/video toggle should be offered for the current stream. Only HLS streams
     /// found to carry video (not static video podcasts) can be switched to audio-only. When the global
     /// "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
@@ -881,6 +888,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func toggleVideoRendering() {
         guard canToggleVideoRendering() else { return }
         videoRenderingEnabled.toggle()
+        analyticsPlaybackHelper.videoRenderingToggled(switchedToVideo: videoRenderingEnabled.value, episode: currentEpisode())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
     }
 

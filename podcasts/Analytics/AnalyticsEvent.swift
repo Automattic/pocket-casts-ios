@@ -284,6 +284,10 @@ enum AnalyticsEvent: String {
     /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
     case playbackSourceResolved
 
+    /// Emitted when the user toggles an HLS video stream between video and audio-only rendering.
+    /// Gated behind `FeatureFlag.hls`.
+    case playbackHlsToggled
+
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
     case autoplayStarted
