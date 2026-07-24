@@ -39,6 +39,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     // Callback to inform an external presenter of the desired action bar state
     var externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil
 
+    // When false, the action bar won't reserve space for the mini player below it.
+    // Set this for hosts where the mini player never appears, like the full screen player.
+    var reservesMiniPlayerSpace: Bool = true
+
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
          showHeader: Bool = true,
@@ -47,6 +51,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
          allowInternalScrolling: Bool = true,
          showSearchField: Bool = false,
          useExternalActionBar: Bool = false,
+         reservesMiniPlayerSpace: Bool = true,
          externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
@@ -57,6 +62,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         self.allowInternalScrolling = allowInternalScrolling
         self.showSearchField = showSearchField
         self.useExternalActionBar = useExternalActionBar
+        self.reservesMiniPlayerSpace = reservesMiniPlayerSpace
         self.externalActionBarHandler = externalActionBarHandler
     }
 
@@ -247,7 +253,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                                      title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems),
                                      style: style.actionBarStyle,
                                      content: { content() },
-                                     actions: bookmarkActions)
+                                     actions: bookmarkActions,
+                                     reservesMiniPlayerSpace: reservesMiniPlayerSpace)
             }
         }
     }

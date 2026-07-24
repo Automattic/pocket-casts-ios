@@ -20,7 +20,9 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
     /// The actions to display in the action bar
     var actions: [ActionBarView<Style>.Action] = []
 
-    // No manual padding; rely on miniPlayerSafeAreaInset()
+    /// Whether to reserve space for the mini player below the bar. Set to false when
+    /// hosted somewhere the mini player never appears, such as the full screen player.
+    var reservesMiniPlayerSpace: Bool = true
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -32,7 +34,7 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
             }
         }
         // Reserve space for the mini player so the bar floats just above it
-        .miniPlayerSafeAreaInset()
+        .miniPlayerSafeAreaInset(multiplier: reservesMiniPlayerSpace ? 1 : 0)
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
     }
