@@ -61,8 +61,28 @@ extension Bookmark {
         }
     }
 
+    /// Where `passage` begins in the episode transcript, kept only to disambiguate a
+    /// passage that appears more than once — the passage text itself is what's matched.
+    ///
+    /// Temporarily backed by `UserDefaults`, until it's stored with the bookmark itself.
+    public var passageLocation: Int? {
+        get { UserDefaults.standard.object(forKey: Self.passageLocationKey(for: uuid)) as? Int }
+        nonmutating set {
+            let key = Self.passageLocationKey(for: uuid)
+            if let newValue {
+                UserDefaults.standard.set(newValue, forKey: key)
+            } else {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
+    }
+
     private static func passageKey(for uuid: String) -> String {
         "bookmark.passage.\(uuid)"
+    }
+
+    private static func passageLocationKey(for uuid: String) -> String {
+        "bookmark.passageLocation.\(uuid)"
     }
 }
 

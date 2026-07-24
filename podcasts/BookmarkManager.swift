@@ -94,7 +94,10 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
-            bookmarks.forEach { $0.passage = nil }
+            bookmarks.forEach {
+                $0.passage = nil
+                $0.passageLocation = nil
+            }
 
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)

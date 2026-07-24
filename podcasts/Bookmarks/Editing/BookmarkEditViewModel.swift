@@ -44,6 +44,7 @@ class BookmarkEditViewModel: ObservableObject {
             guard let snippet, snippet.range != oldValue?.range else { return }
 
             bookmark.passage = snippet.text
+            bookmark.passageLocation = snippet.range.location
         }
     }
 

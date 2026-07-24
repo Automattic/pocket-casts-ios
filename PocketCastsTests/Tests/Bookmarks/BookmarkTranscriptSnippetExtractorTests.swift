@@ -68,4 +68,74 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
         XCTAssertEqual(BookmarkTranscriptSnippetExtractor.sentenceRange(containing: 0, in: ""),
                        NSRange(location: 0, length: 0))
     }
+
+    // MARK: - passageRange
+
+    func testPassageRangeRoundTripsACapturedPassageAcrossSpeakerChanges() throws {
+        let model = try makeModel()
+        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+
+        let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: snippet.text,
+                                                                                  at: snippet.range.location,
+                                                                                  in: model.attributedText))
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.text(in: range, of: model.attributedText), snippet.text)
+    }
+
+    func testPassageRangeSearchesForTheTextWhenTheLocationDoesNotLineUp() throws {
+        let model = try makeModel()
+        let passage = "Right, and that's why some researchers have floated the lottery idea."
+
+        // A location pointing at the start of the transcript, where this passage isn't
+        let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: 0, in: model.attributedText))
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.text(in: range, of: model.attributedText), passage)
+    }
+
+    func testPassageRangeSearchesForTheTextWithoutALocation() throws {
+        let model = try makeModel()
+        let passage = "Right, and that's why some researchers have floated the lottery idea."
+
+        let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: nil, in: model.attributedText))
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.text(in: range, of: model.attributedText), passage)
+    }
+
+    func testPassageRangeUsesTheLocationToDisambiguateARepeatedPassage() throws {
+        let duplicated = """
+        WEBVTT
+
+        0:00:00.000 --> 0:00:05.000
+        The lottery idea comes up again and again.
+
+        0:00:05.000 --> 0:00:10.000
+        Some filler in between to keep the two mentions apart.
+
+        0:00:10.000 --> 0:00:15.000
+        The lottery idea comes up again and again.
+        """
+        let model = try XCTUnwrap(TranscriptModel.makeModel(from: duplicated, format: .vtt))
+        let passage = "The lottery idea comes up again and again."
+
+        let string = model.attributedText.string as NSString
+        let first = string.range(of: passage).location
+        let second = string.range(of: passage, options: .backwards).location
+        XCTAssertNotEqual(first, second)
+
+        // The captured location points at the second mention, so that's what's highlighted
+        let located = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: second, in: model.attributedText))
+        XCTAssertEqual(located.location, second)
+
+        // Without a matching location, the search takes the first mention
+        let searched = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: nil, in: model.attributedText))
+        XCTAssertEqual(searched.location, first)
+    }
+
+    func testPassageRangeIsNilWhenThePassageIsAbsent() throws {
+        let model = try makeModel()
+
+        XCTAssertNil(BookmarkTranscriptSnippetExtractor.passageRange(for: "a passage no transcript would ever contain",
+                                                                     at: nil,
+                                                                     in: model.attributedText))
+    }
 }
