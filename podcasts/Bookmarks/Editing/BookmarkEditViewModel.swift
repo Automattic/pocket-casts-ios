@@ -38,16 +38,9 @@ class BookmarkEditViewModel: ObservableObject {
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
 
-    /// Storing the passage as it's captured, and again on every change, keeps it around
-    /// even when the sheet is dismissed without saving the title
-    @Published private(set) var snippet: BookmarkTranscriptSnippet? {
-        didSet {
-            guard let snippet, snippet.range != oldValue?.range else { return }
-
-            bookmark.passage = snippet.text
-            bookmark.passageLocation = snippet.range.location
-        }
-    }
+    /// The captured transcript passage, re-selectable while editing. It's persisted to the
+    /// bookmark only on save, so dismissing without saving leaves the stored passage intact.
+    @Published private(set) var snippet: BookmarkTranscriptSnippet?
 
     /// Whether the transcript is still being fetched, so the passage can be shown as a
     /// placeholder rather than appearing out of nowhere
@@ -83,15 +76,10 @@ class BookmarkEditViewModel: ObservableObject {
         case .adding:
             headerTitle = L10n.addBookmark
             saveButtonTitle = L10n.saveBookmark
+            generateTitleSuggestion()
         case .updating:
             headerTitle = L10n.editBookmark
             saveButtonTitle = L10n.saveBookmark
-        }
-
-        switch editState {
-        case .adding:
-            generateTitleSuggestion()
-        case .updating:
             loadCapturedPassage()
         }
     }
@@ -109,9 +97,7 @@ class BookmarkEditViewModel: ObservableObject {
             let snippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
             guard !Task.isCancelled, let snippet else { return }
 
-            await MainActor.run {
-                self?.snippet = snippet
-            }
+            self?.snippet = snippet
         }
     }
 
@@ -127,33 +113,28 @@ class BookmarkEditViewModel: ObservableObject {
             let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode)
             guard !Task.isCancelled else { return }
 
-            await MainActor.run {
-                self?.snippet = snippet
-                self?.isCapturingTranscript = false
-            }
+            self?.snippet = snippet
+            self?.isCapturingTranscript = false
 
             guard let snippet else {
-                await MainActor.run { self?.titleSuggestion = .none }
+                self?.titleSuggestion = .none
                 return
             }
 
             let suggestion = await bookmarkManager.suggestTitle(from: snippet.text, for: bookmark, episode: episode)
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled, let self else { return }
 
             let trimmed = suggestion.map { String($0.trim().prefix(maxTitleLength)) }
-            await MainActor.run {
-                guard let self else { return }
-                guard let trimmed, !trimmed.isEmpty else {
-                    self.titleSuggestion = .none
-                    return
-                }
+            guard let trimmed, !trimmed.isEmpty else {
+                self.titleSuggestion = .none
+                return
+            }
 
-                if self.isTitleUnchanged {
-                    self.applySuggestion(trimmed)
-                } else {
-                    // Never replace the user's own words — offer the suggestion instead
-                    self.titleSuggestion = .available(trimmed)
-                }
+            if self.isTitleUnchanged {
+                self.applySuggestion(trimmed)
+            } else {
+                // Never replace the user's own words — offer the suggestion instead
+                self.titleSuggestion = .available(trimmed)
             }
         }
     }
@@ -184,8 +165,9 @@ class BookmarkEditViewModel: ObservableObject {
         suggestionTask?.cancel()
         Task {
             let title = String(title.trim().prefix(maxTitleLength))
+            let passage = snippet.map { BookmarkUpdateParameters.Passage(text: $0.text, location: $0.range.location) }
 
-            await bookmarkManager.update(title: title.isEmpty ? placeholder : title, for: bookmark)
+            await bookmarkManager.update(.init(title: title.isEmpty ? placeholder : title, passage: passage), for: bookmark)
 
             if editState == .updating {
                 Analytics.track(.bookmarkUpdateTitle, source: analyticsSource)
