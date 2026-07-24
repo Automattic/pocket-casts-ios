@@ -150,12 +150,12 @@ struct BookmarkEditView: View {
                         editTranscriptButton
                     }
                 }
-                .padding(.horizontal, 8)
+                .padding(.bottom, 4)
             } content: {
                 if let passage = viewModel.passage {
                     transcript(passage)
                 } else {
-                    transcript(Self.transcriptPlaceholder, showsBackground: false)
+                    transcript(Self.transcriptPlaceholder)
                         .redacted(reason: .placeholder)
                         .accessibilityHidden(true)
                 }
@@ -163,16 +163,13 @@ struct BookmarkEditView: View {
         }
     }
 
-    private func transcript(_ text: String, showsBackground: Bool = true) -> some View {
+    private func transcript(_ text: String) -> some View {
         Text(text)
             .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
             .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
             .foregroundStyle(theme.title)
             .lineLimit(4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(showsBackground ? theme.transcriptBackground : .clear)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     /// Stands in for the passage while the transcript loads. The redaction blocks it out,
