@@ -2,6 +2,7 @@
 -----
 - Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
+- Show a bookmark marker beside the matching line when editing a bookmark's transcript passage [#4826](https://github.com/Automattic/pocket-casts-ios/pull/4826)
 
 
 8.17
