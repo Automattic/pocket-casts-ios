@@ -171,8 +171,9 @@ class BookmarkEditViewModel: ObservableObject {
         Task {
             let title = String(title.trim().prefix(maxTitleLength))
             let passage = snippet.map { BookmarkUpdateParameters.Passage(text: $0.text, location: $0.range.location) }
+            let parameters = BookmarkUpdateParameters(title: title.isEmpty ? placeholder : title, passage: passage, referenceTime: snippet?.referenceTime)
 
-            await bookmarkManager.update(.init(title: title.isEmpty ? placeholder : title, passage: passage), for: bookmark)
+            await bookmarkManager.update(parameters, for: bookmark)
 
             if editState == .updating {
                 Analytics.track(.bookmarkUpdateTitle, source: analyticsSource)
