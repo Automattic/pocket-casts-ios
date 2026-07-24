@@ -2,7 +2,7 @@
 import UIKit
 
 extension UITextView {
-    public func scrollToRange(_ range: NSRange, verticalAnchor: CGFloat = 0.5) {
+    public func scrollToRange(_ range: NSRange, verticalAnchor: CGFloat = 0.5, animated: Bool = true) {
         let clampedAnchor = min(max(verticalAnchor, 0), 1)
 
         // Ensure layout is up-to-date
@@ -29,7 +29,7 @@ extension UITextView {
             return
         }
 
-        scrollRectToVisible(visibleRect, animated: true)
+        scrollRectToVisible(visibleRect, animated: animated)
     }
 }
 #endif
