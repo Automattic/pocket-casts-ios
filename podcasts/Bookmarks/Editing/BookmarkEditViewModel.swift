@@ -59,6 +59,10 @@ class BookmarkEditViewModel: ObservableObject {
         set { snippet?.range = newValue }
     }
 
+    /// The playback moment the bookmark marks, used to place a marker beside the matching
+    /// line in the transcript editor
+    var bookmarkTime: TimeInterval { bookmark.time }
+
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
 
