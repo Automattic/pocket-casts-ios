@@ -47,6 +47,16 @@ struct BookmarkTranscriptSnippetExtractor {
         return Self.extractSnippet(from: model, at: center)
     }
 
+    func snippet(forPassage passage: String, at location: Int?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
+        let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.parentIdentifier())
+        guard let model = try? await transcriptManager.loadTranscript(),
+              let range = Self.passageRange(for: passage, at: location, in: model.attributedText) else {
+            return nil
+        }
+
+        return BookmarkTranscriptSnippet(transcript: model, range: range)
+    }
+
     static func extractSnippet(from model: TranscriptModel, at time: TimeInterval) -> BookmarkTranscriptSnippet? {
         let windowStart = max(0, time - backwardWindowSeconds)
         let windowEnd = time + forwardWindowSeconds

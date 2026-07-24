@@ -88,7 +88,8 @@ private extension BookmarkDetailsViewController {
     func edit() {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
-                                                         state: .updating) { [weak self] _, _ in
+                                                         state: .updating,
+                                                         style: .themed) { [weak self] _, _ in
             self?.viewModel.refresh()
         }
 

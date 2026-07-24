@@ -42,7 +42,7 @@ extension BookmarksProfileListController: BookmarkListRouter {
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating)
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed)
         controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)

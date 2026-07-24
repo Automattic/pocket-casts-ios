@@ -36,7 +36,7 @@ struct BookmarkEditView: View {
 
             saveButton
         }
-        .animation(.easeInOut(duration: 0.2), value: viewModel.snippet?.text)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.passage)
         .animation(.easeInOut(duration: 0.2), value: viewModel.isCapturingTranscript)
         .frame(maxWidth: .infinity)
         .padding()
@@ -139,7 +139,7 @@ struct BookmarkEditView: View {
 
     @ViewBuilder
     private var transcriptSection: some View {
-        if viewModel.snippet != nil || viewModel.isCapturingTranscript {
+        if viewModel.passage != nil || viewModel.isCapturingTranscript {
             section {
                 HStack {
                     Text(L10n.bookmarkTranscriptCaptured)
@@ -152,8 +152,8 @@ struct BookmarkEditView: View {
                 }
                 .padding(.horizontal, 8)
             } content: {
-                if let snippet = viewModel.snippet {
-                    transcript(snippet.text)
+                if let passage = viewModel.passage {
+                    transcript(passage)
                 } else {
                     transcript(Self.transcriptPlaceholder)
                         .redacted(reason: .placeholder)
@@ -231,7 +231,6 @@ struct BookmarkEditView: View {
 // MARK: - Theme
 
 private extension BookmarkEditTheme {
-    var transcriptBackground: Color { theme.playerContrast06 }
     var editButton: Color { textFieldAccent }
 }
 

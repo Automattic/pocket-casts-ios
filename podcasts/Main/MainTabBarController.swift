@@ -982,7 +982,7 @@ private extension MainTabBarController {
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
         let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, _ in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, onDismiss: { [weak self] updatedTitle, _ in
                 guard title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)

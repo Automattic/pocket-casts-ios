@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class BookmarkEditViewModel: ObservableObject {
     weak var router: BookmarkEditRouter?
 
@@ -52,6 +53,10 @@ class BookmarkEditViewModel: ObservableObject {
     /// placeholder rather than appearing out of nowhere
     @Published private(set) var isCapturingTranscript = false
 
+    var passage: String? {
+        snippet?.text ?? bookmark.passage
+    }
+
     /// The captured passage, which the transcript editor changes as the user picks a
     /// different one. It deliberately doesn't regenerate the title, which belongs to the
     /// moment that was bookmarked.
@@ -79,15 +84,35 @@ class BookmarkEditViewModel: ObservableObject {
             headerTitle = L10n.addBookmark
             saveButtonTitle = L10n.saveBookmark
         case .updating:
-            headerTitle = L10n.changeBookmarkTitle
-            saveButtonTitle = L10n.changeBookmarkTitle
+            headerTitle = L10n.editBookmark
+            saveButtonTitle = L10n.saveBookmark
         }
 
-        generateTitleSuggestion()
+        switch editState {
+        case .adding:
+            generateTitleSuggestion()
+        case .updating:
+            loadCapturedPassage()
+        }
     }
 
     deinit {
         suggestionTask?.cancel()
+    }
+
+    private func loadCapturedPassage() {
+        guard BookmarkManager.isTitleSuggestionEnabled,
+              bookmark.passage?.isEmpty == false,
+              let episode = bookmarkManager.episode(for: bookmark) else { return }
+
+        suggestionTask = Task { [weak self, bookmarkManager, bookmark] in
+            let snippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
+            guard !Task.isCancelled, let snippet else { return }
+
+            await MainActor.run {
+                self?.snippet = snippet
+            }
+        }
     }
 
     // MARK: - Title Suggestion
