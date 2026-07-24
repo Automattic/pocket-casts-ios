@@ -34,7 +34,7 @@ class BookmarkDetailsViewModel: ObservableObject {
         let episode = bookmark.episode ?? bookmarkManager.episode(for: bookmark)
 
         self.init(bookmark: bookmark,
-                  passage: bookmarkManager.passage(for: bookmark),
+                  passage: bookmark.passage,
                   episode: episode,
                   podcastTitle: Self.podcastTitle(for: bookmark, episode: episode),
                   bookmarkManager: bookmarkManager)
@@ -44,7 +44,7 @@ class BookmarkDetailsViewModel: ObservableObject {
         guard let bookmark = bookmarkManager.bookmark(for: bookmark.uuid) else { return }
 
         self.bookmark = bookmark
-        self.passage = bookmarkManager.passage(for: bookmark)
+        self.passage = bookmark.passage
     }
 
     private static func podcastTitle(for bookmark: Bookmark, episode: BaseEpisode?) -> String? {

@@ -43,7 +43,7 @@ class BookmarkEditViewModel: ObservableObject {
         didSet {
             guard let snippet, snippet.range != oldValue?.range else { return }
 
-            bookmarkManager.setPassage(snippet.text, for: bookmark)
+            bookmark.passage = snippet.text
         }
     }
 

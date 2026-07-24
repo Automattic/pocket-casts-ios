@@ -10,7 +10,6 @@ class BookmarkManager {
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
     private let cacheServerHandler: CacheServerHandler
-    private let userDefaults: UserDefaults
 
     /// Called when a bookmark is created
     let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
@@ -24,13 +23,11 @@ class BookmarkManager {
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks,
          generalManager: DataManager = .sharedManager,
          playbackManager: PlaybackManager = .shared,
-         cacheServerHandler: CacheServerHandler = .shared,
-         userDefaults: UserDefaults = .standard) {
+         cacheServerHandler: CacheServerHandler = .shared) {
         self.dataManager = dataManager
         self.generalManager = generalManager
         self.playbackManager = playbackManager
         self.cacheServerHandler = cacheServerHandler
-        self.userDefaults = userDefaults
     }
 
     /// Plays the "bookmark created" tone
@@ -97,7 +94,7 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
-            bookmarks.forEach { setPassage(nil, for: $0) }
+            bookmarks.forEach { $0.passage = nil }
 
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)
@@ -116,29 +113,6 @@ class BookmarkManager {
     /// Gets the `BaseEpisode` for the given bookmark
     func episode(for bookmark: Bookmark) -> BaseEpisode? {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
-    }
-
-    // MARK: - Passage
-
-    /// The transcript passage the bookmark captures.
-    ///
-    /// Temporarily kept in `UserDefaults`, until the passage is stored with the bookmark itself.
-    func passage(for bookmark: Bookmark) -> String? {
-        userDefaults.string(forKey: Self.passageKey(for: bookmark))
-    }
-
-    /// Passing `nil` removes the stored passage
-    func setPassage(_ passage: String?, for bookmark: Bookmark) {
-        let key = Self.passageKey(for: bookmark)
-        if let passage {
-            userDefaults.set(passage, forKey: key)
-        } else {
-            userDefaults.removeObject(forKey: key)
-        }
-    }
-
-    private static func passageKey(for bookmark: Bookmark) -> String {
-        "bookmark.passage.\(bookmark.uuid)"
     }
 
     // MARK: - Title Generation
