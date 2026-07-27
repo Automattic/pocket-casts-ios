@@ -93,6 +93,106 @@ struct BookmarkTranscriptSnippetExtractor {
         return NSRange(lowerBound..<upperBound, in: text)
     }
 
+    // MARK: - Locating a passage
+
+    /// Finds the range to highlight for a bookmark's captured passage within a transcript.
+    ///
+    /// The passage text is the source of truth; `location` only disambiguates when the same
+    /// passage appears more than once. So the captured location is tried first, and only when
+    /// the text there no longer lines up does it fall back to the first match of the passage
+    /// text anywhere in the transcript.
+    ///
+    /// - Parameter location: The passage's captured start within `attributedText`, or `nil`
+    ///   for bookmarks made before the location was recorded.
+    static func passageRange(for passage: String, at location: Int?, in attributedText: NSAttributedString) -> NSRange? {
+        guard !passage.isEmpty else { return nil }
+
+        // Location first: is the passage still exactly where it was captured?
+        if let location {
+            let suffix = cleaned(attributedText, from: location)
+            if suffix.text.hasPrefix(passage),
+               let end = suffix.text.index(suffix.text.startIndex, offsetBy: passage.count, limitedBy: suffix.text.endIndex) {
+                return suffix.transcriptRange(for: suffix.text.startIndex..<end)
+            }
+        }
+
+        // Otherwise search the whole transcript, taking the first occurrence
+        let full = cleaned(attributedText, from: 0)
+        guard let match = full.text.range(of: passage) else { return nil }
+        return full.transcriptRange(for: match)
+    }
+
+    /// The transcript's text collapsed the same way a passage is, paired with a map back to
+    /// the character positions each piece came from
+    private struct CleanedText {
+        let text: String
+        /// Start position in the transcript of each character in `text`
+        let starts: [Int]
+        /// Position in the transcript just past each character in `text`
+        let ends: [Int]
+
+        /// Maps a range found within `text` back to the transcript's character positions
+        func transcriptRange(for cleanedRange: Range<String.Index>) -> NSRange? {
+            let lower = text.distance(from: text.startIndex, to: cleanedRange.lowerBound)
+            let upper = text.distance(from: text.startIndex, to: cleanedRange.upperBound)
+            guard lower >= 0, upper > lower, upper <= starts.count else { return nil }
+            return NSRange(location: starts[lower], length: ends[upper - 1] - starts[lower])
+        }
+    }
+
+    /// Cleans the transcript from `startLocation` onward the same way `text(in:)` cleans a
+    /// passage — skipping speaker runs, collapsing whitespace — while recording where each
+    /// surviving character came from, so a match can be mapped back to the transcript.
+    private static func cleaned(_ attributedText: NSAttributedString, from startLocation: Int) -> CleanedText {
+        let string = attributedText.string as NSString
+        let total = string.length
+        let start = min(max(startLocation, 0), total)
+        guard start < total else { return CleanedText(text: "", starts: [], ends: []) }
+
+        let scanRange = NSRange(location: start, length: total - start)
+
+        var text = ""
+        var starts = [Int]()
+        var ends = [Int]()
+        // A run of whitespace (real or the boundary between two cue parts) collapses to a
+        // single space, dropped entirely at the start or end
+        var pendingSpace: (start: Int, end: Int)?
+        var isFirstPart = true
+
+        attributedText.enumerateAttribute(.transcriptSpeaker, in: scanRange, options: []) { value, subrange, _ in
+            guard value == nil else { return }
+
+            if !isFirstPart {
+                pendingSpace = pendingSpace ?? (subrange.location, subrange.location)
+            }
+            isFirstPart = false
+
+            string.enumerateSubstrings(in: subrange, options: .byComposedCharacterSequences) { substring, characterRange, _, _ in
+                guard let substring else { return }
+
+                if substring.allSatisfy(\.isWhitespace) {
+                    if !text.isEmpty {
+                        pendingSpace = pendingSpace ?? (characterRange.location, characterRange.location + characterRange.length)
+                    }
+                    return
+                }
+
+                if let space = pendingSpace {
+                    text.append(" ")
+                    starts.append(space.start)
+                    ends.append(space.end)
+                    pendingSpace = nil
+                }
+
+                text.append(substring)
+                starts.append(characterRange.location)
+                ends.append(characterRange.location + characterRange.length)
+            }
+        }
+
+        return CleanedText(text: text, starts: starts, ends: ends)
+    }
+
     /// The plain text within `range`, skipping the speaker-name runs interleaved between
     /// cues and collapsing the line breaks between them
     static func text(in range: NSRange, of attributedText: NSAttributedString) -> String {

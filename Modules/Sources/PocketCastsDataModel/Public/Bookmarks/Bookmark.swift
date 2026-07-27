@@ -43,6 +43,49 @@ extension Bookmark: Identifiable {
     public var id: String { uuid }
 }
 
+// MARK: - Passage
+
+extension Bookmark {
+    /// The transcript passage the bookmark captures.
+    ///
+    /// Temporarily backed by `UserDefaults`, until the passage is stored with the bookmark itself.
+    public var passage: String? {
+        get { UserDefaults.standard.string(forKey: Self.passageKey(for: uuid)) }
+        nonmutating set {
+            let key = Self.passageKey(for: uuid)
+            if let newValue {
+                UserDefaults.standard.set(newValue, forKey: key)
+            } else {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
+    }
+
+    /// Where `passage` begins in the episode transcript, kept only to disambiguate a
+    /// passage that appears more than once — the passage text itself is what's matched.
+    ///
+    /// Temporarily backed by `UserDefaults`, until it's stored with the bookmark itself.
+    public var passageLocation: Int? {
+        get { UserDefaults.standard.object(forKey: Self.passageLocationKey(for: uuid)) as? Int }
+        nonmutating set {
+            let key = Self.passageLocationKey(for: uuid)
+            if let newValue {
+                UserDefaults.standard.set(newValue, forKey: key)
+            } else {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
+    }
+
+    private static func passageKey(for uuid: String) -> String {
+        "bookmark.passage.\(uuid)"
+    }
+
+    private static func passageLocationKey(for uuid: String) -> String {
+        "bookmark.passageLocation.\(uuid)"
+    }
+}
+
 // MARK: - Preview Data
 
 extension PreviewProvider {
