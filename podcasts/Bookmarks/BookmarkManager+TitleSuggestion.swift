@@ -30,6 +30,30 @@ extension BookmarkManager {
         return await BookmarkTranscriptSnippetExtractor().snippet(forPassage: passage, at: bookmark.passageLocation, episode: episode)
     }
 
+    /// Generates a title and passage for a bookmark and saves them.
+    ///
+    /// Bookmarks made with a headphone button, in CarPlay, or while the app is in the background
+    /// never open the edit sheet, so this is the only thing that titles them.
+    func enrich(_ bookmark: Bookmark) async {
+        guard Self.isTitleSuggestionEnabled, let episode = episode(for: bookmark),
+              let snippet = await transcriptSnippet(for: bookmark, episode: episode) else { return }
+
+        let suggestion = await suggestTitle(from: snippet.text, for: bookmark, episode: episode)
+        let title = suggestion.map { String($0.trim().prefix(Constants.Values.bookmarkMaxTitleLength)) }
+
+        guard let title, !title.isEmpty else {
+            // Nothing to rename to, but the passage is still worth keeping for the edit sheet
+            bookmark.passage = snippet.text
+            bookmark.passageLocation = snippet.range.location
+            return
+        }
+
+        FileLog.shared.addMessage("[Bookmarks] Generated a title for bookmark \(bookmark.uuid)")
+
+        let passage = BookmarkUpdateParameters.Passage(text: snippet.text, location: snippet.range.location)
+        await update(.init(title: title, passage: passage), for: bookmark)
+    }
+
     /// Returns nil when generation fails.
     func suggestTitle(from snippet: String, for bookmark: Bookmark, episode: BaseEpisode) async -> String? {
         let podcastTitle = bookmark.podcastUuid.flatMap { DataManager.sharedManager.findPodcast(uuid: $0)?.title }
