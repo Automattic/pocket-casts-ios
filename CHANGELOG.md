@@ -6,6 +6,7 @@
 
 8.17
 -----
+- Fix headphone and Bluetooth play controls failing to resume playback after pausing [#4785](https://github.com/Automattic/pocket-casts-ios/pull/4785)
 - Enable HLS streaming playback [#4775](https://github.com/Automattic/pocket-casts-ios/pull/4775)
 - Fix intro-skipped time not syncing to your account when it is the only listening stat that changed [#4755](https://github.com/Automattic/pocket-casts-ios/pull/4755)
 - Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)

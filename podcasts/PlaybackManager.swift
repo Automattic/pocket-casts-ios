@@ -63,6 +63,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// switch an HLS video stream to audio-only via the player shelf toggle. Reset per episode.
     private let videoRenderingEnabled = AtomicBool(true)
 
+    /// Whether the user has chosen to watch the current downloaded episode's video. The downloaded file
+    /// is the progressive (audio-only) enclosure, so watching video means streaming the HLS source
+    /// instead. This survives the in-place reload that switches the source and is reset per episode.
+    private let streamingVideoForDownloadedEpisode = AtomicBool()
+
     private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
@@ -180,6 +185,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
         let episodeIsChanging = episode.uuid != currentEpisode()?.uuid
+
+        // A new episode shouldn't inherit the previous one's "watch downloaded video" choice.
+        if episodeIsChanging {
+            streamingVideoForDownloadedEpisode.value = false
+        }
 
         // if the user has built an Up Next list, preserve that but make this the currently playing episode
         if !overrideUpNext && !switchingToDifferentUpNextEpisode && queue.upNextCount() > 0 {
@@ -868,20 +878,53 @@ class PlaybackManager: ServerPlaybackDelegate {
         videoRenderingEnabled.value
     }
 
-    /// Whether the audio/video toggle should be offered for the current stream. Only HLS streams
-    /// found to carry video (not static video podcasts) can be switched to audio-only. When the global
-    /// "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
+    /// Whether the audio/video toggle should be offered for the current episode. Any episode with an HLS
+    /// stream is assumed to carry video, so the toggle is offered whether the HLS is being streamed or the
+    /// episode has been downloaded (its downloaded file is audio-only, so the toggle streams the HLS video).
+    /// When the global "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
-        FeatureFlag.hls.enabled && !isAudioOnlyForced && currentStreamContainsVideo.value && (currentEpisode() is Episode)
+        guard FeatureFlag.hls.enabled, !isAudioOnlyForced, let episode = currentEpisode(), episode is Episode else { return false }
+        return EpisodeManager.hasHLSStream(episode)
     }
 
-    /// Toggles whether the current HLS stream's video surface is shown. When disabled the player
-    /// shows the episode artwork instead of the video; playback and video decoding are unaffected
-    /// (this is a display-only switch).
+    /// Whether the current episode should stream its HLS video source even though a local download exists,
+    /// because the user turned the video toggle on for it. Consulted by `EpisodeManager.willPlayViaHLS` /
+    /// `urlForEpisode` when resolving the playback source.
+    func shouldStreamVideoDespiteDownload(_ episode: BaseEpisode) -> Bool {
+        streamingVideoForDownloadedEpisode.value
+            && episode.uuid == currentEpisode()?.uuid
+            && EpisodeManager.hasHLSStream(episode)
+    }
+
+    /// Toggles the video for the current episode. When streaming HLS the video is already being decoded,
+    /// so this just shows/hides the video surface (a display-only switch). When the episode is downloaded
+    /// its local file is audio-only, so we flip the streaming preference and reload playback in place to
+    /// switch between the downloaded audio file and the streamed HLS video.
     func toggleVideoRendering() {
-        guard canToggleVideoRendering() else { return }
-        videoRenderingEnabled.toggle()
+        guard canToggleVideoRendering(), let episode = currentEpisode() else { return }
+
+        if hasDownloadedFile(episode) {
+            streamingVideoForDownloadedEpisode.toggle()
+            reloadCurrentEpisodeSource()
+        } else {
+            videoRenderingEnabled.toggle()
+        }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
+    }
+
+    private func hasDownloadedFile(_ episode: BaseEpisode) -> Bool {
+        episode.downloaded(pathFinder: DownloadManager.shared)
+            || (episode as? Episode)?.streamDownloaded(pathFinder: DownloadManager.shared) == true
+    }
+
+    /// Rebuilds the player for the current episode so it re-resolves its playback source, preserving the
+    /// playback position and whether it was playing. Used to switch a downloaded episode between its local
+    /// audio file and the streamed HLS video.
+    private func reloadCurrentEpisodeSource() {
+        guard let episode = currentEpisode() else { return }
+        let wasPlaying = playing()
+        recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
+        load(episode: episode, autoPlay: wasPlaying, overrideUpNext: false, saveCurrentEpisode: false)
     }
 
     /// Called by the player when it detects video tracks in the stream it is playing.
@@ -2005,8 +2048,9 @@ class PlaybackManager: ServerPlaybackDelegate {
                     if !strongSelf.playing() { strongSelf.play() }
                 } else {
                     if FeatureFlag.ignorePlayWithOtherAudio.enabled {
-                        if AVAudioSession.sharedInstance().isOtherAudioPlaying {
-                            FileLog.shared.addMessage("Remote control: playCommand, ignored because other audio is playing")
+                        let audioSession = AVAudioSession.sharedInstance()
+                        if audioSession.secondaryAudioShouldBeSilencedHint {
+                            FileLog.shared.addMessage("Remote control: playCommand, ignored because secondary audio should be silenced (isOtherAudioPlaying: \(audioSession.isOtherAudioPlaying))")
                             return .commandFailed
                         }
                     }
