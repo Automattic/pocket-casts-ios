@@ -2298,16 +2298,47 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - AVAudioSession Notifications
 
+    enum RouteChangeDecision: Equatable {
+        case pause
+        case restart(updateNowPlaying: Bool)
+    }
+
+    static func routeChangeDecision(for reason: AVAudioSession.RouteChangeReason) -> RouteChangeDecision? {
+        switch reason {
+        case .oldDeviceUnavailable:
+            .pause
+        case .newDeviceAvailable, .override, .categoryChange:
+            .restart(updateNowPlaying: true)
+        case .routeConfigurationChange:
+            // The set of ports is unchanged by definition; only their configuration changed.
+            .restart(updateNowPlaying: false)
+        default:
+            nil
+        }
+    }
+
     @objc private func handleRouteChanged(_ notification: Notification) {
+        // AVAudioSession posts route changes on a secondary thread. Keep player replacement and
+        // route recovery serialized with user-initiated playback changes on the main thread.
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleRouteChanged(notification)
+            }
+            return
+        }
+
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
-        guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
+        guard let userInfo = notification.userInfo,
+              let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: changeReason.uintValue) else {
+            return
+        }
 
         logRouteChange(userInfo: userInfo)
 
-        let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
             let wasPlaying = player?.shouldBePlaying() ?? false
             let autoPlay: Bool
@@ -2322,18 +2353,17 @@ class PlaybackManager: ServerPlaybackDelegate {
                 autoPlay = true
             }
             load(episode: currEpisode, autoPlay: autoPlay, overrideUpNext: false)
-        } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
-            player?.routeDidChange(shouldPause: true)
-        } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
-            player?.routeDidChange(shouldPause: false)
-            updateAllNowPlayingData()
-        } else if reason == AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue {
-            if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
-                let currentOutputUIDs = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
-                let previousOutputUIDs = Set(previousRoute.outputs.map(\.uid))
-                if previousOutputUIDs == currentOutputUIDs {
-                    FileLog.shared.addMessage("PlaybackManager: routeConfigurationChange with unchanged outputs, letting player handle restart")
-                    player?.routeDidChange(shouldPause: false)
+        } else if let decision = Self.routeChangeDecision(for: reason) {
+            switch decision {
+            case .pause:
+                player?.routeDidChange(shouldPause: true)
+            case .restart(let updateNowPlaying):
+                if reason == .routeConfigurationChange {
+                    FileLog.shared.addMessage("PlaybackManager: routeConfigurationChange, letting the active player rebuild")
+                }
+                player?.routeDidChange(shouldPause: false)
+                if updateNowPlaying {
+                    updateAllNowPlayingData()
                 }
             }
         }
