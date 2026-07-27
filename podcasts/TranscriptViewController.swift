@@ -196,6 +196,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func setupViews() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self, UITraitHorizontalSizeClass.self]) { (controller: TranscriptViewController, previousTraitCollection: UITraitCollection) in
+            if controller.traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory {
+                controller.refreshText()
+                controller.refreshError()
+                controller.refreshActionButtons()
+            }
+            controller.updateTextMargins()
+        }
+
         view.addSubview(transcriptView)
         let transcriptViewTopConstraint = transcriptView.topAnchor.constraint(equalTo: view.topAnchor)
         self.transcriptViewTopConstraint = transcriptViewTopConstraint
@@ -706,15 +715,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func resetKmp() {
         kmpSearch = nil
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            refreshText()
-            refreshError()
-            refreshActionButtons()
-        }
-        updateTextMargins()
     }
 
     private func refreshActionButtons() {

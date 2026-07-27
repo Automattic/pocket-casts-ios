@@ -15,6 +15,10 @@ class PodcastChooserCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PodcastChooserCell, _) in
+            view.updateSize()
+        }
     }
 
     override func handleThemeDidChange() {
@@ -33,12 +37,5 @@ class PodcastChooserCell: ThemeableCell {
         podcastImage.updateSizeConstraints(to: size)
 
         podcastName.updateNumberOfLines(regular: 2, accessibility: 3)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

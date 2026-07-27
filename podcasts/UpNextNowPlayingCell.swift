@@ -22,6 +22,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         didSet {
             dateLabel.style = .primaryText02
             dateLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            dateLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -36,6 +37,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         didSet {
             timeRemainingLabel.style = .primaryText02
             timeRemainingLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+            timeRemainingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -43,6 +45,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         didSet {
             episodeTitle.style = .primaryText01
             episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            episodeTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -57,6 +60,10 @@ class UpNextNowPlayingCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         style = .primaryUi04
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: UpNextNowPlayingCell, _) in
+            view.updateSize()
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
@@ -251,11 +258,5 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
         dateLabel.updateNumberOfLines(regular: 1, accessibility: 2)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

@@ -13,6 +13,7 @@ class AccountActionCell: ThemeableCell {
         didSet {
             cellLabel.style = iconStyle
             cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -73,6 +74,10 @@ class AccountActionCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: AccountActionCell, _) in
+            view.updateSize()
+        }
     }
 
     override func prepareForReuse() {
@@ -81,14 +86,6 @@ class AccountActionCell: ThemeableCell {
         imageAndTextColor = nil
 
         updateSize()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     func updateSize() {

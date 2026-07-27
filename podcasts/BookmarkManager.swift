@@ -10,6 +10,7 @@ class BookmarkManager {
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
     private let cacheServerHandler: CacheServerHandler
+    private let userDefaults: UserDefaults
 
     /// Called when a bookmark is created
     let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
@@ -23,11 +24,13 @@ class BookmarkManager {
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks,
          generalManager: DataManager = .sharedManager,
          playbackManager: PlaybackManager = .shared,
-         cacheServerHandler: CacheServerHandler = .shared) {
+         cacheServerHandler: CacheServerHandler = .shared,
+         userDefaults: UserDefaults = .standard) {
         self.dataManager = dataManager
         self.generalManager = generalManager
         self.playbackManager = playbackManager
         self.cacheServerHandler = cacheServerHandler
+        self.userDefaults = userDefaults
     }
 
     /// Plays the "bookmark created" tone
@@ -94,6 +97,8 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
+            bookmarks.forEach { setPassage(nil, for: $0) }
+
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)
             }))
@@ -113,9 +118,32 @@ class BookmarkManager {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
     }
 
+    // MARK: - Passage
+
+    /// The transcript passage the bookmark captures.
+    ///
+    /// Temporarily kept in `UserDefaults`, until the passage is stored with the bookmark itself.
+    func passage(for bookmark: Bookmark) -> String? {
+        userDefaults.string(forKey: Self.passageKey(for: bookmark))
+    }
+
+    /// Passing `nil` removes the stored passage
+    func setPassage(_ passage: String?, for bookmark: Bookmark) {
+        let key = Self.passageKey(for: bookmark)
+        if let passage {
+            userDefaults.set(passage, forKey: key)
+        } else {
+            userDefaults.removeObject(forKey: key)
+        }
+    }
+
+    private static func passageKey(for bookmark: Bookmark) -> String {
+        "bookmark.passage.\(bookmark.uuid)"
+    }
+
     // MARK: - Title Generation
 
-    #if canImport(FoundationModels)
+#if os(iOS)
     /// Stored as `Any` because stored properties can't be marked potentially unavailable.
     private lazy var foundationModelEnricher: Any? = {
         if #available(iOS 26.0, *) {
@@ -123,19 +151,19 @@ class BookmarkManager {
         }
         return nil
     }()
-    #endif
+#endif
 
     /// Preloads on-device model resources so an upcoming `generateTitle` call responds faster.
     func prewarmTitleGeneration() {
-        #if canImport(FoundationModels)
+#if os(iOS)
         if #available(iOS 26.0, *) {
             (foundationModelEnricher as? BookmarkFoundationModelEnricher)?.prewarm()
         }
-        #endif
+#endif
     }
 
     func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> String {
-        #if canImport(FoundationModels)
+#if os(iOS)
         if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
            let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
             do {
@@ -144,7 +172,7 @@ class BookmarkManager {
                 FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
             }
         }
-        #endif
+#endif
 
         let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
         guard let title = response.title, !title.isEmpty else {

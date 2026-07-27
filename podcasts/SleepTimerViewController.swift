@@ -63,6 +63,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             let baseFont = timeRemaining.font.monospaced()
             let metric = UIFontMetrics(forTextStyle: .largeTitle)
             timeRemaining.font = metric.scaledFont(for: baseFont)
+            timeRemaining.adjustsFontForContentSizeCategory = true
             timeRemaining.style = .playerContrast01
         }
     }

@@ -49,6 +49,10 @@ class SmallListCell: ThemeableCollectionCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SmallListCell, _) in
+            view.updateSize()
+        }
     }
 
     func setSelectedState(_ selected: Bool) {
@@ -143,13 +147,5 @@ class SmallListCell: ThemeableCollectionCell {
         podcastImage.updateSizeConstraints(to: max(48, metric.scaledValue(for: 48)))
 
         subscribeButton.updateSizeConstraints(to: max(44, metric.scaledValue(for: 44)))
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

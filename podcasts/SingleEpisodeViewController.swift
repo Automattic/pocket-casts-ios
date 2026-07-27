@@ -11,6 +11,7 @@ class SingleEpisodeViewController: UIViewController {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.font = .font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            episodeTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -18,6 +19,7 @@ class SingleEpisodeViewController: UIViewController {
         didSet {
             podcastTitle.style = .primaryText02
             podcastTitle.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            podcastTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -26,6 +28,7 @@ class SingleEpisodeViewController: UIViewController {
     @IBOutlet var typeBadgeLabel: UILabel! {
         didSet {
             typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -34,6 +37,7 @@ class SingleEpisodeViewController: UIViewController {
             duration.text = L10n.unknownDuration
             duration.style = .primaryText02
             duration.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            duration.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -41,6 +45,10 @@ class SingleEpisodeViewController: UIViewController {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
         view.translatesAutoresizingMaskIntoConstraints = false
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SingleEpisodeViewController, _) in
+            controller.updateSize()
+        }
 
         observeEpisodeChanges()
 
@@ -122,13 +130,6 @@ class SingleEpisodeViewController: UIViewController {
         podcastTitle.sizeToFit()
         playButton.sizeToFit()
         view.sizeToFit()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }
 

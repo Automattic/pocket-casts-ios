@@ -5,6 +5,7 @@ class TimeStepperCell: ThemeableCell {
     @IBOutlet var cellLabel: UILabel! {
         didSet {
             cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -12,6 +13,7 @@ class TimeStepperCell: ThemeableCell {
         didSet {
             cellSecondaryLabel.style = .primaryText02
             cellSecondaryLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellSecondaryLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -24,6 +26,10 @@ class TimeStepperCell: ThemeableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: TimeStepperCell, _) in
+            view.updateSize()
+        }
 
         cellTextToImageConstraint.isActive = false
         cellTextToMarginConstraint.isActive = true
@@ -67,12 +73,5 @@ class TimeStepperCell: ThemeableCell {
 
         let settingsSize = max(24, metric.scaledValue(for: 24))
         cellImage.updateSizeConstraints(to: settingsSize)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

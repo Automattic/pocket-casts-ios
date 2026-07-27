@@ -187,6 +187,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: UpNextViewController, _) in
+            controller.updateSize()
+        }
+
         title = L10n.upNext
 
         (view as? ThemeableView)?.style = .primaryUi04
@@ -676,12 +680,6 @@ extension UpNextViewController {
         if FeatureFlag.upNextSort.enabled {
             sortButton.updateSizeConstraints(to: buttonSize)
         }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }
 

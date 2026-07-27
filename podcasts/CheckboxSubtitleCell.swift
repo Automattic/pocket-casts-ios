@@ -5,6 +5,7 @@ class CheckboxSubtitleCell: ThemeableCell {
     @IBOutlet var titleLabel: ThemeableLabel! {
         didSet {
             titleLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            titleLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -12,6 +13,7 @@ class CheckboxSubtitleCell: ThemeableCell {
         didSet {
             subtitleLabel.style = .primaryText02
             subtitleLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            subtitleLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

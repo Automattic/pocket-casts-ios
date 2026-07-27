@@ -133,6 +133,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         customRightBtn?.accessibilityIdentifier = "Settings"
 
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ProfileViewController, _) in
+            controller.updateFooterFrame()
+        }
+
         navigationItem.title = L10n.profile
 
         profileTable.tableFooterView = footerView
@@ -517,14 +522,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         footerView.frame = CGRect(x: footerView.frame.minX, y: footerView.frame.minY, width: footerView.frame.width, height: height)
         profileTable.tableFooterView = footerView
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateFooterFrame()
-        }
     }
 
     // MARK: - What's New Autoplay flow

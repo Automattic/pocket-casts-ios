@@ -12,6 +12,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         didSet {
             searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
             searchTextField.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            searchTextField.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -26,6 +27,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         didSet {
             episodeInfoLabel.style = .primaryText02
             episodeInfoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
+            episodeInfoLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -33,6 +35,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         didSet {
             limitLabel.style = .support08
             limitLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
+            limitLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

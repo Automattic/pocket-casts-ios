@@ -8,6 +8,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.adjustsFontForContentSizeCategory = true
             podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         }
     }
@@ -22,6 +23,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         didSet {
             typeBadgeLabel.layer.cornerRadius = 4
             typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontForContentSizeCategory = true
             typeBadgeLabel.adjustsFontSizeToFitWidth = true
         }
     }
@@ -48,6 +50,10 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SinglePodcastViewController, _) in
+            controller.updateSize()
+        }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPodcast))
         view.addGestureRecognizer(tapGesture)
@@ -190,13 +196,5 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         let isSponsored = item?.isSponsored ?? false
         podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         podcastDescription.updateNumberOfLines(regular: isSponsored ? 0 : 4, accessibility: isSponsored ? 0 : 6)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

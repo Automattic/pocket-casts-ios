@@ -13,6 +13,10 @@ class StatsCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: StatsCell, _) in
+            view.updateSize()
+        }
     }
 
     @IBOutlet var leadingSpaceToIcon: NSLayoutConstraint!
@@ -41,12 +45,5 @@ class StatsCell: ThemeableCell {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let size = max(metric.scaledValue(for: 24), 24)
         statsIcon.updateSizeConstraints(to: size)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

@@ -24,6 +24,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
     @IBOutlet var podcastTitle: UILabel! {
         didSet {
             podcastTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            podcastTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -31,6 +32,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
         didSet {
             podcastAuthor.style = .primaryText02
             podcastAuthor.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -39,6 +41,11 @@ class PodcastFilterSelectionCell: ThemeableCell {
     @IBOutlet var selectedImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PodcastFilterSelectionCell, _) in
+            view.updateSize()
+        }
+
         let tickImage = UIImage(named: "tick")
         tickImageView.image = tickImage
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
@@ -79,14 +86,6 @@ class PodcastFilterSelectionCell: ThemeableCell {
     }
 
     // MARK: - Dynamic Type Updates
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
-    }
 
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)

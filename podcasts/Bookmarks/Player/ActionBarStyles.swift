@@ -40,7 +40,7 @@ struct ThemedActionBarStyle: ActionBarStyle {
     }
 
     var buttonColor: Color {
-        theme.primaryText01
+        theme.primaryInteractive01
     }
 
     var titleColor: Color {
@@ -48,7 +48,7 @@ struct ThemedActionBarStyle: ActionBarStyle {
     }
 
     var iconColor: Color {
-        theme.primaryUi01
+        theme.primaryInteractive02
     }
 }
 

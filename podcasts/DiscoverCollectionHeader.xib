@@ -62,7 +62,7 @@
                                 <constraint firstItem="gwR-NQ-hKf" firstAttribute="trailing" secondItem="7cY-eL-Ku5" secondAttribute="trailing" id="zC0-4i-YrO"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="HIGHLIGHT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldU-3C-ZOr">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="HIGHLIGHT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldU-3C-ZOr">
                             <rect key="frame" x="162.5" y="192" width="74.5" height="16"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <nil key="textColor"/>

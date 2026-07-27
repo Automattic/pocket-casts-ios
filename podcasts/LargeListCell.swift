@@ -62,6 +62,10 @@ class LargeListCell: ThemeableCollectionCell {
         super.awakeFromNib()
         setupExplicitBadge()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: LargeListCell, _) in
+            view.updateSize()
+        }
     }
 
     private func setupExplicitBadge() {
@@ -142,13 +146,5 @@ class LargeListCell: ThemeableCollectionCell {
     func updateSize() {
         podcastTitle.updateNumberOfLines(regular: 1, accessibility: 2)
         podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 2)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

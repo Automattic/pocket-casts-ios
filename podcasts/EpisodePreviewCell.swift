@@ -21,6 +21,7 @@ class EpisodePreviewCell: ThemeableCell {
         didSet {
             dateLabel.style = .primaryText02
             dateLabel.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            dateLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -41,11 +42,11 @@ class EpisodePreviewCell: ThemeableCell {
 
     // MARK: - Dynamic Type Updates
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodePreviewCell, _) in
+            view.updateSize()
         }
     }
 

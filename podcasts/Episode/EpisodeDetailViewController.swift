@@ -24,6 +24,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
             episodeName.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            episodeName.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -33,6 +34,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             podcastName.addGestureRecognizer(tapGesture)
             podcastName.isUserInteractionEnabled = true
             podcastName.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            podcastName.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -127,6 +129,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             messageTitle.style = .primaryText01
             messageTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            messageTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -134,12 +137,14 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             messageDetails.style = .primaryText02
             messageDetails.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            messageDetails.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var failedToLoadLabel: ThemeableLabel! {
         didSet {
             failedToLoadLabel.font = UIFont.font(ofSize: 16, weight: .regular, scalingWith: .callout)
+            failedToLoadLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -216,6 +221,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: EpisodeDetailViewController, _) in
+            controller.updateSize()
+        }
 
         addBookmarksTabIfNeeded()
 
@@ -804,11 +813,5 @@ extension EpisodeDetailViewController {
         let iconSize = max(24, metric.scaledValue(for: 24))
         messageIcon.updateSizeConstraints(to: iconSize)
         downloadIndicator.updateSizeConstraints(to: iconSize)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

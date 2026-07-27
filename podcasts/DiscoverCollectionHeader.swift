@@ -41,7 +41,11 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
     }
 
-    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet var subtitleLabel: UILabel! {
+        didSet {
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var headerView: ThemeableView! {
         didSet {
             headerView.style = .primaryUi02

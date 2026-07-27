@@ -1,8 +1,10 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
+import SwiftUI
 
-class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitleView> {
-    private let viewModel: BookmarkEditViewModel
+class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
+    private let viewModel: any BookmarkEditing
     let onDismiss: ((String, Bool) -> Void)?
     var editSaved: Bool = false
 
@@ -16,12 +18,25 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
          bookmark: Bookmark,
          state: BookmarkEditViewModel.EditState,
          onDismiss: ((String, Bool) -> Void)? = nil) {
-        let viewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state)
+        let theme = BookmarkEditTheme(episode: manager.episode(for: bookmark))
+
+        let viewModel: any BookmarkEditing
+        let rootView: AnyView
+
+        if FeatureFlag.smartBookmarks.enabled {
+            let smartViewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state)
+            viewModel = smartViewModel
+            rootView = AnyView(BookmarkEditView(viewModel: smartViewModel, theme: theme))
+        } else {
+            let titleViewModel = BookmarkEditTitleViewModel(manager: manager, bookmark: bookmark, state: .init(state))
+            viewModel = titleViewModel
+            rootView = AnyView(BookmarkEditTitleView(viewModel: titleViewModel, theme: theme))
+        }
+
         self.viewModel = viewModel
         self.onDismiss = onDismiss
 
-        let theme = BookmarkEditTheme(episode: manager.episode(for: bookmark))
-        super.init(rootView: .init(viewModel: viewModel, theme: theme))
+        super.init(rootView: rootView)
 
         viewModel.router = self
     }

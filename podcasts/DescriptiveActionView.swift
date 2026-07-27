@@ -24,6 +24,10 @@ class DescriptiveActionView: UIView {
         self.iconTintStyle = iconTintStyle
         self.onLinkTap = onLinkTap
         super.init(frame: frame)
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DescriptiveActionView, _) in
+            view.updateSize()
+        }
     }
 
     @available(*, unavailable)
@@ -191,14 +195,6 @@ class DescriptiveActionView: UIView {
             action.action()
         }
         return actionButton
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     private func updateSize() {

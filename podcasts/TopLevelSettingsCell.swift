@@ -5,6 +5,7 @@ class TopLevelSettingsCell: ThemeableCell {
     @IBOutlet var settingsLabel: UILabel! {
         didSet {
             settingsLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            settingsLabel.adjustsFontForContentSizeCategory = true
         }
     }
     @IBOutlet var plusIndicator: UIImageView!
@@ -28,6 +29,10 @@ class TopLevelSettingsCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: TopLevelSettingsCell, _) in
+            view.updateSize()
+        }
+
         setupDisclosureImageView()
         settingsLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         updateColor()
@@ -43,14 +48,6 @@ class TopLevelSettingsCell: ThemeableCell {
         imageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
 
         accessoryView = imageView
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     private func updateSize() {

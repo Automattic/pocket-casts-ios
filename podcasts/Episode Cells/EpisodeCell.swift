@@ -32,6 +32,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         didSet {
             informationLabel.style = .primaryText02
             informationLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+            informationLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -69,7 +70,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
-            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .footnote)
         }
     }
 
@@ -146,6 +147,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodeCell, _) in
+            view.updateSize()
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackEnded, object: nil)
@@ -709,11 +714,5 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         dayName.updateNumberOfLines(regular: 1, accessibility: 3)
         informationLabel.updateNumberOfLines(regular: 1, accessibility: 3)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }
