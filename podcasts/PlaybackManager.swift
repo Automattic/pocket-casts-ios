@@ -2327,6 +2327,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
             player?.routeDidChange(shouldPause: false)
             updateAllNowPlayingData()
+        } else if reason == AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue {
+            if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
+                let currentOutputUIDs = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
+                let previousOutputUIDs = Set(previousRoute.outputs.map(\.uid))
+                if previousOutputUIDs == currentOutputUIDs {
+                    FileLog.shared.addMessage("PlaybackManager: routeConfigurationChange with unchanged outputs, letting player handle restart")
+                    player?.routeDidChange(shouldPause: false)
+                }
+            }
         }
     }
 
