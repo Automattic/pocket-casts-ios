@@ -82,6 +82,12 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             guard let strongSelf = self, let episode = strongSelf.episode else { return }
 
             strongSelf.playerLock.lock()
+            // A pause can tear down this player before its queued setup acquires the lock.
+            // Recheck playback intent so that stale work cannot start an orphaned engine.
+            guard strongSelf.shouldKeepPlaying.value else {
+                strongSelf.playerLock.unlock()
+                return
+            }
 
             strongSelf.engine = AVAudioEngine()
             strongSelf.player = AVAudioPlayerNode()
