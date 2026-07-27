@@ -135,6 +135,8 @@ class MessageSupportViewModel: ObservableObject {
     open func submitRequest(ignoreUnavailableWatchLogs: Bool = false) {
         isWorking.toggle()
 
+        FileLog.shared.addMessage("MessageSupportViewModel: submitRequest — isRetrying: \(isRetrying), ignoreUnavailableWatchLogs: \(ignoreUnavailableWatchLogs)")
+
         config.customFields(forDisplay: false, optOut: UserDefaults.standard.debugOptedOut)
             .flatMap { [unowned self] customFields -> AnyPublisher<String, Error> in
 
@@ -165,10 +167,16 @@ class MessageSupportViewModel: ObservableObject {
                 isWorking.toggle()
                 switch completion {
                 case let .failure(error):
-                    if self.isRetrying {
+                    if case MessageSupportFailure.watchLogMissing = error {
+                        FileLog.shared.addMessage("MessageSupportViewModel: preflight failed — no support request sent: \(error)")
+                        self.isRetrying = false
+                        self.completion = .failure(error: error)
+                    } else if self.isRetrying {
+                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed after retry — surfacing error: \(error)")
                         self.isRetrying = false
                         self.completion = .failure(error: error)
                     } else {
+                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via newBaseURL. Error: \(error)")
                         self.isRetrying = true
                         self.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
                     }
