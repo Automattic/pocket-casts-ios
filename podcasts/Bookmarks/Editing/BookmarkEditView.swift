@@ -211,18 +211,19 @@ struct BookmarkEditView: View {
 
     /// A generated title suggestion the user can tap to use
     private func suggestionButton(_ suggestion: String) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: "sparkles")
-            Text(suggestion)
-                .lineLimit(2)
-        }
-        .font(style: .callout)
-        .foregroundStyle(theme.subTitle)
-        .buttonize {
-            viewModel.applySuggestion(suggestion)
-        }
-        .accessibilityLabel(L10n.bookmarkSuggestedTitle(suggestion))
-        .transition(.opacity.combined(with: .move(edge: .top)))
+        (Text(L10n.bookmarkSuggestionPrefix)
+            .foregroundColor(theme.subTitle)
+            + Text(suggestion)
+            .foregroundColor(theme.editButton))
+            .font(size: 13, style: .footnote, weight: .medium)
+            .kerning(-0.4)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .buttonize {
+                viewModel.applySuggestion(suggestion)
+            }
+            .accessibilityLabel(L10n.bookmarkSuggestedTitle(suggestion))
+            .transition(.opacity.combined(with: .move(edge: .top)))
     }
 
     private var saveButton: some View {
