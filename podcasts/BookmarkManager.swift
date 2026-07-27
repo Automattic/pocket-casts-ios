@@ -71,12 +71,12 @@ class BookmarkManager {
 
     /// Adds a new bookmark for an episode at the given time
     @discardableResult
-    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle) -> Bookmark? {
+    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle, source: BookmarkAnalyticsSource = .unknown) -> Bookmark? {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
         if let existing = dataManager.existingBookmark(forEpisode: episode.uuid, time: time) {
-            onBookmarkCreated.send(.init(uuid: existing.uuid, episode: episode.uuid, podcast: podcastUuid, isDuplicate: true))
+            onBookmarkCreated.send(.init(uuid: existing.uuid, episode: episode.uuid, podcast: podcastUuid, source: source, isDuplicate: true))
             return existing
         }
 
@@ -84,7 +84,7 @@ class BookmarkManager {
             FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
 
             // Inform the subscribers a bookmark was added
-            onBookmarkCreated.send(.init(uuid: $0, episode: episode.uuid, podcast: podcastUuid))
+            onBookmarkCreated.send(.init(uuid: $0, episode: episode.uuid, podcast: podcastUuid, source: source))
 
             return dataManager.bookmark(for: $0)
         }
@@ -168,28 +168,57 @@ class BookmarkManager {
 #endif
     }
 
-    func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> String {
+    func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> TitleGeneration {
+        var didFallBackToServer = false
+
 #if os(iOS)
         if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
            let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
             do {
-                return try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
+                let title = try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
+                return TitleGeneration(title: title, generator: .onDevice, didFallBackToServer: false)
+            } catch is CancellationError {
+                throw TitleGenerationError(reason: .cancelled, generator: .onDevice, didFallBackToServer: false)
             } catch {
                 FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
+                didFallBackToServer = true
             }
         }
 #endif
 
-        let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
-        guard let title = response.title, !title.isEmpty else {
-            FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
-            throw TitleGenerationError.noTitleReturned
+        do {
+            let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
+            guard let title = response.title, !title.isEmpty else {
+                FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
+                throw TitleGenerationError(reason: .serverEmptyTitle, generator: .server, didFallBackToServer: didFallBackToServer)
+            }
+            return TitleGeneration(title: title, generator: .server, didFallBackToServer: didFallBackToServer)
+        } catch let error as TitleGenerationError {
+            throw error
+        } catch is CancellationError {
+            throw TitleGenerationError(reason: .cancelled, generator: .server, didFallBackToServer: didFallBackToServer)
+        } catch {
+            throw TitleGenerationError(reason: .serverError, generator: .server, didFallBackToServer: didFallBackToServer)
         }
-        return title
     }
 
-    enum TitleGenerationError: Error {
-        case noTitleReturned
+    /// A generated title, and which model wrote it.
+    struct TitleGeneration {
+        let title: String
+        let generator: BookmarkTitleGenerator
+
+        /// Whether the on-device model was tried first and failed, so the server wrote it instead
+        let didFallBackToServer: Bool
+    }
+
+    /// Carries enough about a failure to describe it in analytics.
+    ///
+    /// When the on-device model fails and the server then also fails, only the server's reason
+    /// survives here — `didFallBackToServer` is what says the on-device attempt happened at all.
+    struct TitleGenerationError: Error {
+        let reason: BookmarkTitleFailureReason
+        let generator: BookmarkTitleGenerator
+        let didFallBackToServer: Bool
     }
 
     // MARK: - Named Events
@@ -204,6 +233,10 @@ class BookmarkManager {
 
             /// The uuid of the podcast the bookmark was added to, if available
             let podcast: String?
+
+            /// Where the bookmark was created from, carried so the work that happens after
+            /// creation — the toast, generating a title — can attribute itself to it
+            var source: BookmarkAnalyticsSource = .unknown
 
             /// Whether the bookmark that is being created already existed for the current time
             var isDuplicate: Bool = false

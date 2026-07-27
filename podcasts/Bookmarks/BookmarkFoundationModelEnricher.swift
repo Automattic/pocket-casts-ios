@@ -131,6 +131,36 @@ final class BookmarkFoundationModelEnricher {
         recognizer.processString(text)
         return recognizer.dominantLanguage?.rawValue
     }
+
+    /// How a failure from `generateTitle` is reported to analytics.
+    ///
+    /// The distinction that matters is whether the model declined the content: transcripts
+    /// covering heavy topics are the reason this class uses permissive guardrails, so how
+    /// often they still bite is worth watching.
+    static func failureReason(for error: Error) -> BookmarkTitleFailureReason {
+        switch error {
+        case is CancellationError:
+            return .cancelled
+        case let error as EnrichmentError:
+            switch error {
+            case .modelUnavailable:
+                return .modelUnavailable
+            case .unexpectedResponse:
+                return .unexpectedResponse
+            }
+        case let error as LanguageModelSession.GenerationError:
+            switch error {
+            // A refusal is the model declining in its response rather than at the guardrail,
+            // but for our purposes both mean it wouldn't write a title for this content
+            case .guardrailViolation, .refusal:
+                return .guardrailViolation
+            default:
+                return .onDeviceError
+            }
+        default:
+            return .onDeviceError
+        }
+    }
 }
 
 #endif

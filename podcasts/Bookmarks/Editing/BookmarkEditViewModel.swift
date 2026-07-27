@@ -39,6 +39,15 @@ class BookmarkEditViewModel: ObservableObject {
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
 
+    /// Where the passage started out, so re-selecting one can be told apart from leaving it alone
+    private var capturedPassageRange: NSRange?
+
+    /// Whether the user picked a different passage than the one captured for them
+    private var didChangePassage: Bool {
+        guard let capturedPassageRange, let snippet else { return false }
+        return snippet.range != capturedPassageRange
+    }
+
     /// Fires when the title is replaced programmatically so the field can re-select it
     let didApplySuggestion = PassthroughSubject<Void, Never>()
 
@@ -74,14 +83,17 @@ class BookmarkEditViewModel: ObservableObject {
 
     private var suggestionTask: Task<Void, Never>?
 
-    var analyticsSource: BookmarkAnalyticsSource = .unknown
+    /// Taken at init because generating a title starts there, so a source assigned afterwards
+    /// would arrive too late for the events the generation reports
+    var analyticsSource: BookmarkAnalyticsSource
 
-    init(manager: BookmarkManager, bookmark: Bookmark, state: EditState) {
+    init(manager: BookmarkManager, bookmark: Bookmark, state: EditState, source: BookmarkAnalyticsSource = .unknown) {
         self.bookmarkManager = manager
         self.bookmark = bookmark
         self.originalTitle = bookmark.title
         self.title = bookmark.title
         self.editState = state
+        self.analyticsSource = source
 
         switch editState {
         case .adding:
@@ -109,6 +121,7 @@ class BookmarkEditViewModel: ObservableObject {
             guard !Task.isCancelled, let snippet else { return }
 
             self?.snippet = snippet
+            self?.capturedPassageRange = snippet.range
         }
     }
 
@@ -120,11 +133,12 @@ class BookmarkEditViewModel: ObservableObject {
 
         titleSuggestion = .generating
         isCapturingTranscript = true
-        suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength] in
-            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode)
+        suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength, analyticsSource] in
+            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode, trigger: .editSheet, source: analyticsSource)
             guard !Task.isCancelled else { return }
 
             self?.snippet = snippet
+            self?.capturedPassageRange = snippet?.range
             self?.isCapturingTranscript = false
 
             guard let snippet else {
@@ -132,14 +146,16 @@ class BookmarkEditViewModel: ObservableObject {
                 return
             }
 
-            let suggestion = await bookmarkManager.suggestTitle(from: snippet.text, for: bookmark, episode: episode)
+            let attempt = await bookmarkManager.suggestTitle(from: snippet.text, for: bookmark, episode: episode, trigger: .editSheet, source: analyticsSource)
             guard !Task.isCancelled, let self else { return }
 
-            let trimmed = suggestion.map { String($0.trim().prefix(maxTitleLength)) }
-            guard let trimmed, !trimmed.isEmpty else {
+            let trimmed = attempt.map { String($0.title.trim().prefix(maxTitleLength)) }
+            guard let attempt, let trimmed, !trimmed.isEmpty else {
                 self.titleSuggestion = .none
                 return
             }
+
+            BookmarkGenerationAnalytics.titleGenerated(attempt, bookmark: bookmark, trigger: .editSheet, source: analyticsSource)
 
             if self.isTitleUnchanged {
                 self.applySuggestion(trimmed)
@@ -150,10 +166,31 @@ class BookmarkEditViewModel: ObservableObject {
         }
     }
 
+    /// Called when the user taps the suggestion, as well as when it lands on a title they
+    /// haven't touched and replaces it outright.
     func applySuggestion(_ suggestion: String) {
         title = suggestion
         titleSuggestion = .none
         didApplySuggestion.send()
+    }
+
+    /// The user tapped the offered suggestion rather than it being applied for them.
+    func suggestionTapped(_ suggestion: String) {
+        BookmarkGenerationAnalytics.suggestionTapped(bookmark: bookmark, source: analyticsSource)
+        applySuggestion(suggestion)
+    }
+
+    // MARK: - Passage Editor
+
+    func passageEditorShown() {
+        BookmarkGenerationAnalytics.passageEditorShown(bookmark: bookmark, source: analyticsSource)
+    }
+
+    func passageEditorDismissed() {
+        BookmarkGenerationAnalytics.passageEditorDismissed(bookmark: bookmark,
+                                                           source: analyticsSource,
+                                                           passage: passage ?? "",
+                                                           didChange: didChangePassage)
     }
 
     enum TitleSuggestion: Equatable {
@@ -190,5 +227,29 @@ class BookmarkEditViewModel: ObservableObject {
                 router?.titleUpdated(title: title)
             }
         }
+    }
+
+    // MARK: - Analytics
+
+    /// What the edit form events report on top of the source every bookmark form sends.
+    ///
+    /// The set differs by stage: nothing about the title is settled when the form opens, and
+    /// the passage only matters once something has been saved.
+    func analyticsProperties(for stage: BookmarkEditStage) -> [String: Sendable] {
+        var properties: [String: Sendable] = ["is_new_bookmark": editState == .adding]
+
+        switch stage {
+        case .shown, .dismissed:
+            break
+        case .submitted:
+            properties["has_passage"] = passage?.isEmpty == false
+            properties["passage_changed"] = didChangePassage
+        }
+
+        properties["episode_uuid"] = bookmark.episodeUuid
+        if let podcastUuid = bookmark.podcastUuid {
+            properties["podcast_uuid"] = podcastUuid
+        }
+        return properties
     }
 }

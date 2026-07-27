@@ -1758,8 +1758,7 @@ extension PodcastViewController: BookmarkListRouter {
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: PlaybackManager.shared.bookmarkManager, bookmark: bookmark, state: .updating, style: .themed)
-        controller.source = .podcasts
+        let controller = BookmarkEditTitleViewController(manager: PlaybackManager.shared.bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, source: .podcasts)
 
         present(controller, animated: true)
     }

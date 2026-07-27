@@ -48,9 +48,8 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
                                                          state: .updating,
-                                                         style: .themed)
-
-        controller.source = viewModel.analyticsSource
+                                                         style: .themed,
+                                                         source: viewModel.analyticsSource)
 
         present(controller, animated: true)
     }
