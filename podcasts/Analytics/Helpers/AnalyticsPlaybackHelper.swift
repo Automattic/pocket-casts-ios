@@ -82,6 +82,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
 
     func playbackFailed(episode: BaseEpisode?, error: String, hlsErrorDetail: String?, player: PlaybackProtocol?) {
         var properties: [String: Any] = ["episode_uuid": episode?.uuid ?? "unknown",
+                                         "podcast_uuid": episode?.parentIdentifier() ?? "unknown",
                                          "error": error,
                                          "player": playerString(player: player)]
 
@@ -104,10 +105,23 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         guard FeatureFlag.hls.enabled, let episode else { return }
 
         var properties: [String: Any] = ["episode_uuid": episode.uuid,
-                                         "podcast_uuid": episode.parentIdentifier()]
+                                         "podcast_uuid": episode.parentIdentifier(),
+                                         // iOS selects one protocol up front (no runtime HLS->progressive
+                                         // retry), so this is always false; kept for parity with Android.
+                                         "is_fallback": false]
         properties.merge(Self.hlsProtocolProperties(for: episode)) { current, _ in current }
 
         track(.playbackSourceResolved, properties: properties)
+    }
+
+    /// Emitted when the user switches an HLS video stream between video and audio-only rendering.
+    /// Mirrors the web player's `playback_hls_toggled`.
+    func videoRenderingToggled(switchedToVideo: Bool, episode: BaseEpisode?) {
+        guard FeatureFlag.hls.enabled, let episode else { return }
+
+        track(.playbackHlsToggled, properties: ["switched_to": switchedToVideo ? "video" : "audio",
+                                                "episode_uuid": episode.uuid,
+                                                "podcast_uuid": episode.parentIdentifier()])
     }
 
     enum PlayerSource: String {
@@ -138,9 +152,30 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// while HLS playback is enabled — mirrors the web player's `getHlsPlaybackProperties`.
     /// `hls_available` reflects whether the episode *offers* an HLS stream; the protocol actually
     /// played is reported separately via `playback_source_resolved`.
-    static func hlsLifecycleProperties(for episode: BaseEpisode?) -> [String: Any] {
+    ///
+    /// Pass `isCurrentEpisode: false` for an episode that hasn't started yet (e.g. the next autoplay
+    /// episode): the per-session video toggle only applies to the episode currently playing, so
+    /// `audio_only_mode` should reflect just the global "Audio only" setting for an upcoming one.
+    static func hlsLifecycleProperties(for episode: BaseEpisode?, isCurrentEpisode: Bool = true) -> [String: Any] {
         guard FeatureFlag.hls.enabled else { return [:] }
-        return ["hls_available": episodeOffersHLS(episode)]
+        var properties: [String: Any] = ["hls_available": episodeOffersHLS(episode)]
+        if let audioOnlyMode = audioOnlyMode(for: episode, isCurrentEpisode: isCurrentEpisode) {
+            properties["audio_only_mode"] = audioOnlyMode
+        }
+        return properties
+    }
+
+    /// The audio-only listening state, but only for episodes actually streaming via HLS (mirrors
+    /// Android's `audioOnlyModeOrNull`). `nil` — and therefore omitted — for progressive or downloaded
+    /// playback, where there's no video surface to suppress.
+    ///
+    /// For the episode currently playing this is the full state (global setting OR per-session toggle).
+    /// For an episode that hasn't started yet the per-session toggle doesn't apply — it resets to video
+    /// when the episode opens — so only the global "Audio only" setting carries over.
+    private static func audioOnlyMode(for episode: BaseEpisode?, isCurrentEpisode: Bool) -> Bool? {
+        guard let episode, EpisodeManager.willPlayViaHLS(episode) else { return nil }
+        let manager = PlaybackManager.shared
+        return isCurrentEpisode ? manager.isAudioOnlyMode : manager.isAudioOnlyForced
     }
 
     /// The protocol an episode's source resolves to for playback (`hls`/`progressive`), for events
