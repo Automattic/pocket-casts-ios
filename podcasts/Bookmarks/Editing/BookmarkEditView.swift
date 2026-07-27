@@ -41,6 +41,7 @@ struct BookmarkEditView: View {
         .animation(.easeInOut(duration: 0.2), value: viewModel.passage)
         .animation(.easeInOut(duration: 0.2), value: viewModel.isCapturingTranscript)
         .frame(maxWidth: .infinity)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
         .padding()
         .background(theme.background.ignoresSafeArea())
         .navigationTitle(viewModel.headerTitle)
