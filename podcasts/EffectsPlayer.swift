@@ -84,6 +84,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.playerLock.lock()
             // A pause can tear down this player before its queued setup acquires the lock.
             // Recheck playback intent so that stale work cannot start an orphaned engine.
+            // The completion reports a successful start, so cancelled setup must not invoke it.
             guard strongSelf.shouldKeepPlaying.value else {
                 strongSelf.playerLock.unlock()
                 return
@@ -369,6 +370,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         // Route and engine configuration notifications are delivered independently, so checking
         // engine.isRunning here can race the engine shutdown. Rebuild while playback is intended.
+        FileLog.shared.addMessage("EffectsPlayer: route changed while playing, rebuilding audio engine")
         PlaybackManager.shared.pause(userInitiated: false)
         PlaybackManager.shared.play(userInitiated: false)
     }

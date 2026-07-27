@@ -21,7 +21,8 @@ final class PlaybackRouteChangePolicyTests: XCTestCase {
         for reason in reasons {
             XCTAssertEqual(
                 PlaybackManager.routeChangeDecision(for: reason),
-                .restart(updateNowPlaying: true)
+                .restart(updateNowPlaying: true),
+                "Unexpected decision for route reason \(reason.rawValue)"
             )
         }
     }
@@ -41,7 +42,10 @@ final class PlaybackRouteChangePolicyTests: XCTestCase {
         ]
 
         for reason in reasons {
-            XCTAssertNil(PlaybackManager.routeChangeDecision(for: reason))
+            XCTAssertNil(
+                PlaybackManager.routeChangeDecision(for: reason),
+                "Expected no decision for route reason \(reason.rawValue)"
+            )
         }
     }
 }
