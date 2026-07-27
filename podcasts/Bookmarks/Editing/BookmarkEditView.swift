@@ -162,7 +162,7 @@ struct BookmarkEditView: View {
         if viewModel.passage != nil || viewModel.isCapturingTranscript {
             section {
                 HStack {
-                    Text(L10n.transcript)
+                    Text(viewModel.passage == nil ? L10n.bookmarkTranscriptAdding : L10n.transcript)
 
                     Spacer()
 

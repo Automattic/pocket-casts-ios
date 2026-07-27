@@ -4501,6 +4501,9 @@
 /* Prefix label shown before a generated, tappable bookmark title suggestion. Includes a trailing space so it reads inline with the suggested title that follows. */
 "bookmark_suggestion_prefix" = "Suggestion: ";
 
+/* Section title shown while the transcript passage for a bookmark is still being fetched */
+"bookmark_transcript_adding" = "Adding transcript...";
+
 /* Label above the section showing the transcript text captured around the bookmarked moment */
 "bookmark_transcript_captured" = "Transcript captured";
 
