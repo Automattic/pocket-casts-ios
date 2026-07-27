@@ -188,6 +188,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.translatesAutoresizingMaskIntoConstraints = false
+        view.maximumContentSizeCategory = .extraExtraLarge
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
         setupButtonsForDynamicType()
@@ -280,7 +281,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         }
 
         let resultSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        let newSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: resultSize.height)
+        let availableWidth = presentingViewController?.view.bounds.width ?? view.frame.size.width
+        let newSize = CGSize(width: min(Constants.Values.maxWidthForPopups, availableWidth), height: resultSize.height)
         preferredContentSize = newSize
     }
 
