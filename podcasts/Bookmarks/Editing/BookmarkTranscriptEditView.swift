@@ -11,30 +11,31 @@ struct BookmarkTranscriptEditView: View {
     @ObservedObject var theme: BookmarkEditTheme
 
     var body: some View {
-        VStack(spacing: 18) {
-            subtitle
-
-            TranscriptSelectionTextView(transcript: transcript,
-                                        selection: $selection,
-                                        textColor: UIColor(theme.title),
-                                        selectionColor: UIColor(theme.transcriptSelection))
-        }
-        .frame(maxWidth: .infinity)
-        .padding([.horizontal, .top])
-        .background(theme.background.ignoresSafeArea())
-        .ignoresSafeArea(edges: .bottom)
-        // Colors the back button the bar gives us for free
-        .tint(theme.title)
-        .navigationTitle(L10n.bookmarkEditTranscriptTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            // The bar's own title knows nothing about the player's colors
-            ToolbarItem(placement: .principal) {
-                Text(L10n.bookmarkEditTranscriptTitle)
-                    .font(style: .headline, weight: .semibold)
-                    .foregroundStyle(theme.title)
+        TranscriptSelectionTextView(transcript: transcript,
+                                    selection: $selection,
+                                    textColor: UIColor(theme.title),
+                                    selectionColor: UIColor(theme.transcriptSelection))
+            .mask(topFadeMask)
+            .overlay(alignment: .top) {
+                subtitle
+                    .allowsHitTesting(false)
             }
-        }
+            .frame(maxWidth: .infinity)
+            .padding([.horizontal, .top])
+            .background(theme.background.ignoresSafeArea())
+            .ignoresSafeArea(edges: .bottom)
+            // Colors the back button the bar gives us for free
+            .tint(theme.title)
+            .navigationTitle(L10n.bookmarkEditTranscriptTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // The bar's own title knows nothing about the player's colors
+                ToolbarItem(placement: .principal) {
+                    Text(L10n.bookmarkEditTranscriptTitle)
+                        .font(style: .headline, weight: .semibold)
+                        .foregroundStyle(theme.title)
+                }
+            }
     }
 
     // MARK: - Views
@@ -44,6 +45,15 @@ struct BookmarkTranscriptEditView: View {
             .foregroundStyle(theme.subTitle)
             .font(style: .callout)
             .multilineTextAlignment(.center)
+    }
+
+    /// Softens the top edge so the passage scrolls out of view instead of being clipped
+    private var topFadeMask: some View {
+        VStack(spacing: 0) {
+            LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
+                .frame(height: 140)
+            Color.black
+        }
     }
 }
 
@@ -61,7 +71,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
     let selectionColor: UIColor
 
     /// Where the passage sits vertically once scrolled to
-    private let verticalAnchor: CGFloat = 0.3
+    private let verticalAnchor: CGFloat = 0.5
 
     func makeUIView(context: Context) -> SelectableTextView {
         // TextKit 1: `scrollToRange` and the character index lookups work off `layoutManager`

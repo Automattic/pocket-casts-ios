@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import PocketCastsDataModel
 
@@ -37,6 +38,9 @@ class BookmarkEditViewModel: ObservableObject {
 
     /// A title suggestion generated from the transcript around the bookmark's position
     @Published private(set) var titleSuggestion: TitleSuggestion = .none
+
+    /// Fires when the title is replaced programmatically so the field can re-select it
+    let didApplySuggestion = PassthroughSubject<Void, Never>()
 
     /// The captured transcript passage, re-selectable while editing. It's persisted to the
     /// bookmark only on save, so dismissing without saving leaves the stored passage intact.
@@ -142,6 +146,7 @@ class BookmarkEditViewModel: ObservableObject {
     func applySuggestion(_ suggestion: String) {
         title = suggestion
         titleSuggestion = .none
+        didApplySuggestion.send()
     }
 
     enum TitleSuggestion: Equatable {

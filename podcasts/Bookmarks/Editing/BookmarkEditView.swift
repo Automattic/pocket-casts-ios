@@ -14,6 +14,8 @@ struct BookmarkEditView: View {
 
     @State private var isEditingTranscript = false
 
+    @State private var titleTextField: UITextField?
+
     var body: some View {
         NavigationStack {
             form
@@ -131,10 +133,27 @@ struct BookmarkEditView: View {
             .foregroundStyle(theme.textField)
             .accentColor(theme.textFieldAccent)
             .focused($isTitleFocused)
-            .selectAllOnFocus()
+            .onReceive(UITextField.textDidBeginEditingNotification.publisher()) { notification in
+                guard let textField = notification.object as? UITextField else { return }
+                titleTextField = textField
+                selectAllTitle()
+            }
+            .onReceive(viewModel.didApplySuggestion) { _ in
+                selectAllTitle()
+            }
             .onSubmit {
                 viewModel.save()
             }
+    }
+
+    /// Selects the whole title after a short delay, so the selection reliably appears
+    /// once the field has settled — whether focus just arrived or a suggestion was applied
+    private func selectAllTitle() {
+        guard let titleTextField else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            titleTextField.selectedTextRange = titleTextField.textRange(from: titleTextField.beginningOfDocument, to: titleTextField.endOfDocument)
+        }
     }
 
     @ViewBuilder
@@ -142,7 +161,7 @@ struct BookmarkEditView: View {
         if viewModel.passage != nil || viewModel.isCapturingTranscript {
             section {
                 HStack {
-                    Text(L10n.bookmarkTranscriptCaptured)
+                    Text(L10n.transcript)
 
                     Spacer()
 
@@ -150,7 +169,7 @@ struct BookmarkEditView: View {
                         editTranscriptButton
                     }
                 }
-                .padding(.horizontal, 8)
+                .padding(.bottom, 4)
             } content: {
                 if let passage = viewModel.passage {
                     transcript(passage)
@@ -170,9 +189,6 @@ struct BookmarkEditView: View {
             .foregroundStyle(theme.title)
             .lineLimit(4)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(theme.transcriptBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     /// Stands in for the passage while the transcript loads. The redaction blocks it out,
@@ -242,20 +258,6 @@ private extension View {
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .font(size: 24, style: .title2, weight: .bold)
-    }
-
-    /// Selects all the text when the text field gains focus
-    func selectAllOnFocus() -> some View {
-        self.onReceive(UITextField.textDidBeginEditingNotification.publisher()) { notification in
-            guard let textField = notification.object as? UITextField else {
-                return
-            }
-
-            // Select after a delay because there's a bug where the selection won't appear if the text is too long
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
-            }
-        }
     }
 }
 

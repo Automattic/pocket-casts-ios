@@ -100,10 +100,6 @@ struct BookmarkDetailsView: View {
                 .foregroundStyle(theme.primaryText01)
                 .padding(.bottom, 4)
 
-            Text(timestamp)
-                .font(style: .footnote, weight: .medium)
-                .foregroundStyle(theme.primaryText02)
-
             viewModel.passage.map {
                 Text($0)
                     .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
