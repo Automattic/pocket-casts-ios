@@ -47,7 +47,8 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
     func bookmarkEdit(_ bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
-                                                         state: .updating)
+                                                         state: .updating,
+                                                         style: .themed)
 
         controller.source = viewModel.analyticsSource
 

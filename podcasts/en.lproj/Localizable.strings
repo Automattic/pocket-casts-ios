@@ -4516,6 +4516,9 @@
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
 
+/* The title of the sheet where the user edits a saved bookmark */
+"edit_bookmark" = "Edit Bookmark";
+
 /* The subtitle of a view where the user can edit their bookmark title */
 "change_bookmark_subtitle" = "Change the title that identifies this bookmark";
 

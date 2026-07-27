@@ -22,6 +22,14 @@ extension BookmarkManager {
         return await BookmarkTranscriptSnippetExtractor().snippet(forTime: bookmark.time, episode: episode)
     }
 
+    func capturedSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
+        guard Self.isTitleSuggestionEnabled, let passage = bookmark.passage, !passage.isEmpty else {
+            return nil
+        }
+
+        return await BookmarkTranscriptSnippetExtractor().snippet(forPassage: passage, at: bookmark.passageLocation, episode: episode)
+    }
+
     /// Returns nil when generation fails.
     func suggestTitle(from snippet: String, for bookmark: Bookmark, episode: BaseEpisode) async -> String? {
         let podcastTitle = bookmark.podcastUuid.flatMap { DataManager.sharedManager.findPodcast(uuid: $0)?.title }

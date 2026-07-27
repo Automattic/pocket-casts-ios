@@ -17,17 +17,20 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
     init(manager: BookmarkManager,
          bookmark: Bookmark,
          state: BookmarkEditViewModel.EditState,
+         style: BookmarkEditTheme.Style = .player,
          onDismiss: ((String, Bool) -> Void)? = nil) {
-        let theme = BookmarkEditTheme(episode: manager.episode(for: bookmark))
+        let episode = manager.episode(for: bookmark)
 
         let viewModel: any BookmarkEditing
         let rootView: AnyView
 
         if FeatureFlag.smartBookmarks.enabled {
+            let theme = BookmarkEditTheme(episode: episode, style: style)
             let smartViewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state)
             viewModel = smartViewModel
             rootView = AnyView(BookmarkEditView(viewModel: smartViewModel, theme: theme))
         } else {
+            let theme = BookmarkEditTheme(episode: episode)
             let titleViewModel = BookmarkEditTitleViewModel(manager: manager, bookmark: bookmark, state: .init(state))
             viewModel = titleViewModel
             rootView = AnyView(BookmarkEditTitleView(viewModel: titleViewModel, theme: theme))

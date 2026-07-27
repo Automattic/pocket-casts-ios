@@ -5,6 +5,21 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+/// The fields changed when saving a bookmark.
+struct BookmarkUpdateParameters {
+    var title: String
+
+    /// The captured transcript passage to store, or `nil` to leave the existing one unchanged.
+    var passage: Passage?
+
+    /// A transcript passage together with where it starts, kept so a re-selection can be
+    /// matched back to the same spot.
+    struct Passage {
+        var text: String
+        var location: Int?
+    }
+}
+
 class BookmarkManager {
     private let dataManager: BookmarkDataManager
     private let generalManager: DataManager
@@ -105,11 +120,16 @@ class BookmarkManager {
         }
     }
 
-    /// Updates the bookmark with the given title, emits `onBookmarkChanged` on success
+    /// Updates the bookmark with the given parameters, emits `onBookmarkChanged` on success
     @discardableResult
-    func update(title: String, for bookmark: Bookmark) async -> Bool {
-        await dataManager.update(bookmark: bookmark, title: title).when(true) {
-            onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(title)))
+    func update(_ parameters: BookmarkUpdateParameters, for bookmark: Bookmark) async -> Bool {
+        if let passage = parameters.passage {
+            bookmark.passage = passage.text
+            bookmark.passageLocation = passage.location
+        }
+
+        return await dataManager.update(bookmark: bookmark, title: parameters.title).when(true) {
+            onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(parameters.title)))
         }
     }
 
