@@ -106,4 +106,31 @@ final class EpisodeArtwork {
             }
         }
     }
+
+    func loadArtworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> UIImage? {
+        guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
+            return nil
+        }
+
+        // Resize image to avoid really big images that appear
+        // super blurred on CarPlay.
+        // If the image is smaller to the given size, no downsampling is done.
+        let size = imageManager.biggestPodcastImageSize
+        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
+
+        return await withCheckedContinuation { continuation in
+            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { [weak self] result in
+                guard !Task.isCancelled else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                if let image = try? result.get().image {
+                    self?.imageManager.save(image, for: episodeUuid)
+                    continuation.resume(returning: image)
+                } else {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
 }
