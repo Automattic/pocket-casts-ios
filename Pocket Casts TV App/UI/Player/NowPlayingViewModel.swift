@@ -271,7 +271,7 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var isPlaying: Bool {
-        return playbackManager.avPlayer?.rate != 0
+        return playbackManager.playing()
     }
 
     fileprivate func observeUpNextChanges() {

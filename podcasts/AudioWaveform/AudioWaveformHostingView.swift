@@ -13,7 +13,7 @@ class AudioWaveformHostingView: UIView {
         }
     }
 
-    var secondaryColor: UIColor = UIColor.gray.withAlphaComponent(0.5) {
+    var secondaryColor = UIColor.gray.withAlphaComponent(0.5) {
         didSet {
             updateColors()
         }
@@ -32,16 +32,7 @@ class AudioWaveformHostingView: UIView {
     private func setupView() {
         backgroundColor = .clear
 
-        let waveformView = PlayerAudioWaveformView(
-            audioMeter: audioMeter,
-            barCount: 40,
-            barWidth: 4,
-            barSpacing: 4,
-            primaryColor: Color(primaryColor),
-            secondaryColor: Color(secondaryColor)
-        )
-
-        let hostingController = UIHostingController(rootView: waveformView)
+        let hostingController = UIHostingController(rootView: makeWaveformView())
         hostingController.view.backgroundColor = .clear
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -57,11 +48,8 @@ class AudioWaveformHostingView: UIView {
         self.hostingController = hostingController
     }
 
-    private func updateColors() {
-        // Recreate the view with new colors
-        hostingController?.view.removeFromSuperview()
-
-        let waveformView = PlayerAudioWaveformView(
+    private func makeWaveformView() -> PlayerAudioWaveformView {
+        PlayerAudioWaveformView(
             audioMeter: audioMeter,
             barCount: 40,
             barWidth: 4,
@@ -69,21 +57,11 @@ class AudioWaveformHostingView: UIView {
             primaryColor: Color(primaryColor),
             secondaryColor: Color(secondaryColor)
         )
+    }
 
-        let newHostingController = UIHostingController(rootView: waveformView)
-        newHostingController.view.backgroundColor = .clear
-        newHostingController.view.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(newHostingController.view)
-
-        NSLayoutConstraint.activate([
-            newHostingController.view.topAnchor.constraint(equalTo: topAnchor),
-            newHostingController.view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            newHostingController.view.trailingAnchor.constraint(equalTo: trailingAnchor),
-            newHostingController.view.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-
-        hostingController = newHostingController
+    private func updateColors() {
+        // Swap the root view in place rather than rebuilding the hosting controller.
+        hostingController?.rootView = makeWaveformView()
     }
 
     /// Start the audio metering and animation

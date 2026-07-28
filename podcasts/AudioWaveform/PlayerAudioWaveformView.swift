@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import PocketCastsUtils
 
 /// An animated audio waveform visualization for the player that reacts to audio levels
 struct PlayerAudioWaveformView: View {
@@ -159,14 +160,6 @@ private struct WaveformBar: View {
             startPoint: .top,
             endPoint: .bottom
         )
-    }
-}
-
-// MARK: - Safe Array Access
-private extension Array {
-    subscript(safe index: Int) -> Element? {
-        guard index >= 0 && index < count else { return nil }
-        return self[index]
     }
 }
 

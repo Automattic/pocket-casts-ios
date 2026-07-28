@@ -49,7 +49,7 @@ extension NowPlayingPlayerItemViewController {
 
         let isPlaying = PlaybackManager.shared.playing()
         let showWaveform = Settings.showAudioWaveformInPlayer && !playingEpisode.videoPodcast() && isPlaying
-        
+
         if PlaybackManager.shared.shouldRenderVideo() {
             if floatingVideoView.isHidden {
                 floatingVideoView.isHidden = false
@@ -62,7 +62,7 @@ extension NowPlayingPlayerItemViewController {
             let wasShowingVideo = !floatingVideoView.isHidden
             floatingVideoView.player = nil
             floatingVideoView.isHidden = true
-            
+
             // Show waveform or artwork based on setting and playback state
             episodeImage.alpha = 1.0
             episodeImage.layer.opacity = 1
@@ -100,12 +100,12 @@ extension NowPlayingPlayerItemViewController {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
         }
     }
-    
+
     /// Update audio waveform visibility and animation state
     func updateAudioWaveformVisibility(show: Bool) {
         audioWaveformView.isHidden = !show
         artworkBlurView.isHidden = !show
-        
+
         if show {
             // Use player contrast colors for visibility that matches podcast theme
             let primaryColor = ThemeColor.playerContrast01()

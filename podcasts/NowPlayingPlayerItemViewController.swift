@@ -33,7 +33,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         view.isHidden = true
         return view
     }()
-    
+
     // Blur overlay for artwork when waveform is showing
     lazy var artworkBlurView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
@@ -286,10 +286,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         routePicker.delegate = self
 
         #endif
-        
+
         setupAudioWaveformView()
     }
-    
+
     private func setupAudioWaveformView() {
         // Add blur overlay and waveform view as siblings to episodeImage
         if let imageSuperview = episodeImage.superview {
@@ -301,13 +301,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
                 artworkBlurView.trailingAnchor.constraint(equalTo: episodeImage.trailingAnchor),
                 artworkBlurView.bottomAnchor.constraint(equalTo: episodeImage.bottomAnchor)
             ])
-            
+
             // Add tap gesture to blur view
             let blurTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
             blurTapGesture.numberOfTapsRequired = 1
             artworkBlurView.addGestureRecognizer(blurTapGesture)
             artworkBlurView.isUserInteractionEnabled = true
-            
+
             // Add waveform view on top of blur
             imageSuperview.addSubview(audioWaveformView)
             NSLayoutConstraint.activate([
@@ -316,7 +316,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
                 audioWaveformView.widthAnchor.constraint(equalTo: episodeImage.widthAnchor, multiplier: 0.8),
                 audioWaveformView.heightAnchor.constraint(equalTo: episodeImage.heightAnchor, multiplier: 0.5)
             ])
-            
+
             // Add tap gesture to waveform view
             let waveformTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
             waveformTapGesture.numberOfTapsRequired = 1
