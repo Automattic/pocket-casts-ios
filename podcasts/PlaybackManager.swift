@@ -863,7 +863,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
     /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
-    private var isAudioOnlyForced: Bool {
+    var isAudioOnlyForced: Bool {
         FeatureFlag.hls.enabled && Settings.audioOnly
     }
 
@@ -876,6 +876,13 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     var isVideoRenderingEnabled: Bool {
         videoRenderingEnabled.value
+    }
+
+    /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
+    /// or they've switched the current stream's video off via the shelf toggle. Reported as the
+    /// `audio_only_mode` analytics property.
+    var isAudioOnlyMode: Bool {
+        isAudioOnlyForced || !videoRenderingEnabled.value
     }
 
     /// Whether the audio/video toggle should be offered for the current episode. Any episode with an HLS
@@ -903,12 +910,16 @@ class PlaybackManager: ServerPlaybackDelegate {
     func toggleVideoRendering() {
         guard canToggleVideoRendering(), let episode = currentEpisode() else { return }
 
+        let switchedToVideo: Bool
         if hasDownloadedFile(episode) {
             streamingVideoForDownloadedEpisode.toggle()
+            switchedToVideo = streamingVideoForDownloadedEpisode.value
             reloadCurrentEpisodeSource()
         } else {
             videoRenderingEnabled.toggle()
+            switchedToVideo = videoRenderingEnabled.value
         }
+        analyticsPlaybackHelper.videoRenderingToggled(switchedToVideo: switchedToVideo, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
     }
 
@@ -2597,7 +2608,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
                 FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
                 queue.add(episode: nextEpisode, fireNotification: false)
-                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode)) { current, _ in current })
+                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid].merging(AnalyticsPlaybackHelper.hlsLifecycleProperties(for: nextEpisode, isCurrentEpisode: false)) { current, _ in current })
                 return
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)

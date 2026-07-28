@@ -136,6 +136,7 @@ enum AnalyticsEvent: String {
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
+    case accountDetailsSubscription
 
     // MARK: - Upgrade banner
 
@@ -283,6 +284,10 @@ enum AnalyticsEvent: String {
     /// Emitted once playback actually starts, reporting the protocol the source resolved to
     /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
     case playbackSourceResolved
+
+    /// Emitted when the user toggles an HLS video stream between video and audio-only rendering.
+    /// Gated behind `FeatureFlag.hls`.
+    case playbackHlsToggled
 
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
