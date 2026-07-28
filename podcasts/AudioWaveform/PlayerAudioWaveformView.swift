@@ -60,10 +60,10 @@ struct PlayerAudioWaveformView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
-        .onChange(of: audioMeter.currentLevel) { newLevel in
+        .onChange(of: audioMeter.currentLevel) { _, newLevel in
             updateBarsForLevel(newLevel)
         }
-        .onChange(of: audioMeter.isPlaying) { isPlaying in
+        .onChange(of: audioMeter.isPlaying) { _, isPlaying in
             if !isPlaying {
                 resetBarsToIdle()
             }
