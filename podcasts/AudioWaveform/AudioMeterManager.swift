@@ -76,10 +76,10 @@ class AudioMeterManager: ObservableObject {
     }
 
     /// Update level from external source (e.g., audio tap)
-    func updateWithRMSLevel(_ rmsLevel: Float) {
+    func updateWithRMSLevel(_ rmsLevel: Float, adjustment: Float = 10) {
         // Convert RMS to a more visually useful range (RMS is typically quite low)
         // Typical speech RMS is around 0.01-0.1
-        let scaledLevel = min(1.0, rmsLevel * 10.0)
+        let scaledLevel = min(1.0, rmsLevel * adjustment)
 
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }

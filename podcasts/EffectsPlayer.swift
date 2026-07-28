@@ -508,7 +508,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, _ in
             let rms = AudioMeterManager.calculateRMS(from: buffer)
-            AudioMeterManager.shared.updateWithRMSLevel(rms)
+            AudioMeterManager.shared.updateWithRMSLevel(rms, adjustment: 10)
         }
 
         audioMeteringTapInstalled = true
