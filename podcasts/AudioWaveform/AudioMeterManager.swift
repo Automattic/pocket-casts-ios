@@ -82,7 +82,7 @@ class AudioMeterManager: ObservableObject {
         let scaledLevel = min(1.0, rmsLevel * 10.0)
 
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             // Add to recent levels for smoothing
             self.recentLevels.append(scaledLevel)
@@ -148,7 +148,7 @@ class AudioMeterManager: ObservableObject {
     private func generateSimulatedLevel() {
         // Generate naturalistic audio levels based on typical speech patterns
         let baseLevel: Float = 0.3
-        let variation: Float = Float.random(in: -0.2...0.25)
+        let variation = Float.random(in: -0.2...0.25)
 
         // Occasional "peaks" like in real speech
         let peakChance = Float.random(in: 0...1)
@@ -190,6 +190,27 @@ extension AudioMeterManager {
             var rms: Float = 0
 
             vDSP_rmsqv(data, 1, &rms, vDSP_Length(frameLength))
+            totalRMS += rms
+        }
+
+        return totalRMS / Float(channelCount)
+    }
+
+    /// Calculate RMS level from a raw, non-interleaved float `AudioBufferList`.
+    ///
+    /// Used by `DefaultPlayer`'s `MTAudioProcessingTap`, whose process callback exposes audio as an
+    /// `AudioBufferList` (one buffer per channel) rather than an `AVAudioPCMBuffer`.
+    static func calculateRMS(from bufferList: UnsafeMutableAudioBufferListPointer, frameCount: Int) -> Float {
+        let channelCount = bufferList.count
+        guard frameCount > 0, channelCount > 0 else { return 0 }
+
+        var totalRMS: Float = 0
+
+        for buffer in bufferList {
+            guard let data = buffer.mData?.assumingMemoryBound(to: Float.self) else { continue }
+
+            var rms: Float = 0
+            vDSP_rmsqv(data, 1, &rms, vDSP_Length(frameCount))
             totalRMS += rms
         }
 

@@ -546,6 +546,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
                     return
                 }
+                referenceToSelf.updateAudioMeter(from: bufferListInOut, frameCount: numberFrames)
                 return
             }
 
@@ -586,6 +587,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 }
 
                 numberFramesOut.pointee = numberFrames
+                referenceToSelf.updateAudioMeter(from: bufferListInOut, frameCount: numberFrames)
             } else {
                 // Use previous voice boost (AudioUnit chain)
                 var audioTimeStamp = AudioTimeStamp()
@@ -597,7 +599,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 }
 
                 numberFramesOut.pointee = numberFrames
+                referenceToSelf.updateAudioMeter(from: bufferListInOut, frameCount: numberFrames)
             }
+        }
+
+        // MARK: - Audio Metering for Waveform Visualization
+
+        /// Feed the current audio buffer's level to `AudioMeterManager` so the player waveform can
+        /// visualize it. Called from the audio-processing tap for every buffer once effects (if any)
+        /// have been applied, mirroring the tap `EffectsPlayer` installs on its mixer node.
+        private func updateAudioMeter(from bufferList: UnsafeMutablePointer<AudioBufferList>, frameCount: CMItemCount) {
+            let rms = AudioMeterManager.calculateRMS(from: UnsafeMutableAudioBufferListPointer(bufferList), frameCount: Int(frameCount))
+            AudioMeterManager.shared.updateWithRMSLevel(rms)
         }
 
         // MARK: - Peak Limter
