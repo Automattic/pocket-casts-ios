@@ -1392,7 +1392,6 @@
 		FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF94C6803018BCE7001837B8 /* AudioMeterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF94C6763018BCE7001837B8 /* AudioMeterManager.swift */; };
-		FF94C6813018BCE7001837B8 /* FullScreenWaveformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF94C6783018BCE7001837B8 /* FullScreenWaveformViewController.swift */; };
 		FF94C6823018BCE7001837B8 /* AudioWaveformHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF94C6773018BCE7001837B8 /* AudioWaveformHostingView.swift */; };
 		FF94C6833018BCE7001837B8 /* PlayerAudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF94C6793018BCE7001837B8 /* PlayerAudioWaveformView.swift */; };
 		FF94C6843018BCE7001837B8 /* AudioMeterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF94C6763018BCE7001837B8 /* AudioMeterManager.swift */; };
@@ -7801,7 +7800,6 @@
 				FF65058C2FAA965000C3662E /* SJMediaMetadataHelper.m in Sources */,
 				FF65059A2FAA9B0600C3662E /* DownloadManager+Logging.swift in Sources */,
 				FF94C6803018BCE7001837B8 /* AudioMeterManager.swift in Sources */,
-				FF94C6813018BCE7001837B8 /* FullScreenWaveformViewController.swift in Sources */,
 				FF94C6823018BCE7001837B8 /* AudioWaveformHostingView.swift in Sources */,
 				FF94C6833018BCE7001837B8 /* PlayerAudioWaveformView.swift in Sources */,
 				FF65059F2FAA9DDC00C3662E /* ShowNotesUpdater.swift in Sources */,

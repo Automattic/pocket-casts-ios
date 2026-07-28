@@ -25,14 +25,17 @@ struct MediaOverlayView: View {
                         }
                         HStack {
                             Spacer()
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
-                                .clipShape(RoundedRectangle(cornerRadius: 24))
-                                .blurredCoverBackground(size: proxy.size.height / scale) {
-                                    Image(uiImage: uiImage)
-                                }
-                                .animation(.smooth, value: isTransportBarVisible)
+                            ZStack {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
+                                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                                    .blurredCoverBackground(size: proxy.size.height / scale) {
+                                        Image(uiImage: uiImage)
+                                    }
+                                    .animation(.smooth, value: isTransportBarVisible)
+                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared)
+                            }
                             Spacer()
                         }
                         if model.isFailed {

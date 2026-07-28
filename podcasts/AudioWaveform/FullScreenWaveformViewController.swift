@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+import PocketCastsServer
 
 /// Full-screen view controller that shows blurred artwork with animated waveform overlay
 class FullScreenWaveformViewController: UIViewController {
@@ -119,9 +120,5 @@ class FullScreenWaveformViewController: UIViewController {
 
     @objc private func dismissFullScreen() {
         dismiss(animated: true)
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
 }
