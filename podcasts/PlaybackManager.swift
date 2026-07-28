@@ -2803,10 +2803,20 @@ extension PlaybackManager {
         FingerprintTimingManager.shared.resolvePlaybackTime(forReferenceTime: referenceTime, episode: episode, analyticsEvent: nil) { [weak self] result in
             let time: TimeInterval
             switch result {
-            case let .resolved(playbackTime, _, _, _):
+            case let .resolved(playbackTime, _, _, resolveDurationMs):
                 time = playbackTime
-            case .unresolved:
+                FileLog.shared.addMessage(
+                    "[Bookmarks] Resolved bookmark \(bookmark.uuid) — local file time "
+                        + "\(String(format: "%.1f", bookmark.time))s, reference time \(String(format: "%.1f", referenceTime))s, "
+                        + "time at resolution \(String(format: "%.1f", playbackTime))s (took \(resolveDurationMs)ms)"
+                )
+            case let .unresolved(reason, _):
                 time = bookmark.time
+                FileLog.shared.addMessage(
+                    "[Bookmarks] No confident match for bookmark \(bookmark.uuid) (\(reason)) — local file time "
+                        + "\(String(format: "%.1f", bookmark.time))s, reference time \(String(format: "%.1f", referenceTime))s; "
+                        + "starting from the local file time"
+                )
             }
             self?.startBookmarkPlayback(bookmark, episode: episode, atTime: time)
         }

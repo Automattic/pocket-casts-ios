@@ -557,6 +557,7 @@ final class FingerprintTimingManager: NSObject {
     func resolveReferenceTime(forPlaybackTime playbackTime: Double, episode: BaseEpisode) async -> Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
         let episodeUuid = episode.uuid
+        let startDate = Date()
 
         // Warm fast path: interpolate off the continuous transcript mapping when
         // it already confidently covers this position.
@@ -572,7 +573,14 @@ final class FingerprintTimingManager: NSObject {
                 valuePath: \.referenceTime
             )
         }
-        if let warm { return warm }
+        if let warm {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve matched off the live mapping for \(episodeUuid) — "
+                    + "local file time \(String(format: "%.1f", playbackTime))s → "
+                    + "reference time \(String(format: "%.1f", warm))s"
+            )
+            return warm
+        }
 
         // Hard timeout, observed once per decoded chunk
         let flag = CancellationFlag()
@@ -601,12 +609,18 @@ final class FingerprintTimingManager: NSObject {
         guard !flag.isCancelled,
               let referenceData,
               let reference = ReferenceFingerprint.decode(from: referenceData) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve gave up for \(episodeUuid) — no usable reference"
+            )
             return nil
         }
 
         let duration = episode.duration
         guard duration > 0,
               let (matcher, _) = buildMatcher(from: reference, episodeUuid: episodeUuid, audioDuration: duration) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve gave up for \(episodeUuid) — no usable checkpoints"
+            )
             return nil
         }
 
@@ -652,11 +666,23 @@ final class FingerprintTimingManager: NSObject {
               ) else {
             FileLog.shared.addMessage(
                 "FingerprintTimingManager: bookmark resolve found no confident match "
-                    + "at playback \(String(format: "%.1f", playbackTime))s for \(episodeUuid)"
+                    + "at local file time \(String(format: "%.1f", playbackTime))s for \(episodeUuid) "
+                    + "(\(scratch?.playbackToReference.count ?? 0) anchors, took \(Self.elapsedMs(since: startDate))ms)"
             )
             return nil
         }
+
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: bookmark resolve matched for \(episodeUuid) — "
+                + "local file time \(String(format: "%.1f", playbackTime))s → "
+                + "reference time \(String(format: "%.1f", referenceTime))s "
+                + "(\(scratch.playbackToReference.count) anchors, took \(Self.elapsedMs(since: startDate))ms)"
+        )
         return referenceTime
+    }
+
+    private static func elapsedMs(since date: Date) -> Int {
+        Int(Date().timeIntervalSince(date) * 1000)
     }
 
     #if DEBUG
