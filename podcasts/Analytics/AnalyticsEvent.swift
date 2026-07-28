@@ -902,6 +902,7 @@ enum AnalyticsEvent: String {
     case bookmarksGetBookmarksButtonTapped
     case bookmarksEmptyGoToHeadphoneSettings
     case bookmarkPlayTapped
+    case bookmarkFingerprintCalculated
     case bookmarksSortByChanged
     case bookmarkDeleted
     case bookmarkShareTapped

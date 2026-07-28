@@ -194,7 +194,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // if the user has built an Up Next list, preserve that but make this the currently playing episode
         if !overrideUpNext && !switchingToDifferentUpNextEpisode && queue.upNextCount() > 0 {
             if let currEpisode = currentEpisode(), currEpisode.uuid != episode.uuid {
-                switchTo(episodeToPlay: episode, moveExistingToUpNext: true, autoPlay: true, completion: completion)
+                switchTo(episodeToPlay: episode, moveExistingToUpNext: true, autoPlay: autoPlay, completion: completion)
 
                 return
             }
@@ -2787,58 +2787,95 @@ extension PlaybackManager {
 
         analyticsPlaybackHelper.currentSource = .bookmark
 
-        #if os(watchOS)
-        startBookmarkPlayback(bookmark, episode: episode, atTime: bookmark.time)
-        #else
+        #if !os(watchOS) && !os(tvOS)
         // A bookmark's `referenceTime` sits on the transcript's canonical timeline, which
-        // dynamic ads have shifted in this device's audio, so resolve it to the real
-        // playback position first. Only worth it when the audio is local; otherwise, and
-        // whenever no confident match is found, fall back to the raw playback time.
-        guard let referenceTime = bookmark.referenceTime, FeatureFlag.syncedTranscripts.enabled,
-              isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) || episode.downloaded(pathFinder: DownloadManager.shared) else {
-            startBookmarkPlayback(bookmark, episode: episode, atTime: bookmark.time)
+        // dynamic ads have shifted in this device's audio, so the stored time may point at
+        // the wrong content. Keep the player paused while fingerprinting resolves the true
+        // position, then start there.
+        if FeatureFlag.syncedTranscripts.enabled, let referenceTime = bookmark.referenceTime {
+            await playBookmarkAfterResolving(bookmark, referenceTime: referenceTime, episode: episode)
             return
         }
-
-        FingerprintTimingManager.shared.resolvePlaybackTime(forReferenceTime: referenceTime, episode: episode, analyticsEvent: nil) { [weak self] result in
-            let time: TimeInterval
-            switch result {
-            case let .resolved(playbackTime, _, _, resolveDurationMs):
-                time = playbackTime
-                FileLog.shared.addMessage(
-                    "[Bookmarks] Resolved bookmark \(bookmark.uuid) — local file time "
-                        + "\(String(format: "%.1f", bookmark.time))s, reference time \(String(format: "%.1f", referenceTime))s, "
-                        + "time at resolution \(String(format: "%.1f", playbackTime))s (took \(resolveDurationMs)ms)"
-                )
-            case let .unresolved(reason, _):
-                time = bookmark.time
-                FileLog.shared.addMessage(
-                    "[Bookmarks] No confident match for bookmark \(bookmark.uuid) (\(reason)) — local file time "
-                        + "\(String(format: "%.1f", bookmark.time))s, reference time \(String(format: "%.1f", referenceTime))s; "
-                        + "starting from the local file time"
-                )
-            }
-            self?.startBookmarkPlayback(bookmark, episode: episode, atTime: time)
-        }
         #endif
-    }
 
-    @MainActor
-    private func startBookmarkPlayback(_ bookmark: Bookmark, episode: BaseEpisode, atTime time: TimeInterval) {
         // If we're already the now playing episode, then just seek to the bookmark time
         if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
-            seekTo(time: time, startPlaybackAfterSeek: true)
+            seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
             return
         }
 
         #if !os(watchOS)
         // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
-        DataManager.sharedManager.saveEpisode(playedUpTo: time, episode: episode, updateSyncFlag: false)
-        DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
+        dataManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
+        dataManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
         // Start the play process
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif
     }
+
+    #if !os(watchOS) && !os(tvOS)
+    /// Puts the bookmark's episode in the player, paused at the stored time, while
+    /// fingerprinting resolves where the bookmark's content actually sits in this
+    /// device's audio, then starts playback there (or at the stored time when no
+    /// confident match is found).
+    ///
+    /// The wait is bounded by the resolve's own timeout, and the bookmark row's spinner
+    /// covers it — `playBookmark`'s callers keep it up until this returns. Loading the
+    /// episode first isn't just for the UI: it kicks off the stream-and-cache download
+    /// whose audio the resolve fingerprints, so a not-yet-local episode can still match.
+    ///
+    /// If the listener takes over while we're resolving — seeks away, starts playback,
+    /// or loads another episode — the result is discarded and the player is left alone.
+    @MainActor
+    private func playBookmarkAfterResolving(_ bookmark: Bookmark, referenceTime: TimeInterval, episode: BaseEpisode) async {
+        // Position the player at the stored time — the best estimate until the resolve
+        // lands, and where playback falls back to. Pause before seeking so no audio from
+        // the wrong position slips out.
+        if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
+            pause(userInitiated: false)
+            seekTo(time: bookmark.time)
+        } else {
+            DataManager.sharedManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
+            DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
+            load(episode: episode, autoPlay: false, overrideUpNext: false)
+            // Create the player item now (playing would, but we aren't yet) — this is
+            // what starts the stream-and-cache download.
+            loadCurrentEpisode()
+        }
+
+        let result = await FingerprintTimingManager.shared.resolveBookmarkPlaybackTime(
+            forReferenceTime: referenceTime,
+            episode: episode
+        )
+
+        // The listener took over while we were resolving; leave things where they put them.
+        guard isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid), !playing(),
+              abs(currentTime() - bookmark.time) < 1 else {
+            FileLog.shared.addMessage(
+                "[Bookmarks] Playback moved while resolving bookmark \(bookmark.uuid) — not starting playback"
+            )
+            return
+        }
+
+        let time: TimeInterval
+        switch result {
+        case let .resolved(playbackTime, _, _, resolveDurationMs):
+            time = playbackTime
+            FileLog.shared.addMessage(
+                "[Bookmarks] Resolved bookmark \(bookmark.uuid) — stored time "
+                    + "\(String(format: "%.1f", bookmark.time))s, reference time \(String(format: "%.1f", referenceTime))s, "
+                    + "starting playback at \(String(format: "%.1f", playbackTime))s (took \(resolveDurationMs)ms)"
+            )
+        case let .unresolved(reason, _):
+            time = bookmark.time
+            FileLog.shared.addMessage(
+                "[Bookmarks] No confident match for bookmark \(bookmark.uuid) (\(reason)) — starting "
+                    + "playback at the stored time \(String(format: "%.1f", bookmark.time))s"
+            )
+        }
+        seekTo(time: time, startPlaybackAfterSeek: true)
+    }
+    #endif
 }
 
 // MARK: - SearchResults

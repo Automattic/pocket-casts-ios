@@ -89,12 +89,18 @@ final class FingerprintTimingManager: NSObject {
         label: "au.com.pocketcasts.FingerprintTimingManager.generation",
         qos: .utility
     )
-    /// Decode queue reserved for the one-shot chapter resolve. Kept separate from
-    /// `generationQueue` — which the continuous transcript stream occupies as one
-    /// long-running block that only yields via `Thread.sleep` — so a chapter tap's
+    /// Decode queue reserved for the one-shot resolves, chapter and bookmark alike.
+    /// Kept separate from `generationQueue` — which the continuous transcript stream
+    /// occupies as one long-running block that only yields via `Thread.sleep` — so a
     /// bounded decode can't be starved behind it (which would hang the resolve past
     /// its timeout, since a queued-but-never-started block can't observe
     /// cancellation). Higher QoS because a spinner is blocked on it.
+    ///
+    /// The two one-shots share it because both are bounded, which is the distinction
+    /// that matters here. A bookmark resolve's long budget is spent waiting for its
+    /// buffer, not on this queue, so its decode is no longer than a chapter's; and
+    /// running them concurrently would only make them contend for CPU and for `queue`
+    /// during matching.
     private let onDemandQueue = DispatchQueue(
         label: "au.com.pocketcasts.FingerprintTimingManager.onDemand",
         qos: .userInitiated
@@ -356,13 +362,9 @@ final class FingerprintTimingManager: NSObject {
     ///
     /// Must be called on the main queue. `completion` is delivered on the main
     /// queue; a superseded resolve never calls back.
-    /// - Parameter analyticsEvent: The resolve-duration event to emit on a successful
-    ///   match, or nil to skip it. Defaults to the chapter event; bookmark seeks pass a
-    ///   different one so the chapter metric stays comparable across platforms.
     func resolvePlaybackTime(
         forReferenceTime referenceTime: Double,
         episode: BaseEpisode,
-        analyticsEvent: AnalyticsEvent? = .playerChapterFingerprintCalculated,
         completion: @escaping (ChapterSeekResult) -> Void
     ) {
         dispatchPrecondition(condition: .onQueue(.main))
@@ -389,7 +391,7 @@ final class FingerprintTimingManager: NSObject {
             let result = await self.performResolve(
                 forReferenceTime: referenceTime,
                 episode: episode,
-                analyticsEvent: analyticsEvent,
+                kind: .chapter,
                 flag: flag
             )
 
@@ -398,6 +400,43 @@ final class FingerprintTimingManager: NSObject {
                 guard self.onDemandFlag === flag else { return }
                 completion(result)
             }
+        }
+    }
+
+    /// Resolve a bookmark's reference-timeline position to where that content
+    /// actually sits in this listener's audio, so playback can start there.
+    ///
+    /// The same one-shot resolve as `resolvePlaybackTime`, differing only in what a
+    /// bookmark's audio is likely to be doing — see `ResolveKind.bookmark`. It keeps
+    /// no state of its own, so it neither supersedes nor is superseded by a chapter
+    /// resolve; the caller owns the lifetime, and cancelling its task stops the
+    /// decode via the cancellation handler below.
+    func resolveBookmarkPlaybackTime(
+        forReferenceTime referenceTime: Double,
+        episode: BaseEpisode
+    ) async -> ChapterSeekResult {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        let flag = CancellationFlag()
+
+        // Hard timeout, so a decode that drags or a buffer that never arrives can't
+        // leave the correction pending forever. Both loops observe the flag.
+        let timeoutTask = Task {
+            try? await Task.sleep(
+                nanoseconds: UInt64(FingerprintConstants.bookmarkSeekTimeoutSeconds * 1_000_000_000)
+            )
+            flag.cancel()
+        }
+        defer { timeoutTask.cancel() }
+
+        return await withTaskCancellationHandler {
+            await performResolve(
+                forReferenceTime: referenceTime,
+                episode: episode,
+                kind: .bookmark,
+                flag: flag
+            )
+        } onCancel: {
+            flag.cancel()
         }
     }
 
@@ -415,10 +454,28 @@ final class FingerprintTimingManager: NSObject {
         onDemandTask = nil
     }
 
+    /// What the two one-shot resolves want differently, which all follows from what
+    /// their audio is likely to be doing: a chapter's episode is playing, so its
+    /// audio is already local, while a bookmark's is often still downloading.
+    private enum ResolveKind {
+        case chapter
+        case bookmark
+
+        var analyticsEvent: AnalyticsEvent {
+            switch self {
+            case .chapter: .playerChapterFingerprintCalculated
+            case .bookmark: .bookmarkFingerprintCalculated
+            }
+        }
+
+        /// Only a bookmark waits for the streaming buffer to reach the search window.
+        var waitsForBufferedRegion: Bool { self == .bookmark }
+    }
+
     private func performResolve(
         forReferenceTime referenceTime: Double,
         episode: BaseEpisode,
-        analyticsEvent: AnalyticsEvent?,
+        kind: ResolveKind,
         flag: CancellationFlag
     ) async -> ChapterSeekResult {
         let startDate = Date()
@@ -477,6 +534,18 @@ final class FingerprintTimingManager: NSObject {
         case .streaming(let url): audioURL = url; isStreaming = true
         }
 
+        // A bookmark's episode is often still arriving: playing it starts a
+        // stream-and-cache download that fills the buffer sequentially from byte 0,
+        // so the window we want only becomes readable once that prefix reaches it.
+        if kind.waitsForBufferedRegion, isStreaming {
+            await waitForBufferedRegion(
+                audioFileURL: audioURL,
+                coveringSeconds: searchEnd,
+                deadline: startDate.addingTimeInterval(FingerprintConstants.bookmarkSeekBufferWaitSeconds),
+                flag: flag
+            )
+        }
+
         if flag.isCancelled { return .unresolved(reason: "timeout", isStreaming: isStreaming) }
 
         // Fingerprint + match the bounded region into a local scratch accumulator
@@ -525,20 +594,74 @@ final class FingerprintTimingManager: NSObject {
             // Comparable across platforms: Android fingerprints eagerly and iOS
             // reactively on tap, but both report the calculation time here, decoupled
             // from `playerChapterSelected` (the tap) which stays untouched.
-            if let analyticsEvent {
-                Analytics.track(analyticsEvent, properties: [
-                    "duration_ms": resolveDurationMs,
-                    "is_streaming": isStreaming,
-                    "episode_uuid": episodeUuid,
-                    "podcast_uuid": episode.parentIdentifier()
-                ])
-            }
+            Analytics.track(kind.analyticsEvent, properties: [
+                "duration_ms": resolveDurationMs,
+                "is_streaming": isStreaming,
+                "episode_uuid": episodeUuid,
+                "podcast_uuid": episode.parentIdentifier()
+            ])
             return .resolved(
                 playbackTime: max(referenceTime, playback),
                 usedPrior: usedPrior,
                 isStreaming: isStreaming,
                 resolveDurationMs: resolveDurationMs
             )
+        }
+    }
+
+    /// Wait for a still-downloading streaming buffer to cover `coveringSeconds` of
+    /// audio, polling as it grows.
+    ///
+    /// `MediaExporterResourceLoaderDelegate` caches with a single un-ranged request
+    /// appended to disk, so the buffer is always a prefix of the episode and
+    /// `AVAudioFile.length` tracks exactly how much of it is local — the same
+    /// property the grow-loop anchors on.
+    ///
+    /// Returns once covered, or early when the file stops growing, the deadline
+    /// passes, or the resolve is cancelled. There's deliberately no failure signal:
+    /// the bounded fingerprint clamps to whatever is readable, so matching a short
+    /// prefix of the window still beats returning nothing.
+    private func waitForBufferedRegion(
+        audioFileURL: URL,
+        coveringSeconds: Double,
+        deadline: Date,
+        flag: CancellationFlag
+    ) async {
+        let pollCadence = FingerprintConstants.bufferGrowPollCadenceSeconds
+        var stallSeconds: Double = 0
+        var lastLength: AVAudioFramePosition = -1
+
+        while !flag.isCancelled, Date() < deadline {
+            // The buffer may not exist yet, and a partial frame at the tail can make
+            // `AVAudioFile` refuse to open momentarily — both read as "no growth".
+            if let audioFile = try? AVAudioFile(
+                forReading: audioFileURL,
+                commonFormat: .pcmFormatFloat32,
+                interleaved: false
+            ) {
+                let bufferedSeconds = Double(audioFile.length) / audioFile.processingFormat.sampleRate
+                if bufferedSeconds >= coveringSeconds {
+                    FileLog.shared.addMessage(
+                        "FingerprintTimingManager: streaming buffer covers the search window "
+                            + "(\(String(format: "%.1f", bufferedSeconds))s buffered)"
+                    )
+                    return
+                }
+                if audioFile.length > lastLength {
+                    lastLength = audioFile.length
+                    stallSeconds = 0
+                }
+            }
+
+            stallSeconds += pollCadence
+            if stallSeconds >= FingerprintConstants.bookmarkSeekBufferStallSeconds {
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: streaming buffer stopped growing short of the "
+                        + "search window — fingerprinting the \(max(0, lastLength)) frames that arrived"
+                )
+                return
+            }
+            try? await Task.sleep(nanoseconds: UInt64(pollCadence * 1_000_000_000))
         }
     }
 
