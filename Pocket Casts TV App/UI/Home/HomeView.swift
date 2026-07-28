@@ -68,8 +68,8 @@ struct HomeView: View {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
-                        youMightLikeRow
                         videoRow
+                        youMightLikeRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
