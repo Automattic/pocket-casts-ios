@@ -17,10 +17,12 @@ struct BookmarkTranscriptSnippet {
 /// Extracts the transcript text surrounding a bookmark's position, used as the
 /// input for generating a bookmark title.
 ///
-/// Generated transcripts are timed against a reference copy of the episode audio
-/// that dynamic ads shift away from, so the bookmark's playback time is first
-/// resolved to the reference timeline (see `docs/transcripts.md`), falling back
-/// to the raw playback time when a confident mapping isn't available.
+/// Limited to fingerprinted transcripts. Generated transcripts are timed against a
+/// reference copy of the episode audio that dynamic ads shift away from, so the
+/// bookmark's playback time has to be resolved to the reference timeline (see
+/// `docs/transcripts.md`) before it points at the right words. Anything else — an
+/// externally supplied transcript, or a fingerprint that doesn't confidently match —
+/// yields no snippet rather than one taken from the raw playback time.
 struct BookmarkTranscriptSnippetExtractor {
 
     /// The window reaches further back than forward: by the time a user bookmarks
@@ -37,14 +39,16 @@ struct BookmarkTranscriptSnippetExtractor {
             return nil
         }
 
-        // Only generated transcripts have a reference fingerprint to re-anchor against.
-        var center = time
-        if transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled,
-           let referenceTime = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode) {
-            center = referenceTime
+        // Only generated transcripts have a reference fingerprint to re-anchor against, and
+        // without a confident match there's no telling how far dynamic ads have pushed the
+        // playback time from the timeline the transcript is cued against. Either way, capture
+        // nothing rather than a passage from somewhere else in the episode.
+        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled,
+              let referenceTime = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode) else {
+            return nil
         }
 
-        return Self.extractSnippet(from: model, at: center)
+        return Self.extractSnippet(from: model, at: referenceTime)
     }
 
     func snippet(forPassage passage: String, at location: Int?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
