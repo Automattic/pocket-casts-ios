@@ -609,6 +609,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         /// visualize it. Called from the audio-processing tap for every buffer once effects (if any)
         /// have been applied, mirroring the tap `EffectsPlayer` installs on its mixer node.
         private func updateAudioMeter(from bufferList: UnsafeMutablePointer<AudioBufferList>, frameCount: CMItemCount) {
+        #if !os(tvOS)
+            guard Settings.showAudioWaveformInPlayer else { return }
+        #endif
             let rms = AudioMeterManager.calculateRMS(from: UnsafeMutableAudioBufferListPointer(bufferList), frameCount: Int(frameCount))
             AudioMeterManager.shared.updateWithRMSLevel(rms, adjustment: 2)
         }
