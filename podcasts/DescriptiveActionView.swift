@@ -10,6 +10,8 @@ class DescriptiveActionView: UIView {
     private let iconTintStyle: ThemeStyle
     private let onLinkTap: (() -> Void)?
 
+    private weak var iconView: UIImageView?
+
     private weak var delegate: OptionsPickerRootController?
 
     init(frame: CGRect, title: String, message: String?, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, onLinkTap: (() -> Void)? = nil) {
@@ -22,6 +24,10 @@ class DescriptiveActionView: UIView {
         self.iconTintStyle = iconTintStyle
         self.onLinkTap = onLinkTap
         super.init(frame: frame)
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DescriptiveActionView, _) in
+            view.updateSize()
+        }
     }
 
     @available(*, unavailable)
@@ -29,7 +35,7 @@ class DescriptiveActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func actionWasAdded() {
+    func actionWasAdded(vc: UIViewController) {
         // add icon
         let image = UIImage(named: icon)?.tintedImage(AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride))
         let iconView = UIImageView(image: image)
@@ -42,20 +48,24 @@ class DescriptiveActionView: UIView {
             iconView.heightAnchor.constraint(equalToConstant: 39),
             iconView.widthAnchor.constraint(equalToConstant: 39)
         ])
+        self.iconView = iconView
 
         // add title
         let titleLabel = UILabel()
         titleLabel.font = UIFont.font(ofSize: 20, weight: .bold, scalingWith: .title3)
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
         titleLabel.text = title
         titleLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+
         addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 20)
         ])
@@ -63,20 +73,26 @@ class DescriptiveActionView: UIView {
         // add message
         let messageBottomAnchor: NSLayoutYAxisAnchor
         if FeatureFlag.useDescriptiveActionAttributedTextView.enabled, let message {
-            let messageView = DescriptiveActionAttributedTextView(
+            let messageViewRoot = DescriptiveActionAttributedTextView(
                 text: message,
                 onLinkTap: onLinkTap
-            ).themedUIView
+            )
+            let messageVC = ThemedHostingController(rootView: messageViewRoot)
+            messageVC.sizingOptions = [.intrinsicContentSize]
+            let messageView = messageVC.view!
+            vc.addChild(messageVC)
             messageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(messageView)
-
+            messageVC.didMove(toParent: vc)
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                messageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                messageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
                 messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: 20)
             ])
             messageBottomAnchor = messageView.bottomAnchor
+            messageView.setContentHuggingPriority(.defaultLow, for: .vertical)
+            messageView.setContentCompressionResistancePriority(.required, for: .vertical)
         } else {
             let messageLabel = UILabel()
             messageLabel.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
@@ -95,45 +111,95 @@ class DescriptiveActionView: UIView {
                 trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 20)
             ])
             messageBottomAnchor = messageLabel.bottomAnchor
+            messageLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+            messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         }
+        var previousBottomAnchor = messageBottomAnchor
 
-        var previousButton: ShiftyRoundButton?
         for (index, action) in actions.enumerated() {
-            let actionButton = ShiftyRoundButton()
-            actionButton.fontSize = 18
-            actionButton.buttonTitle = action.label
-            actionButton.isAccessibilityElement = true
-            actionButton.accessibilityLabel = action.label
+            let actionButton = makeStandardButton(for: action)
+
             actionButton.accessibilityIdentifier = "action_\(index)"
-            actionButton.accessibilityTraits = [.button]
-            let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
-            actionButton.textColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
-            actionButton.fillColor = actionColor
-            actionButton.strokeColor = actionColor
-            actionButton.isOn = !action.outline
-            actionButton.setup()
-            actionButton.buttonTapped = { [weak self] in
-                action.action()
-                self?.delegate?.animateOut(optionChosen: true)
-            }
             actionButton.translatesAutoresizingMaskIntoConstraints = false
+            actionButton.setContentHuggingPriority(.defaultLow, for: .vertical)
+            actionButton.setContentCompressionResistancePriority(.required, for: .vertical)
             addSubview(actionButton)
 
-            let previousBottomAnchor = previousButton == nil ? messageBottomAnchor : previousButton!.bottomAnchor
             NSLayoutConstraint.activate([
                 actionButton.topAnchor.constraint(equalTo: previousBottomAnchor, constant: 20),
                 actionButton.centerXAnchor.constraint(equalTo: centerXAnchor),
                 actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 20),
-                actionButton.heightAnchor.constraint(equalToConstant: 56)
+                actionButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
             ])
-            previousButton = actionButton
+            previousBottomAnchor = actionButton.bottomAnchor
         }
 
-        if let lastButton = previousButton {
-            NSLayoutConstraint.activate([
-                bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 20)
-            ])
+        NSLayoutConstraint.activate([
+            bottomAnchor.constraint(equalTo: previousBottomAnchor, constant: 20)
+        ])
+
+        updateSize()
+    }
+
+    private func makeStandardButton(for action: OptionAction) -> UIView {
+        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+
+        var config = UIButton.Configuration.filled()
+        var title = AttributedString(action.label)
+        title.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .body)
+        config.attributedTitle = title
+        config.baseBackgroundColor = action.outline ? .clear : actionColor
+        config.baseForegroundColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
+        if action.outline {
+            config.background.strokeColor = actionColor
+            config.background.strokeWidth = 2
         }
+        config.cornerStyle = .medium // automatic rounded corners
+        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
+
+        let actionButton = UIButton(configuration: config, primaryAction: UIAction(title: action.label, handler: { [weak self] _ in
+            // Dismiss the sheet before running the action so an action that
+            // presents another screen doesn't hit "already presenting".
+            self?.delegate?.animateOut(optionChosen: true)
+            action.action()
+        }))
+        actionButton.configurationUpdateHandler = { button in
+            var config = button.configuration
+
+            var title = AttributedString(action.label)
+            title.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .body)
+            config?.attributedTitle = title
+            button.configuration = config
+        }
+        return actionButton
+    }
+
+    private func makeShiftyButton(for action: OptionAction) -> UIView {
+        let actionButton = ShiftyRoundButton()
+        actionButton.fontSize = 18
+        actionButton.buttonTitle = action.label
+        actionButton.isAccessibilityElement = true
+        actionButton.accessibilityLabel = action.label
+        actionButton.accessibilityTraits = [.button]
+        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+        actionButton.textColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
+        actionButton.fillColor = actionColor
+        actionButton.strokeColor = actionColor
+        actionButton.isOn = !action.outline
+        actionButton.setup()
+        actionButton.buttonTapped = { [weak self] in
+            // Dismiss the sheet before running the action so an action that
+            // presents another screen doesn't hit "already presenting".
+            self?.delegate?.animateOut(optionChosen: true)
+            action.action()
+        }
+        return actionButton
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(39, iconMetric.scaledValue(for: 39))
+        iconView?.updateSizeConstraints(to: iconSize)
     }
 }

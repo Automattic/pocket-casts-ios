@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func navigateTo(category: String) {
@@ -126,7 +127,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
     }
 
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {
-        guard let podcastCollection = podcastCollection else { return }
+        guard let podcastCollection else { return }
 
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: podcastCollection.datetime)

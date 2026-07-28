@@ -26,27 +26,26 @@ class StarredViewController: PCViewController {
     }
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
+    @MainActor
     var isMultiSelectEnabled: Bool = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.starredTable.beginUpdates()
-                self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.starredTable.endUpdates()
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.starredMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.starredTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.starredMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            starredTable.beginUpdates()
+            starredTable.setEditing(isMultiSelectEnabled, animated: true)
+            starredTable.endUpdates()
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            if isMultiSelectEnabled {
+                Analytics.track(.starredMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    starredTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.starredMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -89,7 +88,7 @@ class StarredViewController: PCViewController {
         loadingIndicator.startAnimating()
         refreshQueue.addOperation {
             ApiServerHandler.shared.retrieveStarred { episodes in
-                guard let episodes = episodes else {
+                guard let episodes else {
                     DispatchQueue.main.sync {
                         self.loadingIndicator.stopAnimating()
                     }
@@ -100,13 +99,13 @@ class StarredViewController: PCViewController {
                 let oldData = self.episodes
                 var newData = [ListEpisode]()
                 for episode in episodes {
-                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor(), isInUpNext: PlaybackManager.shared.inUpNext(episode: episode)))
+                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor()))
                 }
 
                 DispatchQueue.main.sync { [weak self] in
                     guard let strongSelf = self else { return }
                     strongSelf.loadingIndicator.stopAnimating()
-                    strongSelf.starredTable.isHidden = (newData.count == 0)
+                    strongSelf.starredTable.isHidden = (newData.isEmpty)
                     if animated {
                         let changeSet = StagedChangeset(source: oldData, target: newData)
                         strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
@@ -128,7 +127,7 @@ class StarredViewController: PCViewController {
             let newData = self.episodesDataManager.starredEpisodes()
 
             DispatchQueue.main.sync {
-                self.starredTable.isHidden = (newData.count == 0)
+                self.starredTable.isHidden = (newData.isEmpty)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
                     self.starredTable.reload(using: changeSet, with: .none, setData: { data in
@@ -144,14 +143,9 @@ class StarredViewController: PCViewController {
 
     private func addEventObservers() {
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
     }
 
     @objc private func refreshEpisodesFromNotification(notification: Notification) {
@@ -179,11 +173,7 @@ class StarredViewController: PCViewController {
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("star_empty") })
         }
 
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
+        self.contentUnavailableConfiguration = config
     }
 }
 

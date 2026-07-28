@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import DifferenceKit
 
 class EpisodesDataManager {
@@ -14,7 +15,7 @@ class EpisodesDataManager {
             }
         case .filter(uuid: let uuid):
             if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
-                return episodes(for: filter).map { $0.episode }
+                return playlistEpisodes(for: filter).map { $0.episode }
             }
         case .downloads:
             return downloadedEpisodes().flatMap { $0.elements.map { $0.episode } }
@@ -124,7 +125,7 @@ class EpisodesDataManager {
         }
 
         var whereClauses = ["podcast_id = \(podcast.id)", "wasDeleted = 0"]
-        if !podcast.shouldShowArchived {
+        if !podcast.showArchived {
             whereClauses.append("archived = 0")
         }
         if let uuids = uuidsToFilter { // ignore uuid filtering if uuid list is empty or nil
@@ -136,12 +137,6 @@ class EpisodesDataManager {
     }
 
     // MARK: - Playlists
-
-    func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems) -> [ListEpisode] {
-        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: limit)
-        let tintColor = filter.playlistColor()
-        return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
-    }
 
     func playlistEpisodes(
         for playlist: EpisodeFilter,

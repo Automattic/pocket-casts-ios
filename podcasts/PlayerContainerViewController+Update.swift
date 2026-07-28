@@ -37,7 +37,7 @@ extension PlayerContainerViewController {
             return
         }
 
-        mainScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+        mainScrollView.setContentOffset(CGPoint.zero, animated: false)
         tabsView.currentTab = 0
         showNotesItem.removeFromParent()
         showNotesItem.view.removeFromSuperview()

@@ -79,7 +79,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         // Prevent the add bookmark window from opening if the app isn't active
         // We also prevent it from opening while connected to CarPlay to not distract anyone, and in my testing the app state is always
         // true while connected to CarPlay, even if it's in the background
-        guard UIApplication.shared.applicationState == .active, !SceneHelper.isConnectedToCarPlay else {
+        guard UIApplication.shared.applicationState == .active, !CarPlayHelper.isConnectedToCarPlay else {
             return
         }
 
@@ -100,7 +100,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         guard isNew else { return }
 
         if canceled {
-            Task.init {
+            Task {
                 let _ = await bookmarkManager.remove([bookmark])
                 viewModel.reload()
             }
@@ -129,8 +129,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 // MARK: - BookmarkListRouter
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
-    func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark, source: .player)
+    func bookmarkPlay(_ bookmark: Bookmark) async throws {
+        try await playbackManager.playBookmark(bookmark, source: .player)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

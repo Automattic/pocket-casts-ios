@@ -7,6 +7,7 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+
         handleContinue(userActivity)
 
         return true
@@ -37,6 +38,23 @@ extension AppDelegate {
                 handleReferralsDeepLink(url: incomingURL)
                 return
             }
+
+            if path == "/discover" || path.startsWith(string: "/discover/") {
+                if let url = URL(string: "pktc:/\(path)") {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    JLRoutes.routeURL(url)
+                }
+                return
+            }
+
+            if path == "/pair" || path.startsWith(string: "/pair/") {
+                if let url = URL(string: "pktc:/\(path)?\(components.query ?? "")") {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    JLRoutes.routeURL(url)
+                }
+                return
+            }
+
             // Also pass any query params from the share URL to the server to allow support for episode position handling
             // Ex: ?t=123
             let query = components.query.map { "?\($0)" } ?? ""
@@ -77,7 +95,7 @@ extension AppDelegate {
                 }
             }
 
-            if let urlString = urlString, let url = URL(string: urlString) {
+            if let urlString, let url = URL(string: urlString) {
                 JLRoutes.routeURL(url)
             }
         } else if intent is SJOpenFilterIntent {
@@ -157,6 +175,8 @@ extension AppDelegate {
                 responseCode = SiriShortcutsManager.shared.skipToNextChapter()
             } else if identifier == Constants.SiriActions.previousChapterId {
                 responseCode = SiriShortcutsManager.shared.skipToPreviousChapter()
+            } else if identifier == Constants.SiriActions.markAsPlayedId {
+                responseCode = SiriShortcutsManager.shared.markAsPlayed()
             } else {
                 responseCode = SiriShortcutsManager.shared.resumePlayback()
             }
@@ -171,6 +191,8 @@ extension AppDelegate {
                         responseCode = SiriShortcutsManager.shared.playPodcast(uuid: uuid)
                     }
                 }
+            } else if thisIntent.resumePlayback == true, thisIntent.playbackRepeatMode == .one {
+                responseCode = SiriShortcutsManager.shared.resumePlayback()
             }
         }
 

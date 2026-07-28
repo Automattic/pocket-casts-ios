@@ -16,7 +16,10 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
-    private let cellHeight = 181 as CGFloat
+    private var cellHeight: CGFloat {
+        return DiscoverFeaturedView.scaledHeight
+    }
+
     private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
     private var lastLayedOutWidth = 0 as CGFloat
@@ -37,6 +40,10 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: FeaturedSummaryViewController, _) in
+            controller.updateSize()
+        }
 
         (view as? ThemeableView)?.style = .primaryUi02
 
@@ -100,7 +107,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedSummaryViewController.cellId, for: indexPath) as! FeaturedCollectionViewCell
 
         let podcast = podcasts[indexPath.row]
-        if let delegate = delegate {
+        if let delegate {
             cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
             cell.featuredView.onSubscribe = { [weak self] in
                 if let listId = self?.listId(for: podcast), let podcastUuid = podcast.uuid {
@@ -121,13 +128,13 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let delegate = delegate else { return }
+        guard let delegate else { return }
 
         let podcast = podcasts[indexPath.row]
         let listId = listId(for: podcast)
         delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: listId)
 
-        if let listId = listId, let podcastUuid = podcast.uuid {
+        if let listId, let podcastUuid = podcast.uuid {
             AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
         }
     }
@@ -169,7 +176,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         guard let source = item.source, let title = item.title?.localized else { return }
 
-        if let delegate = delegate {
+        if let delegate {
             listType = delegate.replaceRegionName(string: title)
         }
 
@@ -195,7 +202,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
                     DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
-                        guard let podcastList = podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
+                        guard let podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast
 
@@ -260,5 +267,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     func listId(for podcast: DiscoverPodcast) -> String? {
         lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        lastLayedOutWidth = 0
+        featuredCollectionViewHeight.constant = cellHeight
     }
 }

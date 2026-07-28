@@ -26,7 +26,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
     }
 
     func unlockTapped(_ product: ProductInfo) {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped, properties: ["frequency": product.frequency.rawValue])
 
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: product)
@@ -64,13 +64,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         }
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
-        guard source == .accountCreated && !FeatureFlag.newOnboardingAccountCreation.enabled else {
-            navigationController?.dismiss(animated: true)
-            return
-        }
-
-        let controller = WelcomeViewModel.make(in: navigationController, displayType: .newAccount)
-        navigationController?.pushViewController(controller, animated: true)
+        navigationController?.dismiss(animated: true)
     }
 
     func changedSubscriptionTier(_ index: Int) {
@@ -174,6 +168,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func defaultPaywall(with viewModel: PlusLandingViewModel, headline: String? = nil) -> some View {
             UpgradeLandingView(viewModel: viewModel)
-                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+                .setupDefaultEnvironment(theme: Theme(previewTheme: .light))
     }
 }

@@ -62,7 +62,6 @@ struct HowToShareActionImageView: View {
             }
         }
         .padding(.top, 28)
-
     }
 
     @ViewBuilder

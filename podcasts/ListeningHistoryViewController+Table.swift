@@ -53,6 +53,8 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
             }
         }
 
+        cell.showsTopDivider = LiquidGlass.isEnabled && indexPath.row == 0
+
         return cell
     }
 
@@ -92,20 +94,7 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            if episode.downloadFailed() {
-                let optionsPicker = OptionsPicker(title: nil)
-                let retryAction = OptionAction(label: L10n.retry, icon: nil, action: {
-                    NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
-                        if later {
-                            DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-                        } else {
-                            DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
-                        }
-                    }, disallowed: nil)
-                })
-                optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
-                optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
-            } else if let parentPodcast = episode.parentPodcast() {
+            if let parentPodcast = episode.parentPodcast() {
                 let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .listeningHistory)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)

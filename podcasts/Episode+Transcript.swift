@@ -1,8 +1,9 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension Episode {
     func checkTranscriptAvailability() {
-        Task.init {
+        Task {
             if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier(), episodeUuid: uuid) {
                 let transcriptsAvailable = !metadata.transcripts.isEmpty
                 let hasGeneratedTranscripts = metadata.hasGeneratedTranscripts

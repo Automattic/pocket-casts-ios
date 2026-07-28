@@ -87,11 +87,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         if SubscriptionHelper.activeTier == .patron {
             controller = PatronWelcomeViewModel.make(in: navigationController)
         } else {
-            if !FeatureFlag.newOnboardingAccountCreation.enabled {
-                controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
-            } else {
-                controller = nil
-            }
+            controller = nil
         }
 
         let presentNextBlock: () -> Void = {
@@ -108,7 +104,6 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
             // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
-
         }
 
         // Dismiss the current flow
@@ -234,8 +229,8 @@ private extension PlusPurchaseModel {
     func handlePurchaseCancelled(_ notification: Notification) {
         defer { state = .cancelled }
         guard
-            let purchasedProduct,
-            let error = notification.userInfo?["error"] as? NSError
+            purchasedProduct != nil,
+            notification.userInfo?["error"] as? NSError != nil
         else { return }
     }
 

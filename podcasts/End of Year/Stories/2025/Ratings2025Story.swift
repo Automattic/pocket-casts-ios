@@ -1,5 +1,6 @@
 import SwiftUI
 import Lottie
+import EndOfYear
 
 struct Ratings2025Story: ShareableStory {
 
@@ -7,8 +8,8 @@ struct Ratings2025Story: ShareableStory {
     let ratings: [UInt32: Int]
 
     let foregroundColor: Color = .white
-    let backgroundColor: Color = Color(hex: "#A22828")
-    let barColor: Color = Color(hex: "#FF4562")
+    let backgroundColor = Color(hex: "#A22828")
+    let barColor = Color(hex: "#FF4562")
 
     private let ratingsBlogPostURL = URL(string: "https://blog.pocketcasts.com/2024/08/20/podcast-ratings/")!
 
@@ -22,7 +23,7 @@ struct Ratings2025Story: ShareableStory {
 
     var body: some View {
         Group {
-            if ratings.count == 0 {
+            if ratings.isEmpty {
                 emptyView()
             } else {
                 columnsView()
@@ -177,7 +178,7 @@ struct Ratings2025Story: ShareableStory {
     }
 
     func hideShareButton() -> Bool {
-        ratings.count == 0
+        ratings.isEmpty
     }
 }
 
@@ -234,7 +235,7 @@ fileprivate struct ChartColumn: View {
     }
 }
 
-final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
+private final class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let index: Int
 
     private static func formatted(hours: Int) -> String {

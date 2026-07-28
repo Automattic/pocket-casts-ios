@@ -19,7 +19,7 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func defaultSuggestions() -> [INShortcut] {
-        var shortcuts = [resumeLastShortcut(), pauseShortcut(), playNextShortcut(), nextChapterShortcut(), previousChapterShortcut(), sleepTimerShortcut(), extendSleepTimerShortcut()]
+        var shortcuts = [resumeLastShortcut(), pauseShortcut(), playNextShortcut(), nextChapterShortcut(), previousChapterShortcut(), markAsPlayedShortcut(), sleepTimerShortcut(), extendSleepTimerShortcut()]
 
         // only signed in users can use the play suggested shortcut
         if SyncManager.isUserLoggedIn() {
@@ -73,7 +73,7 @@ class SiriShortcutsManager: CustomObserver {
                     }
                 }
             }
-            if let error = error {
+            if let error {
                 FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
             }
             completion(nil)
@@ -129,6 +129,11 @@ class SiriShortcutsManager: CustomObserver {
 
     func previousChapterShortcut() -> INShortcut {
         let shortcut = INShortcut(intent: previousChapterIntent())
+        return shortcut!
+    }
+
+    func markAsPlayedShortcut() -> INShortcut {
+        let shortcut = INShortcut(intent: markAsPlayedIntent())
         return shortcut!
     }
 
@@ -294,6 +299,19 @@ class SiriShortcutsManager: CustomObserver {
         return intent
     }
 
+    // MARK: - Mark as played intent
+
+    func markAsPlayedIntent() -> INIntent {
+        let episode = INMediaItem(identifier: Constants.SiriActions.markAsPlayedId,
+                                  title: L10n.siriShortcutMarkAsPlayedTitle,
+                                  type: .podcastEpisode,
+                                  artwork: nil)
+
+        let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .none, resumePlayback: false)
+        intent.suggestedInvocationPhrase = L10n.siriShortcutMarkAsPlayedPhrase
+        return intent
+    }
+
     // MARK: - Timer intents
 
     func setSleepTimerIntent() -> INIntent {
@@ -345,6 +363,16 @@ class SiriShortcutsManager: CustomObserver {
         AnalyticsHelper.siriPause()
         AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
         PlaybackManager.shared.pause()
+        return INPlayMediaIntentResponseCode.success
+    }
+
+    func markAsPlayed() -> INPlayMediaIntentResponseCode {
+        AnalyticsHelper.siriMarkAsPlayed()
+        guard let currentEpisode = PlaybackManager.shared.currentEpisode() else {
+            return INPlayMediaIntentResponseCode.failureNoUnplayedContent
+        }
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
+        EpisodeManager.markAsPlayed(episode: currentEpisode, fireNotification: true)
         return INPlayMediaIntentResponseCode.success
     }
 

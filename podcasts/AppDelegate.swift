@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var backgroundSignOutListener: BackgroundSignOutListener?
     private(set) var appInstallState: AppLifecycleAnalytics.AppInstallState?
 
-    lazy var whatsNew: WhatsNew = WhatsNew()
+    lazy var whatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 
@@ -42,29 +42,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAnalytics()
 
         DataManager.logger = SentryLogger()
+        ServerConfig.shared.errorLogger = SentryLogger()
 
         appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
         if let appInstallState {
             switch appInstallState {
             case .updated:
-                Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
-
                 if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
                     Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
                 }
-                if FeatureFlag.playlistsRebranding.enabled {
-                    Settings.shouldShowNewFilterTip = false
-                    Settings.shouldShowNewFilterTipInCreationView = false
-                }
+                Settings.shouldShowNewFilterTip = false
+                Settings.shouldShowNewFilterTipInCreationView = false
             case .installed:
                 //Never show the podcast feed reload tooltip for fresh install
                 Settings.shouldShowPodcastFeeReloadTip = false
                 Settings.shouldShowPodcastViewChangesTip = false
                 Settings.shouldShowRecentlyPlayedSortingTip = false
-                if FeatureFlag.playlistsRebranding.enabled {
-                    Settings.shouldShowPlaylistsOnboarding = false
-                }
+                Settings.shouldShowUpNextSortDurationTip = false
+                Settings.shouldShowPlaylistsOnboarding = false
             case .sameVersion:
                 break
             }
@@ -188,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.reduce("") { $0 + String(format: "%02X", $1) }
+        let token = deviceToken.reduce(into: "") { $0 += String(format: "%02X", $1) }
 
         PodcastManager.shared.didReceiveToken(token)
     }
@@ -294,7 +290,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+        FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
         }
@@ -302,13 +298,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
-
-        if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.importUserDefaults()
-                DataManager.sharedManager.importPodcastSettings()
-            }
-        }
 
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 

@@ -14,11 +14,26 @@ then
 fi
 
 if command -v brew &> /dev/null; then
-    brew upgrade protobuf
-    brew upgrade swift-protobuf
+    for pkg in protobuf swift-protobuf; do
+        if brew list --formula "$pkg" &> /dev/null; then
+            # Upgrades are best-effort: a transient Homebrew failure shouldn't
+            # block proto generation when the installed version already works.
+            brew upgrade "$pkg" || echo "Warning: failed to upgrade $pkg; continuing with the installed version."
+        else
+            brew install "$pkg"
+        fi
+    done
 else
     echo "Brew is not installed. Make sure protoc + protoc-gen-swift is installed."
 fi
 
-protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/api.proto
-protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/files.proto
+for tool in protoc protoc-gen-swift; do
+    if ! command -v "$tool" &> /dev/null; then
+        echo "Error: $tool is not installed or not on PATH. Install protobuf and swift-protobuf and try again."
+        exit 1
+    fi
+done
+
+PROTO_OUT=./Modules/Sources/PocketCastsServer/Private/Protobuffer
+protoc --swift_out="$PROTO_OUT" --proto_path="$API_BASE_FOLDER" "$API_BASE_FOLDER/api.proto"
+protoc --swift_out="$PROTO_OUT" --proto_path="$API_BASE_FOLDER" "$API_BASE_FOLDER/files.proto"

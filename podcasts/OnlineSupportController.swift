@@ -1,6 +1,7 @@
 import MessageUI
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 import WebKit
 
@@ -11,14 +12,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         case about
     }
 
-    @IBOutlet var loadingIndicator: AngularActivityIndicator! {
-        didSet {
-            loadingIndicator.color = AppTheme.loadingActivityColor()
-        }
-    }
+    private let loadingIndicator = AngularActivityIndicator(size: CGSize(width: 40, height: 40), lineWidth: 2.0, duration: 1.0)
 
     private var emailHelper = EmailHelper()
-    private var supportWebView: WKWebView!
+    private var supportWebView = WKWebView()
     private var databaseExport: DatabaseExport? = nil
     private var loadingAlert: ShiftyLoadingAlert?
     private let source: Source
@@ -41,19 +38,29 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         presentationController?.delegate = self
         navigationController?.presentationController?.delegate = self
 
         title = L10n.settingsHelp
-        loadingIndicator.startAnimating()
 
+        // A temporary workaround until the web supports safe area.
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+        navigationItem.compactAppearance = appearance
+
+        setupLoadingIndicator()
         setupWebView()
 
+        loadingIndicator.startAnimating()
         load()
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: self, action: #selector(doneTapped))
 
-        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .done, target: self, action: #selector(showOptions(_:)))
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), menu: makeOptionsMenu())
 
         AnalyticsHelper.userGuideOpened()
 
@@ -76,9 +83,19 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         }
     }
 
-    private func setupWebView() {
-        supportWebView = WKWebView()
+    private func setupLoadingIndicator() {
+        loadingIndicator.color = AppTheme.loadingActivityColor()
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.widthAnchor.constraint(equalToConstant: 40),
+            loadingIndicator.heightAnchor.constraint(equalToConstant: 40),
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
+        ])
+    }
 
+    private func setupWebView() {
         view.insertSubview(supportWebView, belowSubview: loadingIndicator)
         supportWebView.anchorToAllSidesOf(view: view)
 
@@ -89,32 +106,30 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     }
 
     deinit {
-        supportWebView?.navigationDelegate = nil
+        supportWebView.navigationDelegate = nil
     }
 
     @objc private func doneTapped() {
         dismiss(animated: true, completion: didDismiss)
     }
 
-    @objc private func showOptions(_ sender: UIBarButtonItem) {
-        let controller = UIAlertController()
-        controller.popoverPresentationController?.barButtonItem = sender
-
-        controller.addAction(.init(title: L10n.settingsConnectionStatus, style: .default, handler: { [weak self] _ in
-            self?.showStatusPage()
-        }))
-
-        controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
-            self?.export(sender)
-        }))
-
-        controller.addAction(.init(title: L10n.logs, style: .default, handler: { [weak self] _ in
-            self?.viewLogs(sender)
-        }))
-
-        controller.addAction(.init(title: L10n.cancel, style: .destructive))
-
-        present(controller, animated: true)
+    private func makeOptionsMenu() -> UIMenu {
+        UIMenu(children: [
+            UIAction(title: L10n.settingsConnectionStatus) { [weak self] _ in
+                self?.showStatusPage()
+            },
+            FeatureFlag.troubleshooting.enabled ? UIAction(title: L10n.troubleshootingTitle) { [weak self] _ in
+                self?.showTroubleshooting()
+            } : nil,
+            UIAction(title: L10n.exportDatabase) { [weak self] _ in
+                guard let self, let sender = customRightBtn else { return }
+                export(sender)
+            },
+            UIAction(title: L10n.logs) { [weak self] _ in
+                guard let self, let sender = customRightBtn else { return }
+                viewLogs(sender)
+            },
+        ].compactMap { $0 })
     }
 
     private func showStatusPage() {
@@ -122,8 +137,17 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         navigationController?.pushViewController(hostingController, animated: true)
     }
 
+    private func showTroubleshooting() {
+        let hostingController = ThemedHostingController(rootView: TroubleshootingView(source: source))
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
     private func load() {
         supportWebView.load(request)
+    }
+
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        supportWebView.scrollView
     }
 
     // MARK: - WKNavigationDelegate
@@ -131,8 +155,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let urlStr = navigationAction.request.url?.absoluteString, urlStr.contains("mailto") {
             let feedback = urlStr.contains("Feedback")
+            let chatbot = urlStr.lowercased().contains("chatbot-support@pocketcasts.com")
             AnalyticsHelper.userGuideEmail(feedback: feedback)
-            emailHelper.presentSupportDialog(self, type: feedback ? .feedback : .support)
+            let type: ZDType = chatbot ? .chatbotSupport : (feedback ? .feedback : .support)
+            emailHelper.presentSupportDialog(self, type: type)
             decisionHandler(.cancel)
             return
         } else if let urlStr = navigationAction.request.url?.absoluteString, !urlStr.contains("device=ios"), urlStr.contains("support.pocketcasts.com") {

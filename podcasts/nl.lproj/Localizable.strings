@@ -119,6 +119,10 @@
     <string>Accounttype selecteren</string>
     <key>account_sign_out</key>
     <string>Afmelden</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Je podcasts, voortgang en gegevens zijn hier wanneer je terug bent.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Afmelden?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Door je af te melden, worden %1$@ ondersteunde podcasts van dit apparaat verwijderd. Weet je het zeker?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -245,6 +249,12 @@ Download de app voor de volledige ervaring!</string>
     <string>Je artwork wordt nu vernieuwd</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Ay ay, kapitein</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Tabbalk</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimaliseren bij scrollen</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Wanneer ingeschakeld, krimpt de tabbalk in een compacte pil terwijl je naar beneden scrolt, zodat meer inhoud in beeld blijft.</string>
     <key>appearance_theme_header</key>
     <string>Thema</string>
     <key>appearance_theme_select</key>
@@ -479,6 +489,8 @@ Laat ons eerst helpen</string>
     <string>Moet ten minste 6 tekens bevatten</string>
     <key>chapters</key>
     <string>Hoofdstukken</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Deze hoofdstukken worden automatisch gegenereerd en zijn mogelijk niet perfect nauwkeurig.</string>
     <key>check_internet_connection</key>
     <string>Controleer je internetverbinding</string>
     <key>chosen_podcasts_plural_format</key>
@@ -623,6 +635,29 @@ Laat ons eerst helpen</string>
     <string>Alles hierboven deselecteren</string>
     <key>deselect_all_below</key>
     <string>Alles hieronder deselecteren</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Code invoegen</string>
+    <key>device_approve_connect_button</key>
+    <string>Verbinden</string>
+    <key>device_approve_description</key>
+    <string>Je luistergedrag wordt automatisch gesynchroniseerd.
+Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Ga terug naar je tv om een nieuwe te genereren.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Je QR-code is verlopen</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Apparaatgoedkeuring mislukt</string>
+    <key>device_approve_login_required</key>
+    <string>Om je apparaat te verbinden, moet je een account hebben. Log in of maak een account aan en probeer het opnieuw.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Aanmelden als ...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Je Apple TV is nu verbonden met je account.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV aangesloten</string>
+    <key>device_approve_title</key>
+    <string>Verbinden met Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>
@@ -1056,6 +1091,8 @@ waar je naar hebt geluisterd was
     <string>%1$@ afleveringen</string>
     <key>episode_description_title</key>
     <string>Beschrijving van aflevering</string>
+    <key>episode_detail_add</key>
+    <string>Toevoegen</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>
@@ -1162,6 +1199,8 @@ waar je naar hebt geluisterd was
     <string>Bestanden</string>
     <key>files_how_to_title</key>
     <string>Een bestand opslaan</string>
+    <key>files_not_uploaded</key>
+    <string>Geen bestanden geüpload</string>
     <key>files_sort</key>
     <string>Bestanden sorteren</string>
     <key>filter_auto_add_subtitle</key>
@@ -1268,6 +1307,8 @@ waar je naar hebt geluisterd was
     <string>1 podcast toevoegen</string>
     <key>folder_add_remove_podcasts</key>
     <string>Podcasts toevoegen of verwijderen</string>
+    <key>folder_add_to</key>
+    <string>Toevoegen aan map</string>
     <key>folder_change</key>
     <string>Map wijzigen</string>
     <key>folder_choose_color</key>
@@ -1556,6 +1597,8 @@ podcasts mee</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Configureer een e-mailaccount op het apparaat om de logboeken te verzenden</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Geen watchOS-logboeken beschikbaar. Zorg ervoor dat je een Apple Watch hebt gekoppeld en dat de Pocket Casts-app voor horloges is geïnstalleerd.</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
     <key>manage_downloads_detail</key>
@@ -1566,6 +1609,8 @@ podcasts mee</string>
     <string>Markeren als afgespeeld</string>
     <key>mark_played_short</key>
     <string>Afgespeeld markeren</string>
+    <key>mark_unplayed</key>
+    <string>Markeren als niet-afgespeeld</string>
     <key>mark_unplayed_short</key>
     <string>Niet-afgespeeld markeren</string>
     <key>maybe_later</key>
@@ -1786,6 +1831,8 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>on</key>
+    <string>Aan</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts-gebruiker</string>
     <key>onboarding_quote_best</key>
@@ -1899,8 +1946,12 @@ UPDATES</string>
     <string>Alles afspelen</string>
     <key>play_last</key>
     <string>Als laatste afspelen</string>
+    <key>play_last_in_up_next</key>
+    <string>Als laatste afspelen in Hierna</string>
     <key>play_next</key>
     <string>Als eerstvolgende afspelen</string>
+    <key>play_next_in_up_next</key>
+    <string>Hierna afspelen in Hierna</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgeluisterd</string>
     <key>playback_2024_completion_rate_title</key>
@@ -2036,6 +2087,8 @@ Dat is waar we voor staan!</string>
     <string>Je luisterervaring van 2025 is stabiel gebleven</string>
     <key>playback_2025_year_over_year_comparison_up_message</key>
     <string>Meer podcasts, meer plezier</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2074,6 +2127,8 @@ Dat is waar we voor staan!</string>
     <string>Acties herschikken</string>
     <key>player_archived_confirmation</key>
     <string>Deze aflevering archiveren?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Verborgen in je feed, niet verwijderd.</string>
     <key>player_artwork</key>
     <string>%1$@ artwork</string>
     <key>player_chapter_count</key>
@@ -2092,12 +2147,20 @@ Dat is waar we voor staan!</string>
     <string>Aflevering is verwijderd</string>
     <key>player_error_corrupted_file</key>
     <string>De aflevering is mogelijk beschadigd, maar je kan proberen deze opnieuw af te spelen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Deze aflevering kan niet worden afgespeeld.</string>
     <key>player_error_internet_connection</key>
     <string>Controleer je netwerkverbinding en probeer het nogmaals.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Je bent offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Afspelen mislukt, probeer het nog eens</string>
     <key>player_increment_time</key>
     <string>Duur van toename</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Deze aflevering markeren als afgespeeld?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Het verplaatst zich van Hierna naar je geschiedenis.</string>
     <key>player_options_play_all_message</key>
     <string>Hierdoor wordt je huidige wachtrij Hierna gewist.</string>
     <key>player_options_play_episode_singular</key>
@@ -2146,6 +2209,12 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Deze afspeellijst is vol. Verwijder een paar afleveringen of start een nieuwe.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Playlists bijna vol. Probeer minder afleveringen toe te voegen</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Playlists kunnen alleen podcastafleveringen bevatten.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Playlists kunnen maximaal %1$@ afleveringen bevatten.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Je aflevering in deze playlist is gearchiveerd</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2480,6 +2549,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Kan podcastgegevens niet laden :(</string>
     <key>podcast_error_title</key>
     <string>Het kan echt niet</string>
+    <key>podcast_explicit_content</key>
+    <string>Grof taalgebruik</string>
     <key>podcast_extras</key>
     <string>Extra's</string>
     <key>podcast_failed_download</key>
@@ -2601,6 +2672,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen nieuwste aflevering</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
+    <key>podcasts_edit</key>
+    <string>Podcasts bewerken</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Aangepaste volgorde</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2695,8 +2768,12 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bezig met afspelen. %1$@</string>
     <key>queue_time_remaining</key>
     <string>%1$@ resterend</string>
-    <key>queue_total_time_remaining</key>
-    <string>%1$@ totale resterende tijd</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 aflevering · %1$@ resterend</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ afleveringen · %2$@ resterend</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>%1$@ resterend</string>
     <key>rate</key>
     <string>Beoordelen</string>
     <key>rate_pocket_casts</key>
@@ -2749,6 +2826,11 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bedankt dat je Pocket Casts hebt gedeeld! We laten het je weten wanneer je meer passen kan weggeven.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Je hebt al je gastenpassen al uitgedeeld</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hallo!
+
+Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspeler. Deze zit vol met unieke functies die je nergens anders vindt, zoals bladwijzers, mappen en meer. Jij zal er vast ook dol op zijn!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hallo! Gebruik de onderstaande link om je gastenpas van %1$@ voor Pocket Casts Plus te claimen en op al je devices naar podcasts te luisteren!</string>
     <key>referrals_share_pass_subject</key>
@@ -2883,8 +2965,12 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bestand kon niet worden geüpload, probeer het later opnieuw.</string>
     <key>server_error_files_uuid_required</key>
     <string>Bestands-uuid is vereist.</string>
+    <key>server_error_login_access_denied</key>
+    <string>De gebruiker heeft het autorisatieverzoek geweigerd</string>
     <key>server_error_login_account_locked</key>
     <string>Je account is geblokkeerd omdat je te vaak hebt geprobeerd om in te loggen. Probeer het later nogmaals.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Autorisatie in behandeling</string>
     <key>server_error_login_email_blank</key>
     <string>Voer een e-mailadres in.</string>
     <key>server_error_login_email_invalid</key>
@@ -2893,6 +2979,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>E-mailadres niet gevonden</string>
     <key>server_error_login_email_taken</key>
     <string>E-mailadres in gebruik</string>
+    <key>server_error_login_expired_token</key>
+    <string>De apparaatcode is verlopen.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>De verstrekte subsidie is ongeldig, is verlopen of is ingetrokken.</string>
     <key>server_error_login_password_blank</key>
     <string>Voer een wachtwoord in</string>
     <key>server_error_login_password_incorrect</key>
@@ -2923,6 +3013,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sta ons toe om analytische gegevens te verzamelen.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Sta ons toe om vertrouwde diensten van derden te gebruiken om anonieme gegevens te verzamelen.</string>
+    <key>settings_analytics</key>
+    <string>Analyses</string>
     <key>settings_appearance</key>
     <string>Weergave</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2942,7 +3034,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Nieuwe afleveringen worden niet toegevoegd wanneer Hierna %1$@ afleveringen bereikt.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Er worden geen nieuwe afleveringen onderaan toegevoegd.</string>
+    <string>Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Afleveringen die zijn ingesteld op automatisch onderaan toevoegen worden pas toegevoegd als Hierna onder de limiet ligt.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Podcasts automatisch toevoegen</string>
     <key>settings_auto_archive</key>
@@ -3153,6 +3245,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Door op een aflevering in Hierna te tikken, wordt de actiepagina weergegeven. Door deze ingedrukt te houden, wordt de aflevering afgespeeld. Schakel in om deze om te wisselen.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Door op een aflevering in Hierna te tikken, wordt deze afgespeeld. Door deze ingedrukt te houden, worden opties voor de aflevering weergegeven. Schakel uit om deze om te wisselen.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Gebruik de bijgewerkte volumeboost met consistentere spraakniveaus.</string>
     <key>settings_global_settings</key>
     <string>Algemene instellingen</string>
     <key>settings_headphone_controls</key>
@@ -3291,6 +3387,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Dit kan verschillen van de opslag die wordt weergegeven in je iPhone-instellingen. iOS beheert gecachete gegevens automatisch en maakt deze vrij wanneer dat nodig is.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyses van derden</string>
     <key>settings_title</key>
@@ -3306,7 +3404,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>settings_up_next_limit</key>
     <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Nieuwe afleveringen worden niet toegevoegd wanneer Hierna de %1$@ bereikt.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd.</string>
+    <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Afleveringen die zijn ingesteld op automatisch onderaan toevoegen worden pas toegevoegd als Hierna onder de limiet ligt.</string>
     <key>settings_volume_boost</key>
     <string>Volumeboost</string>
     <key>settings_watch_auto_download</key>
@@ -3371,6 +3469,48 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Er is iets verkeerd gegaan tijdens het aanmaken van je deelpagina</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Delen mislukt</string>
+    <key>share_profile</key>
+    <string>Profiel delen</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Foto en naam toevoegen</string>
+    <key>share_profile_add_your_name</key>
+    <string>Voeg je naam toe</string>
+    <key>share_profile_choose_photo</key>
+    <string>Kies een foto</string>
+    <key>share_profile_display_name</key>
+    <string>Weergavenaam</string>
+    <key>share_profile_edit</key>
+    <string>Profiel bewerken</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Foto en naam bewerken</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Gevolgde podcasts</string>
+    <key>share_profile_name_description</key>
+    <string>Zo kom je te staan op gedeelde profielen. Je kunt dit later wijzigen.</string>
+    <key>share_profile_playlists</key>
+    <string>Afspeellijsten</string>
+    <key>share_profile_preview</key>
+    <string>Profiel bekijken</string>
+    <key>share_profile_privacy</key>
+    <string>Privacy</string>
+    <key>share_profile_privacy_description</key>
+    <string>Je kan beheren wat je deelt in %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Bepaal wat anderen kunnen zien wanneer je je profiel deelt.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Profiel delen</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Recente afleveringen</string>
+    <key>share_profile_remove_photo</key>
+    <string>Foto verwijderen</string>
+    <key>share_profile_save</key>
+    <string>Opslaan</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Mijn profiel delen</string>
+    <key>share_profile_take_photo</key>
+    <string>Foto nemen</string>
+    <key>share_profile_what_to_share</key>
+    <string>Wat wil je delen?</string>
     <key>share_select_podcasts</key>
     <string>Selecteer podcasts</string>
     <key>shared_item_loading</key>
@@ -3415,6 +3555,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Slaaptimer instellen op %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Slaaptimer verlengen met 5 minuten</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Markeren als afgespeeld</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Huidige aflevering markeren als afgespeeld</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Volgend hoofdstuk</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3535,6 +3679,20 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Je hebt geluisterd gedurende</string>
     <key>stats_listen_history_no_date</key>
     <string>Je hebt geluisterd gedurende</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Heatmap luisteractiviteit. Dagen geluisterd: %1$@ van 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Over luisteractiviteit</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Een schatting van wanneer je hebt geluisterd, op basis van je afspeelgeschiedenis. Als je een paar dagen over een aflevering doet, wordt deze op de laatste dag weergegeven.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Luisteractiviteit</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Minder</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Meer</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Luisteractiviteit</string>
     <key>stats_skipping</key>
     <string>Overslaan</string>
     <key>stats_time_saved</key>
@@ -3691,14 +3849,323 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Gesynchroniseerde transcripties alleen beschikbaar voor recente afleveringen.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Lees snel, mis niets. De naam die je bent vergeten, het boek dat ze aanraadden, de statistiek die je wilde - tik op het woord, spring terug.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Lees mee. Zelfs bij 2x.</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Download de aflevering om te zoeken</string>
     <key>trial_finished</key>
     <string>Proefperiode afgelopen</string>
     <key>trim_silence</key>
     <string>Stiltes wegfilteren</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Bezig met controleren op niet-gekoppelde afleveringen …</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Een zeldzaam synchronisatieprobleem kan dubbele afleveringberichten achterlaten die niet langer aan hun podcast zijn gekoppeld. Hierdoor kan de download- of afspeelstatus van een aflevering op sommige plaatsen in de app onjuist lijken.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ niet-gekoppelde afleveringen</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 niet-gekoppelde aflevering</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Niet-gekoppelde afleveringen</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Geen niet-gekoppelde afleveringen gevonden</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Niet-gekoppelde afleveringen verwijderen …</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Niet-gekoppelde afleveringen verwijderen</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Hierdoor worden de dubbele afleveringgegevens op dit apparaat verwijderd. Deze actie kan niet ongedaan worden gemaakt, maar Pocket Casts zal zijn best doen om je afspeelvoortgang, downloadstatus en andere afleveringgegevens te behouden voordat je ze verwijdert.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Niet-gekoppelde afleveringen verwijderen?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Er zijn geen niet-gekoppelde afleveringen verwijderd</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ niet-gekoppelde afleveringen zijn verwijderd</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 niet-gekoppelde aflevering is verwijderd</string>
+    <key>troubleshooting_title</key>
+    <string>Probleemoplossing</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Bekijk niet-gekoppelde afleveringen</string>
     <key>try_again</key>
     <string>Probeer opnieuw</string>
     <key>try_it_now</key>
     <string>Probeer het nu</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Er is een probleem opgetreden. Je bent uitgelogd.
+Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Je bent uitgelogd.</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Een gratis account aanmaken</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Je volgt en ontwikkelt precies waar je ze hebt achtergelaten</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Eén account. Elk scherm</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Ontdek meer shows</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Je volgende obsessie zit hier ergens.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Je hebt nog lang niet alles gezien.</string>
+    <key>tv_create_account_come_back</key>
+    <string>Zodra je je account hebt aangemaakt, kom je terug en meld je je aan</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Je account aanmaken</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>De tv zal je inloggen</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Scan de QR-code</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Maak een gratis account aan om podcasts te volgen, je Hierna op te bouwen en op elk apparaat verder te gaan waar je gebleven was.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Je podcasts verdienen een thuis</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Open de camera en wijs naar deze QR-code.</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Scan deze code om aan de slag te gaan op je telefoon, het duurt maar een minuut.</string>
+    <key>tv_create_account_title</key>
+    <string>Je gratis account aanmaken</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Laden van ontdekken mislukt</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Naar podcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Nieuwste aflevering afspelen</string>
+    <key>tv_discover_play_episode</key>
+    <string>Aflevering afspelen</string>
+    <key>tv_episode_archived</key>
+    <string>Gearchiveerd</string>
+    <key>tv_episode_info</key>
+    <string>Informatie over aflevering</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Markeren als afgespeeld</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Markeren als niet-afgespeeld</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Verwijderd uit Hierna</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Informatie over aflevering</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Informatie over aflevering aan het laden …</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Informatie over aflevering</string>
+    <key>tv_episode_unarchived</key>
+    <string>Niet gearchiveerd</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Wordt als laatste afgespeeld</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Wordt hierna afgespeeld</string>
+    <key>tv_folder_empty_message</key>
+    <string>Bewerk je map in de mobiele app. Ze staan hier als je klaar bent.</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Afleveringen die je afspeelt, worden hier weergegeven</string>
+    <key>tv_history_empty_title</key>
+    <string>Geen luistergeschiedenis</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Door categorieën bladeren</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Uitgelicht op Pocket Casts</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Verdergaan waar je gebleven was</string>
+    <key>tv_home_new_releases</key>
+    <string>Nieuwe releases</string>
+    <key>tv_home_recently_played</key>
+    <string>Recent afgespeeld</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Geliefd bij luisteraars van %1$@</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Je zult deze waarschijnlijk willen</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Wat iedereen deze week doet</string>
+    <key>tv_home_video_section_title</key>
+    <string>Gemaakt voor tv</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Kon je inlogcode niet ophalen</string>
+    <key>tv_player_playback_effects</key>
+    <string>Afspeeleffecten</string>
+    <key>tv_player_playback_speed</key>
+    <string>Afspeelsnelheid</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Afspeelsnelheid ingesteld op %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Stiltes wegfilteren</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Mad Max</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Medium</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Mild</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Uit</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Stiltes wegfilteren: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Volumeboost</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Volumeboost uit</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Volumeboost aan</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ afleveringen</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Alle afleveringen afspelen</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Deze afspeellijst filtert op gedownloade afleveringen. De opslagruimte van de tv is beperkt, dus downloads worden niet ondersteund.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Het wordt ofwel tijd om te vieren dat je deze lijst hebt afgerond of om je regels in de mobiele app te bewerken om er meer te krijgen.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Geen afleveringen</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Alle %1$@ de afleveringen van deze afspeellijst zijn gearchiveerd.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>We kunnen je huidige Hierna opslaan als een afspeellijst</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Hierdoor wordt je Hierna gewist</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Afspelen zonder op te slaan</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Opslaan en afspelen</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>Ze staan hier als je klaar bent. Scan om de app te krijgen</string>
+    <key>tv_playlists_download_title</key>
+    <string>Maak afspeellijsten aan op je telefoon</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Maak een afspeellijst aan</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Bouw er handmatig een of laat slimme regels het sorteren voor je doen.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Je afspeellijsten staan hier</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Over</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Alle afleveringen</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Gearchiveerde afleveringen</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Volg deze podcast</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Volgend</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Gearchiveerde verbergen</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Meer informatie</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Netwerk</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Nieuwe aflevering</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Afleveringen van deze podcast worden hier weergegeven.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Geen afleveringen</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Inplannen</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Gearchiveerde tonen</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>De aflevering die je als eerste wilt proberen</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>Dit is de aflevering die mensen aantrekt</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Site</string>
+    <key>tv_podcast_error_message</key>
+    <string>Controleer je internetverbinding en probeer het nogmaals.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Kan podcastgegevens niet laden</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Podcasts ontdekken</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Gevolgde podcasts verschijnen hier, klaar om af te spelen.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Tijd om dit in te vullen</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Opent profiel- en accountopties</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Profiel</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Account aanmaken</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Inloggen</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Uitloggen</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Hiermee verwijder je alle gedownloade podcasts en gegevens van deze Apple TV. Je kunt opnieuw inloggen om ze te herstellen.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Uitloggen?</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Favoriete afleveringen</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Nieuwste afleveringen ophalen</string>
+    <key>tv_search_failed</key>
+    <string>Zoekopdracht mislukt: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, shows, auteurs</string>
+    <key>tv_search_searching</key>
+    <string>Zoeken ...</string>
+    <key>tv_search_type_something</key>
+    <string>Typ iets ...</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>of voer de volgende code in</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>naar [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>of voer deze code in [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Open je camera en wijs naar deze QR-code</string>
+    <key>tv_sign_in_title</key>
+    <string>Log in bij Pocket Casts</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Je podcasts worden geladen.</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Goed je te zien</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Aanbevolen door Pocket Casts</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Maak afleveringen favoriet om ze bij de hand te houden, en ze zullen hier verschijnen</string>
+    <key>tv_starred_empty_title</key>
+    <string>Geen favoriete afleveringen</string>
+    <key>tv_tab_home</key>
+    <string>Home</string>
+    <key>tv_tab_now_playing</key>
+    <string>Bezig met afspelen</string>
+    <key>tv_tab_playlists</key>
+    <string>Afspeellijsten</string>
+    <key>tv_tab_podcasts</key>
+    <string>Jouw podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Hierna</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Afleveringen toevoegen</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Voeg afleveringen toe aan Hierna en ze worden in volgorde afgespeeld, van achter naar achter</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Niets in de wachtrij geplaatst</string>
+    <key>tv_user_profile_actions</key>
+    <string>Gebruikersinstellingen</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Inlogtype</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Gebruiker/Pass</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Gebruikersnaam</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Browse zonder account</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Een gratis account aanmaken</string>
+    <key>tv_welcome_log_in</key>
+    <string>Inloggen</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Je podcasts. Op het grote scherm. Duidelijk.</string>
+    <key>tv_welcome_title</key>
+    <string>Welkom bij Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Dearchiveren</string>
     <key>unfollow</key>
@@ -3729,6 +4196,20 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Maak kennis met shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Kortste naar langste, of andersom - pas de aflevering aan op de tijd die je daadwerkelijk hebt.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Sorteren op duur</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Langste naar kortste</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Nieuwste naar oudste</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Oudste naar nieuwste</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Kortste naar langste</string>
+    <key>up_next_sort_title</key>
+    <string>Hierna sorteren</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
     <key>upgrade_account_info</key>
@@ -3811,6 +4292,8 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Volumeboost</string>
     <key>volume_boost_description</key>
     <string>Stemmen klinken luider</string>
+    <key>volume_boost_n_description</key>
+    <string>Spraakniveaus zijn consistenter</string>
     <key>wait_for_wifi</key>
     <string>Wachten op wifi</string>
     <key>watch</key>

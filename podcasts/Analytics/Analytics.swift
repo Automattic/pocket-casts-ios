@@ -1,10 +1,11 @@
 import Foundation
 import PocketCastsUtils
+import EventHorizonSDK
 
 class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
     var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
 #endif
 
@@ -21,28 +22,39 @@ class Analytics {
         Self.shared.adapters = nil
         Self.shared.setAdaptersRegisteredStatus(false)
     }
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
     static func add(analyticsAppThemeProvider: AnalyticsAppThemeProviding) {
         Self.shared.analyticsAppThemeProvider = analyticsAppThemeProvider
     }
 #endif
 
-    /// Convenience method to call Analytics.shared.track*
-    static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+    /// Convenience method to call Analytics.track*
+    static func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         Self.shared.track(event, properties: properties)
     }
 
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
-        var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
-#if !os(watchOS) && !APPCLIP
+    func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
+        _track(event.eventName, properties: properties)
+    }
+
+    private func _track(_ eventName: String, properties: [String: Sendable]? = nil) {
+        var properties: [String: Sendable] = (properties ?? [:]).mapValues { value -> Sendable in
+            if let describable = value as? AnalyticsDescribable {
+                return describable.analyticsDescription
+            }
+            return value
+        }
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         if FeatureFlag.appThemePropertiesLogging.enabled {
             analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
-                newProperties[key] = value
+                properties[key] = value
             }
         }
 #endif
-        adapters?.forEach {
-            $0.track(name: event.eventName, properties: newProperties)
+        Task { [adapters] in
+            for adapter in adapters ?? [] {
+                await adapter.track(name: eventName, properties: properties)
+            }
         }
     }
 
@@ -58,12 +70,21 @@ class Analytics {
     }
 }
 
+// MARK: Analytics (EventHorizon)
+
+extension Analytics {
+    static func send(_ event: some EventHorizonSDK.Trackable) {
+        let properties = event.analyticsProperties.mapValues { String(describing: $0) }
+        Analytics.shared._track(event.analyticsName, properties: properties)
+    }
+}
+
 // MARK: - Analytics + Source
 
 extension Analytics {
-    static func track(_ event: AnalyticsEvent, source: Any, properties: [AnyHashable: Any]? = nil) {
+    static func track(_ event: AnalyticsEvent, source: Sendable, properties: [String: Sendable]? = nil) {
         var sourceProperties = properties ?? [:]
-        sourceProperties.updateValue(source, forKey: "source")
+        sourceProperties["source"] = source
 
         track(event, properties: sourceProperties)
     }
@@ -79,7 +100,7 @@ extension Analytics {
     }
 
     func optInOfAnalytics() {
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         Settings.setAnalytics(optOut: false)
         setAdaptersRegisteredStatus(false)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
@@ -91,7 +112,7 @@ extension Analytics {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
         }
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
 #endif
         FileLog.shared.addMessage("Analytics: Refreshed Registered Adapters")
@@ -108,14 +129,7 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool { get }
-    func track(name: String, properties: [AnyHashable: Any]?)
-}
-
-extension AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool {
-        false
-    }
+    func track(name: String, properties: [String: Sendable]) async
 }
 
 // MARK: - Dynamic Event Name

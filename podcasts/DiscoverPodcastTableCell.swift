@@ -17,16 +17,28 @@ class DiscoverPodcastTableCell: ThemeableCell {
         }
     }
 
-    @IBOutlet var podcastTitle: UILabel!
+    @IBOutlet var podcastTitle: UILabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+            podcastTitle.numberOfLines = 0
+        }
+    }
+
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = .font(ofSize: 14, weight: .regular, scalingWith: .footnote)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
+            podcastAuthor.numberOfLines = 0
         }
     }
 
     @IBOutlet var itemNumber: ThemeableLabel! {
         didSet {
             itemNumber.style = .primaryText02
+            itemNumber.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote)
+            itemNumber.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -61,13 +73,23 @@ class DiscoverPodcastTableCell: ThemeableCell {
     func populateFrom(_ discoverPodcast: DiscoverPodcast, number: Int) {
         self.discoverPodcast = discoverPodcast
 
-        podcastTitle.text = discoverPodcast.title?.localized
+        let title = discoverPodcast.title?.localized ?? ""
+        let isExplicit = discoverPodcast.isExplicit ?? false
+        if isExplicit {
+            podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+        } else {
+            podcastTitle.text = title
+        }
+
         podcastAuthor.text = discoverPodcast.author
         itemNumber.text = (number > 0) ? String(number) : nil
         itemNumber.textColor = ThemeColor.primaryIcon01()
         if itemNumber.text == nil {
             numberWidth.constant = 0
             podcastImageLeadingConstraint.constant = 16
+        } else {
+            // Start the separator where the artwork does, so it doesn't run under the ranking number.
+            separatorInset = UIEdgeInsets(top: 0, left: podcastImageLeadingConstraint.constant, bottom: 0, right: 0)
         }
 
         subscribeButton.currentlyOn = false
@@ -96,7 +118,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
     @IBAction func subscribeTapped(_ sender: AnyObject) {
         subscribeButton.currentlyOn = true
 
-        guard let discoverPodcast = discoverPodcast else { return }
+        guard let discoverPodcast else { return }
 
         if discoverPodcast.iTunesOnly() {
             ServerPodcastManager.shared.subscribeFromItunesId(Int(discoverPodcast.iTunesId!)!, completion: nil)
@@ -110,6 +132,13 @@ class DiscoverPodcastTableCell: ThemeableCell {
 
     override func handleThemeDidChange() {
         subscribeButton.tintColor = ThemeColor.primaryIcon02()
+        updateExplicitBadge()
+    }
+
+    private func updateExplicitBadge() {
+        guard let discoverPodcast, podcastTitle.attributedText != nil else { return }
+        let title = discoverPodcast.title?.localized ?? ""
+        podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
     }
 
     override func prepareForReuse() {
@@ -119,5 +148,31 @@ class DiscoverPodcastTableCell: ThemeableCell {
 
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DiscoverPodcastTableCell, _) in
+            view.updateSize()
+        }
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(52, metric.scaledValue(for: 52))
+
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        subscribeButton.updateSizeConstraints(to: iconSize)
+
+        podcastImageLeadingConstraint.constant = max(32, metric.scaledValue(for: 32))
+
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 }

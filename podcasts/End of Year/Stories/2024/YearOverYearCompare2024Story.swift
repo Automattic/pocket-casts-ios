@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct YearOverYearCompare2024Story: ShareableStory {
     @Environment(\.animated) var animated: Bool
@@ -140,7 +141,6 @@ struct YearOverYearCompare2024Story: ShareableStory {
             } else {
                 return (parentSize.height * 0.02, parentSize.height * 0.25)
             }
-
         }
     }
 

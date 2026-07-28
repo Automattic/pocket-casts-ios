@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct CompletionRateStory2023: ShareableStory {
     let identifier: String = "completion_rate"
@@ -68,7 +69,6 @@ struct CompletionRateStory2023: ShareableStory {
                             )
                             .foregroundColor(Color(red: 0.56, green: 0.59, blue: 0.64))
                             .padding(.top, -geometry.size.height * 0.02)
-
                         }
                     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +15,7 @@
                 <outlet property="largeListCollectionViewHeight" destination="O9B-Ec-Krr" id="8nl-ey-dbz"/>
                 <outlet property="podcastHeaderView" destination="CeQ-tP-ch9" id="qZF-S8-GrF"/>
                 <outlet property="showAllBtn" destination="sF0-fo-tPV" id="NQp-Ou-W2d"/>
-                <outlet property="titleTopConstraint" destination="iGU-3S-axn" id="MLu-4G-TLm"/>
+                <outlet property="titleTopConstraint" destination="hdr-tp-001" id="MLu-4G-TLm"/>
                 <outlet property="view" destination="Fw0-IT-oEE" id="dU6-pd-YkH"/>
             </connections>
         </placeholder>
@@ -23,29 +23,20 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fw0-IT-oEE" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="370" height="275"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" alignment="lastBaseline" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="X56-LC-Q5n">
-                    <rect key="frame" x="16" y="30" width="338" height="20"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CeQ-tP-ch9" customClass="LargeListSummaryCellHeaderView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="92" height="20"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </view>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dtr-d4-ivC">
-                            <rect key="frame" x="97" y="0.0" width="126" height="20"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </view>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-fo-tPV" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="228" y="0.0" width="110" height="20"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                            <state key="normal" title="SHOW ALL">
-                                <color key="titleColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                            <connections>
-                                <action selector="showAllTapped:" destination="-1" eventType="touchUpInside" id="moq-wQ-lrZ"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                </stackView>
+                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="CeQ-tP-ch9" customClass="LargeListSummaryCellHeaderView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="30" width="228" height="30"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-fo-tPV" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="249" y="1" width="105" height="28"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <state key="normal" title="SHOW ALL">
+                        <color key="titleColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="showAllTapped:" destination="-1" eventType="touchUpInside" id="moq-wQ-lrZ"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lf-U1-Pgg" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="274" width="338" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -54,7 +45,7 @@
                     </constraints>
                 </view>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="iJi-Yt-ez5" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="16" y="66" width="350" height="169"/>
+                    <rect key="frame" x="16" y="76" width="350" height="169"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="999" constant="169" id="O9B-Ec-Krr"/>
@@ -68,15 +59,17 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="LyU-Kg-8Dd"/>
             <constraints>
+                <constraint firstItem="CeQ-tP-ch9" firstAttribute="leading" secondItem="LyU-Kg-8Dd" secondAttribute="leading" constant="16" id="hdr-ld-001"/>
+                <constraint firstItem="CeQ-tP-ch9" firstAttribute="top" secondItem="Fw0-IT-oEE" secondAttribute="top" constant="30" id="hdr-tp-001"/>
+                <constraint firstItem="LyU-Kg-8Dd" firstAttribute="trailing" secondItem="sF0-fo-tPV" secondAttribute="trailing" constant="16" id="btn-tr-001"/>
+                <constraint firstItem="sF0-fo-tPV" firstAttribute="centerY" secondItem="CeQ-tP-ch9" secondAttribute="centerY" id="btn-cy-001"/>
+                <constraint firstItem="sF0-fo-tPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CeQ-tP-ch9" secondAttribute="trailing" constant="5" id="btn-ld-001"/>
+                <constraint firstItem="iJi-Yt-ez5" firstAttribute="top" secondItem="CeQ-tP-ch9" secondAttribute="bottom" constant="16" id="cvw-tp-001"/>
                 <constraint firstAttribute="trailing" secondItem="8lf-U1-Pgg" secondAttribute="trailing" constant="16" id="4UU-zd-txK"/>
-                <constraint firstItem="X56-LC-Q5n" firstAttribute="leading" secondItem="LyU-Kg-8Dd" secondAttribute="leading" constant="16" id="IL6-Cs-p4a"/>
-                <constraint firstItem="LyU-Kg-8Dd" firstAttribute="trailing" secondItem="X56-LC-Q5n" secondAttribute="trailing" constant="16" id="IM6-3S-kcq"/>
-                <constraint firstItem="iJi-Yt-ez5" firstAttribute="top" secondItem="X56-LC-Q5n" secondAttribute="bottom" constant="16" id="OQB-xb-uvH"/>
                 <constraint firstAttribute="bottom" secondItem="8lf-U1-Pgg" secondAttribute="bottom" id="a4K-dl-1du"/>
-                <constraint firstItem="X56-LC-Q5n" firstAttribute="top" secondItem="Fw0-IT-oEE" secondAttribute="top" constant="30" id="iGU-3S-axn"/>
-                <constraint firstAttribute="trailing" secondItem="iJi-Yt-ez5" secondAttribute="trailing" constant="4" id="jUE-w2-UeS"/>
                 <constraint firstItem="8lf-U1-Pgg" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="lAW-pH-GZr"/>
-                <constraint firstAttribute="bottom" secondItem="iJi-Yt-ez5" secondAttribute="bottom" constant="40" id="p8E-lt-7LD"/>
+                <constraint firstAttribute="trailing" secondItem="iJi-Yt-ez5" secondAttribute="trailing" constant="4" id="jUE-w2-UeS"/>
+                <constraint firstAttribute="bottom" secondItem="iJi-Yt-ez5" secondAttribute="bottom" constant="30" id="p8E-lt-7LD"/>
                 <constraint firstItem="iJi-Yt-ez5" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="tSn-G0-qnf"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

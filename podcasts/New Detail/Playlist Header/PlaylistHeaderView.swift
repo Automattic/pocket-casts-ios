@@ -4,6 +4,8 @@ struct PlaylistHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = CGFloat(18)
+
     var description: String {
         let duration = viewModel.totalDuration()
         switch viewModel.playlistEpisodesCount {
@@ -29,7 +31,7 @@ struct PlaylistHeaderView: View {
                     Spacer()
                     PlaylistArtworkView(items: viewModel.images, cornerRadius: 8)
                         .frame(width: 192.0, height: 192.0)
-                        .padding(.top, 15.0)
+                        .padding(.top, LiquidGlass.isEnabled ? 0 : 15.0)
                         .shadow(color: .black.opacity(0.2), radius: 30, x: 0, y: 2)
                     Spacer()
                 }
@@ -63,15 +65,17 @@ struct PlaylistHeaderView: View {
                     }
                     actionButton(
                         type: .playAll,
-                        color: theme.primaryUi02,
+                        color: viewModel.isSearching ? theme.primaryText01 : theme.primaryUi02,
                         image: Image("filter_play"),
                         title: L10n.playlistsPlayAll,
-                        background: theme.primaryText01) { type in
+                        background: viewModel.isSearching ? .clear : theme.primaryText01,
+                        stroke: viewModel.isSearching ? theme.primaryUi05 : nil) { type in
                             viewModel.onButtonTapped(type)
                     }
                     Spacer()
                 }
                 .padding(.bottom, 10.0)
+                .animation(.easeInOut(duration: 0.2), value: viewModel.isSearching)
 
                 Spacer()
             }
@@ -91,17 +95,17 @@ struct PlaylistHeaderView: View {
         Button {
             action(type)
         } label: {
-            HStack(alignment: .top, spacing: 8.0) {
+            HStack(alignment: .center, spacing: 8.0) {
                 image
                     .renderingMode(.template)
                     .resizable()
                     .foregroundStyle(color)
                     .scaledToFit()
-                    .frame(width: 18, height: 18)
+                    .frame(width: iconSize, height: iconSize)
                 Text(title)
                     .font(style: .subheadline, weight: .medium)
                     .foregroundStyle(color)
-                    .lineLimit(1)
+                    .lineLimit(2)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
             }

@@ -21,6 +21,8 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var dateLabel: ThemeableLabel! {
         didSet {
             dateLabel.style = .primaryText02
+            dateLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            dateLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -34,12 +36,16 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var timeRemainingLabel: ThemeableLabel! {
         didSet {
             timeRemainingLabel.style = .primaryText02
+            timeRemainingLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+            timeRemainingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            episodeTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -55,12 +61,18 @@ class UpNextNowPlayingCell: ThemeableCell {
         super.awakeFromNib()
         style = .primaryUi04
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: UpNextNowPlayingCell, _) in
+            view.updateSize()
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
+
+        updateSize()
     }
 
     deinit {
@@ -84,6 +96,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             dateLabel.accessibilityLabel = L10n.queueNowPlayingAccessibility(dateText)
         }
         progressUpdated(animated: false)
+        updateDownloadStatus()
     }
 
     @objc func progressUpdated(animated: Bool = true) {
@@ -92,7 +105,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         let duration: Double
         let currentTime: TimeInterval
 
-        if let episode = episode {
+        if let episode {
             duration = episode.duration
             currentTime = PlaybackManager.shared.currentTime()
         }
@@ -164,14 +177,15 @@ class UpNextNowPlayingCell: ThemeableCell {
             disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
             disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         }
-
-        disclosureImageView.layer.cornerRadius = 12
-
+        downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         playingAnimationView.setFillColor(AppTheme.colorForStyle(.primaryText01, themeOverride: themeOverride))
     }
 
     func updateDownloadStatus() {
-        guard let episode = episode else {
+        defer {
+            setNeedsUpdateConstraints()
+        }
+        guard let episode else {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
             return
@@ -221,5 +235,28 @@ class UpNextNowPlayingCell: ThemeableCell {
         episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
 
         updateDownloadStatus()
+    }
+
+    // MARK: - Dynamic Type Support
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(48, metric.scaledValue(for: 48))
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        downloadedIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
+
+        let buttonSize = max(24, metric.scaledValue(for: 24))
+        disclosureImageView.updateSizeConstraints(to: buttonSize)
+        disclosureImageView.layer.cornerRadius = buttonSize / 2
+
+        playingAnimationView.updateSizeConstraints(to: buttonSize)
+
+        updateDownloadStatus()
+
+        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        dateLabel.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 }

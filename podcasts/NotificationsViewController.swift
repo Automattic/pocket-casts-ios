@@ -114,6 +114,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -125,10 +130,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
         Analytics.track(.settingsNotificationsShown)
 
-        settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
-
         checkNotificationsPermissionBanner()
         addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(checkNotificationsPermissionBanner))
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -204,7 +209,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 if let podcastsController = podcastChooserController {
                     podcastsController.delegate = self
                     let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                    podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
+                    podcastsController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
                     navigationController?.pushViewController(podcastsController, animated: true)
                 }
             case .appBadges: // app badge
@@ -216,11 +221,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             return
         }
-
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -240,7 +240,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             return nil
         }
-
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -250,9 +249,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     // MARK: - Notification handler
 
     @objc func podcastUpdated(_ notification: Notification) {
-        guard let podcastChooserController = podcastChooserController else { return }
+        guard let podcastChooserController else { return }
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-        podcastChooserController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
+        podcastChooserController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
         podcastChooserController.selectedUuidsUpdated = true
     }
 
@@ -343,7 +342,7 @@ extension AppBadge {
         case .totalUnplayed:
             return L10n.statusUnplayed
         case .filterCount:
-            return FeatureFlag.playlistsRebranding.enabled ? L10n.settingsNotificationsSmartPlaylistCount : L10n.settingsNotificationsFilterCount
+            return L10n.settingsNotificationsSmartPlaylistCount
         case .newSinceLastOpened:
             return L10n.newEpisodes
         default:

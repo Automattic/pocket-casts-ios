@@ -4,16 +4,15 @@ import PocketCastsUtils
 import UIKit
 
 class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
-    private let addCellId = "siriAddCellId"
-    private let playlistsRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
-
     @IBOutlet private var tableView: UITableView! {
         didSet {
             registerCells()
 
-            if playlistsRebrandingEnabled {
-                tableView.separatorStyle = .none
-            }
+            tableView.separatorStyle = .none
+            tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = PlaylistCell.cellHeight
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
+            tableView.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -22,7 +21,7 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = playlistsRebrandingEnabled ? L10n.settingsSelectPlaylistSingular : L10n.settingsSelectFilterSingular
+        title = L10n.settingsSelectPlaylistSingular
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
     }
 
@@ -33,21 +32,9 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let playlist = playlists[indexPath.row]
 
-        if playlistsRebrandingEnabled {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
-            cell.configure(cellType: .plain, playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
-            return cell
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: addCellId) as! SiriShortcutAddCell
-        cell.populateFrom(filter: playlist)
-        cell.addIcon.isHidden = true
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
+        cell.configure(cellType: .plain, playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return playlistsRebrandingEnabled ? PlaylistCell.cellHeight : 64
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -61,10 +48,6 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
     }
 
     private func registerCells() {
-        if playlistsRebrandingEnabled {
-            tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
-        } else {
-            tableView.register(UINib(nibName: "SiriShortcutAddCell", bundle: nil), forCellReuseIdentifier: addCellId)
-        }
+        tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
     }
 }

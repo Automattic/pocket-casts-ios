@@ -1,5 +1,7 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
+import Kingfisher
 
 class PodcastImageView: UIView {
     private var shadowView: UIView?
@@ -18,29 +20,44 @@ class PodcastImageView: UIView {
     }
 
     func setPodcast(uuid: String, size: PodcastThumbnailSize) {
-        guard let imageView = imageView else { return }
-        imageView.removeConstraints(imageView.constraints)
-        imageView.anchorToAllSidesOf(view: self)
+        guard let imageView else { return }
         ImageManager.sharedManager.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
         adjustForSize(size)
     }
 
     func setImageManually(image: UIImage?, size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
         imageView?.image = image
         adjustForSize(size)
     }
 
     func setUserEpisode(uuid: String, size: PodcastThumbnailSize) {
-        guard let imageView = imageView else { return }
+        guard let imageView else { return }
 
         ImageManager.sharedManager.loadUserEpisodeImage(uuid: uuid, imageView: imageView, size: size, completionHandler: nil)
         adjustForSize(size)
     }
 
     func setBaseEpisode(episode: BaseEpisode, size: PodcastThumbnailSize) {
-        guard let imageView = imageView else { return }
+        guard let imageView else { return }
 
         ImageManager.sharedManager.loadImage(episode: episode, imageView: imageView, size: size)
+        adjustForSize(size)
+    }
+
+    func setEpisodeArtwork(url: URL, size: PodcastThumbnailSize) {
+        guard let imageView else { return }
+        adjustForSize(size)
+
+        imageView.kf.setImage(with: url, options: [
+            .processor(DefaultImageProcessor.default),
+            .transition(.fade(Constants.Animation.defaultAnimationTime))
+        ])
+    }
+
+    func setPlaceholder(size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
+        imageView?.image = ImageManager.sharedManager.placeHolderImage(size)
         adjustForSize(size)
     }
 
@@ -83,7 +100,7 @@ class PodcastImageView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard let shadowView = shadowView else { return }
+        guard let shadowView else { return }
 
         // the code below updates the shadow path when the view changes size. Two things to note:
         // 1. You can't not set a path. It's good for performance but also because shadowView is transparent it won't draw a shadow unless you tell it where
@@ -91,7 +108,7 @@ class PodcastImageView: UIView {
         if let animation = layer.animation(forKey: "position") {
             CATransaction.begin()
             CATransaction.setCompletionBlock { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 shadowView.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
             }
@@ -118,7 +135,7 @@ class PodcastImageView: UIView {
         backgroundColor = UIColor.clear
 
         shadowView = UIView(frame: bounds)
-        if let shadowView = shadowView {
+        if let shadowView {
             shadowView.backgroundColor = UIColor.clear
             shadowView.clipsToBounds = false
 
@@ -127,7 +144,7 @@ class PodcastImageView: UIView {
         }
 
         imageView = UIImageView(frame: bounds)
-        if let imageView = imageView {
+        if let imageView {
             imageView.backgroundColor = UIColor.clear
             imageView.clipsToBounds = true
             imageView.contentMode = .scaleAspectFill

@@ -1,0 +1,103 @@
+import PocketCastsDataModel
+
+import PocketCastsServer
+import PocketCastsUtils
+import UIKit
+
+extension PodcastViewController {
+    // MARK: - MultiSelect action delegate
+
+    func multiSelectPresentingViewController() -> UIViewController {
+        self
+    }
+
+    func multiSelectedBaseEpisodes() -> [BaseEpisode] {
+        selectedEpisodes.map(\.episode)
+    }
+
+    func multiSelectedPlayListEpisodes() -> [PlaylistEpisode]? {
+        nil
+    }
+
+    func multiSelectActionBegan(status: String) {
+        DispatchQueue.main.async {
+            self.multiSelectFooter.setStatus(status: status)
+        }
+    }
+
+    func multiSelectActionCompleted() {
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+            self.multiSelectFooterBottomConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.isMultiSelectEnabled = false
+        })
+    }
+
+    var multiSelectViewSource: AnalyticsSource {
+        analyticsSource
+    }
+
+    // MARK: - Selected Episode
+
+    func selectedEpisodesContains(uuid: String) -> Bool {
+        let selectedUuids = selectedEpisodes.map(\.episode.uuid)
+        return selectedUuids.contains(uuid)
+    }
+
+    func selectedEpisodesRemove(uuid: String) {
+        let selectedUuids = selectedEpisodes.map(\.episode.uuid)
+        if let currentEpisodeIndex = selectedUuids.firstIndex(of: uuid) {
+            selectedEpisodes.remove(at: currentEpisodeIndex)
+        }
+    }
+
+    @objc func selectAllTapped() {
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            // Forward select all/deselect all to bookmarks VM
+            vm.toggleSelectAll()
+            updateSelectAllBtn()
+        } else {
+            let shouldSelectAll = multiSelectAllBarButton?.title == L10n.selectAll
+            if shouldSelectAll {
+                guard let allObjects = episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
+                episodesTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
+            } else {
+                episodesTable.deselectAll()
+                if !selectedEpisodes.isEmpty { // special case where hidden (archived) episodes are selected
+                    selectedEpisodes.removeAll()
+                }
+            }
+            updateSelectAllBtn()
+        }
+    }
+
+    @objc func cancelTapped() {
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            vm.toggleMultiSelection()
+        } else {
+            isMultiSelectEnabled = false
+        }
+    }
+
+    func updateSelectAllBtn() {
+        guard let multiSelectAllBarButton else { return }
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            multiSelectAllBarButton.title = vm.hasSelectedAll ? L10n.deselectAll : L10n.selectAll
+        } else {
+            let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
+            multiSelectAllBarButton.title = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) ? L10n.selectAll : L10n.deselectAll
+        }
+    }
+
+    func selectAllAbove(indexPath: IndexPath) {
+        guard indexPath.section == PodcastViewController.allEpisodesSection else { return }
+        episodesTable.selectAllFrom(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection), toIndexPath: indexPath)
+    }
+
+    func selectAllBelow(indexPath: IndexPath) {
+        guard indexPath.section == PodcastViewController.allEpisodesSection else { return }
+        episodesTable.selectAllBelow(fromIndexPath: indexPath)
+    }
+}

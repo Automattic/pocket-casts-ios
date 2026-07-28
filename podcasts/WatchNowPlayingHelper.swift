@@ -46,7 +46,7 @@ class WatchNowPlayingHelper {
         nowPlayingInfo[MPMediaItemPropertyDiscNumber] = NSNumber(value: 1)
 
         let episodeTitle = titleForNowPlayingInfo(episode: episode)
-        if episodeTitle.count > 0 {
+        if !episodeTitle.isEmpty {
             nowPlayingInfo[MPMediaItemPropertyTitle] = episodeTitle as NSString
         }
 
@@ -68,7 +68,7 @@ class WatchNowPlayingHelper {
 
         nowPlayingClone[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: duration)
         nowPlayingClone[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: upTo)
-        if let playbackRate = playbackRate {
+        if let playbackRate {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: playbackRate)
             nowPlayingClone[MPNowPlayingInfoPropertyDefaultPlaybackRate] = NSNumber(value: playbackRate)
         } else {

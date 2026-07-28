@@ -119,6 +119,10 @@
     <string>Välj kontotyp</string>
     <key>account_sign_out</key>
     <string>Logga ut</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Dina podcasts, förlopp och data kommer att vara här när du är tillbaka.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Logga ut?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Om du loggar ut tas %1$@ podcasts som stöds bort från den här enheten. Är du säker?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -245,6 +249,12 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Uppdaterar ditt omslag nu</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Aj aj, kapten</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Flikfält</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimera vid bläddring</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>När detta är aktiverat krymper flikfältet till ett kompakt fält när du bläddrar nedåt så att mer innehåll förblir synligt.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -481,6 +491,8 @@ Låt oss hjälpa dig först</string>
     <string>Måste innehålla minst 6 tecken</string>
     <key>chapters</key>
     <string>Kapitel</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Dessa kapitel genereras automatiskt och är kanske inte helt korrekta.</string>
     <key>check_internet_connection</key>
     <string>Kontrollera din internetanslutning</string>
     <key>chosen_podcasts_plural_format</key>
@@ -625,6 +637,29 @@ Låt oss hjälpa dig först</string>
     <string>Avmarkera alla ovan</string>
     <key>deselect_all_below</key>
     <string>Avmarkera alla nedan</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Infoga kod</string>
+    <key>device_approve_connect_button</key>
+    <string>Anslut</string>
+    <key>device_approve_description</key>
+    <string>Din lyssning synkroniseras automatiskt.
+Du kan när som helst koppla från Inställningar.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Gå tillbaka till din TV för att generera en ny.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Din QR-kod har löpt ut</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Godkännande av enhet misslyckades</string>
+    <key>device_approve_login_required</key>
+    <string>För att ansluta din enhet måste du ha ett konto. Logga in eller skapa ett konto och försök igen.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Loggar in som ...</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Din Apple TV är nu ansluten till ditt konto.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV ansluten</string>
+    <key>device_approve_title</key>
+    <string>Anslut till Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Vilolägestimern återstartades när enheten skakades</string>
     <key>discover</key>
@@ -1058,6 +1093,8 @@ du lyssnade på var
     <string>%1$@ avsnitt</string>
     <key>episode_description_title</key>
     <string>Avsnittsbeskrivning</string>
+    <key>episode_detail_add</key>
+    <string>Lägg till</string>
     <key>episode_details_title</key>
     <string>Detaljer</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1201,8 @@ du lyssnade på var
     <string>Filer</string>
     <key>files_how_to_title</key>
     <string>Så här sparar du en fil</string>
+    <key>files_not_uploaded</key>
+    <string>Inga filer har laddats upp</string>
     <key>files_sort</key>
     <string>Sortera filer</string>
     <key>filter_auto_add_subtitle</key>
@@ -1270,6 +1309,8 @@ du lyssnade på var
     <string>Lägg till 1 podcast</string>
     <key>folder_add_remove_podcasts</key>
     <string>Lägg till eller ta bort podcasts</string>
+    <key>folder_add_to</key>
+    <string>Lägg till i mapp</string>
     <key>folder_change</key>
     <string>Ändra mapp</string>
     <key>folder_choose_color</key>
@@ -1558,6 +1599,8 @@ podcasts med dig</string>
     <string>Loggar</string>
     <key>logs_no_email_account_configured</key>
     <string>Du behöver konfigurera ett e-postkonto på enheten för att skicka loggarna</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Inga watchOS-loggar är tillgängliga. Se till att du har en Apple Watch parkopplad och klockappen för Pocket Casts installerad.</string>
     <key>manage_downloads_action</key>
     <string>Hantera nedladdningar</string>
     <key>manage_downloads_detail</key>
@@ -1568,6 +1611,8 @@ podcasts med dig</string>
     <string>Markera som spelad</string>
     <key>mark_played_short</key>
     <string>Markera som spelad</string>
+    <key>mark_unplayed</key>
+    <string>Markera som ej uppspelat</string>
     <key>mark_unplayed_short</key>
     <string>Markera som ospelad</string>
     <key>maybe_later</key>
@@ -1788,6 +1833,8 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Till</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts-användare</string>
     <key>onboarding_quote_best</key>
@@ -1901,8 +1948,12 @@ UPPDATERINGAR</string>
     <string>Spela upp alla</string>
     <key>play_last</key>
     <string>Spela sista</string>
+    <key>play_last_in_up_next</key>
+    <string>Spela upp sist i Up Next</string>
     <key>play_next</key>
     <string>Spela nästa</string>
+    <key>play_next_in_up_next</key>
+    <string>Spela upp nästa i Up Next</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Du lyssnade sammanlagt klart på %2$@ av de %1$@ avsnitt du började lyssna på</string>
     <key>playback_2024_completion_rate_title</key>
@@ -2078,6 +2129,8 @@ Det är engagemang!</string>
     <string>Ordna om åtgärder</string>
     <key>player_archived_confirmation</key>
     <string>Arkivera det här avsnittet?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Dold från ditt flöde, inte borttagen.</string>
     <key>player_artwork</key>
     <string>Omslag för %1$@</string>
     <key>player_chapter_count</key>
@@ -2096,12 +2149,20 @@ Det är engagemang!</string>
     <string>Avsnittet togs bort</string>
     <key>player_error_corrupted_file</key>
     <string>Det här avsnittet kan vara skadat, men du kan försöka spela upp det igen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Det här avsnittet kan inte spelas upp.</string>
     <key>player_error_internet_connection</key>
     <string>Kontrollera din Internetanslutning och försök igen.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Du är offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Uppspelningen misslyckades, försök igen</string>
     <key>player_increment_time</key>
     <string>Öka tid</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Markera detta avsnitt som spelad?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Den kommer att flyttas från Nästa till din historik.</string>
     <key>player_options_play_all_message</key>
     <string>Detta kommer att rensa din nuvarande Nästa-kö.</string>
     <key>player_options_play_episode_singular</key>
@@ -2152,6 +2213,12 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Denna spellista är full. Ta bort några avsnitt eller starta en ny.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Spellistan är nästan full. Prova att lägga till färre avsnitt.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Spellistor kan endast innehålla podcastavsnitt.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Spellistor kan endast innehålla upp till %1$@ avsnitt.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Ditt avsnitt i denna spellista har arkiverats</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2486,6 +2553,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Kan inte läsa in podcastinformationen :(</string>
     <key>podcast_error_title</key>
     <string>Funkar inte överhuvudtaget</string>
+    <key>podcast_explicit_content</key>
+    <string>Känsligt innehåll</string>
     <key>podcast_extras</key>
     <string>Extra</string>
     <key>podcast_failed_download</key>
@@ -2607,6 +2676,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bara senaste avsnittet</string>
     <key>podcasts_badges</key>
     <string>Märken</string>
+    <key>podcasts_edit</key>
+    <string>Redigera podcasts</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Anpassad beställning</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2702,9 +2773,13 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>queue_now_playing_accessibility</key>
     <string>Spelar nu upp %1$@</string>
     <key>queue_time_remaining</key>
-    <string>%1$@ återstår</string>
-    <key>queue_total_time_remaining</key>
-    <string>%1$@ återstår</string>
+    <string>%1$@ kvar</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 avsnitt · %1$@ left</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ avsnitt · %2$@ kvar</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>%1$@ kvar</string>
     <key>rate</key>
     <string>Omdöme</string>
     <key>rate_pocket_casts</key>
@@ -2757,6 +2832,11 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du har delat ut alla dina gästpass.</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hej!
+
+Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare. Den är fullspäckad med unika funktioner som bokmärken, mappar och annat som du inte hittar någon annanstans. Jag tror att du också kommer att älska den!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hej! Använd länken nedan för att göra anspråk på ditt %1$@ gästpass för Pocket Casts Plus och ta del av podcasts på alla dina enheter.</string>
     <key>referrals_share_pass_subject</key>
@@ -2891,8 +2971,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Det fick inte att ladda upp filen. Försök igen senare.</string>
     <key>server_error_files_uuid_required</key>
     <string>Fil-UUID krävs.</string>
+    <key>server_error_login_access_denied</key>
+    <string>Användaren nekade auktoriseringsbegäran</string>
     <key>server_error_login_account_locked</key>
     <string>Ditt konto har låsts på grund av för många inloggningsförsök. Försök igen senare.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Auktorisering väntar</string>
     <key>server_error_login_email_blank</key>
     <string>Ange en e-postadress.</string>
     <key>server_error_login_email_invalid</key>
@@ -2901,6 +2985,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>E-postadressen hittades inte</string>
     <key>server_error_login_email_taken</key>
     <string>E-postadressen är upptagen</string>
+    <key>server_error_login_expired_token</key>
+    <string>Enhetskoden har löpt ut.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>Det angivna anslaget är ogiltigt, har löpt ut eller har återkallats.</string>
     <key>server_error_login_password_blank</key>
     <string>Ange ett lösenord.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2931,6 +3019,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tillåt oss att samla in analyser.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Tillåt oss att använda betrodda tjänster från tredje part för att samla in anonyma data.</string>
+    <key>settings_analytics</key>
+    <string>Analys</string>
     <key>settings_appearance</key>
     <string>Utseende</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2950,7 +3040,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Nya avsnitt slutar läggas till när Nästa når %1$@ avsnitt.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>När Nästa når %1$@ läggs nya avsnitt automatiskt till överst, varpå det sista avsnittet i kön tas bort. Inga nya avsnitt läggs till längst ner.</string>
+    <string>När Nästa når %1$@ läggs nya avsnitt automatiskt till högst upp, varpå det sista avsnittet i kön tas bort. Avsnitt som är inställda på att läggas till automatiskt längst ner läggs inte till förrän Nästa är under gränsen.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Lägg till podcasts automatiskt</string>
     <key>settings_auto_archive</key>
@@ -3161,6 +3251,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Om du trycker på ett avsnitt i Nästa så kommer en lista av Åtgärder att dyka upp. Ett långtryck spelar avsnittet. Aktivera för att vända på dem.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Om du trycker på ett avsnitt i Nästa så spelas avsnittet. Ett långtryck visar en lista av Åtgärder. Inaktivera för att vända på dem.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Använd uppdaterad Volume Boost med mer konsekventa röstnivåer.</string>
     <key>settings_global_settings</key>
     <string>Globala inställningar</string>
     <key>settings_headphone_controls</key>
@@ -3299,6 +3393,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina iPhone-inställningar. iOS hanterar cachelagrade data automatiskt och frigör dem vid behov.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyser från tredje part</string>
     <key>settings_title</key>
@@ -3314,7 +3410,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>settings_up_next_limit</key>
     <string>Lägg automatiskt till nya avsnitt i Nästa  Nya avsnitt slutar att läggas till när Nästa når %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Lägg automatiskt till nya avsnitt i Nästa. När Nästa når %1$@ så läggs det nya avsnitt automatiskt till överst i kön medans det sista avsnittet i kön tas bort.</string>
+    <string>Lägg automatiskt till nya avsnitt i Nästa. När Nästa når %1$@ läggs nya avsnitt automatiskt till högst upp, varpå det sista avsnittet i kön tas bort. Avsnitt som är inställda på att läggas till automatiskt längst ner läggs inte till förrän Nästa är under gränsen.</string>
     <key>settings_volume_boost</key>
     <string>Volymökning</string>
     <key>settings_watch_auto_download</key>
@@ -3379,6 +3475,48 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Något gick fel när din delningssida skulle skapas</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Delningen misslyckades</string>
+    <key>share_profile</key>
+    <string>Dela profil</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Lägg till foto och namn</string>
+    <key>share_profile_add_your_name</key>
+    <string>Lägg till ditt namn</string>
+    <key>share_profile_choose_photo</key>
+    <string>Välj bild</string>
+    <key>share_profile_display_name</key>
+    <string>Visningsnamn</string>
+    <key>share_profile_edit</key>
+    <string>Redigera profil</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Redigera foto och namn</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Följda podcasts</string>
+    <key>share_profile_name_description</key>
+    <string>Så här visas du på delade profiler. Du kan ändra det senare.</string>
+    <key>share_profile_playlists</key>
+    <string>Spellistor</string>
+    <key>share_profile_preview</key>
+    <string>Förhandsgranska profil</string>
+    <key>share_profile_privacy</key>
+    <string>Integritet</string>
+    <key>share_profile_privacy_description</key>
+    <string>Du kan hantera det du delar i %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Styr vad andra kan se när du delar din profil.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Profildelning</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Senaste avsnitt</string>
+    <key>share_profile_remove_photo</key>
+    <string>Ta bort foto</string>
+    <key>share_profile_save</key>
+    <string>Spara</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Dela min profil</string>
+    <key>share_profile_take_photo</key>
+    <string>Ta bild</string>
+    <key>share_profile_what_to_share</key>
+    <string>Vad vill du dela?</string>
     <key>share_select_podcasts</key>
     <string>Välj podcasts</string>
     <key>shared_item_loading</key>
@@ -3423,6 +3561,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Ställ in Sovtimer på %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Förläng sovtimer med 5 minuter</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Markera som Uppspelat</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Markera aktuellt avsnitt som Uppspelat</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Nästa kapitel</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3543,6 +3685,20 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du har lyssnat i</string>
     <key>stats_listen_history_no_date</key>
     <string>Du har lyssnat i</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Färgdiagram över lyssningsaktivitet. Dagar med lyssning: %1$@ av 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Om lyssningsaktivitet</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>En uppskattning av när du har lyssnat, baserat på din uppspelningshistorik. Om du avslutar ett avsnitt under några dagar visas det på den sista dagen.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Lyssningsaktivitet</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Mindre</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Mer</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Lyssningsaktivitet</string>
     <key>stats_skipping</key>
     <string>Hoppa över</string>
     <key>stats_time_saved</key>
@@ -3699,14 +3855,323 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Det finns ingen transkription tillgänglig för det här avsnittet</string>
     <key>transcript_error_not_supported</key>
     <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Synkroniserade transkriptioner är bara tillgängliga för de senaste avsnitten.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Läs snabbt, missa ingenting. Namnet du svepte förbi, boken de rekommenderade, statistiken du ville ha — tryck på ordet och hoppa tillbaka.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Läs med. Även vid 2x.</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Ladda ner avsnittet och tryck för att söka</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>
     <string>Trimma tystnad</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Kontrollerar efter föräldralösa avsnitt…</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Ett sällsynt synkroniseringsproblem kan lämna efter sig dubbletter av avsnittsinlägg som inte längre är länkade till sin podcast. Dessa kan göra att ett avsnitts nedladdnings- eller uppspelningsstatus verkar vara felaktig i vissa delar av appen.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ föräldralösa avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 föräldralöst avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Föräldralösa avsnitt</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Inga föräldralösa avsnitt hittades</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Tar bort föräldralösa avsnitt…</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Ta bort föräldralösa avsnitt</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Detta kommer att ta bort dubbletter av avsnittsinlägg som hittas på den här enheten. Denna åtgärd kan inte ångras, men Pocket Casts kommer att göra sitt bästa för att bevara ditt uppspelningsförlopp, din nedladdningsstatus och annan avsnittsinformation innan du tar bort dem.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Ta bort föräldralösa avsnitt?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Inga föräldralösa avsnitt togs bort</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ föräldralösa avsnitt togs bort</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 föräldralöst avsnitt togs bort</string>
+    <key>troubleshooting_title</key>
+    <string>Felsökning</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Visa föräldralösa avsnitt</string>
     <key>try_again</key>
     <string>Försök igen</string>
     <key>try_it_now</key>
     <string>Prova nu</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Det uppstod ett problem och du har blivit utloggad.
+Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Du har loggats ut.</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Skapa ett gratis konto</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Dina följningar och ditt förlopp exakt där du lämnade dem</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Ett konto. Alla skärmar</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Upptäck fler program</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Din nästa favorit finns här någonstans.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Du har inte sett hälften än.</string>
+    <key>tv_create_account_come_back</key>
+    <string>När du har skapat ditt konto, kom tillbaka och logga in</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Skapa ditt konto</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>TV:n kommer att logga in dig</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Skanna QR-koden</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Skapa ett gratis konto för att följa podcasts, bygga din Nästa och fortsätta där du slutade på vilken enhet som helst.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Dina podcasts förtjänar ett hem</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Öppna kameran och peka på denna QR-kod.</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Skanna denna kod för att komma igång på din telefon, det tar bara en minut.</string>
+    <key>tv_create_account_title</key>
+    <string>Skapa ditt gratis konto</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Se till att du är ansluten till internet och försök igen.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Upptäckten misslyckades att laddas.</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Gå till podcasten</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Spela det senaste avsnittet</string>
+    <key>tv_discover_play_episode</key>
+    <string>Spela upp avsnitt</string>
+    <key>tv_episode_archived</key>
+    <string>Arkiverad</string>
+    <key>tv_episode_info</key>
+    <string>Avsnittsinformation</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Markera som spelad</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Markerat som ej uppspelat</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Borttagen från Nästa</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Avsnittsinformation</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Laddar in avsnittsinformation ...</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Avsnittsinformation</string>
+    <key>tv_episode_unarchived</key>
+    <string>Avarkiverad</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Spelas upp sist</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Spelas upp härnäst</string>
+    <key>tv_folder_empty_message</key>
+    <string>Redigera din mapp i mobilappen. De väntar här när du är klar.</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Avsnitt du spelar kommer att visas här</string>
+    <key>tv_history_empty_title</key>
+    <string>Ingen lyssningshistorik</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Bläddra i kategorier</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Utvalt på Pocket Casts</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Fortsätt där du slutade</string>
+    <key>tv_home_new_releases</key>
+    <string>Nya släpp</string>
+    <key>tv_home_recently_played</key>
+    <string>Senast spelade</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Älskad av lyssnare av %1$@</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Du gillar nog de här</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Vad alla lyssnar på den här veckan</string>
+    <key>tv_home_video_section_title</key>
+    <string>Gjord för TV</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Kunde inte hämta din inloggningskod</string>
+    <key>tv_player_playback_effects</key>
+    <string>Uppspelningseffekter</string>
+    <key>tv_player_playback_speed</key>
+    <string>Uppspelningshastighet</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Uppspelningshastighet inställ på %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Trimma ner tystnad</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Mad Max</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Medium</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Mild</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Av</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Trimma ner tystnad: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Volymökning</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Volymökning av</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Volymökning på</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ avsnitt</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Spela alla avsnitt</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Denna spellista filtrerar efter nedladdade avsnitt. TV:ns lagringsutrymme är begränsat, så nedladdningar stöds inte.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>Det är antingen dags att fira att den här listan är slutförd eller att redigera dina regler i mobilappen för att hitta mer.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Inga avsnitt</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Alla %1$@ avsnitt i den här spellistan har arkiverats.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>Vi kan spara din nuvarande Nästa som en spellista</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Detta kommer att rensa din Nästa</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Spela upp utan att spara</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Spara och spela</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>De väntar här när du är klar. Skanna för att hämta appen</string>
+    <key>tv_playlists_download_title</key>
+    <string>Skapa spellistor på din telefon</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Skapa en spellista</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Bygg en manuellt eller låt smarta regler sortera åt dig.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Dina spellistor live här</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Om</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Alla avsnitt</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Arkiverade avsnitt</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Följ denna podcast</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Följer</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Dölj arkiverade</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Mer info</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Nätverk</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Nästa avsnitt</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Avsnitt från den här podcasten visas här.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Inga avsnitt</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Schema</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Visa arkiverade</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>Avsnittet att prova först</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>Det här är den som får folk att fastna</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Webbplats</string>
+    <key>tv_podcast_error_message</key>
+    <string>Kontrollera din Internetanslutning och försök igen.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Det gick inte att ladda podcastinformationen</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Upptäck podcasts</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Följda podcasts visas här, redo att spelas upp.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Dags att fylla detta</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Öppnar profil- och kontoalternativ</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Profil</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Skapa konto</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Logga in</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Logga ut</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Detta tar bort alla nedladdade podcasts och data från denna Apple TV. Du kan logga in igen för att återställa dem.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Logga ut?</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Stjärnmärkta avsnitt</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Hämtar de senaste avsnitten</string>
+    <key>tv_search_failed</key>
+    <string>Sökning misslyckades: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, shower, författare</string>
+    <key>tv_search_searching</key>
+    <string>Söker ...</string>
+    <key>tv_search_type_something</key>
+    <string>Skriv något …</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>eller ange följande kod</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>går till [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>eller ange denna kod i [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Öppna kameran och peka på denna QR-kod</string>
+    <key>tv_sign_in_title</key>
+    <string>Logga in i Pocket Casts</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Laddar dina podcasts</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Kul att se dig</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Pocket Casts rekommenderar</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Stjärnmärk avsnitt för att hålla dem praktiska, och de kommer att dyka upp här</string>
+    <key>tv_starred_empty_title</key>
+    <string>Inga stjärnmärkta avsnitt</string>
+    <key>tv_tab_home</key>
+    <string>Hem</string>
+    <key>tv_tab_now_playing</key>
+    <string>Spelar nu upp</string>
+    <key>tv_tab_playlists</key>
+    <string>Spellistor</string>
+    <key>tv_tab_podcasts</key>
+    <string>Dina podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Nästa</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Lägg till avsnitt</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Lägg till avsnitt i Nästa så spelas de upp i ordning, ett efter ett</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Inget köat</string>
+    <key>tv_user_profile_actions</key>
+    <string>Användarinställningar</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Inloggningstyp</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Användare/pass</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Användarnamn</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Använd utan konto</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Skapa gratiskonto</string>
+    <key>tv_welcome_log_in</key>
+    <string>Logga in</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Dina podcasts. På den stora skärmen. Uppenbarligen.</string>
+    <key>tv_welcome_title</key>
+    <string>Välkommen till Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Avarkivera</string>
     <key>unfollow</key>
@@ -3737,6 +4202,20 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Vi introducerar slumpmässig uppspelning</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Kortaste till längsta, eller tvärtom – passa avsnittet till den tid du faktiskt har.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Sortera efter varaktighet</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Längsta till kortaste</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Nyaste till äldsta</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Äldsta till nyaste</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Kortaste till längsta</string>
+    <key>up_next_sort_title</key>
+    <string>Sortera Nästa</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
     <key>upgrade_account_info</key>
@@ -3819,6 +4298,8 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Volymökning</string>
     <key>volume_boost_description</key>
     <string>Röster låter starkare</string>
+    <key>volume_boost_n_description</key>
+    <string>Röstnivåer är mer konsekventa</string>
     <key>wait_for_wifi</key>
     <string>Väntar på WiFi</string>
     <key>watch</key>

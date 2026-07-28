@@ -21,7 +21,6 @@ struct PaidStoryWallView: View {
                     }
 
                     NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
-
                 }
                 .buttonStyle(StoriesButtonStyle(color: .black, icon: nil))
             }

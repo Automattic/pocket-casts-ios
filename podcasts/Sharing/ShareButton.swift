@@ -23,7 +23,7 @@ struct ShareButton: View {
             shareTask = Task.detached { @MainActor in
                 do {
                     try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, presentFrom: frame, source: source)
-                } catch let error {
+                } catch {
                     if Task.isCancelled { return }
                     await MainActor.run {
                         Toast.show("Failed clip export: \(error.localizedDescription)")

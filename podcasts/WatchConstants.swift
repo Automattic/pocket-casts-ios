@@ -9,6 +9,7 @@ public enum WatchConstants {
         public static let nowPlayingEpisode = "episode"
         public static let nowPlayingStatus = "status"
         public static let nowPlayingCurrentTime = "upto"
+        public static let nowPlayingPlayedUpToModified = "uptoModified"
         public static let nowPlayingDuration = "duration"
         public static let nowPlayingColor = "color"
         public static let nowPlayingUpNextCount = "upcount"
@@ -81,12 +82,23 @@ public enum WatchConstants {
             public static let logContents = "logFile"
         }
 
+        enum LogFileTransfer {
+            public static let type = "logFileTransfer"
+        }
+
         enum SignificantSyncableUpdate {
             public static let type = "sigSyncUpdate"
         }
 
         enum MinorSyncableUpdate {
             public static let type = "minSyncUpdate"
+        }
+
+        enum PlaybackProgressUpdate {
+            public static let type = "playbackProgressUpdate"
+            public static let episodeUuid = "uuid"
+            public static let playedUpTo = "playedUpTo"
+            public static let modifiedAt = "modifiedAt" // playedUpToModified (UTC millis)
         }
 
         enum DataRequest {
@@ -232,6 +244,10 @@ public enum WatchConstants {
             public static let username = "username"
             public static let password = "password"
             public static let refreshToken = "refreshToken"
+        }
+
+        enum StateUpdate {
+            public static let type = "stateUpdate"
         }
     }
 }

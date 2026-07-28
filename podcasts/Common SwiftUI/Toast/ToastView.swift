@@ -57,14 +57,14 @@ struct ToastView<Style: ToastTheme>: View {
             .font(size: 14, style: .subheadline, weight: .medium)
         }
         // Wait for the initial content size to be calculated before appearing so we can animate in
-        .onChange(of: contentSize, perform: { newValue in
+        .onChange(of: contentSize) {
             guard !isVisible else { return }
 
             isVisible = true
             viewModel.didAppear()
-        })
+        }
         // Inform the view model that we're dismissing
-        .onChange(of: dismissDirection) { newValue in
+        .onChange(of: dismissDirection) { _, newValue in
             guard newValue != .none else { return }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
@@ -72,7 +72,7 @@ struct ToastView<Style: ToastTheme>: View {
             }
         }
         // Handle when the view model tells us to auto dismiss
-        .onChange(of: viewModel.didAutoDismiss) { newValue in
+        .onChange(of: viewModel.didAutoDismiss) { _, newValue in
             guard newValue, dismissDirection == .none else { return }
 
             autoDismiss()
@@ -204,7 +204,8 @@ struct ToastView_Previews: PreviewProvider {
         ToastView(viewModel: .init(coordinator: PreviewCoordinator(), title: "Hello World", actions: [
             .init(title: "Tap Me", action: {
                 print("Tapped")
-            })], dismissPolicy: .never), style: .defaultTheme)
+            })
+        ], dismissPolicy: .never), style: .defaultTheme)
     }
 
     private class PreviewCoordinator: ToastDelegate {

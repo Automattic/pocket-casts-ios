@@ -5,16 +5,26 @@ import UIKit
 class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var podcastImage: PodcastImageView!
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+            podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        }
+    }
     @IBOutlet var podcastDescription: ThemeableLabel! {
         didSet {
             podcastDescription.style = .primaryText02
+            podcastDescription.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var typeBadgeLabel: ThemeableLabel! {
         didSet {
             typeBadgeLabel.layer.cornerRadius = 4
+            typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontForContentSizeCategory = true
+            typeBadgeLabel.adjustsFontSizeToFitWidth = true
         }
     }
 
@@ -41,6 +51,10 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SinglePodcastViewController, _) in
+            controller.updateSize()
+        }
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPodcast))
         view.addGestureRecognizer(tapGesture)
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
@@ -66,6 +80,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         let categoryId = category?.id.map(String.init)
         AnalyticsHelper.listImpression(listId: listId, category: categoryId)
+        updateSize()
     }
 
     // MARK: DiscoverSummaryProtocol
@@ -90,13 +105,13 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     // MARK: Populate UI
 
     func populate() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         if let title = podcast.title?.localized {
             podcastTitle?.text = title
             let maxTitleChars = podcastTitle.bounds.width * 0.11
             let fontSize: CGFloat = title.count > Int(maxTitleChars) ? 15 : 18
-            podcastTitle.font = UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.bold)
+            podcastTitle.font = .font(ofSize: fontSize, weight: .bold, scalingWith: .body)
             titleToDescriptionConstraint.constant = fontSize == 15 ? 4 : 6
         }
         if let description = featuredDescription {
@@ -114,8 +129,9 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         }
 
         let fontSize: CGFloat = UIScreen.main.bounds.width >= 360 ? 15 : 14
-        podcastDescription.font = UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.regular)
+        podcastDescription.font = .font(ofSize: fontSize, weight: .regular, scalingWith: .callout)
 
+        updateSize()
         podcastTitle.sizeToFit()
         podcastDescription.sizeToFit()
 
@@ -124,12 +140,13 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         subscribeButton.shouldAnimate = true
 
         view.sizeToFit()
+        view.layoutIfNeeded()
     }
 
     // MARK: Actions
 
     @IBAction func subscribeTapped(_ sender: Any) {
-        guard !subscribeButton.currentlyOn, let podcast = podcast else { return }
+        guard !subscribeButton.currentlyOn, let podcast else { return }
 
         subscribeButton.currentlyOn = true
 
@@ -142,7 +159,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     }
 
     @objc func showPodcast() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: item?.uuid)
 
@@ -173,5 +190,11 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         } else {
             typeBadgeLabel.style = .support02
         }
+    }
+
+    func updateSize() {
+        let isSponsored = item?.isSponsored ?? false
+        podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        podcastDescription.updateNumberOfLines(regular: isSponsored ? 0 : 4, accessibility: isSponsored ? 0 : 6)
     }
 }

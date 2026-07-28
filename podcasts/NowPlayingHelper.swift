@@ -27,6 +27,13 @@ class NowPlayingHelper {
         let playingInfo = nowPlayingInfo(for: episode, currentChapters: currentChapters)
         var nowPlayingInfoWithProgress = NowPlayingHelper.addUpToInformationToNowPlaying(playingInfo, duration: duration, upTo: upTo, playbackRate: playbackRate)
 
+        if let chapterArtwork = currentChapters.artwork {
+            let artwork = MPMediaItemArtwork(boundsSize: chapterArtwork.size, requestHandler: { _ in chapterArtwork })
+            nowPlayingInfoWithProgress[MPMediaItemPropertyArtwork] = artwork
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfoWithProgress
+            return
+        }
+
         let size = ImageManager.sizeFor(imageSize: .page)
         ImageManager.sharedManager.imageForEpisode(episode, size: .page) { image in
             let imageToUse = image ?? UIImage(named: "noartwork-page")!
@@ -45,7 +52,7 @@ class NowPlayingHelper {
     }
 
     private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
-        if currentChapters.title.count > 0, Settings.publishChapterTitlesEnabled() {
+        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled() {
             return currentChapters.title
         }
 
@@ -61,7 +68,7 @@ class NowPlayingHelper {
         var nowPlayingInfo = [String: AnyObject]()
 
         nowPlayingInfo[MPMediaItemPropertyMediaType] = NSNumber(value: MPMediaType.podcast.rawValue)
-        let nowPlayingMediaType = episode.videoPodcast() ? MPNowPlayingInfoMediaType.video.rawValue : MPNowPlayingInfoMediaType.audio.rawValue
+        let nowPlayingMediaType = PlaybackManager.shared.isCurrentEpisodeVideo() ? MPNowPlayingInfoMediaType.video.rawValue : MPNowPlayingInfoMediaType.audio.rawValue
         nowPlayingInfo[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: nowPlayingMediaType)
         nowPlayingInfo[MPMediaItemPropertyAlbumTrackCount] = NSNumber(value: 1)
         nowPlayingInfo[MPMediaItemPropertyAlbumTrackNumber] = NSNumber(value: 1)
@@ -69,7 +76,7 @@ class NowPlayingHelper {
         nowPlayingInfo[MPMediaItemPropertyDiscNumber] = NSNumber(value: 1)
 
         let episodeTitle = titleForNowPlayingInfo(episode: episode, currentChapters: currentChapters)
-        if episodeTitle.count > 0 {
+        if !episodeTitle.isEmpty {
             nowPlayingInfo[MPMediaItemPropertyTitle] = episodeTitle as NSString
         }
 
@@ -82,10 +89,9 @@ class NowPlayingHelper {
         if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
             // some car stereo's do weird things with the % character, so here we replace it with pct to work around those bugs
             let safeCharacterPodcastTitle = parentPodcast.title?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
-            let safeCharacterPodcastAuthor = parentPodcast.author?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
 
-            nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastAuthor as NSString
-            nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastAuthor as NSString
+            nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastTitle as NSString
+            nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastTitle as NSString
 
             // we purposely show the date here instead, but as with the above there's a car stereo bug we need to work around as well where we don't show the word "Wednesday" in the artist field
             // because on some car stereos that have embedded image databases, this comes up with a really grotesque image (more info: https://github.com/shiftyjelly/pocketcasts-ios/issues/3874)
@@ -95,7 +101,7 @@ class NowPlayingHelper {
             nowPlayingInfo[MPMediaItemPropertyPodcastTitle] = safeCharacterPodcastTitle as NSString
 
             // genre
-            if let podcastCategory = parentPodcast.podcastCategory, podcastCategory.count > 0 {
+            if let podcastCategory = parentPodcast.podcastCategory, !podcastCategory.isEmpty {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = podcastCategory as NSString
             } else {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = "Podcast" as NSString
@@ -114,7 +120,7 @@ class NowPlayingHelper {
 
         nowPlayingClone[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: duration)
         nowPlayingClone[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: upTo)
-        if let playbackRate = playbackRate {
+        if let playbackRate {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: playbackRate)
             nowPlayingClone[MPNowPlayingInfoPropertyDefaultPlaybackRate] = NSNumber(value: playbackRate)
         } else {

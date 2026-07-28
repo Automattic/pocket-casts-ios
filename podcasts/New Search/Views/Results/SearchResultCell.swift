@@ -180,7 +180,7 @@ private extension SearchResultCell {
                     .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                     .lineLimit(1)
                 } else if let result = model.podcastFolder {
-                    Text(result.titleToDisplay)
+                    ExplicitBadgeHelper.inlineTitle(result.titleToDisplay, isExplicit: result.kind == .podcast && result.resolvedIsExplicit, theme: theme.activeTheme)
                         .font(style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .lineLimit(2)
@@ -199,9 +199,17 @@ private extension SearchResultCell {
                         .renderingMode(.template)
                         .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                         .frame(width: 48, height: 48)
-                } else if FeatureFlag.searchImprovements.enabled && !showEpisodeAddButton {
-                    EpisodeActionButton(model: self.model)
-                        .frame(width: 48, height: 48)
+                } else if !showEpisodeAddButton {
+                    ZStack {
+                        if model.showsLoadingSpinner {
+                            ProgressView()
+                                .tint(AppTheme.color(for: .primaryIcon01, theme: theme))
+                        } else {
+                            EpisodeActionButton(model: self.model)
+                        }
+                    }
+                    .allowsHitTesting(!model.isLoadingEpisode)
+                    .frame(width: 48, height: 48)
                 }
                 if showEpisodeAddButton {
                     Button(action: {
@@ -245,6 +253,13 @@ extension PodcastFolderSearchResult {
 
     var authorToDisplay: String {
         author ?? ""
+    }
+
+    var resolvedIsExplicit: Bool {
+        if let explicit {
+            return explicit
+        }
+        return DataManager.sharedManager.findPodcast(uuid: uuid)?.isExplicit ?? false
     }
 }
 

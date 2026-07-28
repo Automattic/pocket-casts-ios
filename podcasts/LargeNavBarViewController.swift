@@ -1,11 +1,19 @@
-import Foundation
+import UIKit
+
 class LargeNavBarViewController: PCViewController {
     func setupLargeTitle() {
         changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .automatic
         navigationController?.navigationBar.sizeToFit()
+        largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
+        if !LiquidGlass.isEnabled {
+            configureLegacyOpaqueNavBarAppearance()
+        }
+    }
+
+    private func configureLegacyOpaqueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
         appearance.shadowColor = .clear

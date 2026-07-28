@@ -57,7 +57,7 @@ struct LocalSearchView: View {
                     view
                 }
             })
-            .onChange(of: navigationPath) { newValue in
+            .onChange(of: navigationPath) { _, newValue in
                 UIApplication.shared.endEditing(true) // Dismiss the keyboard and end editing any time we navigate between sections.
                 handleNavigationPathChange(newValue, previousPath: previousNavigationPath)
                 previousNavigationPath = newValue
@@ -88,7 +88,7 @@ struct LocalSearchView: View {
             Analytics.track(.filterAddEpisodesPodcastTapped)
             if navigationPath.last?.isPodcast == true {
                 withAnimation(navigationAnimation) {
-                    navigationPath.removeLast()
+                    _ = navigationPath.removeLast()
                 }
             }
             guard let podcast = viewModel.podcast(from: result) else { return }
@@ -265,7 +265,7 @@ private extension LocalSearchView {
     func popNavigation() {
         guard !navigationPath.isEmpty else { return }
         withAnimation(navigationAnimation) {
-            navigationPath.removeLast()
+            _ = navigationPath.removeLast()
         }
     }
 }

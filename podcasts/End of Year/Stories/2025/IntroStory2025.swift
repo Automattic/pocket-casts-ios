@@ -1,6 +1,7 @@
 import SwiftUI
 import Lottie
 import PocketCastsServer
+import EndOfYear
 
 extension Color {
     static let endOfYear2025Background = Color(hex: "28486A")
@@ -45,7 +46,7 @@ struct IntroStory2025: StoryView {
                 )
                 .opacity(animationFinished ? 0 : opacity)
         }
-        .onChange(of: animationProgress) { position in
+        .onChange(of: animationProgress) { _, position in
             if afterLoading {
                 self.opacity = 1
                 self.scale = 10
@@ -77,7 +78,7 @@ struct IntroStory2025: StoryView {
                     }
                 } else {
                     LottieView(animation: .named("end_of_year_2025_intro"))
-                        .animationDidFinish({ completed in
+                        .animationDidFinish({ _ in
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 animationFinished = true
                                 loadCallback?()

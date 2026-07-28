@@ -9,6 +9,7 @@ extension PaidFeature {
     static var bookmarks: PaidFeature = .plusFeature
     static var deselectChapters: PaidFeature = .plusFeature
     static var slumber: PaidFeature = .plusFeature
+    static var syncedTranscripts: PaidFeature = .plusFeature
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
@@ -79,7 +80,7 @@ class PaidFeature: ObservableObject {
 
 // MARK: - Helpers
 
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
 extension PaidFeature {
     /// Returns the correct upgrade view controller for the feature
     func upgradeController(source: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {

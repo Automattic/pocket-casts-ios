@@ -80,7 +80,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
 
         (view as? ThemeableView)?.style = .primaryUi01
 
-        if let code = promoCode, code.count > 0 {
+        if let code = promoCode, !code.isEmpty {
             if SyncManager.isUserLoggedIn() {
                 redeemCode()
             } else {
@@ -234,7 +234,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     }
 
     private func redeemCode() { // called for signed in users only
-        guard let promoCode = promoCode else {
+        guard let promoCode else {
             promoStatus = .codeInvalid
             return
         }

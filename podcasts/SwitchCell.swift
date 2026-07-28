@@ -33,6 +33,10 @@ class SwitchCell: ThemeableCell {
         super.awakeFromNib()
         accessoryView = cellSwitch
         setNoImage()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SwitchCell, _) in
+            view.updateSize()
+        }
     }
 
     override func handleThemeDidChange() {
@@ -61,15 +65,9 @@ class SwitchCell: ThemeableCell {
     }
 
     private func updateSize() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        updateSize()
+        let settingsSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: settingsSize)
     }
 }

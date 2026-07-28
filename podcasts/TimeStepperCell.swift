@@ -5,6 +5,7 @@ class TimeStepperCell: ThemeableCell {
     @IBOutlet var cellLabel: UILabel! {
         didSet {
             cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -12,19 +13,26 @@ class TimeStepperCell: ThemeableCell {
         didSet {
             cellSecondaryLabel.style = .primaryText02
             cellSecondaryLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellSecondaryLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var timeStepper: CustomTimeStepper!
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
+    @IBOutlet var cellTextToMarginConstraint: NSLayoutConstraint!
 
     var onValueChanged: ((TimeInterval) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: TimeStepperCell, _) in
+            view.updateSize()
+        }
+
         cellTextToImageConstraint.isActive = false
+        cellTextToMarginConstraint.isActive = true
 
         timeStepper.addTarget(self, action: #selector(stepperChanged(_:)), for: .valueChanged)
     }
@@ -41,6 +49,7 @@ class TimeStepperCell: ThemeableCell {
 
     func configureWithImage(imageName: String, tintColor: UIColor) {
         cellTextToImageConstraint.isActive = true
+        cellTextToMarginConstraint.isActive = false
         cellImage.tintColor = tintColor
         cellImage.image = UIImage(named: imageName)
         updateSize()
@@ -60,15 +69,9 @@ class TimeStepperCell: ThemeableCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
     private func updateSize() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        updateSize()
+        let settingsSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: settingsSize)
     }
 }

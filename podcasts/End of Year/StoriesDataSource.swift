@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 protocol StoriesDataSource {
     var numberOfStories: Int { get }
@@ -150,7 +151,7 @@ class PauseState: ObservableObject {
 }
 
 struct PauseStateKey: EnvironmentKey {
-    static let defaultValue: PauseState = PauseState()
+    static let defaultValue = PauseState()
 }
 
 extension EnvironmentValues {

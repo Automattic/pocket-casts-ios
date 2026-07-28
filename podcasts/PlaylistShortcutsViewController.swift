@@ -100,7 +100,7 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
                 case .playTopEpisode:
                     cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayTopEpisode
                 case .openPlaylist:
-                    cell.titleLabel?.text = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsShortcutsFilterOpenPlaylist : L10n.settingsShortcutsFilterOpenFilter
+                    cell.titleLabel?.text = L10n.settingsShortcutsFilterOpenPlaylist
                 }
             }
             return cell
@@ -149,7 +149,7 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
             self.enabledShortcuts = []
             self.availableRows = [.playTopEpisode, .playAll, .openPlaylist]
 
-            if let allVoiceShortcuts = allVoiceShortcuts {
+            if let allVoiceShortcuts {
                 for voiceShortcut in allVoiceShortcuts {
                     if let playIntent = voiceShortcut.shortcut.intent as? INPlayMediaIntent {
                         if playIntent.mediaContainer?.identifier == self.playlist.uuid {
@@ -179,7 +179,7 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
 
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
-                if let error = error {
+                if let error {
                     FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
                     self.errorView.isHidden = false
                 } else {
@@ -190,22 +190,22 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func enabledSection() -> Int {
-        enabledShortcuts.count > 0 ? 0 : -1
+        !enabledShortcuts.isEmpty ? 0 : -1
     }
 
     func availableSection() -> Int {
         if enabledSection() == 0 {
-            return availableRows.count > 0 ? 1 : -1
+            return !availableRows.isEmpty ? 1 : -1
         }
         return 0
     }
 
     private func reloadData() {
         tableData = []
-        if enabledShortcuts.count > 0 {
+        if !enabledShortcuts.isEmpty {
             tableData.append(.enabledSection)
         }
-        if availableRows.count > 0 {
+        if !availableRows.isEmpty {
             tableData.append(.availableSection)
         }
         DispatchQueue.main.async {

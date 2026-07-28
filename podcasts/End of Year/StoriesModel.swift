@@ -1,6 +1,7 @@
 import Combine
 import PocketCastsServer
 import SwiftUI
+import EndOfYear
 
 @MainActor
 class StoriesModel: ObservableObject {
@@ -107,7 +108,7 @@ class StoriesModel: ObservableObject {
     func refresh() {
         isReady = false
 
-        Task.init {
+        Task {
             if self.configuration.loadingIsTheFirstStory {
                 loadingStart()
             }

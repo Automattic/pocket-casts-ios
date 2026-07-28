@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct YearOverYearStory2023: ShareableStory {
     @Environment(\.animated) var animated: Bool
@@ -103,11 +104,9 @@ struct YearOverYearStory2023: ShareableStory {
                                 )
                                 .frame(height: rightBarPercentageSize * proxy.size.height)
                                 .modifier(animationViewModel.animate($rightBarPercentageSize, to: finalRightBarPercentageSize))
-
                             }
                         }
                     }
-
                 }
             }
             .background(.black)

@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-extension Podcast: Sortable {
+extension Podcast {
     public var itemUUID: String {
         uuid
     }

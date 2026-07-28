@@ -27,7 +27,7 @@ struct CategoriesSelectorView: View {
                 PlaceholderPillsView()
             }
         }
-        .background(theme.secondaryUi01)
+        .background(LiquidGlass.isEnabled ? .clear : theme.secondaryUi01)
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
@@ -88,8 +88,8 @@ struct CategoriesPillsView: View {
     @Namespace private var animation
 
     fileprivate enum Constants {
-        static let buttonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
-        static let selectedButtonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 0, trailing: 16)
+        static let buttonInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
+        static let selectedButtonInsets = EdgeInsets(top: 2, leading: 16, bottom: 0, trailing: 16)
     }
 
     var body: some View {
@@ -128,14 +128,14 @@ struct CategoriesPillsView: View {
                 .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.hidden)
         }
-        .onChange(of: showingCategories) { isShowing in
+        .onChange(of: showingCategories) { _, isShowing in
             if isShowing {
                 Analytics.track(.discoverCategoriesPickerShown, properties: ["region": region ?? "none"])
             } else {
                 Analytics.track(.discoverCategoriesPickerClosed, properties: ["region": region ?? "none"])
             }
         }
-        .onChange(of: selectedCategory) { _ in
+        .onChange(of: selectedCategory) {
             showingCategories = false
         }
     }
@@ -148,7 +148,7 @@ struct CategoriesPillsView: View {
     }
 }
 
-extension DiscoverCategory: Hashable {
+extension DiscoverCategory {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

@@ -15,6 +15,7 @@ struct DescriptiveActionAttributedTextView: View {
     var body: some View {
         Text(makeAttributedString())
             .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
             .foregroundColor(theme.primaryText01)
             .environment(\.openURL, OpenURLAction { url in
                 onLinkTap?()

@@ -11,7 +11,6 @@ class DownloadsViewController: PCViewController {
             refreshContentUnavailable()
         }
     }
-    var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
 
@@ -22,38 +21,38 @@ class DownloadsViewController: PCViewController {
         return queue
     }()
 
-    @IBOutlet var downloadsTable: UITableView! {
+    @IBOutlet var downloadsTable: ThemeableTable! {
         didSet {
             registerTableCells()
             registerLongPress()
-            downloadsTable.estimatedRowHeight = 80.0
-            downloadsTable.rowHeight = UITableView.automaticDimension
             downloadsTable.allowsMultipleSelectionDuringEditing = true
+            if LiquidGlass.isEnabled {
+                downloadsTable.themeStyle = .primaryUi02
+            }
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.downloadsTable.beginUpdates()
-                self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                self.downloadsTable.endUpdates()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            downloadsTable.beginUpdates()
+            downloadsTable.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            downloadsTable.endUpdates()
 
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.downloadsMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.downloadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.downloadsMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                Analytics.track(.downloadsMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    downloadsTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.downloadsMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -80,6 +79,10 @@ class DownloadsViewController: PCViewController {
     override func viewDidLoad() {
         setupNavBar()
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: DownloadsViewController, _) in
+            controller.updateSize()
+        }
 
         downloadsTable.tableFooterView = UIView(frame: CGRect.zero)
         downloadsTable.sectionFooterHeight = 0.0
@@ -115,17 +118,22 @@ class DownloadsViewController: PCViewController {
         removeAllCustomObservers()
     }
 
+    private var firstShowOfBanner = true
+
     private func showManageDownloadsBanner() {
         guard ManageDownloadsCoordinator.shouldShowBanner
         else {
             downloadsTable.tableHeaderView = nil
             return
         }
-        Analytics.track(.freeUpSpaceBannerShown)
-        downloadsTable.tableHeaderView = bannerView
+        if firstShowOfBanner {
+            firstShowOfBanner = false
+            Analytics.track(.freeUpSpaceBannerShown)
+        }
+        downloadsTable.tableHeaderView = makeBannerView()
     }
 
-    private lazy var bannerView: UIView = {
+    private func makeBannerView() -> UIView {
         let model = ManageDownloadsModel(initialSize: "",
                                          onManageTap: { [weak self] in
             Analytics.track(.freeUpSpaceManageDownloadsTapped, properties: ["source": "downloads"])
@@ -138,16 +146,20 @@ class DownloadsViewController: PCViewController {
         })
         let banner = ManageDownloadsBannerView(dataModel: model).themedUIView
         banner.translatesAutoresizingMaskIntoConstraints = false
-        let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: 132))
+        let largeCategories = Set<UIContentSizeCategory>([.accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge])
+        let largeSize = largeCategories.contains(traitCollection.preferredContentSizeCategory)
+        let metrics = UIFontMetrics(forTextStyle: .callout)
+        let bannerHeight = metrics.scaledValue(for: largeSize ? 200 : 132)
+        let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: bannerHeight))
         wrapperView.addSubview(banner)
         NSLayoutConstraint.activate([
             banner.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 16),
             banner.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -16),
             banner.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 16),
             banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
-            ])
+        ])
         return wrapperView
-    }()
+    }
 
     // MARK: - App Backgrounding
 
@@ -174,11 +186,7 @@ class DownloadsViewController: PCViewController {
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("filter_downloaded") })
         }
 
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
+        self.contentUnavailableConfiguration = config
     }
 
     override func handleThemeChanged() {
@@ -193,10 +201,7 @@ class DownloadsViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshView))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshView))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshView))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshView))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshView))
@@ -209,7 +214,7 @@ class DownloadsViewController: PCViewController {
             let newData = self.episodesDataManager.downloadedEpisodes()
 
             DispatchQueue.main.sync {
-                self.downloadsTable.isHidden = (newData.count == 0)
+                self.downloadsTable.isHidden = (newData.isEmpty)
                 self.episodes = newData
                 self.downloadsTable.reloadData()
             }
@@ -218,11 +223,12 @@ class DownloadsViewController: PCViewController {
 
     func setupNavBar() {
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        let rightButton = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        rightButton.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.setCustomRightBtn(rightButton, animated: true)
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.setLeftBarButton(isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped)) : nil, animated: true)
+        navigationItem.setHidesBackButton(isMultiSelectEnabled, animated: true)
     }
 
     @objc private func doneTapped() {
@@ -246,7 +252,7 @@ class DownloadsViewController: PCViewController {
         }
         optionsPicker.addAction(action: settingsAction)
 
-        if failedEpisodes().count > 0 {
+        if !failedEpisodes().isEmpty {
             let retryAction = OptionAction(label: L10n.downloadsRetryFailedDownloads, icon: "option-download-retry") { [weak self] in
                 Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "retry_failed_downloads"])
                 self?.retryAllFailed(sender)
@@ -254,7 +260,7 @@ class DownloadsViewController: PCViewController {
             optionsPicker.addAction(action: retryAction)
         }
 
-        if downloadingEpisodes().count > 0 {
+        if !downloadingEpisodes().isEmpty {
             let stopAction = OptionAction(label: L10n.downloadsStopAllDownloads, icon: "option-cross-circle") { [weak self] in
                 Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "stop_all_downloads"])
                 self?.pauseAllDownloads()
@@ -268,7 +274,7 @@ class DownloadsViewController: PCViewController {
         }
         optionsPicker.addAction(action: cleanupAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     private func pauseAllDownloads() {
@@ -325,6 +331,10 @@ class DownloadsViewController: PCViewController {
         }
 
         return downloadingList
+    }
+
+    private func updateSize() {
+        showManageDownloadsBanner()
     }
 }
 

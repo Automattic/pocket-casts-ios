@@ -4,7 +4,7 @@ import PocketCastsDataModel
 
 struct BookmarkRow<Style: BookmarksStyle>: View {
     @EnvironmentObject var viewModel: BookmarkListViewModel
-    @ObservedObject var rowModel: BookmarkRowViewModel
+    @StateObject private var rowModel = BookmarkRowViewModel()
 
     private let bookmark: Bookmark
 
@@ -14,7 +14,6 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 56
 
     init(bookmark: Bookmark, style: Style) {
-        self.rowModel = .init(bookmark: bookmark)
         self.bookmark = bookmark
         self.style = style
     }
@@ -43,12 +42,17 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
         .background(selected ? style.rowSelected : nil)
         .animation(.linear, value: selected)
+
+        .task(id: bookmark.id) {
+            await rowModel.configure(with: bookmark)
+        }
     }
 
     @ViewBuilder
     private var imageView: some View {
         if let episode = rowModel.episode {
             EpisodeImage(episode: episode)
+                .aspectRatio(contentMode: .fill)
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
         } else {
@@ -70,11 +74,11 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                         .lineLimit(1)
                 }
 
-                Text(rowModel.title)
+                Text(bookmark.title)
                     .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
 
-                Text(rowModel.subtitle)
+                Text(subtitle)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
                     .lineLimit(1)
@@ -91,22 +95,30 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         }
     }
 
+    private var subtitle: String {
+        DateFormatter.localizedString(from: bookmark.created, dateStyle: .medium, timeStyle: .short)
+    }
+
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
-        PlayButton(title: rowModel.playButton, style: style).buttonize {
+        let isLoading = viewModel.loadingBookmarkUuid == bookmark.uuid
+        let isMultiSelecting = viewModel.isMultiSelecting
+
+        return PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), isLoading: isLoading, isCollapsed: isMultiSelecting, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label
                 .opacity(config.isPressed ? 0.9 : 1)
                 .applyButtonEffect(isPressed: config.isPressed)
         }
-        .opacity(viewModel.isMultiSelecting ? 0.3 : 1)
-        .disabled(viewModel.isMultiSelecting)
+        .disabled(isMultiSelecting || isLoading)
     }
 
     // MARK: - Play Button View
     private struct PlayButton<ButtonStyle: BookmarksStyle>: View {
         let title: String
+        let isLoading: Bool
+        let isCollapsed: Bool
         @ObservedObject var style: ButtonStyle
 
         var body: some View {
@@ -117,14 +129,22 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
                 Image("bookmarks-icon-play")
                     .renderingMode(.template)
+                    .opacity(isCollapsed || isLoading ? 0 : 1)
+                    .overlay {
+                        if isLoading {
+                            ProgressView()
+                                .tint(style.playButtonText)
+                                .scaleEffect(0.8)
+                        }
+                    }
             }
-            .foregroundStyle(style.playButtonText)
+            .foregroundStyle(isCollapsed ? style.secondaryText : style.playButtonText)
             .padding(.horizontal, RowConstants.horizontalPadding)
             .padding(.vertical, RowConstants.playButtonVerticalPadding)
-            .background(style.playButtonBackground)
+            .background(isCollapsed ? nil : style.playButtonBackground)
             .cornerRadius(.infinity) // Always rounded
             .overlay(
-                style.playButtonStroke.map {
+                isCollapsed ? nil : style.playButtonStroke.map {
                     RoundedRectangle(cornerRadius: .infinity, style: .continuous)
                         .inset(by: 1)
                         .stroke($0, lineWidth: 2)

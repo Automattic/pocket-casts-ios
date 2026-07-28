@@ -12,11 +12,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
     private let fullPlayerYPosition: CGFloat
 
-    // Spring velocity is defined by pan gesture velocity / distance
+    // Spring velocity is defined by pan gesture velocity / distance.
+    // A positive value means moving in the same direction as the animation (downward, toward mini player).
     private lazy var springVelocity: CGFloat = {
         let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
         let distance = miniplayerFrame.origin.y - fullPlayerYPosition
-        return -1 * dismissVelocity / distance
+        guard distance > 0 else { return 0 }
+        return dismissVelocity / distance
     }()
 
     // When presenting the player, duration is always the same
@@ -39,8 +41,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         transition == .presenting
     }
 
-    private var isVideoPodcast: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    private var isVideoShown: Bool {
+        PlaybackManager.shared.shouldRenderVideo()
     }
 
     init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0, fullPlayerYPosition: CGFloat = 0) {
@@ -101,12 +103,30 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         playerView.setNeedsLayout()
         playerView.layoutIfNeeded()
 
+        // Hide artwork in the layer model tree so the snapshot excludes it
+        // (the artwork overlay will animate it separately).
         if fullPlayerArtwork.image != nil {
             fullPlayerArtwork.layer.opacity = 0
         }
 
-        let toView = playerView.snapshotView(afterScreenUpdates: true)
-        toView?.frame = isPresenting ? containerView.frame : fromFrame
+        // For presenting, capture the full player via drawHierarchy which renders
+        // the complete UIKit view hierarchy (including buttons/labels) into an
+        // off-screen graphics context — no render-server commit that could flash.
+        // For dismissing, skip the player snapshot entirely — the artwork overlay is
+        // the visual anchor, and eliminating this render cuts the setup delay.
+        let toView: UIView?
+        if isPresenting {
+            let renderer = UIGraphicsImageRenderer(bounds: playerView.bounds)
+            let snapshotImage = renderer.image { _ in
+                playerView.drawHierarchy(in: playerView.bounds, afterScreenUpdates: true)
+            }
+            let imageView = UIImageView(image: snapshotImage)
+            imageView.clipsToBounds = true
+            toView = imageView
+            toView?.frame = containerView.frame
+        } else {
+            toView = nil
+        }
 
         // MARK: - Artwork
 
@@ -123,7 +143,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
 
         // Artwork is not animated if it's a video podcast
-        if !isVideoPodcast {
+        if !isVideoShown {
 
             // We need a mini player artwork snapshot when dismissing
             // to ensure a smooth transition and that the shadows are
@@ -156,8 +176,10 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView.addSubview(backgroundTransitionView)
         containerView.sendSubviewToBack(backgroundTransitionView)
 
-        // Get the initial and final colors
-        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.view.backgroundColor
+        // Get the initial and final colors.
+        // Use mainView's background (opaque) rather than the outer view's (.clear)
+        // to prevent see-through during the present cross-fade.
+        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
 
         let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
 
@@ -176,7 +198,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
-        // Add a snapshot of the miniplayer and full player
+        // Add a snapshot of the miniplayer and full player.
+        // Always use afterScreenUpdates:true so the snapshot reflects artwork being
+        // hidden (opacity 0) — otherwise the dismiss snapshot shows double artwork.
         let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
         miniPlayerSnapshotView?.addSubview(UIVisualEffectView(effect: UIBlurEffect(style: .prominent)))
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
@@ -187,7 +211,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Tab Bar
 
         let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar
-        let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: true)
+        let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: isPresenting)
         tabBar?.isHidden = true
         tabBarSnapshot?.layer.drawTopBorder()
         let snapshotView = tabBarSnapshot ?? UIView()
@@ -196,7 +220,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Animations
 
-        // If it has artwork, hide the original ones
+        // Now that playerView is hidden and snapshots/overlays are in place,
+        // safely hide the real artwork — no visible flash possible.
         if artwork?.image != nil {
             fullPlayerArtwork.layer.opacity = 0
             miniPlayerArtwork.layer.opacity = 0
@@ -233,13 +258,21 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // Background
             backgroundTransitionView.frame = backgroundToFrame
+            backgroundTransitionView.backgroundColor = toColor
+            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
 
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
 
+            // Player
+            toView?.layer.opacity = self.isPresenting ? 1 : 0
+
+            // Tab Bar
+            tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
+
             gradientView.layer.opacity = isPresenting ? 0 : 1
-        } completion: { completed in
-            self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
+        } completion: { _ in
+            self.fullPlayerArtwork.layer.opacity = !self.isVideoShown ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
 
             artwork?.removeFromSuperview()
@@ -250,58 +283,32 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             self.fromViewController.view.layer.opacity = 1
 
-            transitionContext.completeTransition(true)
-        }
-
-        // MARK: - Non-spring animation
-
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
-            // Background
-            backgroundTransitionView.backgroundColor = toColor
-            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
-            // Player
-            toView?.layer.opacity = self.isPresenting ? 1 : 0
-
-            // Tab Bar
-            tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
-        } completion: { _ in
             tabBar?.isHidden = false
-        }
 
-        // MARK: - Delayed artwork transition
-
-        // We fade from the big artwork to the miniplayer snapshot to ensure
-        // a smooth transition. DispatchQueue is needed because delay conflicts
-        // with snapshotView(afterScreenUpdates: true) (yes...)
-        if !isPresenting {
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
-                    artwork?.layer.opacity = self.isPresenting ? 1 : 0
-                }
-            }
+            transitionContext.completeTransition(true)
         }
     }
 
-    /// When presenting use curveEaseInOut. If dismissing, use spring animation
+    /// Use spring animation for both present and dismiss.
+    /// Dismiss carries gesture momentum via initialVelocity; present starts from rest.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        if isPresenting {
-            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
-        } else {
-            // Mass is reduced accordingly to speed. This prevents the miniplayer from boucing really hard if the speed is high
-            let mass = -springVelocity > 20 ? 3 / log2(-springVelocity) : 1
-            let timingParameters = UISpringTimingParameters(mass: mass, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: -springVelocity, dy: springVelocity))
-            let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
-            animator.addCompletion { position in
-                switch position {
-                case .end:
-                    completion?(true)
-                default:
-                    break
-                }
+        // Present: stiffness 400, damping 38 → ζ ≈ 0.95 (lighter, nearly critically damped).
+        // Dismiss: stiffness 500, damping 35 → ζ ≈ 0.78 (snappier, subtle bounce).
+        let stiffness: CGFloat = isPresenting ? 400 : 500
+        let damping: CGFloat = isPresenting ? 38 : 35
+        let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
+        let timingParameters = UISpringTimingParameters(mass: 1, stiffness: stiffness, damping: damping, initialVelocity: velocity)
+        let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
+        animator.addCompletion { position in
+            switch position {
+            case .end:
+                completion?(true)
+            default:
+                break
             }
-            animator.addAnimations(animations)
-            animator.startAnimation()
         }
+        animator.addAnimations(animations)
+        animator.startAnimation()
     }
 
     enum Transition {

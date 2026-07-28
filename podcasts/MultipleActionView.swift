@@ -16,6 +16,10 @@ class MultipleActionView: UIView {
         self.themeOverride = themeOverride
 
         super.init(frame: frame)
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: MultipleActionView, _) in
+            view.updateSize()
+        }
     }
 
     @available(*, unavailable)
@@ -27,13 +31,13 @@ class MultipleActionView: UIView {
         let label = UILabel()
         label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.text = name
         label.textColor = AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 
-        if let icon = icon, let image = UIImage(named: icon)?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride)) {
+        if let icon, let image = UIImage(named: icon)?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride)) {
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)
@@ -44,13 +48,15 @@ class MultipleActionView: UIView {
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
+                label.topAnchor.constraint(equalTo: topAnchor),
+                label.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
             self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
+                label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
         }
 
@@ -78,6 +84,8 @@ class MultipleActionView: UIView {
         ])
 
         segmentedControl.addTarget(self, action: #selector(optionSelected), for: .valueChanged)
+
+        updateSize()
     }
 
     @objc private func optionSelected(_ sender: CustomSegmentedControl) {
@@ -90,13 +98,7 @@ class MultipleActionView: UIView {
         if let imageView {
             let metric = UIFontMetrics(forTextStyle: .largeTitle)
             let imageSize = max(24, metric.scaledValue(for: 24))
-            updateSizeConstraints(of: imageView, to: imageSize)
+            imageView.updateSizeConstraints(to: imageSize)
         }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

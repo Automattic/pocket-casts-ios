@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import Combine
+import EndOfYear
 
 @MainActor
 class ReferralClaimPassModel: ObservableObject {
@@ -57,7 +58,7 @@ class ReferralClaimPassModel: ObservableObject {
         //Observe Login/Signup notification
         NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             Task {
                 await refreshStatusAfterLogin()
             }
@@ -67,7 +68,7 @@ class ReferralClaimPassModel: ObservableObject {
         //Observe Login/Signup notification
         NotificationCenter.default.publisher(for: ServerNotifications.iapProductsUpdated)
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             Task {
                 await loadOfferInfo()
             }

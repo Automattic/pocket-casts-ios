@@ -9,7 +9,7 @@ class SleepTimerIntentHandler: NSObject, SJSleepTimerIntentHandling {
 
         userActivity.isEligibleForSearch = true
         let minutes = intent.minutes
-        if let minutes = minutes {
+        if let minutes {
             userActivity.title = "Setting sleep timer to \(minutes) minutes"
         } else {
             userActivity.title = "Setting sleep timer"

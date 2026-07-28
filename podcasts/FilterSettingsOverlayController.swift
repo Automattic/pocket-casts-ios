@@ -20,6 +20,8 @@ class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSourc
             saveButton.layer.cornerRadius = 12
             saveButton.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
             saveButton.setTitle(L10n.filterUpdate, for: .normal)
+            saveButton.titleLabel?.numberOfLines = 0
+            saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 

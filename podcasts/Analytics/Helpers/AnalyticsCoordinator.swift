@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import PocketCastsDataModel
 
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions
@@ -25,6 +26,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case episode
     case files
     case filters
+    case folder
     case incomingShareList = "incoming_share_list"
     case listeningHistory = "listening_history"
     case mediaType = "media_type"
@@ -60,6 +62,8 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case userSatisfactionSurvey = "user_satisfaction_survey"
     case recommendations
     case playlistEditor = "playlist_editor"
+    case home
+    case search
     case unknown
 
     var analyticsDescription: String { rawValue }
@@ -69,12 +73,19 @@ class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
 
-    private var currentEpisodeIsVideo: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    var currentEpisodeIsVideo: Bool {
+        // For HLS we can't tell synchronously whether the stream carries video — it isn't reflected
+        // in the episode's MIME type and is only detected once frames render — so assume video rather
+        // than mislabel it as audio. `willPlayViaHLS` is gated behind the HLS flag and only true when the
+        // current source is actually HLS, so this only affects analytics for real HLS playback.
+        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+            return true
+        }
+        return PlaybackManager.shared.isCurrentEpisodeVideo()
     }
 
     var currentAnalyticsSource: AnalyticsSource {
-        if let currentSource = currentSource {
+        if let currentSource {
             self.currentSource = nil
             return currentSource
         }

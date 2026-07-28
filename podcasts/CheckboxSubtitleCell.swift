@@ -2,10 +2,18 @@ import UIKit
 
 class CheckboxSubtitleCell: ThemeableCell {
     private var tickImageView: UIImageView!
-    @IBOutlet var titleLabel: ThemeableLabel!
+    @IBOutlet var titleLabel: ThemeableLabel! {
+        didSet {
+            titleLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            titleLabel.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var subtitleLabel: ThemeableLabel! {
         didSet {
             subtitleLabel.style = .primaryText02
+            subtitleLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            subtitleLabel.adjustsFontForContentSizeCategory = true
         }
     }
 

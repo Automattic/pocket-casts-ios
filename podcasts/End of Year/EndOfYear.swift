@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 import PocketCastsUtils
 
 enum EndOfYearPresentationSource: String {
@@ -347,7 +348,7 @@ extension EndOfYear {
             ]
 
             self.notifications = notifications.map {
-                notificationCenter.addObserver(forName: $0, object: nil, queue: .main) { [weak self] notification in
+                notificationCenter.addObserver(forName: $0, object: nil, queue: .main) { [weak self] _ in
                     self?.update()
                 }
             }

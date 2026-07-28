@@ -7,7 +7,7 @@ import UIKit
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0, FeatureFlag.newOnboardingUpgrade.enabled {
+        if section == 0 {
             return 1
         }
         return UITableView.automaticDimension
@@ -223,24 +223,20 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
     private func showSignOutWarning() {
         let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
+        let message: String
+        if numSubscriptionPodcasts > 0 {
+            message = L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle
+        } else {
+            message = L10n.accountSignOutAlertMessage
+        }
 
-        let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
+        let alert = UIAlertController(title: L10n.accountSignOutAlertTitle, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.accountSignOut, style: .destructive) { [weak self] _ in
             SignOutHelper.signout()
             self?.navigationController?.popViewController(animated: true)
-        }
-        signOutAction.destructive = true
-
-        if numSubscriptionPodcasts > 0 {
-            let options = OptionsPicker(title: "", iconTintStyle: .support05)
-            options.addDescriptiveActions(title: L10n.accountSignOut, message: L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle, icon: "signout", actions: [signOutAction])
-
-            options.show(statusBarStyle: preferredStatusBarStyle)
-        } else {
-            let options = OptionsPicker(title: L10n.areYouSure)
-            options.addAction(action: signOutAction)
-
-            options.show(statusBarStyle: preferredStatusBarStyle)
-        }
+        })
+        present(alert, animated: true)
     }
 
     private func deleteAccountTapped() {
@@ -283,7 +279,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0, FeatureFlag.newOnboardingUpgrade.enabled {
+        if section == 0 {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 2))
             view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
             return view

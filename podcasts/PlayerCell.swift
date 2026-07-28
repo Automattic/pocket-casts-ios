@@ -10,6 +10,7 @@ class PlayerCell: ThemeableSwipeCell {
             episodeInfo.themeOverride = themeOverride
             dayName.themeOverride = themeOverride
             dividerView.themeOverride = themeOverride
+            starIndicator?.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
         }
     }
 
@@ -17,19 +18,40 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
             episodeInfo.style = .primaryText02
+            episodeInfo.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var downloadedIndicator: UIImageView!
+
+    @IBOutlet var starIndicator: UIImageView! {
+        didSet {
+            starIndicator.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
+        }
+    }
+
+    private static var starIndicatorImageCache: [Theme.ThemeType: UIImage] = [:]
+
+    private static func starIndicatorImage(for theme: Theme.ThemeType) -> UIImage? {
+        if let cached = starIndicatorImageCache[theme] {
+            return cached
+        }
+        let image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10(for: theme))
+        starIndicatorImageCache[theme] = image
+        return image
+    }
+
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
@@ -52,6 +74,12 @@ class PlayerCell: ThemeableSwipeCell {
         }
     }
 
+    @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
+        didSet {
+            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+        }
+    }
+
     @IBOutlet var podcastImageToSelectViewConstraint: NSLayoutConstraint!
     @IBOutlet var selectViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var selectTickImageView: UIImageView!
@@ -67,14 +95,21 @@ class PlayerCell: ThemeableSwipeCell {
         }
     }
 
-    private var episode: BaseEpisode!
+    private var episode: BaseEpisode?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PlayerCell, _) in
+            view.updateSize()
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCellForStarredChange(_:)), name: Constants.Notifications.episodeStarredChanged, object: nil)
+
+        updateSize()
     }
 
     override func addSubview(_ view: UIView) {
@@ -107,19 +142,27 @@ class PlayerCell: ThemeableSwipeCell {
             podcastImage.setUserEpisode(uuid: episode.uuid, size: .list)
         }
         updateDownloadStatus()
+        updateStarStatus()
 
         EpisodeDateHelper.setDate(episode: episode, on: dayName, tintColor: ThemeColor.primaryText01(for: themeOverride))
         accessibilityLabel = labelForAccessibility(episode: episode)
     }
 
+    private func updateStarStatus() {
+        starIndicator.isHidden = !(episode?.keepEpisode ?? false)
+    }
+
     private func labelForAccessibility(episode: BaseEpisode?) -> String {
-        guard let episode = episode else { return "" }
+        guard let episode else { return "" }
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
         let subtitle = episode.subTitle()
         let info = episodeInfo.text ?? ""
 
         var desc = [heading, subtitle, title, info]
+        if episode.keepEpisode {
+            desc.append(L10n.statusStarred)
+        }
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             desc.append(L10n.statusDownloaded)
         } else if let playbackError = episode.playbackErrorDetails {
@@ -149,7 +192,23 @@ class PlayerCell: ThemeableSwipeCell {
         updateDownloadStatus()
     }
 
+    @objc private func updateCellForStarredChange(_ notification: Notification) {
+        // make sure this event is related to our episode
+        guard let ourEpisode = episode, let uuid = notification.object as? String, ourEpisode.uuid == uuid else { return }
+
+        // reload our episode so we get the latest starred status for it
+        episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+
+        updateStarStatus()
+    }
+
     func updateDownloadStatus() {
+        guard let episode else {
+            downloadingIndicator.isHidden = true
+            downloadedIndicator.isHidden = true
+            return
+        }
+
         if let episode = episode as? UserEpisode, episode.uploadStatus == UploadStatus.missing.rawValue {
             episodeInfo.text = L10n.downloadErrorNotUploaded
             downloadingIndicator.isHidden = true
@@ -209,7 +268,7 @@ class PlayerCell: ThemeableSwipeCell {
             }
             contentView.layoutIfNeeded()
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                self.selectViewLeadingConstraint.constant = show ? 20 : -24
+                self.selectViewLeadingConstraint.constant = show ? 16 : -24
                 self.contentView.layoutIfNeeded()
             }, completion: { _ in
                 if !show {
@@ -219,7 +278,7 @@ class PlayerCell: ThemeableSwipeCell {
                 }
             })
         } else {
-            selectViewLeadingConstraint.constant = show ? 20 : -24
+            selectViewLeadingConstraint.constant = show ? 16 : -24
             showTick = false
             selectView.layer.borderWidth = show ? 2 : 0
             if !show {
@@ -236,7 +295,26 @@ class PlayerCell: ThemeableSwipeCell {
         downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         // Update the reorder control color
         let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        starIndicator.image = PlayerCell.starIndicatorImage(for: activeTheme)
         overrideUserInterfaceStyle = activeTheme.isDark ? .dark : .light
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        downloadedIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
+        starIndicator.updateSizeConstraints(to: iconSize)
+
+        let tickSize = max(24, metric.scaledValue(for: 24))
+        selectTickImageView.updateSizeConstraints(to: tickSize)
+        selectTickImageView.layer.cornerRadius = tickSize / 2
+
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        dayName.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 }
 

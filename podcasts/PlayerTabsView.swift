@@ -49,6 +49,7 @@ class PlayerTabsView: UIScrollView {
                 AnalyticsHelper.playerShowNotesOpened()
             case .chapters:
                 AnalyticsHelper.chaptersOpened()
+                trackChaptersShown()
             case .bookmarks:
                 break
             }
@@ -83,6 +84,11 @@ class PlayerTabsView: UIScrollView {
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         clipsToBounds = true
+
+        // Keep the tabs left-to-right in every language so their order stays in
+        // sync with the paged player content, which is also forced LTR. See #1952.
+        semanticContentAttribute = .forceLeftToRight
+        tabsStackView.semanticContentAttribute = .forceLeftToRight
 
         updateTabs()
 
@@ -261,6 +267,20 @@ private extension PlayerTabsView {
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])
     }
+
+    /// Emitted when the user switches to the Chapters tab and the episode has
+    /// chapters, matching Android's `chapters_shown` (fired from its player
+    /// pager with the same guard against empty chapter lists).
+    private func trackChaptersShown() {
+        guard PlaybackManager.shared.chapterCount() > 0 else { return }
+
+        Analytics.track(.chaptersShown, properties: [
+            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
+            "source": "fullscreen_player"
+        ])
+    }
 }
 
 /// A button subclass that applies the tab button style
@@ -312,13 +332,24 @@ private class PlayerTabButton: UIButton {
         config.background = {
             var config = UIBackgroundConfiguration.clear()
             config.backgroundColor = .clear
+            if LiquidGlass.isEnabled {
+                config.cornerRadius = bounds.height / 2
+            }
             return config
         }()
 
         // Background isn't animatable, so we'll default to using the layer
         layer.backgroundColor = background.cgColor
-        layer.cornerRadius = 8
+        // Render the selected tab as a proper pill under Liquid Glass.
+        layer.cornerRadius = LiquidGlass.isEnabled ? bounds.height / 2 : 8
 
         self.configuration = config
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if LiquidGlass.isEnabled {
+            layer.cornerRadius = bounds.height / 2
+        }
     }
 }

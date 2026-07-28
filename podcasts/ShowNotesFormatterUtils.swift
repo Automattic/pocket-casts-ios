@@ -13,7 +13,7 @@ class ShowNotesFormatterUtils {
             var aTagPlaceholderMap = [String: String]()
 
             aTagRegex.enumerateMatches(in: outString, options: [], range: NSMakeRange(0, outString.count)) { match, _, _ in
-                if let match = match, let rangeOfMatch = Range(match.range, in: outString) {
+                if let match, let rangeOfMatch = Range(match.range, in: outString) {
                     let link = String(outString[rangeOfMatch])
                     let placeholderCount = aTagPlaceholderMap.count
                     let linkPlaceholder = "!PC_A_TAG_PLACEHOLDER_\(placeholderCount)!"

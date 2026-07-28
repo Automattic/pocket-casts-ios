@@ -22,6 +22,12 @@ class TimeSlider: UIView {
         }
     }
 
+    var animationColor = UIColor.white.withAlphaComponent(0.2) {
+        didSet {
+            timeLayer().animationColor = animationColor.cgColor
+        }
+    }
+
     var rightColor = UIColor(white: 1.0, alpha: 0.20)
     var circleColor = UIColor.white {
         didSet {
@@ -74,6 +80,7 @@ class TimeSlider: UIView {
         tLayer.contentsScale = UIScreen.main.scale
         tLayer.leftColor = leftColor.cgColor
         tLayer.rightColor = rightColor.cgColor
+        tLayer.animationColor = animationColor.cgColor
         tLayer.circleColor = circleColor.cgColor
         tLayer.popupColor = popupColor
         tLayer.popupTextColor = popupTextColor
@@ -112,7 +119,7 @@ class TimeSlider: UIView {
                 }
                 recalculatePositionRects(true)
 
-                if let delegate = delegate {
+                if let delegate {
                     delegate.sliderDidBeginSliding()
                 }
             }
@@ -125,7 +132,7 @@ class TimeSlider: UIView {
             if shouldPopupOnDrag { timeLayer().popupScale = 0 }
             recalculatePositionRects(true)
 
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidEndSliding()
             }
         }
@@ -137,7 +144,7 @@ class TimeSlider: UIView {
             if shouldPopupOnDrag { timeLayer().popupScale = 0 }
             recalculatePositionRects(true)
 
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidSlide(to: currentTime)
                 delegate.sliderDidEndSliding()
             }
@@ -161,7 +168,7 @@ class TimeSlider: UIView {
 
             timeLayer().popupValue = TimeFormatter.shared.playTimeFormat(time: currentTime) as NSString
             recalculatePositionRects(false)
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidProvisionallySlide(to: currentTime)
             }
         }
@@ -199,6 +206,14 @@ class TimeSlider: UIView {
 
     override class var layerClass: AnyClass {
         TimeSliderLayer.self
+    }
+
+    var indeterminant: Bool = false {
+        didSet {
+            if self.window != nil {
+                timeLayer().shouldAnimate = indeterminant
+            }
+        }
     }
 }
 

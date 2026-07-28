@@ -7,21 +7,7 @@ extension DiscoverCollectionViewController {
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        searchController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(searchController)
-        view.addSubview(searchController.view)
-        searchController.didMove(toParent: self)
-
-        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
-        NSLayoutConstraint.activate([
-            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
-        ])
-        searchController.searchControllerTopConstant = topAnchor
-
-        searchController.setupScrollView(collectionView, hideSearchInitially: false)
+        searchController.install(in: self, attachedTo: collectionView)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }
@@ -64,6 +50,10 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
 
         searchView.alpha = 0
         addChild(searchResultsController)
+        // Manually drive appearance because `shouldAutomaticallyForwardAppearanceMethods` is `false`;
+        // without this the hosting controller's SwiftUI view doesn't pick up the parent's bottom safe area,
+        // so search results scroll under the mini player.
+        searchResultsController.beginAppearanceTransition(true, animated: false)
         view.addSubview(searchView)
         searchResultsController.didMove(toParent: self)
 
@@ -72,13 +62,14 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
         NSLayoutConstraint.activate([
             searchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             searchView.topAnchor.constraint(equalTo: searchController.view.bottomAnchor)
         ])
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
             searchView.alpha = 1
         }
+        searchResultsController.endAppearanceTransition()
 
         searchResultsController.searchShown()
     }
@@ -86,10 +77,12 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
     func searchDidEnd() {
         guard let searchView = searchResultsController.view else { return }
 
+        searchResultsController.beginAppearanceTransition(false, animated: false)
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
             searchView.alpha = 0
         }) { _ in
             searchView.removeFromSuperview()
+            self.searchResultsController.endAppearanceTransition()
             self.resultsControllerDelegate.clearSearch()
         }
 

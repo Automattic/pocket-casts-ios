@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import EndOfYear
 
 struct Top5Podcasts2024Story: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool

@@ -12,6 +12,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
 
+    /// Low-res artwork handed over from the mini player when opening the full
+    /// screen player.
+    var placeholderArtwork: UIImage?
+
     private var bannerTask: Task<Void, Never>? = nil
 
     // Detect Display Zoom (zoomed display makes UI elements appear larger).
@@ -66,12 +70,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    private(set) var artworkImageView: UIImageView!
+
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
 #if APPCLIP
             episodeName.text = ""
 #endif
             episodeName.style = .playerContrast01
+            episodeName.adjustsFontForContentSizeCategory = true
+            episodeName.font = .font(ofSize: 18, weight: .semibold, scalingWith: .largeTitle)
         }
     }
 
@@ -81,6 +89,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             podcastName.text = ""
 #endif
             podcastName.style = .playerContrast02
+            podcastName.adjustsFontForContentSizeCategory = true
+            podcastName.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
+
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
 
@@ -95,6 +106,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             chapterName.text = ""
 #endif
             chapterName.style = .playerContrast01
+            chapterName.adjustsFontForContentSizeCategory = true
+            chapterName.font = .font(ofSize: 18, weight: .semibold, scalingWith: .largeTitle)
 
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(chapterNameTapped))
             chapterName.addGestureRecognizer(tapGesture)
@@ -127,12 +140,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var chapterCounter: ThemeableLabel! {
         didSet {
             chapterCounter.style = .playerContrast02
+            chapterCounter.adjustsFontForContentSizeCategory = true
+            chapterCounter.font = .font(ofSize: 12, weight: .semibold, scalingWith: .largeTitle)
         }
     }
 
     @IBOutlet var chapterTimeLeftLabel: UILabel! {
         didSet {
-            chapterTimeLeftLabel.font = chapterTimeLeftLabel.font.monospaced()
+            chapterTimeLeftLabel.adjustsFontForContentSizeCategory = true
+            chapterTimeLeftLabel.font = .font(ofSize: 11, weight: .semibold, scalingWith: .largeTitle).monospaced()
         }
     }
 
@@ -175,14 +191,20 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var timeElapsed: ThemeableLabel! {
         didSet {
             timeElapsed.style = .playerContrast02
-            timeElapsed.font = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let baseFont = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+            timeElapsed.font = metrics.scaledFont(for: baseFont)
+            timeElapsed.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var timeRemaining: ThemeableLabel! {
         didSet {
             timeRemaining.style = .playerContrast02
-            timeRemaining.font = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let baseFont = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+            timeRemaining.font = metrics.scaledFont(for: baseFont)
+            timeRemaining.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -191,6 +213,27 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet weak var fillView: UIView!
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
+
+    @IBOutlet weak var errorContainer: ThemeableView! {
+        didSet {
+            errorContainer.style = .playerContrast06
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
+            errorContainer.addGestureRecognizer(tapRecognizer)
+        }
+    }
+
+    @IBOutlet weak var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            errorLabel.style = .playerContrast02
+        }
+    }
+
+    @IBOutlet weak var playerBottomSpacing: NSLayoutConstraint!
+
+    @IBOutlet weak var errorBottomSpacing: NSLayoutConstraint!
+
+    var errorAutoDismissWork: DispatchWorkItem?
 
     #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
@@ -219,6 +262,17 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: NowPlayingPlayerItemViewController, _) in
+            #if !APPCLIP
+            if FeatureFlag.bannerAdPlayer.enabled {
+                controller.updateBannerAdHeight()
+            }
+            #endif
+            controller.updateSize()
+        }
+
+        setUpArtworkImageView()
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -310,7 +364,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #if !APPCLIP
         if SubscriptionHelper.shouldDisplayPlayerBannerAd {
             DiscoverServerHandler.shared.blazePromotion(for: .player) { [weak self] promotion, shouldAnimate in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if shouldAnimate {
                     self.bannerTask = Task { [weak self] in
@@ -333,6 +387,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if LiquidGlass.isEnabled {
+            // Render the shelf as a proper pill instead of the default rounded rectangle.
+            shelfBg.layer.cornerRadius = shelfBg.bounds.height / 2
+        }
 
         // there's some expensive operations in resizeControls,
         // so only do them if the bounds has actually changed
@@ -374,8 +433,45 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         view.layoutIfNeeded()
     }
 
+    private var artworkCornerRadius: CGFloat {
+        LiquidGlass.isEnabled ? 16 : 8
+    }
+
+    /// Puts the artwork in an aspect-fitting inner view (so `cornerRadius` rounds
+    /// the real image) and turns `episodeImage` into the reserved square slot.
+    private func setUpArtworkImageView() {
+        let artwork = AspectFitArtworkImageView()
+        artwork.translatesAutoresizingMaskIntoConstraints = false
+        artwork.contentMode = .scaleAspectFill
+        artwork.clipsToBounds = true
+        artwork.layer.cornerRadius = artworkCornerRadius
+        artwork.isAccessibilityElement = true
+        artwork.accessibilityTraits = .image
+        episodeImage.addSubview(artwork)
+        episodeImage.layer.cornerRadius = 0
+        artworkImageView = artwork
+
+        // Aspect-fit, centred inside the square slot.
+        let fillWidth = artwork.widthAnchor.constraint(equalTo: episodeImage.widthAnchor)
+        fillWidth.priority = .defaultHigh
+        let fillHeight = artwork.heightAnchor.constraint(equalTo: episodeImage.heightAnchor)
+        fillHeight.priority = .defaultHigh
+        NSLayoutConstraint.activate([
+            artwork.centerXAnchor.constraint(equalTo: episodeImage.centerXAnchor),
+            artwork.centerYAnchor.constraint(equalTo: episodeImage.centerYAnchor),
+            artwork.widthAnchor.constraint(lessThanOrEqualTo: episodeImage.widthAnchor),
+            artwork.heightAnchor.constraint(lessThanOrEqualTo: episodeImage.heightAnchor),
+            fillWidth,
+            fillHeight,
+        ])
+    }
+
     override func willBeAddedToPlayer() {
-        update()
+        if artworkImageView.image == nil, let placeholderArtwork {
+            artworkImageView.image = placeholderArtwork
+            self.placeholderArtwork = nil
+        }
+        update(notification: nil)
         addObservers()
     }
 
@@ -386,25 +482,30 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if FeatureFlag.bannerAdPlayer.enabled {
             removeBannerAd()
         }
+        // Drop any in-flight generated-chapter resolve so a dismissed player can't
+        // seek later (matching ChaptersViewController), and clear a skip spinner
+        // left mid-resolve so a reused player doesn't reappear with a dimmed button.
+        FingerprintTimingManager.shared.cancelPendingChapterResolve()
+        resetChapterSkipResolving()
         #endif
     }
 
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
-        update()
+        update(notification: nil)
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    var shelfIconSize: CGFloat {
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = min(45, max(32, metrics.scaledValue(for: 32)))
+        return iconSize
+    }
 
-        #if !APPCLIP
-        if FeatureFlag.bannerAdPlayer.enabled {
-            // Update banner height when text size category changes
-            if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-                updateBannerAdHeight()
-            }
+    private func updateSize() {
+        let iconSize = shelfIconSize
+        for view in playerControlsStackView.subviews {
+            view.updateSizeConstraints(to: iconSize)
         }
-        #endif
     }
 
     // MARK: - Interface Actions
@@ -428,14 +529,101 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
+        PlaybackManager.shared.trackChapterEvent(.playerPreviousChapterTapped)
+
+        #if !APPCLIP
+        // Generated chapters carry reference-timeline starts that dynamic ads have
+        // shifted, so resolve the true playback position by fingerprinting before
+        // seeking — matching the chapters-list tap flow.
+        if GeneratedChapterSeeker.isEnabled {
+            // Clear any spinner left over from a resolve this tap supersedes.
+            resetChapterSkipResolving()
+            if let previous = PlaybackManager.shared.previousPlayableChapter() {
+                PlaybackManager.shared.trackChapterSkippedIfNeeded(to: previous)
+                GeneratedChapterSeeker.seek(
+                    to: previous,
+                    startPlayback: false,
+                    willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: false) },
+                    didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: false) }
+                )
+                return
+            }
+        }
+        #endif
+
         PlaybackManager.shared.skipToPreviousChapter()
-        Analytics.track(.playerPreviousChapterTapped)
     }
 
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
+        PlaybackManager.shared.trackChapterEvent(.playerNextChapterTapped)
+
+        #if !APPCLIP
+        if GeneratedChapterSeeker.isEnabled {
+            // Clear any spinner left over from a resolve this tap supersedes.
+            resetChapterSkipResolving()
+            guard let next = PlaybackManager.shared.nextPlayableChapter() else {
+                // No next chapter — respect the producer's end of the last chapter
+                // (the same fallback `skipToNextChapter` makes). This isn't a
+                // chapter start, so there's nothing to fingerprint-resolve.
+                PlaybackManager.shared.skipToEndOfLastChapter()
+                return
+            }
+            PlaybackManager.shared.trackChapterSkippedIfNeeded(to: next)
+            GeneratedChapterSeeker.seek(
+                to: next,
+                startPlayback: false,
+                willBeginResolving: { [weak self] in self?.setChapterSkipResolving(true, forward: true) },
+                didEndResolving: { [weak self] in self?.setChapterSkipResolving(false, forward: true) }
+            )
+            return
+        }
+        #endif
+
         PlaybackManager.shared.skipToNextChapter()
-        Analytics.track(.playerNextChapterTapped)
     }
+
+    #if !APPCLIP
+    /// Show/hide a spinner over the tapped chapter-skip button while its generated
+    /// chapter is being fingerprint-resolved. The button is dimmed to alpha 0
+    /// (which also stops it receiving taps) so a slow resolve can't be double-fired.
+    private func setChapterSkipResolving(_ resolving: Bool, forward: Bool) {
+        let button = forward ? chapterSkipFwdBtn : chapterSkipBackBtn
+        let spinner = forward ? chapterSkipFwdSpinner : chapterSkipBackSpinner
+        button?.alpha = resolving ? 0 : 1
+        if resolving {
+            spinner.startAnimating()
+        } else {
+            spinner.stopAnimating()
+        }
+    }
+
+    /// Restore both chapter-skip buttons to idle. Called before starting a new
+    /// resolve: a superseded resolve's completion is intentionally dropped (the
+    /// `onDemandFlag` identity guard), so `didEndResolving` may never fire to clear
+    /// the spinner of the resolve this tap supersedes — leaving it spinning forever.
+    private func resetChapterSkipResolving() {
+        setChapterSkipResolving(false, forward: true)
+        setChapterSkipResolving(false, forward: false)
+    }
+
+    private lazy var chapterSkipBackSpinner = makeChapterSkipSpinner(centeredOn: chapterSkipBackBtn)
+    private lazy var chapterSkipFwdSpinner = makeChapterSkipSpinner(centeredOn: chapterSkipFwdBtn)
+
+    private func makeChapterSkipSpinner(centeredOn button: UIButton?) -> UIActivityIndicatorView {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        spinner.color = ThemeColor.playerContrast01()
+        if let button, let container = button.superview {
+            container.addSubview(spinner)
+            NSLayoutConstraint.activate([
+                spinner.centerXAnchor.constraint(equalTo: button.centerXAnchor),
+                spinner.centerYAnchor.constraint(equalTo: button.centerYAnchor)
+            ])
+        }
+        return spinner
+    }
+    #endif
 
     @objc private func chapterLinkTapped() {
         let chapters = PlaybackManager.shared.currentChapters()
@@ -454,7 +642,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @objc private func imageTapped() {
 #if !APPCLIP
-        guard let artwork = episodeImage.image else { return }
+        guard let artwork = artworkImageView.image else { return }
 
         // Show full-screen waveform if setting is enabled and audio is playing
         if Settings.showAudioWaveformInPlayer && PlaybackManager.shared.playing() {
@@ -468,9 +656,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
-        if episode.videoPodcast() {
+        if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
             videoViewController?.modalTransitionStyle = .crossDissolve
@@ -514,7 +702,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             options.addAction(action: skipToNextAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        options.present(from: self)
     }
 
     #if !APPCLIP
@@ -670,4 +858,25 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     #endif
+}
+
+/// A `UIImageView` that constrains itself to its image's aspect ratio, so when
+/// aspect-fit in a container its `cornerRadius` rounds the visible image (no mask).
+final class AspectFitArtworkImageView: UIImageView {
+    private var aspectRatioConstraint: NSLayoutConstraint?
+
+    override var image: UIImage? {
+        didSet { updateAspectRatioConstraint() }
+    }
+
+    private func updateAspectRatioConstraint() {
+        aspectRatioConstraint?.isActive = false
+        guard let size = image?.size, size.width > 0, size.height > 0 else {
+            aspectRatioConstraint = nil
+            return
+        }
+        let constraint = widthAnchor.constraint(equalTo: heightAnchor, multiplier: size.width / size.height)
+        constraint.isActive = true
+        aspectRatioConstraint = constraint
+    }
 }

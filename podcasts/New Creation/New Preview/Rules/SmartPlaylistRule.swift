@@ -1,8 +1,7 @@
 import Foundation
-import PocketCastsUtils
 
 enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
-    case podcast, episode, releaseDate, duration, downloadStatus, mediaType, starred
+    case podcast, duration, episode, releaseDate, downloadStatus, mediaType, starred
 
     var id: Int { rawValue }
 
@@ -25,6 +24,15 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
         }
     }
 
+    var isMenuCompatible: Bool {
+        switch self {
+        case .releaseDate, .downloadStatus, .mediaType, .starred:
+            return true
+        case .podcast, .duration, .episode:
+            return false
+        }
+    }
+
     var title: String {
         var value: String = ""
         switch self {
@@ -43,9 +51,7 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
         case .starred:
             value = L10n.statusStarred
         }
-        if FeatureFlag.playlistsRebranding.enabled {
-            value = value.sentenceCased
-        }
+        value = value.sentenceCased
 
         return value
     }

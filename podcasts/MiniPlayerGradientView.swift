@@ -7,7 +7,7 @@ class MiniPlayerGradientView: UIView {
             updateView()
         }
     }
-    private var gradientLayer: CAGradientLayer = CAGradientLayer()
+    private var gradientLayer = CAGradientLayer()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -1,12 +1,30 @@
 import Foundation
-import PocketCastsDataModel
-import PocketCastsUtils
+import AVFoundation
 import Combine
+import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
+
+/// The fields changed when saving a bookmark.
+struct BookmarkUpdateParameters {
+    var title: String
+
+    /// The captured transcript passage to store, or `nil` to leave the existing one unchanged.
+    var passage: Passage?
+
+    /// A transcript passage together with where it starts, kept so a re-selection can be
+    /// matched back to the same spot.
+    struct Passage {
+        var text: String
+        var location: Int?
+    }
+}
 
 class BookmarkManager {
     private let dataManager: BookmarkDataManager
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
+    private let cacheServerHandler: CacheServerHandler
 
     /// Called when a bookmark is created
     let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
@@ -19,10 +37,12 @@ class BookmarkManager {
 
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks,
          generalManager: DataManager = .sharedManager,
-         playbackManager: PlaybackManager = .shared) {
+         playbackManager: PlaybackManager = .shared,
+         cacheServerHandler: CacheServerHandler = .shared) {
         self.dataManager = dataManager
         self.generalManager = generalManager
         self.playbackManager = playbackManager
+        self.cacheServerHandler = cacheServerHandler
     }
 
     /// Plays the "bookmark created" tone
@@ -89,23 +109,78 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
+            bookmarks.forEach {
+                $0.passage = nil
+                $0.passageLocation = nil
+            }
+
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)
             }))
         }
     }
 
-    /// Updates the bookmark with the given title, emits `onBookmarkChanged` on success
+    /// Updates the bookmark with the given parameters, emits `onBookmarkChanged` on success
     @discardableResult
-    func update(title: String, for bookmark: Bookmark) async -> Bool {
-        await dataManager.update(bookmark: bookmark, title: title).when(true) {
-            onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(title)))
+    func update(_ parameters: BookmarkUpdateParameters, for bookmark: Bookmark) async -> Bool {
+        if let passage = parameters.passage {
+            bookmark.passage = passage.text
+            bookmark.passageLocation = passage.location
+        }
+
+        return await dataManager.update(bookmark: bookmark, title: parameters.title).when(true) {
+            onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(parameters.title)))
         }
     }
 
     /// Gets the `BaseEpisode` for the given bookmark
     func episode(for bookmark: Bookmark) -> BaseEpisode? {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
+    }
+
+    // MARK: - Title Generation
+
+#if os(iOS)
+    /// Stored as `Any` because stored properties can't be marked potentially unavailable.
+    private lazy var foundationModelEnricher: Any? = {
+        if #available(iOS 26.0, *) {
+            return BookmarkFoundationModelEnricher()
+        }
+        return nil
+    }()
+#endif
+
+    /// Preloads on-device model resources so an upcoming `generateTitle` call responds faster.
+    func prewarmTitleGeneration() {
+#if os(iOS)
+        if #available(iOS 26.0, *) {
+            (foundationModelEnricher as? BookmarkFoundationModelEnricher)?.prewarm()
+        }
+#endif
+    }
+
+    func generateTitle(transcriptSnippet: String, podcastTitle: String? = nil, episodeTitle: String? = nil) async throws -> String {
+#if os(iOS)
+        if #available(iOS 26.0, *), BookmarkFoundationModelEnricher.isAvailable,
+           let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
+            do {
+                return try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
+            } catch {
+                FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
+            }
+        }
+#endif
+
+        let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
+        guard let title = response.title, !title.isEmpty else {
+            FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
+            throw TitleGenerationError.noTitleReturned
+        }
+        return title
+    }
+
+    enum TitleGenerationError: Error {
+        case noTitleReturned
     }
 
     // MARK: - Named Events
@@ -196,7 +271,7 @@ private extension BookmarkSortOption {
 extension Array where Element == Bookmark {
 
     func includePodcasts(using dataManager: DataManager = .sharedManager) -> [Element] {
-        guard count > 0 else { return [] }
+        guard !isEmpty else { return [] }
 
         let podcasts = uniquePodcasts(using: dataManager)
 
@@ -212,7 +287,7 @@ extension Array where Element == Bookmark {
     /// Updates an array of Bookmarks and sets the `episode` property to the `BaseEpisode` from the `episodeUuid`
     /// This tries to be efficient by only fetching the unique episodes from the database
     func includeEpisodes(using dataManager: DataManager = .sharedManager) -> [Element] {
-        guard count > 0 else { return [] }
+        guard !isEmpty else { return [] }
 
         let episodes = uniqueEpisodes(using: dataManager)
 

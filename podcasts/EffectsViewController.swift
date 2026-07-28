@@ -8,6 +8,8 @@ class EffectsViewController: SimpleNotificationsViewController {
         didSet {
             headingLbl.style = .playerContrast02
             headingLbl.text = L10n.playbackEffects.localizedUppercase
+            headingLbl.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            headingLbl.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -195,6 +197,10 @@ class EffectsViewController: SimpleNotificationsViewController {
         super.viewDidLoad()
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: EffectsViewController, _) in
+            controller.updateSize()
+        }
+
         updateColors()
         updateControls()
         setupAccessibility()
@@ -340,7 +346,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBAction func clearForPodcastTapped(_ sender: Any) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else { return }
 
-        podcast.isEffectsOverridden = false
+        podcast.overrideGlobalEffects = false
         DataManager.sharedManager.save(podcast: podcast)
         PlaybackManager.shared.effectsChangedExternally()
         updateClearView()
@@ -356,11 +362,13 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func updateControls() {
+        let volumeBoostAvailable = PlaybackManager.shared.volumeBoostAvailable()
         trimSilenceSwitch.isEnabled = PlaybackManager.shared.silenceRemovalAvailable()
-        volumeBoostSwitch.isEnabled = PlaybackManager.shared.volumeBoostAvailable()
+        volumeBoostSwitch.isEnabled = volumeBoostAvailable
 
         let effects = PlaybackManager.shared.effects()
-        volumeBoostSwitch.isOn = effects.volumeBoost
+        // When the effect isn't available (e.g. HLS) show it as off rather than on-but-disabled.
+        volumeBoostSwitch.isOn = volumeBoostAvailable && effects.volumeBoost
         updateRemoveSilenceViews()
         updateSpeedBtn()
         updateClearView()
@@ -378,15 +386,15 @@ class EffectsViewController: SimpleNotificationsViewController {
             return
         }
 
-        customEffectsToVolumeBoostConstraint.isActive = podcast.isEffectsOverridden
-        clearForPodcastView.isHidden = !podcast.isEffectsOverridden
+        customEffectsToVolumeBoostConstraint.isActive = podcast.overrideGlobalEffects
+        clearForPodcastView.isHidden = !podcast.overrideGlobalEffects
     }
 
     private func updateRemoveSilenceViews() {
         let effects = PlaybackManager.shared.effects()
-        trimSilenceSwitch.isOn = effects.trimSilence.isEnabled()
-
-        let isEnabled = effects.trimSilence.isEnabled()
+        // When the effect isn't available (e.g. HLS) show it as off rather than on-but-disabled.
+        let isEnabled = PlaybackManager.shared.silenceRemovalAvailable() && effects.trimSilence.isEnabled()
+        trimSilenceSwitch.isOn = isEnabled
 
         trimSilenceSpeedsToLabelConstraint.isActive = isEnabled
         let wasHidden = trimSilenceAmountControl.isHidden
@@ -428,12 +436,19 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private func updateSpeedBtn() {
         let effects = PlaybackManager.shared.effects()
+        // HLS can't play above 2x, so never show a higher speed even if the stored global/podcast speed
+        // is higher. The applied rate is already capped in DefaultPlayer; this keeps the display honest
+        // without persisting a change to the user's non-HLS preference.
+        var displaySpeed = effects.playbackSpeed
+        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+            displaySpeed = min(displaySpeed, 2)
+        }
         speedBtn.fillColor = ThemeColor.playerContrast01()
-        speedBtn.isOn = (effects.playbackSpeed != 1)
-        speedBtn.buttonTitle = "  " + L10n.playbackSpeed(effects.playbackSpeed.localized())
+        speedBtn.isOn = (displaySpeed != 1)
+        speedBtn.buttonTitle = "  " + L10n.playbackSpeed(displaySpeed.localized())
         speedBtn.strokeColor = speedBtn.isOn ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
         speedBtn.textColor = speedBtn.isOn ? PlayerColorHelper.playerBackgroundColor01() : ThemeColor.playerContrast01()
-        speedBtn.accessibilityLabel = L10n.accessibilityPlayerEffectsPlaybackSpeed(effects.playbackSpeed.localized(.spellOut))
+        speedBtn.accessibilityLabel = L10n.accessibilityPlayerEffectsPlaybackSpeed(displaySpeed.localized(.spellOut))
 
         // Post accessibility notification for speed changes
         UIAccessibility.post(notification: .announcement, argument: speedBtn.accessibilityLabel)
@@ -454,9 +469,9 @@ class EffectsViewController: SimpleNotificationsViewController {
             playbackSettingsSegmentedControl.backgroundColor = ThemeColor.playerContrast06()
             playbackSettingsSegmentedControl.selectedSegmentTintColor = ThemeColor.playerContrast01()
 
-            let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02()]
+            let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02(), .font: UIFont.font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)]
             playbackSettingsSegmentedControl.setTitleTextAttributes(normalAttribute, for: .normal)
-            let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01()]
+            let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01(), .font: UIFont.font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)]
             playbackSettingsSegmentedControl.setTitleTextAttributes(selectedAttribute, for: .selected)
         } else {
             trimSilenceAmountControl.lineColor = ThemeColor.playerContrast02()
@@ -557,5 +572,18 @@ class EffectsViewController: SimpleNotificationsViewController {
         accessibilityElements.append(volumeBoostSwitch!)
 
         view.accessibilityElements = accessibilityElements
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        trimIcon.updateSizeConstraints(to: iconSize)
+        speedIcon.updateSizeConstraints(to: iconSize)
+        volumeIcon.updateSizeConstraints(to: iconSize)
+
+        let timerSize = max(36, iconMetric.scaledValue(for: 36))
+        speedBtn.updateSizeConstraints(width: 70, height: timerSize)
+
+        updateColors()
     }
 }

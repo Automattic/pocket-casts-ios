@@ -9,6 +9,9 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
             actionsTable.separatorColor = AppTheme.tableDividerColor(for: .dark)
             actionsTable.indicatorStyle = AppTheme.indicatorStyle()
+
+            actionsTable.rowHeight = UITableView.automaticDimension
+            actionsTable.sectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
@@ -18,6 +21,8 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         didSet {
             headingLabel.style = .playerContrast02
             headingLabel.text = L10n.accessibilityMoreActions.localizedUppercase
+            headingLabel.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            headingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -31,12 +36,16 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         didSet {
             rearrangeHeader.style = .playerContrast01
             rearrangeHeader.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeHeader.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            rearrangeHeader.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var actionButton: ThemeableUIButton! {
         didSet {
             actionButton.style = .playerContrast01
+            actionButton.titleLabel?.font = UIFont.font(ofSize: 17, weight: .semibold, scalingWith: .title1)
+            actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -108,8 +117,6 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         headingLabel.isHidden = true
 
         headingViewHeightConstraint.constant = 56
-        editButtonVerticalConstraint.isActive = false
-        doneButtonVerticalConstraint.isActive = true
         setPreferredSize(animated: true)
 
         if let sheetController = sheetPresentationController {
@@ -161,7 +168,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
     @objc private func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
         guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
-              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+              notification.userInfo?["isAvailable"] as? Bool != nil,
               episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
             return
         }

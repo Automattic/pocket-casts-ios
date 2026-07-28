@@ -157,42 +157,25 @@ struct NowPlayingWidgetEntryView: View {
 
     @ViewBuilder
     private func playToggleOrPlaybackLabel(playingEpisode: WidgetEpisode) -> some View {
-        if #available(iOS 17, *) {
-            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
+        Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
 
-                if entry.isPlaying {
-                    Text(L10n.nowPlaying)
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundColor(widgetColorScheme.topButtonTextColor)
-                        .backwardWidgetAccentable(isAccentedRenderingMode)
-                } else {
-                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundColor(widgetColorScheme.topButtonTextColor)
-                        .layoutPriority(1)
-                        .backwardWidgetAccentable(isAccentedRenderingMode)
-                }
-            }
-            .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
-            .padding(bottomTextPadding)
-        } else {
             if entry.isPlaying {
                 Text(L10n.nowPlaying)
                     .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                    .padding(bottomTextPadding)
+                    .fontWeight(.bold)
+                    .foregroundColor(widgetColorScheme.topButtonTextColor)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
             } else {
                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                     .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                    .padding(bottomTextPadding)
+                    .fontWeight(.bold)
+                    .foregroundColor(widgetColorScheme.topButtonTextColor)
                     .layoutPriority(1)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
             }
         }
+        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
+        .padding(bottomTextPadding)
     }
 
     private var nothingPlayingMedium: some View {
@@ -253,7 +236,7 @@ struct NowPlayingWidgetEntryView: View {
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 HStack(alignment: .top) {
                     LargeArtworkView()
                         .opacity(0.5)
@@ -291,12 +274,12 @@ struct NowPlayingWidgetEntryView: View {
 struct NowPlayingEntryView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: .bold,
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: .bold,
                 widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Playing")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: .bold,
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: .bold,
                 widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Paused")

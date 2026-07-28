@@ -135,13 +135,15 @@ class MessageSupportViewModel: ObservableObject {
     open func submitRequest(ignoreUnavailableWatchLogs: Bool = false) {
         isWorking.toggle()
 
+        FileLog.shared.addMessage("MessageSupportViewModel: submitRequest — isRetrying: \(isRetrying), ignoreUnavailableWatchLogs: \(ignoreUnavailableWatchLogs)")
+
         config.customFields(forDisplay: false, optOut: UserDefaults.standard.debugOptedOut)
             .flatMap { [unowned self] customFields -> AnyPublisher<String, Error> in
 
                 // Check if the user mentioned watch on their issue description and if there
                 // are any Apple Watch logs available.
                 let containsWatch = self.comment.localizedCaseInsensitiveContains(L10n.watch) || self.comment.lowercased().contains("watch")
-                if containsWatch && customFields.first(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) != nil && !ignoreUnavailableWatchLogs {
+                if containsWatch && customFields.contains(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) && !ignoreUnavailableWatchLogs {
                     return Fail(error: MessageSupportFailure.watchLogMissing).eraseToAnyPublisher()
                 } else {
                     let hasLogs = customFields.contains(where: { $0.id == SupportCustomField.debugLog.rawValue && !$0.value.hasSuffix("User opted out")})
@@ -165,10 +167,16 @@ class MessageSupportViewModel: ObservableObject {
                 isWorking.toggle()
                 switch completion {
                 case let .failure(error):
-                    if self.isRetrying {
+                    if case MessageSupportFailure.watchLogMissing = error {
+                        FileLog.shared.addMessage("MessageSupportViewModel: preflight failed — no support request sent: \(error)")
+                        self.isRetrying = false
+                        self.completion = .failure(error: error)
+                    } else if self.isRetrying {
+                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed after retry — surfacing error: \(error)")
                         self.isRetrying = false
                         self.completion = .failure(error: error)
                     } else {
+                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via newBaseURL. Error: \(error)")
                         self.isRetrying = true
                         self.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
                     }

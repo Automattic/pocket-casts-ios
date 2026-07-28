@@ -33,7 +33,7 @@ extension DownloadManager {
                     let oldAttempt = self.downloadAttempts.removeValue(forKey: foregroundTask.taskIdentifier)
 
                     let backgroundTask: URLSessionDownloadTask
-                    if let data = data {
+                    if let data {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(withResumeData: data)
                     } else {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(with: request)
@@ -70,7 +70,7 @@ extension DownloadManager {
             }
         }
 
-        if episodeUuids.count == 0 { return }
+        if episodeUuids.isEmpty { return }
 
         for episodeUuid in episodeUuids {
             guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }

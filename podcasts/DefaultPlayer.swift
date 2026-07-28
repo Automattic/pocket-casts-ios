@@ -8,7 +8,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var audioMix: AVAudioMix?
     private var assetTrack: AVAssetTrack?
 
-    private var player: AVPlayer?
+    private(set) var player: AVPlayer?
 
     private var requiredPlaybackRate: Double = 0
     private var shouldKeepPlaying = false
@@ -19,6 +19,19 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
     private var isWaitingForInitialPlayback = false
 
+    private var isPlayingLocalFile = false
+
+    /// Whether the current episode is being streamed over HLS. HLS is streamed directly (never cached),
+    /// so it needs extra buffering headroom and a capped playback rate to avoid stalling.
+    private var isStreamingHLS = false
+
+    /// Larger forward buffer for HLS so higher playback rates don't starve the pipeline and stall.
+    private static let hlsForwardBufferDuration: TimeInterval = 60
+
+    /// HLS streams can't reliably sustain playback above this rate, and the time-domain pitch
+    /// algorithm degrades past it, so the applied rate is capped here for HLS.
+    private static let hlsMaxPlaybackRate: Double = 2.0
+
     // Keep track of the previous playback and waiting state
     private var previousReasonForWaiting: AVPlayer.WaitingReason?
     private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
@@ -28,6 +41,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
     private var timeControlStatusObserver: NSKeyValueObservation?
+    private var presentationSizeObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -36,28 +50,39 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var episodeUuid: String?
     private var podcastUuid: String?
 
-    #if !os(watchOS)
-        private lazy var episodeArtwork: EpisodeArtwork = {
-            EpisodeArtwork()
-        }()
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
+    private var cellularTracker: StreamingCellularTracker?
+#endif
 
-        private var peakLimiter: AudioUnit?
-        private var highPassFilter: AudioUnit?
-        private var sampleCount: Float64 = 0
-        private var backgroundTaskId: UIBackgroundTaskIdentifier
-    #endif
+#if !os(watchOS)
+    @MainActor
+    private lazy var episodeArtwork = EpisodeArtwork()
+
+    private var peakLimiter: AudioUnit?
+    private var highPassFilter: AudioUnit?
+    private var sampleCount: Float64 = 0
+    private var backgroundTaskId: UIBackgroundTaskIdentifier
+    private var voiceBoostNState: OpaquePointer?
+    private var cachedSampleRate: Double = 0
+#endif
 
     init() {
-        #if !os(watchOS)
-            backgroundTaskId = .invalid
-            NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        #endif
+#if !os(watchOS)
+        backgroundTaskId = .invalid
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+#endif
     }
 
     func loadEpisode(_ episode: BaseEpisode) {
         if player != nil {
             cleanupPlayer()
             player = nil
+        }
+
+        if let url = EpisodeManager.urlForEpisode(episode) {
+            isPlayingLocalFile = url.isFileURL
+        } else {
+            isPlayingLocalFile = false
         }
 
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
@@ -67,12 +92,77 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         isWaitingForInitialPlayback = true
 
+        isStreamingHLS = EpisodeManager.willPlayViaHLS(episode)
+
+        // Set the pitch algorithm once here rather than re-applying it on every rate change. For HLS,
+        // give the pipeline more buffered audio so higher playback rates don't starve it and stall.
+        playerItem.audioTimePitchAlgorithm = .timeDomain
+        if isStreamingHLS {
+            playerItem.preferredForwardBufferDuration = Self.hlsForwardBufferDuration
+        }
+
         player = AVPlayer(playerItem: playerItem)
 
         episodeUuid = episode.uuid
         podcastUuid = episode.parentIdentifier()
 
+        // Start cellular tracking for remote streaming
+        // MediaExporterResourceLoaderDelegate handles its own tracking for cache+stream,
+        // but for direct AVPlayer streaming we use StreamingCellularTracker
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
+        if FeatureFlag.trackNetworkDataUsage.enabled,
+           let urlAsset = playerItem.asset as? AVURLAsset,
+           !urlAsset.url.isFileURL,
+           !(urlAsset.url.scheme?.hasPrefix(MediaExporterResourceLoaderDelegate.schemePrefix) ?? false) {
+            cellularTracker = StreamingCellularTracker()
+            cellularTracker?.startTracking(
+                playerItem: playerItem,
+                episodeUuid: episode.uuid,
+                podcastUuid: episode.parentIdentifier()
+            )
+        }
+        #endif
+
         configurePlayer(videoPodcast: episode.videoPodcast())
+
+        disableSubtitles(for: playerItem)
+
+        detectVideoTracksIfNeeded(for: episode, playerItem: playerItem)
+    }
+
+    /// We don't offer a subtitle/caption UI, but AVPlayer will otherwise turn subtitles on by default
+    /// when a stream has a `DEFAULT=YES` legible rendition or when the system "Closed Captions + SDH"
+    /// accessibility setting is enabled. Prevent automatic selection and deselect any legible track.
+    private func disableSubtitles(for playerItem: AVPlayerItem) {
+        player?.appliesMediaSelectionCriteriaAutomatically = false
+
+        Task { @MainActor in
+            if let group = try? await playerItem.asset.loadMediaSelectionGroup(for: .legible) {
+                playerItem.select(nil, in: group)
+            }
+        }
+    }
+
+    /// An HLS stream can carry video that isn't reflected in the episode's file type. HLS doesn't
+    /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
+    /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
+    private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
+        guard isStreamingHLS, !episode.videoPodcast() else { return }
+
+        let episodeUuid = episode.uuid
+        presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in
+            let size = item.presentationSize
+            guard size.width > 0, size.height > 0 else { return }
+
+            DispatchQueue.main.async {
+                guard let self, self.presentationSizeObserver != nil else { return }
+                self.presentationSizeObserver = nil
+#if !os(watchOS)
+                self.player?.allowsExternalPlayback = true
+#endif
+                PlaybackManager.shared.handleVideoTracksDetected(forEpisode: episodeUuid)
+            }
+        }
     }
 
     func isReadyToPlay() -> Bool {
@@ -84,10 +174,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     func buffering() -> Bool {
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         if let item = player.currentItem {
-            return item.isPlaybackBufferEmpty
+            return item.isPlaybackBufferEmpty || !item.isPlaybackLikelyToKeepUp
         }
 
         return true
@@ -180,6 +270,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
         cleanupPlayer()
 
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
+        cellularTracker?.stopTracking()
+        cellularTracker = nil
+        #endif
+
         audioMix = nil
         assetTrack = nil
         player = nil
@@ -234,18 +329,44 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         lastBackgroundedDate = Date()
     }
 
-    private func playerStatusDidChange() {
-        if player?.currentItem?.status == .failed {
+    private func checkIfPlayerFailed() -> Bool {
+        guard let player, player.currentItem?.status == .failed  || player.status == .failed else {
+            return false
+        }
+        let playerErrorMessage =  (player.error as? NSError)?.debugDescription ?? ""
+        let playerItemErrorMessage = (player.currentItem?.error as? NSError)?.debugDescription ?? ""
+        FileLog.shared.addMessage("[DefaultPlayer] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
 
-            if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               (player?.currentItem?.error as? NSError)?.domain == NSURLErrorDomain,
-                let episodeUuid {
-                PlaybackManager.shared.urlFailedToLoad(for: episodeUuid)
-                return
+        // Give priority to player item error
+        let playerError: Error? = (player.currentItem?.error ?? player.error)
+        let playerNSError = playerError as? NSError
+
+        if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
+           let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
+           let episodeUuid {
+            if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
+                return false
             }
+        }
+        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
+        var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
+        if let playerNSError,
+           playerNSError.domain == NSURLErrorDomain {
+            if PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            } else if playerNSError.code == NSURLErrorNotConnectedToInternet {
+                error = .internetConnection(logMessage: logMessage)
+            } else {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            }
+        }
+        PlaybackManager.shared.playbackDidFail(error: error)
 
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+        return true
+    }
 
+    private func playerStatusDidChange() {
+        guard !checkIfPlayerFailed() else {
             return
         }
 
@@ -260,8 +381,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             }
 
             #if !os(watchOS)
-                createAudioMix()
-                player?.currentItem?.audioMix = audioMix
+                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
+                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
+                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
+                // video honors it. Only attach it when we actually found an audio track.
+                if assetTrack != nil {
+                    createAudioMix()
+                    player?.currentItem?.audioMix = audioMix
+                }
             #endif
 
             isWaitingForInitialPlayback = false
@@ -351,6 +478,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             referenceToSelf.peakLimiter = nil
             referenceToSelf.highPassFilter = nil
             referenceToSelf.sampleCount = 0
+            referenceToSelf.voiceBoostNState = nil
         }
 
         let tapFinalize: MTAudioProcessingTapFinalizeCallback = { tap in
@@ -376,11 +504,20 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return
             }
             referenceToSelf.peakLimiter = limiter
+
+            // Store sample rate for dynamic VoiceBoostN creation
+            referenceToSelf.cachedSampleRate = Double(processingFormat.pointee.mSampleRate)
         }
 
         let tapUnprepare: MTAudioProcessingTapUnprepareCallback = { tap in
             guard let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: tap) else {
                 return
+            }
+
+            if let vbnState = referenceToSelf.voiceBoostNState {
+                VBN_Destroy(vbnState)
+                referenceToSelf.voiceBoostNState = nil
+                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN state destroyed")
             }
 
             if let peakLimiter = referenceToSelf.peakLimiter {
@@ -412,16 +549,55 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            // apply volume boost
-            var audioTimeStamp = AudioTimeStamp()
-            audioTimeStamp.mSampleTime = currentSampleCount
-            audioTimeStamp.mFlags = AudioTimeStampFlags.sampleTimeValid
-            guard AudioUnitRender(highPassFilter, nil, &audioTimeStamp, 0, UInt32(numberFrames), bufferListInOut) == noErr else {
-                referenceToSelf.handlePlaybackError("AudioUnitRender failed")
-                return
+            let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled
+
+            // Handle dynamic state creation/destruction
+            if shouldUseVoiceBoostN && referenceToSelf.voiceBoostNState == nil {
+                let isInitial = referenceToSelf.sampleCount == Float64(numberFrames) // First buffer
+                referenceToSelf.voiceBoostNState = VBN_Create(referenceToSelf.cachedSampleRate)
+                if isInitial {
+                    FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN enabled - created state at \(referenceToSelf.cachedSampleRate) Hz")
+                } else {
+                    FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN enabled mid-playback - created state at \(referenceToSelf.cachedSampleRate) Hz")
+                }
+            } else if !shouldUseVoiceBoostN && referenceToSelf.voiceBoostNState != nil {
+                VBN_Destroy(referenceToSelf.voiceBoostNState)
+                referenceToSelf.voiceBoostNState = nil
+                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN disabled mid-playback - switching to previous voice boost")
             }
 
-            numberFramesOut.pointee = numberFrames
+            if let vbnState = referenceToSelf.voiceBoostNState {
+                // Use VoiceBoostN processing
+                guard MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut, flagsOut, nil, numberFramesOut) == noErr else {
+                    referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
+                    return
+                }
+
+                // Process through VoiceBoostN
+                let bufferList = UnsafeMutableAudioBufferListPointer(bufferListInOut)
+                let channelCount = Int32(bufferList.count)
+
+                var channelPointers: [UnsafeMutablePointer<Float>?] = bufferList.compactMap { buffer in
+                    buffer.mData?.assumingMemoryBound(to: Float.self)
+                }
+
+                channelPointers.withUnsafeMutableBufferPointer { ptr in
+                    VBN_Process(vbnState, ptr.baseAddress, Int32(numberFrames), channelCount)
+                }
+
+                numberFramesOut.pointee = numberFrames
+            } else {
+                // Use previous voice boost (AudioUnit chain)
+                var audioTimeStamp = AudioTimeStamp()
+                audioTimeStamp.mSampleTime = currentSampleCount
+                audioTimeStamp.mFlags = AudioTimeStampFlags.sampleTimeValid
+                guard AudioUnitRender(highPassFilter, nil, &audioTimeStamp, 0, UInt32(numberFrames), bufferListInOut) == noErr else {
+                    referenceToSelf.handlePlaybackError("AudioUnitRender failed")
+                    return
+                }
+
+                numberFramesOut.pointee = numberFrames
+            }
         }
 
         // MARK: - Peak Limter
@@ -477,7 +653,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard
                 let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
                 let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor,
-                let ioData = ioData
+                let ioData
             else {
                 return -1
             }
@@ -537,7 +713,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard
                 let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
                 let peakLimiter = referenceToSelf.peakLimiter,
-                let ioData = ioData
+                let ioData
             else {
                 return -1
             }
@@ -559,9 +735,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             requiredPlaybackRate = 1.0
         }
 
-        player?.rate = Float(requiredPlaybackRate)
+        // Cap the applied rate for HLS streams; they can't sustain higher rates without stalling.
+        let effectiveRate = isStreamingHLS ? min(requiredPlaybackRate, Self.hlsMaxPlaybackRate) : requiredPlaybackRate
 
-        player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
+        player?.rate = Float(effectiveRate)
     }
 
     private func jumpToStartingPosition() {
@@ -588,7 +765,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             // do this on the main thread because timers require run loops
             DispatchQueue.main.async {
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                    guard let self = self else {
+                    guard let self else {
                         timer.invalidate()
                         return
                     }
@@ -617,7 +794,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // only reports errors if we're meant to be playing
         if shouldKeepPlaying {
             shouldKeepPlaying = false
-            PlaybackManager.shared.playbackDidFail(logMessage: message, userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: message, isLocalFile: isPlayingLocalFile))
         }
     }
 
@@ -667,7 +844,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
@@ -699,7 +876,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         let nc = NotificationCenter.default
         playToEndObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if !FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
                 self.shouldKeepPlaying = false
@@ -743,19 +920,28 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         playFailedObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemFailedToPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.shouldKeepPlaying = false
 
             let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
             let errorMessage = error?.localizedDescription ?? "Unknown item did fail to finish error"
-            PlaybackManager.shared.playbackDidFail(logMessage: errorMessage, userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
         }
 
-        _ = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
-            guard let self = self else { return }
+        playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
+            guard let self else { return }
+            FileLog.shared.addMessage("Received notification of playback stall")
+            guard self.shouldKeepPlaying else { return }
 
-            if self.shouldKeepPlaying {
+            if self.isStreamingHLS {
+                // Recovering an HLS stall via play() re-seeks to the resume position, which flushes the
+                // HLS buffer and triggers another stall — a runaway loop at higher rates. Just re-apply
+                // the rate and let AVPlayer resume once it has buffered enough, without seeking.
+                FileLog.shared.addMessage("Trying to recover from HLS stall without seeking")
+                self.performSetPlaybackRate()
+            } else {
+                FileLog.shared.addMessage("Trying to recover from stall by playing")
                 self.play(completion: nil)
             }
         }
@@ -768,6 +954,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playerStatusObserver = nil
         playerItemStatusObserver = nil
         timeControlStatusObserver = nil
+        presentationSizeObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)
@@ -802,7 +989,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
         #endif
     }
 

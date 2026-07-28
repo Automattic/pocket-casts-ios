@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import WrappingHStack
+import EndOfYear
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 

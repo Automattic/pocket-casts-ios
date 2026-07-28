@@ -81,7 +81,7 @@ class AccountUpdatedViewController: UIViewController {
     }
 
     @IBAction func closeTapped(_ sender: Any) {
-        if let delegate = delegate {
+        if let delegate {
             delegate.accountUpdatedAcknowledged()
             return
         }

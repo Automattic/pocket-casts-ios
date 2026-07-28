@@ -41,7 +41,11 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
     }
 
-    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet var subtitleLabel: UILabel! {
+        didSet {
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var headerView: ThemeableView! {
         didSet {
             headerView.style = .primaryUi02
@@ -73,13 +77,23 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     @IBOutlet var linkLabel: ThemeableLabel! {
         didSet {
             linkLabel.style = .primaryText02
+            linkLabel.font = .font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            linkLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
-    @IBOutlet var titleLabel: ThemeableLabel!
+    @IBOutlet var titleLabel: ThemeableLabel! {
+        didSet {
+            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            titleLabel.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var descriptionLabel: ThemeableLabel! {
         didSet {
             descriptionLabel.style = .primaryText02
+            descriptionLabel.font = .font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            descriptionLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -97,7 +111,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     }
 
     func populate(podcastCollection: PodcastCollection?) {
-        guard let podcastCollection = podcastCollection else {
+        guard let podcastCollection else {
             headerView.isHidden = true
             return
         }

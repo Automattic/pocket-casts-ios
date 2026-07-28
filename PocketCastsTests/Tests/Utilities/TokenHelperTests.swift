@@ -37,7 +37,7 @@ class TokenHelperTests: XCTestCase {
             XCTAssertEqual(response?.token, "1234")
             XCTAssertEqual(response?.email, "test@test.com")
             XCTAssertNotNil(response?.uuid, "Should receive UUID")
-        } catch let error {
+        } catch {
             XCTFail("Acquire Password Token shouldn't fail: \(error)")
         }
     }

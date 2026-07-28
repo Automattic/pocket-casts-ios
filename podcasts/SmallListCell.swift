@@ -4,6 +4,12 @@ import PocketCastsUtils
 import UIKit
 
 class SmallListCell: ThemeableCollectionCell {
+
+    static var scaledHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .callout)
+        return max(52, metric.scaledValue(for: 52))
+    }
+
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {
@@ -15,10 +21,15 @@ class SmallListCell: ThemeableCollectionCell {
         }
     }
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
+        }
+    }
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -35,6 +46,15 @@ class SmallListCell: ThemeableCollectionCell {
         }
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SmallListCell, _) in
+            view.updateSize()
+        }
+    }
+
     func setSelectedState(_ selected: Bool) {
         podcastImage.alpha = selected ? 0.6 : 1.0
     }
@@ -42,7 +62,7 @@ class SmallListCell: ThemeableCollectionCell {
     func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool) {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {
-            podcastTitle.text = title
+            setTitle(title, for: discoverPodcast)
         }
         if let author = discoverPodcast.author {
             podcastAuthor.text = author
@@ -53,6 +73,8 @@ class SmallListCell: ThemeableCollectionCell {
         subscribeButton.currentlyOn = isSubscribed
 
         subscribeButton.shouldAnimate = true
+
+        setNeedsUpdateConstraints()
     }
 
     @IBAction func subscribeTapped(_ sender: AnyObject) {
@@ -75,7 +97,7 @@ class SmallListCell: ThemeableCollectionCell {
             subscribeButton.shouldAnimate = true
 
             if let title = discoverPodcast?.title?.localized {
-                podcastTitle.text = title
+                setTitle(title, for: info)
             }
             if let author = discoverPodcast?.author {
                 podcastAuthor.text = author
@@ -87,10 +109,22 @@ class SmallListCell: ThemeableCollectionCell {
         }
     }
 
+    private func setTitle(_ title: String, for discoverPodcast: DiscoverPodcast) {
+        let isExplicit = discoverPodcast.isExplicit ?? false
+        if isExplicit {
+            podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+        } else {
+            podcastTitle.text = title
+        }
+    }
+
     override func handleThemeDidChange() {
         subscribeButton.tintColor = ThemeColor.primaryIcon02()
         subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
         subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
+        if let discoverPodcast, let title = discoverPodcast.title?.localized {
+            setTitle(title, for: discoverPodcast)
+        }
     }
 
     override func prepareForReuse() {
@@ -101,5 +135,17 @@ class SmallListCell: ThemeableCollectionCell {
         discoverPodcast = nil
         setSelectedState(false)
         subscribeButton.currentlyOn = false
+    }
+
+    func updateSize() {
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        podcastTitle.numberOfLines = largeSize ? 2 : 1
+        podcastAuthor.numberOfLines = largeSize ? 2 : 1
+
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        podcastImage.updateSizeConstraints(to: max(48, metric.scaledValue(for: 48)))
+
+        subscribeButton.updateSizeConstraints(to: max(44, metric.scaledValue(for: 44)))
     }
 }

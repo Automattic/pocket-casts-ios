@@ -9,7 +9,12 @@ class CheckboxCell: ThemeableCell {
         }
     }
 
-    @IBOutlet var episodeTitle: ThemeableLabel!
+    @IBOutlet var episodeTitle: ThemeableLabel! {
+        didSet {
+            episodeTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            episodeTitle.adjustsFontForContentSizeCategory = true
+        }
+    }
 
     var filterColor: UIColor? {
         didSet {
@@ -20,6 +25,11 @@ class CheckboxCell: ThemeableCell {
     private var tickImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: CheckboxCell, _) in
+            view.updateSize()
+        }
+
         let tickImage = UIImage(named: "tick")
         tickImageView = UIImageView(frame: CGRect(x: 2, y: 2, width: 20, height: 20))
         tickImageView.image = tickImage
@@ -38,8 +48,18 @@ class CheckboxCell: ThemeableCell {
     }
 
     private func updateButtonColor() {
-        guard let filterColor = filterColor else { return }
+        guard let filterColor else { return }
 
         selectButton.tintColor = ThemeColor.filterInteractive01(filterColor: filterColor)
+    }
+
+    // MARK: - Dynamic Type Updates
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+
+        selectButton.updateSizeConstraints(to: iconSize)
     }
 }

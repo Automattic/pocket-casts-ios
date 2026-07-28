@@ -1,4 +1,41 @@
+import PocketCastsUtils
 import SwiftUI
+import UIKit
+
+private func widgetArtworkImage(from imageData: Data?, accented: Bool) -> UIImage? {
+    guard let imageData, let image = UIImage(data: imageData) else { return nil }
+    guard accented else { return image }
+    return WidgetArtworkCache.tintedImage(for: imageData, source: image)
+}
+
+private func widgetPlaceholderImage(accented: Bool) -> UIImage {
+    let base = UIImage(named: "no-podcast-artwork-transparent")
+        ?? UIImage(named: "no-podcast-artwork")
+        ?? UIImage()
+    return accented ? base.withRenderingMode(.alwaysTemplate) : base
+}
+
+/// Caches the result of converting podcast artwork into a luminance-based template,
+/// so the expensive pixel pass doesn't run on every SwiftUI body recomputation.
+private enum WidgetArtworkCache {
+    private static let cache: NSCache<NSData, UIImage> = {
+        let cache = NSCache<NSData, UIImage>()
+        cache.countLimit = 32
+        return cache
+    }()
+
+    static func tintedImage(for imageData: Data, source: UIImage) -> UIImage? {
+        let key = imageData as NSData
+        if let cached = cache.object(forKey: key) {
+            return cached
+        }
+        guard let processed = source.addingAlphaFromLuminance()?.withRenderingMode(.alwaysTemplate) else {
+            return nil
+        }
+        cache.setObject(processed, forKey: key)
+        return processed
+    }
+}
 
 struct LargeArtworkView: View {
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
@@ -10,7 +47,7 @@ struct LargeArtworkView: View {
 
     var body: some View {
         ZStack {
-            if showShadow {
+            if !isAccentedRenderingMode, showShadow {
                 Rectangle()
                     .foregroundColor(Color.nowPlayingShadowColor)
                     .aspectRatio(1, contentMode: .fit)
@@ -19,25 +56,24 @@ struct LargeArtworkView: View {
                     .secondaryShadow()
                     .backwardWidgetAccentable(isAccentedRenderingMode)
             }
-
-            if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+            if let uiImage = widgetArtworkImage(from: imageData, accented: isAccentedRenderingMode) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .backwardWidgetFullColorRenderingMode()
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: size)
                     .cornerRadius(8)
-                    .if(showShadow) { view in
+                    .if(!isAccentedRenderingMode && showShadow) { view in
                         view.artworkShadow()
                     }
             } else {
-                Image("no-podcast-artwork")
+                Image(uiImage: widgetPlaceholderImage(accented: isAccentedRenderingMode))
                     .resizable()
-                    .backwardWidgetFullColorRenderingMode()
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: size)
                     .cornerRadius(8)
-                    .if(showShadow) { view in
+                    .if(!isAccentedRenderingMode && showShadow) { view in
                         view.artworkShadow()
                     }
             }
@@ -49,28 +85,35 @@ struct SmallArtworkView: View {
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     @State var imageData: Data?
+
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(Color.nowPlayingShadowColor)
-                .aspectRatio(1, contentMode: .fit)
-                .cornerRadius(5)
-                .secondaryShadow()
-                .backwardWidgetAccentable(isAccentedRenderingMode)
-            if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+            if !isAccentedRenderingMode {
+                Rectangle()
+                    .foregroundColor(Color.nowPlayingShadowColor)
+                    .aspectRatio(1, contentMode: .fit)
+                    .cornerRadius(5)
+                    .secondaryShadow()
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
+            }
+            if let uiImage = widgetArtworkImage(from: imageData, accented: isAccentedRenderingMode) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .backwardWidgetFullColorRenderingMode()
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
-                    .artworkShadow()
+                    .if(!isAccentedRenderingMode) { view in
+                        view.artworkShadow()
+                    }
             } else {
-                Image("no-podcast-artwork")
+                Image(uiImage: widgetPlaceholderImage(accented: isAccentedRenderingMode))
                     .resizable()
-                    .backwardWidgetFullColorRenderingMode()
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
-                    .artworkShadow()
+                    .if(!isAccentedRenderingMode) { view in
+                        view.artworkShadow()
+                    }
             }
         }
     }

@@ -119,6 +119,10 @@
     <string>Selecionar tipo de conta</string>
     <key>account_sign_out</key>
     <string>Fazer logout</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Seus podcasts, progresso e dados estarão aqui quando você voltar.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Sair?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Ao fazer logout, você remove %1$@ podcasts compatíveis deste dispositivo. Tem certeza?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -245,6 +249,12 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Atualizando sua arte agora</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Entendido, capitão!</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Barra de guias</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimizar ao rolar</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Quando ativada, a barra de guias se transforma em uma pílula compacta à medida que você rola a página para baixo, permitindo que mais conteúdo permaneça visível.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -481,6 +491,8 @@ Deixe a gente ajudar você primeiro</string>
     <string>Precisa ter ao menos seis caracteres</string>
     <key>chapters</key>
     <string>Capítulos</string>
+    <key>chapters_generated_warning_message</key>
+    <string>Esses capítulos são gerados automaticamente e podem não ser precisos.</string>
     <key>check_internet_connection</key>
     <string>Verifique sua conexão com a Internet</string>
     <key>chosen_podcasts_plural_format</key>
@@ -625,6 +637,29 @@ Deixe a gente ajudar você primeiro</string>
     <string>Desmarcar tudo acima</string>
     <key>deselect_all_below</key>
     <string>Desmarcar tudo abaixo</string>
+    <key>device_approve_code_placeholder</key>
+    <string>Insira o código</string>
+    <key>device_approve_connect_button</key>
+    <string>Conectar</string>
+    <key>device_approve_description</key>
+    <string>Seu streaming será sincronizado automaticamente.
+Você pode se desconectar a qualquer momento nas Configurações.</string>
+    <key>device_approve_expired_alert_message</key>
+    <string>Volte para sua TV para gerar um novo.</string>
+    <key>device_approve_expired_alert_title</key>
+    <string>Seu código QR expirou</string>
+    <key>device_approve_generic_error_alert_title</key>
+    <string>Falha na aprovação do dispositivo</string>
+    <key>device_approve_login_required</key>
+    <string>Para conectar seu dispositivo, você precisa ter uma conta. Faça login ou crie uma conta e tente novamente.</string>
+    <key>device_approve_signing_in_as</key>
+    <string>Fazendo login como…</string>
+    <key>device_approve_success_alert_message</key>
+    <string>Seu Apple TV agora está conectado à sua conta.</string>
+    <key>device_approve_success_alert_title</key>
+    <string>Apple TV conectado</string>
+    <key>device_approve_title</key>
+    <string>Conectar ao Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
     <key>discover</key>
@@ -1058,6 +1093,8 @@ que você ouviu foi
     <string>%1$@ episódios</string>
     <key>episode_description_title</key>
     <string>Descrição do episódio</string>
+    <key>episode_detail_add</key>
+    <string>Adicionar</string>
     <key>episode_details_title</key>
     <string>Detalhes</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1201,8 @@ que você ouviu foi
     <string>Arquivos</string>
     <key>files_how_to_title</key>
     <string>Como salvar um arquivo</string>
+    <key>files_not_uploaded</key>
+    <string>Nenhum arquivo enviado</string>
     <key>files_sort</key>
     <string>Ordenar arquivos</string>
     <key>filter_auto_add_subtitle</key>
@@ -1270,6 +1309,8 @@ que você ouviu foi
     <string>Adicionar 1 podcast</string>
     <key>folder_add_remove_podcasts</key>
     <string>Adicionar ou remover podcasts</string>
+    <key>folder_add_to</key>
+    <string>Adicionar à pasta</string>
     <key>folder_change</key>
     <string>Mudar pasta</string>
     <key>folder_choose_color</key>
@@ -1558,6 +1599,8 @@ podcasts com você</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Você precisa configurar uma conta de e-mail no dispositivo para enviar os registros</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Nenhum registro watchOS disponível. Certifique-se de que você tenha um Apple Watch emparelhado e o aplicativo Pocket Casts instalado nele.</string>
     <key>manage_downloads_action</key>
     <string>Gerenciar downloads</string>
     <key>manage_downloads_detail</key>
@@ -1568,6 +1611,8 @@ podcasts com você</string>
     <string>Marcar como reproduzido</string>
     <key>mark_played_short</key>
     <string>Marcar como reproduzido</string>
+    <key>mark_unplayed</key>
+    <string>Marcar como não reproduzido</string>
     <key>mark_unplayed_short</key>
     <string>Marcar como não reproduzido</string>
     <key>maybe_later</key>
@@ -1788,6 +1833,8 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Ativado</string>
     <key>onboarding_quote_author</key>
     <string>Usuário do Pocket Casts</string>
     <key>onboarding_quote_best</key>
@@ -1901,8 +1948,12 @@ ATUALIZAÇÕES</string>
     <string>Reproduzir tudo</string>
     <key>play_last</key>
     <string>Reproduzir por último</string>
+    <key>play_last_in_up_next</key>
+    <string>Reproduzir por último em "Próximos"</string>
     <key>play_next</key>
     <string>Reproduzir em seguida</string>
+    <key>play_next_in_up_next</key>
+    <string>Reproduzir logo em "Próximos"</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Dos %1$@ episódios que você começou a ouvir, você concluiu um total de %2$@</string>
     <key>playback_2024_completion_rate_title</key>
@@ -2078,6 +2129,8 @@ Isso que é compromisso!</string>
     <string>Reorganizar ações</string>
     <key>player_archived_confirmation</key>
     <string>Arquivar episódio?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Oculto do seu feed, mas não excluído.</string>
     <key>player_artwork</key>
     <string>Arte de %1$@</string>
     <key>player_chapter_count</key>
@@ -2096,12 +2149,20 @@ Isso que é compromisso!</string>
     <string>Episódio removido</string>
     <key>player_error_corrupted_file</key>
     <string>O episódio talvez esteja corrompido, mas você pode tentar reproduzi-lo novamente.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Este episódio não pode ser reproduzido.</string>
     <key>player_error_internet_connection</key>
     <string>Verifique sua conexão com a Internet e tente novamente.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Você está offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Falha na reprodução, tente novamente</string>
     <key>player_increment_time</key>
     <string>Avançar no episódio</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Marcar episódio como reproduzido?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Ele sairá da lista de Próximos e entrará no seu histórico.</string>
     <key>player_options_play_all_message</key>
     <string>Isso limpa sua lista de Próximos atual.</string>
     <key>player_options_play_episode_singular</key>
@@ -2152,6 +2213,12 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Esta playlist está cheia. Remova alguns episódios ou inicie um novo.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Adicionar episódios</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>A playlist está quase cheia. Tente adicionar menos episódios.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Playlists só podem conter episódios de podcast.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Playlists podem conter no máximo %1$@ episódios.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Seu episódio nesta playlist foi arquivado</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2486,6 +2553,8 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Não foi possível carregar os dados do podcast :(</string>
     <key>podcast_error_title</key>
     <string>Não rolou</string>
+    <key>podcast_explicit_content</key>
+    <string>Conteúdo explícito</string>
     <key>podcast_extras</key>
     <string>Extras</string>
     <key>podcast_failed_download</key>
@@ -2607,6 +2676,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Só episódios mais recentes</string>
     <key>podcasts_badges</key>
     <string>Selos</string>
+    <key>podcasts_edit</key>
+    <string>Editar podcasts</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Ordem personalizada</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2703,8 +2774,12 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Reproduzindo agora. %1$@</string>
     <key>queue_time_remaining</key>
     <string>Tempo restante: %1$@</string>
-    <key>queue_total_time_remaining</key>
-    <string>Tempo total restante: %1$@</string>
+    <key>queue_up_next_header_one_episode</key>
+    <string>1 episódio · Tempo restante: %1$@</string>
+    <key>queue_up_next_header_plural</key>
+    <string>%1$@ episódios · Tempo restante: %2$@</string>
+    <key>queue_up_next_header_time_left</key>
+    <string>Tempo restante: %1$@</string>
     <key>rate</key>
     <string>Avaliar</string>
     <key>rate_pocket_casts</key>
@@ -2757,6 +2832,11 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Agradecemos por compartilhar o Pocket Casts! Avisaremos quando você tiver mais passes para dar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Você já compartilhou todos os seus passes de convidado!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Olá!
+
+Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reprodutor de podcast favorito. Ele tem funcionalidades exclusivas, como favoritos, pastas, entre outras que você não encontra em nenhum outro lugar. Acho que você também vai amar!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Olá! Use o link abaixo para resgatar seu passe de convidado %1$@ para o Pocket Casts Plus e curta podcasts em todos os seus dispositivos.</string>
     <key>referrals_share_pass_subject</key>
@@ -2891,8 +2971,12 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Não é possível fazer upload do arquivo, tente novamente mais tarde.</string>
     <key>server_error_files_uuid_required</key>
     <string>O UUID do arquivo é obrigatório.</string>
+    <key>server_error_login_access_denied</key>
+    <string>O usuário negou a solicitação de autorização</string>
     <key>server_error_login_account_locked</key>
     <string>Sua conta foi bloqueada devido a muitas tentativas de login. Tente novamente mais tarde.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Autorização pendente</string>
     <key>server_error_login_email_blank</key>
     <string>Digite um endereço de e-mail.</string>
     <key>server_error_login_email_invalid</key>
@@ -2901,6 +2985,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>E-mail não encontrado</string>
     <key>server_error_login_email_taken</key>
     <string>E-mail já usado</string>
+    <key>server_error_login_expired_token</key>
+    <string>O código do dispositivo expirou.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>A concessão fornecida é inválida, expirou ou foi revogada.</string>
     <key>server_error_login_password_blank</key>
     <string>Digite uma senha.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2931,6 +3019,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Permita a coleta de dados analíticos.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Permita-nos usar serviços de terceiros confiáveis para coletar dados anônimos.</string>
+    <key>settings_analytics</key>
+    <string>Análises</string>
     <key>settings_appearance</key>
     <string>Aparência</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2950,7 +3040,7 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>A adição automática de novos episódios será interrompida quando a lista de Próximos chegar a %1$@ episódios.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos. Nenhum episódio novo será adicionado na parte inferior.</string>
+    <string>Quando os Próximos chegam a %1$@, os novos episódios adicionados automaticamente ao início da fila removem os últimos. Os episódios configurados com adição automática ao fim da fila não serão adicionados até que Próximos esteja abaixo do limite.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Adicionar podcasts automaticamente</string>
     <key>settings_auto_archive</key>
@@ -3161,6 +3251,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Toque em um episódio na lista de Próximos para ver a página de ações. Mantenha pressionado para reproduzi-lo. Ative para inverter essas opções.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Toque em um episódio na lista de Próximos para reproduzi-lo. Mantenha pressionado para ver as opções do episódio. Desative para inverter essas opções.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Use a otimização de volume atualizada com níveis de voz mais consistentes.</string>
     <key>settings_global_settings</key>
     <string>Configurações gerais</string>
     <key>settings_headphone_controls</key>
@@ -3299,6 +3393,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>DADOS MÓVEIS</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Pode ser diferente do armazenamento mostrado nos Ajustes do iPhone. O iOS gerencia dados armazenados em cache automaticamente e os libera quando necessário.</string>
     <key>settings_third_party_analytics</key>
     <string>Análises de terceiros</string>
     <key>settings_title</key>
@@ -3314,7 +3410,7 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <key>settings_up_next_limit</key>
     <string>Adicione novos episódios aos Próximos automaticamente. Novos episódios deixarão de ser adicionados quando a fila de Próximos chegar a %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Adicione novos episódios aos Próximos automaticamente. Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos.</string>
+    <string>Adicione novos episódios aos Próximos automaticamente. Quando os Próximos chegam a %1$@, os novos episódios adicionados automaticamente ao início da fila removem os últimos. Os episódios configurados com adição automática ao fim da fila não serão adicionados até que Próximos esteja abaixo do limite.</string>
     <key>settings_volume_boost</key>
     <string>Aumentar volume</string>
     <key>settings_watch_auto_download</key>
@@ -3379,6 +3475,48 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Ocorreu um erro ao criar sua página de compartilhamento</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Falha no compartilhamento</string>
+    <key>share_profile</key>
+    <string>Compartilhar perfil</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Adicionar foto e nome</string>
+    <key>share_profile_add_your_name</key>
+    <string>Adicionar seu nome</string>
+    <key>share_profile_choose_photo</key>
+    <string>Escolher foto</string>
+    <key>share_profile_display_name</key>
+    <string>Nome de exibição</string>
+    <key>share_profile_edit</key>
+    <string>Editar perfil</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Editar foto e nome</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Podcasts seguidos</string>
+    <key>share_profile_name_description</key>
+    <string>É assim que você aparecerá nos perfis compartilhados. Você pode mudar isso depois.</string>
+    <key>share_profile_playlists</key>
+    <string>Playlists</string>
+    <key>share_profile_preview</key>
+    <string>Visualizar perfil</string>
+    <key>share_profile_privacy</key>
+    <string>Privacidade</string>
+    <key>share_profile_privacy_description</key>
+    <string>Você pode gerenciar o que está compartilhando em %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Controle o que as pessoas podem ver quando você compartilha seu perfil.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Compartilhamento de perfil</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Episódios recentes</string>
+    <key>share_profile_remove_photo</key>
+    <string>Remover foto</string>
+    <key>share_profile_save</key>
+    <string>Salvar</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Compartilhar meu perfil</string>
+    <key>share_profile_take_photo</key>
+    <string>Tirar foto</string>
+    <key>share_profile_what_to_share</key>
+    <string>O que você quer compartilhar?</string>
     <key>share_select_podcasts</key>
     <string>Selecionar podcasts</string>
     <key>shared_item_loading</key>
@@ -3423,6 +3561,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Definir o temporizador de soneca para %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
     <string>Estender o temporizador de soneca por 5 minutos</string>
+    <key>siri_shortcut_mark_as_played_phrase</key>
+    <string>Marcar como reproduzido</string>
+    <key>siri_shortcut_mark_as_played_title</key>
+    <string>Marcar episódio atual como reproduzido</string>
     <key>siri_shortcut_next_chapter</key>
     <string>Próximo capítulo</string>
     <key>siri_shortcut_open_filter_phrase</key>
@@ -3543,6 +3685,20 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você ouviu podcasts por</string>
     <key>stats_listen_history_no_date</key>
     <string>Você ouviu podcasts por</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Mapa de calor da atividade de escuta. Dias ouvidos: %1$@ de 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Sobre a atividade de escuta</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Uma estimativa de quando você estava ouvindo, com base no seu histórico de reprodução. Se você terminar um episódio depois de alguns dias, ele será exibido no último dia.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Atividade de escuta</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Menos</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Mais</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Atividade de escuta</string>
     <key>stats_skipping</key>
     <string>Avanços</string>
     <key>stats_time_saved</key>
@@ -3699,14 +3855,323 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Não há transcrição disponível para este episódio</string>
     <key>transcript_error_not_supported</key>
     <string>Este formato de transcrição não é aceito: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Transcrições sincronizadas disponíveis apenas para episódios recentes.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Leia rápido sem perder nada. Aquele nome que você deixou passar, o livro que indicaram, o dado que você queria conferir — toque na palavra e volte na hora.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Leia mais. Mesmo na velocidade 2x.</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Baixe o episódio para tocar e procurar</string>
     <key>trial_finished</key>
     <string>Período de teste expirado</string>
     <key>trim_silence</key>
     <string>Cortar momentos de silêncio</string>
+    <key>troubleshooting_orphaned_episodes_checking</key>
+    <string>Verificando se há episódios órfãos…</string>
+    <key>troubleshooting_orphaned_episodes_description</key>
+    <string>Um problema raro de sincronização pode deixar para trás entradas de episódio duplicadas que não estejam mais vinculadas ao podcast. Isso pode fazer com que o status de download ou reprodução de um episódio pareça incorreto em algumas partes do aplicativo.</string>
+    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
+    <string>%1$@ episódios órfãos</string>
+    <key>troubleshooting_orphaned_episodes_found_singular</key>
+    <string>1 episódio órfão</string>
+    <key>troubleshooting_orphaned_episodes_header</key>
+    <string>Episódios órfãos</string>
+    <key>troubleshooting_orphaned_episodes_none_found</key>
+    <string>Nenhum episódio órfão foi encontrado</string>
+    <key>troubleshooting_orphaned_episodes_removing</key>
+    <string>Removendo episódios órfãos…</string>
+    <key>troubleshooting_remove_orphaned_episodes</key>
+    <string>Remover episódios órfãos</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
+    <string>Isso excluirá as entradas de episódio duplicadas encontradas neste dispositivo. Essa ação não pode ser desfeita, mas o Pocket Casts fará o possível para preservar o progresso da reprodução, o status do download e outros detalhes do episódio antes de removê-las.</string>
+    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
+    <string>Remover episódios órfãos?</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
+    <string>Nenhum episódio órfão foi removido</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
+    <string>%1$@ episódios órfãos foram removidos</string>
+    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
+    <string>1 episódio órfão foi removido</string>
+    <key>troubleshooting_title</key>
+    <string>Solução de problemas</string>
+    <key>troubleshooting_view_orphaned_episodes</key>
+    <string>Ver episódios órfãos</string>
     <key>try_again</key>
     <string>Tente novamente</string>
     <key>try_it_now</key>
     <string>Experimente já</string>
+    <key>tv_account_signed_out_alert_message</key>
+    <string>Ocorreu um problema e você foi desconectado.
+Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</string>
+    <key>tv_account_signed_out_alert_title</key>
+    <string>Você foi desconectado.</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Quem você segue e seu progresso continuam exatamente onde você os deixou</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Uma conta. Todas as telas</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Conheça mais programas</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Seu próximo vício está aqui em algum lugar.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Você não viu nem a metade disso.</string>
+    <key>tv_create_account_come_back</key>
+    <string>Depois de criar sua conta, volte e faça login</string>
+    <key>tv_create_account_modal_step_create</key>
+    <string>Crie sua conta</string>
+    <key>tv_create_account_modal_step_log_in</key>
+    <string>A TV conectará sua conta</string>
+    <key>tv_create_account_modal_step_scan</key>
+    <string>Leia o código QR</string>
+    <key>tv_create_account_modal_subtitle</key>
+    <string>Crie uma conta gratuita para seguir podcasts, criar sua lista de Próximos e continuar de onde você parou, em qualquer dispositivo.</string>
+    <key>tv_create_account_modal_title</key>
+    <string>Seus podcasts merecem um lugar só deles</string>
+    <key>tv_create_account_qr_instruction</key>
+    <string>Abra a câmera e aponte para este código QR.</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Leia este código para começar a ouvir no seu telefone. Leva apenas um minuto.</string>
+    <key>tv_create_account_title</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_discover_failed_to_load_subtitle</key>
+    <string>Confirme se você está conectado à internet e tente novamente.</string>
+    <key>tv_discover_failed_to_load_title</key>
+    <string>Falha ao carregar Explorar.</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Acessar podcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Reproduzir o episódio mais recente</string>
+    <key>tv_discover_play_episode</key>
+    <string>Reproduzir episódio</string>
+    <key>tv_episode_archived</key>
+    <string>Arquivado</string>
+    <key>tv_episode_info</key>
+    <string>Informações do episódio</string>
+    <key>tv_episode_marked_as_played</key>
+    <string>Marcado como reproduzido</string>
+    <key>tv_episode_marked_as_unplayed</key>
+    <string>Marcado como não reproduzido</string>
+    <key>tv_episode_removed_from_up_next</key>
+    <string>Removido dos Próximos</string>
+    <key>tv_episode_show_notes_action</key>
+    <string>ⓘ  Detalhes do episódio</string>
+    <key>tv_episode_show_notes_loading</key>
+    <string>Carregando detalhes do episódio…</string>
+    <key>tv_episode_show_notes_title</key>
+    <string>Detalhes do episódio</string>
+    <key>tv_episode_unarchived</key>
+    <string>Desarquivado</string>
+    <key>tv_episode_will_play_last</key>
+    <string>Será reproduzido por último</string>
+    <key>tv_episode_will_play_next</key>
+    <string>Será reproduzido em seguida</string>
+    <key>tv_folder_empty_message</key>
+    <string>Edite sua pasta no app móvel. Eles estarão esperando aqui quando você terminar.</string>
+    <key>tv_history_empty_subtitle</key>
+    <string>Os episódios reproduzidos aparecerão aqui</string>
+    <key>tv_history_empty_title</key>
+    <string>Sem histórico de reprodução</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Procurar categorias</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Em destaque no Pocket Casts</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Continuando de onde você parou</string>
+    <key>tv_home_new_releases</key>
+    <string>Novos lançamentos</string>
+    <key>tv_home_recently_played</key>
+    <string>Reproduzidos recentemente</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Queridinho dos ouvintes de %1$@</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Você provavelmente vai querer isso</string>
+    <key>tv_home_trending_section_title</key>
+    <string>O que todo mundo está ouvindo esta semana</string>
+    <key>tv_home_video_section_title</key>
+    <string>Produzido para TV</string>
+    <key>tv_log_in_qr_code_error_title</key>
+    <string>Não foi possível obter o código de login</string>
+    <key>tv_player_playback_effects</key>
+    <string>Efeitos de reprodução</string>
+    <key>tv_player_playback_speed</key>
+    <string>Velocidade de reprodução</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Velocidade de reprodução definida como %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Corte de silêncios</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Extremo</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Médio</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Leve</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Desativado</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Corte de silêncios: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Aumento de volume</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Aumento de volume desligado</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Aumento de volume ligado</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ episódios</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Reproduzir todos os episódios</string>
+    <key>tv_playlist_download_rules_unsupported</key>
+    <string>Esta playlist usa um filtro de episódios baixados. O armazenamento da TV é pequeno, então downloads não são aceitos.</string>
+    <key>tv_playlist_empty_subtitle</key>
+    <string>É hora de comemorar porque você completou a lista ou editar as regras no app móvel para ouvir mais.</string>
+    <key>tv_playlist_empty_title</key>
+    <string>Sem episódios</string>
+    <key>tv_playlist_manual_archived_episodes_placeholder</key>
+    <string>Todos os %1$@ episódios desta playlist foram arquivados.</string>
+    <key>tv_playlist_play_all_clear_up_next_message</key>
+    <string>Podemos salvar sua lista de Próximos atual como uma playlist</string>
+    <key>tv_playlist_play_all_clear_up_next_title</key>
+    <string>Isso limpará a lista de Próximos</string>
+    <key>tv_playlist_play_all_play_without_saving</key>
+    <string>Reproduzir sem salvar</string>
+    <key>tv_playlist_play_all_save_and_play</key>
+    <string>Salvar e reproduzir</string>
+    <key>tv_playlists_download_subtitle</key>
+    <string>Eles estarão esperando aqui quando você terminar. Leia o código para obter o aplicativo</string>
+    <key>tv_playlists_download_title</key>
+    <string>Crie playlists no seu telefone</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Criar uma playlist</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Crie uma manualmente ou deixe que as regras inteligentes decidam a ordem por você.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Suas playlists ficam aqui</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Sobre</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Todos os episódios</string>
+    <key>tv_podcast_detail_archived_filter</key>
+    <string>Episódios arquivados</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Seguir este podcast</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Seguindo</string>
+    <key>tv_podcast_detail_hide_archived</key>
+    <string>Ocultar arquivados</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Mais informações</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Rede</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Próximo episódio</string>
+    <key>tv_podcast_detail_no_episodes_subtitle</key>
+    <string>Os episódios deste podcast aparecerão aqui.</string>
+    <key>tv_podcast_detail_no_episodes_title</key>
+    <string>Sem episódios</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Programação</string>
+    <key>tv_podcast_detail_show_archived</key>
+    <string>Mostrar arquivados</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>Comece por este episódio</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>O que tem fisgado a atenção das pessoas</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Site</string>
+    <key>tv_podcast_error_message</key>
+    <string>Verifique sua conexão com a Internet e tente novamente.</string>
+    <key>tv_podcast_error_title</key>
+    <string>Não foi possível carregar os detalhes do podcast</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Encontrar podcasts</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Os podcasts seguidos aparecem aqui, prontos para reprodução.</string>
+    <key>tv_podcasts_empty_title_new</key>
+    <string>Hora de encher isto aqui</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Abre as opções de perfil e conta</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Perfil</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Criar conta</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Fazer login</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Fazer logout</string>
+    <key>tv_profile_menu_log_out_confirmation_message_version_2</key>
+    <string>Isso remove todos os podcasts e dados baixados deste Apple TV. Você pode fazer login novamente para restaurá-los.</string>
+    <key>tv_profile_menu_log_out_confirmation_title</key>
+    <string>Fazer logout?</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Episódios favoritos</string>
+    <key>tv_resync_fetching_episodes</key>
+    <string>Buscando episódios mais recentes</string>
+    <key>tv_search_failed</key>
+    <string>Falha na pesquisa: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, programas e autores</string>
+    <key>tv_search_searching</key>
+    <string>Pesquisando...</string>
+    <key>tv_search_type_something</key>
+    <string>Digite algo...</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>ou insira o código a seguir</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>indo para [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>ou insira este código em [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Abra sua câmera e aponte para este código QR</string>
+    <key>tv_sign_in_title</key>
+    <string>Fazer login no Pocket Casts</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Carregando os seus podcasts agora.</string>
+    <key>tv_signing_in_title_new</key>
+    <string>Que bom ver você!</string>
+    <key>tv_sponsored_podcast_section_title</key>
+    <string>Recomendação do Pocket Casts</string>
+    <key>tv_starred_empty_subtitle</key>
+    <string>Favorite episódios para mantê-los fáceis de acessar, e eles aparecerão aqui</string>
+    <key>tv_starred_empty_title</key>
+    <string>Sem episódios favoritados</string>
+    <key>tv_tab_home</key>
+    <string>Início</string>
+    <key>tv_tab_now_playing</key>
+    <string>Reproduzindo agora</string>
+    <key>tv_tab_playlists</key>
+    <string>Playlists</string>
+    <key>tv_tab_podcasts</key>
+    <string>Seus podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Próximos</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Adicionar episódios</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Adicione episódios à lista de Próximos e eles serão reproduzidos na ordem</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Nada na fila</string>
+    <key>tv_user_profile_actions</key>
+    <string>Configurações do usuário</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Tipo de login</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Usuário/senha</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
+    <key>tv_user_sign_in_username_placeholder</key>
+    <string>Nome de usuário</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Navegar sem uma conta</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_welcome_log_in</key>
+    <string>Fazer login</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Seus podcasts agora na TV. Nada faz mais sentido.</string>
+    <key>tv_welcome_title</key>
+    <string>Boas-vindas do Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Desarquivar</string>
     <key>unfollow</key>
@@ -3737,6 +4202,20 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Apresentamos a ordem aleatória</string>
     <key>up_next_shuffle_toast_message</key>
     <string>A ordem aleatória está ativada. Os episódios serão reproduzidos aleatoriamente.</string>
+    <key>up_next_sort_duration_tooltip_body</key>
+    <string>Do mais curto para o mais longo ou vice-versa: ajuste o episódio ao tempo que você tem disponível.</string>
+    <key>up_next_sort_duration_tooltip_title</key>
+    <string>Ordenar por duração</string>
+    <key>up_next_sort_longest_to_shortest</key>
+    <string>Mais longo para o mais curto</string>
+    <key>up_next_sort_newest_to_oldest</key>
+    <string>Mais recente para o mais antigo</string>
+    <key>up_next_sort_oldest_to_newest</key>
+    <string>Mais antigo para o mais recente</string>
+    <key>up_next_sort_shortest_to_longest</key>
+    <string>Mais curto para o mais longo</string>
+    <key>up_next_sort_title</key>
+    <string>Ordenar Próximos</string>
     <key>upgrade_account</key>
     <string>Fazer upgrade de conta</string>
     <key>upgrade_account_info</key>
@@ -3819,6 +4298,8 @@ Dá para personalizar o aplicativo como você quiser. Então, você pode optar p
     <string>Aumento de volume</string>
     <key>volume_boost_description</key>
     <string>Vozes mais altas</string>
+    <key>volume_boost_n_description</key>
+    <string>Os níveis de voz são mais consistentes</string>
     <key>wait_for_wifi</key>
     <string>Aguardando rede Wi-Fi</string>
     <key>watch</key>

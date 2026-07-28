@@ -12,9 +12,15 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, showAudioWaveform }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, generatedChapters, audioOnly, showAudioWaveform }
     private var tableData: [[TableRow]] {
         var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption, .showAudioWaveform], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+        if FeatureFlag.hls.enabled {
+            data.insert([.audioOnly], at: 2)
+        }
+        if FeatureFlag.generatedChapters.enabled {
+            data.append([.generatedChapters])
+        }
         if FeatureFlag.voiceBoostN.enabled {
             data.append([.voiceBoostN])
         }
@@ -29,7 +35,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             // Enable automatic row height for dynamic content
             settingsTable.rowHeight = UITableView.automaticDimension
-            settingsTable.estimatedRowHeight = 44
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -141,11 +149,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.keepScreenAwake
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
-            }
+            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
@@ -167,11 +171,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.openPlayer
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            }
+            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
@@ -182,11 +182,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-            }
+            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
@@ -272,6 +268,17 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             return cell
 
+        case .generatedChapters:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralGeneratedChapters
+            cell.cellSwitch.isOn = !Settings.disableAiChapters
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(generatedChaptersToggled(_:)), for: .valueChanged)
+
+            return cell
+
         case .autoplay:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
@@ -280,6 +287,17 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: .valueChanged)
+
+            return cell
+
+        case .audioOnly:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralAudioOnly
+            cell.cellSwitch.isOn = Settings.audioOnly
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(audioOnlyToggled(_:)), for: .valueChanged)
 
             return cell
         case .autoRestartSleepTimer:
@@ -355,7 +373,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
                 tableView.reloadData()
             }
             options.addAction(action: downloadAction)
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultGrouping {
             let currentGrouping = Settings.defaultPodcastGrouping()
 
@@ -400,7 +418,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: starredAction)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultArchive {
             let currentlyShowingArchived = Settings.showArchivedDefault()
 
@@ -421,7 +439,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: showAction)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultAddToUpNextSwipe {
             let currentAction = Settings.primaryUpNextSwipeAction()
 
@@ -437,7 +455,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
                 tableView.reloadData()
             }
             options.addAction(action: playLastAction)
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         }
     }
 
@@ -452,10 +470,6 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         }
 
         return nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -474,8 +488,12 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralMultiSelectGestureSubtitle
         case .publishChapterTitles:
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
+        case .generatedChapters:
+            return L10n.settingsGeneralGeneratedChaptersSubtitle
         case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
+        case .audioOnly:
+            return L10n.settingsGeneralAudioOnlySubtitle
         case .autoRestartSleepTimer:
             return L10n.autoRestartSleepTimerDescription
         case .shakeToRestartSleepTimer:
@@ -509,7 +527,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingMessage = grouping == .none ? L10n.settingsGeneralRemoveGroupsApplyAll : L10n.settingsGeneralSelectedGroupApplyAll(grouping.description.localizedLowercase)
         groupingPrompt.addDescriptiveActions(title: L10n.settingsGeneralApplyAllTitle, message: groupingMessage, icon: "option-podcasts", actions: [applyToAllAction, noAction])
 
-        groupingPrompt.show(statusBarStyle: preferredStatusBarStyle)
+        groupingPrompt.present(from: self)
     }
 
     private func promptToApplyShowArchiveToAll(_ showArchived: Bool) {
@@ -528,13 +546,10 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingMessage = L10n.settingsGeneralArchivedEpisodesPromptFormat((showArchived ? L10n.settingsGeneralShow : L10n.settingsGeneralHide).localizedLowercase)
         groupingPrompt.addDescriptiveActions(title: L10n.settingsGeneralApplyAllTitle, message: groupingMessage, icon: "option-podcasts", actions: [applyToAllAction, noAction])
 
-        groupingPrompt.show(statusBarStyle: preferredStatusBarStyle)
+        groupingPrompt.present(from: self)
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.keepScreenAwake = sender.isOn
-        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
         PlaybackManager.shared.updateIdleTimer()
         Settings.trackValueToggled(.settingsGeneralKeepScreenAwakeToggled, enabled: sender.isOn)
@@ -558,17 +573,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.openPlayer = sender.isOn
-        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
         Settings.trackValueToggled(.settingsGeneralOpenPlayerAutomaticallyToggled, enabled: sender.isOn)
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.intelligentResumption = sender.isOn
-        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
         Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }
@@ -590,6 +599,23 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         Settings.autoplay = sender.isOn
 
         Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
+    }
+
+    @objc private func generatedChaptersToggled(_ sender: UISwitch) {
+        Settings.disableAiChapters = !sender.isOn
+        ServerSettings.syncSettings()
+
+        // Re-parse the current episode's chapters so the player and Now Playing info react immediately
+        PlaybackManager.shared.forceUpdateChapterInfo()
+
+        Settings.trackValueToggled(.settingsGeneralGeneratedChaptersToggled, enabled: sender.isOn)
+    }
+
+    @objc private func audioOnlyToggled(_ sender: UISwitch) {
+        Settings.audioOnly = sender.isOn
+        ServerSettings.syncSettings()
+
+        Settings.trackValueToggled(.settingsGeneralAudioOnlyToggled, enabled: sender.isOn)
     }
 
     @objc private func autoRestartSleepTimerToggled(_ sender: UISwitch) {

@@ -256,19 +256,11 @@ extension PlayerAction: AnalyticsDescribable {
 
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
-        if FeatureFlag.playlistsRebranding.enabled {
-            [
-                .effects, .sleepTimer, .routePicker, .shareEpisode, .addToPlaylist, .download,
-                .transcript, .goToPodcast, .addBookmark, .markPlayed,
-                .starEpisode, .chromecast, .archive
-            ]
-        } else {
-            [
-                .effects, .sleepTimer, .routePicker, .shareEpisode, .download,
-                .transcript, .goToPodcast, .addBookmark, .markPlayed,
-                .starEpisode, .chromecast, .archive
-            ]
-        }
+        [
+            .effects, .sleepTimer, .routePicker, .shareEpisode, .addToPlaylist, .download,
+            .transcript, .goToPodcast, .addBookmark, .markPlayed,
+            .starEpisode, .chromecast, .archive, .videoToggle
+        ]
     }
 
     public init?(int: Int) {
@@ -299,6 +291,8 @@ extension PlayerAction: AnalyticsDescribable {
             self = .download
         case 13:
             self = .addToPlaylist
+        case 14:
+            self = .videoToggle
         default:
             return nil
         }
@@ -332,6 +326,8 @@ extension PlayerAction: AnalyticsDescribable {
             return 12
         case .addToPlaylist:
             return 13
+        case .videoToggle:
+            return 14
         }
     }
 
@@ -380,6 +376,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.removeDownload : (episode.isInDownloadProcess ? L10n.statusDownloading : L10n.download)
         case .addToPlaylist:
             return L10n.playlistManualEpisodeAddToPlaylist
+        case .videoToggle:
+            return PlaybackManager.shared.shouldRenderVideo() ? L10n.playerActionHideVideo : L10n.playerActionShowVideo
         }
     }
 
@@ -425,6 +423,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         case .addToPlaylist:
             return "playlist-add-episode"
+        case .videoToggle:
+            return PlaybackManager.shared.shouldRenderVideo() ? "video_off" : "video_on"
         }
     }
 
@@ -459,6 +459,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         case .addToPlaylist:
             return "playlist-add-episode"
+        case .videoToggle:
+            return PlaybackManager.shared.shouldRenderVideo() ? "video_off" : "video_on"
         }
     }
 
@@ -466,6 +468,8 @@ extension PlayerAction: AnalyticsDescribable {
         switch self {
         case .starEpisode, .shareEpisode:
             return episode is Episode
+        case .videoToggle:
+            return PlaybackManager.shared.canToggleVideoRendering()
         default:
             return true
         }
@@ -474,12 +478,7 @@ extension PlayerAction: AnalyticsDescribable {
     /// Determines whether the action should be available as an option
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
-        switch self {
-        case .addToPlaylist:
-            return FeatureFlag.playlistsRebranding.enabled
-        default:
-            return true
-        }
+        true
     }
 
     var analyticsDescription: String {
@@ -510,14 +509,16 @@ extension PlayerAction: AnalyticsDescribable {
             return "download"
         case .addToPlaylist:
             return "add_to_playlist"
+        case .videoToggle:
+            return "video_toggle"
         }
     }
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory, addToPlaylist
 
-    func title() -> String {
+    func title(isUpNextContext: Bool = false) -> String {
         switch self {
         case .playLast:
             return L10n.playLast
@@ -536,7 +537,9 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         case .moveToBottom:
             return L10n.moveToBottom
         case .removeFromUpNext:
-            return L10n.remove
+            // Inside the Up Next screen the context is obvious, so the shorter label is enough.
+            // Elsewhere, spell out where the episodes are being removed from.
+            return isUpNextContext ? L10n.remove : L10n.removeFromUpNext
         case .unstar:
             return L10n.multiSelectUnstar
         case .unarchive:
@@ -551,6 +554,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.share
         case .removeListeningHistory:
             return L10n.listeningHistoryRemove
+        case .addToPlaylist:
+            return L10n.playlistManualEpisodeAddToPlaylist
         }
     }
 
@@ -588,6 +593,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "podcast-share"
         case .removeListeningHistory:
             return "episode-delete"
+        case .addToPlaylist:
+            return "plus-circle"
         }
     }
 
@@ -625,6 +632,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "share"
         case .removeListeningHistory:
             return "listening_history_remove_episode"
+        case .addToPlaylist:
+            return "add_to_playlist"
         }
     }
 
@@ -632,6 +641,14 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         switch self {
         case .share:
             return episodes.count == 1 && episodes.allSatisfy({ $0 is Episode })
+
+        case .addToPlaylist:
+            // Always show the option; toast will be shown if files are selected
+            return true
+
+        case .removeFromUpNext:
+            // Only relevant when at least one selected episode is currently in Up Next
+            return episodes.contains { PlaybackManager.shared.inUpNext(episode: $0) }
 
         default:
             return true

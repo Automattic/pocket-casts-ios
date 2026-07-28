@@ -9,7 +9,7 @@ import AuthenticationServices
 class AuthenticationHelper {
 
     @discardableResult
-    static func refreshLogin(scope: AuthenticationScope = .mobile) async throws -> String? {
+    static func refreshLogin(scope: AuthenticationScope = .default) async throws -> String? {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
@@ -22,7 +22,7 @@ class AuthenticationHelper {
 
     // MARK: Password
 
-    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope = .default) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
         handleSuccessfulSignIn(response)
 
@@ -39,7 +39,7 @@ class AuthenticationHelper {
 
     // MARK: Apple SSO
 
-    static func validateLogin(identityToken: String, scope: AuthenticationScope = .mobile)  async throws -> AuthenticationResponse {
+    static func validateLogin(identityToken: String, scope: AuthenticationScope = .default)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, scope: scope)
         handleSuccessfulSignIn(response)
 
@@ -85,5 +85,53 @@ class AuthenticationHelper {
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)
         Settings.setLoginDetailsUpdated()
+    }
+
+    // MARK: Code Login - For tv login using a QR Code
+
+    @discardableResult
+    static func deviceAuthorizeCode(scope: AuthenticationScope = .default) async throws -> DeviceAuthorizationResponse {
+        let response = try await ApiServerHandler.shared.deviceAuthorizeRequest(scope: scope.rawValue)
+        return response
+    }
+
+    @discardableResult
+    static func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .default) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.deviceGetToken(deviceCode: deviceCode, scope: scope)
+        handleSuccessfulSignIn(response)
+
+        return response
+    }
+
+    static func deviceWaitForApproval(deviceCode: String) async throws {
+        var shouldContinue = true
+        let sleepTime = 2
+        while shouldContinue {
+            try await Task.sleep(for: .seconds(sleepTime))
+            do {
+                let response = try await AuthenticationHelper.deviceGetToken(deviceCode: deviceCode)
+                if response.token == nil { // DO we have a token?
+                    throw APIError.UNKNOWN
+                } else {
+                    // We have a token so we can return
+                    return
+                }
+            } catch let error as APIError {
+                switch error {
+                case .AUTHORIZATION_PENDING:
+                    shouldContinue = true
+                default:
+                    throw error
+                }
+            }
+        }
+        // If we got to here it's because the max retries expired
+        throw APIError.UNKNOWN
+    }
+
+    @discardableResult
+    static func deviceApprove(userCode: String, approve: Bool) async throws -> DeviceApproveResult {
+        let response = try await ApiServerHandler.shared.deviceApproveRequest(userCode: userCode, approve: approve)
+        return response
     }
 }

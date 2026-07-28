@@ -37,7 +37,7 @@ class PodcastManager: NSObject {
 
     // MARK: - Notifications
 
-    #if !os(watchOS) && !APPCLIP
+    #if !os(watchOS) && !APPCLIP && !os(tvOS)
         func setNotificationsEnabled(podcast: Podcast, enabled: Bool) {
             if enabled {
                 if !NotificationsGroup.newEpisodes.isEnabled {
@@ -46,7 +46,7 @@ class PodcastManager: NSObject {
                     let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
                     var foundPushOff = false
                     for podcast in podcasts {
-                        if !podcast.isPushEnabled {
+                        if !podcast.pushEnabled {
                             foundPushOff = true
                             break
                         }
@@ -59,13 +59,7 @@ class PodcastManager: NSObject {
                 }
             }
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                podcast.settings.notification = enabled
-                podcast.syncStatus = SyncStatus.notSynced.rawValue
-                dataManager.save(podcast: podcast)
-            } else {
-                dataManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
-            }
+            dataManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
         }
     #endif
 
@@ -172,7 +166,7 @@ class PodcastManager: NSObject {
 
     // MARK: - Import
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !os(tvOS)
         func importSharedItemFromUrl(_ strippedUrl: String, completion: @escaping (IncomingShareItem?) -> Void) {
             importerQueue.cancelAllOperations()
 
@@ -181,7 +175,7 @@ class PodcastManager: NSObject {
         }
     #endif
 
-    #if !os(watchOS) && !APPCLIP
+    #if !os(watchOS) && !APPCLIP && !os(tvOS)
         func importPodcastsFromOpml(_ opmlFile: URL, progressWindow: ShiftyLoadingAlert? = nil) {
             importerQueue.cancelAllOperations()
 

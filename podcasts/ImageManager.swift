@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Kingfisher
 import PocketCastsDataModel
 import PocketCastsServer
@@ -15,10 +16,18 @@ class ImageManager {
 
     // subscribed image cache, these we want to store for a longer period of time
     lazy var subscribedPodcastsCache: ImageCache = {
+        #if os(tvOS)
+        let path = ((NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last ?? NSTemporaryDirectory()) as NSString).appendingPathComponent("artworkv3")
+        #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
+        #endif
         let url = URL(fileURLWithPath: path)
         subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        #if os(tvOS)
+        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(200.megabytes)
+        #else
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        #endif
         subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
         return subscribedPodcastsCache
     }()
@@ -29,8 +38,13 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
-    // Track in-progress artwork loads by UUID
-    private var inProgressArtworkLoads = Set<String>()
+    // cache for discover video thumbnails cache
+    private var discoverVideoThumbnailCache: ImageCache = {
+        let cache = ImageCache(name: "discoverVideoThumbnailCache")
+        cache.diskStorage.config.expiration = .days(10)
+        cache.diskStorage.config.sizeLimit = UInt(50.megabytes)
+        return cache
+    }()
 
     public var biggestPodcastImageSize: Int {
         availablePodcastImageSizes.max()!
@@ -83,6 +97,35 @@ class ImageManager {
                 }
             } catch {
                 completionHandler(nil)
+            }
+        }
+    }
+
+    // MARK: - Discover Thumbnail Images
+
+    func storeDiscoverVideoThumbnail(for imageUrl: String, image: UIImage) async -> Bool {
+        await withCheckedContinuation { continuation in
+            self.discoverVideoThumbnailCache.store(image, forKey: imageUrl) { result in
+                switch result.diskCacheResult {
+                case .success:
+                    continuation.resume(returning: true)
+                case .failure:
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
+
+    func retrieveDiscoverVideoThumbnail(imageUrl: String) async -> UIImage? {
+        await withCheckedContinuation { continuation in
+            let cache = discoverVideoThumbnailCache
+            cache.retrieveImage(forKey: imageUrl) { result in
+                do {
+                    let image = try result.get().image
+                    continuation.resume(returning: image)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
             }
         }
     }
@@ -188,6 +231,14 @@ class ImageManager {
         }
 
         return nil
+    }
+
+    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
+        await withCheckedContinuation { continuation in
+            imageForEpisode(episode, size: size) { image in
+                continuation.resume(returning: image)
+            }
+        }
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
@@ -381,6 +432,15 @@ class ImageManager {
 
     // MARK: - Cleanup
 
+    /// Clears every image cache, memory and disk. Used by tvOS logout.
+    func clearAllImageCaches() {
+        let caches = [networkImageCache, searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
+        for cache in caches {
+            cache.clearMemoryCache()
+            cache.clearDiskCache()
+        }
+    }
+
     func clearPodcastCache(recacheWhenDone: Bool) {
         // clear out all the saved colors, since they might change when the images do
         DataManager.sharedManager.setAllPodcastImageVersions(to: 0)
@@ -470,18 +530,30 @@ class ImageManager {
 
     // MARK: - Placeholder Image
 
+    private struct PlaceholderKey: Hashable {
+        let size: PodcastThumbnailSize
+        let isDark: Bool
+    }
+
+    private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
+
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
+        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
+        if let cached = placeholderImageCache[key] {
+            return cached
+        }
+        let name: String
         switch size {
         case .grid:
-            let name = Theme.isDarkTheme() ? "noartwork-grid-dark" : "noartwork-grid"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
-            let name = Theme.isDarkTheme() ? "noartwork-list-dark" : "noartwork-list"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
         case .page, .detail:
-            let name = Theme.isDarkTheme() ? "noartwork-page-dark" : "noartwork-page"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-page-dark" : "noartwork-page"
         }
+        guard let image = UIImage(named: name) else { return nil }
+        placeholderImageCache[key] = image
+        return image
     }
 
     func podcastUrl(imageSize: PodcastThumbnailSize, uuid: String) -> URL {

@@ -54,6 +54,8 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
 
+        cell.showsTopDivider = LiquidGlass.isEnabled && indexPath.row == 0
+
         return cell
     }
 
@@ -106,7 +108,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                     }, disallowed: nil)
                 })
                 optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
-                optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+                optionsPicker.present(from: self)
             } else if let parentPodcast = episode.parentPodcast() {
                 let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .downloads, playlist: .downloads)
                 episodeController.modalPresentationStyle = .formSheet
@@ -148,12 +150,16 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         return sectionHeader
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cellHeights[indexPath] = cell.frame.size.height
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        cellHeights[indexPath] ?? 80
+        80
     }
 
     // MARK: - Misc

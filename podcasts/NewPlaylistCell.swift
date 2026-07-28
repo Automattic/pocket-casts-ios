@@ -1,13 +1,13 @@
+import Combine
 import UIKit
 import SwiftUI
 import PocketCastsDataModel
-import PocketCastsDependencyInjection
 import PocketCastsUtils
 
 class NewPlaylistCell: ThemeableCell {
     typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
 
-    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+    let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
     lazy var artworkImageSource: UIView = {
         let view = UIView()
@@ -27,19 +27,17 @@ class NewPlaylistCell: ThemeableCell {
     }()
 
     private var viewModel = NewPlaylistCellViewModel()
-    private lazy var hostingController = ThemedHostingController(
-        rootView: NewPlaylistCellView(viewModel: viewModel)
-    )
     private var playlistCountLoadTask: Task<Void, Never>?
     private var playlistImageLoadTask: Task<Void, Never>?
     private var playlistID: String = ""
+    private var cancellables = Set<AnyCancellable>()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         accessoryType = .disclosureIndicator
 
-        self.style = .primaryUi01
+        self.style = .primaryUi02
         iconStyle = .primaryIcon02
 
         updateColor()
@@ -50,25 +48,23 @@ class NewPlaylistCell: ThemeableCell {
         layoutMargins = .zero
         preservesSuperviewLayoutMargins = false
 
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(hostingController.view)
+        self.contentConfiguration = UIHostingConfiguration {
+            NewPlaylistCellView(viewModel: viewModel)
+                .environmentObject(Theme.sharedTheme)
+        }
+        .margins(.vertical, 12)
 
         addSubview(artworkImageSource)
         addSubview(separatorView)
         bringSubviewToFront(separatorView)
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: topAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32.0),
-
-            artworkImageSource.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            artworkImageSource.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 16.0),
             artworkImageSource.widthAnchor.constraint(equalToConstant: 56.0),
             artworkImageSource.heightAnchor.constraint(equalToConstant: 56.0),
-            artworkImageSource.centerYAnchor.constraint(equalTo: centerYAnchor),
+            artworkImageSource.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
             separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
             separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
             separatorView.heightAnchor.constraint(equalToConstant: 1.0)
         ])
@@ -108,6 +104,9 @@ class NewPlaylistCell: ThemeableCell {
         playlistCountLoadTask = nil
         playlistImageLoadTask?.cancel()
         playlistImageLoadTask = nil
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+        }
         Task {
             await playlistMetadataLoader.cancelLoadCount(for: playlistID)
             await playlistMetadataLoader.cancelLoadImages(for: playlistID)
@@ -121,6 +120,13 @@ class NewPlaylistCell: ThemeableCell {
 
     func loadMetadata(for playlist: EpisodeFilter) {
         playlistID = playlist.uuid
+
+        // Cancel previous subscriptions and set up new ones for this playlist
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+            subscribeToUpdates(for: playlist.uuid)
+        }
+
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
             let loadingPlaylist = playlistID
@@ -163,6 +169,34 @@ class NewPlaylistCell: ThemeableCell {
                 }
             }
         }
+    }
+
+    /// Subscribe to metadata updates for the specified playlist.
+    /// This enables reactive updates when counts or images change from other sources.
+    private func subscribeToUpdates(for playlistID: String) {
+        // Subscribe to count updates
+        playlistMetadataLoader.countUpdatesPublisher
+            .filter { $0.playlistID == playlistID }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] update in
+                guard let self, self.playlistID == playlistID else { return }
+                if update.count != self.viewModel.episodesCount {
+                    self.viewModel.episodesCount = update.count
+                }
+            }
+            .store(in: &cancellables)
+
+        // Subscribe to image updates
+        playlistMetadataLoader.imageUpdatesPublisher
+            .filter { $0.playlistID == playlistID }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] update in
+                guard let self, self.playlistID == playlistID else { return }
+                if update.images != self.viewModel.images {
+                    self.viewModel.images = update.images
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func hideSeparator(_ hide: Bool) {

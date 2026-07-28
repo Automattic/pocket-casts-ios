@@ -3,9 +3,25 @@ import PocketCastsDataModel
 import UIKit
 
 class PlayerChapterCell: UITableViewCell {
-    @IBOutlet var chapterName: UILabel!
-    @IBOutlet var chapterLength: UILabel!
-    @IBOutlet var chapterNumber: UILabel!
+    @IBOutlet var chapterName: UILabel! {
+        didSet {
+            chapterName.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            chapterName.adjustsFontForContentSizeCategory = true
+        }
+    }
+    @IBOutlet var chapterLength: UILabel! {
+        didSet {
+            chapterLength.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            chapterLength.adjustsFontForContentSizeCategory = true
+        }
+    }
+
+    @IBOutlet var chapterNumber: UILabel! {
+        didSet {
+            chapterNumber.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            chapterNumber.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var nowPlayingAnimation: NowPlayingAnimationView!
     @IBOutlet var linkAndTimeView: UIView! {
         didSet {
@@ -33,6 +49,20 @@ class PlayerChapterCell: UITableViewCell {
     var chapterPlayedTime: Int!
 
     private var isChapterToggleEnabled: Bool = false
+
+    /// Shown in place of the chapter number while a fingerprint-based seek is being
+    /// resolved for this row (generated chapters — see `ChaptersViewController`).
+    private lazy var resolvingSpinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        contentView.addSubview(spinner)
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: chapterNumber.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: chapterNumber.centerYAnchor)
+        ])
+        return spinner
+    }()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -107,9 +137,31 @@ class PlayerChapterCell: UITableViewCell {
         setColors(dim: chapter?.isPlayable() == false)
     }
 
-    @IBAction func linkTapped(_ sender: Any) {
-        guard let link = chapter?.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
+    /// Toggle the resolving spinner for this row. Driven from
+    /// `ChaptersViewController`'s `resolvingIndexPath` in `cellForRowAt` so it
+    /// survives cell reuse.
+    func setResolving(_ resolving: Bool) {
+        if resolving {
+            resolvingSpinner.color = ThemeColor.playerContrast01()
+            resolvingSpinner.startAnimating()
+            chapterNumber.isHidden = true
+        } else {
+            // Only tear down when a spinner was actually shown (chapter number
+            // hidden). Otherwise skip — touching `resolvingSpinner` here would
+            // force-create the lazy view for every non-resolving row.
+            guard chapterNumber.isHidden else { return }
+            resolvingSpinner.stopAnimating()
+            chapterNumber.isHidden = false
+        }
+    }
 
+    @IBAction func linkTapped(_ sender: Any) {
+        guard let chapter, let link = chapter.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
+        PlaybackManager.shared.trackChapterEvent(.chapterLinkClicked, properties: [
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
+            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "chapter_title": chapter.title
+        ])
         linkTapped(url)
     }
 
@@ -136,12 +188,15 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     @objc func progressUpdated(animated: Bool = true) {
-        guard let chapter = chapter, chapter == PlaybackManager.shared.currentChapters().visibleChapter else { return }
+        guard let chapter, chapter == PlaybackManager.shared.currentChapters().visibleChapter else { return }
 
         layoutIfNeeded()
 
-        let lapsedTime = PlaybackManager.shared.currentTime() - chapter.startTime.seconds
-        let percentageLapsed = CGFloat(lapsedTime / chapter.duration.seconds)
+        let lapsedTime = PlaybackManager.shared.currentTime() - chapter.effectiveStartTime
+        // Clamp to [0, 1]: the playhead can sit before a generated chapter's
+        // resolved start (detection uses the raw start), which would otherwise
+        // give a negative width.
+        let percentageLapsed = min(1, max(0, CGFloat(lapsedTime / chapter.duration.seconds)))
 
         if percentageLapsed.isFinite, !percentageLapsed.isNaN {
             progressViewWidth.constant = percentageLapsed * isPlayingView.frame.width
@@ -164,6 +219,6 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func track(_ event: AnalyticsEvent) {
-        Analytics.track(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
+        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
     }
 }

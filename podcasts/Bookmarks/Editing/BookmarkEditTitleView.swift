@@ -4,14 +4,14 @@ import PocketCastsUtils
 import SwiftUI
 
 struct BookmarkEditTitleView: View {
-    @ObservedObject var viewModel: BookmarkEditViewModel
+    @ObservedObject var viewModel: BookmarkEditTitleViewModel
     @ObservedObject var theme: BookmarkEditTheme
 
     @State private var bookmarkTitle: String
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
-    init(viewModel: BookmarkEditViewModel, theme: BookmarkEditTheme) {
+    init(viewModel: BookmarkEditTitleViewModel, theme: BookmarkEditTheme) {
         self.viewModel = viewModel
         self.theme = theme
 
@@ -32,7 +32,7 @@ struct BookmarkEditTitleView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(theme.background)
-        .onChange(of: viewModel.didAppear) { _ in
+        .onChange(of: viewModel.didAppear) {
             focusedField = .title
         }
     }
@@ -126,12 +126,12 @@ struct BookmarkEditTitleView: View {
                 .frame(height: textFieldSize.height)
 
                 // Enforce the max length of the title
-                .onChange(of: bookmarkTitle, perform: { newValue in
+                .onChange(of: bookmarkTitle) { _, newValue in
                     let max = Constants.Values.bookmarkMaxTitleLength
                     guard newValue.count > max else { return }
 
                     bookmarkTitle = String(newValue.prefix(max))
-                })
+                }
 
                 // Trigger the save action
                 .onSubmit {
@@ -179,34 +179,94 @@ private extension View {
 // MARK: - Theme
 
 class BookmarkEditTheme: ThemeObserver {
-    let episode: BaseEpisode?
+    enum Style {
+        case player
+        case themed
+    }
 
-    init(episode: BaseEpisode?) {
+    let episode: BaseEpisode?
+    let style: Style
+
+    init(episode: BaseEpisode?, style: Style = .player) {
         self.episode = episode
+        self.style = style
     }
 
     var background: Color {
-        PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme, episode: episode).color
+        case .themed: theme.primaryUi01
+        }
     }
 
-    var title: Color { theme.playerContrast01 }
-    var subTitle: Color { theme.playerContrast02 }
-    var closeButton: Color { theme.playerContrast01 }
-    var textField: Color { theme.playerContrast01 }
+    var title: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
+
+    var subTitle: Color {
+        switch style {
+        case .player: theme.playerContrast02
+        case .themed: theme.primaryText02
+        }
+    }
+
+    var closeButton: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
+
+    var textField: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
 
     var textFieldAccent: Color {
-        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        case .themed: theme.primaryInteractive01
+        }
     }
 
-    var textFieldPlaceholder: Color { theme.playerContrast05 }
-    var textFieldUnderline: Color { theme.playerContrast05 }
+    var textFieldPlaceholder: Color {
+        switch style {
+        case .player: theme.playerContrast05
+        case .themed: theme.primaryText02
+        }
+    }
+
+    var textFieldUnderline: Color {
+        switch style {
+        case .player: theme.playerContrast05
+        case .themed: theme.primaryUi05
+        }
+    }
+
+    var transcriptBackground: Color {
+        switch style {
+        case .player: theme.playerContrast06
+        case .themed: theme.primaryField01
+        }
+    }
 
     var saveButton: Color {
-        saveButtonBackground.luminance() < 0.5 ? .white : .black
+        switch style {
+        case .player: saveButtonBackground.luminance() < 0.5 ? .white : .black
+        case .themed: theme.primaryInteractive02
+        }
     }
 
     var saveButtonBackground: Color {
-        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        case .themed: theme.primaryInteractive01
+        }
     }
 }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="420" height="222"/>
             <subviews>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="KmW-Fw-G4b" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="420" height="193"/>
+                    <rect key="frame" x="0.0" y="0.0" width="420" height="197"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="999" constant="193" id="nYf-BO-wnO"/>
@@ -32,7 +32,7 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ux1-AI-rdb" userLabel="Page Control" customClass="TinyPageControl" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="150" y="197" width="120" height="25"/>
+                    <rect key="frame" x="150" y="201" width="120" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="G6A-4w-WoH"/>
                         <constraint firstAttribute="height" constant="25" id="QUX-2P-Ta3"/>
@@ -44,8 +44,8 @@
                 <constraint firstItem="KmW-Fw-G4b" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1vk-w5-nqB"/>
                 <constraint firstAttribute="trailing" secondItem="KmW-Fw-G4b" secondAttribute="trailing" id="RAU-St-G3Q"/>
                 <constraint firstItem="Ux1-AI-rdb" firstAttribute="top" secondItem="KmW-Fw-G4b" secondAttribute="bottom" constant="4" id="WsI-O7-bFz"/>
+                <constraint firstItem="KmW-Fw-G4b" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" constant="-25" id="Xep-Wu-ykp"/>
                 <constraint firstItem="KmW-Fw-G4b" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Xse-cR-wcQ"/>
-                <constraint firstAttribute="bottom" secondItem="Ux1-AI-rdb" secondAttribute="bottom" id="aK0-Gy-RSr"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

@@ -78,7 +78,7 @@ class CommonWidgetHelper {
     }
 
     class func topWidgetEpisodesFrom(_ commonItems: [CommonUpNextItem]) -> [WidgetEpisode]? {
-        guard commonItems.count > 0 else { return nil }
+        guard !commonItems.isEmpty else { return nil }
 
         let widgetEpisodes = commonItems.map { WidgetEpisode(commonItem: $0) }
 

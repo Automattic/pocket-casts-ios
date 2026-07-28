@@ -57,6 +57,10 @@ class CountryChooserViewController: PCViewController, UITableViewDataSource, UIT
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         56
     }
 

@@ -72,7 +72,7 @@ struct PatronAppIconUnlock: View {
         }
         .background(pinWheelBackground)
         .background(Color(hex: "F3F0FE"))
-        .onChange(of: isUnlocked) { newValue in
+        .onChange(of: isUnlocked) { _, newValue in
             guard newValue, !reduceMotion else { return }
 
             haptics.spring()
@@ -129,7 +129,7 @@ struct PatronAppIconUnlock: View {
                     .frame(maxWidth: .infinity)
 
                 HighlightedText(L10n.patronUnlockInstructions)
-                    .highlight(L10n.patronUnlockWord, { highlight in
+                    .highlight(L10n.patronUnlockWord, { _ in
                             .init(weight: .bold, color: Color.patronBackgroundColor)
                     })
                     .font(style: .subheadline)

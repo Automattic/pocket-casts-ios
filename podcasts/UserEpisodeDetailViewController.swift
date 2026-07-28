@@ -21,7 +21,6 @@ class UserEpisodeDetailViewController: UIViewController {
     @IBOutlet var containerView: ThemeableView! {
         didSet {
             containerView.style = .primaryUi01
-            containerView.layer.cornerRadius = 8
         }
     }
 
@@ -51,7 +50,7 @@ class UserEpisodeDetailViewController: UIViewController {
 
     @IBOutlet var playPauseButton: PlayPauseButton!
 
-    @IBOutlet var containerViewHeight: NSLayoutConstraint!
+    @IBOutlet var errorContainerHeight: NSLayoutConstraint!
     @IBOutlet var containerViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet var actionTable: ThemeableTable! {
         didSet {
@@ -97,9 +96,9 @@ class UserEpisodeDetailViewController: UIViewController {
 
     var playlist: AutoplayHelper.Playlist?
 
-    private var window: UIWindow?
-    private static let containerHeightWithError: CGFloat = 534
-    private static let containerHeightWithoutError: CGFloat = 430
+    /// Height of the error banner when shown. The sheet's own height is derived
+    /// from the content, so this is the only fixed dimension we toggle.
+    private static let errorBannerHeight: CGFloat = 100
 
     enum TableRow { case download, bookmarks, removeFromCloud, upload, upNext, markAsPlayed, editDetails, delete, cancelUpload, cancelDownload }
     let actionCellId = "UserEpisodeActionCell"
@@ -134,21 +133,16 @@ class UserEpisodeDetailViewController: UIViewController {
         downloadStatusImage.image = UIImage(named: "episode-downloaded")
         registerCells()
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hide))
-        greyBackgroundView.addGestureRecognizer(tapGesture)
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(hide))
-        swipeDown.direction = .down
-        containerView.addGestureRecognizer(swipeDown)
-
         playPauseButton.isPlaying = PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid)
 
         actionTable.backgroundColor = UIColor.clear
-        greyBackgroundView.backgroundColor = UIColor.clear
+
+        greyBackgroundView.isHidden = true
+        barView.isHidden = true
 
         hasError = episode.playbackError() || episode.uploadFailed() || episode.downloadFailed()
         errorContainerView.isHidden = !hasError
-        containerViewHeight.constant = hasError ? UserEpisodeDetailViewController.containerHeightWithError : UserEpisodeDetailViewController.containerHeightWithoutError
-        containerViewBottomConstraint.constant = -containerViewHeight.constant
+        errorContainerHeight.constant = hasError ? UserEpisodeDetailViewController.errorBannerHeight : 0
         updateStatus()
         Analytics.track(.userFileDetailShown)
     }
@@ -156,11 +150,7 @@ class UserEpisodeDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if PlaybackManager.shared.currentEpisode() != nil {
-            actionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            actionTable.contentInset = UIEdgeInsets.zero
-        }
+        actionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.effectiveMiniPlayerOffset, right: 0)
         view.layoutIfNeeded()
 
         updateColors()
@@ -168,6 +158,7 @@ class UserEpisodeDetailViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        isAnimatingIn = false
         addObservers()
     }
 
@@ -191,7 +182,7 @@ class UserEpisodeDetailViewController: UIViewController {
 
     @objc private func updateFromNotification() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let oldEpisode = self.episode
 
@@ -221,6 +212,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     private func updateColors() {
+        view.backgroundColor = ThemeColor.primaryUi01(for: themeOverride)
         titleLabel.themeOverride = themeOverride
         containerView.themeOverride = themeOverride
         infoLabel.themeOverride = themeOverride
@@ -270,7 +262,7 @@ class UserEpisodeDetailViewController: UIViewController {
         guard UploadManager.shared.progressManager.hasProgressForUserEpisode(episode.uuid) else { return }
 
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if !self.episode.uploading() {
                 self.reloadEpisode()
@@ -307,104 +299,88 @@ class UserEpisodeDetailViewController: UIViewController {
         }
     }
 
-    // MARK: Actions
-
-    @objc func hide() {
-        Analytics.track(.userFileDetailDismissed)
-        animateOut()
-    }
-
-    // MARK: - Animate in/out
+    // MARK: - Presentation
 
     private var isAnimatingIn = true
     private var isAnimatingOut = false
-    func animateIn() {
-        window = SceneHelper.newMainScreenWindow()
-        guard let window = window else { return }
 
-        window.rootViewController = self
-        window.windowLevel = UIWindow.Level.alert
-        window.makeKeyAndVisible()
+    /// Presents the detail options as a native sheet sized to fit its content.
+    func present(from presenter: UIViewController) {
+        modalPresentationStyle = .formSheet
+        if let sheet = sheetPresentationController {
+            sheet.detents = [contentDetent()]
+            sheet.prefersGrabberVisible = true
+            sheet.delegate = self
+        }
+        presenter.present(self, animated: true)
+    }
 
-        containerViewBottomConstraint.constant = -containerHeight()
-        view.layoutIfNeeded()
-        UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, delay: 0, options: .curveEaseOut, animations: { [weak self] in
-            guard let self = self else { return }
-
-            self.containerViewBottomConstraint.constant = 0
-            self.greyBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
-            self.view.layoutIfNeeded()
-        }) { [weak self] _ in
-            self?.containerViewBottomConstraint.constant = 0
-            self?.view.layoutIfNeeded()
-            self?.isAnimatingIn = false
+    /// A custom detent that sizes the sheet to fit the content. The container's
+    /// height is driven by its content (Auto Layout), so we measure it rather
+    /// than rely on a fixed value.
+    private func contentDetent() -> UISheetPresentationController.Detent {
+        .custom(identifier: .userEpisodeDetail) { [weak self] context in
+            guard let self else { return context.maximumDetentValue }
+            let fittingHeight = self.containerView.systemLayoutSizeFitting(
+                CGSize(width: self.view.bounds.width, height: 0),
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            ).height
+            return min(fittingHeight, context.maximumDetentValue)
         }
     }
 
-    func animateOut() {
+    /// Dismisses the sheet. A follow-up screen may be presented from the
+    /// delegate immediately after calling this; UIKit serializes the dismissal
+    /// and the subsequent presentation. Pass `completion` to present something
+    /// on the top-most controller once this sheet has fully left the hierarchy.
+    func close(completion: (() -> Void)? = nil) {
         isAnimatingOut = true
-        view?.layoutIfNeeded()
-        UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, animations: { [weak self] in
-            guard let self = self else { return }
-
-            self.greyBackgroundView.backgroundColor = UIColor.clear
-            self.containerViewBottomConstraint.constant = -self.containerHeight()
-            self.view.layoutIfNeeded()
-        }) { [weak self] _ in
-            self?.delegate?.userEpisodeDetailClosed()
-            self?.window?.resignKey()
-            self?.window = nil
-        }
+        dismiss(animated: true, completion: completion)
+        delegate?.userEpisodeDetailClosed()
     }
+
+    // MARK: - Error state
 
     func animateInError() {
         errorContainerView.alpha = 0
         errorContainerView.isHidden = false
+        errorContainerHeight.constant = UserEpisodeDetailViewController.errorBannerHeight
 
-        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-            guard let self = self else { return }
-            self.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithError
-            self.view.layoutIfNeeded()
-        }) { [weak self] _ in
-            self?.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithError
-            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-                guard let self = self else { return }
-                self.errorContainerView.alpha = 1
-            }) { [weak self] _ in
-                self?.errorContainerView.alpha = 1
-                self?.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithError
-            }
+        sheetPresentationController?.animateChanges { [weak self] in
+            self?.sheetPresentationController?.invalidateDetents()
+            self?.view.layoutIfNeeded()
+        }
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) { [weak self] in
+            self?.errorContainerView.alpha = 1
         }
     }
 
     func animateOutError() {
-        errorContainerView.alpha = 1
+        errorContainerHeight.constant = 0
+
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-            guard let self = self else { return }
-            self.errorContainerView.alpha = 0
+            self?.errorContainerView.alpha = 0
         }) { [weak self] _ in
-
-            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-                guard let self = self else { return }
-                self.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithoutError
-                self.view.layoutIfNeeded()
-
-            }) { [weak self] _ in
-                self?.errorContainerView.alpha = 0
-                self?.errorContainerView.isHidden = true
-                self?.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithoutError
-            }
+            self?.errorContainerView.isHidden = true
+        }
+        sheetPresentationController?.animateChanges { [weak self] in
+            self?.sheetPresentationController?.invalidateDetents()
+            self?.view.layoutIfNeeded()
         }
     }
+}
 
-    private func containerHeight() -> CGFloat {
-        containerViewHeight?.constant ?? 500
+extension UserEpisodeDetailViewController: UISheetPresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        // Fired on interactive (swipe) dismissal only.
+        Analytics.track(.userFileDetailDismissed)
+        delegate?.userEpisodeDetailClosed()
     }
+}
 
-    @objc private func backgroundTapped() {
-        animateOut()
-    }
+private extension UISheetPresentationController.Detent.Identifier {
+    static let userEpisodeDetail = UISheetPresentationController.Detent.Identifier("userEpisodeDetail")
 }
 
 extension UserEpisodeDetailViewController: AnalyticsSourceProvider {

@@ -107,7 +107,7 @@ struct LargeFilterView: View {
                 }
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
-                        if let filterName = filterName {
+                        if let filterName {
                             Text(filterName)
                                 .font(.callout)
                                 .fontWeight(.regular)

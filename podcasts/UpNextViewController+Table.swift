@@ -25,36 +25,20 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard tableData[section] == .upNextSection, tableData.count > 1 else { return nil }
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 48))
+        let headerView = self.headerView
 
         updateTimeRemainingLabel()
-        headerView.addSubview(remainingLabel)
-        remainingLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-            remainingLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
 
         if FeatureFlag.upNextShuffle.enabled {
-            headerView.addSubview(shuffleButton)
-            shuffleButton.translatesAutoresizingMaskIntoConstraints = false
-            shuffleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
-            NSLayoutConstraint.activate([
-                shuffleButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-                shuffleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-                shuffleButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
-            ])
+            clearQueueButton.isHidden = true
             shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         } else {
-            headerView.addSubview(clearQueueButton)
-            clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
-            clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
-            NSLayoutConstraint.activate([
-                clearQueueButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-                clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-                clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
-            ])
+            clearQueueButton.isHidden = false
+            shuffleButton.isHidden = true
             clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        }
+        if FeatureFlag.upNextSort.enabled {
+            sortButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         }
         return headerView
     }
@@ -65,7 +49,8 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         case .nowPlayingSection:
             return 16
         case .upNextSection:
-            return 48
+            let metrics = UIFontMetrics(forTextStyle: .footnote)
+            return metrics.scaledValue(for: 48)
         }
     }
 
@@ -89,10 +74,10 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
                                 icon: { Image("upnext") },
                 actions: [
                     .init(title: L10n.goToDiscover) {
-                        Analytics.shared.track(.upNextDiscoverButtonTapped)
+                        Analytics.track(.upNextDiscoverButtonTapped)
                         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                     }
-            ])
+                ])
             return emptyCell
         }
 
@@ -286,15 +271,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     @objc func upNextChanged() {
-        if changedViaSwipeToRemove { return }
-
         if isMultiSelectEnabled {
-            let upNextUuids = DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid)
-            for (index, selectedEpisode) in selectedPlayListEpisodes.enumerated() {
-                if !upNextUuids.contains(selectedEpisode.episodeUuid), index > selectedPlayListEpisodes.count {
-                    selectedPlayListEpisodes.remove(at: index)
-                }
-            }
+            let upNextUuids = Set(DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid))
+            selectedPlayListEpisodes.removeAll { !upNextUuids.contains($0.episodeUuid) }
 
             if let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid {
                 selectedEpisodesRemove(uuid: currentUuid)

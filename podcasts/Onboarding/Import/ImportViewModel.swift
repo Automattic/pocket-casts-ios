@@ -71,8 +71,7 @@ class ImportViewModel: OnboardingModel {
         var isSourceAvailable: Bool {
             #if targetEnvironment(simulator)
             return true
-            #endif
-
+            #else
             // Always available - Others and opml from url are always available
             // Note: Even if Apple podcasts has been uninstalled by the user, the system will always report
             // that it's installed.
@@ -85,6 +84,7 @@ class ImportViewModel: OnboardingModel {
             }
 
             return UIApplication.shared.canOpenURL(url)
+            #endif
         }
 
         var hideButton: Bool {
@@ -166,8 +166,8 @@ extension ImportViewModel {
 // MARK: - OPML from URL
 extension ImportViewModel {
     func importFromURL(_ url: URL, completion: @escaping ((Bool) -> Void)) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data else {
                 print("Error downloading data: \(error?.localizedDescription ?? "Unknown error")")
                 completion(false)
                 return

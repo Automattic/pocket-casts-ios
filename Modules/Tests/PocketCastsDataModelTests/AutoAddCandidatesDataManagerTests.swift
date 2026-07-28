@@ -1,0 +1,70 @@
+import XCTest
+@testable import PocketCastsUtils
+import SQLite3
+@testable import PocketCastsDataModel
+
+final class AutoAddCandidatesDataManagerTests: XCTestCase {
+
+    enum TestError: Error {
+        case dbFolderPathFailure
+    }
+
+    private func setupDatabase() throws -> DataManager {
+        DataManager.newTestDataManager()
+    }
+
+    /// Tests the query and autoAddToUpNext property for UpNext candidates
+    func testUpNextSetting() throws {
+        let dataManager = try setupDatabase()
+        let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+
+        let podcast = Podcast()
+        podcast.uuid = "1234"
+        podcast.addedDate = Date()
+        podcast.setAutoAddToUpNext(setting: newUpNextSetting)
+
+        let episode = Episode()
+        episode.uuid = "1234"
+        episode.addedDate = Date()
+        episode.podcastUuid = podcast.uuid
+
+        dataManager.save(podcast: podcast)
+        dataManager.save(episode: episode)
+        dataManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
+
+        let candidates = dataManager.autoAddCandidates.candidates()
+
+        let matchingCandidate = candidates.first(where: { $0.episodeUuid == episode.uuid })
+        XCTAssertNotNil(matchingCandidate, "Episode should appear in Up Next candidates")
+        XCTAssertEqual(matchingCandidate?.autoAddToUpNextSetting, newUpNextSetting)
+    }
+
+    func testQueryPerformance() throws {
+        let dataManager = try setupDatabase()
+        let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+
+        let podcastCount = 500
+        let episodeCount = 50
+        (0...podcastCount).forEach { _ in
+            let podcast = Podcast()
+            podcast.uuid = UUID().uuidString
+            podcast.addedDate = Date()
+            podcast.setAutoAddToUpNext(setting: newUpNextSetting)
+
+            dataManager.save(podcast: podcast)
+            (0...episodeCount).forEach { _ in
+                let episode = Episode()
+                episode.uuid = UUID().uuidString
+                episode.addedDate = Date()
+                episode.podcastUuid = podcast.uuid
+
+                dataManager.save(episode: episode)
+                dataManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
+            }
+        }
+
+        self.measure {
+            let candidates = dataManager.autoAddCandidates.candidates()
+        }
+    }
+}

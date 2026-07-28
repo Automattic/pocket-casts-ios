@@ -63,7 +63,7 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
         do {
             let deserializedData = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
 
-            guard deserializedData.count > 0 else { return nil }
+            guard !deserializedData.isEmpty else { return nil }
 
             let episodes = deserializedData
             guard let nowPlayingEpisode = episodes.first else { return nil }

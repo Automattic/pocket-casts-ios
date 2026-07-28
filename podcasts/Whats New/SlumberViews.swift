@@ -1,6 +1,7 @@
 import SwiftUI
 import SafariServices
 import PocketCastsServer
+import EndOfYear
 
 struct SlumberWhatsNewHeader: View {
     @State var distance: CGFloat = 0
@@ -20,7 +21,6 @@ struct SlumberWhatsNewHeader: View {
                 PodcastCover(podcastUuid: "62200ab0-b7ec-0139-f606-0acc26574db2")
                     .offset(y: distance)
                     .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true).delay(1.2), value: distance)
-
             }
                 .frame(width: 120, height: 120)
         }

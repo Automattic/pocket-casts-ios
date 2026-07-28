@@ -55,7 +55,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         }
 
         if bundle.podcasts?.count == 1 {
-            guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, subscription.uuid.count > 0 else {
+            guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, !subscription.uuid.isEmpty else {
                 cell.isLoading = true
                 cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
 
@@ -169,7 +169,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
             let bundleUrl = ServerHelper.bundleUrl(bundleUuid: bundle.bundleUuid)
             DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
 
-                guard let podcastCollection = podcastCollection else { return }
+                guard let podcastCollection else { return }
                 self.bundleInfo[bundle.bundleUuid] = podcastCollection
                 DispatchQueue.main.async {
                     self.tableView.reloadData()

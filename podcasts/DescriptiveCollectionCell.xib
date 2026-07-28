@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,25 +20,25 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9k8-NV-ax2" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="16" width="80" height="80"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="80" id="1YE-os-Vfj"/>
                             <constraint firstAttribute="width" constant="80" id="zR0-nM-DhR"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2Z-PZ-ZmA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="96" y="16" width="210" height="23"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Podcast Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2Z-PZ-ZmA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="96" y="16" width="210" height="24"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Author" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxR-Ff-B5p" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="96" y="47" width="210" height="17"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Podcast Author" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxR-Ff-B5p" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="96" y="48" width="210" height="18"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyY-ot-Usg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyY-ot-Usg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="112" width="338" height="21.5"/>
                         <attributedString key="attributedText">
                             <fragment content="Podcast description. .......">
@@ -62,13 +63,14 @@
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T65-aL-e2h" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="285" width="338" height="1"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Lhh-ZS-44n"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="o8G-1A-AFd" firstAttribute="leading" secondItem="s2Z-PZ-ZmA" secondAttribute="trailing" constant="8" id="1Rf-ZU-Auc"/>
                 <constraint firstItem="T65-aL-e2h" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3Ea-HB-c4M"/>
@@ -79,16 +81,16 @@
                 <constraint firstItem="s2Z-PZ-ZmA" firstAttribute="leading" secondItem="uxR-Ff-B5p" secondAttribute="leading" id="FxJ-0g-LYR"/>
                 <constraint firstItem="o8G-1A-AFd" firstAttribute="trailing" secondItem="uxR-Ff-B5p" secondAttribute="trailing" constant="32" id="Jxi-bu-Zm2"/>
                 <constraint firstItem="9k8-NV-ax2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dWv-Dg-w3P"/>
+                <constraint firstItem="ZyY-ot-Usg" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uxR-Ff-B5p" secondAttribute="bottom" constant="8" id="jxK-am-46H"/>
                 <constraint firstItem="9k8-NV-ax2" firstAttribute="trailing" secondItem="s2Z-PZ-ZmA" secondAttribute="leading" constant="-16" id="qmq-oQ-pQY"/>
                 <constraint firstItem="9k8-NV-ax2" firstAttribute="leading" secondItem="ZyY-ot-Usg" secondAttribute="leading" id="sWr-EZ-bim"/>
                 <constraint firstAttribute="trailing" secondItem="T65-aL-e2h" secondAttribute="trailing" id="shP-ve-U6R"/>
                 <constraint firstItem="9k8-NV-ax2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="tqE-YS-UeZ"/>
-                <constraint firstItem="9k8-NV-ax2" firstAttribute="bottom" secondItem="ZyY-ot-Usg" secondAttribute="top" constant="-16" id="vD1-0E-k9a"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="bottom" secondItem="ZyY-ot-Usg" secondAttribute="top" priority="999" constant="-16" id="vD1-0E-k9a"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZyY-ot-Usg" secondAttribute="bottom" priority="750" constant="16" id="vpH-6i-rfD"/>
                 <constraint firstItem="s2Z-PZ-ZmA" firstAttribute="bottom" secondItem="uxR-Ff-B5p" secondAttribute="top" constant="-8" id="xPd-Ld-tih"/>
                 <constraint firstAttribute="trailing" secondItem="ZyY-ot-Usg" secondAttribute="trailing" id="xqJ-1X-VN2"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="338" height="286"/>
             <connections>
                 <outlet property="podcastAuthor" destination="uxR-Ff-B5p" id="uLM-lt-HvZ"/>
@@ -100,4 +102,9 @@
             <point key="canvasLocation" x="346.37681159420293" y="229.6875"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

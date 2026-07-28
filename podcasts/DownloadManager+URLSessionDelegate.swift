@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     // things smaller than 10kbs are not episodes, way too small and something has gone wrong
-    private static let badEpisodeSize = 10 * 1024
+    static let badEpisodeSize = 10 * 1024
 
     // things smaller than 150kb are suspect, probably text, xml or html error pages
     private static let suspectEpisodeSize = 150 * 1024
@@ -18,7 +18,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             task.setTaskCompletedWithSnapshot(true)
         }
-#elseif APPCLIP
+#elseif APPCLIP || os(tvOS)
         //TODO: Check this and see whether anything should be done
 #else
         DispatchQueue.main.async { [weak self] in
@@ -134,14 +134,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
-
-        guard let episode = episodeForTask(downloadTask, forceReload: true) else { return }
+        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+            return
+        }
 
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
             markEpisode(episode, asFailedWithMessage: L10n.downloadFailed, reason: .badResponse)
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
 
@@ -153,7 +155,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 }
                 return
             }
-
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
                 message = L10n.downloadErrorContactAuthorVersion2
@@ -165,12 +167,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             markEpisode(episode, asFailedWithMessage: message, reason: .statusCode(response.statusCode))
             return
         }
-
+        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
         let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
-        processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType)
+        processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType, copyFile: false)
     }
 
-    func processEpisode(_ episode: BaseEpisode, downloadedFile location: URL, reportedContentType: String?) {
+    func processEpisode(_ episode: BaseEpisode, downloadedFile location: URL, reportedContentType: String?, copyFile: Bool) {
         var contentType = reportedContentType
 
         if FeatureFlag.useMimetypePackage.enabled {
@@ -183,6 +185,9 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let fileSize = FileManager.default.fileSize(of: location) ?? 0
         guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
+            if !copyFile {
+                StorageManager.removeItem(at: location)
+            }
             return
         }
 
@@ -191,7 +196,11 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let destinationUrl = URL(fileURLWithPath: destinationPath)
 
         do {
-            try StorageManager.copyItem(at: location, to: destinationUrl, options: [.overwriteExisting])
+            if copyFile {
+                try StorageManager.copyItem(at: location, to: destinationUrl, options: [.overwriteExisting])
+            } else {
+                try StorageManager.moveItem(at: location, to: destinationUrl, options: [.overwriteExisting])
+            }
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
             dataManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
@@ -199,6 +208,10 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         } catch {
+            if !copyFile {
+                // Lets try remove the file so we don't have a pending file on the tmp folder
+                StorageManager.removeItem(at: location)
+            }
             FileLog.shared.addMessage("DownloadManager: Failed to copy downloaded file from location: \(location.absoluteString) to destination:  \(destinationPath) error: \(error)")
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)
         }
@@ -208,6 +221,40 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         guard let downloadTask = task as? URLSessionDownloadTask,
               let episode = episodeForTask(downloadTask, forceReload: false) else {
             return
+        }
+
+        // Track network data usage
+        if FeatureFlag.trackNetworkDataUsage.enabled {
+            let bytesReceived = task.countOfBytesReceived
+            let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+
+            if bytesReceived > 0 {
+                let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)
+                let operationType: NetworkDataUsageManager.OperationType
+                switch autoDownloadStatus {
+                case .playerDownloadedForStreaming:
+                    operationType = .stream
+                default:
+                    operationType = .download
+                }
+
+                let sessionType: NetworkDataUsageManager.SessionType =
+                    session === wifiOnlyBackgroundSession ? .background :
+                    (session === cellularBackgroundSession ? .background : .foreground)
+
+                let bytesDownloaded = operationType != .stream ? bytesReceived : 0
+                let bytesStreamed = operationType == .stream ? bytesReceived : 0
+
+                dataManager.networkDataUsageManager.add(
+                    episodeUuid: episode.uuid,
+                    podcastUuid: episode.parentIdentifier(),
+                    bytesDownloaded: bytesDownloaded,
+                    bytesStreamed: bytesStreamed,
+                    operationType: operationType,
+                    connectionType: connectionType,
+                    sessionType: sessionType
+                )
+            }
         }
 
         if let failure = taskFailure[episode.uuid] {
@@ -229,7 +276,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let episode = dataManager.findBaseEpisode(downloadTaskId: taskDescription)
-        if let episode = episode {
+        if let episode {
             downloadingEpisodesCache[taskDescription] = episode
         }
 

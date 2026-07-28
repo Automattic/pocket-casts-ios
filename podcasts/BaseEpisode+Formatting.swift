@@ -57,7 +57,7 @@ extension BaseEpisode {
             var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.unknownDuration
 
             if includeSize, sizeInBytes > 0 {
-                if informationLabelStr.count == 0 {
+                if informationLabelStr.isEmpty {
                     informationLabelStr = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
                 } else {
                     informationLabelStr += " • \(SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes))"
@@ -72,6 +72,23 @@ extension BaseEpisode {
         commonDisplayableInfo(includeSize: includeSize)
     }
 
+    func accessibilityDisplayableInfo() -> String {
+        if inProgress(), playedUpTo > 0, duration > 0 {
+            if duration > playedUpTo {
+                let time = TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration - playedUpTo)
+                return L10n.podcastTimeLeft(time)
+            } else {
+                return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: 0)
+            }
+        }
+
+        if duration > 0 {
+            return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration)
+        }
+
+        return L10n.unknownDuration
+    }
+
     func shortPublishedDate() -> String {
         shortDateFor(date: publishedDate)
     }
@@ -82,7 +99,7 @@ extension BaseEpisode {
 
     func shortDateFor(date: Date?) -> String {
         let noDate = L10n.podcastNoDate
-        guard let date = date, date.timeIntervalSince1970 > 0 else { return noDate }
+        guard let date, date.timeIntervalSince1970 > 0 else { return noDate }
 
         if Calendar.current.isDateInToday(date) {
             return L10n.today

@@ -23,6 +23,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var mainScrollView: RegionCancellingScrollView! {
         didSet {
+            // The player tabs are a spatial carousel, not text, so keep the paging
+            // left-to-right in every language. Otherwise UIKit mirrors the scroll
+            // view under RTL and the index-based paging math (offset == index * width)
+            // opens the last tab (Bookmarks) instead of Now Playing. See #1952.
+            mainScrollView.semanticContentAttribute = .forceLeftToRight
+
             // We don't need to handle the scroll view because it is not dismissable in App Clip
             #if !APPCLIP
             mainScrollView.delegate = self
@@ -104,7 +110,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         }
     }
 
-    var initialTouchPoint = CGPoint(x: 0, y: 0)
+    var initialTouchPoint = CGPoint.zero
+
+    /// The inner vertical scroll view (if any) under the touch when the dismiss
+    /// pan began. Its `bounces` is forced off while the gesture is active so it
+    /// can't bounce or scroll alongside the container drag.
+    weak var activeInnerScrollView: UIScrollView?
+    var savedInnerScrollViewBounces = true
 
     var showingChapters = false
     var showingNotes = false
@@ -242,7 +254,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if !APPCLIP
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         panGesture.cancelsTouchesInView = false
+        panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
+        // Make the horizontal page swipe wait for the dismiss pan to either begin or
+        // fail, so a downward-diagonal swipe dismisses the player instead of being
+        // captured by the tab scroll view.
+        mainScrollView.panGestureRecognizer.require(toFail: panGesture)
         #endif
     }
 
@@ -403,7 +420,7 @@ private extension PlayerContainerViewController {
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 
-        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [.allowUserInteraction]) {
             self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
         }
     }

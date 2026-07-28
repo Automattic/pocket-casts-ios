@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 import Lottie
+import EndOfYear
 
 struct TopSpotStory2025: ShareableStory {
 
@@ -84,7 +85,7 @@ struct TopSpotStory2025: ShareableStory {
             ZStack {
                 Group {
                     LottieView(animation: .named("playback_2025_top_spot_story"))
-                        .animationDidFinish({ completed in
+                        .animationDidFinish({ _ in
                         })
                         .configure({ animationView in
                             animationView.contentMode = .scaleToFill

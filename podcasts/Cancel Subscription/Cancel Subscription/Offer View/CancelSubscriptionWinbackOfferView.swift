@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct CancelSubscriptionWinbackOfferView: View {
     @EnvironmentObject var theme: Theme

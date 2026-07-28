@@ -8,21 +8,36 @@ class SingleEpisodeViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var category: DiscoverCategory?
 
-    @IBOutlet var episodeTitle: ThemeableLabel!
+    @IBOutlet var episodeTitle: ThemeableLabel! {
+        didSet {
+            episodeTitle.font = .font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            episodeTitle.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.style = .primaryText02
+            podcastTitle.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            podcastTitle.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var playButton: PlayPauseLabeledButton!
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var typeBadgeLabel: UILabel!
+    @IBOutlet var typeBadgeLabel: UILabel! {
+        didSet {
+            typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontForContentSizeCategory = true
+        }
+    }
 
     @IBOutlet var duration: ThemeableLabel! {
         didSet {
             duration.text = L10n.unknownDuration
             duration.style = .primaryText02
+            duration.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            duration.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -30,6 +45,10 @@ class SingleEpisodeViewController: UIViewController {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
         view.translatesAutoresizingMaskIntoConstraints = false
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SingleEpisodeViewController, _) in
+            controller.updateSize()
+        }
 
         observeEpisodeChanges()
 
@@ -54,7 +73,7 @@ class SingleEpisodeViewController: UIViewController {
         viewModel.$imageUUID
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] uuid in
-                if let uuid = uuid {
+                if let uuid {
                     self.podcastImage.setPodcast(uuid: uuid, size: .grid)
                 }
             })
@@ -105,6 +124,13 @@ class SingleEpisodeViewController: UIViewController {
     @objc func didSelectEpisode(_ sender: Any) {
         viewModel.didSelectEpisode()
     }
+
+    private func updateSize() {
+        episodeTitle.sizeToFit()
+        podcastTitle.sizeToFit()
+        playButton.sizeToFit()
+        view.sizeToFit()
+    }
 }
 
 extension SingleEpisodeViewController: DiscoverSummaryProtocol {
@@ -117,5 +143,6 @@ extension SingleEpisodeViewController: DiscoverSummaryProtocol {
         self.category = category
 
         typeBadgeLabel.text = (item.title ?? L10n.discoverFeaturedEpisode).uppercased()
+        updateSize()
     }
 }

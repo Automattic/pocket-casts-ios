@@ -1,13 +1,17 @@
-swiftlint_version: 0.59.0
+swiftlint_version: 0.63.2
 
 # Project configuration
 #
 excluded:
+  # Claude Code harness directory, including transient git worktrees
+  - .claude
   - BuildTools/.build
   - DerivedData
   - fastlane
   # Enumerate without pattern because it makes SwiftLint resolved faster
+  - Modules/.build
   - Modules/DataModel/.build
+  - Modules/GRDBMacros/.build
   - Modules/Server/.build
   - Modules/Utils/.build
   - Pods
@@ -19,14 +23,42 @@ excluded:
 # Rules – Opt-in only, so we can progressively introduce new ones
 #
 only_rules:
+  # Prefer `Array(xs)` over `xs.map { $0 }`.
+  - array_init
+
   # Colons should be next to the identifier when specifying a type.
   - colon
+
+  # All elements in a collection literal should be vertically aligned.
+  - collection_alignment
 
   # There should be no space before and one after any comma.
   - comma
 
+  # Commas in protocol/superclass inheritance lists should be followed by a
+  # single space (e.g., prefer `class Foo: Bar, Baz` over `class Foo: Bar,Baz`).
+  - comma_inheritance
+
+  # Prefer `contains` over `filter(where:).count`.
+  - contains_over_filter_count
+
+  # Prefer `contains` over `first(where:) != nil`.
+  - contains_over_first_not_nil
+
+  # Prefer `contains` over `range(of:) != nil` and `range(of:) == nil`.
+  - contains_over_range_nil_comparison
+
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
+
+  # Imports should not be duplicated.
+  - duplicate_imports
+
+  # Prefer checking `isEmpty` over comparing `count` to zero.
+  - empty_count
+
+  # Prefer `.isEmpty` over comparing to an empty string literal.
+  - empty_string
 
   # Arguments can be omitted when matching enums with associated types if they
   # are not used.
@@ -35,12 +67,59 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # Prefer `Type()` over `Type.init()` when creating a value of a known type.
+  - explicit_init
+
+  # Prefer `first(where:)` over `filter { }.first`.
+  - first_where
+
+  # Prefer `flatMap { ... }` over `map { ... }.reduce([], +)`.
+  - flatmap_over_map_reduce
+
+  # When calling the `joined` method on an array of strings, omit an
+  # explicit empty-string separator since that is the default.
+  - joined_default_parameter
+
+  # Prefer `last(where:)` over `filter { }.last`.
+  - last_where
+
+  # Closing brackets/braces of literal expressions should be at the same indent
+  # level as the opening.
+  - literal_expression_end_indentation
+
   # MARK comment should be in valid format.
   - mark
+
+  # Modifiers (e.g. `public`, `final`, `lazy`) should be specified in a consistent order.
+  - modifier_order
 
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace
+
+  # Periods should not be followed by whitespace inside an expression.
+  - period_spacing
+
+  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
+  - prefer_zero_over_explicit_init
+
+  # Prefer `reduce(into:_:)` over `reduce(_:_:)` for non-trivial accumulator types.
+  - reduce_into
+
+  # `nil` coalescing on a non-optional is redundant.
+  - redundant_nil_coalescing
+
+  # Type annotations are redundant when the type can be inferred.
+  - redundant_type_annotation
+
+  # Don't `return` a value from a function whose return type is `Void`.
+  - return_value_from_void_function
+
+  # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
+  - shorthand_optional_binding
+
+  # Prefer `min(by:)` / `max(by:)` over `sorted { ... }.first` / `.last`.
+  - sorted_first_last
 
   # Files should have a single trailing newline.
   - trailing_newline
@@ -51,6 +130,18 @@ only_rules:
   # Lines should not have trailing whitespace.
   - trailing_whitespace
 
+  # `catch` statements should not declare error variables without type casting.
+  - untyped_error_in_catch
+
+  # Unused parameters in a closure should be replaced with `_`.
+  - unused_closure_parameter
+
+  # Closure parameters shouldn't be wrapped in unneeded parentheses.
+  - unneeded_parentheses_in_closure_argument
+
+  # Don't include vertical whitespace (empty line) before closing braces.
+  - vertical_whitespace_closing_braces
+  
   - custom_rules
 
 # Rules configuration

@@ -14,23 +14,31 @@ struct MessageSupportView: View {
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(L10n.supportNameIndicator)
-                TextField(L10n.supportNamePlaceholder, text: $viewModel.requesterName)
-                    .requiredStyle(viewModel.requesterNameErrored)
+            VStack(alignment: .leading, spacing: 18) {
+                fieldGroup(label: L10n.supportNameIndicator) {
+                    TextField(L10n.supportNamePlaceholder, text: $viewModel.requesterName)
+                        .requiredStyle(viewModel.requesterNameErrored)
+                }
 
-                Text(L10n.supportEmailIndicator)
-                TextField(L10n.supportEmailPlaceholder, text: $viewModel.requesterEmail)
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
-                    .disabled(viewModel.isUserSignedIn)
-                    .requiredStyle(viewModel.requesterEmailErrored)
+                fieldGroup(label: L10n.supportEmailIndicator) {
+                    TextField(L10n.supportEmailPlaceholder, text: $viewModel.requesterEmail)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .disabled(viewModel.isUserSignedIn)
+                        .requiredStyle(viewModel.requesterEmailErrored)
+                }
 
-                Text(L10n.supportCommentIndicator)
-                TextEditor(text: $viewModel.comment)
-                    .themedTextField(hasErrored: viewModel.commentErrored)
-                    .frame(minHeight: 80)
-                    .layoutPriority(1)
+                fieldGroup(label: L10n.supportCommentIndicator) {
+                    TextEditor(text: $viewModel.comment)
+                        .scrollContentBackground(.hidden)
+                        .colorScheme(Theme.isDarkTheme() ? .dark : .light)
+                        .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+                        .padding(6)
+                        .background(ThemeColor.primaryUi02(for: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
+                        .required(viewModel.commentErrored)
+                        .frame(minHeight: 80)
+                        .layoutPriority(1)
+                }
 
                 ThemedDivider()
                     .background(ThemeColor.primaryUi05(for: theme.activeTheme).color)
@@ -43,24 +51,18 @@ struct MessageSupportView: View {
                     .padding(.top, 5)
                 }
             }
-            .padding()
+            .padding(20)
             .applyDefaultThemeOptions(backgroundOverride: .primaryUi04)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(L10n.supportCancel) {
-                        dismiss?()
-                    }
-                    .navThemed()
-                    .disabled(viewModel.isWorking)
+                ToolbarItem(placement: .cancellationAction) {
+                    cancelButton
+                        .disabled(viewModel.isWorking)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(L10n.supportSubmit) {
-                        viewModel.submitRequest()
-                    }
-                    .navThemed()
-                    .disabled(!viewModel.isValid)
+                ToolbarItem(placement: .confirmationAction) {
+                    submitButton
+                        .disabled(!viewModel.isValid)
                 }
             })
         }
@@ -85,6 +87,42 @@ struct MessageSupportView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    @ViewBuilder
+    private func fieldGroup<Content: View>(label: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+            content()
+        }
+    }
+
+    @ViewBuilder
+    private var cancelButton: some View {
+        if #available(iOS 26.0, *) {
+            Button(role: .cancel) {
+                dismiss?()
+            }
+        } else {
+            Button(L10n.supportCancel, role: .cancel) {
+                dismiss?()
+            }
+            .navThemed()
+        }
+    }
+
+    @ViewBuilder
+    private var submitButton: some View {
+        if #available(iOS 26.0, *) {
+            Button(L10n.supportSubmit, role: .confirm) {
+                viewModel.submitRequest()
+            }
+        } else {
+            Button(L10n.supportSubmit) {
+                viewModel.submitRequest()
+            }
+            .navThemed()
+        }
     }
 }
 

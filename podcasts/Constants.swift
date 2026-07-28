@@ -5,6 +5,10 @@ import UIKit
 struct Constants {
     enum Notifications {
         static let upNextEpisodeAdded = NSNotification.Name(rawValue: "SJUpNextEpisodeAdded")
+        /// `userInfo` key on `upNextEpisodeAdded` — a `Bool` that's `true` when
+        /// the episode was added to the top of the queue (Play Next) rather than
+        /// the bottom (Play Last). Drives the add-animation badge.
+        static let upNextEpisodeAddedToTopKey = "PCUpNextAddedToTop"
         static let upNextEpisodeRemoved = NSNotification.Name(rawValue: "SJUpNextEpisodeRemoved")
         static let upNextQueueChanged = NSNotification.Name(rawValue: "SJUpNextChanged")
         static let upNextShuffleToggle = NSNotification.Name(rawValue: "SJUpNextShuffleToggle")
@@ -33,7 +37,6 @@ struct Constants {
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
-        static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
         static let podcastSearchCancelled = NSNotification.Name(rawValue: "PodcastSearchCancelled")
@@ -47,8 +50,10 @@ struct Constants {
         static let remoteCommandSettingsChanged = NSNotification.Name(rawValue: "SJRemoteCommandSettingsChanged")
         static let currentlyPlayingEpisodeUpdated = NSNotification.Name(rawValue: "SJCurrentlyPlayingEpisodeUpdated")
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
-        static let unhideNavBarRequested = NSNotification.Name(rawValue: "SJUnhideNavBar")
         static let videoPlaybackEngineSwitched = NSNotification.Name(rawValue: "SJVideoPlaybackEngineSwitched")
+        /// Posted when the user toggles the audio/video shelf action. Distinct from
+        /// `videoPlaybackEngineSwitched` (runtime video detection) so it doesn't trigger auto-open behaviour.
+        static let videoRenderingToggled = NSNotification.Name(rawValue: "SJVideoRenderingToggled")
 
         // episode notifications
         static let episodePlayStatusChanged = NSNotification.Name(rawValue: "SJEpPlayStatusChanged")
@@ -179,6 +184,8 @@ struct Constants {
 
         static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
 
+        static let shouldShowUpNextSortDurationTip = "ShouldShowUpNextSortDurationTip"
+
         static let newFilterTip = "NewFilterTip"
         static let newFilterTipCreationView = "NewFilterTipCreationView"
         static let playlistDragAndDropTip = "PlaylistDragAndDropTip"
@@ -186,6 +193,7 @@ struct Constants {
         static let firstTimePlaylistCreated = "FirstTimePlaylistCreated"
         static let saveCurrentUpNextQueueIntoPlaylist = "SaveCurrentUpNextQueueIntoPlaylist"
         static let shouldResultEndOfYearSyncStatus = "ShouldResultEndOfYearSyncStatus"
+        static let lastNetworkDataUsageCleanupDate = "lastNetworkDataUsageCleanupDate"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
@@ -206,6 +214,7 @@ struct Constants {
 
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+            static let tabBarMinimizingEnabled = SettingValue("appearance.tabBarMinimizingEnabled", defaultValue: true)
         }
 
         enum kidsProfile {
@@ -267,6 +276,7 @@ struct Constants {
 
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
+        static let tableRowHeaderHeight: CGFloat = 64
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
@@ -292,7 +302,7 @@ struct Constants {
             static let watchListItems = 50
         #else
             static let maxListItemsToSendToWatch = 50
-            static let maxFilterItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+            static let maxFilterItems = 1000
             static let maxCarplayItems = 100
             static let maxBulkDownloads = 100
             static let maxSubscriptionExpirySeconds: TimeInterval = 30.days
@@ -320,6 +330,7 @@ struct Constants {
             static let pauseId = "Pause ID"
             static let nextChapterId = "Next Chapter ID"
             static let previousChapterId = "Previous Chapter ID"
+            static let markAsPlayedId = "Mark As Played ID"
         }
     #endif
 
@@ -435,6 +446,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case syncedTranscripts = "synced_transcripts"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber
@@ -444,6 +456,11 @@ enum PlusUpgradeViewSource: String {
     case whatsNew
     case sonosLink = "sonos_link"
     case deepLink
+    case deviceApproval = "device_approval"
+
+    /// Purchase completed with no record of its originating source (e.g. StoreKit re-delivering a
+    /// deferred/pending transaction). Keeps `source` defined and distinct from a real `unknown`.
+    case unattributed
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

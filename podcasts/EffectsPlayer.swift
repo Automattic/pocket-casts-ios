@@ -19,6 +19,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
     private var peakLimiter: AVAudioUnitEffect?
+    private let useVoiceBoostN = AtomicBool()
+    private var audioFileSampleRate: Double = 0
 
     private var playBufferManager: PlayBufferManager?
     private var audioReadTask: AudioReadTask?
@@ -43,13 +45,18 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     private let serialSeekQueue = DispatchQueue(label: "effectsplayer.serial.queue")
 
+    @MainActor
     private lazy var episodeArtwork = EpisodeArtwork()
 
     // MARK: - PlaybackProtocol Impl
 
     func loadEpisode(_ episode: BaseEpisode) {
         episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
-        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        let podcastUuid = episode.parentIdentifier()
+        let episodeUuid = episode.uuid
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
         self.episode = episode
     }
 
@@ -60,7 +67,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
-        if let player = player {
+        if let player {
             return player.isPlaying
         }
 
@@ -82,6 +89,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
             strongSelf.effects = PlaybackManager.shared.effects()
             strongSelf.playBufferManager = PlayBufferManager()
+
+            // Set useVoiceBoostN before setVolumeBoostSettings so bypass is configured correctly
+            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
 
             strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
             strongSelf.engine?.attach(strongSelf.audioMixerNode!)
@@ -119,7 +129,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 }
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: error.localizedDescription), fallbackToDefaultPlayer: true)
                 return
             }
 
@@ -145,6 +155,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
             strongSelf.engine?.connect(strongSelf.peakLimiter!, to: strongSelf.engine!.outputNode, format: format)
 
+            // Store sample rate for AudioReadTask (useVoiceBoostN already set above)
+            strongSelf.audioFileSampleRate = strongSelf.audioFile!.fileFormat.sampleRate
+
             // Install audio tap for waveform visualization if enabled
             strongSelf.installAudioMeteringTap(format: format)
 
@@ -154,18 +167,28 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 try strongSelf.engine?.start()
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: error.localizedDescription))
                 return
             }
             // there seem to be cases where the above call succeeds but the engine isn't actually started. Handle that here
             if !(strongSelf.engine?.isRunning ?? false) {
                 strongSelf.playerLock.unlock()
                 FileLog.shared.addMessage("EffectsPlayer: engine reported not running, calling playbackDidFail")
-                PlaybackManager.shared.playbackDidFail(logMessage: "AVAudioEngine reported not running", userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: "AVAudioEngine reported not running"))
                 return
             }
 
-            strongSelf.playAndCatchExceptionIfNeeded()
+            do {
+                try SJCommonUtils.catchException {
+                    strongSelf.player?.play()
+                }
+            } catch {
+                FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
+                strongSelf.playerLock.unlock()
+                PlaybackManager.shared.pause(userInitiated: false)
+                completion?()
+                return
+            }
 
             strongSelf.playerLock.unlock()
 
@@ -181,21 +204,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         }
     }
 
-    // MARK: - Play
-
-    /// Try to play. If an exception happens, just pause it.
-    func playAndCatchExceptionIfNeeded() {
-        do {
-            try SJCommonUtils.catchException {
-                self.player?.play()
-            }
-        } catch {
-            FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
-            self.playerLock.unlock()
-            PlaybackManager.shared.pause(userInitiated: false)
-        }
-    }
-
     func pause() {
         shouldKeepPlaying.value = false
         aboutToPlay.value = false
@@ -208,7 +216,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func setPlaybackRate(_ rate: Double) {
-        if let timePitch = timePitch {
+        if let timePitch {
             playbackSpeed = rate
             timePitch.rate = Float(rate)
         }
@@ -241,7 +249,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             return lastSeekTime
         }
 
-        if let audioFile = audioFile, let curFrame = currentFrame() {
+        if let audioFile, let curFrame = currentFrame() {
             return Double(curFrame) / audioFile.fileFormat.sampleRate
         }
 
@@ -249,7 +257,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func currentFrame() -> AVAudioFramePosition? {
-        if let audioPlayTask = audioPlayTask {
+        if let audioPlayTask {
             return audioPlayTask.lastFrameRendered()
         }
 
@@ -257,7 +265,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func duration() -> TimeInterval {
-        if let audioFile = audioFile {
+        if let audioFile {
             return (Double(cachedFrameCount) / audioFile.fileFormat.sampleRate)
         }
 
@@ -270,6 +278,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         audioReadTask?.setTrimSilence(effects.trimSilence)
         playbackSpeed = effects.playbackSpeed
         timePitch?.rate = Float(playbackSpeed)
+
+        // Update VoiceBoostN flag for dynamic switching
+        let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled && effects.volumeBoost
+        if shouldUseVoiceBoostN != useVoiceBoostN.value {
+            useVoiceBoostN.value = shouldUseVoiceBoostN
+            FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN flag changed to \(shouldUseVoiceBoostN)")
+        }
 
         setVolumeBoostSettings()
     }
@@ -361,9 +376,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         audioReadTask?.shutdown()
         audioPlayTask?.shutdown()
 
-        guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
+        guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()
@@ -373,10 +388,17 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func setVolumeBoostSettings() {
-        if !effects.volumeBoost {
+        let shouldBypassLegacy = !effects.volumeBoost || useVoiceBoostN.value
+        if shouldBypassLegacy {
+            // Bypass existing effects when VoiceBoostN handles it or volumeBoost off
             peakLimiter?.bypass = true
             highPassFilter?.bypass = true
             dynamicsProcessor?.bypass = true
+            if effects.volumeBoost && useVoiceBoostN.value {
+                FileLog.shared.addMessage("[EffectsPlayer] Volume boost enabled with VoiceBoostN - bypassing legacy AudioUnit chain")
+            } else if !effects.volumeBoost {
+                FileLog.shared.addMessage("[EffectsPlayer] Volume boost disabled - bypassing all effects")
+            }
         } else {
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_CutoffFrequency, value: 180)
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_Resonance, value: 0)
@@ -411,7 +433,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // MARK: - Audio Units
 
     private func setFloatParameter(_ audioUnit: AudioUnit?, key: AudioUnitParameterID, value: Float) {
-        if let audioUnit = audioUnit {
+        if let audioUnit {
             AudioUnitSetParameter(audioUnit, key, kAudioUnitScope_Global, 0, value, 0)
         }
     }

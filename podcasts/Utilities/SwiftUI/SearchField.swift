@@ -1,0 +1,161 @@
+import SwiftUI
+
+/// A SwiftUI TextField that mimics the functionality of a UISearchTextField
+/// SwiftUI has the [`.searchable(text:)`](https://developer.apple.com/documentation/swiftui/adding-a-search-interface-to-your-app) modifier
+/// but unfortunately that only works if your view is wrapped in a `NavigationStack` or `NavigationSplitView`.
+///
+/// You can use the [`disabled(_:)`](https://developer.apple.com/documentation/swiftui/view/disabled(_:)) modifier to disable the field
+///
+/// Usage:
+///
+///     struct MyView: View {
+///         @State var text: String = ""
+///
+///         var body: View {
+///             VStack {
+///                 SearchField($text)
+///                 TheRestOfTheOwl()
+///             }
+///             .padding()
+///         }
+///     }
+///
+/// The colors of the `SearchField` can be customized by subclassing the `SearchTheme` and passing it in
+///
+struct SearchField: View {
+    @ObservedObject var theme: SearchTheme = .init()
+
+    /// The search text binding
+    @Binding var text: String
+
+    var iconImageName = "custom_search"
+
+    var showsCancelButton: Bool = true
+
+    /// The placeholder text to display when the field is empty
+    var placeholder: String = L10n.search
+
+    /// Keeps track of whether the search field has focus or not
+    @FocusState private var isFocused: Bool
+
+    /// Whether we should show the cancel button, we keep this separate to ensure animations
+    @State private var isCancelVisible = false
+
+    /// If the control is `.disable(true)` or not. We'll fade out the search and remove any focus
+    @Environment(\.isEnabled) private var isEnabled
+
+    /// The scaled icon size
+    @ScaledMetricWithMaxSize(relativeTo: .subheadline, maxSize: .xxLarge) private var iconSize = 16.0
+
+    var body: some View {
+        // We use 2 stacks here to have the cancel button appear outside the background
+        HStack {
+            HStack(spacing: SearchFieldConstants.horizontalPadding) {
+                Image(iconImageName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: iconSize, height: iconSize)
+                    .foregroundStyle(theme.icon)
+                    .accessibilityHidden(true)
+
+                let prompt = Text(placeholder).foregroundColor(theme.placeholder)
+
+                TextField(placeholder, text: $text, prompt: prompt)
+                    .foregroundColor(theme.text)
+                    .focused($isFocused)
+                    .padding(.vertical, SearchFieldConstants.verticalPadding)
+
+                if !text.isEmpty {
+                    Image("search_cancel")
+                        .foregroundStyle(theme.icon)
+                        .buttonize {
+                            text = ""
+                        }
+                        .accessibilityLabel(L10n.clearSearch)
+                }
+            }
+            .padding(.horizontal, SearchFieldConstants.horizontalPadding)
+            .background(theme.background)
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: SearchFieldConstants.cornerRadius, height: SearchFieldConstants.cornerRadius), style: .continuous))
+            .font(size: 15, style: .body)
+
+            // Show the cancel button
+            if showsCancelButton && isCancelVisible {
+                Button(L10n.cancel) {
+                    withAnimation {
+                        text = ""
+                        isFocused = false
+                    }
+                }
+                .font(size: 15, style: .body)
+                .foregroundStyle(theme.cancel)
+                .transition(
+                    .move(edge: .trailing)
+                    .combined(with: .opacity)
+                    .animation(.linear(duration: 0.1))
+                )
+            }
+        }
+        // Fade the view out a bit if it's disabled
+        .opacity(isEnabled ? 1 : 0.8)
+
+        // Animate the shows cancel button in or out
+        .onChange(of: isFocused) { _, newValue in
+            withAnimation {
+                isCancelVisible = newValue
+            }
+        }
+        // If the disabled state changes, then remove focus from the field
+        .onChange(of: isEnabled) { _, newValue in
+            guard newValue else { return }
+
+            isFocused = false
+        }
+    }
+
+    class SearchTheme: ThemeObserver {
+        var background: Color {
+            theme.secondaryField01
+        }
+
+        var placeholder: Color {
+            theme.secondaryText02
+        }
+
+        var text: Color {
+            theme.secondaryText01
+        }
+
+        var cancel: Color {
+            theme.secondaryText01
+        }
+
+        var icon: Color {
+            theme.secondaryIcon02
+        }
+    }
+}
+
+private enum SearchFieldConstants {
+    static let horizontalPadding = 10.0
+    static let verticalPadding = 8.0
+    static let cornerRadius = 8.0
+}
+
+// MARK: - Previews
+
+struct SearchFieldView_Preview: PreviewProvider {
+    static var previews: some View {
+        PreviewView()
+            .setupDefaultEnvironment()
+    }
+
+    private struct PreviewView: View {
+        @State var title: String = ""
+
+        var body: some View {
+            SearchField(text: $title).padding()
+        }
+    }
+}

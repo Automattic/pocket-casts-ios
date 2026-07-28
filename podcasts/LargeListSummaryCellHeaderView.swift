@@ -25,16 +25,19 @@ class LargeListSummaryCellHeaderView: UIView {
 
     private let topLabel: ThemeableLabel = {
         let label = ThemeableLabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .font(ofSize: 15, weight: .medium, scalingWith: .title1)
         label.textColor = ThemeColor.primaryText02()
+        label.numberOfLines = 1
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
     private let bottomLabel: ThemeableLabel = {
         let label = ThemeableLabel()
         label.textColor = ThemeColor.primaryText01()
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
         label.numberOfLines = 1
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
@@ -73,6 +76,10 @@ class LargeListSummaryCellHeaderView: UIView {
     }
 
     private func setup() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: LargeListSummaryCellHeaderView, _) in
+            view.updateSize()
+        }
+
         addSubview(horizontalStack)
         horizontalStack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -95,5 +102,17 @@ class LargeListSummaryCellHeaderView: UIView {
 
         horizontalStack.addArrangedSubview(imageView)
         horizontalStack.addArrangedSubview(verticalStack)
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        topLabel.updateNumberOfLines(regular: 1, accessibility: 2)
+        bottomLabel.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 }

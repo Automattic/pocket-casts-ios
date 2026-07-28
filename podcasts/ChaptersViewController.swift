@@ -6,6 +6,11 @@ class ChaptersViewController: PlayerItemViewController {
 
     var numberOfDeselectedChapters = 0
 
+    /// The row whose generated chapter is currently being resolved to a real
+    /// playback position via fingerprinting (shows a spinner). Nil when idle.
+    /// Drives the per-row spinner from `cellForRowAt` so it survives cell reuse.
+    var resolvingIndexPath: IndexPath?
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()
@@ -19,20 +24,28 @@ class ChaptersViewController: PlayerItemViewController {
         return header
     }()
 
-    lazy var playbackManager: PlaybackManager = PlaybackManager.shared
+    lazy var playbackManager = PlaybackManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         chaptersTable.sectionHeaderTopPadding = 0
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ChaptersViewController, _) in
+            controller.updateSize()
+        }
     }
 
     override func willBeAddedToPlayer() {
         updateColors()
+        header.update()
         addObservers()
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        // Drop any in-flight chapter resolve so a backgrounded list can't seek later.
+        FingerprintTimingManager.shared.cancelPendingChapterResolve()
+        resolvingIndexPath = nil
     }
 
     override func themeDidChange() {
@@ -64,6 +77,7 @@ class ChaptersViewController: PlayerItemViewController {
     @objc private func update() {
         chaptersTable.reloadData()
         updateColors()
+        header.update()
     }
 
     @objc private func enableOrDisableChapterSelectionIfUserJustPurchased() {
@@ -79,5 +93,11 @@ class ChaptersViewController: PlayerItemViewController {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+    }
+
+    func updateSize() {
+        /// Forces headers & cells to recalculate their heights
+        chaptersTable.beginUpdates()
+        chaptersTable.endUpdates()
     }
 }

@@ -3,7 +3,7 @@ import UIKit
 class InformationalProfileBannerCell: ThemeableCell {
     static var identifier = "InformationalBannerIdentifier"
 
-    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+    private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()

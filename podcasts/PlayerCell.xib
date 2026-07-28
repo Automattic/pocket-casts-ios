@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <accessibility key="accessibilityConfiguration" label="Select Episode">
                             <accessibilityTraits key="traits" button="YES"/>
                             <bool key="isElement" value="YES"/>
@@ -39,55 +40,69 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OJf-Is-8tF" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="20" y="12" width="56" height="56"/>
+                        <rect key="frame" x="16" y="12" width="56" height="56"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="56" id="CmK-da-ABR"/>
                             <constraint firstAttribute="height" constant="56" id="Ohc-ER-Sk3"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="6" width="59" height="17"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="17" id="c1B-4L-ETj"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
-                        <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Glow In The Dark Sharks can be real snarks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE1-9S-69I" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="25" width="228" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oRM-hc-IES">
-                        <rect key="frame" x="84" y="48.5" width="236" height="16"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="TxV-st-0Vt" userLabel="Text Stack View">
+                        <rect key="frame" x="84" y="8" width="228" height="64"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="5GB-f2-YaE">
-                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="VxE-oZ-M1d"/>
-                                    <constraint firstAttribute="height" constant="16" id="e8b-sa-A6K"/>
-                                </constraints>
-                            </activityIndicatorView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_downloaded" translatesAutoresizingMaskIntoConstraints="NO" id="Ng8-Au-jkV" userLabel="Status Indicator">
-                                <rect key="frame" x="24" y="0.0" width="16" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="CAS-eL-8vT"/>
-                                    <constraint firstAttribute="width" constant="16" id="Y3Q-rK-Oi7"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 minutes left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-dn-LHr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="48" y="0.0" width="188" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="228" height="13.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ti1-tl-001" userLabel="Title Stack View">
+                                <rect key="frame" x="0.0" y="16.5" width="228" height="28.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="750" verticalCompressionResistancePriority="749" text="Glow In The Dark Sharks can be real snarks" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE1-9S-69I" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="28.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="list_starred" translatesAutoresizingMaskIntoConstraints="NO" id="Sa1-rI-001" userLabel="Star Indicator">
+                                        <rect key="frame" x="212" y="6.25" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="Sa1-rI-002"/>
+                                            <constraint firstAttribute="width" constant="16" id="Sa1-rI-003"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oRM-hc-IES">
+                                <rect key="frame" x="0.0" y="48" width="228" height="16"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="5GB-f2-YaE">
+                                        <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="16" id="VxE-oZ-M1d"/>
+                                            <constraint firstAttribute="height" constant="16" id="e8b-sa-A6K"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_downloaded" translatesAutoresizingMaskIntoConstraints="NO" id="Ng8-Au-jkV" userLabel="Status Indicator">
+                                        <rect key="frame" x="24" y="0.0" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="CAS-eL-8vT"/>
+                                            <constraint firstAttribute="width" constant="16" id="Y3Q-rK-Oi7"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 minutes left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-dn-LHr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <rect key="frame" x="48" y="0.0" width="180" height="16"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                     </stackView>
-                    <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPL-EK-QpB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="75" width="320" height="1"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPL-EK-QpB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="79" width="320" height="1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Yg3-Y0-GSr"/>
                         </constraints>
@@ -95,25 +110,27 @@
                 </subviews>
                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="vxd-V8-but" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="3jl-q6-Kuk"/>
-                    <constraint firstAttribute="trailing" secondItem="oRM-hc-IES" secondAttribute="trailing" id="6cL-cZ-UKS"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7mz-gA-2Vu"/>
-                    <constraint firstItem="wE1-9S-69I" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="8aj-Ja-L8V"/>
-                    <constraint firstAttribute="trailing" secondItem="SPL-EK-QpB" secondAttribute="trailing" id="FRd-Je-Vth"/>
-                    <constraint firstItem="SPL-EK-QpB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="THB-Gv-8b2"/>
-                    <constraint firstItem="oRM-hc-IES" firstAttribute="top" secondItem="wE1-9S-69I" secondAttribute="bottom" constant="4" id="Tna-d1-ajw"/>
+                    <constraint firstItem="SPL-EK-QpB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OJf-Is-8tF" secondAttribute="bottom" constant="6" id="FT0-GR-4aw"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-24" id="W6l-JH-2df"/>
                     <constraint firstItem="OJf-Is-8tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Z0H-Az-83U"/>
-                    <constraint firstItem="vxd-V8-but" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="aTa-Qw-wZX"/>
-                    <constraint firstItem="oRM-hc-IES" firstAttribute="leading" secondItem="wE1-9S-69I" secondAttribute="leading" id="bI8-92-Yir"/>
-                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-20" id="dAg-4g-2db"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wE1-9S-69I" secondAttribute="trailing" constant="8" id="eja-el-zCZ"/>
-                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="OJf-Is-8tF" secondAttribute="bottom" constant="8" id="ixX-SD-QBc"/>
-                    <constraint firstItem="wE1-9S-69I" firstAttribute="top" secondItem="vxd-V8-but" secondAttribute="bottom" constant="2" id="tXG-hc-RAK"/>
+                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-16" id="dAg-4g-2db"/>
+                    <constraint firstItem="OJf-Is-8tF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="img-tp-006"/>
+                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="ixX-SD-QBc"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TxV-st-0Vt" secondAttribute="bottom" constant="8" id="txt-bt-005"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="txt-cy-002"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="12" id="txt-le-001"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="txt-tp-004"/>
+                    <constraint firstAttribute="trailing" secondItem="TxV-st-0Vt" secondAttribute="trailing" constant="8" id="txt-tr-003"/>
                 </constraints>
             </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="SPL-EK-QpB" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="THB-Gv-8b2"/>
+                <constraint firstItem="KGk-i7-Jjw" firstAttribute="trailing" secondItem="SPL-EK-QpB" secondAttribute="trailing" id="FRd-Je-Vth"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="bottomDividerHeightConstraint" destination="Yg3-Y0-GSr" id="bdH-Pc-Hgt"/>
                 <outlet property="dayName" destination="vxd-V8-but" id="kbJ-Lr-CTk"/>
                 <outlet property="dividerView" destination="SPL-EK-QpB" id="qCw-qE-k2o"/>
                 <outlet property="downloadedIndicator" destination="Ng8-Au-jkV" id="98F-lX-CmF"/>
@@ -125,6 +142,7 @@
                 <outlet property="selectTickImageView" destination="AyY-wx-McL" id="3kT-AZ-sDy"/>
                 <outlet property="selectView" destination="IaQ-ms-xZi" id="qjE-HX-gdM"/>
                 <outlet property="selectViewLeadingConstraint" destination="W6l-JH-2df" id="Pg2-Ue-1KX"/>
+                <outlet property="starIndicator" destination="Sa1-rI-001" id="Sa1-rI-out"/>
             </connections>
             <point key="canvasLocation" x="-1187.2" y="-40.479760119940032"/>
         </tableViewCell>
@@ -132,5 +150,9 @@
     <resources>
         <image name="discover_tick" width="24" height="24"/>
         <image name="list_downloaded" width="16" height="16"/>
+        <image name="list_starred" width="16" height="16"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

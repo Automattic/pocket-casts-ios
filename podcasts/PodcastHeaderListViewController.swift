@@ -8,7 +8,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     var showRankingNumber = false
     var labelTitle: String?
 
-    @IBOutlet var chartsTable: UITableView!
+    @IBOutlet var chartsTable: ThemeableTable!
 
     private weak var delegate: DiscoverDelegate?
     private static let cellId = "DiscoverCell"
@@ -33,6 +33,12 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: PodcastHeaderListViewController, _) in
+            controller.chartsTable.reloadData()
+        }
+
+        chartsTable.themeStyle = .primaryUi02
 
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)
@@ -62,10 +68,20 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     // MARK: - UITableView Methods
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
         if showFeaturedCell, indexPath.row == 0 {
-            return 181.0
+            return DiscoverFeaturedView.scaledHeight
         }
-        return 65
+        return UITableView.automaticDimension
+    }
+
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let preferredBodySize = UIFontMetrics.default.scaledValue(for: 17)
+        if showFeaturedCell, indexPath.row == 0 {
+            return DiscoverFeaturedView.scaledHeight
+        }
+        return max(UIFontMetrics.default.scaledValue(for: 65), preferredBodySize * 2)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,7 +118,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let delegate = delegate {
+        if let delegate {
             let podcast = podcasts[indexPath.row]
             delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: nil)
         }

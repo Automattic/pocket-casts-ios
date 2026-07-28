@@ -3,8 +3,7 @@ import UIKit
 class ThemeAbstractCell: UICollectionViewCell {
     @IBOutlet var nameLabel: ThemeableLabel! {
         didSet {
-            nameLabel.setLetterSpacing(-0.02)
-            nameLabel.sizeToFit()
+            nameLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 

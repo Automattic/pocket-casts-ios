@@ -10,6 +10,6 @@
 + (void)setDontBackupFlag:(NSURL * _Nonnull)url;
 + (void)removeDontBackupFlag:(NSURL * _Nonnull)url;
 
-+ (BOOL)catchException:(void(^_Nullable)(void))tryBlock error:(__autoreleasing NSError  * _Nullable * _Nullable)error;
++ (BOOL)catchException:(NS_NOESCAPE void(^_Nullable)(void))tryBlock error:(__autoreleasing NSError  * _Nullable * _Nullable)error;
 
 @end

@@ -7,6 +7,7 @@ import PocketCastsDataModel
 class StarredFilterOverlayController: PCViewController {
     private static let starredEpisodeCellId = "StarredEpisodeCellId"
     private static let smartRuleHeaderCellId = "SmartRuleHeaderCellId"
+    private static let previewCellId = "EpisodePreviewCell"
 
     var filterToEdit: EpisodeFilter!
     var analyticsSource: AnalyticsSource = .filters
@@ -18,8 +19,9 @@ class StarredFilterOverlayController: PCViewController {
             tableView.delegate = self
             tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: Self.smartRuleHeaderCellId)
-            tableView.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: FilterPreviewViewController.previewCellId)
+            tableView.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: Self.previewCellId)
             tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = UITableView.automaticDimension
         }
     }
     private var viewModel: SmartRuleToggleViewModel!
@@ -65,24 +67,26 @@ class StarredFilterOverlayController: PCViewController {
         let backgroundColor = AppTheme.viewBackgroundColor()
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
-        largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
         title = SmartPlaylistRule.starred.title
 
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-        appearance.largeTitleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        appearance.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.sizeToFit()
+        if !LiquidGlass.isEnabled {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+            appearance.largeTitleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            appearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.sizeToFit()
+        }
     }
 
     private func setupViewModel() {
@@ -148,8 +152,12 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistSmartRuleSaveButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
+        saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        saveButton.tintColor = ThemeColor.primaryInteractive02()
+        saveButton.titleLabel?.font = UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
+        saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        saveButton.titleLabel?.numberOfLines = 0
+        saveButton.titleLabel?.lineBreakMode = .byWordWrapping
     }
 
     @objc private func saveTapped(sender: Any) {
@@ -184,14 +192,14 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
                     .environmentObject(Theme.sharedTheme)
-                    .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
+                    .frame(minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)
             .margins(.vertical, 0)
             return cell
         }
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: FilterPreviewViewController.previewCellId, for: indexPath) as! EpisodePreviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Self.previewCellId, for: indexPath) as! EpisodePreviewCell
         cell.imageLeftPadding.constant = 16.0
         cell.style = .primaryUi01
         if let listEpisode = episodes[safe: indexPath.row] {

@@ -10,7 +10,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     private let plusLockedInfoCellId = "PlusLockedCell"
 
     private enum TableRow {
-        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout, darkUpNextTheme
+        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout, darkUpNextTheme, tabBarMinimizing
     }
 
     private var tableData = [[TableRow]]()
@@ -22,6 +22,11 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             settingsTable.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
             settingsTable.register(UINib(nibName: "IconSelectorCell", bundle: nil), forCellReuseIdentifier: iconSelectorCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: plusLockedInfoCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -49,7 +54,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateTableAndData()
         }
@@ -71,14 +76,12 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let rowType = tableData[indexPath.section][indexPath.row]
-
         if rowType == .appIcon {
-            return 188
-        } else if rowType == .plusCallout {
-            return 161
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            return metric.scaledValue(for: 188)
         }
 
-        return 44
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -101,6 +104,15 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             cell.cellSwitch.isOn = Settings.darkUpNextTheme
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(darkUpNextToggled(_:)), for: .valueChanged)
+
+            return cell
+
+        case .tabBarMinimizing:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = L10n.appearanceTabBarMinimizing
+            cell.cellSwitch.isOn = Settings.tabBarMinimizingEnabled
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(tabBarMinimizingToggled(_:)), for: .valueChanged)
 
             return cell
 
@@ -152,19 +164,19 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             SJUIUtils.showAlert(title: L10n.appearanceRefreshAllArtworkConfTitle, message: L10n.appearanceRefreshAllArtworkConfMsg, from: self)
             refreshAllPodcastArtwork()
         } else if row == .lightTheme {
-            presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
-                Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+            presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
+                Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
             }
         } else if row == .darkTheme {
-            presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { [weak self] theme in
-                Theme.setPreferredDarkTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark, userInitiated: true)
+            presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { theme in
+                Theme.setPreferredDarkTheme(theme, systemIsDark: Theme.systemIsDark, userInitiated: true)
             }
         }
     }
 
     func presentThemePicker(selectedTheme: Theme.ThemeType, persistThemeChange: @escaping (Theme.ThemeType) -> Void) {
         let themeSelector = ThemeSelectorView(title: L10n.appearanceThemeSelect, onThemeSelected: { [weak self] theme in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {
@@ -197,13 +209,11 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
         case .darkUpNextTheme:
             return SettingsTableHeader(frame: headerFrame, title: L10n.upNext)
+        case .tabBarMinimizing:
+            return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceTabBarHeader)
         default:
             return nil
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -212,6 +222,8 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             L10n.appearanceEmbeddedArtworkSubtitle
         case .darkUpNextTheme:
             L10n.settingsUpNextDarkModeFooter
+        case .tabBarMinimizing:
+            L10n.appearanceTabBarMinimizingFooter
         default: nil
         }
     }
@@ -253,12 +265,23 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         Settings.loadEmbeddedImages = sender.isOn
     }
 
+    @objc private func tabBarMinimizingToggled(_ sender: UISwitch) {
+        Settings.tabBarMinimizingEnabled = sender.isOn
+        NavigationManager.sharedManager.miniPlayer?.applyTabBarMinimizingPreference()
+        Settings.trackValueToggled(.settingsAppearanceTabBarMinimizingToggled, enabled: sender.isOn)
+    }
+
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
         if Settings.shouldFollowSystemTheme() {
             newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         } else {
             newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
+        }
+
+        // The tab bar's minimize-on-scroll behavior only exists on iOS 26's Liquid Glass tab bar.
+        if LiquidGlass.isEnabled {
+            newTableData.append([.tabBarMinimizing])
         }
 
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {

@@ -44,12 +44,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let headerView = AccountHeaderView(viewModel: headerViewModel)
 
         let view = headerView.themedUIView
-        if FeatureFlag.newOnboardingUpgrade.enabled {
-            view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
-            self.tableView.themeStyle =  ThemeStyle.primaryUi03
-        } else {
-            view.backgroundColor = .clear
-        }
+        view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
+        self.tableView.themeStyle =  ThemeStyle.primaryUi03
 
         return view
     }()
@@ -90,7 +86,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     @objc private func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateDisplayedData()
         }
@@ -128,11 +124,10 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             }
 
             updateTableRows(newRows: newTableRows)
-
         } else {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
-            if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
+            if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), !subscriptionPodcasts.isEmpty {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
 

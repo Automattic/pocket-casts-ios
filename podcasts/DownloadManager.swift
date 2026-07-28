@@ -83,10 +83,19 @@ class DownloadManager: NSObject, FilePathProtocol {
     #endif
 
     #if !os(watchOS)
-         private lazy var episodeArtwork: EpisodeArtwork = {
-             EpisodeArtwork()
-         }()
+    @MainActor
+    private lazy var episodeArtwork = EpisodeArtwork()
     #endif
+
+    /// Eagerly initializes all URLSessions to avoid race conditions.
+    /// Swift lazy properties are not thread-safe: if multiple threads access an
+    /// uninitialized lazy var concurrently, the initializer can run more than once.
+    /// Calling this from `init()` guarantees single-threaded first access.
+    private func setupSessions() {
+        _ = wifiOnlyBackgroundSession
+        _ = cellularBackgroundSession
+        _ = cellularForegroundSession
+    }
 
     lazy var wifiOnlyBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
@@ -136,18 +145,24 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     lazy var podcastsDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
-
+#endif
         return directory
     }()
 
     private lazy var streamingBufferDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
-
+#endif
         return directory
     }()
 
-    private var tempDownloadFolder = ""
+    private(set) var tempDownloadFolder = ""
 
     let dataManager: DataManager
 
@@ -155,6 +170,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         self.dataManager = dataManager
         super.init()
 
+        setupSessions()
         // setup the temp download folder, in caches where iOS can purge it if need be
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
         if let cachePath = paths.first as NSString? {
@@ -188,7 +204,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         // Update all the downloaded files existing protections
-        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), paths.count > 0 else {
+        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), !paths.isEmpty else {
             return
         }
 
@@ -198,11 +214,23 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
+    /// Deletes the contents of the download, buffer, and temp folders (keeping the folders). Used by tvOS logout.
+    func removeAllDownloadedFiles() {
+        let folders = [podcastsDirectory, streamingBufferDirectory, tempDownloadFolder]
+        for folder in folders where !folder.isEmpty {
+            guard let contents = try? FileManager.default.contentsOfDirectory(atPath: folder) else { continue }
+            for file in contents {
+                let path = (folder as NSString).appendingPathComponent(file)
+                try? FileManager.default.removeItem(atPath: path)
+            }
+        }
+    }
+
     func addLocalFile(url: URL, uuid: String) throws -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
         do {
             try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
-        } catch let error {
+        } catch {
             let nsError = error as NSError
             switch (nsError.domain, nsError.code) {
             case (NSCocoaErrorDomain, 513):
@@ -256,7 +284,11 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // try and cache the episode embedded artwork
         #if !os(watchOS)
-        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        let artworkPodcastUuid = episode.parentIdentifier()
+        let artworkEpisodeUuid = episode.uuid
+        Task { @MainActor in
+            episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: artworkPodcastUuid, episodeUuid: artworkEpisodeUuid)
+        }
         #endif
 
         // download requested for something we already have buferred, just move it
@@ -290,7 +322,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         } else if let episode = episode as? UserEpisode {
             ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { [weak self] url in
-                guard let url = url else {
+                guard let url else {
                     self?.dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
                     return
@@ -346,6 +378,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         guard FeatureFlag.streamAndCachePlayingEpisode.enabled,
+              !EpisodeManager.hasHLSStream(episode), // HLS is streamed directly, never cached
               !episode.videoPodcast(),
               !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
@@ -355,9 +388,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             return playbackItem
         }
         var newItem: AVPlayerItem = playbackItem
-        #if !os(watchOS) && !APPCLIP
-        if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue,
-           let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
+        if let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
             // We are already downloading this episode for streaming
             FileLog.shared.addMessage("DownloadManager stream and download: skipping because we are already exporting: \(episode.uuid)")
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
@@ -399,7 +431,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let exportPath = outputURL.pathComponents.joined(separator: "/")
         let exportStatus =  ExportStatus()
         let originalSizeInBytes = episode.sizeInBytes
-        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { [weak self, exportStatus] status, contentType, bytesDownloaded, bytesExpected in
+        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath, episodeUuid: episode.uuid, podcastUuid: episode.parentIdentifier()) { [weak self, exportStatus] status, contentType, bytesDownloaded, bytesExpected in
             guard let self else {
                 return
             }
@@ -445,7 +477,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             if exportStatus.error == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
-                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType)
+                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType, copyFile: true)
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
@@ -480,7 +512,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.lastArchiveInteractionDate = Date()
 
             // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
-            if let parentPodcast = episode.parentPodcast(), parentPodcast.autoArchiveEpisodeLimitCount > 0 {
+            if let parentPodcast = episode.parentPodcast(), parentPodcast.autoArchiveEpisodeLimit > 0 {
                 episode.excludeFromEpisodeLimit = true
             }
 
@@ -507,7 +539,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         // make sure the URL is valid and has a supported scheme: only http and https are allowed
-        guard let url = downloadUrl, let scheme = url.scheme, scheme.count > 0, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
+        guard let url = downloadUrl, let scheme = url.scheme, !scheme.isEmpty, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
             dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
 
             logDownload(episode, failure: .malformedHost)
@@ -555,7 +587,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     private func shouldSkipExistingTask(for episode: BaseEpisode, in session: URLSession, matching request: URLRequest) async -> Bool {
         if let task = await session.existingTask(for: episode) {
             if task.originalRequest?.url == request.url {
-                if task.error == nil {
+                if task.error == nil, task.state == .running || task.state == .suspended {
                     // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
                     // Before this change, we allowed any new download so we'd rather start out more restrictive
                     return true
@@ -636,7 +668,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func isEpisodeDownloading(_ episode: BaseEpisode) -> Bool {
-        return downloadingEpisodesCache.contains(where: { (_, downloadingEpisode) in
+        return downloadingEpisodesCache.contains(where: { _, downloadingEpisode in
             return episode.uuid == downloadingEpisode.uuid
         })
     }
@@ -676,10 +708,10 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     private func cancelTaskId(_ taskId: String?, episode: BaseEpisode, session: URLSession) {
-        guard let taskId = taskId else { return }
+        guard let taskId else { return }
 
         session.getTasksWithCompletionHandler { [weak self] _, _, downloadTasks in
-            if downloadTasks.count == 0 { return }
+            if downloadTasks.isEmpty { return }
 
             for task in downloadTasks {
                 if let taskDescription = task.taskDescription, taskId == taskDescription {
@@ -692,7 +724,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private func cancelTask(_ task: URLSessionDownloadTask, for episode: BaseEpisode) {
         task.cancel { [weak self] data in
-            if let data = data, data.count > 0, let tempFilePath = self?.tempPathForEpisode(episode) {
+            if let data, !data.isEmpty, let tempFilePath = self?.tempPathForEpisode(episode) {
                 do {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
                 } catch {
@@ -704,7 +736,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
         progressManager.removeProgressForEpisode(episode.uuid)
-
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {
@@ -785,7 +816,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func allTasks() async -> [URLSessionTask] {
         return [await wifiOnlyBackgroundSession.allTasks,
-         await cellularForegroundSession.allTasks,
-         await cellularBackgroundSession.allTasks].flatMap { $0 }
+                await cellularForegroundSession.allTasks,
+                await cellularBackgroundSession.allTasks].flatMap { $0 }
     }
 }

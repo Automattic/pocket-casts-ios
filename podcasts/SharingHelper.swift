@@ -22,7 +22,7 @@ class SharingHelper: NSObject {
         guard let sharingUrl = URL(string: ServerConstants.Urls.pocketcastsDotCom) else { return }
 
         activityController = UIActivityViewController(activityItems: [L10n.appShareText, sharingUrl], applicationActivities: nil)
-        guard let activityController = activityController else { return }
+        guard let activityController else { return }
 
         activityController.completionWithItemsHandler = nil
 
@@ -35,6 +35,11 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, fromSource: AnalyticsSource, barButtonItem: UIBarButtonItem?) {
+        guard !podcast.isPrivate else {
+            Toast.show(L10n.sharePodcastPrivateNotAvailable)
+            return
+        }
+
         AnalyticsHelper.sharedPodcast()
 
         SharingModal.show(option: .podcast(podcast), from: fromSource, in: fromController)
@@ -46,7 +51,7 @@ class SharingHelper: NSObject {
         activityController = UIActivityViewController(activityItems: [URL(string: url)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = nil
 
-        guard let activityController = activityController else { return }
+        guard let activityController else { return }
 
         fromController.present(activityController, animated: true) {
             completionHandler?()

@@ -39,7 +39,7 @@ extension PlaylistDetailViewController {
         let editAction = editAction()
         optionsPicker.addAction(action: editAction)
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionsPicker.present(from: self)
     }
 
     // MARK: - Multiselect
@@ -64,13 +64,14 @@ extension PlaylistDetailViewController {
 
     private func sortAction() -> OptionAction {
         let currentSort = PlaylistSort(rawValue: viewModel.playlist.sortType)?.description ?? ""
-        return OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
+        let action = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
             self?.track(.filterSortByTapped)
-            self?.showSortByPicker()
         }
+        action.submenu = { [weak self] in self?.makeSortByPicker() }
+        return action
     }
 
-    private func showSortByPicker() {
+    private func makeSortByPicker() -> OptionsPicker {
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
         addSortAction(to: optionsPicker, sortOrder: .newestToOldest)
@@ -82,14 +83,14 @@ extension PlaylistDetailViewController {
             addSortAction(to: optionsPicker, sortOrder: .dragAndDrop)
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        return optionsPicker
     }
 
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
         let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) { [weak self] in
             guard let self else { return }
             self.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
-            let playlist = self.viewModel.playlist!
+            let playlist = self.viewModel.playlist
             playlist.sortType = sortOrder.rawValue
             self.viewModel.update(playlist: playlist)
             self.savePlaylist()
@@ -98,7 +99,7 @@ extension PlaylistDetailViewController {
     }
 
     private func savePlaylist() {
-        let playlist = self.viewModel.playlist!
+        let playlist = self.viewModel.playlist
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.update(playlist: playlist)
         DataManager.sharedManager.save(playlist: viewModel.playlist)
@@ -109,7 +110,7 @@ extension PlaylistDetailViewController {
 
     private func reorderEpisodesAction() -> OptionAction {
         OptionAction(label: L10n.playlistManualEpisodesOrderOption, icon: "filter_manual_episode_order") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.track(.filterRearrangeEpisodesTapped)
             self.showCustomOrderList()
         }
@@ -123,43 +124,46 @@ extension PlaylistDetailViewController {
     // MARK: - Download
 
     private func downloadAllOption() -> OptionAction {
-        OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
-            guard let self = self else { return }
-            self.track(.filterDownloadAllTapped)
-
-            let downloadableCount = self.downloadableCount(listEpisodes: self.viewModel.episodes)
-            let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
-            let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
-            if actualDownloadCount == 0 { return }
-            let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
-            let downloadAction = OptionAction(label: downloadText, icon: nil) { [weak self] in
-                self?.downloadAll()
-            }
-
-            let confirmPicker = OptionsPicker(title: nil)
-            var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-
-            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-                confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-            } else {
-                downloadAction.destructive = true
-
-                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                    self.queueAll()
-                }
-
-                if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
-                }
-
-                confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
-            }
-            confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        let action = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
+            self?.track(.filterDownloadAllTapped)
         }
+        action.submenu = { [weak self] in self?.makeDownloadAllPicker() }
+        return action
+    }
+
+    private func makeDownloadAllPicker() -> OptionsPicker? {
+        let downloadableCount = downloadableCount(listEpisodes: viewModel.episodes)
+        let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
+        let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
+        if actualDownloadCount == 0 { return nil }
+        let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
+        let downloadAction = OptionAction(label: downloadText, icon: nil) { [weak self] in
+            self?.downloadAll()
+        }
+
+        let confirmPicker = OptionsPicker(title: nil)
+        var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+        } else {
+            downloadAction.destructive = true
+
+            let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) { [weak self] in
+                self?.queueAll()
+            }
+
+            if !Settings.mobileDataAllowed() {
+                warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
+            }
+
+            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+        }
+        return confirmPicker
     }
 
     private func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
-        if listEpisodes.count == 0 { return 0 }
+        if listEpisodes.isEmpty { return 0 }
         var count = 0
 
         for listEpisode in listEpisodes {
@@ -180,7 +184,7 @@ extension PlaylistDetailViewController {
 
     private func start(action: ActionType, forAllEpisodes episodes: [ListEpisode]) {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if self.viewModel.episodes.isEmpty { return }
 
@@ -229,7 +233,7 @@ extension PlaylistDetailViewController {
 
     private func unarchiveAllPlaylistEpisodes() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             let newData = self.viewModel.episodesDataManager.playlistEpisodes(for: self.viewModel.playlist, shouldShowArchived: true)
             let episodes = newData.map { $0.episode }
             EpisodeManager.bulkUnarchive(episodes: episodes)

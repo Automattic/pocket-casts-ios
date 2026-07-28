@@ -1,5 +1,6 @@
 import UIKit
 import Combine
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -10,7 +11,38 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var transcript: TranscriptModel?
     private var previousRange: NSRange?
 
+    // Whether a highlight is currently rendered. Tracked separately from
+    // `previousRange` because that can be nilled without restyling, leaving a
+    // highlight on screen that still needs clearing when we leave matched content.
+    private var hasRenderedHighlight = false
+
     private var canScrollToDismiss = true
+
+    private var isUserScrolling = false
+    private var hasNonEmptySelection = false
+    // Stays `true` for the entire scroll-back grace period, not just while the
+    // user's finger is on the view. `isUserScrolling` flips back to false the
+    // instant the drag ends, so without this, the next playback tick would
+    // snap the view back to the highlight before the 5s return fires.
+    private var isAutoScrollSuppressed = false
+    private var autoScrollBackWorkItem: DispatchWorkItem?
+    private static let autoScrollBackDelay: TimeInterval = 5.0
+
+    // Position the active cue ~30% from the top of the visible area so a few
+    // upcoming lines are always visible below it.
+    private static let highlightVerticalAnchor: CGFloat = 0.3
+
+    // `playbackProgress` fires roughly once per second, which means the highlight
+    // can land up to ~1s after a cue boundary. Drive updates off the display
+    // refresh instead so transitions land within one frame (~16ms at 60Hz).
+    // The cue-equality guard inside updateTranscriptPosition makes each tick
+    // effectively free when nothing has changed.
+    private var highlightDisplayLink: CADisplayLink?
+
+    // Cursor into `transcript.cues` used by `currentCue(at:)` to avoid an O(n)
+    // linear scan on every display-link tick. Valid while the active cue is at
+    // or ahead of this index; reset when a new transcript is loaded.
+    private var cachedCueIndex: Int = 0
 
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
@@ -21,7 +53,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var kmpSearch: KMPSearch?
 
+    private var syncedSeeksCount = 0
+    private var appearDate: Date?
+    private var autoScrollSuppressedDate: Date?
+
     private var transcriptManager: TranscriptManager?
+
+    #if DEBUG
+    private var debugOverlay: FingerprintDebugOverlay?
+    private var debugTimer: Timer?
+    #endif
 
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
@@ -51,7 +92,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         if FeatureFlag.generatedTranscripts.enabled {
@@ -64,10 +105,59 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
+        cancelAutoScrollBack()
+    }
+
+    deinit {
+        autoScrollBackWorkItem?.cancel()
+        highlightDisplayLink?.invalidate()
+    }
+
+    private func startHighlightDisplayLink() {
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        stopHighlightDisplayLink()
+        let link = CADisplayLink(target: self, selector: #selector(highlightTick))
+        link.add(to: .main, forMode: .common)
+        link.isPaused = !playbackManager.isPlayingEpisode
+        highlightDisplayLink = link
+        // Opening the transcript while paused leaves the link paused, so
+        // `playbackProgress` won't fire and the initial highlight wouldn't
+        // appear. Force one position update so the current cue is shown even
+        // if playback never resumes.
+        updateTranscriptPosition()
+    }
+
+    private func stopHighlightDisplayLink() {
+        highlightDisplayLink?.invalidate()
+        highlightDisplayLink = nil
+    }
+
+    /// Toggle the highlight display link based purely on whether playback is
+    /// advancing. We deliberately don't gate on `FingerprintTimingManager.state`
+    /// here — the existing `guard case .active = ...` inside
+    /// `updateTranscriptPosition` already short-circuits the per-tick highlight
+    /// work when the manager isn't ready, and stacking a second gate at the
+    /// display-link level is what trapped the manager in `.preparing` on the
+    /// prior POC-546 attempt (the link would pause before the manager could
+    /// post a state change).
+    @objc private func updateHighlightDisplayLinkPauseState() {
+        highlightDisplayLink?.isPaused = !playbackManager.isPlayingEpisode
+    }
+
+    @objc private func highlightTick() {
+        updateTranscriptPosition()
     }
 
     func didDisappear() {
-        track(.transcriptDismissed)
+        let syncedState = FingerprintTimingManager.shared.state
+        var properties: [String: Sendable] = [
+            "synced_state_at_dismiss": syncedState.analyticsName,
+            "synced_seeks_count": syncedSeeksCount
+        ]
+        if let appear = appearDate {
+            properties["engagement_seconds"] = Int(Date().timeIntervalSince(appear))
+        }
+        track(.transcriptDismissed, properties: properties)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -75,7 +165,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func setHasGeneratedTranscripts(_ value: Bool) {
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
 
         if FeatureFlag.generatedTranscripts.enabled, value {
             transcriptViewTopConstraint?.constant = 80.0 + topMargin
@@ -106,6 +196,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func setupViews() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self, UITraitHorizontalSizeClass.self]) { (controller: TranscriptViewController, previousTraitCollection: UITraitCollection) in
+            if controller.traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory {
+                controller.refreshText()
+                controller.refreshError()
+                controller.refreshActionButtons()
+            }
+            controller.updateTextMargins()
+        }
+
         view.addSubview(transcriptView)
         let transcriptViewTopConstraint = transcriptView.topAnchor.constraint(equalTo: view.topAnchor)
         self.transcriptViewTopConstraint = transcriptViewTopConstraint
@@ -117,6 +216,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
+
+        if FeatureFlag.syncedTranscripts.enabled {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(transcriptTapped(_:)))
+            transcriptView.addGestureRecognizer(tap)
+        }
 
         updateTextMargins()
         transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
@@ -166,6 +270,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(hiddenTextView)
 
+        #if DEBUG
+        let overlay = FingerprintDebugOverlay()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(overlay)
+        NSLayoutConstraint.activate([
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            overlay.heightAnchor.constraint(equalToConstant: 16)
+        ])
+        debugOverlay = overlay
+        #endif
+
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
 
@@ -181,7 +298,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
@@ -226,6 +343,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     @objc private func displaySearch() {
         isSearching = true
+        cancelAutoScrollBack()
 
         // Keep the inputAccessoryView dark
         parent?.view.overrideUserInterfaceStyle = .dark
@@ -245,7 +363,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func shareEpisode() {
-        guard let transcript = transcript else { return }
+        guard let transcript else { return }
 
         let transcriptText = transcript.attributedText.string
         let activityViewController = UIActivityViewController(activityItems: [transcriptText], applicationActivities: nil)
@@ -267,18 +385,23 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resignFirstResponder()
     }
 
+    private lazy var bannerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.generatedTranscriptsBanner
+        label.numberOfLines = 2
+        label.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+        label.textColor = showFromEpisode ? ThemeColor.primaryText01() : .white.withAlphaComponent(0.5)
+        label.backgroundColor = .clear
+        return label
+    }()
+
     private lazy var bannerView: UIView = {
         let view = UIView()
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = L10n.generatedTranscriptsBanner
-        label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = showFromEpisode ? ThemeColor.primaryText01() : .white.withAlphaComponent(0.5)
-        label.backgroundColor = .clear
+        let label = bannerLabel
         view.addSubview(label)
 
         let stroke = UIView()
@@ -333,53 +456,61 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private lazy var closeButton: TintableImageButton! = {
         let closeButton = TintableImageButton()
         closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.primaryIcon02()
+        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
     }()
 
     private lazy var searchButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let searchButton = RoundButton(type: .system)
-        searchButton.setTitle(L10n.search, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
         searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
         searchButton.setTitleColor(titleColor, for: .normal)
         searchButton.tintColor = tintColor
         searchButton.layer.masksToBounds = true
         searchButton.configuration = configuration
-        searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        searchButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        searchButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return searchButton
     }()
 
     private lazy var playButton: RoundPlayPauseButton = {
         let playButton = RoundPlayPauseButton.makeButton(playbackManager: playbackManager)
         playButton.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
-        playButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        playButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return playButton
     }()
 
     private lazy var shareButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let shareButton = RoundButton(type: .system)
-        shareButton.setTitle(L10n.share, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
         shareButton.addTarget(self, action: #selector(shareEpisode), for: .touchUpInside)
         shareButton.setTitleColor(titleColor, for: .normal)
         shareButton.tintColor = tintColor
         shareButton.layer.masksToBounds = true
         shareButton.configuration = configuration
-        shareButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        shareButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        shareButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return shareButton
     }()
 
@@ -413,11 +544,31 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         updateColors()
         loadTranscript()
         addObservers()
-        (transcriptView as UIScrollView).delegate = self
+        transcriptView.delegate = self
+        #if DEBUG
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+            self?.debugOverlay?.update()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        debugTimer = timer
+        #endif
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        stopHighlightDisplayLink()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.stop()
+        }
+        #if DEBUG
+        debugTimer?.invalidate()
+        debugTimer = nil
+        #endif
+    }
+
+    private func stopSyncedTranscripts() {
+        FingerprintTimingManager.shared.stop()
+        stopHighlightDisplayLink()
     }
 
     override func themeDidChange() {
@@ -494,20 +645,37 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
+                let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
+                    if isDisplayingGenerated {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: self.playbackManager.episodeUUID) {
+                            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+                        }
+                        self.startHighlightDisplayLink()
+                    } else {
+                        self.stopSyncedTranscripts()
+                    }
                     UIView.animate(withDuration: 0.25) {
                         if hasGeneratedTranscripts, self.shouldShowPremiumView {
                             self.stackView.alpha = 0
                             self.showGeneratedTranscriptsPremiumOverlay?()
                         } else {
-                            self.track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
+                            self.appearDate = Date()
+                            let syncedState = FingerprintTimingManager.shared.state
+                            self.track(.transcriptShown, properties: [
+                                "type": transcript.type,
+                                "show_as_webpage": transcript.hasJavascript,
+                                "synced_flag_enabled": FeatureFlag.syncedTranscripts.enabled,
+                                "synced_state": syncedState.analyticsName
+                            ])
                         }
                         self.bannerView.isHidden = !hasGeneratedTranscripts
                     }
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
+                await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
@@ -523,7 +691,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             if FeatureFlag.generatedTranscripts.enabled,
                transcriptManager?.hasGeneratedTranscripts == true {
                 self.stackView.alpha = 1.0
@@ -549,15 +717,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         kmpSearch = nil
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            refreshText()
-            refreshError()
-        }
-        updateTextMargins()
+    private func refreshActionButtons() {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
+        shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
+        playButton.updateSize()
+
+        bannerLabel.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
     }
 
-    public override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTextMargins()
     }
@@ -591,7 +762,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func show(transcript: TranscriptModel, resetPosition: Bool) {
         setupShowTranscriptState()
         previousRange = nil
+        cachedCueIndex = 0
+        hasRenderedHighlight = false
         self.transcript = transcript
+        hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
             transcriptView.setContentOffset(.zero, animated: false)
@@ -627,7 +801,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         formattedText.beginEditing()
         let normalStyle = makeStyle()
         var highlightStyle = normalStyle
-        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast01()
+        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.playerContrast01()
 
         let fullLength = NSRange(location: 0, length: formattedText.length)
         formattedText.addAttributes(normalStyle, range: fullLength)
@@ -657,7 +831,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
                     formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
                 }
-
             }
         }
         formattedText.endEditing()
@@ -680,28 +853,192 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //We disabled the method bellow until we find a way to resync/shift transcript positions
-        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        if FeatureFlag.syncedTranscripts.enabled {
+            addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+            addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateHighlightDisplayLinkPauseState))
+        }
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
-        guard let transcript else {
+        guard let transcript else { return }
+
+        let rawTime = playbackManager.currentTime()
+
+        // Highlighting is opt-in: only paint while playback is confidently on
+        // matched content. Off it — dynamic ads, unmatched audio, regions not yet
+        // fingerprinted, or before/after the mapped range — we clear and leave it
+        // cleared. Crossing the last matched anchor flips this immediately, so we
+        // never highlight ad words first and retract them.
+        guard case .active = FingerprintTimingManager.shared.state,
+              let position = FingerprintTimingManager.shared.matchedReferenceTime(forPlaybackTime: rawTime) else {
+            clearHighlight(transcript: transcript)
             return
         }
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+
+        let currentCue = currentCue(at: position, in: transcript.cues)
+
+        if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
-            //Comment this line out if you want to check the player position and cues in range
-            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
             previousRange = range
+            hasRenderedHighlight = true
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
-            // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: range.location, length: range.length * 2)
-            transcriptView.scrollRangeToVisible(scrollRange)
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                transcriptView.scrollToRange(range, verticalAnchor: Self.highlightVerticalAnchor)
+            }
+            #if DEBUG
+            let intoCue = position - cue.startTime
+            FileLog.shared.addMessage(
+                "[transcript-offset] playback=\(String(format: "%.3f", rawTime))" +
+                " reference=\(String(format: "%.3f", position))" +
+                " cue=[\(String(format: "%.3f", cue.startTime))..\(String(format: "%.3f", cue.endTime))]" +
+                " intoCue=\(String(format: "%+.3f", intoCue))"
+            )
+            #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
-            previousRange = nil
-            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            // Before the first cue there's nothing to highlight — clear any rendered
+            // highlight rather than just nil'ing `previousRange`, which would leave a
+            // painted range on screen.
+            clearHighlight(transcript: transcript)
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            }
         }
+    }
+
+    /// Remove any rendered highlight while leaving the scroll position untouched.
+    /// Mutates `textStorage` in place rather than reassigning `attributedText`
+    /// (which resets the text view's scroll on the next layout pass), and keys off
+    /// `hasRenderedHighlight` rather than `previousRange` since the latter can be
+    /// nilled elsewhere without restyling, leaving a highlight on screen.
+    private func clearHighlight(transcript: TranscriptModel) {
+        guard hasRenderedHighlight else { return }
+        previousRange = nil
+        hasRenderedHighlight = false
+        transcriptView.textStorage.setAttributedString(styleText(transcript: transcript))
+    }
+
+    // Resolves the cue containing `position` in O(1) amortized for normal
+    // forward playback by starting from `cachedCueIndex` rather than scanning
+    // from the beginning on every display-link tick. Falls back to a full
+    // scan only on backward seeks.
+    private func currentCue(at position: Double, in cues: [TranscriptCue]) -> TranscriptCue? {
+        guard !cues.isEmpty else { return nil }
+        let cached = min(cachedCueIndex, cues.count - 1)
+
+        if cues[cached].contains(timeInSeconds: position) {
+            return cues[cached]
+        }
+
+        // Backward seek — match the original `first { contains }` semantics
+        // so overlapping cues resolve to the earliest match.
+        if position < cues[cached].startTime {
+            if let idx = cues.firstIndex(where: { $0.contains(timeInSeconds: position) }) {
+                cachedCueIndex = idx
+                return cues[idx]
+            }
+            return nil
+        }
+
+        var i = cached + 1
+        while i < cues.count, cues[i].startTime <= position {
+            if cues[i].contains(timeInSeconds: position) {
+                cachedCueIndex = i
+                return cues[i]
+            }
+            i += 1
+        }
+        return nil
+    }
+
+    // MARK: - Auto-scroll back to highlight
+
+    private func scheduleAutoScrollBack() {
+        cancelAutoScrollBack()
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        guard !isSearching else { return }
+        isAutoScrollSuppressed = true
+        autoScrollSuppressedDate = Date()
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.isAutoScrollSuppressed = false
+            self.autoScrollBackWorkItem = nil
+            self.scrollBackToCurrentHighlight()
+        }
+        autoScrollBackWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.autoScrollBackDelay, execute: workItem)
+    }
+
+    private func cancelAutoScrollBack() {
+        autoScrollBackWorkItem?.cancel()
+        autoScrollBackWorkItem = nil
+        isAutoScrollSuppressed = false
+    }
+
+    private func scrollBackToCurrentHighlight() {
+        // Only catch up to the highlight if audio is moving. When paused, the
+        // highlight is static and yanking the view back to it would fight the
+        // user who deliberately scrolled elsewhere to read.
+        guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
+        transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
+        var properties: [String: Sendable] = [:]
+        if let suppressedDate = autoScrollSuppressedDate {
+            properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
+        }
+        track(.syncedTranscriptsAutoScrollResumed, properties: properties)
+    }
+
+    @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
+        // Gate on `canSeek` rather than `isPlayingEpisode` so taps still seek
+        // while audio is paused, but stay inert in the Episode Detail flow
+        // where the playback manager's `seekTo` is a no-op (avoids firing
+        // analytics or showing toasts for a seek that can't happen).
+        guard let transcript, playbackManager.canSeek else { return }
+        // Tap-to-seek relies on fingerprint timing that only exists for
+        // Pocket Casts-generated transcripts. Bail out for external ones so
+        // we don't surface the "download to seek" hint that doesn't apply.
+        guard transcriptManager?.isDisplayingGeneratedTranscript == true else { return }
+
+        let location = gesture.location(in: transcriptView)
+        let layoutManager = transcriptView.layoutManager
+        let textContainer = transcriptView.textContainer
+        let offset = CGPoint(
+            x: location.x - transcriptView.textContainerInset.left,
+            y: location.y - transcriptView.textContainerInset.top
+        )
+        let charIndex = layoutManager.characterIndex(
+            for: offset,
+            in: textContainer,
+            fractionOfDistanceBetweenInsertionPoints: nil
+        )
+
+        guard let cue = transcript.cues.first(where: { NSLocationInRange(charIndex, $0.characterRange) }) else { return }
+
+        let referenceTime = cue.startTime
+
+        guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
+            let syncedState = FingerprintTimingManager.shared.state
+            track(.syncedTranscriptsSeekFailed, properties: [
+                "reason": "mapping_unavailable",
+                "synced_state": syncedState.analyticsName
+            ])
+            if case .unavailable = syncedState { return }
+            let status = playbackManager.episodeUUID
+                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
+            if status == .downloaded || status == .downloadedForStreaming { return }
+            Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
+            return
+        }
+
+        let fromPosition = playbackManager.currentTime()
+        playbackManager.seekTo(time: seekTime)
+        syncedSeeksCount += 1
+        track(.syncedTranscriptsSeekUsed, properties: [
+            "from_position_seconds": Int(fromPosition),
+            "to_position_seconds": Int(seekTime)
+        ])
     }
 
     // MARK: - Search
@@ -796,7 +1133,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     // MARK: - Tracks
 
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+    func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
 
         if let episodeUUID = playbackManager.episodeUUID,
@@ -837,6 +1174,34 @@ extension TranscriptViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+        isUserScrolling = true
+        cancelAutoScrollBack()
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            userScrollDidEnd()
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        userScrollDidEnd()
+    }
+
+    private func userScrollDidEnd() {
+        isUserScrolling = false
+        scheduleAutoScrollBack()
+    }
+}
+
+extension TranscriptViewController: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        let wasEmpty = !hasNonEmptySelection
+        let isNonEmpty = textView.selectedRange.length > 0
+        hasNonEmptySelection = isNonEmpty
+        if wasEmpty && isNonEmpty {
+            track(.transcriptTextHighlighted)
+        }
     }
 }
 
@@ -845,6 +1210,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
         dismissSearch()
         resetSearch()
         searchView.removeFromSuperview()
+        scheduleAutoScrollBack()
     }
 
     func searchButtonTapped() {
@@ -931,17 +1297,27 @@ fileprivate class RoundPlayPauseButton: RoundButton {
 
     var buttonState: ButtonState = .play {
         didSet {
-            let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+            let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
             let image = UIImage(systemName: buttonState.imageName, withConfiguration: config)?
                 .withRenderingMode(.alwaysTemplate)
-            setTitle(buttonState.buttonTitle, for: .normal)
+            let attributes: [NSAttributedString.Key: Any] = [
+                        .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+            ]
+            setAttributedTitle(NSAttributedString(string: buttonState.buttonTitle, attributes: attributes), for: .normal)
             setImage(image, for: .normal)
         }
     }
 
+    func updateSize() {
+        let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        setAttributedTitle(NSAttributedString(string: buttonState.buttonTitle, attributes: attributes), for: .normal)
+    }
+
     static func makeButton(playbackManager: TranscriptPlaybackManaging) -> RoundPlayPauseButton {
-        let titleColor = ThemeColor.primaryText01()
-        let tintColor = ThemeColor.primaryUi05()
+        let titleColor = ThemeColor.primaryInteractive01()
+        let tintColor = ThemeColor.primaryInteractive01().withAlphaComponent(0.1)
 
         var  bg = UIBackgroundConfiguration.clear()
         bg.backgroundColor = tintColor
@@ -949,7 +1325,7 @@ fileprivate class RoundPlayPauseButton: RoundButton {
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
         configuration.imagePadding = 8.0
         configuration.background = bg
-        configuration.baseForegroundColor = ThemeColor.primaryIcon03()
+        configuration.baseForegroundColor = ThemeColor.primaryInteractive01()
 
         let playButton = RoundPlayPauseButton(type: .system)
         playButton.playbackManager = playbackManager
@@ -959,7 +1335,6 @@ fileprivate class RoundPlayPauseButton: RoundButton {
         playButton.tintColor = tintColor
         playButton.layer.masksToBounds = true
         playButton.configuration = configuration
-        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         return playButton
     }
 

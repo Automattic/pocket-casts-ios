@@ -63,7 +63,7 @@ class EpisodeListTableViewCell: UITableViewCell {
 
         viewModel.$imageUUID
             .sink(receiveValue: { [unowned self] uuid in
-                if let uuid = uuid {
+                if let uuid {
                     self.podcastImage.setPodcast(uuid: uuid, size: .grid)
                 }
             })

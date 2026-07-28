@@ -25,11 +25,14 @@ struct NonEditableTextView: UIViewRepresentable {
         uiView.text = text
 
         if scrolledToBottom {
-            let bottomOffset = CGPoint(
-                x: 0,
-                y: max(0, uiView.contentSize.height - uiView.bounds.height + uiView.contentInset.bottom)
-            )
-            uiView.setContentOffset(bottomOffset, animated: false)
+            // Dispatch async to allow layout to complete before scrolling
+            DispatchQueue.main.async {
+                let bottomOffset = CGPoint(
+                    x: 0,
+                    y: max(0, uiView.contentSize.height - uiView.bounds.height + uiView.contentInset.bottom)
+                )
+                uiView.setContentOffset(bottomOffset, animated: false)
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ class NotificationService: UNNotificationServiceExtension {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
-        if let bestAttemptContent = bestAttemptContent {
+        if let bestAttemptContent {
             if let podcastUuid = bestAttemptContent.userInfo["podcast_uuid"] as? String, let podcastImageUrl = localUrlFor(podcastUuid: podcastUuid) {
                 do {
                     let attachment = try UNNotificationAttachment(identifier: podcastUuid, url: podcastImageUrl, options: nil)
@@ -32,7 +32,7 @@ class NotificationService: UNNotificationServiceExtension {
     }
 
     override func serviceExtensionTimeWillExpire() {
-        if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
+        if let contentHandler, let bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
     }

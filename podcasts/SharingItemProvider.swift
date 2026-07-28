@@ -1,7 +1,7 @@
 import UIKit
 
-class SharingItemProvider: UIActivityItemProvider {
-    private var sharingString: String
+class SharingItemProvider: UIActivityItemProvider, @unchecked Sendable {
+    private let sharingString: String
 
     init(sharingString: String) {
         self.sharingString = sharingString

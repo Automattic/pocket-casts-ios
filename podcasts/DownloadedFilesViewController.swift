@@ -15,6 +15,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     private var unplayedSize = 0 as UInt64
     private var playedSize = 0 as UInt64
     private var inProgressSize = 0 as UInt64
+    private var tmpFilesSize = 0 as UInt64
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -22,6 +23,11 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             settingsTable.register(UINib(nibName: "CheckboxSubtitleCell", bundle: nil), forCellReuseIdentifier: checkboxCellId)
             settingsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             settingsTable.register(UINib(nibName: "DestructiveButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
@@ -63,7 +69,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.unplayedToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             case 1:
                 cell.titleLabel.text = L10n.inProgress
                 cell.setSelectedState(deleteInProgress)
@@ -71,7 +77,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             case 2:
                 cell.titleLabel.text = L10n.statusPlayed
                 cell.setSelectedState(deletePlayed)
@@ -79,7 +85,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             default:
                 break
             }
@@ -99,7 +105,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
             let total = totalDeleteSize()
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(total))
-            cell.statValue.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+            cell.statValue.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! DestructiveButtonCell
@@ -150,14 +156,16 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
     private func confirmCleanup() {
         Analytics.track(.downloadsCleanUpButtonTapped)
-        let confirmOption = OptionsPicker(title: nil)
-        let deleteAction = OptionAction(label: L10n.delete, icon: nil) {
-            self.performDelete()
-        }
-        deleteAction.destructive = true
-        confirmOption.addDescriptiveActions(title: L10n.cleanUp, message: L10n.downloadedFilesCleanupConfirmation, icon: "option-delete", actions: [deleteAction])
-
-        confirmOption.show(statusBarStyle: preferredStatusBarStyle)
+        let alert = UIAlertController(
+            title: L10n.cleanUp,
+            message: L10n.downloadedFilesCleanupConfirmation,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
+            self?.performDelete()
+        })
+        present(alert, animated: true)
     }
 
     private func performDelete() {
@@ -169,9 +177,18 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
         Analytics.track(.downloadsCleanUpCompleted, properties: ["unplayed": deleteUnplayed, "in_progress": deleteInProgress, "played": deletePlayed, "include_starred": includeStarred])
 
+        let formattedUnplayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
+        let formattedInProgressSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
+        let formattedPlayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
+        let formattedTmpFilesSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(tmpFilesSize))
+        FileLog.shared.addMessage("[DownloadedFilesViewController] space being used:\n - Unplayed: \(formattedUnplayedSize)\n - InProgress: \(formattedInProgressSize)\n - Played: \(formattedPlayedSize)\n - Temporary: \(formattedTmpFilesSize)")
+
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)
-
+            if FeatureFlag.cleanUpTmpFiles.enabled {
+                // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
+                EpisodeManager.cleanUpTmpFolder()
+            }
             self.performRefresh()
         }
     }
@@ -186,6 +203,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         unplayedSize = EpisodeManager.downloadSizeOfUnplayedEpisodes(includeStarred: includeStarred)
         inProgressSize = EpisodeManager.downloadSizeOfInProgressEpisodes(includeStarred: includeStarred)
         playedSize = EpisodeManager.downloadSizeOfPlayedEpisodes(includeStarred: includeStarred)
+        tmpFilesSize = FeatureFlag.cleanUpTmpFiles.enabled ? EpisodeManager.tmpFolderSize() : 0
 
         DispatchQueue.main.async { () in
             self.settingsTable.reloadData()

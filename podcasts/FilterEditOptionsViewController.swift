@@ -12,33 +12,22 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private let nameCellId = "EditFilterNameId"
-    private let iconChooserCellId = "IconChooserCellId"
-    private let colorChooserCellId = "ColorChooserCell"
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
     private let settingsCellId = "SettingsCell"
     private let deleteCellId = "DettingsCell"
-    private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit, siriShortcut, deletePlaylist }
-    private static let playlistRebrandingIsEnabled = FeatureFlag.playlistsRebranding.enabled
+    private enum TableRow: Int { case filterName, autodownload, autoDownloadLimit, siriShortcut, deletePlaylist }
     private static let tableDataAutoDownloadDisabled: [[TableRow]] = {
-        if playlistRebrandingIsEnabled {
-            return [[.filterName], [.autodownload]]
-        }
-        return [[.filterName], [.color, .icon], [.autodownload]]
+        return [[.filterName], [.autodownload]]
     }()
     private static let tableDataAutoDownloadEnabled: [[TableRow]] = {
-        if playlistRebrandingIsEnabled {
-            return [[.filterName], [.autodownload, .autoDownloadLimit]]
-        }
-        return [[.filterName], [.color, .icon], [.autodownload, .autoDownloadLimit]]
+        return [[.filterName], [.autodownload, .autoDownloadLimit]]
     }()
     private var filterNameTextField: UITextField!
     private var existingShortcut: Any!
 
     /* Analytics Helpers */
-    private var didChangeColor = false
-    private var didChangeIcon = false
     private var didChangeAutoDownload = false
     private var didChangeEpisodeCount = false
     private var isViewingShortcuts = false
@@ -49,24 +38,18 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Self.playlistRebrandingIsEnabled ? L10n.playlistOptions : L10n.filterOptions
+        title = L10n.playlistOptions
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
         tapRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapRecognizer)
 
         tableView.register(UINib(nibName: "EditFilterNameCell", bundle: nil), forCellReuseIdentifier: nameCellId)
-        tableView.register(UINib(nibName: "PlaylistIconChooserCell", bundle: nil), forCellReuseIdentifier: iconChooserCellId)
-        tableView.register(UINib(nibName: "PlaylistColorChooserCell", bundle: nil), forCellReuseIdentifier: colorChooserCellId)
         tableView.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
         tableView.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
         tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
         tableView.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
-        if Self.playlistRebrandingIsEnabled {
-            tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: deleteCellId)
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(colorChanged), name: Constants.Notifications.playlistTempChange, object: nil)
-
+        tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: deleteCellId)
         updateExistingSortcutData()
     }
 
@@ -75,7 +58,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         let didChangeName = filterToEdit.playlistName != filterNameTextField.text
 
-        if Self.playlistRebrandingIsEnabled, didChangeName {
+        if didChangeName {
             track(.filterNameUpdated)
         }
 
@@ -85,13 +68,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
 
         if isViewingShortcuts == false {
-            var properties = ["did_change_name": didChangeName,
+            let properties = ["did_change_name": didChangeName,
                               "did_change_auto_download": didChangeAutoDownload,
                               "did_change_episode_count": didChangeEpisodeCount]
-            if !Self.playlistRebrandingIsEnabled {
-                properties["did_change_color"] = didChangeColor
-                properties["did_change_icon"] = didChangeIcon
-            }
             track(.filterEditDismissed, properties: properties)
         }
     }
@@ -120,6 +99,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         indexPath.section == 1 ? 79 : 64
     }
 
@@ -132,23 +115,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             filterNameTextField = cell.nameTextField
             cell.nameTextField.delegate = self
             return cell
-        case .color:
-            let cell = tableView.dequeueReusableCell(withIdentifier: colorChooserCellId) as! PlaylistColorChooserCell
-            cell.playlist = filterToEdit
-            return cell
-        case .icon:
-            let cell = tableView.dequeueReusableCell(withIdentifier: iconChooserCellId) as! PlaylistIconChooserCell
-            cell.filterToEdit = filterToEdit
-            cell.setupWithTintColor(tintColor: filterToEdit.playlistColor(), selectedIcon: filterToEdit.customIcon, selectHandler: { selectedIcon in
-                self.didChangeIcon = true
-                self.filterToEdit.customIcon = selectedIcon
-                tableView.reloadData()
-            })
-            return cell
-
         case .autodownload:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
-            cell.cellSwitch.onStyle = Self.playlistRebrandingIsEnabled ? .primaryIcon01 : filterToEdit.playlistStyle()
+            cell.cellSwitch.onStyle = .primaryIcon01
 
             cell.cellLabel.text = L10n.settingsAutoDownload
             cell.cellLabel.font.withSize(16)
@@ -168,7 +137,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) as! TopLevelSettingsCell
             cell.settingsLabel.text = L10n.settingsSiriShortcuts
             cell.settingsImage.image = UIImage(named: "settings_shortcuts")
-            cell.settingsImage.tintColor = Self.playlistRebrandingIsEnabled ? AppTheme.colorForStyle(.primaryIcon01) : filterToEdit.playlistColor()
+            cell.settingsImage.tintColor = AppTheme.colorForStyle(.primaryIcon01)
             return cell
         case .deletePlaylist:
             let cell = tableView.dequeueReusableCell(withIdentifier: deleteCellId, for: indexPath) as! AccountActionCell
@@ -197,18 +166,14 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             addAutoLimitOption(optionPicker: options, limit: 40, currentLimit: currentLimit)
             addAutoLimitOption(optionPicker: options, limit: 100, currentLimit: currentLimit)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         case .siriShortcut:
             isViewingShortcuts = true
             let singleFilterVC = PlaylistShortcutsViewController(playlist: filterToEdit)
             navigationController?.pushViewController(singleFilterVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: false)
         case .deletePlaylist:
-            if Self.playlistRebrandingIsEnabled {
-                showDeleteOptionPicker(for: filterToEdit)
-            } else {
-                showAlert()
-            }
+            showDeleteConfirmationDialog(for: filterToEdit)
 
             tableView.deselectRow(at: indexPath, animated: true)
         default:
@@ -218,12 +183,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let autoDownloadSection = Self.playlistRebrandingIsEnabled ? 1 : 2
+        let autoDownloadSection = 1
         if section == autoDownloadSection {
-            if Self.playlistRebrandingIsEnabled {
-                return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.playlistsAutoDownloadOffSubtitle
-            }
-            return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.autoDownloadOffSubtitle
+            return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.playlistsAutoDownloadOffSubtitle
         }
         return nil
     }
@@ -233,11 +195,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     // MARK: Actions
-
-    @objc private func colorChanged() {
-        didChangeColor = true
-        tableView.reloadData()
-    }
 
     @objc private func switchChanged(_ sender: UISwitch) {
         track(.filterAutoDownloadUpdated, properties: ["enabled": sender.isOn, "source": AnalyticsSource.filters])
@@ -253,7 +210,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if Self.playlistRebrandingIsEnabled, didChangeName {
+        if didChangeName {
             track(.filterNameUpdated)
         }
 
@@ -285,9 +242,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         data.append([.siriShortcut])
 
-        if Self.playlistRebrandingIsEnabled {
-            data.append([.deletePlaylist])
-        }
+        data.append([.deletePlaylist])
 
         return data
     }
@@ -312,28 +267,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             }
         })
     }
-
-    private func showAlert() {
-        let alert = UIAlertController(
-            title: L10n.playlistsDeleteAlertTitle,
-            message: L10n.playlistsDeleteAlertMessage,
-            preferredStyle: .alert
-        )
-        let deleteAction = UIAlertAction(
-            title: L10n.delete,
-            style: .destructive
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            PlaylistManager.delete(playlist: self.filterToEdit, fireEvent: true)
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-        alert.addAction(deleteAction)
-
-        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel)
-        alert.addAction(cancelAction)
-
-        present(alert, animated: true, completion: nil)
-    }
 }
 
 extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
@@ -345,39 +278,30 @@ extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
 // MARK: - Delete
 
 extension FilterEditOptionsViewController {
-    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter) {
+    fileprivate func showDeleteConfirmationDialog(for playlist: EpisodeFilter) {
         let playlistType = playlist.manual ? "manual" : "smart"
         let analyticsProperties = ["filter_type": playlistType]
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
-        let delete = OptionAction(
-            label: L10n.delete,
-            icon: nil,
-            action: { [weak self] in
-                self?.delete(playlist: playlist)
-            }
-        )
-        delete.destructive = true
 
-        let picker = OptionsPicker(title: "")
-        picker.addDescriptiveActions(
+        let alert = UIAlertController(
             title: L10n.playlistsDeleteAlertTitle,
             message: L10n.playlistsDeleteAlertMessage,
-            icon: "option-alert",
-            actions: [
-                delete
-            ]
+            preferredStyle: .alert
         )
-        picker.setNoActionCallback {
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
             Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
-        }
-        picker.show(statusBarStyle: .default)
+        })
+        alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
+            self?.delete(playlist: playlist)
+        })
+        present(alert, animated: true)
     }
 
     fileprivate func delete(playlist: EpisodeFilter) {
         PlaylistManager.delete(playlist: playlist, fireEvent: true)
 
-        var properties: [AnyHashable: Any]? = [:]
-        properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        var properties: [String: Sendable] = [:]
+        properties["filter_type"] = playlist.manual ? "manual" : "smart"
         Analytics.track(.filterDeleted, properties: properties)
         navigationController?.popToRootViewController(animated: true)
     }

@@ -8,6 +8,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
     private let dataRetriever: ShowInfoDataRetriever
     private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
+    private let generatedEpisodeMetadataRetriever: GeneratedEpisodeMetadataRetriever
     private let dataManager: DataManager
     private let transcriptDataRetriever: TranscriptsDataRetriever
 
@@ -17,15 +18,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
         podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
+        generatedEpisodeMetadataRetriever: GeneratedEpisodeMetadataRetriever = GeneratedEpisodeMetadataRetriever(),
         dataManager: DataManager = .sharedManager,
         transcriptDataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()
     ) {
         self.dataRetriever = dataRetriever
         self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
+        self.generatedEpisodeMetadataRetriever = generatedEpisodeMetadataRetriever
         self.dataManager = dataManager
         self.transcriptDataRetriever = transcriptDataRetriever
-
-
     }
 
     func loadShowNotes(
@@ -39,42 +40,70 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> String? {
+    ) async throws -> URL? {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        return metadata?.image
+        return metadata?.image.flatMap(URL.init(string:))
     }
 
     public func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?) {
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?, [GeneratedChapter]?) {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
-        if let pocastIndexChapterUrl = metadata?.chaptersUrl,
-            let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
-            return (nil, chapters.chapters)
+        if let podcastIndexChapterUrl = metadata?.chaptersUrl,
+           let chapters = try? await podcastIndexChapterRetriever.loadChapters(podcastIndexChapterUrl) {
+            return (nil, chapters.chapters, nil)
         }
 
-        return (metadata?.chapters, nil)
+        if let chapters = metadata?.chapters, !chapters.isEmpty {
+            return (chapters, nil, nil)
+        }
+
+        if FeatureFlag.generatedChapters.enabled,
+           !Settings.disableAiChapters,
+           let chapters = try? await generatedEpisodeMetadataRetriever.loadMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid).chapters,
+           !chapters.isEmpty {
+            return (nil, nil, chapters)
+        }
+
+        return (nil, nil, nil)
+    }
+
+    private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {
+        let format = TranscriptFormat.vtt
+        let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid).\(format.fileExtension)"
+        return Episode.Metadata.Transcript(url: urlString, type: format.rawValue, language: nil)
     }
 
     public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
 #if os(watchOS)
-        return (transcripts: [], hasGeneratedTranscripts: false)
+        return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
 #else
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
         if FeatureFlag.generatedTranscripts.enabled {
             let externalTranscripts = metadata?.transcripts ?? []
-            let pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            var pocketCastsTranscripts: [Episode.Metadata.Transcript] = []
+            if let episode = dataManager.findEpisode(uuid: episodeUuid),
+               let hasTranscript = episode.hasGeneratedTranscript {
+                if hasTranscript {
+                    let transcript = buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                    pocketCastsTranscripts = [transcript]
+                }
+            } else {
+                pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            }
+
+            let isDisplayingGenerated = externalTranscripts.isEmpty && !pocketCastsTranscripts.isEmpty
             let transcripts = externalTranscripts.isEmpty ? pocketCastsTranscripts : externalTranscripts
-            return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty)
+            return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty, isDisplayingGeneratedTranscript: isDisplayingGenerated)
         }
 
         guard let transcripts = metadata?.transcripts else {
-            return (transcripts: [], hasGeneratedTranscripts: false)
+            return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
         }
-        return (transcripts: transcripts, hasGeneratedTranscripts: false)
+        return (transcripts: transcripts, hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
 #endif
     }
 

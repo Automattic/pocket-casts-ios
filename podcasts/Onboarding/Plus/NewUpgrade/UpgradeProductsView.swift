@@ -37,18 +37,18 @@ struct UpgradeProductsView: View {
                 .frame(width: 24, height: 24)
             VStack(alignment: .leading, spacing: 8) {
                 Text(product.periodDescription)
-                    .font(size: 15, style: .subheadline, weight: .bold)
+                    .font(size: 15, style: .subheadline, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
                     .foregroundStyle(theme.primaryText01)
                     .fixedSize(horizontal: true, vertical: false)
                 Text(product.periodPrice)
-                    .font(size: 15, style: .subheadline, weight: .medium)
+                    .font(size: 15, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
                     .foregroundStyle(theme.primaryText02)
                     .fixedSize(horizontal: true, vertical: false)
             }
             .multilineTextAlignment(.leading)
             Spacer()
             Text(product.weeklyPeriodPrice)
-                .font(size: 15, style: .subheadline, weight: .medium)
+                .font(size: 15, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
                 .foregroundStyle(theme.primaryText02)
         }
         .padding(16)
@@ -77,7 +77,7 @@ struct UpgradeProductsView: View {
         HStack(alignment: .center, spacing: 0) {
             Text(model.savingsOnBestValue ?? "")
                 .foregroundStyle(theme.primaryUi01)
-                .font(size: 14, style: .footnote, weight: .medium)
+                .font(size: 14, style: .footnote, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 2)
@@ -106,7 +106,7 @@ struct UpgradeProductsView: View {
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
         .tint(theme.primaryText02)
-        .font(size: 11, style: .caption2, weight: .semibold)
+        .font(size: 11, style: .largeTitle, weight: .semibold)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
                 case privacyPolicy:

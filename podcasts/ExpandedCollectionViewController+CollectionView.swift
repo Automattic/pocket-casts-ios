@@ -10,7 +10,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         case .grid:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.gridCellId, for: indexPath) as! LargeListCell
             let thisPodcast = podcasts[indexPath.row]
-            if let delegate = delegate {
+            if let delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
                 cell.onSubscribe = { [weak self] in
                     if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {
@@ -23,7 +23,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         case .descriptive_list:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId, for: indexPath) as! DescriptiveCollectionCell
             let thisPodcast = podcasts[indexPath.row]
-            if let delegate = delegate {
+            if let delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
                 cell.onSubscribe = { [weak self] in
                     if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {
@@ -49,6 +49,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard podcastCollection != nil else { return CGSize.zero }
 
+        // swiftlint:disable:next redundant_type_annotation
         let headerView: DiscoverCollectionHeader = DiscoverCollectionHeader.fromNib()
         headerView.populate(podcastCollection: podcastCollection)
 
@@ -73,7 +74,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 return CGSize(width: viewWidth, height: descriptiveListPreferredMaxHeight)
             case .grid:
                 let itemWidth = (viewWidth - (gridStyleSpacing * (gridNumColumns - 1))) / gridNumColumns
-                let itemHeight = itemWidth + 60
+                let itemHeight = itemWidth + cellExtraHeight
                 return CGSize(width: itemWidth, height: itemHeight)
             }
         } else {
@@ -85,7 +86,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             case .grid:
                 let numColumns = floor(viewWidth / (gridPreferredWidth + gridStyleSpacing))
                 let itemWidth = (viewWidth - (gridStyleSpacing * (numColumns - 1))) / numColumns
-                let itemHeight = itemWidth + 60
+                let itemHeight = itemWidth + cellExtraHeight
                 return CGSize(width: itemWidth, height: itemHeight)
             }
         }

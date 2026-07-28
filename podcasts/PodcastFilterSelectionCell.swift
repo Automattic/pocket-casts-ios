@@ -21,10 +21,18 @@ class PodcastFilterSelectionCell: ThemeableCell {
         }
     }
 
-    @IBOutlet var podcastTitle: UILabel!
+    @IBOutlet var podcastTitle: UILabel! {
+        didSet {
+            podcastTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -33,10 +41,16 @@ class PodcastFilterSelectionCell: ThemeableCell {
     @IBOutlet var selectedImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PodcastFilterSelectionCell, _) in
+            view.updateSize()
+        }
+
         let tickImage = UIImage(named: "tick")
         tickImageView.image = tickImage
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
         style = .primaryUi01
+        updateSize()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -69,5 +83,21 @@ class PodcastFilterSelectionCell: ThemeableCell {
     override func handleThemeDidChange() {
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
         podcastImage.backgroundColor = ThemeColor.primaryUi01()
+    }
+
+    // MARK: - Dynamic Type Updates
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+
+        selectedImageView.updateSizeConstraints(to: iconSize)
+
+        let imageSize = max(52, metric.scaledValue(for: 52))
+        podcastImage?.updateSizeConstraints(to: imageSize)
+
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 }

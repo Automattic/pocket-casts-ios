@@ -96,7 +96,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.rowHeight
+        UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -150,8 +150,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
         // This will only fire once, and only if the feature is unlocked.
         feature.objectWillChange
             .receive(on: DispatchQueue.main)
-            .filter { feature.isUnlocked }
-            .first()
+            .first(where: { feature.isUnlocked })
             .sink { unlocked() }
             .store(in: &cancellables)
 
@@ -212,7 +211,7 @@ private extension HeadphoneSettingsViewController {
                 onChange(option)
             }
         })
-        picker.show(statusBarStyle: preferredStatusBarStyle)
+        picker.present(from: self)
     }
 }
 

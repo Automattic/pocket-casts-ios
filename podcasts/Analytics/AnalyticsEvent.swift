@@ -57,6 +57,8 @@ enum AnalyticsEvent: String {
 
     case signInShown
     case signInDismissed
+    case signInTypeTapped // tvOS: switching between QR code and password sign-in
+    case signInSyncShown // tvOS: sync of user data
 
     // MARK: - Select Account Type
 
@@ -102,6 +104,7 @@ enum AnalyticsEvent: String {
     case podcastsListLayoutChanged
     case podcastsListBadgesChanged
     case podcastsListDiscoverButtonTapped
+    case podcastsListNotificationsTapped
 
     // MARK: - Newsletter Opt In
 
@@ -142,6 +145,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
+    case heatmapInfoOpened
 
     // MARK: - Folders
 
@@ -272,6 +276,14 @@ enum AnalyticsEvent: String {
 
     case playbackChapterSkipped
 
+    case playbackFailed
+    case playbackErrorShown
+    case playbackErrorTapped
+
+    /// Emitted once playback actually starts, reporting the protocol the source resolved to
+    /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
+    case playbackSourceResolved
+
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
     case autoplayStarted
@@ -360,6 +372,9 @@ enum AnalyticsEvent: String {
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
+    case upNextSortTooltipShown
+    case upNextSortTooltipClosed
+
     case episodeAddedToList
     case episodeRemovedFromList
 
@@ -411,6 +426,7 @@ enum AnalyticsEvent: String {
 
     // MARK: - Discover
 
+    case homeShown // tvOS Home tab
     case discoverShown
     case discoverCategoryShown
     case discoverCategoriesPillTapped
@@ -460,6 +476,7 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
     case upNextShuffleEnabled
+    case upNextSort
     case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
@@ -478,6 +495,7 @@ enum AnalyticsEvent: String {
     case playerTabSelected
     case playerShowNotesLinkTapped
     case playerChapterSelected
+    case playerChapterFingerprintCalculated
     case playerPodcastNameTapped
 
     case playerPreviousChapterTapped
@@ -554,6 +572,7 @@ enum AnalyticsEvent: String {
     case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
     case episodeDetailTabChanged
+    case episodeActionsShown
 
     // MARK: - Multi Select View
 
@@ -630,10 +649,12 @@ enum AnalyticsEvent: String {
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
+    case settingsGeneralAudioOnlyToggled
     case settingsGeneralExtraPlaybackActionsToggled
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+    case settingsGeneralGeneratedChaptersToggled
     case settingsGeneralAutoplayToggled
     case settingsGeneralAutoSleepTimerRestartToggled
     case settingsGeneralShakeToResetSleepTimerToggled
@@ -661,6 +682,7 @@ enum AnalyticsEvent: String {
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
     case settingsAppearanceUseDarkUpNextToggled
+    case settingsAppearanceTabBarMinimizingToggled
 
     // MARK: - Settings: Auto Archive
 
@@ -722,6 +744,11 @@ enum AnalyticsEvent: String {
     case settingsGetSupport
     case settingsLeaveFeedback
     case exportDatabaseTapped
+
+    // MARK: - Settings: Troubleshooting
+
+    case troubleshootingOrphanedEpisodesRemoveConfirmed
+    case troubleshootingOrphanedEpisodesRemoved
 
     // MARK: - Settings: Import / Export OPML
 
@@ -888,6 +915,8 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsBookmarkSoundToggled
 
     // MARK: - Skipping Chapters
+    case chaptersShown
+    case chapterLinkClicked
     case deselectChaptersToggledOn
     case deselectChaptersToggledOff
     case deselectChaptersChapterSelected
@@ -918,6 +947,14 @@ enum AnalyticsEvent: String {
     case episodeDetailTranscriptCardTapped
     case episodeTranscriptShown
     case transcriptShared
+    case transcriptTextHighlighted
+    case syncedTranscriptsSeekUsed
+    case syncedTranscriptsPreparationStarted
+    case syncedTranscriptsPreparationCompleted
+    case syncedTranscriptsPreparationFailed
+    case syncedTranscriptsUnavailable
+    case syncedTranscriptsSeekFailed
+    case syncedTranscriptsAutoScrollResumed
 
     // MARK: - Widgets
 
@@ -1013,4 +1050,18 @@ enum AnalyticsEvent: String {
     case bannerAdImpression
     case bannerAdTapped
     case bannerAdReport
+
+    // MARK: - Device Approval
+
+    case deviceApproveShown
+    case deviceApproveConnectTapped
+    case deviceApproveDismissed
+    case deviceSetupAccountTapped
+    case deviceApproveSuccessful
+    case deviceApproveFailed
+
+    // MARK: TV
+
+    case browseNoAccountTapped
+    case bannerRowTapped
 }

@@ -5,7 +5,7 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
     var hasGeneratedTranscripts: Bool = false
     var isTranscriptEnabled: Bool {
         didSet {
-            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast06()
+            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast04()
         }
     }
 
@@ -47,7 +47,7 @@ extension CheckTranscriptAvailability {
             self?.hasGeneratedTranscripts = hasGeneratedTranscripts
         }
 
-        NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] notification in
+        NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] _ in
             self?.checkTranscriptAvailability()
         }
     }

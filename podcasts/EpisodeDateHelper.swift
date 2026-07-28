@@ -51,7 +51,7 @@ struct EpisodeDateHelper {
         }
 
         private static func rowTitle(dateText: String, episode: Episode, indicatorText: String? = nil) -> String {
-            guard let indicatorText = indicatorText else {
+            guard let indicatorText else {
                 if episode.episodeNumber < 1 {
                     return dateText
                 }
@@ -62,7 +62,7 @@ struct EpisodeDateHelper {
         }
 
         private static func setRowTitle(dateText: String, episode: Episode, label: UILabel, tintColor: UIColor?, indicatorText: String? = nil) {
-            guard let indicatorText = indicatorText, let tintColor = tintColor else {
+            guard let indicatorText, let tintColor else {
                 if episode.episodeNumber < 1 {
                     label.text = dateText
 
@@ -105,7 +105,7 @@ struct EpisodeDateHelper {
         }
 
         private static func rowTitle(dateText: String, episode: Episode, indicatorText: String? = nil) -> String {
-            guard let indicatorText = indicatorText else {
+            guard let indicatorText else {
                 if episode.episodeNumber < 1 {
                     return dateText
                 }

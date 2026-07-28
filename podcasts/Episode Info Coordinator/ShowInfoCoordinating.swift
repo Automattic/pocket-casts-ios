@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 protocol ShowInfoCoordinating {
-    typealias EpisodeTranscriptData = (transcripts: [Episode.Metadata.Transcript], hasGeneratedTranscripts: Bool)
+    typealias EpisodeTranscriptData = (transcripts: [Episode.Metadata.Transcript], hasGeneratedTranscripts: Bool, isDisplayingGeneratedTranscript: Bool)
 
     func loadShowNotes(
         podcastUuid: String,
@@ -13,12 +13,12 @@ protocol ShowInfoCoordinating {
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> String?
+    ) async throws -> URL?
 
     func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?)
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?, [GeneratedChapter]?)
 
     func loadTranscriptsMetadata(
         podcastUuid: String,

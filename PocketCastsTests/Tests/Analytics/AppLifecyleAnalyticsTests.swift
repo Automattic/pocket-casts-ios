@@ -275,7 +275,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 
             XCTAssertEqual(event, .applicationClosed)
 
-            guard let properties = properties, let time = properties["time_in_app"] as? String else {
+            guard let properties, let time = properties["time_in_app"] as? String else {
                 XCTFail("Properties and time_in_app should not be nil")
                 return
             }
@@ -295,9 +295,9 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 }
 
 private class MockAnalytics: Analytics {
-    var didTrack: ((_ event: AnalyticsEvent, _ properties: [AnyHashable: Any]?) -> Void)?
+    var didTrack: ((_ event: AnalyticsEvent, _ properties: [String: Sendable]?) -> Void)?
 
-    override func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+    override func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         didTrack?(event, properties)
     }
 }

@@ -128,6 +128,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title of the confirmation alert shown before signing the user out of their account. */
+"account_sign_out_alert_title" = "Sign Out?";
+
+/* Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in. */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you are back.";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
@@ -250,6 +256,15 @@
 
 /* Label for letting the user choose a theme for iOS dark mode. */
 "appearance_dark_theme" = "Dark Theme";
+
+/* Section header for the appearance settings related to the tab bar. */
+"appearance_tab_bar_header" = "Tab Bar";
+
+/* Toggle that controls whether the tab bar shrinks into a compact pill as the user scrolls (iOS 26 Liquid Glass). */
+"appearance_tab_bar_minimizing" = "Minimize on Scroll";
+
+/* Subtitle explaining the tab bar minimize-on-scroll toggle. */
+"appearance_tab_bar_minimizing_footer" = "When enabled, the tab bar shrinks into a compact pill as you scroll down so more content stays in view.";
 
 /* A common string used throughout the app. Prompt to archive the selected item(s). */
 "archive" = "Archive";
@@ -544,9 +559,6 @@
 
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
-
-/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
-"discover_browse_by_category_society_and_culture" = "Culture";
 
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
@@ -1229,6 +1241,27 @@
 /* Title for the hardware keyboard command that toggles play and pause of playback. */
 "keycommand_play_pause" = "Play/Pause";
 
+/* Title for the listening activity heatmap on the account screen */
+"stats_listening_activity_section_title" = "Listening Activity";
+
+/* Label for the low end of the heatmap legend */
+"stats_listening_activity_legend_less" = "Less";
+
+/* Label for the high end of the heatmap legend */
+"stats_listening_activity_legend_more" = "More";
+
+/* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
+"stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
+
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -1243,6 +1276,9 @@
 
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. */
 "mark_played" = "Mark as Played";
+
+/* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
+"mark_unplayed" = "Mark as Unplayed";
 
 /* A common string used throughout the app. Prompt to mark the selected item(s) as played. Similar to 'Mark as Played' but more concise. */
 "mark_played_short" = "Mark Played";
@@ -1379,6 +1415,9 @@
 /* A common string used throughout the app. Indicates that the feature is not enabled. */
 "off" = "Off";
 
+/* A common string used throughout the app. Indicates that the feature is enabled. */
+"on" = "On";
+
 /* A common string used throughout the app. Used as a confirmation or acceptance. */
 "ok" = "OK";
 
@@ -1469,8 +1508,14 @@
 /* A common string used throughout the app. Prompt to add the selected item(s) to the end of the queue. */
 "play_last" = "Play Last";
 
+/* Prompt to add an episode to the end of the Up Next queue. Shown in the episode detail bottom sheet. */
+"play_last_in_up_next" = "Play last in Up Next";
+
 /* A common string used throughout the app. Prompt to add the selected item(s) to the top of the queue. */
 "play_next" = "Play Next";
+
+/* Prompt to add an episode to the top of the Up Next queue. Shown in the episode detail bottom sheet. */
+"play_next_in_up_next" = "Play next in Up Next";
 
 /* One of the options for how aggressive to be in trimming silence. Sets it to max the highest setting. */
 "playback_effect_trim_silence_max" = "Mad Max";
@@ -1495,6 +1540,12 @@
 
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
+
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
 
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
@@ -1523,6 +1574,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message body shown in the confirmation prompt for archiving an episode. */
+"player_archived_confirmation_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1549,6 +1603,9 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Message body shown in the confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation_message" = "It'll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";
@@ -1604,6 +1661,15 @@
 /* A short description of what the Volume Boost feature does */
 "volume_boost_description" = "Voices sound louder";
 
+/* A short description of what the VoiceBoostN feature does */
+"volume_boost_n_description" = "Voice levels are more consistent";
+
+/* Title for the VoiceBoostN setting in Settings > General */
+"settings_general_voice_boost_n" = "VoiceBoostN";
+
+/* Subtitle for the VoiceBoostN setting in Settings > General */
+"settings_general_voice_boost_n_subtitle" = "Use updated Volume Boost with more consistent voice levels.";
+
 /* A common string used throughout the app. Catch all prompt to suggest to the user to try the task again. */
 "please_try_again" = "Please try again";
 
@@ -1643,7 +1709,7 @@
 /* Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion" */
 "plus_champion" = "Pocket Casts Champion";
 
-/* Message displayed when teh user tap "Pocket Casts Champion" button */
+/* Message displayed when the user taps "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
 /* Pocket Casts Plus marketing page, description of generated transcriptsg */
@@ -1827,6 +1893,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -2032,6 +2101,9 @@
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
 
+/* Prompt to enter the mode for reordering the podcasts grid. */
+"podcasts_edit" = "Edit Podcasts";
+
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
 
@@ -2141,11 +2213,17 @@
 /* Accessibility label indicating the current podcast is playing and it's episode date. '%1$@' is a placeholder for the episode date. */
 "queue_now_playing_accessibility" = "Now Playing. %1$@";
 
-/* Label indicating the amount of time remains on an episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
-"queue_time_remaining" = "%1$@ remaining";
+/* Label on the Up Next now playing cell indicating how much time is left on the currently-playing episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
+"queue_time_remaining" = "%1$@ left";
 
-/* Information label indication the total time remaining in the queue. This is a total across all episodes in the up next queue. '%1$@' is a placeholder for the total time remaining in the queue. */
-"queue_total_time_remaining" = "%1$@ total time remaining";
+/* Up Next header showing episode count and time remaining for a single episode. '%1$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_one_episode" = "1 episode · %1$@ left";
+
+/* Up Next header showing episode count and time remaining for multiple episodes. '%1$@' is a placeholder for the episode count. '%2$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_plural" = "%1$@ episodes · %2$@ left";
+
+/* Up Next header shown when the queue is empty, showing only the time remaining for the currently playing episode. '%1$@' is a placeholder for the time remaining. */
+"queue_up_next_header_time_left" = "%1$@ left";
 
 /* A common string used throughout the app. Error title indicating that the refresh process has failed. */
 "refresh_failed" = "Refresh failed";
@@ -2358,7 +2436,7 @@
 "settings_auto_add_limit_subtitle_stop" = "New episodes will stop being added when Up Next reaches %1$@ episodes.";
 
 /* Subtitle explaining the app's behavior when the episode limit is reached and new episodes are added to the top of the Up Next Queue. '%1$@' is a placeholder for the auto add limit. */
-"settings_auto_add_limit_subtitle_top" = "When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue. No new episodes will be added to the bottom.";
+"settings_auto_add_limit_subtitle_top" = "When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.";
 
 /* Section header that displays all of the Podcasts that will automatically add new episodes to the Up Next Queue. */
 "settings_auto_add_podcasts" = "Auto-Add Podcasts";
@@ -2609,6 +2687,12 @@
 /* Subtitle explaining the toggle to publish chapter titles. */
 "settings_general_publish_chapter_titles_subtitle" = "If on, this will send chapter titles over Bluetooth and other connected devices instead of the episode title.";
 
+/* Setting toggle to show automatically generated chapters in the player. */
+"settings_general_generated_chapters" = "Generated chapters";
+
+/* Subtitle explaining the toggle to show automatically generated chapters. */
+"settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
+
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
 
@@ -2653,6 +2737,12 @@
 
 /* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
 "settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
+
+/* Setting toggle to make video episodes play as audio only. */
+"settings_general_audio_only" = "Audio only";
+
+/* Subtitle explaining the toggle that makes video episodes play as audio only. */
+"settings_general_audio_only_subtitle" = "If on, video episodes will play as audio only.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
@@ -2792,6 +2882,9 @@
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
 
+/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
+"settings_storage_usage_footer" = "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.";
+
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
 
@@ -2805,7 +2898,7 @@
 "settings_up_next_limit" = "Automatically add new episodes to Up Next. New episodes will stop being added when Up Next reaches %1$@.";
 
 /* Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit. */
-"settings_up_next_limit_add_to_top" = "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue.";
+"settings_up_next_limit_add_to_top" = "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.";
 
 /* Provides a prompt for the user to toggle on the volume boosting setting. */
 "settings_volume_boost" = "Volume Boost";
@@ -2839,6 +2932,9 @@
 
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_first_party_analytics" = "First-party analytics";
+
+/* Section header for analytics in privacy settings */
+"settings_analytics" = "Analytics";
 
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_third_party_analytics" = "Third-party analytics";
@@ -2912,6 +3008,51 @@
 /* Failure message for the podcast host check. */
 "settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
 
+/* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
+"troubleshooting_title" = "Troubleshooting";
+
+/* Section header for the orphaned episodes troubleshooting tool. */
+"troubleshooting_orphaned_episodes_header" = "Orphaned Episodes";
+
+/* Explains what orphaned episodes are and what problems they can cause, shown below the orphaned episodes section. */
+"troubleshooting_orphaned_episodes_description" = "A rare syncing issue can leave behind duplicate episode entries that are no longer linked to their podcast. These can cause an episode's download or playback status to appear incorrect in some parts of the app.";
+
+/* Shown while the app is counting how many orphaned episodes exist on the device. */
+"troubleshooting_orphaned_episodes_checking" = "Checking for orphaned episodes…";
+
+/* Shown when no orphaned episodes are found on the device. */
+"troubleshooting_orphaned_episodes_none_found" = "No orphaned episodes were found";
+
+/* Shown when exactly 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. */
+"troubleshooting_orphaned_episodes_found_singular" = "1 orphaned episode";
+
+/* Shown when more than 1 orphaned episode is found on the device, as a tappable row that leads to the list of episodes. %1$@ is the number found. */
+"troubleshooting_orphaned_episodes_found_plural_format" = "%1$@ orphaned episodes";
+
+/* Shown while orphaned episodes are being removed. */
+"troubleshooting_orphaned_episodes_removing" = "Removing orphaned episodes…";
+
+/* Button that pushes a screen listing the orphaned episodes found on the device, grouped by podcast. */
+"troubleshooting_view_orphaned_episodes" = "View Orphaned Episodes";
+
+/* Button, and destructive confirmation action, that removes orphaned episodes from the device. */
+"troubleshooting_remove_orphaned_episodes" = "Remove Orphaned Episodes";
+
+/* Title of the confirmation alert shown before removing orphaned episodes. */
+"troubleshooting_remove_orphaned_episodes_confirm_title" = "Remove Orphaned Episodes?";
+
+/* Message of the confirmation alert shown before removing orphaned episodes, warning this is destructive but best-effort preserves episode state. */
+"troubleshooting_remove_orphaned_episodes_confirm_message" = "This will delete the duplicate episode entries found on this device. This action can't be undone, but Pocket Casts will do its best to preserve your playback progress, download status, and other episode details before removing them.";
+
+/* Shown after removing orphaned episodes when none could be removed. */
+"troubleshooting_remove_orphaned_episodes_result_none" = "No orphaned episodes were removed";
+
+/* Shown after removing orphaned episodes when exactly 1 was removed. */
+"troubleshooting_remove_orphaned_episodes_result_singular" = "1 orphaned episode was removed";
+
+/* Shown after removing orphaned episodes when more than 1 was removed. %1$@ is the number removed. */
+"troubleshooting_remove_orphaned_episodes_result_plural_format" = "%1$@ orphaned episodes were removed";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
@@ -2947,6 +3088,69 @@
 
 /* A message shown when trying to share a private podcast, which is disabled. */
 "share_podcast_private_not_available" = "Sharing is not available for private podcasts";
+
+/* Title for the share profile screen */
+"share_profile" = "Share profile";
+
+/* Title for the add photo and name step */
+"share_profile_add_photo_and_name" = "Add photo and name";
+
+/* Title for the edit photo and name screen */
+"share_profile_edit_photo_and_name" = "Edit photo and name";
+
+/* Choose photo from library */
+"share_profile_choose_photo" = "Choose Photo";
+
+/* Take a new photo with camera */
+"share_profile_take_photo" = "Take Photo";
+
+/* Remove the current profile photo */
+"share_profile_remove_photo" = "Remove Photo";
+
+/* Label for the display name field */
+"share_profile_display_name" = "Display name";
+
+/* Placeholder text for the name input field */
+"share_profile_add_your_name" = "Add your name";
+
+/* Description text below the name input field */
+"share_profile_name_description" = "This is how you'll appear on shared profiles. You can change it later.";
+
+/* Title for the preview profile step */
+"share_profile_preview" = "Preview profile";
+
+/* Button label for sharing the profile */
+"share_profile_share_my_profile" = "Share my profile";
+
+/* Title for the edit profile step */
+"share_profile_edit" = "Edit profile";
+
+/* Section header for the share options */
+"share_profile_what_to_share" = "What do you want to share?";
+
+/* Toggle label for including followed podcasts in shared profile */
+"share_profile_followed_podcasts" = "Followed podcasts";
+
+/* Toggle label for including recent episodes in shared profile */
+"share_profile_recent_episodes" = "Recent episodes";
+
+/* Toggle label for including playlists in shared profile */
+"share_profile_playlists" = "Playlists";
+
+/* Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text */
+"share_profile_privacy_description" = "You can manage what you're sharing in %1$@";
+
+/* Share Profile: Privacy link label */
+"share_profile_privacy" = "Privacy";
+
+/* Share Profile: Profile sharing section header in privacy settings */
+"share_profile_profile_sharing" = "Profile sharing";
+
+/* Share Profile: Privacy settings footer text */
+"share_profile_privacy_settings_footer" = "Control what others can see when you share your profile.";
+
+/* Generic save button */
+"share_profile_save" = "Save";
 
 /* Error message for when sharing fails. */
 "share_podcasts_sharing_failed_msg" = "Something went wrong creating your share page";
@@ -3013,6 +3217,12 @@
 
 /* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
 "siri_shortcut_extend_sleep_timer" = "Set sleep timer to %1$@";
+
+/* Siri shortcut title for marking the current episode as played */
+"siri_shortcut_mark_as_played_title" = "Mark Current Episode as Played";
+
+/* Siri shortcut invocation phrase for marking the current episode as played */
+"siri_shortcut_mark_as_played_phrase" = "Mark as Played";
 
 /* Siri shortcut title and phrase for having siri skip to the next chapter of a podcast */
 "siri_shortcut_next_chapter" = "Next chapter";
@@ -3606,6 +3816,9 @@
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
 
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
+
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";
 
@@ -4109,6 +4322,9 @@
 /* Subtitle of the login view */
 "login_landing_subtitle" = "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.";
 
+/* Label of a button on the login landing view that lets the user sign up for an account using their email address */
+"login_landing_sign_up_with_email" = "Sign up with email";
+
 /* Title of the plus marketing view */
 "plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 
@@ -4283,6 +4499,9 @@
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
 
+/* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
+"bookmark_suggested_title" = "Suggested title: %1$@";
+
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
 
@@ -4339,6 +4558,9 @@
 
 /* Title of a button the clears the current search text */
 "episode_details_title" = "Details";
+
+/* Label for the Add button on the episode detail page. Opens a bottom sheet with options to add to Up Next or playlist. */
+"episode_detail_add" = "Add";
 
 /* Title of the Episode description */
 "episode_description_title" = "Episode Description";
@@ -4647,6 +4869,18 @@
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
 
+/* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
+"transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
+
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -4893,6 +5127,27 @@
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
 
+/* Title shown at the top of the Up Next sort options picker */
+"up_next_sort_title" = "Sort Up Next";
+
+/* Up Next sort option that orders episodes by release date, newest first */
+"up_next_sort_newest_to_oldest" = "Newest to oldest";
+
+/* Up Next sort option that orders episodes by release date, oldest first */
+"up_next_sort_oldest_to_newest" = "Oldest to newest";
+
+/* Up Next sort option that orders episodes by time remaining, shortest first */
+"up_next_sort_shortest_to_longest" = "Shortest to longest";
+
+/* Up Next sort option that orders episodes by time remaining, longest first */
+"up_next_sort_longest_to_shortest" = "Longest to shortest";
+
+/* Title of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_title" = "Sort by duration";
+
+/* Description of the tooltip shown on the Up Next tab that alerts users to the new sort by duration option */
+"up_next_sort_duration_tooltip_body" = "Shortest to longest, or the reverse — fit the episode to the time you’ve actually got.";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 
@@ -5027,6 +5282,9 @@
 
 /* Message when no email account is configured to be able to send the logs*/
 "logs_no_email_account_configured" = "You need to configure an email account on the device in order to send the logs";
+
+/* Message shown when watchOS logs are not available */
+"logs_watch_os_not_available" = "No watchOS logs available. Make sure you have an Apple Watch paired and the Pocket Casts watch app installed.";
 
 /* Title for action to remove episode from listening history */
 "listening_history_remove" = "Remove from history";
@@ -5607,6 +5865,15 @@
 /* Toast message when the playlist is full */
 "playlist_manual_add_episode_full_playlist_toast" = "This playlist is full. Remove a few episodes or start a new one.";
 
+/* Toast message when trying to add more than the max number of episodes to a playlist at once, or creating a new playlist with more than the max. '%1$@' is the max episode count, localized for the user's locale. */
+"playlist_manual_add_too_many_episodes_toast" = "Playlists can only contain up to %1$@ episodes.";
+
+/* Toast message when adding episodes to a playlist that would exceed the 1000 episode limit */
+"playlist_manual_add_episodes_almost_full_toast" = "Playlist is almost full. Try adding fewer episodes.";
+
+/* Toast message when trying to add files (user episodes) to a playlist */
+"playlist_manual_add_files_not_supported_toast" = "Playlists can only contain podcast episodes.";
+
 /* Text of the placeholder used in the manual playlist detail screen when one episode is archived. */
 "playlist_manual_archived_episode_placeholder" = "Your episode in this playlist has been archived";
 
@@ -5833,6 +6100,487 @@
 
 /* Message to shown then trying to open playback from deep link but it's not available */
 "playback_not_available" = "Playback unavailable";
+
+/* Message when the user didn't upload any files */
+"files_not_uploaded" = "No files uploaded";
+
+/* Generic error used when playback fails because we are unable to access the episode file. */
+"player_error_episode_not_available" = "This episode can't be played.";
+
+/* Generic error used when no internet connection is available. */
+"player_error_short_no_connection" = "You’re offline";
+
+/* Generic error used when playback fails. */
+"player_error_short_playback_error" = "Playback failed, please try again";
+
+/* tv app home tab */
+"tv_tab_home" = "Home";
+
+/* tv app podcasts tab */
+"tv_tab_podcasts" = "Your Podcasts";
+
+/* tv app Playlists tab */
+"tv_tab_playlists" = "Playlists";
+
+/* tv app Up Next tab */
+"tv_tab_up_next" = "Up Next";
+
+/* tv welcome title */
+"tv_welcome_title" = "Welcome to Pocket Casts TV";
+
+/* tv welcome subtitle */
+"tv_welcome_subtitle" = "Your podcasts. On the big screen. Obviously.";
+
+/* tv welcome log in */
+"tv_welcome_log_in" = "Log in";
+
+/* tv welcome create free account */
+"tv_welcome_create_free_account" = "Create free account";
+
+/* tv welcome browse without account */
+"tv_welcome_browse_without_account" = "Browse without an account";
+
+/* tv sign in title */
+"tv_sign_in_title" = "Log in to Pocket Casts";
+
+/* tv sign in subtitle */
+"tv_sign_in_subtitle" = "Open your camera and point to this QR code";
+
+/* tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to. */
+"tv_sign_in_enter_code_in_url" = "or enter this code in [%1$@](%2$@)";
+
+/* tv sign enter code */
+"tv_sign_in_enter_code" = "or enter the following code";
+
+/* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
+"tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
+
+/* tv log in error title shown when the app fails to fetch the QR log in code */
+"tv_log_in_qr_code_error_title" = "Couldn't get your log in code";
+
+/* tv create account title */
+"tv_create_account_title" = "Create your free account";
+
+/* tv create account subtitle */
+"tv_create_account_subtitle" = "Scan this code to get started on your phone, it only takes a minute.";
+
+/* tv create account screen subtitle telling the viewer to point their phone camera at the QR code */
+"tv_create_account_qr_instruction" = "Open the camera and point to this QR code.";
+
+/* tv create account enter code */
+"tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
+
+/* tv create account modal title */
+"tv_create_account_modal_title" = "Your podcasts deserve a home";
+
+/* tv create account modal subtitle */
+"tv_create_account_modal_subtitle" = "Create a free account to follow podcasts, build your Up Next, and pick up right where you left off, on any device.";
+
+/* tv create account modal step - scan the QR code */
+"tv_create_account_modal_step_scan" = "Scan the QR code";
+
+/* tv create account modal step - create your account */
+"tv_create_account_modal_step_create" = "Create your account";
+
+/* tv create account modal step - the TV logs you in automatically */
+"tv_create_account_modal_step_log_in" = "The TV will log you in";
+
+/* tv signing in title */
+"tv_signing_in_title_new" = "Good to see you";
+
+/* tv signing in subtitle */
+"tv_signing_in_subtitle" = "Loading your podcasts now.";
+
+/* tv data loss resync — subtle spinner label shown when the local database was purged (e.g. by tvOS) and we re-fetch everything before entering the app */
+"tv_resync_fetching_episodes" = "Fetching latest episodes";
+
+/* tv podcasts empty title */
+"tv_podcasts_empty_title_new" = "Time to fill this up";
+
+/* tv podcasts empty subtitle */
+"tv_podcasts_empty_subtitle" = "Followed podcasts show up here, ready to play.";
+
+/* tv podcasts empty button action title */
+"tv_podcasts_empty_action_title" = "Discover podcasts";
+
+/* tv podcast details follow button title */
+"tv_podcast_detail_follow_title" = "Follow this podcast";
+
+/* tv podcast details following button title */
+"tv_podcast_detail_following_title" = "Following";
+
+/* tv podcast details more info button title */
+"tv_podcast_detail_more_info_title" = "More info";
+
+/* tv podcast more info network label */
+"tv_podcast_detail_network" = "Network";
+
+/* tv podcast more info website label */
+"tv_podcast_detail_website" = "Website";
+
+/* tv podcast more info schedule label */
+"tv_podcast_detail_schedule" = "Schedule";
+
+/* tv podcast more info about section title */
+"tv_podcast_detail_about" = "About";
+
+/* tv podcast more info next episode label */
+"tv_podcast_detail_next_episode" = "Next episode";
+
+/* tv episode row action that opens the episode details modal. The leading ⓘ glyph stands in for an SF Symbol since tvOS .confirmationDialog strips Labels' images. */
+"tv_episode_show_notes_action" = "ⓘ  Episode details";
+
+/* tv title shown above the rendered HTML episode description inside the episode details modal */
+"tv_episode_show_notes_title" = "Episode details";
+
+/* tv fallback message shown inside the episode details modal while the show notes are being fetched */
+"tv_episode_show_notes_loading" = "Loading episode details…";
+
+/* tv podcast detail recommended episode section title */
+"tv_podcast_detail_start_here" = "The episode to try first";
+
+/* tv podcast detail recommended episode section subtitle */
+"tv_podcast_detail_start_here_subtitle" = "This is the one that gets people hooked";
+
+/* tv podcast detail all episodes section title */
+"tv_podcast_detail_all_episodes" = "All episodes";
+
+/* tv podcast detail archive filter label */
+"tv_podcast_detail_archived_filter" = "Archived episodes";
+
+/* tv podcast detail option to hide archived episodes from the list */
+"tv_podcast_detail_hide_archived" = "Hide archived";
+
+/* tv podcast detail option to show archived episodes in the list */
+"tv_podcast_detail_show_archived" = "Show archived";
+
+/* tv podcast detail empty state title shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_title" = "No Episodes";
+
+/* tv podcast detail empty state subtitle shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_subtitle" = "Episodes from this podcast will show up here.";
+
+/* tv episode action to view episode info */
+"tv_episode_info" = "Episode info";
+
+/* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
+"tv_playlist_detail_episode_count" = "%1$@ episodes";
+
+/* tv playlist detail play all button title */
+"tv_playlist_detail_play_all" = "Play all episodes";
+
+/* tv Play all dialog title, shown when starting a playlist would clear the current Up Next queue */
+"tv_playlist_play_all_clear_up_next_title" = "This will clear your Up Next";
+
+/* tv Play all dialog message, offering to save the current Up Next queue as a playlist before it is cleared */
+"tv_playlist_play_all_clear_up_next_message" = "We can save your current Up Next as a playlist";
+
+/* tv Play all dialog button that saves the current Up Next as a playlist and then plays the selected playlist */
+"tv_playlist_play_all_save_and_play" = "Save and play";
+
+/* tv Play all dialog button that plays the selected playlist without saving the current Up Next */
+"tv_playlist_play_all_play_without_saving" = "Play without saving";
+
+/* tv playlists empty title */
+"tv_playlists_empty_title" = "Your playlists live here";
+
+/* tv playlists empty subtitle */
+"tv_playlists_empty_subtitle" = "Build one manually or let Smart Rules do the sorting for you.";
+
+/* tv playlists empty button action title */
+"tv_playlists_empty_action_title" = "Create a playlist";
+
+/* tv playlists download modal title */
+"tv_playlists_download_title" = "Create playlists on your phone";
+
+/* tv playlists download modal subtitle */
+"tv_playlists_download_subtitle" = "They'll be waiting here when you're done. Scan to get the app";
+
+/* tv keep listening title */
+"tv_home_keep_listening_title" = "Picking up where you left off";
+
+/* tv home recommended for you title */
+"tv_home_recommended_for_you_title" = "You'll probably want these";
+
+/* tv home recently played section title */
+"tv_home_recently_played" = "Recently played";
+
+/* tv home new releases section title */
+"tv_home_new_releases" = "New releases";
+
+/* tv player playback speed menu title */
+"tv_player_playback_speed" = "Playback speed";
+
+/* tv player playback effects menu title */
+"tv_player_playback_effects" = "Playback effects";
+
+/* tv player volume boost toggle title */
+"tv_player_volume_boost" = "Volume boost";
+
+/* tv player trim silence section title */
+"tv_player_trim_silence" = "Trim silence";
+
+/* tv player trim silence off option */
+"tv_player_trim_silence_off" = "Off";
+
+/* tv player trim silence mild option */
+"tv_player_trim_silence_mild" = "Mild";
+
+/* tv player trim silence medium option */
+"tv_player_trim_silence_medium" = "Medium";
+
+/* tv player trim silence mad max option */
+"tv_player_trim_silence_mad_max" = "Mad Max";
+
+/* tv player toast shown when playback speed changes. %1$@ is the speed value like 1.5x */
+"tv_player_playback_speed_set" = "Playback speed set to %1$@";
+
+/* tv player toast shown when volume boost is turned off */
+"tv_player_volume_boost_off" = "Volume boost off";
+
+/* tv player toast shown when volume boost is turned on */
+"tv_player_volume_boost_on" = "Volume boost on";
+
+/* tv player toast shown when trim silence setting changes. %1$@ is the selected option name */
+"tv_player_trim_silence_set" = "Trim silence: %1$@";
+
+/* tv toast confirming an episode was marked as played */
+"tv_episode_marked_as_played" = "Marked as played";
+
+/* tv toast confirming an episode was marked as unplayed */
+"tv_episode_marked_as_unplayed" = "Marked as unplayed";
+
+/* tv toast confirming an episode was archived */
+"tv_episode_archived" = "Archived";
+
+/* tv toast confirming an episode was unarchived */
+"tv_episode_unarchived" = "Unarchived";
+
+/* tv toast confirming an episode was removed from the Up Next queue */
+"tv_episode_removed_from_up_next" = "Removed from Up Next";
+
+/* tv toast confirming an episode was queued to play next in Up Next */
+"tv_episode_will_play_next" = "Will play next";
+
+/* tv toast confirming an episode was queued to play last in Up Next */
+"tv_episode_will_play_last" = "Will play last";
+
+/* tv up next empty title */
+"tv_up_next_empty_title" = "Nothing queued up";
+
+/* tv up next empty subtitle */
+"tv_up_next_empty_subtitle" = "Add episodes to Up Next and they'll play in order, back to back";
+
+/* tv up next empty button action title */
+"tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv starred episodes empty title */
+"tv_starred_empty_title" = "No starred episodes";
+
+/* tv starred episodes empty subtitle */
+"tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
+
+/* tv listening history empty title */
+"tv_history_empty_title" = "No listening history";
+
+/* tv listening history empty subtitle */
+"tv_history_empty_subtitle" = "Episodes you play will show up here";
+
+/* tv User Profile actions title */
+"tv_user_profile_actions" = "User settings";
+
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
+/* tv Profile menu — opens the Starred Episodes list */
+"tv_profile_menu_starred_episodes" = "Starred Episodes";
+
+/* tv Profile menu — log out action */
+"tv_profile_menu_log_out" = "Log out";
+
+/* tv Profile menu — title of the confirmation shown before logging out */
+"tv_profile_menu_log_out_confirmation_title" = "Log out?";
+
+/* tv Profile menu — message warning that logging out erases all locally stored data from this Apple TV */
+"tv_profile_menu_log_out_confirmation_message_version_2" = "This removes all downloaded podcasts and data from this Apple TV. You can log in again to restore them.";
+
+/* tv Profile menu — log in action (signed-out state) */
+"tv_profile_menu_log_in" = "Log in";
+
+/* tv Profile menu — create account action (signed-out state) */
+"tv_profile_menu_create_account" = "Create account";
+
+/* tv Sign In Login Type title */
+"tv_user_sign_in_login_type" = "Login Type";
+
+/* tv Sign In Option QR */
+"tv_user_sign_in_option_qr" = "QR";
+
+/* tv Sign In Option Username and Password */
+"tv_user_sign_in_option_manual" = "User/Pass";
+
+/* tv Sign In manual login username text field placeholder */
+"tv_user_sign_in_username_placeholder" = "Username";
+
+/* tv search field placeholder prompt */
+"tv_search_prompt" = "Podcasts, shows, authors";
+
+/* tv search in-progress indicator label */
+"tv_search_searching" = "Searching...";
+
+/* tv search initial placeholder shown before any query is entered */
+"tv_search_type_something" = "Type something...";
+
+/* tv search error label. '%1$@' is a placeholder for a localized error description. */
+"tv_search_failed" = "Search failed: %1$@";
+
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
+
+/* info message when authorization is expired */
+"server_error_login_expired_token" = "The device code has expired.";
+
+/* info message when authorization is denied server */
+"server_error_login_access_denied" = "The user denied the authorization request";
+
+/* info message when authorization is invalid on server */
+"server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
+
+/* tv home recommendations for listeners of podcast title. Ex: Loved by listeners of The Daily */
+"tv_home_recommend_user_podcast_section_title" = "Loved by listeners of %1$@";
+
+/* tv home Trending section title */
+"tv_home_trending_section_title" = "What everyone's on this week";
+
+/* tv home Featured section title */
+"tv_home_featured_section_title" = "Featured on Pocket Casts";
+
+/* tv home Browse Categories section title */
+"tv_home_browse_categories_section_title" = "Browse categories";
+
+/* tv create account banner title */
+"tv_banner_create_account_title" = "One account. Every screen";
+
+/* tv create account banner subtitle */
+"tv_banner_create_account_subtitle" = "Your follows and progress exactly where you left them";
+
+/* tv create account banner action button title */
+"tv_banner_create_account_action_title" = "Create a free account";
+
+/* tv discover more banner title */
+"tv_banner_discover_more_title" = "You haven't seen the half of it";
+
+/* tv discover more banner subtitle */
+"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere";
+
+/* tv discover more banner action button title */
+"tv_banner_discover_more_action_title" = "Discover more shows";
+
+/* Discover - Button title on a featured podcast card that plays the podcast's most recent episode. */
+"tv_discover_featured_play_latest_episode" = "Play latest episode";
+
+/* Discover - Button title on a featured podcast card that opens the podcast. */
+"tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+/* tv Sponsored Podcast Title */
+"tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
+
+/* tv Discover failed to load title*/
+"tv_discover_failed_to_load_title" = "Discover failed to load";
+
+/* tv Discover failed to load subtitle*/
+"tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
+
+/* tv app Now Playing tab */
+"tv_tab_now_playing" = "Now Playing";
+
+/* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
+"device_approve_title" = "Connect to Apple TV";
+
+/* Description on the device approval screen explaining that listening will sync and can be disconnected from Settings. */
+"device_approve_description" = "Your listening will sync automatically.\nYou can disconnect at any time from Settings.";
+
+/* Placeholder text for the text field where the user enters the pairing code shown on their Apple TV. */
+"device_approve_code_placeholder" = "Insert code";
+
+/* Button title to confirm pairing the account with the Apple TV. */
+"device_approve_connect_button" = "Connect";
+
+/* Label shown above the user's email on the device approval screen, indicating which account is being used to sign in. */
+"device_approve_signing_in_as" = "Signing in as...";
+
+/* Message shown on the device approval screen when the user is not logged in, prompting them to sign in or create an account before connecting their device. */
+"device_approve_login_required" = "In order to connect your device you need to have an account. Please sign in or create an account and try again.";
+
+/* Title of the alert shown when the pairing code (QR code) the user entered has expired. */
+"device_approve_expired_alert_title" = "Your QR code expired";
+
+/* Message of the alert shown when the pairing code has expired, telling the user to generate a new code on their TV. */
+"device_approve_expired_alert_message" = "Please go back to your TV to generate a new one.";
+
+/* Title of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_title" = "Apple TV connected";
+
+/* Message of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_message" = "Your Apple TV is now connected to your account.";
+
+/* Title of the alert shown when approval failed. */
+"device_approve_generic_error_alert_title" = "Device approval failed";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"tv_account_signed_out_alert_title" = "You've been logged out";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"tv_account_signed_out_alert_message" = "There was a problem and you've been logged out.\nTap the button below to log in to your Pocket Casts account again.";
+
+/* Message shown on the empty folder view in the TV app, directing the user to add podcasts to the folder using the mobile app */
+"tv_folder_empty_message" = "Edit your folder in the mobile app, they'll be waiting here when you're done.";
+
+/* Title to shown when failed to load a podcast information*/
+"tv_podcast_error_title" = "Couldn't load podcast details";
+
+/* Message to shown when failed to load a podcast information*/
+"tv_podcast_error_message" = "Check your internet connection and try again.";
+
+"chapters_generated_warning_message" = "These chapters are automatically generated and may not be perfectly accurate.";
+
+/* Title shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_title" = "No episodes";
+
+/* Subtitle shown when a playlist has no episodes on the TV app */
+"tv_playlist_empty_subtitle" = "Either it's time to celebrate completing this list or edit your rules in the mobile app to get some more.";
+
+/* Note shown on the empty playlist screen when the playlist uses a download filter, which the TV app can't apply */
+"tv_playlist_download_rules_unsupported" = "This playlist filters by downloaded episodes. TV's storage is tight, so downloads aren't supported.";
+
+/* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
+"tv_playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived.";
+
+/* tv Discover row failed to load title*/
+"tv_discover_row_failed_to_load_title" = "Failed to load";
+
+
+/* tv create account step - scan the QR code */
+"tv_create_account_step_scan" = "Scan the QR code or go to %1$@";
+
+/* tv create account create account step - create your account */
+"tv_create_account_step_create" = "Create your account or log in";
+
+/* tv create account confirm step - confirm code */
+"tv_create_account_step_confirm_code" = "If asked, confirm the code below";
+
+/* tv create account login step - log in to your account */
+"tv_create_account_step_login" = "Log in to your account";
+
 
 /* MARK: - InfoPlist.strings */
 

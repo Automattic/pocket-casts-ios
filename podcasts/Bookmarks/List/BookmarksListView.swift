@@ -39,7 +39,9 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     // Callback to inform an external presenter of the desired action bar state
     var externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil
 
-    @State private var showShadow = false
+    // When false, the action bar won't reserve space for the mini player below it.
+    // Set this for hosts where the mini player never appears, like the full screen player.
+    var reservesMiniPlayerSpace: Bool = true
 
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
@@ -49,6 +51,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
          allowInternalScrolling: Bool = true,
          showSearchField: Bool = false,
          useExternalActionBar: Bool = false,
+         reservesMiniPlayerSpace: Bool = true,
          externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
@@ -59,6 +62,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         self.allowInternalScrolling = allowInternalScrolling
         self.showSearchField = showSearchField
         self.useExternalActionBar = useExternalActionBar
+        self.reservesMiniPlayerSpace = reservesMiniPlayerSpace
         self.externalActionBarHandler = externalActionBarHandler
     }
 
@@ -92,7 +96,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             if !feature.isUnlocked || viewModel.bookmarks.isEmpty {
                 emptyView
             } else {
-                listView
+                contentView
             }
         }
         .environmentObject(viewModel)
@@ -124,9 +128,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         }
     }
 
-    /// The main content view that displays a list of bookmarks
     @ViewBuilder
-    private var listView: some View {
+    private var contentView: some View {
         if showHeader {
             if showSearchField {
                 divider
@@ -136,13 +139,32 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             divider
         }
 
-        actionBarView {
-            Group {
-                if allowInternalScrolling {
-                    scrollView
-                } else {
-                    stableContainer
+        if LiquidGlass.isEnabled && !useExternalActionBar {
+            scrollableContent
+                .safeAreaInset(edge: .bottom, spacing: 0) {
+                    if actionBarVisible {
+                        ActionBarView(
+                            title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems),
+                            style: style.actionBarStyle,
+                            actions: bookmarkActions
+                        )
+                        .transition(.opacity)
+                    }
                 }
+                .animation(.linear(duration: 0.1), value: actionBarVisible)
+                .enclosingTabBarHidden(viewModel.isMultiSelecting)
+        } else {
+            actionBarView { scrollableContent }
+        }
+    }
+
+    @ViewBuilder
+    private var scrollableContent: some View {
+        if allowInternalScrolling {
+            scrollView
+        } else {
+            LazyVStack(spacing: 0) {
+                bookmarksRows
             }
         }
     }
@@ -180,87 +202,64 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     @ViewBuilder
     private var scrollView: some View {
-        ZStack(alignment: .top) {
-            ScrollViewWithContentOffset {
-                LazyVStack(spacing: 0) {
-                    ForEach(viewModel.bookmarks) { bookmark in
-                        BookmarkRow(bookmark: bookmark, style: style)
-
-                        if !viewModel.isLast(item: bookmark) {
-                            divider
-                        }
-                    }
-
-                    // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                    if actionBarVisible && !useExternalActionBar {
-                        Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
-                    }
-                }
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                bookmarksRows
             }
-            .onContentOffsetChange { contentOffset in
-                showShadow = Int(contentOffset.y) < 0
-            }
-
-            // Shadow overlay
-            shadowView
         }
-    }
-
-    private var stableContainer: some View {
-        LazyVStack(spacing: 0) { bookmarksRows }
-    }
-
-    @ViewBuilder
-    private var listContent: some View {
-        LazyVStack(spacing: 0) { bookmarksRows }
     }
 
     @ViewBuilder
     private var bookmarksRows: some View {
         ForEach(viewModel.bookmarks) { bookmark in
             BookmarkRow(bookmark: bookmark, style: style)
-            if !viewModel.isLast(item: bookmark) { divider }
+            if !viewModel.isLast(item: bookmark) {
+                divider
+            }
         }
-        if actionBarVisible && !useExternalActionBar { Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding) }
+        if !LiquidGlass.isEnabled && actionBarVisible && !useExternalActionBar {
+            Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+        }
     }
 
-    @ViewBuilder
-    private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
-        let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
+    private var bookmarkActions: [ActionBarView<ListStyle.ActionStyle>.Action] {
         let editVisible = viewModel.numberOfSelectedItems == 1
         let shareVisible = viewModel.selectedItems.first?.episode is Episode
+        return makeBookmarkActions(BookmarkActionConfig(
+            showShare: editVisible && shareVisible,
+            showEdit: editVisible,
+            onShare: { viewModel.shareSelectedBookmarks() },
+            onEdit: { viewModel.editSelectedBookmarks() },
+            onDelete: { viewModel.deleteSelectedBookmarks() }
+        ))
+    }
+
+    /// Legacy action bar handling for the previous (non-Liquid Glass) behavior.
+    /// Under Liquid Glass, `listView` adds `ActionBarView` directly via `.safeAreaInset`.
+    @ViewBuilder
+    private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
         Group {
             if useExternalActionBar {
                 content()
                     .onAppear { notifyExternalActionBar() }
-                    .onChange(of: viewModel.numberOfSelectedItems) { _ in notifyExternalActionBar() }
-                    .onChange(of: viewModel.isMultiSelecting) { _ in notifyExternalActionBar() }
+                    .onChange(of: viewModel.numberOfSelectedItems) { notifyExternalActionBar() }
+                    .onChange(of: viewModel.isMultiSelecting) { notifyExternalActionBar() }
                     .onDisappear {
                         externalActionBarHandler?(ExternalActionBarState(visible: false, title: nil, showEdit: false, showShare: false, isMultiSelecting: false))
                     }
             } else {
-                ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
-                    content()
-                }, actions: makeBookmarkActions(BookmarkActionConfig(
-                    showShare: editVisible && shareVisible,
-                    showEdit: editVisible,
-                    onShare: { viewModel.shareSelectedBookmarks() },
-                    onEdit: { viewModel.editSelectedBookmarks() },
-                    onDelete: { viewModel.deleteSelectedBookmarks() }
-                )))
+                // `ActionBarOverlayView` is used on iOS 18 and earlier only.
+                ActionBarOverlayView(actionBarVisible: actionBarVisible,
+                                     title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems),
+                                     style: style.actionBarStyle,
+                                     content: { content() },
+                                     actions: bookmarkActions,
+                                     reservesMiniPlayerSpace: reservesMiniPlayerSpace)
             }
         }
     }
 
     // MARK: - Utility Views
-
-    /// A shadow view that adds depth between the scroll view and the static header
-    private var shadowView: some View {
-        LinearGradient(colors: [.black.opacity(0.2), .black.opacity(0)], startPoint: .top, endPoint: .bottom)
-            .frame(maxWidth: .infinity, maxHeight: BookmarkListConstants.shadowHeight)
-            .opacity(showShadow ? 1 : 0)
-            .animation(.linear(duration: 0.2), value: showShadow)
-    }
 
     /// Styled divider view
     @ViewBuilder
@@ -296,9 +295,8 @@ struct BookmarkListMultiSelectHeaderView<HeaderStyle: BookmarksStyle>: View {
 }
 
 enum BookmarkListConstants {
-    static let shadowHeight = 20.0
     static let padding = 16.0
-    static let headerPadding = 18.0
+    static let headerPadding = 16.0
     static let headerTransitionOffset = 10.0
     static let multiSelectionBottomPadding = 70.0
     static let searchFieldBottomPadding = 10.0

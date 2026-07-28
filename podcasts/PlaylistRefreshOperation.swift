@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class PlaylistRefreshOperation: Operation {
+class PlaylistRefreshOperation: Operation, @unchecked Sendable {
     private let episodesDataManager: EpisodesDataManager
     private let playlist: EpisodeFilter
     private let completion: ([ListEpisode]) -> Void
@@ -26,12 +26,7 @@ class PlaylistRefreshOperation: Operation {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let newData: [ListEpisode]
-            if FeatureFlag.playlistsRebranding.enabled {
-                newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
-            } else {
-                newData = episodesDataManager.episodes(for: playlist)
-            }
+            let newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }

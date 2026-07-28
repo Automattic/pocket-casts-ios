@@ -4,7 +4,8 @@ class TopLevelSettingsCell: ThemeableCell {
     @IBOutlet var settingsImage: UIImageView!
     @IBOutlet var settingsLabel: UILabel! {
         didSet {
-            settingsLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .body)
+            settingsLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            settingsLabel.adjustsFontForContentSizeCategory = true
         }
     }
     @IBOutlet var plusIndicator: UIImageView!
@@ -28,6 +29,10 @@ class TopLevelSettingsCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: TopLevelSettingsCell, _) in
+            view.updateSize()
+        }
+
         setupDisclosureImageView()
         settingsLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         updateColor()
@@ -45,19 +50,13 @@ class TopLevelSettingsCell: ThemeableCell {
         accessoryView = imageView
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
-    }
-
     private func updateSize() {
-        let metric = UIFontMetrics(forTextStyle: .body)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        let settingsSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
-        updateSizeConstraints(of: settingsImage, to: settingsSize)
+        let iconSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
+        settingsImage.updateSizeConstraints(to: iconSize)
+
+        plusIndicator.updateSizeConstraints(to: iconSize)
 
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImageView?.frame.size = CGSize(width: disclosureSize, height: disclosureSize)

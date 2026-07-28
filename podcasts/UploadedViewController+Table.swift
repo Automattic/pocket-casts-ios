@@ -17,6 +17,10 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
         uploadedEpisodes.count
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerView
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
         cell.hidesArtwork = false
@@ -65,7 +69,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
             userEpisodeDetailVC = UserEpisodeDetailViewController(episodeUuid: episode.uuid)
             userEpisodeDetailVC?.playlist = .files
             userEpisodeDetailVC?.delegate = self
-            userEpisodeDetailVC?.animateIn()
+            userEpisodeDetailVC?.present(from: self)
         }
     }
 

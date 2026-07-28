@@ -1,6 +1,7 @@
 import Combine
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
@@ -37,6 +38,8 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     let feature: PaidFeature = .bookmarks
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
+    @Published private(set) var loadingBookmarkUuid: String?
+
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
         self._sortSettingValue = sortOption
@@ -48,6 +51,18 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     }
 
     func reload() { }
+
+    /// Outside of the multi selection, a tap opens the bookmark's details
+    override func tapped(item: Bookmark) {
+        guard !isMultiSelecting else {
+            super.tapped(item: item)
+            return
+        }
+
+        guard FeatureFlag.smartBookmarks.enabled else { return }
+
+        router?.bookmarkDetails(item, source: analyticsSource)
+    }
 
     func dismiss() {
         router?.dismissBookmarksList()
@@ -61,6 +76,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     }
 
     func addListeners() {
+        // Bookmarks can also be deleted from outside the list, such as from their details
+        bookmarkManager.onBookmarksDeleted
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }
+            .store(in: &cancellables)
+
         bookmarkManager.onBookmarkChanged
             .filter { [weak self] event in
                 self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
@@ -76,14 +99,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
         ServerNotifications.syncCompleted.publisher()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.reload()
             }
             .store(in: &cancellables)
 
         feature.objectWillChange
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.reload()
                 self?.objectWillChange.send()
             }
@@ -95,7 +118,23 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
 extension BookmarkListViewModel {
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
-        router?.bookmarkPlay(bookmark)
+        Task { @MainActor [weak self] in
+            let spinnerTask = Task { @MainActor in
+                try await Task.sleep(for: .milliseconds(250))
+                try Task.checkCancellation()
+                self?.loadingBookmarkUuid = bookmark.uuid
+            }
+
+            do {
+                try await self?.router?.bookmarkPlay(bookmark)
+            } catch {
+                HapticsHelper.triggerErrorHaptic()
+                Toast.show(L10n.discoverEpisodeFailToLoad)
+            }
+
+            spinnerTask.cancel()
+            self?.loadingBookmarkUuid = nil
+        }
     }
 
     func editSelectedBookmarks() {
@@ -141,19 +180,20 @@ extension BookmarkListViewModel {
     func showMoreOptions() {
         let optionPicker = OptionsPicker(title: nil)
 
+        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.label, icon: "podcast-sort") { }
+        sortAction.submenu = { [weak self] in self?.makeSortOptionsPicker() }
+
         optionPicker.addActions([
             .init(label: L10n.selectBookmarks, icon: "option-multiselect") { [weak self] in
                 self?.toggleMultiSelection()
             },
-            .init(label: L10n.sortBy, secondaryLabel: sortOption.label, icon: "podcast-sort") { [weak self] in
-                self?.showSortOptions()
-            }
+            sortAction
         ])
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionPicker.present()
     }
 
-    func showSortOptions() {
+    func makeSortOptionsPicker() -> OptionsPicker {
         let optionPicker = OptionsPicker(title: L10n.sortBy)
         let currentSort = sortOption
 
@@ -163,7 +203,7 @@ extension BookmarkListViewModel {
             }
         }))
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        return optionPicker
     }
 }
 

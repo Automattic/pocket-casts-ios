@@ -24,20 +24,14 @@ extension PlaylistDetailViewController: MultiSelectActionDelegate {
         }
 
         func multiSelectActionCompleted() {
-            DispatchQueue.main.async {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+                self.multiSelectFooterBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
-                UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                    self.multiSelectFooterBottomConstraint.constant = 0
-                    self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    self.multiSelectActionInProgress = false
-                    self.isMultiSelectEnabled = false
-                })
-            }
-        }
-
-        func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
-            preferredStatusBarStyle
+            }, completion: { _ in
+                self.multiSelectActionInProgress = false
+                self.isMultiSelectEnabled = false
+            })
         }
 
         var multiSelectViewSource: AnalyticsSource {
@@ -59,9 +53,8 @@ extension PlaylistDetailViewController: MultiSelectActionDelegate {
         }
 
         func updateSelectAllBtn() {
-            guard isMultiSelectEnabled else { return }
-            let leftButtonTitle = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: viewModel.episodes.count) ? L10n.selectAll : L10n.deselectAll
-            multiSelectAllBtn.setTitle(leftButtonTitle, for: .normal)
+            guard isMultiSelectEnabled, let multiSelectAllBarButton else { return }
+            multiSelectAllBarButton.title = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: viewModel.episodes.count) ? L10n.selectAll : L10n.deselectAll
         }
 
         @objc func selectAllTapped() {

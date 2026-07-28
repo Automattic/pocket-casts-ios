@@ -195,7 +195,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func skipForwardLongPressed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
-        let options = OptionsPicker(title: nil, themeOverride: .dark, portraitOnly: false)
+        let options = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
             AnalyticsEpisodeHelper.shared.currentSource = .videoPlayerSkipForwardLongPress
@@ -211,13 +211,13 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             options.addAction(action: skipToNextAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        options.present(from: self)
     }
 
     // MARK: - Picture In Picture
 
     @IBAction func pictureInPictureTapped(_ sender: Any) {
-        guard let pipController = pipController else { return }
+        guard let pipController else { return }
 
         if pipController.isPictureInPictureActive {
             pipController.stopPictureInPicture()
@@ -227,7 +227,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func setupPictureInPicturePlayback() {
-        if let videoPlayerView = videoPlayerView, AVPictureInPictureController.isPictureInPictureSupported() {
+        if let videoPlayerView, AVPictureInPictureController.isPictureInPictureSupported() {
             pipController = AVPictureInPictureController(playerLayer: videoPlayerView.playerLayer)
             pipController?.delegate = self
             pipButton.isHidden = false
@@ -237,7 +237,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func teardownPictureInPicturePlayback() {
-        if let pipController = pipController {
+        if let pipController {
             pipController.delegate = nil
         }
 
@@ -285,7 +285,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @objc private func trackChanged() {
-        guard let currentEpisode = PlaybackManager.shared.currentEpisode(), currentEpisode.videoPodcast() else {
+        guard PlaybackManager.shared.currentEpisode() != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
             dismiss(animated: true, completion: nil)
             return
         }
@@ -359,7 +359,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     // The closeOverlay and controlOverlay are anchored to the safe area
     // when we move the view the overlays flicker
     // To prevent this, anchor to the view instead of the safe area
-    var initialTouchPoint = CGPoint(x: 0, y: 0)
+    var initialTouchPoint = CGPoint.zero
 
     private static let pullDownThreshold: CGFloat = 100
 
@@ -399,7 +399,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             } else {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-
                 }, completion: { (_: Bool) in
                     self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
                     self.closeToSafeTopConstraint.isActive = true

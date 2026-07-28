@@ -6,9 +6,27 @@ import UIKit
 import WebKit
 
 class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewControllerDelegate, WKNavigationDelegate {
-    @IBOutlet var episodeTitle: UILabel!
-    @IBOutlet var publishedDate: UILabel!
-    @IBOutlet var duration: UILabel!
+    @IBOutlet var episodeTitle: UILabel! {
+        didSet {
+            episodeTitle.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            episodeTitle.adjustsFontForContentSizeCategory = true
+            episodeTitle.numberOfLines = 0
+        }
+    }
+    @IBOutlet var publishedDate: UILabel! {
+        didSet {
+            publishedDate.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            publishedDate.adjustsFontForContentSizeCategory = true
+            publishedDate.numberOfLines = 0
+        }
+    }
+    @IBOutlet var duration: UILabel! {
+        didSet {
+            duration.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            duration.adjustsFontForContentSizeCategory = true
+            duration.numberOfLines = 0
+        }
+    }
     @IBOutlet var durationImageView: UIImageView!
     @IBOutlet var dateImageView: UIImageView!
 
@@ -42,8 +60,13 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ShowNotesPlayerItemViewController, _) in
+            controller.updateSize()
+        }
+
         setupWebView()
         updateColors()
+        updateSize()
     }
 
     private func setupWebView() {
@@ -127,7 +150,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     private func loadShowNotes() {
         if downloadingShowNotes { return }
 
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         loadingIndicator.startAnimating()
 
@@ -135,7 +158,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                 self?.downloadingShowNotes = false
 
-                let shouldResetScrollOffset = lastEpisodeUuidRendered != episode.uuid && lastEpisodeUuidRendered != ""
+                let shouldResetScrollOffset = lastEpisodeUuidRendered != episode.uuid && !lastEpisodeUuidRendered.isEmpty
                 self?.displayShowNotes(showNotes, shouldResetScrollOffset: shouldResetScrollOffset)
 
                 // if we get back the no show notes available message, make sure next update we try again
@@ -151,14 +174,14 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     private func displayShowNotes(_ showNotes: String?, shouldResetScrollOffset: Bool = true) {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.loadingIndicator.stopAnimating()
             let tintColor = strongSelf.linkTintColor()
-            if let showNotes = showNotes {
+            if let showNotes {
                 let isCurrentEpisode = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
                 let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: tintColor, convertTimesToLinks: isCurrentEpisode, bgColor: nil, textColor: ThemeColor.playerContrast01())
                 strongSelf.showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
@@ -220,7 +243,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         showNotesWebView.evaluateJavaScript("document.readyState", completionHandler: { [weak self] complete, _ in
-            guard let self = self,
+            guard let self,
                   let result = complete as? String,
                   result == "complete" // ensure that the load of HTML is complete and not in another loading state
             else {
@@ -242,5 +265,14 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         safariViewController?.delegate = nil
         safariViewController = nil
+    }
+
+    // MARK: - Dynamic type
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let size = max(metric.scaledValue(for: 24), 24)
+        durationImageView.updateSizeConstraints(to: size)
+        dateImageView.updateSizeConstraints(to: size)
     }
 }

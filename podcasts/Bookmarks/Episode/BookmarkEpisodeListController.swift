@@ -32,7 +32,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
         viewModel.router = self
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -40,14 +40,15 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 // MARK: - BookmarkListRouter
 
 extension BookmarkEpisodeListController: BookmarkListRouter {
-    func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
+    func bookmarkPlay(_ bookmark: Bookmark) async throws {
+        try await playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
-                                                         state: .updating)
+                                                         state: .updating,
+                                                         style: .themed)
 
         controller.source = viewModel.analyticsSource
 

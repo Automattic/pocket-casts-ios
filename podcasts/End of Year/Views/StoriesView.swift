@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import EndOfYear
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
@@ -95,7 +96,7 @@ struct StoriesView: View {
                 notNowAction: model.start
             )
         )
-        .onChange(of: pauseState.isPaused) { isPaused in
+        .onChange(of: pauseState.isPaused) { _, isPaused in
             if isPaused {
                 model.pause()
             } else {

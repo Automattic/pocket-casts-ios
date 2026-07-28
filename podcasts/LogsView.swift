@@ -4,8 +4,14 @@ import PocketCastsUtils
 import MessageUI
 import UniformTypeIdentifiers
 
+enum LogSource: String, CaseIterable {
+    case iOS
+    case watchOS
+}
+
 class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDelegate {
     @Published var logs = ""
+    @Published var selectedSource: LogSource = .iOS
     var presenter: UIViewController?
 
     init(presenter: UIViewController? = nil) {
@@ -13,9 +19,17 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
     }
 
     func load() async {
-        let result = await FileLog.shared.logFileAsString()
-        await MainActor.run {
-            self.logs = result
+        switch selectedSource {
+        case .iOS:
+            let result = await FileLog.shared.logFileAsString()
+            await MainActor.run {
+                self.logs = result
+            }
+        case .watchOS:
+            let result = await FileLog.shared.watchLogFileAsString()
+            await MainActor.run {
+                self.logs = result ?? L10n.logsWatchOsNotAvailable
+            }
         }
     }
 
@@ -66,9 +80,18 @@ struct LogsView: View {
     @EnvironmentObject var theme: Theme
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            Picker("Log Source", selection: $model.selectedSource) {
+                ForEach(LogSource.allCases, id: \.self) { source in
+                    Text(source.rawValue).tag(source)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+
             NonEditableTextView(text: model.logs, scrolledToBottom: true)
-            Spacer()
+                .ignoresSafeArea(edges: .bottom)
         }
         .navigationTitle(L10n.logs)
         .toolbar {
@@ -91,8 +114,7 @@ struct LogsView: View {
         }
         .foregroundStyle(theme.primaryIcon01)
         .applyDefaultThemeOptions()
-        .ignoresSafeArea()
-        .task {
+        .task(id: model.selectedSource) {
             await model.load()
         }
     }

@@ -34,6 +34,17 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     }
 
     private func setup(content: ContentView, backgroundStyle: ThemeStyle? = nil, backgroundColor: UIColor? = nil) {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: BottomSheetSwiftUIWrapper<ContentView>, _) in
+            guard let sheetController = controller.sheetPresentationController else { return }
+            controller.updatePreferredContentSize()
+            //Dispatch to main to allow changes in content to reflect
+            DispatchQueue.main.async {
+                sheetController.animateChanges {
+                    sheetController.invalidateDetents()
+                }
+            }
+        }
+
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -48,6 +59,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.sharedTheme)
         )
+        hostingController.sizingOptions = [.intrinsicContentSize]
         addChild(hostingController)
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
@@ -102,8 +114,13 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     /// Present a SwiftUI view as a bottom sheet in the given VC. If `autoSize` is `true`, a custom detent will be calculated based on the view size
     static func present(_ content: ContentView, autoSize: Bool = false, showingGrabber: Bool = false, in viewController: UIViewController, dismissCallback: (()->())? = nil) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content, dismissCallback: dismissCallback)
+        var previousSizeCategory = viewController.traitCollection.preferredContentSizeCategory
         if autoSize {
-            let customDetent = UISheetPresentationController.Detent.custom { _ in
+            let customDetent = UISheetPresentationController.Detent.custom { context in
+                if context.containerTraitCollection.preferredContentSizeCategory != previousSizeCategory {
+                    previousSizeCategory = context.containerTraitCollection.preferredContentSizeCategory
+                    wrapperController.updatePreferredContentSize()
+                }
                 return wrapperController.customDetentHeight
             }
             wrapperController.presentModally(in: viewController, detents: [customDetent], showingGrabber: showingGrabber)
@@ -115,10 +132,9 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.dismissCallback?()
     }
-
 }
 
-extension UIViewController {
+private extension UIViewController {
     func presentModally(
         in viewController: UIViewController,
         detents: [UISheetPresentationController.Detent] = [.medium()],
@@ -132,7 +148,9 @@ extension UIViewController {
                 sheetController.delegate = sheetDelegate
             }
             sheetController.prefersGrabberVisible = showingGrabber
-            sheetController.preferredCornerRadius = 10
+            if !LiquidGlass.isEnabled {
+                sheetController.preferredCornerRadius = 10
+            }
 
             // Prevent sheet from being dismissed by dragging down
             sheetController.prefersScrollingExpandsWhenScrolledToEdge = false

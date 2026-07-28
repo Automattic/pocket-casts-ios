@@ -19,7 +19,7 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
         }
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -56,7 +56,7 @@ class ThemedHostingController<Content>: ModifedHostingController<Content, Themed
         }
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -79,6 +79,7 @@ class PCHostingController<Content>: ThemedHostingController<Content> where Conte
     }
 
     private func setupNavBar() {
+        guard !LiquidGlass.isEnabled else { return }
         configureNavBarFor(theme: Theme.preferredLightTheme(), traits: UITraitCollection(userInterfaceStyle: .light))
 
         let preferredThemeWhenDark = Settings.shouldFollowSystemTheme() ? Theme.preferredDarkTheme() : Theme.preferredLightTheme()

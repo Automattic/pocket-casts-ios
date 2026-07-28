@@ -8,6 +8,16 @@ extension AppDelegate {
         let defaults = UserDefaults.standard
         let dataManager = DataManager.sharedManager
 
+        // Check if protected data is available before running migrations that touch keychain
+        // This prevents the v5Run migration from incorrectly clearing tokens when the app
+        // launches in the background before the device has been unlocked after a reboot.
+        if FeatureFlag.checkProtectedDataBeforeMigration.enabled {
+            guard UIApplication.shared.isProtectedDataAvailable else {
+                FileLog.shared.addMessage("AppDelegate.checkDefaults skipped - protected data not available")
+                return
+            }
+        }
+
         performUpdateIfRequired(updateKey: "v5Run") {
             // these are considered defaults for a new app install
             SyncManager.clearTokensFromKeyChain()
@@ -39,10 +49,6 @@ extension AppDelegate {
             defaults.set(false, forKey: Constants.UserDefaults.cleanupStarred)
             defaults.set(true, forKey: Constants.UserDefaults.cleanupInProgress)
             defaults.set(true, forKey: Constants.UserDefaults.cleanupPlayed)
-        }
-
-        performUpdateIfRequired(updateKey: "v7Run") {
-            defaults.set(2, forKey: Constants.UserDefaults.lastTabOpened)
         }
 
         performUpdateIfRequired(updateKey: "v7bRun") {
@@ -124,13 +130,6 @@ extension AppDelegate {
 
                 // Remove the setting
                 UserDefaults.standard.removeObject(forKey: key)
-            }
-        }
-
-        if FeatureFlag.newSettingsStorage.enabled {
-            performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
-                SettingsStore.appSettings.importUserDefaults()
-                DataManager.sharedManager.importPodcastSettings()
             }
         }
 

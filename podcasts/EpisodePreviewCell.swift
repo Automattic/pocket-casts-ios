@@ -3,17 +3,25 @@ import UIKit
 
 class EpisodePreviewCell: ThemeableCell {
     @IBOutlet var episodeImage: PodcastImageView!
-    @IBOutlet var episodeTitle: ThemeableLabel!
+
+    @IBOutlet var episodeTitle: ThemeableLabel! {
+        didSet {
+            episodeTitle.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+        }
+    }
 
     @IBOutlet var durationLabel: ThemeableLabel! {
         didSet {
             durationLabel.style = .primaryText02
+            durationLabel.font = .font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
     @IBOutlet var dateLabel: ThemeableLabel! {
         didSet {
             dateLabel.style = .primaryText02
+            dateLabel.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            dateLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -28,5 +36,29 @@ class EpisodePreviewCell: ThemeableCell {
         }
         EpisodeDateHelper.setDate(episode: episode, on: dateLabel, tintColor: nil)
         durationLabel.text = episode.displayableTimeLeft()
+
+        updateSize()
+    }
+
+    // MARK: - Dynamic Type Updates
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodePreviewCell, _) in
+            view.updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let imageSize = max(56, metric.scaledValue(for: 56))
+
+        episodeImage.updateSizeConstraints(to: imageSize)
+
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        dateLabel.updateNumberOfLines(regular: 2, accessibility: 3)
+        durationLabel.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 }

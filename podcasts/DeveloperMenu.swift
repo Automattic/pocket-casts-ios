@@ -12,6 +12,7 @@ struct DeveloperMenu: View {
     @State var showingRecommendationsOnboardingSelected = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
+    @State var showDeviceApproval = false
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
 
@@ -19,44 +20,42 @@ struct DeveloperMenu: View {
 
     var body: some View {
         List {
-            if #available(iOS 17.0, *) {
-                Section {
-                    Button(action: {
-                        showingImporter.toggle()
-                    }, label: {
-                        Text("Import Bundle")
-                    })
-                    .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
-                        switch result {
-                        case .success(let url):
-                            print("Selected: \(url)")
-                            Task {
-                                let fileWrapper = try FileWrapper(url: url)
-                                try PCBundleDoc.performImport(from: fileWrapper)
-                            }
-                        case .failure(let error):
-                            print("Failed to import pcasts: \(error)")
+            Section {
+                Button(action: {
+                    showingImporter.toggle()
+                }, label: {
+                    Text("Import Bundle")
+                })
+                .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
+                    switch result {
+                    case .success(let url):
+                        print("Selected: \(url)")
+                        Task {
+                            let fileWrapper = try FileWrapper(url: url)
+                            try PCBundleDoc.performImport(from: fileWrapper)
                         }
+                    case .failure(let error):
+                        print("Failed to import pcasts: \(error)")
                     }
-                    Button(action: {
-                        showingExporter.toggle()
-                    }, label: {
-                        Text("Export Bundle")
-                    })
-                    .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
-                        switch result {
-                        case .success(let url):
-                            print("Saved to: \(url)")
-                        case .failure(let error):
-                            print("Failed to export pcasts: \(error)")
-                        }
-                    }
-                    Button(action: {
-                        PCBundleDoc.delete()
-                    }, label: {
-                        Text("Reset Database + Settings")
-                    })
                 }
+                Button(action: {
+                    showingExporter.toggle()
+                }, label: {
+                    Text("Export Bundle")
+                })
+                .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
+                    switch result {
+                    case .success(let url):
+                        print("Saved to: \(url)")
+                    case .failure(let error):
+                        print("Failed to export pcasts: \(error)")
+                    }
+                }
+                Button(action: {
+                    PCBundleDoc.delete()
+                }, label: {
+                    Text("Reset Database + Settings")
+                })
             }
             Section {
                 Button(action: {
@@ -276,7 +275,6 @@ struct DeveloperMenu: View {
                     Text("Cancelled subscription, but has passed expiration date")
                         .font(Font.footnote)
                 }
-
             } header: {
                 VStack {
                     Text("Subscription Testing")
@@ -389,10 +387,20 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Show Device Approval") {
+                    showDeviceApproval = true
+                }
+                .sheet(isPresented: $showDeviceApproval) {
+                    DeviceApproveView(userCode: "", model: DeviceApproveViewModel(presentingViewController: SceneHelper.rootViewController(includeTopMost: true) ?? UIViewController()))
+                }
+            } header: {
+                Text("TV")
+            }
+            Section {
                 Toggle(isOn: $enableDebugPlaylistLimit) {
                     Text("Enable Debug Playlists limit")
                 }
-                .onChange(of: enableDebugPlaylistLimit) { newValue in
+                .onChange(of: enableDebugPlaylistLimit) { _, newValue in
                     Settings.debugPlaylistsLimit = newValue ? 6 : Constants.Limits.maxFilterItems
                 }
                 Button("Show Playlists Onboarding") {
@@ -412,6 +420,13 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Playlist Rebranding")
+            }
+            Section {
+                Button("Reset Up Next Sort Tooltip") {
+                    Settings.shouldShowUpNextSortDurationTip = true
+                }
+            } header: {
+                Text("Up Next")
             }
             Section {
                 Text(Bundle.main.identifier)
@@ -438,11 +453,10 @@ struct DeveloperMenu_Previews: PreviewProvider {
 extension Bundle {
 
     var identifier: String {
-        guard let infoDictionary = infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
+        guard let infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
             return "Cound not load bundle id."
         }
 
         return identifier
-
     }
 }

@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import Lottie
+import EndOfYear
 
 struct LongestEpisode2025Story: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool

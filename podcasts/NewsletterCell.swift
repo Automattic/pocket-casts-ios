@@ -6,7 +6,7 @@ class NewsletterCell: ThemeableCell {
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.text = L10n.pocketCastsNewsletter
-            cellLabel.font = UIFont.font(ofSize: 15.0, weight: .medium, scalingWith: .body)
+            cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
         }
     }
 
@@ -35,22 +35,25 @@ class NewsletterCell: ThemeableCell {
         cellSecondaryLabel.style = .primaryText02
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
 
-        updateImageScale()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateImageScale()
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: NewsletterCell, _) in
+            view.updateSize()
         }
     }
 
-    func updateImageScale() {
-        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
-        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        updateSize()
+    }
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: iconSize)
     }
 }

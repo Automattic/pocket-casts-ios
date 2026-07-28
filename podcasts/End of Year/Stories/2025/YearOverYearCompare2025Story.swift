@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import Lottie
+import EndOfYear
 
 struct YearOverYearCompare2025Story: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
@@ -161,7 +162,7 @@ struct YearOverYearCompare2025Story: ShareableStory {
     }
 }
 
-final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
+private final class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let dict: [String: String]
     private let prevYear: Int
     private let currentYear: Int

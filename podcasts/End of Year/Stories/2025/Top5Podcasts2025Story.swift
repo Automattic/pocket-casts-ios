@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import Lottie
+import EndOfYear
 
 struct Top5Podcasts2025Story: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
@@ -104,7 +105,7 @@ fileprivate struct PodcastCellView: View {
         ZStack {
             HStack(spacing: 0) {
                 LottieView(animation: .named(animationName))
-                    .animationDidFinish({ completed in
+                    .animationDidFinish({ _ in
                     })
                     .configure({ animationView in
                         animationView.contentMode = .scaleToFill

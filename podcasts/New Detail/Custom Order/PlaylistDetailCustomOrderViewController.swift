@@ -54,14 +54,16 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
 
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-        appearance.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.sizeToFit()
+        if !LiquidGlass.isEnabled {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+            appearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.sizeToFit()
+        }
     }
 
     private func setupContent() {

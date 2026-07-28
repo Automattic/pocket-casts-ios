@@ -1,8 +1,9 @@
 import UIKit
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
-class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
+class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource, @unchecked Sendable {
     private var text: String
 
     private let pocketCastsUrl = ServerConstants.Urls.share()
@@ -123,7 +124,7 @@ class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
         let listInfo = SharingServerHandler.PodcastShareInfo(title: L10n.eoyStoryTopPodcastsListTitle, description: "", podcasts: podcasts.map { $0.uuid })
         SharingServerHandler.shared.sharePodcastList(listInfo: listInfo) { [weak self] shareUrl in
             DispatchQueue.main.async {
-                if let shareUrl = shareUrl {
+                if let shareUrl {
                     Settings.top5PodcastsListLink = shareUrl
                     self?.podcastListURL = shareUrl
                 }

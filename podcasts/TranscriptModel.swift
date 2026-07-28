@@ -13,8 +13,7 @@ struct TranscriptCue: Sendable {
     }
 }
 
-extension NSAttributedString: @unchecked Sendable {
-
+extension NSAttributedString: @retroactive @unchecked Sendable {
 }
 
 struct TranscriptModel: Sendable {
@@ -35,6 +34,9 @@ struct TranscriptModel: Sendable {
         }
         let subtitles: Subtitles? = {
             do {
+                if format == .jsonPodcastIndex {
+                    return try parseJSONSubtitles(from: transcriptText)
+                }
                 return try Subtitles(content: transcriptText, expectedExtension: format.fileExtension)
             }
             catch {
@@ -79,6 +81,47 @@ struct TranscriptModel: Sendable {
 
     var isEmtpy: Bool {
         return attributedText.string.trim().isEmpty
+    }
+
+    /// Parses a JSON transcript into `Subtitles`, supporting both the Podcast Index
+    /// format and the Flightcast format (an embedded WEBVTT document or timed
+    /// plain-text segments). Flightcast transcripts arrive with the same
+    /// `application/json` type as Podcast Index but carry `text`/`start`/`end`
+    /// segments (and often a `vtt` field) instead of `body`/`startTime`/`endTime`.
+    private static func parseJSONSubtitles(from text: String) throws -> Subtitles {
+        guard
+            let data = text.data(using: .utf8),
+            let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else {
+            // Not a JSON object: fall back to the Podcast Index decoder.
+            return try Subtitles(content: text, expectedExtension: TranscriptFormat.jsonPodcastIndex.fileExtension)
+        }
+
+        let segments = (json["segments"] as? [Any])?.compactMap { $0 as? [String: Any] } ?? []
+
+        // Podcast Index style: segments carry `body` (the `speaker` field is
+        // optional, so we key off `body`, which the decoder requires).
+        if let first = segments.first, first["body"] is String {
+            return try Subtitles(content: text, expectedExtension: TranscriptFormat.jsonPodcastIndex.fileExtension)
+        }
+
+        // Flightcast: prefer the embedded WEBVTT document as it carries cue timing.
+        if let vtt = json["vtt"] as? String, vtt.contains("WEBVTT") {
+            return try Subtitles(content: vtt, expectedExtension: TranscriptFormat.vtt.fileExtension)
+        }
+
+        // Flightcast fallback: timed segments carrying plain text. Ignore any
+        // segment without a string `text` so we never render invalid entries.
+        let cues: [Subtitles.Cue] = segments.compactMap { segment in
+            guard let segmentText = segment["text"] as? String else { return nil }
+            let start = (segment["start"] as? NSNumber)?.doubleValue ?? 0
+            let end = (segment["end"] as? NSNumber)?.doubleValue ?? start
+            return Subtitles.Cue(startTimeInSeconds: start, endTimeInSeconds: end, text: segmentText)
+        }
+        guard !cues.isEmpty else {
+            throw TranscriptError.failedToParse
+        }
+        return Subtitles(cues)
     }
 
     private static func extractSpeaker(from cue: Subtitles.Cue, format: TranscriptFormat) -> String? {

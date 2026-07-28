@@ -22,7 +22,7 @@ class WidgetEpisode: ObservableObject, Hashable {
 
     // in a widget, you can't load images asynchronously, since the UI is rendered and later displayed, so as weird as it looks, this is how we cache the image data
     func loadImageData() {
-        guard let imageUrl = imageUrl else { return }
+        guard let imageUrl else { return }
 
         imageData = try? Data(contentsOf: imageUrl)
     }
@@ -41,7 +41,7 @@ class WidgetEpisode: ObservableObject, Hashable {
         } else {
             let fileManager = FileManager.default
             let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: CommonWidgetHelper.appGroupId)
-            if let container = container {
+            if let container {
                 let directoryPath = container.appendingPathComponent("widget_images")
                 let sharedFilePath = directoryPath.appendingPathComponent("\(commonItem.episodeUuid).jpg")
                 if fileManager.fileExists(atPath: sharedFilePath.path) {

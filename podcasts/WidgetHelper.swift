@@ -27,7 +27,7 @@ class WidgetHelper {
 
     func updateAllWidgets() {
         WidgetCenter.shared.getCurrentConfigurations { result in
-            guard case .success = result, let widgets = try? result.get(), widgets.count > 0 else { return }
+            guard case .success = result, let widgets = try? result.get(), !widgets.isEmpty else { return }
 
             if widgets.contains(where: { $0.kind == "Now_Playing_Widget" }) {
                 self.publishAppIcon()
@@ -227,7 +227,7 @@ class WidgetHelper {
         do {
             var upNextUuids = [String]()
             let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: true)
-            if upNextEpisodes.count > 0 {
+            if !upNextEpisodes.isEmpty {
                 let numUpNextUuids = max(0, min(WidgetHelper.maxUpNextToPublish, upNextEpisodes.count - 1))
                 upNextUuids = upNextEpisodes[0 ... numUpNextUuids].map(\.uuid)
             }

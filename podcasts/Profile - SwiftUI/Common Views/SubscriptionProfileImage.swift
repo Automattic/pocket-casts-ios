@@ -1,13 +1,30 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
+import EndOfYear
 
 struct SubscriptionProfileImage: View {
     @ObservedObject var viewModel: ProfileDataViewModel
+    @State private var shareProfilePhoto: UIImage?
 
     var body: some View {
-        ProfileImage(email: viewModel.profile.email)
-            .clipShape(Circle())
-            .overlay(expirationProgressView())
+        Group {
+            if FeatureFlag.shareProfile.enabled, let photo = shareProfilePhoto {
+                Image(uiImage: photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                ProfileImage(email: viewModel.profile.email)
+            }
+        }
+        .clipShape(Circle())
+        .overlay(expirationProgressView())
+        .task {
+            shareProfilePhoto = ShareProfileViewModel.loadSavedProfilePhoto()
+            for await _ in NotificationCenter.default.notifications(named: ShareProfileViewModel.photoDidChangeNotification) {
+                shareProfilePhoto = ShareProfileViewModel.loadSavedProfilePhoto()
+            }
+        }
     }
 
     @ViewBuilder

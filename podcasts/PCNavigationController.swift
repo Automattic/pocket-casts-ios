@@ -10,9 +10,9 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     init(rootViewController: UIViewController, navStyle: ThemeStyle? = nil, titleStyle: ThemeStyle? = nil, iconStyle: ThemeStyle? = nil, themeOverride: Theme.ThemeType? = nil) {
         super.init(rootViewController: rootViewController)
 
-        if let navStyle = navStyle { self.navStyle = navStyle }
-        if let titleStyle = titleStyle { self.titleStyle = titleStyle }
-        if let iconStyle = iconStyle { self.iconStyle = iconStyle }
+        if let navStyle { self.navStyle = navStyle }
+        if let titleStyle { self.titleStyle = titleStyle }
+        if let iconStyle { self.iconStyle = iconStyle }
         self.themeOverride = themeOverride
 
         updateNavColors()
@@ -30,6 +30,10 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
 
     override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super.setNavigationBarHidden(hidden, animated: animated)
+        enableInteractivePopGestureWorkaround()
+    }
+
+    func enableInteractivePopGestureWorkaround() {
         interactivePopGestureRecognizer?.delegate = self
     }
 
@@ -42,6 +46,18 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     }
 
     private func updateNavColors() {
+        guard !LiquidGlass.isEnabled else {
+            // Under Liquid Glass we rely on the system glass nav bar, which derives its
+            // title/button colors from the interface style. Force it to match the nav
+            // controller's theme override so an always-dark screen like Up Next keeps a
+            // light title even after content scrolls under the bar (otherwise the glass
+            // renders with the ambient appearance and the title flips to black on scroll).
+            if let themeOverride {
+                overrideUserInterfaceStyle = themeOverride.isDark ? .dark : .light
+            }
+            return
+        }
+
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.colorForStyle(navStyle, themeOverride: themeOverride)
@@ -86,7 +102,7 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     // MARK: - Orientation
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if let topViewController = topViewController {
+        if let topViewController {
             return topViewController.supportedInterfaceOrientations
         }
 

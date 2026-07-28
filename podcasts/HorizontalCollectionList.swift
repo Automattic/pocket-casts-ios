@@ -1,7 +1,8 @@
 import SwiftUI
 import Foundation
-
+import WrappingHStack
 import PocketCastsServer
+import PocketCastsDataModel
 
 struct HorizontalCollectionList: View {
 
@@ -9,18 +10,37 @@ struct HorizontalCollectionList: View {
 
     @EnvironmentObject var theme: Theme
 
+    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(323)
+
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowHeight = CGFloat(210)
+
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowWidth = CGFloat(180)
+
+    var adjustedHeight: CGFloat {
+        return max(323, scaledHeight)
+    }
+
+    var adjustedRowHeight: CGFloat {
+        return min(320, max(210, scaledRowHeight))
+    }
+
+    var adjustedRowWidth: CGFloat {
+        return min(320, max(180, scaledRowWidth))
+    }
+
     var header: some View {
-        HStack {
+        HStack(alignment: .center) {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
-                .font(.title2.bold())
+                .font(size: 22, style: .title, weight: .bold)
+                .lineLimit(2)
             Spacer()
             Button() {
                 model.showCollection()
             } label: {
                 Text(L10n.discoverShowAll.localizedUppercase)
                     .foregroundStyle(theme.primaryInteractive01)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .title, weight: .bold)
                     .kerning(0.6)
             }
         }
@@ -40,26 +60,26 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: 179, height: 210)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight)
             VStack() {
-                Spacer().frame(height: 12)
+                Spacer()
                 Text(model.title)
                     .foregroundStyle(.white)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .largeTitle, weight: .bold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
                 Spacer().frame(height: 8)
                 Text(model.description)
                     .foregroundStyle(.white)
-                    .font(.footnote)
+                    .font(size: 13, style: .largeTitle, weight: .regular)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
-                Spacer().frame(height: 12)
+                Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(minWidth: 179, minHeight: 74)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
@@ -72,18 +92,19 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: 179, height: 210)
+        .frame(width: adjustedRowWidth, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 
     @ViewBuilder
     func row(for podcast: DiscoverPodcast) -> some View {
-        HStack(alignment: .center, spacing: 10) {
+        HStack(alignment: .center, spacing: 0) {
             PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
-                .frame(width: 101, height: 101)
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(podcast.title ?? "")
+                .frame(width: (adjustedRowHeight / 2) - 4, height: (adjustedRowHeight / 2) - 4)
+            Spacer().frame(width: 10)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
+                    ExplicitBadgeHelper.inlineTitle(podcast.title ?? "", isExplicit: podcast.isExplicit ?? false, theme: theme.activeTheme)
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
                         .lineLimit(2)
@@ -91,7 +112,8 @@ struct HorizontalCollectionList: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
-                HStack {
+                Spacer().frame(height: 8)
+                HStack(spacing: 0) {
                     Text(podcast.author ?? "")
                         .foregroundStyle(theme.primaryText02)
                         .font(.footnote.weight(.medium))
@@ -100,11 +122,12 @@ struct HorizontalCollectionList: View {
                     Spacer()
                 }
             }
-            Spacer()
+            .layoutPriority(1)
             SubscribeButtonView(podcastUuid: podcast.uuid ?? "", source: .discover) {
                 model.subscribePodcast(podcast)
             }
         }
+        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }
@@ -119,12 +142,12 @@ struct HorizontalCollectionList: View {
                 }
                 if index == pairs.count - 1, pairs[index].count == 1 {
                     Rectangle()
-                        .frame(height: 101)
+                        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
                         .foregroundStyle(.clear)
                 }
             }
             .padding(.leading, 16)
-            .frame(width: max(width - 24, 0), height: 210)
+            .frame(width: max(width - 24, 0), height: adjustedRowHeight)
             .id(index + 1)
         }
     }
@@ -136,20 +159,19 @@ struct HorizontalCollectionList: View {
         VStack(spacing: 8) {
             header
             GeometryReader { geometry in
-                ScrollViewReader { proxy in
-                    ScrollView([.horizontal]) {
-                        LazyHStack(alignment: .top, spacing: 0) {
-                            poster
-                                .id(0)
-                            list(pairs: pairs, width: geometry.size.width)
-                            Spacer()
-                                .frame(width: 24)
-                        }
-                        .withScrollTargetLayout()
+                ScrollView([.horizontal]) {
+                    LazyHStack(alignment: .top, spacing: 0) {
+                        poster
+                            .id(0)
+                        list(pairs: pairs, width: geometry.size.width)
+                        Spacer()
+                            .frame(width: 24)
                     }
-                    .scrollIndicators(.hidden)
-                    .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
+                    .scrollTargetLayout()
                 }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $currentPage, anchor: .leading)
             }
             DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
             Rectangle()
@@ -158,65 +180,7 @@ struct HorizontalCollectionList: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
         }
-        .frame(height: 323)
-    }
-}
-
-// MARK: - Special modifier to support versions previous than iOS 17
-struct WithScrollTargetModifier: ViewModifier {
-
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content.scrollTargetLayout()
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func withScrollTargetLayout() -> some View {
-        self.modifier(WithScrollTargetModifier())
-    }
-}
-
-struct WithPagingModifier: ViewModifier {
-
-    let minPage: Int
-    let maxPage: Int
-    @Binding var currentPage: Int?
-    let scrollProxy: ScrollViewProxy
-
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content
-                .scrollTargetBehavior(.viewAligned)
-                .scrollPosition(id: $currentPage, anchor: .leading)
-        } else {
-            content.scrollDisabled(true)
-                .gesture(DragGesture(minimumDistance: 3, coordinateSpace: .local)
-                    .onEnded({ value in
-                        if value.translation.width < 0 {
-                            currentPage = min(maxPage, (currentPage ?? 0) + 1)
-                        }
-
-                        if value.translation.width > 0 {
-                            currentPage = max(minPage, (currentPage ?? 0) - 1)
-                        }
-                    }))
-                .onChange(of: currentPage) { newValue in
-                    withAnimation {
-                        scrollProxy.scrollTo(newValue, anchor: .leading)
-                    }
-                }
-        }
-    }
-}
-
-
-extension View {
-    func withPaging(minPage: Int, maxPage: Int, currentPage: Binding<Int?>, scrollProxy: ScrollViewProxy) -> some View {
-        return self.modifier(WithPagingModifier(minPage: minPage, maxPage: maxPage, currentPage: currentPage, scrollProxy: scrollProxy))
+        .frame(height: adjustedHeight)
     }
 }
 

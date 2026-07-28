@@ -8,6 +8,12 @@ class SimpleActionView: UIView {
     private weak var delegate: OptionsPickerRootController?
     private var onOffSwitch: UISwitch?
     private var imageView: UIImageView?
+    private var selectedView: UIImageView?
+
+    private var label: UILabel!
+    private var secondaryLabel: UILabel?
+    private var labelVerticalConstraints: [NSLayoutConstraint] = []
+    private var secondaryLabelVerticalConstraints: [NSLayoutConstraint] = []
 
     init(frame: CGRect, action: OptionAction, delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.action = action
@@ -15,6 +21,10 @@ class SimpleActionView: UIView {
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
         super.init(frame: frame)
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SimpleActionView, _) in
+            view.updateSize()
+        }
     }
 
     @available(*, unavailable)
@@ -26,13 +36,14 @@ class SimpleActionView: UIView {
         let label = UILabel()
         label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.text = action.label
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
-        label.topAnchor.constraint(equalToSystemSpacingBelow: self.layoutMarginsGuide.topAnchor, multiplier: 1).isActive = true
-
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.init(rawValue: 751), for: .horizontal)
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
 
         var image = action.icon.flatMap { UIImage(named: $0) }
@@ -52,36 +63,41 @@ class SimpleActionView: UIView {
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
             self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         }
+        labelVerticalConstraints = [
+            label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(labelVerticalConstraints)
+        self.label = label
+        var previousView: UIView = label
 
         if let secondaryText = action.secondaryLabel {
             let secondaryLabel = UILabel()
             secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
             secondaryLabel.adjustsFontForContentSizeCategory = true
-            secondaryLabel.numberOfLines = 2
+            secondaryLabel.numberOfLines = 0
             secondaryLabel.text = secondaryText
             // swiftlint:disable:next inverse_text_alignment
             secondaryLabel.textAlignment = .right
             secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
             secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-            secondaryLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            secondaryLabel.setContentCompressionResistancePriority(.init(rawValue: 749), for: .horizontal)
             addSubview(secondaryLabel)
 
-            NSLayoutConstraint.activate([
-                secondaryLabel.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
-                trailingAnchor.constraint(equalTo: secondaryLabel.trailingAnchor, constant: 20),
-                secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ])
-        } else {
-            trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 20).isActive = true
+            secondaryLabelVerticalConstraints = [
+                secondaryLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+                secondaryLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints)
+            self.secondaryLabel = secondaryLabel
+            previousView = secondaryLabel
         }
 
         if action.onOffAction {
@@ -97,19 +113,26 @@ class SimpleActionView: UIView {
             ])
 
             self.onOffSwitch = onOffSwitch
+            previousView = onOffSwitch
         } else if action.selected {
             let image = UIImage(named: "small-tick")?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride))
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
+            selectedView = imageView
             addSubview(imageView)
 
             NSLayoutConstraint.activate([
-                trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24)
             ])
+            previousView = imageView
         }
+        if previousView != label {
+            label.trailingAnchor.constraint(equalTo: previousView.leadingAnchor, constant: -24).isActive = true
+        }
+        trailingAnchor.constraint(equalTo: previousView.trailingAnchor, constant: 20).isActive = true
+
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(actionTapped))
         addGestureRecognizer(tapGesture)
@@ -118,11 +141,38 @@ class SimpleActionView: UIView {
         accessibilityLabel = action.label
         isUserInteractionEnabled = true
         accessibilityTraits = [.button]
+
+        updateSize()
+    }
+
+    /// In sheet presentation the action view can sit at the bottom safe area,
+    /// which inflates `layoutMarginsGuide.bottomAnchor` and leaves the label
+    /// stuck to the top while the icon centers — visibly misaligned. Anchor
+    /// the labels to the view's centerY (matching the icon) and keep the
+    /// 8pt padding manually so safe area can't leak in.
+    func configureForSheetPresentation() {
+        NSLayoutConstraint.deactivate(labelVerticalConstraints)
+        labelVerticalConstraints = [
+            label.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
+            label.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ]
+        NSLayoutConstraint.activate(labelVerticalConstraints)
+
+        if let secondaryLabel {
+            NSLayoutConstraint.deactivate(secondaryLabelVerticalConstraints)
+            secondaryLabelVerticalConstraints = [
+                secondaryLabel.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
+                secondaryLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
+                secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            ]
+            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints)
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.backgroundColor = ThemeColor.primaryUi01Active(for: self.themeOverride)
         }
@@ -145,29 +195,34 @@ class SimpleActionView: UIView {
     }
 
     @objc private func actionTapped() {
-        action.action()
-
         if action.onOffAction {
-            guard let onOffSwitch = onOffSwitch else { return }
+            action.action()
+            guard let onOffSwitch else { return }
 
             onOffSwitch.isOn = !onOffSwitch.isOn
+        } else if let submenu = action.submenu?(), let delegate {
+            action.action()
+            submenu.present(from: delegate)
         } else {
+            // The sheet is a real presented view controller. Start its
+            // dismissal *before* running the action so that an action which
+            // presents another screen doesn't hit "already presenting" — this
+            // lets UIKit serialize the dismiss and the new presentation.
             delegate?.animateOut(optionChosen: true)
+            action.action()
         }
     }
 
     private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(24, metric.scaledValue(for: 24))
+
         if let imageView {
-            let metric = UIFontMetrics(forTextStyle: .largeTitle)
-            let imageSize = max(24, metric.scaledValue(for: 24))
-            updateSizeConstraints(of: imageView, to: imageSize)
+            imageView.updateSizeConstraints(to: imageSize)
         }
-    }
 
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
+        if let selectedView {
+            selectedView.updateSizeConstraints(to: imageSize)
+        }
     }
 }

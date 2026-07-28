@@ -14,7 +14,7 @@ enum AppClipNotification {
 class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        // This is where we register this device to recieve push notifications from Apple
+        // This is where we register this device to receive push notifications from Apple
         // All this function does is register the device with APNs, it doesn't set up push notifications by itself
         application.registerForRemoteNotifications()
 
@@ -28,13 +28,12 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-
     }
 
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+        FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateRemoteFeatureFlags()
         }
     }

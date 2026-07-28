@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsUtils
+import EndOfYear
 
 struct PaidStoryWallView2024: View {
     @StateObject private var model = PlusPricingInfoModel()

@@ -4,11 +4,21 @@ import PocketCastsUtils
 import UIKit
 
 class DiscoverFeaturedView: ThemeableView {
+
+    static let baseHeight: CGFloat = 182
+    static var scaledHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .title1)
+        return max(baseHeight, metric.scaledValue(for: DiscoverFeaturedView.baseHeight))
+    }
+
     @IBOutlet var contentView: UIView!
     @IBOutlet var backgroundView: UIView!
     @IBOutlet var listType: RoundedLabel! {
         didSet {
             listType.style = .contrast02
+            listType.font = .font(ofSize: 13, weight: .bold, scalingWith: .caption1)
+            listType.adjustsFontForContentSizeCategory = true
+            listType.numberOfLines = 2
         }
     }
 
@@ -16,16 +26,29 @@ class DiscoverFeaturedView: ThemeableView {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.style = .contrast01
+            podcastTitle.font = .font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+            podcastTitle.numberOfLines = 3
         }
     }
 
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .contrast03
+            podcastAuthor.font = .font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
+            podcastAuthor.numberOfLines = 2
         }
     }
 
-    @IBOutlet var rankingLabel: UILabel!
+    @IBOutlet var rankingLabel: UILabel! {
+        didSet {
+            rankingLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .footnote)
+            rankingLabel.adjustsFontForContentSizeCategory = true
+            rankingLabel.numberOfLines = 1
+        }
+    }
+
     @IBOutlet var podcastImageLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {
@@ -52,10 +75,17 @@ class DiscoverFeaturedView: ThemeableView {
     }
 
     private func commonInit() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DiscoverFeaturedView, _) in
+            view.updateSize()
+        }
+
         Bundle.main.loadNibNamed("DiscoverFeaturedView", owner: self, options: nil)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
-        contentView.frame = bounds
+        contentView.anchorToAllSidesOf(view: self)
         backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+        setupAlternativeConstraints()
+        updateSize()
     }
 
     deinit {
@@ -71,8 +101,13 @@ class DiscoverFeaturedView: ThemeableView {
         listType.text = isSponsored ? L10n.discoverSponsored : listName.uppercased()
         listType.setLetterSpacing(1.57)
 
+        let isExplicit = discoverPodcast.isExplicit ?? false
         if let title = discoverPodcast.title?.localized {
-            podcastTitle.text = title
+            if isExplicit {
+                podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+            } else {
+                podcastTitle.text = title
+            }
         }
 
         if let author = discoverPodcast.author {
@@ -137,5 +172,46 @@ class DiscoverFeaturedView: ThemeableView {
         podcastImage.clearArtwork()
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil
+    }
+
+    // MARK: - Dynamic Type support
+
+    @IBOutlet var titleTopConstraint: NSLayoutConstraint!
+    @IBOutlet var titleLeadingConstraint: NSLayoutConstraint!
+
+    var alternativeTitleTopConstraint: NSLayoutConstraint!
+    var alternativeTitleLeadingConstraint: NSLayoutConstraint!
+
+    func setupAlternativeConstraints() {
+        alternativeTitleTopConstraint = podcastTitle.topAnchor.constraint(equalTo: podcastImage.bottomAnchor, constant: 8)
+        alternativeTitleLeadingConstraint = podcastTitle.leadingAnchor.constraint(equalTo: podcastImage.leadingAnchor, constant: 0)
+    }
+
+    func updateSize() {
+        let sizesToChange: Set<UIContentSizeCategory> = .init([UIContentSizeCategory.accessibilityExtraExtraExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraLarge])
+        let largeContentSize: Bool = sizesToChange.contains(traitCollection.preferredContentSizeCategory)
+        if largeContentSize {
+            podcastTitle.numberOfLines = 2
+            podcastAuthor.numberOfLines = 1
+            NSLayoutConstraint.deactivate([
+                titleTopConstraint,
+                titleLeadingConstraint
+            ])
+            NSLayoutConstraint.activate([
+                alternativeTitleTopConstraint,
+                alternativeTitleLeadingConstraint
+            ])
+        } else {
+            podcastTitle.numberOfLines = 3
+            podcastAuthor.numberOfLines = 2
+            NSLayoutConstraint.deactivate([
+                alternativeTitleTopConstraint,
+                alternativeTitleLeadingConstraint
+            ])
+            NSLayoutConstraint.activate([
+                titleTopConstraint,
+                titleLeadingConstraint
+            ])
+        }
     }
 }
