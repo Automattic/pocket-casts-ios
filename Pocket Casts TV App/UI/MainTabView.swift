@@ -97,6 +97,9 @@ struct MainTabView: View {
         }
         .defaultFocus($focusedArea, .tabBar)
         .focusScope(mainTabFocusNS)
+        .onAppear {
+            focusedArea = .tabBar
+        }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
         .requireAccountSupport()
