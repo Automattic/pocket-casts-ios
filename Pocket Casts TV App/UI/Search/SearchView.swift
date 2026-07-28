@@ -6,7 +6,6 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
 
     @Bindable var model: ViewModel
     @State private var searchText = ""
-    @State private var didTrackShown = false
 
     @State private var path = StackPath()
 
@@ -54,8 +53,6 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 Analytics.track(.searchFilterTapped, properties: ["source": "search", "filter": newValue.analyticsDescription])
             }
             .onAppear {
-                guard !didTrackShown else { return }
-                didTrackShown = true
                 Analytics.track(.searchShown, properties: ["source": "search"])
             }
         }

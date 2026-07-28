@@ -136,6 +136,7 @@ enum AnalyticsEvent: String {
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
+    case accountDetailsSubscription
 
     // MARK: - Upgrade banner
 
@@ -1049,4 +1050,9 @@ enum AnalyticsEvent: String {
     case deviceSetupAccountTapped
     case deviceApproveSuccessful
     case deviceApproveFailed
+
+    // MARK: TV
+
+    case browseNoAccountTapped
+    case bannerRowTapped
 }
