@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BlurredCoverBackground<Background: View>: ViewModifier {
     let size: CGFloat
+    let opacity: CGFloat
     @ViewBuilder let background: Background
 
     func body(content: Content) -> some View {
@@ -10,7 +11,7 @@ struct BlurredCoverBackground<Background: View>: ViewModifier {
                 background
                     .frame(width: size * 1.5, height: size * 1.5)
                     .blur(radius: 100)
-                    .opacity(0.7)
+                    .opacity(opacity)
                     .offset(x: -(size * 0.5), y: -(size * 0.5))
                     .allowsHitTesting(false)
             }
@@ -18,7 +19,7 @@ struct BlurredCoverBackground<Background: View>: ViewModifier {
 }
 
 extension View {
-    func blurredCoverBackground<Background: View>(size: CGFloat, @ViewBuilder _ background: () -> Background) -> some View {
-        modifier(BlurredCoverBackground(size: size, background: background))
+    func blurredCoverBackground<Background: View>(size: CGFloat, opacity: CGFloat = 0.7, @ViewBuilder _ background: () -> Background) -> some View {
+        modifier(BlurredCoverBackground(size: size, opacity: opacity, background: background))
     }
 }

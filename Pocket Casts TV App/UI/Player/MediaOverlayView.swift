@@ -25,20 +25,21 @@ struct MediaOverlayView: View {
                         }
                         HStack {
                             Spacer()
-                            ZStack {
+                            ZStack(alignment: .center) {
+                                if !model.isVideo, !model.isFirstLoad, model.isPlaying {
+                                    PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 100)
+                                        .frame(width: proxy.size.height / scale * 2, height: proxy.size.height / scale / 2)
+                                        .transition(.opacity)
+                                        .animation(.smooth, value: isTransportBarVisible)
+                                        //.border(.red)
+                                }
                                 Image(uiImage: uiImage)
                                     .resizable()
                                     .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
                                     .clipShape(RoundedRectangle(cornerRadius: 24))
-                                    .blurredCoverBackground(size: proxy.size.height / scale) {
+                                    .blurredCoverBackground(size: proxy.size.height / scale, opacity: 0.3) {
                                         Image(uiImage: uiImage)
                                     }
-                                    .animation(.smooth, value: isTransportBarVisible)
-                                if !model.isVideo, !model.isFirstLoad, model.isPlaying {
-                                    PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared)
-                                        .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
-                                        .transition(.opacity)
-                                }
                             }
                             Spacer()
                         }
