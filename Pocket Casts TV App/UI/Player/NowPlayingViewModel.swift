@@ -270,6 +270,10 @@ class NowPlayingViewModel: Identifiable {
         return maxSpeed
     }
 
+    var isPlaying: Bool {
+        return playbackManager.avPlayer?.rate != 0
+    }
+
     fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
             .receive(on: DispatchQueue.main)

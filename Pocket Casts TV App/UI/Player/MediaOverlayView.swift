@@ -34,7 +34,11 @@ struct MediaOverlayView: View {
                                         Image(uiImage: uiImage)
                                     }
                                     .animation(.smooth, value: isTransportBarVisible)
-                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared)
+                                if !model.isVideo, !model.isFirstLoad, model.isPlaying {
+                                    PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared)
+                                        .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
+                                        .transition(.opacity)
+                                }
                             }
                             Spacer()
                         }
@@ -66,6 +70,7 @@ struct MediaOverlayView: View {
             }
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
             .animation(.easeInOut(duration: 0.2), value: model.isFailed)
+            .animation(.smooth(duration: 0.2), value: model.isPlaying)
             .background(model.isVideo && !model.isFirstLoad && !model.isFailed ? Color.clear : Color.pcBackgroundBase)
         }
         .ignoresSafeArea()
