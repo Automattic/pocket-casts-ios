@@ -1,6 +1,9 @@
 8.17
 -----
 
+8.16.1
+------
+- [tvOS] Move video row to top home position [https://github.com/Automattic/pocket-casts-ios/pull/4844](4844) 
 
 8.16
 -----
