@@ -5,34 +5,28 @@ import PocketCastsUtils
 
 struct DiscoverEpisodeCell: View {
 
-    @Namespace private var ns
-    @Environment(FocusStore.self) var focusStore
-
-    @State private var model: DiscoverEpisodeModel
-    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
-
+    private let episode: DiscoverEpisode
     private let listId: String?
     private let source: String
 
-    @FocusState private var isFocused: Bool
+    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
+    @State private var showNowPlayingPlayer: Bool = false
 
-    @State var showNowPlayingPlayer: Bool = false
+    @FocusState private var isFocused: Bool
 
     enum Layout {
         static let imageSize = CGFloat(124)
-        static let cardHeight = CGFloat(402)
-        static let cardWidth = CGFloat(716)
     }
 
     init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
-        _model = State(wrappedValue: DiscoverEpisodeModel(episode: episode))
+        self.episode = episode
         self.listId = listId
         self.source = source
     }
 
     @ViewBuilder
     private var thumbnail: some View {
-        if let podcastUuid = model.episode.podcastUuid {
+        if let podcastUuid = episode.podcastUuid {
             PodcastImage(uuid: podcastUuid, size: .list)
         } else {
             EmptyView()
@@ -43,7 +37,7 @@ struct DiscoverEpisodeCell: View {
         Button {
             trackEpisodeTapped()
             Task {
-                let successPlay = await TVDataManager.shared.playEpisode(model.episode)
+                let successPlay = await TVDataManager.shared.playEpisode(episode)
                 await MainActor.run {
                     if successPlay {
                         showNowPlayingPlayer = true
@@ -58,14 +52,14 @@ struct DiscoverEpisodeCell: View {
                     .frame(width: Layout.imageSize, height: Layout.imageSize)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                 VStack(alignment: .leading) {
-                    Text(model.episode.podcastTitle ?? "")
+                    Text(episode.podcastTitle ?? "")
                         .font(.caption)
                         .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
-                    Text(model.episode.title ?? "")
+                    Text(episode.title ?? "")
                         .font(.body)
                         .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                         .lineLimit(2)
-                    if let duration = model.episode.duration {
+                    if let duration = episode.duration {
                         Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(duration)))
                             .font(.caption)
                             .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
@@ -79,9 +73,6 @@ struct DiscoverEpisodeCell: View {
         }
         .focused($isFocused)
         .buttonStyle(ChromelessButtonStyle())
-        .task {
-            await model.load()
-        }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
                 .ignoresSafeArea()
@@ -90,47 +81,23 @@ struct DiscoverEpisodeCell: View {
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
         }
         .contextMenu {
-            DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: model.podcast) {
+            DiscoveryEpisodeMenuButtons(podcastUuid: episode.podcastUuid ?? "", episodeUuid: episode.uuid ?? "", showNotesEpisode: $showNotesEpisode, podcast: episode.discoverPodcast) {
                 trackPodcastTapped()
             }
         }
     }
 
     private func trackEpisodeTapped() {
-        guard let listId, let episodeUuid = model.episode.uuid else { return }
-        DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
-        if let podcastUuid = model.episode.podcastUuid {
+        guard let listId, let episodeUuid = episode.uuid else { return }
+        DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: episode.podcastUuid, episodeUuid: episodeUuid, source: source)
+        if let podcastUuid = episode.podcastUuid {
             DiscoverAnalytics.discoverPodcastPlayed(podcastUuid: podcastUuid, listID: listId)
         }
     }
 
     private func trackPodcastTapped() {
-        guard let listId, let podcastUuid = model.episode.podcastUuid else { return }
+        guard let listId, let podcastUuid = episode.podcastUuid else { return }
         DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
-    }
-
-    var infoContent: some View {
-        HStack(alignment: .bottom, spacing: 24) {
-            if let podcastUuid = model.episode.podcastUuid {
-                PodcastImage(uuid: podcastUuid, size: .list)
-                    .frame(width: Layout.imageSize, height: Layout.imageSize)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-            VStack(alignment: .leading, spacing: 8) {
-                if let title = model.episode.podcastTitle {
-                    Text(title)
-                        .font(.caption)
-                        .foregroundColor(.pcTextOnColorSecondary)
-                }
-                if let description = model.episode.title {
-                    Text(description)
-                        .lineLimit(1)
-                        .font(.caption)
-                        .foregroundColor(.pcTextOnColorPrimary)
-                }
-            }
-            Spacer()
-        }
     }
 }
 

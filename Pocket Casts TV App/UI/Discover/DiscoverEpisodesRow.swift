@@ -7,22 +7,13 @@ struct DiscoverEpisodesRow: View {
         static let spacing = CGFloat(56)
     }
 
-    @FocusState private var focusedID: String?
     @Namespace private var focusNS
     @Environment(\.resetFocus) var resetFocus
 
     @State private var model: DiscoverSectionEpisodesModel
 
-    private let callback: ((String?)->())?
-
-    init(type: DiscoverType, source: String, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionEpisodesModel(type: type, source: source))
-        self.callback = callback
-    }
-
-    init(item: DiscoverItem, source: String, callback: ((String?) -> ())? = nil) {
+    init(item: DiscoverItem, source: String) {
         _model = State(wrappedValue: DiscoverSectionEpisodesModel(item: item, source: source))
-        self.callback = callback
     }
 
     var body: some View {
@@ -45,7 +36,6 @@ struct DiscoverEpisodesRow: View {
         .task {
             await model.load()
             await MainActor.run {
-                callback?(model.title)
                 model.trackImpression()
                 resetFocus(in: focusNS)
             }
