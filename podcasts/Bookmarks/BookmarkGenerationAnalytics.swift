@@ -18,7 +18,6 @@ enum BookmarkGenerationAnalytics {
                                source: BookmarkAnalyticsSource) {
         track(.bookmarkTitleGenerated, bookmark: bookmark, source: source, properties: [
             "generator": attempt.generation.generator,
-            "did_fall_back_to_server": attempt.generation.didFallBackToServer,
             "duration_ms": milliseconds(attempt.duration),
             "word_count": wordCount(of: attempt.title),
             "trigger": trigger
@@ -33,7 +32,6 @@ enum BookmarkGenerationAnalytics {
         track(.bookmarkTitleGenerationFailed, bookmark: bookmark, source: source, properties: [
             "reason": error.reason,
             "generator": error.generator,
-            "did_fall_back_to_server": error.didFallBackToServer,
             "duration_ms": milliseconds(duration),
             "trigger": trigger
         ])
