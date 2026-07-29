@@ -23,14 +23,14 @@ struct MediaOverlayView: View {
                         } else {
                             Spacer().frame(height: 256)
                         }
-                        HStack(spacing: 24) {
+                        HStack(spacing: 64) {
                             Spacer()
                             if !model.isVideo, !model.isFirstLoad, model.isPlaying {
-                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 16, barWidth: 14, barSpacing: 20, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
+                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 12, barWidth: 14, barSpacing: 20, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
                                     .frame(width: Layout.artworkSize, height: Layout.artworkSize)
                                     .transition(.opacity)
                                     .animation(.smooth, value: isTransportBarVisible)
-                                    .border(.red)
+                                    //.border(.red)
                             }
                             ZStack(alignment: .center) {
                                 Image(uiImage: uiImage)
@@ -42,11 +42,11 @@ struct MediaOverlayView: View {
                                     }
                             }
                             if !model.isVideo, !model.isFirstLoad, model.isPlaying {
-                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 16, barWidth: 14, barSpacing: 20, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
+                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 12, barWidth: 14, barSpacing: 16, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
                                     .frame(width: Layout.artworkSize, height: Layout.artworkSize)
                                     .transition(.opacity)
                                     .animation(.smooth, value: isTransportBarVisible)
-                                    .border(.red)
+                                    //.border(.red)
                             }
                             Spacer()
                         }
