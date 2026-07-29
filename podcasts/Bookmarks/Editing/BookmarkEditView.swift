@@ -27,25 +27,34 @@ struct BookmarkEditView: View {
 
     // MARK: - Views
 
+    /// The fields scroll so they stay reachable at large text sizes, while the save
+    /// button stays pinned to the bottom, above the keyboard
     private var form: some View {
-        VStack(spacing: 0) {
+        ScrollView {
             VStack(spacing: 32) {
                 titleSection
                 transcriptSection
             }
-
-            Spacer(minLength: 32)
-
-            saveButton
+            .frame(maxWidth: .infinity)
+            .padding()
         }
+        .scrollBounceBehavior(.basedOnSize)
         .animation(.easeInOut(duration: 0.2), value: viewModel.passage)
         .animation(.easeInOut(duration: 0.2), value: viewModel.isCapturingTranscript)
-        .frame(maxWidth: .infinity)
+        .safeAreaInset(edge: .bottom) {
+            saveButton
+                .padding()
+                .background(theme.background)
+        }
         .dynamicTypeSize(...DynamicTypeSize.accessibility2)
-        .padding()
         .background(theme.background.ignoresSafeArea())
         .navigationTitle(viewModel.headerTitle)
         .navigationBarTitleDisplayMode(.inline)
+
+        // Keep the themed background under the bar, so scrolled content doesn't
+        // surface the system material behind the title
+        .toolbarBackground(theme.background, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 closeButton
