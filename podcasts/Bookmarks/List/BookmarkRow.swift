@@ -22,23 +22,11 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 14) {
-                    imageView
-                    detailsView
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    playButton
-                }
-
-                if let transcriptText = rowModel.transcriptText {
-                    Text(transcriptText)
-                        .foregroundStyle(style.secondaryText)
-                        .font(.footnote.italic())
-                        .lineLimit(2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, imageSize + 14)
-                        .padding(.top, 4)
-                }
+            HStack(alignment: .top, spacing: 14) {
+                imageView
+                detailsView
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                playButton
             }
         } onSelectionToggled: {
             withAnimation {

@@ -8,46 +8,59 @@ struct TranscriptSelectionView: View {
     @ObservedObject var theme: TranscriptSelectionTheme
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            mainView
-
-            Image("close")
-                .renderingMode(.template)
-                .foregroundStyle(theme.closeButton)
-                .buttonize {
-                    viewModel.cancel()
+        NavigationStack {
+            VStack(spacing: 12) {
+                Text(L10n.smartBookmarkSubtitle)
+                    .foregroundStyle(theme.subtitle)
+                    .font(style: .subheadline)
+                    .padding(.top, 4)
+                cueListView
+                selectionInfo
+                titleField
+            }
+            .padding(.horizontal)
+            .padding(.bottom)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(theme.background)
+            .navigationTitle(viewModel.isEditing ? L10n.smartBookmarkEditTitle : L10n.smartBookmarkTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        viewModel.cancel()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundStyle(theme.closeButton)
+                    }
                 }
+                ToolbarItem(placement: .confirmationAction) {
+                    confirmButton
+                }
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-        .background(theme.background)
         .onAppear {
             viewModel.generateTitle()
         }
     }
 
-    // MARK: - Views
-
-    private var mainView: some View {
-        VStack(spacing: 16) {
-            headerView
-            cueListView
-            selectionInfo
-            titleField
-            saveButton
-        }
-        .padding(.top, 18)
-    }
-
-    private var headerView: some View {
-        VStack(spacing: 8) {
-            Text(viewModel.isEditing ? L10n.smartBookmarkEditTitle : L10n.smartBookmarkTitle)
-                .foregroundStyle(theme.title)
-                .font(size: 19, style: .title3, weight: .bold)
-
-            Text(L10n.smartBookmarkSubtitle)
-                .foregroundStyle(theme.subtitle)
-                .font(style: .callout)
+    @ViewBuilder
+    private var confirmButton: some View {
+        if #available(iOS 26.0, *) {
+            Button(role: .confirm) {
+                viewModel.save()
+            }
+            .tint(theme.accent)
+        } else {
+            Button {
+                viewModel.save()
+            } label: {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 28))
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(theme.saveButtonText, theme.accent)
+            }
+            .buttonStyle(.plain)
         }
     }
 
@@ -66,7 +79,7 @@ struct TranscriptSelectionView: View {
             .frame(maxHeight: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .onAppear {
-                proxy.scrollTo(viewModel.bookmarkCueIndex, anchor: .center)
+                proxy.scrollTo(viewModel.startCueIndex, anchor: .top)
             }
             .onChange(of: viewModel.startCueIndex) { _ in
                 withAnimation {
@@ -78,38 +91,26 @@ struct TranscriptSelectionView: View {
 
     private func cueRow(at index: Int) -> some View {
         let isSelected = index >= viewModel.startCueIndex && index <= viewModel.endCueIndex
-        let isBookmarkCue = index == viewModel.bookmarkCueIndex
         let cue = viewModel.cues[index]
         let nsString = viewModel.fullText as NSString
         let text = nsString.substring(with: cue.characterRange).trimmingCharacters(in: .whitespacesAndNewlines)
 
-        return HStack(spacing: 0) {
-            if isBookmarkCue {
-                Image(systemName: "bookmark.fill")
-                    .font(.system(size: 10))
-                    .foregroundStyle(theme.accent)
-                    .frame(width: 20)
-            } else {
-                Spacer().frame(width: 20)
+        return Text(text)
+            .font(.system(.body, design: .serif))
+            .lineSpacing(3)
+            .foregroundStyle(isSelected ? theme.selectedText : theme.dimmedText)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isSelected ? theme.selectedBackground : Color.clear)
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    viewModel.selectCue(at: index)
+                }
             }
-
-            Text(text)
-                .font(.system(.body, design: .serif))
-                .foregroundStyle(isSelected ? theme.selectedText : theme.dimmedText)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 8)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(isSelected ? theme.selectedBackground : Color.clear)
-        )
-        .contentShape(Rectangle())
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                viewModel.selectCue(at: index)
-            }
-        }
     }
 
     private var selectionInfo: some View {
@@ -130,10 +131,10 @@ struct TranscriptSelectionView: View {
 
     @ViewBuilder
     private var titleField: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(L10n.smartBookmarkTitleLabel)
                 .foregroundStyle(theme.subtitle)
-                .font(style: .caption)
+                .font(style: .caption, weight: .semibold)
 
             if viewModel.isGeneratingTitle {
                 HStack {
@@ -145,10 +146,13 @@ struct TranscriptSelectionView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 8)
+                .overlay(alignment: .bottom) {
+                    theme.divider.frame(height: 1)
+                }
             } else {
                 TextField(L10n.bookmarkDefaultTitle, text: $viewModel.bookmarkTitle)
                     .foregroundStyle(theme.title)
-                    .font(size: 20, style: .title3, weight: .semibold)
+                    .font(size: 22, style: .title2, weight: .bold)
                     .textFieldStyle(.plain)
                     .accentColor(theme.accent)
                     .onChange(of: viewModel.bookmarkTitle) { newValue in
@@ -157,19 +161,12 @@ struct TranscriptSelectionView: View {
                             viewModel.bookmarkTitle = String(newValue.prefix(max))
                         }
                     }
+                    .padding(.vertical, 8)
+                    .overlay(alignment: .bottom) {
+                        theme.divider.frame(height: 1)
+                    }
             }
-
-            Divider().background(theme.divider)
         }
-    }
-
-    @ViewBuilder
-    private var saveButton: some View {
-        Button(L10n.saveBookmark) {
-            viewModel.save()
-        }
-        .buttonStyle(BasicButtonStyle(textColor: theme.saveButtonText, backgroundColor: theme.accent))
-        .disabled(viewModel.isGeneratingTitle)
     }
 }
 
@@ -189,7 +186,7 @@ class TranscriptSelectionTheme: ThemeObserver {
     var title: Color { theme.playerContrast01 }
     var subtitle: Color { theme.playerContrast02 }
     var closeButton: Color { theme.playerContrast01 }
-    var dimmedText: Color { theme.playerContrast05 }
+    var dimmedText: Color { theme.playerContrast02 }
 
     var selectedText: Color { theme.playerContrast01 }
     var selectedBackground: Color {
@@ -201,6 +198,7 @@ class TranscriptSelectionTheme: ThemeObserver {
     }
 
     var divider: Color { theme.playerContrast05 }
+    var titleFieldBackground: Color { theme.playerContrast01.opacity(0.08) }
 
     var saveButtonText: Color {
         accent.luminance() < 0.5 ? .white : .black
@@ -212,10 +210,11 @@ class TranscriptSelectionAppTheme: TranscriptSelectionTheme {
     override var title: Color { AppTheme.color(for: .primaryText01, theme: theme) }
     override var subtitle: Color { AppTheme.color(for: .primaryText02, theme: theme) }
     override var closeButton: Color { AppTheme.color(for: .primaryText01, theme: theme) }
-    override var dimmedText: Color { AppTheme.color(for: .primaryText02, theme: theme).opacity(0.5) }
+    override var dimmedText: Color { AppTheme.color(for: .primaryText02, theme: theme) }
     override var selectedText: Color { AppTheme.color(for: .primaryText01, theme: theme) }
     override var selectedBackground: Color { AppTheme.color(for: .primaryInteractive01, theme: theme).opacity(0.15) }
     override var accent: Color { AppTheme.color(for: .primaryInteractive01, theme: theme) }
     override var divider: Color { AppTheme.color(for: .primaryUi05, theme: theme) }
+    override var titleFieldBackground: Color { AppTheme.color(for: .primaryUi02, theme: theme) }
     override var saveButtonText: Color { AppTheme.color(for: .primaryInteractive02, theme: theme) }
 }

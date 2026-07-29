@@ -27,6 +27,20 @@ struct EpisodeChatView: View {
                             chipsView
                                 .transition(.opacity)
                         }
+
+                        if viewModel.shouldShowFeedbackToast {
+                            ChatFeedbackToastView(
+                                onSubmit: { result in
+                                    viewModel.submitFeedback(result)
+                                },
+                                onDismiss: {
+                                    viewModel.dismissFeedback()
+                                }
+                            )
+                            .id("feedbackToast")
+                            .padding(.top, 8)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 16)
@@ -42,6 +56,13 @@ struct EpisodeChatView: View {
                     if isTyping {
                         withAnimation(.easeOut(duration: 0.3)) {
                             proxy.scrollTo("typing", anchor: .bottom)
+                        }
+                    }
+                }
+                .onChange(of: viewModel.shouldShowFeedbackToast) { shouldShow in
+                    if shouldShow {
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            proxy.scrollTo("feedbackToast", anchor: .bottom)
                         }
                     }
                 }
@@ -87,26 +108,34 @@ struct EpisodeChatView: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: 56, height: 56)
+                .frame(width: 44, height: 44)
                 .overlay(
                     Image(systemName: "mic.fill")
-                        .font(.system(size: 22))
+                        .font(.system(size: 18))
                         .foregroundStyle(Color(ThemeColor.playerContrast01()).opacity(0.8))
                 )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(viewModel.episodeTitle)
-                    .font(.subheadline.weight(.semibold))
+                    .font(.footnote.weight(.semibold))
                     .foregroundStyle(Color(ThemeColor.playerContrast01()))
                     .lineLimit(1)
 
                 Text(viewModel.podcastName)
-                    .font(.caption)
+                    .font(.footnote)
                     .foregroundStyle(Color(ThemeColor.playerContrast02()))
                     .lineLimit(1)
             }
 
             Spacer()
+
+            Button {
+                viewModel.togglePlayback()
+            } label: {
+                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 24))
+                    .foregroundStyle(Color(ThemeColor.playerContrast01()))
+            }
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 12)
@@ -129,7 +158,7 @@ struct EpisodeChatView: View {
 
     private var chipsView: some View {
         FlowLayout(spacing: 8) {
-            ForEach(viewModel.suggestedPrompts, id: \.self) { prompt in
+            ForEach(viewModel.currentPrompts, id: \.self) { prompt in
                 SuggestedPromptPill(title: prompt) {
                     viewModel.send(prompt)
                 }
@@ -142,7 +171,12 @@ struct EpisodeChatView: View {
 
     private var inputBar: some View {
         HStack(spacing: 12) {
-            TextField(L10n.chatInputPlaceholder, text: $viewModel.inputText)
+            TextField(
+                "",
+                text: $viewModel.inputText,
+                prompt: Text(L10n.chatInputPlaceholder)
+                    .foregroundColor(Color(ThemeColor.playerContrast02()))
+            )
                 .textFieldStyle(.plain)
                 .font(.body)
                 .foregroundStyle(Color(ThemeColor.playerContrast01()))

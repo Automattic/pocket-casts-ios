@@ -552,6 +552,40 @@ internal enum L10n {
   internal static var changePasswordLengthError: String { return L10n.tr("Localizable", "change_password_length_error", fallback: "Must be at least 6 characters") }
   /// A common string used throughout the app. Often refers to the Chapters list or Chapters tab in the player.
   internal static var chapters: String { return L10n.tr("Localizable", "chapters", fallback: "Chapters") }
+  /// Placeholder text in the optional comment field on the feedback form
+  internal static var chatFeedbackCommentPlaceholder: String { return L10n.tr("Localizable", "chat_feedback_comment_placeholder", fallback: "Any other thoughts? (optional)") }
+  /// Feedback reason chip: response was inaccurate
+  internal static var chatFeedbackReasonInaccurate: String { return L10n.tr("Localizable", "chat_feedback_reason_inaccurate", fallback: "Inaccurate") }
+  /// Feedback reason chip: response was not helpful
+  internal static var chatFeedbackReasonNotHelpful: String { return L10n.tr("Localizable", "chat_feedback_reason_not_helpful", fallback: "Not helpful") }
+  /// Feedback reason chip: response was too slow
+  internal static var chatFeedbackReasonTooSlow: String { return L10n.tr("Localizable", "chat_feedback_reason_too_slow", fallback: "Too slow") }
+  /// Feedback reason chip: response was too vague
+  internal static var chatFeedbackReasonTooVague: String { return L10n.tr("Localizable", "chat_feedback_reason_too_vague", fallback: "Too vague") }
+  /// Button label to submit negative feedback with reasons
+  internal static var chatFeedbackSend: String { return L10n.tr("Localizable", "chat_feedback_send", fallback: "Send") }
+  /// Confirmation text shown after feedback is submitted
+  internal static var chatFeedbackThankYou: String { return L10n.tr("Localizable", "chat_feedback_thank_you", fallback: "Thanks for the feedback!") }
+  /// Title shown on the feedback toast asking the user to rate their chat experience
+  internal static var chatFeedbackTitle: String { return L10n.tr("Localizable", "chat_feedback_title", fallback: "How's Chat working for you?") }
+  /// Label shown after the user selects a negative rating, asking what went wrong
+  internal static var chatFeedbackWhatWentWrong: String { return L10n.tr("Localizable", "chat_feedback_what_went_wrong", fallback: "What could be better?") }
+  /// Title label for the chat view header
+  internal static var chatHeaderTitle: String { return L10n.tr("Localizable", "chat_header_title", fallback: "Chat") }
+  /// Placeholder text in the chat input field
+  internal static var chatInputPlaceholder: String { return L10n.tr("Localizable", "chat_input_placeholder", fallback: "Ask about this episode...") }
+  /// Suggested chat prompt for finding similar episodes
+  internal static var chatSuggestedRelated: String { return L10n.tr("Localizable", "chat_suggested_related", fallback: "Find similar episodes") }
+  /// Suggested chat prompt to summarize the episode
+  internal static var chatSuggestedSummary: String { return L10n.tr("Localizable", "chat_suggested_summary", fallback: "Summarize this episode") }
+  /// Suggested chat prompt for key takeaways
+  internal static var chatSuggestedTakeaways: String { return L10n.tr("Localizable", "chat_suggested_takeaways", fallback: "Key takeaways") }
+  /// Suggested chat prompt for topics discussed
+  internal static var chatSuggestedTopics: String { return L10n.tr("Localizable", "chat_suggested_topics", fallback: "What topics are discussed?") }
+  /// Header label shown above suggested prompts in episode chat
+  internal static var chatSuggestionsHeader: String { return L10n.tr("Localizable", "chat_suggestions_header", fallback: "Suggestions") }
+  /// Title for the Chat with Episode player action
+  internal static var chatWithEpisode: String { return L10n.tr("Localizable", "chat_with_episode", fallback: "Chat with Episode") }
   /// A description and call to action to check your internet connection state when content has failed to load.
   internal static var checkInternetConnection: String { return L10n.tr("Localizable", "check_internet_connection", fallback: "Please check your Internet connection") }
   /// A common string used throughout the app. Informs the user how many podcasts have been chosen. '%1$@' is a placeholder for the number of podcasts, this will be more than one.
@@ -4077,6 +4111,8 @@ internal enum L10n {
   }
   /// Title of the smart bookmark editing screen
   internal static var smartBookmarkEditTitle: String { return L10n.tr("Localizable", "smart_bookmark_edit_title", fallback: "Edit Bookmark") }
+  /// Button to edit the transcript selection for a bookmark
+  internal static var smartBookmarkEditTranscript: String { return L10n.tr("Localizable", "smart_bookmark_edit_transcript", fallback: "Edit") }
   /// Shown while Apple Intelligence generates a title
   internal static var smartBookmarkGeneratingTitle: String { return L10n.tr("Localizable", "smart_bookmark_generating_title", fallback: "Generating title…") }
   /// Label showing the number of selected transcript lines. %1$d is the count
@@ -4089,6 +4125,8 @@ internal enum L10n {
   internal static var smartBookmarkTitle: String { return L10n.tr("Localizable", "smart_bookmark_title", fallback: "Add Bookmark") }
   /// Label above the bookmark title text field
   internal static var smartBookmarkTitleLabel: String { return L10n.tr("Localizable", "smart_bookmark_title_label", fallback: "Bookmark Title") }
+  /// Label indicating transcript text was captured with the bookmark
+  internal static var smartBookmarkTranscriptCaptured: String { return L10n.tr("Localizable", "smart_bookmark_transcript_captured", fallback: "Transcript captured") }
   /// A common string used throughout the app. Often refers to the Smart Playlist.
   internal static var smartPlaylist: String { return L10n.tr("Localizable", "smart_playlist", fallback: "Smart playlist") }
   /// The description shown in a Tip View when the user opens the new Playlist creation view for the first time
@@ -4493,6 +4531,20 @@ internal enum L10n {
   internal static var tvSigningInSubtitle: String { return L10n.tr("Localizable", "tv_signing_in_subtitle", fallback: "Loading your podcasts now.") }
   /// tv signing in title
   internal static var tvSigningInTitle: String { return L10n.tr("Localizable", "tv_signing_in_title", fallback: "Good to see you.") }
+  /// tv Subscription info — label for the subscription length/period row
+  internal static var tvSubscriptionInfoLength: String { return L10n.tr("Localizable", "tv_subscription_info_length", fallback: "Length") }
+  /// tv Subscription info — label for the subscription product name row
+  internal static var tvSubscriptionInfoName: String { return L10n.tr("Localizable", "tv_subscription_info_name", fallback: "Plan") }
+  /// tv Subscription info — shown when the user has no active subscription
+  internal static var tvSubscriptionInfoNone: String { return L10n.tr("Localizable", "tv_subscription_info_none", fallback: "No active subscription") }
+  /// tv Subscription info — label for the subscription price row
+  internal static var tvSubscriptionInfoPrice: String { return L10n.tr("Localizable", "tv_subscription_info_price", fallback: "Price") }
+  /// tv Subscription info — shows the monthly equivalent price for yearly plans. %1$@ is the formatted monthly price
+  internal static func tvSubscriptionInfoPricePerMonth(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_subscription_info_price_per_month", String(describing: p1), fallback: "%1$@ per month")
+  }
+  /// tv Subscription info — section title shown in the profile menu and subscription detail sheet
+  internal static var tvSubscriptionInfoTitle: String { return L10n.tr("Localizable", "tv_subscription_info_title", fallback: "Subscription") }
   /// tv app home tab
   internal static var tvTabHome: String { return L10n.tr("Localizable", "tv_tab_home", fallback: "Home") }
   /// tv app Playlists tab

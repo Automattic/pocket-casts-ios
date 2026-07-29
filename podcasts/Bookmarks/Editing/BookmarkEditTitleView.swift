@@ -19,7 +19,7 @@ struct BookmarkEditTitleView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             mainView
 
             Image("close")
@@ -45,6 +45,11 @@ struct BookmarkEditTitleView: View {
             headerView
             Spacer()
             textField
+
+            if let transcriptText = viewModel.transcriptText {
+                transcriptPreview(text: transcriptText)
+            }
+
             Spacer()
             saveButton
         }
@@ -80,6 +85,52 @@ struct BookmarkEditTitleView: View {
             viewModel.save(title: bookmarkTitle)
         }
         .buttonStyle(BasicButtonStyle(textColor: theme.saveButton, backgroundColor: theme.saveButtonBackground))
+    }
+
+    // MARK: - Transcript Preview
+
+    @ViewBuilder
+    private func transcriptPreview(text: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Label {
+                    Text(L10n.smartBookmarkTranscriptCaptured)
+                        .font(style: .caption, weight: .semibold)
+                } icon: {
+                    Image(systemName: "text.quote")
+                        .font(.system(size: 12, weight: .semibold))
+                }
+                .foregroundStyle(theme.textFieldAccent)
+
+                Spacer()
+
+                if viewModel.onEditTranscript != nil {
+                    Button {
+                        viewModel.onEditTranscript?()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(L10n.smartBookmarkEditTranscript)
+                                .font(style: .caption, weight: .medium)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 10, weight: .semibold))
+                        }
+                        .foregroundStyle(theme.textFieldAccent)
+                    }
+                }
+            }
+
+            Text(text)
+                .font(style: .footnote)
+                .foregroundStyle(theme.subTitle)
+                .lineLimit(3)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(theme.textFieldPlaceholder.opacity(0.15))
+                )
+        }
+        .padding(.top, 4)
     }
 
     @ViewBuilder
@@ -217,5 +268,18 @@ struct BookmarkEditTitleView_Previews: PreviewProvider {
         BookmarkEditTitleView(viewModel: .init(manager: .init(),
                                                bookmark: Self.previewBookmark(title: "Hello", time: 3600, created: .now),
                                                state: .adding), theme: .init(episode: nil)).setupDefaultEnvironment()
+            .previewDisplayName("Regular Bookmark")
+
+        BookmarkEditTitleView(viewModel: {
+            let vm = BookmarkEditViewModel(
+                manager: .init(),
+                bookmark: Self.previewBookmark(title: "The Senate voted on the Indiana...", time: 3600, created: .now),
+                state: .adding,
+                transcriptText: "The Senate voted on the Indiana safety bill as families battle for stronger protections. Critics argue the measure doesn't go far enough while supporters say it strikes the right balance."
+            )
+            vm.onEditTranscript = {}
+            return vm
+        }(), theme: .init(episode: nil)).setupDefaultEnvironment()
+            .previewDisplayName("Smart Bookmark with Transcript")
     }
 }

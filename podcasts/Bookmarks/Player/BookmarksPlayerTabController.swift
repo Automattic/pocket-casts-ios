@@ -100,17 +100,23 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         showBookmarkTitleEdit(isNew: isNew, bookmark: bookmark)
     }
 
-    private func showBookmarkTitleEdit(isNew: Bool, bookmark: Bookmark, prefilledTitle: String? = nil) {
+    private func showBookmarkTitleEdit(isNew: Bool, bookmark: Bookmark, prefilledTitle: String? = nil, transcriptText: String? = nil, transcriptContext: TranscriptEditContext? = nil) {
         var editBookmark = bookmark
         if let prefilledTitle {
             editBookmark = Bookmark(uuid: bookmark.uuid, title: prefilledTitle, time: bookmark.time, created: bookmark.created, episodeUuid: bookmark.episodeUuid, podcastUuid: bookmark.podcastUuid)
         }
 
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: editBookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: editBookmark, state: isNew ? .adding : .updating, transcriptText: transcriptText, onDismiss: { [weak self] title, canceled in
             self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
         })
 
         controller.source = viewModel.analyticsSource
+
+        if let transcriptContext {
+            controller.onEditTranscript = { [weak self] in
+                self?.presentTranscriptEditor(bookmark: bookmark, context: transcriptContext, from: controller)
+            }
+        }
 
         let presenter = presentedViewController ?? self
         presenter.present(controller, animated: true)
@@ -148,9 +154,11 @@ class BookmarksPlayerTabController: PlayerItemViewController {
                     for: bookmark
                 )
 
+                let context = TranscriptEditContext(cues: cues, fullText: fullText, episode: episode)
+
                 await MainActor.run { [weak self] in
                     guard let self else { return }
-                    self.showBookmarkTitleEdit(isNew: true, bookmark: bookmark, prefilledTitle: title)
+                    self.showBookmarkTitleEdit(isNew: true, bookmark: bookmark, prefilledTitle: title, transcriptText: selection.text, transcriptContext: context)
                     completion(true)
                 }
             } catch {
@@ -183,10 +191,46 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         containerDelegate?.scrollToBookmarks()
     }
 
+    // MARK: - Transcript Editing
+
+    private func presentTranscriptEditor(bookmark: Bookmark, context: TranscriptEditContext, from presenter: UIViewController) {
+        let latestBookmark = bookmarkManager.bookmark(for: bookmark.uuid) ?? bookmark
+        let selectionVM = TranscriptSelectionViewModel(
+            bookmark: latestBookmark,
+            cues: context.cues,
+            fullText: context.fullText,
+            bookmarkManager: bookmarkManager,
+            existingTitle: latestBookmark.title
+        )
+
+        let selectionVC = TranscriptSelectionViewController(
+            viewModel: selectionVM,
+            episode: context.episode,
+            onDismiss: { [weak presenter] _, canceled in
+                // After transcript editor is dismissed, dismiss the title sheet too
+                if !canceled {
+                    presenter?.dismiss(animated: true)
+                }
+            }
+        )
+        selectionVC.source = viewModel.analyticsSource
+
+        presenter.present(selectionVC, animated: true)
+    }
+
     // MARK: - Coder....
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+// MARK: - Transcript Edit Context
+
+/// Holds transcript data needed to open the transcript editor from the title sheet
+struct TranscriptEditContext {
+    let cues: [TranscriptCue]
+    let fullText: String
+    let episode: Episode
 }
 
 // MARK: - BookmarkListRouter
@@ -209,7 +253,7 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
             },
             onEdit: { [weak self] done in
                 guard let self else { return }
-                presentBookmarkEditor(bookmark: bookmark, bookmarkManager: bookmarkManager, analyticsSource: viewModel.analyticsSource, useAppTheme: false) { [weak self] in
+                presentBookmarkEditor(bookmark: bookmark, bookmarkManager: bookmarkManager, analyticsSource: viewModel.analyticsSource) { [weak self] in
                     self?.viewModel.reload()
                     done()
                 }

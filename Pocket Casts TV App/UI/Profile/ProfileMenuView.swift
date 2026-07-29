@@ -15,6 +15,8 @@ struct ProfileMenuView: View {
         var id: Self { self }
     }
 
+    @State private var showSettings = false
+
     var body: some View {
         Group {
             if coordinator.userState.isLoggedIn {
@@ -26,6 +28,10 @@ struct ProfileMenuView: View {
         .padding(80)
         .frame(width: 862, alignment: .center)
         .fixedSize(horizontal: true, vertical: false)
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .environment(coordinator)
+        }
     }
 
     // MARK: - Signed-in
@@ -42,18 +48,7 @@ struct ProfileMenuView: View {
                     .padding(.bottom, 24)
             }
 
-            // Group 1
-            Button {
-                // Settings destination not yet implemented for TV
-            } label: {
-                Label(L10n.settings, systemImage: "gearshape")
-                    .frame(minWidth: 400)
-            }
-
-            Divider()
-                .frame(maxWidth: 400)
-
-            // Group 2
+            // Group 1 — Content
             Button {
                 // Starred episodes destination not yet implemented for TV
             } label: {
@@ -73,10 +68,18 @@ struct ProfileMenuView: View {
                     .frame(minWidth: 400)
             }
 
+            // Group 2 — Settings
+            Button {
+                showSettings = true
+            } label: {
+                Text(L10n.settings)
+                    .frame(minWidth: 400)
+            }
+
             Divider()
                 .frame(maxWidth: 400)
 
-            // Group 3
+            // Group 3 — Log out
             Button {
                 coordinator.userState.logout()
                 dismiss()

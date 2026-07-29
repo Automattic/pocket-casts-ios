@@ -15,19 +15,16 @@ struct ChatBubbleView: View {
     // MARK: - User Bubble
 
     private var userBubble: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Spacer(minLength: 60)
-
-            Text(message.content)
-                .font(.body)
-                .foregroundStyle(Color(ThemeColor.playerContrast01()))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .fill(Color(ThemeColor.playerContrast05()))
-                )
-        }
+        Text(message.content)
+            .font(.body)
+            .foregroundStyle(Color(ThemeColor.playerContrast01()))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color(ThemeColor.playerContrast05()))
+            )
     }
 
     // MARK: - Assistant Message

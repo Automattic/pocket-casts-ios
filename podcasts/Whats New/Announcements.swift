@@ -137,4 +137,7 @@ enum AnnouncementFlow {
 
     /// Show the headphone controls action for Bookmarks
     case bookmarksProfile
+
+    /// Show the player overflow and highlight the Chat with Episode item
+    case chatWithEpisode
 }

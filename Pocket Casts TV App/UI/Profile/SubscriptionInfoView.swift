@@ -42,31 +42,17 @@ struct SubscriptionInfoView: View {
                     value: product.displayName
                 )
 
-                Divider().frame(maxWidth: 500)
-
                 if let subscription = product.subscription {
                     infoRow(
                         label: L10n.tvSubscriptionInfoLength,
-                        value: subscription.subscriptionPeriod.localizedDescription
+                        value: Self.periodDescription(subscription.subscriptionPeriod)
                     )
-
-                    Divider().frame(maxWidth: 500)
                 }
 
                 infoRow(
                     label: L10n.tvSubscriptionInfoPrice,
                     value: product.displayPrice
                 )
-
-                if let subscription = product.subscription,
-                   subscription.subscriptionPeriod.unit == .year,
-                   subscription.subscriptionPeriod.value == 1 {
-                    let monthlyPrice = product.price / 12
-                    let formatted = monthlyPrice.formatted(.currency(code: product.priceFormatStyle.currencyCode))
-                    Text(L10n.tvSubscriptionInfoPricePerMonth(formatted))
-                        .font(.body)
-                        .foregroundStyle(Color.pcTextSecondary)
-                }
             }
         }
     }
@@ -85,8 +71,6 @@ struct SubscriptionInfoView: View {
                     label: L10n.tvSubscriptionInfoName,
                     value: "Pocket Casts \(tier.rawValue)"
                 )
-
-                Divider().frame(maxWidth: 500)
 
                 let frequency = SubscriptionHelper.subscriptionFrequencyValue()
                 infoRow(
@@ -138,6 +122,13 @@ struct SubscriptionInfoView: View {
         }
 
         isLoading = false
+    }
+
+    /// Returns a human-readable description of the subscription period, e.g. "1 Year".
+    private static func periodDescription(_ period: Product.SubscriptionPeriod) -> String {
+        let count = period.value
+        let unitDescription = period.unit.localizedDescription
+        return "\(count) \(unitDescription.capitalized)"
     }
 
     /// Maps subscription tier and frequency to the App Store product identifier.

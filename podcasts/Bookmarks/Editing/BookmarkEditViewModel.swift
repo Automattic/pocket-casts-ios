@@ -12,6 +12,7 @@ class BookmarkEditViewModel: ObservableObject {
     let editState: EditState
     let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
     let originalTitle: String
+    let transcriptText: String?
 
     /// Localized Strings
     let headerTitle: String
@@ -21,15 +22,19 @@ class BookmarkEditViewModel: ObservableObject {
 
     @Published var didAppear = false
 
+    /// Called when the user taps "Edit" on the transcript preview
+    var onEditTranscript: (() -> Void)?
+
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
 
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
-    init(manager: BookmarkManager, bookmark: Bookmark, state: EditState) {
+    init(manager: BookmarkManager, bookmark: Bookmark, state: EditState, transcriptText: String? = nil) {
         self.bookmarkManager = manager
         self.bookmark = bookmark
         self.originalTitle = bookmark.title
+        self.transcriptText = transcriptText
         self.editState = state
 
         switch editState {

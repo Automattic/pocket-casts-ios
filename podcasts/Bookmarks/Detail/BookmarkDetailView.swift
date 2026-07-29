@@ -209,6 +209,36 @@ struct BookmarkDetailView: View {
 
     // MARK: - Play Button
 
+    // MARK: - Preview Helpers
+
+    static func preview(theme: Theme) -> some View {
+        var bookmark = Bookmark(
+            uuid: UUID().uuidString,
+            title: "Father",
+            time: 1154,
+            created: Date(),
+            episodeUuid: "episode",
+            podcastUuid: "podcast"
+        )
+        bookmark.transcriptText = "thinking that he would join us, that his father would relent and grant permission, and it didn't happen.\n\nSo from that decision that she made, my brother and I came to lead two very different lives.\n\nHe was traumatized by her, by our departure."
+        bookmark.transcriptStartTime = 1154
+        bookmark.transcriptEndTime = 1183
+
+        return NavigationStack {
+            BookmarkDetailView(
+                bookmark: bookmark,
+                episode: nil,
+                onPlay: {},
+                onEdit: { _ in },
+                onShare: {},
+                isModal: true
+            )
+        }
+        .environmentObject(theme)
+    }
+
+    // MARK: - Play Button
+
     private var playButton: some View {
         let timestamp = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
         return Button {
@@ -228,4 +258,32 @@ struct BookmarkDetailView: View {
             .clipShape(Capsule())
         }
     }
+}
+
+#Preview("Light") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .light))
+}
+
+#Preview("Dark") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .dark))
+}
+
+#Preview("Extra Dark") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .extraDark))
+}
+
+#Preview("Indigo") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .indigo))
+}
+
+#Preview("Rosé") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .rosé))
+}
+
+#Preview("Contrast Light") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .contrastLight))
+}
+
+#Preview("Contrast Dark") {
+    BookmarkDetailView.preview(theme: Theme(previewTheme: .contrastDark))
 }

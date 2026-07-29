@@ -8,8 +8,13 @@ import SwiftUI
 /// 3. A "Video" search scope filter
 struct SearchVideoMockup: View {
 
-    @State private var searchText = ""
-    @State private var scope: MockSearchScope = .all
+    @State private var searchText: String
+    @State private var scope: MockSearchScope
+
+    init(searchText: String = "", scope: MockSearchScope = .all) {
+        _searchText = State(initialValue: searchText)
+        _scope = State(initialValue: scope)
+    }
 
     var body: some View {
         NavigationStack {

@@ -17,7 +17,7 @@ class TranscriptSelectionViewController: ThemedHostingController<TranscriptSelec
         let theme: TranscriptSelectionTheme = useAppTheme ? TranscriptSelectionAppTheme(episode: episode) : TranscriptSelectionTheme(episode: episode)
         super.init(rootView: .init(viewModel: viewModel, theme: theme))
 
-        modalPresentationStyle = .overFullScreen
+        modalPresentationStyle = useAppTheme ? .pageSheet : .overFullScreen
         viewModel.router = self
     }
 

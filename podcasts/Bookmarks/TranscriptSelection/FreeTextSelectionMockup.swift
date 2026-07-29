@@ -123,31 +123,19 @@ struct FreeTextSelectionMockup: View {
         let startIdx = fullText.index(fullText.startIndex, offsetBy: min(selectedStart, fullText.count))
         let endIdx = fullText.index(fullText.startIndex, offsetBy: min(selectedEnd, fullText.count))
 
-        let before = String(fullText[fullText.startIndex..<startIdx])
-        let selected = String(fullText[startIdx..<endIdx])
-        let after = String(fullText[endIdx..<fullText.endIndex])
+        var attributed = AttributedString(fullText)
+        attributed.foregroundColor = .white.opacity(0.35)
+        attributed.font = .system(.body, design: .serif)
 
-        return VStack(alignment: .leading, spacing: 0) {
-            // Render as a single flowing text block with inline highlighting
-            (
-                Text(before)
-                    .foregroundColor(.white.opacity(0.35))
-                +
-                Text(selected)
-                    .foregroundColor(.white)
-                    .underline(color: Color(red: 0.9, green: 0.3, blue: 0.3).opacity(0.0))
-                    .background(Color(red: 0.9, green: 0.3, blue: 0.3).opacity(0.25))
-                +
-                Text(after)
-                    .foregroundColor(.white.opacity(0.35))
-            )
-            .font(.system(.body, design: .serif))
+        // Highlight the selected range
+        let attrStart = AttributedString.Index(startIdx, within: attributed)!
+        let attrEnd = AttributedString.Index(endIdx, within: attributed)!
+        attributed[attrStart..<attrEnd].foregroundColor = .white
+        attributed[attrStart..<attrEnd].backgroundColor = Color(red: 0.9, green: 0.3, blue: 0.3).opacity(0.25)
+
+        return Text(attributed)
             .lineSpacing(6)
             .frame(maxWidth: .infinity, alignment: .leading)
-
-            // Simulated selection handles (visual indicator only)
-            // In the real implementation, UITextView provides these natively
-        }
     }
 }
 

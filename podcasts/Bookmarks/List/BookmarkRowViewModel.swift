@@ -8,7 +8,6 @@ class BookmarkRowViewModel: ObservableObject {
     let title: String
     let subtitle: String
     let playButton: String
-    let transcriptText: String?
     @Published var episode: BaseEpisode?
 
     init(bookmark: Bookmark) {
@@ -18,7 +17,6 @@ class BookmarkRowViewModel: ObservableObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d · h:mm a"
         self.subtitle = dateFormatter.string(from: bookmark.created)
-        self.transcriptText = bookmark.transcriptText
         if let episode {
             updateFromEpisode(episode)
         } else {

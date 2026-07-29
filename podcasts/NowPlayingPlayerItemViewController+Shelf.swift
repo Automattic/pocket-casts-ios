@@ -17,6 +17,7 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func bookmarkTapped()
     func transcriptTapped()
     func downloadTapped()
+    func chatWithEpisodeTapped()
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
     func presentManualPlaylistsChooser()
 }
@@ -184,6 +185,18 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
             addToShelf(on: button)
 #endif
+
+        case .chatWithEpisode:
+#if !APPCLIP
+            let button = UIButton(frame: CGRect.zero)
+            button.isPointerInteractionEnabled = true
+            button.imageView?.tintColor = ThemeColor.playerContrast02()
+            button.setImage(action.icon(for: playingEpisode, large: true), for: .normal)
+            button.addTarget(self, action: #selector(chatWithEpisodeTapped(_:)), for: .touchUpInside)
+            button.accessibilityLabel = L10n.chatWithEpisode
+
+            addToShelf(on: button)
+#endif
         }
 
         return true
@@ -277,6 +290,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     func transcriptTapped() {
         #if !APPCLIP
         displayTranscript = true
+        #endif
+    }
+
+    func chatWithEpisodeTapped() {
+        #if !APPCLIP
+        displayChat = true
         #endif
     }
 
@@ -412,6 +431,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #if !APPCLIP
         shelfButtonTapped(.download)
         downloadTapped()
+        #endif
+    }
+
+    @objc private func chatWithEpisodeTapped(_ sender: UIButton) {
+        #if !APPCLIP
+        shelfButtonTapped(.chatWithEpisode)
+        chatWithEpisodeTapped()
         #endif
     }
 

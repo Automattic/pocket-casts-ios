@@ -4,6 +4,7 @@ import PocketCastsDataModel
 class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitleView> {
     private let viewModel: BookmarkEditViewModel
     let onDismiss: ((String, Bool) -> Void)?
+    var onEditTranscript: (() -> Void)?
     var editSaved: Bool = false
 
     var source: BookmarkAnalyticsSource = .unknown {
@@ -15,8 +16,9 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
     init(manager: BookmarkManager,
          bookmark: Bookmark,
          state: BookmarkEditViewModel.EditState,
+         transcriptText: String? = nil,
          onDismiss: ((String, Bool) -> Void)? = nil) {
-        let viewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state)
+        let viewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state, transcriptText: transcriptText)
         self.viewModel = viewModel
         self.onDismiss = onDismiss
 
@@ -24,6 +26,9 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
         super.init(rootView: .init(viewModel: viewModel, theme: theme))
 
         viewModel.router = self
+        viewModel.onEditTranscript = { [weak self] in
+            self?.onEditTranscript?()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

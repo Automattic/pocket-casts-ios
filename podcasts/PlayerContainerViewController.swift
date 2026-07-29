@@ -1,4 +1,6 @@
+import PocketCastsDataModel
 import PocketCastsUtils
+import SwiftUI
 import UIKit
 
 class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTabDelegate, PlayerItemContainerDelegate {
@@ -33,6 +35,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var transcriptContainerView: UIView!
+
+    lazy var chatContainerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.isHidden = true
+        containerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        return containerView
+    }()
 
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
@@ -96,6 +106,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }()
 
     private lazy var upNextViewController = UpNextViewController(source: .player)
+
+    private var chatHostingController: UIViewController?
     #endif
 
     @IBOutlet var closeBtn: ThemeableUIButton! {
@@ -137,6 +149,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         // To avoid weird animations when apearing, we add the transcript view here
         #if !APPCLIP
         configureTranscriptView()
+        configureChatView()
         #endif
     }
 
@@ -391,6 +404,53 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
+    }
+
+    // MARK: - Chat
+
+    private func configureChatView() {
+        view.addSubview(chatContainerView)
+        NSLayoutConstraint.activate([
+            chatContainerView.topAnchor.constraint(equalTo: tabsView.topAnchor),
+            chatContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+
+    func showChat() {
+        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+
+        let chatView = EpisodeChatView(
+            viewModel: EpisodeChatViewModel(
+                episodeTitle: episode.displayableTitle(),
+                podcastName: episode.subTitle()
+            ),
+            onDismiss: { [weak self] in
+                self?.dismissChat()
+            }
+        )
+        let hostingController = UIHostingController(rootView: chatView)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+
+        addChild(hostingController)
+        chatContainerView.addSubview(hostingController.view)
+        hostingController.view.anchorToAllSidesOf(view: chatContainerView)
+        hostingController.didMove(toParent: self)
+
+        chatHostingController = hostingController
+    }
+
+    func hideChat() {
+        chatHostingController?.willMove(toParent: nil)
+        chatHostingController?.removeFromParent()
+        chatHostingController?.view.removeFromSuperview()
+        chatHostingController = nil
+    }
+
+    func dismissChat() {
+        nowPlayingItem.displayChat = false
     }
     #endif
 }

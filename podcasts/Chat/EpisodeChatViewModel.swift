@@ -8,7 +8,17 @@ class EpisodeChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
     @Published var isTyping = false
     @Published var inputText = ""
+    @Published var isPlaying = true
     @Published private var followUpPrompts: [String] = []
+
+    // MARK: - Feedback State
+
+    @Published private(set) var feedbackDismissed = false
+    private(set) var feedbackResult: ChatFeedbackResult?
+
+    var shouldShowFeedbackToast: Bool {
+        !feedbackDismissed && messages.filter({ $0.role == .assistant }).count >= 3
+    }
 
     private var initialPrompts: [String] {
         [
@@ -29,6 +39,12 @@ class EpisodeChatViewModel: ObservableObject {
     init(episodeTitle: String, podcastName: String) {
         self.episodeTitle = episodeTitle
         self.podcastName = podcastName
+        self.isPlaying = PlaybackManager.shared.playing()
+    }
+
+    func togglePlayback() {
+        PlaybackManager.shared.playPause()
+        isPlaying = PlaybackManager.shared.playing()
     }
 
     func send(_ text: String) {
@@ -47,6 +63,16 @@ class EpisodeChatViewModel: ObservableObject {
             followUpPrompts = generateFollowUps(for: text)
             isTyping = false
         }
+    }
+
+    // MARK: - Feedback Actions
+
+    func submitFeedback(_ result: ChatFeedbackResult) {
+        feedbackResult = result
+    }
+
+    func dismissFeedback() {
+        feedbackDismissed = true
     }
 
     // MARK: - Follow-Up Suggestions

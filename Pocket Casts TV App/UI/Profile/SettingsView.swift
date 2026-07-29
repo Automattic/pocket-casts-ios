@@ -16,20 +16,19 @@ struct SettingsView: View {
                     Button {
                         showSubscriptionInfo = true
                     } label: {
-                        Label(L10n.tvSubscriptionInfoTitle, systemImage: "creditcard")
+                        Text(L10n.tvSubscriptionInfoTitle)
                             .frame(minWidth: 400)
                     }
 
-                    Divider().frame(maxWidth: 400)
                 }
 
                 Link(destination: URL(string: ServerConstants.Urls.termsOfUse)!) {
-                    Label(L10n.termsOfUse, systemImage: "doc.text")
+                    Text(L10n.termsOfUse)
                         .frame(minWidth: 400)
                 }
 
                 Link(destination: URL(string: ServerConstants.Urls.privacyPolicy)!) {
-                    Label(L10n.aboutPrivacyPolicy, systemImage: "hand.raised")
+                    Text(L10n.aboutPrivacyPolicy)
                         .frame(minWidth: 400)
                 }
             }

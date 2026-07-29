@@ -4435,6 +4435,12 @@
 /* Shown while Apple Intelligence generates a title */
 "smart_bookmark_generating_title" = "Generating title…";
 
+/* Label indicating transcript text was captured with the bookmark */
+"smart_bookmark_transcript_captured" = "Transcript captured";
+
+/* Button to edit the transcript selection for a bookmark */
+"smart_bookmark_edit_transcript" = "Edit";
+
 /* Title of an option in a menu prompt */
 "sort_option_timestamp" = "Timestamp";
 
@@ -6199,6 +6205,24 @@
 /* tv Profile menu — create account action (signed-out state) */
 "tv_profile_menu_create_account" = "Create account";
 
+/* tv Subscription info — section title shown in the profile menu and subscription detail sheet */
+"tv_subscription_info_title" = "Subscription";
+
+/* tv Subscription info — label for the subscription product name row */
+"tv_subscription_info_name" = "Plan";
+
+/* tv Subscription info — label for the subscription length/period row */
+"tv_subscription_info_length" = "Length";
+
+/* tv Subscription info — label for the subscription price row */
+"tv_subscription_info_price" = "Price";
+
+/* tv Subscription info — shows the monthly equivalent price for yearly plans. %1$@ is the formatted monthly price */
+"tv_subscription_info_price_per_month" = "%1$@ per month";
+
+/* tv Subscription info — shown when the user has no active subscription */
+"tv_subscription_info_none" = "No active subscription";
+
 /* tv Sign In Login Type title */
 "tv_user_sign_in_login_type" = "Login Type";
 
@@ -6273,5 +6297,56 @@
 
 /* tv home Video section title */
 "tv_home_video_section_title" = "Made for TV";
+
+/* Title for the Chat with Episode player action */
+"chat_with_episode" = "Chat with Episode";
+
+/* Placeholder text in the chat input field */
+"chat_input_placeholder" = "Ask about this episode...";
+
+/* Suggested chat prompt to summarize the episode */
+"chat_suggested_summary" = "Summarize this episode";
+
+/* Suggested chat prompt for key takeaways */
+"chat_suggested_takeaways" = "Key takeaways";
+
+/* Suggested chat prompt for topics discussed */
+"chat_suggested_topics" = "What topics are discussed?";
+
+/* Suggested chat prompt for finding similar episodes */
+"chat_suggested_related" = "Find similar episodes";
+
+/* Header label shown above suggested prompts in episode chat */
+"chat_suggestions_header" = "Suggestions";
+
+/* Title label for the chat view header */
+"chat_header_title" = "Chat";
+
+/* Title shown on the feedback toast asking the user to rate their chat experience */
+"chat_feedback_title" = "How's Chat working for you?";
+
+/* Label shown after the user selects a negative rating, asking what went wrong */
+"chat_feedback_what_went_wrong" = "What could be better?";
+
+/* Placeholder text in the optional comment field on the feedback form */
+"chat_feedback_comment_placeholder" = "Any other thoughts? (optional)";
+
+/* Button label to submit negative feedback with reasons */
+"chat_feedback_send" = "Send";
+
+/* Confirmation text shown after feedback is submitted */
+"chat_feedback_thank_you" = "Thanks for the feedback!";
+
+/* Feedback reason chip: response was inaccurate */
+"chat_feedback_reason_inaccurate" = "Inaccurate";
+
+/* Feedback reason chip: response was not helpful */
+"chat_feedback_reason_not_helpful" = "Not helpful";
+
+/* Feedback reason chip: response was too vague */
+"chat_feedback_reason_too_vague" = "Too vague";
+
+/* Feedback reason chip: response was too slow */
+"chat_feedback_reason_too_slow" = "Too slow";
 
 

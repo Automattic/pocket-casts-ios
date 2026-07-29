@@ -86,6 +86,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         super.viewDidAppear(animated)
 
         highlightAddBookmarksIfNeeded()
+        highlightChatIfNeeded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -200,6 +201,21 @@ private extension ShelfActionsViewController {
 
         // Find the index of the row
         guard let index = extraActions.firstIndex(of: .addBookmark) else {
+            return
+        }
+
+        actionsTable.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .middle)
+    }
+
+    /// Highlights the chat row when triggered from what's new
+    func highlightChatIfNeeded() {
+        guard AnnouncementFlow.current == .chatWithEpisode else {
+            return
+        }
+
+        defer { AnnouncementFlow.current = .none }
+
+        guard let index = extraActions.firstIndex(of: .chatWithEpisode) else {
             return
         }
 

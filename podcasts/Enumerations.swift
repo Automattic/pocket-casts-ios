@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension LibraryType: AnalyticsDescribable {
     enum Old: Int {
@@ -259,7 +260,7 @@ extension PlayerAction: AnalyticsDescribable {
         [
             .effects, .sleepTimer, .routePicker, .shareEpisode, .addToPlaylist, .download,
             .transcript, .goToPodcast, .addBookmark, .markPlayed,
-            .starEpisode, .chromecast, .archive
+            .starEpisode, .chromecast, .archive, .chatWithEpisode
         ]
     }
 
@@ -291,6 +292,8 @@ extension PlayerAction: AnalyticsDescribable {
             self = .download
         case 13:
             self = .addToPlaylist
+        case 14:
+            self = .chatWithEpisode
         default:
             return nil
         }
@@ -324,6 +327,8 @@ extension PlayerAction: AnalyticsDescribable {
             return 12
         case .addToPlaylist:
             return 13
+        case .chatWithEpisode:
+            return 14
         }
     }
 
@@ -372,6 +377,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.removeDownload : (episode.isInDownloadProcess ? L10n.statusDownloading : L10n.download)
         case .addToPlaylist:
             return L10n.playlistManualEpisodeAddToPlaylist
+        case .chatWithEpisode:
+            return L10n.chatWithEpisode
         }
     }
 
@@ -417,6 +424,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         case .addToPlaylist:
             return "playlist-add-episode"
+        case .chatWithEpisode:
+            return "chat-shelf-icon"
         }
     }
 
@@ -451,16 +460,26 @@ extension PlayerAction: AnalyticsDescribable {
             return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         case .addToPlaylist:
             return "playlist-add-episode"
+        case .chatWithEpisode:
+            return "chat-shelf-icon"
         }
     }
 
     func canBePerformedOn(episode: BaseEpisode) -> Bool {
         switch self {
-        case .starEpisode, .shareEpisode:
+        case .starEpisode, .shareEpisode, .chatWithEpisode:
             return episode is Episode
         default:
             return true
         }
+    }
+
+    func icon(for episode: BaseEpisode?, large: Bool = false) -> UIImage? {
+        if self == .chatWithEpisode {
+            return UIImage(systemName: "bubble.left.and.text.bubble.right")
+        }
+        let name = large ? largeIconName(episode: episode) : iconName(episode: episode)
+        return UIImage(named: name)
     }
 
     /// Determines whether the action should be available as an option
@@ -497,6 +516,8 @@ extension PlayerAction: AnalyticsDescribable {
             return "download"
         case .addToPlaylist:
             return "add_to_playlist"
+        case .chatWithEpisode:
+            return "chat_with_episode"
         }
     }
 }
