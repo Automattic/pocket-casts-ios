@@ -461,13 +461,6 @@ final class FingerprintTimingManager: NSObject {
         case chapter
         case bookmark
 
-        var analyticsEvent: AnalyticsEvent {
-            switch self {
-            case .chapter: .playerChapterFingerprintCalculated
-            case .bookmark: .bookmarkFingerprintCalculated
-            }
-        }
-
         /// Only a bookmark waits for the streaming buffer to reach the search window.
         var waitsForBufferedRegion: Bool { self == .bookmark }
     }
@@ -594,7 +587,7 @@ final class FingerprintTimingManager: NSObject {
             // Comparable across platforms: Android fingerprints eagerly and iOS
             // reactively on tap, but both report the calculation time here, decoupled
             // from `playerChapterSelected` (the tap) which stays untouched.
-            Analytics.track(kind.analyticsEvent, properties: [
+            Analytics.track(.playerChapterFingerprintCalculated, properties: [
                 "duration_ms": resolveDurationMs,
                 "is_streaming": isStreaming,
                 "episode_uuid": episodeUuid,
