@@ -10,15 +10,18 @@ struct NowPlayingWaveformView: View {
     @State private var toAmplitude: CGFloat = 0
     @State private var fadeStartTime: Date = .distantPast
     @State private var isActive = false
+    /// Once we've seen real audio data from the tap, stay in audio-reactive
+    /// mode — don't flip back to sine fallback when the level drops on pause.
+    @State private var useAudioReactive = false
 
     private let barWidth: CGFloat = 5
     private let barSpacing: CGFloat = 7
     private let maxBarHeight: CGFloat = 80
     private let fadeDuration: TimeInterval = 2.0
 
-    /// Compute the current amplitude by lerping between fromAmplitude and
+    /// Compute the current envelope amplitude by lerping between fromAmplitude and
     /// toAmplitude using an ease-in-out curve driven by wall-clock time.
-    private func amplitude(at date: Date) -> CGFloat {
+    private func envelope(at date: Date) -> CGFloat {
         let elapsed = date.timeIntervalSince(fadeStartTime)
         let t = min(max(elapsed / fadeDuration, 0), 1)
         let eased = t < 0.5 ? 2 * t * t : 1 - pow(-2 * t + 2, 2) / 2
@@ -28,8 +31,12 @@ struct NowPlayingWaveformView: View {
     var body: some View {
         TimelineView(.animation(minimumInterval: nil, paused: !isActive)) { timeline in
             Canvas { context, size in
-                let amp = amplitude(at: timeline.date)
-                guard amp > 0.001 else { return }
+                let env = envelope(at: timeline.date)
+                guard env > 0.001 else { return }
+
+                // Poll real audio level from the playback engine (lock-free read).
+                // Returns 0 for HLS streams where no audio tap is available.
+                let rawAudioLevel = CGFloat(PlaybackManager.shared.currentAudioLevel)
 
                 let centerX = size.width / 2
                 let centerY = size.height / 2
@@ -44,8 +51,14 @@ struct NowPlayingWaveformView: View {
                     for i in 0..<barsPerSide {
                         let normalizedIndex = CGFloat(i) / CGFloat(max(1, barsPerSide - 1))
                         let distanceFactor = side == 0 ? normalizedIndex : (1.0 - normalizedIndex)
-                        let wave = sin(time * 2.5 + Double(i) * 0.4) * 0.5 + 0.5
-                        let height = maxBarHeight * distanceFactor * CGFloat(wave) * amp
+
+                        // Sine wave gives the smooth pulsing shape
+                        let sineWave = CGFloat(sin(time * 2.5 + Double(i) * 0.4) * 0.5 + 0.5)
+
+                        // Scale the sine shape by real audio level when available,
+                        // otherwise use sine alone as a pure ambient animation
+                        let level = useAudioReactive ? max(rawAudioLevel, 0.05) : 1.0
+                        let height = maxBarHeight * distanceFactor * sineWave * level * env
 
                         let x: CGFloat
                         if side == 0 {
@@ -59,7 +72,7 @@ struct NowPlayingWaveformView: View {
                             in: CGRect(x: x, y: centerY - height / 2, width: barWidth, height: max(2, height)),
                             cornerSize: CGSize(width: 2, height: 2)
                         )
-                        context.fill(path, with: .color(color.opacity(0.8 * Double(distanceFactor) * Double(amp))))
+                        context.fill(path, with: .color(color.opacity(0.8 * Double(distanceFactor) * Double(env))))
                     }
                 }
             }
@@ -73,10 +86,22 @@ struct NowPlayingWaveformView: View {
                 beginFade(to: 1)
             }
         }
+        .task(id: isActive) {
+            // Poll for real audio data outside of Canvas (state can't be
+            // mutated inside Canvas). Once detected, lock into audio-reactive mode.
+            guard isActive, !useAudioReactive else { return }
+            while !Task.isCancelled {
+                if PlaybackManager.shared.currentAudioLevel > 0.01 {
+                    useAudioReactive = true
+                    return
+                }
+                try? await Task.sleep(for: .milliseconds(100))
+            }
+        }
     }
 
     private func beginFade(to target: CGFloat) {
-        fromAmplitude = amplitude(at: Date())
+        fromAmplitude = envelope(at: Date())
         toAmplitude = target
         fadeStartTime = Date()
         isActive = true

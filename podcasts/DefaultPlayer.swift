@@ -64,6 +64,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var backgroundTaskId: UIBackgroundTaskIdentifier
     private var voiceBoostNState: OpaquePointer?
     private var cachedSampleRate: Double = 0
+
+    /// RMS audio level (0...1) computed from the audio processing tap each buffer.
+    /// Written from the real-time audio thread, read from the main thread.
+    private(set) var currentAudioLevel: Float = 0
 #endif
 
     init() {
@@ -546,6 +550,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
                     return
                 }
+                referenceToSelf.updateAudioLevel(from: bufferListInOut, frameCount: Int(numberFrames))
                 return
             }
 
@@ -598,6 +603,30 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
                 numberFramesOut.pointee = numberFrames
             }
+
+            referenceToSelf.updateAudioLevel(from: bufferListInOut, frameCount: Int(numberFrames))
+        }
+
+        // MARK: - Audio Level Metering
+
+        /// Compute RMS audio level from the buffer and store it for UI consumption.
+        /// Called from the real-time audio thread — must be lock-free.
+        private func updateAudioLevel(from bufferList: UnsafeMutablePointer<AudioBufferList>, frameCount: Int) {
+            let list = UnsafeMutableAudioBufferListPointer(bufferList)
+            guard let firstBuffer = list.first, let data = firstBuffer.mData else {
+                currentAudioLevel = 0
+                return
+            }
+            let samples = data.assumingMemoryBound(to: Float.self)
+            var sumOfSquares: Float = 0
+            for i in 0..<frameCount {
+                let sample = samples[i]
+                sumOfSquares += sample * sample
+            }
+            let rms = sqrt(sumOfSquares / Float(max(frameCount, 1)))
+            // Clamp to 0...1 and apply light smoothing to avoid jitter
+            let smoothed = currentAudioLevel * 0.3 + min(rms * 3.0, 1.0) * 0.7
+            currentAudioLevel = smoothed
         }
 
         // MARK: - Peak Limter
