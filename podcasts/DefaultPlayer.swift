@@ -67,6 +67,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     /// RMS audio level (0...1) computed from the audio processing tap each buffer.
     /// Written from the real-time audio thread, read from the main thread.
+    ///
+    /// This is a benign data race: on ARM64 an aligned 32-bit store/load is
+    /// atomic at the hardware level, so the main thread will always read a
+    /// coherent Float value (never a torn write). The worst case is reading a
+    /// slightly stale sample, which is invisible for a visual-only meter.
+    /// A lock or `os_unfair_lock` is avoided here because this runs on the
+    /// real-time audio thread where blocking is not acceptable.
     private(set) var currentAudioLevel: Float = 0
 #endif
 
@@ -483,6 +490,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             referenceToSelf.highPassFilter = nil
             referenceToSelf.sampleCount = 0
             referenceToSelf.voiceBoostNState = nil
+            referenceToSelf.currentAudioLevel = 0
         }
 
         let tapFinalize: MTAudioProcessingTapFinalizeCallback = { tap in
@@ -611,19 +619,28 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         /// Compute RMS audio level from the buffer and store it for UI consumption.
         /// Called from the real-time audio thread — must be lock-free.
+        ///
+        /// Reads only the first buffer, which is channel 0 in the tap's canonical
+        /// non-interleaved float format. This is sufficient for a visual meter.
         private func updateAudioLevel(from bufferList: UnsafeMutablePointer<AudioBufferList>, frameCount: Int) {
             let list = UnsafeMutableAudioBufferListPointer(bufferList)
             guard let firstBuffer = list.first, let data = firstBuffer.mData else {
                 currentAudioLevel = 0
                 return
             }
+            // Guard against reading past the buffer's actual data size
+            let availableFrames = min(frameCount, Int(firstBuffer.mDataByteSize) / MemoryLayout<Float>.size)
+            guard availableFrames > 0 else {
+                currentAudioLevel = 0
+                return
+            }
             let samples = data.assumingMemoryBound(to: Float.self)
             var sumOfSquares: Float = 0
-            for i in 0..<frameCount {
+            for i in 0..<availableFrames {
                 let sample = samples[i]
                 sumOfSquares += sample * sample
             }
-            let rms = sqrt(sumOfSquares / Float(max(frameCount, 1)))
+            let rms = sqrt(sumOfSquares / Float(availableFrames))
             // Clamp to 0...1 and apply light smoothing to avoid jitter
             let smoothed = currentAudioLevel * 0.3 + min(rms * 3.0, 1.0) * 0.7
             currentAudioLevel = smoothed

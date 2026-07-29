@@ -86,10 +86,11 @@ struct NowPlayingWaveformView: View {
                 beginFade(to: 1)
             }
         }
-        .task(id: isActive) {
+        .task(id: isAnimating) {
             // Poll for real audio data outside of Canvas (state can't be
-            // mutated inside Canvas). Once detected, lock into audio-reactive mode.
-            guard isActive, !useAudioReactive else { return }
+            // mutated inside Canvas). Restarts each time playback starts
+            // so episode changes (downloaded → HLS) re-detect correctly.
+            guard isAnimating else { return }
             while !Task.isCancelled {
                 if PlaybackManager.shared.currentAudioLevel > 0.01 {
                     useAudioReactive = true
@@ -105,6 +106,11 @@ struct NowPlayingWaveformView: View {
         toAmplitude = target
         fadeStartTime = Date()
         isActive = true
+        if target == 1 {
+            // Reset so the polling task re-detects audio availability.
+            // Handles episode changes (e.g. downloaded → HLS stream).
+            useAudioReactive = false
+        }
         if target == 0 {
             // Stop the timeline after the fade-out completes
             Task { @MainActor in
