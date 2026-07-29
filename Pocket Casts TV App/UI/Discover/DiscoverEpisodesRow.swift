@@ -5,6 +5,7 @@ struct DiscoverEpisodesRow: View {
 
     fileprivate enum Layout {
         static let spacing = CGFloat(56)
+        static let cellWidth = CGFloat(864)
     }
 
     @Namespace private var focusNS
@@ -47,6 +48,7 @@ struct DiscoverEpisodesRow: View {
             LazyHStack(spacing: Layout.spacing, content: {
                 ForEach(model.episodes, id: \.uuid) { episode in
                     DiscoverEpisodeCell(episode: episode, listId: model.listId, source: model.source)
+                        .frame(width: Layout.cellWidth)
                 }
             })
             .focusSection()
