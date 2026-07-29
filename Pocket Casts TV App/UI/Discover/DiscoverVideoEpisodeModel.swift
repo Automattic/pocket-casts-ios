@@ -63,7 +63,7 @@ class DiscoverVideoEpisodeModel {
             if cachedVideoFrame != nil {
                 videoFrame = cachedVideoFrame
             } else {
-                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 2, preferredTimescale: 600))
+                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
                 let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
