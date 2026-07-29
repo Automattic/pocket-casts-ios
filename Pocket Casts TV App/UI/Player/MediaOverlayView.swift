@@ -35,7 +35,8 @@ struct MediaOverlayView: View {
                                 .background {
                                     NowPlayingWaveformView(
                                         color: .white,
-                                        isAnimating: model.isPlaying
+                                        isAnimating: model.isPlaying,
+                                        artworkSize: proxy.size.height / scale
                                     )
                                     .frame(width: proxy.size.width * 0.75)
                                 }
