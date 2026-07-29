@@ -14,7 +14,7 @@ struct BookmarkEditView: View {
 
     @State private var isEditingTranscript = false
 
-    @State private var titleTextView: UITextView?
+    @State private var titleTextView: BookmarkTitleTextView.TextView?
 
     var body: some View {
         NavigationStack {
@@ -152,11 +152,14 @@ struct BookmarkEditView: View {
         }
     }
 
-    /// Selects the whole title after a short delay, so the selection reliably appears
-    /// once the field has settled — whether focus just arrived or a suggestion was applied
-    private func selectAll(in textView: UITextView) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.endOfDocument)
+    /// Selects the whole title once the field has laid the text out, so the selection is
+    /// drawn — whether focus just arrived or a suggestion replaced the title
+    private func selectAll(in textView: BookmarkTitleTextView.TextView) {
+        textView.onNextLayout { [weak textView] in
+            guard let textView else { return }
+
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                            to: textView.endOfDocument)
         }
     }
 
@@ -264,16 +267,23 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
     let accentColor: UIColor
 
     /// Handed the text view as editing begins, so the title can be selected in it
-    let onBeginEditing: (UITextView) -> Void
+    let onBeginEditing: (TextView) -> Void
     let onSubmit: () -> Void
 
     @ScaledMetricWithMaxSize(relativeTo: .title2, maxSize: BookmarkTitleStyle.maxTypeSize)
     private var fontSize: CGFloat = BookmarkTitleStyle.fontSize
 
-    func makeUIView(context: Context) -> UITextView {
-        let textView = UITextView()
+    private var font: UIFont {
+        .systemFont(ofSize: fontSize, weight: BookmarkTitleStyle.fontWeight)
+    }
+
+    func makeUIView(context: Context) -> TextView {
+        let textView = TextView()
         textView.delegate = context.coordinator
         textView.text = text
+        // Set here as well as on update, so the first height the field is measured for
+        // is the one the title is actually drawn at
+        textView.font = font
         textView.backgroundColor = .clear
         // Lines the text up with the label above it and the underline below it
         textView.textContainerInset = .zero
@@ -285,14 +295,14 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
         return textView
     }
 
-    func updateUIView(_ textView: UITextView, context: Context) {
+    func updateUIView(_ textView: TextView, context: Context) {
         context.coordinator.view = self
 
         if textView.text != text {
             textView.text = text
         }
 
-        textView.font = .systemFont(ofSize: fontSize, weight: BookmarkTitleStyle.fontWeight)
+        textView.font = font
         textView.textColor = textColor
         textView.tintColor = accentColor
 
@@ -311,7 +321,7 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
     }
 
     /// Asks the text view how tall it needs to be for the width it's offered
-    func sizeThatFits(_ proposal: ProposedViewSize, uiView textView: UITextView, context: Context) -> CGSize? {
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView textView: TextView, context: Context) -> CGSize? {
         guard let width = proposal.width, width.isFinite else { return nil }
 
         let size = textView.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude))
@@ -320,6 +330,29 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator {
         Coordinator(view: self)
+    }
+
+    /// A text view that can be asked to run work once its text has been laid out
+    class TextView: UITextView {
+        private var afterLayout: (() -> Void)?
+
+        /// Runs `work` after the next layout pass, so a selection made against the text
+        /// is drawn rather than dropped by the layout that follows it. Only the latest
+        /// piece of work is kept, so repeated calls can't stack up.
+        func onNextLayout(_ work: @escaping () -> Void) {
+            afterLayout = work
+            setNeedsLayout()
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+
+            guard window != nil, bounds.width > 0, let afterLayout else { return }
+
+            self.afterLayout = nil
+            // Out of the layout pass the work would otherwise be changing the text view in
+            DispatchQueue.main.async(execute: afterLayout)
+        }
     }
 
     class Coordinator: NSObject, UITextViewDelegate {
@@ -335,6 +368,9 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
 
         func textViewDidBeginEditing(_ textView: UITextView) {
             view.isFocused = true
+
+            guard let textView = textView as? TextView else { return }
+
             view.onBeginEditing(textView)
         }
 
@@ -342,12 +378,20 @@ private struct BookmarkTitleTextView: UIViewRepresentable {
             view.isFocused = false
         }
 
-        /// Return saves the bookmark, as it did when this was a single line field, rather
-        /// than putting a line break in the title
+        /// Return saves the bookmark, as it did when this was a single line field. Line
+        /// breaks arriving any other way — pasted or dictated — are folded into spaces,
+        /// since the title is drawn on one line everywhere it's listed.
         func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            guard text == "\n" else { return true }
+            if text == "\n" {
+                view.onSubmit()
+                return false
+            }
 
-            view.onSubmit()
+            guard text.rangeOfCharacter(from: .newlines) != nil,
+                  let replacedRange = textView.textRange(for: range) else { return true }
+
+            textView.replace(replacedRange, withText: text.singleLine)
+            view.text = textView.text
             return false
         }
     }
@@ -371,6 +415,25 @@ private enum BookmarkTitleStyle {
 private extension View {
     func titleFont() -> some View {
         font(size: BookmarkTitleStyle.fontSize, style: .title2, weight: .bold)
+    }
+}
+
+private extension UITextView {
+    /// The range of text a delegate's `NSRange` points at
+    func textRange(for range: NSRange) -> UITextRange? {
+        guard let start = position(from: beginningOfDocument, offset: range.location),
+              let end = position(from: start, offset: range.length) else { return nil }
+
+        return textRange(from: start, to: end)
+    }
+}
+
+private extension String {
+    /// The text on a single line, with each run of line breaks standing in as one space
+    var singleLine: String {
+        components(separatedBy: .newlines)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
     }
 }
 
