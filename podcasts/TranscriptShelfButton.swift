@@ -5,7 +5,7 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
     var hasGeneratedTranscripts: Bool = false
     var isTranscriptEnabled: Bool {
         didSet {
-            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast06()
+            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast04()
         }
     }
 

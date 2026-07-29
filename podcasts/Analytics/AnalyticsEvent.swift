@@ -136,6 +136,7 @@ enum AnalyticsEvent: String {
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
+    case accountDetailsSubscription
 
     // MARK: - Upgrade banner
 
@@ -145,6 +146,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
+    case heatmapInfoOpened
 
     // MARK: - Folders
 
@@ -278,6 +280,14 @@ enum AnalyticsEvent: String {
     case playbackFailed
     case playbackErrorShown
     case playbackErrorTapped
+
+    /// Emitted once playback actually starts, reporting the protocol the source resolved to
+    /// (`hls`/`progressive`). Gated behind `FeatureFlag.hls`.
+    case playbackSourceResolved
+
+    /// Emitted when the user toggles an HLS video stream between video and audio-only rendering.
+    /// Gated behind `FeatureFlag.hls`.
+    case playbackHlsToggled
 
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
@@ -490,6 +500,7 @@ enum AnalyticsEvent: String {
     case playerTabSelected
     case playerShowNotesLinkTapped
     case playerChapterSelected
+    case playerChapterFingerprintCalculated
     case playerPodcastNameTapped
 
     case playerPreviousChapterTapped
@@ -643,10 +654,12 @@ enum AnalyticsEvent: String {
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
+    case settingsGeneralAudioOnlyToggled
     case settingsGeneralExtraPlaybackActionsToggled
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+    case settingsGeneralGeneratedChaptersToggled
     case settingsGeneralAutoplayToggled
     case settingsGeneralAutoSleepTimerRestartToggled
     case settingsGeneralShakeToResetSleepTimerToggled
@@ -906,6 +919,7 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsBookmarkSoundToggled
 
     // MARK: - Skipping Chapters
+    case chaptersShown
     case chapterLinkClicked
     case deselectChaptersToggledOn
     case deselectChaptersToggledOff
@@ -1049,4 +1063,9 @@ enum AnalyticsEvent: String {
     case deviceSetupAccountTapped
     case deviceApproveSuccessful
     case deviceApproveFailed
+
+    // MARK: TV
+
+    case browseNoAccountTapped
+    case bannerRowTapped
 }

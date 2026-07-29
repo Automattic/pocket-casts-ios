@@ -117,9 +117,6 @@ class Theme: ObservableObject {
             }
         }
         didSet {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.theme = activeTheme
-            }
             UserDefaults.standard.set(activeTheme.old.rawValue, forKey: Theme.themeKey)
 
             // if the user is changing from or to the radioactive theme, we need to clear our memory cache because processing is applied to these images
@@ -130,15 +127,11 @@ class Theme: ObservableObject {
     }
 
     init() {
-        if FeatureFlag.newSettingsStorage.enabled {
-            activeTheme = SettingsStore.appSettings.theme
-        } else {
-            let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
-            if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
-                Settings.setShouldFollowSystemTheme(true)
-            }
-            activeTheme = ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
+        let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
+        if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
+            Settings.setShouldFollowSystemTheme(true)
         }
+        activeTheme = ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
 
         NotificationCenter.default.addObserver(self, selector: #selector(systemThemeDidChange(_:)), name: Constants.Notifications.systemThemeMayHaveChanged, object: nil)
     }
@@ -162,10 +155,6 @@ class Theme: ObservableObject {
     }
 
     class func preferredDarkTheme() -> ThemeType {
-        if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.darkThemePreference
-        }
-
         let savedType = UserDefaults.standard.integer(forKey: preferredDarkThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .dark }
@@ -176,10 +165,6 @@ class Theme: ObservableObject {
     }
 
     class func setPreferredDarkTheme(_ preferredType: ThemeType, systemIsDark: Bool, userInitiated: Bool = false) {
-
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.darkThemePreference = preferredType
-        }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredDarkThemeKey)
 
         // change the active theme if it needs to change
@@ -192,11 +177,6 @@ class Theme: ObservableObject {
     }
 
     class func preferredLightTheme() -> ThemeType {
-
-        if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.lightThemePreference
-        }
-
         let savedType = UserDefaults.standard.integer(forKey: preferredLightThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .light }
@@ -207,10 +187,6 @@ class Theme: ObservableObject {
     }
 
     class func setPreferredLightTheme(_ preferredType: ThemeType, systemIsDark: Bool) {
-
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.lightThemePreference = preferredType
-        }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredLightThemeKey)
 
         // change the active theme if it needs to change

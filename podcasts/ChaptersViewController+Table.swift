@@ -41,6 +41,8 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters().index - 1 || chapter.index == PlaybackManager.shared.currentChapters().index || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
         }
 
+        chapterCell.setResolving(indexPath == resolvingIndexPath)
+
         return chapterCell
     }
 
@@ -61,11 +63,59 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
+                // Android also emits the selection event when the tapped chapter is
+                // already playing, so keep parity even though nothing seeks here.
+                trackChapterSelected()
+            } else if GeneratedChapterSeeker.isEnabled {
+                resolveAndSeek(to: chapter, at: indexPath)
             } else {
+                trackChapterSelected()
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
-                PlaybackManager.shared.trackChapterEvent(.playerChapterSelected)
             }
         }
+    }
+
+    private func resolveAndSeek(to chapter: ChapterInfo, at indexPath: IndexPath) {
+        // Clear any spinner from a previously-resolving row and reset the pointer.
+        // The async path re-sets it for the tapped row via willBeginResolving; a
+        // cache hit resolves synchronously and leaves resolvingIndexPath nil, so a
+        // stale pointer can't resurface the wrong spinner on reuse/reload.
+        if let previous = resolvingIndexPath {
+            (chaptersTable.cellForRow(at: previous) as? PlayerChapterCell)?.setResolving(false)
+        }
+        resolvingIndexPath = nil
+
+        // Fire on every tap — including the cache hit that resolves synchronously
+        // without a spinner — so the selection event matches the non-generated path.
+        trackChapterSelected()
+
+        GeneratedChapterSeeker.seek(
+            to: chapter,
+            startPlayback: true,
+            willBeginResolving: { [weak self] in
+                self?.resolvingIndexPath = indexPath
+                (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(true)
+            },
+            didEndResolving: { [weak self] in
+                self?.resolvingIndexPath = nil
+                (self?.chaptersTable.cellForRow(at: indexPath) as? PlayerChapterCell)?.setResolving(false)
+            }
+        )
+    }
+
+    /// Tracked directly rather than through `trackChapterEvent`: the playback
+    /// helper merges in a default "source" (the current view) that wins over
+    /// ours, but this event's source is typed as `chapters_shown_source` and
+    /// must be "fullscreen_player", matching Android. Bypassing the helper also
+    /// drops its auto-injected `content_type`, so re-add it from the same source.
+    private func trackChapterSelected() {
+        Analytics.track(.playerChapterSelected, properties: [
+            "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
+            "source": "fullscreen_player",
+            "content_type": AnalyticsPlaybackHelper.shared.currentEpisodeIsVideo ? "video" : "audio",
+            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
+        ])
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -252,13 +252,13 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         updateDisplayedData()
         updateColors()
+
+        loadShowNotes()
+        loadEpisodeArtwork()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        loadShowNotes()
-        loadEpisodeArtwork()
 
         bookmarksController.view.isHidden = false
 

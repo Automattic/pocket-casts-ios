@@ -255,7 +255,6 @@ class UpNextDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ? ORDER by episodePosition", values: [UpNextDataManager.upNextPlaylistId])
-                defer { resultSet.close() }
 
                 var newItems = [PlaylistEpisode]()
                 var uuids = Set<String>()

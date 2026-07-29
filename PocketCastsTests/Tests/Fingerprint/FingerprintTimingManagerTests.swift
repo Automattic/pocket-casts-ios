@@ -322,4 +322,49 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertTrue(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 13.9, in: entries))
         XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 14.1, in: entries))
     }
+
+    // MARK: - On-demand chapter seek: search-window bounds
+
+    func testColdSearchWindowStartsAtReferenceAndUsesColdBudget() {
+        // No prior mapping — search forward from the raw reference time.
+        let window = FingerprintTimingManager.searchWindow(referenceTime: 600, estimatedPlayback: nil)
+        XCTAssertEqual(window.start, 600, accuracy: 0.001)
+        XCTAssertEqual(window.end, 600 + FingerprintConstants.onDemandSeekColdBudgetSeconds, accuracy: 0.001)
+    }
+
+    func testWarmSearchWindowCentersOnEstimateWithinBudgets() {
+        // Warm prior with a large accumulated offset, so `estimate - backwardMax`
+        // stays above the reference time and the window brackets the estimate on
+        // both sides rather than clamping to the reference time.
+        let referenceTime = 600.0
+        let estimate = 900.0 // 300s of accumulated ad offset (> backwardMax)
+        let window = FingerprintTimingManager.searchWindow(referenceTime: referenceTime, estimatedPlayback: estimate)
+        XCTAssertEqual(window.start, estimate - FingerprintConstants.onDemandSeekBackwardMaxSeconds, accuracy: 0.001)
+        XCTAssertEqual(window.end, estimate + FingerprintConstants.onDemandSeekForwardBudgetSeconds, accuracy: 0.001)
+    }
+
+    func testWarmSearchWindowNeverStartsBelowReferenceTime() {
+        // Ad offset is non-negative, so even when the backward budget would push
+        // the start below the reference time it must clamp to the reference time.
+        let referenceTime = 30.0
+        let estimate = 40.0 // small offset; estimate - backwardMax << referenceTime
+        let window = FingerprintTimingManager.searchWindow(referenceTime: referenceTime, estimatedPlayback: estimate)
+        XCTAssertEqual(window.start, referenceTime, accuracy: 0.001)
+        XCTAssertGreaterThanOrEqual(window.end, window.start)
+    }
+
+    // MARK: - On-demand chapter seek: isolation from the continuous mapping
+
+    func testChapterResolveDoesNotMutateContinuousMapping() {
+        // The one-shot resolve must never touch `main`. Seed the continuous
+        // mapping, cancel any pending resolve (a no-op here), and assert the
+        // committed mapping is unchanged and still queryable.
+        let manager = FingerprintTimingManager()
+        manager.stubMatches((0..<5).map { i in Entry(playbackTime: Double(i) * 2, referenceTime: Double(i) * 2) })
+
+        manager.cancelPendingChapterResolve()
+
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 4, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.playbackTime(forReferenceTime: 6)), 6, accuracy: 0.001)
+    }
 }

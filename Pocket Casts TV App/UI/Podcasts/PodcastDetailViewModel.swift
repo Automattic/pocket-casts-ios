@@ -46,10 +46,6 @@ class PodcastDetailViewModel {
     /// list comes back in the new order.
     func setSortOrder(_ order: PodcastEpisodeSortOrder) {
         guard order != sortOrder, let podcast else { return }
-        if FeatureFlag.newSettingsStorage.enabled {
-            podcast.settings.episodesSortOrder = order
-            podcast.syncStatus = SyncStatus.notSynced.rawValue
-        }
         podcast.episodeSortOrder = order.old.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         sortOrder = order

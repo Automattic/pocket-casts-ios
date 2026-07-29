@@ -143,7 +143,10 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var isVideo: Bool {
-        return episode?.videoPodcast() ?? false
+        guard let episode else {
+            return false
+        }
+        return EpisodeManager.isVideo(episode)
     }
 
     var displayTitle: String {
@@ -250,6 +253,21 @@ class NowPlayingViewModel: Identifiable {
 
     var isTrimSilenceAvailable: Bool {
         return playbackManager.silenceRemovalAvailable()
+    }
+
+    var isVolumeBoostAvailable: Bool {
+        return playbackManager.volumeBoostAvailable()
+    }
+
+    var maxPlaybackSpeed: Double {
+        var maxSpeed = SharedConstants.PlaybackEffects.maximumPlaybackSpeed
+        guard let episode else {
+            return maxSpeed
+        }
+        if EpisodeManager.hasHLSStream(episode) {
+            maxSpeed = SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed
+        }
+        return maxSpeed
     }
 
     fileprivate func observeUpNextChanges() {

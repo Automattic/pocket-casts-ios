@@ -271,15 +271,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     @objc func upNextChanged() {
-        if changedViaSwipeToRemove { return }
-
         if isMultiSelectEnabled {
-            let upNextUuids = DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid)
-            for (index, selectedEpisode) in selectedPlayListEpisodes.enumerated() {
-                if !upNextUuids.contains(selectedEpisode.episodeUuid), index > selectedPlayListEpisodes.count {
-                    selectedPlayListEpisodes.remove(at: index)
-                }
-            }
+            let upNextUuids = Set(DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid))
+            selectedPlayListEpisodes.removeAll { !upNextUuids.contains($0.episodeUuid) }
 
             if let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid {
                 selectedEpisodesRemove(uuid: currentUuid)

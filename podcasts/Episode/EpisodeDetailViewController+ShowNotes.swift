@@ -33,6 +33,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func loadShowNotes() {
         if downloadingShowNotes { return }
+        downloadingShowNotes = true
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)

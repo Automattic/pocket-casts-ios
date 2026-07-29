@@ -111,22 +111,8 @@ struct NotificationsPermissionsView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 VStack(spacing: 0) {
-                    if FeatureFlag.newOnboardingAccountCreation.enabled {
-                        Spacer()
-                            .frame(maxHeight: 136)
-                    } else {
-                        Button(action: {
-                            Analytics.track(.notificationsPermissionsNotNowTapped)
-                            dismissAction()
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text(L10n.eoyNotNow)
-                                    .foregroundStyle(theme.primaryInteractive01)
-                                    .font(.body.weight(.medium))
-                            }
-                        }
-                    }
+                    Spacer()
+                        .frame(maxHeight: 136)
                     Image("notifications_permissions_banner")
                     Spacer().frame(height: 24)
                     Text(L10n.notificationsPermissionsTitle)
@@ -139,15 +125,13 @@ struct NotificationsPermissionsView: View {
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
-                    if FeatureFlag.newOnboardingAccountCreation.enabled {
-                        VStack(alignment: .leading, spacing: 24) {
-                            optionRow(for: .newsletter)
-                            optionRow(for: .notifications)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 34)
-                        .padding(.horizontal, 4)
+                    VStack(alignment: .leading, spacing: 24) {
+                        optionRow(for: .newsletter)
+                        optionRow(for: .notifications)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 34)
+                    .padding(.horizontal, 4)
                     Spacer()
                     Rectangle().fill(.clear).frame(height: 44)
                 }
@@ -165,7 +149,7 @@ struct NotificationsPermissionsView: View {
                         dismissAction()
                     }
                 }) {
-                    Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
+                    Text(L10n.notificationsPermissionsSavePreferences)
                         .textStyle(RoundedButton())
                 }
             }

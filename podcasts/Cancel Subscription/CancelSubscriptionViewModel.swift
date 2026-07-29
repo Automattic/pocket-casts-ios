@@ -211,9 +211,11 @@ extension CancelSubscriptionViewModel {
     func showHelp() {
         trackRow(option: .help)
 
-        let controller = OnlineSupportController(source: .winback)
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.pushViewController(controller, animated: true)
+        let presentingController = navigationController?.presentingViewController
+        presentingController?.dismiss(animated: true)
+
+        let navController = SJUIUtils.navController(for: OnlineSupportController(source: .winback), themeOverride: .light)
+        presentingController?.present(navController, animated: true)
     }
 
     func showClaimOfferSuccess() {

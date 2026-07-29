@@ -1541,6 +1541,12 @@
 /* Accessibility hint text informing the user that the Sleep timer is enabled. */
 "player_accessibility_sleep_timer_on" = "Sleep timer on";
 
+/* Player action to switch an HLS stream to audio-only, hiding the video. */
+"player_action_hide_video" = "Hide Video";
+
+/* Player action to show the video of an HLS stream. */
+"player_action_show_video" = "Show Video";
+
 /* Subtitle for settings indicating this item operates as delete for files. */
 "player_action_subtitle_delete" = "Shown as Delete for custom episodes";
 
@@ -2681,6 +2687,12 @@
 /* Subtitle explaining the toggle to publish chapter titles. */
 "settings_general_publish_chapter_titles_subtitle" = "If on, this will send chapter titles over Bluetooth and other connected devices instead of the episode title.";
 
+/* Setting toggle to show automatically generated chapters in the player. */
+"settings_general_generated_chapters" = "Generated chapters";
+
+/* Subtitle explaining the toggle to show automatically generated chapters. */
+"settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
+
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
 
@@ -2725,6 +2737,12 @@
 
 /* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
 "settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
+
+/* Setting toggle to make video episodes play as audio only. */
+"settings_general_audio_only" = "Audio only";
+
+/* Subtitle explaining the toggle that makes video episodes play as audio only. */
+"settings_general_audio_only_subtitle" = "If on, video episodes will play as audio only.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
@@ -4304,6 +4322,9 @@
 /* Subtitle of the login view */
 "login_landing_subtitle" = "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.";
 
+/* Label of a button on the login landing view that lets the user sign up for an account using their email address */
+"login_landing_sign_up_with_email" = "Sign up with email";
+
 /* Title of the plus marketing view */
 "plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 
@@ -4477,6 +4498,9 @@
 
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
+
+/* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
+"bookmark_suggested_title" = "Suggested title: %1$@";
 
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
@@ -6543,6 +6567,33 @@
 
 /* tv Discover row failed to load title*/
 "tv_discover_row_failed_to_load_title" = "Failed to load";
+
+/* tv settings - instruction to scan the QR code or open the URL on a phone to read the Privacy Policy */
+"tv_settings_privacy_policy_qr_message" = "Scan the QR code below, or open the URL on your phone to access the Privacy Policy.";
+
+/* tv settings - instruction to scan the QR code or open the URL on a phone to read the Terms of Use */
+"tv_settings_terms_of_use_qr_message" = "Scan the QR code below, or open the URL on your phone to access the Terms of Use.";
+
+/* tv settings - title of the subscription details screen */
+"tv_settings_subscription_title" = "Subscription";
+
+/* tv settings - label for the row showing the user's subscription plan (tier and frequency) */
+"tv_settings_subscription_plan" = "Plan";
+
+/* tv settings - label for the row showing when the subscription will next renew */
+"tv_settings_subscription_next_renewal" = "Next renewal";
+
+/* tv settings - label for the row showing the subscription price */
+"tv_settings_subscription_price" = "Price";
+
+/* tv settings - value shown for the subscription price when it could not be retrieved */
+"tv_settings_subscription_price_unavailable" = "Unavailable";
+
+/* tv settings - value shown for the renewal date when the user has a lifetime subscription */
+"tv_settings_subscription_lifetime" = "Lifetime";
+
+/* tv settings - message shown when the subscription was purchased on a different platform and must be managed there */
+"tv_settings_subscription_other_platform" = "This subscription was made on another platform. Please use that platform to manage the subscription.";
 
 
 /* tv create account step - scan the QR code */

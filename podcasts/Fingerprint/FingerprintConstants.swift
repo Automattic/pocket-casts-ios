@@ -111,4 +111,49 @@ enum FingerprintConstants {
     /// matched anchor the gap jumps past this and highlighting stops — no ad
     /// detection, no lag. Comfortably below a typical ad break (≥15s).
     static let highlightMaxGapSeconds: Double = 8
+
+    // MARK: - On-demand chapter seek
+
+    /// Cold path (no existing mapping — the common case when a generated chapter is
+    /// tapped from the player). Forward audio searched starting at the chapter's raw
+    /// reference time. Because dynamic-ad offset only accumulates, the true playback
+    /// position is always ≥ the reference time; this caps how far ahead we look, and
+    /// hence worst-case decode/CPU/latency, before falling back to a raw skip.
+    static let onDemandSeekColdBudgetSeconds: Double = 240
+
+    /// Warm path, target ahead of the listener. Extra audio searched past the
+    /// rate-1 lower bound (`P + (T − R_now)`) to absorb ad insertions between the
+    /// current position and the target.
+    static let onDemandSeekForwardBudgetSeconds: Double = 120
+
+    /// Warm path, target behind the listener. Cap on the `[T, T + offset_now]`
+    /// search window when the current offset is large.
+    static let onDemandSeekBackwardMaxSeconds: Double = 180
+
+    /// Minimum committed anchors in the one-shot scratch mapping before a resolved
+    /// playback time is trusted. Mirrors `minimumCoverageForActive` — two anchors
+    /// give a locally-consistent rate-1 segment to interpolate on.
+    static let onDemandSeekMinAnchors: Int = 2
+
+    /// Hard timeout for a one-shot chapter resolve. On expiry the resolve is
+    /// cancelled and the caller falls back to a raw skip, so a pathological decode
+    /// can't hang the tap behind an indefinite spinner.
+    static let onDemandSeekTimeoutSeconds: TimeInterval = 5
+
+    // MARK: - Bookmark position resolve
+
+    /// Local audio region fingerprinted around a bookmark's playback position when
+    /// resolving it to the reference timeline. Unlike the chapter seek there's no
+    /// searching involved, so the region only needs to be big enough to commit
+    /// anchors bracketing the position.
+    static let bookmarkResolveBackwardSeconds: Double = 35
+    static let bookmarkResolveForwardSeconds: Double = 10
+
+    /// Minimum committed anchors in the one-shot scratch mapping before a
+    /// resolved reference time is trusted. Mirrors `onDemandSeekMinAnchors`.
+    static let bookmarkResolveMinAnchors: Int = 2
+
+    /// Hard timeout for a one-shot bookmark position resolve. On expiry the
+    /// caller falls back to the raw playback time.
+    static let bookmarkResolveTimeoutSeconds: TimeInterval = 5
 }
