@@ -54,6 +54,34 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
+    public func homePageSignedIn() async -> (DiscoverLayout?, Bool) {
+        var contentPath: String = "ios"
+        #if os(tvOS)
+            contentPath = "tv"
+        #endif
+        contentPath.append("/content_v3_logged_in.json")
+        
+        return await withCheckedContinuation { continuation in
+            discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
+                continuation.resume(returning: (discoverItems, cachedResponse))
+            }
+        }
+    }
+
+    public func homePageSignedOut() async -> (DiscoverLayout?, Bool) {
+        var contentPath: String = "ios"
+        #if os(tvOS)
+            contentPath = "tv"
+        #endif
+        contentPath.append("/content_v3_logged_out.json")
+
+        return await withCheckedContinuation { continuation in
+            discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
+                continuation.resume(returning: (discoverItems, cachedResponse))
+            }
+        }
+    }
+
     public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
         Task {
             let page = await discoverPage()

@@ -23,6 +23,8 @@ final class MainTabViewModel {
     var upNextModel = UpNextViewModel()
     var searchViewModel = SearchViewModel()
     var discoverAllViewModel = DiscoverAllViewModel()
+    var discoverHomeSignedInViewModel = DiscoverHomeViewModel(signedIn: true)
+    var discoverHomeSignedOutViewModel = DiscoverHomeViewModel(signedIn: false)
 
     init() {
         currentPlayingEpisode = PlaybackManager.shared.currentEpisode()

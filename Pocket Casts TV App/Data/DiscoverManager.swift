@@ -138,6 +138,45 @@ actor DiscoverManager {
         return layout
     }
 
+    private func getHomeSignedInLayout() async throws -> DiscoverLayout {
+        let (result, _) = await discoverServerHandler.homePageSignedIn()
+
+        guard let layout = result else {
+            throw DiscoverError.failedToLoad
+        }
+
+        return layout
+    }
+
+    private func getHomeSignedOutLayout() async throws -> DiscoverLayout {
+        let (result, _) = await discoverServerHandler.homePageSignedOut()
+
+        guard let layout = result else {
+            throw DiscoverError.failedToLoad
+        }
+
+        return layout
+    }
+
+    func loadHomeItems(signedIn: Bool) async throws -> [DiscoverItem] {
+        let discoverLayout: DiscoverLayout
+        if signedIn {
+          discoverLayout = try await getHomeSignedInLayout()
+        } else {
+            discoverLayout = try await getHomeSignedOutLayout()
+        }
+        guard let items = discoverLayout.layout else {
+            return []
+        }
+        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+
+        let filteredItems = items.filter { item in
+            item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
+        }
+
+        return filteredItems
+    }
+
     func loadDiscoverItems() async throws -> [DiscoverItem] {
         let discoverLayout = try await getLayout()
         guard let items = discoverLayout.layout else {
