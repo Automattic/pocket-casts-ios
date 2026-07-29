@@ -87,7 +87,7 @@ extension BookmarkManager {
             let duration = Date().timeIntervalSince(started)
 
             guard !Task.isCancelled else {
-                let cancelled = TitleGenerationError(reason: .cancelled, generator: generation.generator, didFallBackToServer: generation.didFallBackToServer)
+                let cancelled = TitleGenerationError(reason: "cancelled", generator: generation.generator, didFallBackToServer: generation.didFallBackToServer)
                 BookmarkGenerationAnalytics.titleGenerationFailed(cancelled, bookmark: bookmark, trigger: trigger, source: source, duration: duration)
                 return nil
             }
@@ -97,7 +97,7 @@ extension BookmarkManager {
             FileLog.shared.addMessage("[Bookmarks] Title suggestion failed: \(error)")
 
             let failure = error as? TitleGenerationError
-                ?? TitleGenerationError(reason: .unknown, generator: .server, didFallBackToServer: false)
+                ?? TitleGenerationError(reason: "unknown", generator: "server", didFallBackToServer: false)
             BookmarkGenerationAnalytics.titleGenerationFailed(failure, bookmark: bookmark, trigger: trigger, source: source, duration: Date().timeIntervalSince(started))
             return nil
         }

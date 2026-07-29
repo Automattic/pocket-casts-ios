@@ -31,36 +31,6 @@ enum BookmarkEnrichmentTrigger: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
-/// Which model wrote a bookmark's title.
-enum BookmarkTitleGenerator: String, AnalyticsDescribable {
-    case onDevice = "on_device"
-    case server
-
-    var analyticsDescription: String { rawValue }
-}
-
-/// Why a title couldn't be generated from a passage.
-enum BookmarkTitleFailureReason: String, AnalyticsDescribable {
-    /// Device ineligible, Apple Intelligence off, or the model isn't downloaded
-    case modelUnavailable = "model_unavailable"
-    /// The on-device model refused the transcript as unsafe
-    case guardrailViolation = "guardrail_violation"
-    /// The on-device model failed for any other reason
-    case onDeviceError = "on_device_error"
-    /// The response was too long or otherwise not a title
-    case unexpectedResponse = "unexpected_response"
-    case serverError = "server_error"
-    /// The server responded without a title
-    case serverEmptyTitle = "server_empty_title"
-    /// A title came back but was empty once trimmed
-    case emptyTitle = "empty_title"
-    /// The sheet was dismissed, or saved, before the title arrived
-    case cancelled
-    case unknown
-
-    var analyticsDescription: String { rawValue }
-}
-
 extension BookmarkSortOption: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {

@@ -176,9 +176,9 @@ class BookmarkManager {
            let enricher = foundationModelEnricher as? BookmarkFoundationModelEnricher {
             do {
                 let title = try await enricher.generateTitle(transcriptSnippet: transcriptSnippet, podcastTitle: podcastTitle, episodeTitle: episodeTitle)
-                return TitleGeneration(title: title, generator: .onDevice, didFallBackToServer: false)
+                return TitleGeneration(title: title, generator: "on_device", didFallBackToServer: false)
             } catch is CancellationError {
-                throw TitleGenerationError(reason: .cancelled, generator: .onDevice, didFallBackToServer: false)
+                throw TitleGenerationError(reason: "cancelled", generator: "on_device", didFallBackToServer: false)
             } catch {
                 FileLog.shared.addMessage("[Bookmarks] On-device title generation failed, falling back to the server: \(error)")
                 didFallBackToServer = true
@@ -186,26 +186,32 @@ class BookmarkManager {
         }
 #endif
 
-        do {
-            let response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
-            guard let title = response.title, !title.isEmpty else {
-                FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
-                throw TitleGenerationError(reason: .serverEmptyTitle, generator: .server, didFallBackToServer: didFallBackToServer)
-            }
-            return TitleGeneration(title: title, generator: .server, didFallBackToServer: didFallBackToServer)
-        } catch let error as TitleGenerationError {
-            throw error
-        } catch is CancellationError {
-            throw TitleGenerationError(reason: .cancelled, generator: .server, didFallBackToServer: didFallBackToServer)
-        } catch {
-            throw TitleGenerationError(reason: .serverError, generator: .server, didFallBackToServer: didFallBackToServer)
+        func serverFailure(_ reason: String) -> TitleGenerationError {
+            TitleGenerationError(reason: reason, generator: "server", didFallBackToServer: didFallBackToServer)
         }
+
+        let response: CacheServerHandler.BookmarkEnrichResponse
+        do {
+            response = try await cacheServerHandler.enrichBookmark(transcriptSnippet: transcriptSnippet)
+        } catch is CancellationError {
+            throw serverFailure("cancelled")
+        } catch {
+            throw serverFailure("server_error")
+        }
+
+        guard let title = response.title, !title.isEmpty else {
+            FileLog.shared.addMessage("[Bookmarks] Server title generation returned no title\(response.error.map { ": \($0)" } ?? "")")
+            throw serverFailure("server_empty_title")
+        }
+        return TitleGeneration(title: title, generator: "server", didFallBackToServer: didFallBackToServer)
     }
 
     /// A generated title, and which model wrote it.
     struct TitleGeneration {
         let title: String
-        let generator: BookmarkTitleGenerator
+
+        /// `on_device` or `server`, as reported to analytics
+        let generator: String
 
         /// Whether the on-device model was tried first and failed, so the server wrote it instead
         let didFallBackToServer: Bool
@@ -216,8 +222,8 @@ class BookmarkManager {
     /// When the on-device model fails and the server then also fails, only the server's reason
     /// survives here — `didFallBackToServer` is what says the on-device attempt happened at all.
     struct TitleGenerationError: Error {
-        let reason: BookmarkTitleFailureReason
-        let generator: BookmarkTitleGenerator
+        let reason: String
+        let generator: String
         let didFallBackToServer: Bool
     }
 
