@@ -16,11 +16,13 @@ class NowPlayingViewModel: Identifiable {
     var player: AVPlayer?
     var episode: BaseEpisode?
     var podcast: Podcast?
+    var isPlaying: Bool = false
 
     init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.sharedManager) {
         self.playbackManager = playbackManager
         self.imageManager = imageManager
         observeUpNextChanges()
+        observePlaybackState()
     }
 
     func load() {
@@ -31,6 +33,7 @@ class NowPlayingViewModel: Identifiable {
         episode = newEpisode
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
+        isPlaying = playbackManager.playing()
         loadEpisodeArtwork()
     }
 
@@ -128,6 +131,17 @@ class NowPlayingViewModel: Identifiable {
                     return
                 }
                 load()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func observePlaybackState() {
+        // Observe the AVPlayer's timeControlStatus directly so we catch
+        // pauses triggered by the AVPlayerViewController transport bar.
+        playbackManager.avPlayer?.publisher(for: \.timeControlStatus)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                self?.isPlaying = (status == .playing)
             }
             .store(in: &cancellables)
     }

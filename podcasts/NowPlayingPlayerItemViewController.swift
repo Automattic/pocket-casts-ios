@@ -18,6 +18,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var bannerTask: Task<Void, Never>? = nil
 
+    private var waveformHostingController: UIHostingController<NowPlayingWaveformView>?
+    private let waveformModel = NowPlayingWaveformModel()
+
     // Detect Display Zoom (zoomed display makes UI elements appear larger).
     // Scale controls down slightly when zoomed to avoid oversized buttons.
     private var isZoomed: Bool {
@@ -292,6 +295,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    var displayChat = false {
+        didSet {
+#if !APPCLIP
+            toggleChat()
+#endif
+        }
+    }
+
     private func loadBannerAd() {
 #if !APPCLIP
         if SubscriptionHelper.shouldDisplayPlayerBannerAd {
@@ -365,12 +376,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             episodeImage.image = placeholderArtwork
             self.placeholderArtwork = nil
         }
+        setupWaveform()
         update(notification: nil)
         addObservers()
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        removeWaveform()
 
         #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled {
@@ -382,6 +395,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
         update(notification: nil)
+        updateWaveformAnimating()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -412,6 +426,46 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         for view in playerControlsStackView.subviews {
             view.updateSizeConstraints(to: iconSize)
         }
+    }
+
+    // MARK: - Waveform
+
+    private func setupWaveform() {
+        guard waveformHostingController == nil else { return }
+
+        waveformModel.isAnimating = PlaybackManager.shared.playing()
+        waveformModel.color = PlayerColorHelper.playerHighlightColor01(for: .dark).color
+
+        let hostingController = UIHostingController(rootView: NowPlayingWaveformView(model: waveformModel))
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = .clear
+        hostingController.view.isUserInteractionEnabled = false
+
+        addChild(hostingController)
+        view.insertSubview(hostingController.view, belowSubview: episodeImage)
+        hostingController.didMove(toParent: self)
+
+        NSLayoutConstraint.activate([
+            hostingController.view.centerXAnchor.constraint(equalTo: episodeImage.centerXAnchor),
+            hostingController.view.centerYAnchor.constraint(equalTo: episodeImage.centerYAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: view.widthAnchor),
+            hostingController.view.heightAnchor.constraint(equalTo: episodeImage.heightAnchor),
+        ])
+
+        waveformHostingController = hostingController
+    }
+
+    private func removeWaveform() {
+        guard let hostingController = waveformHostingController else { return }
+        hostingController.willMove(toParent: nil)
+        hostingController.view.removeFromSuperview()
+        hostingController.removeFromParent()
+        waveformHostingController = nil
+    }
+
+    func updateWaveformAnimating() {
+        waveformModel.isAnimating = PlaybackManager.shared.playing()
+        waveformModel.color = PlayerColorHelper.playerHighlightColor01(for: .dark).color
     }
 
     // MARK: - Interface Actions
@@ -540,6 +594,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
 
         episodeImage.layer.opacity = 1
+        waveformHostingController?.view.layer.opacity = 1
 
         if isShowing {
             playerContainer?.showTranscript()
@@ -583,11 +638,50 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
                 playerContainer?.hideTranscript()
             } else {
                 episodeImage.layer.opacity = 0
+                waveformHostingController?.view.layer.opacity = 0
             }
 
             playPauseBtn.finishedTransition()
             skipBackBtn.finishedTransition()
             skipFwdBtn.finishedTransition()
+        })
+    }
+
+    private func toggleChat() {
+        let isShowing = displayChat
+
+        playerContainer?.chatContainerView.layer.opacity = isShowing ? 0 : 1
+
+        if isShowing {
+            playerContainer?.showChat()
+        }
+
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
+            guard let self else { return }
+
+            // Hide/show shelf and playback controls
+            shelfBg.isHidden = isShowing
+            shelfBg.layer.opacity = isShowing ? 0 : 1
+            bottomControlsStackView.isHidden = isShowing
+            bottomControlsStackView.layer.opacity = isShowing ? 0 : 1
+            episodeImage.layer.opacity = isShowing ? 0 : 1
+            waveformHostingController?.view.layer.opacity = isShowing ? 0 : 1
+
+            // Show/hide chat container view
+            playerContainer?.chatContainerView.isHidden = false
+            playerContainer?.chatContainerView.layer.opacity = isShowing ? 1 : 0
+
+            // Ask parent VC to hide/show tabs
+            playerContainer?.scrollView(isEnabled: !isShowing)
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+
+            playerContainer?.chatContainerView.isHidden = !isShowing
+            bottomControlsStackView.isHidden = isShowing
+
+            if !isShowing {
+                playerContainer?.hideChat()
+            }
         })
     }
 

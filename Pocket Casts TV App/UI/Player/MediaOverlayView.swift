@@ -31,6 +31,13 @@ struct MediaOverlayView: View {
                             .blurredCoverBackground(size: proxy.size.height / scale) {
                                 Image(uiImage: uiImage)
                             }
+                            .background {
+                                NowPlayingWaveformView(
+                                    color: .white,
+                                    isAnimating: model.isPlaying
+                                )
+                                .frame(width: proxy.size.width * 0.75)
+                            }
                             .animation(.smooth, value: isTransportBarVisible)
                         Spacer()
                     }

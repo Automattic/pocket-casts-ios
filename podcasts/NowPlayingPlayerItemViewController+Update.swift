@@ -60,6 +60,7 @@ extension NowPlayingPlayerItemViewController {
         skipFwdBtn.skipAmount = skipFwdAmount
 
         updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())
+        updateWaveformAnimating()
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
         reloadShelfActions()
         updateChaptersControls()
