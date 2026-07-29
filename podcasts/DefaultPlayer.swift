@@ -613,7 +613,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard Settings.showAudioWaveformInPlayer else { return }
         #endif
             let rms = AudioMeterManager.calculateRMS(from: UnsafeMutableAudioBufferListPointer(bufferList), frameCount: Int(frameCount))
-            AudioMeterManager.shared.updateWithRMSLevel(rms, adjustment: 2)
+            AudioMeterManager.shared.updateWithRMSLevel(rms, adjustment: 1)
         }
 
         // MARK: - Peak Limter

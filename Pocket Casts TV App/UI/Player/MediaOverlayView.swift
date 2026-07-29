@@ -6,7 +6,7 @@ struct MediaOverlayView: View {
     @Binding var isTransportBarVisible: Bool
 
     enum Layout {
-        static let podcastImageSize = CGFloat(640)
+        static let artworkSize = CGFloat(360)
     }
 
     var scale: CGFloat {
@@ -14,32 +14,39 @@ struct MediaOverlayView: View {
     }
 
     var body: some View {
-        GeometryReader() { proxy in
+        //GeometryReader() { proxy in
             ZStack {
                 if !model.isVideo || model.isFirstLoad || model.isFailed, let uiImage = model.displayImage {
                     VStack(alignment: .center) {
                         if isTransportBarVisible {
                             Spacer().frame(height: 100)
                         } else {
-                            Spacer()
+                            Spacer().frame(height: 256)
                         }
-                        HStack {
+                        HStack(spacing: 24) {
                             Spacer()
+                            if !model.isVideo, !model.isFirstLoad, model.isPlaying {
+                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 16, barWidth: 14, barSpacing: 20, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
+                                    .frame(width: Layout.artworkSize, height: Layout.artworkSize)
+                                    .transition(.opacity)
+                                    .animation(.smooth, value: isTransportBarVisible)
+                                    .border(.red)
+                            }
                             ZStack(alignment: .center) {
-                                if !model.isVideo, !model.isFirstLoad, model.isPlaying {
-                                    PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 100)
-                                        .frame(width: proxy.size.height / scale * 2, height: proxy.size.height / scale / 2)
-                                        .transition(.opacity)
-                                        .animation(.smooth, value: isTransportBarVisible)
-                                        //.border(.red)
-                                }
                                 Image(uiImage: uiImage)
                                     .resizable()
-                                    .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
+                                    .frame(width: Layout.artworkSize, height: Layout.artworkSize)
                                     .clipShape(RoundedRectangle(cornerRadius: 24))
-                                    .blurredCoverBackground(size: proxy.size.height / scale, opacity: 0.3) {
+                                    .blurredCoverBackground(size: Layout.artworkSize, opacity: 0.5) {
                                         Image(uiImage: uiImage)
                                     }
+                            }
+                            if !model.isVideo, !model.isFirstLoad, model.isPlaying {
+                                PlayerAudioWaveformView(audioMeter: AudioMeterManager.shared, barCount: 16, barWidth: 14, barSpacing: 20, primaryColor: Color.white.opacity(0.12), secondaryColor: Color.white.opacity(0.12))
+                                    .frame(width: Layout.artworkSize, height: Layout.artworkSize)
+                                    .transition(.opacity)
+                                    .animation(.smooth, value: isTransportBarVisible)
+                                    .border(.red)
                             }
                             Spacer()
                         }
@@ -73,7 +80,7 @@ struct MediaOverlayView: View {
             .animation(.easeInOut(duration: 0.2), value: model.isFailed)
             .animation(.smooth(duration: 0.2), value: model.isPlaying)
             .background(model.isVideo && !model.isFirstLoad && !model.isFailed ? Color.clear : Color.pcBackgroundBase)
-        }
+        //}
         .ignoresSafeArea()
     }
 
