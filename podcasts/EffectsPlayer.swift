@@ -82,6 +82,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             guard let strongSelf = self, let episode = strongSelf.episode else { return }
 
             strongSelf.playerLock.lock()
+            // A pause can tear down this player before its queued setup acquires the lock.
+            // Recheck playback intent so that stale work cannot start an orphaned engine.
+            // The completion reports a successful start, so cancelled setup must not invoke it.
+            guard strongSelf.shouldKeepPlaying.value else {
+                strongSelf.playerLock.unlock()
+                return
+            }
 
             strongSelf.engine = AVAudioEngine()
             strongSelf.player = AVAudioPlayerNode()
@@ -351,16 +358,21 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func routeDidChange(shouldPause: Bool) {
-        shouldKeepPlaying.value = shouldKeepPlaying.value && !shouldPause
-
-        // when this is called, the engine has detected an interruption like a route change. Because this happens on things like bluetooth connect, and not just disconnect, we deal with it here.
-        // The audio engine has shut down at this point, so we call pause to destroy all our current state and play to restore it all if we should still be playing
-        if shouldKeepPlaying.value, !PlaybackManager.shared.interruptionInProgress() {
+        if shouldPause {
+            shouldKeepPlaying.value = false
             PlaybackManager.shared.pause(userInitiated: false)
-            PlaybackManager.shared.play(userInitiated: false)
-        } else if !shouldKeepPlaying.value {
-            PlaybackManager.shared.pause(userInitiated: false)
+            return
         }
+
+        // A restart-only route change can arrive while PlaybackManager is still asynchronously
+        // activating a replacement player. Do not turn that pending start into a permanent pause.
+        guard shouldKeepPlaying.value, !PlaybackManager.shared.interruptionInProgress() else { return }
+
+        // Route and engine configuration notifications are delivered independently, so checking
+        // engine.isRunning here can race the engine shutdown. Rebuild while playback is intended.
+        FileLog.shared.addMessage("EffectsPlayer: route changed while playing, rebuilding audio engine")
+        PlaybackManager.shared.pause(userInitiated: false)
+        PlaybackManager.shared.play(userInitiated: false)
     }
 
     // MARK: - Helper methods

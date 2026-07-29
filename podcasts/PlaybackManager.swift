@@ -2309,16 +2309,54 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - AVAudioSession Notifications
 
+    enum RouteChangeDecision: Equatable {
+        case pause
+        case restart(updateNowPlaying: Bool)
+    }
+
+    static func routeChangeDecision(for reason: AVAudioSession.RouteChangeReason) -> RouteChangeDecision? {
+        switch reason {
+        case .oldDeviceUnavailable:
+            .pause
+        case .newDeviceAvailable, .override, .categoryChange:
+            .restart(updateNowPlaying: true)
+        case .routeConfigurationChange:
+            // The set of ports is unchanged by definition; only their configuration changed.
+            .restart(updateNowPlaying: false)
+        default:
+            nil
+        }
+    }
+
     @objc private func handleRouteChanged(_ notification: Notification) {
+        // Snapshot the route before the main-thread hop so rapid route churn does not change
+        // the outputs recorded for this notification.
+        let currentOutputDescriptions = AVAudioSession.sharedInstance().currentRoute.outputs.map(\.portName).joined(separator: ", ")
+        processRouteChange(notification, currentOutputDescriptions: currentOutputDescriptions)
+    }
+
+    private func processRouteChange(_ notification: Notification, currentOutputDescriptions: String) {
+        // AVAudioSession posts route changes on a secondary thread. Keep player replacement and
+        // route recovery serialized with user-initiated playback changes on the main thread.
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.processRouteChange(notification, currentOutputDescriptions: currentOutputDescriptions)
+            }
+            return
+        }
+
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
-        guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
+        guard let userInfo = notification.userInfo,
+              let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: changeReason.uintValue) else {
+            return
+        }
 
-        logRouteChange(userInfo: userInfo)
+        logRouteChange(userInfo: userInfo, currentOutputDescriptions: currentOutputDescriptions)
 
-        let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
             let wasPlaying = player?.shouldBePlaying() ?? false
             let autoPlay: Bool
@@ -2333,23 +2371,26 @@ class PlaybackManager: ServerPlaybackDelegate {
                 autoPlay = true
             }
             load(episode: currEpisode, autoPlay: autoPlay, overrideUpNext: false)
-        } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
-            player?.routeDidChange(shouldPause: true)
-        } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
-            player?.routeDidChange(shouldPause: false)
-            updateAllNowPlayingData()
+        } else if let decision = Self.routeChangeDecision(for: reason) {
+            switch decision {
+            case .pause:
+                player?.routeDidChange(shouldPause: true)
+            case .restart(let updateNowPlaying):
+                player?.routeDidChange(shouldPause: false)
+                if updateNowPlaying {
+                    updateAllNowPlayingData()
+                }
+            }
         }
     }
 
-    private func logRouteChange(userInfo: [AnyHashable: Any]) {
+    private func logRouteChange(userInfo: [AnyHashable: Any], currentOutputDescriptions: String) {
         guard let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
-              let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription,
-              let currentRoute = AVAudioSession.sharedInstance().currentRoute as AVAudioSessionRouteDescription? else {
+              let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else {
             return
         }
 
         let previousOutputDescriptions = previousRoute.outputs.map { $0.portName }.joined(separator: ", ")
-        let currentOutputDescriptions = currentRoute.outputs.map { $0.portName }.joined(separator: ", ")
         if let reason = AVAudioSession.RouteChangeReason(rawValue: UInt(changeReason.intValue)) {
             FileLog.shared.addMessage("PlaybackManager: Handle route change \(reason) | Previous Outputs: [\(previousOutputDescriptions)] | Current Outputs: [\(currentOutputDescriptions)]")
         }
