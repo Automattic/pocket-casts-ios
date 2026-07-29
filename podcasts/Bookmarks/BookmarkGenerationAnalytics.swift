@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
-/// The analytics for generating a bookmark's title and passage.
+/// The analytics for a bookmark's generated title, and for editing the passage it's written from.
 ///
 /// Kept in one place because two paths run the same pipeline — the edit sheet and the
 /// background enrichment for bookmarks that never open it — and the events are only
@@ -9,33 +9,6 @@ import PocketCastsDataModel
 ///
 /// Nothing here sends transcript text, passage text, or titles: only their size.
 enum BookmarkGenerationAnalytics {
-
-    // MARK: - Passage
-
-    static func passageCaptured(_ capture: BookmarkPassageCapture,
-                                bookmark: Bookmark,
-                                trigger: BookmarkEnrichmentTrigger,
-                                source: BookmarkAnalyticsSource,
-                                duration: TimeInterval) {
-        track(.bookmarkPassageCaptured, bookmark: bookmark, source: source, properties: [
-            "trigger": trigger,
-            "duration_ms": milliseconds(duration),
-            "word_count": wordCount(of: capture.snippet.text),
-            "is_generated_transcript": capture.isGeneratedTranscript
-        ])
-    }
-
-    static func passageCaptureFailed(_ reason: BookmarkPassageFailureReason,
-                                     bookmark: Bookmark,
-                                     trigger: BookmarkEnrichmentTrigger,
-                                     source: BookmarkAnalyticsSource,
-                                     duration: TimeInterval) {
-        track(.bookmarkPassageCaptureFailed, bookmark: bookmark, source: source, properties: [
-            "reason": reason,
-            "trigger": trigger,
-            "duration_ms": milliseconds(duration)
-        ])
-    }
 
     // MARK: - Title
 

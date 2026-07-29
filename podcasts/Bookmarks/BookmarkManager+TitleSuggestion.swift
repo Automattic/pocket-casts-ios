@@ -20,9 +20,7 @@ extension BookmarkManager {
     /// The transcript passage surrounding the bookmark, which the title is generated from.
     ///
     /// Returns nil when suggestions are disabled or the episode has no usable transcript.
-    func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode,
-                           trigger: BookmarkEnrichmentTrigger,
-                           source: BookmarkAnalyticsSource) async -> BookmarkTranscriptSnippet? {
+    func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
         guard Self.isTitleSuggestionEnabled else {
             return nil
         }
@@ -30,24 +28,14 @@ extension BookmarkManager {
         // Let the on-device model load while the transcript is fetched.
         prewarmTitleGeneration()
 
-        let started = Date()
         let result = await BookmarkTranscriptSnippetExtractor().capture(forTime: bookmark.time, referenceTime: bookmark.referenceTime, episode: episode)
-        let duration = Date().timeIntervalSince(started)
 
         // The sheet can be dismissed, or saved, while the transcript is still loading
         guard !Task.isCancelled else {
-            BookmarkGenerationAnalytics.passageCaptureFailed(.cancelled, bookmark: bookmark, trigger: trigger, source: source, duration: duration)
             return nil
         }
 
-        switch result {
-        case .success(let capture):
-            BookmarkGenerationAnalytics.passageCaptured(capture, bookmark: bookmark, trigger: trigger, source: source, duration: duration)
-            return capture.snippet
-        case .failure(let reason):
-            BookmarkGenerationAnalytics.passageCaptureFailed(reason, bookmark: bookmark, trigger: trigger, source: source, duration: duration)
-            return nil
-        }
+        return try? result.get()
     }
 
     func capturedSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
@@ -64,7 +52,7 @@ extension BookmarkManager {
     /// never open the edit sheet, so this is the only thing that titles them.
     func enrich(_ bookmark: Bookmark, source: BookmarkAnalyticsSource = .unknown) async {
         guard Self.isTitleSuggestionEnabled, let episode = episode(for: bookmark),
-              let snippet = await transcriptSnippet(for: bookmark, episode: episode, trigger: .background, source: source) else { return }
+              let snippet = await transcriptSnippet(for: bookmark, episode: episode) else { return }
 
         let attempt = await suggestTitle(from: snippet.text, for: bookmark, episode: episode, trigger: .background, source: source)
         let title = attempt.map { String($0.title.trim().prefix(Constants.Values.bookmarkMaxTitleLength)) }

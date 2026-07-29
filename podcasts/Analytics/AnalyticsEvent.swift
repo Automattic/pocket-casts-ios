@@ -914,8 +914,6 @@ enum AnalyticsEvent: String {
     case bookmarkDetailsShown
 
     // MARK: - Smart Bookmarks
-    case bookmarkPassageCaptured
-    case bookmarkPassageCaptureFailed
     case bookmarkTitleGenerated
     case bookmarkTitleGenerationFailed
     case bookmarkTitleSuggestionTapped

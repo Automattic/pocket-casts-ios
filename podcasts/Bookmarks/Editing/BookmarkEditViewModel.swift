@@ -134,7 +134,7 @@ class BookmarkEditViewModel: ObservableObject {
         titleSuggestion = .generating
         isCapturingTranscript = true
         suggestionTask = Task { [weak self, bookmarkManager, bookmark, maxTitleLength, analyticsSource] in
-            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode, trigger: .editSheet, source: analyticsSource)
+            let snippet = await bookmarkManager.transcriptSnippet(for: bookmark, episode: episode)
             guard !Task.isCancelled else { return }
 
             self?.snippet = snippet

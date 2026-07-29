@@ -18,13 +18,17 @@ struct BookmarkTranscriptSnippet {
     }
 }
 
-/// A captured passage together with how it was found, which is what the analytics
-/// for the capture describe.
-struct BookmarkPassageCapture {
-    let snippet: BookmarkTranscriptSnippet
-
-    /// Whether the transcript was machine generated rather than supplied by the publisher
-    let isGeneratedTranscript: Bool
+/// Why no transcript passage could be captured for a bookmark.
+enum BookmarkPassageFailureReason: Error {
+    /// The episode has no transcript, or fetching it failed
+    case transcriptUnavailable
+    /// The transcript isn't machine generated, or its fingerprint didn't confidently
+    /// match, so the bookmark's time can't be resolved onto the transcript's timeline
+    case notFingerprinted
+    /// The transcript has nothing covering the bookmarked moment
+    case noTranscriptAtPosition
+    /// Too few words around the moment to write a title from
+    case passageTooShort
 }
 
 /// Extracts the transcript text surrounding a bookmark's position, used as the
@@ -51,7 +55,7 @@ struct BookmarkTranscriptSnippetExtractor {
     /// - Parameter referenceTime: The bookmark's already-resolved reference time, if any.
     ///   It's preferred over resolving again, both to save the work and because the
     ///   original capture had the warmest mapping.
-    func capture(forTime time: TimeInterval, referenceTime: TimeInterval?, episode: BaseEpisode) async -> Result<BookmarkPassageCapture, BookmarkPassageFailureReason> {
+    func capture(forTime time: TimeInterval, referenceTime: TimeInterval?, episode: BaseEpisode) async -> Result<BookmarkTranscriptSnippet, BookmarkPassageFailureReason> {
         let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.parentIdentifier())
         guard let model = try? await transcriptManager.loadTranscript() else {
             return .failure(.transcriptUnavailable)
@@ -61,8 +65,7 @@ struct BookmarkTranscriptSnippetExtractor {
         // without a confident match there's no telling how far dynamic ads have pushed the
         // playback time from the timeline the transcript is cued against. Either way, capture
         // nothing rather than a passage from somewhere else in the episode.
-        let isGenerated = transcriptManager.isDisplayingGeneratedTranscript
-        guard isGenerated, FeatureFlag.syncedTranscripts.enabled else {
+        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled else {
             return .failure(.notFingerprinted)
         }
 
@@ -77,12 +80,8 @@ struct BookmarkTranscriptSnippetExtractor {
         return Self.extractSnippet(from: model, at: resolved).map {
             var snippet = $0
             snippet.referenceTime = resolved
-            return BookmarkPassageCapture(snippet: snippet, isGeneratedTranscript: isGenerated)
+            return snippet
         }
-    }
-
-    func snippet(forTime time: TimeInterval, referenceTime: TimeInterval?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
-        try? await capture(forTime: time, referenceTime: referenceTime, episode: episode).get().snippet
     }
 
     func snippet(forPassage passage: String, at location: Int?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {

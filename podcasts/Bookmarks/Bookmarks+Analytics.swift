@@ -39,24 +39,6 @@ enum BookmarkTitleGenerator: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
-/// Why no transcript passage could be captured for a bookmark.
-enum BookmarkPassageFailureReason: String, Error, AnalyticsDescribable {
-    case episodeNotFound = "episode_not_found"
-    /// The episode has no transcript, or fetching it failed
-    case transcriptUnavailable = "transcript_unavailable"
-    /// The transcript isn't machine generated, or its fingerprint didn't confidently
-    /// match, so the bookmark's time can't be resolved onto the transcript's timeline
-    case notFingerprinted = "not_fingerprinted"
-    /// The transcript has nothing covering the bookmarked moment
-    case noTranscriptAtPosition = "no_transcript_at_position"
-    /// Too few words around the moment to write a title from
-    case passageTooShort = "passage_too_short"
-    /// The sheet was dismissed, or saved, before the passage arrived
-    case cancelled
-
-    var analyticsDescription: String { rawValue }
-}
-
 /// Why a title couldn't be generated from a passage.
 enum BookmarkTitleFailureReason: String, AnalyticsDescribable {
     /// Device ineligible, Apple Intelligence off, or the model isn't downloaded
