@@ -4,7 +4,14 @@ struct NowPlayingWaveformView: View {
     let color: Color
     let isAnimating: Bool
     let artworkSize: CGFloat
+    let playbackManager: PlaybackManager
 
+    init(color: Color, isAnimating: Bool, artworkSize: CGFloat, playbackManager: PlaybackManager = PlaybackManager.shared) {
+        self.color = color
+        self.isAnimating = isAnimating
+        self.artworkSize = artworkSize
+        self.playbackManager = playbackManager
+    }
     /// Tracks the time-based envelope fade so Canvas can lerp each frame.
     @State private var fromAmplitude: CGFloat = 0
     @State private var toAmplitude: CGFloat = 0
@@ -36,7 +43,7 @@ struct NowPlayingWaveformView: View {
 
                 // Poll real audio level from the playback engine (lock-free read).
                 // Returns 0 for HLS streams where no audio tap is available.
-                let rawAudioLevel = CGFloat(PlaybackManager.shared.currentAudioLevel)
+                let rawAudioLevel = CGFloat(playbackManager.currentAudioLevel)
 
                 let centerX = size.width / 2
                 let centerY = size.height / 2
@@ -92,7 +99,7 @@ struct NowPlayingWaveformView: View {
             // so episode changes (downloaded → HLS) re-detect correctly.
             guard isAnimating else { return }
             while !Task.isCancelled {
-                if PlaybackManager.shared.currentAudioLevel > 0.01 {
+                if playbackManager.currentAudioLevel > 0.01 {
                     useAudioReactive = true
                     return
                 }
