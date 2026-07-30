@@ -9,10 +9,6 @@ struct MediaOverlayView: View {
         static let artworkSize = CGFloat(360)
     }
 
-    var scale: CGFloat {
-        return isTransportBarVisible ? 3.0 : 2.0
-    }
-
     var body: some View {
         GeometryReader() { proxy in
             ZStack {
