@@ -29,6 +29,7 @@
 - Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
 - Fix an issue where the now playing episode was not being auto-downloaded when setting was active for UpNext [#4792](https://github.com/Automattic/pocket-casts-ios/pull/4792)
 - Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
+- [tvOS] Improve thumbnail algorithm for videos [#4861](https://github.com/Automattic/pocket-casts-ios/pull/4861)
 
 8.16
 -----
