@@ -2670,10 +2670,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Current RMS audio level (0...1) from the audio processing tap.
     /// Returns 0 when no tap is active (e.g. HLS streams).
     var currentAudioLevel: Float {
-        guard let defaultPlayer = player as? DefaultPlayer else {
+        guard let currentPlayer = player else {
             return 0
         }
-        return defaultPlayer.currentAudioLevel
+        return currentPlayer.currentAudioLevel
     }
     #endif
 }

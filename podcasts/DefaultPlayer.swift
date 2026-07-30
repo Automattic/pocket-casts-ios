@@ -65,6 +65,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var voiceBoostNState: OpaquePointer?
     private var cachedSampleRate: Double = 0
 
+#endif
+
     /// RMS audio level (0...1) computed from the audio processing tap each buffer.
     /// Written from the real-time audio thread, read from the main thread.
     ///
@@ -75,7 +77,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     /// A lock or `os_unfair_lock` is avoided here because this runs on the
     /// real-time audio thread where blocking is not acceptable.
     private(set) var currentAudioLevel: Float = 0
-#endif
 
     init() {
 #if !os(watchOS)
