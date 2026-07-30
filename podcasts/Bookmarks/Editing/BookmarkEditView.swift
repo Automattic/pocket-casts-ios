@@ -69,7 +69,10 @@ struct BookmarkEditView: View {
     @ViewBuilder
     private var transcriptEditor: some View {
         if let transcript = viewModel.snippet?.transcript {
-            BookmarkTranscriptEditView(transcript: transcript, selection: $viewModel.transcriptRange, theme: theme)
+            BookmarkTranscriptEditView(transcript: transcript,
+                                       referenceTime: viewModel.referenceTime,
+                                       selection: $viewModel.transcriptRange,
+                                       theme: theme)
         }
     }
 

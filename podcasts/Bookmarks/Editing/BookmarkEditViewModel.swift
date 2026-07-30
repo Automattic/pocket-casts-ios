@@ -54,6 +54,13 @@ class BookmarkEditViewModel: ObservableObject {
         snippet?.text ?? bookmark.passage
     }
 
+    /// The bookmark's position on the transcript's reference timeline. The stored value
+    /// covers bookmarks opened for editing; a snippet freshly captured for a new bookmark
+    /// carries the resolved time before it's saved.
+    var referenceTime: TimeInterval? {
+        bookmark.referenceTime ?? snippet?.referenceTime
+    }
+
     /// The captured passage, which the transcript editor changes as the user picks a
     /// different one. It deliberately doesn't regenerate the title, which belongs to the
     /// moment that was bookmarked.
