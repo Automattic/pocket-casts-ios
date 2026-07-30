@@ -38,7 +38,6 @@ struct DiscoverEpisodesRow: View {
             await model.load()
             await MainActor.run {
                 model.trackImpression()
-                resetFocus(in: focusNS)
             }
         }
     }
