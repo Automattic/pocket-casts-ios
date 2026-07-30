@@ -5,7 +5,6 @@ import Foundation
 protocol BookmarkEditing: AnyObject {
     var router: BookmarkEditRouter? { get set }
     var analyticsSource: BookmarkAnalyticsSource { get set }
-    var originalTitle: String { get }
 
     func viewDidAppear()
     func cancel()
