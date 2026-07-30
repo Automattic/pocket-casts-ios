@@ -79,10 +79,20 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         return max(baseHeight, metric.scaledValue(for: baseHeight))
     }
 
+    /// Tighter top padding when this list is shown on a selected-category page (directly
+    /// under the category pills), so the title doesn't sit far below the pills (PCIOS-193).
+    /// Matches the 16pt bottom padding the pills have on the root Discover screen
+    /// (`CategoriesPillsView` `buttonInsets.bottom`), which drops to 0 once a category is
+    /// selected — so this reproduces the same pills-to-content gap as the featured carousel.
+    /// The larger xib default is kept for large lists elsewhere in the Discover feed.
+    private static let categoryPageTitleTopPadding: CGFloat = 16
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let padding {
+        if category != nil {
+            titleTopConstraint.constant = Self.categoryPageTitleTopPadding
+        } else if let padding {
             titleTopConstraint.constant = padding / 2
         }
 
