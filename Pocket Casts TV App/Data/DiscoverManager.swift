@@ -138,20 +138,15 @@ actor DiscoverManager {
         return layout
     }
 
-    private func getHomeSignedInLayout() async throws -> DiscoverLayout {
-        let (result, _) = await discoverServerHandler.homePageSignedIn()
-
-        guard let layout = result else {
-            throw DiscoverError.failedToLoad
+    private func getHomeLayout(signedIn: Bool) async throws -> DiscoverLayout {
+        let result: (DiscoverLayout?, Bool?)
+        if signedIn {
+            result = await discoverServerHandler.homePageSignedIn()
+        } else {
+            result = await discoverServerHandler.homePageSignedOut()
         }
 
-        return layout
-    }
-
-    private func getHomeSignedOutLayout() async throws -> DiscoverLayout {
-        let (result, _) = await discoverServerHandler.homePageSignedOut()
-
-        guard let layout = result else {
+        guard let layout = result.0 else {
             throw DiscoverError.failedToLoad
         }
 
@@ -159,27 +154,20 @@ actor DiscoverManager {
     }
 
     func loadHomeItems(signedIn: Bool) async throws -> [DiscoverItem] {
-        let discoverLayout: DiscoverLayout
-        if signedIn {
-          discoverLayout = try await getHomeSignedInLayout()
-        } else {
-            discoverLayout = try await getHomeSignedOutLayout()
-        }
-        guard let items = discoverLayout.layout else {
-            return []
-        }
-        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+        let discoverLayout = try await getHomeLayout(signedIn: signedIn)
 
-        let filteredItems = items.filter { item in
-            item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
-        }
-
-        return filteredItems
+        return filterLayoutItemsToRegion(layout: discoverLayout)
     }
 
     func loadDiscoverItems() async throws -> [DiscoverItem] {
         let discoverLayout = try await getLayout()
-        guard let items = discoverLayout.layout else {
+
+        return filterLayoutItemsToRegion(layout: discoverLayout)
+    }
+
+    private func filterLayoutItemsToRegion(layout: DiscoverLayout?) -> [DiscoverItem] {
+        guard let discoverLayout = layout,
+            let items = discoverLayout.layout else {
             return []
         }
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
