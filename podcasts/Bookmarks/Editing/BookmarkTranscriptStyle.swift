@@ -41,4 +41,32 @@ enum BookmarkTranscriptStyle {
     static var baselineOffset: CGFloat {
         lineSpacing / 2
     }
+
+    /// The transcript's text restyled for reading in a text view: the serif body font on
+    /// the style's line height, with the speaker names set smaller
+    static func styledTranscript(_ attributedText: NSAttributedString, textColor: UIColor) -> NSAttributedString {
+        let text = NSMutableAttributedString(attributedString: attributedText)
+        let fullRange = NSRange(location: 0, length: text.length)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.minimumLineHeight = lineHeight
+        paragraphStyle.maximumLineHeight = lineHeight
+        paragraphStyle.paragraphSpacing = 10
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.alignment = .natural
+
+        text.addAttributes([.paragraphStyle: paragraphStyle,
+                            .font: font,
+                            .baselineOffset: baselineOffset,
+                            .foregroundColor: textColor],
+                           range: fullRange)
+
+        text.enumerateAttribute(.transcriptSpeaker, in: fullRange, options: [.longestEffectiveRangeNotRequired]) { value, range, _ in
+            guard value != nil else { return }
+
+            text.addAttribute(.font, value: speakerFont, range: range)
+        }
+
+        return text
+    }
 }
