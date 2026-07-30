@@ -135,6 +135,10 @@ struct BookmarkTranscriptSnippetExtractor {
     /// - Parameter location: The passage's captured start within `attributedText`, or `nil`
     ///   for bookmarks made before the location was recorded.
     static func passageRange(for passage: String, at location: Int?, in attributedText: NSAttributedString) -> NSRange? {
+        // The transcript side of the match collapses whitespace, so the passage collapses
+        // the same way — lining up passages stored flattened by earlier versions and
+        // passages stored with their line breaks alike
+        let passage = passage.split(whereSeparator: \.isWhitespace).joined(separator: " ")
         guard !passage.isEmpty else { return nil }
 
         // Location first: is the passage still exactly where it was captured?
@@ -224,19 +228,47 @@ struct BookmarkTranscriptSnippetExtractor {
     }
 
     /// The plain text within `range`, skipping the speaker-name runs interleaved between
-    /// cues and collapsing the line breaks between them
+    /// cues while keeping the transcript's line breaks, so a stored passage reads with
+    /// the same paragraphs the transcript shows
     static func text(in range: NSRange, of attributedText: NSAttributedString) -> String {
         let clamped = NSIntersectionRange(range, NSRange(location: 0, length: attributedText.length))
         guard clamped.length > 0 else {
             return ""
         }
 
-        var parts = [String]()
         let string = attributedText.string as NSString
+        var text = ""
+        // A whitespace run collapses to a single newline when it contains one, a single
+        // space otherwise; dropped entirely at either edge
+        var pendingSeparator: String?
+
         attributedText.enumerateAttribute(.transcriptSpeaker, in: clamped, options: []) { value, subrange, _ in
-            guard value == nil else { return }
-            parts.append(string.substring(with: subrange))
+            guard value == nil else {
+                // Speaker names sit on their own line, so skipping one leaves a line break
+                if !text.isEmpty {
+                    pendingSeparator = "\n"
+                }
+                return
+            }
+
+            string.enumerateSubstrings(in: subrange, options: .byComposedCharacterSequences) { substring, _, _, _ in
+                guard let substring else { return }
+
+                if substring.allSatisfy(\.isWhitespace) {
+                    if !text.isEmpty {
+                        pendingSeparator = substring.contains(where: \.isNewline) ? "\n" : (pendingSeparator ?? " ")
+                    }
+                    return
+                }
+
+                if let separator = pendingSeparator {
+                    text.append(separator)
+                    pendingSeparator = nil
+                }
+                text.append(substring)
+            }
         }
-        return parts.joined(separator: " ").split(whereSeparator: \.isWhitespace).joined(separator: " ")
+
+        return text
     }
 }
