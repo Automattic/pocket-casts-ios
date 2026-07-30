@@ -49,13 +49,12 @@ struct DiscoverEpisodesRow: View {
                 ForEach(model.episodes, id: \.uuid) { episode in
                     DiscoverEpisodeCell(episode: episode, listId: model.listId, source: model.source)
                         .frame(width: Layout.cellWidth)
+                        .setFocus(section: model.focusStoreID)
                 }
             })
             .focusSection()
             .focusScope(focusNS)
         }
-        // Otherwise the focused-card drop shadow gets clipped at the
-        // scroll-view boundary instead of pooling below the pill.
         .scrollClipDisabled()
     }
 }
