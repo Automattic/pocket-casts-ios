@@ -1,4 +1,5 @@
 import AVFoundation
+import Accelerate
 import Foundation
 import Fingerprint
 import PocketCastsDataModel
@@ -89,12 +90,18 @@ final class FingerprintTimingManager: NSObject {
         label: "au.com.pocketcasts.FingerprintTimingManager.generation",
         qos: .utility
     )
-    /// Decode queue reserved for the one-shot chapter resolve. Kept separate from
-    /// `generationQueue` — which the continuous transcript stream occupies as one
-    /// long-running block that only yields via `Thread.sleep` — so a chapter tap's
+    /// Decode queue reserved for the one-shot resolves, chapter and bookmark alike.
+    /// Kept separate from `generationQueue` — which the continuous transcript stream
+    /// occupies as one long-running block that only yields via `Thread.sleep` — so a
     /// bounded decode can't be starved behind it (which would hang the resolve past
     /// its timeout, since a queued-but-never-started block can't observe
     /// cancellation). Higher QoS because a spinner is blocked on it.
+    ///
+    /// The two one-shots share it because both are bounded, which is the distinction
+    /// that matters here. A bookmark resolve's long budget is spent waiting for its
+    /// buffer, not on this queue, so its decode is no longer than a chapter's; and
+    /// running them concurrently would only make them contend for CPU and for `queue`
+    /// during matching.
     private let onDemandQueue = DispatchQueue(
         label: "au.com.pocketcasts.FingerprintTimingManager.onDemand",
         qos: .userInitiated
@@ -385,6 +392,7 @@ final class FingerprintTimingManager: NSObject {
             let result = await self.performResolve(
                 forReferenceTime: referenceTime,
                 episode: episode,
+                kind: .chapter,
                 flag: flag
             )
 
@@ -393,6 +401,43 @@ final class FingerprintTimingManager: NSObject {
                 guard self.onDemandFlag === flag else { return }
                 completion(result)
             }
+        }
+    }
+
+    /// Resolve a bookmark's reference-timeline position to where that content
+    /// actually sits in this listener's audio, so playback can start there.
+    ///
+    /// The same one-shot resolve as `resolvePlaybackTime`, differing only in what a
+    /// bookmark's audio is likely to be doing — see `ResolveKind.bookmark`. It keeps
+    /// no state of its own, so it neither supersedes nor is superseded by a chapter
+    /// resolve; the caller owns the lifetime, and cancelling its task stops the
+    /// decode via the cancellation handler below.
+    func resolveBookmarkPlaybackTime(
+        forReferenceTime referenceTime: Double,
+        episode: BaseEpisode
+    ) async -> ChapterSeekResult {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        let flag = CancellationFlag()
+
+        // Hard timeout, so a decode that drags or a buffer that never arrives can't
+        // leave the correction pending forever. Both loops observe the flag.
+        let timeoutTask = Task {
+            try? await Task.sleep(
+                nanoseconds: UInt64(FingerprintConstants.bookmarkSeekTimeoutSeconds * 1_000_000_000)
+            )
+            flag.cancel()
+        }
+        defer { timeoutTask.cancel() }
+
+        return await withTaskCancellationHandler {
+            await performResolve(
+                forReferenceTime: referenceTime,
+                episode: episode,
+                kind: .bookmark,
+                flag: flag
+            )
+        } onCancel: {
+            flag.cancel()
         }
     }
 
@@ -410,9 +455,21 @@ final class FingerprintTimingManager: NSObject {
         onDemandTask = nil
     }
 
+    /// What the two one-shot resolves want differently, which all follows from what
+    /// their audio is likely to be doing: a chapter's episode is playing, so its
+    /// audio is already local, while a bookmark's is often still downloading.
+    private enum ResolveKind {
+        case chapter
+        case bookmark
+
+        /// Only a bookmark waits for the streaming buffer to reach the search window.
+        var waitsForBufferedRegion: Bool { self == .bookmark }
+    }
+
     private func performResolve(
         forReferenceTime referenceTime: Double,
         episode: BaseEpisode,
+        kind: ResolveKind,
         flag: CancellationFlag
     ) async -> ChapterSeekResult {
         let startDate = Date()
@@ -469,6 +526,18 @@ final class FingerprintTimingManager: NSObject {
         switch source {
         case .downloaded(let url): audioURL = url; isStreaming = false
         case .streaming(let url): audioURL = url; isStreaming = true
+        }
+
+        // A bookmark's episode is often still arriving: playing it starts a
+        // stream-and-cache download that fills the buffer sequentially from byte 0,
+        // so the window we want only becomes readable once that prefix reaches it.
+        if kind.waitsForBufferedRegion, isStreaming {
+            await waitForBufferedRegion(
+                audioFileURL: audioURL,
+                coveringSeconds: searchEnd,
+                deadline: startDate.addingTimeInterval(FingerprintConstants.bookmarkSeekBufferWaitSeconds),
+                flag: flag
+            )
         }
 
         if flag.isCancelled { return .unresolved(reason: "timeout", isStreaming: isStreaming) }
@@ -534,6 +603,62 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Wait for a still-downloading streaming buffer to cover `coveringSeconds` of
+    /// audio, polling as it grows.
+    ///
+    /// `MediaExporterResourceLoaderDelegate` caches with a single un-ranged request
+    /// appended to disk, so the buffer is always a prefix of the episode and
+    /// `AVAudioFile.length` tracks exactly how much of it is local — the same
+    /// property the grow-loop anchors on.
+    ///
+    /// Returns once covered, or early when the file stops growing, the deadline
+    /// passes, or the resolve is cancelled. There's deliberately no failure signal:
+    /// the bounded fingerprint clamps to whatever is readable, so matching a short
+    /// prefix of the window still beats returning nothing.
+    private func waitForBufferedRegion(
+        audioFileURL: URL,
+        coveringSeconds: Double,
+        deadline: Date,
+        flag: CancellationFlag
+    ) async {
+        let pollCadence = FingerprintConstants.bufferGrowPollCadenceSeconds
+        var stallSeconds: Double = 0
+        var lastLength: AVAudioFramePosition = -1
+
+        while !flag.isCancelled, Date() < deadline {
+            // The buffer may not exist yet, and a partial frame at the tail can make
+            // `AVAudioFile` refuse to open momentarily — both read as "no growth".
+            if let audioFile = try? AVAudioFile(
+                forReading: audioFileURL,
+                commonFormat: .pcmFormatFloat32,
+                interleaved: false
+            ) {
+                let bufferedSeconds = Double(audioFile.length) / audioFile.processingFormat.sampleRate
+                if bufferedSeconds >= coveringSeconds {
+                    FileLog.shared.addMessage(
+                        "FingerprintTimingManager: streaming buffer covers the search window "
+                            + "(\(String(format: "%.1f", bufferedSeconds))s buffered)"
+                    )
+                    return
+                }
+                if audioFile.length > lastLength {
+                    lastLength = audioFile.length
+                    stallSeconds = 0
+                }
+            }
+
+            stallSeconds += pollCadence
+            if stallSeconds >= FingerprintConstants.bookmarkSeekBufferStallSeconds {
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: streaming buffer stopped growing short of the "
+                        + "search window — fingerprinting the \(max(0, lastLength)) frames that arrived"
+                )
+                return
+            }
+            try? await Task.sleep(nanoseconds: UInt64(pollCadence * 1_000_000_000))
+        }
+    }
+
     // MARK: - On-demand bookmark position resolve
 
     /// Resolves a playback-timeline position (e.g. a bookmark's time) to the
@@ -549,6 +674,7 @@ final class FingerprintTimingManager: NSObject {
     func resolveReferenceTime(forPlaybackTime playbackTime: Double, episode: BaseEpisode) async -> Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
         let episodeUuid = episode.uuid
+        let startDate = Date()
 
         // Warm fast path: interpolate off the continuous transcript mapping when
         // it already confidently covers this position.
@@ -564,7 +690,14 @@ final class FingerprintTimingManager: NSObject {
                 valuePath: \.referenceTime
             )
         }
-        if let warm { return warm }
+        if let warm {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve matched off the live mapping for \(episodeUuid) — "
+                    + "local file time \(String(format: "%.1f", playbackTime))s → "
+                    + "reference time \(String(format: "%.1f", warm))s"
+            )
+            return warm
+        }
 
         // Hard timeout, observed once per decoded chunk
         let flag = CancellationFlag()
@@ -593,12 +726,18 @@ final class FingerprintTimingManager: NSObject {
         guard !flag.isCancelled,
               let referenceData,
               let reference = ReferenceFingerprint.decode(from: referenceData) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve gave up for \(episodeUuid) — no usable reference"
+            )
             return nil
         }
 
         let duration = episode.duration
         guard duration > 0,
               let (matcher, _) = buildMatcher(from: reference, episodeUuid: episodeUuid, audioDuration: duration) else {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: bookmark resolve gave up for \(episodeUuid) — no usable checkpoints"
+            )
             return nil
         }
 
@@ -644,11 +783,23 @@ final class FingerprintTimingManager: NSObject {
               ) else {
             FileLog.shared.addMessage(
                 "FingerprintTimingManager: bookmark resolve found no confident match "
-                    + "at playback \(String(format: "%.1f", playbackTime))s for \(episodeUuid)"
+                    + "at local file time \(String(format: "%.1f", playbackTime))s for \(episodeUuid) "
+                    + "(\(scratch?.playbackToReference.count ?? 0) anchors, took \(Self.elapsedMs(since: startDate))ms)"
             )
             return nil
         }
+
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: bookmark resolve matched for \(episodeUuid) — "
+                + "local file time \(String(format: "%.1f", playbackTime))s → "
+                + "reference time \(String(format: "%.1f", referenceTime))s "
+                + "(\(scratch.playbackToReference.count) anchors, took \(Self.elapsedMs(since: startDate))ms)"
+        )
         return referenceTime
+    }
+
+    private static func elapsedMs(since date: Date) -> Int {
+        Int(Date().timeIntervalSince(date) * 1000)
     }
 
     #if DEBUG
@@ -1059,6 +1210,7 @@ final class FingerprintTimingManager: NSObject {
             throw StreamError.bufferAllocationFailed
         }
 
+        var interleaved: [Float] = []
         while true {
             if ctx.isCancelled() { throw StreamError.cancelled }
             let nextChunkStartSeconds = Double(audioFile.framePosition) / format.sampleRate
@@ -1066,7 +1218,7 @@ final class FingerprintTimingManager: NSObject {
             try audioFile.read(into: buffer, frameCount: chunkFrames)
             if buffer.frameLength == 0 { break }
 
-            let interleaved = Self.interleavedSamples(from: buffer)
+            Self.interleave(buffer, into: &interleaved)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
                 dispatchProcessMatches(windows: windows, startOffset: startSeconds, context: ctx)
@@ -1125,6 +1277,7 @@ final class FingerprintTimingManager: NSObject {
             throw StreamError.bufferAllocationFailed
         }
 
+        var interleaved: [Float] = []
         while audioFile.framePosition < endFrame {
             if flag.isCancelled { throw StreamError.cancelled }
             let framesRemaining = AVAudioFrameCount(endFrame - audioFile.framePosition)
@@ -1132,7 +1285,7 @@ final class FingerprintTimingManager: NSObject {
             try audioFile.read(into: buffer, frameCount: framesToRead)
             if buffer.frameLength == 0 { break }
 
-            let interleaved = Self.interleavedSamples(from: buffer)
+            Self.interleave(buffer, into: &interleaved)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
                 queue.sync {
@@ -1171,6 +1324,7 @@ final class FingerprintTimingManager: NSObject {
         var announcedFileAppeared = false
         var totalFramesRead: AVAudioFramePosition = 0
         var windowsEmitted = 0
+        var interleaved: [Float] = []
 
         FileLog.shared.addMessage(
             "FingerprintTimingManager: streaming grow-loop starting at \(String(format: "%.1f", startSeconds))s "
@@ -1287,7 +1441,7 @@ final class FingerprintTimingManager: NSObject {
             lastProcessedFrame = audioFile.framePosition
             totalFramesRead += framesJustRead
 
-            let interleaved = Self.interleavedSamples(from: buf)
+            Self.interleave(buf, into: &interleaved)
             let windows = str.pushSamplesF32(samples: interleaved, channels: UInt16(fmt.channelCount))
             if !windows.isEmpty {
                 windowsEmitted += windows.count
@@ -1386,20 +1540,36 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    private static func interleavedSamples(from buffer: AVAudioPCMBuffer) -> [Float] {
+    /// Interleaves the buffer's planar Float32 channels into `scratch`, reusing
+    /// its storage across chunks. `scratch` is resized only when the sample
+    /// count changes (in practice once, plus once more for a short final
+    /// chunk), so a decode loop allocates O(1) arrays instead of one per chunk.
+    private static func interleave(_ buffer: AVAudioPCMBuffer, into scratch: inout [Float]) {
         let frameCount = Int(buffer.frameLength)
         let channelCount = Int(buffer.format.channelCount)
         guard frameCount > 0, channelCount > 0,
-              let channelData = buffer.floatChannelData else { return [] }
+              let channelData = buffer.floatChannelData else {
+            scratch.removeAll(keepingCapacity: true)
+            return
+        }
 
-        var result = [Float](repeating: 0, count: frameCount * channelCount)
-        for ch in 0..<channelCount {
-            let src = channelData[ch]
-            for frame in 0..<frameCount {
-                result[frame * channelCount + ch] = src[frame]
+        let sampleCount = frameCount * channelCount
+        if scratch.count != sampleCount {
+            scratch = [Float](repeating: 0, count: sampleCount)
+        }
+        scratch.withUnsafeMutableBufferPointer { dst in
+            guard let base = dst.baseAddress else { return }
+            if channelCount == 1 {
+                base.update(from: channelData[0], count: frameCount)
+                return
+            }
+            // Strided vector copy (add-zero) — one vDSP pass per channel
+            // instead of a scalar store per sample.
+            var zero: Float = 0
+            for ch in 0..<channelCount {
+                vDSP_vsadd(channelData[ch], 1, &zero, base + ch, vDSP_Stride(channelCount), vDSP_Length(frameCount))
             }
         }
-        return result
     }
 
     private enum StreamError: Error {

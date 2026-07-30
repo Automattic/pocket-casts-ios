@@ -19,7 +19,7 @@ extension BookmarkManager {
         // Let the on-device model load while the transcript is fetched.
         prewarmTitleGeneration()
 
-        return await BookmarkTranscriptSnippetExtractor().snippet(forTime: bookmark.time, episode: episode)
+        return await BookmarkTranscriptSnippetExtractor().snippet(forTime: bookmark.time, referenceTime: bookmark.referenceTime, episode: episode)
     }
 
     func capturedSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
@@ -45,13 +45,14 @@ extension BookmarkManager {
             // Nothing to rename to, but the passage is still worth keeping for the edit sheet
             bookmark.passage = snippet.text
             bookmark.passageLocation = snippet.range.location
+            bookmark.referenceTime = snippet.referenceTime
             return
         }
 
         FileLog.shared.addMessage("[Bookmarks] Generated a title for bookmark \(bookmark.uuid)")
 
         let passage = BookmarkUpdateParameters.Passage(text: snippet.text, location: snippet.range.location)
-        await update(.init(title: title, passage: passage), for: bookmark)
+        await update(.init(title: title, passage: passage, referenceTime: snippet.referenceTime), for: bookmark)
     }
 
     /// Returns nil when generation fails.

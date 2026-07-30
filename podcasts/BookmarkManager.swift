@@ -12,6 +12,10 @@ struct BookmarkUpdateParameters {
     /// The captured transcript passage to store, or `nil` to leave the existing one unchanged.
     var passage: Passage?
 
+    /// The bookmark's position on the transcript's reference timeline, or `nil` to leave the
+    /// existing one unchanged — re-selecting a passage doesn't move the bookmark itself.
+    var referenceTime: TimeInterval?
+
     /// A transcript passage together with where it starts, kept so a re-selection can be
     /// matched back to the same spot.
     struct Passage {
@@ -112,6 +116,7 @@ class BookmarkManager {
             bookmarks.forEach {
                 $0.passage = nil
                 $0.passageLocation = nil
+                $0.referenceTime = nil
             }
 
             onBookmarksDeleted.send(.init(items: bookmarks.map {
@@ -126,6 +131,10 @@ class BookmarkManager {
         if let passage = parameters.passage {
             bookmark.passage = passage.text
             bookmark.passageLocation = passage.location
+        }
+
+        if let referenceTime = parameters.referenceTime {
+            bookmark.referenceTime = referenceTime
         }
 
         return await dataManager.update(bookmark: bookmark, title: parameters.title).when(true) {
