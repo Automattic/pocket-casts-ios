@@ -311,6 +311,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Smart Bookmarks
     case smartBookmarks
 
+    /// Use best frame when capturing a thumbnail for video cells
+    case captureBestFrame
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -525,6 +528,9 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .smartBookmarks:
             BuildEnvironment.current == .debug
+
+        case .captureBestFrame:
+            true
         }
     }
 
