@@ -57,8 +57,6 @@ jobs:
         uses: anthropics/claude-code-action@b76a0776ae74036e77cd11018083743453d7ad35 # v1.0.179
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          track_progress: true
-          # Update the previous review comment on each new push instead of posting a new one.
           use_sticky_comment: true
           prompt: |
             REPO: ${{ github.repository }}
