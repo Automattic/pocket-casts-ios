@@ -58,13 +58,17 @@ class DiscoverVideoEpisodeModel {
         setupPlayer()
 
         do {
-            var videoFrame: UIImage?
-            let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
-            if cachedVideoFrame != nil {
+            let videoFrame: UIImage
+            if let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString) {
                 videoFrame = cachedVideoFrame
             } else {
-                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
-                let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                let image: UIImage
+                if FeatureFlag.captureBestFrame.enabled {
+                    image = try await thumbnailFromBestFrame(url: videoUrl)
+                } else {
+                    image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                }
+                _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
             await MainActor.run { [videoFrame] in
@@ -84,6 +88,10 @@ class DiscoverVideoEpisodeModel {
 
         let (image, _) = try await generator.image(at: time)
         return UIImage(cgImage: image)
+    }
+
+    private func thumbnailFromBestFrame(url: URL) async throws -> UIImage {
+        try await BestFrameSelector.bestFrame(from: AVURLAsset(url: url), endPercentage: 0.1)
     }
 
     var podcast: DiscoverPodcast? {

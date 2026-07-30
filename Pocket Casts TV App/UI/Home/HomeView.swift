@@ -68,8 +68,9 @@ struct HomeView: View {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
-                        youMightLikeRow
                         videoRow
+                        twitNetworkRow
+                        youMightLikeRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
@@ -81,6 +82,7 @@ struct HomeView: View {
                         nowPlayingRow
                         featuredRow
                         videoRow
+                        twitNetworkRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
                             Analytics.track(.bannerRowTapped, properties: ["type": "create_account"])
                             tabRouter.pendingAuthFlow = .createAccount
@@ -152,6 +154,10 @@ struct HomeView: View {
 
     var curatedRow: some View {
         DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource)
+    }
+
+    var twitNetworkRow: some View {
+        DiscoverPodcastRow(type: .twit, source: DiscoverAnalytics.homeSource)
     }
 
     var categoriesRow: some View {
