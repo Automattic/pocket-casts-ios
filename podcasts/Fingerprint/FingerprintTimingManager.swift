@@ -1,4 +1,5 @@
 import AVFoundation
+import Accelerate
 import Foundation
 import Fingerprint
 import PocketCastsDataModel
@@ -1209,6 +1210,7 @@ final class FingerprintTimingManager: NSObject {
             throw StreamError.bufferAllocationFailed
         }
 
+        var interleaved: [Float] = []
         while true {
             if ctx.isCancelled() { throw StreamError.cancelled }
             let nextChunkStartSeconds = Double(audioFile.framePosition) / format.sampleRate
@@ -1216,7 +1218,7 @@ final class FingerprintTimingManager: NSObject {
             try audioFile.read(into: buffer, frameCount: chunkFrames)
             if buffer.frameLength == 0 { break }
 
-            let interleaved = Self.interleavedSamples(from: buffer)
+            Self.interleave(buffer, into: &interleaved)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
                 dispatchProcessMatches(windows: windows, startOffset: startSeconds, context: ctx)
@@ -1275,6 +1277,7 @@ final class FingerprintTimingManager: NSObject {
             throw StreamError.bufferAllocationFailed
         }
 
+        var interleaved: [Float] = []
         while audioFile.framePosition < endFrame {
             if flag.isCancelled { throw StreamError.cancelled }
             let framesRemaining = AVAudioFrameCount(endFrame - audioFile.framePosition)
@@ -1282,7 +1285,7 @@ final class FingerprintTimingManager: NSObject {
             try audioFile.read(into: buffer, frameCount: framesToRead)
             if buffer.frameLength == 0 { break }
 
-            let interleaved = Self.interleavedSamples(from: buffer)
+            Self.interleave(buffer, into: &interleaved)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
                 queue.sync {
@@ -1321,6 +1324,7 @@ final class FingerprintTimingManager: NSObject {
         var announcedFileAppeared = false
         var totalFramesRead: AVAudioFramePosition = 0
         var windowsEmitted = 0
+        var interleaved: [Float] = []
 
         FileLog.shared.addMessage(
             "FingerprintTimingManager: streaming grow-loop starting at \(String(format: "%.1f", startSeconds))s "
@@ -1437,7 +1441,7 @@ final class FingerprintTimingManager: NSObject {
             lastProcessedFrame = audioFile.framePosition
             totalFramesRead += framesJustRead
 
-            let interleaved = Self.interleavedSamples(from: buf)
+            Self.interleave(buf, into: &interleaved)
             let windows = str.pushSamplesF32(samples: interleaved, channels: UInt16(fmt.channelCount))
             if !windows.isEmpty {
                 windowsEmitted += windows.count
@@ -1536,20 +1540,36 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    private static func interleavedSamples(from buffer: AVAudioPCMBuffer) -> [Float] {
+    /// Interleaves the buffer's planar Float32 channels into `scratch`, reusing
+    /// its storage across chunks. `scratch` is resized only when the sample
+    /// count changes (in practice once, plus once more for a short final
+    /// chunk), so a decode loop allocates O(1) arrays instead of one per chunk.
+    private static func interleave(_ buffer: AVAudioPCMBuffer, into scratch: inout [Float]) {
         let frameCount = Int(buffer.frameLength)
         let channelCount = Int(buffer.format.channelCount)
         guard frameCount > 0, channelCount > 0,
-              let channelData = buffer.floatChannelData else { return [] }
+              let channelData = buffer.floatChannelData else {
+            scratch.removeAll(keepingCapacity: true)
+            return
+        }
 
-        var result = [Float](repeating: 0, count: frameCount * channelCount)
-        for ch in 0..<channelCount {
-            let src = channelData[ch]
-            for frame in 0..<frameCount {
-                result[frame * channelCount + ch] = src[frame]
+        let sampleCount = frameCount * channelCount
+        if scratch.count != sampleCount {
+            scratch = [Float](repeating: 0, count: sampleCount)
+        }
+        scratch.withUnsafeMutableBufferPointer { dst in
+            guard let base = dst.baseAddress else { return }
+            if channelCount == 1 {
+                base.update(from: channelData[0], count: frameCount)
+                return
+            }
+            // Strided vector copy (add-zero) — one vDSP pass per channel
+            // instead of a scalar store per sample.
+            var zero: Float = 0
+            for ch in 0..<channelCount {
+                vDSP_vsadd(channelData[ch], 1, &zero, base + ch, vDSP_Stride(channelCount), vDSP_Length(frameCount))
             }
         }
-        return result
     }
 
     private enum StreamError: Error {
