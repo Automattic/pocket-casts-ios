@@ -154,8 +154,7 @@ struct BookmarkDetailsView: View {
             } else if let passage = viewModel.passage {
                 // No transcript to place the passage in, so it stands alone
                 ScrollView {
-                    passageText(passage)
-                        .padding(.horizontal, BookmarkTranscriptTextView.gutterWidth)
+                    passageView(passage)
                 }
                 .scrollBounceBehavior(.basedOnSize)
             }
@@ -199,32 +198,33 @@ struct BookmarkDetailsView: View {
         VStack(alignment: .leading, spacing: 20) {
             placeholderParagraph(Self.leadingPlaceholder)
 
-            viewModel.passage.map { passageText($0) }
+            // The glyph waits for the real transcript, where it can mark the right line
+            viewModel.passage.map { passageView($0, showsBookmarkIndicator: false) }
 
             placeholderParagraph(Self.trailingPlaceholder)
         }
-        .padding(.horizontal, BookmarkTranscriptTextView.gutterWidth)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .clipped()
     }
 
     private func placeholderParagraph(_ text: String) -> some View {
-        transcriptText(text)
-            .foregroundStyle(theme.primaryText02)
-            .redacted(reason: .placeholder)
-            .accessibilityHidden(true)
-    }
-
-    private func passageText(_ text: String) -> some View {
-        transcriptText(text)
-            .foregroundStyle(theme.primaryText01)
-    }
-
-    private func transcriptText(_ text: String) -> some View {
         Text(text)
             .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
             .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundStyle(theme.primaryText02)
+            .redacted(reason: .placeholder)
+            .padding(.horizontal, BookmarkTranscriptTextView.gutterWidth)
+            .accessibilityHidden(true)
+    }
+
+    /// The passage on its own, in the same text view the full transcript uses, so it
+    /// reads identically before and after the transcript arrives
+    private func passageView(_ passage: String, showsBookmarkIndicator: Bool = true) -> some View {
+        BookmarkPassageTextView(passage: passage,
+                                showsBookmarkIndicator: showsBookmarkIndicator,
+                                textColor: UIColor(theme.primaryText01),
+                                selectionColor: UIColor(theme.primaryInteractive01))
     }
 
     /// Stand-ins for the transcript around the passage while it loads. The redaction
@@ -248,6 +248,61 @@ struct BookmarkDetailsView: View {
 
     private var created: String {
         DateFormatter.localizedString(from: viewModel.bookmark.created, dateStyle: .medium, timeStyle: .short)
+    }
+}
+
+// MARK: - BookmarkPassageTextView
+
+/// The passage alone — while the transcript loads, or when there is none — rendered by
+/// the same text view the full transcript uses: the same styling and gutter, optionally
+/// the glyph marking its first line, and the text already selectable. Sized to its
+/// content, so it sits in the surrounding layout rather than scrolling.
+private struct BookmarkPassageTextView: UIViewRepresentable {
+    let passage: String
+    let showsBookmarkIndicator: Bool
+    let textColor: UIColor
+    let selectionColor: UIColor
+
+    func makeUIView(context: Context) -> BookmarkTranscriptTextView {
+        // TextKit 1: the indicator's line lookup works off `layoutManager`
+        let textView = BookmarkTranscriptTextView(usingTextLayoutManager: false)
+        textView.attributedText = styledText()
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isScrollEnabled = false
+        textView.backgroundColor = .clear
+        textView.textContainerInset = UIEdgeInsets(top: 0,
+                                                   left: BookmarkTranscriptTextView.gutterWidth,
+                                                   bottom: 0,
+                                                   right: BookmarkTranscriptTextView.gutterWidth)
+        textView.textContainer.lineFragmentPadding = 0
+        textView.tintColor = selectionColor
+        if showsBookmarkIndicator {
+            textView.showBookmarkIndicator(at: 0, color: textColor)
+        }
+        return textView
+    }
+
+    func updateUIView(_ textView: BookmarkTranscriptTextView, context: Context) {
+        let styled = styledText()
+        if !textView.attributedText.isEqual(styled) {
+            textView.attributedText = styled
+        }
+
+        textView.tintColor = selectionColor
+        textView.setBookmarkIndicatorColor(textColor)
+    }
+
+    /// Asks the text view how tall the passage runs at the width it's offered
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView textView: BookmarkTranscriptTextView, context: Context) -> CGSize? {
+        guard let width = proposal.width, width.isFinite else { return nil }
+
+        let size = textView.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude))
+        return CGSize(width: width, height: size.height)
+    }
+
+    private func styledText() -> NSAttributedString {
+        BookmarkTranscriptStyle.styledTranscript(NSAttributedString(string: passage), textColor: textColor)
     }
 }
 
