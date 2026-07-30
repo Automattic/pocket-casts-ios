@@ -77,7 +77,7 @@ format: ## Lint and autocorrect linter errors
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 
 upload_dsyms: ## Upload dSYMs
-	./scripts/upload-symbols -gsp $(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip
+	./scripts/upload-symbols -gsp "$$(a8c-secrets which GoogleService-Info.plist)" -p ios ./podcasts.app.dSYM.zip
 
 install_dependencies: ## Install dependencies to run this project
 	bundle install

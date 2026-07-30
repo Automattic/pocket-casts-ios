@@ -11,3 +11,12 @@ CURRENT_PROJECT_VERSION = $(VERSION_LONG)
 PRODUCT_BUNDLE_IDENTIFIER_ROOT = au.com.shiftyjelly.podcasts
 
 DEVELOPMENT_TEAM = PZYM8XX95Q // Automattic, Inc. (Company)
+
+// Notice that this assumes a default a8c-secrets setup:
+//
+// - $(HOME)/.a8c-secrets is the default tool workspace/
+// - the rest of the path should be in sync with .a8c-secrets/repo-id from the repo root
+A8C_SECRETS_DIR = $(HOME)/.a8c-secrets/pocket-casts-ios@github.com@automattic
+FIREBASE_SECRETS_PATH = $(A8C_SECRETS_DIR)/GoogleService-Info.plist
+SECRETS_PATH = $(A8C_SECRETS_DIR)/pocket_casts_credentials.json
+GOOGLE_SIGN_IN_SECRETS_PATH = $(A8C_SECRETS_DIR)/GoogleSignIn.txt
