@@ -58,18 +58,17 @@ class DiscoverVideoEpisodeModel {
         setupPlayer()
 
         do {
-            var videoFrame: UIImage?
-            let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
-            if cachedVideoFrame != nil {
+            let videoFrame: UIImage
+            if let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString) {
                 videoFrame = cachedVideoFrame
             } else {
                 let image: UIImage
                 if FeatureFlag.captureBestFrame.enabled {
                     image = try await thumbnailFromBestFrame(url: videoUrl)
                 } else {
-                   image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                    image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
                 }
-                let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
             await MainActor.run { [videoFrame] in
@@ -82,7 +81,6 @@ class DiscoverVideoEpisodeModel {
 
     private func thumbnail(url: URL, at time: CMTime = .zero) async throws -> UIImage {
         let asset = AVURLAsset(url: url)
-
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceBefore = CMTime(seconds: 1, preferredTimescale: 600)
@@ -93,9 +91,7 @@ class DiscoverVideoEpisodeModel {
     }
 
     private func thumbnailFromBestFrame(url: URL) async throws -> UIImage {
-        let asset = AVURLAsset(url: url)
-        let image = try await BestFrameSelector.bestFrame(from: asset, candidateCount: 3, endPercentage: 0.1)
-        return image
+        try await BestFrameSelector.bestFrame(from: AVURLAsset(url: url), endPercentage: 0.1)
     }
 
     var podcast: DiscoverPodcast? {

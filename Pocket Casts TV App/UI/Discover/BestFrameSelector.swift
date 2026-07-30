@@ -2,12 +2,11 @@ import AVFoundation
 import UIKit
 
 struct FrameCandidate {
-    let time: CMTime
     let image: UIImage
     let score: Double
 }
 
-class BestFrameSelector {
+enum BestFrameSelector {
 
     enum SelectorError: Error {
         case invalidDuration
@@ -76,7 +75,7 @@ class BestFrameSelector {
             let result = try await generator.image(at: time)
             let image = UIImage(cgImage: result.image)
             let score = score(image: image)
-            return FrameCandidate(time: time, image: image, score: score)
+            return FrameCandidate(image: image, score: score)
         } catch {
             return nil
         }
@@ -127,21 +126,23 @@ class BestFrameSelector {
 
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: sampleSize, height: sampleSize))
 
-        var brightnesses: [Double] = []
-        brightnesses.reserveCapacity(sampleSize * sampleSize)
+        let pixelCount = sampleSize * sampleSize
+        var sum = 0.0
+        var sumOfSquares = 0.0
 
         var firstPixel: (UInt8, UInt8, UInt8)?
         var isSolid = true
         let tolerance: Int = 10
 
-        for i in 0..<(sampleSize * sampleSize) {
+        for i in 0..<pixelCount {
             let offset = i * 4
             let r = pixelData[offset]
             let g = pixelData[offset + 1]
             let b = pixelData[offset + 2]
 
             let brightness = (0.299 * Double(r) + 0.587 * Double(g) + 0.114 * Double(b)) / 255.0
-            brightnesses.append(brightness)
+            sum += brightness
+            sumOfSquares += brightness * brightness
 
             if let first = firstPixel {
                 if abs(Int(r) - Int(first.0)) > tolerance ||
@@ -154,8 +155,8 @@ class BestFrameSelector {
             }
         }
 
-        let mean = brightnesses.reduce(0, +) / Double(brightnesses.count)
-        let variance = brightnesses.reduce(0) { $0 + pow($1 - mean, 2) } / Double(brightnesses.count)
+        let mean = sum / Double(pixelCount)
+        let variance = max(sumOfSquares / Double(pixelCount) - mean * mean, 0)
         let stdDev = sqrt(variance)
 
         return PixelStats(meanBrightness: mean, stdDevBrightness: stdDev, isNearSolidColor: isSolid)
