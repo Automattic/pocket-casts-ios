@@ -8,6 +8,7 @@ protocol BookmarkEditing: AnyObject {
     var originalTitle: String { get }
 
     func viewDidAppear()
+    func cancel()
 }
 
 extension BookmarkEditing {

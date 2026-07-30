@@ -8,6 +8,8 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
     let onDismiss: ((String, Bool) -> Void)?
     var editSaved: Bool = false
 
+    private var didReportDismiss = false
+
     var source: BookmarkAnalyticsSource = .unknown {
         didSet {
             viewModel.analyticsSource = source
@@ -44,6 +46,12 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
         viewModel.router = self
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        presentationController?.delegate = self
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -66,13 +74,26 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
 extension BookmarkEditTitleViewController: BookmarkEditRouter {
     func dismiss() {
         dismiss(animated: true)
-        onDismiss?(viewModel.originalTitle, true)
+        reportDismiss(title: viewModel.originalTitle, canceled: true)
     }
 
     func titleUpdated(title: String) {
         editSaved = true
         Analytics.track(.bookmarkEditFormSubmitted, properties: ["source": source.rawValue])
         dismiss(animated: true)
-        onDismiss?(title, false)
+        reportDismiss(title: title, canceled: false)
+    }
+
+    private func reportDismiss(title: String, canceled: Bool) {
+        guard !didReportDismiss else { return }
+
+        didReportDismiss = true
+        onDismiss?(title, canceled)
+    }
+}
+
+extension BookmarkEditTitleViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        viewModel.cancel()
     }
 }
