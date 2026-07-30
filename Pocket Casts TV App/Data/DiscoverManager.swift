@@ -10,6 +10,8 @@ enum DiscoverType: String, CaseIterable {
     case popularRegion = "popular_region" // Popular in region ...
     case curatedList
     case categories
+    // special lists
+    case twit = "twit-2026"
     case other
 
     func match(item: DiscoverItem) -> Bool {
@@ -37,6 +39,7 @@ enum DiscoverType: String, CaseIterable {
         case .curatedList: L10n.discoverFreshPick
         case .categories: L10n.tvHomeBrowseCategoriesSectionTitle
         case .other: L10n.discover
+        default: L10n.discover
         }
     }
 }
