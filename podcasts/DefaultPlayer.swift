@@ -1,3 +1,4 @@
+import Accelerate
 import AVFoundation
 import CoreAudioTypes
 import Foundation
@@ -559,7 +560,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
                     return
                 }
+#if os(tvOS)
                 referenceToSelf.updateAudioLevel(from: bufferListInOut, frameCount: Int(numberFrames))
+#endif
                 return
             }
 
@@ -613,7 +616,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 numberFramesOut.pointee = numberFrames
             }
 
+            #if os(tvOS)
             referenceToSelf.updateAudioLevel(from: bufferListInOut, frameCount: Int(numberFrames))
+            #endif
         }
 
         // MARK: - Audio Level Metering
@@ -636,12 +641,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return
             }
             let samples = data.assumingMemoryBound(to: Float.self)
-            var sumOfSquares: Float = 0
-            for i in 0..<availableFrames {
-                let sample = samples[i]
-                sumOfSquares += sample * sample
-            }
-            let rms = sqrt(sumOfSquares / Float(availableFrames))
+            var rms: Float = 0
+            vDSP_rmsqv(samples, 1, &rms, vDSP_Length(availableFrames))
             // Clamp to 0...1 and apply light smoothing to avoid jitter
             let smoothed = currentAudioLevel * 0.3 + min(rms * 3.0, 1.0) * 0.7
             currentAudioLevel = smoothed
