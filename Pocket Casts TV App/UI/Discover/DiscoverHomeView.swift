@@ -34,11 +34,11 @@ struct DiscoverHomeView: View {
     var discoverList: some View {
         LazyVStack(spacing: RowSectionLayout.sectionSpacing) {
             ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
+                DiscoverRowSection(item: item, source: DiscoverAnalytics.homeSource)
             }
         }
         .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
+            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.homeSource)
         }
     }
 }
