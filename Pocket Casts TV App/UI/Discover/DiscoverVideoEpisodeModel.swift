@@ -63,7 +63,12 @@ class DiscoverVideoEpisodeModel {
             if cachedVideoFrame != nil {
                 videoFrame = cachedVideoFrame
             } else {
-                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                let image: UIImage
+                if FeatureFlag.captureBestFrame.enabled {
+                    image = try await thumbnailFromBestFrame(url: videoUrl)
+                } else {
+                   image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                }
                 let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
@@ -77,6 +82,7 @@ class DiscoverVideoEpisodeModel {
 
     private func thumbnail(url: URL, at time: CMTime = .zero) async throws -> UIImage {
         let asset = AVURLAsset(url: url)
+
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceBefore = CMTime(seconds: 1, preferredTimescale: 600)
@@ -84,6 +90,12 @@ class DiscoverVideoEpisodeModel {
 
         let (image, _) = try await generator.image(at: time)
         return UIImage(cgImage: image)
+    }
+
+    private func thumbnailFromBestFrame(url: URL) async throws -> UIImage {
+        let asset = AVURLAsset(url: url)
+        let image = try await BestFrameSelector.bestFrame(from: asset, candidateCount: 3, endPercentage: 0.1)
+        return image
     }
 
     var podcast: DiscoverPodcast? {
