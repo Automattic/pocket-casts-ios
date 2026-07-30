@@ -20,6 +20,9 @@ struct NowPlayingWaveformView: View {
     /// Once we've seen real audio data from the tap, stay in audio-reactive
     /// mode — don't flip back to sine fallback when the level drops on pause.
     @State private var useAudioReactive = false
+    /// Reference type so the Canvas closure can update it every frame
+    /// without mutating SwiftUI state.
+    @State private var levelSmoother = LevelSmoother()
 
     private let barWidth: CGFloat = 5
     private let barSpacing: CGFloat = 7
@@ -41,9 +44,10 @@ struct NowPlayingWaveformView: View {
                 let env = envelope(at: timeline.date)
                 guard env > 0.001 else { return }
 
-                // Poll real audio level from the playback engine (lock-free read).
-                // Returns 0 for HLS streams where no audio tap is available.
-                let rawAudioLevel = CGFloat(playbackManager.currentAudioLevel)
+                // Resolve the dynamic color once per frame; resolving it inside
+                // fill(_:with:) would go through the UIKit trait-collection
+                // machinery for every bar.
+                let shading = context.resolve(.color(color))
 
                 let centerX = size.width / 2
                 let centerY = size.height / 2
@@ -54,17 +58,23 @@ struct NowPlayingWaveformView: View {
 
                 let time = timeline.date.timeIntervalSinceReferenceDate
 
+                // Poll real audio level from the playback engine (lock-free read).
+                // Returns 0 for HLS streams where no audio tap is available.
+                // Smoothed with attack/release ballistics so bar heights don't
+                // jump between frames.
+                let rawAudioLevel = CGFloat(playbackManager.currentAudioLevel)
+                let targetLevel = useAudioReactive ? max(rawAudioLevel, 0.05) : 1.0
+                let level = levelSmoother.smooth(targetLevel, at: time)
+
                 for side in 0..<2 {
                     for i in 0..<barsPerSide {
                         let normalizedIndex = CGFloat(i) / CGFloat(max(1, barsPerSide - 1))
                         let distanceFactor = side == 0 ? normalizedIndex : (1.0 - normalizedIndex)
 
-                        // Sine wave gives the smooth pulsing shape
+                        // Sine wave gives the smooth pulsing shape; scaled by the
+                        // smoothed audio level when available, otherwise the sine
+                        // alone acts as a pure ambient animation
                         let sineWave = CGFloat(sin(time * 2.5 + Double(i) * 0.4) * 0.5 + 0.5)
-
-                        // Scale the sine shape by real audio level when available,
-                        // otherwise use sine alone as a pure ambient animation
-                        let level = useAudioReactive ? max(rawAudioLevel, 0.05) : 1.0
                         let height = maxBarHeight * distanceFactor * sineWave * level * env
 
                         let x: CGFloat
@@ -79,7 +89,8 @@ struct NowPlayingWaveformView: View {
                             in: CGRect(x: x, y: centerY - height / 2, width: barWidth, height: max(2, height)),
                             cornerSize: CGSize(width: 2, height: 2)
                         )
-                        context.fill(path, with: .color(color.opacity(0.8 * Double(distanceFactor) * Double(env))))
+                        context.opacity = 0.8 * Double(distanceFactor) * Double(env)
+                        context.fill(path, with: shading)
                     }
                 }
             }
@@ -127,5 +138,29 @@ struct NowPlayingWaveformView: View {
                 }
             }
         }
+    }
+}
+
+/// Frame-rate-independent attack/release smoothing for the audio level,
+/// applied on top of the per-buffer smoothing in the audio tap. Fast attack
+/// keeps transients visible; slow release stops per-frame flicker.
+private final class LevelSmoother {
+    private var value: CGFloat = 0
+    private var lastTime: TimeInterval?
+
+    private let attackTimeConstant: TimeInterval = 0.05
+    private let releaseTimeConstant: TimeInterval = 0.3
+
+    func smooth(_ target: CGFloat, at time: TimeInterval) -> CGFloat {
+        guard let lastTime, time > lastTime else {
+            self.lastTime = time
+            value = target
+            return value
+        }
+        self.lastTime = time
+        let dt = min(time - lastTime, 0.1)
+        let timeConstant = target > value ? attackTimeConstant : releaseTimeConstant
+        value += (target - value) * (1 - exp(-dt / timeConstant))
+        return value
     }
 }
