@@ -16,7 +16,7 @@ struct NowPlayingWaveformView: View {
 
     private let barWidth: CGFloat = 5
     private let barSpacing: CGFloat = 7
-    private let maxBarHeight: CGFloat = 80
+    private let maxBarHeight: CGFloat = 100
     private let fadeDuration: TimeInterval = 2.0
 
     /// Compute the current envelope amplitude by lerping between fromAmplitude and
