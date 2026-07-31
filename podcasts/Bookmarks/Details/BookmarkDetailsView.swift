@@ -16,6 +16,10 @@ struct BookmarkDetailsView: View {
             VStack(alignment: .leading, spacing: 24) {
                 header
                 content
+                content
+                content
+                content
+                content
             }
             .padding(16)
         }
