@@ -36,6 +36,7 @@ class PlaylistDetailsViewModel {
     }
 
     init(playlist: PlaylistItem,
+         detail: Bool = false,
          dataManager: DataManager = DataManager.sharedManager,
          playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playlist = playlist
@@ -44,6 +45,9 @@ class PlaylistDetailsViewModel {
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist.playlist))
         self.playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)
         observePodcastColorDownloads()
+        if detail {
+            observePlaylistChanges()
+        }
     }
 
     /// Newly-subscribed podcasts return defaults until colour metadata downloads — refresh
@@ -61,6 +65,19 @@ class PlaylistDetailsViewModel {
                 self.refreshPlaylistColor()
             }
             .store(in: &cancellables)
+    }
+
+    private func observePlaylistChanges() {
+        Publishers.Merge3(
+            NotificationCenter.default.publisher(for: Constants.Notifications.playlistChanged),
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged),
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodePlayStatusChanged),
+        )
+        .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+        .sink { [weak self] notification in            
+            self?.load()
+        }
+        .store(in: &cancellables)
     }
 
     func load() {
