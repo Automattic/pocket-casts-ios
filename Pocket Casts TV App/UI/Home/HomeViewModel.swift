@@ -55,7 +55,7 @@ class HomeViewModel {
     }
 
     func refresh() {
-        RefreshManager.shared.refreshPodcasts()        
+        RefreshManager.shared.refreshPodcasts()
     }
 
     private func fetchPodcasts() -> [Podcast] {

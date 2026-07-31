@@ -74,7 +74,7 @@ class PlaylistDetailsViewModel {
             NotificationCenter.default.publisher(for: Constants.Notifications.episodePlayStatusChanged),
         )
         .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
-        .sink { [weak self] notification in            
+        .sink { [weak self] _ in
             self?.load()
         }
         .store(in: &cancellables)
