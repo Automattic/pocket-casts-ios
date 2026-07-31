@@ -249,6 +249,19 @@ private extension Api_SyncUserBookmark {
 
         self.title.value = bookmark.title
         self.titleModified = .init(date: bookmark.titleModified ?? bookmark.created)
+
+        // The passage and reference time groups only exist once their modified date is set,
+        // matching how the server only emits each group when its modified timestamp is present.
+        if let passageModified = bookmark.passageModified {
+            self.passage.value = bookmark.passage ?? ""
+            self.passageLocation.value = Int32(bookmark.passageLocation ?? 0)
+            self.passageModified = .init(date: passageModified)
+        }
+
+        if let referenceTimeModified = bookmark.referenceTimeModified {
+            self.referenceTime.value = Int32(bookmark.referenceTime ?? 0)
+            self.referenceTimeModified = .init(date: referenceTimeModified)
+        }
     }
 }
 

@@ -25,7 +25,7 @@ struct BookmarkUpdateParameters {
 }
 
 class BookmarkManager {
-    private let dataManager: BookmarkDataManager
+    let dataManager: BookmarkDataManager
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
     private let cacheServerHandler: CacheServerHandler
@@ -47,6 +47,8 @@ class BookmarkManager {
         self.generalManager = generalManager
         self.playbackManager = playbackManager
         self.cacheServerHandler = cacheServerHandler
+
+        migratePassagesFromUserDefaults()
     }
 
     /// Plays the "bookmark created" tone
@@ -113,12 +115,6 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
-            bookmarks.forEach {
-                $0.passage = nil
-                $0.passageLocation = nil
-                $0.referenceTime = nil
-            }
-
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)
             }))
@@ -128,16 +124,16 @@ class BookmarkManager {
     /// Updates the bookmark with the given parameters, emits `onBookmarkChanged` on success
     @discardableResult
     func update(_ parameters: BookmarkUpdateParameters, for bookmark: Bookmark) async -> Bool {
-        if let passage = parameters.passage {
-            bookmark.passage = passage.text
-            bookmark.passageLocation = passage.location
-        }
+        let now = Date()
 
-        if let referenceTime = parameters.referenceTime {
-            bookmark.referenceTime = referenceTime
-        }
-
-        return await dataManager.update(bookmark: bookmark, title: parameters.title).when(true) {
+        return await dataManager.update(bookmark: bookmark,
+                                        title: parameters.title,
+                                        modified: now,
+                                        passage: parameters.passage?.text,
+                                        passageLocation: parameters.passage?.location,
+                                        passageModified: parameters.passage != nil ? now : nil,
+                                        referenceTime: parameters.referenceTime,
+                                        referenceTimeModified: parameters.referenceTime != nil ? now : nil).when(true) {
             onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(parameters.title)))
         }
     }
@@ -236,6 +232,47 @@ class BookmarkManager {
                 /// The uuid of the podcast the bookmark was removed from, if available
                 let podcast: String?
             }
+        }
+    }
+}
+
+// MARK: - Passage UserDefaults Migration
+
+private extension BookmarkManager {
+    /// Passages were temporarily stored in `UserDefaults` before they moved into the database
+    /// and became syncable. Moves any values left behind by those builds into the database,
+    /// where a bookmark doesn't already have one.
+    func migratePassagesFromUserDefaults() {
+        let defaults = UserDefaults.standard
+        let completedKey = "bookmark.passageMigrationCompleted"
+        guard !defaults.bool(forKey: completedKey) else { return }
+
+        let dataManager = dataManager
+
+        Task.detached(priority: .background) {
+            for bookmark in dataManager.allBookmarks(includeDeleted: true) {
+                let passageKey = "bookmark.passage.\(bookmark.uuid)"
+                let locationKey = "bookmark.passageLocation.\(bookmark.uuid)"
+                let referenceTimeKey = "bookmark.referenceTime.\(bookmark.uuid)"
+
+                let passage = bookmark.passage == nil ? defaults.string(forKey: passageKey) : nil
+                let referenceTime = bookmark.referenceTime == nil ? defaults.object(forKey: referenceTimeKey) as? TimeInterval : nil
+
+                if passage != nil || referenceTime != nil {
+                    await dataManager.update(bookmark: bookmark,
+                                             passage: passage,
+                                             passageLocation: defaults.object(forKey: locationKey) as? Int,
+                                             passageModified: passage != nil ? bookmark.created : nil,
+                                             referenceTime: referenceTime,
+                                             referenceTimeModified: referenceTime != nil ? bookmark.created : nil)
+                }
+
+                defaults.removeObject(forKey: passageKey)
+                defaults.removeObject(forKey: locationKey)
+                defaults.removeObject(forKey: referenceTimeKey)
+            }
+
+            defaults.set(true, forKey: completedKey)
         }
     }
 }

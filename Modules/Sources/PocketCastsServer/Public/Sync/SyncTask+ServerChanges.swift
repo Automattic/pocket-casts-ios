@@ -424,6 +424,11 @@ extension SyncTask {
                                                     title: apiBookmark.title.value,
                                                     time: Double(apiBookmark.time.value),
                                                     dateCreated: apiBookmark.createdAt.date,
+                                                    passage: apiBookmark.bookmarkPassage,
+                                                    passageLocation: apiBookmark.bookmarkPassageLocation,
+                                                    passageModified: apiBookmark.passageModifiedDate,
+                                                    referenceTime: apiBookmark.bookmarkReferenceTime,
+                                                    referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
                                                     syncStatus: .synced)
 
                 if addedUuid == nil {
@@ -452,7 +457,13 @@ extension SyncTask {
             return
         }
 
-        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
+        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created,
+                                     passage: apiBookmark.bookmarkPassage,
+                                     passageLocation: apiBookmark.bookmarkPassageLocation,
+                                     passageModified: apiBookmark.passageModifiedDate,
+                                     referenceTime: apiBookmark.bookmarkReferenceTime,
+                                     referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
+                                     syncStatus: .synced).when(false) {
             FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
         }
     }
@@ -480,6 +491,33 @@ private extension Api_SyncUserBookmark {
 
     var created: Date? {
         hasCreatedAt ? createdAt.date : nil
+    }
+
+    // The server only emits the passage and reference time groups when their modified timestamp
+    // is set, using "" / 0 as placeholders for a null value within an emitted group. Each group
+    // is gated on its modified date below, so an absent group leaves the local values untouched.
+
+    var bookmarkPassage: String? {
+        guard hasPassage, !passage.value.isEmpty else { return nil }
+        return passage.value
+    }
+
+    var bookmarkPassageLocation: Int? {
+        // A location without a passage is meaningless, and 0 stands in for null on the server
+        guard bookmarkPassage != nil, hasPassageLocation else { return nil }
+        return Int(passageLocation.value)
+    }
+
+    var passageModifiedDate: Date? {
+        hasPassageModified ? Date(timeIntervalSince1970: TimeInterval(passageModified.value) / 1000) : nil
+    }
+
+    var bookmarkReferenceTime: TimeInterval? {
+        hasReferenceTime ? TimeInterval(referenceTime.value) : nil
+    }
+
+    var referenceTimeModifiedDate: Date? {
+        hasReferenceTimeModified ? Date(timeIntervalSince1970: TimeInterval(referenceTimeModified.value) / 1000) : nil
     }
 
     var logDescription: String {
