@@ -47,8 +47,6 @@ class BookmarkManager {
         self.generalManager = generalManager
         self.playbackManager = playbackManager
         self.cacheServerHandler = cacheServerHandler
-
-        migratePassagesFromUserDefaults()
     }
 
     /// Plays the "bookmark created" tone
@@ -232,47 +230,6 @@ class BookmarkManager {
                 /// The uuid of the podcast the bookmark was removed from, if available
                 let podcast: String?
             }
-        }
-    }
-}
-
-// MARK: - Passage UserDefaults Migration
-
-private extension BookmarkManager {
-    /// Passages were temporarily stored in `UserDefaults` before they moved into the database
-    /// and became syncable. Moves any values left behind by those builds into the database,
-    /// where a bookmark doesn't already have one.
-    func migratePassagesFromUserDefaults() {
-        let defaults = UserDefaults.standard
-        let completedKey = "bookmark.passageMigrationCompleted"
-        guard !defaults.bool(forKey: completedKey) else { return }
-
-        let dataManager = dataManager
-
-        Task.detached(priority: .background) {
-            for bookmark in dataManager.allBookmarks(includeDeleted: true) {
-                let passageKey = "bookmark.passage.\(bookmark.uuid)"
-                let locationKey = "bookmark.passageLocation.\(bookmark.uuid)"
-                let referenceTimeKey = "bookmark.referenceTime.\(bookmark.uuid)"
-
-                let passage = bookmark.passage == nil ? defaults.string(forKey: passageKey) : nil
-                let referenceTime = bookmark.referenceTime == nil ? defaults.object(forKey: referenceTimeKey) as? TimeInterval : nil
-
-                if passage != nil || referenceTime != nil {
-                    await dataManager.update(bookmark: bookmark,
-                                             passage: passage,
-                                             passageLocation: defaults.object(forKey: locationKey) as? Int,
-                                             passageModified: passage != nil ? bookmark.created : nil,
-                                             referenceTime: referenceTime,
-                                             referenceTimeModified: referenceTime != nil ? bookmark.created : nil)
-                }
-
-                defaults.removeObject(forKey: passageKey)
-                defaults.removeObject(forKey: locationKey)
-                defaults.removeObject(forKey: referenceTimeKey)
-            }
-
-            defaults.set(true, forKey: completedKey)
         }
     }
 }
