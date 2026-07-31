@@ -314,6 +314,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use best frame when capturing a thumbnail for video cells
     case captureBestFrame
 
+    /// Show the Categories and Curated rows on the tvOS Home screen
+    case tvHomeCategoriesAndCurated
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -531,6 +534,8 @@ public enum FeatureFlag: String, CaseIterable {
 
         case .captureBestFrame:
             true
+        case .tvHomeCategoriesAndCurated:
+            false
         }
     }
 
