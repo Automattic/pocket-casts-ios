@@ -42,6 +42,10 @@ class BookmarkEditViewModel: ObservableObject {
     /// Where the passage started out, so re-selecting one can be told apart from leaving it alone
     private var capturedPassageRange: NSRange?
 
+    /// Where the passage stood when the editor was last opened, so dismissing it reports
+    /// only what that visit changed
+    private var passageRangeAtEditorOpen: NSRange?
+
     /// Whether the user picked a different passage than the one captured for them
     private var didChangePassage: Bool {
         guard let capturedPassageRange, let snippet else { return false }
@@ -183,14 +187,22 @@ class BookmarkEditViewModel: ObservableObject {
     // MARK: - Passage Editor
 
     func passageEditorShown() {
+        passageRangeAtEditorOpen = snippet?.range
         BookmarkGenerationAnalytics.passageEditorShown(bookmark: bookmark, source: analyticsSource)
     }
 
     func passageEditorDismissed() {
+        let didChange: Bool
+        if let passageRangeAtEditorOpen, let snippet {
+            didChange = snippet.range != passageRangeAtEditorOpen
+        } else {
+            didChange = false
+        }
+
         BookmarkGenerationAnalytics.passageEditorDismissed(bookmark: bookmark,
                                                            source: analyticsSource,
                                                            passage: passage ?? "",
-                                                           didChange: didChangePassage)
+                                                           didChange: didChange)
     }
 
     enum TitleSuggestion: Equatable {
