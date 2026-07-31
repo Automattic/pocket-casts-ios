@@ -87,8 +87,6 @@ extension BookmarkManager {
             let duration = Date().timeIntervalSince(started)
 
             guard !Task.isCancelled else {
-                let cancelled = TitleGenerationError(reason: "cancelled", generator: generation.generator)
-                BookmarkGenerationAnalytics.titleGenerationFailed(cancelled, bookmark: bookmark, trigger: trigger, source: source, duration: duration)
                 return nil
             }
 
