@@ -2,7 +2,7 @@
 -----
 - Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
-- Fix swiping away the bookmark edit sheet keeping the new bookmark with its default title instead of discarding it, like the close button does [#4864](https://github.com/Automattic/pocket-casts-ios/pull/4864)
+- Add Smart Bookmarks: bookmarks now suggest a title and capture the surrounding passage from the episode transcript, mark their spot in the transcript, and anchor their timestamp to the transcript's reference timeline so it stays accurate even when dynamic ads shift the audio [#4761](https://github.com/Automattic/pocket-casts-ios/pull/4761)
 - [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
 
 8.17
