@@ -40,6 +40,7 @@ struct HomeView: View {
         .task {
             Analytics.track(.homeShown)
             model.load()
+            model.refresh()
         }
     }
 
