@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -75,6 +76,10 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
+                        if FeatureFlag.tvHomeCategoriesAndCurated.enabled {
+                            categoriesRow
+                            curatedRow
+                        }
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
                             tabRouter.selectedTab = .search
