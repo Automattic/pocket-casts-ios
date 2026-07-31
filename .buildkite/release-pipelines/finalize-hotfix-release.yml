@@ -17,8 +17,6 @@ steps:
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
 
-      .buildkite/commands/install-secrets.sh
-
       echo '--- 🚀 Finalize Hotfix Release'
       bundle exec fastlane finalize_hotfix_release skip_confirm:true
     plugins: [$CI_TOOLKIT]

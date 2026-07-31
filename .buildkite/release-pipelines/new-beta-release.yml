@@ -17,8 +17,6 @@ steps:
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
 
-      .buildkite/commands/install-secrets.sh
-
       echo '--- 🚀 New Beta Release'
       bundle exec fastlane new_beta_release skip_confirm:true
     plugins: [$CI_TOOLKIT]
