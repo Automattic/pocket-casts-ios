@@ -161,7 +161,7 @@ class PlaylistDetailsViewModel {
     }
 
     var episodeCountText: String {
-        return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
+        return L10n.tvPlaylistDetailEpisodeCount(allEpisodes.count)
     }
 
     var allEpisodesCount: Int {
