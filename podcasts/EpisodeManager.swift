@@ -434,9 +434,11 @@ class EpisodeManager: NSObject {
     }
 
     /// Whether the episode should be presented as video in the UI: either a native video podcast or an
-    /// episode that advertises an HLS stream (which may carry video).
+    /// episode that will actually play its HLS stream. Downloaded episodes play their local (audio-only)
+    /// file, so advertising a video icon for them would promise video the user won't get — hence
+    /// `willPlayViaHLS` rather than `hasHLSStream`.
     class func isVideo(_ episode: BaseEpisode) -> Bool {
-        episode.videoPodcast() || hasHLSStream(episode)
+        episode.videoPodcast() || willPlayViaHLS(episode)
     }
 
     /// Whether the episode will actually play via HLS right now. Downloaded copies take precedence over
