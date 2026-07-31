@@ -6,7 +6,7 @@ struct BookmarkEditView: View {
     @ObservedObject var viewModel: BookmarkEditViewModel
     @ObservedObject var theme: BookmarkEditTheme
 
-    @FocusState private var isTitleFocused: Bool
+    @State private var isTitleFocused = false
 
     /// The title is only focused the first time the form appears, so coming back from
     /// the transcript editor doesn't pop the keyboard and select the title again
@@ -14,7 +14,7 @@ struct BookmarkEditView: View {
 
     @State private var isEditingTranscript = false
 
-    @State private var titleTextField: UITextField?
+    @State private var titleTextView: BookmarkTitleTextView.TextView?
 
     var body: some View {
         NavigationStack {
@@ -27,25 +27,34 @@ struct BookmarkEditView: View {
 
     // MARK: - Views
 
+    /// The fields scroll so they stay reachable at large text sizes, while the save
+    /// button stays pinned to the bottom, above the keyboard
     private var form: some View {
-        VStack(spacing: 0) {
+        ScrollView {
             VStack(spacing: 32) {
                 titleSection
                 transcriptSection
             }
-
-            Spacer(minLength: 32)
-
-            saveButton
+            .frame(maxWidth: .infinity)
+            .padding()
         }
+        .scrollBounceBehavior(.basedOnSize)
         .animation(.easeInOut(duration: 0.2), value: viewModel.passage)
         .animation(.easeInOut(duration: 0.2), value: viewModel.isCapturingTranscript)
-        .frame(maxWidth: .infinity)
+        .safeAreaInset(edge: .bottom) {
+            saveButton
+                .padding()
+                .background(theme.background)
+        }
         .dynamicTypeSize(...DynamicTypeSize.accessibility2)
-        .padding()
         .background(theme.background.ignoresSafeArea())
         .navigationTitle(viewModel.headerTitle)
         .navigationBarTitleDisplayMode(.inline)
+
+        // Keep the themed background under the bar, so scrolled content doesn't
+        // surface the system material behind the title
+        .toolbarBackground(theme.background, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 closeButton
@@ -69,7 +78,10 @@ struct BookmarkEditView: View {
     @ViewBuilder
     private var transcriptEditor: some View {
         if let transcript = viewModel.snippet?.transcript {
-            BookmarkTranscriptEditView(transcript: transcript, selection: $viewModel.transcriptRange, theme: theme)
+            BookmarkTranscriptEditView(transcript: transcript,
+                                       referenceTime: viewModel.referenceTime,
+                                       selection: $viewModel.transcriptRange,
+                                       theme: theme)
         }
     }
 
@@ -102,15 +114,28 @@ struct BookmarkEditView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// An empty line of the same font pins the field to a single line height, so it
-    /// doesn't jump around as the text scales down to fit
     private var titleField: some View {
-        ZStack {
-            Text(" ")
-                .titleFont()
-                .frame(maxWidth: .infinity)
-                .hidden()
-            textField
+        BookmarkTitleTextView(
+            text: $viewModel.title,
+            isFocused: $isTitleFocused,
+            textColor: UIColor(theme.textField),
+            accentColor: UIColor(theme.textFieldAccent),
+            onBeginEditing: { textView in
+                titleTextView = textView
+                selectAll(in: textView)
+            },
+            onSubmit: {
+                viewModel.save()
+            }
+        )
+        .overlay(alignment: .topLeading) {
+            if viewModel.title.isEmpty {
+                Text(viewModel.placeholder)
+                    .titleFont()
+                    .foregroundStyle(theme.textFieldPlaceholder)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
         }
         .overlay(alignment: .bottom) {
             Divider()
@@ -123,37 +148,21 @@ struct BookmarkEditView: View {
                     .tint(theme.subTitle)
             }
         }
+        .onReceive(viewModel.didApplySuggestion) { _ in
+            guard let titleTextView else { return }
+
+            selectAll(in: titleTextView)
+        }
     }
 
-    private var textField: some View {
-        let prompt = Text(viewModel.placeholder).foregroundColor(theme.textFieldPlaceholder)
+    /// Selects the whole title once the field has laid the text out, so the selection is
+    /// drawn — whether focus just arrived or a suggestion replaced the title
+    private func selectAll(in textView: BookmarkTitleTextView.TextView) {
+        textView.onNextLayout { [weak textView] in
+            guard let textView else { return }
 
-        return TextField(viewModel.placeholder, text: $viewModel.title, prompt: prompt)
-            .textFieldStyle(.plain)
-            .titleFont()
-            .foregroundStyle(theme.textField)
-            .accentColor(theme.textFieldAccent)
-            .focused($isTitleFocused)
-            .onReceive(UITextField.textDidBeginEditingNotification.publisher()) { notification in
-                guard let textField = notification.object as? UITextField else { return }
-                titleTextField = textField
-                selectAllTitle()
-            }
-            .onReceive(viewModel.didApplySuggestion) { _ in
-                selectAllTitle()
-            }
-            .onSubmit {
-                viewModel.save()
-            }
-    }
-
-    /// Selects the whole title after a short delay, so the selection reliably appears
-    /// once the field has settled — whether focus just arrived or a suggestion was applied
-    private func selectAllTitle() {
-        guard let titleTextField else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            titleTextField.selectedTextRange = titleTextField.textRange(from: titleTextField.beginningOfDocument, to: titleTextField.endOfDocument)
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument,
+                                                            to: textView.endOfDocument)
         }
     }
 
@@ -246,6 +255,151 @@ struct BookmarkEditView: View {
     }
 }
 
+// MARK: - BookmarkTitleTextView
+
+/// The title field, as a text view that wraps onto as many lines as the title needs and
+/// grows to fit them.
+private struct BookmarkTitleTextView: UIViewRepresentable {
+    @Binding var text: String
+
+    /// Two-way, so the form can move focus away from the title, and the field can report
+    /// the keyboard being dismissed
+    @Binding var isFocused: Bool
+
+    let textColor: UIColor
+    let accentColor: UIColor
+
+    /// Handed the text view as editing begins, so the title can be selected in it
+    let onBeginEditing: (TextView) -> Void
+    let onSubmit: () -> Void
+
+    @ScaledMetricWithMaxSize(relativeTo: .title2, maxSize: BookmarkTitleStyle.maxTypeSize)
+    private var fontSize: CGFloat = BookmarkTitleStyle.fontSize
+
+    private var font: UIFont {
+        .systemFont(ofSize: fontSize, weight: BookmarkTitleStyle.fontWeight)
+    }
+
+    func makeUIView(context: Context) -> TextView {
+        let textView = TextView()
+        textView.delegate = context.coordinator
+        textView.text = text
+        // Set here as well as on update, so the first height the field is measured for
+        // is the one the title is actually drawn at
+        textView.font = font
+        textView.backgroundColor = .clear
+        // Lines the text up with the label above it and the underline below it
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        // The text view grows with its content instead, so the form scrolls as a whole
+        textView.isScrollEnabled = false
+        textView.returnKeyType = .done
+        textView.accessibilityLabel = L10n.bookmarkTitleLabel
+        return textView
+    }
+
+    func updateUIView(_ textView: TextView, context: Context) {
+        context.coordinator.view = self
+
+        if textView.text != text {
+            textView.text = text
+        }
+
+        textView.font = font
+        textView.textColor = textColor
+        textView.tintColor = accentColor
+
+        guard isFocused != textView.isFirstResponder else { return }
+
+        // Deferred: editing begins the moment the text view takes focus, and reporting
+        // that back while SwiftUI is still updating the view would be a state change
+        // in the middle of one
+        DispatchQueue.main.async {
+            if isFocused {
+                textView.becomeFirstResponder()
+            } else {
+                textView.resignFirstResponder()
+            }
+        }
+    }
+
+    /// Asks the text view how tall it needs to be for the width it's offered
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView textView: TextView, context: Context) -> CGSize? {
+        guard let width = proposal.width, width.isFinite else { return nil }
+
+        let size = textView.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude))
+        return CGSize(width: width, height: size.height)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(view: self)
+    }
+
+    /// A text view that can be asked to run work once its text has been laid out
+    class TextView: UITextView {
+        private var afterLayout: (() -> Void)?
+
+        /// Runs `work` after the next layout pass, so a selection made against the text
+        /// is drawn rather than dropped by the layout that follows it. Only the latest
+        /// piece of work is kept, so repeated calls can't stack up.
+        func onNextLayout(_ work: @escaping () -> Void) {
+            afterLayout = work
+            setNeedsLayout()
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+
+            guard window != nil, bounds.width > 0, let afterLayout else { return }
+
+            self.afterLayout = nil
+            // Out of the layout pass the work would otherwise be changing the text view in
+            DispatchQueue.main.async(execute: afterLayout)
+        }
+    }
+
+    class Coordinator: NSObject, UITextViewDelegate {
+        var view: BookmarkTitleTextView
+
+        init(view: BookmarkTitleTextView) {
+            self.view = view
+        }
+
+        func textViewDidChange(_ textView: UITextView) {
+            view.text = textView.text
+        }
+
+        func textViewDidBeginEditing(_ textView: UITextView) {
+            view.isFocused = true
+
+            guard let textView = textView as? TextView else { return }
+
+            view.onBeginEditing(textView)
+        }
+
+        func textViewDidEndEditing(_ textView: UITextView) {
+            view.isFocused = false
+        }
+
+        /// Return saves the bookmark, as it did when this was a single line field. Line
+        /// breaks arriving any other way — pasted or dictated — are folded into spaces,
+        /// since the title is drawn on one line everywhere it's listed.
+        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            if text == "\n" {
+                view.onSubmit()
+                return false
+            }
+
+            guard text.rangeOfCharacter(from: .newlines) != nil,
+                  let replacedRange = textView.textRange(for: range) else { return true }
+
+            textView.replace(replacedRange, withText: text.singleLine)
+            view.text = textView.text
+            return false
+        }
+    }
+}
+
 // MARK: - Theme
 
 private extension BookmarkEditTheme {
@@ -254,12 +408,35 @@ private extension BookmarkEditTheme {
 
 // MARK: - Private Extensions
 
+/// How the title reads, both in the field and in the placeholder standing in for it
+private enum BookmarkTitleStyle {
+    static let fontSize: CGFloat = 24
+    static let fontWeight: UIFont.Weight = .bold
+    static let maxTypeSize: DynamicTypeSize = .accessibility2
+}
+
 private extension View {
     func titleFont() -> some View {
-        self
-            .lineLimit(1)
-            .minimumScaleFactor(0.7)
-            .font(size: 24, style: .title2, weight: .bold)
+        font(size: BookmarkTitleStyle.fontSize, style: .title2, weight: .bold)
+    }
+}
+
+private extension UITextView {
+    /// The range of text a delegate's `NSRange` points at
+    func textRange(for range: NSRange) -> UITextRange? {
+        guard let start = position(from: beginningOfDocument, offset: range.location),
+              let end = position(from: start, offset: range.length) else { return nil }
+
+        return textRange(from: start, to: end)
+    }
+}
+
+private extension String {
+    /// The text on a single line, with each run of line breaks standing in as one space
+    var singleLine: String {
+        components(separatedBy: .newlines)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
     }
 }
 

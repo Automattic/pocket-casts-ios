@@ -156,4 +156,25 @@ enum FingerprintConstants {
     /// Hard timeout for a one-shot bookmark position resolve. On expiry the
     /// caller falls back to the raw playback time.
     static let bookmarkResolveTimeoutSeconds: TimeInterval = 5
+
+    // MARK: - Bookmark playback resolve
+
+    /// Hard timeout for resolving a bookmark's reference time back to a playback
+    /// position. Far longer than `onDemandSeekTimeoutSeconds` because a chapter's
+    /// audio is already local by definition while a bookmark's often isn't: playing
+    /// it starts a stream-and-cache download and the region being matched only
+    /// arrives once that prefix reaches it. This also bounds how long a played
+    /// bookmark keeps the player paused (and its row's spinner up) before falling
+    /// back to the stored time.
+    static let bookmarkSeekTimeoutSeconds: TimeInterval = 25
+
+    /// How much of that budget may be spent waiting for a still-downloading buffer
+    /// to cover the search window. The remainder is left for the decode, which has
+    /// to fit inside the timeout above to deliver anything at all.
+    static let bookmarkSeekBufferWaitSeconds: TimeInterval = 15
+
+    /// Stop waiting early once the buffer stops growing for this long — no network,
+    /// a stalled download, or an episode that never caches to disk at all (HLS,
+    /// video, user uploads).
+    static let bookmarkSeekBufferStallSeconds: TimeInterval = 8
 }
