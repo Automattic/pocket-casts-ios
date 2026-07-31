@@ -220,11 +220,13 @@ struct PlaylistDetailView: View {
                     .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack {
-                    Spacer()
-                    archivedFilterMenu
+                if model.isManual {
+                    HStack {
+                        Spacer()
+                        archivedFilterMenu
+                    }
+                    .padding(.bottom, 32)
                 }
-                .padding(.bottom, 32)
             }
         }
         .onChange(of: rowFocus) { _, new in
