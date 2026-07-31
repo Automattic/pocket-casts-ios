@@ -3,4 +3,4 @@ CHANGELOG.md merge=union
 
 podcasts/Strings+Generated.swift linguist-generated
 
-.a8c-secrets/**/*.age binary
+.a8c-secrets/*.age binary
