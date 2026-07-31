@@ -418,18 +418,20 @@ extension SyncTask {
                 // If the podcast is for a user episode then we default to nil
                 let podcastUuid = apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid
 
-                let addedUuid = bookmarkManager.add(uuid: apiBookmark.bookmarkUuid,
-                                                    episodeUuid: apiBookmark.episodeUuid,
-                                                    podcastUuid: podcastUuid,
-                                                    title: apiBookmark.title.value,
-                                                    time: Double(apiBookmark.time.value),
-                                                    dateCreated: apiBookmark.createdAt.date,
-                                                    passage: apiBookmark.bookmarkPassage,
-                                                    passageLocation: apiBookmark.bookmarkPassageLocation,
-                                                    passageModified: apiBookmark.passageModifiedDate,
-                                                    referenceTime: apiBookmark.bookmarkReferenceTime,
-                                                    referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
-                                                    syncStatus: .synced)
+                let addedUuid = bookmarkManager.add(
+                    uuid: apiBookmark.bookmarkUuid,
+                    episodeUuid: apiBookmark.episodeUuid,
+                    podcastUuid: podcastUuid,
+                    title: apiBookmark.title.value,
+                    time: Double(apiBookmark.time.value),
+                    dateCreated: apiBookmark.createdAt.date,
+                    passage: apiBookmark.bookmarkPassage,
+                    passageLocation: apiBookmark.bookmarkPassageLocation,
+                    passageModified: apiBookmark.passageModifiedDate,
+                    referenceTime: apiBookmark.bookmarkReferenceTime,
+                    referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
+                    syncStatus: .synced
+                )
 
                 if addedUuid == nil {
                     FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
@@ -457,13 +459,18 @@ extension SyncTask {
             return
         }
 
-        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created,
-                                     passage: apiBookmark.bookmarkPassage,
-                                     passageLocation: apiBookmark.bookmarkPassageLocation,
-                                     passageModified: apiBookmark.passageModifiedDate,
-                                     referenceTime: apiBookmark.bookmarkReferenceTime,
-                                     referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
-                                     syncStatus: .synced).when(false) {
+        await bookmarkManager.update(
+            bookmark: existingBookmark,
+            title: title,
+            time: time,
+            created: created,
+            passage: apiBookmark.bookmarkPassage,
+            passageLocation: apiBookmark.bookmarkPassageLocation,
+            passageModified: apiBookmark.passageModifiedDate,
+            referenceTime: apiBookmark.bookmarkReferenceTime,
+            referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
+            syncStatus: .synced
+        ).when(false) {
             FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
         }
     }
