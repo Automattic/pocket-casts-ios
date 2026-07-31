@@ -1521,6 +1521,7 @@ platform :ios do
       overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
       phased_release: true,
       precheck_include_in_app_purchases: false,
+      force: is_ci, # Skip interactive verification of HTML preview on CI
       api_key: app_store_connect_api_key
     )
   end
