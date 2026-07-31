@@ -23,6 +23,7 @@ class PlaylistDetailsViewModel {
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
+    var episodesCount: Int = 0
 
     var hasDownloadFilter: Bool { playlist.playlist.isDownloadFilterActive }
 
@@ -73,8 +74,10 @@ class PlaylistDetailsViewModel {
                 shouldShowArchived: true
             )
             let playlistEpisodes = dataManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+            let count = dataManager.allPlaylistEpisodeCount(for: playlist.playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
             await MainActor.run {
                 allEpisodes = playlistEpisodes
+                episodesCount = count
                 applyArchivedFilter()
                 refreshPlaylistColor()
                 state = playlistEpisodes.isEmpty ? .empty : .ready
@@ -165,11 +168,11 @@ class PlaylistDetailsViewModel {
     }
 
     var episodeCountText: String {
-        return L10n.tvPlaylistDetailEpisodeCount(allEpisodes.count)
+        return episodesCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodesCount.localized())
     }
 
     var allEpisodesCount: Int {
-        return allEpisodes.count
+        return episodesCount
     }
 
     var areAllEpisodesArchived: Bool {
