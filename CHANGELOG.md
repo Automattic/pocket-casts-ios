@@ -3,6 +3,7 @@
 - Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
 - [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- Make the Up Next navigation bar consistent between the tab and player presentations: Select and a new "…" menu with Clear Up Next on the trailing edge, and a standard close button when opened from the player [#4875](https://github.com/Automattic/pocket-casts-ios/pull/4875)
 
 8.17
 -----
