@@ -94,10 +94,8 @@ struct HomeView: View {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
-                        if FeatureFlag.tvHomeCategoriesAndCurated.enabled {
-                            categoriesRow
-                            curatedRow
-                        }
+                        categoriesRow
+                        curatedRow
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
                             tabRouter.selectedTab = .search
