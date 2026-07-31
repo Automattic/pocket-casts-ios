@@ -69,7 +69,6 @@ class PlaylistDetailsViewModel {
             let query = PlaylistQueryBuilder.query(
                 clause: .episode,
                 for: playlist.playlist,
-                limit: Self.playlistEpisodeLimit,
                 shouldShowArchived: true
             )
             let playlistEpisodes = dataManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
@@ -81,9 +80,6 @@ class PlaylistDetailsViewModel {
             }
         }
     }
-
-    /// Mirrors `EpisodeDataManager.Constants.Limits.maxPlaylistItems`, which is private to the data module.
-    private static let playlistEpisodeLimit = 1000
 
     func setShowArchived(_ value: Bool) {
         guard value != showArchived else { return }
