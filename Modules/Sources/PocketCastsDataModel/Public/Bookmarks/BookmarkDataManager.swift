@@ -25,10 +25,20 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(),
-                    passage: String? = nil, passageLocation: Int? = nil, passageModified: Date? = nil,
-                    referenceTime: TimeInterval? = nil, referenceTimeModified: Date? = nil,
-                    syncStatus: SyncStatus = .notSynced) -> String? {
+    public func add(
+        uuid: String? = nil,
+        episodeUuid: String,
+        podcastUuid: String?,
+        title: String,
+        time: TimeInterval,
+        dateCreated: Date = Date(),
+        passage: String? = nil,
+        passageLocation: Int? = nil,
+        passageModified: Date? = nil,
+        referenceTime: TimeInterval? = nil,
+        referenceTimeModified: Date? = nil,
+        syncStatus: SyncStatus = .notSynced
+    ) -> String? {
         var bookmarkUuid: String? = nil
 
         dbQueue.write { db in
@@ -65,10 +75,19 @@ public struct BookmarkDataManager {
     /// modified date, the passage and its location along with `passageModified`, and the reference
     /// time along with `referenceTimeModified`. A group whose value is nil is left untouched.
     @discardableResult
-    public func update(bookmark: Bookmark, title: String? = nil, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date(),
-                       passage: String? = nil, passageLocation: Int? = nil, passageModified: Date? = nil,
-                       referenceTime: TimeInterval? = nil, referenceTimeModified: Date? = nil,
-                       syncStatus: SyncStatus = .notSynced) async -> Bool {
+    public func update(
+        bookmark: Bookmark,
+        title: String? = nil,
+        time: TimeInterval? = nil,
+        created: Date? = nil,
+        modified: Date? = Date(),
+        passage: String? = nil,
+        passageLocation: Int? = nil,
+        passageModified: Date? = nil,
+        referenceTime: TimeInterval? = nil,
+        referenceTimeModified: Date? = nil,
+        syncStatus: SyncStatus = .notSynced
+    ) async -> Bool {
         var updateColumns = [String]()
         var values = [Any?]()
 
@@ -89,12 +108,12 @@ public struct BookmarkDataManager {
 
         if let passageModified {
             updateColumns.append(contentsOf: ["\(Column.passage) = ?", "\(Column.passageLocation) = ?", "\(Column.passageModifiedDate) = ?"])
-            values.append(contentsOf: [passage, passageLocation, passageModified])
+            values.append(contentsOf: [passage as Any?, passageLocation as Any?, passageModified])
         }
 
         if let referenceTimeModified {
             updateColumns.append(contentsOf: ["\(Column.referenceTime) = ?", "\(Column.referenceTimeModifiedDate) = ?"])
-            values.append(contentsOf: [referenceTime, referenceTimeModified])
+            values.append(contentsOf: [referenceTime as Any?, referenceTimeModified])
         }
 
         updateColumns.append("\(Column.syncStatus) = ?")
