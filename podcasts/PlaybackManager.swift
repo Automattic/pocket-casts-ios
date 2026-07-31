@@ -2665,6 +2665,17 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         return defaultPlayer.player
     }
+
+    #if !os(watchOS)
+    /// Current RMS audio level (0...1) from the audio processing tap.
+    /// Returns 0 when no tap is active (e.g. HLS streams).
+    var currentAudioLevel: Float {
+        guard let currentPlayer = player else {
+            return 0
+        }
+        return currentPlayer.currentAudioLevel
+    }
+    #endif
 }
 
 private extension PlaybackManager {
