@@ -529,6 +529,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func playbackStarted() {
         if let episode = PlaybackManager.shared.currentEpisode() {
+            // Forget the auto open marker once a different episode plays, otherwise coming back to a
+            // previously auto opened episode never opens the player again. Keeping it for the same
+            // episode still stops a reload (e.g. switching to the downloaded file) from re-opening it.
+            if lastEpisodeUuidAutoOpened != episode.uuid {
+                lastEpisodeUuidAutoOpened = ""
+            }
+
             setupForEpisode(episode)
             showMiniPlayer()
             autoOpenFullScreenPlayerIfNeeded(for: episode)
