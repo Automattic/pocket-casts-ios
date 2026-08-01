@@ -1,32 +1,16 @@
 import SwiftUI
-import PocketCastsDataModel
-import PocketCastsUtils
 import PocketCastsServer
 
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
     @EnvironmentObject var searchResults: SearchResultsModel
-    @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    @State var identifier = 0
-
-    @State var showInlineResults = false
-    @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
+    @State var displayMode: SearchDisplayMode = .allResults
 
     var body: some View {
         Group {
-            NavigationLink(destination:
-                            SearchResultsListView(displayMode: displayMode)
-                                .setupDefaultEnvironment()
-                                .environmentObject(searchAnalyticsHelper)
-                                .environmentObject(searchResults)
-                                .environmentObject(searchHistory),
-                           isActive: $showInlineResults) {
-                EmptyView()
-            }
-
-            if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
+            if (searchResults.podcastSearchError != nil || searchResults.predictiveSearchError != nil) && !searchResults.resultsContainLocalPodcasts {
                 HStack(alignment: .center) {
                     EmptyStateView(
                         title: L10n.discoverSearchFailed,
@@ -40,78 +24,167 @@ struct SearchResultsView: View {
                     )
                 }
                 .frame(maxHeight: .infinity)
-                .background(Theme.sharedTheme.primaryUi02)
-            } else if searchResults.isShowingPredictiveSearch || searchResults.isSearchingPredictive {
-                if searchResults.isSearchingPredictive, searchResults.predictive.isEmpty {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tint(AppTheme.loadingActivityColor().color)
+                .background(Theme.sharedTheme.searchBackground)
+            } else if searchResults.isSearchingForPodcasts || (searchResults.isSearchingPredictive && searchResults.predictive.isEmpty) {
+                  ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tint(AppTheme.loadingActivityColor().color)
+            } else if searchResults.noResults {
+                if searchResults.isShowingPredictiveSearch {
+                    VStack {
+                        Spacer()
+                    }
+                    .background(Theme.sharedTheme.searchBackground)
                 } else {
-                    SearchListView {
+                    HStack(alignment: .center) {
+                        EmptyStateView(title: L10n.searchResultsEmptyTitle,
+                                       message: L10n.searchResultsEmptyMessage,
+                                       icon: { Image("search") },
+                                       actions: []
+                        )
+                    }
+                    .frame(maxHeight: .infinity)
+                    .background(Theme.sharedTheme.searchBackground)
+                }
+            } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
+                List {
+                    Section(content: {
                         PredictiveList()
                             .onAppear {
                                 self.searchAnalyticsHelper.trackPredictiveShown()
                             }
-                    }
+                    }, footer: {
+                        showFullResultsButton
+                    })
+                    .listRowBackground(theme.searchBackground)
+                    .listSectionSeparator(.hidden, edges: .bottom)
                 }
+                .scrollDismissesKeyboard(.immediately)
+                .listStyle(.plain)
+                .listRowSeparatorTint(theme.primaryUi05)
+                .scrollContentBackground(.hidden)
             } else {
-                SearchListView {
-                    ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
-                        displayMode = .podcasts
-                        showInlineResults = true
+                VStack(spacing: 0) {
+                    if searchResults.combinedResults.count > 1 {
+                        filterPicker
                     }
-                    PodcastsCarouselView()
-                    episodeList()
-                }
-            }
-        }
-    }
-
-    @ViewBuilder func episodeList() -> some View {
-        if !searchResults.hideEpisodes {
-            // If local results are being shown, we hide the episodes header
-            if !searchResults.isShowingLocalResultsOnly {
-                ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
-                    displayMode = .episodes
-                    showInlineResults = true
-                }
-            }
-
-            if searchResults.isSearchingForEpisodes {
-                ProgressView()
-                .frame(maxWidth: .infinity)
-                .tint(AppTheme.loadingActivityColor().color)
-                // Force the list to re-render the ProgressView by changing it's id
-                .id(identifier)
-                .onAppear {
-                    identifier += 1
-                }
-            } else if let _ = searchResults.episodeSearchError {
-                EmptyStateView(
-                    title: L10n.discoverSearchFailed,
-                    message: L10n.discoverSearchFailedMsg,
-                    icon: { Image("no-connection-grey").renderingMode(.template) },
-                    actions: [
-                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
-                            searchResults.search(term: searchResults.currentSearchTerm)
+                    List {
+                        if displayMode != .episodes {
+                            localResults
                         }
-                    ]
-                )
-            } else if !searchResults.episodes.isEmpty {
-                ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-                    let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-                    SearchResultCell(episode: episode, result: nil, played: played)
+                        combinedList
+                    }
+                    .scrollDismissesKeyboard(.immediately)
+                    .listStyle(.plain)
+                    .listRowSeparatorTint(theme.primaryUi05)
+                    .scrollContentBackground(.hidden)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .onAppear() {
+                        self.searchAnalyticsHelper.trackListShown(displayMode)
+                    }
                 }
-            } else if !searchResults.isShowingLocalResultsOnly {
-                EmptyStateView(title: L10n.discoverNoEpisodesFound,
-                               message: L10n.discoverNoPodcastsFoundMsg,
-                               icon: { Image(systemName: "info.circle") })
+            }
+        }
+        .background(theme.searchBackground.ignoresSafeArea())
+    }
+
+    @ViewBuilder var showFullResultsButton: some View {
+        Button(action: {
+            searchResults.search(term: searchResults.currentSearchTerm)
+            searchAnalyticsHelper.trackPredictiveViewAllTapped(term: searchResults.currentPredictiveSearchTerm)
+        }, label: {
+            Text(L10n.searchResultsViewAll(searchResults.currentSearchTerm))
+                .font(style: .subheadline, weight: .medium)
+                .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
+        })
+        .background(theme.searchBackground)
+    }
+
+    @ViewBuilder var filterPicker: some View {
+        PillSegmentControl(SearchDisplayMode.allCases, selection: $displayMode) { item in
+            Text(item.localizedDescription)
+        }
+        .padding(.bottom, 8)
+        .background(LiquidGlass.isEnabled ? theme.searchBackground : theme.secondaryUi01)
+        .onChange(of: displayMode) { _, newValue in
+            searchAnalyticsHelper.trackFilterTapped(newValue.analyticsDescription)
+        }
+    }
+
+    var filteredResults: [CombinedSearchResultType] {
+        let podcastsUuids = searchResults.podcasts.map({ result in
+            result.uuid
+        })
+        switch displayMode {
+            case .allResults:
+                return searchResults.combinedResults.filter { result in
+                    switch result {
+                        case .podcast(let podcast):
+                            return !podcastsUuids.contains(podcast.uuid)
+                        default:
+                            return true
+                    }
+                }
+            case .episodes:
+                return searchResults.combinedResults.filter { result in
+                    if case .episode = result {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            case .podcasts:
+                return searchResults.combinedResults.filter { result in
+                    if case let .podcast(podcast) = result {
+                        return !podcastsUuids.contains(podcast.uuid)
+                    } else {
+                        return false
+                    }
+                }
+        }
+    }
+
+    @ViewBuilder var combinedList: some View {
+        ForEach(filteredResults, id: \.self) { result in
+            switch result {
+                case .podcast(let podcast):
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
+                            return 0
+                        }
+                case .episode(let episode):
+                    SearchResultCell(episode: episode, result: nil, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
+                            return 0
+                        }
             }
         }
     }
 
-    enum Constants {
-        static let maxNumberOfEpisodes = 20
+    @ViewBuilder var localResults: some View {
+        ForEach(searchResults.podcasts, id: \.self) { localPodcast in
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                .listRowBackground(theme.searchBackground)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in
+                    return 0
+                }
+        }
+    }
+}
+
+/// Under Liquid Glass, search uses the standard list background to match other list
+/// screens; the legacy appearance keeps the original `primaryUi01`.
+private extension ThemeStyle {
+    static var searchBackground: ThemeStyle {
+        LiquidGlass.isEnabled ? .primaryUi02 : .primaryUi01
+    }
+}
+
+private extension Theme {
+    var searchBackground: Color {
+        AppTheme.color(for: .searchBackground, theme: self)
     }
 }
 

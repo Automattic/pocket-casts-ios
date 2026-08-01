@@ -71,11 +71,13 @@ struct PillButtonStyle: ButtonStyle {
     private var foreground: Color {
         theme.primaryText01
     }
+
     private var selectedBackground: Color {
         theme.primaryInteractive01
     }
+
     private var selectedForeground: Color {
-        theme.secondaryUi01
+        LiquidGlass.isEnabled ? theme.primaryInteractive02 : theme.secondaryUi01
     }
 
     // MARK: View

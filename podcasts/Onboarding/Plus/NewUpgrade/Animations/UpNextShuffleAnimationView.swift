@@ -122,11 +122,13 @@ struct UpNextShuffleAnimationView: View {
             }
         }
         .task {
-            Task {
+            do {
                 while true {
                     try await Task.sleep(for: .seconds(1.6))
                     nextAnimation()
                 }
+            } catch {
+                // Do nothing
             }
         }
     }

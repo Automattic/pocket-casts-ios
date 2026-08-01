@@ -46,7 +46,7 @@ extension FolderViewController {
         }
         let topRow = UIMenu(title: "", options: .displayInline, preferredElementSize: .medium, children: [shareAction, removeFromFolderAction])
 
-        let notificationsOn = podcast.isPushEnabled
+        let notificationsOn = podcast.pushEnabled
         let onAction = UIAction(title: L10n.on, state: notificationsOn ? .on : .off) { _ in
             if !notificationsOn {
                 Analytics.track(.podcastsListNotificationsTapped, properties: ["enabled": true])

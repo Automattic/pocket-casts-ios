@@ -118,11 +118,7 @@ class FolderViewController: PCViewController {
     @objc private func folderOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption: LibrarySort = if !FeatureFlag.podcastsSortChanges.enabled, folder.librarySort() == .recentlyPlayed {
-            .dateAddedNewestToOldest
-        } else {
-            folder.librarySort()
-        }
+        let sortOption = folder.librarySort()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") {
             Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
@@ -188,12 +184,6 @@ class FolderViewController: PCViewController {
     private func makeSortOptions() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        if !FeatureFlag.podcastsSortChanges.enabled, folder.librarySort() == .recentlyPlayed {
-            folder.sortType = Int32(LibrarySort.Old.dateAddedNewestToOldest.rawValue)
-            folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
-            DataManager.sharedManager.save(folder: folder)
-        }
-
         let sortOption = folder.librarySort()
 
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
@@ -216,18 +206,11 @@ class FolderViewController: PCViewController {
             self?.changeSortOrder(.recentlyPlayed)
         }
 
-        if FeatureFlag.podcastsSortChanges.enabled {
-            options.addAction(action: subscribedOrder)
-            options.addAction(action: releaseDateAction)
-            options.addAction(action: recentlyPlayedOrder)
-            options.addAction(action: podcastNameAction)
-            options.addAction(action: dragAndDropAction)
-        } else {
-            options.addAction(action: podcastNameAction)
-            options.addAction(action: releaseDateAction)
-            options.addAction(action: subscribedOrder)
-            options.addAction(action: dragAndDropAction)
-        }
+        options.addAction(action: subscribedOrder)
+        options.addAction(action: releaseDateAction)
+        options.addAction(action: recentlyPlayedOrder)
+        options.addAction(action: podcastNameAction)
+        options.addAction(action: dragAndDropAction)
 
         return options
     }

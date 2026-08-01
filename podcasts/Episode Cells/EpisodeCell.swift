@@ -238,7 +238,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             setEpisodeTitle(episode: episode)
 
             starIndicator.isHidden = !episode.keepEpisode
-            videoIndicator.isHidden = !episode.videoPodcast()
+            // Treat episodes that will stream HLS as video, so we show the video indicator without parsing
+            // the stream. Downloaded episodes play their local audio-only file, so they get no icon.
+            videoIndicator.isHidden = !EpisodeManager.isVideo(episode)
             videoIndicator.tintColor = ThemeColor.support01()
             setUpNextIndicator(visible: PlaybackManager.shared.inUpNext(episode: episode), animated: false)
             upNextIndicator.tintColor = ThemeColor.support01()

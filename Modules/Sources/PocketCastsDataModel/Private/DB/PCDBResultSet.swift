@@ -1,8 +1,6 @@
 import Foundation
 
 public protocol PCDBResultSet {
-    func close()
-
     func next() -> Bool
 
     func int(forColumnIndex: Int32) -> Int32

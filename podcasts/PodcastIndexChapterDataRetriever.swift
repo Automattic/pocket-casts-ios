@@ -38,12 +38,15 @@ public actor PodcastIndexChapterDataRetriever {
             return try chapters(from: cachedResponse.data)
         }
 
+        defer {
+            dataRequestMap[urlString] = nil
+        }
+
         let task = Task<PodcastIndexEvelope, Error> { [weak self] in
             guard let self else { throw TaskError.nilSelf }
             let (data, response) = try await URLSession.shared.data(for: request)
             let responseToCache = CachedURLResponse(response: response, data: data)
             podcastIndexChaptersCache.storeCachedResponse(responseToCache, for: request)
-            await setDataRequestMapToNil(for: urlString)
 
             return try await chapters(from: data)
         }
@@ -51,10 +54,6 @@ public actor PodcastIndexChapterDataRetriever {
         dataRequestMap[urlString] = task
 
         return try await task.value
-    }
-
-    private func setDataRequestMapToNil(for urlString: String) {
-        dataRequestMap[urlString] = nil
     }
 
     private func chapters(from data: Data) throws -> PodcastIndexEvelope {

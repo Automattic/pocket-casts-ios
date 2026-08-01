@@ -74,12 +74,7 @@ class ReferralsCoordinator {
                 onComplete?()
             })
             viewModel.onComplete = {
-                viewController.dismiss(animated: true) {
-                    if viewModel.accountCreated && !FeatureFlag.newOnboardingAccountCreation.enabled {
-                        let welcomeVC = WelcomeViewModel.make(in: nil, displayType: .newAccount)
-                        viewController.present(welcomeVC, animated: true)
-                    }
-                }
+                viewController.dismiss(animated: true)
                 onComplete?()
             }
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
@@ -103,7 +98,7 @@ class ReferralsCoordinator {
 
         let discountInfo = makeDiscountInfo(from: offer)
 
-        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo, source: .referral) else {
             return false
         }
 

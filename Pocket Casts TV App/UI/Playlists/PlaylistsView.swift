@@ -95,7 +95,7 @@ struct PlaylistsView: View {
         })
         .focusScope(listNamespace)
         .navigationDestination(for: PlaylistItem.self) { playlist in
-            PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist))
+            PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist, detail: true))
         }
     }
 }

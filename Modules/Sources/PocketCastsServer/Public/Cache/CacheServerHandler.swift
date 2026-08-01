@@ -12,9 +12,14 @@ public class CacheServerHandler {
 
     private lazy var episodeInfoHandler = ShowInfoDataRetriever()
 
-    private let tokenHelper = TokenHelper.shared
+    private let tokenHelper: TokenHelper
 
-    public init() {
+    public convenience init() {
+        self.init(tokenHelper: TokenHelper.shared)
+    }
+
+    init(tokenHelper: TokenHelper) {
+        self.tokenHelper = tokenHelper
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
     }
 
@@ -172,6 +177,37 @@ public class CacheServerHandler {
                 completion?(nil)
             }
         }
+    }
+
+    // MARK: - Bookmark Enrichment
+
+    private struct BookmarkEnrichRequest: Encodable {
+        let transcriptSnippet: String
+
+        enum CodingKeys: String, CodingKey {
+            case transcriptSnippet = "transcript_snippet"
+        }
+    }
+
+    public struct BookmarkEnrichResponse: Decodable {
+        public let title: String?
+        public let summary: String?
+        public let error: String?
+    }
+
+    /// Generates a title and summary for a bookmark from the transcript text surrounding its position.
+    public func enrichBookmark(transcriptSnippet: String) async throws -> BookmarkEnrichResponse {
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/bookmark/enrich")
+        guard let request = ServerHelper.createJsonRequest(url: url, params: BookmarkEnrichRequest(transcriptSnippet: transcriptSnippet), timeout: CacheServerHandler.defaultTimeout, cachePolicy: .useProtocolCachePolicy) else {
+            throw APIError.UNKNOWN
+        }
+
+        let (response, data) = try await tokenHelper.callSecureUrl(request: request)
+        guard response?.statusCode == ServerConstants.HttpConstants.ok, let data else {
+            throw APIError.UNKNOWN
+        }
+
+        return try JSONDecoder().decode(BookmarkEnrichResponse.self, from: data)
     }
 
     // MARK: - Helper Methods

@@ -97,7 +97,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let episodeCount = delegate.episodeCount()
         let archivedCount = delegate.archivedEpisodeCount()
-        let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimitCount > 0 && podcast.isAutoArchiveOverridden)
+        let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive)
 
         var infoText: String = ""
         infoText = episodeCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodeCount.localized())
@@ -106,7 +106,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         if !hasEpisodeLimit {
             attributedText.append(NSAttributedString(string: L10n.podcastArchivedCountFormat(archivedCount.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)]))
         } else {
-            attributedText.append(NSAttributedString(string: L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimitCount.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.support08)]))
+            attributedText.append(NSAttributedString(string: L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimit.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.support08)]))
         }
         episodeInfoLabel?.attributedText = attributedText
 
@@ -168,7 +168,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") {}
             archiveAllAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: unarchivedCount, playedOnly: false) }
             optionPicker.addAction(action: archiveAllAction)
-        } else if !(podcast.autoArchiveEpisodeLimitCount > 0 && podcast.isAutoArchiveOverridden) {
+        } else if !(podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive) {
             // we only show unarchive all for podcasts that haven't set an episode limit
             let unarchiveAllAction = OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
                 guard let strongSelf = self else { return }
@@ -323,10 +323,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
     private func setSortSetting(_ setting: PodcastEpisodeSortOrder) {
         guard let podcast = podcastDelegate?.displayedPodcast() else { return }
-        if FeatureFlag.newSettingsStorage.enabled {
-            podcast.settings.episodesSortOrder = setting
-            podcast.syncStatus = SyncStatus.notSynced.rawValue
-        }
         podcast.episodeSortOrder = setting.old.rawValue
         DataManager.sharedManager.save(podcast: podcast)
 
@@ -335,10 +331,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
     private func setGroupingSetting(_ setting: PodcastGrouping) {
         guard let podcast = podcastDelegate?.displayedPodcast() else { return }
-        if FeatureFlag.newSettingsStorage.enabled {
-            podcast.settings.episodeGrouping = setting
-            podcast.syncStatus = SyncStatus.notSynced.rawValue
-        }
         podcast.episodeGrouping = setting.rawValue
         DataManager.sharedManager.save(podcast: podcast)
 

@@ -150,19 +150,12 @@ open class SubscriptionHelper: NSObject {
     }
 
     public class func setSubscriptionGiftAcknowledgement(_ value: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.freeGiftAcknowledgement = value
-        }
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
         UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgementNeedsSyncKey)
     }
 
     public class func subscriptionGiftAcknowledgement() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.freeGiftAcknowledgement
-        } else {
-            return UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
-        }
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
     }
 
     public class func subscriptionGiftAcknowledgementNeedsSyncing() -> Bool {

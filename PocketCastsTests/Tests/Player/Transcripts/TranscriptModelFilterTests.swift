@@ -193,4 +193,116 @@ final class TranscriptModelFilterTests: XCTestCase {
 
         XCTAssertEqual(model.isEmtpy, true)
     }
+
+    func testJSONPodcastIndex() throws {
+        let transcript = """
+        {
+            "version": "1.0.0",
+            "segments": [
+                { "speaker": "Alice", "startTime": 0.0, "endTime": 1.0, "body": "Hello world" },
+                { "speaker": "Bob", "startTime": 1.0, "endTime": 2.0, "body": "Hi there" }
+            ]
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Alice"))
+        XCTAssertTrue(text.contains("Hello world"))
+        XCTAssertTrue(text.contains("Hi there"))
+        XCTAssertEqual(model.cues.count, 2)
+    }
+
+    func testJSONPodcastIndexWithoutSpeaker() throws {
+        let transcript = """
+        {
+            "version": "1.0.0",
+            "segments": [
+                { "startTime": 0.0, "endTime": 1.0, "body": "Hello world" },
+                { "startTime": 1.0, "endTime": 2.0, "body": "Hi there" }
+            ]
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Hello world"))
+        XCTAssertTrue(text.contains("Hi there"))
+        XCTAssertEqual(model.cues.count, 2)
+    }
+
+    func testFlightcastJSONUsesEmbeddedVTT() throws {
+        let transcript = """
+        {
+            "text": "Hello world from flightcast",
+            "segments": [{ "start": 0.03, "end": 2.35, "text": "Hello world from flightcast" }],
+            "vtt": "WEBVTT\\n\\n1\\n00:00:00.031 --> 00:00:02.356\\n<v Speaker 1>Hello world from flightcast\\n"
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Hello world from flightcast"))
+        // The embedded VTT's <v Speaker 1> voice tag should surface as a speaker heading.
+        XCTAssertTrue(text.contains("Speaker 1"))
+        XCTAssertFalse(text.contains("<v"))
+        XCTAssertFalse(model.cues.isEmpty)
+    }
+
+    func testFlightcastJSONFallsBackToSegmentText() throws {
+        let transcript = """
+        {
+            "segments": [
+                { "start": 0, "end": 1, "text": "Only segment text here" },
+                { "start": 1, "end": 2, "text": "Second line" }
+            ]
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Only segment text here"))
+        XCTAssertTrue(text.contains("Second line"))
+        XCTAssertEqual(model.cues.count, 2)
+        XCTAssertEqual(model.cues.first?.startTime, 0)
+        XCTAssertEqual(model.cues.first?.endTime, 1)
+    }
+
+    func testFlightcastJSONIgnoresSegmentsWithoutStringText() throws {
+        let transcript = """
+        {
+            "segments": [
+                { "start": 0, "end": 1, "text": "Kept line" },
+                { "start": 1, "end": 2 },
+                { "start": 2, "end": 3, "text": 42 }
+            ]
+        }
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .jsonPodcastIndex) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertTrue(text.contains("Kept line"))
+        XCTAssertFalse(text.contains("42"))
+        XCTAssertEqual(model.cues.count, 1)
+    }
 }

@@ -6,6 +6,11 @@ class ChaptersViewController: PlayerItemViewController {
 
     var numberOfDeselectedChapters = 0
 
+    /// The row whose generated chapter is currently being resolved to a real
+    /// playback position via fingerprinting (shows a spinner). Nil when idle.
+    /// Drives the per-row spinner from `cellForRowAt` so it survives cell reuse.
+    var resolvingIndexPath: IndexPath?
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()
@@ -34,6 +39,9 @@ class ChaptersViewController: PlayerItemViewController {
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        // Drop any in-flight chapter resolve so a backgrounded list can't seek later.
+        FingerprintTimingManager.shared.cancelPendingChapterResolve()
+        resolvingIndexPath = nil
     }
 
     override func themeDidChange() {

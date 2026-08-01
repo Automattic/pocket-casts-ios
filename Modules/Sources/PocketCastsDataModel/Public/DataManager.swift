@@ -1,5 +1,6 @@
 import GRDB
 import Foundation
+import OSLog
 import PocketCastsUtils
 import SQLite3
 
@@ -47,6 +48,20 @@ public class DataManager {
 
         var config = Configuration()
         config.busyMode = .timeout(10)
+#if DEBUG
+        // Launch with `-PCSQLTracing` (Edit Scheme ▸ Run ▸ Arguments, off by default) to log
+        // every SQL statement with its arguments to the unified logging system.
+        // Filter with `subsystem:<bundle id> category:SQL`.
+        if ProcessInfo.processInfo.arguments.contains("-PCSQLTracing") {
+            let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PocketCasts", category: "SQL")
+            config.publicStatementArguments = true
+            config.prepareDatabase { db in
+                db.trace(options: .statement) { event in
+                    logger.debug("\(event, privacy: .public)")
+                }
+            }
+        }
+#endif
         let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
         let dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
         DataManager.setDatabaseFileProtectionToNone()
@@ -1146,7 +1161,6 @@ public class DataManager {
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
-                resultSet.close()
             } catch {
                 FileLog.shared.addMessage("DataManager.count error: \(error)")
             }
@@ -1206,20 +1220,16 @@ public class DataManager {
         let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
-            podcast.isPushEnabled = true
+            podcast.pushEnabled = true
         } else {
-            podcast.isPushEnabled = false
+            podcast.pushEnabled = false
         }
 
         DataManager.sharedManager.save(podcast: podcast)
     }
 
     public func pushEnabledPodcastsCount() -> Int {
-        if FeatureFlag.newSettingsStorage.enabled {
-            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE json_extract(settings, '$.notification.value') = ? AND subscribed = 1", values: [true])
-        } else {
-            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
-        }
+        DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
     }
 
     // MARK: - Up Next History Manager

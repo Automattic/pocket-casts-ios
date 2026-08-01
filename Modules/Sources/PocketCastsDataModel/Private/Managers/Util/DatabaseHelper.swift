@@ -10,8 +10,6 @@ class DatabaseHelper {
         var databaseWasCreated = false
         queue.write { db in
             do {
-                try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
-
                 let startingSchemaVersion = db.pragmaUserVersion() ?? 0
                 databaseWasCreated = startingSchemaVersion < 1
 
