@@ -4,6 +4,7 @@
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
 - Fix swiping away the bookmark edit sheet keeping the new bookmark with its default title instead of discarding it, like the close button does [#4864](https://github.com/Automattic/pocket-casts-ios/pull/4864)
 - [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
 
 8.17
 -----
