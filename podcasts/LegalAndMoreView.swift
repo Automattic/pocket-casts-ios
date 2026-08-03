@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LegalAndMore: View {
+struct LegalAndMoreView: View {
     @EnvironmentObject var theme: Theme
 
     @State private var showTermsOfService = false
