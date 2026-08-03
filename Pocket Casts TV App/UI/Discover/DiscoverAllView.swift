@@ -45,38 +45,6 @@ struct DiscoverAllView: View {
     }
 }
 
-struct DiscoverRowSection: View {
-
-    var item: DiscoverItem
-    let source: String
-
-    init(item: DiscoverItem, source: String) {
-        self.item = item
-        self.source = source
-    }
-
-    var body: some View {
-        ZStack {
-            switch item.rowType {
-            case .categories:
-                DiscoverCategoriesRow(item: item, popularOnly: false, source: source)
-            case .featured:
-                DiscoverFeaturedPodcastsRow(item: item, source: source)
-            case .listVideoEpisode:
-                DiscoverVideoEpisodesRow(item: item, source: source)
-            case .singlePodcast:
-                DiscoverSinglePodcastRow(item: item, source: source)
-            case .listEpisode:
-                DiscoverEpisodesRow(item: item, source: source)
-            case .singleEpisode:
-                DiscoverEpisodesRow(item: item, source: source)
-            default:
-                DiscoverPodcastRow(item: item, source: source)
-            }
-        }
-    }
-}
-
 extension DiscoverItem {
 
     var focusStoreID: String {
