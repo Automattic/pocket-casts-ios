@@ -289,6 +289,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var expandedStyle: String?
     public var summaryItemCount: Int?
     public var source: String?
+    public var sourceType: String?
     public var authenticated: Bool?
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
@@ -311,6 +312,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case categoryID = "category_id"
         case dateTime = "datetime"
         case sponsoredCategoryIDs = "sponsored_ids"
+        case sourceType = "source_type"
         case type, title, source, regions, curated, uuid, popular, id, authenticated
     }
 
@@ -323,6 +325,7 @@ public struct DiscoverItem: Decodable, Equatable {
         summaryItemCount: Int? = nil,
         expandedStyle: String? = nil,
         source: String? = nil,
+        sourceType: String? = nil,
         sponsoredPodcasts: [CarouselSponsoredPodcast]? = nil,
         expandedTopItemLabel: String? = nil,
         curated: Bool? = nil,
@@ -341,6 +344,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.summaryItemCount = summaryItemCount
         self.expandedStyle = expandedStyle
         self.source = source
+        self.sourceType = sourceType
         self.sponsoredPodcasts = sponsoredPodcasts
         self.expandedTopItemLabel = expandedTopItemLabel
         self.curated = curated

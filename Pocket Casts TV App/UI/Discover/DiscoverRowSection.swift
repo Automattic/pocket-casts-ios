@@ -11,38 +11,47 @@ enum DiscoverRowType: CaseIterable {
     case singleEpisode
     case listVideoEpisode
     case banner
+    case upNext
+    case nowPlaying
+    case newReleases
 }
 
 extension DiscoverItem {
     var rowType: DiscoverRowType? {
-        switch (type, summaryStyle, expandedStyle) {
-        case ("categories", "pills", _):
+        switch (type, summaryStyle, expandedStyle, sourceType) {
+        case ("categories", "pills", _, _):
             return .categories
-        case ("podcast_list", "carousel", _):
+        case ("podcast_list", "carousel", _, _):
             return .featured
-        case ("podcast_list", "small_list", _):
+        case ("podcast_list", "small_list", _, _):
             return .listPodcast
-        case ("podcast_list", "large_list", _):
+        case ("podcast_list", "large_list", _, _):
             return .listPodcast
-        case ("podcast_list", "single_podcast", _):
+        case ("podcast_list", "single_podcast", _, _):
             return .singlePodcast
-        case ("podcast_list", "collection", _):
+        case ("podcast_list", "collection", _, _):
             return .listPodcast
-        case ("network_list", _, _):
+        case ("network_list", _, _, _):
             return .listPodcast
-        case ("categories", "category", _):
+        case ("categories", "category", _, _):
             return .categories
-        case ("episode_list", "single_episode", _):
+        case ("episode_list", "single_episode", _, nil):
             return .singleEpisode
-        case ("episode_list", "collection", "plain_list"):
+        case ("episode_list", "collection", "plain_list", nil):
             return .listEpisode
-        case ("episode_list", "video_preview_list", "plain_list"):
+        case ("episode_list", "video_preview_list", "plain_list", _):
             return .listVideoEpisode
-        case ("category_podcast_list", _, _):
+        case ("category_podcast_list", _, _, _):
             return .categories
-        case ("podcast_list", "large_list_with_podcast", _):
+        case ("podcast_list", "large_list_with_podcast", _, _):
             return .listPodcast
-        case ("banner", "inline_banner", _):
+        case ("episode_list", "single_episode", _, "up_next"):
+            return .nowPlaying
+        case ("episode_list", "small_list", _, "up_next"):
+            return .upNext
+        case ("episode_list", "small_list", _, "new_releases"):
+            return .newReleases
+        case ("banner", "inline_banner", _, _):
             return .banner
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
@@ -55,7 +64,9 @@ extension DiscoverItem {
 struct DiscoverRowSection: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
-    
+
+    @Environment(HomeViewModel.self) var localDataModel: HomeViewModel
+
     var item: DiscoverItem
     let source: String
 
@@ -81,6 +92,12 @@ struct DiscoverRowSection: View {
                 DiscoverEpisodesRow(item: item, source: source)
             case .banner:
                 makeBannerRow(item: item)
+            case .upNext:
+                upNextRow
+            case .nowPlaying:
+                nowPlayingRow
+            case .newReleases:
+                newReleasesRow
             default:
                 DiscoverPodcastRow(item: item, source: source)
             }
@@ -101,6 +118,39 @@ struct DiscoverRowSection: View {
             }
         } else {
             EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    var nowPlayingRow: some View {
+        if localDataModel.shouldShowNowPlayingRow, let currentPlaying = localDataModel.currentPlaying {
+            RowSection(title: L10n.tvHomeKeepListeningTitle, focusSection: HomeView.Section.homeNowPlaying.rawValue) {
+                NowPlayingRow(model: currentPlaying) {
+                    tabRouter.showFullScreenPlayer = true
+                }
+                .frame(width: 1242, alignment: .leading)
+                .setFocus(section: HomeView.Section.homeNowPlaying.rawValue)
+            }
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    var upNextRow: some View {
+        if localDataModel.upNext.count > 1 {
+            EpisodesHorizontalList(title: L10n.tvTabUpNext, focusSection: HomeView.Section.homeUpNext.rawValue, episodes: localDataModel.upNext, episodeContext: .upNext) {
+                tabRouter.showFullScreenPlayer = true
+            }
+        }
+    }
+
+    @ViewBuilder
+    var newReleasesRow: some View {
+        if !localDataModel.newReleases.isEmpty {
+            EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: HomeView.Section.homeNewReleases.rawValue, episodes: localDataModel.newReleases, episodeContext: .other(showGoToPodcast: true)) {
+                tabRouter.showFullScreenPlayer = true
+            }
         }
     }
 }

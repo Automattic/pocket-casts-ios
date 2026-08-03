@@ -9,8 +9,6 @@ struct HomeView: View {
 
     @State private var model: HomeViewModel
 
-    @State private var showNowPlayingPlayer: Bool = false
-
     init(model: HomeViewModel) {
         _model = State(wrappedValue: model)
     }
@@ -67,13 +65,12 @@ struct HomeView: View {
         NavigationStack(path: $path.navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
-                    if coordinator.userState.isLoggedIn {
-                        nowPlayingRow
-                        upNextRow
+                    if coordinator.userState.isLoggedIn {                        
                         DiscoverHomeView(model: tabRouter.discoverHomeSignedInViewModel)
+                            .environment(self.model)
                     } else {
-                        nowPlayingRow
                         DiscoverHomeView(model: tabRouter.discoverHomeSignedOutViewModel)
+                            .environment(self.model)
                     }
                 }
             }
@@ -91,43 +88,6 @@ struct HomeView: View {
             .syncNavigationDetail(path: path.navigationPath, tabRouter: tabRouter)
         }
         .environment(path)
-        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
-            NowPlayingView()
-                .ignoresSafeArea()
-        }
-    }
-
-    @ViewBuilder
-    var nowPlayingRow: some View {
-        if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
-            RowSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
-                NowPlayingRow(model: currentPlaying) {
-                    showNowPlayingPlayer = true
-                }
-                .frame(width: 1242, alignment: .leading)
-                .setFocus(section: Section.homeNowPlaying.rawValue)
-            }
-        } else {
-            EmptyView()
-        }
-    }
-
-    @ViewBuilder
-    var upNextRow: some View {
-        if model.upNext.count > 1 {
-            EpisodesHorizontalList(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue, episodes: model.upNext, episodeContext: .upNext) {
-                showNowPlayingPlayer = true
-            }
-        }
-    }
-
-    @ViewBuilder
-    var newReleasesRow: some View {
-        if !model.newReleases.isEmpty {
-            EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue, episodes: model.newReleases, episodeContext: .other(showGoToPodcast: true)) {
-                showNowPlayingPlayer = true
-            }
-        }
     }
 }
 

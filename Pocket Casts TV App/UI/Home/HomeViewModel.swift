@@ -22,7 +22,6 @@ class HomeViewModel {
 
     var state: State = .loading
 
-    var podcasts: [Podcast] = []
     var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
@@ -33,7 +32,6 @@ class HomeViewModel {
 
     func load() {
         Task {
-            let podcasts = fetchPodcasts()
             let upNextEpisodes = dataManager.allUpNextEpisodes()
             let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
                 makeRowViewModel(for: episode)
@@ -41,7 +39,6 @@ class HomeViewModel {
 
             await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
-                self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)
                 }
