@@ -8,9 +8,6 @@ struct DiscoverEpisodesRow: View {
         static let cellWidth = CGFloat(864)
     }
 
-    @Namespace private var focusNS
-    @Environment(\.resetFocus) var resetFocus
-
     @State private var model: DiscoverSectionEpisodesModel
 
     init(item: DiscoverItem, source: String) {
@@ -52,7 +49,6 @@ struct DiscoverEpisodesRow: View {
                 }
             })
             .focusSection()
-            .focusScope(focusNS)
         }
         .scrollClipDisabled()
     }
