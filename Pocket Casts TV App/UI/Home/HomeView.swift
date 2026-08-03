@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -40,6 +41,7 @@ struct HomeView: View {
         .task {
             Analytics.track(.homeShown)
             model.load()
+            model.refresh()
         }
     }
 
@@ -140,6 +142,10 @@ struct HomeView: View {
 
     var curatedRow: some View {
         DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource)
+    }
+
+    var twitNetworkRow: some View {
+        DiscoverPodcastRow(type: .twit, source: DiscoverAnalytics.homeSource)
     }
 
     var categoriesRow: some View {

@@ -23,6 +23,7 @@ class PlaylistDetailsViewModel {
     var episodes: [Episode] = []
     var showArchived: Bool = false
     var playlistColor: Color
+    var episodesCount: Int = 0
 
     var hasDownloadFilter: Bool { playlist.playlist.isDownloadFilterActive }
 
@@ -35,6 +36,7 @@ class PlaylistDetailsViewModel {
     }
 
     init(playlist: PlaylistItem,
+         detail: Bool = false,
          dataManager: DataManager = DataManager.sharedManager,
          playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playlist = playlist
@@ -43,6 +45,9 @@ class PlaylistDetailsViewModel {
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist.playlist))
         self.playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)
         observePodcastColorDownloads()
+        if detail {
+            observePlaylistChanges()
+        }
     }
 
     /// Newly-subscribed podcasts return defaults until colour metadata downloads — refresh
@@ -62,6 +67,19 @@ class PlaylistDetailsViewModel {
             .store(in: &cancellables)
     }
 
+    private func observePlaylistChanges() {
+        Publishers.Merge3(
+            NotificationCenter.default.publisher(for: Constants.Notifications.playlistChanged),
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged),
+            NotificationCenter.default.publisher(for: Constants.Notifications.episodePlayStatusChanged),
+        )
+        .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.load()
+        }
+        .store(in: &cancellables)
+    }
+
     func load() {
         Task {
             // `DataManager.playlistEpisodes(for:)` always filters archived out, so query directly
@@ -73,8 +91,10 @@ class PlaylistDetailsViewModel {
                 shouldShowArchived: true
             )
             let playlistEpisodes = dataManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+            let count = dataManager.allPlaylistEpisodeCount(for: playlist.playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
             await MainActor.run {
                 allEpisodes = playlistEpisodes
+                episodesCount = count
                 applyArchivedFilter()
                 refreshPlaylistColor()
                 state = playlistEpisodes.isEmpty ? .empty : .ready
@@ -165,11 +185,11 @@ class PlaylistDetailsViewModel {
     }
 
     var episodeCountText: String {
-        return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
+        return episodesCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodesCount.localized())
     }
 
     var allEpisodesCount: Int {
-        return allEpisodes.count
+        return episodesCount
     }
 
     var areAllEpisodesArchived: Bool {
