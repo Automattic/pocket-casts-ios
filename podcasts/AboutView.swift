@@ -5,7 +5,7 @@ import SwiftUI
 struct AboutView: View {
     private let minLogoSize: CGFloat = 45
     private let maxLogoSize: CGFloat = 80
-    private let logoOffsetAmount: CGFloat = 36
+    private let logoOffsetAmount: CGFloat = 42
     private let familyCellTopPadding: CGFloat = 6
 
     /// Tall enough to fit the staggered logos, which extend `logoOffsetAmount` above and below their base size.
@@ -14,8 +14,6 @@ struct AboutView: View {
     @EnvironmentObject var theme: Theme
 
     @ObservedObject private var model = AboutViewModel()
-
-    @State private var showLegalAndMore = false
 
     @Environment(\.dismiss) var dismiss
 
@@ -33,7 +31,16 @@ struct AboutView: View {
             .navigationDestination(for: AboutNavigationPathComponent.self) {
                 switch $0 {
                 case .legalAndMore:
-                    LegalAndMoreView()
+                    LegalAndMoreView(navigationPath: $model.navigationPath)
+                case .termsOfService:
+                    WebView(url: LegalAndMoreView.Constants.termsOfUseURL)
+                        .navigationTitle(L10n.aboutTermsOfService)
+                case .privacyPolicy:
+                    WebView(url: LegalAndMoreView.Constants.privacyPolicyURL)
+                        .navigationTitle(L10n.aboutPrivacyPolicy)
+                case .acknowledgements:
+                    WebView(url: LegalAndMoreView.Constants.acknowledgementsURL)
+                        .navigationTitle(L10n.aboutAcknowledgements)
                 }
             }
             .toolbar {

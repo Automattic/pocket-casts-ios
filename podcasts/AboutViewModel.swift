@@ -48,4 +48,7 @@ class AboutViewModel: ObservableObject {
 
 enum AboutNavigationPathComponent {
     case legalAndMore
+    case termsOfService
+    case privacyPolicy
+    case acknowledgements
 }
