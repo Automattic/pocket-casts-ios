@@ -37,8 +37,5 @@ struct DiscoverHomeView: View {
                 DiscoverRowSection(item: item, source: DiscoverAnalytics.homeSource)
             }
         }
-        .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.homeSource)
-        }
     }
 }
