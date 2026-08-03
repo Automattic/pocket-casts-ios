@@ -71,17 +71,9 @@ struct HomeView: View {
                         nowPlayingRow
                         upNextRow
                         DiscoverHomeView(model: tabRouter.discoverHomeSignedInViewModel)
-                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
-                            Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
-                            tabRouter.selectedTab = .search
-                        }
                     } else {
                         nowPlayingRow
                         DiscoverHomeView(model: tabRouter.discoverHomeSignedOutViewModel)
-                        BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
-                            Analytics.track(.bannerRowTapped, properties: ["type": "create_account"])
-                            tabRouter.pendingAuthFlow = .createAccount
-                        }
                     }
                 }
             }

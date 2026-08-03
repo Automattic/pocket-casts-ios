@@ -10,6 +10,7 @@ enum DiscoverRowType: CaseIterable {
     case listEpisode
     case singleEpisode
     case listVideoEpisode
+    case banner
 }
 
 extension DiscoverItem {
@@ -41,6 +42,8 @@ extension DiscoverItem {
             return .categories
         case ("podcast_list", "large_list_with_podcast", _):
             return .listPodcast
+        case ("banner", "inline_banner", _):
+            return .banner
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
             assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
@@ -51,6 +54,8 @@ extension DiscoverItem {
 
 struct DiscoverRowSection: View {
 
+    @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
+    
     var item: DiscoverItem
     let source: String
 
@@ -74,9 +79,28 @@ struct DiscoverRowSection: View {
                 DiscoverEpisodesRow(item: item, source: source)
             case .singleEpisode:
                 DiscoverEpisodesRow(item: item, source: source)
+            case .banner:
+                makeBannerRow(item: item)
             default:
                 DiscoverPodcastRow(item: item, source: source)
             }
+        }
+    }
+
+    @ViewBuilder
+    func makeBannerRow(item: DiscoverItem) -> some View {
+        if let bannerId = item.id, let bannerType = BannerType(rawValue: bannerId) {
+            BannerRow(type: bannerType, focusSection: HomeView.Section.homeBanner.rawValue) {
+                Analytics.track(.bannerRowTapped, properties: ["type": bannerType.rawValue])
+                switch bannerType {
+                case .discoverMore:
+                    tabRouter.selectedTab = .search
+                case .createAccount:
+                    tabRouter.pendingAuthFlow = .createAccount
+                }
+            }
+        } else {
+            EmptyView()
         }
     }
 }

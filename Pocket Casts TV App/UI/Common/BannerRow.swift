@@ -1,8 +1,8 @@
 import SwiftUI
 
-enum BannerType {
-    case createAccount
-    case discoverMore
+enum BannerType: String {
+    case createAccount = "create_account"
+    case discoverMore = "discover_more"
 
     var title: String {
         switch self {

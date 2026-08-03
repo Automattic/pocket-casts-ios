@@ -36,7 +36,12 @@ class DiscoverHomeViewModel {
 
         await MainActor.run {
             state = items.isEmpty ? .empty : .ready
-            self.sections = items
+            var finalItems = items
+            if !signedIn {
+                finalItems.insert(MockData.makeStubBanner(.createAccount), at: min(items.count, 3))
+            }
+            finalItems.append(MockData.makeStubBanner(.discoverMore))
+            self.sections = finalItems
         }
     }
 
