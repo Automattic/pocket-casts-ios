@@ -468,6 +468,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         isMultiSelectEnabled = true
     }
 
+    @objc func moreTapped() {
+        let optionsPicker = OptionsPicker(title: nil, themeOverride: themeOverride)
+        let clearAction = OptionAction(label: L10n.clearUpNext, icon: "episode-removenext") { [weak self] in
+            self?.clearQueueTapped()
+        }
+        clearAction.destructive = true
+        optionsPicker.addAction(action: clearAction)
+        optionsPicker.present(from: self)
+    }
+
     @objc func selectAllTapped() {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
@@ -489,36 +499,41 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         navigationController?.navigationBar.tintColor = AppTheme.navBarIconsColor(themeOverride: themeOverride)
 
         let leftButton: UIBarButtonItem?
-        let rightButton: UIBarButtonItem?
+        let rightButtons: [UIBarButtonItem]
 
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
-                rightButton = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
+                rightButtons = [UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))]
             } else {
-                rightButton = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
+                rightButtons = [UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))]
             }
             leftButton = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
-        } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-            rightButton = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            if showingInTab {
-                if FeatureFlag.upNextShuffle.enabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-                    leftButton = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
-                } else {
-                    leftButton = nil
-                }
-            } else {
-                leftButton = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-            }
         } else {
-            rightButton = nil
-            if showingInTab {
-                leftButton = nil
+            let hasEpisodes = PlaybackManager.shared.queue.upNextCount() > 0
+
+            if FeatureFlag.upNextShuffle.enabled {
+                if hasEpisodes {
+                    let selectButton = UIBarButtonItem(image: UIImage(named: "option-multiselect"), style: .plain, target: self, action: #selector(selectTapped))
+                    selectButton.accessibilityLabel = L10n.selectEpisodes
+                    let moreButton = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
+                    moreButton.accessibilityLabel = L10n.accessibilityMoreActions
+                    rightButtons = [selectButton, moreButton]
+                } else {
+                    rightButtons = []
+                }
+                leftButton = showingInTab ? nil : UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(doneTapped))
             } else {
-                leftButton = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+                let selectButton = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
+                rightButtons = hasEpisodes ? [selectButton] : []
+                leftButton = showingInTab ? nil : UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
         }
 
-        navigationItem.setRightBarButton(rightButton, animated: animated)
+        if rightButtons.count > 1 {
+            navigationItem.trailingItemGroups = [UIBarButtonItemGroup(barButtonItems: rightButtons, representativeItem: nil)]
+        } else {
+            navigationItem.setRightBarButtonItems(rightButtons, animated: animated)
+        }
         navigationItem.setLeftBarButton(leftButton, animated: animated)
     }
 
