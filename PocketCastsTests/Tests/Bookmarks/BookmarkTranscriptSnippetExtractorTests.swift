@@ -46,16 +46,17 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
         XCTAssertEqual(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 600).failureReason, .noTranscriptAtPosition)
     }
 
-    func testTextSkipsSpeakerNamesAndCollapsesCueBreaks() throws {
+    func testTextSkipsSpeakerNamesAndKeepsLineBreaks() throws {
         let model = try makeModel()
         let fullRange = NSRange(location: 0, length: model.attributedText.length)
 
         let text = BookmarkTranscriptSnippetExtractor.text(in: fullRange, of: model.attributedText)
 
-        XCTAssertFalse(text.contains("Speaker 1"))
-        XCTAssertFalse(text.contains("Speaker 2"))
-        XCTAssertFalse(text.contains("\n"))
-        XCTAssertFalse(text.contains("  "))
+        XCTAssertEqual(text, """
+        that's the thing about selective admissions.
+        The difference between the kid who gets in and the kid who doesn't is often basically noise.
+        Right, and that's why some researchers have floated the lottery idea.
+        """)
     }
 
     func testSentenceRangeExpandsAnIndexToTheSentenceAroundIt() throws {
@@ -82,6 +83,20 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
         let snippet = try BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12).get()
 
         let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: snippet.text,
+                                                                                  at: snippet.range.location,
+                                                                                  in: model.attributedText))
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.text(in: range, of: model.attributedText), snippet.text)
+    }
+
+    func testPassageRangeMatchesAPassageStoredWithoutItsLineBreaks() throws {
+        let model = try makeModel()
+        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+
+        // Passages captured by earlier versions were flattened to a single line
+        let flattened = snippet.text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+
+        let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: flattened,
                                                                                   at: snippet.range.location,
                                                                                   in: model.attributedText))
 
