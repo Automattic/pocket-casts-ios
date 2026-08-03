@@ -14,119 +14,125 @@ struct AboutView: View {
 
     @State private var showLegalAndMore = false
 
-    var dismissAction: () -> Void
-
-    init(dismissAction: @escaping (() -> Void)) {
-        self.dismissAction = dismissAction
-    }
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationView {
-            ZStack {
-                ThemeColor.primaryUi04(for: theme.activeTheme).color
-                    .ignoresSafeArea()
-                VStack {
-                    VStack {
-                        ModalCloseButton(action: dismissAction)
-                        Image(AppTheme.pcLogoVerticalImageName())
-                            .accessibilityHidden(true)
-                        Text(Settings.displayableVersion())
-                            .font(.subheadline)
-                            .textStyle(SecondaryText())
-                            .padding(.top, 5)
+            contents
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button.make(role: .close) {
+                            dismiss()
+                        }
                     }
-                    .padding(.top, 30)
-                    Form {
-                        if model.shouldShowWhatsNew, let whatsNewInfo = model.whatsNewInfo {
-                            Section {
-                                AboutRow(mainText: model.whatsNewText) {
-                                    NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
-                                }
-                            }
-                        }
-                        Section {
-                            AboutRow(mainText: L10n.aboutRateUs) {
-                                model.track(action: .rateUs)
-                                openUrl(ServerConstants.Urls.appStoreReview)
-                            }
-                            AboutRow(mainText: L10n.aboutShareFriends) {
-                                model.track(action: .shareWithFriends)
-                                openShareApp()
-                            }
-                        }
-                        Section {
-                            AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
-                                model.track(action: .website)
-                                openUrl(ServerConstants.Urls.pocketcastsDotCom)
-                            }
-                            AboutRow(mainText: L10n.instagram, secondaryText: L10n.socialHandle) {
-                                model.track(action: .instagram)
-                                SocialsHelper.openInstagram()
-                            }
-                            AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
-                                model.track(action: .twitter)
-                                SocialsHelper.openTwitter()
-                            }
-                        }
-                        Section {
-                            AboutRow(mainText: L10n.aboutLegalAndMore, showChevronIcon: true) {
-                                showLegalAndMore = true
-                            }
-                        }
-                        Section {
-                            VStack(alignment: .leading) {
-                                Text(L10n.aboutA8cFamily)
-                                    .textStyle(PrimaryText())
-                                    .padding(.top, familyCellTopPadding)
-                                GeometryReader { geometry in
-                                    HStack(alignment: .bottom) {
-                                        ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
-                                            LogoView(logo: logo, index: index, logoSize: calculateLogoSize(geometry: geometry), logoOffset: logoOffsetAmount)
-                                        }
-                                    }
-                                    .offset(y: logoCellHeight - logoOffsetAmount - calculateLogoSize(geometry: geometry) + familyCellTopPadding)
-                                }
-                                .frame(height: logoCellHeight)
-                            }
-                            .frame(height: familyCellHeight)
-                            .onTapGesture {
-                                model.track(action: .automatticFamily)
-                                openUrl(ServerConstants.Urls.automatticDotCom)
-                            }
-                        }
-                        .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
-                        Section {
-                            VStack(alignment: .leading) {
-                                Text(L10n.aboutWorkWithUs)
-                                    .textStyle(PrimaryText())
-                                Text(L10n.aboutJoinFromAnywhere)
-                                    .textStyle(SecondaryText())
-                                    .font(.subheadline)
-                            }
-                            .onTapGesture {
-                                model.track(action: .workWithUs)
-                                openUrl(ServerConstants.Urls.automatticWorkWithUs)
-                            }
-                        }
-                        .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
-                        Section {
-                            HStack {
-                                Spacer()
-                                Image("automattic-logo")
-                                    .tint(theme.activeTheme.isDark ? .white : .black)
-                                Spacer()
-                            }
-                        }
-                        .listRowBackground(Color.clear)
-                    }
-                    .colorScheme(theme.activeTheme.isDark ? .dark : .light)
-                    .scrollContentBackground(.hidden)
-                    .background(theme.primaryUi04)
                 }
-                NavigationLink(destination: LegalAndMore(), isActive: $showLegalAndMore) {}
+        }
+        .navigationViewStyle(.stack)
+    }
+
+    private var contents: some View {
+        ZStack {
+            ThemeColor.primaryUi04(for: theme.activeTheme).color
+                .ignoresSafeArea()
+            VStack {
+                VStack {
+                    Image(AppTheme.pcLogoVerticalImageName())
+                        .accessibilityHidden(true)
+                    Text(Settings.displayableVersion())
+                        .font(.subheadline)
+                        .textStyle(SecondaryText())
+                        .padding(.top, 5)
+                }
+                .padding(.top, 30)
+                Form {
+                    if model.shouldShowWhatsNew, let whatsNewInfo = model.whatsNewInfo {
+                        Section {
+                            AboutRow(mainText: model.whatsNewText) {
+                                NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
+                            }
+                        }
+                    }
+                    Section {
+                        AboutRow(mainText: L10n.aboutRateUs) {
+                            model.track(action: .rateUs)
+                            openUrl(ServerConstants.Urls.appStoreReview)
+                        }
+                        AboutRow(mainText: L10n.aboutShareFriends) {
+                            model.track(action: .shareWithFriends)
+                            openShareApp()
+                        }
+                    }
+                    Section {
+                        AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
+                            model.track(action: .website)
+                            openUrl(ServerConstants.Urls.pocketcastsDotCom)
+                        }
+                        AboutRow(mainText: L10n.instagram, secondaryText: L10n.socialHandle) {
+                            model.track(action: .instagram)
+                            SocialsHelper.openInstagram()
+                        }
+                        AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
+                            model.track(action: .twitter)
+                            SocialsHelper.openTwitter()
+                        }
+                    }
+                    Section {
+                        AboutRow(mainText: L10n.aboutLegalAndMore, showChevronIcon: true) {
+                            showLegalAndMore = true
+                        }
+                    }
+                    Section {
+                        VStack(alignment: .leading) {
+                            Text(L10n.aboutA8cFamily)
+                                .textStyle(PrimaryText())
+                                .padding(.top, familyCellTopPadding)
+                            GeometryReader { geometry in
+                                HStack(alignment: .bottom) {
+                                    ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
+                                        LogoView(logo: logo, index: index, logoSize: calculateLogoSize(geometry: geometry), logoOffset: logoOffsetAmount)
+                                    }
+                                }
+                                .offset(y: logoCellHeight - logoOffsetAmount - calculateLogoSize(geometry: geometry) + familyCellTopPadding)
+                            }
+                            .frame(height: logoCellHeight)
+                        }
+                        .frame(height: familyCellHeight)
+                        .onTapGesture {
+                            model.track(action: .automatticFamily)
+                            openUrl(ServerConstants.Urls.automatticDotCom)
+                        }
+                    }
+                    .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
+                    Section {
+                        VStack(alignment: .leading) {
+                            Text(L10n.aboutWorkWithUs)
+                                .textStyle(PrimaryText())
+                            Text(L10n.aboutJoinFromAnywhere)
+                                .textStyle(SecondaryText())
+                                .font(.subheadline)
+                        }
+                        .onTapGesture {
+                            model.track(action: .workWithUs)
+                            openUrl(ServerConstants.Urls.automatticWorkWithUs)
+                        }
+                    }
+                    .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
+                    Section {
+                        HStack {
+                            Spacer()
+                            Image("automattic-logo")
+                                .tint(theme.activeTheme.isDark ? .white : .black)
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(Color.clear)
+                }
+                .colorScheme(theme.activeTheme.isDark ? .dark : .light)
+                .scrollContentBackground(.hidden)
+                .background(theme.primaryUi04)
             }
-            .navigationBarHidden(true)
-        }.navigationViewStyle(StackNavigationViewStyle())
+            NavigationLink(destination: LegalAndMore(), isActive: $showLegalAndMore) {}
+        }
     }
 
     private func openShareApp() {
@@ -210,7 +216,7 @@ struct AboutRow: View {
 
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutView {}
+        AboutView()
             .environmentObject(Theme(previewTheme: .dark))
     }
 }
