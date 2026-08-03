@@ -60,7 +60,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
             contentPath = "tv"
         #endif
         contentPath.append("/content_v3_logged_in.json")
-        
+
         return await withCheckedContinuation { continuation in
             discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
                 continuation.resume(returning: (discoverItems, cachedResponse))
