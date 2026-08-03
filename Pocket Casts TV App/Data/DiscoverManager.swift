@@ -246,8 +246,8 @@ actor DiscoverManager {
         return try await loadDiscoverSection(sourceItem: sourceItem)
     }
 
-    func loadDiscoverCategories(popularOnly: Bool = false) async throws -> [DiscoverCategory] {
-        guard let sourceItem = try await findItem(of: .categories), let source = sourceItem.source else {
+    func loadDiscoverCategories(sourceItem: DiscoverItem, popularOnly: Bool = false) async throws -> [DiscoverCategory] {
+        guard let source = sourceItem.source else {
             return []
         }
 

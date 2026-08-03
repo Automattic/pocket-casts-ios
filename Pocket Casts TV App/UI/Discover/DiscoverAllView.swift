@@ -59,7 +59,7 @@ struct DiscoverRowSection: View {
         ZStack {
             switch item.rowType {
             case .categories:
-                DiscoverCategoriesRow(popularOnly: false, source: source)
+                DiscoverCategoriesRow(item: item, popularOnly: false, source: source)
             case .featured:
                 DiscoverFeaturedPodcastsRow(item: item, source: source)
             case .listVideoEpisode:

@@ -120,38 +120,6 @@ struct HomeView: View {
         }
     }
 
-    var youMightLikeRow: some View {
-        DiscoverPodcastRow(type: .recommendationsUser, source: DiscoverAnalytics.homeSource)
-    }
-
-    var lovedByListenersOfRow: some View {
-        DiscoverPodcastRow(type: .recommendationsSocial, source: DiscoverAnalytics.homeSource)
-    }
-
-    var trendingRow: some View {
-        DiscoverPodcastRow(type: .trending, source: DiscoverAnalytics.homeSource)
-    }
-
-    var featuredRow: some View {
-        DiscoverFeaturedPodcastsRow(type: .featured, source: DiscoverAnalytics.homeSource)
-    }
-
-    var videoRow: some View {
-        DiscoverVideoEpisodesRow(type: .video, source: DiscoverAnalytics.homeSource)
-    }
-
-    var curatedRow: some View {
-        DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource)
-    }
-
-    var twitNetworkRow: some View {
-        DiscoverPodcastRow(type: .twit, source: DiscoverAnalytics.homeSource)
-    }
-
-    var categoriesRow: some View {
-        DiscoverCategoriesRow(popularOnly: true, source: DiscoverAnalytics.homeSource)
-    }
-
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
