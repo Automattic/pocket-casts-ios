@@ -40,7 +40,7 @@ class DiscoverHomeViewModel {
             if signedIn {
                 finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "single_episode", sourceType: "up_next", regions: []), at: 0)
                 finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "small_list", sourceType: "up_next", regions: []), at: 1)
-                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "small_list", sourceType: "new_releases", regions: []), at: 4)
+                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "small_list", sourceType: "new_releases", regions: []), at: min(items.count, 4))
             } else {
                 finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "single_episode", sourceType: "up_next", regions: []), at: 0)
                 finalItems.insert(MockData.makeStubBanner(.createAccount), at: min(items.count, 3))
