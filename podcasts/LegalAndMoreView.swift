@@ -26,6 +26,8 @@ struct LegalAndMoreView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .colorScheme(theme.activeTheme.isDark ? .dark : .light)
+            .scrollContentBackground(.hidden)
         }
         .navigationBarTitle(L10n.aboutLegalAndMore, displayMode: .inline)
     }

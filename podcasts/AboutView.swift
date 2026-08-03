@@ -35,12 +35,15 @@ struct AboutView: View {
                 case .termsOfService:
                     WebView(url: LegalAndMoreView.Constants.termsOfUseURL)
                         .navigationTitle(L10n.aboutTermsOfService)
+                        .ignoresSafeArea()
                 case .privacyPolicy:
                     WebView(url: LegalAndMoreView.Constants.privacyPolicyURL)
                         .navigationTitle(L10n.aboutPrivacyPolicy)
+                        .ignoresSafeArea()
                 case .acknowledgements:
                     WebView(url: LegalAndMoreView.Constants.acknowledgementsURL)
                         .navigationTitle(L10n.aboutAcknowledgements)
+                        .ignoresSafeArea()
                 }
             }
             .toolbar {
