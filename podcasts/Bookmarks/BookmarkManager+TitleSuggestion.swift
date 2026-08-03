@@ -43,9 +43,13 @@ extension BookmarkManager {
 
         guard let title, !title.isEmpty else {
             // Nothing to rename to, but the passage is still worth keeping for the edit sheet
-            bookmark.passage = snippet.text
-            bookmark.passageLocation = snippet.range.location
-            bookmark.referenceTime = snippet.referenceTime
+            let now = Date()
+            await dataManager.update(bookmark: bookmark,
+                                     passage: snippet.text,
+                                     passageLocation: snippet.range.location,
+                                     passageModified: now,
+                                     referenceTime: snippet.referenceTime,
+                                     referenceTimeModified: snippet.referenceTime != nil ? now : nil)
             return
         }
 
