@@ -299,6 +299,8 @@ public struct DiscoverItem: Decodable, Equatable {
     public var categoryID: Int?
     public var dateTime: String?
     public var sponsoredCategoryIDs: [Int]?
+    // This is a local only field that is filled with the source region that was used for the item
+    public var sourceRegion: String?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"

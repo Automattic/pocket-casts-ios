@@ -174,8 +174,20 @@ actor DiscoverManager {
             return []
         }
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+        let regionCode = regionCode(for: discoverLayout)
 
-        let filteredItems = items.filter { item in
+        let regionItems = items.map { item in
+            guard let originalSource = item.source else {
+                return item
+            }
+            var sourceItem = item
+            let regionSource = originalSource.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
+            sourceItem.source = regionSource
+            sourceItem.sourceRegion = regionCode
+            return sourceItem
+        }
+
+        let filteredItems = regionItems.filter { item in
             item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
         }
 
@@ -183,14 +195,10 @@ actor DiscoverManager {
     }
 
     func loadDiscoverSection(sourceItem: DiscoverItem) async throws -> DiscoverSection {
-        let discoverLayout = try await getLayout()
         guard let source = sourceItem.source else {
             return DiscoverSection(title: nil, podcasts: [], listId: sourceItem.listId(collection: nil))
         }
-        let regionCode = regionCode(for: discoverLayout)
-        let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
-
-        guard let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated) else {
+        guard let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated) else {
             throw sourceItem.authenticated == true ? DiscoverError.failedToLoadAuthenticated : DiscoverError.failedToLoad
         }
         let listId = sourceItem.listId(collection: podcastCollection)
@@ -222,7 +230,7 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection.title, subtitle: podcastCollection.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, dateTime: podcastCollection.datetime, region: regionCode)
+        return DiscoverSection(title: podcastCollection.title, subtitle: podcastCollection.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, dateTime: podcastCollection.datetime, region: sourceItem.sourceRegion)
     }
 
     func findItem(of type: DiscoverType) async throws -> DiscoverItem? {
