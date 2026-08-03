@@ -51,7 +51,6 @@ struct AboutView: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder
