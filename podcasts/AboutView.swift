@@ -3,10 +3,13 @@ import PocketCastsUtils
 import SwiftUI
 
 struct AboutView: View {
-    private let logoCellHeight: CGFloat = 120
-    private let familyCellHeight: CGFloat = 160
-    private let logoOffsetAmount: CGFloat = 30
+    private let minLogoSize: CGFloat = 45
+    private let maxLogoSize: CGFloat = 80
+    private let logoOffsetAmount: CGFloat = 36
     private let familyCellTopPadding: CGFloat = 6
+
+    /// Tall enough to fit the staggered logos, which extend `logoOffsetAmount` above and below their base size.
+    private var logoCellHeight: CGFloat { maxLogoSize + 2 * logoOffsetAmount }
 
     @EnvironmentObject var theme: Theme
 
@@ -101,18 +104,19 @@ struct AboutView: View {
             VStack(alignment: .leading) {
                 Text(L10n.aboutA8cFamily)
                     .textStyle(PrimaryText())
-                    .padding(.top, familyCellTopPadding)
+                    .fixedSize(horizontal: false, vertical: true)
                 GeometryReader { geometry in
+                    let logoSize = calculateLogoSize(geometry: geometry)
                     HStack(alignment: .bottom) {
                         ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
-                            LogoView(logo: logo, index: index, logoSize: calculateLogoSize(geometry: geometry), logoOffset: logoOffsetAmount)
+                            LogoView(logo: logo, index: index, logoSize: logoSize, logoOffset: logoOffsetAmount)
                         }
                     }
-                    .offset(y: logoCellHeight - logoOffsetAmount - calculateLogoSize(geometry: geometry) + familyCellTopPadding)
+                    .padding(.top, logoOffsetAmount)
                 }
                 .frame(height: logoCellHeight)
             }
-            .frame(height: familyCellHeight)
+            .padding(.top, familyCellTopPadding)
             .onTapGesture {
                 model.track(action: .automatticFamily)
                 openUrl(ServerConstants.Urls.automatticDotCom)
@@ -156,7 +160,7 @@ struct AboutView: View {
     private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
         let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
 
-        return sizeToFit.clamped(to: 45 ..< 80)
+        return sizeToFit.clamped(to: minLogoSize ..< maxLogoSize)
     }
 
     private func openUrl(_ urlStr: String) {
