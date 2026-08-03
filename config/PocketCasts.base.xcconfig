@@ -14,5 +14,5 @@ DEVELOPMENT_TEAM = PZYM8XX95Q // Automattic, Inc. (Company)
 
 SECRETS_DIR = $(HOME)/.configure/pocketcasts-ios/secrets
 FIREBASE_SECRETS_PATH = $(SECRETS_DIR)/GoogleService-Info.plist
-SECRETS_PATH = $(SECRETS_DIR)/pocket_casts_credentials.json
+CREDENTIALS_JSON_PATH = $(SECRETS_DIR)/pocket_casts_credentials.json
 GOOGLE_SIGN_IN_SECRETS_PATH = $(SECRETS_DIR)/GoogleSignIn.txt
