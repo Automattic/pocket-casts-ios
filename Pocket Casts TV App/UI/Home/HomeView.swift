@@ -48,15 +48,7 @@ struct HomeView: View {
     }
 
     var emptyView: some View {
-        ContentUnavailableView {
-            Text(L10n.tvPodcastsEmptyTitleNew)
-        } description: {
-            Text(L10n.tvPodcastsEmptySubtitle)
-        } actions: {
-            Button(L10n.tvPodcastsEmptyActionTitle) {
-                tabRouter.selectedTab = .home
-            }
-        }
+        DiscoverRetryView(title: L10n.tvHomeFailedToLoadTitle, style: .fullScreen) { model.load() }
     }
 
     @State private var path = StackPath()
@@ -64,15 +56,7 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack(path: $path.navigationPath) {
             ScrollView {
-                VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
-                    if coordinator.userState.isLoggedIn {                        
-                        DiscoverHomeView(model: tabRouter.discoverHomeSignedInViewModel)
-                            .environment(self.model)
-                    } else {
-                        DiscoverHomeView(model: tabRouter.discoverHomeSignedOutViewModel)
-                            .environment(self.model)
-                    }
-                }
+                DiscoverHomeView(model: coordinator.userState.isLoggedIn ? tabRouter.discoverHomeSignedInViewModel : tabRouter.discoverHomeSignedOutViewModel)
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
                 if let uuid = podcast.uuid {

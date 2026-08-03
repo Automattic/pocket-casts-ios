@@ -65,8 +65,6 @@ struct DiscoverRowSection: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @Environment(HomeViewModel.self) var localDataModel: HomeViewModel
-
     var item: DiscoverItem
     let source: String
 
@@ -123,7 +121,8 @@ struct DiscoverRowSection: View {
 
     @ViewBuilder
     var nowPlayingRow: some View {
-        if localDataModel.shouldShowNowPlayingRow, let currentPlaying = localDataModel.currentPlaying {
+        if tabRouter.homeModel.shouldShowNowPlayingRow,
+           let currentPlaying = tabRouter.homeModel.currentPlaying {
             RowSection(title: L10n.tvHomeKeepListeningTitle, focusSection: HomeView.Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     tabRouter.showFullScreenPlayer = true
@@ -138,8 +137,10 @@ struct DiscoverRowSection: View {
 
     @ViewBuilder
     var upNextRow: some View {
-        if localDataModel.upNext.count > 1 {
-            EpisodesHorizontalList(title: L10n.tvTabUpNext, focusSection: HomeView.Section.homeUpNext.rawValue, episodes: localDataModel.upNext, episodeContext: .upNext) {
+        if tabRouter.homeModel.upNext.count > 1 {
+            EpisodesHorizontalList(title: L10n.tvTabUpNext,
+                                   focusSection: HomeView.Section.homeUpNext.rawValue,
+                                   episodes: tabRouter.homeModel.upNext, episodeContext: .upNext) {
                 tabRouter.showFullScreenPlayer = true
             }
         }
@@ -147,8 +148,10 @@ struct DiscoverRowSection: View {
 
     @ViewBuilder
     var newReleasesRow: some View {
-        if !localDataModel.newReleases.isEmpty {
-            EpisodesHorizontalList(title: L10n.tvHomeNewReleases, focusSection: HomeView.Section.homeNewReleases.rawValue, episodes: localDataModel.newReleases, episodeContext: .other(showGoToPodcast: true)) {
+        if !tabRouter.homeModel.newReleases.isEmpty {
+            EpisodesHorizontalList(title: L10n.tvHomeNewReleases,
+                                   focusSection: HomeView.Section.homeNewReleases.rawValue,
+                                   episodes: tabRouter.homeModel.newReleases, episodeContext: .other(showGoToPodcast: true)) {
                 tabRouter.showFullScreenPlayer = true
             }
         }

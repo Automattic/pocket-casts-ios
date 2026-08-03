@@ -18,12 +18,12 @@ struct DiscoverHomeView: View {
                 discoverList
             case .empty:
                 ContentUnavailableView {
-                    Text(L10n.tvDiscoverFailedToLoadTitle)
+                    Text(L10n.tvHomeFailedToLoadTitle)
                 } description: {
                     Text(L10n.tvDiscoverFailedToLoadSubtitle)
                 }
             case .failed:
-                DiscoverRetryView(style: .fullScreen) { await model.retry() }
+                DiscoverRetryView(title: L10n.tvHomeFailedToLoadTitle, style: .fullScreen) { await model.retry() }
             }
         }
         .task {
