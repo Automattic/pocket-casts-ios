@@ -6,11 +6,7 @@ struct MediaOverlayView: View {
     @Binding var isTransportBarVisible: Bool
 
     enum Layout {
-        static let podcastImageSize = CGFloat(640)
-    }
-
-    var scale: CGFloat {
-        return isTransportBarVisible ? 3.0 : 2.0
+        static let artworkSize = CGFloat(360)
     }
 
     var body: some View {
@@ -27,10 +23,19 @@ struct MediaOverlayView: View {
                             Spacer()
                             Image(uiImage: uiImage)
                                 .resizable()
-                                .frame(width: proxy.size.height / scale, height: proxy.size.height / scale)
+                                .frame(width: Layout.artworkSize, height: Layout.artworkSize)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
-                                .blurredCoverBackground(size: proxy.size.height / scale) {
+                                .blurredCoverBackground(size: Layout.artworkSize, radius: 100, scale: 1.5, offset: -0.5) {
                                     Image(uiImage: uiImage)
+                                        .resizable()
+                                }
+                                .background {
+                                    NowPlayingWaveformView(
+                                        color: .pcTextPrimary.opacity(0.8),
+                                        isAnimating: model.isPlaying,
+                                        artworkSize: Layout.artworkSize
+                                    )
+                                    .frame(width: proxy.size.width * 0.75)
                                 }
                                 .animation(.smooth, value: isTransportBarVisible)
                             Spacer()

@@ -9,6 +9,10 @@ struct BookmarkTranscriptSnippet {
     let transcript: TranscriptModel
     var range: NSRange
 
+    /// The reference-timeline position the snippet was centered on; nil for a snippet
+    /// re-located from a stored passage, which isn't resolved against a time.
+    var referenceTime: TimeInterval?
+
     var text: String {
         BookmarkTranscriptSnippetExtractor.text(in: range, of: transcript.attributedText)
     }
@@ -33,7 +37,10 @@ struct BookmarkTranscriptSnippetExtractor {
     /// Snippets with fewer words than this carry too little signal to generate a meaningful title from
     static let minimumWordCount = 10
 
-    func snippet(forTime time: TimeInterval, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
+    /// - Parameter referenceTime: The bookmark's already-resolved reference time, if any.
+    ///   It's preferred over resolving again, both to save the work and because the
+    ///   original capture had the warmest mapping.
+    func snippet(forTime time: TimeInterval, referenceTime: TimeInterval?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
         let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.parentIdentifier())
         guard let model = try? await transcriptManager.loadTranscript() else {
             return nil
@@ -43,12 +50,21 @@ struct BookmarkTranscriptSnippetExtractor {
         // without a confident match there's no telling how far dynamic ads have pushed the
         // playback time from the timeline the transcript is cued against. Either way, capture
         // nothing rather than a passage from somewhere else in the episode.
-        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled,
-              let referenceTime = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode) else {
+        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled else {
             return nil
         }
 
-        return Self.extractSnippet(from: model, at: referenceTime)
+        var resolved = referenceTime
+        if resolved == nil {
+            resolved = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode)
+        }
+        guard let resolved else {
+            return nil
+        }
+
+        var snippet = Self.extractSnippet(from: model, at: resolved)
+        snippet?.referenceTime = resolved
+        return snippet
     }
 
     func snippet(forPassage passage: String, at location: Int?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
