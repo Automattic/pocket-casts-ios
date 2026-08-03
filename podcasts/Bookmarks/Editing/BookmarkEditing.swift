@@ -8,6 +8,7 @@ enum BookmarkEditStage {
 
 /// The parts of a bookmark edit view model the hosting controller drives, so it can
 /// hold either view model while `FeatureFlag.smartBookmarks` picks between them.
+@MainActor
 protocol BookmarkEditing: AnyObject {
     var router: BookmarkEditRouter? { get set }
     var analyticsSource: BookmarkAnalyticsSource { get set }
