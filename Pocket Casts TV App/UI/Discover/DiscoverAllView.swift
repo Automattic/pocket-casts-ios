@@ -66,6 +66,8 @@ struct DiscoverRowSection: View {
                 DiscoverVideoEpisodesRow(item: item, source: source)
             case .singlePodcast:
                 DiscoverSinglePodcastRow(item: item, source: source)
+            case .listEpisode:
+                DiscoverEpisodesRow(item: item, source: source)
             default:
                 DiscoverPodcastRow(item: item, source: source)
             }

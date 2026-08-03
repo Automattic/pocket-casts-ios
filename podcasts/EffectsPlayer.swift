@@ -487,4 +487,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func setVolume(_ volume: Float) {
         audioMixerNode?.outputVolume = volume
     }
+
+    var currentAudioLevel: Float {
+        // TODO: needs to be implemented here
+        return 0
+    }
 }

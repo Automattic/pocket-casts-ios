@@ -31,13 +31,7 @@ struct BookmarkDetailsView: View {
             artwork
 
             VStack(alignment: .leading, spacing: 2) {
-                viewModel.podcastTitle.map {
-                    Text($0)
-                        .font(size: 11, style: .caption2, weight: .semibold)
-                        .kerning(-0.4)
-                        .foregroundStyle(theme.primaryText02)
-                        .lineLimit(1)
-                }
+                podcastTitle
 
                 viewModel.episode.map {
                     Text($0.displayableTitle())
@@ -52,6 +46,29 @@ struct BookmarkDetailsView: View {
             playButton
         }
     }
+
+    @ViewBuilder
+    private var podcastTitle: some View {
+        if let title = viewModel.podcastTitle {
+            podcastTitleText(title)
+        } else if viewModel.isLoadingPodcastTitle {
+            podcastTitleText(Self.podcastTitlePlaceholder)
+                .redacted(reason: .placeholder)
+                .accessibilityHidden(true)
+        }
+    }
+
+    private func podcastTitleText(_ title: String) -> some View {
+        Text(title)
+            .font(size: 11, style: .caption2, weight: .semibold)
+            .kerning(-0.4)
+            .foregroundStyle(theme.primaryText02)
+            .lineLimit(1)
+    }
+
+    /// Stands in for the podcast title while it loads. The redaction blocks it out,
+    /// so it's never read, it only gives the placeholder the shape of a title.
+    private static let podcastTitlePlaceholder = "The Podcast Title"
 
     @ViewBuilder
     private var artwork: some View {

@@ -1011,8 +1011,8 @@ private extension MainTabBarController {
             let bookmark = bookmarkManager.bookmark(for: bookmark.uuid) ?? bookmark
             let title = bookmark.title
 
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, onDismiss: { [weak self] updatedTitle, _ in
-                guard title != updatedTitle else { return }
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, onDismiss: { [weak self] outcome in
+                guard case .saved(let updatedTitle) = outcome, title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
             })

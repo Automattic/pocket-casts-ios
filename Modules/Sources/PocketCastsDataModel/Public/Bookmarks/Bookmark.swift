@@ -77,12 +77,36 @@ extension Bookmark {
         }
     }
 
+    /// The bookmark's position on the transcript's canonical (reference) timeline, when the
+    /// episode has a generated transcript and a confident mapping was available when captured.
+    ///
+    /// Preferred over `time` wherever possible: dynamic ads shift the playback timeline per
+    /// device and download, so `time` can point at the wrong content elsewhere, whereas the
+    /// reference time is stable. Falls back to `time` when nil.
+    ///
+    /// Temporarily backed by `UserDefaults`, until it's stored with the bookmark itself.
+    public var referenceTime: TimeInterval? {
+        get { UserDefaults.standard.object(forKey: Self.referenceTimeKey(for: uuid)) as? TimeInterval }
+        nonmutating set {
+            let key = Self.referenceTimeKey(for: uuid)
+            if let newValue {
+                UserDefaults.standard.set(newValue, forKey: key)
+            } else {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
+    }
+
     private static func passageKey(for uuid: String) -> String {
         "bookmark.passage.\(uuid)"
     }
 
     private static func passageLocationKey(for uuid: String) -> String {
         "bookmark.passageLocation.\(uuid)"
+    }
+
+    private static func referenceTimeKey(for uuid: String) -> String {
+        "bookmark.referenceTime.\(uuid)"
     }
 }
 
