@@ -377,7 +377,9 @@ extension SyncTask {
         let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
         if !didAdd {
             let playlistCount = DataManager.sharedManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
-            FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
+            if !addedEpisodes.isEmpty {
+                FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
+            }
         }
 
         updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
@@ -418,13 +420,20 @@ extension SyncTask {
                 // If the podcast is for a user episode then we default to nil
                 let podcastUuid = apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid
 
-                let addedUuid = bookmarkManager.add(uuid: apiBookmark.bookmarkUuid,
-                                                    episodeUuid: apiBookmark.episodeUuid,
-                                                    podcastUuid: podcastUuid,
-                                                    title: apiBookmark.title.value,
-                                                    time: Double(apiBookmark.time.value),
-                                                    dateCreated: apiBookmark.createdAt.date,
-                                                    syncStatus: .synced)
+                let addedUuid = bookmarkManager.add(
+                    uuid: apiBookmark.bookmarkUuid,
+                    episodeUuid: apiBookmark.episodeUuid,
+                    podcastUuid: podcastUuid,
+                    title: apiBookmark.title.value,
+                    time: Double(apiBookmark.time.value),
+                    dateCreated: apiBookmark.createdAt.date,
+                    passage: apiBookmark.bookmarkPassage,
+                    passageLocation: apiBookmark.bookmarkPassageLocation,
+                    passageModified: apiBookmark.passageModifiedDate,
+                    referenceTime: apiBookmark.bookmarkReferenceTime,
+                    referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
+                    syncStatus: .synced
+                )
 
                 if addedUuid == nil {
                     FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
@@ -452,7 +461,18 @@ extension SyncTask {
             return
         }
 
-        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
+        await bookmarkManager.update(
+            bookmark: existingBookmark,
+            title: title,
+            time: time,
+            created: created,
+            passage: apiBookmark.bookmarkPassage,
+            passageLocation: apiBookmark.bookmarkPassageLocation,
+            passageModified: apiBookmark.passageModifiedDate,
+            referenceTime: apiBookmark.bookmarkReferenceTime,
+            referenceTimeModified: apiBookmark.referenceTimeModifiedDate,
+            syncStatus: .synced
+        ).when(false) {
             FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
         }
     }
@@ -480,6 +500,33 @@ private extension Api_SyncUserBookmark {
 
     var created: Date? {
         hasCreatedAt ? createdAt.date : nil
+    }
+
+    // The server only emits the passage and reference time groups when their modified timestamp
+    // is set, using "" / 0 as placeholders for a null value within an emitted group. Each group
+    // is gated on its modified date below, so an absent group leaves the local values untouched.
+
+    var bookmarkPassage: String? {
+        guard hasPassage, !passage.value.isEmpty else { return nil }
+        return passage.value
+    }
+
+    var bookmarkPassageLocation: Int? {
+        // A location without a passage is meaningless, and 0 stands in for null on the server
+        guard bookmarkPassage != nil, hasPassageLocation else { return nil }
+        return Int(passageLocation.value)
+    }
+
+    var passageModifiedDate: Date? {
+        hasPassageModified ? Date(timeIntervalSince1970: TimeInterval(passageModified.value) / 1000) : nil
+    }
+
+    var bookmarkReferenceTime: TimeInterval? {
+        hasReferenceTime ? TimeInterval(referenceTime.value) : nil
+    }
+
+    var referenceTimeModifiedDate: Date? {
+        hasReferenceTimeModified ? Date(timeIntervalSince1970: TimeInterval(referenceTimeModified.value) / 1000) : nil
     }
 
     var logDescription: String {

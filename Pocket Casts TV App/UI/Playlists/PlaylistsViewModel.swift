@@ -25,6 +25,9 @@ class PlaylistsViewModel {
     var playlists: [PlaylistItem] = []
 
     func load() async {
+        if state == .loading {
+            RefreshManager.shared.refreshPodcasts()
+        }
         let originalPlaylists = dataManager.allPlaylists(includeDeleted: false)
         let playlists = originalPlaylists.sorted { a, b in
             switch (a.isDownloadFilterActive, b.isDownloadFilterActive) {

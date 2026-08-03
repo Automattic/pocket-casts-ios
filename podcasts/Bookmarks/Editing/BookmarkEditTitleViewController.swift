@@ -3,10 +3,18 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftUI
 
+/// How an edit sheet ended, so callers can tell a submitted edit from a discarded one
+enum BookmarkEditOutcome {
+    case saved(title: String)
+    case cancelled
+}
+
 class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
     private let viewModel: any BookmarkEditing
-    let onDismiss: ((String, Bool) -> Void)?
+    let onDismiss: ((BookmarkEditOutcome) -> Void)?
     var editSaved: Bool = false
+
+    private var didReportDismiss = false
 
     var source: BookmarkAnalyticsSource = .unknown {
         didSet {
@@ -18,7 +26,7 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
          bookmark: Bookmark,
          state: BookmarkEditViewModel.EditState,
          style: BookmarkEditTheme.Style = .player,
-         onDismiss: ((String, Bool) -> Void)? = nil) {
+         onDismiss: ((BookmarkEditOutcome) -> Void)? = nil) {
         let episode = manager.episode(for: bookmark)
 
         let viewModel: any BookmarkEditing
@@ -44,6 +52,12 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
         viewModel.router = self
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        presentationController?.delegate = self
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -66,13 +80,26 @@ class BookmarkEditTitleViewController: ThemedHostingController<AnyView> {
 extension BookmarkEditTitleViewController: BookmarkEditRouter {
     func dismiss() {
         dismiss(animated: true)
-        onDismiss?(viewModel.originalTitle, true)
+        reportDismiss(.cancelled)
     }
 
     func titleUpdated(title: String) {
         editSaved = true
         Analytics.track(.bookmarkEditFormSubmitted, properties: ["source": source.rawValue])
         dismiss(animated: true)
-        onDismiss?(title, false)
+        reportDismiss(.saved(title: title))
+    }
+
+    private func reportDismiss(_ outcome: BookmarkEditOutcome) {
+        guard !didReportDismiss else { return }
+
+        didReportDismiss = true
+        onDismiss?(outcome)
+    }
+}
+
+extension BookmarkEditTitleViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        viewModel.cancel()
     }
 }

@@ -928,6 +928,20 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 76 {
+            do {
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage_location INTEGER;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage_modified_date INTEGER;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN reference_time real;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN reference_time_modified_date INTEGER;", values: nil)
+                schemaVersion = 76
+            } catch {
+                failedAt(76)
+                return
+            }
+        }
+
         db.commit()
     }
 }

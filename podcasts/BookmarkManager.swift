@@ -25,7 +25,7 @@ struct BookmarkUpdateParameters {
 }
 
 class BookmarkManager {
-    private let dataManager: BookmarkDataManager
+    let dataManager: BookmarkDataManager
     private let generalManager: DataManager
     private let playbackManager: PlaybackManager
     private let cacheServerHandler: CacheServerHandler
@@ -113,12 +113,6 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         await dataManager.remove(bookmarks: bookmarks).when(true) {
-            bookmarks.forEach {
-                $0.passage = nil
-                $0.passageLocation = nil
-                $0.referenceTime = nil
-            }
-
             onBookmarksDeleted.send(.init(items: bookmarks.map {
                 .init(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid)
             }))
@@ -128,16 +122,16 @@ class BookmarkManager {
     /// Updates the bookmark with the given parameters, emits `onBookmarkChanged` on success
     @discardableResult
     func update(_ parameters: BookmarkUpdateParameters, for bookmark: Bookmark) async -> Bool {
-        if let passage = parameters.passage {
-            bookmark.passage = passage.text
-            bookmark.passageLocation = passage.location
-        }
+        let now = Date()
 
-        if let referenceTime = parameters.referenceTime {
-            bookmark.referenceTime = referenceTime
-        }
-
-        return await dataManager.update(bookmark: bookmark, title: parameters.title).when(true) {
+        return await dataManager.update(bookmark: bookmark,
+                                        title: parameters.title,
+                                        modified: now,
+                                        passage: parameters.passage?.text,
+                                        passageLocation: parameters.passage?.location,
+                                        passageModified: parameters.passage != nil ? now : nil,
+                                        referenceTime: parameters.referenceTime,
+                                        referenceTimeModified: parameters.referenceTime != nil ? now : nil).when(true) {
             onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(parameters.title)))
         }
     }
