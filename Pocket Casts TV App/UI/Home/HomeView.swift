@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -40,6 +41,7 @@ struct HomeView: View {
         .task {
             Analytics.track(.homeShown)
             model.load()
+            model.refresh()
         }
     }
 
@@ -68,11 +70,16 @@ struct HomeView: View {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
-                        youMightLikeRow
                         videoRow
+                        twitNetworkRow
+                        youMightLikeRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
+                        if FeatureFlag.tvHomeCategoriesAndCurated.enabled {
+                            categoriesRow
+                            curatedRow
+                        }
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             Analytics.track(.bannerRowTapped, properties: ["type": "discover_more"])
                             tabRouter.selectedTab = .search
@@ -81,6 +88,7 @@ struct HomeView: View {
                         nowPlayingRow
                         featuredRow
                         videoRow
+                        twitNetworkRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
                             Analytics.track(.bannerRowTapped, properties: ["type": "create_account"])
                             tabRouter.pendingAuthFlow = .createAccount
@@ -152,6 +160,10 @@ struct HomeView: View {
 
     var curatedRow: some View {
         DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource)
+    }
+
+    var twitNetworkRow: some View {
+        DiscoverPodcastRow(type: .twit, source: DiscoverAnalytics.homeSource)
     }
 
     var categoriesRow: some View {

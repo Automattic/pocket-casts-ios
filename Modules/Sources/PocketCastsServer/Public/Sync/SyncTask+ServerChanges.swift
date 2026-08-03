@@ -377,7 +377,9 @@ extension SyncTask {
         let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
         if !didAdd {
             let playlistCount = DataManager.sharedManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
-            FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
+            if !addedEpisodes.isEmpty {
+                FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
+            }
         }
 
         updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
