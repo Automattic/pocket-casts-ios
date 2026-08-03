@@ -218,6 +218,11 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         }
 
         func textViewDidChangeSelection(_ textView: UITextView) {
+            // Only the user's own selection counts: the responder machinery also moves the
+            // selection on its own — resigning during a pop, say — and a passage rewritten
+            // by those events would look like one the user picked
+            guard textView.isFirstResponder, textView.window != nil else { return }
+
             let range = textView.selectedRange
 
             if range.length == 0 {

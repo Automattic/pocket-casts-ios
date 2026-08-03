@@ -22,6 +22,10 @@ struct BookmarkEditView: View {
                 .navigationDestination(isPresented: $isEditingTranscript) {
                     transcriptEditor
                 }
+                // Covers leaving by the back button and by a back swipe alike
+                .onChange(of: isEditingTranscript) { isEditing in
+                    isEditing ? viewModel.passageEditorShown() : viewModel.passageEditorDismissed()
+                }
         }
     }
 
@@ -230,7 +234,7 @@ struct BookmarkEditView: View {
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .buttonize {
-                viewModel.applySuggestion(suggestion)
+                viewModel.suggestionTapped(suggestion)
             }
             .accessibilityLabel(L10n.bookmarkSuggestedTitle(suggestion))
             .transition(.opacity.combined(with: .move(edge: .top)))

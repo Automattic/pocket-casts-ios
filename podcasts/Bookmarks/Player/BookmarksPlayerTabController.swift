@@ -87,11 +87,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] outcome in
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, source: viewModel.analyticsSource, onDismiss: { [weak self] outcome in
             self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, outcome: outcome)
         })
-
-        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }
