@@ -17,7 +17,7 @@ struct AboutView: View {
 
     @EnvironmentObject var theme: Theme
 
-    @ObservedObject private var model = AboutViewModel()
+    @StateObject private var model = AboutViewModel()
 
     @Environment(\.dismiss) var dismiss
 
