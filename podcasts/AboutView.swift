@@ -8,8 +8,12 @@ struct AboutView: View {
     private let logoOffsetAmount: CGFloat = 42
     private let familyCellTopPadding: CGFloat = 6
 
-    /// Tall enough to fit the staggered logos, which extend `logoOffsetAmount` above and below their base size.
-    private var logoCellHeight: CGFloat { maxLogoSize + 2 * logoOffsetAmount }
+    /// Tall enough to fit the staggered logos (which extend `logoOffsetAmount` above and below their base
+    /// size) plus headroom for the idle float and scroll reaction, so they don't visibly clip. The row
+    /// re-centers its content within this extra headroom (see `FamilyLogosRow`), so it must be added
+    /// symmetrically here rather than just growing the frame, or the extra space collapses to one side.
+    private var logoCellHeight: CGFloat { maxLogoSize + 2 * logoOffsetAmount + 2 * familyMotionBuffer }
+    private let familyMotionBuffer: CGFloat = 20
 
     @EnvironmentObject var theme: Theme
 
@@ -114,16 +118,13 @@ struct AboutView: View {
                 Text(L10n.aboutA8cFamily)
                     .textStyle(PrimaryText())
                     .fixedSize(horizontal: false, vertical: true)
-                GeometryReader { geometry in
-                    let logoSize = calculateLogoSize(geometry: geometry)
-                    HStack(alignment: .bottom) {
-                        ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
-                            LogoView(logo: logo, index: index, logoSize: logoSize, logoOffset: logoOffsetAmount)
-                        }
-                    }
-                    .padding(.top, logoOffsetAmount)
-                }
-                .frame(height: logoCellHeight)
+                FamilyLogosRow(
+                    minLogoSize: minLogoSize,
+                    maxLogoSize: maxLogoSize,
+                    logoOffsetAmount: logoOffsetAmount,
+                    logoCellHeight: logoCellHeight,
+                    motionBuffer: familyMotionBuffer
+                )
             }
             .padding(.top, familyCellTopPadding)
             .onTapGesture {
@@ -166,12 +167,6 @@ struct AboutView: View {
         SharingHelper.shared.shareLinkToApp(fromController: controller)
     }
 
-    private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
-        let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
-
-        return sizeToFit.clamped(to: minLogoSize ..< maxLogoSize)
-    }
-
     private func openUrl(_ urlStr: String) {
         guard let url = URL(string: urlStr) else { return }
 
@@ -182,27 +177,81 @@ struct AboutView: View {
     }
 }
 
+/// Renders the row of Automattic family logos, drifting gently on their own like they're suspended in water.
+struct FamilyLogosRow: View {
+    let minLogoSize: CGFloat
+    let maxLogoSize: CGFloat
+    let logoOffsetAmount: CGFloat
+    let logoCellHeight: CGFloat
+    let motionBuffer: CGFloat
+
+    var body: some View {
+        GeometryReader { geometry in
+            let logoSize = calculateLogoSize(geometry: geometry)
+            HStack(alignment: .bottom) {
+                ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
+                    LogoView(logo: logo, index: index, logoSize: logoSize, logoOffset: logoOffsetAmount)
+                }
+            }
+            .padding(.top, logoOffsetAmount + motionBuffer)
+        }
+        .frame(height: logoCellHeight)
+        .clipped()
+    }
+
+    private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
+        let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
+
+        return sizeToFit.clamped(to: minLogoSize ..< maxLogoSize)
+    }
+}
+
 struct LogoView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private let maxRotationDegrees: Double = 30
+    private static let maxRotationDegrees: Double = 30
 
     var logo: AboutLogo
     var index: Int
     var logoSize: CGFloat
     var logoOffset: CGFloat
 
+    @State private var baseRotation: Angle
+
+    init(logo: AboutLogo, index: Int, logoSize: CGFloat, logoOffset: CGFloat) {
+        self.logo = logo
+        self.index = index
+        self.logoSize = logoSize
+        self.logoOffset = logoOffset
+        _baseRotation = State(initialValue: logo.randomRotation(maxDegrees: Self.maxRotationDegrees))
+    }
+
+    /// Idle bobbing motion so the logos drift a little even at rest, like they're suspended in water.
+    private var floatFrequency: Double { 0.45 + Double(index) * 0.11 }
+    private var floatAmplitude: CGFloat { 3 + CGFloat(index % 3) }
+    private var floatPhase: Double { Double(index) * 1.7 }
+
     var body: some View {
-        ZStack {
-            Circle()
-                .foregroundColor(logo.color)
-            Image(logo.logoName)
-                .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
-                .tint(logo.logoTint(onDark: theme.activeTheme.isDark))
+        TimelineView(.animation(paused: reduceMotion)) { context in
+            let time = context.date.timeIntervalSinceReferenceDate
+            let floatOffset: CGFloat = reduceMotion ? 0 : CGFloat(sin(time * floatFrequency + floatPhase)) * floatAmplitude
+            let floatRotation: Double = reduceMotion ? 0 : sin(time * floatFrequency * 0.6 + floatPhase) * 3
+
+            ZStack {
+                Circle()
+                    .foregroundColor(logo.color)
+                Image(logo.logoName)
+                    .rotationEffect(baseRotation + .degrees(floatRotation))
+                    .tint(logo.logoTint(onDark: theme.activeTheme.isDark))
+            }
+            .offset(
+                x: -logoOffset * CGFloat(index),
+                y: (index % 2 == 0 ? -logoOffset : logoOffset) + floatOffset
+            )
+            .frame(width: logoSize, height: logoSize)
+            .accessibilityLabel(logo.description)
         }
-        .offset(x: -logoOffset * CGFloat(index), y: index % 2 == 0 ? -logoOffset : logoOffset)
-        .frame(width: logoSize, height: logoSize)
-        .accessibilityLabel(logo.description)
     }
 }
 
