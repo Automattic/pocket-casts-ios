@@ -214,6 +214,28 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ViewBuilder
     private var bookmarksRows: some View {
         ForEach(viewModel.bookmarks) { bookmark in
+            bookmarkRow(bookmark)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+            if !viewModel.isLast(item: bookmark) {
+                divider
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
+        }
+        if !LiquidGlass.isEnabled && actionBarVisible && !useExternalActionBar {
+            Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+        }
+    }
+
+    @ViewBuilder
+    private func bookmarkRow(_ bookmark: Bookmark) -> some View {
+        if allowInternalScrolling {
             BookmarkRow(bookmark: bookmark, style: style)
                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                     if !viewModel.isMultiSelecting && viewModel.canShare(bookmark) {
@@ -235,21 +257,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                         .tint(style.deleteSwipeTint)
                     }
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-            if !viewModel.isLast(item: bookmark) {
-                divider
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            }
-        }
-        if !LiquidGlass.isEnabled && actionBarVisible && !useExternalActionBar {
-            Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+        } else {
+            BookmarkRow(bookmark: bookmark, style: style)
         }
     }
 
