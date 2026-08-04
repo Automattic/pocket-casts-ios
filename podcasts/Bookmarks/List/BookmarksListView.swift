@@ -245,16 +245,18 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                             Image("podcast-share")
                         }
                         .tint(style.shareSwipeTint)
+                        .accessibilityLabel(L10n.share)
                     }
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     if !viewModel.isMultiSelecting {
-                        Button {
+                        Button(role: .destructive) {
                             viewModel.deleteTapped(bookmark)
                         } label: {
                             Image("delete")
                         }
                         .tint(style.deleteSwipeTint)
+                        .accessibilityLabel(L10n.delete)
                     }
                 }
         } else {
