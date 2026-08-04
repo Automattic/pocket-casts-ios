@@ -196,6 +196,7 @@ struct EpisodeRowWithActions: View {
                 }
                 .buttonStyle(MoreButtonStyle())
                 .focused($focus, equals: .more(model.id))
+                .accessibilityLabel(L10n.accessibilityMoreActions)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
         }
