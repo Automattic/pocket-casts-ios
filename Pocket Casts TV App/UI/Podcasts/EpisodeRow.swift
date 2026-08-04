@@ -84,7 +84,12 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        "\(model.episode.displayableTitle()) \(model.episode.accessibilityDisplayableInfo()), \(model.displayDate)"
     }
 
     private var isInProgress: Bool {
