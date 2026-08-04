@@ -83,6 +83,7 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+        .accessibilityElement(children: .combine)
     }
 
     private var isInProgress: Bool {
