@@ -44,6 +44,7 @@ class DiscoverHomeViewModel {
             } else {
                 finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "single_episode", sourceType: "up_next", regions: []), at: 0)
                 finalItems.insert(MockData.makeStubBanner(.createAccount), at: min(items.count, 3))
+                finalItems.insert(DiscoverItem(type: "categories", summaryStyle: "popular_category_list", source: "https://static.pocketcasts.com/discover/json/categories_v2.json", regions: [], popular: [19, 3, 13, 18, 17, 15]), at: min(items.count, 5))
                 finalItems.append(MockData.makeStubBanner(.discoverMore))
             }
             self.sections = finalItems

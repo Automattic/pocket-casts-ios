@@ -4,6 +4,7 @@ import PocketCastsUtils
 
 enum DiscoverRowType: CaseIterable {
     case categories
+    case categoriesPopular
     case featured
     case listPodcast
     case singlePodcast
@@ -19,8 +20,10 @@ enum DiscoverRowType: CaseIterable {
 extension DiscoverItem {
     var rowType: DiscoverRowType? {
         switch (type, summaryStyle, expandedStyle, sourceType) {
-        case ("categories", "pills", _, _):
+        case ("categories", "pills", _, _), ("categories", "category_list", _, _):
             return .categories
+        case ("categories", "popular_category_list", _, _):
+            return .categoriesPopular
         case ("podcast_list", "carousel", _, _):
             return .featured
         case ("podcast_list", "small_list", _, _):
@@ -78,6 +81,8 @@ struct DiscoverRowSection: View {
             switch item.rowType {
             case .categories:
                 DiscoverCategoriesRow(item: item, popularOnly: false, source: source)
+            case .categoriesPopular:
+                DiscoverCategoriesRow(item: item, popularOnly: true, source: source)
             case .featured:
                 DiscoverFeaturedPodcastsRow(item: item, source: source)
             case .listVideoEpisode:
