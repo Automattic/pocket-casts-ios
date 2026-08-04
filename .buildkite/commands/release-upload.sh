@@ -21,7 +21,7 @@ case "$RELEASE_PLATFORM" in
     ARCHIVE_ZIP_PATH="artifacts/pocket-casts.xcarchive.zip"
     SENTRY_ANNOTATION_CONTEXT="sentry-failure-ios"
     TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight"
-    TESTFLIGHT_LANE_ARGS=()
+    TESTFLIGHT_LANE_ARGS=(ipa_path:"$IPA_PATH")
     ;;
   tvos)
     PLATFORM_NAME="tvOS"
@@ -30,7 +30,7 @@ case "$RELEASE_PLATFORM" in
     ARCHIVE_ZIP_PATH="artifacts/pocket-casts-tvos.xcarchive.zip"
     SENTRY_ANNOTATION_CONTEXT="sentry-failure-tvos"
     TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight_tvos"
-    TESTFLIGHT_LANE_ARGS=(distribute_external:"$BETA_RELEASE")
+    TESTFLIGHT_LANE_ARGS=(ipa_path:"$IPA_PATH" distribute_external:"$BETA_RELEASE")
     ;;
   *)
     echo "Unsupported RELEASE_PLATFORM: $RELEASE_PLATFORM. Expected 'ios' or 'tvos'." >&2
@@ -90,7 +90,7 @@ upload_symbols() {
 upload_symbols "$PLATFORM_NAME" "$DSYM_PATH" "$SENTRY_ANNOTATION_CONTEXT"
 
 echo "--- :testflight: Uploading $PLATFORM_NAME to TestFlight"
-bundle exec fastlane "$TESTFLIGHT_LANE" ipa_path:"$IPA_PATH" "${TESTFLIGHT_LANE_ARGS[@]}"
+bundle exec fastlane "$TESTFLIGHT_LANE" "${TESTFLIGHT_LANE_ARGS[@]}"
 
 if [[ "$NOTIFY_SLACK" == "true" ]]; then
   echo "--- :slack: Notifying Slack"
