@@ -59,6 +59,7 @@ struct DiscoverPodcastRow: View {
                                 .focusedCardDepth(cornerRadius: 12, style: .surface)
                         }
                         .buttonStyle(.card)
+                        .accessibilityLabel(podcast.title ?? "")
                         .padding(.vertical, 24)
                         .setFocus(section: model.focusStoreID)
                         .simultaneousGesture(TapGesture().onEnded {
