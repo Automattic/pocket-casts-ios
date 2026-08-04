@@ -40,7 +40,7 @@ final class EpisodeArtwork {
             }
 
             // Priority 1: Show notes image URL (publisher intent takes precedence)
-            if await self.loadArtworkFromShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid) {
+            if await self.loadArtworkFromShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid) != nil {
                 return
             }
 
@@ -78,35 +78,9 @@ final class EpisodeArtwork {
         return nil
     }
 
-    /// Attempts to load episode artwork from show notes URL.
-    /// - Returns: true if artwork was successfully loaded and saved, false otherwise
-    private func loadArtworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> Bool {
-        guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
-            return false
-        }
-
-        // Resize image to avoid really big images that appear
-        // super blurred on CarPlay.
-        // If the image is smaller to the given size, no downsampling is done.
-        let size = imageManager.biggestPodcastImageSize
-        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
-
-        return await withCheckedContinuation { continuation in
-            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { [weak self] result in
-                guard !Task.isCancelled else {
-                    continuation.resume(returning: false)
-                    return
-                }
-                if let image = try? result.get().image {
-                    self?.imageManager.save(image, for: episodeUuid)
-                    continuation.resume(returning: true)
-                } else {
-                    continuation.resume(returning: false)
-                }
-            }
-        }
-    }
-
+    /// Attempts to load episode artwork from the show notes URL, downsampling it and
+    /// caching it against the episode UUID.
+    /// - Returns: the loaded image if one was retrieved and saved, otherwise nil
     func loadArtworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> UIImage? {
         guard let url = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return nil
