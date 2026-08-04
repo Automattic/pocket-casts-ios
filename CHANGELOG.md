@@ -1,5 +1,6 @@
 8.19
 -----
+- Add swipe actions to bookmark rows (Share and Delete) in the Player, standalone Podcast bookmarks, Episode, and Profile bookmark lists [#4900](https://github.com/Automattic/pocket-casts-ios/pull/4900)
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
 
 
