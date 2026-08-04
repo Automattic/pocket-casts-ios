@@ -87,33 +87,32 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
-            self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, source: viewModel.analyticsSource, onDismiss: { [weak self] outcome in
+            self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, outcome: outcome)
         })
-
-        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }
 
-    func handleEditDismissed(bookmark: Bookmark, isNew: Bool, title: String, canceled: Bool) {
+    func handleEditDismissed(bookmark: Bookmark, isNew: Bool, outcome: BookmarkEditOutcome) {
         guard isNew else { return }
 
-        if canceled {
+        switch outcome {
+        case .cancelled:
             Task {
                 let _ = await bookmarkManager.remove([bookmark])
                 viewModel.reload()
             }
-            return
-        }
-        // If the title is still the default, we'll just show a 'Bookmark Added' message instead of displaying 'Bookmark "Bookmark" Added'.
-        let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
-        let action = Toast.Action(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
-            self?.showBookmarksTab()
-        }
+        case .saved(let title):
+            let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
-        Toast.show(message, actions: [action], theme: .playerTheme)
+            let action = Toast.Action(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
+                self?.showBookmarksTab()
+            }
+
+            Toast.show(message, actions: [action], theme: .playerTheme)
+        }
     }
 
     private func showBookmarksTab() {

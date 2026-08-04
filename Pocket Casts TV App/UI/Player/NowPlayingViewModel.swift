@@ -32,6 +32,7 @@ class NowPlayingViewModel: Identifiable {
     var isLoading: Bool = true
     var isFirstLoad: Bool = false
     var isFailed: Bool = false
+    var isPlaying: Bool = false
 
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
@@ -118,6 +119,7 @@ class NowPlayingViewModel: Identifiable {
         let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
+        isPlaying = player.timeControlStatus == .playing
         if !isLoading {
             isFirstLoad = false
         }

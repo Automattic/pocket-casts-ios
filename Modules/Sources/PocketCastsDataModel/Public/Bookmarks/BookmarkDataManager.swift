@@ -25,7 +25,20 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
+    public func add(
+        uuid: String? = nil,
+        episodeUuid: String,
+        podcastUuid: String?,
+        title: String,
+        time: TimeInterval,
+        dateCreated: Date = Date(),
+        passage: String? = nil,
+        passageLocation: Int? = nil,
+        passageModified: Date? = nil,
+        referenceTime: TimeInterval? = nil,
+        referenceTimeModified: Date? = nil,
+        syncStatus: SyncStatus = .notSynced
+    ) -> String? {
         var bookmarkUuid: String? = nil
 
         dbQueue.write { db in
@@ -36,10 +49,14 @@ public struct BookmarkDataManager {
                 let columns: [Column] = [
                     .uuid, .title, .time,
                     .createdDate, .titleModifiedDate,
-                    .episode, .podcast, .syncStatus
+                    .episode, .podcast, .syncStatus,
+                    .passage, .passageLocation, .passageModifiedDate,
+                    .referenceTime, .referenceTimeModifiedDate
                 ]
 
-                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid, syncStatus.rawValue]
+                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid, syncStatus.rawValue,
+                                      passage, passageLocation, passageModified?.timeIntervalSince1970,
+                                      referenceTime, referenceTimeModified?.timeIntervalSince1970]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
@@ -53,24 +70,56 @@ public struct BookmarkDataManager {
     }
 
     // MARK: - Updating
-    @discardableResult
-    public func update(bookmark: Bookmark, title: String, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date(), syncStatus: SyncStatus = .notSynced) async -> Bool {
-        let updateColumns = [
-            "\(Column.title) = ?",
-            time.map { _ in "\(Column.time) = ?" },
-            created.map { _ in "\(Column.createdDate) = ?" },
-            "\(Column.titleModifiedDate) = ?",
-            "\(Column.syncStatus) = ?",
-        ].compactMap { $0 }
 
-        let values: [Any?] = [
-            title,
-            time,
-            created,
-            modified ?? Date(),
-            syncStatus.rawValue,
-            bookmark.uuid
-        ]
+    /// Updates a bookmark. Fields group together for syncing: the title is written along with its
+    /// modified date, the passage and its location along with `passageModified`, and the reference
+    /// time along with `referenceTimeModified`. A group whose value is nil is left untouched.
+    @discardableResult
+    public func update(
+        bookmark: Bookmark,
+        title: String? = nil,
+        time: TimeInterval? = nil,
+        created: Date? = nil,
+        modified: Date? = Date(),
+        passage: String? = nil,
+        passageLocation: Int? = nil,
+        passageModified: Date? = nil,
+        referenceTime: TimeInterval? = nil,
+        referenceTimeModified: Date? = nil,
+        syncStatus: SyncStatus = .notSynced
+    ) async -> Bool {
+        var updateColumns = [String]()
+        var values = [Any?]()
+
+        if let title {
+            updateColumns.append(contentsOf: ["\(Column.title) = ?", "\(Column.titleModifiedDate) = ?"])
+            values.append(contentsOf: [title, modified ?? Date()])
+        }
+
+        if let time {
+            updateColumns.append("\(Column.time) = ?")
+            values.append(time)
+        }
+
+        if let created {
+            updateColumns.append("\(Column.createdDate) = ?")
+            values.append(created)
+        }
+
+        if let passageModified {
+            updateColumns.append(contentsOf: ["\(Column.passage) = ?", "\(Column.passageLocation) = ?", "\(Column.passageModifiedDate) = ?"])
+            values.append(contentsOf: [passage as Any?, passageLocation as Any?, passageModified])
+        }
+
+        if let referenceTimeModified {
+            updateColumns.append(contentsOf: ["\(Column.referenceTime) = ?", "\(Column.referenceTimeModifiedDate) = ?"])
+            values.append(contentsOf: [referenceTime as Any?, referenceTimeModified])
+        }
+
+        updateColumns.append("\(Column.syncStatus) = ?")
+        values.append(syncStatus.rawValue)
+
+        values.append(bookmark.uuid)
 
         let query = """
                 UPDATE \(Self.tableName)
@@ -79,7 +128,7 @@ public struct BookmarkDataManager {
                 LIMIT 1
                 """
 
-        let result = await dbQueue.executeUpdate(query, values: values.compactMap { $0 })
+        let result = await dbQueue.executeUpdate(query, values: values.databaseValues)
 
         switch result {
         case .success:
@@ -243,10 +292,15 @@ public struct BookmarkDataManager {
         case podcast = "podcast_uuid"
         case time
         case deleted
+        case passage
+        case passageLocation = "passage_location"
+        case referenceTime = "reference_time"
 
         // For Syncing
         case titleModifiedDate = "title_modified_date"
         case deletedModifiedDate = "deleted_modified_date"
+        case passageModifiedDate = "passage_modified_date"
+        case referenceTimeModifiedDate = "reference_time_modified_date"
         case syncStatus = "sync_status"
 
         var description: String { rawValue }
@@ -341,6 +395,11 @@ private extension Bookmark {
         let titleModified = resultSet.date(for: .titleModifiedDate)
         let deletedModified = resultSet.date(for: .deletedModifiedDate)
         let deleted = resultSet.bool(for: .deleted) ?? false
+        let passage = resultSet.string(for: .passage)
+        let passageLocation = resultSet.optionalInt(for: .passageLocation)
+        let referenceTime = resultSet.optionalDouble(for: .referenceTime)
+        let passageModified = resultSet.date(for: .passageModifiedDate)
+        let referenceTimeModified = resultSet.date(for: .referenceTimeModifiedDate)
 
         self.init(uuid: uuid,
                   title: title,
@@ -348,8 +407,13 @@ private extension Bookmark {
                   created: createdDate,
                   episodeUuid: episode,
                   podcastUuid: podcast,
+                  passage: passage,
+                  passageLocation: passageLocation,
+                  referenceTime: referenceTime,
                   titleModified: titleModified,
                   deletedModified: deletedModified,
+                  passageModified: passageModified,
+                  referenceTimeModified: referenceTimeModified,
                   deleted: deleted)
     }
 }
@@ -367,6 +431,16 @@ private extension PCDBResultSet {
 
     func double(for column: BookmarkDataManager.Column) -> Double? {
         double(forColumn: column.rawValue)
+    }
+
+    /// Unlike `double(for:)`, a NULL column is nil rather than 0.
+    func optionalDouble(for column: BookmarkDataManager.Column) -> Double? {
+        (object(forColumn: column.rawValue) as? NSNumber)?.doubleValue
+    }
+
+    /// A NULL column is nil rather than 0.
+    func optionalInt(for column: BookmarkDataManager.Column) -> Int? {
+        (object(forColumn: column.rawValue) as? NSNumber)?.intValue
     }
 
     func bool(for column: BookmarkDataManager.Column) -> Bool? {

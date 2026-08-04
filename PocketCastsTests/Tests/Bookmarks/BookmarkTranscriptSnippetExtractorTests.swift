@@ -23,13 +23,13 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
 
     func testSnippetCoversTheCuesAroundTheTime() throws {
         let model = try makeModel()
-        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+        let snippet = try BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12).get()
 
         XCTAssertTrue(snippet.text.hasPrefix("that's the thing about selective admissions."))
         XCTAssertTrue(snippet.text.hasSuffix("floated the lottery idea."))
     }
 
-    func testSnippetIsNilWithoutEnoughWords() throws {
+    func testSnippetFailsAsTooShortWithoutEnoughWords() throws {
         let model = try XCTUnwrap(TranscriptModel.makeModel(from: """
         WEBVTT
 
@@ -37,19 +37,26 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
         Too short to title.
         """, format: .vtt))
 
-        XCTAssertNil(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 2))
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 2).failureReason, .passageTooShort)
     }
 
-    func testTextSkipsSpeakerNamesAndCollapsesCueBreaks() throws {
+    func testSnippetFailsWhenNothingCoversTheTime() throws {
+        let model = try makeModel()
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 600).failureReason, .noTranscriptAtPosition)
+    }
+
+    func testTextSkipsSpeakerNamesAndKeepsLineBreaks() throws {
         let model = try makeModel()
         let fullRange = NSRange(location: 0, length: model.attributedText.length)
 
         let text = BookmarkTranscriptSnippetExtractor.text(in: fullRange, of: model.attributedText)
 
-        XCTAssertFalse(text.contains("Speaker 1"))
-        XCTAssertFalse(text.contains("Speaker 2"))
-        XCTAssertFalse(text.contains("\n"))
-        XCTAssertFalse(text.contains("  "))
+        XCTAssertEqual(text, """
+        that's the thing about selective admissions.
+        The difference between the kid who gets in and the kid who doesn't is often basically noise.
+        Right, and that's why some researchers have floated the lottery idea.
+        """)
     }
 
     func testSentenceRangeExpandsAnIndexToTheSentenceAroundIt() throws {
@@ -73,9 +80,23 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
 
     func testPassageRangeRoundTripsACapturedPassageAcrossSpeakerChanges() throws {
         let model = try makeModel()
-        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+        let snippet = try BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12).get()
 
         let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: snippet.text,
+                                                                                  at: snippet.range.location,
+                                                                                  in: model.attributedText))
+
+        XCTAssertEqual(BookmarkTranscriptSnippetExtractor.text(in: range, of: model.attributedText), snippet.text)
+    }
+
+    func testPassageRangeMatchesAPassageStoredWithoutItsLineBreaks() throws {
+        let model = try makeModel()
+        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+
+        // Passages captured by earlier versions were flattened to a single line
+        let flattened = snippet.text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+
+        let range = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.passageRange(for: flattened,
                                                                                   at: snippet.range.location,
                                                                                   in: model.attributedText))
 
@@ -137,5 +158,15 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
         XCTAssertNil(BookmarkTranscriptSnippetExtractor.passageRange(for: "a passage no transcript would ever contain",
                                                                      at: nil,
                                                                      in: model.attributedText))
+    }
+}
+
+// MARK: - Helpers
+
+private extension Result {
+    /// The reason a capture failed, for asserting on which one it was
+    var failureReason: Failure? {
+        if case .failure(let reason) = self { return reason }
+        return nil
     }
 }

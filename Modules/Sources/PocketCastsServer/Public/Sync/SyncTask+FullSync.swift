@@ -146,12 +146,18 @@ extension SyncTask {
             await bookmarkManager.markAllBookmarksAsSynced()
 
             for apiBookmark in bookmarks {
-                await bookmarkManager.remove(apiBookmark: apiBookmark).when(false) {
-                    FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not delete existing bookmark: \(apiBookmark.bookmarkUuid)")
+                // The response doesn't include the passage fields — they only flow through the
+                // incremental sync records — so carry them over from the replaced bookmark
+                let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true)
+
+                if let existingBookmark {
+                    await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false) {
+                        FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not delete existing bookmark: \(apiBookmark.bookmarkUuid)")
+                    }
                 }
 
                 // Add the incoming bookmark to the database
-                bookmarkManager.add(from: apiBookmark).when(.none) {
+                bookmarkManager.add(from: apiBookmark, passageFieldsFrom: existingBookmark).when(.none) {
                     FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not add bookmark: \(String(describing: try? apiBookmark.jsonString()))")
                 }
             }
@@ -164,22 +170,19 @@ extension SyncTask {
 }
 
 private extension BookmarkDataManager {
-    func add(from apiBookmark: Api_BookmarkResponse) -> String? {
+    func add(from apiBookmark: Api_BookmarkResponse, passageFieldsFrom existingBookmark: Bookmark?) -> String? {
         add(uuid: apiBookmark.bookmarkUuid,
             episodeUuid: apiBookmark.episodeUuid,
             podcastUuid: apiBookmark.podcastUuid,
             title: apiBookmark.title,
             time: .init(apiBookmark.time),
             dateCreated: apiBookmark.createdAt.date,
+            passage: existingBookmark?.passage,
+            passageLocation: existingBookmark?.passageLocation,
+            passageModified: existingBookmark?.passageModified,
+            referenceTime: existingBookmark?.referenceTime,
+            referenceTimeModified: existingBookmark?.referenceTimeModified,
             syncStatus: .synced)
-    }
-
-    func remove(apiBookmark: Api_BookmarkResponse) async -> Bool? {
-        guard let bookmark = bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true) else {
-            return nil
-        }
-
-        return await permanentlyDelete(bookmarks: [bookmark])
     }
 }
 

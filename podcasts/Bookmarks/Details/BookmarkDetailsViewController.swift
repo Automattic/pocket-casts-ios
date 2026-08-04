@@ -30,6 +30,20 @@ class BookmarkDetailsViewController: ThemedHostingController<BookmarkDetailsView
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        var properties: [String: Sendable] = [
+            "has_passage": viewModel.passage?.isEmpty == false,
+            "episode_uuid": bookmark.episodeUuid
+        ]
+        if let podcastUuid = bookmark.podcastUuid {
+            properties["podcast_uuid"] = podcastUuid
+        }
+
+        Analytics.track(.bookmarkDetailsShown, source: analyticsSource, properties: properties)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,11 +103,10 @@ private extension BookmarkDetailsViewController {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
                                                          state: .updating,
-                                                         style: .themed) { [weak self] _, _ in
+                                                         style: .themed,
+                                                         source: analyticsSource) { [weak self] _ in
             self?.viewModel.refresh()
         }
-
-        controller.source = analyticsSource
 
         present(controller, animated: true)
     }

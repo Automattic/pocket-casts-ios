@@ -316,4 +316,37 @@ final class EpisodeManagerTests: DBTestCase {
 
         XCTAssertFalse(EpisodeManager.isVideo(episode), "A plain audio episode should not be treated as video")
     }
+
+    func testIsNotVideoForDownloadedHLSEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertFalse(EpisodeManager.isVideo(episode), "A downloaded episode plays its local audio file, so it should not be shown as video")
+    }
+
+    func testIsVideoForDownloadedNativeVideoPodcast() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeVideoEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertTrue(EpisodeManager.isVideo(episode), "A downloaded video podcast still plays video from its local file")
+    }
+
+    private func createDownloadedFile(for episode: Episode) {
+        let path = DownloadManager.shared.pathForEpisode(episode)
+        let directory = (path as NSString).deletingLastPathComponent
+        try? FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+        FileManager.default.createFile(atPath: path, contents: Data())
+    }
+
+    private func removeDownloadedFile(for episode: Episode) {
+        try? FileManager.default.removeItem(atPath: DownloadManager.shared.pathForEpisode(episode))
+    }
 }

@@ -2,7 +2,10 @@
 -----
 - Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
-
+- Add Smart Bookmarks: bookmarks now suggest a title and capture the surrounding passage from the episode transcript, mark their spot in the transcript, and anchor their timestamp to the transcript's reference timeline so it stays accurate even when dynamic ads shift the audio [#4761](https://github.com/Automattic/pocket-casts-ios/pull/4761)
+- [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- Make the Up Next navigation bar consistent between the tab and player presentations: Select and a new "…" menu with Clear Up Next on the trailing edge, and a standard close button when opened from the player [#4875](https://github.com/Automattic/pocket-casts-ios/pull/4875)
+- [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
 
 8.17
 -----
@@ -31,6 +34,12 @@
 - Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
 - Fix an issue where the now playing episode was not being auto-downloaded when setting was active for UpNext [#4792](https://github.com/Automattic/pocket-casts-ios/pull/4792)
 - Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
+- [tvOS] Improve thumbnail algorithm for videos [#4861](https://github.com/Automattic/pocket-casts-ios/pull/4861)
+- [tvOS] Show correct number of playlist items, and update playlists episode status on changes [#4869](https://github.com/Automattic/pocket-casts-ios/pull/4869)
+
+8.16.1
+------
+- [tvOS] Move video row to top home position [https://github.com/Automattic/pocket-casts-ios/pull/4844](4844)
 
 8.16
 -----

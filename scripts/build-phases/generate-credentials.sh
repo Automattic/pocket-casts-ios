@@ -24,11 +24,11 @@ fi
 
 ## Validate Secrets!
 ##
-if [ ! -f $SECRETS_PATH ]; then
-    echo "error: $SECRETS_PATH not found! Please run \`bundle exec fastlane run configure_apply\`."
+if [ ! -f $CREDENTIALS_JSON_PATH ]; then
+    echo "error: $CREDENTIALS_JSON_PATH not found! Please run \`bundle exec fastlane run configure_apply\`."
     exit 1
 else
-    echo ">> Loading Secrets from ${SECRETS_PATH}"
+    echo ">> Loading Secrets from ${CREDENTIALS_JSON_PATH}"
 
     ## Generate the Derived Sources folder, if needed
     ##
@@ -37,7 +37,7 @@ else
     ## Generate ApiCredentials.swift
     ##
     echo ">> Generating Credentials ${CREDS_OUTPUT_PATH}"
-    ruby ${SCRIPT_PATH} -i ${CREDS_INPUT_PATH} -s ${SECRETS_PATH} > "${CREDS_OUTPUT_PATH}"
+    ruby ${SCRIPT_PATH} -i ${CREDS_INPUT_PATH} -s ${CREDENTIALS_JSON_PATH} > "${CREDS_OUTPUT_PATH}"
 
     ## Copy private GoogleService-Info.plist
     ##

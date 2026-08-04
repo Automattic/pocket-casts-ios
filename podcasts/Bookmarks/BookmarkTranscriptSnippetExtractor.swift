@@ -9,9 +9,26 @@ struct BookmarkTranscriptSnippet {
     let transcript: TranscriptModel
     var range: NSRange
 
+    /// The reference-timeline position the snippet was centered on; nil for a snippet
+    /// re-located from a stored passage, which isn't resolved against a time.
+    var referenceTime: TimeInterval?
+
     var text: String {
         BookmarkTranscriptSnippetExtractor.text(in: range, of: transcript.attributedText)
     }
+}
+
+/// Why no transcript passage could be captured for a bookmark.
+enum BookmarkPassageFailureReason: Error {
+    /// The episode has no transcript, or fetching it failed
+    case transcriptUnavailable
+    /// The transcript isn't machine generated, or its fingerprint didn't confidently
+    /// match, so the bookmark's time can't be resolved onto the transcript's timeline
+    case notFingerprinted
+    /// The transcript has nothing covering the bookmarked moment
+    case noTranscriptAtPosition
+    /// Too few words around the moment to write a title from
+    case passageTooShort
 }
 
 /// Extracts the transcript text surrounding a bookmark's position, used as the
@@ -33,22 +50,38 @@ struct BookmarkTranscriptSnippetExtractor {
     /// Snippets with fewer words than this carry too little signal to generate a meaningful title from
     static let minimumWordCount = 10
 
-    func snippet(forTime time: TimeInterval, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
+    /// The passage surrounding the given playback time, or why one couldn't be found.
+    ///
+    /// - Parameter referenceTime: The bookmark's already-resolved reference time, if any.
+    ///   It's preferred over resolving again, both to save the work and because the
+    ///   original capture had the warmest mapping.
+    func capture(forTime time: TimeInterval, referenceTime: TimeInterval?, episode: BaseEpisode) async -> Result<BookmarkTranscriptSnippet, BookmarkPassageFailureReason> {
         let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.parentIdentifier())
         guard let model = try? await transcriptManager.loadTranscript() else {
-            return nil
+            return .failure(.transcriptUnavailable)
         }
 
         // Only generated transcripts have a reference fingerprint to re-anchor against, and
         // without a confident match there's no telling how far dynamic ads have pushed the
         // playback time from the timeline the transcript is cued against. Either way, capture
         // nothing rather than a passage from somewhere else in the episode.
-        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled,
-              let referenceTime = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode) else {
-            return nil
+        guard transcriptManager.isDisplayingGeneratedTranscript, FeatureFlag.syncedTranscripts.enabled else {
+            return .failure(.notFingerprinted)
         }
 
-        return Self.extractSnippet(from: model, at: referenceTime)
+        var resolved = referenceTime
+        if resolved == nil {
+            resolved = await FingerprintTimingManager.shared.resolveReferenceTime(forPlaybackTime: time, episode: episode)
+        }
+        guard let resolved else {
+            return .failure(.notFingerprinted)
+        }
+
+        return Self.extractSnippet(from: model, at: resolved).map {
+            var snippet = $0
+            snippet.referenceTime = resolved
+            return snippet
+        }
     }
 
     func snippet(forPassage passage: String, at location: Int?, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
@@ -61,13 +94,13 @@ struct BookmarkTranscriptSnippetExtractor {
         return BookmarkTranscriptSnippet(transcript: model, range: range)
     }
 
-    static func extractSnippet(from model: TranscriptModel, at time: TimeInterval) -> BookmarkTranscriptSnippet? {
+    static func extractSnippet(from model: TranscriptModel, at time: TimeInterval) -> Result<BookmarkTranscriptSnippet, BookmarkPassageFailureReason> {
         let windowStart = max(0, time - backwardWindowSeconds)
         let windowEnd = time + forwardWindowSeconds
 
         let overlapping = model.cues.filter { $0.startTime < windowEnd && $0.endTime > windowStart }
         guard let first = overlapping.first, let last = overlapping.last else {
-            return nil
+            return .failure(.noTranscriptAtPosition)
         }
 
         let location = first.characterRange.location
@@ -76,9 +109,9 @@ struct BookmarkTranscriptSnippetExtractor {
 
         let snippet = BookmarkTranscriptSnippet(transcript: model, range: snappedRange)
         guard snippet.text.split(whereSeparator: \.isWhitespace).count >= minimumWordCount else {
-            return nil
+            return .failure(.passageTooShort)
         }
-        return snippet
+        return .success(snippet)
     }
 
     static func sentenceRange(containing index: Int, in text: String) -> NSRange {
@@ -119,6 +152,10 @@ struct BookmarkTranscriptSnippetExtractor {
     /// - Parameter location: The passage's captured start within `attributedText`, or `nil`
     ///   for bookmarks made before the location was recorded.
     static func passageRange(for passage: String, at location: Int?, in attributedText: NSAttributedString) -> NSRange? {
+        // The transcript side of the match collapses whitespace, so the passage collapses
+        // the same way — lining up passages stored flattened by earlier versions and
+        // passages stored with their line breaks alike
+        let passage = passage.split(whereSeparator: \.isWhitespace).joined(separator: " ")
         guard !passage.isEmpty else { return nil }
 
         // Location first: is the passage still exactly where it was captured?
@@ -208,19 +245,47 @@ struct BookmarkTranscriptSnippetExtractor {
     }
 
     /// The plain text within `range`, skipping the speaker-name runs interleaved between
-    /// cues and collapsing the line breaks between them
+    /// cues while keeping the transcript's line breaks, so a stored passage reads with
+    /// the same paragraphs the transcript shows
     static func text(in range: NSRange, of attributedText: NSAttributedString) -> String {
         let clamped = NSIntersectionRange(range, NSRange(location: 0, length: attributedText.length))
         guard clamped.length > 0 else {
             return ""
         }
 
-        var parts = [String]()
         let string = attributedText.string as NSString
+        var text = ""
+        // A whitespace run collapses to a single newline when it contains one, a single
+        // space otherwise; dropped entirely at either edge
+        var pendingSeparator: String?
+
         attributedText.enumerateAttribute(.transcriptSpeaker, in: clamped, options: []) { value, subrange, _ in
-            guard value == nil else { return }
-            parts.append(string.substring(with: subrange))
+            guard value == nil else {
+                // Speaker names sit on their own line, so skipping one leaves a line break
+                if !text.isEmpty {
+                    pendingSeparator = "\n"
+                }
+                return
+            }
+
+            string.enumerateSubstrings(in: subrange, options: .byComposedCharacterSequences) { substring, _, _, _ in
+                guard let substring else { return }
+
+                if substring.allSatisfy(\.isWhitespace) {
+                    if !text.isEmpty {
+                        pendingSeparator = substring.contains(where: \.isNewline) ? "\n" : (pendingSeparator ?? " ")
+                    }
+                    return
+                }
+
+                if let separator = pendingSeparator {
+                    text.append(separator)
+                    pendingSeparator = nil
+                }
+                text.append(substring)
+            }
         }
-        return parts.joined(separator: " ").split(whereSeparator: \.isWhitespace).joined(separator: " ")
+
+        return text
     }
 }

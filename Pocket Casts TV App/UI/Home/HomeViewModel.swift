@@ -54,6 +54,10 @@ class HomeViewModel {
         }
     }
 
+    func refresh() {
+        RefreshManager.shared.refreshPodcasts()
+    }
+
     private func fetchPodcasts() -> [Podcast] {
         return Array(dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).prefix(20))
     }
