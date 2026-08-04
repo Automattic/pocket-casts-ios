@@ -150,6 +150,21 @@ extension BookmarkListViewModel {
         toggleMultiSelection()
     }
 
+    /// Whether the share swipe action should be shown for this bookmark
+    func canShare(_ bookmark: Bookmark) -> Bool {
+        bookmark.episode is Episode
+    }
+
+    func shareTapped(_ bookmark: Bookmark) {
+        router?.bookmarkShare(bookmark)
+    }
+
+    func deleteTapped(_ bookmark: Bookmark) {
+        confirmDeletion { [weak self] in
+            self?.actuallyDelete([bookmark])
+        }
+    }
+
     func sorted(by option: BookmarkSortOption) {
         sortOption = option
         reload()
