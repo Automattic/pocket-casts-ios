@@ -5,7 +5,7 @@ Gemfile*              @Automattic/apps-infra-tooling
 .bundle/              @Automattic/apps-infra-tooling
 .rubocop*.yml         @Automattic/apps-infra-tooling
 fastlane/             @Automattic/apps-infra-tooling
-# Store-listing localization is content, not infra.
+# Store-listing localization and frozen strings are content, not infra.
 fastlane/metadata/
 fastlane/Frozen.strings
 
