@@ -23,10 +23,12 @@ struct KidsProfileBannerView: View {
 
                         Image("kids-profile-banner-face")
                             .clipShape(
-                                PCUnevenRoundedRectangle(topLeadingRadius: 0,
-                                                         bottomLeadingRadius: 0,
-                                                         bottomTrailingRadius: Constants.cornerRadiusBig,
-                                                         topTrailingRadius: 0)
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 0,
+                                    bottomLeadingRadius: 0,
+                                    bottomTrailingRadius: Constants.cornerRadiusBig,
+                                    topTrailingRadius: 0
+                                )
                             )
                     }
 
