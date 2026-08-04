@@ -4,6 +4,8 @@ class AboutViewModel: ObservableObject {
     @Published var shouldShowWhatsNew: Bool = false
     @Published var whatsNewInfo: WhatsNewInfo?
 
+    @Published var navigationPath: [AboutNavigationPathComponent] = []
+
     var whatsNewText: String {
         L10n.whatsNewInVersion(Settings.appVersion())
     }
@@ -42,4 +44,11 @@ class AboutViewModel: ObservableObject {
         case automatticFamily
         case workWithUs
     }
+}
+
+enum AboutNavigationPathComponent {
+    case legalAndMore
+    case termsOfService
+    case privacyPolicy
+    case acknowledgements
 }

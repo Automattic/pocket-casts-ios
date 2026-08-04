@@ -182,9 +182,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .about:
             Analytics.track(.settingsAboutShown)
 
-            let aboutView = AboutView(dismissAction: { [weak self] in
-                self?.navigationController?.dismiss(animated: true, completion: nil)
-            }).environmentObject(Theme.sharedTheme)
+            let aboutView = AboutView()
+                .environmentObject(Theme.sharedTheme)
             let hostingController = PCHostingController(rootView: aboutView)
 
             navigationController?.present(hostingController, animated: true, completion: nil)

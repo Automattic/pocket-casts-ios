@@ -91,7 +91,7 @@ final class BookmarkTranscriptSnippetExtractorTests: XCTestCase {
 
     func testPassageRangeMatchesAPassageStoredWithoutItsLineBreaks() throws {
         let model = try makeModel()
-        let snippet = try XCTUnwrap(BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12))
+        let snippet = try BookmarkTranscriptSnippetExtractor.extractSnippet(from: model, at: 12).get()
 
         // Passages captured by earlier versions were flattened to a single line
         let flattened = snippet.text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
