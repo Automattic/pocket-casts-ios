@@ -15,9 +15,6 @@ steps:
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
 
-      echo '--- 🔐 Access Secrets'
-      bundle exec fastlane run configure_apply
-
       echo '--- ❄️ Code Freeze'
       bundle exec fastlane code_freeze version:"${RELEASE_VERSION}" skip_confirm:true
     plugins: [$CI_TOOLKIT]
