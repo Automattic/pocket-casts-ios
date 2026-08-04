@@ -35,6 +35,7 @@ struct EpisodeRow: View {
             PodcastImage(uuid: uuid, size: .list)
         } else {
             Image(ImageResource.pcLogo)
+                .accessibilityHidden(true)
         }
     }
 
