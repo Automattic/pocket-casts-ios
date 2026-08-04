@@ -28,6 +28,7 @@ struct QRCodeView: View {
                     .frame(width: Layout.tileSize, height: Layout.tileSize)
                     .background(.white)
                     .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
+                    .accessibilityHidden(true)
             } else {
                 ProgressView()
                     .frame(width: Layout.tileSize, height: Layout.tileSize)
