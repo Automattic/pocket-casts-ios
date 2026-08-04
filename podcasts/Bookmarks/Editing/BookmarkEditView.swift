@@ -22,8 +22,7 @@ struct BookmarkEditView: View {
                 .navigationDestination(isPresented: $isEditingTranscript) {
                     transcriptEditor
                 }
-                // Covers leaving by the back button and by a back swipe alike
-                .onChange(of: isEditingTranscript) { isEditing in
+                .onChange(of: isEditingTranscript) { _, isEditing in
                     isEditing ? viewModel.passageEditorShown() : viewModel.passageEditorDismissed()
                 }
         }
