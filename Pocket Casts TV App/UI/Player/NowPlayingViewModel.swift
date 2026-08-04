@@ -213,7 +213,7 @@ class NowPlayingViewModel: Identifiable {
             return nil
         }
 
-        if let podcastEpisode = episode as? Episode,
+        if Settings.loadEmbeddedImages, let podcastEpisode = episode as? Episode,
            let image = await artworkManager.loadArtworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
             return image
         }

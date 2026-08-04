@@ -12,13 +12,16 @@ class EpisodeArtworkViewModel {
 
     let episode: BaseEpisode
 
-    var image: UIImage?
+    private(set) var image: UIImage?
 
-    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, imageManager: ImageManager = .sharedManager) {
+    let showEpisodeNotesImage: Bool
+
+    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .sharedManager) {
         self.episode = episode
         self.placeholderResource = placeholder
         self.imageManager = imageManager
         self.artworkManager = EpisodeArtwork(imageManager: imageManager)
+        self.showEpisodeNotesImage = showEpisodeNotesImage
     }
 
     func load() async {
@@ -28,7 +31,7 @@ class EpisodeArtworkViewModel {
             image = podcastImage
         }
 
-        if let podcastEpisode = episode as? Episode,
+        if showEpisodeNotesImage, let podcastEpisode = episode as? Episode,
            let episodeImage = await artworkManager.loadArtworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
             image = episodeImage
         }
