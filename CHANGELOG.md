@@ -1,6 +1,7 @@
 8.19
 -----
 
+- [tvOS] Fix VoiceOver accessibility issues across the app: unlabeled tiles, fragmented row/text reads, and missing announcements for toasts, sign-in, and pairing [#4888](https://github.com/Automattic/pocket-casts-ios/pull/4888)
 
 8.18
 -----
