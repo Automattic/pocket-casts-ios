@@ -424,6 +424,51 @@ platform :ios do
     create_backmerge_pr
   end
 
+  # Downloads the latest app translations and App Store metadata from GlotPress,
+  # then creates a PR to integrate them into the current `release/*` branch.
+  #
+  # @param phase [String] Identifier for the point in the release process requesting the update.
+  #                       Used to keep multiple localization PRs for the same release independent.
+  #
+  lane :download_translations_and_metadata do |phase:|
+    require_env_vars!('GITHUB_TOKEN')
+    ensure_git_status_clean
+    ensure_git_branch(branch: '^release/')
+
+    phase = phase.to_s
+    UI.user_error!('The localization update phase must contain only lowercase letters, numbers, and hyphens') unless phase.match?(/\A[a-z0-9-]+\z/)
+
+    version = release_version_current
+    base_branch = "release/#{version}"
+    pr_branch = "translations/release-#{version}-#{phase}"
+
+    Fastlane::Helper::GitHelper.create_branch(pr_branch, from: base_branch)
+
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+
+    if Fastlane::Helper::GitHelper.point_to_same_commit?('HEAD', base_branch)
+      message = 'No translations or App Store metadata updates were downloaded, so no PR was created'
+      UI.important(message)
+      buildkite_annotate(context: 'translations-and-metadata-pr-url', message: message) if is_ci
+      Fastlane::Helper::GitHelper.checkout_and_pull(base_branch)
+      Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
+    else
+      push_to_git_remote(tags: false, set_upstream: true)
+      pr_url = find_or_create_pull_request(
+        repository: GITHUB_REPO,
+        base: base_branch,
+        head: pr_branch,
+        title: "Update translations and App Store metadata for `#{version}` (#{phase.tr('-', ' ')})",
+        body: "This PR integrates the latest app translations and iOS/tvOS App Store metadata from GlotPress into the `#{base_branch}` branch.",
+        labels: ['Releases'],
+        github_token: ENV.fetch('GITHUB_TOKEN')
+      )
+
+      buildkite_annotate(context: 'translations-and-metadata-pr-url', message: "Translations and metadata PR: #{pr_url || 'Error creating PR'}") if is_ci
+    end
+  end
+
   # Finalizes release bookkeeping before separate CI jobs upload the final TestFlight builds.
   #
   # This lane does not submit builds to App Store Review. Submission remains a
