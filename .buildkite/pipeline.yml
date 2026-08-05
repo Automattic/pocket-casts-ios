@@ -82,7 +82,7 @@ steps:
           queue: default
         plugins:
           - docker#v5.13.0:
-              image: "public.ecr.aws/docker/library/ruby:3.4.9"
+              image: "$DOCKER_RUBY_IMAGE"
               propagate-environment: true
               mount-buildkite-agent: true
 
