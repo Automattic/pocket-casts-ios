@@ -143,11 +143,7 @@ actor DiscoverManager {
 
     private func getHomeLayout(signedIn: Bool) async throws -> DiscoverLayout {
         let result: (DiscoverLayout?, Bool?)
-        if signedIn {
-            result = await discoverServerHandler.homePageSignedIn()
-        } else {
-            result = await discoverServerHandler.homePageSignedOut()
-        }
+        result = await discoverServerHandler.discoverPage(type: signedIn ? .signedIn : .signedOut)
 
         guard let layout = result.0 else {
             throw DiscoverError.failedToLoad
