@@ -78,6 +78,30 @@ final class EpisodeArtwork {
         return nil
     }
 
+    func artworkFromShowNotes(podcastUuid: String, episodeUuid: String) async -> UIImage? {
+        if let image = await imageFromCache(episodeUuid: episodeUuid) {
+            return image
+        }
+        return await loadArtworkFromShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+    }
+
+    func imageFromCache(episodeUuid: String) async -> UIImage? {
+        return await withCheckedContinuation { continuation in
+            imageManager.subscribedPodcastsCache.retrieveImage(forKey: episodeUuid) { [weak self] result in
+                guard !Task.isCancelled else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                if let image = try? result.get().image {
+                    self?.imageManager.save(image, for: episodeUuid)
+                    continuation.resume(returning: image)
+                } else {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
+
     /// Attempts to load episode artwork from the show notes URL, downsampling it and
     /// caching it against the episode UUID.
     /// - Returns: the loaded image if one was retrieved and saved, otherwise nil

@@ -32,7 +32,7 @@ class EpisodeArtworkViewModel {
         }
 
         if showEpisodeNotesImage, let podcastEpisode = episode as? Episode,
-           let episodeImage = await artworkManager.loadArtworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
+           let episodeImage = await artworkManager.artworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
             image = episodeImage
         }
     }
