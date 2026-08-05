@@ -3,15 +3,29 @@ import PocketCastsUtils
 import PocketCastsDataModel
 import PocketCastsServer
 
-@MainActor
-class BookmarkRowViewModel: ObservableObject {
-    @Published private(set) var heading: String?
-    @Published private(set) var episode: BaseEpisode?
+@MainActor @Observable
+final class BookmarkRowViewModel {
+    private(set) var episode: BaseEpisode?
+
+    var heading: String? {
+        episode?.title
+    }
 
     private var episodeUuid: String?
 
+    /// The lists that already load the episodes attach them to their bookmarks, so the row can
+    /// display one straight away instead of waiting for the load
+    init(bookmark: Bookmark) {
+        self.episode = bookmark.episode
+    }
+
     /// Loads the bookmark's episode so the row can display its title and artwork
     func configure(with bookmark: Bookmark) async {
+        if let episode = bookmark.episode {
+            self.episode = episode
+            return
+        }
+
         guard episodeUuid != bookmark.episodeUuid else { return }
         episodeUuid = bookmark.episodeUuid
 
@@ -27,13 +41,12 @@ class BookmarkRowViewModel: ObservableObject {
 
         if let episode {
             self.episode = episode
-            self.heading = episode.title
         }
     }
 
     @concurrent
     nonisolated private static func loadEpisode(for bookmark: Bookmark) async -> BaseEpisode? {
-        if let episode = bookmark.episode ?? DataManager.sharedManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
+        if let episode = DataManager.sharedManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
             return episode
         }
 
