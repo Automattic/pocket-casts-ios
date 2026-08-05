@@ -1,4 +1,5 @@
 import ActivityKit
+import PocketCastsUtils
 import SwiftUI
 import WidgetKit
 
@@ -7,7 +8,9 @@ struct SleepTimerLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: SleepTimerActivityAttributes.self) { context in
             SleepTimerLockScreenView(context: context)
-                .activityBackgroundTint(SleepTimerLiveActivityStyle.backgroundColor)
+                // No tint, so the system draws its default (glass) background, matching
+                // the clear background the other widgets use via `clearBackground()`.
+                .activityBackgroundTint(nil)
                 .activitySystemActionForegroundColor(SleepTimerLiveActivityStyle.primaryTextColor)
                 .widgetURL(URL(string: "pktc://show_player"))
         } dynamicIsland: { context in
@@ -23,7 +26,7 @@ struct SleepTimerLiveActivityWidget: Widget {
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
-                        SleepTimerCountdown(endDate: context.state.timerEndDate, font: .title3.monospacedDigit().weight(.semibold))
+                        SleepTimerCountdown(state: context.state, font: .title3.monospacedDigit().weight(.semibold))
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -31,8 +34,8 @@ struct SleepTimerLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     HStack(spacing: 12) {
                         SleepTimerEpisodeText(
-                            episodeTitle: context.attributes.episodeTitle,
-                            podcastTitle: context.attributes.podcastTitle
+                            episodeTitle: context.state.episodeTitle,
+                            podcastTitle: context.state.podcastTitle
                         )
                         Spacer(minLength: 8)
                         SleepTimerExtendButton()
@@ -43,7 +46,7 @@ struct SleepTimerLiveActivityWidget: Widget {
                     .frame(width: 28, height: 28)
                     .padding(.leading, 4)
             } compactTrailing: {
-                SleepTimerCountdown(endDate: context.state.timerEndDate, font: .caption2.monospacedDigit().weight(.semibold))
+                SleepTimerCountdown(state: context.state, font: .caption2.monospacedDigit().weight(.semibold))
                     .frame(width: 48, alignment: .center)
                     .padding(.trailing, 4)
             } minimal: {
@@ -60,8 +63,8 @@ private struct SleepTimerLockScreenView: View {
     let context: ActivityViewContext<SleepTimerActivityAttributes>
 
     var body: some View {
-        HStack(spacing: 14) {
-            SleepTimerIcon(size: 40)
+        HStack(spacing: 12) {
+            SleepTimerIcon(size: CommonWidgetHelper.iconSize)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(L10n.sleepTimer)
@@ -70,7 +73,7 @@ private struct SleepTimerLockScreenView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
 
-                SleepTimerCountdown(endDate: context.state.timerEndDate, font: .title2.monospacedDigit().weight(.bold))
+                SleepTimerCountdown(state: context.state, font: .title2.monospacedDigit().weight(.bold))
             }
             .lineLimit(1)
 
@@ -85,16 +88,23 @@ private struct SleepTimerLockScreenView: View {
 
 @available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerCountdown: View {
-    let endDate: Date
+    let state: SleepTimerActivityAttributes.ContentState
     let font: Font
 
     var body: some View {
-        let startDate = min(Date(), endDate)
-
-        Text(timerInterval: startDate ... endDate, countsDown: true)
-            .font(font)
-            .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
-            .multilineTextAlignment(.leading)
+        Group {
+            if state.isPaused {
+                // The sleep timer doesn't tick while playback is paused, so show a fixed
+                // time rather than letting the system run the countdown down to zero.
+                Text(TimeFormatter.shared.playTimeFormat(time: state.remaining))
+            } else {
+                let startDate = min(Date(), state.timerEndDate)
+                Text(timerInterval: startDate ... state.timerEndDate, countsDown: true)
+            }
+        }
+        .font(font)
+        .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
+        .multilineTextAlignment(.leading)
     }
 }
 
@@ -153,10 +163,10 @@ private struct SleepTimerIcon: View {
 }
 
 private enum SleepTimerLiveActivityStyle {
-    static let backgroundColor = Color.widgetBlack
     static let accentColor = Color.widgetRedLight
-    static let primaryTextColor = Color.white
-    static let secondaryTextColor = Color.white.opacity(0.68)
+    // The activity sits on the system's own material, so the text has to adapt to it.
+    static let primaryTextColor = Color.primary
+    static let secondaryTextColor = Color.secondary
     static let buttonBackgroundColor = Color.widgetRedLight
     static let buttonTextColor = Color.white
 }

@@ -343,6 +343,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             self.updateIdleTimer()
 
             self.sleepTimerManager.restartSleepTimerIfNeeded()
+            self.syncSleepTimerLiveActivity(isPaused: false)
         })
     }
 
@@ -369,6 +370,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         catchUpHelper.playbackDidPause(of: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
         cancelUpdateTimer()
+        syncSleepTimerLiveActivity(isPaused: true)
         deactiveAudioSession()
 
         updateIdleTimer()
@@ -776,6 +778,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         numberOfEpisodesToSleepAfter -= 1
+        syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
@@ -790,6 +793,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         load(episode: episodeToPlay, autoPlay: autoPlay, overrideUpNext: false, completion: completion)
         switchingToDifferentUpNextEpisode = false
 
+        syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
     }
@@ -1497,6 +1501,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         DataManager.sharedManager.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         cleanupCurrentPlayer(permanent: true)
+        endSleepTimerLiveActivity()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: currEpisode.uuid)
         updateNowPlayingInfo()
@@ -2006,7 +2011,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard sleepTimeRemaining >= 0, duration > 0 else { return }
 
         sleepTimeRemaining += duration
-        updateSleepTimerLiveActivity()
+        syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
@@ -2029,10 +2034,34 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
     }
 
-    private func updateSleepTimerLiveActivity() {
+    /// Pushes the current sleep timer state to the Live Activity. The timer only counts down
+    /// while playback is running, so the activity needs to know when we're paused, otherwise
+    /// it keeps counting to zero and sits there showing an expired timer.
+    func syncSleepTimerLiveActivity(isPaused: Bool? = nil) {
+        #if !APPCLIP && !os(watchOS) && !os(tvOS)
+            guard sleepTimeRemaining >= 0 else { return }
+
+            if #available(iOS 17.0, *) {
+                SleepTimerLiveActivityController.shared.sync(
+                    remaining: sleepTimeRemaining,
+                    isPaused: isPaused ?? !playing(),
+                    episode: currentEpisode()
+                )
+            }
+        #endif
+    }
+
+    /// Ends any Live Activity that has outlived the sleep timer, which happens when the app is
+    /// force quit while a timer is running. Called when the app becomes active.
+    func reconcileSleepTimerLiveActivity() {
         #if !APPCLIP && !os(watchOS) && !os(tvOS)
             if #available(iOS 17.0, *) {
-                SleepTimerLiveActivityController.shared.updateTimer(durationRemaining: sleepTimeRemaining)
+                SleepTimerLiveActivityController.shared.reconcile(
+                    isTimerRunning: sleepTimeRemaining >= 0,
+                    remaining: sleepTimeRemaining,
+                    isPaused: !playing(),
+                    episode: currentEpisode()
+                )
             }
         #endif
     }
