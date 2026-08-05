@@ -75,6 +75,12 @@ steps:
         agents:
           queue: mac
 
+      - label: ":ruby: Fastlane Helper Tests"
+        command: |
+          install_gems
+          bundle exec ruby fastlane/test/helpers_test.rb
+        plugins: [$CI_TOOLKIT]
+
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
           if .buildkite/commands/should-skip-job.sh --job-type localization; then
