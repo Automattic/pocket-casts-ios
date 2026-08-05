@@ -32,6 +32,13 @@ def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
   end
 end
 
+# Builds the iOS TestFlight changelog without tvOS-only release notes.
+def ios_testflight_changelog(release_notes)
+  filtered_notes = release_notes.each_line.grep_v(/\A- \[tvOS\](?:\s|$)/).join.chomp
+
+  filtered_notes.empty? ? +'Minor changes.' : filtered_notes
+end
+
 # Builds the tvOS TestFlight changelog from Markdown list entries marked with `[tvOS]`.
 # The marker is stripped because it is selection metadata and should not be shown to testers.
 def tvos_testflight_changelog(release_notes)
