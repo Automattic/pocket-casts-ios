@@ -166,8 +166,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     Image(systemName: "info.circle")
                 }, actions: [
                     .init(title: L10n.podcastShowArchived, action: { [weak self] in
-                        guard let self else { return }
-                        self.searchController?.showHideArchiveTapped(self)
+                        self?.toggleShowArchived()
                     })
                 ])
                 return cell
@@ -319,7 +318,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if indexPath.section == PodcastViewController.allEpisodesSection {
                     guard let podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
-                    if searchController?.searchBarActive() == true {
+                    if searchController?.isSearchFieldActive == true {
                         hideSearchKeyboard()
                     }
 
