@@ -408,7 +408,6 @@ platform :ios do
     # Re-generate the strings for GlotPress, just in case there were localization fixes.
     generate_strings_file_for_glotpress
 
-    download_localized_strings_and_metadata_from_glotpress
     lint_localizations
 
     # Bump the build code
@@ -475,8 +474,8 @@ platform :ios do
   # manual App Store Connect/Releases v2 step. It also does not build or upload
   # app binaries; Releases V2 starts those per-platform tasks separately.
   #
-  #  - Refreshes and lints localized strings and App Store Connect metadata
-  #  - Uploads localized App Store metadata for iOS and tvOS, excluding release notes
+  #  - Checks translation progress and lints the reviewed localized strings
+  #  - Uploads reviewed App Store metadata for iOS and tvOS, excluding release notes
   #  - Bumps final version number
   #  - Removes branch protection and close milestone
   #
@@ -498,7 +497,6 @@ platform :ios do
 
     check_all_translations_progress(interactive: !skip_confirm)
 
-    download_localized_strings_and_metadata_from_glotpress
     lint_localizations
     update_metadata_on_app_store_connect(with_release_notes: false)
     update_metadata_on_app_store_connect_tvos(with_release_notes: false)
