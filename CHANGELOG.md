@@ -10,6 +10,7 @@
 - Make the Up Next navigation bar consistent between the tab and player presentations: Select and a new "…" menu with Clear Up Next on the trailing edge, and a standard close button when opened from the player [#4875](https://github.com/Automattic/pocket-casts-ios/pull/4875)
 - [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
 - [tvOS] Fix episode count on smart playlists [#4905](https://github.com/Automattic/pocket-casts-ios/pull/#4905)
+- Fix a crash when the sign in prompt was shown while another screen was still being dismissed [#4903](https://github.com/Automattic/pocket-casts-ios/pull/4903)
 
 8.17
 -----
