@@ -32,7 +32,7 @@ struct DiscoverHomeView: View {
     }
 
     var discoverList: some View {
-        LazyVStack(spacing: RowSectionLayout.sectionSpacing) {
+        LazyVStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
             ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
                 DiscoverRowSection(item: item, source: DiscoverAnalytics.homeSource)
             }

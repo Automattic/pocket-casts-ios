@@ -55,10 +55,6 @@ class HomeViewModel {
         RefreshManager.shared.refreshPodcasts()
     }
 
-    private func fetchPodcasts() -> [Podcast] {
-        return Array(dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).prefix(20))
-    }
-
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
         let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
         return EpisodeRowViewModel(episode: episode, podcast: podcast, source: .home)

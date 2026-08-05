@@ -56,7 +56,11 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack(path: $path.navigationPath) {
             ScrollView {
-                DiscoverHomeView(model: coordinator.userState.isLoggedIn ? tabRouter.discoverHomeSignedInViewModel : tabRouter.discoverHomeSignedOutViewModel)
+                if coordinator.userState.isLoggedIn {
+                    DiscoverHomeView(model: tabRouter.discoverHomeSignedInViewModel)
+                } else {
+                    DiscoverHomeView(model: tabRouter.discoverHomeSignedOutViewModel)
+                }
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
                 if let uuid = podcast.uuid {
