@@ -31,3 +31,15 @@ def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
     MSG
   end
 end
+
+# Builds the tvOS TestFlight changelog from Markdown list entries marked with `[tvOS]`.
+# The marker is stripped because it is selection metadata and should not be shown to testers.
+def tvos_testflight_changelog(release_notes)
+  filtered_notes = release_notes.each_line.filter_map do |line|
+    next unless line.match?(/\A- \[tvOS\](?:\s|$)/)
+
+    line.sub(/\A- \[tvOS\]\s*/, '- ')
+  end.join.chomp
+
+  filtered_notes.empty? ? +'Minor changes.' : filtered_notes
+end
