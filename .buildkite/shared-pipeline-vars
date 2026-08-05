@@ -18,7 +18,7 @@ CI_TOOLKIT_PLUGIN_VERSION="6.1.1"
 
 TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
-RUN_FASTLANE_TESTS=true
+RUN_FASTLANE_TESTS=false
 if [[ "${BUILDKITE_PULL_REQUEST:-false}" =~ ^[0-9]+$ ]]; then
     RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version')
 fi

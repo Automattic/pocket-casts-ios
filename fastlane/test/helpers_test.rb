@@ -55,4 +55,11 @@ class FastlaneHelpersTest < Minitest::Test
 
     assert_equal 'Minor changes.', tvos_testflight_changelog(release_notes)
   end
+
+  def test_changelogs_accept_marker_without_separator
+    release_notes = "- [tvOS]No separator\n"
+
+    assert_equal 'Minor changes.', ios_testflight_changelog(release_notes)
+    assert_equal '- No separator', tvos_testflight_changelog(release_notes)
+  end
 end
