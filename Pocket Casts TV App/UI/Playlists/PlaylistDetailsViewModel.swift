@@ -83,15 +83,15 @@ class PlaylistDetailsViewModel {
     func load() {
         Task {
             // `DataManager.playlistEpisodes(for:)` always filters archived out, so query directly
-            // with `shouldShowArchived: true` and let the local toggle decide what to display.
+            // with `shouldShowArchived` depending of the list type and let the local toggle decide what to display.
             let query = PlaylistQueryBuilder.query(
                 clause: .episode,
                 for: playlist.playlist,
                 limit: Self.playlistEpisodeLimit,
-                shouldShowArchived: true
+                shouldShowArchived: playlist.playlist.manual
             )
             let playlistEpisodes = dataManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
-            let count = dataManager.allPlaylistEpisodeCount(for: playlist.playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+            let count = dataManager.allPlaylistEpisodeCount(for: playlist.playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: playlist.playlist.manual)
             await MainActor.run {
                 allEpisodes = playlistEpisodes
                 episodesCount = count
