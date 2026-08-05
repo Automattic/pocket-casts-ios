@@ -38,7 +38,10 @@ def tvos_testflight_changelog(release_notes)
   filtered_notes = release_notes.each_line.filter_map do |line|
     next unless line.match?(/\A- \[tvOS\](?:\s|$)/)
 
-    line.sub(/\A- \[tvOS\]\s*/, '- ')
+    note = line.sub(/\A- \[tvOS\][ \t]*/, '')
+    next if note.strip.empty?
+
+    "- #{note}"
   end.join.chomp
 
   filtered_notes.empty? ? +'Minor changes.' : filtered_notes
