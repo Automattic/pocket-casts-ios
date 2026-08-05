@@ -76,6 +76,7 @@ steps:
           queue: mac
 
       - label: ":ruby: Fastlane Helper Tests"
+        if: ${RUN_FASTLANE_TESTS:-true}
         command: ruby fastlane/test/helpers_test.rb
         agents:
           queue: default
