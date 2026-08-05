@@ -980,9 +980,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         guard let podcast else { return }
 
         searchController?.isLoading = false
+        isSearching = false
         uuidsThatMatchSearch.removeAll()
         loadLocalEpisodes(podcast: podcast, animated: true)
-        isSearching = false
         Analytics.track(.podcastScreenSearchCleared)
     }
 
