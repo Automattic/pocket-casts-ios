@@ -34,7 +34,7 @@ struct EpisodeRow: View {
     @ViewBuilder
     private var thumbnail: some View {
         if showEpisodeNotesImage {
-            EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: model.episode, showEpisodeNotesImage: showEpisodeNotesImage))
+            EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: model.episode, size: .list , showEpisodeNotesImage: showEpisodeNotesImage))
         } else {
             if let uuid = model.podcastUuid {
                 PodcastImage(uuid: uuid, size: .list)

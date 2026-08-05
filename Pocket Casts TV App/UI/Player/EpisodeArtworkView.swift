@@ -9,6 +9,7 @@ class EpisodeArtworkViewModel {
     private let artworkManager: EpisodeArtwork
     private let imageManager: ImageManager
     private let placeholderResource: ImageResource
+    private let size: PodcastThumbnailSize
 
     let episode: BaseEpisode
 
@@ -16,18 +17,19 @@ class EpisodeArtworkViewModel {
 
     let showEpisodeNotesImage: Bool
 
-    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .sharedManager) {
+    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .sharedManager) {
         self.episode = episode
         self.placeholderResource = placeholder
         self.imageManager = imageManager
         self.artworkManager = EpisodeArtwork(imageManager: imageManager)
+        self.size = size
         self.showEpisodeNotesImage = showEpisodeNotesImage
     }
 
     func load() async {
         self.image = UIImage(resource: placeholderResource)
 
-        if let podcastImage = await imageManager.imageForEpisode(episode, size: .page) {
+        if let podcastImage = await imageManager.imageForEpisode(episode, size: size) {
             image = podcastImage
         }
 
