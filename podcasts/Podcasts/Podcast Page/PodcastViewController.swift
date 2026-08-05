@@ -1393,13 +1393,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func showBookmarks() {
-        if FeatureFlag.podcastBookmarksInline.enabled {
-            switchViewMode(to: .bookmarks)
-        } else {
-            guard let podcast else { return }
-            let controller = BookmarksPodcastListController(podcast: podcast)
-            present(controller, animated: true)
-        }
+        switchViewMode(to: .bookmarks)
     }
 
     func showYouMightLike() {
