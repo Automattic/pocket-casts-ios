@@ -76,10 +76,14 @@ steps:
           queue: mac
 
       - label: ":ruby: Fastlane Helper Tests"
-        command: |
-          install_gems
-          bundle exec ruby fastlane/test/helpers_test.rb
-        plugins: [$CI_TOOLKIT]
+        command: ruby fastlane/test/helpers_test.rb
+        agents:
+          queue: default
+        plugins:
+          - docker#v5.13.0:
+              image: "public.ecr.aws/docker/library/ruby:3.4.9"
+              propagate-environment: true
+              mount-buildkite-agent: true
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
