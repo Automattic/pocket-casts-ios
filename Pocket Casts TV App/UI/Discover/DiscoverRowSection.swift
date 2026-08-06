@@ -57,8 +57,7 @@ extension DiscoverItem {
         case ("banner", "inline_banner", _, _):
             return .banner
         default:
-            FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
-            assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
+            FileLog.shared.addMessage("Unknown Discover Item: \(type?.uppercased() ?? "unknown") \(summaryStyle ?? "unknown")")
             return nil
         }
     }
@@ -76,9 +75,19 @@ struct DiscoverRowSection: View {
         self.source = source
     }
 
+    var rowType: DiscoverRowType? {
+        let result = item.rowType
+#if DEBUG || STAGING
+        if result == nil {
+            ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(item.type ?? "unknow"), CHECK CONSOLE!")
+        }
+#endif
+        return result
+    }
+
     var body: some View {
         ZStack {
-            switch item.rowType {
+            switch rowType {
             case .categories:
                 DiscoverCategoriesRow(item: item, popularOnly: false, source: source)
             case .categoriesPopular:
