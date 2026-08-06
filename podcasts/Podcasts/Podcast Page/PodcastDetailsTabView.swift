@@ -41,7 +41,7 @@ struct PodcastDetailsTabView: View {
     }
 
     @ViewBuilder var tabs: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 9) {
             Text(L10n.episodes)
                 .buttonize {
                     selectedTab = .episodes
@@ -72,7 +72,7 @@ struct PodcastDetailsTabView: View {
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
-            Spacer(minLength: 0)
+            Spacer()
         }
         .font(.subheadline.weight(.medium))
     }
@@ -83,7 +83,6 @@ struct PodcastDetailsTabView: View {
 private extension View {
     func applyStyle(theme: Theme, highlighted: Bool = false) -> some View {
         self
-            .fixedSize()
             .contentShape(Rectangle())
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
