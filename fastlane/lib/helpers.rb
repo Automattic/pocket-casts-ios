@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+TVOS_NOTE_PREFIX = '- [tvOS]'
+
 # Use this to ensure all env vars a lane requires are set.
 #
 # The best place to call this is at the start of a lane, to fail early.
@@ -30,4 +32,26 @@ def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
       mkdir -p #{env_file_dir} && cp #{env_file_example_path} #{env_file_path}
     MSG
   end
+end
+
+# Builds the iOS TestFlight changelog without tvOS-only release notes.
+def ios_testflight_changelog(release_notes)
+  filtered_notes = release_notes.each_line.reject { |line| line.start_with?(TVOS_NOTE_PREFIX) }.join.chomp
+
+  filtered_notes.empty? ? +'Minor changes.' : filtered_notes
+end
+
+# Builds the tvOS TestFlight changelog from Markdown list entries marked with `[tvOS]`.
+# The marker is stripped because it is selection metadata and should not be shown to testers.
+def tvos_testflight_changelog(release_notes)
+  filtered_notes = release_notes.each_line.filter_map do |line|
+    next unless line.start_with?(TVOS_NOTE_PREFIX)
+
+    note = line.delete_prefix(TVOS_NOTE_PREFIX).strip
+    next if note.empty?
+
+    "- #{note}"
+  end.join("\n")
+
+  filtered_notes.empty? ? +'Minor changes.' : filtered_notes
 end
