@@ -4,10 +4,21 @@ import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 
-class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
+class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable {
     typealias SortSetting = Binding<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
+
+    @Published var isMultiSelecting = false
+    @Published var selectedIDs: Set<Bookmark.ID> = []
+
+    var selectableItems: [Bookmark] { items }
+
+    override var items: [Bookmark] {
+        didSet {
+            selectableItemsDidChange()
+        }
+    }
 
     let bookmarkManager: BookmarkManager
 
@@ -53,9 +64,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     func reload() { }
 
     /// Outside of the multi selection, a tap opens the bookmark's details
-    override func tapped(item: Bookmark) {
-        guard !isMultiSelecting else {
-            super.tapped(item: item)
+    func tapped(item: Bookmark) {
+        if isMultiSelecting {
+            toggleSelected(item)
             return
         }
 
@@ -171,9 +182,8 @@ extension BookmarkListViewModel {
     }
 
     func deleteSelectedBookmarks() {
-        guard numberOfSelectedItems > 0 else { return }
-
         let items = selectedItems
+        guard !items.isEmpty else { return }
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)
