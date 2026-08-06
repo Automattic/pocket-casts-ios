@@ -30,6 +30,7 @@ struct PodcastDetailsTabView: View {
         Group {
             if FeatureFlag.recommendations.enabled {
                 ScrollView(.horizontal, showsIndicators: false) { tabs }
+                    .scrollClipDisabled()
             } else {
                 tabs
             }
@@ -71,7 +72,7 @@ struct PodcastDetailsTabView: View {
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
-            Spacer()
+            Spacer(minLength: 0)
         }
         .font(.subheadline.weight(.medium))
     }
@@ -82,6 +83,7 @@ struct PodcastDetailsTabView: View {
 private extension View {
     func applyStyle(theme: Theme, highlighted: Bool = false) -> some View {
         self
+            .fixedSize()
             .contentShape(Rectangle())
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
