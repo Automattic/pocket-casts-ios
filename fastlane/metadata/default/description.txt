@@ -1,8 +1,8 @@
 Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners. Our podcast player provides next-level listening, search and discovery tools. Find your next obsession with our hand-curated podcast recommendations for easy discovery, and seamlessly enjoy your favorite shows without the hassle of subscribing.
 
 Here's what the press has to say:
- • Wired: \"Pocket Casts Is the Podcast App Every iPhone User Needs\"
- • iMore: \"Pocket Casts is the best podcast app for iPhone\"
+ • Wired: "Pocket Casts Is the Podcast App Every iPhone User Needs"
+ • iMore: "Pocket Casts is the best podcast app for iPhone"
 
 NEW: PLAYLISTS
 Your listening, your way. Organize your episodes with our powerful new Playlists feature:
@@ -49,3 +49,6 @@ ALL YOUR FAVORITES
 There are many more powerful, straight-forward features that make Pocket Casts the perfect podcasting app for you. So what are you waiting for?
 
 Visit pocketcasts.com for more info about the web and other platforms supported by Pocket Casts.
+
+Terms of Use: https://support.pocketcasts.com/article/terms-of-use
+Privacy Policy: https://support.pocketcasts.com/article/privacy-policy
