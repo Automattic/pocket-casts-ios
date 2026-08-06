@@ -18,7 +18,7 @@ steps:
       install_gems
 
       echo '--- 🌐 Download Translations and Metadata'
-      bundle exec fastlane download_translations_and_metadata
+      bundle exec fastlane download_translations_and_metadata version:"${RELEASE_VERSION}"
     plugins: [$CI_TOOLKIT]
     agents:
       queue: "mac"
