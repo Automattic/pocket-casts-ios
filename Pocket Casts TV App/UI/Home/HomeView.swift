@@ -31,8 +31,6 @@ struct HomeView: View {
                 loadingView
             case .ready:
                 homeView
-            case .empty:
-                emptyView
             }
         }
         .animation(.easeInOut, value: model.state)
@@ -45,10 +43,6 @@ struct HomeView: View {
 
     var loadingView: some View {
         ProgressView()
-    }
-
-    var emptyView: some View {
-        DiscoverRetryView(title: L10n.tvHomeFailedToLoadTitle, style: .fullScreen) { model.load() }
     }
 
     @State private var path = StackPath()

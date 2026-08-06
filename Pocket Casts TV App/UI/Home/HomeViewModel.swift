@@ -17,7 +17,6 @@ class HomeViewModel {
     enum State: Equatable, Hashable {
         case loading
         case ready
-        case empty
     }
 
     var state: State = .loading
