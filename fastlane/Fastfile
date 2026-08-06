@@ -730,7 +730,9 @@ platform :ios do
 
     upload_to_testflight(
       ipa: ipa_path,
-      reject_build_waiting_for_review: true,
+      # Deliberately no `reject_build_waiting_for_review`: `pilot` picks the build to expire by version alone, and the
+      # tvOS app shares this App Store Connect record and version number, so it would expire the tvOS build.
+      # https://github.com/fastlane/fastlane/blob/2.237.0/pilot/lib/pilot/build_manager.rb#L379-L385
       distribute_external: true,
       groups: EXTERNAL_BETA_TESTER_GROUPS,
       notify_external_testers: true,
@@ -771,7 +773,7 @@ platform :ios do
 
     if distribute_external
       testflight_options.merge!(
-        reject_build_waiting_for_review: true,
+        # See the iOS lane for why this doesn't set `reject_build_waiting_for_review`.
         groups: EXTERNAL_BETA_TESTER_GROUPS,
         notify_external_testers: true
       )
