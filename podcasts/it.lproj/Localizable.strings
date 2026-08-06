@@ -341,8 +341,6 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Non abbiamo trovato alcun segnalibro per la ricerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Nessun segnalibro trovato</string>
-    <key>bookmark_suggested_title</key>
-    <string>Titolo suggerito: %1$@</string>
     <key>bookmark_updated_notification</key>
     <string>Segnalibro "%1$@" aggiornato</string>
     <key>bookmarks</key>
@@ -493,8 +491,6 @@ Prima vorremmo aiutarti</string>
     <string>Deve contenere almeno 6 caratteri</string>
     <key>chapters</key>
     <string>Capitoli</string>
-    <key>chapters_generated_warning_message</key>
-    <string>Questi capitoli vengono generati automaticamente e potrebbero non essere perfettamente accurati.</string>
     <key>check_internet_connection</key>
     <string>Controlla la connessione a Internet</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1589,8 +1585,6 @@ pocast con te</string>
     <string>Nessun episodio trovato</string>
     <key>loading</key>
     <string>Caricamento in corso...</string>
-    <key>login_landing_sign_up_with_email</key>
-    <string>Iscriviti con l'e-mail</string>
     <key>login_landing_subtitle</key>
     <string>I tuoi podcast, sempre sincronizzati. Tieni la libreria al sicuro e goditi Pocket Casts su web e desktop.</string>
     <key>login_landing_title</key>
@@ -1615,8 +1609,6 @@ pocast con te</string>
     <string>Contrassegna come Riprodotto</string>
     <key>mark_played_short</key>
     <string>Contrassegna Riprodotto</string>
-    <key>mark_unplayed</key>
-    <string>Contrassegna come Non riprodotto</string>
     <key>mark_unplayed_short</key>
     <string>Contrassegna Non riprodotto</string>
     <key>maybe_later</key>
@@ -2115,10 +2107,6 @@ Questa sì che è dedizione!</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Autospegnimento attivato</string>
-    <key>player_action_hide_video</key>
-    <string>Nascondi video</string>
-    <key>player_action_show_video</key>
-    <string>Mostra video</string>
     <key>player_action_subtitle_delete</key>
     <string>Visualizzato come Elimina per episodi personalizzati</string>
     <key>player_action_subtitle_hidden</key>
@@ -3197,10 +3185,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Episodi archiviati</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Vuoi modificare tutti i tuoi podcast esistenti a %1$@ episodi archiviati?</string>
-    <key>settings_general_audio_only</key>
-    <string>Solo audio</string>
-    <key>settings_general_audio_only_subtitle</key>
-    <string>Se attivato, gli episodi video verranno riprodotti solo come audio.</string>
     <key>settings_general_auto_open_player</key>
     <string>Apri automaticamente il lettore</string>
     <key>settings_general_autoplay</key>
@@ -3211,10 +3195,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>PREDEFINITI</string>
     <key>settings_general_episode_groups</key>
     <string>Raggruppamento di episodi di podcast</string>
-    <key>settings_general_generated_chapters</key>
-    <string>Capitoli generati</string>
-    <key>settings_general_generated_chapters_subtitle</key>
-    <string>Mostra i capitoli generati automaticamente quando disponibili.</string>
     <key>settings_general_hide</key>
     <string>Nascondi</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3883,36 +3863,6 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Prova terminata</string>
     <key>trim_silence</key>
     <string>Elimina i silenzi</string>
-    <key>troubleshooting_orphaned_episodes_checking</key>
-    <string>Controllo degli episodi orfani in corso…</string>
-    <key>troubleshooting_orphaned_episodes_description</key>
-    <string>Un raro problema di sincronizzazione può causare la presenza di voci di episodi duplicate che non sono più collegate al rispettivo podcast. In alcune parti dell'app, lo stato di download o riproduzione di un episodio può apparire errato.</string>
-    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
-    <string>%1$@ episodi orfani</string>
-    <key>troubleshooting_orphaned_episodes_found_singular</key>
-    <string>1 episodio orfano</string>
-    <key>troubleshooting_orphaned_episodes_header</key>
-    <string>Episodi orfani</string>
-    <key>troubleshooting_orphaned_episodes_none_found</key>
-    <string>Nessun episodio orfano trovato</string>
-    <key>troubleshooting_orphaned_episodes_removing</key>
-    <string>Rimozione degli episodi orfani in corso…</string>
-    <key>troubleshooting_remove_orphaned_episodes</key>
-    <string>Rimuovi episodi orfani</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
-    <string>Questa operazione eliminerà le voci duplicate relative agli episodi presenti su questo dispositivo. Questa operazione non può essere annullata, ma Pocket Casts farà del suo meglio per conservare i tuoi progressi di riproduzione, lo stato dei download e altri dettagli relativi agli episodi prima di eliminarli.</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
-    <string>Rimuovere gli episodi orfani?</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
-    <string>Nessun episodio orfano è stato rimosso</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
-    <string>Sono stati rimossi %1$@ episodi orfani</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
-    <string>È stato rimosso 1 episodio orfano</string>
-    <key>troubleshooting_title</key>
-    <string>Risoluzione dei problemi</string>
-    <key>troubleshooting_view_orphaned_episodes</key>
-    <string>Visualizza episodi orfani</string>
     <key>try_again</key>
     <string>Riprova</string>
     <key>try_it_now</key>
@@ -3925,7 +3875,7 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <key>tv_banner_create_account_action_title</key>
     <string>Crea un account gratuito</string>
     <key>tv_banner_create_account_subtitle</key>
-    <string>I tuoi follower e i tuoi progressi sono esattamente dove li avevi lasciati</string>
+    <string>I tuoi seguiti, i tuoi progressi... esattamente dove li avevi lasciati.</string>
     <key>tv_banner_create_account_title</key>
     <string>Un account. Ogni schermo</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3948,14 +3898,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>I tuoi podcast meritano una casa</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Apri la fotocamera e punta l'obiettivo verso questo codice QR.</string>
-    <key>tv_create_account_step_confirm_code</key>
-    <string>Se richiesto, conferma il codice di seguito</string>
-    <key>tv_create_account_step_create</key>
-    <string>Crea il tuo account o accedi</string>
-    <key>tv_create_account_step_login</key>
-    <string>Accedi al tuo account</string>
-    <key>tv_create_account_step_scan</key>
-    <string>Scansiona il codice QR o vai su %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Scansiona questo codice per iniziare a usare il telefono, ci vuole solo un minuto.</string>
     <key>tv_create_account_title</key>
@@ -3970,16 +3912,12 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Riproduci l'ultimo episodio</string>
     <key>tv_discover_play_episode</key>
     <string>Riproduci episodio</string>
-    <key>tv_discover_row_failed_to_load_title</key>
-    <string>Impossibile caricare</string>
     <key>tv_episode_archived</key>
     <string>Archiviato</string>
     <key>tv_episode_info</key>
     <string>Informazioni episodio</string>
     <key>tv_episode_marked_as_played</key>
     <string>Contrassegna come riprodotto</string>
-    <key>tv_episode_marked_as_unplayed</key>
-    <string>Contrassegnato come Non riprodotto</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Rimosso da Successivo</string>
     <key>tv_episode_show_notes_action</key>
@@ -3994,8 +3932,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Verrà riprodotto per ultimo</string>
     <key>tv_episode_will_play_next</key>
     <string>Verrà riprodotto come prossimo</string>
-    <key>tv_folder_empty_message</key>
-    <string>Modifica la tua cartella nell'app per dispositivi mobili. Ti aspetteranno qui quando hai finito.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Gli episodi riprodotti verranno visualizzati qui</string>
     <key>tv_history_empty_title</key>
@@ -4046,26 +3982,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>%1$@ episodi</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Riproduci tutti gli episodi</string>
-    <key>tv_playlist_download_rules_unsupported</key>
-    <string>Questa playlist mostra solo gli episodi scaricati. Lo spazio di archiviazione della TV è limitato, pertanto non è possibile effettuare download.</string>
-    <key>tv_playlist_empty_subtitle</key>
-    <string>O è il momento di festeggiare il completamento di questo elenco, oppure di modificare le regole nell'app mobile per ottenerne altri.</string>
-    <key>tv_playlist_empty_title</key>
-    <string>Nessun episodio</string>
-    <key>tv_playlist_manual_archived_episodes_placeholder</key>
-    <string>Tutti i %1$@ episodi di questa playlist sono stati archiviati.</string>
-    <key>tv_playlist_play_all_clear_up_next_message</key>
-    <string>Possiamo salvare il tuo attuale Successivo come playlist</string>
-    <key>tv_playlist_play_all_clear_up_next_title</key>
-    <string>Questo cancellerà il tuo Successivo</string>
-    <key>tv_playlist_play_all_play_without_saving</key>
-    <string>Riproduci senza salvare</string>
-    <key>tv_playlist_play_all_save_and_play</key>
-    <string>Salva e riproduci</string>
-    <key>tv_playlists_download_subtitle</key>
-    <string>Ti aspetteranno qui quando avrai finito. Scansiona per ottenere l'app</string>
-    <key>tv_playlists_download_title</key>
-    <string>Crea playlist sul tuo telefono</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Crea una playlist</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4104,16 +4020,12 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Questo attira le persone</string>
     <key>tv_podcast_detail_website</key>
     <string>Sito web</string>
-    <key>tv_podcast_error_message</key>
-    <string>Controlla la tua connessione a Internet e riprova.</string>
-    <key>tv_podcast_error_title</key>
-    <string>Impossibile caricare i dettagli del podcast</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Scopri nuovi podcast</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>I podcast che segui compaiono qui, pronti per essere riprodotti.</string>
-    <key>tv_podcasts_empty_title_new</key>
-    <string>È il momento di riempirla</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>È il momento di riempirla.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Apre le opzioni del profilo e dell'account</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4140,24 +4052,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Ricerca in corso...</string>
     <key>tv_search_type_something</key>
     <string>Digita qualcosa...</string>
-    <key>tv_settings_privacy_policy_qr_message</key>
-    <string>Scansiona il codice QR sottostante o apri l'URL sul tuo telefono per accedere all'Informativa sulla privacy.</string>
-    <key>tv_settings_subscription_lifetime</key>
-    <string>A vita</string>
-    <key>tv_settings_subscription_next_renewal</key>
-    <string>Prossimo rinnovo</string>
-    <key>tv_settings_subscription_other_platform</key>
-    <string>Questo abbonamento è stato sottoscritto su un'altra piattaforma. Usa questa piattaforma per gestire l'abbonamento.</string>
-    <key>tv_settings_subscription_plan</key>
-    <string>Piano</string>
-    <key>tv_settings_subscription_price</key>
-    <string>Prezzo</string>
-    <key>tv_settings_subscription_price_unavailable</key>
-    <string>Non disponibile</string>
-    <key>tv_settings_subscription_title</key>
-    <string>Abbonamento</string>
-    <key>tv_settings_terms_of_use_qr_message</key>
-    <string>Scansiona il codice QR sottostante o apri l'URL sul tuo telefono per accedere ai Termini d'uso.</string>
     <key>tv_sign_in_enter_code</key>
     <string>oppure inserisci questo codice</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4170,8 +4064,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Accesso a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Caricamento dei podcast in corso.</string>
-    <key>tv_signing_in_title_new</key>
-    <string>È bello vederti</string>
+    <key>tv_signing_in_title</key>
+    <string>È bello vederti.</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts consiglia</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4244,10 +4138,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Introduzione a Shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Riproduzione casuale attiva. Riproduce gli episodi in ordine casuale.</string>
-    <key>up_next_sort_duration_tooltip_body</key>
-    <string>Dal più corto al più lungo, o viceversa: adatta l'episodio al tempo che hai effettivamente a disposizione.</string>
-    <key>up_next_sort_duration_tooltip_title</key>
-    <string>Ordina per durata</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>Dal più lungo al più corto</string>
     <key>up_next_sort_newest_to_oldest</key>

@@ -341,8 +341,6 @@
     <string>その検索に該当するブックマークは見つかりませんでした。</string>
     <key>bookmark_search_no_results_title</key>
     <string>ブックマークが見つかりません</string>
-    <key>bookmark_suggested_title</key>
-    <string>提案タイトル: %1$@</string>
     <key>bookmark_updated_notification</key>
     <string>ブックマーク「%1$@」を更新しました</string>
     <key>bookmarks</key>
@@ -493,8 +491,6 @@ Pocket Casts Plus</string>
     <string>6文字以上にしてください</string>
     <key>chapters</key>
     <string>チャプター</string>
-    <key>chapters_generated_warning_message</key>
-    <string>これらのチャプターは自動的に生成されており、正確さに欠ける可能性があります。</string>
     <key>check_internet_connection</key>
     <string>インターネット接続を確認してください</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1589,8 +1585,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードがありません</string>
     <key>loading</key>
     <string>読み込み中...</string>
-    <key>login_landing_sign_up_with_email</key>
-    <string>メールアドレスでサインアップ</string>
     <key>login_landing_subtitle</key>
     <string>ポッドキャストは常に同期されます。 ライブラリを安全に保ち、ウェブとデスクトップで Pocket Casts をお楽しみください。</string>
     <key>login_landing_title</key>
@@ -1615,8 +1609,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生済みとしてマーク</string>
     <key>mark_played_short</key>
     <string>再生済みとしてマーク</string>
-    <key>mark_unplayed</key>
-    <string>未再生とマーク</string>
     <key>mark_unplayed_short</key>
     <string>未再生としてマーク</string>
     <key>maybe_later</key>
@@ -2115,10 +2107,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@倍</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>スリープタイマーオン</string>
-    <key>player_action_hide_video</key>
-    <string>動画を非表示</string>
-    <key>player_action_show_video</key>
-    <string>動画を表示</string>
     <key>player_action_subtitle_delete</key>
     <string>カスタムエピソードで削除と表示</string>
     <key>player_action_subtitle_hidden</key>
@@ -3197,10 +3185,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アーカイブ済みエピソード</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>すべての既存ポッドキャストで、アーカイブ済みエピソードを%1$@に変更しますか ?</string>
-    <key>settings_general_audio_only</key>
-    <string>音声のみ</string>
-    <key>settings_general_audio_only_subtitle</key>
-    <string>オンにすると、動画エピソードは音声のみとして再生されます。</string>
     <key>settings_general_auto_open_player</key>
     <string>プレーヤーを自動的に開く</string>
     <key>settings_general_autoplay</key>
@@ -3211,10 +3195,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>デフォルト</string>
     <key>settings_general_episode_groups</key>
     <string>ポッドキャストエピソードのグループ化</string>
-    <key>settings_general_generated_chapters</key>
-    <string>生成されたチャプター</string>
-    <key>settings_general_generated_chapters_subtitle</key>
-    <string>自動生成されたチャプターを表示します (利用可能な場合)。</string>
     <key>settings_general_hide</key>
     <string>非表示</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3879,36 +3859,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>
     <string>無音時間をカット</string>
-    <key>troubleshooting_orphaned_episodes_checking</key>
-    <string>親が存在しないエピソードを確認中…</string>
-    <key>troubleshooting_orphaned_episodes_description</key>
-    <string>まれな同期の問題により、もうポッドキャストにリンクされていない重複したエピソードエントリーが残る場合があります。 これにより、アプリの一部でエピソードのダウンロードまたは再生のステータスが正しく表示されないことがあります。</string>
-    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
-    <string>%1$@件の親が存在しないエピソード</string>
-    <key>troubleshooting_orphaned_episodes_found_singular</key>
-    <string>1件の親が存在しないエピソード</string>
-    <key>troubleshooting_orphaned_episodes_header</key>
-    <string>親が存在しないエピソード</string>
-    <key>troubleshooting_orphaned_episodes_none_found</key>
-    <string>親が存在しないエピソードは見つかりませんでした</string>
-    <key>troubleshooting_orphaned_episodes_removing</key>
-    <string>親が存在しないエピソードを削除中…</string>
-    <key>troubleshooting_remove_orphaned_episodes</key>
-    <string>親が存在しないエピソードを削除</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
-    <string>これにより、この端末で重複しているエピソードエントリーが削除されます。 この操作は元に戻すことができませんが、Pocket Casts は削除前に再生の進捗、ダウンロードのステータス、その他のエピソードの詳細を保持するよう最善を尽くします。</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
-    <string>親が存在しないエピソードを削除しますか ?</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
-    <string>削除された親が存在しないエピソードはありません</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
-    <string>%1$@件の親が存在しないエピソードが削除されました</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
-    <string>1件の親が存在しないエピソードが削除されました</string>
-    <key>troubleshooting_title</key>
-    <string>トラブルシューティング</string>
-    <key>troubleshooting_view_orphaned_episodes</key>
-    <string>親が存在しないエピソードを表示</string>
     <key>try_again</key>
     <string>もう一度お試しください</string>
     <key>try_it_now</key>
@@ -3921,7 +3871,7 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>tv_banner_create_account_action_title</key>
     <string>無料アカウントを作成</string>
     <key>tv_banner_create_account_subtitle</key>
-    <string>お気に入りの番組も、再生した内容も、中断したまさにその場所から</string>
+    <string>お気に入りの番組も、再生した内容も...中断したまさにその場所から。</string>
     <key>tv_banner_create_account_title</key>
     <string>1つのアカウント。 すべての画面</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3944,14 +3894,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストにはホームが必要です</string>
     <key>tv_create_account_qr_instruction</key>
     <string>カメラを開き、この QR コードに向けます。</string>
-    <key>tv_create_account_step_confirm_code</key>
-    <string>求められた場合は、以下のコードを確認</string>
-    <key>tv_create_account_step_create</key>
-    <string>アカウントを作成、またはログイン</string>
-    <key>tv_create_account_step_login</key>
-    <string>アカウントにログイン</string>
-    <key>tv_create_account_step_scan</key>
-    <string>QR コードをスキャン、または %1$@ に移動</string>
     <key>tv_create_account_subtitle</key>
     <string>このコードをスキャンして、スマートフォンで開始できます。わずか1分で完了します。</string>
     <key>tv_create_account_title</key>
@@ -3966,16 +3908,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードを再生</string>
     <key>tv_discover_play_episode</key>
     <string>エピソードを再生</string>
-    <key>tv_discover_row_failed_to_load_title</key>
-    <string>読み込みに失敗しました</string>
     <key>tv_episode_archived</key>
     <string>アーカイブしました</string>
     <key>tv_episode_info</key>
     <string>エピソード情報</string>
     <key>tv_episode_marked_as_played</key>
     <string>再生済みとしてマークしました</string>
-    <key>tv_episode_marked_as_unplayed</key>
-    <string>未再生とマークしました</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>次のエピソードから削除しました</string>
     <key>tv_episode_show_notes_action</key>
@@ -3990,8 +3928,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最後に再生</string>
     <key>tv_episode_will_play_next</key>
     <string>次に再生</string>
-    <key>tv_folder_empty_message</key>
-    <string>モバイルアプリでフォルダーを編集し、完了するとこちらに表示されます。</string>
     <key>tv_history_empty_subtitle</key>
     <string>再生するエピソードがこちらに表示されます</string>
     <key>tv_history_empty_title</key>
@@ -4044,26 +3980,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件のエピソード</string>
     <key>tv_playlist_detail_play_all</key>
     <string>すべてのエピソードを再生</string>
-    <key>tv_playlist_download_rules_unsupported</key>
-    <string>このプレイリストはダウンロード済みエピソードでフィルタリングします。 テレビのストレージに余裕がないため、ダウンロードはサポートされません。</string>
-    <key>tv_playlist_empty_subtitle</key>
-    <string>このリストをもう完成させるか、モバイルアプリのルールを編集してさらに追加します。</string>
-    <key>tv_playlist_empty_title</key>
-    <string>エピソードなし</string>
-    <key>tv_playlist_manual_archived_episodes_placeholder</key>
-    <string>このプレイリストの%1$@件のエピソードがすべてアーカイブされました。</string>
-    <key>tv_playlist_play_all_clear_up_next_message</key>
-    <string>現在の「次のエピソード」をプレイリストとして保存できます</string>
-    <key>tv_playlist_play_all_clear_up_next_title</key>
-    <string>これにより「次のエピソード」が消去されます</string>
-    <key>tv_playlist_play_all_play_without_saving</key>
-    <string>保存せずに再生</string>
-    <key>tv_playlist_play_all_save_and_play</key>
-    <string>保存して再生</string>
-    <key>tv_playlists_download_subtitle</key>
-    <string>完了するとこちらに表示されます。 スキャンしてアプリを取得</string>
-    <key>tv_playlists_download_title</key>
-    <string>スマートフォンでプレイリストを作成</string>
     <key>tv_playlists_empty_action_title</key>
     <string>プレイリストを作成</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4102,16 +4018,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>みんなが夢中です</string>
     <key>tv_podcast_detail_website</key>
     <string>サイト</string>
-    <key>tv_podcast_error_message</key>
-    <string>インターネット接続を確認して、もう一度お試しください。</string>
-    <key>tv_podcast_error_title</key>
-    <string>ポッドキャストの詳細を読み込めませんでした</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>ポッドキャストをディスカバー</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>フォロー済みのポッドキャストがここに表示され、再生できます。</string>
-    <key>tv_podcasts_empty_title_new</key>
-    <string>ここを埋めてみましょう</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>ここを埋めてみましょう。</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>プロフィールとアカウントのオプションを開く</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4138,24 +4050,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>検索中…</string>
     <key>tv_search_type_something</key>
     <string>入力してください…</string>
-    <key>tv_settings_privacy_policy_qr_message</key>
-    <string>以下の QR コードをスキャンするか、スマートフォンで URL を開いて、プライバシーポリシーにアクセスしてください。</string>
-    <key>tv_settings_subscription_lifetime</key>
-    <string>無期限</string>
-    <key>tv_settings_subscription_next_renewal</key>
-    <string>次回の更新</string>
-    <key>tv_settings_subscription_other_platform</key>
-    <string>このサブスクリプションは別のプラットフォームで登録されました。 サブスクリプションを管理するには、そのプラットフォームを使用してください。</string>
-    <key>tv_settings_subscription_plan</key>
-    <string>プラン</string>
-    <key>tv_settings_subscription_price</key>
-    <string>価格</string>
-    <key>tv_settings_subscription_price_unavailable</key>
-    <string>利用不可</string>
-    <key>tv_settings_subscription_title</key>
-    <string>サブスクリプション</string>
-    <key>tv_settings_terms_of_use_qr_message</key>
-    <string>以下の QR コードをスキャンするか、スマートフォンで URL を開いて、利用規約にアクセスしてください。</string>
     <key>tv_sign_in_enter_code</key>
     <string>または、次のコードを入力</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4168,8 +4062,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Pocket Casts にログイン</string>
     <key>tv_signing_in_subtitle</key>
     <string>ポッドキャストを読み込んでいます。</string>
-    <key>tv_signing_in_title_new</key>
-    <string>お会いできて嬉しいです</string>
+    <key>tv_signing_in_title</key>
+    <string>お会いできて嬉しいです。</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts のおすすめ</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4242,10 +4136,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>シャッフルの紹介</string>
     <key>up_next_shuffle_toast_message</key>
     <string>シャッフルはオンです。 エピソードはランダムな順序で再生されます。</string>
-    <key>up_next_sort_duration_tooltip_body</key>
-    <string>短いエピソードから長いエピソード、またはその逆に並べ替えて、あなたの時間に合わせます。</string>
-    <key>up_next_sort_duration_tooltip_title</key>
-    <string>所要時間で並び替え</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>長い順</string>
     <key>up_next_sort_newest_to_oldest</key>

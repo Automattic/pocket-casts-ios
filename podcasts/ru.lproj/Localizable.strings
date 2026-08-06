@@ -341,8 +341,6 @@
     <string>Не удалось найти закладки по этому запросу.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Закладки не найдены</string>
-    <key>bookmark_suggested_title</key>
-    <string>Предлагаемый заголовок: %1$@</string>
     <key>bookmark_updated_notification</key>
     <string>Закладка «%1$@» обновлена</string>
     <key>bookmarks</key>
@@ -493,8 +491,6 @@ Pocket Casts Plus</string>
     <string>Должно быть не менее 6 символов</string>
     <key>chapters</key>
     <string>Главы</string>
-    <key>chapters_generated_warning_message</key>
-    <string>Эти главы создаются автоматически и могут быть не совсем точными.</string>
     <key>check_internet_connection</key>
     <string>Проверьте подключение к Интернету</string>
     <key>chosen_podcasts_plural_format</key>
@@ -1589,8 +1585,6 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуски не найдены</string>
     <key>loading</key>
     <string>Загрузка…</string>
-    <key>login_landing_sign_up_with_email</key>
-    <string>Зарегистрироваться по адресу эл. почты</string>
     <key>login_landing_subtitle</key>
     <string>Ваши подкасты всегда будут синхронизированы. Защитите свою библиотеку и пользуйтесь Pocket Casts в Интернете и на ПК.</string>
     <key>login_landing_title</key>
@@ -1615,8 +1609,6 @@ Pocket Casts на полную мощность.</string>
     <string>Отметить как прослушанный</string>
     <key>mark_played_short</key>
     <string>Отметить прослушанным</string>
-    <key>mark_unplayed</key>
-    <string>Отметить как непрослушанный</string>
     <key>mark_unplayed_short</key>
     <string>Отметить как непрослушанный</string>
     <key>maybe_later</key>
@@ -2115,10 +2107,6 @@ Pocket Casts на полную мощность.</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Таймер сна включен</string>
-    <key>player_action_hide_video</key>
-    <string>Скрыть видео</string>
-    <key>player_action_show_video</key>
-    <string>Показать видео</string>
     <key>player_action_subtitle_delete</key>
     <string>Показать как удаленный для настраиваемых выпусков</string>
     <key>player_action_subtitle_hidden</key>
@@ -3197,10 +3185,6 @@ Pocket Casts на полную мощность.</string>
     <string>Архивированные выпуски</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Хотите заменить все существующие подкасты на %1$@ архивированных выпусков?</string>
-    <key>settings_general_audio_only</key>
-    <string>Только аудио</string>
-    <key>settings_general_audio_only_subtitle</key>
-    <string>Если этот параметр включён, видеовыпуски будут воспроизводиться только в аудиоформате.</string>
     <key>settings_general_auto_open_player</key>
     <string>Открывать плеер автоматически</string>
     <key>settings_general_autoplay</key>
@@ -3211,10 +3195,6 @@ Pocket Casts на полную мощность.</string>
     <string>ПО УМОЛЧАНИЮ</string>
     <key>settings_general_episode_groups</key>
     <string>Группирование выпусков подкаста</string>
-    <key>settings_general_generated_chapters</key>
-    <string>Автоматическое оглавление</string>
-    <key>settings_general_generated_chapters_subtitle</key>
-    <string>Показывать автоматически сгенерированное оглавление, если оно имеется.</string>
     <key>settings_general_hide</key>
     <string>Скрыть</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3883,36 +3863,6 @@ Pocket Casts на полную мощность.</string>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>
     <string>Удалить паузы</string>
-    <key>troubleshooting_orphaned_episodes_checking</key>
-    <string>Поиск потерянных выпусков…</string>
-    <key>troubleshooting_orphaned_episodes_description</key>
-    <string>Редкая проблема синхронизации может привести к появлению дубликатов записей выпусков, которые больше не связаны с подкастами. Это может привести к тому, что статус загрузки или воспроизведения выпуска в некоторых частях приложения будет отображаться неверно.</string>
-    <key>troubleshooting_orphaned_episodes_found_plural_format</key>
-    <string>Потерянных выпусков: %1$@</string>
-    <key>troubleshooting_orphaned_episodes_found_singular</key>
-    <string>1 потерянный выпуск</string>
-    <key>troubleshooting_orphaned_episodes_header</key>
-    <string>Потерянные выпуски</string>
-    <key>troubleshooting_orphaned_episodes_none_found</key>
-    <string>Потерянных выпусков не найдено</string>
-    <key>troubleshooting_orphaned_episodes_removing</key>
-    <string>Удаление потерянных выпусков…</string>
-    <key>troubleshooting_remove_orphaned_episodes</key>
-    <string>Удалить потерянные выпуски</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_message</key>
-    <string>Дубликаты записей выпусков на этом устройстве будут удалены. Это действие нельзя отменить, но Pocket Casts сделает всё возможное, чтобы сохранить процесс воспроизведения, статус загрузки и другие сведения о выпусках, прежде чем удалить их.</string>
-    <key>troubleshooting_remove_orphaned_episodes_confirm_title</key>
-    <string>Удалить потерянные выпуски?</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_none</key>
-    <string>Потерянные выпуски не были удалены</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_plural_format</key>
-    <string>Удалено потерянных выпусков: %1$@</string>
-    <key>troubleshooting_remove_orphaned_episodes_result_singular</key>
-    <string>1 потерянный выпуск удалён</string>
-    <key>troubleshooting_title</key>
-    <string>Устранение неполадок</string>
-    <key>troubleshooting_view_orphaned_episodes</key>
-    <string>Просмотреть потерянные выпуски</string>
     <key>try_again</key>
     <string>Попробуйте еще раз.</string>
     <key>try_it_now</key>
@@ -3925,7 +3875,7 @@ Pocket Casts на полную мощность.</string>
     <key>tv_banner_create_account_action_title</key>
     <string>Создать бесплатную учётную запись</string>
     <key>tv_banner_create_account_subtitle</key>
-    <string>Ваши подписки и прогресс воспроизведения — всё сохранилось</string>
+    <string>Ваши подписки, ваши успехи… всё на своих местах.</string>
     <key>tv_banner_create_account_title</key>
     <string>Одна учётная запись. На всех экранах</string>
     <key>tv_banner_discover_more_action_title</key>
@@ -3948,14 +3898,6 @@ Pocket Casts на полную мощность.</string>
     <string>Вашим подкастам нужен свой дом</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Откройте камеру и наведите на этот QR-код.</string>
-    <key>tv_create_account_step_confirm_code</key>
-    <string>Если появится запрос, введите код ниже</string>
-    <key>tv_create_account_step_create</key>
-    <string>Создайте учётную запись или войдите в систему</string>
-    <key>tv_create_account_step_login</key>
-    <string>Войдите в свою учётную запись</string>
-    <key>tv_create_account_step_scan</key>
-    <string>Сканируйте QR-код или перейдите по ссылке %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Отсканируйте этот код, чтобы начать работу с телефона. Это займёт всего минуту.</string>
     <key>tv_create_account_title</key>
@@ -3970,16 +3912,12 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизвести последний выпуск</string>
     <key>tv_discover_play_episode</key>
     <string>Воспроизвести выпуск</string>
-    <key>tv_discover_row_failed_to_load_title</key>
-    <string>Ошибка при загрузке</string>
     <key>tv_episode_archived</key>
     <string>Перенесено в архив</string>
     <key>tv_episode_info</key>
     <string>Информация о выпуске</string>
     <key>tv_episode_marked_as_played</key>
     <string>Отмечено как прослушанный</string>
-    <key>tv_episode_marked_as_unplayed</key>
-    <string>Отмечено как непрослушанный</string>
     <key>tv_episode_removed_from_up_next</key>
     <string>Удалено из следующих</string>
     <key>tv_episode_show_notes_action</key>
@@ -3994,8 +3932,6 @@ Pocket Casts на полную мощность.</string>
     <string>Будет воспроизводиться последний</string>
     <key>tv_episode_will_play_next</key>
     <string>Будет воспроизводиться следующий</string>
-    <key>tv_folder_empty_message</key>
-    <string>Отредактируйте папку в мобильном приложении. После завершения они появятся здесь.</string>
     <key>tv_history_empty_subtitle</key>
     <string>Здесь будут показаны воспроизведённые выпуски</string>
     <key>tv_history_empty_title</key>
@@ -4048,26 +3984,6 @@ Pocket Casts на полную мощность.</string>
     <string>Выпусков: %1$@</string>
     <key>tv_playlist_detail_play_all</key>
     <string>Воспроизвести все выпуски</string>
-    <key>tv_playlist_download_rules_unsupported</key>
-    <string>В этом плейлисте применяется фильтр по загруженным выпускам. В памяти телевизора мало места, поэтому загрузки не поддерживаются.</string>
-    <key>tv_playlist_empty_subtitle</key>
-    <string>У вас два варианта: порадоваться завершению этого списка или изменить правила в мобильном приложении, чтобы его расширить.</string>
-    <key>tv_playlist_empty_title</key>
-    <string>Нет выпусков</string>
-    <key>tv_playlist_manual_archived_episodes_placeholder</key>
-    <string>Все выпуски (%1$@) из этого плейлиста архивированы.</string>
-    <key>tv_playlist_play_all_clear_up_next_message</key>
-    <string>Мы можем сохранить текущий список «В очереди» в виде плейлиста</string>
-    <key>tv_playlist_play_all_clear_up_next_title</key>
-    <string>Ваш список «В очереди» будет очищен</string>
-    <key>tv_playlist_play_all_play_without_saving</key>
-    <string>Воспроизвести без сохранения</string>
-    <key>tv_playlist_play_all_save_and_play</key>
-    <string>Сохранить и воспроизвести</string>
-    <key>tv_playlists_download_subtitle</key>
-    <string>После завершения они появятся здесь. Сканируйте, чтобы получить приложение</string>
-    <key>tv_playlists_download_title</key>
-    <string>Создавайте плейлисты на телефоне</string>
     <key>tv_playlists_empty_action_title</key>
     <string>Создать плейлист</string>
     <key>tv_playlists_empty_subtitle</key>
@@ -4106,16 +4022,12 @@ Pocket Casts на полную мощность.</string>
     <string>Вот что привлекает людей</string>
     <key>tv_podcast_detail_website</key>
     <string>Веб-сайт</string>
-    <key>tv_podcast_error_message</key>
-    <string>Проверьте подключение к Интернету и повторите попытку.</string>
-    <key>tv_podcast_error_title</key>
-    <string>Не удалось загрузить сведения о подкасте</string>
     <key>tv_podcasts_empty_action_title</key>
     <string>Найти подкасты</string>
     <key>tv_podcasts_empty_subtitle</key>
     <string>Подкасты, на которые вы подписаны, появятся здесь и будут готовы к воспроизведению.</string>
-    <key>tv_podcasts_empty_title_new</key>
-    <string>Пора это заполнить</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>Пора заполнить пустоту.</string>
     <key>tv_profile_button_accessibility_hint</key>
     <string>Открывает настройки профиля и учётной записи</string>
     <key>tv_profile_button_accessibility_label</key>
@@ -4142,24 +4054,6 @@ Pocket Casts на полную мощность.</string>
     <string>Идёт поиск...</string>
     <key>tv_search_type_something</key>
     <string>Напишите что-нибудь...</string>
-    <key>tv_settings_privacy_policy_qr_message</key>
-    <string>Отсканируйте QR-код ниже или перейдите по URL-адресу на телефоне, чтобы открыть Политику конфиденциальности.</string>
-    <key>tv_settings_subscription_lifetime</key>
-    <string>Срок действия</string>
-    <key>tv_settings_subscription_next_renewal</key>
-    <string>Следующее продление</string>
-    <key>tv_settings_subscription_other_platform</key>
-    <string>Подписка оформлена на другой платформе. Вы можете управлять подпиской на той платформе.</string>
-    <key>tv_settings_subscription_plan</key>
-    <string>Тарифный план</string>
-    <key>tv_settings_subscription_price</key>
-    <string>Цена</string>
-    <key>tv_settings_subscription_price_unavailable</key>
-    <string>Недоступно</string>
-    <key>tv_settings_subscription_title</key>
-    <string>Подписка</string>
-    <key>tv_settings_terms_of_use_qr_message</key>
-    <string>Отсканируйте QR-код ниже или перейдите по URL-адресу на телефоне, чтобы открыть Условия использования.</string>
     <key>tv_sign_in_enter_code</key>
     <string>либо введите следующий код</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4172,8 +4066,8 @@ Pocket Casts на полную мощность.</string>
     <string>Войти в Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Мы загружаем ваши подкасты.</string>
-    <key>tv_signing_in_title_new</key>
-    <string>Рады видеть вас</string>
+    <key>tv_signing_in_title</key>
+    <string>Рады вас видеть!</string>
     <key>tv_sponsored_podcast_section_title</key>
     <string>Pocket Casts рекомендует</string>
     <key>tv_starred_empty_subtitle</key>
@@ -4246,10 +4140,6 @@ Pocket Casts на полную мощность.</string>
     <string>Представляем режим случайного воспроизведения</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
-    <key>up_next_sort_duration_tooltip_body</key>
-    <string>От коротких к длинным или наоборот — подстройте эпизод под имеющееся у вас время.</string>
-    <key>up_next_sort_duration_tooltip_title</key>
-    <string>Сортировать по длительности</string>
     <key>up_next_sort_longest_to_shortest</key>
     <string>От длинных к коротким</string>
     <key>up_next_sort_newest_to_oldest</key>
