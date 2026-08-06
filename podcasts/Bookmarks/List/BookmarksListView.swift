@@ -173,27 +173,23 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private func bookmarkRow(_ bookmark: Bookmark) -> some View {
         BookmarkRow(bookmark: bookmark, style: style)
             .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                if !viewModel.isMultiSelecting && viewModel.canShare(bookmark) {
-                    Button {
-                        viewModel.shareTapped(bookmark)
-                    } label: {
-                        Image("podcast-share")
-                    }
-                    .tint(style.shareSwipeTint)
-                    .accessibilityLabel(L10n.share)
-                }
+                swipeActions(for: bookmark, edge: .leading)
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                if !viewModel.isMultiSelecting {
-                    Button(role: .destructive) {
-                        viewModel.deleteTapped(bookmark)
-                    } label: {
-                        Image("delete")
-                    }
-                    .tint(style.deleteSwipeTint)
-                    .accessibilityLabel(L10n.delete)
-                }
+                swipeActions(for: bookmark, edge: .trailing)
             }
+    }
+
+    private func swipeActions(for bookmark: Bookmark, edge: HorizontalEdge) -> some View {
+        ForEach(makeBookmarkSwipeActions(for: bookmark, edge: edge, viewModel: viewModel, style: style)) { action in
+            Button(role: action.isDestructive ? .destructive : nil) {
+                action.handler()
+            } label: {
+                Image(action.imageName)
+            }
+            .tint(action.tint)
+            .accessibilityLabel(action.title)
+        }
     }
 
     private var bookmarkActions: [ActionBarView<ListStyle.ActionStyle>.Action] {

@@ -482,8 +482,27 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard currentViewMode == .episodes else { return false }
-        return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        switch currentViewMode {
+        case .episodes:
+            return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        case .bookmarks:
+            return bookmarkList?.canEditRow(at: indexPath) ?? false
+        case .youMightLike:
+            return false
+        }
+    }
+
+    /// The episode cells swipe with SwipeCellKit, the bookmarks use the table's own swipe actions
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard currentViewMode == .bookmarks else { return nil }
+
+        return bookmarkList?.swipeActionsConfiguration(for: .leading, at: indexPath)
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard currentViewMode == .bookmarks else { return nil }
+
+        return bookmarkList?.swipeActionsConfiguration(for: .trailing, at: indexPath)
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
