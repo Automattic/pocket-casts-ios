@@ -56,7 +56,7 @@ fi
 
 echo "Running $0 with BETA_RELEASE = $BETA_RELEASE, RELEASE_PLATFORM = $RELEASE_PLATFORM, NOTIFY_SLACK = $NOTIFY_SLACK, CREATE_GITHUB_RELEASE = $CREATE_GITHUB_RELEASE..."
 
-"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
+checkout_release_branch "$RELEASE_VERSION"
 
 echo "--- :arrow_down: Downloading Artifacts"
 STEP=release_build
