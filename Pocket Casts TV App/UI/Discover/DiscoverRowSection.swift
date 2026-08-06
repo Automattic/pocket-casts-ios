@@ -75,19 +75,9 @@ struct DiscoverRowSection: View {
         self.source = source
     }
 
-    var rowType: DiscoverRowType? {
-        let result = item.rowType
-#if DEBUG || STAGING
-        if result == nil {
-            ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(item.type ?? "unknow"), CHECK CONSOLE!")
-        }
-#endif
-        return result
-    }
-
     var body: some View {
         ZStack {
-            switch rowType {
+            switch item.rowType {
             case .categories:
                 DiscoverCategoriesRow(item: item, popularOnly: false, source: source)
             case .categoriesPopular:
@@ -115,6 +105,13 @@ struct DiscoverRowSection: View {
             case nil:
                 EmptyView()
             }
+        }
+        .task {
+        #if DEBUG || STAGING
+            if item.rowType == nil {
+                ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(item.type ?? "unknow"), CHECK CONSOLE!")
+            }
+        #endif
         }
     }
 
