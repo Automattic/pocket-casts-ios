@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// - warning: Soft-deprecated.
 struct ModalCloseButton: View {
     let background: Color?
     let foreground: Color?

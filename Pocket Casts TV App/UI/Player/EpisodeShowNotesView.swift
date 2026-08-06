@@ -54,13 +54,7 @@ struct EpisodeShowNotesView: View {
 
     @ViewBuilder
     private var artwork: some View {
-        if let podcastUuid = (episode as? Episode)?.podcastUuid {
-            PodcastImage(uuid: podcastUuid, size: .page)
-        } else {
-            Image(ImageResource.pcLogo)
-                .resizable()
-                .scaledToFit()
-        }
+        EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: episode, showEpisodeNotesImage: Settings.loadEmbeddedImages))
     }
 
     @ViewBuilder

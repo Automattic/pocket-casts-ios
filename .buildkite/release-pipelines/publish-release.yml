@@ -17,9 +17,6 @@ steps:
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
 
-      echo '--- 🔐 Access Secrets'
-      bundle exec fastlane run configure_apply
-
       echo '--- :github: Publish Release'
       bundle exec fastlane publish_release skip_confirm:true
     plugins: [$CI_TOOLKIT]

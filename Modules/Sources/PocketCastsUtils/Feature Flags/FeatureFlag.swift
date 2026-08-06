@@ -191,9 +191,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
 
-    /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
-    case podcastBookmarksInline
-
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
 
@@ -446,8 +443,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgradeTrialTimeline:
             true
         case .searchPredictive:
-            true
-        case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
             true

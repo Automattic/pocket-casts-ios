@@ -7,6 +7,7 @@ struct SettingsMenuView: View {
     @State private var isShowingSubscription = false
     @State private var isShowingPrivacyPolicy = false
     @State private var isShowingTermsOfUse = false
+    @State private var useEpisodeArtwork = Settings.loadEmbeddedImages
 
     var body: some View {
         VStack {
@@ -30,6 +31,13 @@ struct SettingsMenuView: View {
                 Text(L10n.termsOfUse)
                     .frame(minWidth: 400)
             }
+            Divider()
+                .frame(minWidth: 400)
+            Toggle(L10n.appearanceEmbeddedArtwork, isOn: $useEpisodeArtwork)
+                .onChange(of: useEpisodeArtwork) { _, newValue in
+                    Settings.loadEmbeddedImages = newValue
+                }
+                .frame(minWidth: 400)
         }
         .padding(80)
         .frame(width: 862, alignment: .center)

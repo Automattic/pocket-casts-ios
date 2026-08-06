@@ -18,6 +18,8 @@ protocol BookmarksStyle: ObservableObject {
     var playButtonText: Color { get }
     var playButtonBackground: Color? { get }
     var playButtonStroke: Color? { get }
+    var shareSwipeTint: Color { get }
+    var deleteSwipeTint: Color { get }
     var actionBarStyle: ActionStyle { get }
     var emptyStyle: EmptyStyle { get }
 }
@@ -55,6 +57,8 @@ class BookmarksPlayerTabStyle: ThemeObserver, BookmarksStyle {
     var playButtonText: Color { theme.playerBackground01 }
     var playButtonBackground: Color? { theme.playerContrast01 }
     var playButtonStroke: Color? = nil
+    var shareSwipeTint: Color { theme.support03 }
+    var deleteSwipeTint: Color { theme.support05 }
     var actionBarStyle = PlayerActionBarStyle()
     var emptyStyle = PlayerEmptyStateStyle()
 }
@@ -76,6 +80,8 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var playButtonText: Color { theme.primaryText01 }
     var playButtonBackground: Color? { theme.primaryUi01 }
     var playButtonStroke: Color? { theme.primaryText01 }
+    var shareSwipeTint: Color { theme.support03 }
+    var deleteSwipeTint: Color { theme.support05 }
     var actionBarStyle = ThemedActionBarStyle()
     var emptyStyle = DefaultEmptyStateStyle()
 }
@@ -106,6 +112,8 @@ class OverrideThemedBookmarksStyle: ThemedBookmarksStyle {
         set { }
         get { Color(ThemeColor.primaryText01(for: overrideTheme)) }
     }
+    override var shareSwipeTint: Color { Color(ThemeColor.support03(for: overrideTheme)) }
+    override var deleteSwipeTint: Color { Color(ThemeColor.support05(for: overrideTheme)) }
     override var emptyStyle: DefaultEmptyStateStyle {
         set { }
         get { overrideEmptyStyle }

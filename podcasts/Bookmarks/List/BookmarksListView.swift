@@ -202,23 +202,65 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     @ViewBuilder
     private var scrollView: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
-                bookmarksRows
-            }
+        List {
+            bookmarksRows
         }
+        .animation(.default, value: viewModel.bookmarks)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .environment(\.defaultMinListRowHeight, 0)
     }
 
     @ViewBuilder
     private var bookmarksRows: some View {
         ForEach(viewModel.bookmarks) { bookmark in
-            BookmarkRow(bookmark: bookmark, style: style)
+            bookmarkRow(bookmark)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             if !viewModel.isLast(item: bookmark) {
                 divider
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             }
         }
         if !LiquidGlass.isEnabled && actionBarVisible && !useExternalActionBar {
             Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+        }
+    }
+
+    @ViewBuilder
+    private func bookmarkRow(_ bookmark: Bookmark) -> some View {
+        if allowInternalScrolling {
+            BookmarkRow(bookmark: bookmark, style: style)
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    if !viewModel.isMultiSelecting && viewModel.canShare(bookmark) {
+                        Button {
+                            viewModel.shareTapped(bookmark)
+                        } label: {
+                            Image("podcast-share")
+                        }
+                        .tint(style.shareSwipeTint)
+                        .accessibilityLabel(L10n.share)
+                    }
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    if !viewModel.isMultiSelecting {
+                        Button(role: .destructive) {
+                            viewModel.deleteTapped(bookmark)
+                        } label: {
+                            Image("delete")
+                        }
+                        .tint(style.deleteSwipeTint)
+                        .accessibilityLabel(L10n.delete)
+                    }
+                }
+        } else {
+            BookmarkRow(bookmark: bookmark, style: style)
         }
     }
 
