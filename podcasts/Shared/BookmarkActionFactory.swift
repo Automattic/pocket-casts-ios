@@ -1,17 +1,14 @@
+import PocketCastsDataModel
 import SwiftUI
 
-struct BookmarkActionConfig {
-    let showShare: Bool
-    let showEdit: Bool
-    let onShare: () -> Void
-    let onEdit: () -> Void
-    let onDelete: () -> Void
-}
+/// The actions of the bookmarks multi select action bar. What's offered depends on the selection.
+@MainActor func makeBookmarkActions<Style: ActionBarStyle>(viewModel: BookmarkListViewModel) -> [ActionBarView<Style>.Action] {
+    let isSingleSelection = viewModel.numberOfSelectedItems == 1
+    let canShare = isSingleSelection && viewModel.selectedItems.first?.episode is Episode
 
-func makeBookmarkActions<Style: ActionBarStyle>(_ cfg: BookmarkActionConfig) -> [ActionBarView<Style>.Action] {
-    [
-        .init(imageName: "podcast-share", title: L10n.share, visible: cfg.showShare, action: cfg.onShare),
-        .init(imageName: "folder-edit", title: L10n.edit, visible: cfg.showEdit, action: cfg.onEdit),
-        .init(imageName: "delete", title: L10n.delete, action: cfg.onDelete)
+    return [
+        .init(imageName: "podcast-share", title: L10n.share, visible: canShare) { viewModel.shareSelectedBookmarks() },
+        .init(imageName: "folder-edit", title: L10n.edit, visible: isSingleSelection) { viewModel.editSelectedBookmarks() },
+        .init(imageName: "delete", title: L10n.delete) { viewModel.deleteSelectedBookmarks() }
     ]
 }
