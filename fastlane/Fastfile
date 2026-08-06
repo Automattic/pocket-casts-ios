@@ -425,22 +425,21 @@ platform :ios do
 
   # Downloads the latest app translations and App Store metadata from GlotPress,
   # then creates a PR to integrate them into the current `release/*` branch.
-  #
-  # @param phase [String] Identifier for the point in the release process requesting the update.
-  #                       Used to keep multiple localization PRs for the same release independent.
-  #
-  lane :download_translations_and_metadata do |phase:|
+  lane :download_translations_and_metadata do
     require_env_vars!('GITHUB_TOKEN')
     ensure_git_status_clean
     ensure_git_branch(branch: '^release/')
 
-    phase = phase.to_s
-    UI.user_error!('The localization update phase must contain only lowercase letters, numbers, and hyphens') unless phase.match?(/\A[a-z0-9-]+\z/)
-
     version = release_version_current
     base_branch = "release/#{version}"
-    pr_branch = "translations/release-#{version}-#{phase}"
+    pr_branch = "translations/release-#{version}"
 
+    if Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: pr_branch)
+      UI.important("A previous `#{pr_branch}` branch exists on the remote. It will be deleted and GitHub will close any associated PR.")
+      Fastlane::Helper::GitHelper.delete_remote_branch_if_exists!(pr_branch)
+    end
+
+    Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
     Fastlane::Helper::GitHelper.create_branch(pr_branch, from: base_branch)
 
     download_localized_strings_and_metadata_from_glotpress
@@ -458,7 +457,7 @@ platform :ios do
         repository: GITHUB_REPO,
         base: base_branch,
         head: pr_branch,
-        title: "Update translations and App Store metadata for `#{version}` (#{phase.tr('-', ' ')})",
+        title: "Update translations and App Store metadata for `#{version}`",
         body: "This PR integrates the latest app translations and iOS/tvOS App Store metadata from GlotPress into the `#{base_branch}` branch.",
         labels: ['Releases'],
         github_token: ENV.fetch('GITHUB_TOKEN')
