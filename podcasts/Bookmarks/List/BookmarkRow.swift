@@ -35,6 +35,15 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         .selectButtonStyle(tintColor: style.selectButton, checkColor: style.selectCheck, strokeColor: style.selectButtonStroke)
         .padding(.horizontal, RowConstants.horizontalPadding)
         .padding(.vertical, RowConstants.verticalPadding)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            listViewModel.tapped(item: bookmark)
+        }
+        .onLongPressGesture {
+            listViewModel.longPressed(bookmark)
+        } onPressingChanged: { pressed in
+            highlighted = pressed
+        }
         .animation(.default, value: listViewModel.isMultiSelecting)
 
         // Display a highlight when tapped, or the row is selected
@@ -66,34 +75,24 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
     /// Displays a title and subtitle
     private var detailsView: some View {
-        NonBlockingLongPressView {
-            VStack(alignment: .leading, spacing: viewModel.heading != nil ? 4 : 8) {
-                viewModel.heading.map {
-                    Text($0)
-                        .foregroundStyle(style.tertiaryText)
-                        .font(style: .caption, weight: .semibold)
-                        .lineLimit(1)
-                }
-
-                Text(bookmark.title)
-                    .foregroundStyle(style.primaryText)
-                    .font(style: .subheadline, weight: .medium)
-
-                Text(subtitle)
+        VStack(alignment: .leading, spacing: viewModel.heading != nil ? 4 : 8) {
+            viewModel.heading.map {
+                Text($0)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
                     .lineLimit(1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        } onTapped: {
-            listViewModel.tapped(item: bookmark)
-        } onPressed: { pressed in
-            highlighted = pressed
-        } onLongPressed: {
-            withAnimation {
-                listViewModel.longPressed(bookmark)
-            }
+
+            Text(bookmark.title)
+                .foregroundStyle(style.primaryText)
+                .font(style: .subheadline, weight: .medium)
+
+            Text(subtitle)
+                .foregroundStyle(style.tertiaryText)
+                .font(style: .caption, weight: .semibold)
+                .lineLimit(1)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var subtitle: String {
