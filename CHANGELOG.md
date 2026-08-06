@@ -4,6 +4,7 @@
 - Add swipe actions to bookmark rows (Share and Delete) in the Player, the podcast screen's Bookmarks tab, standalone Podcast bookmarks, Episode, and Profile bookmark lists [#4900](https://github.com/Automattic/pocket-casts-ios/pull/4900) [#4912](https://github.com/Automattic/pocket-casts-ios/pull/4912)
 - Fix animations on the podcast screen's Bookmarks tab: rows now animate as they are added, removed and filtered, and highlight when tapped [#4904](https://github.com/Automattic/pocket-casts-ios/pull/4904)
 - Fix bookmark multi-select losing track of a selected bookmark when it was edited or updated by a sync, leaving a wrong selection count and a row that could not be deselected [#4913](https://github.com/Automattic/pocket-casts-ios/pull/4913)
+- Fix the podcast screen tabs truncating their labels and clipping the press effect [#4918](https://github.com/Automattic/pocket-casts-ios/pull/4918)
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
 - [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
 
