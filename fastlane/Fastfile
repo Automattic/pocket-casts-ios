@@ -427,14 +427,13 @@ platform :ios do
   # then creates a PR to integrate them into the current `release/*` branch.
   #
   # @param [String] version (optional) The release version whose translations and metadata should be downloaded.
-  #                 Typically provided by Releases V2. If nil, uses the current project version.
+  #                 Typically provided by Releases V2. When omitted, uses the current project version.
   #
-  lane :download_translations_and_metadata do |version: nil|
+  lane :download_translations_and_metadata do |version: release_version_current|
     require_env_vars!('GITHUB_TOKEN')
     ensure_git_status_clean
     ensure_git_branch(branch: '^release/')
 
-    version ||= release_version_current
     base_branch = "release/#{version}"
     pr_branch = "translations/release-#{version}"
 
