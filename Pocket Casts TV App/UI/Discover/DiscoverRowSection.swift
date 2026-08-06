@@ -101,8 +101,10 @@ struct DiscoverRowSection: View {
                 nowPlayingRow
             case .newReleases:
                 newReleasesRow
-            default:
+            case .listPodcast:
                 DiscoverPodcastRow(item: item, source: source)
+            case nil:
+                EmptyView()
             }
         }
     }
