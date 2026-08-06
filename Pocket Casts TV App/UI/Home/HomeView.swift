@@ -57,9 +57,9 @@ struct HomeView: View {
         NavigationStack(path: $path.navigationPath) {
             Group {
                 if coordinator.userState.isLoggedIn {
-                    DiscoverAllView(model: tabRouter.discoverHomeSignedInViewModel)
+                    DiscoverAllView(model: tabRouter.discoverHomeSignedInViewModel, source: DiscoverAnalytics.homeSource)
                 } else {
-                    DiscoverAllView(model: tabRouter.discoverHomeSignedOutViewModel)
+                    DiscoverAllView(model: tabRouter.discoverHomeSignedOutViewModel, source: DiscoverAnalytics.homeSource)
                 }
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in

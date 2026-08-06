@@ -5,8 +5,11 @@ struct DiscoverAllView: View {
 
     @State private var model: DiscoverAllViewModel
 
-    init(model: DiscoverAllViewModel) {
+    private let source: String
+
+    init(model: DiscoverAllViewModel, source: String) {
         _model = State(wrappedValue: model)
+        self.source = source
     }
 
     var body: some View {
@@ -18,7 +21,11 @@ struct DiscoverAllView: View {
                 discoverList
             case .empty:
                 ContentUnavailableView {
-                    Text(L10n.tvDiscoverFailedToLoadTitle)
+                    if model.type == .signedIn || model.type == .signedOut {
+                        Text(L10n.tvHomeFailedToLoadTitle)
+                    } else {
+                        Text(L10n.tvDiscoverFailedToLoadTitle)
+                    }
                 } description: {
                     Text(L10n.tvDiscoverFailedToLoadSubtitle)
                 }
@@ -33,14 +40,11 @@ struct DiscoverAllView: View {
 
     var discoverList: some View {
         ScrollView {
-            LazyVStack(spacing: RowSectionLayout.sectionSpacing) {
+            LazyVStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                    DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
+                    DiscoverRowSection(item: item, source: source)
                 }
             }
-        }
-        .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
         }
     }
 }
