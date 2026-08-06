@@ -337,12 +337,26 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Estàs segur que vols eliminar aquests marcadors? Aquesta acció no es pot desfer!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Vols esborrar els marcadors?</string>
+    <key>bookmark_details_title</key>
+    <string>Marcador</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Selecciona un fragment de la transcripció per a aquest marcador</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Edita la transcripció</string>
     <key>bookmark_search_no_results_message</key>
     <string>No hem pogut trobar cap marcador per a aquesta cerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No s'han trobat marcadors</string>
     <key>bookmark_suggested_title</key>
     <string>Títol suggerit: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggeriment: </string>
+    <key>bookmark_title_label</key>
+    <string>Títol</string>
+    <key>bookmark_transcript_adding</key>
+    <string>S'està afegint la transcripció...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcripció capturada</string>
     <key>bookmark_updated_notification</key>
     <string>Marcador "%1$@" actualitzat</string>
     <key>bookmarks</key>
@@ -948,6 +962,8 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Hem detectat que no has iniciat sessió</string>
     <key>edit</key>
     <string>Edita</string>
+    <key>edit_bookmark</key>
+    <string>Edita el marcador</string>
     <key>edit_clip</key>
     <string>Edita el clip</string>
     <key>enable_it_now</key>
@@ -4134,6 +4150,24 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Cercant...</string>
     <key>tv_search_type_something</key>
     <string>Escriu alguna cosa...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Escaneja el codi QR de baix, o obre l'URL al telèfon per accedir a la política de privadesa.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>De per vida</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Pròxima renovació</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Aquesta subscripció es va contractar en una altra plataforma. Utilitza aquesta plataforma per gestionar-la.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Pla</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Preu</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>No disponible</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Subscripció</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Escaneja el codi QR de baix, o obre l'URL al telèfon per accedir a les condicions d'ús.</string>
     <key>tv_sign_in_enter_code</key>
     <string>o introdueix el codi següent</string>
     <key>tv_sign_in_enter_code_go_url</key>

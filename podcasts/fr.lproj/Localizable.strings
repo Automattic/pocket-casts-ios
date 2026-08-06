@@ -341,6 +341,8 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Nous n'avons trouvé aucun signet lors de la recherche.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Aucun signet trouvé</string>
+    <key>bookmark_suggested_title</key>
+    <string>Titre suggéré : %1$@</string>
     <key>bookmark_updated_notification</key>
     <string>Signet « %1$@ » mis à jour</string>
     <key>bookmarks</key>
@@ -1587,6 +1589,8 @@ podcasts partout avec</string>
     <string>Aucun épisode trouvé</string>
     <key>loading</key>
     <string>Chargement en cours…</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>S’inscrire avec une adresse e-mail</string>
     <key>login_landing_subtitle</key>
     <string>Vos podcasts, toujours synchronisés. Protégez votre bibliothèque et profitez de Pocket Casts sur le Web et sur votre ordinateur.</string>
     <key>login_landing_title</key>
@@ -2111,6 +2115,10 @@ MISES À JOUR</string>
     <string>%1$@ x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Mise en veille activée</string>
+    <key>player_action_hide_video</key>
+    <string>Masquer la vidéo</string>
+    <key>player_action_show_video</key>
+    <string>Afficher la vidéo</string>
     <key>player_action_subtitle_delete</key>
     <string>Fonctionne comme une suppression des épisodes personnalisés</string>
     <key>player_action_subtitle_hidden</key>
@@ -3189,6 +3197,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Épisodes archivés</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Souhaitez-vous basculer tous vos podcasts existants pour %1$@ les épisodes archivés ?</string>
+    <key>settings_general_audio_only</key>
+    <string>Audio uniquement</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Si cette option est activée, les épisodes vidéo seront lus uniquement en mode audio.</string>
     <key>settings_general_auto_open_player</key>
     <string>Ouvrir le lecteur automatiquement</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3211,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>PAR DÉFAUT</string>
     <key>settings_general_episode_groups</key>
     <string>Groupement des épisodes</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Chapitres générés</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Affichez les chapitres générés automatiquement lorsqu’ils sont disponibles.</string>
     <key>settings_general_hide</key>
     <string>Masquer</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3932,6 +3948,14 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Vos podcasts méritent un accueil chaleureux</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Ouvrez l’appareil photo et pointez sur ce code QR.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Si demandé, confirmez le code ci-dessous</string>
+    <key>tv_create_account_step_create</key>
+    <string>Créez votre compte ou connectez-vous</string>
+    <key>tv_create_account_step_login</key>
+    <string>Connectez-vous à votre compte</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Scanner le code QR ou accéder à %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Scannez ce code pour commencer sur votre téléphone, cela ne prend qu’une minute.</string>
     <key>tv_create_account_title</key>
@@ -3946,6 +3970,8 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Lire le dernier épisode</string>
     <key>tv_discover_play_episode</key>
     <string>Lire l’épisode</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>Échec du chargement</string>
     <key>tv_episode_archived</key>
     <string>Archivé</string>
     <key>tv_episode_info</key>
@@ -4116,6 +4142,24 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Recherche en cours...</string>
     <key>tv_search_type_something</key>
     <string>Saisir quelque chose...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Scannez le code QR ci-dessous ou ouvrez l’URL sur votre téléphone pour accéder à la politique de confidentialité.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>Durée de vie</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Prochain renouvellement</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Cet abonnement a été effectué sur une autre plateforme. Veuillez utiliser cette plateforme pour gérer l’abonnement.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Plan</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Prix</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>Indisponible</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Abonnement</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Scannez le code QR ci-dessous ou ouvrez l’URL sur votre téléphone pour accéder aux conditions d’utilisation.</string>
     <key>tv_sign_in_enter_code</key>
     <string>ou saisissez le code suivant</string>
     <key>tv_sign_in_enter_code_go_url</key>
