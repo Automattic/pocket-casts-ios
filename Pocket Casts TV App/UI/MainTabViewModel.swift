@@ -23,7 +23,7 @@ final class MainTabViewModel {
     var playlistsModel = PlaylistsViewModel()
     var upNextModel = UpNextViewModel()
     var searchViewModel = SearchViewModel()
-    var discoverAllViewModel = DiscoverAllViewModel(type: .discover)
+    var discoverAllViewModel = DiscoverAllViewModel(type: .search)
     var discoverHomeSignedInViewModel = DiscoverAllViewModel(type: .signedIn)
     var discoverHomeSignedOutViewModel = DiscoverAllViewModel(type: .signedOut)
 

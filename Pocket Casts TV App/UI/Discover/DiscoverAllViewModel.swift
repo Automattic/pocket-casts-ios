@@ -36,21 +36,7 @@ class DiscoverAllViewModel {
 
         await MainActor.run {
             state = items.isEmpty ? .empty : .ready
-            var finalItems = items
-            switch type {
-            case .signedIn:
-                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "single_episode", sourceType: "up_next", regions: []), at: 0)
-                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "small_list", sourceType: "up_next", regions: []), at: 1)
-                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "small_list", sourceType: "new_releases", regions: []), at: min(items.count, 4))
-            case .signedOut:
-                finalItems.insert(DiscoverItem(type: "episode_list", summaryStyle: "single_episode", sourceType: "up_next", regions: []), at: 0)
-                finalItems.insert(MockData.makeStubBanner(.createAccount), at: min(items.count, 3))
-                finalItems.insert(DiscoverItem(type: "categories", summaryStyle: "popular_category_list", source: "https://static.pocketcasts.com/discover/json/categories_v2.json", regions: [], popular: [19, 3, 13, 18, 17, 15]), at: min(items.count, 5))
-                finalItems.append(MockData.makeStubBanner(.discoverMore))
-            default:
-                break
-            }
-            self.sections = finalItems
+            self.sections = items
         }
     }
 
