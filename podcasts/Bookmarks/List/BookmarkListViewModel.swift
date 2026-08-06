@@ -70,9 +70,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     /// Reload a single item from the list
     func refresh(bookmark: Bookmark) {
-        guard let index = items.firstIndex(of: bookmark) else { return }
+        guard let index = items.firstIndex(where: { $0.id == bookmark.id }) else { return }
 
-        items.replaceSubrange(index...index, with: [bookmark])
+        items[index] = bookmark
     }
 
     func addListeners() {
@@ -173,7 +173,7 @@ extension BookmarkListViewModel {
     func deleteSelectedBookmarks() {
         guard numberOfSelectedItems > 0 else { return }
 
-        let items = Array(selectedItems)
+        let items = selectedItems
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)
