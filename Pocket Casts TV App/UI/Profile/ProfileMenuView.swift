@@ -76,6 +76,7 @@ struct ProfileMenuView: View {
                 ProfileImage(email: email)
                     .frame(width: 160, height: 160)
                     .clipShape(Circle())
+                    .accessibilityHidden(true)
                 Text(email)
                     .font(.title3)
                     .foregroundStyle(Color.pcTextPrimary)

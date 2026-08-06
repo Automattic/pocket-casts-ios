@@ -77,6 +77,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                                 .frame(width: Layout.cellSize, height: Layout.cellSize)
                         }
                         .buttonStyle(.card)
+                        .accessibilityLabel(podcast.title ?? "")
                         .simultaneousGesture(TapGesture().onEnded {
                             Analytics.track(.searchResultTapped, properties: [
                                 "source": "search",

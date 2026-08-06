@@ -49,6 +49,7 @@ struct EpisodeShowNotesView: View {
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
             }
+            .accessibilityElement(children: .combine)
         }
     }
 
@@ -60,6 +61,7 @@ struct EpisodeShowNotesView: View {
             Image(ImageResource.pcLogo)
                 .resizable()
                 .scaledToFit()
+                .accessibilityHidden(true)
         }
     }
 

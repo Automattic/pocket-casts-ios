@@ -28,6 +28,7 @@ struct WelcomeView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 108)
+                        .accessibilityHidden(true)
                     Text(L10n.tvWelcomeTitle)
                         .font(.title)
                         .foregroundColor(Color.pcTextPrimary)
@@ -115,6 +116,7 @@ struct WelcomeView: View {
                 animating = true
             }
         }
+        .accessibilityHidden(true)
     }
 
     var gradientView: some View {
@@ -130,6 +132,7 @@ struct WelcomeView: View {
               endPoint: UnitPoint(x: 0.5, y: 0.17)
             )
           )
+          .accessibilityHidden(true)
     }
 }
 

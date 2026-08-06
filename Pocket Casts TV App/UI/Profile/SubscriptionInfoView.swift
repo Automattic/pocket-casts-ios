@@ -124,6 +124,7 @@ struct InfoRow: View {
                 .wrappingMultiline()
         }
         .frame(minWidth: 400, maxWidth: 500)
+        .accessibilityElement(children: .combine)
     }
 }
 
