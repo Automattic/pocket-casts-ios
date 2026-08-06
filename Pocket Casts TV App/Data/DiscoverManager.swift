@@ -118,9 +118,6 @@ actor DiscoverManager {
         case failedToLoadAuthenticated
     }
 
-    private var cachedLayout: DiscoverLayout?
-    private var layoutFetchTask: Task<(DiscoverLayout?, Bool), Never>?
-
     private func getLayout(type: DiscoverServerHandler.DiscoverType) async throws -> DiscoverLayout {
         let result: (DiscoverLayout?, Bool?)
         result = await discoverServerHandler.discoverPage(type: type)
