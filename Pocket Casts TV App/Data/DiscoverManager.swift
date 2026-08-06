@@ -155,7 +155,7 @@ actor DiscoverManager {
         }
 
         let filteredItems = regionItems.filter { item in
-            item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
+            return item.shouldShowAuthenticated() && (item.regions.isEmpty || item.regions.contains(currentRegion))
         }
 
         return filteredItems
