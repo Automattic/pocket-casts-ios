@@ -2,7 +2,7 @@ import Combine
 import PocketCastsUtils
 
 ///Allows a mode to be searched by the `SearchableListViewModel`
-protocol SearchableDataModel: Hashable {
+protocol SearchableDataModel: Identifiable {
     /// Defines a field that the search text should match against
     /// This should contain all keywords for the model
     var searchableContent: String { get }
@@ -52,7 +52,7 @@ class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewMo
             return super.isLast(item: item)
         }
 
-        return filteredItems.last == item
+        return filteredItems.last?.id == item.id
     }
 
     /// Search the items with the given text

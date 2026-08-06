@@ -7,7 +7,7 @@ import Foundation
 ///     class MyListViewModel: MultiSelectListViewModel<MyCustomModel> {
 ///         ...
 ///     }
-class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
+class MultiSelectListViewModel<Model: Identifiable>: ListViewModel<Model> {
     /// Whether the list is currently in the multi selection mode
     @Published private(set) var isMultiSelecting = false
 
@@ -17,11 +17,16 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     /// Whether all the items in the list have been selected
     @Published private(set) var hasSelectedAll = false
 
-    /// An internal set that keeps track of the items that are currently selected
-    private(set) lazy var selectedItems: Set<Model> = [] {
+    /// An internal set that keeps track of the ids of the items that are currently selected
+    private var selectedIDs: Set<Model.ID> = [] {
         didSet {
             updateCounts()
         }
+    }
+
+    /// The currently selected items, in the order they appear in the list
+    var selectedItems: [Model] {
+        items.filter { selectedIDs.contains($0.id) }
     }
 
     /// Update the selected items whenever the parent items change
@@ -49,15 +54,15 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     // MARK: - Item Selection
 
     func isSelected(_ item: Model) -> Bool {
-        selectedItems.contains(where: { $0 == item })
+        selectedIDs.contains(item.id)
     }
 
     func select(item: Model) {
-        selectedItems.insert(item)
+        selectedIDs.insert(item.id)
     }
 
     func deselect(item: Model) {
-        selectedItems.remove(item)
+        selectedIDs.remove(item.id)
     }
 
     func toggleSelected(_ item: Model) {
@@ -71,25 +76,25 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     }
 
     func selectAll() {
-        selectedItems = Set(items)
+        selectedIDs = Set(items.map(\.id))
     }
 
     func deselectAll() {
-        selectedItems.removeAll()
+        selectedIDs.removeAll()
     }
 
     // MARK: - Select All Before/After
 
     func selectAllBefore(_ item: Model) {
-        guard let index = items.firstIndex(of: item) else { return }
+        guard let index = index(of: item) else { return }
 
-        selectedItems.formUnion(items[...index])
+        selectedIDs.formUnion(items[...index].map(\.id))
     }
 
     func selectAllAfter(_ item: Model) {
-        guard let index = items.firstIndex(of: item) else { return }
+        guard let index = index(of: item) else { return }
 
-        selectedItems.formUnion(items[index...])
+        selectedIDs.formUnion(items[index...].map(\.id))
     }
 
     // MARK: - Long Press
@@ -131,8 +136,12 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
 // MARK: - Private Methods
 
 private extension MultiSelectListViewModel {
+    func index(of item: Model) -> Int? {
+        items.firstIndex { $0.id == item.id }
+    }
+
     func updateCounts() {
-        let selected = selectedItems.count
+        let selected = selectedIDs.count
         numberOfSelectedItems = selected
         hasSelectedAll = selected == items.count
     }
@@ -140,7 +149,7 @@ private extension MultiSelectListViewModel {
     func validateSelectedItems() {
         // Update the selected items to remove any items that are not present in the items array
         // IE: if they were deleted
-        selectedItems.formIntersection(items)
+        selectedIDs.formIntersection(items.map(\.id))
 
         // If we're multiselecting and there are no items left, exit the multiselection mode
         if isMultiSelecting, numberOfItems == 0 {
