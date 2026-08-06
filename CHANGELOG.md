@@ -5,7 +5,6 @@
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
 - [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
 
-
 8.18
 -----
 - Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
