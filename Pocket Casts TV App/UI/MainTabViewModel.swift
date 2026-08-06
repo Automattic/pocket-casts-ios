@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import PocketCastsDataModel
+import PocketCastsServer
 
 @MainActor
 @Observable
@@ -22,9 +23,9 @@ final class MainTabViewModel {
     var playlistsModel = PlaylistsViewModel()
     var upNextModel = UpNextViewModel()
     var searchViewModel = SearchViewModel()
-    var discoverAllViewModel = DiscoverAllViewModel()
-    var discoverHomeSignedInViewModel = DiscoverHomeViewModel(signedIn: true)
-    var discoverHomeSignedOutViewModel = DiscoverHomeViewModel(signedIn: false)
+    var discoverAllViewModel = DiscoverAllViewModel(type: .discover)
+    var discoverHomeSignedInViewModel = DiscoverAllViewModel(type: .signedIn)
+    var discoverHomeSignedOutViewModel = DiscoverAllViewModel(type: .signedOut)
 
     init() {
         currentPlayingEpisode = PlaybackManager.shared.currentEpisode()

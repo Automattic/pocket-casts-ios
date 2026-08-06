@@ -121,29 +121,9 @@ actor DiscoverManager {
     private var cachedLayout: DiscoverLayout?
     private var layoutFetchTask: Task<(DiscoverLayout?, Bool), Never>?
 
-    private func getLayout() async throws -> DiscoverLayout {
-        if let cachedLayout {
-            return cachedLayout
-        }
-
-        let task = layoutFetchTask ?? Task {
-            await discoverServerHandler.discoverPage()
-        }
-        layoutFetchTask = task
-        let (result, _) = await task.value
-
-        layoutFetchTask = nil
-
-        guard let layout = result else {
-            throw DiscoverError.failedToLoad
-        }
-        cachedLayout = layout
-        return layout
-    }
-
-    private func getHomeLayout(signedIn: Bool) async throws -> DiscoverLayout {
+    private func getLayout(type: DiscoverServerHandler.DiscoverType) async throws -> DiscoverLayout {
         let result: (DiscoverLayout?, Bool?)
-        result = await discoverServerHandler.discoverPage(type: signedIn ? .signedIn : .signedOut)
+        result = await discoverServerHandler.discoverPage(type: type)
 
         guard let layout = result.0 else {
             throw DiscoverError.failedToLoad
@@ -152,14 +132,8 @@ actor DiscoverManager {
         return layout
     }
 
-    func loadHomeItems(signedIn: Bool) async throws -> [DiscoverItem] {
-        let discoverLayout = try await getHomeLayout(signedIn: signedIn)
-
-        return filterLayoutItemsToRegion(layout: discoverLayout)
-    }
-
-    func loadDiscoverItems() async throws -> [DiscoverItem] {
-        let discoverLayout = try await getLayout()
+    func loadDiscoverItems(type: DiscoverServerHandler.DiscoverType) async throws -> [DiscoverItem] {
+        let discoverLayout = try await getLayout(type: type)
 
         return filterLayoutItemsToRegion(layout: discoverLayout)
     }
@@ -230,7 +204,7 @@ actor DiscoverManager {
     }
 
     func findItem(of type: DiscoverType) async throws -> DiscoverItem? {
-        let items = try await loadDiscoverItems()
+        let items = try await loadDiscoverItems(type: .discover)
         return items.first(where: { type.match(item: $0) })
     }
 
@@ -272,7 +246,7 @@ actor DiscoverManager {
     }
 
     func loadDiscoverCategoryDetails(for category: DiscoverCategory) async throws -> DiscoverCategorySection? {
-        let discoverLayout = try await getLayout()
+        let discoverLayout = try await getLayout(type: .discover)
         guard let source = category.source else {
             return nil
         }
@@ -337,7 +311,7 @@ actor DiscoverManager {
     }
 
     func currentRegion() async -> String? {
-        guard let discoverLayout = try? await getLayout() else {
+        guard let discoverLayout = try? await getLayout(type: .discover) else {
             return nil
         }
         return Settings.discoverRegion(discoverLayout: discoverLayout)
