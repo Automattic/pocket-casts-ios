@@ -128,6 +128,31 @@ final class MultiSelectableTests: XCTestCase {
         XCTAssertTrue(list.selectedItems.isEmpty)
     }
 
+    func testDeselectAllBefore() {
+        list.toggleSelectAll()
+
+        list.deselectAllBefore(list.selectableItems[1])
+
+        XCTAssertEqual(list.selectedItems, [list.selectableItems[2]])
+    }
+
+    func testHasSelectedAllBefore() {
+        let item = list.selectableItems[1]
+        XCTAssertFalse(list.hasSelectedAllBefore(item))
+
+        list.selectAllBefore(item)
+
+        XCTAssertTrue(list.hasSelectedAllBefore(item))
+    }
+
+    func testHasSelectedAllBeforeIsFalseIfMissing() {
+        let item = list.selectableItems[1]
+        list.toggleSelectAll()
+        list.selectableItems.remove(at: 1)
+
+        XCTAssertFalse(list.hasSelectedAllBefore(item))
+    }
+
     // MARK: - Select All After
 
     func testSelectAllAfter() {
@@ -146,6 +171,31 @@ final class MultiSelectableTests: XCTestCase {
         list.selectAllAfter(item)
 
         XCTAssertTrue(list.selectedItems.isEmpty)
+    }
+
+    func testDeselectAllAfter() {
+        list.toggleSelectAll()
+
+        list.deselectAllAfter(list.selectableItems[1])
+
+        XCTAssertEqual(list.selectedItems, [list.selectableItems[0]])
+    }
+
+    func testHasSelectedAllAfter() {
+        let item = list.selectableItems[1]
+        XCTAssertFalse(list.hasSelectedAllAfter(item))
+
+        list.selectAllAfter(item)
+
+        XCTAssertTrue(list.hasSelectedAllAfter(item))
+    }
+
+    func testHasSelectedAllAfterIsFalseIfMissing() {
+        let item = list.selectableItems[1]
+        list.toggleSelectAll()
+        list.selectableItems.remove(at: 1)
+
+        XCTAssertFalse(list.hasSelectedAllAfter(item))
     }
 
     // MARK: - Long Press

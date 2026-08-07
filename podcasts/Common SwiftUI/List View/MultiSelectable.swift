@@ -95,15 +95,45 @@ extension MultiSelectable {
     // MARK: - Select All Before/After
 
     func selectAllBefore(_ item: Model) {
-        guard let index = index(of: item) else { return }
-
-        selectedIDs.formUnion(selectableItems[...index].map(\.id))
+        selectedIDs.formUnion(idsBefore(item))
     }
 
     func selectAllAfter(_ item: Model) {
-        guard let index = index(of: item) else { return }
+        selectedIDs.formUnion(idsAfter(item))
+    }
 
-        selectedIDs.formUnion(selectableItems[index...].map(\.id))
+    func deselectAllBefore(_ item: Model) {
+        selectedIDs.subtract(idsBefore(item))
+    }
+
+    func deselectAllAfter(_ item: Model) {
+        selectedIDs.subtract(idsAfter(item))
+    }
+
+    func hasSelectedAllBefore(_ item: Model) -> Bool {
+        areSelected(idsBefore(item))
+    }
+
+    func hasSelectedAllAfter(_ item: Model) -> Bool {
+        areSelected(idsAfter(item))
+    }
+
+    /// The items up to and including the given one
+    private func idsBefore(_ item: Model) -> [Model.ID] {
+        guard let index = index(of: item) else { return [] }
+
+        return selectableItems[...index].map(\.id)
+    }
+
+    /// The given item and everything after it
+    private func idsAfter(_ item: Model) -> [Model.ID] {
+        guard let index = index(of: item) else { return [] }
+
+        return selectableItems[index...].map(\.id)
+    }
+
+    private func areSelected(_ ids: [Model.ID]) -> Bool {
+        !ids.isEmpty && selectedIDs.isSuperset(of: ids)
     }
 
     private func index(of item: Model) -> Int? {
@@ -112,8 +142,8 @@ extension MultiSelectable {
 
     // MARK: - Long Press
 
-    /// A long press enters the multi selection and picks the item, or offers the Select All
-    /// Above/Below options when it's already active
+    /// A long press enters the multi selection and picks the item, or offers the Select/Deselect
+    /// All Above/Below options when it's already active
     func longPressed(_ item: Model) {
         guard isMultiSelecting else {
             isMultiSelecting = true
@@ -124,19 +154,48 @@ extension MultiSelectable {
         showSelectAllOptions(for: item)
     }
 
-    /// Offers the Select All Above/Below options for the long pressed item
+    /// Offers the same Select/Deselect All Above/Below options as the table view based lists: each
+    /// direction flips to its Deselect variant once everything that way is selected, and is left
+    /// out entirely for an item at that end of the list
     private func showSelectAllOptions(for item: Model) {
-        let optionPicker = OptionsPicker(title: nil)
+        guard let index = index(of: item) else { return }
 
-        optionPicker.addActions([
-            .init(label: L10n.selectAllAbove, icon: "selectall-up") { [weak self] in
-                self?.selectAllBefore(item)
-            },
-            .init(label: L10n.selectAllBelow, icon: "selectall-down") { [weak self] in
-                self?.selectAllAfter(item)
-            }
-        ])
+        var actions = [OptionAction]()
 
+        if index > 0 {
+            let allAboveAreSelected = hasSelectedAllBefore(item)
+
+            actions.append(.init(
+                label: allAboveAreSelected ? L10n.deselectAllAbove : L10n.selectAllAbove,
+                icon: allAboveAreSelected ? "deselectall-up" : "selectall-up"
+            ) { [weak self] in
+                if allAboveAreSelected {
+                    self?.deselectAllBefore(item)
+                } else {
+                    self?.selectAllBefore(item)
+                }
+            })
+        }
+
+        if index < selectableItems.count - 1 {
+            let allBelowAreSelected = hasSelectedAllAfter(item)
+
+            actions.append(.init(
+                label: allBelowAreSelected ? L10n.deselectAllBelow : L10n.selectAllBelow,
+                icon: allBelowAreSelected ? "deselectall-down" : "selectall-down"
+            ) { [weak self] in
+                if allBelowAreSelected {
+                    self?.deselectAllAfter(item)
+                } else {
+                    self?.selectAllAfter(item)
+                }
+            })
+        }
+
+        guard !actions.isEmpty else { return }
+
+        let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryIcon02)
+        optionPicker.addActions(actions)
         optionPicker.present()
     }
 }
