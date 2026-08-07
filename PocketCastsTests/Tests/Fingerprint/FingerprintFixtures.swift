@@ -9,7 +9,7 @@ import Foundation
 /// publisher's copy of the episode.
 enum FingerprintFixtures {
 
-    static let sampleRate: Double = 44100
+    static let defaultSampleRate: Double = 44100
 
     /// The reference grid `makeReference` fingerprints on, matching the shape of a
     /// server-generated reference: a checkpoint every 2 s, each covering 8 s.
@@ -23,24 +23,80 @@ enum FingerprintFixtures {
         case readFailed(String)
     }
 
+    static let contentSeed: UInt64 = 0xF1_9E_2B_71
+    static let adSeed: UInt64 = 0x2C_0F_FE_E1
+
     // MARK: - Audio
 
-    /// Writes `seconds` of deterministic audio to `url`.
+    /// `seconds` of deterministic mono audio.
     ///
     /// Every 250 ms the tones change, drawn from a seeded generator, so no two
-    /// moments in the file share a spectrum — the property a fingerprint relies on
-    /// to tie a window to one point on the timeline. A little broadband noise
-    /// underneath keeps the spectrum from being three bare spikes.
-    static func writeAudio(seconds: Double, seed: UInt64 = 0xF1_9E_2B_71, to url: URL) throws {
+    /// moments share a spectrum — the property a fingerprint relies on to tie a
+    /// window to one point on the timeline. A little broadband noise underneath
+    /// keeps the spectrum from being three bare spikes.
+    ///
+    /// A pure function of `(seed, frame index)`, so a slice of one episode's audio
+    /// is sample-identical to the same slice of another built from the same seed —
+    /// which is what lets a fixture splice an ad into the middle of an episode and
+    /// still expect an exact match either side of it.
+    static func samples(
+        seconds: Double,
+        seed: UInt64 = contentSeed,
+        sampleRate: Double = defaultSampleRate
+    ) -> [Float] {
+        // Two octaves of semitones from A3 up, so consecutive segments are always
+        // clearly distinguishable in the spectrum.
+        let scale = (0..<24).map { 220.0 * pow(2.0, Double($0) / 12.0) }
+        var random = SeededGenerator(seed: seed)
+
+        let totalFrames = frameCount(forSeconds: seconds, sampleRate: sampleRate)
+        let segmentFrames = frameCount(forSeconds: 0.25, sampleRate: sampleRate)
+        var samples = [Float](repeating: 0, count: totalFrames)
+
+        var index = 0
+        while index < totalFrames {
+            let tones = (0..<3).map { _ in scale[random.nextIndex(upperBound: scale.count)] }
+            for frame in index..<min(index + segmentFrames, totalFrames) {
+                let time = Double(frame) / sampleRate
+                var value = 0.0
+                for tone in tones {
+                    value += sin(2 * .pi * tone * time)
+                }
+                samples[frame] = Float(value * 0.25 + (random.nextUnit() - 0.5) * 0.04)
+            }
+            index += segmentFrames
+        }
+        return samples
+    }
+
+    static func frameCount(forSeconds seconds: Double, sampleRate: Double = defaultSampleRate) -> Int {
+        Int(seconds * sampleRate)
+    }
+
+    /// Generates and writes `seconds` of audio in one step.
+    static func writeAudio(
+        seconds: Double,
+        seed: UInt64 = contentSeed,
+        sampleRate: Double = defaultSampleRate,
+        to url: URL
+    ) throws {
+        try writeAudio(
+            samples(seconds: seconds, seed: seed, sampleRate: sampleRate),
+            sampleRate: sampleRate,
+            to: url
+        )
+    }
+
+    static func writeAudio(_ samples: [Float], sampleRate: Double = defaultSampleRate, to url: URL) throws {
         // The file is only closed (and its header finalized) when the last
         // reference to it goes away, so it stays scoped to this pool — the
         // caller's next move is to open the same path for reading.
         try autoreleasepool {
-            try write(seconds: seconds, seed: seed, to: url)
+            try write(samples, sampleRate: sampleRate, to: url)
         }
     }
 
-    private static func write(seconds: Double, seed: UInt64, to url: URL) throws {
+    private static func write(_ samples: [Float], sampleRate: Double, to url: URL) throws {
         let settings: [String: Any] = [
             AVFormatIDKey: kAudioFormatLinearPCM,
             AVSampleRateKey: sampleRate,
@@ -58,36 +114,36 @@ enum FingerprintFixtures {
         }
         let format = file.processingFormat
 
-        let segmentFrames = AVAudioFrameCount(sampleRate * 0.25)
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: segmentFrames) else {
+        let chunkFrames = AVAudioFrameCount(sampleRate)
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: chunkFrames) else {
             throw FixtureError.bufferAllocationFailed
         }
 
-        // Two octaves of semitones from A3 up, so consecutive segments are always
-        // clearly distinguishable in the spectrum.
-        let scale = (0..<24).map { 220.0 * pow(2.0, Double($0) / 12.0) }
-        var random = SeededGenerator(seed: seed)
-
-        let totalFrames = Int(seconds * sampleRate)
-        var writtenFrames = 0
-        while writtenFrames < totalFrames {
-            let frames = min(Int(segmentFrames), totalFrames - writtenFrames)
-            let tones = (0..<3).map { _ in scale[random.nextIndex(upperBound: scale.count)] }
-
+        var written = 0
+        while written < samples.count {
+            let frames = min(Int(chunkFrames), samples.count - written)
             buffer.frameLength = AVAudioFrameCount(frames)
-            guard let samples = buffer.floatChannelData?[0] else { throw FixtureError.bufferAllocationFailed }
+            guard let channel = buffer.floatChannelData?[0] else { throw FixtureError.bufferAllocationFailed }
             for frame in 0..<frames {
-                let time = Double(writtenFrames + frame) / sampleRate
-                var value = 0.0
-                for tone in tones {
-                    value += sin(2 * .pi * tone * time)
-                }
-                samples[frame] = Float(value * 0.25 + (random.nextUnit() - 0.5) * 0.04)
+                channel[frame] = samples[written + frame]
             }
-
             try file.write(from: buffer)
-            writtenFrames += frames
+            written += frames
         }
+    }
+
+    /// A reference whose checkpoint list is empty — a well-formed payload the
+    /// matcher can't build anything from.
+    static func referenceWithoutCheckpoints(totalDuration: Double) throws -> Data {
+        let json: [String: Any] = [
+            "format": ReferenceFingerprint.supportedFormat,
+            "total_duration": totalDuration,
+            "checkpoint_interval": checkpointIntervalSeconds,
+            "checkpoint_duration": checkpointDurationSeconds,
+            "timestamp_quantum": 1,
+            "checkpoints": []
+        ]
+        return try JSONSerialization.data(withJSONObject: json)
     }
 
     // MARK: - Reference fingerprint

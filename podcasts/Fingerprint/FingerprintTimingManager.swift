@@ -1105,6 +1105,26 @@ final class FingerprintTimingManager: NSObject {
             await manager.streamTask?.value
         }
 
+        /// Resolves a chapter's reference time against an explicit request, the way
+        /// `resolvePlaybackTime(forReferenceTime:episode:completion:)` does past its
+        /// timeout and supersede handling.
+        func resolveChapter(request: EpisodeRequest, referenceTime: Double) async -> ChapterSeekResult {
+            await manager.performResolve(request: request, referenceTime: referenceTime, kind: .chapter)
+        }
+
+        /// The same for a bookmark, which differs only in waiting for a streaming
+        /// buffer to reach the search window.
+        func resolveBookmark(request: EpisodeRequest, referenceTime: Double) async -> ChapterSeekResult {
+            await manager.performResolve(request: request, referenceTime: referenceTime, kind: .bookmark)
+        }
+
+        /// Resolves a playback position back onto the reference timeline, the way
+        /// `resolveReferenceTime(forPlaybackTime:episode:)` does when the continuous
+        /// mapping can't already answer it.
+        func resolveReference(request: EpisodeRequest, playbackTime: Double) async -> Double? {
+            await manager.performReferenceResolve(request: request, playbackTime: playbackTime, startDate: Date())
+        }
+
         /// Inserts a mapping directly, the way a committed match would.
         func insert(mapping: TimeMappingEntry) {
             manager.main.snapshot.insert(mapping)
