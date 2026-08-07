@@ -188,8 +188,10 @@ final class MultiSelectListViewModelTests: XCTestCase {
     }
 
     // MARK: - Test Model
-    private struct TestableModel: Hashable {
+    private struct TestableModel: Identifiable {
         let title: String
+
+        var id: String { title }
     }
 
     private class TestingMultiSelectViewModel: MultiSelectListViewModel<TestableModel> {

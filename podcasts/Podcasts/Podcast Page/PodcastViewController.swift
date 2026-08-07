@@ -32,8 +32,6 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func tableView() -> UITableView
     func displayedPodcast() -> Podcast?
-    func episodeCount() -> Int
-    func archivedEpisodeCount() -> Int
 
     func manageSubscriptionTapped()
     func settingsTapped()
@@ -44,19 +42,6 @@ protocol PodcastActionsDelegate: AnyObject {
     func subscribe()
     func unsubscribe()
     func refreshArtwork()
-    func searchEpisodes(query: String)
-    func clearSearch()
-    func toggleShowArchived()
-    func showingArchived() -> Bool
-    func archiveAllTapped(playedOnly: Bool)
-    func unarchiveAllTapped()
-    func downloadAllTapped()
-    func queueAllTapped()
-    func downloadableEpisodeCount(items: [ListItem]?) -> Int
-
-    func didActivateSearch()
-
-    func enableMultiSelect()
 
     var podcastRatingViewModel: PodcastRatingViewModel { get }
     var ratingView: UIView { get }
@@ -65,9 +50,6 @@ protocol PodcastActionsDelegate: AnyObject {
     func showEpisodes()
     func showYouMightLike()
     func showLogin(message: String?)
-
-    func shouldDisplayPodcastFeedReloadButton() -> Bool
-    func reloadPodcastFeed(source: PodcastFeedReloadSource)
 
     func open(url: URL)
 }
@@ -94,7 +76,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     var recommendations: PodcastCollection?
-    var bookmarkViewModel: BookmarkPodcastListViewModel?
+
+    /// The bookmarks tab, created the first time it's displayed
+    var bookmarkList: BookmarkListController?
 
     enum ViewMode {
         case episodes
@@ -174,8 +158,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             } else {
                 self.selectedEpisodes.removeAll()
             }
+            // The bookmarks tab shows the action bar of the bookmarks lists instead of the table's own footer
+            self.multiSelectFooter.isHidden = currentViewMode == .bookmarks
             self.updateMultiSelectNavBar()
             searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
+            bookmarkList?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
         }
     }
 
@@ -221,10 +208,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     private var podcastFeedViewModel: PodcastFeedViewModel?
     private var refreshController: PodcastFeedRefreshController?
     private var podcastFeedReloadTooltip: UIViewController?
-
-    // Hosting for the SwiftUI action bar used by the Bookmarks list when embedded
-    private var bookmarksActionBarHost: UIHostingController<AnyView>?
-    private var bookmarksActionBarBottomConstraint: NSLayoutConstraint?
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
@@ -290,11 +273,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             forceCollapsingHeaderIfNeeded()
         }
 
-        let searchController = EpisodeListSearchController()
-        searchController.podcastDelegate = self
-        addChild(searchController)
-        searchController.didMove(toParent: self)
-        self.searchController = searchController
+        setupSearchController()
 
         operationQueue.maxConcurrentOperationCount = 1
 
@@ -356,10 +335,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         setupLogin()
 
         setupRefreshControl()
-
-        // Keep external action bar aligned with mini player
-        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidAppear, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
     private var isScrolledPastHeader = false
@@ -393,19 +368,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         podcastRatingViewModel.presentLogin = { [weak self] _ in
             self?.showLogin(message: L10n.ratingLoginRequired)
         }
-    }
-
-    private func setupBookmarkViewModel() {
-        guard let podcast else { return }
-
-        let sortOption = Settings.podcastBookmarksSort
-        let viewModel = BookmarkPodcastListViewModel(podcast: podcast,
-                                                      bookmarkManager: PlaybackManager.shared.bookmarkManager,
-                                                      sortOption: sortOption)
-        viewModel.analyticsSource = .podcasts
-        viewModel.router = self
-
-        self.bookmarkViewModel = viewModel
     }
 
     func showLogin(message: String?) {
@@ -566,9 +528,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     @objc private func searchRequested() {
-        guard podcast != nil, let searchBar = searchController?.searchTextField else { return }
+        guard podcast != nil else { return }
 
-        searchBar.becomeFirstResponder()
+        searchController?.beginEditing()
     }
 
     @objc private func colorsDidDownload(_ notification: Notification) {
@@ -583,6 +545,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func reloadData() {
+        if currentViewMode == .bookmarks {
+            bookmarkList?.rebuildRows()
+        }
         episodesTable.reloadData()
     }
 
@@ -660,7 +625,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func loadLocalEpisodes(podcast: Podcast, animated: Bool) {
-        let uuidsToFilter = (searchController?.searchInProgress() ?? false) ? uuidsThatMatchSearch : nil
+        let uuidsToFilter = isSearching ? uuidsThatMatchSearch : nil
         let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: uuidsToFilter) { [weak self] newData in
             guard let self else { return }
 
@@ -670,7 +635,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             var finalData = newData
             var needsNoEpisodesMessage = false
             var needsNoSearchResultsMessage = false
-            let searching = self.searchController?.searchTextField?.text?.count ?? 0 > 0
+            let searching = self.searchController?.searchText.isEmpty == false
             if podcast.podcastGrouping() == .none {
                 let episodeLimit = Int(podcast.autoArchiveEpisodeLimit)
                 var episodes = newData[safe: 1]?.elements
@@ -737,7 +702,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                 self.episodeInfo = finalData
                 reloadData()
             }
-            self.searchController?.episodesDidReload()
+            self.updateSearchHeader()
             if self.isMultiSelectEnabled {
                 self.updateSelectAllBtn()
             }
@@ -883,10 +848,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         descriptionExpanded = expanded
     }
 
-    @objc private func miniPlayerStatusDidChange() {
-        updateBookmarksActionBarBottomConstraint()
-    }
-
     func tableView() -> UITableView {
         episodesTable
     }
@@ -981,19 +942,30 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func searchEpisodes(query: String) {
+        guard !query.isEmpty else {
+            clearSearch()
+            return
+        }
+
+        // don't allow searching for less than 2 characters
+        guard query.count > 1 else { return }
+
+        searchController?.isLoading = true
         performEpisodeSearch(query: query)
+
         if !isSearching {
             isSearching = true
             Analytics.track(.podcastScreenSearchPerformed)
         }
     }
 
-    func clearSearch() {
+    private func clearSearch() {
         guard let podcast else { return }
 
+        searchController?.isLoading = false
+        isSearching = false
         uuidsThatMatchSearch.removeAll()
         loadLocalEpisodes(podcast: podcast, animated: true)
-        isSearching = false
         Analytics.track(.podcastScreenSearchCleared)
     }
 
@@ -1011,11 +983,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         podcast?.showArchived ?? false
     }
 
-    func archiveAllTapped(playedOnly: Bool) {
-        archiveAll(playedOnly: playedOnly)
-    }
-
-    func unarchiveAllTapped() {
+    func unarchiveAll() {
         guard let podcast else { return }
 
         DispatchQueue.global().async {
@@ -1058,7 +1026,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
     }
 
-    func downloadAllTapped() {
+    func downloadAll() {
         DispatchQueue.global().async { [weak self] in
             guard let self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
@@ -1205,7 +1173,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
     }
 
-    func queueAllTapped() {
+    func queueAll() {
         DispatchQueue.global().async { [weak self] in
             guard let self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
             self.queueItems(allObjects: allObjects)
@@ -1247,97 +1215,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     func enableMultiSelect() {
         isMultiSelectEnabled = true
-    }
-
-    // MARK: - External Bookmarks Action Bar
-
-    func updateBookmarksActionBar(state: ExternalActionBarState, viewModel: BookmarkPodcastListViewModel) {
-        if state.isMultiSelecting {
-            // Ensure top nav/selection header matches multiselect state
-            if !isMultiSelectEnabled {
-                isMultiSelectEnabled = true
-            }
-            // Hide the table's native multiSelectFooter; we present a SwiftUI bar instead
-            multiSelectFooter.isHidden = true
-
-            let actions: [ActionBarView<ThemedActionBarStyle>.Action] = makeBookmarkActions(BookmarkActionConfig(
-                showShare: state.showShare,
-                showEdit: state.showEdit,
-                onShare: { viewModel.shareSelectedBookmarks() },
-                onEdit: { viewModel.editSelectedBookmarks() },
-                onDelete: { viewModel.deleteSelectedBookmarks() }
-            ))
-
-            let bar = ActionBarView(title: state.title, style: ThemedActionBarStyle(), actions: actions)
-                .padding(.bottom) // match internal spacing
-
-            if let host = bookmarksActionBarHost {
-                host.rootView = AnyView(bar)
-            } else {
-                let host = UIHostingController(rootView: AnyView(bar))
-                host.view.backgroundColor = .clear
-                bookmarksActionBarHost = host
-
-                addChild(host)
-                view.addSubview(host.view)
-                host.view.translatesAutoresizingMaskIntoConstraints = false
-
-                let bottom = host.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-                bookmarksActionBarBottomConstraint = bottom
-
-                NSLayoutConstraint.activate([
-                    host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                    host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                    bottom
-                ])
-
-                host.didMove(toParent: self)
-
-                // Ensure initial layout has the correct offset without animating from the top
-                updateBookmarksActionBarBottomConstraint(animated: false)
-            }
-
-            if state.visible {
-                // Subsequent updates can animate
-                updateBookmarksActionBarBottomConstraint(animated: true)
-            } else {
-                // If not visible (no selected items), remove bar if present
-                removeBookmarksActionBar()
-            }
-            // Keep Select All button title in sync
-            updateSelectAllBtn()
-        } else {
-            removeBookmarksActionBar()
-            if isMultiSelectEnabled {
-                isMultiSelectEnabled = false
-            }
-        }
-    }
-
-    private func updateBookmarksActionBarBottomConstraint(animated: Bool = true) {
-        guard let bottom = bookmarksActionBarBottomConstraint else { return }
-        guard let host = bookmarksActionBarHost else { return }
-        bottom.constant = -bookmarksActionBarBottomOffset()
-        if animated {
-            UIView.animate(withDuration: 0.1) { host.view.layoutIfNeeded(); self.view.layoutIfNeeded() }
-        } else {
-            host.view.layoutIfNeeded()
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    func removeBookmarksActionBar() {
-        if let host = bookmarksActionBarHost {
-            host.willMove(toParent: nil)
-            host.view.removeFromSuperview()
-            host.removeFromParent()
-        }
-        bookmarksActionBarHost = nil
-        bookmarksActionBarBottomConstraint = nil
-    }
-
-    private func bookmarksActionBarBottomOffset() -> CGFloat {
-        Constants.effectiveMiniPlayerOffset
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
@@ -1393,13 +1270,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     func showBookmarks() {
-        if FeatureFlag.podcastBookmarksInline.enabled {
-            switchViewMode(to: .bookmarks)
-        } else {
-            guard let podcast else { return }
-            let controller = BookmarksPodcastListController(podcast: podcast)
-            present(controller, animated: true)
-        }
+        switchViewMode(to: .bookmarks)
     }
 
     func showYouMightLike() {
@@ -1688,7 +1559,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     private func switchViewMode(to mode: ViewMode) {
         // Clear any externally presented action bar when switching modes
-        removeBookmarksActionBar()
+        bookmarkList?.removeActionBar()
         if isMultiSelectEnabled {
             isMultiSelectEnabled = false
         }
@@ -1707,11 +1578,14 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                 }
             }
         case .bookmarks:
-            if bookmarkViewModel == nil {
-                setupBookmarkViewModel() // Reloads on init
+            if bookmarkList == nil {
+                setupBookmarkList() // Reloads on init
             } else {
-                bookmarkViewModel?.reload()
+                bookmarkList?.viewModel.reload()
             }
+
+            // The multi select state is kept when switching between the tabs
+            bookmarkList?.updateActionBar()
         }
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
         reloadData()

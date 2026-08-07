@@ -140,7 +140,7 @@ struct PodcastDetailView: View {
     @FocusState private var currentFocus: String?
 
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(model: episode, focus: $rowFocus, detailsDismissed: {
+        EpisodeRowWithActions(model: episode, showEpisodeNotesImage: Settings.loadEmbeddedImages, focus: $rowFocus, detailsDismissed: {
             currentFocus = lastFocus
         })
         .focused($currentFocus, equals: episode.id)

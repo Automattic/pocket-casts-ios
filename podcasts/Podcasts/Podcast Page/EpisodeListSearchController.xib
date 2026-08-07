@@ -10,17 +10,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EpisodeListSearchController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="actionButton" destination="6fg-N7-SIa" id="aTp-2m-jkB"/>
                 <outlet property="clearSearchBtn" destination="NUs-aB-3ve" id="SiR-BK-2qS"/>
                 <outlet property="dividerHeightConstraint" destination="hNU-UO-LM5" id="FEE-4k-sRe"/>
-                <outlet property="episodeInfoLabel" destination="wNf-rq-iBx" id="IdI-xz-2sJ"/>
-                <outlet property="limitLabel" destination="lbQ-Z6-M40" id="xWz-Co-myd"/>
+                <outlet property="infoLabel" destination="wNf-rq-iBx" id="IdI-xz-2sJ"/>
                 <outlet property="loadingSpinner" destination="eeU-aw-oKZ" id="ddr-yz-DvO"/>
                 <outlet property="middleDividerHeightConstraint" destination="9u3-y4-9Dm" id="T8i-Cs-7SM"/>
                 <outlet property="overflowButton" destination="0Wl-Qr-Alh" id="jLj-FD-98r"/>
                 <outlet property="roundedBackgroundView" destination="Wat-Pf-EXJ" id="dl3-RW-L4K"/>
                 <outlet property="searchIcon" destination="At2-Om-SSW" id="Dhg-wG-eiz"/>
                 <outlet property="searchTextField" destination="YWN-oW-0ZD" id="US3-RQ-T2O"/>
-                <outlet property="showHideArchiveBtn" destination="6fg-N7-SIa" id="aTp-2m-jkB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -106,14 +105,7 @@
                                 <constraint firstAttribute="height" constant="1" id="9u3-y4-9Dm"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbQ-Z6-M40" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="104" y="69" width="0.0" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="23 episodes " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNf-rq-iBx" userLabel="episodeInfo" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="23 episodes " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNf-rq-iBx" userLabel="info" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="16" y="69" width="207" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
@@ -124,7 +116,7 @@
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                             <state key="normal" title="Show Archived"/>
                             <connections>
-                                <action selector="showHideArchiveTapped:" destination="-1" eventType="touchUpInside" id="Ws4-m2-JZM"/>
+                                <action selector="actionTapped:" destination="-1" eventType="touchUpInside" id="Ws4-m2-JZM"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elY-fZ-CTE" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
