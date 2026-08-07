@@ -125,8 +125,7 @@ public final class FileLog {
 final class LogBuffer: @unchecked Sendable {
     private let bufferThreshold: UInt
 
-    private let lock = NSLock()
-    private var entries: [LogEntry] = []
+    private let entries = OSAllocatedUnfairLock(initialState: [LogEntry]())
 
     private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue", qos: .utility)
 
@@ -151,10 +150,10 @@ final class LogBuffer: @unchecked Sendable {
     #endif
 
     func append(_ message: String, date: Date) {
-        lock.lock()
-        entries.append(LogEntry(message, timestamp: date))
-        let hasReachedThreshold = entries.count >= bufferThreshold
-        lock.unlock()
+        let hasReachedThreshold = entries.withLock { entries in
+            entries.append(LogEntry(message, timestamp: date))
+            return entries.count >= bufferThreshold
+        }
 
         guard hasReachedThreshold else { return }
 
@@ -184,10 +183,10 @@ final class LogBuffer: @unchecked Sendable {
 
     /// Drains the buffer and appends its contents to the log file. Always called on `flushQueue`.
     private func writeBufferedEntriesToDisk(isForced: Bool = false) {
-        lock.lock()
-        let bufferedEntries = entries
-        entries.removeAll(keepingCapacity: true)
-        lock.unlock()
+        let bufferedEntries = entries.withLock { entries in
+            defer { entries.removeAll(keepingCapacity: true) }
+            return entries
+        }
 
         guard !bufferedEntries.isEmpty else { return }
 
