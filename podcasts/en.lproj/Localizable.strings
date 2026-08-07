@@ -6631,3 +6631,6 @@
 /* tv create account login step - log in to your account */
 "tv_create_account_step_login" = "Log in to your account";
 
+/* tv home failed to load message */
+"tv_home_failed_to_load_title" = "Home failed to load";
+
