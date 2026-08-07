@@ -13,6 +13,8 @@
 - [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
 - [tvOS] Fix episode count on smart playlists [#4905](https://github.com/Automattic/pocket-casts-ios/pull/#4905)
 - Fix a crash when the sign in prompt was shown while another screen was still being dismissed [#4903](https://github.com/Automattic/pocket-casts-ios/pull/4903)
+- [tvOS] Add support server driven home page layout [#4854](https://github.com/Automattic/pocket-casts-ios/pull/4854)
+- [tvOS] Add support for HLS episodes previews in episodes video list [#4921](https://github.com/Automattic/pocket-casts-ios/pull/4921)
 
 8.17
 -----
