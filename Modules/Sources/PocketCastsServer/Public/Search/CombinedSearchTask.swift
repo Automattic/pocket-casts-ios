@@ -19,19 +19,24 @@ public struct CombinedSearchResult: Decodable, Hashable {
     public let podcastTitle: String?
     public let author: String?
     public let explicit: Bool?
+    public let isVideo: Bool?
+    public let hasVideo: Bool?
+    public let videoUrl: String?
 
     public var resolvedResultType: CombinedSearchResultType? {
         switch type {
-            case "podcast":
-                guard let podcast = PodcastFolderSearchResult(from: self) else {
-                    return nil
-                }
-                return .podcast(podcast)
-            case "episode":
-            let episode = EpisodeSearchResult(uuid: self.uuid, title: self.title, publishedDate: self.publishedDate ?? Date.now, state: .normal, duration: duration, podcastUuid: self.podcastUuid ?? "", podcastTitle: self.podcastTitle ?? "")
-                return .episode(episode)
-            default:
+        case "podcast":
+            guard let podcast = PodcastFolderSearchResult(from: self) else {
                 return nil
+            }
+            return .podcast(podcast)
+        case "episode":
+            guard let episode = EpisodeSearchResult(from: self) else {
+                return nil
+            }
+            return .episode(episode)
+        default:
+            return nil
         }
     }
 }

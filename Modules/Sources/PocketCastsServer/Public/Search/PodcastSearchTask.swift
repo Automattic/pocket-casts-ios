@@ -25,9 +25,10 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public let kind: Kind
     public var isLocal: Bool?
     public var explicit: Bool?
+    public var isVideo: Bool?
 
     enum CodingKeys: String, CodingKey {
-        case uuid, title, author, kind, isLocal, explicit
+        case uuid, title, author, kind, isLocal, explicit, isVideo
     }
 
     public init(from decoder: Decoder) throws {
@@ -38,6 +39,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
         self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
         self.explicit = try? container.decodeIfPresent(Bool.self, forKey: .explicit)
+        self.isVideo = try? container.decodeIfPresent(Bool.self, forKey: .isVideo)
     }
 
     public init?(from podcast: Podcast) {
@@ -47,6 +49,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.isLocal = true
         self.kind = .podcast
         self.explicit = podcast.isExplicit
+        self.isVideo = nil
     }
 
     public init?(from folder: Folder) {
@@ -56,6 +59,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.isLocal = true
         self.kind = .folder
         self.explicit = false
+        self.isVideo = false
     }
 
     public init?(from predictiveResult: PredictiveSearchResult) {
@@ -67,6 +71,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
                 self.kind = .podcast
                 self.isLocal = false
                 self.explicit = podcast.isExplicit
+                self.isVideo = nil
             default:
                 return nil
         }
@@ -82,6 +87,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.kind = .podcast
         self.isLocal = false
         self.explicit = combinedResult.explicit
+        self.isVideo = combinedResult.isVideo
     }
 
     public enum Kind: Codable {
