@@ -49,7 +49,7 @@ class HomeViewModel {
                 }
                 newReleases = newEpisodes
                 self.newVideoReleases = newVideoReleases
-                
+
                 state = .ready
             }
         }
