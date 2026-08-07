@@ -101,7 +101,7 @@ actor FingerprintStreamProcessor {
         }
 
         var interleaved: [Float] = []
-        while true {
+        while audioFile.framePosition < audioFile.length {
             try Task.checkCancellation()
             let nextChunkStartSeconds = Double(audioFile.framePosition) / format.sampleRate
             try await throttleIfBeyondLookahead(

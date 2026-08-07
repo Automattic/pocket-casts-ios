@@ -38,14 +38,7 @@ final class FingerprintPreparationTests: XCTestCase {
         try FingerprintFixtures.makeReference(forAudioAt: audioURL).write(to: referenceURL)
 
         let manager = FingerprintTimingManager()
-        await manager.testing.prepare(request: .init(
-            episodeUuid: "episode-uuid",
-            podcastUuid: "podcast-uuid",
-            duration: Self.episodeDuration,
-            audioFileURL: audioURL,
-            isStreaming: false,
-            referenceFilePath: referenceURL.path
-        ))
+        await manager.testing.prepare(request: Self.request(audio: audioURL, reference: referenceURL))
 
         // Reference decoded and the matcher built, so the stream is running. No
         // commit can have landed yet — they need the main actor, and we haven't
@@ -104,5 +97,37 @@ final class FingerprintPreparationTests: XCTestCase {
         XCTAssertTrue(manager.isWithinMatchedContent(forPlaybackTime: midpoint))
         XCTAssertEqual(try XCTUnwrap(manager.matchedReferenceTime(forPlaybackTime: midpoint)), midpoint, accuracy: 0.5)
         XCTAssertEqual(try XCTUnwrap(manager.playbackTime(forReferenceTime: midpoint)), midpoint, accuracy: 0.5)
+    }
+
+    /// A pass that reaches the end of the file having found nothing it trusts is
+    /// "we couldn't map this episode", not a decode failure — the two report
+    /// different analytics, and only the clean ending persists a mapping cache.
+    func testPreparationEndsUnavailableWhenAudioDoesNotMatchTheReference() async throws {
+        let audioURL = directory.appendingPathComponent("episode.caf")
+        try FingerprintFixtures.writeAudio(seconds: Self.episodeDuration, to: audioURL)
+
+        // A reference built from a different episode entirely.
+        let otherAudioURL = directory.appendingPathComponent("other-episode.caf")
+        try FingerprintFixtures.writeAudio(seconds: Self.episodeDuration, seed: 0x2C_0F_FE_E1, to: otherAudioURL)
+        let referenceURL = directory.appendingPathComponent("episode.ref.fp.json")
+        try FingerprintFixtures.makeReference(forAudioAt: otherAudioURL).write(to: referenceURL)
+
+        let manager = FingerprintTimingManager()
+        await manager.testing.prepare(request: Self.request(audio: audioURL, reference: referenceURL))
+        await manager.testing.waitForStream()
+
+        XCTAssertEqual(manager.state.analyticsName, "unavailable")
+        XCTAssertTrue(manager.snapshot.isEmpty)
+    }
+
+    private static func request(audio: URL, reference: URL) -> FingerprintTimingManager.EpisodeRequest {
+        FingerprintTimingManager.EpisodeRequest(
+            episodeUuid: "episode-uuid",
+            podcastUuid: "podcast-uuid",
+            duration: episodeDuration,
+            audioFileURL: audio,
+            isStreaming: false,
+            referenceFilePath: reference.path
+        )
     }
 }

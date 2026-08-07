@@ -31,16 +31,16 @@ enum FingerprintFixtures {
     /// moments in the file share a spectrum — the property a fingerprint relies on
     /// to tie a window to one point on the timeline. A little broadband noise
     /// underneath keeps the spectrum from being three bare spikes.
-    static func writeAudio(seconds: Double, to url: URL) throws {
+    static func writeAudio(seconds: Double, seed: UInt64 = 0xF1_9E_2B_71, to url: URL) throws {
         // The file is only closed (and its header finalized) when the last
         // reference to it goes away, so it stays scoped to this pool — the
         // caller's next move is to open the same path for reading.
         try autoreleasepool {
-            try write(seconds: seconds, to: url)
+            try write(seconds: seconds, seed: seed, to: url)
         }
     }
 
-    private static func write(seconds: Double, to url: URL) throws {
+    private static func write(seconds: Double, seed: UInt64, to url: URL) throws {
         let settings: [String: Any] = [
             AVFormatIDKey: kAudioFormatLinearPCM,
             AVSampleRateKey: sampleRate,
@@ -66,7 +66,7 @@ enum FingerprintFixtures {
         // Two octaves of semitones from A3 up, so consecutive segments are always
         // clearly distinguishable in the spectrum.
         let scale = (0..<24).map { 220.0 * pow(2.0, Double($0) / 12.0) }
-        var random = SeededGenerator(seed: 0xF1_9E_2B_71)
+        var random = SeededGenerator(seed: seed)
 
         let totalFrames = Int(seconds * sampleRate)
         var writtenFrames = 0
