@@ -786,6 +786,7 @@ private extension EpisodeDetailViewController {
 }
 
 enum EpisodeDetailViewSource: String, AnalyticsDescribable {
+    case bookmarks
     case discover
     case downloads
     case listeningHistory = "listening_history"

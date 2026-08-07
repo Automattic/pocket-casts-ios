@@ -10,6 +10,9 @@ protocol BookmarkListRouter: AnyObject {
     /// Opens the bookmark in full, with the transcript passage it captured
     func bookmarkDetails(_ bookmark: Bookmark, source: BookmarkAnalyticsSource)
 
+    /// Opens the episode the bookmark was made in
+    func bookmarkEpisode(_ episode: Episode)
+
     /// Optional: Dismisses the presented bookmark list, if applicable.
     func dismissBookmarksList()
 
@@ -38,5 +41,13 @@ extension BookmarkListRouter where Self: UIViewController {
         } else {
             present(SJUIUtils.navController(for: controller), animated: true)
         }
+    }
+
+    func bookmarkEpisode(_ episode: Episode) {
+        guard let podcast = episode.parentPodcast() else { return }
+
+        let controller = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .bookmarks)
+        controller.modalPresentationStyle = .formSheet
+        present(controller, animated: true)
     }
 }
