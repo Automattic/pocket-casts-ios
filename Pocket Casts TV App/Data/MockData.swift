@@ -283,4 +283,8 @@ struct MockData {
 
         return result
     }
+
+    static func makeStubBanner(_ type: BannerType) -> DiscoverItem {
+        return DiscoverItem(id: type.rawValue, type: "banner", summaryStyle: "inline_banner", regions: [])
+    }
 }

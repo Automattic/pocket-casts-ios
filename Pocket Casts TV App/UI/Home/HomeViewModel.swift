@@ -17,12 +17,10 @@ class HomeViewModel {
     enum State: Equatable, Hashable {
         case loading
         case ready
-        case empty
     }
 
     var state: State = .loading
 
-    var podcasts: [Podcast] = []
     var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
@@ -33,7 +31,6 @@ class HomeViewModel {
 
     func load() {
         Task {
-            let podcasts = fetchPodcasts()
             let upNextEpisodes = dataManager.allUpNextEpisodes()
             let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
                 makeRowViewModel(for: episode)
@@ -41,7 +38,6 @@ class HomeViewModel {
 
             await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
-                self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)
                 }
@@ -56,10 +52,6 @@ class HomeViewModel {
 
     func refresh() {
         RefreshManager.shared.refreshPodcasts()
-    }
-
-    private func fetchPodcasts() -> [Podcast] {
-        return Array(dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).prefix(20))
     }
 
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {

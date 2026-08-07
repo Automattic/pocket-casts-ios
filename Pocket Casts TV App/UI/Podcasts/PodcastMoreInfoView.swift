@@ -27,16 +27,19 @@ struct PodcastMoreInfoView: View {
                 .frame(width: Layout.metadataColumnWidth, alignment: .leading)
                 .padding(.bottom, 40)
             VStack(alignment: .leading, spacing: 8) {
-                if let author = podcast.author {
-                    Text(author)
-                        .font(.caption)
-                        .foregroundStyle(Color.pcTextSecondary)
+                VStack(alignment: .leading, spacing: 8) {
+                    if let author = podcast.author {
+                        Text(author)
+                            .font(.caption)
+                            .foregroundStyle(Color.pcTextSecondary)
+                    }
+                    if let title = podcast.title {
+                        Text(title)
+                            .font(.title2)
+                            .foregroundStyle(Color.pcTextPrimary)
+                    }
                 }
-                if let title = podcast.title {
-                    Text(title)
-                        .font(.title2)
-                        .foregroundStyle(Color.pcTextPrimary)
-                }
+                .accessibilityElement(children: .combine)
                 if !descriptionHTML.isEmpty {
                     aboutColumn
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -90,6 +93,7 @@ struct PodcastMoreInfoView: View {
                 .font(.body)
                 .foregroundStyle(Color.pcTextPrimary)
         }
+        .accessibilityElement(children: .combine)
     }
 
     private func buildDescription() {

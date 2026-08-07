@@ -50,13 +50,16 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel, source: DiscoverAnalytics.searchSource)
             }
         }
         .navigationDestination(for: DiscoverPodcast.self) { podcast in
             if let uuid = podcast.uuid {
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscover: true))
             }
+        }
+        .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
         }
         .animation(.easeInOut, value: model.state)
         .animation(.easeInOut, value: model.scope)
@@ -77,6 +80,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                                 .frame(width: Layout.cellSize, height: Layout.cellSize)
                         }
                         .buttonStyle(.card)
+                        .accessibilityLabel(podcast.title ?? "")
                         .simultaneousGesture(TapGesture().onEnded {
                             Analytics.track(.searchResultTapped, properties: [
                                 "source": "search",

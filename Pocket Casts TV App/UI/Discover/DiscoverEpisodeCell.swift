@@ -65,6 +65,7 @@ struct DiscoverEpisodeCell: View {
                             .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                     }
                 }
+                .accessibilityElement(children: .combine)
                 Spacer()
             }
             .padding(32)

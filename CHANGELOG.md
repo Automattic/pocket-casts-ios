@@ -14,9 +14,13 @@
 - Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
 - [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
 - Make the Up Next navigation bar consistent between the tab and player presentations: Select and a new "…" menu with Clear Up Next on the trailing edge, and a standard close button when opened from the player [#4875](https://github.com/Automattic/pocket-casts-ios/pull/4875)
+- [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- [tvOS] Fix VoiceOver accessibility issues across the app: unlabeled tiles, fragmented row/text reads, and missing announcements for toasts, sign-in, and pairing [#4888](https://github.com/Automattic/pocket-casts-ios/pull/4888)
 - [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
 - [tvOS] Fix episode count on smart playlists [#4905](https://github.com/Automattic/pocket-casts-ios/pull/4905)
 - Fix a crash when the sign in prompt was shown while another screen was still being dismissed [#4903](https://github.com/Automattic/pocket-casts-ios/pull/4903)
+- [tvOS] Add support server driven home page layout [#4854](https://github.com/Automattic/pocket-casts-ios/pull/4854)
+- [tvOS] Add support for HLS episodes previews in episodes video list [#4921](https://github.com/Automattic/pocket-casts-ios/pull/4921)
 
 8.17
 -----
