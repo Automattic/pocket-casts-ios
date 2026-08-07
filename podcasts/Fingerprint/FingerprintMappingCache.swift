@@ -15,8 +15,8 @@ import PocketCastsUtils
 /// POC-546 attempt trapped the timing manager in `.preparing`.
 enum FingerprintMappingCache {
 
-    struct LoadResult {
-        let entries: [FingerprintTimingManager.TimeMappingEntry]
+    struct LoadResult: Sendable {
+        let entries: [TimeMappingEntry]
         let referenceDuration: Double
     }
 
@@ -98,7 +98,7 @@ enum FingerprintMappingCache {
         )
         return LoadResult(
             entries: cached.entries.map {
-                FingerprintTimingManager.TimeMappingEntry(
+                TimeMappingEntry(
                     playbackTime: $0.p,
                     referenceTime: $0.r,
                     score: $0.s
@@ -109,7 +109,7 @@ enum FingerprintMappingCache {
     }
 
     static func save(
-        _ entries: [FingerprintTimingManager.TimeMappingEntry],
+        _ entries: [TimeMappingEntry],
         audioFilePath: String,
         referenceFilePath: String,
         referenceData: Data,

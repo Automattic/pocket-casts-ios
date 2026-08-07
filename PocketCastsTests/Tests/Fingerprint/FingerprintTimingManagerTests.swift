@@ -2,9 +2,10 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 final class FingerprintTimingManagerTests: XCTestCase {
 
-    typealias Entry = FingerprintTimingManager.TimeMappingEntry
+    typealias Entry = TimeMappingEntry
 
     // MARK: - Public query API: empty manager
 

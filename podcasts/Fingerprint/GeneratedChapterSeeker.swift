@@ -14,6 +14,7 @@ enum GeneratedChapterSeeker {
 
     /// Whether generated-chapter navigation should resolve via fingerprinting
     /// rather than seeking to the raw reference start.
+    @MainActor
     static var isEnabled: Bool {
         FeatureFlag.generatedChapters.enabled
             && FeatureFlag.syncedTranscripts.enabled
@@ -30,6 +31,7 @@ enum GeneratedChapterSeeker {
     ///   list starts playback on a tap, the player's skip buttons don't.
     ///
     /// Must be called on the main queue.
+    @MainActor
     static func seek(
         to chapter: ChapterInfo,
         startPlayback: Bool,

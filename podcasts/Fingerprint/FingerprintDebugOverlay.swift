@@ -3,8 +3,8 @@ import UIKit
 
 class FingerprintDebugOverlay: UIView {
 
-    private var entries: [FingerprintTimingManager.TimeMappingEntry] = []
-    private var rejections: [FingerprintTimingManager.TimeMappingEntry] = []
+    private var entries: [TimeMappingEntry] = []
+    private var rejections: [TimeMappingEntry] = []
     private var totalDuration: Double = 0
     private var playbackPosition: Double = 0
     private var isHighlighting = false

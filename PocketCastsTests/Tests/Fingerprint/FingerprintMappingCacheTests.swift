@@ -4,7 +4,7 @@ import XCTest
 
 final class FingerprintMappingCacheTests: XCTestCase {
 
-    typealias Entry = FingerprintTimingManager.TimeMappingEntry
+    typealias Entry = TimeMappingEntry
 
     private var tempDir: URL!
     private var audioPath: String!
