@@ -52,10 +52,11 @@ class DiscoverVideoEpisodeModel {
 
     func load() async {
         guard let urlString = episode.videoURL, let videoUrl = URL(string: urlString) else {
+            FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to get a video url for episode \(episode.uuid ?? "unknown")")
             return
         }
 
-        setupPlayer()
+        setupPlayer(for: videoUrl)
 
         do {
             let videoFrame: UIImage
@@ -100,10 +101,7 @@ class DiscoverVideoEpisodeModel {
 
     private var isFadePausing: Bool { fadeTimer != nil }
 
-    private func setupPlayer() {
-        guard let urlString = episode.videoURL, let videoUrl = URL(string: urlString) else {
-            return
-        }
+    private func setupPlayer(for videoUrl: URL) {
         player = AVPlayer(url: videoUrl)
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
