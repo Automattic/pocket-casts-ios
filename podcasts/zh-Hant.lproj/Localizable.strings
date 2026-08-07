@@ -3200,7 +3200,7 @@ Pocket Casts Plus</string>
     <key>settings_general_audio_only</key>
     <string>僅音訊</string>
     <key>settings_general_audio_only_subtitle</key>
-    <string>開啟時，影片單集將以僅音訊的形式播放。</string>
+    <string>如果開啟，影片單集將以僅音訊的形式播放。</string>
     <key>settings_general_auto_open_player</key>
     <string>自動開啟播放器</string>
     <key>settings_general_autoplay</key>
