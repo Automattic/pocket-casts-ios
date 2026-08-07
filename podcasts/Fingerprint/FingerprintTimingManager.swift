@@ -1083,16 +1083,39 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Test Seams
 
-    /// Inserts a mapping directly, the way a committed match would.
-    func insert(mapping: TimeMappingEntry) {
-        main.snapshot.insert(mapping)
-    }
+    var testing: Testing { Testing(manager: self) }
 
-    /// Routes a sequence of candidates through the drift filter, the way
-    /// `commit` does in production.
-    func stubMatches(_ entries: [TimeMappingEntry]) {
-        for entry in entries {
-            main.consider(entry)
+    /// Reaches past the parts of the manager a test can't drive — the current
+    /// episode, the tasks preparation owns — kept in its own namespace so none of
+    /// it reads as production API at a call site.
+    @MainActor
+    struct Testing {
+        fileprivate let manager: FingerprintTimingManager
+
+        /// Runs the preparation pipeline for an explicit request — everything
+        /// `prepareForCurrentEpisode()` does once its feature-flag and
+        /// current-episode guards pass — returning as soon as the streaming pass
+        /// has been started.
+        func prepare(request: EpisodeRequest) async {
+            await manager.prepare(request)
+        }
+
+        /// Waits for the streaming fingerprint pass to run to completion.
+        func waitForStream() async {
+            await manager.streamTask?.value
+        }
+
+        /// Inserts a mapping directly, the way a committed match would.
+        func insert(mapping: TimeMappingEntry) {
+            manager.main.snapshot.insert(mapping)
+        }
+
+        /// Routes a sequence of candidates through the drift filter, the way
+        /// `commit` does in production.
+        func stubMatches(_ entries: [TimeMappingEntry]) {
+            for entry in entries {
+                manager.main.consider(entry)
+            }
         }
     }
 }

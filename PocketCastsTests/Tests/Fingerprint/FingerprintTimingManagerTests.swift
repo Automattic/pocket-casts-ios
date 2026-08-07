@@ -21,7 +21,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
 
     func testSingleMappingQueriesExtrapolateForwardAndBackward() throws {
         let manager = FingerprintTimingManager()
-        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 20))
+        manager.testing.insert(mapping: Entry(playbackTime: 10, referenceTime: 20))
 
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 10)), 20, accuracy: 0.001)
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 15)), 25, accuracy: 0.001)
@@ -32,8 +32,8 @@ final class FingerprintTimingManagerTests: XCTestCase {
 
     func testReferenceTimeInterpolatesBetweenTwoEntries() throws {
         let manager = FingerprintTimingManager()
-        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 100))
-        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
+        manager.testing.insert(mapping: Entry(playbackTime: 0, referenceTime: 100))
+        manager.testing.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
 
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5)), 150, accuracy: 0.001)
     }
@@ -42,8 +42,8 @@ final class FingerprintTimingManagerTests: XCTestCase {
 
     func testPlaybackAndReferenceQueriesRoundTrip() throws {
         let manager = FingerprintTimingManager()
-        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
-        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 25))
+        manager.testing.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
+        manager.testing.insert(mapping: Entry(playbackTime: 10, referenceTime: 25))
 
         let refAtMid = try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5))
         XCTAssertEqual(refAtMid, 12.5, accuracy: 0.001)
@@ -58,10 +58,10 @@ final class FingerprintTimingManagerTests: XCTestCase {
         let manager = FingerprintTimingManager()
 
         // Insert in reverse-ish order; the manager should maintain sorted state internally.
-        manager.insert(mapping: Entry(playbackTime: 30, referenceTime: 300))
-        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
-        manager.insert(mapping: Entry(playbackTime: 20, referenceTime: 200))
-        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 100))
+        manager.testing.insert(mapping: Entry(playbackTime: 30, referenceTime: 300))
+        manager.testing.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
+        manager.testing.insert(mapping: Entry(playbackTime: 20, referenceTime: 200))
+        manager.testing.insert(mapping: Entry(playbackTime: 10, referenceTime: 100))
 
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5)), 50, accuracy: 0.001)
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 15)), 150, accuracy: 0.001)
@@ -75,9 +75,9 @@ final class FingerprintTimingManagerTests: XCTestCase {
 
         // Playback ascending, reference descending — a case where a single shared
         // array sorted only by playback would give the wrong result for reverse lookup.
-        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 300))
-        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
-        manager.insert(mapping: Entry(playbackTime: 20, referenceTime: 100))
+        manager.testing.insert(mapping: Entry(playbackTime: 0, referenceTime: 300))
+        manager.testing.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
+        manager.testing.insert(mapping: Entry(playbackTime: 20, referenceTime: 100))
 
         // Reference→playback sorted: [(20,100),(10,200),(0,300)]. Querying ref=150
         // sits halfway between the first two entries → playback = midpoint(20, 10) = 15.
@@ -147,7 +147,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
         // Seven sequential candidates (rate 1), well under the 5 s tolerance.
         let stream = (0..<7).map { i in Entry(playbackTime: Double(i) * 2, referenceTime: Double(i) * 2) }
 
-        manager.stubMatches(stream)
+        manager.testing.stubMatches(stream)
 
         // All seven should be committed in order, queryable across the range.
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 0)), 0, accuracy: 0.001)
@@ -167,7 +167,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
             Entry(playbackTime: 12, referenceTime: 12),
         ]
 
-        manager.stubMatches(stream)
+        manager.testing.stubMatches(stream)
 
         // The outlier at playback=6 should have been dropped, not interpolated.
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 4, accuracy: 0.001)
@@ -189,7 +189,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
             Entry(playbackTime: 10, referenceTime: 100),
         ]
 
-        manager.stubMatches(stream)
+        manager.testing.stubMatches(stream)
 
         // Pre-jump region intact.
         XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 4, accuracy: 0.001)
@@ -212,7 +212,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
             Entry(playbackTime: 12, referenceTime: 220),
         ]
 
-        manager.stubMatches(stream)
+        manager.testing.stubMatches(stream)
 
         // The three bootstrap entries are the only things in the mapping; none of
         // the noise lands. Had any of the noise been accepted, queries in that
@@ -234,7 +234,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
             Entry(playbackTime: 8, referenceTime: 404),  // now (4, 400) / (6, 402) / (8, 404) form a rate-1 trio
         ]
 
-        manager.stubMatches(stream)
+        manager.testing.stubMatches(stream)
 
         // The first two candidates (0→0, 2→2) must NOT be in the mapping — if
         // they had been committed, a query at playback=4 would be 3-ish
@@ -361,7 +361,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
         // mapping, cancel any pending resolve (a no-op here), and assert the
         // committed mapping is unchanged and still queryable.
         let manager = FingerprintTimingManager()
-        manager.stubMatches((0..<5).map { i in Entry(playbackTime: Double(i) * 2, referenceTime: Double(i) * 2) })
+        manager.testing.stubMatches((0..<5).map { i in Entry(playbackTime: Double(i) * 2, referenceTime: Double(i) * 2) })
 
         manager.cancelPendingChapterResolve()
 
