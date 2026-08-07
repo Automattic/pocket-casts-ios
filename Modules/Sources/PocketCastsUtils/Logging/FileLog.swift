@@ -1,4 +1,3 @@
-import Combine
 import Foundation
 import os
 
@@ -95,22 +94,19 @@ public final class FileLog {
         return await logBuffer.loadLogFileAsString()
     }
 
-    // Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload.
-    public func logFileForUpload() -> AnyPublisher<String, Error> {
+    /// Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload,
+    /// returning the path it was written to.
+    public func logFileForUpload() async throws -> String {
         let file = LogFilePaths.debugUploadLog
+        let contents = await logBuffer.loadLogFileAsString()
 
-        return Future { [unowned self] promise in
-            self.loadLogFileAsString { result in
-                do {
-                    try result.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                } catch {
-                    promise(.failure(LogError.logGenerationFailed))
-                }
-
-                promise(.success(file))
-            }
+        do {
+            try contents.write(toFile: file, atomically: true, encoding: .utf8)
+        } catch {
+            throw LogError.logGenerationFailed
         }
-        .eraseToAnyPublisher()
+
+        return file
     }
 }
 
