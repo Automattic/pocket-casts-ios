@@ -256,9 +256,6 @@ final class BookmarkListController {
                     .padding(.top, showsSearch ? 0 : BookmarksTabConstants.emptyRowTopPadding)
                     .environmentObject(listViewModel)
             }
-
-        case nil:
-            return UITableViewCell()
         }
     }
 
