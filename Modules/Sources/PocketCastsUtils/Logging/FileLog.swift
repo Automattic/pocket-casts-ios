@@ -165,7 +165,7 @@ final class LogBuffer: @unchecked Sendable {
     /// Writes the buffered entries to disk however few of them there are, and waits for that write to finish.
     func flush() async {
         await withCheckedContinuation { continuation in
-            flushQueue.async { [self] in
+            flushQueue.async(qos: .userInitiated) { [self] in
                 writeBufferedEntriesToDisk(isForced: true)
                 continuation.resume()
             }
@@ -174,7 +174,7 @@ final class LogBuffer: @unchecked Sendable {
 
     func loadLogFileAsString() async -> String {
         await withCheckedContinuation { continuation in
-            flushQueue.async { [self] in
+            flushQueue.async(qos: .userInitiated) { [self] in
                 writeBufferedEntriesToDisk(isForced: true)
                 continuation.resume(returning: readLogFiles())
             }
