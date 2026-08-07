@@ -276,11 +276,15 @@ struct MockData {
         let urls: [String] = ["https://pscrb.fm/rss/p/mgln.ai/e/294/cdn.twit.tv/video/twit/twit1086/twit1086_h264m_1920x1080.mp4", "https://download.ted.com/products/87704.mp4?apikey=172BB350-0009", "https://dtns.muffincdn.com/DTNS20260528.mp4"]
 
         for (index, uuid) in podcastsUuids.enumerated() {
-            var episode = DiscoverEpisode(uuid: episodesUuid[index], title: episodesTitle[index], duration: 600, url: urls[index], podcastUuid: uuid, podcastTitle: podcastsNames[index], type: nil, published: Date.now, season: 0, number: 0)
+            let episode = DiscoverEpisode(uuid: episodesUuid[index], title: episodesTitle[index], duration: 600, url: urls[index], podcastUuid: uuid, podcastTitle: podcastsNames[index], type: nil, published: Date.now, season: 0, number: 0)
 
             result.append(episode)
         }
 
         return result
+    }
+
+    static func makeStubBanner(_ type: BannerType) -> DiscoverItem {
+        return DiscoverItem(id: type.rawValue, type: "banner", summaryStyle: "inline_banner", regions: [])
     }
 }

@@ -37,16 +37,43 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
     }
 
-    public func discoverPage() async -> (DiscoverLayout?, Bool) {
-        var contentPath: String = "ios"
-        #if os(tvOS)
-            contentPath = "tv"
-        #endif
-        if FeatureFlag.recommendations.enabled {
-            contentPath.append("/content_v3.json")
-        } else {
-            contentPath.append("/content_v2.json")
+    public enum DiscoverType {
+        case discover
+        case search
+        case signedIn
+        case signedOut
+
+        var path: String {
+            var contentPath: String = "ios"
+            #if os(tvOS)
+                contentPath = "tv"
+            #endif
+
+            switch self {
+            case .discover:
+                if FeatureFlag.recommendations.enabled {
+                    contentPath.append("/content_v3.json")
+                } else {
+                    contentPath.append("/content_v2.json")
+                }
+            case .search:
+                contentPath.append("/content_v3_search.json")
+            case .signedIn:
+                contentPath.append("/content_v3_logged_in.json")
+            case .signedOut:
+                contentPath.append("/content_v3_logged_out.json")
+            }
+
+            return contentPath
         }
+    }
+
+    public func discoverPage(type: DiscoverType = .discover) async -> (DiscoverLayout?, Bool) {
+        let contentPath = type.path
+        return await discoverPage(path: contentPath)
+    }
+
+    private func discoverPage(path contentPath: String) async -> (DiscoverLayout?, Bool) {
         return await withCheckedContinuation { continuation in
             discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
                 continuation.resume(returning: (discoverItems, cachedResponse))
