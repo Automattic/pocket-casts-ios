@@ -24,6 +24,7 @@ class HomeViewModel {
     var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
+    var newVideoReleases: [EpisodeRowViewModel] = []
 
     /// True until playback first starts this session. Used to show the
     /// "Keep Listening" row on Home only before the user has played anything.
@@ -35,7 +36,9 @@ class HomeViewModel {
             let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
                 makeRowViewModel(for: episode)
             }
-
+            let newVideoReleases = dataManager.findNewVideoReleaseEpisodes(limit: 12).map { episode in
+                makeRowViewModel(for: episode)
+            }
             await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
                 upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
@@ -45,6 +48,8 @@ class HomeViewModel {
                     currentPlaying = makeRowViewModel(for: currentlyPlaying)
                 }
                 newReleases = newEpisodes
+                self.newVideoReleases = newVideoReleases
+                
                 state = .ready
             }
         }
