@@ -569,7 +569,7 @@ public struct DiscoverAlternateEnclosure: Decodable {
 
 extension DiscoverEpisode {
 
-    static let supportedVideoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL"])
+    static let supportedVideoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL"].map { $0.lowercased() })
 
     public var videoURL: String? {
 
