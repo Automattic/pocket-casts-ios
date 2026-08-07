@@ -553,20 +553,21 @@ public struct DiscoverEpisode: Decodable {
 }
 
 public struct DiscoverAlternateEnclosure: Decodable {
-    let type: String
-    let sources: [DiscoverEnclosureSource]
-}
+    public struct Source: Decodable {
+        let uri: String
+    }
 
-public struct DiscoverEnclosureSource: Decodable {
-    let uri: String
+    let type: String
+    let sources: [Source]
 }
 
 extension DiscoverEpisode {
 
-    public var videoURL: String? {
-        let videoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL"])
+    static let supportedVideoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL"])
 
-        if let url, let fileType, videoTypes.contains(fileType) {
+    public var videoURL: String? {
+
+        if let url, let fileType, Self.supportedVideoTypes.contains(fileType) {
             //if the default url is already a video use it
             return url
         }
@@ -576,7 +577,7 @@ extension DiscoverEpisode {
         }
 
         let videoEnclosures = alternateEnclosures.filter { enclosure in
-            videoTypes.contains(enclosure.type) && !enclosure.sources.isEmpty
+            Self.supportedVideoTypes.contains(enclosure.type.lowercased()) && !enclosure.sources.isEmpty
         }
 
         return videoEnclosures.first?.sources.first?.uri
