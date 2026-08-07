@@ -37,6 +37,7 @@ struct DiscoverVideoEpisodeCell: View {
         Button {
             trackEpisodeTapped()
             Task {
+                AnalyticsPlaybackHelper.shared.currentSource = AnalyticsSource(rawValue: source)
                 let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                 await MainActor.run {
                     if successPlay {
