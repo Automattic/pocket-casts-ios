@@ -184,9 +184,43 @@ final class BookmarkListController {
 
     /// The rows handle their own taps in SwiftUI, the selection is only there to highlight them
     func canSelectRow(at indexPath: IndexPath) -> Bool {
-        guard indexPath.section == Self.listSection, case .bookmark = rows[safe: indexPath.row] else { return false }
+        bookmark(at: indexPath) != nil
+    }
 
-        return true
+    private func bookmark(at indexPath: IndexPath) -> Bookmark? {
+        guard indexPath.section == Self.listSection, case .bookmark(let bookmark, _) = rows[safe: indexPath.row] else { return nil }
+
+        return bookmark
+    }
+
+    // MARK: - Swipe Actions
+
+    /// Only the bookmark rows swipe, and only outside of the multi selection
+    func canEditRow(at indexPath: IndexPath) -> Bool {
+        !viewModel.isMultiSelecting && bookmark(at: indexPath) != nil
+    }
+
+    /// The same actions the SwiftUI list swipes in, rendered by the table
+    func swipeActionsConfiguration(for edge: HorizontalEdge, at indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let bookmark = bookmark(at: indexPath) else { return nil }
+
+        let actions = makeBookmarkSwipeActions(for: bookmark, edge: edge, viewModel: viewModel, style: style).map { action in
+            let contextualAction = UIContextualAction(style: action.isDestructive ? .destructive : .normal, title: nil) { _, _, completion in
+                action.handler()
+                // The rows are reloaded by the view model, so the table shouldn't remove them itself
+                completion(false)
+            }
+            contextualAction.image = UIImage(named: action.imageName)
+            contextualAction.backgroundColor = UIColor(action.tint)
+            contextualAction.accessibilityLabel = action.title
+            return contextualAction
+        }
+
+        guard !actions.isEmpty else { return nil }
+
+        let configuration = UISwipeActionsConfiguration(actions: actions)
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 
     // MARK: - Cells
@@ -224,9 +258,6 @@ final class BookmarkListController {
                     .padding(.top, showsSearch ? 0 : BookmarksTabConstants.emptyRowTopPadding)
                     .environmentObject(listViewModel)
             }
-
-        case nil:
-            return UITableViewCell()
         }
     }
 

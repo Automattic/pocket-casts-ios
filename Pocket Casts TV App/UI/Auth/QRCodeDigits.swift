@@ -21,6 +21,7 @@ struct QRCodeDigits: View {
                 }
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(Text(digits.joined(separator: " ")))
+                .accessibilityAddTraits(.updatesFrequently)
             }
         }
     }

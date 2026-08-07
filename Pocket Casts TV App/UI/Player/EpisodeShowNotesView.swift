@@ -49,6 +49,7 @@ struct EpisodeShowNotesView: View {
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
             }
+            .accessibilityElement(children: .combine)
         }
     }
 

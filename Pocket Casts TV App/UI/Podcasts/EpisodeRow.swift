@@ -40,6 +40,7 @@ struct EpisodeRow: View {
                 PodcastImage(uuid: uuid, size: .list)
             } else {
                 Image(ImageResource.pcLogo)
+                   .accessibilityHidden(true)
             }
         }
     }
@@ -89,6 +90,12 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        "\(model.episode.displayableTitle()) \(model.episode.accessibilityDisplayableInfo()), \(model.displayDate)"
     }
 
     private var isInProgress: Bool {
@@ -196,6 +203,7 @@ struct EpisodeRowWithActions: View {
                 }
                 .buttonStyle(MoreButtonStyle())
                 .focused($focus, equals: .more(model.id))
+                .accessibilityLabel(L10n.accessibilityMoreActions)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
         }

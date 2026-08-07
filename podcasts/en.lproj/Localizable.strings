@@ -6445,6 +6445,9 @@
 /* tv Sign In manual login username text field placeholder */
 "tv_user_sign_in_username_placeholder" = "Username";
 
+/* tv Sign In manual login accessibility label announced while a username/password sign-in attempt is in progress */
+"tv_user_sign_in_signing_in" = "Signing In";
+
 /* tv search field placeholder prompt */
 "tv_search_prompt" = "Podcasts, shows, authors";
 
@@ -6627,4 +6630,7 @@
 
 /* tv create account login step - log in to your account */
 "tv_create_account_step_login" = "Log in to your account";
+
+/* tv home failed to load message */
+"tv_home_failed_to_load_title" = "Home failed to load";
 

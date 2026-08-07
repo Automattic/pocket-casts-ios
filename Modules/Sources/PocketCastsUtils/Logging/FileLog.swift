@@ -2,6 +2,23 @@ import Combine
 import Foundation
 import os
 
+/// The destinations a log message can be written to.
+public struct LogDestination: OptionSet, Sendable {
+    public let rawValue: Int
+
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+
+    /// The rotating log file, which is what gets uploaded with support requests.
+    public static let file = LogDestination(rawValue: 1 << 0)
+
+    /// The unified logging system, visible in Console and Xcode.
+    public static let console = LogDestination(rawValue: 1 << 1)
+
+    public static let all: LogDestination = [.file, .console]
+}
+
 actor LogBuffer {
     private let bufferThreshold: UInt
 
@@ -33,11 +50,14 @@ actor LogBuffer {
         private let maxFileSize = 1.megabytes
     #endif
 
-    func append(_ message: String, date: Date) {
-        // if it's important enough to log to file, write it to the debug console as well
-        logger?.log("\(message, privacy: .public)")
+    func append(_ message: String, date: Date, to destinations: LogDestination = .all) {
+        if destinations.contains(.console) {
+            logger?.log("\(message, privacy: .public)")
+        }
 
-        logBuffer.append(LogEntry(message, timestamp: date))
+        if destinations.contains(.file) {
+            logBuffer.append(LogEntry(message, timestamp: date))
+        }
     }
 
     func console(_ message: String) {
@@ -125,9 +145,14 @@ public final class FileLog {
         self.logBuffer = LogBuffer(logPersistence: logPersistence, logRotator: logRotator, bufferThreshold: bufferThreshold, loggingTo: logger)
     }
 
-    public func addMessage(_ message: String, date: Date = Date()) {
+    /// Writes the message to the given destinations.
+    ///
+    /// By default a message is written everywhere: if it's important enough to log to file,
+    /// it's worth having in the debug console as well. Pass `.file` to opt out of the console
+    /// copy when the caller already logs to the unified logging system itself.
+    public func addMessage(_ message: String, date: Date = Date(), to destinations: LogDestination = .all) {
         Task {
-            await logBuffer.append(message, date: date)
+            await logBuffer.append(message, date: date, to: destinations)
             publisher.send(message)
         }
     }
