@@ -144,6 +144,7 @@ struct DiscoverVideoEpisodeCell: View {
             }
             Spacer()
         }
+        .accessibilityElement(children: .combine)
     }
 
     var backgroundThumbnail: some View {

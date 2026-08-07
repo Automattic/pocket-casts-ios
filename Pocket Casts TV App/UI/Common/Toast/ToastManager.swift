@@ -23,6 +23,8 @@ class ToastManager {
             hostView.addSubview(toast)
             currentToast = toastVC
 
+            UIAccessibility.post(notification: .announcement, argument: message)
+
             NSLayoutConstraint.activate([
                 toast.trailingAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
                 toast.topAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.topAnchor, constant: -80),

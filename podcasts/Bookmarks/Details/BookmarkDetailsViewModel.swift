@@ -17,6 +17,15 @@ class BookmarkDetailsViewModel: ObservableObject {
 
     @Published private(set) var isLoadingPodcastTitle = false
 
+    /// The full episode transcript with the passage located in it, so the passage can be
+    /// shown in place. Fetched by `loadTranscript`; nil while loading or when the
+    /// transcript isn't available, leaving the passage to stand alone.
+    @Published private(set) var transcriptSnippet: BookmarkTranscriptSnippet?
+
+    /// Whether the transcript is still being fetched, so placeholders can stand in for
+    /// the text around the passage until it arrives
+    @Published private(set) var isLoadingTranscript = false
+
     let episode: BaseEpisode?
 
     /// Assigned by the hosting controller, which owns playback
@@ -28,11 +37,13 @@ class BookmarkDetailsViewModel: ObservableObject {
          passage: String?,
          episode: BaseEpisode?,
          podcastTitle: String?,
+         transcriptSnippet: BookmarkTranscriptSnippet? = nil,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager) {
         self.bookmark = bookmark
         self.passage = passage
         self.episode = episode
         self.podcastTitle = podcastTitle
+        self.transcriptSnippet = transcriptSnippet
         self.bookmarkManager = bookmarkManager
     }
 
@@ -50,11 +61,32 @@ class BookmarkDetailsViewModel: ObservableObject {
         }
     }
 
+    /// Fetches the episode transcript and locates the passage in it
+    func loadTranscript() async {
+        guard transcriptSnippet == nil, !isLoadingTranscript,
+              passage?.isEmpty == false, let episode else { return }
+
+        isLoadingTranscript = true
+        transcriptSnippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
+        isLoadingTranscript = false
+    }
+
     func refresh() {
         guard let bookmark = bookmarkManager.bookmark(for: bookmark.uuid) else { return }
 
         self.bookmark = bookmark
         self.passage = bookmark.passage
+        relocatePassage()
+    }
+
+    /// Points the already-loaded transcript at the passage as it stands after an edit
+    private func relocatePassage() {
+        guard let transcript = transcriptSnippet?.transcript else { return }
+
+        transcriptSnippet = passage.flatMap { passage in
+            BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: bookmark.passageLocation, in: transcript.attributedText)
+                .map { BookmarkTranscriptSnippet(transcript: transcript, range: $0) }
+        }
     }
 
     private func loadPodcastTitle() {

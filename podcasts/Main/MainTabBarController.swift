@@ -739,14 +739,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
-        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: .onboarding)
-        guard let presentedViewController else {
-            present(controller, animated: true)
-            return
-        }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
 
-        presentedViewController.dismiss(animated: true) {
-            self.present(controller, animated: true)
+            let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: .onboarding)
+            guard let presentedViewController = self.presentedViewController else {
+                self.present(controller, animated: true)
+                return
+            }
+
+            presentedViewController.dismiss(animated: true) {
+                self.present(controller, animated: true)
+            }
         }
     }
 
@@ -971,10 +975,12 @@ private extension MainTabBarController {
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
             .filter { !$0.isDuplicate && !Self.showsBookmarkEditSheet }
-            .compactMap { bookmarkManager.bookmark(for: $0.uuid) }
-            .sink { bookmark in
+            .compactMap { event in
+                bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
+            }
+            .sink { bookmark, source in
                 Task {
-                    await bookmarkManager.enrich(bookmark)
+                    await bookmarkManager.enrich(bookmark, source: source)
                 }
             }
             .store(in: &cancellables)
@@ -992,15 +998,15 @@ private extension MainTabBarController {
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
             }
             .compactMap { event in
-                bookmarkManager.bookmark(for: event.uuid)
+                bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
             }
-            .sink { [weak self] bookmark in
-                self?.showToast(for: bookmark)
+            .sink { [weak self] bookmark, source in
+                self?.showToast(for: bookmark, source: source)
             }
             .store(in: &cancellables)
     }
 
-    func showToast(for bookmark: Bookmark) {
+    func showToast(for bookmark: Bookmark, source: BookmarkAnalyticsSource) {
         let bookmarkManager = PlaybackManager.shared.bookmarkManager
 
         let title = bookmark.title
@@ -1011,13 +1017,11 @@ private extension MainTabBarController {
             let bookmark = bookmarkManager.bookmark(for: bookmark.uuid) ?? bookmark
             let title = bookmark.title
 
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, onDismiss: { [weak self] outcome in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, source: source, onDismiss: { [weak self] outcome in
                 guard case .saved(let updatedTitle) = outcome, title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
             })
-
-            controller.source = .headphones
 
             self?.presentFromRootController(controller)
         }

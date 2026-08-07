@@ -81,18 +81,18 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
     /// Where the passage sits vertically once scrolled to
     private let verticalAnchor: CGFloat = 0.5
 
-    func makeUIView(context: Context) -> SelectableTextView {
+    func makeUIView(context: Context) -> BookmarkTranscriptTextView {
         // TextKit 1: `scrollToRange` and the character index lookups work off `layoutManager`
-        let textView = SelectableTextView(usingTextLayoutManager: false)
-        textView.attributedText = styledText()
+        let textView = BookmarkTranscriptTextView(usingTextLayoutManager: false)
+        textView.attributedText = BookmarkTranscriptStyle.styledTranscript(transcript.attributedText, textColor: textColor)
         textView.isEditable = false
         textView.backgroundColor = .clear
         // The gutter on both sides is the text view's own inset rather than outside
         // padding, so the bookmark indicator can sit in the leading one, beside the text
         textView.textContainerInset = UIEdgeInsets(top: 0,
-                                                   left: SelectableTextView.gutterWidth,
+                                                   left: BookmarkTranscriptTextView.gutterWidth,
                                                    bottom: 0,
-                                                   right: SelectableTextView.gutterWidth)
+                                                   right: BookmarkTranscriptTextView.gutterWidth)
         textView.textContainer.lineFragmentPadding = 0
         textView.tintColor = selectionColor
         // Leaves room to scroll the text clear of the home indicator it runs under
@@ -123,7 +123,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         return textView
     }
 
-    func updateUIView(_ textView: SelectableTextView, context: Context) {
+    func updateUIView(_ textView: BookmarkTranscriptTextView, context: Context) {
         guard textView.selectedRange != selection else { return }
 
         textView.selectedRange = selection
@@ -131,83 +131,6 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator {
         Coordinator(selection: $selection)
-    }
-
-    private func styledText() -> NSAttributedString {
-        let text = NSMutableAttributedString(attributedString: transcript.attributedText)
-        let fullRange = NSRange(location: 0, length: text.length)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = BookmarkTranscriptStyle.lineHeight
-        paragraphStyle.maximumLineHeight = BookmarkTranscriptStyle.lineHeight
-        paragraphStyle.paragraphSpacing = 10
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.alignment = .natural
-
-        text.addAttributes([.paragraphStyle: paragraphStyle,
-                            .font: BookmarkTranscriptStyle.font,
-                            .baselineOffset: BookmarkTranscriptStyle.baselineOffset,
-                            .foregroundColor: textColor],
-                           range: fullRange)
-
-        text.enumerateAttribute(.transcriptSpeaker, in: fullRange, options: [.longestEffectiveRangeNotRequired]) { value, range, _ in
-            guard value != nil else { return }
-
-            text.addAttribute(.font, value: BookmarkTranscriptStyle.speakerFont, range: range)
-        }
-
-        return text
-    }
-
-    /// A text view that reports the first layout pass it can scroll and select in, and can
-    /// mark the line the bookmark sits on with a glyph in the leading gutter
-    class SelectableTextView: UITextView {
-        /// The gutter the text keeps on both sides, which the indicator sits inside of
-        static let gutterWidth: CGFloat = 28
-
-        var onFirstLayout: (() -> Void)?
-
-        private var bookmarkedCharacterIndex: Int?
-        private var bookmarkIndicator: UIImageView?
-
-        /// Marks the line holding `characterIndex` with a bookmark glyph in the leading gutter
-        func showBookmarkIndicator(at characterIndex: Int, color: UIColor) {
-            let configuration = UIImage.SymbolConfiguration(pointSize: BookmarkTranscriptStyle.fontSize, weight: .semibold)
-            let indicator = UIImageView(image: UIImage(systemName: "bookmark.fill", withConfiguration: configuration))
-            indicator.tintColor = color
-            indicator.sizeToFit()
-            addSubview(indicator)
-
-            bookmarkIndicator = indicator
-            bookmarkedCharacterIndex = characterIndex
-        }
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
-
-            layoutBookmarkIndicator()
-
-            guard window != nil, bounds.width > 0, let onFirstLayout else { return }
-
-            // Cleared first: the callback lays the text out again as it scrolls
-            self.onFirstLayout = nil
-            onFirstLayout()
-        }
-
-        /// Pins the indicator to the line fragment its character is laid out on, so it stays
-        /// with its line whatever width the text wraps to
-        private func layoutBookmarkIndicator() {
-            guard let bookmarkIndicator, let bookmarkedCharacterIndex, textStorage.length > 0 else { return }
-
-            let characterIndex = min(max(bookmarkedCharacterIndex, 0), textStorage.length - 1)
-            let glyphIndex = layoutManager.glyphIndexForCharacter(at: characterIndex)
-            let lineRect = layoutManager.lineFragmentRect(forGlyphAt: glyphIndex, effectiveRange: nil)
-
-            let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            let gutterCenter = Self.gutterWidth / 2
-            bookmarkIndicator.center = CGPoint(x: isRightToLeft ? bounds.width - gutterCenter : gutterCenter,
-                                               y: lineRect.midY + textContainerInset.top)
-        }
     }
 
     class Coordinator: NSObject, UITextViewDelegate {
@@ -218,6 +141,11 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         }
 
         func textViewDidChangeSelection(_ textView: UITextView) {
+            // Only the user's own selection counts: the responder machinery also moves the
+            // selection on its own — resigning during a pop, say — and a passage rewritten
+            // by those events would look like one the user picked
+            guard textView.isFirstResponder, textView.window != nil else { return }
+
             let range = textView.selectedRange
 
             if range.length == 0 {
@@ -237,35 +165,6 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
             nil
         }
-    }
-}
-
-// MARK: - Reference time lookup
-
-private extension TranscriptModel {
-    /// The character the given reference-timeline position lands on, interpolated within
-    /// its cue so a long cue that wraps over several lines still points at the right one
-    func characterIndex(at time: TimeInterval) -> Int? {
-        guard let cue = nearestCue(to: time) else { return nil }
-
-        let duration = cue.endTime - cue.startTime
-        let fraction = duration > 0 ? min(max((time - cue.startTime) / duration, 0), 1) : 0
-        let range = cue.characterRange
-        guard range.length > 0 else { return range.location }
-
-        return range.location + min(Int(fraction * Double(range.length)), range.length - 1)
-    }
-
-    /// The cue the time falls in, or the closest one when it lands in the silence between cues
-    private func nearestCue(to time: TimeInterval) -> TranscriptCue? {
-        firstCue(containing: time) ?? cues.min { $0.distance(to: time) < $1.distance(to: time) }
-    }
-}
-
-private extension TranscriptCue {
-    /// How far outside the cue's time span the given time falls; 0 within it
-    func distance(to time: TimeInterval) -> TimeInterval {
-        max(startTime - time, time - endTime, 0)
     }
 }
 
