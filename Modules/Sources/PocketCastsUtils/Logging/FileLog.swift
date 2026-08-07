@@ -46,7 +46,8 @@ public final class FileLog {
         )
     }()
 
-    private var logBuffer: LogBuffer
+    private let logBuffer: LogBuffer
+    private let logger: Logger?
     public let publisher = PassthroughSubject<String, Never>()
 
     init(
@@ -55,6 +56,7 @@ public final class FileLog {
         bufferThreshold: UInt = 100,
         loggingTo logger: Logger? = nil
     ) {
+        self.logger = logger
         self.logBuffer = LogBuffer(logPersistence: logPersistence, logRotator: logRotator, bufferThreshold: bufferThreshold, loggingTo: logger)
     }
 
@@ -64,21 +66,24 @@ public final class FileLog {
     /// it's worth having in the debug console as well. Pass `.file` to opt out of the console
     /// copy when the caller already logs to the unified logging system itself.
     public func addMessage(_ message: String, date: Date = Date(), to destinations: LogDestination = .all) {
-        Task {
-            await logBuffer.append(message, date: date, to: destinations)
-            publisher.send(message)
+        if destinations.contains(.console) {
+            logger?.log("\(message, privacy: .public)")
         }
+
+        if destinations.contains(.file) {
+            logBuffer.append(message, date: date)
+        }
+
+        publisher.send(message)
     }
 
     public func console(_ message: String) {
-        Task {
-            await logBuffer.console(message)
-        }
+        logger?.log("\(message, privacy: .public)")
     }
 
     public func forceFlush() {
         Task {
-            await logBuffer.forceFlush()
+            await logBuffer.flush()
         }
     }
 
@@ -112,23 +117,22 @@ public final class FileLog {
     }
 }
 
-
-actor LogBuffer {
+/// Buffers log entries in memory and writes them out in chunks once the buffer fills up.
+///
+/// Appending is synchronous and guarded by a lock rather than by an actor, so entries reach the
+/// file in the order they were logged. Only the write itself is dispatched onto `flushQueue`,
+/// which is serial, so flushes never overlap and a read always sees every preceding write.
+final class LogBuffer: @unchecked Sendable {
     private let bufferThreshold: UInt
 
-    private var logBuffer: [LogEntry] = [] {
-        didSet {
-            if logBuffer.count >= bufferThreshold {
-                writeLogBufferToDisk()
-            }
-        }
-    }
+    private let lock = NSLock()
+    private var entries: [LogEntry] = []
+
+    private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue", qos: .utility)
 
     private let logPersistence: PersistentTextWriting
     private let logRotator: FileRotating
     private let logger: Logger?
-
-    typealias LogDestination = FileLog.LogDestination
 
     init(logPersistence: PersistentTextWriting,
          logRotator: FileRotating,
@@ -146,44 +150,60 @@ actor LogBuffer {
         private let maxFileSize = 1.megabytes
     #endif
 
-    func append(_ message: String, date: Date, to destinations: LogDestination = .all) {
-        if destinations.contains(.console) {
-            logger?.log("\(message, privacy: .public)")
-        }
+    func append(_ message: String, date: Date) {
+        lock.lock()
+        entries.append(LogEntry(message, timestamp: date))
+        let hasReachedThreshold = entries.count >= bufferThreshold
+        lock.unlock()
 
-        if destinations.contains(.file) {
-            logBuffer.append(LogEntry(message, timestamp: date))
+        guard hasReachedThreshold else { return }
+
+        flushQueue.async { [self] in
+            writeBufferedEntriesToDisk()
         }
     }
 
-    func console(_ message: String) {
-        logger?.log("\(message, privacy: .public)")
+    /// Writes the buffered entries to disk however few of them there are, and waits for that write to finish.
+    func flush() async {
+        await withCheckedContinuation { continuation in
+            flushQueue.async { [self] in
+                writeBufferedEntriesToDisk(isForced: true)
+                continuation.resume()
+            }
+        }
     }
 
-    private func writeLogBufferToDisk() {
-        let newLogChunk = logBuffer.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending }).reduce(into: "") { resultChunk, logEntry in
+    func loadLogFileAsString() async -> String {
+        await withCheckedContinuation { continuation in
+            flushQueue.async { [self] in
+                writeBufferedEntriesToDisk(isForced: true)
+                continuation.resume(returning: readLogFiles())
+            }
+        }
+    }
+
+    /// Drains the buffer and appends its contents to the log file. Always called on `flushQueue`.
+    private func writeBufferedEntriesToDisk(isForced: Bool = false) {
+        lock.lock()
+        let bufferedEntries = entries
+        entries.removeAll(keepingCapacity: true)
+        lock.unlock()
+
+        guard !bufferedEntries.isEmpty else { return }
+
+        if isForced {
+            logger?.debug("\(Self.self) forcibly flushing to disk.")
+        }
+
+        let newLogChunk = bufferedEntries.reduce(into: "") { resultChunk, logEntry in
             resultChunk.append("\(logEntry.formattedForLog)\n")
         }
 
-        logBuffer.removeAll(keepingCapacity: true)
-        appendStringToLog(newLogChunk)
-    }
-
-    private func appendStringToLog(_ logUpdate: String) {
         logRotator.rotateFile(ifSizeExceeds: maxFileSize)
-        logPersistence.write(logUpdate)
+        logPersistence.write(newLogChunk)
     }
 
-    public func forceFlush() {
-        guard !logBuffer.isEmpty else { return }
-
-        logger?.debug("\(Self.self) forcibly flushing to disk.")
-        writeLogBufferToDisk()
-    }
-
-    public func loadLogFileAsString() -> String {
-        forceFlush()
-
+    private func readLogFiles() -> String {
         let mainFileContents: String
         do {
             mainFileContents = try String(contentsOfFile: LogFilePaths.mainLogFilePath)
