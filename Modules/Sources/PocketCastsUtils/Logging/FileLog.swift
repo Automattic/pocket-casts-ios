@@ -48,7 +48,6 @@ public final class FileLog {
 
     private let logBuffer: LogBuffer
     private let logger: Logger?
-    public let publisher = PassthroughSubject<String, Never>()
 
     init(
         logPersistence: PersistentTextWriting,
@@ -73,8 +72,6 @@ public final class FileLog {
         if destinations.contains(.file) {
             logBuffer.append(message, date: date)
         }
-
-        publisher.send(message)
     }
 
     public func console(_ message: String) {
