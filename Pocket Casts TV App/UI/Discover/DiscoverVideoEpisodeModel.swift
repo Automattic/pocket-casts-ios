@@ -51,7 +51,7 @@ class DiscoverVideoEpisodeModel {
     }
 
     func load() async {
-        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+        guard let urlString = episode.videoURL, let videoUrl = URL(string: urlString) else {
             return
         }
 
@@ -101,7 +101,7 @@ class DiscoverVideoEpisodeModel {
     private var isFadePausing: Bool { fadeTimer != nil }
 
     private func setupPlayer() {
-        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+        guard let urlString = episode.videoURL, let videoUrl = URL(string: urlString) else {
             return
         }
         player = AVPlayer(url: videoUrl)

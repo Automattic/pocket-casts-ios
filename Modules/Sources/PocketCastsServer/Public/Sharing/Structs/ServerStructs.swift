@@ -514,6 +514,8 @@ public struct DiscoverEpisode: Decodable {
 
         case podcastUuid = "podcast_uuid"
         case podcastTitle = "podcast_title"
+        case alternateEnclosures = "alternate_enclosures"
+        case fileType = "file_type"
     }
 
     public let title: String?
@@ -523,16 +525,18 @@ public struct DiscoverEpisode: Decodable {
     public let podcastUuid: String?
     public let podcastTitle: String?
     public let type: String?
+    public let fileType: String?
     public let published: Date?
     public let season: Int?
     public let number: Int?
+    public let alternateEnclosures: [DiscoverAlternateEnclosure]?
 
     public var isTrailer: Bool {
         guard let type else { return false }
         return type == "trailer"
     }
 
-    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil) {
+    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil, fileType: String? = nil, alternateEnclosures: [DiscoverAlternateEnclosure]? = nil) {
         self.uuid = uuid
         self.title = title
         self.duration = duration
@@ -543,5 +547,38 @@ public struct DiscoverEpisode: Decodable {
         self.published = published
         self.season = season
         self.number = number
+        self.fileType = fileType
+        self.alternateEnclosures = alternateEnclosures
+    }
+}
+
+public struct DiscoverAlternateEnclosure: Decodable {
+    let type: String
+    let sources: [DiscoverEnclosureSource]
+}
+
+public struct DiscoverEnclosureSource: Decodable {
+    let uri: String
+}
+
+extension DiscoverEpisode {
+
+    public var videoURL: String? {
+        let videoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL"])
+
+        if let url, let fileType, videoTypes.contains(fileType) {
+            //if the default url is already a video use it
+            return url
+        }
+
+        guard let alternateEnclosures else {
+            return url
+        }
+
+        let videoEnclosures = alternateEnclosures.filter { enclosure in
+            videoTypes.contains(enclosure.type) && !enclosure.sources.isEmpty
+        }
+
+        return videoEnclosures.first?.sources.first?.uri
     }
 }
