@@ -67,6 +67,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     /// Whether the Liquid Glass bottom fade / spacing is active.
     private var isBottomFadeEnabled = false
 
+    /// Padding kept below the grid's last row under Liquid Glass, on top of the bottom safe
+    /// area, so the row still clears the floating tab bar after it expands back out.
+    private static let bottomContentPadding: CGFloat = 16
+
     private var homeGridDataHelper = HomeGridDataHelper()
 
     private lazy var refreshQueue: OperationQueue = {
@@ -107,7 +111,12 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         updateCustomBottomFade()
 
         adjustSettingsForGridType()
-        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
+        if !LiquidGlass.isEnabled {
+            // Under Liquid Glass the mini player is a tab accessory covered by the safe area,
+            // so the adjuster only ever zeroes the bottom inset back out from under
+            // `updateInsets`.
+            insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -310,7 +319,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     private func updateInsets() {
         let currentInsets = podcastsCollectionView.contentInset
-        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: currentInsets.bottom, right: horizontalMargin)
+        let bottom = LiquidGlass.isEnabled ? Self.bottomContentPadding : currentInsets.bottom
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: bottom, right: horizontalMargin)
     }
 
     private func adjustSettingsForGridType() {
