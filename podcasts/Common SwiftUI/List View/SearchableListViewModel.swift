@@ -9,7 +9,7 @@ protocol SearchableDataModel: Identifiable {
 }
 
 /// A generic list view model that allows the user to filter the items using the given `searchText`.
-class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewModel<Model> {
+class SearchableListViewModel<Model: SearchableDataModel>: ListViewModel<Model> {
     @Published var searchText: String = ""
     @Published private(set) var isSearching: Bool = false
 

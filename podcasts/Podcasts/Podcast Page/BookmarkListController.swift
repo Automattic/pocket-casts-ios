@@ -114,9 +114,11 @@ final class BookmarkListController {
             }
             .store(in: &cancellables)
 
-        Publishers.CombineLatest(viewModel.$isMultiSelecting, viewModel.$numberOfSelectedItems)
+        Publishers.Merge3(viewModel.$isMultiSelecting.map { _ in },
+                          viewModel.$selectedIDs.map { _ in },
+                          viewModel.$items.map { _ in })
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] in
                 self?.updateActionBar()
             }
             .store(in: &cancellables)
@@ -276,14 +278,15 @@ final class BookmarkListController {
         delegate?.bookmarkListControllerDidChangeMultiSelection(self)
 
         // Without any selected items there's nothing to act on
-        guard viewModel.isMultiSelecting, viewModel.numberOfSelectedItems > 0 else {
+        let selectedCount = viewModel.selectedItems.count
+        guard viewModel.isMultiSelecting, selectedCount > 0 else {
             removeActionBar()
             return
         }
 
         let actions: [ActionBarView<ThemedActionBarStyle>.Action] = makeBookmarkActions(viewModel: viewModel)
         actionBar()?.rootView = AnyView(
-            ActionBarView(title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems), style: ThemedActionBarStyle(), actions: actions)
+            ActionBarView(title: L10n.selectedCountFormat(selectedCount), style: ThemedActionBarStyle(), actions: actions)
                 .padding(.bottom) // match internal spacing
         )
     }

@@ -3,8 +3,9 @@ import SwiftUI
 
 /// The actions of the bookmarks multi select action bar. What's offered depends on the selection.
 @MainActor func makeBookmarkActions<Style: ActionBarStyle>(viewModel: BookmarkListViewModel) -> [ActionBarView<Style>.Action] {
-    let isSingleSelection = viewModel.numberOfSelectedItems == 1
-    let canShare = isSingleSelection && viewModel.selectedItems.first?.episode is Episode
+    let selected = viewModel.selectedItems
+    let isSingleSelection = selected.count == 1
+    let canShare = isSingleSelection && selected.first?.episode is Episode
 
     return [
         .init(imageName: "podcast-share", title: L10n.share, visible: canShare) { viewModel.shareSelectedBookmarks() },

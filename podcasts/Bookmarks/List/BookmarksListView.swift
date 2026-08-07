@@ -34,7 +34,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     }
 
     private var actionBarVisible: Bool {
-        viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
+        viewModel.isMultiSelecting && !viewModel.selectedItems.isEmpty
     }
 
     var body: some View {
@@ -86,7 +86,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     if actionBarVisible {
                         ActionBarView(
-                            title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems),
+                            title: L10n.selectedCountFormat(viewModel.selectedItems.count),
                             style: style.actionBarStyle,
                             actions: bookmarkActions
                         )
@@ -98,7 +98,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         } else {
             // `ActionBarOverlayView` is used on iOS 18 and earlier only.
             ActionBarOverlayView(actionBarVisible: actionBarVisible,
-                                 title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems),
+                                 title: L10n.selectedCountFormat(viewModel.selectedItems.count),
                                  style: style.actionBarStyle,
                                  content: { scrollView },
                                  actions: bookmarkActions,
