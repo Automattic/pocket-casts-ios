@@ -5,10 +5,14 @@ struct PocketCastsAppShortcutsProvider: AppShortcutsProvider {
         AppShortcut(
             intent: SetSleepTimerIntent(),
             phrases: [
-                "Set sleep timer in \(.applicationName)",
+                "\(.applicationName): Set sleep timer",
                 "Start sleep timer in \(.applicationName)",
             ],
-            shortTitle: "Set sleep timer",
+            shortTitle: LocalizedStringResource(
+                "siri_shortcut_set_sleep_timer_title",
+                defaultValue: "Set sleep timer",
+                table: "AppIntents"
+            ),
             systemImageName: "moon.zzz.fill"
         )
     }

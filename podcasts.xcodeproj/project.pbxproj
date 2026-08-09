@@ -27,6 +27,8 @@
 		A13200320100000000000001 /* SetSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000003 /* SetSleepTimerIntent.swift */; };
 		A13200320100000000000002 /* MigratedSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000004 /* MigratedSleepTimerIntent.swift */; };
 		A13200320100000000000005 /* PocketCastsAppShortcutsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13200320100000000000006 /* PocketCastsAppShortcutsProvider.swift */; };
+		A13200320300000000000001 /* AppIntents.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A13200320300000000000003 /* AppIntents.xcstrings */; };
+		A13200320300000000000002 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A13200320300000000000004 /* AppShortcuts.xcstrings */; };
 		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
 		0C52E9EA2FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */; };
 		0C52E9EC2FFD8DAD00C2B9D1 /* TroubleshootingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */; };
@@ -1628,6 +1630,8 @@
 		A13200320100000000000003 /* SetSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSleepTimerIntent.swift; sourceTree = "<group>"; };
 		A13200320100000000000004 /* MigratedSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigratedSleepTimerIntent.swift; sourceTree = "<group>"; };
 		A13200320100000000000006 /* PocketCastsAppShortcutsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsAppShortcutsProvider.swift; sourceTree = "<group>"; };
+		A13200320300000000000003 /* AppIntents.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppIntents.xcstrings; sourceTree = "<group>"; };
+		A13200320300000000000004 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerLongPressPreviewViewController.swift; sourceTree = "<group>"; };
 		0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewModel.swift; sourceTree = "<group>"; };
 		0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingView.swift; sourceTree = "<group>"; };
@@ -3474,6 +3478,8 @@
 				463538A626E16CD100BA9D35 /* Strings+L10n.swift */,
 				461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */,
 				460C375526D831E3008B3609 /* Localizable.strings */,
+				A13200320300000000000003 /* AppIntents.xcstrings */,
+				A13200320300000000000004 /* AppShortcuts.xcstrings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -6681,6 +6687,8 @@
 				40888F0F2563792300887D9A /* AppIcon-Round-Pink76x76~ipad.png in Resources */,
 				BDF0507D1FBA65ED00194D68 /* ListeningHistoryViewController.xib in Resources */,
 				460C375326D831E3008B3609 /* Localizable.strings in Resources */,
+				A13200320300000000000001 /* AppIntents.xcstrings in Resources */,
+				A13200320300000000000002 /* AppShortcuts.xcstrings in Resources */,
 				BDFB53CC2362B9080001806E /* UpNextViewController.xib in Resources */,
 				BD12927D22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@2x~ipad.png in Resources */,
 				8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */,

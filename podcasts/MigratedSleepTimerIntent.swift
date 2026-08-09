@@ -3,8 +3,18 @@ import AppIntents
 struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppIntent {
     static let intentClassName = "SJSleepTimerIntent"
 
-    static var title: LocalizedStringResource = "Set sleep timer"
-    static var description = IntentDescription("Sets the Pocket Casts sleep timer.")
+    static var title = LocalizedStringResource(
+        "siri_shortcut_set_sleep_timer_title",
+        defaultValue: "Set sleep timer",
+        table: "AppIntents"
+    )
+    static var description = IntentDescription(
+        LocalizedStringResource(
+            "CXbd65",
+            defaultValue: "Set Sleep Timer",
+            table: "Intents"
+        )
+    )
     static var isDiscoverable = false
     static var authenticationPolicy: IntentAuthenticationPolicy { .alwaysAllowed }
     static var openAppWhenRun: Bool { false }
@@ -12,11 +22,17 @@ struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppInt
     @available(iOS 26.0, *)
     static var supportedModes: IntentModes { [.background] }
 
-    @Parameter(title: "Minutes")
+    @Parameter(
+        title: LocalizedStringResource(
+            "siri_shortcut_migrated_sleep_timer_minutes_title",
+            defaultValue: "Minutes",
+            table: "AppIntents"
+        )
+    )
     var minutes: Int?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Set sleep timer for \(\.$minutes) minutes")
+        Summary("Set sleep timer", table: "AppIntents")
     }
 
     @MainActor
