@@ -18,6 +18,11 @@ APP_STORE_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots')
 APP_STORE_TVOS_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots-tvos')
 APP_STORE_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStrings.po')
 APP_STORE_TVOS_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStringsTVOS.po')
+# https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
+APP_STORE_DESCRIPTION_MAX_SIZE = 4000
+# Budget for the English source. Translations run longer than English, and `gp_downloadmetadata` writes
+# nothing for a locale whose translation is over the maximum — leaving it with no description at all.
+APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE = 3400
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
@@ -1426,11 +1431,31 @@ platform :ios do
   # @param po_file_path [String] Path to the GlotPress source `.po` file to update
   #
   def update_app_store_strings_source(metadata_folder:, po_file_path:)
+    lint_app_store_description_length(metadata_folder: metadata_folder)
+
     gp_update_metadata_source(
       po_file_path: po_file_path,
       source_files: app_store_metadata_source_files(metadata_folder: metadata_folder),
       release_version: release_version_current,
       commit_changes: true
+    )
+  end
+
+  # Checks the English App Store description against the App Store Connect maximum and the source budget.
+  #
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  #
+  def lint_app_store_description_length(metadata_folder:)
+    path = File.join(metadata_folder, 'default', 'description.txt')
+    length = File.read(path).length
+
+    UI.user_error!("#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_MAX_SIZE} App Store Connect accepts.") if length > APP_STORE_DESCRIPTION_MAX_SIZE
+
+    return if length <= APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE
+
+    UI.important(
+      "#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE} budget that leaves translations room to expand. " \
+      "Locales translating past #{APP_STORE_DESCRIPTION_MAX_SIZE} will ship with no description at all."
     )
   end
 
@@ -1448,7 +1473,7 @@ platform :ios do
       },
       app_store_desc: {
         path: File.join(source_metadata_folder, 'description.txt'),
-        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
+        comment: "translators: Multi-paragraph text used to display in the Apple App Store. Limit to #{APP_STORE_DESCRIPTION_MAX_SIZE} characters including spaces!"
       },
       app_store_keywords: {
         path: File.join(source_metadata_folder, 'keywords.txt'),
@@ -1466,7 +1491,7 @@ platform :ios do
         max_size: 4000
       },
       app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
-      app_store_desc: { desc: 'description.txt', max_size: 4000 },
+      app_store_desc: { desc: 'description.txt', max_size: APP_STORE_DESCRIPTION_MAX_SIZE },
       app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
     }
   end
