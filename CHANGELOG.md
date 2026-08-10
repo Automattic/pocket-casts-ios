@@ -8,6 +8,7 @@
 - Fix the podcast screen tabs being clipped when scrolled [#4918](https://github.com/Automattic/pocket-casts-ios/pull/4918)
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
 - [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
+- Fix playback controls stalling the app when another app is holding audio, by moving all audio session work off the main thread [#4934](https://github.com/Automattic/pocket-casts-ios/pull/4934)
 
 8.18
 -----
