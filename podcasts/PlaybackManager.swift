@@ -44,7 +44,15 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var wasPlayingBeforeInterruption = false
     private let aboutToPlay = AtomicBool()
 
-    private let shouldDeactivateSession = AtomicBool()
+    /// Every `AVAudioSession` call is made on this queue. They're synchronous IPC round trips to
+    /// `mediaserverd` that can block for seconds while another app is holding audio, so they can't
+    /// run on the main thread. Serial, so an activation can't be undone by a deactivation that was
+    /// requested before it.
+    private let audioSessionQueue = DispatchQueue(label: "au.com.pocketcasts.audio-session", qos: .userInitiated)
+
+    /// The delayed deactivation waiting to run, if any. Confined to `audioSessionQueue`.
+    private var pendingDeactivation: DispatchWorkItem?
+
     private var haveCalledPlayerLoad = false
 
     /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
@@ -986,28 +994,27 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackEnded)
     }
 
-    private var deactivateTimedActionHelper = TimedActionHelper()
     private func deactiveAudioSession(waitBeforeDeactivating: Bool = true) {
-        if !waitBeforeDeactivating {
-            performDeactivate(audioSession: AVAudioSession.sharedInstance())
-            return
-        }
+        audioSessionQueue.async { [self] in
+            pendingDeactivation?.cancel()
 
-        shouldDeactivateSession.value = true
-        // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
-        deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
-            guard let self else { return }
+            guard waitBeforeDeactivating else {
+                performDeactivate()
+                return
+            }
 
-            let audioSession = AVAudioSession.sharedInstance()
-            if !self.shouldDeactivateSession.value { return }
-            self.shouldDeactivateSession.value = false
-            self.performDeactivate(audioSession: audioSession)
+            // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
+            let deactivation = DispatchWorkItem { [self] in
+                performDeactivate()
+            }
+            pendingDeactivation = deactivation
+            audioSessionQueue.asyncAfter(deadline: .now() + 3.seconds, execute: deactivation)
         }
     }
 
-    private func performDeactivate(audioSession: AVAudioSession) {
+    private func performDeactivate() {
         do {
-            try audioSession.setActive(false)
+            try AVAudioSession.sharedInstance().setActive(false)
             FileLog.shared.addMessage("deactiveAudioSession succeeded")
         } catch {
             FileLog.shared.addMessage("deactiveAudioSession failed")
@@ -1663,64 +1670,61 @@ class PlaybackManager: ServerPlaybackDelegate {
         player = nil
     }
 
-    func activateAudioSession(completion: ((Bool) -> Void)?) {
-        #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-                completion?(true)
-                return
-            }
-        #endif
-
-        shouldDeactivateSession.value = false
-
-        #if os(watchOS)
-            do {
-                try setAudioSessionProperties()
-                AVAudioSession.sharedInstance().activate(options: []) { activated, _ in
-                    completion?(activated)
-                }
-            } catch {
-                FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
-                completion?(false)
-            }
-        #else
-        if FeatureFlag.activateAudioSessionInBackground.enabled {
-            // Perform audio session activation on a background queue to avoid blocking the main thread
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self else {
-                    completion?(false)
-                    return
-                }
-                self.activateSession(completion: completion)
-            }
-        } else {
-            self.activateSession(completion: completion)
+    /// Activates the audio session, calling `completion` on the main queue once it has.
+    func activateAudioSession(completion: (@MainActor (Bool) -> Void)?) {
+        let completeOnMain: (Bool) -> Void = { activated in
+            DispatchQueue.main.async { completion?(activated) }
         }
-        #endif
+
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
+        if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+            completeOnMain(true)
+            return
+        }
+#endif
+
+        audioSessionQueue.async { [self] in
+            pendingDeactivation?.cancel()
+            activateSession(completion: completeOnMain)
+        }
     }
 
+    /// Configures the audio session and activates it, reporting back whether it's now active.
+    ///
+    /// Must run on `audioSessionQueue`. `setCategory` and `setActive` are synchronous IPC round trips
+    /// to `mediaserverd`, and while another app is holding audio they block until it hands the session
+    /// over, which can take seconds. On the main thread that stalls the UI, and it stalls the remote
+    /// command handlers too, which `MPRemoteCommandCenter` only gives us a few seconds to return from.
     private func activateSession(completion: ((Bool) -> Void)?) {
+#if DEBUG
+        dispatchPrecondition(condition: .onQueue(audioSessionQueue))
+#endif
         do {
-            try self.setAudioSessionProperties()
-            try AVAudioSession.sharedInstance().setActive(true)
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
+
+#if os(watchOS)
+            // watchOS has no synchronous equivalent: activation can put a route picker in front of the user,
+            // so it answers asynchronously and fails if they dismiss it without picking an output.
+            audioSession.activate(options: []) { activated, error in
+                FileLog.shared.addMessage("activating audio session \(activated ? "succeeded" : "failed \(error?.localizedDescription ?? "")")")
+                completion?(activated)
+            }
+#else
+            try audioSession.setActive(true)
             FileLog.shared.addMessage("activating audio session succeeded")
             completion?(true)
+#endif
         } catch {
             FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
             completion?(false)
         }
     }
 
-    private func setAudioSessionProperties() throws {
-        let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
-    }
-
     private func setAudioSessionVideoProperties() {
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setMode(AVAudioSession.Mode.moviePlayback)
-        } catch {}
+        audioSessionQueue.async {
+            try? AVAudioSession.sharedInstance().setMode(.moviePlayback)
+        }
     }
 
     private func loadEffects() -> PlaybackEffects {
