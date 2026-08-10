@@ -6460,6 +6460,12 @@
 /* tv search error label. '%1$@' is a placeholder for a localized error description. */
 "tv_search_failed" = "Search failed: %1$@";
 
+/* tv search scope title for the default tab that blends podcasts and episodes */
+"tv_search_scope_top_results" = "Top Results";
+
+/* tv search section title for the row of video episodes matching the query */
+"tv_search_featured_section_title" = "Featured";
+
 /* info message when authorization is pending on server */
 "server_error_login_auth_pending" = "Authorization pending";
 

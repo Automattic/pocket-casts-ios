@@ -430,7 +430,7 @@ extension EpisodeSearchResult {
         let podcastTitle = episode.parentPodcast(dataManager: dataManager)?.title ?? ""
         let state: EpisodeSearchResult.State = episode.wasDeleted ? .unavailable : episode.archived ? .archived : .normal
 
-        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, state: state, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle)
+        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, state: state, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle, hasVideo: episode.videoPodcast())
     }
 
     init(listEpisode: ListEpisode, dataManager: DataManager = DataManager.sharedManager) {
