@@ -559,6 +559,10 @@ public class DataManager {
         episodeManager.findNewReleaseEpisodes(limit: limit, dbQueue: dbQueue)
     }
 
+    public func findNewVideoReleaseEpisodes(limit: Int) -> [Episode] {
+        episodeManager.findNewVideoReleaseEpisodes(limit: limit, dbQueue: dbQueue)
+    }
+
     public func unsyncedEpisodes(limit: Int) -> [Episode] {
         episodeManager.unsyncedEpisodes(limit: limit, dbQueue: dbQueue)
     }
