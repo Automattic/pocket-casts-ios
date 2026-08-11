@@ -1690,11 +1690,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #else
             // Perform audio session activation on a background queue to avoid blocking the main thread
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self else {
-                    completeOnMain(false)
-                    return
-                }
+            DispatchQueue.global(qos: .userInitiated).async {
                 self.activateSession(completion: completeOnMain)
             }
         #endif
