@@ -1663,10 +1663,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         player = nil
     }
 
-    func activateAudioSession(completion: ((Bool) -> Void)?) {
+    /// Activates the audio session, calling `completion` on the main queue once it has.
+    func activateAudioSession(completion: (@MainActor (Bool) -> Void)?) {
+        let completeOnMain: (Bool) -> Void = { activated in
+            DispatchQueue.main.async { completion?(activated) }
+        }
+
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-                completion?(true)
+                completeOnMain(true)
                 return
             }
         #endif
@@ -1677,24 +1682,24 @@ class PlaybackManager: ServerPlaybackDelegate {
             do {
                 try setAudioSessionProperties()
                 AVAudioSession.sharedInstance().activate(options: []) { activated, _ in
-                    completion?(activated)
+                    completeOnMain(activated)
                 }
             } catch {
                 FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
-                completion?(false)
+                completeOnMain(false)
             }
         #else
         if FeatureFlag.activateAudioSessionInBackground.enabled {
             // Perform audio session activation on a background queue to avoid blocking the main thread
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self else {
-                    completion?(false)
+                    completeOnMain(false)
                     return
                 }
-                self.activateSession(completion: completion)
+                self.activateSession(completion: completeOnMain)
             }
         } else {
-            self.activateSession(completion: completion)
+            self.activateSession(completion: completeOnMain)
         }
         #endif
     }
