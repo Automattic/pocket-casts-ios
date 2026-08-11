@@ -4,12 +4,12 @@ extension Episode {
     /// MIME type we advertise for HLS streams we send elsewhere, e.g. to Google Cast.
     public static let advertisedHLSMimeType = "application/x-mpegURL"
 
-    /// HLS content types we accept and play as video.
+    /// HLS content types we accept and play as video. Stored lowercased, so lookups must lowercase their input too.
     public static let hlsEnclosureTypes = Set([
         "application/x-mpegurl",
         "application/mpegurl",
         "application/vnd.apple.mpegurl"
-    ])
+    ].map { $0.lowercased() })
 
     /// Whether an `alternate_enclosures` type string advertises an HLS stream.
     public static func isHLSEnclosureType(_ type: String?) -> Bool {
