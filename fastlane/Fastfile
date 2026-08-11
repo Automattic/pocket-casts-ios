@@ -18,11 +18,6 @@ APP_STORE_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots')
 APP_STORE_TVOS_SCREENSHOTS_FOLDER = File.join(FASTLANE_FOLDER, 'screenshots-tvos')
 APP_STORE_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStrings.po')
 APP_STORE_TVOS_STRINGS_PO_PATH = File.join(FASTLANE_FOLDER, 'AppStoreStringsTVOS.po')
-# https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
-APP_STORE_DESCRIPTION_MAX_SIZE = 4000
-# Budget for the English source. Translations run longer than English, and `gp_downloadmetadata` writes
-# nothing for a locale whose translation is over the maximum — leaving it with no description at all.
-APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE = 3400
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
@@ -1447,16 +1442,19 @@ platform :ios do
   #
   def lint_app_store_description_length(metadata_folder:)
     path = File.join(metadata_folder, 'default', 'description.txt')
+    UI.user_error!("Could not find the App Store description at #{path}.") unless File.exist?(path)
+
     length = File.read(path, mode: 'r:UTF-8').length
 
-    UI.user_error!("#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_MAX_SIZE} App Store Connect accepts.") if length > APP_STORE_DESCRIPTION_MAX_SIZE
-
-    return if length <= APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE
-
-    UI.important(
-      "#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE} budget that leaves translations room to expand. " \
-      "Locales translating past #{APP_STORE_DESCRIPTION_MAX_SIZE} will ship with no description at all."
-    )
+    case app_store_description_length_verdict(length)
+    when :over_max
+      UI.user_error!("#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_MAX_SIZE} App Store Connect accepts.")
+    when :over_budget
+      UI.important(
+        "#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE} budget that leaves translations room to expand. " \
+        "Locales translating past #{APP_STORE_DESCRIPTION_MAX_SIZE} will ship with no description at all."
+      )
+    end
   end
 
   # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
