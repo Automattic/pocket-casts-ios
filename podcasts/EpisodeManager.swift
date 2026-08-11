@@ -17,14 +17,10 @@ struct PlaybackSource: Equatable {
         case hls
     }
 
-    struct Options: Equatable {
+    struct Options {
         /// Ignore any local copy and resolve the remote source. Used when casting, and when the user
         /// chooses to watch a downloaded episode's video.
         var preferStreaming = false
-
-        init(preferStreaming: Bool = false) {
-            self.preferStreaming = preferStreaming
-        }
     }
 
     let url: URL
@@ -55,7 +51,7 @@ extension PlaybackSource.Kind {
     /// The highest rate the source can sustain, or `nil` when it isn't capped. HLS can't reliably keep up
     /// past 2x, and the time-domain pitch algorithm degrades past it too.
     var maximumPlaybackSpeed: Double? {
-        self == .hls ? SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed : nil
+        self == .hls ? 2.0 : nil
     }
 
     /// Forward buffer to request, or `nil` to leave the `AVPlayer` default in place. HLS gets more
