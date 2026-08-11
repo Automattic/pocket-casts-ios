@@ -274,7 +274,7 @@ class NowPlayingViewModel: Identifiable {
         guard let episode else {
             return maxSpeed
         }
-        if let sourceMaximum = EpisodeManager.playbackSource(for: episode)?.kind.maximumPlaybackSpeed {
+        if let sourceMaximum = playbackManager.playbackSource(for: episode)?.kind.maximumPlaybackSpeed {
             maxSpeed = sourceMaximum
         }
         return maxSpeed

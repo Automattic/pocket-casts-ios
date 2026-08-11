@@ -222,31 +222,47 @@ final class EpisodeManagerTests: DBTestCase {
         return episode
     }
 
-    func testHasHLSStreamWhenFlagEnabledAndHlsUrlPresent() throws {
+    private func streamingKind(for episode: BaseEpisode) -> PlaybackSource.Kind? {
+        EpisodeManager.streamingSource(for: episode)?.kind
+    }
+
+    func testStreamingSourceIsHLSWhenFlagEnabledAndHlsUrlPresent() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
-        XCTAssertTrue(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
+        XCTAssertEqual(streamingKind(for: makeStreamingHLSEpisode()), .hls)
     }
 
-    func testDoesNotHaveHLSStreamWhenFlagDisabled() throws {
+    func testStreamingSourceIsProgressiveWhenFlagDisabled() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
-        XCTAssertFalse(EpisodeManager.hasHLSStream(makeStreamingHLSEpisode()))
+        XCTAssertEqual(streamingKind(for: makeStreamingHLSEpisode()), .progressive)
     }
 
-    func testDoesNotHaveHLSStreamWhenHlsUrlMissingOrEmpty() throws {
+    func testStreamingSourceIsProgressiveWhenHlsUrlMissingOrEmpty() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
         let noHls = makeStreamingHLSEpisode()
         noHls.hlsUrl = nil
-        XCTAssertFalse(EpisodeManager.hasHLSStream(noHls))
+        XCTAssertEqual(streamingKind(for: noHls), .progressive)
 
         let emptyHls = makeStreamingHLSEpisode()
         emptyHls.hlsUrl = ""
-        XCTAssertFalse(EpisodeManager.hasHLSStream(emptyHls))
+        XCTAssertEqual(streamingKind(for: emptyHls), .progressive)
     }
 
-    func testDoesNotHaveHLSStreamForUserEpisode() throws {
+    func testStreamingSourceIsNeverHLSForUserEpisode() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
-        XCTAssertFalse(EpisodeManager.hasHLSStream(UserEpisode()))
+        XCTAssertNotEqual(streamingKind(for: UserEpisode()), .hls)
+    }
+
+    func testPlaybackSourceIsLocalFileForDownloadedEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertEqual(EpisodeManager.playbackSource(for: episode)?.kind, .localFile, "A downloaded episode plays its local file")
+        XCTAssertEqual(streamingKind(for: episode), .hls, "The same episode can still be streamed via HLS")
     }
 
     func testUrlForEpisodeStreamsHLSWhenAvailableAndFlagEnabled() throws {

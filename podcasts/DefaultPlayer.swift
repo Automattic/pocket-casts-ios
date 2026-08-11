@@ -85,7 +85,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player = nil
         }
 
-        let source = EpisodeManager.playbackSource(for: episode)
+        let source = PlaybackManager.shared.playbackSource(for: episode)
         sourceKind = source?.kind ?? .progressive
         isPlayingLocalFile = source?.url.isFileURL ?? false
 

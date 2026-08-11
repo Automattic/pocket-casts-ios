@@ -74,14 +74,7 @@ class AnalyticsCoordinator {
     var currentSource: AnalyticsSource?
 
     var currentEpisodeIsVideo: Bool {
-        // For HLS we can't tell synchronously whether the stream carries video — it isn't reflected
-        // in the episode's MIME type and is only detected once frames render — so assume video rather
-        // than mislabel it as audio. `willPlayViaHLS` is gated behind the HLS flag and only true when the
-        // current source is actually HLS, so this only affects analytics for real HLS playback.
-        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
-            return true
-        }
-        return PlaybackManager.shared.isCurrentEpisodeVideo()
+        PlaybackManager.shared.isCurrentEpisodeVideo()
     }
 
     var currentAnalyticsSource: AnalyticsSource {
