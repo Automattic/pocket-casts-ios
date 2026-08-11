@@ -1,4 +1,3 @@
-import Combine
 import Foundation
 import os
 
@@ -48,7 +47,6 @@ public final class FileLog {
 
     private let logBuffer: LogBuffer
     private let logger: Logger?
-    public let publisher = PassthroughSubject<String, Never>()
 
     init(
         logPersistence: PersistentTextWriting,
@@ -73,8 +71,6 @@ public final class FileLog {
         if destinations.contains(.file) {
             logBuffer.append(message, date: date)
         }
-
-        publisher.send(message)
     }
 
     public func console(_ message: String) {
@@ -82,9 +78,7 @@ public final class FileLog {
     }
 
     public func forceFlush() {
-        Task {
-            await logBuffer.flush()
-        }
+        logBuffer.flush()
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
@@ -98,22 +92,19 @@ public final class FileLog {
         return await logBuffer.loadLogFileAsString()
     }
 
-    // Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload.
-    public func logFileForUpload() -> AnyPublisher<String, Error> {
+    /// Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload,
+    /// returning the path it was written to.
+    public func logFileForUpload() async throws -> String {
         let file = LogFilePaths.debugUploadLog
+        let contents = await logBuffer.loadLogFileAsString()
 
-        return Future { [unowned self] promise in
-            self.loadLogFileAsString { result in
-                do {
-                    try result.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                } catch {
-                    promise(.failure(LogError.logGenerationFailed))
-                }
-
-                promise(.success(file))
-            }
+        do {
+            try contents.write(toFile: file, atomically: true, encoding: .utf8)
+        } catch {
+            throw LogError.logGenerationFailed
         }
-        .eraseToAnyPublisher()
+
+        return file
     }
 }
 
@@ -162,13 +153,10 @@ final class LogBuffer: @unchecked Sendable {
         }
     }
 
-    /// Writes the buffered entries to disk however few of them there are, and waits for that write to finish.
-    func flush() async {
-        await withCheckedContinuation { continuation in
-            flushQueue.async(qos: .userInitiated) { [self] in
-                writeBufferedEntriesToDisk(isForced: true)
-                continuation.resume()
-            }
+    /// Writes the buffered entries to disk however few of them there are, blocking until that write finishes.
+    func flush() {
+        flushQueue.sync { [self] in
+            writeBufferedEntriesToDisk(isForced: true)
         }
     }
 
