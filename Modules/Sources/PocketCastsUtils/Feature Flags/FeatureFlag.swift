@@ -314,6 +314,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Categories and Curated rows on the tvOS Home screen
     case tvHomeCategoriesAndCurated
 
+    /// Introduce Smart Bookmarks with a tip in the player and a "New" badge on the Add Bookmark row.
+    ///
+    /// The promo runs for 8.19, 8.20 and 8.21 only. Remove this flag and `SmartBookmarksPromo` when 8.22 is cut.
+    case smartBookmarksPromo
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -530,6 +535,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .tvHomeCategoriesAndCurated:
             false
+        case .smartBookmarksPromo:
+            true
         }
     }
 
