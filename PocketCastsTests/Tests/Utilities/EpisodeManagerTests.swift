@@ -265,6 +265,58 @@ final class EpisodeManagerTests: DBTestCase {
         XCTAssertEqual(streamingKind(for: episode), .hls, "The same episode can still be streamed via HLS")
     }
 
+    func testPlaybackSourceIsLocalFileForStreamAndCacheBuffer() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloadedForStreaming.rawValue
+        createStreamingBufferFile(for: episode)
+        defer { removeStreamingBufferFile(for: episode) }
+
+        XCTAssertEqual(EpisodeManager.playbackSource(for: episode)?.kind, .localFile, "A cached stream plays from disk like a download")
+    }
+
+    func testPlaybackSourceIsProgressiveForUserEpisode() {
+        let userEpisode = UserEpisode()
+        userEpisode.uuid = "user-episode-source"
+        userEpisode.uploadStatus = UploadStatus.uploaded.rawValue
+
+        let originalToken = ServerSettings.syncingV2Token
+        ServerSettings.syncingV2Token = "mock-token-123"
+        defer { ServerSettings.syncingV2Token = originalToken }
+
+        XCTAssertEqual(EpisodeManager.playbackSource(for: userEpisode)?.kind, .progressive)
+    }
+
+    /// The rate cap has to come from what will actually play. Asking whether the episode merely
+    /// advertises an HLS stream capped a downloaded episode that plays its local file at up to 3x.
+    func testDownloadedHLSEpisodeIsNotRateCapped() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertNil(EpisodeManager.playbackSource(for: episode)?.kind.maximumPlaybackSpeed,
+                     "The local file it plays has no rate cap")
+        XCTAssertEqual(streamingKind(for: episode)?.maximumPlaybackSpeed, 2.0,
+                       "Streaming the same episode would be capped")
+    }
+
+    func testIsVideoForDownloadedHLSEpisodeWhenStreamingIsPreferred() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertFalse(EpisodeManager.isVideo(episode), "Its local file is audio only")
+        XCTAssertTrue(EpisodeManager.isVideo(episode, options: .init(preferStreaming: true)),
+                      "Turning video on streams the HLS source instead of the local file")
+    }
+
     func testUrlForEpisodeStreamsHLSWhenAvailableAndFlagEnabled() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
@@ -364,5 +416,16 @@ final class EpisodeManagerTests: DBTestCase {
 
     private func removeDownloadedFile(for episode: Episode) {
         try? FileManager.default.removeItem(atPath: DownloadManager.shared.pathForEpisode(episode))
+    }
+
+    private func createStreamingBufferFile(for episode: Episode) {
+        let path = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+        let directory = (path as NSString).deletingLastPathComponent
+        try? FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+        FileManager.default.createFile(atPath: path, contents: Data())
+    }
+
+    private func removeStreamingBufferFile(for episode: Episode) {
+        try? FileManager.default.removeItem(atPath: DownloadManager.shared.streamingBufferPathForEpisode(episode))
     }
 }
