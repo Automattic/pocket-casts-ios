@@ -188,12 +188,12 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         bufferingInitialPartOfEpisode = true
 
         // metadata about the episode to display on the Google Cast.
-        // HLS streams can carry video that isn't reflected in the episode's file type, and the phone
-        // only knows for sure once it's decoded locally. To keep things simple we assume an episode with
-        // a usable HLS stream (HLS feature enabled + valid HLS URL) is video, so the receiver renders it
-        // rather than presenting audio-only.
-        let isHLS = EpisodeManager.hasHLSStream(episode)
-        let episodeMetadata = GCKMediaMetadata(metadataType: (episode.videoPodcast() || isHLS) ? .movie : .musicTrack)
+        // A source that doesn't declare its video tracks can still carry video that isn't reflected in the
+        // episode's file type, and the phone only knows for sure once it's decoded locally. To keep things
+        // simple we assume it is video, so the receiver renders it rather than presenting audio-only.
+        let source = EpisodeManager.streamingSource(for: episode)
+        let isVideo = episode.videoPodcast() || source?.kind.declaresVideoTracks == false
+        let episodeMetadata = GCKMediaMetadata(metadataType: isVideo ? .movie : .musicTrack)
 
         if let episode = episode as? Episode, let uuid = episode.parentPodcast()?.uuid {
             let episodeImage = GCKImage(url: ServerHelper.imageUrl(podcastUuid: uuid, size: 680), width: 680, height: 680)
@@ -217,15 +217,12 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
 
         // custom data that things like the iOS and Android app know to look for
         let episodeInfo = [episodeUuidKey: episode.uuid]
-        let downloadUrl = EpisodeManager.urlForEpisode(episode, streamingOnly: true)
-        // When streaming HLS, the content URL is an .m3u8 manifest, not the progressive file.
-        // The receiver needs the HLS content type to load it — the episode's file type describes
-        // the progressive enclosure and would make the receiver try to play the manifest directly.
-        let fileType = isHLS ? Episode.advertisedHLSMimeType : (episode.fileType ?? "")
+        // The receiver needs the source's own content type to load it — the episode's file type describes
+        // the progressive enclosure, which for a manifest would make the receiver try to play it directly.
         let mediaBuilder = GCKMediaInformationBuilder()
-        mediaBuilder.contentURL = downloadUrl
+        mediaBuilder.contentURL = source?.url
         mediaBuilder.streamType = .buffered
-        mediaBuilder.contentType = fileType
+        mediaBuilder.contentType = source?.kind.advertisedContentType ?? episode.fileType ?? ""
         mediaBuilder.metadata = episodeMetadata
         mediaBuilder.streamDuration = episode.duration
         mediaBuilder.customData = episodeInfo

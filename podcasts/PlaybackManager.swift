@@ -1102,8 +1102,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         let playbackEffects = effects()
         if playbackEffects.playbackSpeed > 4.9 { return }
 
-        // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
-        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed { return }
+        if let episode = currentEpisode(),
+           let maximumSpeed = EpisodeManager.playbackSource(for: episode)?.kind.maximumPlaybackSpeed,
+           playbackEffects.playbackSpeed >= maximumSpeed { return }
 
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
@@ -1153,14 +1154,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
-        // Trim silence relies on the EffectsPlayer audio engine; HLS plays through AVPlayer, which can't do it.
+        // Trim silence relies on the EffectsPlayer audio engine, which video sources don't go through.
         #if APPCLIP
         if let episode = currentEpisode() {
-            return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode)
+            return !EpisodeManager.isVideo(episode)
         }
         #elseif !os(watchOS) && !os(tvOS)
             if let episode = currentEpisode() {
-                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+                return !EpisodeManager.isVideo(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
         #endif
 
@@ -1168,10 +1169,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't
-        // expose. The tap logic in DefaultPlayer is compiled on tvOS too, so exclude HLS there as well.
+        // Volume boost uses an audio processing tap, which needs a concrete audio track. The tap logic in
+        // DefaultPlayer is compiled on tvOS too, so this applies there as well.
         #if !os(watchOS)
-        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+        if let episode = currentEpisode(), EpisodeManager.playbackSource(for: episode)?.kind.exposesAudioTracks == false {
             return false
         }
         #endif
@@ -1611,10 +1612,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         #if !os(watchOS) && !os(tvOS)
-        // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
-        // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
+        // Video must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
+        // pipeline that can't render video, and routing video through it desyncs audio from the surface.
         let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
+        if !playingOverAirplay(), !EpisodeManager.isVideo(currEpisode), audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
@@ -2518,14 +2519,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     func needsToReloadPlayingEpisode(_ refreshedEpisode: BaseEpisode) -> Bool {
         let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
 
+        // A source that isn't cacheable was streamed directly rather than stream-and-cached, so when the
+        // download finishes we have to reload to switch over to the local file.
+        let streamedSourceWasCacheable = EpisodeManager.streamingSource(for: refreshedEpisode)?.kind.isCacheable ?? true
+
         if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
            FeatureFlag.streamAndCachePlayingEpisode.enabled,
            !episodeIsChanging,
            effects().trimSilence == .off,
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
-           // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
-           !EpisodeManager.hasHLSStream(refreshedEpisode) {
+           streamedSourceWasCacheable {
             return false
         } else {
             if !episodeIsChanging {
