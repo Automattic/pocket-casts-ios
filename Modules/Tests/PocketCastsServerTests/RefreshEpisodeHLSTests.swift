@@ -20,6 +20,19 @@ final class RefreshEpisodeHLSTests: XCTestCase {
         XCTAssertEqual(episode.hlsUrl, "https://example.com/master.m3u8")
     }
 
+    /// Feeds advertise HLS under several types.
+    func testMatchesEveryAdvertisedHlsType() throws {
+        for type in ["application/x-mpegURL", "application/mpegURL", "application/vnd.apple.mpegurl"] {
+            let episode = try decode("""
+            { "uuid": "abc",
+              "alternate_enclosures": [
+                { "type": "\(type)", "sources": [{ "uri": "https://example.com/master.m3u8" }] }
+              ] }
+            """)
+            XCTAssertEqual(episode.hlsUrl, "https://example.com/master.m3u8", "failed for type \(type)")
+        }
+    }
+
     func testPicksHlsAmongOtherEnclosures() throws {
         let episode = try decode("""
         { "uuid": "abc",

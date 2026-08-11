@@ -145,7 +145,7 @@ public struct RefreshEpisode: Decodable {
     /// Normalises an empty `uri` to `nil` so it isn't persisted as a bogus "missing-but-present" url.
     public var hlsUrl: String? {
         let uri = alternateEnclosures?
-            .first { $0.type?.caseInsensitiveCompare(Episode.hlsEnclosureType) == .orderedSame }?
+            .first { Episode.isHLSEnclosureType($0.type) }?
             .sources?.first?.uri
         return (uri?.isEmpty ?? true) ? nil : uri
     }
@@ -569,11 +569,11 @@ public struct DiscoverAlternateEnclosure: Decodable {
 
 extension DiscoverEpisode {
 
-    static let supportedVideoTypes = Set(["video/mp4", "application/x-mpegURL", "application/mpegURL", "application/vnd.apple.mpegurl"].map { $0.lowercased() })
+    static let supportedVideoTypes = Episode.hlsEnclosureTypes.union(["video/mp4"])
 
     public var videoURL: String? {
 
-        if let url, let fileType, Self.supportedVideoTypes.contains(fileType) {
+        if let url, let fileType, Self.supportedVideoTypes.contains(fileType.lowercased()) {
             //if the default url is already a video use it
             return url
         }

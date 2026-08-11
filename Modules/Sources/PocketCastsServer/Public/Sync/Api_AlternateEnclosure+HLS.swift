@@ -6,7 +6,7 @@ extension Array where Element == Api_AlternateEnclosure {
     /// Mirrors `Episode.hlsUrl(fromEpisodeJson:)` for the protobuf sync path. Normalises the
     /// protobuf default of `""` to `nil` so it isn't persisted as a bogus "missing-but-present" url.
     var hlsUrl: String? {
-        let uri = first { $0.type.caseInsensitiveCompare(Episode.hlsEnclosureType) == .orderedSame }?
+        let uri = first { Episode.isHLSEnclosureType($0.type) }?
             .sources.first?.uri
         return (uri?.isEmpty ?? true) ? nil : uri
     }
