@@ -127,7 +127,7 @@ final class LogBuffer: @unchecked Sendable {
 
     private let entries = OSAllocatedUnfairLock(initialState: [LogEntry]())
 
-    private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue", qos: .utility)
+    private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue")
 
     private let logPersistence: PersistentTextWriting
     private let logRotator: FileRotating
@@ -157,7 +157,7 @@ final class LogBuffer: @unchecked Sendable {
 
         guard hasReachedThreshold else { return }
 
-        flushQueue.async { [self] in
+        flushQueue.async(qos: .utility) { [self] in
             writeBufferedEntriesToDisk()
         }
     }
