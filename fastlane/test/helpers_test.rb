@@ -63,34 +63,47 @@ class FastlaneHelpersTest < Minitest::Test
     assert_equal '- No separator', tvos_testflight_changelog(release_notes)
   end
 
-  def test_description_length_verdict_is_ok_up_to_the_budget
-    assert_equal :ok, app_store_description_length_verdict(3399, max_size: 4000, budget: 3400)
-    assert_equal :ok, app_store_description_length_verdict(3400, max_size: 4000, budget: 3400)
+  def test_metadata_length_verdict_is_ok_up_to_the_budget
+    assert_equal :ok, app_store_metadata_length_verdict('description.txt', 3399)
+    assert_equal :ok, app_store_metadata_length_verdict('description.txt', 3400)
+    assert_equal :ok, app_store_metadata_length_verdict('keywords.txt', 95)
   end
 
-  def test_description_length_verdict_warns_between_the_budget_and_the_maximum
-    assert_equal :over_budget, app_store_description_length_verdict(3401, max_size: 4000, budget: 3400)
-    assert_equal :over_budget, app_store_description_length_verdict(4000, max_size: 4000, budget: 3400)
+  def test_metadata_length_verdict_warns_between_the_budget_and_the_maximum
+    assert_equal :over_budget, app_store_metadata_length_verdict('description.txt', 3401)
+    assert_equal :over_budget, app_store_metadata_length_verdict('description.txt', 4000)
+    assert_equal :over_budget, app_store_metadata_length_verdict('keywords.txt', 96)
+    assert_equal :over_budget, app_store_metadata_length_verdict('keywords.txt', 100)
   end
 
-  def test_description_length_verdict_fails_past_the_maximum
-    assert_equal :over_max, app_store_description_length_verdict(4001, max_size: 4000, budget: 3400)
+  def test_metadata_length_verdict_fails_past_the_maximum
+    assert_equal :over_max, app_store_metadata_length_verdict('description.txt', 4001)
+    assert_equal :over_max, app_store_metadata_length_verdict('keywords.txt', 101)
+    assert_equal :over_max, app_store_metadata_length_verdict('subtitle.txt', 31)
+    assert_equal :over_max, app_store_metadata_length_verdict('release_notes.txt', 4001)
   end
 
-  def test_description_length_verdict_defaults_to_the_app_store_sizes
-    assert_equal :ok, app_store_description_length_verdict(APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE)
-    assert_equal :over_budget, app_store_description_length_verdict(APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE + 1)
-    assert_equal :over_max, app_store_description_length_verdict(APP_STORE_DESCRIPTION_MAX_SIZE + 1)
+  def test_metadata_length_verdict_never_warns_without_a_budget
+    assert_equal :ok, app_store_metadata_length_verdict('subtitle.txt', 30)
+    assert_equal :ok, app_store_metadata_length_verdict('release_notes.txt', 4000)
+  end
+
+  def test_metadata_length_verdict_rejects_an_unknown_file
+    assert_raises(KeyError) { app_store_metadata_length_verdict('changelog.txt', 1) }
   end
 
   # `RUN_FASTLANE_TESTS` enables this suite for any PR touching `fastlane/*`, which includes the metadata
-  # itself — so an over-long description fails on the PR that writes the copy, not mid-release.
-  def test_shipped_descriptions_fit_the_app_store_connect_maximum
+  # itself — so over-long copy fails on the PR that writes it, not mid-release.
+  #
+  # Only the maximum is asserted: `description.txt` is over its budget today, which is a warning by design.
+  def test_shipped_metadata_fits_the_app_store_connect_maximums
     %w[metadata metadata-tvos].each do |folder|
-      path = File.expand_path("../#{folder}/default/description.txt", __dir__)
-      length = File.read(path, mode: 'r:UTF-8').length
+      APP_STORE_METADATA_LIMITS.each_key do |file_name|
+        path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
+        length = File.read(path, mode: 'r:UTF-8').length
 
-      assert_operator length, :<=, APP_STORE_DESCRIPTION_MAX_SIZE, "#{path} is #{length} characters"
+        refute_equal :over_max, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} characters"
+      end
     end
   end
 end
