@@ -505,6 +505,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         chapterManager.chaptersForTime(time)
     }
 
+    func remainingDeselectedDuration() -> TimeInterval {
+        chapterManager.deselectedDuration(after: currentTime())
+    }
+
     func playableChaptersUpdated() {
         // Check if current chapter still needs to be played
         if currentChapters().visibleChapter?.isPlayable() == false {
