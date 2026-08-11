@@ -178,7 +178,7 @@ struct DiscoverRowSection: View {
     @ViewBuilder
     var newVideoReleasesRow: some View {
         if !tabRouter.homeModel.newVideoReleases.isEmpty {
-            VideoEpisodesHorizontalList(title: L10n.tvHomeNewReleases,
+            VideoEpisodesHorizontalList(title: L10n.newEpisodes,
                                    focusSection: HomeView.Section.homeNewVideoReleases.rawValue,
                                    episodes: tabRouter.homeModel.newVideoReleases, episodeContext: .other(showGoToPodcast: true)) {
                 tabRouter.showFullScreenPlayer = true
