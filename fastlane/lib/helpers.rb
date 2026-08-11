@@ -2,11 +2,23 @@
 
 TVOS_NOTE_PREFIX = '- [tvOS]'
 
+# App Store Connect maximums, plus a budget for the English source where there is a basis for one.
 # https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
-APP_STORE_DESCRIPTION_MAX_SIZE = 4000
-# Budget for the English source. Translations run longer than English, and `gp_downloadmetadata` writes
-# nothing for a locale whose translation is over the maximum — leaving it with no description at all.
-APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE = 3400
+#
+# `gp_downloadmetadata` writes nothing for a locale whose translation is over the maximum, having already
+# deleted that locale's file — so an overflow leaves the locale with no metadata at all rather than a stale
+# copy. The budget keeps the English source short enough for translations, which run longer, to fit.
+#
+# That margin cannot be one factor: the committed translations run 1.1% longer than the English
+# `description.txt` but 5.3% longer than `keywords.txt`, which against a 100 character cap is all of it.
+# `subtitle.txt` and `release_notes.txt` have no translations to measure, so they carry the maximum alone.
+APP_STORE_METADATA_LIMITS = {
+  'release_notes.txt' => { max_size: 4000 },
+  'subtitle.txt' => { max_size: 30 },
+  # 3400 keeps a deliberate reserve; the measured expansion alone would allow ~3950.
+  'description.txt' => { max_size: 4000, budget: 3400 },
+  'keywords.txt' => { max_size: 100, budget: 95 }
+}.freeze
 
 # Use this to ensure all env vars a lane requires are set.
 #
@@ -40,14 +52,22 @@ def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
   end
 end
 
-# Classifies an App Store description length as `:over_max`, `:over_budget` or `:ok`.
+# Classifies an App Store metadata file's length as `:over_max`, `:over_budget` or `:ok`.
 #
 # Stays free of `UI` so `fastlane/test/helpers_test.rb` can exercise it under bare Ruby, without fastlane loaded.
-def app_store_description_length_verdict(length, max_size: APP_STORE_DESCRIPTION_MAX_SIZE, budget: APP_STORE_DESCRIPTION_SOURCE_MAX_SIZE)
-  return :over_max if length > max_size
-  return :over_budget if length > budget
+def app_store_metadata_length_verdict(file_name, length)
+  limits = APP_STORE_METADATA_LIMITS.fetch(file_name)
+  budget = limits[:budget]
+
+  return :over_max if length > limits.fetch(:max_size)
+  return :over_budget if budget && length > budget
 
   :ok
+end
+
+# @return [Integer] Maximum number of characters App Store Connect accepts for that metadata file
+def app_store_metadata_max_size(file_name)
+  APP_STORE_METADATA_LIMITS.fetch(file_name).fetch(:max_size)
 end
 
 # Builds the iOS TestFlight changelog without tvOS-only release notes.
