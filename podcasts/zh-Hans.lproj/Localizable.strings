@@ -337,12 +337,26 @@
     <string>确定删除这些书签？书签一经删除不可恢复！</string>
     <key>bookmark_delete_warning_title</key>
     <string>删除书签？</string>
+    <key>bookmark_details_title</key>
+    <string>书签</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>为此书签选择文字转录稿段落</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>编辑文字转录稿</string>
     <key>bookmark_search_no_results_message</key>
     <string>我们搜索不到任何书签。</string>
     <key>bookmark_search_no_results_title</key>
     <string>未找到书签</string>
     <key>bookmark_suggested_title</key>
     <string>建议标题：%1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>建议： </string>
+    <key>bookmark_title_label</key>
+    <string>标题</string>
+    <key>bookmark_transcript_adding</key>
+    <string>正在添加文字转录稿…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>已捕获文字转录稿</string>
     <key>bookmark_updated_notification</key>
     <string>已更新书签“%1$@”</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts。</string>
     <string>我们注意到您尚未登录</string>
     <key>edit</key>
     <string>编辑</string>
+    <key>edit_bookmark</key>
+    <string>编辑书签</string>
     <key>edit_clip</key>
     <string>编辑片段</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Pocket Casts。</string>
     <string>无收听历史记录</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>浏览分类</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>主页加载失败</string>
     <key>tv_home_featured_section_title</key>
     <string>Pocket Casts 精选</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Pocket Casts。</string>
     <string>用户/通行证</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>二维码</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>正在登录…</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>用户名</string>
     <key>tv_welcome_browse_without_account</key>

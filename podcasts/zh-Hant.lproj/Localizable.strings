@@ -337,12 +337,26 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你確定要刪除這些書籤嗎？這個動作無法復原！</string>
     <key>bookmark_delete_warning_title</key>
     <string>要刪除書籤嗎？</string>
+    <key>bookmark_details_title</key>
+    <string>書籤</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>選取此書籤的逐字稿段落</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>編輯逐字稿</string>
     <key>bookmark_search_no_results_message</key>
     <string>找不到符合搜尋內容的書籤。</string>
     <key>bookmark_search_no_results_title</key>
     <string>找不到書籤</string>
     <key>bookmark_suggested_title</key>
     <string>建議的標題：%1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>建議： </string>
+    <key>bookmark_title_label</key>
+    <string>標題</string>
+    <key>bookmark_transcript_adding</key>
+    <string>正在新增逐字稿...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>已擷取的逐字稿</string>
     <key>bookmark_updated_notification</key>
     <string>已更新書籤「%1$@」</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts Plus</string>
     <string>我們注意到你並未登入</string>
     <key>edit</key>
     <string>編輯</string>
+    <key>edit_bookmark</key>
+    <string>編輯書籤</string>
     <key>edit_clip</key>
     <string>編輯片段</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Pocket Casts Plus</string>
     <string>沒有收聽記錄</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>瀏覽分類</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>無法載入首頁</string>
     <key>tv_home_featured_section_title</key>
     <string>Pocket Casts 精選</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Pocket Casts Plus</string>
     <string>使用者名稱/密碼</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR 碼</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>正在登入</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>使用者名稱</string>
     <key>tv_welcome_browse_without_account</key>

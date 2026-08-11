@@ -337,12 +337,26 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Ta bort bokmärken?</string>
+    <key>bookmark_details_title</key>
+    <string>Bokmärk</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Välj en transkriptionspassage för detta bokmärke</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Redigera transkription</string>
     <key>bookmark_search_no_results_message</key>
     <string>Vi kunde inte hitta några bokmärken för denna sökning.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Inga bokmärken hittades</string>
     <key>bookmark_suggested_title</key>
     <string>Föreslagen rubrik: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Förslag: </string>
+    <key>bookmark_title_label</key>
+    <string>Rubrik</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Lägger till transkription…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transkription genomförd</string>
     <key>bookmark_updated_notification</key>
     <string>Bokmärket "%1$@" har uppdaterats</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts till fullo.</string>
     <string>Vi har noterat att du inte är inloggad</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>edit_bookmark</key>
+    <string>Redigera bokmärke</string>
     <key>edit_clip</key>
     <string>Redigera klipp</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ingen lyssningshistorik</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Bläddra i kategorier</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Inläsningen av startsidan misslyckades</string>
     <key>tv_home_featured_section_title</key>
     <string>Utvalt på Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Användare/pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Loggar in</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Användarnamn</string>
     <key>tv_welcome_browse_without_account</key>

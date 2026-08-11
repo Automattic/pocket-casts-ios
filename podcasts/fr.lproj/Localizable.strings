@@ -337,12 +337,26 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Voulez-vous vraiment supprimer ces signets ? Cette opération est irréversible !</string>
     <key>bookmark_delete_warning_title</key>
     <string>Supprimer les signets ?</string>
+    <key>bookmark_details_title</key>
+    <string>Signet</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Sélectionner un passage de transcription pour ce signet</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Modifier la transcription</string>
     <key>bookmark_search_no_results_message</key>
     <string>Nous n'avons trouvé aucun signet lors de la recherche.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Aucun signet trouvé</string>
     <key>bookmark_suggested_title</key>
     <string>Titre suggéré : %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggestion : </string>
+    <key>bookmark_title_label</key>
+    <string>Titre</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Ajout de la transcription…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcription capturée</string>
     <key>bookmark_updated_notification</key>
     <string>Signet « %1$@ » mis à jour</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ de Pocket Casts.</string>
     <string>Nous avons remarqué que vous n’êtes pas connecté(e)</string>
     <key>edit</key>
     <string>Modifier</string>
+    <key>edit_bookmark</key>
+    <string>Modifier le signet</string>
     <key>edit_clip</key>
     <string>Modifier le clip</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Aucun historique d’écoute</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Parcourir les catégories</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Échec du chargement de l’accueil</string>
     <key>tv_home_featured_section_title</key>
     <string>À la une sur Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Utilisateur/Mot de passe</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Connexion</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Identifiant</string>
     <key>tv_welcome_browse_without_account</key>
