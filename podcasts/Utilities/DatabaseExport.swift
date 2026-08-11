@@ -62,7 +62,6 @@ class DatabaseExport {
 
             try fileManager.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
 
-            FileLog.shared.forceFlush()
             let phoneLogFile = try await FileLog.shared.logFileForUpload()
             try moveFile(phoneLogFile, exportDirectory: exportDirectory, exportFileName: "ios-logs.txt")
 
