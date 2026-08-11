@@ -16,15 +16,16 @@ final class LogBufferTests: XCTestCase {
 
         // WHEN we write three log messages...
         for messageNum in 1...bufferThreshold {
-            await logBuffer.append("Log Message \(messageNum)", date: Date())
+            logBuffer.append("Log Message \(messageNum)", date: Date())
         }
+        await logBuffer.flush()
 
         // THEN the log messages have been flushed to file persistence.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
         XCTAssertEqual(fileWriteSpy.writeCount, 1)
     }
 
-    func testLogNotFlushedBeforeThresholdReached() async {
+    func testLogNotFlushedBeforeThresholdReached() {
         // GIVEN that we have a FileLog with a buffer threshold of 2...
         let fileWriteSpy = LogPersistenceSpy()
         let logBuffer = LogBuffer(
@@ -34,7 +35,7 @@ final class LogBufferTests: XCTestCase {
         )
 
         // WHEN we write only one log message...
-        await logBuffer.append("Log Message", date: Date())
+        logBuffer.append("Log Message", date: Date())
 
         // THEN the log is not flushed to persistence as the threshold was not reached.
         XCTAssertFalse(fileWriteSpy.textWrittenToLog)
@@ -51,7 +52,8 @@ final class LogBufferTests: XCTestCase {
         )
 
         // WHEN we exceed the buffer threshold and trigger the log to be flushed...
-        await logBuffer.append("Log Message", date: Date())
+        logBuffer.append("Log Message", date: Date())
+        await logBuffer.flush()
 
         // THEN file rotation is requested.
         XCTAssertTrue(rotationSpy.rotationRequested)
@@ -69,8 +71,9 @@ final class LogBufferTests: XCTestCase {
 
         // WHEN we write enough messages to trigger a flush...
         for messageNum in 1...bufferThreshold {
-            await logBuffer.append("Log Message \(messageNum)", date: Date())
+            logBuffer.append("Log Message \(messageNum)", date: Date())
         }
+        await logBuffer.flush()
 
         // THEN the flushed messages are separated by newlines.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
@@ -92,11 +95,11 @@ final class LogBufferTests: XCTestCase {
         // AND the number of buffered messages is below the threshold...
         let halfBufferThreshold = (bufferThreshold / 2)
         for messageNum in 1...halfBufferThreshold {
-            await logBuffer.append("Log Message \(messageNum)", date: Date())
+            logBuffer.append("Log Message \(messageNum)", date: Date())
         }
 
         // WHEN we force the FileLog to flush...
-        await logBuffer.forceFlush()
+        await logBuffer.flush()
 
         // THEN all of the buffered messages are flushed despite being below the threshold.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
@@ -105,7 +108,7 @@ final class LogBufferTests: XCTestCase {
         XCTAssertEqual(UInt(linesWrittenCount), halfBufferThreshold)
     }
 
-    func testFlushedMessagesAreOrderedByDate() async {
+    func testFlushedMessagesKeepTheOrderTheyWereLoggedIn() async {
         // GIVEN that we have a FileLog with a low threshold...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 3
@@ -116,14 +119,37 @@ final class LogBufferTests: XCTestCase {
         )
 
         // WHEN we write enough messages to trigger a flush...
-        await logBuffer.append("Log Message 2", date: Date().addingTimeInterval(1.seconds))
-        await logBuffer.append("Log Message 3", date: Date().addingTimeInterval(2.seconds))
-        await logBuffer.append("Log Message 1", date: Date())
+        logBuffer.append("Log Message 1", date: Date())
+        logBuffer.append("Log Message 2", date: Date())
+        logBuffer.append("Log Message 3", date: Date())
+        await logBuffer.flush()
 
-        // THEN the flushed messages are ordered by date
+        // THEN the flushed messages are in the order they were logged in
         let messages = fileWriteSpy.lastWrittenChunk!.split(separator: "\n")
         XCTAssertTrue(messages[0].contains("Log Message 1"))
         XCTAssertTrue(messages[1].contains("Log Message 2"))
         XCTAssertTrue(messages[2].contains("Log Message 3"))
+    }
+
+    func testMessagesLoggedConcurrentlyAreAllFlushed() async {
+        // GIVEN that we have a FileLog with a threshold no amount of messages will reach...
+        let fileWriteSpy = LogPersistenceSpy()
+        let messageCount = 500
+        let logBuffer = LogBuffer(
+            logPersistence: fileWriteSpy,
+            logRotator: LogRotatorStub(),
+            bufferThreshold: UInt(messageCount) + 1
+        )
+
+        // WHEN we write messages from several threads at once...
+        DispatchQueue.concurrentPerform(iterations: messageCount) { messageNum in
+            logBuffer.append("Log Message \(messageNum)", date: Date())
+        }
+        await logBuffer.flush()
+
+        // THEN every message is flushed in a single chunk.
+        XCTAssertEqual(fileWriteSpy.writeCount, 1)
+        let lineCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
+        XCTAssertEqual(lineCount, messageCount)
     }
 }

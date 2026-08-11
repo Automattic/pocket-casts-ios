@@ -270,7 +270,7 @@ final class BookmarkDataManagerTests: DataManagerTestCase {
 
             let bookmarks = dataManager.bookmarks.bookmarks(forEpisode: episode, sorted: .newestToOldest)
 
-            XCTAssertEqual(ordered.reversed(), bookmarks, "\(impl): should be sorted newest to oldest")
+            XCTAssertEqual(ordered.reversed().map(\.uuid), bookmarks.map(\.uuid), "\(impl): should be sorted newest to oldest")
         }
     }
 
@@ -284,7 +284,7 @@ final class BookmarkDataManagerTests: DataManagerTestCase {
 
             let bookmarks = dataManager.bookmarks.bookmarks(forEpisode: episode, sorted: .oldestToNewest)
 
-            XCTAssertEqual(ordered, bookmarks, "\(impl): should be sorted oldest to newest")
+            XCTAssertEqual(ordered.map(\.uuid), bookmarks.map(\.uuid), "\(impl): should be sorted oldest to newest")
         }
     }
 
@@ -303,7 +303,7 @@ final class BookmarkDataManagerTests: DataManagerTestCase {
 
             let bookmarks = dataManager.bookmarks.bookmarks(forEpisode: episode, sorted: .timestamp)
 
-            XCTAssertEqual(ordered, bookmarks, "\(impl): should be sorted by timestamp")
+            XCTAssertEqual(ordered.map(\.uuid), bookmarks.map(\.uuid), "\(impl): should be sorted by timestamp")
         }
     }
 
