@@ -72,6 +72,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
         cell.actionSubtitle.isHidden = (cell.actionSubtitle.text == nil)
 
+        cell.showsNewBadge = !tableView.isEditing && action == .addBookmark && SmartBookmarksPromo.isActive
+
         return cell
     }
 

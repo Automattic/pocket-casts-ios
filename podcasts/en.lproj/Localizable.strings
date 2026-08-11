@@ -4562,10 +4562,28 @@
 "no_bookmarks_button_title" = "Headphone settings";
 
 /* Title shown when the bookmarks feature is locked due to account upgrade status */
-"no_bookmarks_locked_message" = "You can save timestamps of important moments in an episode.";
+"no_bookmarks_locked_title" = "Save the parts worth keeping";
+
+/* Subtitle shown when the bookmarks feature is locked due to account upgrade status. It describes that a bookmark is created with a single tap and is saved with a generated title and the words spoken at that moment. */
+"no_bookmarks_locked_message" = "One tap. It’s named, and the words come with it.";
 
 /* Button title shown when the bookmarks feature is locked due to account upgrade status. This will take the user to the upgrade screen. */
 "no_bookmarks_locked_button_title" = "Get Bookmarks";
+
+/* Badge marking a menu item as a feature introduced in the current release */
+"badge_new" = "New";
+
+/* Title of the tip shown in the player that points at the action used to add a bookmark */
+"bookmarks_player_tip_title" = "Add bookmark";
+
+/* Body of the tip shown in the player that points at the action used to add a bookmark */
+"bookmarks_player_tip_message" = "Keep the part you wanted";
+
+/* Title of the example bookmark shown on the bookmarks upgrade screen. It is a sample of a title generated for the user. */
+"bookmarks_upgrade_example_title" = "The audition room";
+
+/* Transcript excerpt of the example bookmark shown on the bookmarks upgrade screen. It is a sample of the words captured with a bookmark. */
+"bookmarks_upgrade_example_passage" = "You’re casting the person, not the résumé.";
 
 /* Title of a message when no search results appear */
 "bookmark_search_no_results_title" = "No bookmarks found";
