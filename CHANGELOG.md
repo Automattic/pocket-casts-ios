@@ -9,6 +9,7 @@
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
 - [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
 - [tvOS] Add a Top Results tab to Search, now the default, showing a Featured row of matching video episodes followed by Episodes and Podcasts rows. The Episodes tab leads with the same Featured row whenever a search turns up video episodes [#4926](https://github.com/Automattic/pocket-casts-ios/pull/4926)
+- [tvOS] Fix playback controls stalling the app when another app is holding audio, by activating the audio session off the main thread [#4938](https://github.com/Automattic/pocket-casts-ios/pull/4938)
 
 8.18
 -----
