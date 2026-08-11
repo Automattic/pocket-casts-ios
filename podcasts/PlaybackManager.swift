@@ -269,12 +269,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func ensureBackgroundMediaSessionConfiguration() {
-        guard let currEpisode = currentEpisode() else { return }
+        guard currentEpisode() != nil else { return }
         refreshNowPlayingInfo(forceFullRebuild: true)
         activateAudioSession(completion: { _ in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-            if currEpisode.videoPodcast() {
+            if self.isCurrentEpisodeVideo() {
                 self.setAudioSessionVideoProperties()
             }
         })
@@ -335,7 +335,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
             }
 
-            if currEpisode.videoPodcast() {
+            if self.isCurrentEpisodeVideo() {
                 self.setAudioSessionVideoProperties()
             }
 
@@ -885,28 +885,39 @@ class PlaybackManager: ServerPlaybackDelegate {
         currentSourceIsVideo || currentStreamContainsVideo.value
     }
 
-    /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
-    /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
-    var isAudioOnlyForced: Bool {
-        FeatureFlag.hls.enabled && Settings.audioOnly
+    /// Why the current episode's video is being suppressed, or `nil` when it isn't.
+    enum AudioOnlyReason {
+        /// The global "Audio only" setting, which applies to every video episode as if the per-episode
+        /// shelf toggle were switched off for all of them.
+        case globalSetting
+        /// The player shelf toggle, which applies to the current episode for this session.
+        case episodeToggle
+    }
+
+    /// How the current episode's video should be presented.
+    enum VideoPresentation {
+        /// The episode has no video to show.
+        case unavailable
+        /// The episode has video, but it's suppressed — see `audioOnlyReason`.
+        case hidden
+        case visible
+    }
+
+    var audioOnlyReason: AudioOnlyReason? {
+        if FeatureFlag.hls.enabled, Settings.audioOnly { return .globalSetting }
+        if !videoRenderingEnabled.value { return .episodeToggle }
+        return nil
+    }
+
+    var videoPresentation: VideoPresentation {
+        guard isCurrentEpisodeVideo() else { return .unavailable }
+        return audioOnlyReason == nil ? .visible : .hidden
     }
 
     /// Whether the video surface should currently be shown. Video content can be present
-    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
-    /// or the global "Audio only" setting.
+    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only.
     func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
-    }
-
-    var isVideoRenderingEnabled: Bool {
-        videoRenderingEnabled.value
-    }
-
-    /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
-    /// or they've switched the current stream's video off via the shelf toggle. Reported as the
-    /// `audio_only_mode` analytics property.
-    var isAudioOnlyMode: Bool {
-        isAudioOnlyForced || !videoRenderingEnabled.value
+        videoPresentation == .visible
     }
 
     /// Whether the audio/video toggle should be offered for the current episode. A streamable source that
@@ -915,7 +926,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// the toggle streams the video instead). When the global "Audio only" setting forces audio for every
     /// episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
-        guard !isAudioOnlyForced, let episode = currentEpisode() else { return false }
+        guard audioOnlyReason != .globalSetting, let episode = currentEpisode() else { return false }
         return EpisodeManager.streamingSource(for: episode)?.kind.declaresVideoTracks == false
     }
 

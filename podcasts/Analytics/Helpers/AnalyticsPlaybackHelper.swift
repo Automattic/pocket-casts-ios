@@ -175,7 +175,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     private static func audioOnlyMode(for episode: BaseEpisode?, isCurrentEpisode: Bool) -> Bool? {
         let manager = PlaybackManager.shared
         guard let episode, manager.playbackSource(for: episode)?.kind == .hls else { return nil }
-        return isCurrentEpisode ? manager.isAudioOnlyMode : manager.isAudioOnlyForced
+        return isCurrentEpisode ? manager.audioOnlyReason != nil : manager.audioOnlyReason == .globalSetting
     }
 
     /// The protocol an episode's source resolves to for playback (`hls`/`progressive`), for events
