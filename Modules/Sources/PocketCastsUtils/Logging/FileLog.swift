@@ -78,9 +78,7 @@ public final class FileLog {
     }
 
     public func forceFlush() {
-        Task {
-            await logBuffer.flush()
-        }
+        logBuffer.flush()
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
@@ -155,13 +153,10 @@ final class LogBuffer: @unchecked Sendable {
         }
     }
 
-    /// Writes the buffered entries to disk however few of them there are, and waits for that write to finish.
-    func flush() async {
-        await withCheckedContinuation { continuation in
-            flushQueue.async(qos: .userInitiated) { [self] in
-                writeBufferedEntriesToDisk(isForced: true)
-                continuation.resume()
-            }
+    /// Writes the buffered entries to disk however few of them there are, blocking until that write finishes.
+    func flush() {
+        flushQueue.sync { [self] in
+            writeBufferedEntriesToDisk(isForced: true)
         }
     }
 
