@@ -420,11 +420,16 @@ class EpisodeManager: NSObject {
         return totalFilesSize
     }
 
-    /// Resolves what will play for an episode: a local copy when one exists, the HLS stream when the
-    /// episode advertises a usable one, otherwise the progressive enclosure.
+    /// Resolves what will play for an episode: which url, and what kind of source it is. This is the
+    /// single answer to that — ask it rather than inspecting `Episode.hlsUrl` or the download state.
     ///
-    /// This is the single answer to "which url, and what kind of source is it". Ask it rather than
-    /// inspecting `Episode.hlsUrl` or the download state directly.
+    /// Rows are tried top to bottom, and `preferStreaming` starts at `remote`. Falling off the bottom
+    /// resolves to nil, e.g. an episode that isn't downloaded and advertises no enclosure.
+    ///
+    ///                     Episode                   UserEpisode
+    ///     downloaded      .localFile                .localFile
+    ///     stream buffer   .localFile                —
+    ///     remote          .hls, else .progressive   .progressive (needs sign-in)
     ///
     /// Resolution depends only on the episode and the options passed in. For the episode being played,
     /// ask `PlaybackManager.playbackSource(for:)` instead, which fills in the options that reflect the
