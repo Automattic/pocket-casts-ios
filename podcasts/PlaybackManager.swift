@@ -1689,7 +1689,6 @@ class PlaybackManager: ServerPlaybackDelegate {
                 completeOnMain(false)
             }
         #else
-        if FeatureFlag.activateAudioSessionInBackground.enabled {
             // Perform audio session activation on a background queue to avoid blocking the main thread
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self else {
@@ -1698,9 +1697,6 @@ class PlaybackManager: ServerPlaybackDelegate {
                 }
                 self.activateSession(completion: completeOnMain)
             }
-        } else {
-            self.activateSession(completion: completeOnMain)
-        }
         #endif
     }
 
