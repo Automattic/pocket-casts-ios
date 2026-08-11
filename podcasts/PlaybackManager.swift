@@ -855,7 +855,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func sourceOptions(for episode: BaseEpisode) -> PlaybackSource.Options {
         let watchingVideoOfDownloadedEpisode = streamingVideoForDownloadedEpisode.value
             && episode.uuid == currentEpisode()?.uuid
-            && EpisodeManager.streamingSource(for: episode)?.kind.declaresVideoTracks == false
+            && EpisodeManager.streamingSource(for: episode)?.kind.mayCarryUndeclaredVideo == true
         return .init(preferStreaming: watchingVideoOfDownloadedEpisode)
     }
 
@@ -880,8 +880,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Whether the current episode should be presented as video, considering the feed metadata
     /// (`videoPodcast()`), the source it resolved to, and any video tracks detected at runtime.
     func isCurrentEpisodeVideo() -> Bool {
-        // A source that doesn't declare its video tracks is assumed to be video so the player can go full
-        // screen immediately, without waiting to detect them at runtime.
+        // A source that may carry undeclared video counts as video from the start, so the player can go
+        // full screen immediately rather than waiting for a frame to be decoded.
         currentSourceIsVideo || currentStreamContainsVideo.value
     }
 
@@ -920,14 +920,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         videoPresentation == .visible
     }
 
-    /// Whether the audio/video toggle should be offered for the current episode. A streamable source that
-    /// doesn't declare its video tracks is assumed to carry video, so the toggle is offered whether that
-    /// source is being streamed or the episode has been downloaded (its downloaded file is audio-only, so
-    /// the toggle streams the video instead). When the global "Audio only" setting forces audio for every
-    /// episode, the per-episode toggle is hidden.
+    /// Whether the audio/video toggle should be offered for the current episode. This asks the streaming
+    /// source, so the toggle is offered whether that source is already being streamed or the episode has
+    /// been downloaded — a downloaded file is audio-only, so the toggle streams the video instead. When the
+    /// global "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
         guard audioOnlyReason != .globalSetting, let episode = currentEpisode() else { return false }
-        return EpisodeManager.streamingSource(for: episode)?.kind.declaresVideoTracks == false
+        return EpisodeManager.streamingSource(for: episode)?.kind.mayCarryUndeclaredVideo == true
     }
 
     /// Toggles the video for the current episode. When the video is already being decoded this just

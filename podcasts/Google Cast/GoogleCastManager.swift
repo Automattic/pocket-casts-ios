@@ -187,12 +187,10 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         episodeToPlayOnConnect = episode
         bufferingInitialPartOfEpisode = true
 
-        // metadata about the episode to display on the Google Cast.
-        // A source that doesn't declare its video tracks can still carry video that isn't reflected in the
-        // episode's file type, and the phone only knows for sure once it's decoded locally. To keep things
-        // simple we assume it is video, so the receiver renders it rather than presenting audio-only.
+        // metadata about the episode to display on the Google Cast. Casting always streams, so the
+        // receiver renders whatever the streaming source may carry rather than presenting audio-only.
         let source = EpisodeManager.streamingSource(for: episode)
-        let isVideo = episode.videoPodcast() || source?.kind.declaresVideoTracks == false
+        let isVideo = EpisodeManager.isVideo(episode, options: .init(preferStreaming: true))
         let episodeMetadata = GCKMediaMetadata(metadataType: isVideo ? .movie : .musicTrack)
 
         if let episode = episode as? Episode, let uuid = episode.parentPodcast()?.uuid {

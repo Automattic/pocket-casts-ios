@@ -144,11 +144,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
     }
 
-    /// A source that doesn't declare its video tracks can still carry video that isn't reflected in the
-    /// episode's file type. `presentationSize` is only `0x0` until the first video frame is decoded, so
-    /// we observe it and promote playback to video once it reports a size.
+    /// Some sources carry video that isn't reflected in the episode's file type. `presentationSize` is
+    /// only `0x0` until the first video frame is decoded, so we observe it and promote playback to video
+    /// once it reports a size.
     private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
-        guard !sourceKind.declaresVideoTracks, !episode.videoPodcast() else { return }
+        guard sourceKind.mayCarryUndeclaredVideo, !episode.videoPodcast() else { return }
 
         let episodeUuid = episode.uuid
         presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in

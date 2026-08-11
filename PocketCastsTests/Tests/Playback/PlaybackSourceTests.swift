@@ -28,11 +28,11 @@ final class PlaybackSourceTests: XCTestCase {
 
     func testOnlyHLSHidesItsTracks() {
         XCTAssertFalse(PlaybackSource.Kind.hls.exposesAudioTracks, "An audio processing tap can't attach to a manifest")
-        XCTAssertFalse(PlaybackSource.Kind.hls.declaresVideoTracks, "Video has to be detected from the first decoded frame")
+        XCTAssertTrue(PlaybackSource.Kind.hls.mayCarryUndeclaredVideo, "Video has to be detected from the first decoded frame")
 
         for kind in allKinds where kind != .hls {
             XCTAssertTrue(kind.exposesAudioTracks, "\(kind) should support volume boost and the effects pipeline")
-            XCTAssertTrue(kind.declaresVideoTracks, "\(kind) describes its own video up front")
+            XCTAssertFalse(kind.mayCarryUndeclaredVideo, "\(kind) describes its own video up front")
         }
     }
 

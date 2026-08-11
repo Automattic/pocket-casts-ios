@@ -470,12 +470,12 @@ class EpisodeManager: NSObject {
         return URL(string: hlsUrl)
     }
 
-    /// Whether the episode should be presented as video: either a native video podcast, or an episode
-    /// whose source doesn't declare its tracks and so is assumed to carry video. Downloaded episodes play
-    /// their local (audio-only) file, so advertising a video icon for them would promise video the user
-    /// won't get.
+    /// Whether the episode should be presented as video: the feed says so, or it resolves to a source that
+    /// may carry video we can't see up front. Note that this asks about the source the episode will
+    /// actually play, so a downloaded episode isn't treated as video on the strength of an HLS stream it
+    /// won't use — its local file is audio-only, and a video icon would promise video the user won't get.
     class func isVideo(_ episode: BaseEpisode, options: PlaybackSource.Options = .init()) -> Bool {
-        episode.videoPodcast() || playbackSource(for: episode, options: options)?.kind.declaresVideoTracks == false
+        episode.videoPodcast() || playbackSource(for: episode, options: options)?.kind.mayCarryUndeclaredVideo == true
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {

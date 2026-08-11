@@ -31,10 +31,11 @@ extension PlaybackSource.Kind {
         self != .hls
     }
 
-    /// Whether the source declares its video tracks up front. HLS doesn't, so video content has to be
-    /// detected from the first decoded frame instead.
-    var declaresVideoTracks: Bool {
-        self != .hls
+    /// Whether the source can carry video that it doesn't declare up front. An HLS manifest exposes no
+    /// tracks, so its video only becomes apparent once a frame is decoded. Callers treat it as video from
+    /// the start rather than switching the UI over mid-playback.
+    var mayCarryUndeclaredVideo: Bool {
+        self == .hls
     }
 
     /// Whether the bytes can be cached to disk while playing (stream-and-cache). HLS is segmented, so
