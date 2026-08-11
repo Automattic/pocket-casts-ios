@@ -23,6 +23,7 @@
 - Fix a crash when the sign in prompt was shown while another screen was still being dismissed [#4903](https://github.com/Automattic/pocket-casts-ios/pull/4903)
 - [tvOS] Add support server driven home page layout [#4854](https://github.com/Automattic/pocket-casts-ios/pull/4854)
 - [tvOS] Add support for HLS episodes previews in episodes video list [#4921](https://github.com/Automattic/pocket-casts-ios/pull/4921)
+- Recognise more HLS content types in alternate enclosures [#4935](https://github.com/Automattic/pocket-casts-ios/pull/4935)
 
 8.17
 -----

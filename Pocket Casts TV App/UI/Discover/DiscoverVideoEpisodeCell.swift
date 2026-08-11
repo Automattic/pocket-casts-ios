@@ -8,6 +8,7 @@ struct DiscoverVideoEpisodeCell: View {
 
     @Namespace private var ns
     @Environment(FocusStore.self) var focusStore
+    @Environment(MainTabViewModel.self) var mainNavigationRouter: MainTabViewModel
 
     @State private var model: DiscoverVideoEpisodeModel
     @State private var showNotesEpisode: DiscoveryLoadedEpisode?
@@ -20,8 +21,6 @@ struct DiscoverVideoEpisodeCell: View {
     private let onTap: (() -> Void)?
 
     @FocusState private var isFocused: Bool
-
-    @State var showNowPlayingPlayer: Bool = false
 
     enum Layout {
         static let imageSize = CGFloat(72)
@@ -47,7 +46,7 @@ struct DiscoverVideoEpisodeCell: View {
                 let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                 await MainActor.run {
                     if successPlay {
-                        showNowPlayingPlayer = true
+                        mainNavigationRouter.showFullScreenPlayer = true
                     } else {
                         ToastManager.shared.show(L10n.playbackFailed)
                     }
@@ -105,10 +104,6 @@ struct DiscoverVideoEpisodeCell: View {
         .buttonStyle(ChromelessButtonStyle())
         .task {
             await model.load()
-        }
-        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
-            NowPlayingView()
-                .ignoresSafeArea()
         }
         .sheet(item: $showNotesEpisode) { episode in
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)

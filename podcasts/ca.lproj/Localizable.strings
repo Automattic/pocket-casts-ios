@@ -4010,6 +4010,8 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Sense historial d'escolta</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Explora les categories</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>No s'ha pogut carregar l'inici</string>
     <key>tv_home_featured_section_title</key>
     <string>Destacats a Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4212,6 +4214,8 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Usuari/Contrasenya</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>S'està iniciant la sessió</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nom d'usuari</string>
     <key>tv_welcome_browse_without_account</key>

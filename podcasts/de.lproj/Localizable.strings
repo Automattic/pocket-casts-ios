@@ -337,12 +337,26 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Bist du sicher, dass du diese Lesezeichen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Lesezeichen löschen?</string>
+    <key>bookmark_details_title</key>
+    <string>Als Lesezeichen markieren</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Wähle eine Transkriptpassage für dieses Lesezeichen aus</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Transkript</string>
     <key>bookmark_search_no_results_message</key>
     <string>Wir konnten keine Lesezeichen für diese Suche finden.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Keine Lesezeichen gefunden</string>
     <key>bookmark_suggested_title</key>
     <string>Vorgeschlagener Titel: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Vorschlag: </string>
+    <key>bookmark_title_label</key>
+    <string>Titel</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Transkript wird hinzugefügt ...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transkript erfasst</string>
     <key>bookmark_updated_notification</key>
     <string>Lesezeichen „%1$@“ aktualisiert</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ um Pocket Casts in vollen Zügen genießen zu können.</string>
     <string>Wir haben festgestellt, dass du nicht angemeldet bist</string>
     <key>edit</key>
     <string>Bearbeiten</string>
+    <key>edit_bookmark</key>
+    <string>Lesezeichen bearbeiten</string>
     <key>edit_clip</key>
     <string>Clip bearbeiten</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Kein Hörverlauf</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Kategorien durchsuchen</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Ladevorgang fehlgeschlagen</string>
     <key>tv_home_featured_section_title</key>
     <string>In Pocket Casts vorgestellt</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Benutzer/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Anmeldung läuft...</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Benutzername</string>
     <key>tv_welcome_browse_without_account</key>

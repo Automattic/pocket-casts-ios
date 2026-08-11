@@ -15,6 +15,7 @@ enum DiscoverRowType: CaseIterable {
     case upNext
     case nowPlaying
     case newReleases
+    case newVideoReleases
 }
 
 extension DiscoverItem {
@@ -54,6 +55,8 @@ extension DiscoverItem {
             return .upNext
         case ("episode_list", "small_list", _, "new_releases"):
             return .newReleases
+        case ("episode_list", "video_preview_list", _, "new_releases_video"):
+            return .newVideoReleases
         case ("banner", "inline_banner", _, _):
             return .banner
         default:
@@ -100,6 +103,8 @@ struct DiscoverRowSection: View {
                 nowPlayingRow
             case .newReleases:
                 newReleasesRow
+            case .newVideoReleases:
+                newVideoReleasesRow
             case .listPodcast:
                 DiscoverPodcastRow(item: item, source: source)
             case nil:
@@ -165,6 +170,17 @@ struct DiscoverRowSection: View {
             EpisodesHorizontalList(title: L10n.tvHomeNewReleases,
                                    focusSection: HomeView.Section.homeNewReleases.rawValue,
                                    episodes: tabRouter.homeModel.newReleases, episodeContext: .other(showGoToPodcast: true)) {
+                tabRouter.showFullScreenPlayer = true
+            }
+        }
+    }
+
+    @ViewBuilder
+    var newVideoReleasesRow: some View {
+        if !tabRouter.homeModel.newVideoReleases.isEmpty {
+            VideoEpisodesHorizontalList(title: L10n.newEpisodes,
+                                   focusSection: HomeView.Section.homeNewVideoReleases.rawValue,
+                                   episodes: tabRouter.homeModel.newVideoReleases, episodeContext: .other(showGoToPodcast: true)) {
                 tabRouter.showFullScreenPlayer = true
             }
         }

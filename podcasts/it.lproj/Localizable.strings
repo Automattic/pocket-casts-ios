@@ -337,12 +337,26 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Desideri eliminare questi segnalibri? Non c'è modo di annullare l'azione.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Elimina i segnalibri?</string>
+    <key>bookmark_details_title</key>
+    <string>Segnalibro</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Seleziona un passaggio della trascrizione per questo segnalibro</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Modifica trascrizione</string>
     <key>bookmark_search_no_results_message</key>
     <string>Non abbiamo trovato alcun segnalibro per la ricerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Nessun segnalibro trovato</string>
     <key>bookmark_suggested_title</key>
     <string>Titolo suggerito: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggerimento: </string>
+    <key>bookmark_title_label</key>
+    <string>Titolo</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Aggiunta trascrizione...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Trascrizione acquisita</string>
     <key>bookmark_updated_notification</key>
     <string>Segnalibro "%1$@" aggiornato</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ al massimo Pocket Casts.</string>
     <string>Abbiamo notato che non hai effettuato l'accesso</string>
     <key>edit</key>
     <string>Modifica</string>
+    <key>edit_bookmark</key>
+    <string>Modifica segnalibro</string>
     <key>edit_clip</key>
     <string>Modifica clip</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Nessuna cronologia degli ascolti</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Sfoglia le categorie</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Impossibile caricare la pagina iniziale</string>
     <key>tv_home_featured_section_title</key>
     <string>In primo piano su Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4202,6 +4220,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Utente/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Accesso</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nome utente</string>
     <key>tv_welcome_browse_without_account</key>

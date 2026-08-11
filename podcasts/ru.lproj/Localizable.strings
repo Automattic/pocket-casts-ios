@@ -337,12 +337,26 @@
     <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Удалить закладки?</string>
+    <key>bookmark_details_title</key>
+    <string>Закладка</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Выберите отрывок расшифровки для этой закладки</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Изменить расшифровку</string>
     <key>bookmark_search_no_results_message</key>
     <string>Не удалось найти закладки по этому запросу.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Закладки не найдены</string>
     <key>bookmark_suggested_title</key>
     <string>Предлагаемый заголовок: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Предложение: </string>
+    <key>bookmark_title_label</key>
+    <string>Заголовок</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Добавление расшифровки...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Расшифровка записана</string>
     <key>bookmark_updated_notification</key>
     <string>Закладка «%1$@» обновлена</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts на полную мощность.</string>
     <string>Мы заметили, что вы не вошли в систему</string>
     <key>edit</key>
     <string>Править</string>
+    <key>edit_bookmark</key>
+    <string>Изменить закладку</string>
     <key>edit_clip</key>
     <string>Редактировать клип</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Pocket Casts на полную мощность.</string>
     <string>История прослушивания отсутствует</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Просмотр рубрик</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Ошибка при загрузке главной страницы</string>
     <key>tv_home_featured_section_title</key>
     <string>Популярное в Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Pocket Casts на полную мощность.</string>
     <string>Пользователь/пароль</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR-код</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Вход в систему</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Имя пользователя</string>
     <key>tv_welcome_browse_without_account</key>

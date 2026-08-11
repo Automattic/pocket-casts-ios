@@ -21,6 +21,7 @@ struct HomeView: View {
         case homeNowPlaying
         case homeUpNext
         case homeNewReleases
+        case homeNewVideoReleases
         case homeBanner
     }
 

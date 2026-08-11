@@ -337,12 +337,26 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>¿Seguro que quieres eliminar estos marcadores? Esta acción no se puede deshacer.</string>
     <key>bookmark_delete_warning_title</key>
     <string>¿Eliminar marcadores?</string>
+    <key>bookmark_details_title</key>
+    <string>Marcador</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Elige un pasaje de transcripción para este marcador</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Editar transcripción</string>
     <key>bookmark_search_no_results_message</key>
     <string>No hemos podido encontrar ningún marcador para esa búsqueda.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No se han encontrado marcadores</string>
     <key>bookmark_suggested_title</key>
     <string>Título sugerido: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Sugerencia: </string>
+    <key>bookmark_title_label</key>
+    <string>Título</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Añadiendo transcripción…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcripción capturada</string>
     <key>bookmark_updated_notification</key>
     <string>Se ha actualizado el marcador "%1$@"</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts al máximo.</string>
     <string>Hemos detectado que no has iniciado sesión</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>edit_bookmark</key>
+    <string>Editar marcador</string>
     <key>edit_clip</key>
     <string>Editar clip</string>
     <key>enable_it_now</key>
@@ -4002,6 +4018,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No hay historial de elementos escuchados</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Ver categorías</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>No se ha podido cargar el inicio</string>
     <key>tv_home_featured_section_title</key>
     <string>Destacado en Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4204,6 +4222,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Usuario/Contraseña</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Iniciando sesión</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nombre de usuario</string>
     <key>tv_welcome_browse_without_account</key>
