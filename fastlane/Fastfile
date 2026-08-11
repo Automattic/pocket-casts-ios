@@ -1447,8 +1447,6 @@ platform :ios do
   #
   def lint_app_store_description_length(metadata_folder:)
     path = File.join(metadata_folder, 'default', 'description.txt')
-    # Read as UTF-8 explicitly: under a non-UTF-8 `Encoding.default_external` this file's 3946
-    # characters would be counted as its 4006 bytes, failing the check on a legal description.
     length = File.read(path, mode: 'r:UTF-8').length
 
     UI.user_error!("#{path} is #{length} characters, over the #{APP_STORE_DESCRIPTION_MAX_SIZE} App Store Connect accepts.") if length > APP_STORE_DESCRIPTION_MAX_SIZE
