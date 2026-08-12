@@ -97,13 +97,14 @@ class FastlaneHelpersTest < Minitest::Test
   #
   # Budgets are asserted, not just maximums: a budget only warns from the release lane, and a warning
   # nobody reads is how a locale ends up shipping with no metadata at all.
-  def test_shipped_metadata_fits_its_budget
+  def test_shipped_metadata_fits_its_limits
     %w[metadata metadata-tvos].each do |folder|
-      APP_STORE_METADATA_LIMITS.each_key do |file_name|
+      APP_STORE_METADATA_LIMITS.each do |file_name, limits|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
         length = File.read(path, mode: 'r:UTF-8').length
+        limit = limits[:budget] || limits.fetch(:max_size)
 
-        assert_equal :ok, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} characters"
+        assert_equal :ok, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} of #{limit} characters"
       end
     end
   end
