@@ -372,7 +372,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
-        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
+        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isCurrentEpisode(uuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         } else if episodePlayingBeforeChanges == nil, !modifiedList.isEmpty {

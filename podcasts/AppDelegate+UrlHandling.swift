@@ -222,7 +222,7 @@ extension AppDelegate {
 
             strongSelf.openPlayerWhenReadyFromExternalEvent()
 
-            if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
                 if !PlaybackManager.shared.isPlaying {
                     PlaybackManager.shared.play()
                 }
@@ -239,7 +239,7 @@ extension AppDelegate {
 
             guard let baseEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return true }
 
-            if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: baseEpisode.uuid) {
+            if PlaybackManager.shared.isCurrentEpisode(uuid: baseEpisode.uuid) {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 Analytics.track(.widgetInteraction, properties: ["action": "now_playing"])
             } else {

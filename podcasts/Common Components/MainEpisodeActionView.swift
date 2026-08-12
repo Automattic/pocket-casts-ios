@@ -95,7 +95,7 @@ class MainEpisodeActionView: UIView {
     func populateFrom(episode: BaseEpisode) {
         episodeUuid = episode.uuid
 
-        let isCurrent = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUuid)
+        let isCurrent = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 
         // update download and play progress
         if episode.downloaded(pathFinder: DownloadManager.shared) {

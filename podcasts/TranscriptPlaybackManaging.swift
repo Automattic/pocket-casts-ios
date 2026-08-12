@@ -23,7 +23,7 @@ extension PlaybackManager: TranscriptPlaybackManaging {
     }
 
     var isPlayingEpisode: Bool {
-        isActivelyPlaying(episodeUuid: episodeUUID)
+        isPlaying
     }
 
     var canSeek: Bool { true }
@@ -34,33 +34,37 @@ extension PlaybackManager: TranscriptPlaybackManaging {
 }
 
 struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
-    let episodeUUID: String?
+    private let episodeUuid: String
     let podcastUUID: String?
+
+    var episodeUUID: String? {
+        episodeUuid
+    }
 
     var parentIdentifier: String? {
         podcastUUID
     }
 
     init(episodeUUID: String, podcastUUID: String) {
-        self.episodeUUID = episodeUUID
+        self.episodeUuid = episodeUUID
         self.podcastUUID = podcastUUID
     }
 
     func currentTime() -> TimeInterval {
-        guard PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUUID) else {
+        guard PlaybackManager.shared.isCurrentEpisode(uuid: episodeUuid) else {
             return 0
         }
         return PlaybackManager.shared.currentTime()
     }
 
     func seekTo(time: TimeInterval) {
-        guard PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUUID) else { return }
+        guard PlaybackManager.shared.isCurrentEpisode(uuid: episodeUuid) else { return }
         PlaybackManager.shared.seekTo(time: time)
     }
 
-    var canSeek: Bool { PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUUID) }
+    var canSeek: Bool { PlaybackManager.shared.isCurrentEpisode(uuid: episodeUuid) }
 
     var isPlayingEpisode: Bool {
-        PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID)
+        PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUuid)
     }
 }

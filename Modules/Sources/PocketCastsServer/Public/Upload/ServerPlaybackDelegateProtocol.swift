@@ -8,8 +8,8 @@ public protocol ServerPlaybackDelegate {
     func removeLastEpisodeFromUpNext()
 
     var currentEpisode: BaseEpisode? { get }
-    func isNowPlayingEpisode(episodeUuid: String?) -> Bool
-    func isActivelyPlaying(episodeUuid: String?) -> Bool
+    func isCurrentEpisode(uuid: String) -> Bool
+    func isActivelyPlaying(episodeUuid: String) -> Bool
 
     func queuePersistLocalCopyAsReplace()
     func queueRefreshList(checkForAutoDownload: Bool)
