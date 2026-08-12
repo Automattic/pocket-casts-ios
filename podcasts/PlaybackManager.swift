@@ -2004,6 +2004,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func startSleepTimerLiveActivity(duration: TimeInterval) {
         #if !APPCLIP && !os(watchOS) && !os(tvOS)
+            guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
+
             if #available(iOS 17.0, *) {
                 SleepTimerLiveActivityController.shared.startTimer(duration: duration, episode: currentEpisode)
             }
@@ -2015,7 +2017,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// it keeps counting to zero and sits there showing an expired timer.
     func syncSleepTimerLiveActivity(isPaused: Bool? = nil) {
         #if !APPCLIP && !os(watchOS) && !os(tvOS)
-            guard sleepTimeRemaining >= 0 else { return }
+            guard FeatureFlag.sleepTimerLiveActivity.enabled, sleepTimeRemaining >= 0 else { return }
 
             if #available(iOS 17.0, *) {
                 SleepTimerLiveActivityController.shared.sync(
@@ -2033,7 +2035,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !APPCLIP && !os(watchOS) && !os(tvOS)
             if #available(iOS 17.0, *) {
                 SleepTimerLiveActivityController.shared.reconcile(
-                    isTimerRunning: sleepTimeRemaining >= 0,
+                    isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && sleepTimeRemaining >= 0,
                     remaining: sleepTimeRemaining,
                     isPaused: !isPlaying,
                     episode: currentEpisode
