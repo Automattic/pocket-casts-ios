@@ -7,6 +7,7 @@
 - Fix the bookmark multi-select long press options: Select all above/below now flip to Deselect all above/below once that range is selected, and are left out for the first and last bookmark [#4915](https://github.com/Automattic/pocket-casts-ios/pull/4915)
 - Fix the podcast screen tabs being clipped when scrolled [#4918](https://github.com/Automattic/pocket-casts-ios/pull/4918)
 - Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
+- Improve playback reliability when starting audio [#4938](https://github.com/Automattic/pocket-casts-ios/pull/4938)
 - [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
 - [tvOS] Add a Top Results tab to Search, now the default, showing a Featured row of matching video episodes followed by Episodes and Podcasts rows. The Episodes tab leads with the same Featured row whenever a search turns up video episodes [#4926](https://github.com/Automattic/pocket-casts-ios/pull/4926)
 

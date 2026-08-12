@@ -215,11 +215,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when another app is playing non-mixable audio
     case ignorePlayWithOtherAudio
 
-    /// activates the audio session in the background to avoid locks in the main thread
-    case activateAudioSessionInBackground
-
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
+
     /// Optimizes manual playlist queries with improved deduplication
     case optimizeManualPlaylistQueries
 
@@ -465,12 +463,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignorePlayWithOtherAudio:
             true
-        case .activateAudioSessionInBackground:
-#if os(tvOS)
-            false
-#else
-            true
-#endif
         case .useCellularNetworkApis:
             true
         case .optimizeManualPlaylistQueries:
