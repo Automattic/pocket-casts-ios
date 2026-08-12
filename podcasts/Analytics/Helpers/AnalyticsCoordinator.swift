@@ -29,6 +29,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case folder
     case incomingShareList = "incoming_share_list"
     case listeningHistory = "listening_history"
+    case liveActivity = "live_activity"
     case mediaType = "media_type"
     case miniplayer
     case noFiles = "no_files"

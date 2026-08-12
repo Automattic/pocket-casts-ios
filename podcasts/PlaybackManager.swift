@@ -1983,12 +1983,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
     }
 
-    func extendSleepTimer(by duration: TimeInterval) {
+    func extendSleepTimer(by duration: TimeInterval, source: AnalyticsSource) {
         guard sleepTimeRemaining >= 0, duration > 0 else { return }
 
         sleepTimeRemaining += duration
         syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
+        Analytics.track(.playerSleepTimerExtended, source: source, properties: ["amount": Int(duration)])
     }
 
     func restartSleepTimer() {
