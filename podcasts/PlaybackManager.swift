@@ -94,8 +94,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private var lastRetryEpisodeUuid: String?
 
-    private(set) var transcriptsAvailable = false
-
     /// The time the episode was last switched as tracked by handleCurrentlyPlayingEpisodeUpdated
     private var episodeSwitchTime: Date?
 
@@ -541,7 +539,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     enum SeekHint {
         case back
-        case forward
     }
 
     func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
@@ -731,14 +728,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.bulkDelete(uuids: uuids)
     }
 
-    func switchToPlaying(upNextIndex: Int) {
-        if upNextIndex >= queue.upNextCount() { return }
-
-        if let episodeToPlay = queue.episodeAt(index: upNextIndex) {
-            switchTo(episodeToPlay: episodeToPlay, moveExistingToUpNext: true, autoPlay: true)
-        }
-    }
-
     private func playNextEpisode(autoPlay: Bool) {
         let queueCount = queue.upNextCount()
         if queueCount == 0 { return }
@@ -872,10 +861,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// or the global "Audio only" setting.
     func shouldRenderVideo() -> Bool {
         isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
-    }
-
-    var isVideoRenderingEnabled: Bool {
-        videoRenderingEnabled.value
     }
 
     /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
@@ -1028,10 +1013,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
     }
 
-    func connectedToRemotePlayerWithEpisode(_ episode: Episode) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
-    }
-
     func playingOverAirplay() -> Bool {
         let currentRoute = AVAudioSession.sharedInstance().currentRoute
 
@@ -1123,7 +1104,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         overrideEffectsToggled(applyLocalSettings: applyLocalSettings, for: podcast)
     }
 
-    func overrideEffectsToggled(applyLocalSettings: Bool, for podcast: Podcast) {
+    private func overrideEffectsToggled(applyLocalSettings: Bool, for podcast: Podcast) {
         podcast.overrideGlobalEffects = applyLocalSettings
 
         DataManager.sharedManager.save(podcast: podcast)
@@ -2515,7 +2496,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func needsToReloadPlayingEpisode(_ refreshedEpisode: BaseEpisode) -> Bool {
+    private func needsToReloadPlayingEpisode(_ refreshedEpisode: BaseEpisode) -> Bool {
         let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
 
         if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
