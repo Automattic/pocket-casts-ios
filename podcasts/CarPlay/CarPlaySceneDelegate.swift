@@ -129,7 +129,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
         if let image = UIImage(named: "car_markasplayed") {
             let markPlayedBtn = CPNowPlayingImageButton(image: image) { _ in
-                guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+                guard let episode = PlaybackManager.shared.currentEpisode else { return }
                 AnalyticsEpisodeHelper.shared.currentSource = .carPlay
 
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
@@ -160,7 +160,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     private func starButton() -> CPNowPlayingImageButton? {
-        let episode = PlaybackManager.shared.currentEpisode() as? Episode
+        let episode = PlaybackManager.shared.currentEpisode as? Episode
 
         let starImageName = episode?.keepEpisode == true ? "star_filled" : "star_empty"
 
@@ -188,7 +188,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     func nowPlayingTemplateAlbumArtistButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         if let episode = playingEpisode as? Episode, let podcast = episode.parentPodcast() {
             podcastTapped(podcast)

@@ -11,7 +11,7 @@ extension PlayEpisodeIntent {
         }
 
         AnalyticsPlaybackHelper.shared.currentSource = .interactiveWidget
-        let current = PlaybackManager.shared.currentEpisode()
+        let current = PlaybackManager.shared.currentEpisode
 
         if current?.uuid == podcastEpisode.uuid {
             Analytics.track(.widgetInteraction, properties: ["action": PlaybackManager.shared.playing() ? "pause" : "play"])

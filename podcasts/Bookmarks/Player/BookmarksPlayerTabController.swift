@@ -72,7 +72,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     // MARK: - Notification Handlers
 
     private func updateCurrentEpisode() {
-        viewModel.episode = playbackManager.currentEpisode()
+        viewModel.episode = playbackManager.currentEpisode
     }
 
     private func handleBookmarkCreated(bookmark: Bookmark, isDuplicate: Bool) {

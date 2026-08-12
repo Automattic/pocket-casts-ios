@@ -159,7 +159,7 @@ class PlayerChapterCell: UITableViewCell {
         guard let chapter, let link = chapter.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
         PlaybackManager.shared.trackChapterEvent(.chapterLinkClicked, properties: [
             "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
-            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown",
             "chapter_title": chapter.title
         ])
         linkTapped(url)
@@ -172,7 +172,7 @@ class PlayerChapterCell: UITableViewCell {
 
         setColors(dim: chapter?.isPlayable() == false)
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode, let index = chapter?.index {
             if chapter?.shouldPlay == true {
                 currentEpisode.select(chapterIndex: index)
                 track(.deselectChaptersChapterSelected)
@@ -219,6 +219,6 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func track(_ event: AnalyticsEvent) {
-        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
+        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown"])
     }
 }

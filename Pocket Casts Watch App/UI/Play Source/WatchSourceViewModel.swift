@@ -33,7 +33,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func isCurrentlyPlaying(episode: BaseEpisode) -> Bool {
-        PlaybackManager.shared.currentEpisode()?.uuid == episode.uuid
+        PlaybackManager.shared.currentEpisode?.uuid == episode.uuid
     }
 
     func supportsPodcastNavigation(forEpisode episode: BaseEpisode) -> Bool {
@@ -233,7 +233,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     // MARK: Now Playing
 
     var nowPlayingEpisode: BaseEpisode? {
-        PlaybackManager.shared.currentEpisode()
+        PlaybackManager.shared.currentEpisode
     }
 
     var playbackProgress: CGFloat {

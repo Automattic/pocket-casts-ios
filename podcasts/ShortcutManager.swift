@@ -64,7 +64,7 @@ class ShortcutManager: CustomObserver {
             )
         }
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode() {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode {
             // add a play/pause shortcut
             if PlaybackManager.shared.playing() {
                 shortcutItems.append(

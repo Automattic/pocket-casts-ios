@@ -138,7 +138,7 @@ class MainEpisodeActionView: UIView {
     // MARK: - Update Events
 
     @objc private func playbackDidProgress() {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode(), let uuid = episodeUuid, uuid == playingEpisode.uuid else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode, let uuid = episodeUuid, uuid == playingEpisode.uuid else { return }
 
         // don't update the progress of episodes that are downloading
         if playingEpisode.downloading() { return }

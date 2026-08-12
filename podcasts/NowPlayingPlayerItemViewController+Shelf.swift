@@ -25,7 +25,7 @@ protocol NowPlayingActionsDelegate: AnyObject {
 extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     @objc func reloadShelfActions() {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         #if APPCLIP
         let actions: [PlayerAction] = [.effects, .sleepTimer, .routePicker]
@@ -242,9 +242,9 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func goToTapped() {
         #if !APPCLIP
-        if PlaybackManager.shared.currentEpisode() is Episode {
+        if PlaybackManager.shared.currentEpisode is Episode {
             goToPodcast()
-        } else if PlaybackManager.shared.currentEpisode() is UserEpisode {
+        } else if PlaybackManager.shared.currentEpisode is UserEpisode {
             goToFiles()
         }
         #endif
@@ -264,7 +264,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func archiveTapped() {
         #if !APPCLIP
-        if PlaybackManager.shared.currentEpisode() is UserEpisode {
+        if PlaybackManager.shared.currentEpisode is UserEpisode {
             delete()
         } else {
             archive()
@@ -303,7 +303,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func downloadTapped() {
         #if !APPCLIP
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
@@ -328,7 +328,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     private func deleteDownloadedFile() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         EpisodeManager.analyticsHelper.currentSource = analyticsSource
 
@@ -458,7 +458,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     @objc func presentManualPlaylistsChooser() {
 #if !APPCLIP
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         NavigationManager.sharedManager.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
@@ -478,13 +478,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     private func goToPodcast() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
     }
 
     private func markPlayed() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         let alert = UIAlertController(title: L10n.playerMarkAsPlayedConfirmation, message: L10n.playerMarkAsPlayedConfirmationMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
@@ -496,14 +496,14 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     private func delete() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? UserEpisode else { return }
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         UserEpisodeManager.presentDeleteOptions(episode: episode, from: self)
     }
 
     private func archive() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
@@ -529,7 +529,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     private func performStarAction(starBtn: UIButton? = nil) {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
@@ -547,7 +547,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     #if !APPCLIP
     private func shareEpisode(sender: UIView) {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
         SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
     }
@@ -597,7 +597,7 @@ extension NowPlayingPlayerItemViewController {
             SmartBookmarksPromo.shouldShowPlayerTip,
             smartBookmarksTip == nil,
             let anchor = smartBookmarksTipAnchor,
-            let episode = PlaybackManager.shared.currentEpisode(),
+            let episode = PlaybackManager.shared.currentEpisode,
             PlayerAction.addBookmark.canBePerformedOn(episode: episode)
         else {
             return

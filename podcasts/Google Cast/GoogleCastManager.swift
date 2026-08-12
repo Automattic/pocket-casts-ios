@@ -286,7 +286,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
             return mediaInfo.streamDuration
         }
 
-        if let playerEpisode = PlaybackManager.shared.currentEpisode() {
+        if let playerEpisode = PlaybackManager.shared.currentEpisode {
             return playerEpisode.duration
         }
 

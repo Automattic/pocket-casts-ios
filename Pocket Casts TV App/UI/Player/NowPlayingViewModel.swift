@@ -56,7 +56,7 @@ class NowPlayingViewModel: Identifiable {
     private var seekAfterLoad = false
 
     func load() {
-        let newEpisode = playbackManager.currentEpisode()
+        let newEpisode = playbackManager.currentEpisode
         guard newEpisode?.uuid != episode?.uuid else {
             return
         }

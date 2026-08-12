@@ -112,7 +112,7 @@ class CastToViewController: PCViewController {
     }
 
     private func updatePlayingDetails() {
-        guard GoogleCastManager.sharedManager.connected(), let playingEpisode = PlaybackManager.shared.currentEpisode() else {
+        guard GoogleCastManager.sharedManager.connected(), let playingEpisode = PlaybackManager.shared.currentEpisode else {
             episodeName.text = L10n.chromecastConnectedToDevice
             podcastName.text = L10n.chromecastNothingPlaying
             playPauseBtn.isHidden = true

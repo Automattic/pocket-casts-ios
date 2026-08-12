@@ -675,7 +675,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     private func serializeNowPlaying() -> [String: Any] {
         var nowPlayingInfo = [String: Any]()
         let playbackManager = PlaybackManager.shared
-        if let playingEpisode = playbackManager.currentEpisode() {
+        if let playingEpisode = playbackManager.currentEpisode {
             nowPlayingInfo[WatchConstants.Keys.nowPlayingEpisode] = convertForWatch(episode: playingEpisode)
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSubtitle] = playingEpisode.subTitle()
             nowPlayingInfo[WatchConstants.Keys.nowPlayingStatus] = playbackManager.playing() ? WatchConstants.PlayingStatus.playing : WatchConstants.PlayingStatus.paused

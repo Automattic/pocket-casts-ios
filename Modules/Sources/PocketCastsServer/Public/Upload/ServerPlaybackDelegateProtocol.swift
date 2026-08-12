@@ -7,7 +7,7 @@ public protocol ServerPlaybackDelegate {
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool)
     func removeLastEpisodeFromUpNext()
 
-    func currentEpisode() -> BaseEpisode?
+    var currentEpisode: BaseEpisode? { get }
     func isNowPlayingEpisode(episodeUuid: String?) -> Bool
     func isActivelyPlaying(episodeUuid: String?) -> Bool
 

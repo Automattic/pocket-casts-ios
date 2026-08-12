@@ -11,11 +11,11 @@ protocol TranscriptPlaybackManaging {
 
 extension PlaybackManager: TranscriptPlaybackManaging {
     var episodeUUID: String? {
-        currentEpisode()?.uuid
+        currentEpisode?.uuid
     }
 
     var parentIdentifier: String? {
-        currentEpisode()?.parentIdentifier()
+        currentEpisode?.parentIdentifier()
     }
 
     var podcastUUID: String? {

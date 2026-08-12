@@ -20,7 +20,7 @@ public struct MiniPlayerSafeAreaInset: ViewModifier {
                         .frame(height: (isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0) * multipler)
                 }
                 .onAppear {
-                    isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
+                    isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode != nil)
                 }
                 .ignoresSafeArea(.keyboard)
                 .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in

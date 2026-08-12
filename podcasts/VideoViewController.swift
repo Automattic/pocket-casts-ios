@@ -193,7 +193,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func skipForwardLongPressed() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
@@ -205,7 +205,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
-                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
+                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)
@@ -285,7 +285,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @objc private func trackChanged() {
-        guard PlaybackManager.shared.currentEpisode() != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
+        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
             dismiss(animated: true, completion: nil)
             return
         }

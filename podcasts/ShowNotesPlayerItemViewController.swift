@@ -120,7 +120,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     @objc private func updateShowNotes() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
         self.episode = episode
         let pubDate = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         publishedDate.text = pubDate

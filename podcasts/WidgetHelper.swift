@@ -32,7 +32,7 @@ class WidgetHelper {
             if widgets.contains(where: { $0.kind == "Now_Playing_Widget" }) {
                 self.publishAppIcon()
             }
-            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode() == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
+            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
                 self.publishTopFilterInfo()
             }
             WidgetCenter.shared.reloadAllTimelines()
@@ -68,7 +68,7 @@ class WidgetHelper {
     }
 
     @objc func handleFilterChanged() {
-        guard PlaybackManager.shared.currentEpisode() == nil else {
+        guard PlaybackManager.shared.currentEpisode == nil else {
             return
         }
         updateSharedUpNext()
@@ -140,7 +140,7 @@ class WidgetHelper {
         var isPlaying = false
         let currentTime = PlaybackManager.shared.currentTime()
 
-        if episode.uuid == PlaybackManager.shared.currentEpisode()?.uuid, currentTime.isFinite {
+        if episode.uuid == PlaybackManager.shared.currentEpisode?.uuid, currentTime.isFinite {
             duration = duration - currentTime
             isPlaying = PlaybackManager.shared.playing()
         }
