@@ -142,7 +142,10 @@ private struct SleepTimerExtendButton: View {
                 .fontWeight(.semibold)
                 .lineLimit(1)
         }
+        // The widget extension has no accent color, so an untinted bordered button picks up
+        // the system default and all but disappears over a wallpaper.
         .buttonStyle(.bordered)
+        .tint(SleepTimerLiveActivityStyle.primaryTextColor)
     }
 }
 
@@ -163,4 +166,24 @@ private enum SleepTimerLiveActivityStyle {
     // The activity has no background of its own, so the text has to adapt to the wallpaper.
     static let primaryTextColor = Color.primary
     static let secondaryTextColor = Color.secondary
+}
+
+@available(iOSApplicationExtension 17.0, *)
+#Preview("Sleep Timer", as: .content, using: SleepTimerActivityAttributes(startedAt: Date())) {
+    SleepTimerLiveActivityWidget()
+} contentStates: {
+    SleepTimerActivityAttributes.ContentState(
+        timerEndDate: Date().addingTimeInterval(14.minutes),
+        remaining: 14.minutes,
+        isPaused: false,
+        episodeTitle: "The Vergecast",
+        podcastTitle: "The Verge"
+    )
+    SleepTimerActivityAttributes.ContentState(
+        timerEndDate: Date().addingTimeInterval(14.minutes),
+        remaining: 14.minutes,
+        isPaused: true,
+        episodeTitle: "The Vergecast",
+        podcastTitle: "The Verge"
+    )
 }
