@@ -95,14 +95,15 @@ class FastlaneHelpersTest < Minitest::Test
   # `RUN_FASTLANE_TESTS` enables this suite for any PR touching `fastlane/*`, which includes the metadata
   # itself — so over-long copy fails on the PR that writes it, not mid-release.
   #
-  # Only the maximum is asserted. Going over a budget is a warning by design, so it must not fail here.
-  def test_shipped_metadata_fits_the_app_store_connect_maximums
+  # Budgets are asserted, not just maximums: a budget only warns from the release lane, and a warning
+  # nobody reads is how a locale ends up shipping with no metadata at all.
+  def test_shipped_metadata_fits_its_budget
     %w[metadata metadata-tvos].each do |folder|
       APP_STORE_METADATA_LIMITS.each_key do |file_name|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
         length = File.read(path, mode: 'r:UTF-8').length
 
-        refute_equal :over_max, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} characters"
+        assert_equal :ok, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} characters"
       end
     end
   end
