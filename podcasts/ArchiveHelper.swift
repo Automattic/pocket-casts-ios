@@ -53,7 +53,7 @@ class ArchiveHelper {
         }
 
         if episodeLimit > 0 {
-            let currentlyPlayingUuid = PlaybackManager.shared.playing() ? PlaybackManager.shared.currentEpisode?.uuid : nil
+            let currentlyPlayingUuid = PlaybackManager.shared.isPlaying ? PlaybackManager.shared.currentEpisode?.uuid : nil
             let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC", arguments: [podcast.id])
             for (index, episode) in episodes.enumerated() {
                 if index < episodeLimit { continue }

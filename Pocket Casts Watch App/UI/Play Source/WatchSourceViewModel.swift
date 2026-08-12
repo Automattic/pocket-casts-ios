@@ -6,7 +6,7 @@ import SwiftUI
 
 class WatchSourceViewModel: PlaySourceViewModel {
     var isPlaying: Bool {
-        PlaybackManager.shared.playing()
+        PlaybackManager.shared.isPlaying
     }
 
     // MARK: Episodes
@@ -270,7 +270,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingSubTitle(forEpisode episode: BaseEpisode) -> String? {
-        guard !PlaybackManager.shared.buffering() else { return L10n.watchBuffering }
+        guard !PlaybackManager.shared.isBuffering else { return L10n.watchBuffering }
         return episode.subTitle()
     }
 

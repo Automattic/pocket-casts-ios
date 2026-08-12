@@ -95,7 +95,7 @@ class WidgetHelper {
             sharedDefaults.set(max(allUpNextPlaylistEpisodes.count - 1, 0), forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterItems)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
-            let playingStatus = PlaybackManager.shared.playing()
+            let playingStatus = PlaybackManager.shared.isPlaying
             sharedDefaults.set(playingStatus, forKey: SharedConstants.GroupUserDefaults.isPlaying)
 
             sharedDefaults.synchronize()
@@ -142,7 +142,7 @@ class WidgetHelper {
 
         if episode.uuid == PlaybackManager.shared.currentEpisode?.uuid, currentTime.isFinite {
             duration = duration - currentTime
-            isPlaying = PlaybackManager.shared.playing()
+            isPlaying = PlaybackManager.shared.isPlaying
         }
         let podcastColor: UIColor = ColorManager.backgroundColorForPodcastUuid(episode.parentIdentifier())
         var imageUrl = ""

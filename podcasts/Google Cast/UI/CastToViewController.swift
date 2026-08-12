@@ -124,7 +124,7 @@ class CastToViewController: PCViewController {
         episodeName.text = playingEpisode.displayableTitle()
         podcastName.text = playingEpisode.subTitle()
 
-        let imageName = PlaybackManager.shared.playing() ? "icon-pause" : "icon-play"
+        let imageName = PlaybackManager.shared.isPlaying ? "icon-pause" : "icon-play"
         playPauseBtn.setImage(UIImage(named: imageName), for: .normal)
         playPauseBtn.isHidden = false
 

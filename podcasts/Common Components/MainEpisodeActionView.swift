@@ -113,7 +113,7 @@ class MainEpisodeActionView: UIView {
         }
 
         // update button state
-        let isPlaying = (isCurrent && PlaybackManager.shared.playing())
+        let isPlaying = (isCurrent && PlaybackManager.shared.isPlaying)
         let googleCastConnected = GoogleCastManager.sharedManager.connected()
         let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
         if googleCastConnected {

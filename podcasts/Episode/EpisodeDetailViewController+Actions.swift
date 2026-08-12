@@ -64,7 +64,7 @@ extension EpisodeDetailViewController {
         let isNowPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
         if isNowPlaying {
             // dismiss the dialog if the user hit play
-            if !PlaybackManager.shared.playing() {
+            if !PlaybackManager.shared.isPlaying {
                 dismiss(animated: true, completion: nil)
             }
         } else {

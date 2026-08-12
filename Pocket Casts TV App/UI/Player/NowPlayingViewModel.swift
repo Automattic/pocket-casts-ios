@@ -64,7 +64,7 @@ class NowPlayingViewModel: Identifiable {
         isFirstLoad = true
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
-        if !playbackManager.playing(), !playbackManager.isReadyToPlay {
+        if !playbackManager.isPlaying, !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
             seekAfterLoad = true
         }

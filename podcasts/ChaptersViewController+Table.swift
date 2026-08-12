@@ -25,7 +25,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             let currentChapters = PlaybackManager.shared.currentChapters()
 
             if chapter.index == currentChapters.index {
-                state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
+                state = PlaybackManager.shared.isPlaying ? .currentlyPlaying : .currentlyPaused
             } else if chapter.index > currentChapters.index {
                 state = .future
             }

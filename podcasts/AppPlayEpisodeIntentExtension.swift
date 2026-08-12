@@ -14,7 +14,7 @@ extension PlayEpisodeIntent {
         let current = PlaybackManager.shared.currentEpisode
 
         if current?.uuid == podcastEpisode.uuid {
-            Analytics.track(.widgetInteraction, properties: ["action": PlaybackManager.shared.playing() ? "pause" : "play"])
+            Analytics.track(.widgetInteraction, properties: ["action": PlaybackManager.shared.isPlaying ? "pause" : "play"])
             PlaybackActionHelper.playPause()
         } else {
             // Ideally we should use PlaybackActionHelper here

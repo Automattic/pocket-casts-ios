@@ -608,7 +608,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             progress = min(1, CGFloat(currentTime / duration))
         }
 
-        let isIndeterminate = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        let isIndeterminate = PlaybackManager.shared.isBuffering && PlaybackManager.shared.isPlaying
 
         playbackProgressView.progress = progress
         playbackProgressView.indeterminant = isIndeterminate
@@ -654,7 +654,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             updateColorsLegacy()
         }
 
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
+        playPauseBtn.isPlaying = PlaybackManager.shared.isPlaying
     }
 
     private func updateColorsLegacy() {

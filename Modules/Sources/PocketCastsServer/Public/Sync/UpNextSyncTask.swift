@@ -385,7 +385,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     private func addPlayingEpisode(list: [Api_UpNextResponse.EpisodeResponse]) -> [Api_UpNextResponse.EpisodeResponse] {
-        guard let isPlaying = ServerConfig.shared.playbackDelegate?.playing(), isPlaying == true else { return list }
+        guard let isPlaying = ServerConfig.shared.playbackDelegate?.isPlaying, isPlaying == true else { return list }
 
         guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode else { return list }
 

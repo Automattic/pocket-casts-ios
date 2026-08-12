@@ -77,7 +77,7 @@ extension NowPlayingPlayerItemViewController {
         let skipFwdAmount = Settings.skipForwardTime
         skipFwdBtn.skipAmount = skipFwdAmount
 
-        updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())
+        updatePlayPauseButton(isPlaying: PlaybackManager.shared.isPlaying)
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
         reloadShelfActions()
         updateChaptersControls()
@@ -195,7 +195,7 @@ extension NowPlayingPlayerItemViewController {
             timeSlider.currentTime = upTo
         }
 
-        timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        timeSlider.indeterminant = PlaybackManager.shared.isBuffering && PlaybackManager.shared.isPlaying
     }
 
     var isErrorVisible: Bool {

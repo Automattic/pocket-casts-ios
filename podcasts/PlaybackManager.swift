@@ -144,7 +144,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func isActivelyPlaying(episodeUuid: String?) -> Bool {
-        isNowPlayingEpisode(episodeUuid: episodeUuid) && playing()
+        isNowPlayingEpisode(episodeUuid: episodeUuid) && isPlaying
     }
 
     var currentEpisode: BaseEpisode? {
@@ -159,7 +159,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         return nil
     }
 
-    func playing() -> Bool {
+    var isPlaying: Bool {
         if aboutToPlay.value { return true }
 
         guard let player else { return false }
@@ -167,7 +167,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         return player.playing()
     }
 
-    func buffering() -> Bool {
+    var isBuffering: Bool {
         guard let player else { return false }
 
         return player.buffering()
@@ -349,7 +349,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episode = currentEpisode else { return }
 
         // Only trigger the event if we are already playing
-        if playing(), userInitiated == true {
+        if isPlaying, userInitiated == true {
             analyticsPlaybackHelper.pause()
         }
 
@@ -358,7 +358,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         FileLog.shared.addMessage("PlaybackManager pausing playback \(currentEpisode?.title ?? "unknown episode")")
 
-        recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
+        recordPlaybackPosition(sendToServerImmediately: isPlaying, fireNotifications: true)
 
         if let player {
             player.pause()
@@ -374,7 +374,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playPause() {
-        if playing() {
+        if isPlaying {
             pause()
         } else {
             play()
@@ -573,7 +573,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 strongSelf.fireProgressNotification()
                 strongSelf.updateNowPlayingInfo()
 
-                if startPlaybackAfterSeek, !strongSelf.playing() {
+                if startPlaybackAfterSeek, !strongSelf.isPlaying {
                     strongSelf.play()
                 }
             })
@@ -591,7 +591,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 seekingTo = PlaybackManager.notSeeking
             }
 
-            if startPlaybackAfterSeek, !playing() {
+            if startPlaybackAfterSeek, !isPlaying {
                 play(userInitiated: false)
             }
         }
@@ -623,7 +623,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func currentTime() -> TimeInterval {
         guard let episode = currentEpisode else { return -1 }
 
-        if seekingTo >= 0, seekingTo <= duration(), !playing() { return seekingTo }
+        if seekingTo >= 0, seekingTo <= duration(), !isPlaying { return seekingTo }
 
         let playerTime = !aboutToPlay.value ? player?.currentTime() ?? 0 : 0
 
@@ -638,7 +638,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func duration() -> TimeInterval {
         guard let currentEpisode else { return 0 }
 
-        if let player, !aboutToPlay.value, !buffering() {
+        if let player, !aboutToPlay.value, !isBuffering {
             let episodeDuration = currentEpisode.duration
             let playerDuration = player.duration()
             return (playerDuration > 0) ? playerDuration : episodeDuration
@@ -714,7 +714,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             autoplayIfNeeded()
             if queue.upNextCount() > 0 {
-                playNextEpisode(autoPlay: playing())
+                playNextEpisode(autoPlay: isPlaying)
             } else {
                 endPlayback(saveCurrentEpisode: saveCurrentEpisode)
             }
@@ -845,7 +845,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Resumes playback when it's currently paused. Used by the playlist "Play All" flow when the
     /// Up Next queue already matches the playlist being played.
     private func resumeIfPaused() {
-        guard !playing() else { return }
+        guard !isPlaying else { return }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
         play()
     }
@@ -933,7 +933,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// audio file and the streamed HLS video.
     private func reloadCurrentEpisodeSource() {
         guard let episode = currentEpisode else { return }
-        let wasPlaying = playing()
+        let wasPlaying = isPlaying
         recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
         load(episode: episode, autoPlay: wasPlaying, overrideUpNext: false, saveCurrentEpisode: false)
     }
@@ -1140,7 +1140,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episode = currentEpisode else { return }
 
         if playerSwitchRequired() {
-            load(episode: episode, autoPlay: playing(), overrideUpNext: false)
+            load(episode: episode, autoPlay: isPlaying, overrideUpNext: false)
         }
 
         if let player {
@@ -1654,7 +1654,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                     self.playersToCleanUp.remove(at: index)
                 }
 
-                if !self.playing() {
+                if !self.isPlaying {
                     self.deactiveAudioSession(waitBeforeDeactivating: false)
                 }
             }
@@ -1830,7 +1830,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         fireProgressNotification()
 
         if updateCount > updatesPerSave {
-            recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
+            recordPlaybackPosition(sendToServerImmediately: isPlaying, fireNotifications: true)
             updateCount = 0
         } else {
             let upTo = currentTime()
@@ -1901,7 +1901,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// is stopped. Reporting `nil` here is interpreted as a rate of `0`, which holds the
     /// timeline in place while paused. See PCIOS-274.
     private var nowPlayingPlaybackRate: Double? {
-        playing() ? player?.playbackRate() : nil
+        isPlaying ? player?.playbackRate() : nil
     }
 
     @objc private func updateNowPlayingInfo() {
@@ -2044,16 +2044,16 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             if Settings.legacyBluetoothModeEnabled() {
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
-                if !strongSelf.playing() { strongSelf.play() }
+                if !strongSelf.isPlaying { strongSelf.play() }
             } else if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
                 // iOS will sometimes issue two remotePlay commands, so if it's been less than 10 seconds since the last one, just play don't try to playPause
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play")
-                if !strongSelf.playing() { strongSelf.play() }
+                if !strongSelf.isPlaying { strongSelf.play() }
             } else {
                 if strongSelf.playingOverAirplay() {
                     // during handoff iOS will call us to play even if we already are, so honour that here
                     FileLog.shared.addMessage("Remote control: playCommand, treating as play because playing over AirPlay")
-                    if !strongSelf.playing() { strongSelf.play() }
+                    if !strongSelf.isPlaying { strongSelf.play() }
                 } else {
                     if FeatureFlag.ignorePlayWithOtherAudio.enabled {
                         let audioSession = AVAudioSession.sharedInstance()
@@ -2501,7 +2501,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // the episode we have won't be marked as downloaded, so grab a fresh copy from the database
         if let refreshedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
-            let currentlyPlaying = playing()
+            let currentlyPlaying = isPlaying
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
 
             if !needsToReloadPlayingEpisode(refreshedEpisode) {
@@ -2582,7 +2582,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func updateIdleTimer() {
         #if !os(watchOS)
             DispatchQueue.main.async {
-                if self.playing() {
+                if self.isPlaying {
                     let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
@@ -2857,7 +2857,7 @@ extension PlaybackManager {
         )
 
         // The listener took over while we were resolving; leave things where they put them.
-        guard isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid), !playing(),
+        guard isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid), !isPlaying,
               abs(currentTime() - bookmark.time) < 1 else {
             FileLog.shared.addMessage(
                 "[Bookmarks] Playback moved while resolving bookmark \(bookmark.uuid) — not starting playback"

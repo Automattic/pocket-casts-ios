@@ -223,7 +223,7 @@ extension AppDelegate {
             strongSelf.openPlayerWhenReadyFromExternalEvent()
 
             if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
-                if !PlaybackManager.shared.playing() {
+                if !PlaybackManager.shared.isPlaying {
                     PlaybackManager.shared.play()
                 }
             } else {

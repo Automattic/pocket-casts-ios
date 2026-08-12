@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 
 public protocol ServerPlaybackDelegate {
-    func playing() -> Bool
+    var isPlaying: Bool { get }
     func inUpNext(episode: BaseEpisode?) -> Bool
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool)
     func removeLastEpisodeFromUpNext()

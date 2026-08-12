@@ -138,7 +138,7 @@ class DiscoverVideoEpisodeModel {
             return
         }
 
-        player.volume = playbackManager.playing() ? 0 : 0.5
+        player.volume = playbackManager.isPlaying ? 0 : 0.5
         player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player.play()
         isPlaying = true
