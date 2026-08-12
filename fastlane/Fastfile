@@ -463,7 +463,7 @@ platform :ios do
         title: "Update translations and App Store metadata for `#{version}`",
         body: "This PR integrates the latest app translations and iOS/tvOS App Store metadata from GlotPress into the `#{base_branch}` branch.",
         labels: ['Releases'],
-        github_token: ENV.fetch('GITHUB_TOKEN')
+        github_token: get_required_env!('GITHUB_TOKEN')
       )
 
       buildkite_annotate(context: 'translations-and-metadata-pr-url', message: "Translations and metadata PR: #{pr_url || 'Error creating PR'}") if is_ci
