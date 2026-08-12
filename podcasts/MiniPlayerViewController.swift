@@ -504,7 +504,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     /// Shows the current chapter title when the episode has chapters, falling
     /// back to the episode title otherwise — matching the full screen player.
-    private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) {
+    private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) {
         guard let episodeTitleLabel, let episode else { return }
 
         let chapters = PlaybackManager.shared.currentChapters()
@@ -522,13 +522,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func chapterDidChange() {
         updateTitle()
-        if let episode = PlaybackManager.shared.currentEpisode() {
+        if let episode = PlaybackManager.shared.currentEpisode {
             updateArtwork(for: episode)
         }
     }
 
     @objc private func playbackStarted() {
-        if let episode = PlaybackManager.shared.currentEpisode() {
+        if let episode = PlaybackManager.shared.currentEpisode {
             // Forget the auto open marker once a different episode plays, otherwise coming back to a
             // previously auto opened episode never opens the player again. Keeping it for the same
             // episode still stops a reload (e.g. switching to the downloaded file) from re-opening it.
@@ -562,7 +562,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @objc private func videoPlaybackEngineSwitched() {
         // Video can be detected after playback starts (e.g. an HLS stream), so give it the same
         // automatic full screen treatment a video podcast gets.
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
         autoOpenFullScreenPlayerIfNeeded(for: episode)
     }
 
@@ -582,7 +582,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func playbackStateDidChange() {
-        guard let episodePlaying = PlaybackManager.shared.currentEpisode() else {
+        guard let episodePlaying = PlaybackManager.shared.currentEpisode else {
             hideMiniPlayer(true)
 
             return
@@ -608,7 +608,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             progress = min(1, CGFloat(currentTime / duration))
         }
 
-        let isIndeterminate = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        let isIndeterminate = PlaybackManager.shared.isBuffering && PlaybackManager.shared.isPlaying
 
         playbackProgressView.progress = progress
         playbackProgressView.indeterminant = isIndeterminate
@@ -654,7 +654,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             updateColorsLegacy()
         }
 
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
+        playPauseBtn.isPlaying = PlaybackManager.shared.isPlaying
     }
 
     private func updateColorsLegacy() {
@@ -695,9 +695,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     private func currentPodcastTintColor() -> UIColor {
-        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
+        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode) {
             return Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
-        } else if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
+        } else if let episode = PlaybackManager.shared.currentEpisode as? UserEpisode, episode.imageColor > 0 {
             return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
         } else {
             return AppTheme.userEpisodeColor(number: 1)
@@ -705,7 +705,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {
-        if let episode = PlaybackManager.shared.currentEpisode() as? Episode {
+        if let episode = PlaybackManager.shared.currentEpisode as? Episode {
             return episode.parentPodcast()
         }
 
@@ -713,7 +713,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func updateRequired() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         updateColors()
         updateArtwork(for: episode, forceReload: true)

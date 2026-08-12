@@ -221,7 +221,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         // When streaming HLS, the content URL is an .m3u8 manifest, not the progressive file.
         // The receiver needs the HLS content type to load it — the episode's file type describes
         // the progressive enclosure and would make the receiver try to play the manifest directly.
-        let fileType = isHLS ? Episode.hlsEnclosureType : (episode.fileType ?? "")
+        let fileType = isHLS ? Episode.advertisedHLSMimeType : (episode.fileType ?? "")
         let mediaBuilder = GCKMediaInformationBuilder()
         mediaBuilder.contentURL = downloadUrl
         mediaBuilder.streamType = .buffered
@@ -286,7 +286,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
             return mediaInfo.streamDuration
         }
 
-        if let playerEpisode = PlaybackManager.shared.currentEpisode() {
+        if let playerEpisode = PlaybackManager.shared.currentEpisode {
             return playerEpisode.duration
         }
 

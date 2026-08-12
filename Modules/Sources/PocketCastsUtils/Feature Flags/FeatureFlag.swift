@@ -215,11 +215,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when another app is playing non-mixable audio
     case ignorePlayWithOtherAudio
 
-    /// activates the audio session in the background to avoid locks in the main thread
-    case activateAudioSessionInBackground
-
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
+
     /// Optimizes manual playlist queries with improved deduplication
     case optimizeManualPlaylistQueries
 
@@ -313,6 +311,11 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Show the Categories and Curated rows on the tvOS Home screen
     case tvHomeCategoriesAndCurated
+
+    /// Introduce Smart Bookmarks with a tip in the player and a "New" badge on the Add Bookmark row.
+    ///
+    /// The promo runs for 8.19, 8.20 and 8.21 only. Remove this flag and `SmartBookmarksPromo` when 8.22 is cut.
+    case smartBookmarksPromo
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -460,12 +463,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignorePlayWithOtherAudio:
             true
-        case .activateAudioSessionInBackground:
-#if os(tvOS)
-            false
-#else
-            true
-#endif
         case .useCellularNetworkApis:
             true
         case .optimizeManualPlaylistQueries:
@@ -530,6 +527,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .tvHomeCategoriesAndCurated:
             false
+        case .smartBookmarksPromo:
+            true
         }
     }
 

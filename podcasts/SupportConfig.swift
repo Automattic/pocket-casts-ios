@@ -108,42 +108,34 @@ struct SupportConfig: ZDConfig {
     }
 
     private func debugLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        if forDisplay {
-            // Return the File Contents to show the user
-            return Future { promise in
-                FileLog.shared.loadLogFileAsString(completion: { contents in
-                    promise(.success(ZDCustomField(.debugLog, value: contents)))
-                })
-            }
-            .eraseToAnyPublisher()
-        }
+        Future { promise in
+            Task {
+                // Either the file contents to show the user, or the UUID of the file queued for upload
+                let value = forDisplay
+                    ? await FileLog.shared.logFileAsString()
+                    : await FileLog.shared.encryptedLogUUID()
 
-        // Return the File UUID that has been queued for upload
-        return FileLog.shared.encryptedLogUUID()
-            .map { uuid in
-                ZDCustomField(.debugLog, value: uuid)
+                promise(.success(ZDCustomField(.debugLog, value: value)))
             }
-            .eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
     }
 
     private func watchLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        if forDisplay {
-            // Return the File Contents to show the user
-            return Future { promise in
-                WatchManager.shared.requestLogFile { watchLog in
-                    let wearableLog = watchLog ?? "No wearable logs were available. If you use the Watch app, open it and reopen this screen."
-                    promise(.success(ZDCustomField(.wearableLog, value: wearableLog)))
+        Future { promise in
+            Task {
+                // Either the file contents to show the user, or the UUID of the file queued for upload
+                let value: String
+                if forDisplay {
+                    value = await WatchManager.shared.requestLogFile() ?? "No wearable logs were available. If you use the Watch app, open it and reopen this screen."
+                } else {
+                    value = await FileLog.shared.encryptedWatchLogUUID()
                 }
-            }
-            .eraseToAnyPublisher()
-        }
 
-        // Return the File Name to be enqued for upload
-        return FileLog.shared.encryptedWatchLogUUID()
-            .map { uuid in
-                ZDCustomField(.wearableLog, value: uuid)
+                promise(.success(ZDCustomField(.wearableLog, value: value)))
             }
-            .eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
     }
 
     private func appMetaData(optOut: Bool) -> ZDCustomField {

@@ -54,6 +54,7 @@ struct FolderDetailView: View {
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
                         }
                         .buttonStyle(.card)
+                        .accessibilityLabel(podcast.title ?? "")
                         .prefersDefaultFocus(podcast.id == firstID, in: podcastGridNamespace)
                     }
                 }

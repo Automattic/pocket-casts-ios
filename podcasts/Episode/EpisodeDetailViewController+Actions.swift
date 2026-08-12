@@ -8,7 +8,7 @@ extension EpisodeDetailViewController {
     @IBAction func addTapped(_ sender: UIButton) {
         let addPicker = OptionsPicker(title: nil)
 
-        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 
         if isInUpNext {
             let removeFromUpNextAction = OptionAction(label: L10n.removeFromUpNext, icon: "episode-removenext") { [weak self] in
@@ -61,10 +61,10 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: UIButton) {
-        let isNowPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+        let isNowPlaying = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
         if isNowPlaying {
             // dismiss the dialog if the user hit play
-            if !PlaybackManager.shared.playing() {
+            if !PlaybackManager.shared.isPlaying {
                 dismiss(animated: true, completion: nil)
             }
         } else {
@@ -164,7 +164,7 @@ extension EpisodeDetailViewController {
 
     func updateProgress() {
         var progress: CGFloat = 0
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             let currentTime = PlaybackManager.shared.currentTime()
             let duration = PlaybackManager.shared.duration()
             if currentTime > 0, duration > 0 {

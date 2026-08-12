@@ -9,7 +9,7 @@ extension PlayerContainerViewController {
     }
 
     @objc func update() {
-        guard PlaybackManager.shared.currentEpisode() != nil else {
+        guard PlaybackManager.shared.currentEpisode != nil else {
             closeNowPlaying()
 
             return
@@ -21,7 +21,7 @@ extension PlayerContainerViewController {
 
     private func updateAvailableTabs() {
         #if !APPCLIP
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         // Update the colors when the episode changes
         tabsView.themeDidChange()

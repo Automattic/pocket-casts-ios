@@ -6,7 +6,7 @@ import SwiftUI
 
 class WatchSourceViewModel: PlaySourceViewModel {
     var isPlaying: Bool {
-        PlaybackManager.shared.playing()
+        PlaybackManager.shared.isPlaying
     }
 
     // MARK: Episodes
@@ -33,7 +33,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func isCurrentlyPlaying(episode: BaseEpisode) -> Bool {
-        PlaybackManager.shared.currentEpisode()?.uuid == episode.uuid
+        PlaybackManager.shared.currentEpisode?.uuid == episode.uuid
     }
 
     func supportsPodcastNavigation(forEpisode episode: BaseEpisode) -> Bool {
@@ -55,7 +55,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
@@ -233,7 +233,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     // MARK: Now Playing
 
     var nowPlayingEpisode: BaseEpisode? {
-        PlaybackManager.shared.currentEpisode()
+        PlaybackManager.shared.currentEpisode
     }
 
     var playbackProgress: CGFloat {
@@ -270,7 +270,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingSubTitle(forEpisode episode: BaseEpisode) -> String? {
-        guard !PlaybackManager.shared.buffering() else { return L10n.watchBuffering }
+        guard !PlaybackManager.shared.isBuffering else { return L10n.watchBuffering }
         return episode.subTitle()
     }
 

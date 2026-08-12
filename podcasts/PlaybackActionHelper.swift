@@ -81,7 +81,7 @@ class PlaybackActionHelper {
     }
 
     private class func performPlay(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.play()
         } else {
             if episode.archived, let episode = episode as? Episode {

@@ -120,7 +120,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     @objc private func updateShowNotes() {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
         self.episode = episode
         let pubDate = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         publishedDate.text = pubDate
@@ -182,7 +182,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             strongSelf.loadingIndicator.stopAnimating()
             let tintColor = strongSelf.linkTintColor()
             if let showNotes {
-                let isCurrentEpisode = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+                let isCurrentEpisode = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
                 let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: tintColor, convertTimesToLinks: isCurrentEpisode, bgColor: nil, textColor: ThemeColor.playerContrast01())
                 strongSelf.showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
                 // We need to ensure that the scroll view offset is back at 0,0 to cater for instances

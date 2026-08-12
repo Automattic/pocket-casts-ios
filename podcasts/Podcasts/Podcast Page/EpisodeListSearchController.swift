@@ -1,12 +1,104 @@
-import PocketCastsDataModel
-import PocketCastsServer
-import PocketCastsUtils
 import UIKit
 
-class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBarDelegate {
-    weak var podcastDelegate: PodcastActionsDelegate?
+/// The events reported by `EpisodeListSearchController`. Every method is optional, so a header
+/// without an action or an overflow button doesn't have to implement them.
+protocol EpisodeListSearchControllerDelegate: AnyObject {
+    /// Reports the search term once it stops changing for `searchDebounce`
+    func episodeListSearchController(_ controller: EpisodeListSearchController, didChangeSearchTerm searchTerm: String)
 
-    // search
+    /// Reports a non-empty search term when the return key is tapped
+    func episodeListSearchController(_ controller: EpisodeListSearchController, didSubmitSearchTerm searchTerm: String)
+
+    /// Called when the search field becomes the first responder
+    func episodeListSearchControllerDidBeginEditing(_ controller: EpisodeListSearchController)
+
+    /// Called when the button next to the info label is tapped
+    func episodeListSearchControllerDidTapAction(_ controller: EpisodeListSearchController)
+
+    /// Called when the overflow button is tapped
+    func episodeListSearchControllerDidTapOverflow(_ controller: EpisodeListSearchController)
+}
+
+extension EpisodeListSearchControllerDelegate {
+    func episodeListSearchController(_ controller: EpisodeListSearchController, didChangeSearchTerm searchTerm: String) {}
+    func episodeListSearchController(_ controller: EpisodeListSearchController, didSubmitSearchTerm searchTerm: String) {}
+    func episodeListSearchControllerDidBeginEditing(_ controller: EpisodeListSearchController) {}
+    func episodeListSearchControllerDidTapAction(_ controller: EpisodeListSearchController) {}
+    func episodeListSearchControllerDidTapOverflow(_ controller: EpisodeListSearchController) {}
+}
+
+/// The search header displayed above the lists of the podcast page.
+///
+/// It's only responsible for the presentation: the delegate configures what it displays and
+/// reacts to the events it reports.
+class EpisodeListSearchController: SimpleNotificationsViewController, UITextFieldDelegate {
+    weak var delegate: EpisodeListSearchControllerDelegate?
+
+    // MARK: - Configuration
+
+    /// The placeholder of the search field
+    var placeholder = L10n.searchEpisodes {
+        didSet {
+            updatePlaceholder()
+        }
+    }
+
+    /// Displayed below the search field, eg. the number of episodes
+    var info: NSAttributedString? {
+        didSet {
+            infoLabel?.attributedText = info
+        }
+    }
+
+    /// The title of the button next to the info label, which is hidden when it's `nil`
+    var actionTitle: String? {
+        didSet {
+            updateActionButton()
+        }
+    }
+
+    /// The accessibility label of the overflow button
+    var overflowAccessibilityLabel: String? {
+        didSet {
+            guard let overflowAccessibilityLabel else { return }
+            overflowButton?.accessibilityLabel = overflowAccessibilityLabel
+        }
+    }
+
+    var isOverflowButtonEnabled = true {
+        didSet {
+            overflowButton?.isEnabled = isOverflowButtonEnabled
+        }
+    }
+
+    /// Displays a spinner in place of the search icon
+    var isLoading = false {
+        didSet {
+            updateLoadingIndicator()
+        }
+    }
+
+    /// How long to wait after the last keystroke before reporting the search term.
+    /// An empty term is always reported straight away.
+    var searchDebounce: TimeInterval = 0
+
+    var searchText: String {
+        get { searchTextField?.text ?? "" }
+        set {
+            guard let searchTextField, searchTextField.text != newValue else { return }
+
+            searchTextField.text = newValue
+            updateClearButton()
+        }
+    }
+
+    /// `true` while the search field has the keyboard focus
+    var isSearchFieldActive: Bool {
+        searchTextField?.isFirstResponder ?? false
+    }
+
+    // MARK: - Views
+
     @IBOutlet var roundedBackgroundView: UIView!
     @IBOutlet var searchTextField: UITextField! {
         didSet {
@@ -20,38 +112,23 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     @IBOutlet var loadingSpinner: ThemeLoadingIndicator!
     @IBOutlet var clearSearchBtn: UIButton!
 
-    var searchTimer: Timer?
-    var searching = false
-
-    @IBOutlet var episodeInfoLabel: ThemeableLabel! {
+    @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            episodeInfoLabel.style = .primaryText02
-            episodeInfoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
-            episodeInfoLabel.adjustsFontForContentSizeCategory = true
+            infoLabel.style = .primaryText02
+            infoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
+            infoLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
-    @IBOutlet var limitLabel: ThemeableLabel! {
+    @IBOutlet var actionButton: UIButton! {
         didSet {
-            limitLabel.style = .support08
-            limitLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
-            limitLabel.adjustsFontForContentSizeCategory = true
+            actionButton.titleLabel?.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .footnote)
+            actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            actionButton.titleLabel?.numberOfLines = 0
         }
     }
 
-    @IBOutlet var showHideArchiveBtn: UIButton! {
-        didSet {
-            showHideArchiveBtn.titleLabel?.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .footnote)
-            showHideArchiveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
-            showHideArchiveBtn.titleLabel?.numberOfLines = 0
-        }
-    }
     @IBOutlet var overflowButton: ThemeSecondaryButton!
-    var isOverflowButtonEnabled = true {
-        didSet {
-            overflowButton.isEnabled = isOverflowButtonEnabled
-        }
-    }
 
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
@@ -65,11 +142,23 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         }
     }
 
+    private var searchTimer: Timer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        showHideArchiveBtn.titleLabel?.textAlignment = .center
-        showHideArchiveBtn.titleLabel?.heightAnchor.constraint(equalTo: showHideArchiveBtn.heightAnchor).isActive = true
-        updateInfoView()
+
+        actionButton.titleLabel?.textAlignment = .center
+        actionButton.titleLabel?.heightAnchor.constraint(equalTo: actionButton.heightAnchor).isActive = true
+
+        infoLabel.attributedText = info
+        overflowButton.isEnabled = isOverflowButtonEnabled
+        if let overflowAccessibilityLabel {
+            overflowButton.accessibilityLabel = overflowAccessibilityLabel
+        }
+        updateActionButton()
+        updateClearButton()
+        updateLoadingIndicator()
+
         themeChanged()
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeChanged))
     }
@@ -78,265 +167,121 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         removeAllCustomObservers()
     }
 
-    @objc private func textFieldDidChange() {
-        handleTextFieldDidChange()
+    func hideKeyboard() {
+        searchTextField?.resignFirstResponder()
     }
+
+    func beginEditing() {
+        searchTextField?.becomeFirstResponder()
+    }
+
+    // MARK: - Appearance
 
     @objc private func themeChanged() {
         view.backgroundColor = ThemeColor.primaryUi02()
 
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.textColor = ThemeColor.primaryText02()
-        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.searchEpisodes, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02(), .font: UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)])
         searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
+        updatePlaceholder()
         roundedBackgroundView.backgroundColor = ThemeColor.primaryField01()
         searchIcon.tintColor = ThemeColor.primaryIcon02()
         clearSearchBtn.tintColor = ThemeColor.primaryIcon02()
-        showHideArchiveBtn.tintColor = ThemeColor.primaryInteractive01()
+        actionButton.tintColor = ThemeColor.primaryInteractive01()
     }
 
-    private func updateInfoView() {
-        guard let delegate = podcastDelegate, let podcast = delegate.displayedPodcast() else { return }
+    private func updatePlaceholder() {
+        searchTextField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor: ThemeColor.primaryText02(), .font: UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)])
+    }
 
-        let episodeCount = delegate.episodeCount()
-        let archivedCount = delegate.archivedEpisodeCount()
-        let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive)
+    private func updateActionButton() {
+        guard let actionButton else { return }
 
-        var infoText: String = ""
-        infoText = episodeCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodeCount.localized())
-        infoText += " • "
-        let attributedText = NSMutableAttributedString(string: infoText, attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)])
-        if !hasEpisodeLimit {
-            attributedText.append(NSAttributedString(string: L10n.podcastArchivedCountFormat(archivedCount.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)]))
+        actionButton.isHidden = actionTitle == nil
+
+        guard let actionTitle else { return }
+
+        UIView.performWithoutAnimation {
+            actionButton.setTitle(actionTitle, for: .normal)
+            actionButton.layoutIfNeeded()
+        }
+    }
+
+    private func updateClearButton() {
+        clearSearchBtn?.isHidden = searchText.isEmpty
+    }
+
+    private func updateLoadingIndicator() {
+        guard let loadingSpinner else { return }
+
+        searchIcon.isHidden = isLoading
+        if isLoading {
+            loadingSpinner.startAnimating()
         } else {
-            attributedText.append(NSAttributedString(string: L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimit.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.support08)]))
-        }
-        episodeInfoLabel?.attributedText = attributedText
-
-        let archivedTitle = delegate.showingArchived() ? L10n.podcastHideArchived : L10n.podcastShowArchived
-        if let showHideBtn = showHideArchiveBtn {
-            UIView.performWithoutAnimation {
-                showHideBtn.setTitle(archivedTitle, for: .normal)
-                showHideBtn.layoutIfNeeded()
-            }
+            loadingSpinner.stopAnimating()
         }
     }
 
-    func episodesDidReload() {
-        updateInfoView()
+    // MARK: - Search
+
+    @objc private func textFieldDidChange() {
+        updateClearButton()
+        cancelSearchTimer()
+
+        let searchTerm = searchText
+        guard !searchTerm.isEmpty, searchDebounce > 0 else {
+            delegate?.episodeListSearchController(self, didChangeSearchTerm: searchTerm)
+            return
+        }
+
+        searchTimer = Timer.scheduledTimer(timeInterval: searchDebounce, target: self, selector: #selector(searchTimerFired), userInfo: nil, repeats: false)
     }
 
-    @IBAction func showHideArchiveTapped(_ sender: Any) {
-        podcastDelegate?.toggleShowArchived()
+    @objc private func searchTimerFired() {
+        searchTimer = nil
+        delegate?.episodeListSearchController(self, didChangeSearchTerm: searchText)
+    }
+
+    private func cancelSearchTimer() {
+        searchTimer?.invalidate()
+        searchTimer = nil
+    }
+
+    @IBAction func clearSearchTapped(_ sender: Any) {
+        cancelSearchTimer()
+        searchText = ""
+        isLoading = false
+        delegate?.episodeListSearchController(self, didChangeSearchTerm: "")
+    }
+
+    @IBAction func actionTapped(_ sender: Any) {
+        delegate?.episodeListSearchControllerDidTapAction(self)
     }
 
     @IBAction func overflowTapped(_ sender: Any) {
-        guard let delegate = podcastDelegate, let podcast = delegate.displayedPodcast() else { return }
-
-        let optionPicker = OptionsPicker(title: nil)
-
-        if delegate.shouldDisplayPodcastFeedReloadButton() {
-            let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
-                guard let self else { return }
-                self.podcastDelegate?.reloadPodcastFeed(source: .menu)
-            }
-            optionPicker.addAction(action: reloadPodcastFeedAction)
-        }
-
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.podcastDelegate?.enableMultiSelect()
-        }
-        optionPicker.addAction(action: MultiSelectAction)
-
-        let episodeSortOrder = podcast.podcastSortOrder
-
-        let currentSort = episodeSortOrder?.description ?? ""
-        let sortAction = OptionAction(label: L10n.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") {}
-        sortAction.submenu = { [weak self] in self?.makeSortOptionsPicker() }
-        optionPicker.addAction(action: sortAction)
-
-        let currentGroup = podcast.podcastGrouping().description
-        let groupAction = OptionAction(label: L10n.groupEpisodes, secondaryLabel: currentGroup, icon: "option-group") {}
-        groupAction.submenu = { [weak self] in self?.makeGroupOptionsPicker() }
-        optionPicker.addAction(action: groupAction)
-
-        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") {}
-        downloadAllAction.submenu = { [weak self] in self?.makeDownloadAllPicker() }
-        optionPicker.addAction(action: downloadAllAction)
-
-        let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0"
-        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id])
-        if unarchivedCount > 0 {
-            let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") {}
-            archiveAllAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: unarchivedCount, playedOnly: false) }
-            optionPicker.addAction(action: archiveAllAction)
-        } else if !(podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive) {
-            // we only show unarchive all for podcasts that haven't set an episode limit
-            let unarchiveAllAction = OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.performUnarchiveAll()
-            }
-            optionPicker.addAction(action: unarchiveAllAction)
-        }
-
-        let playedNotArchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND playingStatus = \(PlayingStatus.completed.rawValue)"
-        let playedNotArchivedCount = DataManager.sharedManager.count(query: playedNotArchivedQuery, values: [podcast.id])
-        if playedNotArchivedCount > 0 {
-            let archiveAllPlayedAction = OptionAction(label: L10n.podcastArchiveAllPlayed, icon: "podcast-archiveall") {}
-            archiveAllPlayedAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: playedNotArchivedCount, playedOnly: true) }
-            optionPicker.addAction(action: archiveAllPlayedAction)
-        }
-
-        optionPicker.present(from: self)
-        Analytics.track(.podcastScreenOptionsTapped)
+        delegate?.episodeListSearchControllerDidTapOverflow(self)
     }
 
-    private func performUnarchiveAll() {
-        guard let podcastDelegate else { return }
+    // MARK: - UITextFieldDelegate
 
-        podcastDelegate.unarchiveAllTapped()
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.episodeListSearchControllerDidBeginEditing(self)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidStart)
     }
 
-    private func makeDownloadAllPicker() -> OptionsPicker? {
-        guard let delegate = podcastDelegate else { return nil }
-
-        let downloadableCount = delegate.downloadableEpisodeCount(items: nil)
-        let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
-        let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
-        if actualDownloadCount == 0 { return nil }
-        let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
-        let downloadAction = OptionAction(label: downloadText, icon: nil) {
-            delegate.downloadAllTapped()
-        }
-
-        let confirmPicker = OptionsPicker(title: nil)
-        var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-
-        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-            confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-        } else {
-            downloadAction.destructive = true
-
-            let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                delegate.queueAllTapped()
-            }
-            queueAction.outline = true
-
-            if !Settings.mobileDataAllowed() {
-                warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
-            }
-            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
-        }
-
-        return confirmPicker
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
     }
 
-    private func makeArchiveAllPicker(episodeCount: Int, playedOnly: Bool) -> OptionsPicker? {
-        guard let podcastDelegate else { return nil }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
 
-        let archiveAllConfirm = OptionsPicker(title: nil)
-        let archiveAllAction = OptionAction(label: episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized()), icon: nil, action: {
-            podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
-        })
-        archiveAllAction.destructive = true
-        let title = playedOnly ? L10n.podcastArchiveAllPlayed : L10n.podcastArchiveAll
-        archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
+        let searchTerm = searchText
+        guard !searchTerm.isEmpty else { return true }
 
-        return archiveAllConfirm
-    }
+        cancelSearchTimer()
+        delegate?.episodeListSearchController(self, didSubmitSearchTerm: searchTerm)
 
-    private func makeSortOptionsPicker() -> OptionsPicker? {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return nil }
-
-        let optionPicker = OptionsPicker(title: L10n.podcastSortOrderTitle)
-
-        let sortOrder = podcast.podcastSortOrder
-
-        PodcastEpisodeSortOrder.allCases.forEach { order in
-            let newestToOldestAction = OptionAction(label: order.description, selected: sortOrder == order) { [weak self] in
-                self?.setSortSetting(order)
-                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])
-            }
-
-            optionPicker.addAction(action: newestToOldestAction)
-        }
-
-        return optionPicker
-    }
-
-    private func makeGroupOptionsPicker() -> OptionsPicker? {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return nil }
-
-        let optionPicker = OptionsPicker(title: L10n.podcastGroupOptionsTitle)
-
-        let episodeGrouping = podcast.podcastGrouping()
-
-        let noneAction = OptionAction(label: L10n.none, selected: episodeGrouping == PodcastGrouping.none) { [weak self] in
-            self?.setGroupingSetting(.none)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.none])
-        }
-        optionPicker.addAction(action: noneAction)
-
-        let downloadedAction = OptionAction(label: L10n.statusDownloaded, selected: episodeGrouping == PodcastGrouping.downloaded) { [weak self] in
-            self?.setGroupingSetting(.downloaded)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.downloaded])
-        }
-        optionPicker.addAction(action: downloadedAction)
-
-        let unplayedAction = OptionAction(label: L10n.statusUnplayed, selected: episodeGrouping == PodcastGrouping.unplayed) { [weak self] in
-            self?.setGroupingSetting(.unplayed)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.unplayed])
-        }
-        optionPicker.addAction(action: unplayedAction)
-
-        let seasonAction = OptionAction(label: L10n.season, selected: episodeGrouping == PodcastGrouping.season) { [weak self] in
-            self?.setGroupingSetting(.season)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.season])
-        }
-        optionPicker.addAction(action: seasonAction)
-
-        let starAction = OptionAction(label: L10n.statusStarred, selected: episodeGrouping == PodcastGrouping.starred) { [weak self] in
-            self?.setGroupingSetting(.starred)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.starred])
-        }
-        optionPicker.addAction(action: starAction)
-
-        return optionPicker
-    }
-
-    func hideKeyboard() {
-        searchTextField?.resignFirstResponder()
-    }
-
-    func searchDidComplete() {
-        DispatchQueue.main.async { [weak self] in
-            self?.handleSearchCompleted()
-        }
-    }
-
-    func searchInProgress() -> Bool {
-        searching
-    }
-
-    func searchBarActive() -> Bool {
-        searchTextField?.isFirstResponder ?? false
-    }
-
-    private func setSortSetting(_ setting: PodcastEpisodeSortOrder) {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return }
-        podcast.episodeSortOrder = setting.old.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-    }
-
-    private func setGroupingSetting(_ setting: PodcastGrouping) {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return }
-        podcast.episodeGrouping = setting.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        return true
     }
 }

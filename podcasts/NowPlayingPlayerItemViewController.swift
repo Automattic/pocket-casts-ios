@@ -237,6 +237,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var lastShelfLoadState = ShelfLoadState()
 
+    /// The shelf button the Smart Bookmarks tip points at: the bookmark button when it's on the shelf, the overflow button otherwise.
+    weak var smartBookmarksTipAnchor: UIView?
+    var smartBookmarksTip: UIViewController?
+
     private var bannerAdHostingController: PCHostingController<AnyView>?
     private var bannerAdHeightConstraint: NSLayoutConstraint?
 
@@ -277,6 +281,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         // Show the overflow menu
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
+        } else {
+            showSmartBookmarksTipIfNeeded()
         }
         #endif
     }
@@ -289,6 +295,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         bannerTask?.cancel()
+        #if !APPCLIP
+        dismissSmartBookmarksTip()
+        #endif
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -595,7 +604,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard PlaybackManager.shared.currentEpisode() != nil else { return }
+        guard PlaybackManager.shared.currentEpisode != nil else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
@@ -623,7 +632,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     private func skipForwardLongPressed() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
@@ -635,7 +644,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
-                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
+                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)

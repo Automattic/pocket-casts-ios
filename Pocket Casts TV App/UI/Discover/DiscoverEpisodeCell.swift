@@ -9,6 +9,10 @@ struct DiscoverEpisodeCell: View {
     private let listId: String?
     private let source: String
 
+    /// Fires just before playback starts, for screens that reuse the cell outside
+    /// Discover and need to record their own tap (search results, for instance).
+    private let onTap: (() -> Void)?
+
     @State private var showNotesEpisode: DiscoveryLoadedEpisode?
     @State private var showNowPlayingPlayer: Bool = false
 
@@ -18,10 +22,11 @@ struct DiscoverEpisodeCell: View {
         static let imageSize = CGFloat(124)
     }
 
-    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
+    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "", onTap: (() -> Void)? = nil) {
         self.episode = episode
         self.listId = listId
         self.source = source
+        self.onTap = onTap
     }
 
     @ViewBuilder
@@ -36,6 +41,7 @@ struct DiscoverEpisodeCell: View {
     var body: some View {
         Button {
             trackEpisodeTapped()
+            onTap?()
             Task {
                 let successPlay = await TVDataManager.shared.playEpisode(episode)
                 await MainActor.run {
@@ -65,6 +71,7 @@ struct DiscoverEpisodeCell: View {
                             .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                     }
                 }
+                .accessibilityElement(children: .combine)
                 Spacer()
             }
             .padding(32)

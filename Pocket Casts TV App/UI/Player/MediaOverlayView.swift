@@ -25,9 +25,11 @@ struct MediaOverlayView: View {
                                 .resizable()
                                 .frame(width: Layout.artworkSize, height: Layout.artworkSize)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
+                                .accessibilityHidden(true)
                                 .blurredCoverBackground(size: Layout.artworkSize, radius: 100, scale: 1.5, offset: -0.5) {
                                     Image(uiImage: uiImage)
                                         .resizable()
+                                        .accessibilityHidden(true)
                                 }
                                 .background {
                                     NowPlayingWaveformView(

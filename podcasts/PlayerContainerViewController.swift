@@ -275,7 +275,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     @objc private func playbackFinished() {
-        if PlaybackManager.shared.currentEpisode() == nil {
+        if PlaybackManager.shared.currentEpisode == nil {
             closeNowPlaying()
         }
     }

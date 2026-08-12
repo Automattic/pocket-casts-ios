@@ -145,7 +145,7 @@ public struct RefreshEpisode: Decodable {
     /// Normalises an empty `uri` to `nil` so it isn't persisted as a bogus "missing-but-present" url.
     public var hlsUrl: String? {
         let uri = alternateEnclosures?
-            .first { $0.type?.caseInsensitiveCompare(Episode.hlsEnclosureType) == .orderedSame }?
+            .first { Episode.isHLSEnclosureType($0.type) }?
             .sources?.first?.uri
         return (uri?.isEmpty ?? true) ? nil : uri
     }
@@ -289,6 +289,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var expandedStyle: String?
     public var summaryItemCount: Int?
     public var source: String?
+    public var sourceType: String?
     public var authenticated: Bool?
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
@@ -299,6 +300,8 @@ public struct DiscoverItem: Decodable, Equatable {
     public var categoryID: Int?
     public var dateTime: String?
     public var sponsoredCategoryIDs: [Int]?
+    // This is a local only field that is filled with the source region that was used for the item
+    public var sourceRegion: String?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -309,6 +312,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case categoryID = "category_id"
         case dateTime = "datetime"
         case sponsoredCategoryIDs = "sponsored_ids"
+        case sourceType = "source_type"
         case type, title, source, regions, curated, uuid, popular, id, authenticated
     }
 
@@ -321,6 +325,7 @@ public struct DiscoverItem: Decodable, Equatable {
         summaryItemCount: Int? = nil,
         expandedStyle: String? = nil,
         source: String? = nil,
+        sourceType: String? = nil,
         sponsoredPodcasts: [CarouselSponsoredPodcast]? = nil,
         expandedTopItemLabel: String? = nil,
         curated: Bool? = nil,
@@ -339,6 +344,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.summaryItemCount = summaryItemCount
         self.expandedStyle = expandedStyle
         self.source = source
+        self.sourceType = sourceType
         self.sponsoredPodcasts = sponsoredPodcasts
         self.expandedTopItemLabel = expandedTopItemLabel
         self.curated = curated
@@ -514,6 +520,8 @@ public struct DiscoverEpisode: Decodable {
 
         case podcastUuid = "podcast_uuid"
         case podcastTitle = "podcast_title"
+        case alternateEnclosures = "alternate_enclosures"
+        case fileType = "file_type"
     }
 
     public let title: String?
@@ -523,16 +531,18 @@ public struct DiscoverEpisode: Decodable {
     public let podcastUuid: String?
     public let podcastTitle: String?
     public let type: String?
+    public let fileType: String?
     public let published: Date?
     public let season: Int?
     public let number: Int?
+    public let alternateEnclosures: [DiscoverAlternateEnclosure]?
 
     public var isTrailer: Bool {
         guard let type else { return false }
         return type == "trailer"
     }
 
-    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil) {
+    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil, fileType: String? = nil, alternateEnclosures: [DiscoverAlternateEnclosure]? = nil) {
         self.uuid = uuid
         self.title = title
         self.duration = duration
@@ -543,5 +553,39 @@ public struct DiscoverEpisode: Decodable {
         self.published = published
         self.season = season
         self.number = number
+        self.fileType = fileType
+        self.alternateEnclosures = alternateEnclosures
+    }
+}
+
+public struct DiscoverAlternateEnclosure: Decodable {
+    public struct Source: Decodable {
+        let uri: String
+    }
+
+    let type: String
+    let sources: [Source]
+}
+
+extension DiscoverEpisode {
+
+    static let supportedVideoTypes = Episode.hlsEnclosureTypes.union(["video/mp4"])
+
+    public var videoURL: String? {
+
+        if let url, let fileType, Self.supportedVideoTypes.contains(fileType.lowercased()) {
+            //if the default url is already a video use it
+            return url
+        }
+
+        guard let alternateEnclosures else {
+            return url
+        }
+
+        let videoEnclosures = alternateEnclosures.filter { enclosure in
+            Self.supportedVideoTypes.contains(enclosure.type.lowercased()) && !enclosure.sources.isEmpty
+        }
+
+        return videoEnclosures.first?.sources.first?.uri
     }
 }

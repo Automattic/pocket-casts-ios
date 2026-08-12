@@ -725,12 +725,14 @@ platform :ios do
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    changelog = +'Minor changes.' if changelog.empty?
+    changelog = ios_testflight_changelog(changelog)
     changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
 
     upload_to_testflight(
       ipa: ipa_path,
-      reject_build_waiting_for_review: true,
+      # Deliberately no `reject_build_waiting_for_review`: `pilot` picks the build to expire by version alone, and the
+      # tvOS app shares this App Store Connect record and version number, so it would expire the tvOS build.
+      # https://github.com/fastlane/fastlane/blob/2.237.0/pilot/lib/pilot/build_manager.rb#L379-L385
       distribute_external: true,
       groups: EXTERNAL_BETA_TESTER_GROUPS,
       notify_external_testers: true,
@@ -740,35 +742,43 @@ platform :ios do
     )
   end
 
-  # Uploads the tvOS binary to TestFlight for internal testers only.
+  # Uploads the tvOS binary to TestFlight.
   #
   # Typically called after having built the binary with `build_app_store_connect_tvos`.
   #
-  # The tvOS app is in early-days territory, so we skip external distribution and the Beta App Review submission.
-  # Revisit once the app is ready for wider testing.
-  #
   # @param ipa_path [String] Path to the `.ipa` file to upload to TestFlight
+  # @param distribute_external [Boolean] If true, distributes the build to external testers and submits it for Beta App Review.
   #
-  lane :upload_app_store_connect_build_to_testflight_tvos do |ipa_path: APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH|
+  lane :upload_app_store_connect_build_to_testflight_tvos do |ipa_path: APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH, distribute_external: false|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
     ipa_path = project_path(ipa_path)
+    distribute_external = boolean_option(distribute_external, default: false)
 
-    # TODO: This is currently the same as the iOS changelog. We'll need a mechanism to filter tvOS-only notes (or just accept the compromise.)
     changelog = extract_release_notes_for_version(
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    changelog = +'Minor changes.' if changelog.empty?
+    changelog = tvos_testflight_changelog(changelog)
     changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
 
-    upload_to_testflight(
+    testflight_options = {
       ipa: ipa_path,
-      distribute_external: false,
-      skip_submission: true,
+      distribute_external: distribute_external,
+      skip_submission: !distribute_external,
       changelog: changelog,
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key
-    )
+    }
+
+    if distribute_external
+      testflight_options.merge!(
+        # See the iOS lane for why this doesn't set `reject_build_waiting_for_review`.
+        groups: EXTERNAL_BETA_TESTER_GROUPS,
+        notify_external_testers: true
+      )
+    end
+
+    upload_to_testflight(**testflight_options)
   end
 
   # Builds the app binary for Enterprise distribution (Prototype Build)

@@ -95,7 +95,7 @@ class MainEpisodeActionView: UIView {
     func populateFrom(episode: BaseEpisode) {
         episodeUuid = episode.uuid
 
-        let isCurrent = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUuid)
+        let isCurrent = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 
         // update download and play progress
         if episode.downloaded(pathFinder: DownloadManager.shared) {
@@ -113,7 +113,7 @@ class MainEpisodeActionView: UIView {
         }
 
         // update button state
-        let isPlaying = (isCurrent && PlaybackManager.shared.playing())
+        let isPlaying = (isCurrent && PlaybackManager.shared.isPlaying)
         let googleCastConnected = GoogleCastManager.sharedManager.connected()
         let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
         if googleCastConnected {
@@ -138,7 +138,7 @@ class MainEpisodeActionView: UIView {
     // MARK: - Update Events
 
     @objc private func playbackDidProgress() {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode(), let uuid = episodeUuid, uuid == playingEpisode.uuid else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode, let uuid = episodeUuid, uuid == playingEpisode.uuid else { return }
 
         // don't update the progress of episodes that are downloading
         if playingEpisode.downloading() { return }

@@ -66,7 +66,7 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
     }
 
     private func updatePlayingState() {
-        isPlaying = PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID)
+        isPlaying = episodeUUID.map { PlaybackManager.shared.isActivelyPlaying(episodeUuid: $0) } ?? false
     }
 
     override public func layoutSubviews() {

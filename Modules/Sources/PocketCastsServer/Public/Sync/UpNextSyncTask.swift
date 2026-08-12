@@ -185,7 +185,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         // To ensure that the device's local copy of the queue is maintained, we ignore the incoming remote data and instead
         // save our local copy and then send it back to the server.
         let reason = SyncManager.syncReason
-        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
+        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
             FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync of a new account, saving that as the most current version and overwriting server copy")
 
@@ -219,7 +219,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         let modifiedList = addPlayingEpisode(list: episodes)
         FileLog.shared.addMessage("UpNextSyncTask: server sent \(episodes.count) episodes, we have \(modifiedList.count), making changes")
 
-        let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode()
+        let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode
         var uuids = [String]()
         if !modifiedList.isEmpty {
             for (index, episodeInfo) in modifiedList.enumerated() {
@@ -372,7 +372,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
-        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
+        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isCurrentEpisode(uuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         } else if episodePlayingBeforeChanges == nil, !modifiedList.isEmpty {
@@ -385,9 +385,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     private func addPlayingEpisode(list: [Api_UpNextResponse.EpisodeResponse]) -> [Api_UpNextResponse.EpisodeResponse] {
-        guard let isPlaying = ServerConfig.shared.playbackDelegate?.playing(), isPlaying == true else { return list }
+        guard ServerConfig.shared.playbackDelegate?.isPlaying == true else { return list }
 
-        guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode() else { return list }
+        guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode else { return list }
 
         // check it isn't already the top episode
         if let firstEpisode = list.first, firstEpisode.uuid == playingEpisode.uuid { return list }

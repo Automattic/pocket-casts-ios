@@ -1,95 +1,27 @@
-import Combine
 import Foundation
 import os
-
-actor LogBuffer {
-    private let bufferThreshold: UInt
-
-    private var logBuffer: [LogEntry] = [] {
-        didSet {
-            if logBuffer.count >= bufferThreshold {
-                writeLogBufferToDisk()
-            }
-        }
-    }
-
-    private let logPersistence: PersistentTextWriting
-    private let logRotator: FileRotating
-    private let logger: Logger?
-
-    init(logPersistence: PersistentTextWriting,
-         logRotator: FileRotating,
-         bufferThreshold: UInt = 100,
-         loggingTo logger: Logger? = nil) {
-        self.logPersistence = logPersistence
-        self.logRotator = logRotator
-        self.bufferThreshold = bufferThreshold
-        self.logger = logger
-    }
-
-    #if os(watchOS)
-        private let maxFileSize = 65.kilobytes
-    #else
-        private let maxFileSize = 1.megabytes
-    #endif
-
-    func append(_ message: String, date: Date) {
-        // if it's important enough to log to file, write it to the debug console as well
-        logger?.log("\(message, privacy: .public)")
-
-        logBuffer.append(LogEntry(message, timestamp: date))
-    }
-
-    func console(_ message: String) {
-        logger?.log("\(message, privacy: .public)")
-    }
-
-    private func writeLogBufferToDisk() {
-        let newLogChunk = logBuffer.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending }).reduce(into: "") { resultChunk, logEntry in
-            resultChunk.append("\(logEntry.formattedForLog)\n")
-        }
-
-        logBuffer.removeAll(keepingCapacity: true)
-        appendStringToLog(newLogChunk)
-    }
-
-    private func appendStringToLog(_ logUpdate: String) {
-        logRotator.rotateFile(ifSizeExceeds: maxFileSize)
-        logPersistence.write(logUpdate)
-    }
-
-    public func forceFlush() {
-        guard !logBuffer.isEmpty else { return }
-
-        logger?.debug("\(Self.self) forcibly flushing to disk.")
-        writeLogBufferToDisk()
-    }
-
-    public func loadLogFileAsString() -> String {
-        forceFlush()
-
-        let mainFileContents: String
-        do {
-            mainFileContents = try String(contentsOfFile: LogFilePaths.mainLogFilePath)
-        } catch {
-            mainFileContents = "Main log is empty"
-        }
-
-        let secondaryFileContents: String
-        do {
-            secondaryFileContents = try String(contentsOfFile: LogFilePaths.backupLogFilePath)
-        } catch {
-            secondaryFileContents = ""
-        }
-
-        return "\(secondaryFileContents)\n\(mainFileContents)"
-    }
-}
 
 public final class FileLog {
     public enum LogError: Error {
         case logCanceled
         case logGenerationFailed
+    }
+
+    /// The destinations a log message can be written to.
+    public struct LogDestination: OptionSet, Sendable {
+        public let rawValue: Int
+
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+
+        /// The rotating log file, which is what gets uploaded with support requests.
+        public static let file = LogDestination(rawValue: 1 << 0)
+
+        /// The unified logging system, visible in Console and Xcode.
+        public static let console = LogDestination(rawValue: 1 << 1)
+
+        public static let all: LogDestination = [.file, .console]
     }
 
     public static let shared: FileLog = {
@@ -113,8 +45,8 @@ public final class FileLog {
         )
     }()
 
-    private var logBuffer: LogBuffer
-    public let publisher = PassthroughSubject<String, Never>()
+    private let logBuffer: LogBuffer
+    private let logger: Logger?
 
     init(
         logPersistence: PersistentTextWriting,
@@ -122,26 +54,31 @@ public final class FileLog {
         bufferThreshold: UInt = 100,
         loggingTo logger: Logger? = nil
     ) {
+        self.logger = logger
         self.logBuffer = LogBuffer(logPersistence: logPersistence, logRotator: logRotator, bufferThreshold: bufferThreshold, loggingTo: logger)
     }
 
-    public func addMessage(_ message: String, date: Date = Date()) {
-        Task {
-            await logBuffer.append(message, date: date)
-            publisher.send(message)
+    /// Writes the message to the given destinations.
+    ///
+    /// By default a message is written everywhere: if it's important enough to log to file,
+    /// it's worth having in the debug console as well. Pass `.file` to opt out of the console
+    /// copy when the caller already logs to the unified logging system itself.
+    public func addMessage(_ message: String, date: Date = Date(), to destinations: LogDestination = .all) {
+        if destinations.contains(.console) {
+            logger?.log("\(message, privacy: .public)")
+        }
+
+        if destinations.contains(.file) {
+            logBuffer.append(message, date: date)
         }
     }
 
     public func console(_ message: String) {
-        Task {
-            await logBuffer.console(message)
-        }
+        logger?.log("\(message, privacy: .public)")
     }
 
     public func forceFlush() {
-        Task {
-            await logBuffer.forceFlush()
-        }
+        logBuffer.flush()
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
@@ -155,21 +92,119 @@ public final class FileLog {
         return await logBuffer.loadLogFileAsString()
     }
 
-    // Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload.
-    public func logFileForUpload() -> AnyPublisher<String, Error> {
+    /// Creates a merged file from `mainLogFilePath` and `backupLogFilePath` to be used for enquing the file upload,
+    /// returning the path it was written to.
+    public func logFileForUpload() async throws -> String {
         let file = LogFilePaths.debugUploadLog
+        let contents = await logBuffer.loadLogFileAsString()
 
-        return Future { [unowned self] promise in
-            self.loadLogFileAsString { result in
-                do {
-                    try result.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                } catch {
-                    promise(.failure(LogError.logGenerationFailed))
-                }
+        do {
+            try contents.write(toFile: file, atomically: true, encoding: .utf8)
+        } catch {
+            throw LogError.logGenerationFailed
+        }
 
-                promise(.success(file))
+        return file
+    }
+}
+
+/// Buffers log entries in memory and writes them out in chunks once the buffer fills up.
+///
+/// Appending is synchronous and guarded by a lock rather than by an actor, so entries reach the
+/// file in the order they were logged. Only the write itself is dispatched onto `flushQueue`,
+/// which is serial, so flushes never overlap and a read always sees every preceding write.
+final class LogBuffer: @unchecked Sendable {
+    private let bufferThreshold: UInt
+
+    private let entries = OSAllocatedUnfairLock(initialState: [LogEntry]())
+
+    private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue")
+
+    private let logPersistence: PersistentTextWriting
+    private let logRotator: FileRotating
+    private let logger: Logger?
+
+    init(logPersistence: PersistentTextWriting,
+         logRotator: FileRotating,
+         bufferThreshold: UInt = 100,
+         loggingTo logger: Logger? = nil) {
+        self.logPersistence = logPersistence
+        self.logRotator = logRotator
+        self.bufferThreshold = bufferThreshold
+        self.logger = logger
+    }
+
+    #if os(watchOS)
+        private let maxFileSize = 65.kilobytes
+    #else
+        private let maxFileSize = 1.megabytes
+    #endif
+
+    func append(_ message: String, date: Date) {
+        let hasReachedThreshold = entries.withLock { entries in
+            entries.append(LogEntry(message, timestamp: date))
+            return entries.count >= bufferThreshold
+        }
+
+        guard hasReachedThreshold else { return }
+
+        flushQueue.async(qos: .utility) { [self] in
+            writeBufferedEntriesToDisk()
+        }
+    }
+
+    /// Writes the buffered entries to disk however few of them there are, blocking until that write finishes.
+    func flush() {
+        flushQueue.sync { [self] in
+            writeBufferedEntriesToDisk(isForced: true)
+        }
+    }
+
+    func loadLogFileAsString() async -> String {
+        await withCheckedContinuation { continuation in
+            flushQueue.async(qos: .userInitiated) { [self] in
+                writeBufferedEntriesToDisk(isForced: true)
+                continuation.resume(returning: readLogFiles())
             }
         }
-        .eraseToAnyPublisher()
+    }
+
+    /// Drains the buffer and appends its contents to the log file. Always called on `flushQueue`.
+    private func writeBufferedEntriesToDisk(isForced: Bool = false) {
+        let bufferedEntries = entries.withLock { entries in
+            defer { entries.removeAll(keepingCapacity: true) }
+            return entries
+        }
+
+        guard !bufferedEntries.isEmpty else { return }
+
+        if isForced {
+            logger?.debug("\(Self.self) forcibly flushing to disk.")
+        }
+
+        let newLogChunk = bufferedEntries.reduce(into: "") { resultChunk, logEntry in
+            resultChunk.append("\(logEntry.formattedForLog)\n")
+        }
+
+        logRotator.rotateFile(ifSizeExceeds: maxFileSize)
+        logPersistence.write(newLogChunk)
+    }
+
+    private func readLogFiles() -> String {
+        let mainFileContents: String
+        do {
+            mainFileContents = try String(contentsOfFile: LogFilePaths.mainLogFilePath)
+        } catch {
+            mainFileContents = "Main log is empty"
+        }
+
+        let secondaryFileContents: String
+        do {
+            secondaryFileContents = try String(contentsOfFile: LogFilePaths.backupLogFilePath)
+        } catch {
+            secondaryFileContents = ""
+        }
+
+        return "\(secondaryFileContents)\n\(mainFileContents)"
     }
 }

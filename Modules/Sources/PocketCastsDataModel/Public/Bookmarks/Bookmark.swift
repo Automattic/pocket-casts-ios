@@ -2,8 +2,11 @@ import Foundation
 import SwiftUI
 
 /// A bookmark that represents a position in time within an episode
-public struct Bookmark: Hashable {
+public struct Bookmark: Identifiable {
     public let uuid: String
+
+    public var id: String { uuid }
+
     public let title: String
     public let time: TimeInterval
 
@@ -36,31 +39,6 @@ public struct Bookmark: Hashable {
     public var passageModified: Date? = nil
     public var referenceTimeModified: Date? = nil
     public var deleted: Bool = false
-
-    // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid)
-        hasher.combine(title)
-        hasher.combine(time)
-        hasher.combine(created)
-        hasher.combine(episodeUuid)
-        hasher.combine(podcastUuid)
-        hasher.combine(passage)
-        hasher.combine(passageLocation)
-        hasher.combine(referenceTime)
-        hasher.combine(titleModified)
-        hasher.combine(deletedModified)
-    }
-
-    public static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
-        lhs.uuid == rhs.uuid
-    }
-}
-
-// MARK: - Identifiable
-
-extension Bookmark: Identifiable {
-    public var id: String { uuid }
 }
 
 // MARK: - Preview Data

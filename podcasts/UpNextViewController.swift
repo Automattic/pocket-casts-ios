@@ -435,7 +435,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc func updateTimeRemainingLabel() {
         var totalDuration = PlaybackManager.shared.queue.upNextTotalDuration(includePlayingEpisode: false)
-        if let episode = PlaybackManager.shared.currentEpisode() {
+        if let episode = PlaybackManager.shared.currentEpisode {
             totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
         }
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)

@@ -224,7 +224,7 @@ extension SyncTask {
             DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
 
             // if the episode is loaded into the player, and is currently paused seek to the new up to time
-            if let delegate = ServerConfig.shared.playbackDelegate, delegate.isNowPlayingEpisode(episodeUuid: episode.uuid), !delegate.playing() {
+            if let delegate = ServerConfig.shared.playbackDelegate, delegate.isCurrentEpisode(uuid: episode.uuid), !delegate.isPlaying {
                 if playedUpTo < 1 {
                     FileLog.shared.addMessage("Saving a time of \(playedUpTo) for episode \(episode.displayableTitle()) because that's what the server sent us during a sync")
                 }

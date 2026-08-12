@@ -144,7 +144,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             }
         } else if WatchConstants.Messages.PlayPauseRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
-            if PlaybackManager.shared.playing() {
+            if PlaybackManager.shared.isPlaying {
                 PlaybackManager.shared.pause()
             } else {
                 PlaybackManager.shared.play()
@@ -390,7 +390,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         // mini player / now playing updates immediately rather than only after a relaunch. This mirrors
         // how the server sync applies a remote position (see SyncTask+ServerChanges). Otherwise just
         // refresh any visible episode cell via the notification.
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: uuid), !PlaybackManager.shared.playing() {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: uuid), !PlaybackManager.shared.isPlaying {
             DispatchQueue.main.async {
                 PlaybackManager.shared.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
             }
@@ -675,10 +675,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     private func serializeNowPlaying() -> [String: Any] {
         var nowPlayingInfo = [String: Any]()
         let playbackManager = PlaybackManager.shared
-        if let playingEpisode = playbackManager.currentEpisode() {
+        if let playingEpisode = playbackManager.currentEpisode {
             nowPlayingInfo[WatchConstants.Keys.nowPlayingEpisode] = convertForWatch(episode: playingEpisode)
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSubtitle] = playingEpisode.subTitle()
-            nowPlayingInfo[WatchConstants.Keys.nowPlayingStatus] = playbackManager.playing() ? WatchConstants.PlayingStatus.playing : WatchConstants.PlayingStatus.paused
+            nowPlayingInfo[WatchConstants.Keys.nowPlayingStatus] = playbackManager.isPlaying ? WatchConstants.PlayingStatus.playing : WatchConstants.PlayingStatus.paused
             if let playingEpisode = playingEpisode as? Episode, let podcast = playingEpisode.parentPodcast() {
                 let color = ColorManager.darkThemeTintForPodcast(podcast)
                 nowPlayingInfo[WatchConstants.Keys.nowPlayingColor] = color.hexString()

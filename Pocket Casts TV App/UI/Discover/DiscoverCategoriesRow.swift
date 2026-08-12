@@ -10,8 +10,8 @@ struct DiscoverCategoriesRow: View {
 
     @State private var model: DiscoverCategoriesModel
 
-    init(popularOnly: Bool, source: String) {
-        _model = State(wrappedValue: DiscoverCategoriesModel(popularOnly: popularOnly, source: source))
+    init(item: DiscoverItem, popularOnly: Bool, source: String) {
+        _model = State(wrappedValue: DiscoverCategoriesModel(item: item, popularOnly: popularOnly, source: source))
     }
 
     var body: some View {

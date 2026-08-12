@@ -14,7 +14,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     var timestampOfLastRemoteAction: Date?
 
     func play() {
-        track(.playbackPlay, properties: Self.hlsLifecycleProperties(for: PlaybackManager.shared.currentEpisode()))
+        track(.playbackPlay, properties: Self.hlsLifecycleProperties(for: PlaybackManager.shared.currentEpisode))
     }
 
     func pause() {

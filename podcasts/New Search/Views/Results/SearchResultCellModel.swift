@@ -84,7 +84,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
             .receive(on: OperationQueue.main)
             .sink(receiveValue: { [unowned self] notification in
-                guard let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode()?.uuid,
+                guard let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode?.uuid,
                       episodeUUID == episode.uuid
                 else {
                     return

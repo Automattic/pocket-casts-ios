@@ -39,6 +39,19 @@ final class EpisodeAlternateEnclosuresTests: XCTestCase {
         XCTAssertEqual(Episode.hlsUrl(fromEpisodeJson: json), "https://example.com/stream.m3u8")
     }
 
+    /// Feeds advertise HLS under several types.
+    func testMatchesEveryAdvertisedHlsType() {
+        for type in ["application/x-mpegURL", "application/mpegURL", "application/vnd.apple.mpegurl"] {
+            let json: [String: Any] = [
+                "alternate_enclosures": [
+                    ["type": type, "sources": [["uri": "https://example.com/stream.m3u8"]]]
+                ]
+            ]
+
+            XCTAssertEqual(Episode.hlsUrl(fromEpisodeJson: json), "https://example.com/stream.m3u8", "failed for type \(type)")
+        }
+    }
+
     func testReturnsNilWhenNoHlsType() {
         let json: [String: Any] = [
             "alternate_enclosures": [

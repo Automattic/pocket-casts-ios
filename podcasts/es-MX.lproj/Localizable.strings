@@ -337,10 +337,26 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>¿Seguro que quieres eliminar estos marcadores? Esta acción no se puede deshacer.</string>
     <key>bookmark_delete_warning_title</key>
     <string>¿Eliminar marcadores?</string>
+    <key>bookmark_details_title</key>
+    <string>Marcador</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Elige un pasaje de transcripción para este marcador</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Editar transcripción</string>
     <key>bookmark_search_no_results_message</key>
     <string>No hemos podido encontrar ningún marcador para esa búsqueda.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No se han encontrado marcadores</string>
+    <key>bookmark_suggested_title</key>
+    <string>Título sugerido: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Sugerencia: </string>
+    <key>bookmark_title_label</key>
+    <string>Título</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Añadiendo transcripción…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcripción capturada</string>
     <key>bookmark_updated_notification</key>
     <string>Se ha actualizado el marcador "%1$@"</string>
     <key>bookmarks</key>
@@ -947,6 +963,8 @@ Pocket Casts al máximo.</string>
     <string>Hemos detectado que no has iniciado sesión</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>edit_bookmark</key>
+    <string>Editar marcador</string>
     <key>edit_clip</key>
     <string>Editar clip</string>
     <key>enable_it_now</key>
@@ -1587,6 +1605,8 @@ pódcast contigo</string>
     <string>No se ha encontrado ningún episodio</string>
     <key>loading</key>
     <string>Cargando...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Registrarse con correo electrónico</string>
     <key>login_landing_subtitle</key>
     <string>Tus podcasts, siempre sincronizados. Mantén tu biblioteca a salvo, y disfruta de Pocket Casts en la web y en el escritorio.</string>
     <key>login_landing_title</key>
@@ -2111,6 +2131,10 @@ ACTUALIZACIONES</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Temporizador de suspensión activado</string>
+    <key>player_action_hide_video</key>
+    <string>Ocultar vídeo</string>
+    <key>player_action_show_video</key>
+    <string>Mostrar vídeo</string>
     <key>player_action_subtitle_delete</key>
     <string>Se muestra como Eliminar para episodios personalizados</string>
     <key>player_action_subtitle_hidden</key>
@@ -3189,6 +3213,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Episodios archivados</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>¿Te gustaría cambiar todos tus podcasts existentes a %1$@ episodios archivados?</string>
+    <key>settings_general_audio_only</key>
+    <string>Solo audio</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Si está activado, los episodios de vídeo se reproducirán como solo audio.</string>
     <key>settings_general_auto_open_player</key>
     <string>Abrir reproductor automáticamente</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3227,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>PREDETERMINADOS</string>
     <key>settings_general_episode_groups</key>
     <string> Agrupamiento de episodios de podcasts</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Capítulos generados</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Muestra los capítulos generados automáticamente cuando estén disponibles.</string>
     <key>settings_general_hide</key>
     <string>Ocultar</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3932,6 +3964,14 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Tus podcasts merecen un hogar</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Abre la cámara y señala este código QR.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Si se te pide, confirma el siguiente código</string>
+    <key>tv_create_account_step_create</key>
+    <string>Crea tu cuenta o accede</string>
+    <key>tv_create_account_step_login</key>
+    <string>Accede a tu cuenta</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Escanea el código QR o ve a %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Escanea este código para empezar en tu teléfono, solo tardarás un minuto.</string>
     <key>tv_create_account_title</key>
@@ -3946,6 +3986,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Reproducir último episodio</string>
     <key>tv_discover_play_episode</key>
     <string>Reproducir episodio</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>No se ha podido cargar</string>
     <key>tv_episode_archived</key>
     <string>Archivado</string>
     <key>tv_episode_info</key>
@@ -3976,6 +4018,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No hay historial de elementos escuchados</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Ver categorías</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>No se ha podido cargar el inicio</string>
     <key>tv_home_featured_section_title</key>
     <string>Destacado en Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4116,6 +4160,24 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Buscando...</string>
     <key>tv_search_type_something</key>
     <string>Escribe algo…</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Escanea el siguiente código QR o abre la URL en tu teléfono para acceder a la política de privacidad.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>De por vida</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Próxima renovación</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Esta suscripción se realizó en otra plataforma. Utiliza esa plataforma para gestionar la suscripción.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Plan</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Precio</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>No disponible</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Suscripción</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Escanea el siguiente código QR o abre la URL en tu teléfono para acceder a las condiciones de uso.</string>
     <key>tv_sign_in_enter_code</key>
     <string>o introduce el siguiente código</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4160,6 +4222,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Usuario/Contraseña</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Iniciando sesión</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nombre de usuario</string>
     <key>tv_welcome_browse_without_account</key>

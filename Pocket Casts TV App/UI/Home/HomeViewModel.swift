@@ -17,15 +17,14 @@ class HomeViewModel {
     enum State: Equatable, Hashable {
         case loading
         case ready
-        case empty
     }
 
     var state: State = .loading
 
-    var podcasts: [Podcast] = []
     var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
+    var newVideoReleases: [EpisodeRowViewModel] = []
 
     /// True until playback first starts this session. Used to show the
     /// "Keep Listening" row on Home only before the user has played anything.
@@ -33,15 +32,15 @@ class HomeViewModel {
 
     func load() {
         Task {
-            let podcasts = fetchPodcasts()
             let upNextEpisodes = dataManager.allUpNextEpisodes()
             let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
                 makeRowViewModel(for: episode)
             }
-
+            let newVideoReleases = dataManager.findNewVideoReleaseEpisodes(limit: 12).map { episode in
+                makeRowViewModel(for: episode)
+            }
             await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
-                self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)
                 }
@@ -49,6 +48,8 @@ class HomeViewModel {
                     currentPlaying = makeRowViewModel(for: currentlyPlaying)
                 }
                 newReleases = newEpisodes
+                self.newVideoReleases = newVideoReleases
+
                 state = .ready
             }
         }
@@ -56,10 +57,6 @@ class HomeViewModel {
 
     func refresh() {
         RefreshManager.shared.refreshPodcasts()
-    }
-
-    private func fetchPodcasts() -> [Podcast] {
-        return Array(dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).prefix(20))
     }
 
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {

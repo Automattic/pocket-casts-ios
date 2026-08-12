@@ -49,7 +49,7 @@ class EpisodeManager: NSObject {
         var episodesMinusCurrent = episodes
         var currentEpisodeToMarkAsPlayed: BaseEpisode?
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = episodes.firstIndex(where: { $0.uuid == currentEpisode.uuid }) {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode, let index = episodes.firstIndex(where: { $0.uuid == currentEpisode.uuid }) {
             episodesMinusCurrent.remove(at: index)
             currentEpisodeToMarkAsPlayed = currentEpisode
         }
@@ -270,7 +270,7 @@ class EpisodeManager: NSObject {
 
         // special case if the starred status of the now playing episode is changed, tell the player to update it
         // we do this before sending notifications so that other parts of the app that grab the now playing episode get the one with the right star status
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.nowPlayingStarredChanged()
         }
 
@@ -289,7 +289,7 @@ class EpisodeManager: NSObject {
 
     class func bulkSetStarred(_ starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
         DataManager.sharedManager.bulkSetStarred(starred: starred, episodes: episodes, updateSyncStatus: updateSyncStatus)
-        if let currentEpisode = PlaybackManager.shared.currentEpisode() as? Episode, episodes.contains(currentEpisode) {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode as? Episode, episodes.contains(currentEpisode) {
             PlaybackManager.shared.nowPlayingStarredChanged()
         }
         if updateSyncStatus {
@@ -367,14 +367,14 @@ class EpisodeManager: NSObject {
             }
 
             // we don't want a huge number of these so if we're over 5, blow the oldest ones away
-            if index >= 5, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            if index >= 5, !PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
                 deleteDownloadedFiles(episode: episode)
 
                 continue
             }
 
             // delete episodes older than a week that we're not currently playing
-            if fabs(lastPlaybackDate.timeIntervalSinceNow) > 1.week, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            if fabs(lastPlaybackDate.timeIntervalSinceNow) > 1.week, !PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
                 deleteDownloadedFiles(episode: episode)
             }
         }
@@ -570,7 +570,7 @@ class EpisodeManager: NSObject {
 
     class func removeDownloadForEpisodes(_ episodes: [BaseEpisode]) {
         var episodesToRemoveFromQueue = episodes
-        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = episodes.firstIndex(where: { $0.uuid == currentEpisode.uuid }) {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode, let index = episodes.firstIndex(where: { $0.uuid == currentEpisode.uuid }) {
             PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentEpisode, fireNotification: true, saveCurrentEpisode: true)
             episodesToRemoveFromQueue.remove(at: index)
         }

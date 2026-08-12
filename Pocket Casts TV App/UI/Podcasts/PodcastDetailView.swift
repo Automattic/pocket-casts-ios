@@ -95,6 +95,7 @@ struct PodcastDetailView: View {
                     .foregroundColor(.pcTextSecondary)
                     .lineLimit(3)
             }
+            .accessibilityElement(children: .combine)
             HStack(spacing: 8) {
                 Button() {
                     requireAccount {

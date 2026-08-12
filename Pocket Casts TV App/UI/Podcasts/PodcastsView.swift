@@ -87,6 +87,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .focusedCardDepth(cornerRadius: 12, style: .surface)
                     }
                     .buttonStyle(.card)
+                    .accessibilityLabel(podcast.title ?? "")
                     .simultaneousGesture(TapGesture().onEnded {
                         Analytics.track(.podcastsListPodcastTapped)
                     })

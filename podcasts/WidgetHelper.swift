@@ -32,7 +32,7 @@ class WidgetHelper {
             if widgets.contains(where: { $0.kind == "Now_Playing_Widget" }) {
                 self.publishAppIcon()
             }
-            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode() == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
+            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
                 self.publishTopFilterInfo()
             }
             WidgetCenter.shared.reloadAllTimelines()
@@ -68,7 +68,7 @@ class WidgetHelper {
     }
 
     @objc func handleFilterChanged() {
-        guard PlaybackManager.shared.currentEpisode() == nil else {
+        guard PlaybackManager.shared.currentEpisode == nil else {
             return
         }
         updateSharedUpNext()
@@ -95,7 +95,7 @@ class WidgetHelper {
             sharedDefaults.set(max(allUpNextPlaylistEpisodes.count - 1, 0), forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterItems)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
-            let playingStatus = PlaybackManager.shared.playing()
+            let playingStatus = PlaybackManager.shared.isPlaying
             sharedDefaults.set(playingStatus, forKey: SharedConstants.GroupUserDefaults.isPlaying)
 
             sharedDefaults.synchronize()
@@ -140,9 +140,9 @@ class WidgetHelper {
         var isPlaying = false
         let currentTime = PlaybackManager.shared.currentTime()
 
-        if episode.uuid == PlaybackManager.shared.currentEpisode()?.uuid, currentTime.isFinite {
+        if episode.uuid == PlaybackManager.shared.currentEpisode?.uuid, currentTime.isFinite {
             duration = duration - currentTime
-            isPlaying = PlaybackManager.shared.playing()
+            isPlaying = PlaybackManager.shared.isPlaying
         }
         let podcastColor: UIColor = ColorManager.backgroundColorForPodcastUuid(episode.parentIdentifier())
         var imageUrl = ""
