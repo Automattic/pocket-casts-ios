@@ -33,24 +33,20 @@ class HomeViewModel {
     func load() {
         Task {
             let upNextEpisodes = dataManager.allUpNextEpisodes()
-            let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { episode in
-                makeRowViewModel(for: episode)
-            }
-            let newVideoReleases = dataManager.findNewVideoReleaseEpisodes(limit: 12).map { episode in
-                makeRowViewModel(for: episode)
-            }
-            await MainActor.run { [weak self, newEpisodes] in
+            let currentlyPlaying = upNextEpisodes.first.map { withPodcast($0) }
+            let upNextEntries = Array(upNextEpisodes.dropFirst().prefix(12)).map { withPodcast($0) }
+            let newEpisodes = dataManager.findNewReleaseEpisodes(limit: 12).map { withPodcast($0) }
+            let newVideoReleases = dataManager.findNewVideoReleaseEpisodes(limit: 12).map { withPodcast($0) }
+            await MainActor.run { [weak self] in
                 guard let self else { return }
-                upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
-                    self.makeRowViewModel(for: episode)
+                self.upNext = upNextEntries.map { self.makeRowViewModel(for: $0) }
+                if let currentlyPlaying {
+                    self.currentPlaying = self.makeRowViewModel(for: currentlyPlaying)
                 }
-                if let currentlyPlaying = upNextEpisodes.first {
-                    currentPlaying = makeRowViewModel(for: currentlyPlaying)
-                }
-                newReleases = newEpisodes
-                self.newVideoReleases = newVideoReleases
+                self.newReleases = newEpisodes.map { self.makeRowViewModel(for: $0) }
+                self.newVideoReleases = newVideoReleases.map { self.makeRowViewModel(for: $0) }
 
-                state = .ready
+                self.state = .ready
             }
         }
     }
@@ -59,9 +55,13 @@ class HomeViewModel {
         RefreshManager.shared.refreshPodcasts()
     }
 
-    private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
-        let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-        return EpisodeRowViewModel(episode: episode, podcast: podcast, source: .home)
+    private func withPodcast(_ episode: BaseEpisode) -> (episode: BaseEpisode, podcast: Podcast?) {
+        (episode, (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) })
+    }
+
+    @MainActor
+    private func makeRowViewModel(for entry: (episode: BaseEpisode, podcast: Podcast?)) -> EpisodeRowViewModel {
+        EpisodeRowViewModel(episode: entry.episode, podcast: entry.podcast, source: .home)
     }
 
     private func observeDataChanges() {

@@ -363,8 +363,8 @@ struct DiscoveryEpisodeMenuButtons: View {
         Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
     }
 
-    private func load(_ action: @escaping (DiscoveryLoadedEpisode) -> Void) {
-        Task {
+    private func load(_ action: @escaping @MainActor (DiscoveryLoadedEpisode) -> Void) {
+        Task { @MainActor in
             guard let result = await TVDataManager.shared.loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
                 ToastManager.shared.show(L10n.playbackFailed)
                 return

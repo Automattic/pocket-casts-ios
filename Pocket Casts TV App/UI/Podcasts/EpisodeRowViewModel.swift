@@ -4,7 +4,7 @@ import PocketCastsUtils
 import SwiftUI
 import Combine
 
-@Observable
+@MainActor @Observable
 class EpisodeRowViewModel: Identifiable {
 
     static func == (lhs: EpisodeRowViewModel, rhs: EpisodeRowViewModel) -> Bool {
@@ -82,7 +82,6 @@ class EpisodeRowViewModel: Identifiable {
         }
     }
 
-    @MainActor
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         AnalyticsPlaybackHelper.shared.currentSource = source
@@ -202,6 +201,7 @@ class EpisodeRowViewModel: Identifiable {
 
 /// Up Next queue actions shared by the episode view model and the lazily-loaded
 /// discovery/search context menus, so the move-vs-add queue logic lives in one place.
+@MainActor
 enum EpisodeUpNextActions {
     static func playNext(_ episode: BaseEpisode, playbackManager: PlaybackManager = .shared) {
         if playbackManager.inUpNext(episode: episode) {

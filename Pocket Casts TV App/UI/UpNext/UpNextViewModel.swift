@@ -38,19 +38,19 @@ class UpNextViewModel {
 
     private func fetchLocalData() {
         Task.detached { [dataManager] in
-            let episodes = self.loadEpisodeViewModels(using: dataManager)
+            let episodes = self.loadEpisodes(using: dataManager)
             await MainActor.run { [weak self] in
                 guard let self else { return }
                 state = episodes.isEmpty ? .empty : .ready
-                self.episodes = episodes
+                self.episodes = episodes.map { EpisodeRowViewModel(episode: $0.episode, podcast: $0.podcast, source: .upNext) }
             }
         }
     }
 
-    private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
+    private func loadEpisodes(using dataManager: DataManager) -> [(episode: BaseEpisode, podcast: Podcast?)] {
         dataManager.allUpNextEpisodes().dropFirst().map { episode in
             let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-            return EpisodeRowViewModel(episode: episode, podcast: podcast, source: .upNext)
+            return (episode, podcast)
         }
     }
 

@@ -28,18 +28,18 @@ class ListeningHistoryViewModel {
 
     private func fetchLocalData() {
         Task.detached { [dataManager] in
-            let episodes = self.loadEpisodeViewModels(using: dataManager)
+            let episodes = self.loadEpisodes(using: dataManager)
             await MainActor.run { [weak self] in
                 guard let self else { return }
-                self.episodes = episodes
+                self.episodes = episodes.map { EpisodeRowViewModel(episode: $0.episode, podcast: $0.podcast, source: .listeningHistory) }
                 self.state = episodes.isEmpty ? .empty : .ready
             }
         }
     }
 
-    nonisolated private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
+    nonisolated private func loadEpisodes(using dataManager: DataManager) -> [(episode: Episode, podcast: Podcast?)] {
         dataManager.fetchHistoryEpisodes().map { episode in
-            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager), source: .listeningHistory)
+            (episode, episode.parentPodcast(dataManager: dataManager))
         }
     }
 

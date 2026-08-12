@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import Combine
 
+@MainActor
 class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     var episode: EpisodeSearchResult?
@@ -30,8 +31,8 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             return
         }
         isLoadingEpisode = true
-        Task { @MainActor in
-            let spinnerTask = Task { @MainActor in
+        Task {
+            let spinnerTask = Task {
                 try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
                 try Task.checkCancellation()
                 showsLoadingSpinner = true

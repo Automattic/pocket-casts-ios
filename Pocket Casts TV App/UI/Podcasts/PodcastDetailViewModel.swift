@@ -89,13 +89,13 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
-                EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
-            }
+            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived)
             await MainActor.run {
                 self.podcast = podcast
                 self.isFollowing = podcast.subscribed != 0
-                self.episodes = allEpisodes
+                self.episodes = allEpisodes.map {
+                    EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
+                }
                 self.recommendedEpisode = nil
                 self.sortOrder = podcast.podcastSortOrder ?? .newestToOldest
                 self.state = .ready
@@ -126,16 +126,14 @@ class PodcastDetailViewModel {
         NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
         .receive(on: DispatchQueue.main)
         .sink { [weak self] notification in
-            guard let self else {
+            guard let self, let uuid = notification.object as? String else {
                 return
             }
-            if let uuid = notification.object as? String {
-                let contains = episodes.contains { episode in
-                    episode.id == uuid
+            Task { @MainActor in
+                guard self.episodes.contains(where: { $0.id == uuid }) else {
+                    return
                 }
-                if contains {
-                    load()
-                }
+                self.load()
             }
         }
         .store(in: &cancellables)
