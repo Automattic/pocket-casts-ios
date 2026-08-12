@@ -7,6 +7,17 @@ import PocketCastsUtils
 final class SleepTimerLiveActivityController {
     static let shared = SleepTimerLiveActivityController()
 
+    /// The activity this launch requested. `Activity.activities` is eventually consistent and
+    /// doesn't include an activity the moment it's returned by `request`, so neither updating nor
+    /// ending can rely on that array alone.
+    private var requestedActivity: Activity<SleepTimerActivityAttributes>?
+
+    /// Every ActivityKit call is async, so each entry point has to hand its work to a `Task`.
+    /// Independent tasks have no ordering guarantee and these operations don't commute, so they're
+    /// chained to run in the order they were requested.
+    private var pendingWork = Task<Void, Never> {}
+    private let lock = NSLock()
+
     private init() {}
 
     func startTimer(duration: TimeInterval, episode: BaseEpisode?) {
@@ -15,11 +26,11 @@ final class SleepTimerLiveActivityController {
         let attributes = SleepTimerActivityAttributes(startedAt: Date())
         let content = content(remaining: duration, isPaused: false, episode: episode)
 
-        Task {
-            await endAllActivities(dismissalPolicy: .immediate)
+        enqueue {
+            await self.endActivities(dismissalPolicy: .immediate)
 
             do {
-                _ = try Activity.request(attributes: attributes, content: content, pushType: nil)
+                self.requestedActivity = try Activity.request(attributes: attributes, content: content, pushType: nil)
             } catch {
                 FileLog.shared.addMessage("Sleep Timer Live Activity: unable to start activity: \(error)")
             }
@@ -31,8 +42,8 @@ final class SleepTimerLiveActivityController {
     func sync(remaining: TimeInterval, isPaused: Bool, episode: BaseEpisode?) {
         let content = content(remaining: remaining, isPaused: isPaused, episode: episode)
 
-        Task {
-            for activity in Activity<SleepTimerActivityAttributes>.activities {
+        enqueue {
+            for activity in self.activities {
                 await activity.update(content)
             }
         }
@@ -50,9 +61,34 @@ final class SleepTimerLiveActivityController {
     }
 
     func endAll(dismissalPolicy: ActivityUIDismissalPolicy = .immediate) {
-        Task {
-            await endAllActivities(dismissalPolicy: dismissalPolicy)
+        enqueue {
+            await self.endActivities(dismissalPolicy: dismissalPolicy)
         }
+    }
+
+    /// Runs `work` once everything already enqueued has finished. Callable from any thread; the
+    /// work itself always runs on the main actor, so it's the only place that touches our state.
+    private func enqueue(_ work: @escaping @MainActor () async -> Void) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        let previous = pendingWork
+        pendingWork = Task { @MainActor in
+            await previous.value
+            await work()
+        }
+    }
+
+    /// Activities left behind by a previous launch come from `Activity.activities`; one requested a
+    /// moment ago may only be in `requestedActivity`.
+    @MainActor
+    private var activities: [Activity<SleepTimerActivityAttributes>] {
+        var activities = Activity<SleepTimerActivityAttributes>.activities
+        if let requestedActivity, !activities.contains(where: { $0.id == requestedActivity.id }) {
+            activities.append(requestedActivity)
+        }
+
+        return activities
     }
 
     private func content(remaining: TimeInterval, isPaused: Bool, episode: BaseEpisode?) -> ActivityContent<SleepTimerActivityAttributes.ContentState> {
@@ -69,9 +105,12 @@ final class SleepTimerLiveActivityController {
         return ActivityContent(state: state, staleDate: isPaused ? nil : timerEndDate, relevanceScore: 1)
     }
 
-    private func endAllActivities(dismissalPolicy: ActivityUIDismissalPolicy) async {
-        for activity in Activity<SleepTimerActivityAttributes>.activities {
+    @MainActor
+    private func endActivities(dismissalPolicy: ActivityUIDismissalPolicy) async {
+        for activity in activities {
             await activity.end(nil, dismissalPolicy: dismissalPolicy)
         }
+
+        requestedActivity = nil
     }
 }
