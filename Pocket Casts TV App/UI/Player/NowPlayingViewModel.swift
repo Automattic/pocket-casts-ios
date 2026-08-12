@@ -274,8 +274,8 @@ class NowPlayingViewModel: Identifiable {
         guard let episode else {
             return maxSpeed
         }
-        if EpisodeManager.hasHLSStream(episode) {
-            maxSpeed = SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed
+        if let sourceMaximum = playbackManager.playbackSource(for: episode)?.kind.maximumPlaybackSpeed {
+            maxSpeed = sourceMaximum
         }
         return maxSpeed
     }

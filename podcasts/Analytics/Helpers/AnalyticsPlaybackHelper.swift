@@ -90,7 +90,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         // the HLS flag so it only ships while HLS playback is enabled — mirrors the web player.
         if FeatureFlag.hls.enabled, let episode {
             properties.merge(Self.hlsProtocolProperties(for: episode)) { current, _ in current }
-            if EpisodeManager.hasHLSStream(episode), let hlsErrorDetail {
+            if EpisodeManager.streamingSource(for: episode)?.kind == .hls, let hlsErrorDetail {
                 properties["hls_error_detail"] = hlsErrorDetail
             }
         }
@@ -173,16 +173,16 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// For an episode that hasn't started yet the per-session toggle doesn't apply — it resets to video
     /// when the episode opens — so only the global "Audio only" setting carries over.
     private static func audioOnlyMode(for episode: BaseEpisode?, isCurrentEpisode: Bool) -> Bool? {
-        guard let episode, EpisodeManager.willPlayViaHLS(episode) else { return nil }
         let manager = PlaybackManager.shared
-        return isCurrentEpisode ? manager.isAudioOnlyMode : manager.isAudioOnlyForced
+        guard let episode, manager.playbackSource(for: episode)?.kind == .hls else { return nil }
+        return isCurrentEpisode ? manager.audioOnlyReason != nil : manager.audioOnlyReason == .globalSetting
     }
 
     /// The protocol an episode's source resolves to for playback (`hls`/`progressive`), for events
     /// where the source is known. Empty unless the HLS feature flag is on.
     static func hlsProtocolProperties(for episode: BaseEpisode) -> [String: Any] {
         guard FeatureFlag.hls.enabled else { return [:] }
-        return ["playback_protocol": EpisodeManager.willPlayViaHLS(episode) ? "hls" : "progressive"]
+        return ["playback_protocol": PlaybackManager.shared.playbackSource(for: episode)?.kind == .hls ? "hls" : "progressive"]
     }
 
     /// Whether the episode advertises an HLS stream, independent of whether it's the selected source.

@@ -436,12 +436,11 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private func updateSpeedBtn() {
         let effects = PlaybackManager.shared.effects()
-        // HLS can't play above 2x, so never show a higher speed even if the stored global/podcast speed
-        // is higher. The applied rate is already capped in DefaultPlayer; this keeps the display honest
-        // without persisting a change to the user's non-HLS preference.
+        // The applied rate is already capped in DefaultPlayer; this keeps the display honest without
+        // persisting a change to the user's preference for sources that aren't capped.
         var displaySpeed = effects.playbackSpeed
-        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
-            displaySpeed = min(displaySpeed, 2)
+        if let maximumSpeed = PlaybackManager.shared.currentSource?.kind.maximumPlaybackSpeed {
+            displaySpeed = min(displaySpeed, maximumSpeed)
         }
         speedBtn.fillColor = ThemeColor.playerContrast01()
         speedBtn.isOn = (displaySpeed != 1)

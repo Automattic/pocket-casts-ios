@@ -420,49 +420,27 @@ class EpisodeManager: NSObject {
         return totalFilesSize
     }
 
-    /// Whether the episode has a usable HLS stream given the current feature-flag state — i.e. the HLS
-    /// feature is enabled and the episode advertises a parseable HLS URL. This is a capability check, not
-    /// a resolved-source check: a downloaded episode can still return `true` here even though it will play
-    /// its local file (use `willPlayViaHLS` for the "what will actually play" question). Requires a
-    /// parseable url so this stays consistent with `urlForEpisode`, which falls back to the progressive
-    /// url when the HLS string can't be turned into a `URL`.
-    class func hasHLSStream(_ episode: BaseEpisode) -> Bool {
-        guard FeatureFlag.hls.enabled, let episode = episode as? Episode, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else {
-            return false
-        }
-        return URL(string: hlsUrl) != nil
-    }
-
-    /// Whether the episode should be presented as video in the UI: either a native video podcast or an
-    /// episode that will actually play its HLS stream. Downloaded episodes play their local (audio-only)
-    /// file, so advertising a video icon for them would promise video the user won't get — hence
-    /// `willPlayViaHLS` rather than `hasHLSStream`.
-    class func isVideo(_ episode: BaseEpisode) -> Bool {
-        episode.videoPodcast() || willPlayViaHLS(episode)
-    }
-
-    /// Whether the episode will actually play via HLS right now. Downloaded copies take precedence over
-    /// the HLS stream in `urlForEpisode`, so a downloaded episode plays its local (progressive) file and
-    /// is not treated as HLS — this distinguishes that case from `hasHLSStream`.
-    class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
-        guard hasHLSStream(episode) else { return false }
-        // The user can choose to watch a downloaded episode's video, which streams the HLS source instead
-        // of its local (audio-only) file, so this takes precedence over the downloaded-copy checks below.
-        if PlaybackManager.shared.shouldStreamVideoDespiteDownload(episode) { return true }
-        if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
-        if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
-        return true
-    }
-
-    class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
-        // Streaming the HLS video of a downloaded episode ignores the local (audio-only) file.
-        let preferStreaming = streamingOnly || PlaybackManager.shared.shouldStreamVideoDespiteDownload(episode)
-        if !preferStreaming {
+    /// Resolves what will play for an episode: which url, and what kind of source it is. This is the
+    /// single answer to that — ask it rather than inspecting `Episode.hlsUrl` or the download state.
+    ///
+    /// Rows are tried top to bottom, and `preferStreaming` starts at `remote`. Falling off the bottom
+    /// resolves to nil, e.g. an episode that isn't downloaded and advertises no enclosure.
+    ///
+    ///                     Episode                   UserEpisode
+    ///     downloaded      .localFile                .localFile
+    ///     stream buffer   .localFile                —
+    ///     remote          .hls, else .progressive   .progressive (needs sign-in)
+    ///
+    /// Resolution depends only on the episode and the options passed in. For the episode being played,
+    /// ask `PlaybackManager.playbackSource(for:)` instead, which fills in the options that reflect the
+    /// user's current video choice.
+    class func playbackSource(for episode: BaseEpisode, options: PlaybackSource.Options = .init()) -> PlaybackSource? {
+        if !options.preferStreaming {
             // For local playback, prefer downloaded files
             if episode.downloaded(pathFinder: DownloadManager.shared) {
-                return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+                return PlaybackSource(url: URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)), kind: .localFile)
             } else if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) {
-                return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+                return PlaybackSource(url: URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)), kind: .localFile)
             }
         }
 
@@ -470,19 +448,43 @@ class EpisodeManager: NSObject {
         if let episode = episode as? Episode {
             // When available, default to the HLS stream over the progressive file.
             // If the HLS url is malformed, fall through to the progressive url rather than failing.
-            if hasHLSStream(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
-                return url
+            if let url = hlsUrl(for: episode) {
+                return PlaybackSource(url: url, kind: .hls)
             }
-            if let url = episode.downloadUrl {
-                return URL(string: url)
+            if let downloadUrl = episode.downloadUrl {
+                return URL(string: downloadUrl).map { PlaybackSource(url: $0, kind: .progressive) }
             }
         } else if let episode = episode as? UserEpisode {
             if let token = ServerSettings.syncingV2Token, episode.uploadStatus != UploadStatus.missing.rawValue {
-                return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)")
+                return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)").map { PlaybackSource(url: $0, kind: .progressive) }
             }
         }
 
         return nil
+    }
+
+    /// The source the episode would use if it were streamed, ignoring any local copy. Answers "what could
+    /// this episode play", as distinct from `playbackSource(for:)`'s "what will it play right now".
+    class func streamingSource(for episode: BaseEpisode) -> PlaybackSource? {
+        playbackSource(for: episode, options: .init(preferStreaming: true))
+    }
+
+    /// The episode's HLS stream url, when the feature is enabled and the advertised url is parseable.
+    private class func hlsUrl(for episode: Episode) -> URL? {
+        guard FeatureFlag.hls.enabled, let hlsUrl = episode.hlsUrl, !hlsUrl.isEmpty else { return nil }
+        return URL(string: hlsUrl)
+    }
+
+    /// Whether the episode should be presented as video: the feed says so, or it resolves to a source that
+    /// may carry video we can't see up front. Note that this asks about the source the episode will
+    /// actually play, so a downloaded episode isn't treated as video on the strength of an HLS stream it
+    /// won't use — its local file is audio-only, and a video icon would promise video the user won't get.
+    class func isVideo(_ episode: BaseEpisode, options: PlaybackSource.Options = .init()) -> Bool {
+        episode.videoPodcast() || playbackSource(for: episode, options: options)?.kind.mayCarryUndeclaredVideo == true
+    }
+
+    class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
+        playbackSource(for: episode, options: .init(preferStreaming: streamingOnly))?.url
     }
 
     class func shouldArchiveOnCompletion(episode: BaseEpisode) -> Bool {

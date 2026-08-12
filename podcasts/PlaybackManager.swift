@@ -269,12 +269,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func ensureBackgroundMediaSessionConfiguration() {
-        guard let currEpisode = currentEpisode() else { return }
+        guard currentEpisode() != nil else { return }
         refreshNowPlayingInfo(forceFullRebuild: true)
         activateAudioSession(completion: { _ in
             self.updateCommandCenterSkipTimes(addTarget: false)
             self.updateExtraActions()
-            if currEpisode.videoPodcast() {
+            if self.isCurrentEpisodeVideo() {
                 self.setAudioSessionVideoProperties()
             }
         })
@@ -335,7 +335,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
             }
 
-            if currEpisode.videoPodcast() {
+            if self.isCurrentEpisodeVideo() {
                 self.setAudioSessionVideoProperties()
             }
 
@@ -850,63 +850,89 @@ class PlaybackManager: ServerPlaybackDelegate {
         play()
     }
 
-    /// Whether the current episode should be presented as video, considering the feed metadata
-    /// (`videoPodcast()`), any video tracks detected at runtime in the stream, and actual HLS playback
-    /// (`willPlayViaHLS`), which we assume is video.
-    func isCurrentEpisodeVideo() -> Bool {
-        guard let episode = currentEpisode() else { return false }
-        // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
-        // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
-        // is actually HLS (a downloaded episode plays its local file, which may not be video).
-        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
+    /// Source resolution options for `episode`. When the user has turned video on for a downloaded
+    /// episode, its local file is audio-only, so the video has to be streamed instead.
+    private func sourceOptions(for episode: BaseEpisode) -> PlaybackSource.Options {
+        let watchingVideoOfDownloadedEpisode = streamingVideoForDownloadedEpisode.value
+            && episode.uuid == currentEpisode()?.uuid
+            && EpisodeManager.streamingSource(for: episode)?.kind.mayCarryUndeclaredVideo == true
+        return .init(preferStreaming: watchingVideoOfDownloadedEpisode)
     }
 
-    /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
-    /// plays as audio only, as if the per-episode shelf toggle were switched off for all episodes.
-    var isAudioOnlyForced: Bool {
-        FeatureFlag.hls.enabled && Settings.audioOnly
+    /// The source `episode` will play from, reflecting the user's current video choice when it's the
+    /// episode being played. Prefer this over `EpisodeManager.playbackSource(for:)` anywhere playback
+    /// state matters.
+    func playbackSource(for episode: BaseEpisode) -> PlaybackSource? {
+        EpisodeManager.playbackSource(for: episode, options: sourceOptions(for: episode))
+    }
+
+    /// The source the current episode is playing from.
+    var currentSource: PlaybackSource? {
+        currentEpisode().flatMap { playbackSource(for: $0) }
+    }
+
+    /// Whether what the current episode plays from carries video, before any runtime detection.
+    private var currentSourceIsVideo: Bool {
+        guard let episode = currentEpisode() else { return false }
+        return EpisodeManager.isVideo(episode, options: sourceOptions(for: episode))
+    }
+
+    /// Whether the current episode should be presented as video, considering the feed metadata
+    /// (`videoPodcast()`), the source it resolved to, and any video tracks detected at runtime.
+    func isCurrentEpisodeVideo() -> Bool {
+        // A source that may carry undeclared video counts as video from the start, so the player can go
+        // full screen immediately rather than waiting for a frame to be decoded.
+        currentSourceIsVideo || currentStreamContainsVideo.value
+    }
+
+    /// Why the current episode's video is being suppressed, or `nil` when it isn't.
+    enum AudioOnlyReason {
+        /// The global "Audio only" setting, which applies to every video episode as if the per-episode
+        /// shelf toggle were switched off for all of them.
+        case globalSetting
+        /// The player shelf toggle, which applies to the current episode for this session.
+        case episodeToggle
+    }
+
+    /// How the current episode's video should be presented.
+    enum VideoPresentation {
+        /// The episode has no video to show.
+        case unavailable
+        /// The episode has video, but it's suppressed — see `audioOnlyReason`.
+        case hidden
+        case visible
+    }
+
+    var audioOnlyReason: AudioOnlyReason? {
+        if FeatureFlag.hls.enabled, Settings.audioOnly { return .globalSetting }
+        if !videoRenderingEnabled.value { return .episodeToggle }
+        return nil
+    }
+
+    var videoPresentation: VideoPresentation {
+        guard isCurrentEpisodeVideo() else { return .unavailable }
+        return audioOnlyReason == nil ? .visible : .hidden
     }
 
     /// Whether the video surface should currently be shown. Video content can be present
-    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
-    /// or the global "Audio only" setting.
+    /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only.
     func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
+        videoPresentation == .visible
     }
 
-    var isVideoRenderingEnabled: Bool {
-        videoRenderingEnabled.value
-    }
-
-    /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
-    /// or they've switched the current stream's video off via the shelf toggle. Reported as the
-    /// `audio_only_mode` analytics property.
-    var isAudioOnlyMode: Bool {
-        isAudioOnlyForced || !videoRenderingEnabled.value
-    }
-
-    /// Whether the audio/video toggle should be offered for the current episode. Any episode with an HLS
-    /// stream is assumed to carry video, so the toggle is offered whether the HLS is being streamed or the
-    /// episode has been downloaded (its downloaded file is audio-only, so the toggle streams the HLS video).
-    /// When the global "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
+    /// Whether the audio/video toggle should be offered for the current episode. This asks the streaming
+    /// source, so the toggle is offered whether that source is already being streamed or the episode has
+    /// been downloaded — a downloaded file is audio-only, so the toggle streams the video instead. When the
+    /// global "Audio only" setting forces audio for every episode, the per-episode toggle is hidden.
     func canToggleVideoRendering() -> Bool {
-        guard FeatureFlag.hls.enabled, !isAudioOnlyForced, let episode = currentEpisode(), episode is Episode else { return false }
-        return EpisodeManager.hasHLSStream(episode)
+        guard audioOnlyReason != .globalSetting, let episode = currentEpisode() else { return false }
+        return EpisodeManager.streamingSource(for: episode)?.kind.mayCarryUndeclaredVideo == true
     }
 
-    /// Whether the current episode should stream its HLS video source even though a local download exists,
-    /// because the user turned the video toggle on for it. Consulted by `EpisodeManager.willPlayViaHLS` /
-    /// `urlForEpisode` when resolving the playback source.
-    func shouldStreamVideoDespiteDownload(_ episode: BaseEpisode) -> Bool {
-        streamingVideoForDownloadedEpisode.value
-            && episode.uuid == currentEpisode()?.uuid
-            && EpisodeManager.hasHLSStream(episode)
-    }
-
-    /// Toggles the video for the current episode. When streaming HLS the video is already being decoded,
-    /// so this just shows/hides the video surface (a display-only switch). When the episode is downloaded
-    /// its local file is audio-only, so we flip the streaming preference and reload playback in place to
-    /// switch between the downloaded audio file and the streamed HLS video.
+    /// Toggles the video for the current episode. When the video is already being decoded this just
+    /// shows/hides the video surface (a display-only switch). When the episode is downloaded its local
+    /// file is audio-only, so we flip the streaming preference and reload playback in place to switch
+    /// between the downloaded audio file and the streamed video.
     func toggleVideoRendering() {
         guard canToggleVideoRendering(), let episode = currentEpisode() else { return }
 
@@ -1102,8 +1128,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let playbackEffects = effects()
         if playbackEffects.playbackSpeed > 4.9 { return }
 
-        // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
-        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed { return }
+        if let maximumSpeed = currentSource?.kind.maximumPlaybackSpeed, playbackEffects.playbackSpeed >= maximumSpeed { return }
 
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
@@ -1153,14 +1178,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
-        // Trim silence relies on the EffectsPlayer audio engine; HLS plays through AVPlayer, which can't do it.
+        // Trim silence relies on the EffectsPlayer audio engine, which video sources don't go through.
         #if APPCLIP
-        if let episode = currentEpisode() {
-            return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode)
+        if currentEpisode() != nil {
+            return !currentSourceIsVideo
         }
         #elseif !os(watchOS) && !os(tvOS)
-            if let episode = currentEpisode() {
-                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+            if currentEpisode() != nil {
+                return !currentSourceIsVideo && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
         #endif
 
@@ -1168,10 +1193,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        // Volume boost uses an audio processing tap, which needs a concrete audio track that HLS streams don't
-        // expose. The tap logic in DefaultPlayer is compiled on tvOS too, so exclude HLS there as well.
+        // Volume boost uses an audio processing tap, which needs a concrete audio track. The tap logic in
+        // DefaultPlayer is compiled on tvOS too, so this applies there as well.
         #if !os(watchOS)
-        if let episode = currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+        if currentSource?.kind.exposesAudioTracks == false {
             return false
         }
         #endif
@@ -1611,10 +1636,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         #if !os(watchOS) && !os(tvOS)
-        // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
-        // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
+        // Video must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
+        // pipeline that can't render video, and routing video through it desyncs audio from the surface.
         let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
-        if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
+        if !playingOverAirplay(), !currentSourceIsVideo, audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
         #endif
@@ -2518,14 +2543,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     func needsToReloadPlayingEpisode(_ refreshedEpisode: BaseEpisode) -> Bool {
         let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
 
+        // A source that isn't cacheable was streamed directly rather than stream-and-cached, so when the
+        // download finishes we have to reload to switch over to the local file.
+        let streamedSourceWasCacheable = EpisodeManager.streamingSource(for: refreshedEpisode)?.kind.isCacheable ?? true
+
         if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
            FeatureFlag.streamAndCachePlayingEpisode.enabled,
            !episodeIsChanging,
            effects().trimSilence == .off,
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
-           // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
-           !EpisodeManager.hasHLSStream(refreshedEpisode) {
+           streamedSourceWasCacheable {
             return false
         } else {
             if !episodeIsChanging {

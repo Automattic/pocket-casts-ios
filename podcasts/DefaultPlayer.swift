@@ -22,16 +22,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private var isPlayingLocalFile = false
 
-    /// Whether the current episode is being streamed over HLS. HLS is streamed directly (never cached),
-    /// so it needs extra buffering headroom and a capped playback rate to avoid stalling.
-    private var isStreamingHLS = false
-
-    /// Larger forward buffer for HLS so higher playback rates don't starve the pipeline and stall.
-    private static let hlsForwardBufferDuration: TimeInterval = 60
-
-    /// HLS streams can't reliably sustain playback above this rate, and the time-domain pitch
-    /// algorithm degrades past it, so the applied rate is capped here for HLS.
-    private static let hlsMaxPlaybackRate: Double = 2.0
+    /// The kind of source the current episode resolved to. Determines buffering headroom, the applied
+    /// rate cap, how stalls are recovered and whether video has to be detected at runtime.
+    private var sourceKind: PlaybackSource.Kind = .progressive
 
     // Keep track of the previous playback and waiting state
     private var previousReasonForWaiting: AVPlayer.WaitingReason?
@@ -92,11 +85,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player = nil
         }
 
-        if let url = EpisodeManager.urlForEpisode(episode) {
-            isPlayingLocalFile = url.isFileURL
-        } else {
-            isPlayingLocalFile = false
-        }
+        let source = PlaybackManager.shared.playbackSource(for: episode)
+        sourceKind = source?.kind ?? .progressive
+        isPlayingLocalFile = source?.url.isFileURL ?? false
 
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             handlePlaybackError("Unable to create playback item")
@@ -105,13 +96,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         isWaitingForInitialPlayback = true
 
-        isStreamingHLS = EpisodeManager.willPlayViaHLS(episode)
-
-        // Set the pitch algorithm once here rather than re-applying it on every rate change. For HLS,
-        // give the pipeline more buffered audio so higher playback rates don't starve it and stall.
+        // Set the pitch algorithm once here rather than re-applying it on every rate change.
         playerItem.audioTimePitchAlgorithm = .timeDomain
-        if isStreamingHLS {
-            playerItem.preferredForwardBufferDuration = Self.hlsForwardBufferDuration
+        if let forwardBufferDuration = sourceKind.preferredForwardBufferDuration {
+            playerItem.preferredForwardBufferDuration = forwardBufferDuration
         }
 
         player = AVPlayer(playerItem: playerItem)
@@ -156,11 +144,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
     }
 
-    /// An HLS stream can carry video that isn't reflected in the episode's file type. HLS doesn't
-    /// expose video via the asset's tracks, and `presentationSize` is only `0x0` until the first
-    /// video frame is decoded, so we observe it and promote playback to video once it reports a size.
+    /// Some sources carry video that isn't reflected in the episode's file type. `presentationSize` is
+    /// only `0x0` until the first video frame is decoded, so we observe it and promote playback to video
+    /// once it reports a size.
     private func detectVideoTracksIfNeeded(for episode: BaseEpisode, playerItem: AVPlayerItem) {
-        guard isStreamingHLS, !episode.videoPodcast() else { return }
+        guard sourceKind.mayCarryUndeclaredVideo, !episode.videoPodcast() else { return }
 
         let episodeUuid = episode.uuid
         presentationSizeObserver = playerItem.observe(\.presentationSize, options: [.initial, .new]) { [weak self] item, _ in
@@ -783,8 +771,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             requiredPlaybackRate = 1.0
         }
 
-        // Cap the applied rate for HLS streams; they can't sustain higher rates without stalling.
-        let effectiveRate = isStreamingHLS ? min(requiredPlaybackRate, Self.hlsMaxPlaybackRate) : requiredPlaybackRate
+        let effectiveRate = sourceKind.maximumPlaybackSpeed.map { min(requiredPlaybackRate, $0) } ?? requiredPlaybackRate
 
         player?.rate = Float(effectiveRate)
     }
@@ -982,11 +969,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             FileLog.shared.addMessage("Received notification of playback stall")
             guard self.shouldKeepPlaying else { return }
 
-            if self.isStreamingHLS {
-                // Recovering an HLS stall via play() re-seeks to the resume position, which flushes the
-                // HLS buffer and triggers another stall — a runaway loop at higher rates. Just re-apply
-                // the rate and let AVPlayer resume once it has buffered enough, without seeking.
-                FileLog.shared.addMessage("Trying to recover from HLS stall without seeking")
+            if self.sourceKind.recoversFromStallWithoutSeeking {
+                // Re-apply the rate and let AVPlayer resume once it has buffered enough, without seeking.
+                FileLog.shared.addMessage("Trying to recover from stall without seeking")
                 self.performSetPlaybackRate()
             } else {
                 FileLog.shared.addMessage("Trying to recover from stall by playing")
