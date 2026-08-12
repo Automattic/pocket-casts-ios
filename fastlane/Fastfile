@@ -458,20 +458,7 @@ platform :ios do
       Fastlane::Helper::GitHelper.checkout_and_pull(base_branch)
       Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
     else
-      remote_branch_matches_downloads = false
-      if remote_branch_exists
-        sh('git', 'fetch', 'origin', pr_branch)
-        remote_tree = sh('git', 'rev-parse', 'FETCH_HEAD^{tree}').strip
-        downloaded_tree = sh('git', 'rev-parse', 'HEAD^{tree}').strip
-        remote_branch_matches_downloads = remote_tree == downloaded_tree
-      end
-
-      if remote_branch_matches_downloads
-        UI.important("The existing `#{pr_branch}` branch already contains the downloaded updates, so it will not be force-pushed.")
-      else
-        push_to_git_remote(tags: false, set_upstream: true, force: true)
-      end
-
+      push_to_git_remote(tags: false, set_upstream: true, force: true)
       pr_url = find_or_create_pull_request(
         repository: GITHUB_REPO,
         base: base_branch,
