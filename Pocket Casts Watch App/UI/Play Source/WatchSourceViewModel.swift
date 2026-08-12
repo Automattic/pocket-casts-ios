@@ -55,7 +55,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)

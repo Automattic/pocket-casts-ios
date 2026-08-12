@@ -133,16 +133,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - API
 
-    func isNowPlayingEpisode(episodeUuid: String?) -> Bool {
-        if let episodeUuid, let playingEpisode = currentEpisode {
-            return playingEpisode.uuid == episodeUuid
-        }
-
-        return false
+    /// `true` if the episode is loaded in the player. It may be playing, paused or buffering.
+    func isCurrentEpisode(uuid: String) -> Bool {
+        currentEpisode?.uuid == uuid
     }
 
-    func isActivelyPlaying(episodeUuid: String?) -> Bool {
-        isNowPlayingEpisode(episodeUuid: episodeUuid) && isPlaying
+    /// `true` if the episode is loaded in the player *and* playback is running.
+    func isActivelyPlaying(episodeUuid: String) -> Bool {
+        isCurrentEpisode(uuid: episodeUuid) && isPlaying
     }
 
     var currentEpisode: BaseEpisode? {
@@ -708,7 +706,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if userInitiated, let episode {
             AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
         }
-        if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
+        if let episode, isCurrentEpisode(uuid: episode.uuid) {
             autoplayIfNeeded()
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: isPlaying)
@@ -2788,7 +2786,7 @@ extension PlaybackManager {
         #endif
 
         // If we're already the now playing episode, then just seek to the bookmark time
-        if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
+        if isCurrentEpisode(uuid: bookmark.episodeUuid) {
             seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
             return
         }
@@ -2820,7 +2818,7 @@ extension PlaybackManager {
         // Position the player at the stored time — the best estimate until the resolve
         // lands, and where playback falls back to. Pause before seeking so no audio from
         // the wrong position slips out.
-        if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
+        if isCurrentEpisode(uuid: bookmark.episodeUuid) {
             pause(userInitiated: false)
             seekTo(time: bookmark.time)
         } else {
@@ -2838,7 +2836,7 @@ extension PlaybackManager {
         )
 
         // The listener took over while we were resolving; leave things where they put them.
-        guard isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid), !isPlaying,
+        guard isCurrentEpisode(uuid: bookmark.episodeUuid), !isPlaying,
               abs(currentTime() - bookmark.time) < 1 else {
             FileLog.shared.addMessage(
                 "[Bookmarks] Playback moved while resolving bookmark \(bookmark.uuid) — not starting playback"

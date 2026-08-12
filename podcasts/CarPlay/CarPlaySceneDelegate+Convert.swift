@@ -41,7 +41,7 @@ extension CarPlaySceneDelegate {
                 item.accessoryType = .cloud
             }
 
-            item.isPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+            item.isPlaying = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 
             item.handler = { [weak self] _, completion in
                 self?.episodeTapped(episode, playlist: playlist)

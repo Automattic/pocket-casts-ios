@@ -563,7 +563,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let episode else { return }
 
         // if the user tapped play from a featured list, record that. We just want the first play, if they are unpausing it, that's not relevant (hence the last check below)
-        if let podcastUuid, let listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if let podcastUuid, let listUuid, !PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 

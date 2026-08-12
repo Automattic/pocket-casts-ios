@@ -390,7 +390,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         // mini player / now playing updates immediately rather than only after a relaunch. This mirrors
         // how the server sync applies a remote position (see SyncTask+ServerChanges). Otherwise just
         // refresh any visible episode cell via the notification.
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: uuid), !PlaybackManager.shared.isPlaying {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: uuid), !PlaybackManager.shared.isPlaying {
             DispatchQueue.main.async {
                 PlaybackManager.shared.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
             }

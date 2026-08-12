@@ -43,7 +43,7 @@ extension CarPlaySceneDelegate {
         guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
 
         // If the episode is the currently playing one but isn't actively being played, then start playing it
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.play()
             return
         }
