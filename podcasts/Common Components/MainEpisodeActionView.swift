@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import UIKit
 
+@MainActor
 protocol MainEpisodeActionViewDelegate: AnyObject {
     func downloadTapped()
     func stopDownloadTapped()

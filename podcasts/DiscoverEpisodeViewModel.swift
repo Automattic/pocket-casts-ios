@@ -5,6 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 class DiscoverEpisodeViewModel: ObservableObject {
     private enum ClientError: Swift.Error {
         case noPodcastUuid
@@ -97,6 +98,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         let listId = discoverItem?.uuid ?? listId
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] podcast in
                 // We don't need the fetched podcast but we want to make sure the episode is available.
                 guard podcast != nil, let self else {
