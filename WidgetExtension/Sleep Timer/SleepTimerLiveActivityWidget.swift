@@ -8,9 +8,9 @@ struct SleepTimerLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: SleepTimerActivityAttributes.self) { context in
             SleepTimerLockScreenView(context: context)
-                // No tint, so the system draws its default (glass) background, matching
-                // the clear background the other widgets use via `clearBackground()`.
-                .activityBackgroundTint(nil)
+                // Fully transparent, so the content sits directly on the wallpaper like
+                // the other widgets do via `clearBackground()`.
+                .activityBackgroundTint(.clear)
                 .activitySystemActionForegroundColor(SleepTimerLiveActivityStyle.primaryTextColor)
                 .widgetURL(URL(string: "pktc://show_player"))
         } dynamicIsland: { context in
