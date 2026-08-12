@@ -437,10 +437,8 @@ platform :ios do
     base_branch = "release/#{version}"
     pr_branch = "translations/release-#{version}"
 
-    if Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: pr_branch)
-      UI.important("A previous `#{pr_branch}` branch exists on the remote. It will be deleted and GitHub will close any associated PR.")
-      Fastlane::Helper::GitHelper.delete_remote_branch_if_exists!(pr_branch)
-    end
+    remote_branch_exists = Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: pr_branch)
+    UI.important("The existing `#{pr_branch}` branch and its PR will be refreshed.") if remote_branch_exists
 
     Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
     Fastlane::Helper::GitHelper.create_branch(pr_branch, from: base_branch)
@@ -449,13 +447,18 @@ platform :ios do
     lint_localizations
 
     if Fastlane::Helper::GitHelper.point_to_same_commit?('HEAD', base_branch)
+      if remote_branch_exists
+        UI.important("The existing `#{pr_branch}` branch has no remaining changes and will be deleted, closing its PR.")
+        sh('git', 'push', 'origin', '--delete', pr_branch)
+      end
+
       message = 'No translations or App Store metadata updates were downloaded, so no PR was created'
       UI.important(message)
       buildkite_annotate(context: 'translations-and-metadata-pr-url', message: message) if is_ci
       Fastlane::Helper::GitHelper.checkout_and_pull(base_branch)
       Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
     else
-      push_to_git_remote(tags: false, set_upstream: true)
+      push_to_git_remote(tags: false, set_upstream: true, force: true)
       pr_url = find_or_create_pull_request(
         repository: GITHUB_REPO,
         base: base_branch,
