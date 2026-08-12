@@ -38,6 +38,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
+        smartBookmarksTipAnchor = nil
         for action in actions {
             if !action.canBePerformedOn(episode: playingEpisode) { continue }
 
@@ -57,6 +58,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             overflowButton.addTarget(self, action: #selector(overflowTapped), for: .touchUpInside)
             overflowButton.accessibilityLabel = L10n.accessibilityMoreActions
             addToShelf(on: overflowButton)
+
+            if smartBookmarksTipAnchor == nil {
+                smartBookmarksTipAnchor = overflowButton
+            }
 
             return false
         }
@@ -151,6 +156,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             button.accessibilityLabel = L10n.addBookmark
 
             addToShelf(on: button)
+            smartBookmarksTipAnchor = button
 
         case .transcript:
             #if !APPCLIP
@@ -580,6 +586,51 @@ extension NowPlayingPlayerItemViewController {
         Analytics.track(.playerShelfActionTapped, properties: ["action": button.analyticsDescription, "from": "shelf"])
     }
 }
+
+// MARK: - Smart Bookmarks tip
+
+#if !APPCLIP
+extension NowPlayingPlayerItemViewController {
+    /// Shows the one-time tip that points at the action used to add a bookmark, for the release that introduces Smart Bookmarks.
+    func showSmartBookmarksTipIfNeeded() {
+        guard
+            SmartBookmarksPromo.shouldShowPlayerTip,
+            smartBookmarksTip == nil,
+            let anchor = smartBookmarksTipAnchor,
+            let episode = PlaybackManager.shared.currentEpisode(),
+            PlayerAction.addBookmark.canBePerformedOn(episode: episode)
+        else {
+            return
+        }
+
+        smartBookmarksTip = presentTip(
+            title: L10n.bookmarksPlayerTipTitle,
+            message: L10n.bookmarksPlayerTipMessage,
+            anchor: .item(anchor),
+            arrow: .down,
+            idealSize: CGSize(width: 240, height: 64),
+            onTap: { [weak self] in
+                self?.dismissSmartBookmarksTip()
+            },
+            onDismiss: { [weak self] in
+                self?.dismissSmartBookmarksTip()
+            },
+            onShow: {
+                Settings.shouldShowBookmarksPlayerTip = false
+            }
+        )
+    }
+
+    func dismissSmartBookmarksTip() {
+        guard smartBookmarksTip != nil else { return }
+
+        Settings.shouldShowBookmarksPlayerTip = false
+        smartBookmarksTip?.dismiss(animated: true) { [weak self] in
+            self?.smartBookmarksTip = nil
+        }
+    }
+}
+#endif
 
 extension NowPlayingPlayerItemViewController: AVRoutePickerViewDelegate {
     func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {

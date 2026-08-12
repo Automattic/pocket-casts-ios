@@ -1258,6 +1258,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Smart Bookmarks Promo
+
+    static var shouldShowBookmarksPlayerTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.bookmarks.showPlayerTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.bookmarks.showPlayerTip)
+        }
+    }
+
     // MARK: - Playlists
 
     static var shouldShowNewFilterTip: Bool {

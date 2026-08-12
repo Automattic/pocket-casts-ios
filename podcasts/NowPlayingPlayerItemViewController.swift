@@ -237,6 +237,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var lastShelfLoadState = ShelfLoadState()
 
+    /// The shelf button the Smart Bookmarks tip points at: the bookmark button when it's on the shelf, the overflow button otherwise.
+    weak var smartBookmarksTipAnchor: UIView?
+    var smartBookmarksTip: UIViewController?
+
     private var bannerAdHostingController: PCHostingController<AnyView>?
     private var bannerAdHeightConstraint: NSLayoutConstraint?
 
@@ -277,6 +281,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         // Show the overflow menu
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
+        } else {
+            showSmartBookmarksTipIfNeeded()
         }
         #endif
     }
@@ -289,6 +295,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         bannerTask?.cancel()
+        #if !APPCLIP
+        dismissSmartBookmarksTip()
+        #endif
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
