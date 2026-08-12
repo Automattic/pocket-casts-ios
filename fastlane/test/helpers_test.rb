@@ -95,7 +95,7 @@ class FastlaneHelpersTest < Minitest::Test
   # `RUN_FASTLANE_TESTS` enables this suite for any PR touching `fastlane/*`, which includes the metadata
   # itself — so over-long copy fails on the PR that writes it, not mid-release.
   #
-  # Only the maximum is asserted: `description.txt` is over its budget today, which is a warning by design.
+  # Only the maximum is asserted. Going over a budget is a warning by design, so it must not fail here.
   def test_shipped_metadata_fits_the_app_store_connect_maximums
     %w[metadata metadata-tvos].each do |folder|
       APP_STORE_METADATA_LIMITS.each_key do |file_name|
