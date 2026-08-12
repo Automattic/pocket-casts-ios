@@ -188,7 +188,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
 
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             // dismiss the dialog if the user hit play
-            if !PlaybackManager.shared.playing() {
+            if !PlaybackManager.shared.isPlaying {
                 close()
             }
 

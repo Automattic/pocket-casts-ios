@@ -141,7 +141,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         super.viewDidAppear(animated)
 
         addUiNotificationObservers()
-        if PlaybackManager.shared.playing() {
+        if PlaybackManager.shared.isPlaying {
             startHideControlsTimer()
         }
     }
@@ -170,13 +170,13 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @IBAction func skipBackTapped(_ sender: Any) {
-        if PlaybackManager.shared.playing() { startHideControlsTimer() }
+        if PlaybackManager.shared.isPlaying { startHideControlsTimer() }
 
         PlaybackManager.shared.skipBack()
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        let currentlyPlaying = PlaybackManager.shared.playing()
+        let currentlyPlaying = PlaybackManager.shared.isPlaying
         HapticsHelper.triggerPlayPauseHaptic()
         if currentlyPlaying {
             PlaybackManager.shared.pause()
@@ -188,12 +188,12 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @IBAction func skipForwardTapped(_ sender: Any) {
-        if PlaybackManager.shared.playing() { startHideControlsTimer() }
+        if PlaybackManager.shared.isPlaying { startHideControlsTimer() }
         PlaybackManager.shared.skipForward()
     }
 
     private func skipForwardLongPressed() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
@@ -205,7 +205,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
-                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
+                let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)
@@ -285,7 +285,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @objc private func trackChanged() {
-        guard PlaybackManager.shared.currentEpisode() != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
+        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
             dismiss(animated: true, completion: nil)
             return
         }
@@ -315,7 +315,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func updatePlayPauseButton() {
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
+        playPauseBtn.isPlaying = PlaybackManager.shared.isPlaying
     }
 
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {

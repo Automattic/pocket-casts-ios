@@ -87,7 +87,7 @@ enum SharingModal {
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
         let timeInterval: Double
-        if PlaybackManager.shared.currentEpisode()?.uuid == episode?.uuid {
+        if PlaybackManager.shared.currentEpisode?.uuid == episode?.uuid {
             timeInterval = PlaybackManager.shared.currentTime()
         } else {
             timeInterval = episode?.playedUpTo ?? 0

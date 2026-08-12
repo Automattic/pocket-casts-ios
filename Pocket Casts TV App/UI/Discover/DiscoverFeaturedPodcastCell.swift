@@ -138,7 +138,7 @@ struct DiscoverFeaturedPodcastCell: View {
     }
 
     private func trackEpisodeTapped() {
-        guard let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid,
+        guard let episodeUuid = PlaybackManager.shared.currentEpisode?.uuid,
               let podcastUuid = podcast.uuid,
               let listId else {
             return

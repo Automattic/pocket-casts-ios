@@ -30,7 +30,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShelfActionsViewController.shelfCellId, for: indexPath) as! ShelfCell
 
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return cell }
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
         cell.actionIcon.tintColor = ThemeColor.playerContrast01()

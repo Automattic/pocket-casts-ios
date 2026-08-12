@@ -47,7 +47,7 @@ extension VideoViewController {
             hideVideoControls()
         } else {
             showVideoControls()
-            if PlaybackManager.shared.playing() { startHideControlsTimer() }
+            if PlaybackManager.shared.isPlaying { startHideControlsTimer() }
         }
     }
 

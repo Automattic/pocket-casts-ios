@@ -122,7 +122,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         let percentageLapsed = CGFloat(currentTime / duration)
         progressViewWidthConstraint.constant = percentageLapsed * roundedBackgroundView.frame.width
 
-        playingAnimationView.animating = PlaybackManager.shared.playing()
+        playingAnimationView.animating = PlaybackManager.shared.isPlaying
 
         updateDownloadStatus()
 
@@ -134,7 +134,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     @objc func updatePlayingAnimation() {
-        playingAnimationView.animating = PlaybackManager.shared.playing()
+        playingAnimationView.animating = PlaybackManager.shared.isPlaying
     }
 
     override func prepareForReuse() {

@@ -83,7 +83,7 @@ extension AppDelegate {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPlay()
             } else if shortcut == "markAsPlayed" {
-                if let episode = PlaybackManager.shared.currentEpisode() {
+                if let episode = PlaybackManager.shared.currentEpisode {
                     AnalyticsEpisodeHelper.shared.currentSource = .appIconMenu
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                     AnalyticsHelper.forceTouchMarkPlayed()
@@ -223,7 +223,7 @@ extension AppDelegate {
             strongSelf.openPlayerWhenReadyFromExternalEvent()
 
             if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
-                if !PlaybackManager.shared.playing() {
+                if !PlaybackManager.shared.isPlaying {
                     PlaybackManager.shared.play()
                 }
             } else {

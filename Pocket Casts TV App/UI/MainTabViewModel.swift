@@ -28,7 +28,7 @@ final class MainTabViewModel {
     var discoverHomeSignedOutViewModel = DiscoverAllViewModel(type: .signedOut)
 
     init() {
-        currentPlayingEpisode = PlaybackManager.shared.currentEpisode()
+        currentPlayingEpisode = PlaybackManager.shared.currentEpisode
         observeUpNextChanges()
     }
 
@@ -58,7 +58,7 @@ final class MainTabViewModel {
                 guard let self else {
                     return
                 }
-                currentPlayingEpisode = PlaybackManager.shared.currentEpisode()
+                currentPlayingEpisode = PlaybackManager.shared.currentEpisode
                 if currentPlayingEpisode == nil, selectedTab == .nowPlaying {
                      selectedTab = .home
                      isShowingDetail = false

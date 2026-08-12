@@ -54,7 +54,7 @@ class BookmarkAnnouncementViewModel {
 
     // If there is an currently playing episode we show the try it now button, if not we show enable it now
     var enableButtonTitle: String {
-        if PlaybackManager.shared.currentEpisode() != nil {
+        if PlaybackManager.shared.currentEpisode != nil {
             return L10n.tryItNow
         }
 
@@ -76,7 +76,7 @@ class BookmarkAnnouncementViewModel {
         }
 
         // Show the player
-        if PlaybackManager.shared.currentEpisode() != nil {
+        if PlaybackManager.shared.currentEpisode != nil {
             AnnouncementFlow.current = .bookmarksPlayer
             NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer()
             return

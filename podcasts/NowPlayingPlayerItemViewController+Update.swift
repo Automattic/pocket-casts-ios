@@ -45,7 +45,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     @objc func update(notification: NSNotification?) {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             if floatingVideoView.isHidden {
@@ -77,7 +77,7 @@ extension NowPlayingPlayerItemViewController {
         let skipFwdAmount = Settings.skipForwardTime
         skipFwdBtn.skipAmount = skipFwdAmount
 
-        updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())
+        updatePlayPauseButton(isPlaying: PlaybackManager.shared.isPlaying)
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
         reloadShelfActions()
         updateChaptersControls()
@@ -129,7 +129,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     private func updateChapterInfoWithChapters(_ chapters: Chapters) {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
         if let visibleChapter = chapters.visibleChapter, PlaybackManager.shared.chapterCount() != 0 {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
@@ -195,7 +195,7 @@ extension NowPlayingPlayerItemViewController {
             timeSlider.currentTime = upTo
         }
 
-        timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        timeSlider.indeterminant = PlaybackManager.shared.isBuffering && PlaybackManager.shared.isPlaying
     }
 
     var isErrorVisible: Bool {
@@ -207,7 +207,7 @@ extension NowPlayingPlayerItemViewController {
             hideError()
             return
         }
-        guard PlaybackManager.shared.currentEpisode() != nil,
+        guard PlaybackManager.shared.currentEpisode != nil,
               let error = PlaybackManager.shared.activeError else {
             hideError()
             return
@@ -266,7 +266,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         if PlaybackManager.shared.chapterCount() == 0 {
             return

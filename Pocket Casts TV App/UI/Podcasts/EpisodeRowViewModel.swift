@@ -180,7 +180,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     private func updateProgress() {
-        guard let currentEpisode = playbackManager.currentEpisode(), episode.uuid == currentEpisode.uuid else {
+        guard let currentEpisode = playbackManager.currentEpisode, episode.uuid == currentEpisode.uuid else {
             return
         }
         episode.playedUpTo = currentEpisode.playedUpTo
