@@ -139,14 +139,10 @@ private struct SleepTimerExtendButton: View {
         Button(intent: ExtendSleepTimerLiveActivityIntent()) {
             Text(L10n.sleepTimerAdd5Mins)
                 .font(.caption)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .lineLimit(1)
-                .foregroundStyle(SleepTimerLiveActivityStyle.buttonTextColor)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(SleepTimerLiveActivityStyle.buttonBackgroundColor, in: Capsule())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.bordered)
     }
 }
 
@@ -164,9 +160,7 @@ private struct SleepTimerIcon: View {
 
 private enum SleepTimerLiveActivityStyle {
     static let accentColor = Color.widgetRedLight
-    // The activity sits on the system's own material, so the text has to adapt to it.
+    // The activity has no background of its own, so the text has to adapt to the wallpaper.
     static let primaryTextColor = Color.primary
     static let secondaryTextColor = Color.secondary
-    static let buttonBackgroundColor = Color.widgetRedLight
-    static let buttonTextColor = Color.white
 }
