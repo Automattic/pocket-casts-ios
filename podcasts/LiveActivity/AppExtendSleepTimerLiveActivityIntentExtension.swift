@@ -1,6 +1,5 @@
 import PocketCastsUtils
 
-@available(iOS 17.0, *)
 extension ExtendSleepTimerLiveActivityIntent {
     @MainActor
     func extendSleepTimer(by duration: TimeInterval) {

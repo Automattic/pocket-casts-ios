@@ -1997,60 +1997,52 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        #if !os(watchOS) && !APPCLIP && !os(tvOS)
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         Toast.show(L10n.deviceShakeSleepTimer)
-        #endif
+#endif
         sleepTimerManager.restartSleepTimer()
     }
 
     private func startSleepTimerLiveActivity(duration: TimeInterval) {
-        #if !APPCLIP && !os(watchOS) && !os(tvOS)
-            guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
+#if !APPCLIP && !os(watchOS) && !os(tvOS)
+        guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
 
-            if #available(iOS 17.0, *) {
-                SleepTimerLiveActivityController.shared.startTimer(duration: duration, episode: currentEpisode)
-            }
-        #endif
+        SleepTimerLiveActivityController.shared.startTimer(duration: duration, episode: currentEpisode)
+#endif
     }
 
     /// Pushes the current sleep timer state to the Live Activity. The timer only counts down
     /// while playback is running, so the activity needs to know when we're paused, otherwise
     /// it keeps counting to zero and sits there showing an expired timer.
     func syncSleepTimerLiveActivity(isPaused: Bool? = nil) {
-        #if !APPCLIP && !os(watchOS) && !os(tvOS)
-            guard FeatureFlag.sleepTimerLiveActivity.enabled, sleepTimeRemaining >= 0 else { return }
+#if !APPCLIP && !os(watchOS) && !os(tvOS)
+        guard FeatureFlag.sleepTimerLiveActivity.enabled, sleepTimeRemaining >= 0 else { return }
 
-            if #available(iOS 17.0, *) {
-                SleepTimerLiveActivityController.shared.sync(
-                    remaining: sleepTimeRemaining,
-                    isPaused: isPaused ?? !isPlaying,
-                    episode: currentEpisode
-                )
-            }
-        #endif
+        SleepTimerLiveActivityController.shared.sync(
+            remaining: sleepTimeRemaining,
+            isPaused: isPaused ?? !isPlaying,
+            episode: currentEpisode
+        )
+#endif
     }
 
     /// Ends any Live Activity that has outlived the sleep timer, which happens when the app is
     /// force quit while a timer is running. Called when the app becomes active.
     func reconcileSleepTimerLiveActivity() {
-        #if !APPCLIP && !os(watchOS) && !os(tvOS)
-            if #available(iOS 17.0, *) {
-                SleepTimerLiveActivityController.shared.reconcile(
-                    isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && sleepTimeRemaining >= 0,
-                    remaining: sleepTimeRemaining,
-                    isPaused: !isPlaying,
-                    episode: currentEpisode
-                )
-            }
-        #endif
+#if !APPCLIP && !os(watchOS) && !os(tvOS)
+        SleepTimerLiveActivityController.shared.reconcile(
+            isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && sleepTimeRemaining >= 0,
+            remaining: sleepTimeRemaining,
+            isPaused: !isPlaying,
+            episode: currentEpisode
+        )
+#endif
     }
 
     private func endSleepTimerLiveActivity() {
-        #if !APPCLIP && !os(watchOS) && !os(tvOS)
-            if #available(iOS 17.0, *) {
-                SleepTimerLiveActivityController.shared.endAll()
-            }
-        #endif
+#if !APPCLIP && !os(watchOS) && !os(tvOS)
+        SleepTimerLiveActivityController.shared.endAll()
+#endif
     }
 
     // MARK: - Remote Control support

@@ -3,7 +3,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-@available(iOS 17.0, *)
 final class SleepTimerLiveActivityController {
     static let shared = SleepTimerLiveActivityController()
 

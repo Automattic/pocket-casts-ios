@@ -3,7 +3,6 @@ import PocketCastsUtils
 import SwiftUI
 import WidgetKit
 
-@available(iOSApplicationExtension 17.0, *)
 struct SleepTimerLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: SleepTimerActivityAttributes.self) { context in
@@ -58,7 +57,6 @@ struct SleepTimerLiveActivityWidget: Widget {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerLockScreenView: View {
     let context: ActivityViewContext<SleepTimerActivityAttributes>
 
@@ -86,7 +84,6 @@ private struct SleepTimerLockScreenView: View {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerCountdown: View {
     let state: SleepTimerActivityAttributes.ContentState
     let font: Font
@@ -108,7 +105,6 @@ private struct SleepTimerCountdown: View {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerEpisodeText: View {
     let episodeTitle: String?
     let podcastTitle: String?
@@ -133,7 +129,6 @@ private struct SleepTimerEpisodeText: View {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerExtendButton: View {
     var body: some View {
         Button(intent: ExtendSleepTimerLiveActivityIntent()) {
@@ -149,7 +144,6 @@ private struct SleepTimerExtendButton: View {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 private struct SleepTimerIcon: View {
     var size: CGFloat = 28
 
