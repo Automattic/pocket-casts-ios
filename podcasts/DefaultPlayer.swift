@@ -354,8 +354,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
 
-        if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-           let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
+        if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
            let episodeUuid {
             if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
                 return false
