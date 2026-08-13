@@ -317,6 +317,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Categories and Curated rows on the tvOS Home screen
     case tvHomeCategoriesAndCurated
 
+    /// Make the tab bar's minimize-on-scroll behavior opt-in: it's off unless the
+    /// user turns it on in Appearance
+    case minimizeTabsOptIn
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -535,6 +539,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .tvHomeCategoriesAndCurated:
             false
+        case .minimizeTabsOptIn:
+            true
         }
     }
 
