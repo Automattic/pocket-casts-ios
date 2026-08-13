@@ -16,7 +16,7 @@
 - [tvOS] Add support server driven home page layout [#4854](https://github.com/Automattic/pocket-casts-ios/pull/4854)
 - [tvOS] Add support for HLS episodes previews in episodes video list [#4921](https://github.com/Automattic/pocket-casts-ios/pull/4921)
 - Recognise more HLS content types in alternate enclosures [#4935](https://github.com/Automattic/pocket-casts-ios/pull/4935)
-- Disable "Tab Bar Minimizing" by default – there is an option to opt-in in Appearance Settings
+- Disable "Tab Bar Minimizing" by default – there is an option to opt-in in Appearance Settings [#4950](https://github.com/Automattic/pocket-casts-ios/pull/4950)
 
 8.17
 -----
