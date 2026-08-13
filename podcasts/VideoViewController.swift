@@ -279,7 +279,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     @objc private func progressUpdated() {
-        if timeSlider.isScrubbing() || PlaybackManager.shared.isSeeking() { return }
+        if timeSlider.isScrubbing() || PlaybackManager.shared.isSeeking { return }
 
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
     }
