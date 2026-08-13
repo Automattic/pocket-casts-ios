@@ -14,6 +14,10 @@ struct SleepTimerActivityAttributes: ActivityAttributes {
 
         let isPaused: Bool
 
+        /// There's no fixed duration to extend or count down to in this mode, so the widget
+        /// shows a static "End of episode" label instead of a countdown and extend button.
+        let stopsAtEndOfEpisode: Bool
+
         /// These live here rather than in the attributes so they can follow the episode
         /// while the timer runs. `ActivityAttributes` are fixed for the life of an activity.
         let episodeTitle: String?

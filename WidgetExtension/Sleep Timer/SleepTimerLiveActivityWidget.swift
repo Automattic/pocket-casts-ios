@@ -37,7 +37,7 @@ struct SleepTimerLiveActivityWidget: Widget {
                             podcastTitle: context.state.podcastTitle
                         )
                         Spacer(minLength: 8)
-                        SleepTimerExtendButton()
+                        SleepTimerTrailingContent(state: context.state)
                     }
                 }
             } compactLeading: {
@@ -77,7 +77,7 @@ private struct SleepTimerLockScreenView: View {
 
             Spacer(minLength: 8)
 
-            SleepTimerExtendButton()
+            SleepTimerTrailingContent(state: context.state)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
@@ -90,7 +90,9 @@ private struct SleepTimerCountdown: View {
 
     var body: some View {
         Group {
-            if state.isPaused {
+            if state.stopsAtEndOfEpisode {
+                Text(L10n.sleepTimerEndOfEpisode)
+            } else if state.isPaused {
                 // The sleep timer doesn't tick while playback is paused, so show a fixed
                 // time rather than letting the system run the countdown down to zero.
                 Text(TimeFormatter.shared.playTimeFormat(time: state.remaining))
@@ -125,6 +127,16 @@ private struct SleepTimerEpisodeText: View {
                     .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
                     .lineLimit(1)
             }
+        }
+    }
+}
+
+private struct SleepTimerTrailingContent: View {
+    let state: SleepTimerActivityAttributes.ContentState
+
+    var body: some View {
+        if !state.stopsAtEndOfEpisode {
+            SleepTimerExtendButton()
         }
     }
 }
@@ -172,6 +184,7 @@ private enum SleepTimerLiveActivityStyle {
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
         isPaused: false,
+        stopsAtEndOfEpisode: false,
         episodeTitle: "The Vergecast",
         podcastTitle: "The Verge"
     )
@@ -179,6 +192,15 @@ private enum SleepTimerLiveActivityStyle {
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
         isPaused: true,
+        stopsAtEndOfEpisode: false,
+        episodeTitle: "The Vergecast",
+        podcastTitle: "The Verge"
+    )
+    SleepTimerActivityAttributes.ContentState(
+        timerEndDate: Date().addingTimeInterval(14.minutes),
+        remaining: 14.minutes,
+        isPaused: false,
+        stopsAtEndOfEpisode: true,
         episodeTitle: "The Vergecast",
         podcastTitle: "The Verge"
     )

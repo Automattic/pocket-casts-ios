@@ -29,7 +29,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 FileLog.shared.addMessage("Sleep Timer: starting with \(numberOfEpisodesToSleepAfter) episodes")
 
                 if numberOfEpisodesToSleepAfter == 1, let remaining = remainingTimeInCurrentEpisode() {
-                    startSleepTimerLiveActivity(duration: remaining)
+                    startSleepTimerLiveActivity(duration: remaining, stopsAtEndOfEpisode: true)
                 } else {
                     endSleepTimerLiveActivity()
                 }
@@ -2008,11 +2008,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         sleepTimerManager.restartSleepTimer()
     }
 
-    private func startSleepTimerLiveActivity(duration: TimeInterval) {
+    private func startSleepTimerLiveActivity(duration: TimeInterval, stopsAtEndOfEpisode: Bool = false) {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
         guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
 
-        SleepTimerLiveActivityController.shared.startTimer(duration: duration, episode: currentEpisode)
+        SleepTimerLiveActivityController.shared.startTimer(duration: duration, stopsAtEndOfEpisode: stopsAtEndOfEpisode, episode: currentEpisode)
 #endif
     }
 
@@ -2045,6 +2045,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         SleepTimerLiveActivityController.shared.sync(
             remaining: remaining,
             isPaused: isPaused ?? !isPlaying,
+            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1,
             episode: currentEpisode
         )
 #endif
@@ -2060,6 +2061,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && remaining != nil,
             remaining: remaining ?? 0,
             isPaused: !isPlaying,
+            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1,
             episode: currentEpisode
         )
 #endif
