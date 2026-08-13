@@ -97,6 +97,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// The time the episode was last switched as tracked by handleCurrentlyPlayingEpisodeUpdated
     private var episodeSwitchTime: Date?
 
+    private var lastSeekTime = Date()
+
+    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -1995,8 +1999,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         playPause()
     }
 
-    private var lastSeekTime = Date()
-    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
     private func setupRemoteControlSupport() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
