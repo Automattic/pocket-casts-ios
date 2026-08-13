@@ -1485,7 +1485,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         DataManager.sharedManager.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         cleanupCurrentPlayer(permanent: true)
-        endSleepTimerLiveActivity()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: currEpisode.uuid)
         updateNowPlayingInfo()
