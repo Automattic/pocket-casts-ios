@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import Combine
 
+@MainActor
 class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     var episode: EpisodeSearchResult?
