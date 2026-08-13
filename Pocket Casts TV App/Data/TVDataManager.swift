@@ -18,7 +18,7 @@ class TVDataManager {
         self.playbackManager = playbackManager
     }
 
-    func loadPodcast(podcastUuid: String) async -> Podcast? {
+    @concurrent func loadPodcast(podcastUuid: String) async -> Podcast? {
         await withCheckedContinuation { continuation in
             if let podcast = dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 serverPodcastManager.updatePodcastIfRequired(podcast: podcast) { _ in
