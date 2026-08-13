@@ -27,7 +27,12 @@ class PlaybackManager: ServerPlaybackDelegate {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
                 FileLog.shared.addMessage("Sleep Timer: starting with \(numberOfEpisodesToSleepAfter) episodes")
-                endSleepTimerLiveActivity()
+
+                if numberOfEpisodesToSleepAfter == 1, let remaining = remainingTimeInCurrentEpisode() {
+                    startSleepTimerLiveActivity(duration: remaining)
+                } else {
+                    endSleepTimerLiveActivity()
+                }
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         }
@@ -2011,15 +2016,34 @@ class PlaybackManager: ServerPlaybackDelegate {
 #endif
     }
 
+    private func currentSleepTimerRemaining() -> TimeInterval? {
+        if sleepTimeRemaining >= 0 {
+            return sleepTimeRemaining
+        }
+        if numberOfEpisodesToSleepAfter == 1 {
+            return remainingTimeInCurrentEpisode()
+        }
+        return nil
+    }
+
+    private func remainingTimeInCurrentEpisode() -> TimeInterval? {
+        guard currentEpisode != nil else { return nil }
+
+        let episodeEndTime = chapterManager.lastChapter.map { ceil($0.startTime.seconds) + $0.duration } ?? duration()
+        guard episodeEndTime > 0 else { return nil }
+
+        return max(0, episodeEndTime - currentTime())
+    }
+
     /// Pushes the current sleep timer state to the Live Activity. The timer only counts down
     /// while playback is running, so the activity needs to know when we're paused, otherwise
     /// it keeps counting to zero and sits there showing an expired timer.
     func syncSleepTimerLiveActivity(isPaused: Bool? = nil) {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
-        guard FeatureFlag.sleepTimerLiveActivity.enabled, sleepTimeRemaining >= 0 else { return }
+        guard FeatureFlag.sleepTimerLiveActivity.enabled, let remaining = currentSleepTimerRemaining() else { return }
 
         SleepTimerLiveActivityController.shared.sync(
-            remaining: sleepTimeRemaining,
+            remaining: remaining,
             isPaused: isPaused ?? !isPlaying,
             episode: currentEpisode
         )
@@ -2030,9 +2054,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// force quit while a timer is running. Called when the app becomes active.
     func reconcileSleepTimerLiveActivity() {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
+        let remaining = currentSleepTimerRemaining()
+
         SleepTimerLiveActivityController.shared.reconcile(
-            isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && sleepTimeRemaining >= 0,
-            remaining: sleepTimeRemaining,
+            isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && remaining != nil,
+            remaining: remaining ?? 0,
             isPaused: !isPlaying,
             episode: currentEpisode
         )
