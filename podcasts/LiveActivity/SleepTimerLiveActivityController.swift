@@ -1,6 +1,5 @@
 import ActivityKit
 import Foundation
-import PocketCastsDataModel
 import PocketCastsUtils
 
 final class SleepTimerLiveActivityController {
@@ -19,11 +18,11 @@ final class SleepTimerLiveActivityController {
 
     private init() {}
 
-    func startTimer(duration: TimeInterval, stopsAtEndOfEpisode: Bool = false, episode: BaseEpisode?) {
+    func startTimer(duration: TimeInterval, stopsAtEndOfEpisode: Bool = false) {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
-        let attributes = SleepTimerActivityAttributes(startedAt: Date())
-        let content = content(remaining: duration, isPaused: false, stopsAtEndOfEpisode: stopsAtEndOfEpisode, episode: episode)
+        let attributes = SleepTimerActivityAttributes()
+        let content = content(remaining: duration, isPaused: false, stopsAtEndOfEpisode: stopsAtEndOfEpisode)
 
         enqueue {
             await self.endActivities(dismissalPolicy: .immediate)
@@ -38,8 +37,8 @@ final class SleepTimerLiveActivityController {
 
     /// Pushes the current state of the sleep timer to any running activity. Called whenever
     /// playback pauses or resumes, the episode changes, or the timer is extended.
-    func sync(remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool = false, episode: BaseEpisode?) {
-        let content = content(remaining: remaining, isPaused: isPaused, stopsAtEndOfEpisode: stopsAtEndOfEpisode, episode: episode)
+    func sync(remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool = false) {
+        let content = content(remaining: remaining, isPaused: isPaused, stopsAtEndOfEpisode: stopsAtEndOfEpisode)
 
         enqueue {
             for activity in self.activities {
@@ -50,13 +49,13 @@ final class SleepTimerLiveActivityController {
 
     /// The sleep timer only lives in memory, so an activity can outlive it if the app is
     /// force quit. Reap anything that no longer matches the app's state.
-    func reconcile(isTimerRunning: Bool, remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool = false, episode: BaseEpisode?) {
+    func reconcile(isTimerRunning: Bool, remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool = false) {
         guard isTimerRunning else {
             endAll()
             return
         }
 
-        sync(remaining: remaining, isPaused: isPaused, stopsAtEndOfEpisode: stopsAtEndOfEpisode, episode: episode)
+        sync(remaining: remaining, isPaused: isPaused, stopsAtEndOfEpisode: stopsAtEndOfEpisode)
     }
 
     func endAll(dismissalPolicy: ActivityUIDismissalPolicy = .immediate) {
@@ -90,19 +89,18 @@ final class SleepTimerLiveActivityController {
         return activities
     }
 
-    private func content(remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool, episode: BaseEpisode?) -> ActivityContent<SleepTimerActivityAttributes.ContentState> {
+    private func content(remaining: TimeInterval, isPaused: Bool, stopsAtEndOfEpisode: Bool) -> ActivityContent<SleepTimerActivityAttributes.ContentState> {
         let timerEndDate = Date().addingTimeInterval(remaining)
         let state = SleepTimerActivityAttributes.ContentState(
             timerEndDate: timerEndDate,
             remaining: remaining,
             isPaused: isPaused,
-            stopsAtEndOfEpisode: stopsAtEndOfEpisode,
-            episodeTitle: episode?.displayableTitle(),
-            podcastTitle: episode?.subTitle()
+            stopsAtEndOfEpisode: stopsAtEndOfEpisode
         )
 
-        // A paused timer never goes stale, it's just waiting for playback to resume.
-        return ActivityContent(state: state, staleDate: isPaused ? nil : timerEndDate, relevanceScore: 1)
+        // A paused timer never goes stale, it's just waiting for playback to resume, and the
+        // end-of-episode label has no end date to go stale against.
+        return ActivityContent(state: state, staleDate: (isPaused || stopsAtEndOfEpisode) ? nil : timerEndDate, relevanceScore: 1)
     }
 
     @MainActor

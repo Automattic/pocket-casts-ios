@@ -2011,7 +2011,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
         guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
 
-        SleepTimerLiveActivityController.shared.startTimer(duration: duration, stopsAtEndOfEpisode: stopsAtEndOfEpisode, episode: currentEpisode)
+        SleepTimerLiveActivityController.shared.startTimer(duration: duration, stopsAtEndOfEpisode: stopsAtEndOfEpisode)
 #endif
     }
 
@@ -2044,8 +2044,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         SleepTimerLiveActivityController.shared.sync(
             remaining: remaining,
             isPaused: isPaused ?? !isPlaying,
-            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1,
-            episode: currentEpisode
+            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1
         )
 #endif
     }
@@ -2060,8 +2059,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && remaining != nil,
             remaining: remaining ?? 0,
             isPaused: !isPlaying,
-            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1,
-            episode: currentEpisode
+            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1
         )
 #endif
     }

@@ -148,31 +148,25 @@ private enum SleepTimerLiveActivityStyle {
 }
 
 @available(iOSApplicationExtension 17.0, *)
-#Preview("Sleep Timer", as: .content, using: SleepTimerActivityAttributes(startedAt: Date())) {
+#Preview("Sleep Timer", as: .content, using: SleepTimerActivityAttributes()) {
     SleepTimerLiveActivityWidget()
 } contentStates: {
     SleepTimerActivityAttributes.ContentState(
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
         isPaused: false,
-        stopsAtEndOfEpisode: false,
-        episodeTitle: "The Vergecast",
-        podcastTitle: "The Verge"
+        stopsAtEndOfEpisode: false
     )
     SleepTimerActivityAttributes.ContentState(
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
         isPaused: true,
-        stopsAtEndOfEpisode: false,
-        episodeTitle: "The Vergecast",
-        podcastTitle: "The Verge"
+        stopsAtEndOfEpisode: false
     )
     SleepTimerActivityAttributes.ContentState(
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
         isPaused: false,
-        stopsAtEndOfEpisode: true,
-        episodeTitle: "The Vergecast",
-        podcastTitle: "The Verge"
+        stopsAtEndOfEpisode: true
     )
 }
