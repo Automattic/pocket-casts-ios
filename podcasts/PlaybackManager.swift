@@ -11,8 +11,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let updatesPerSave = 30 // save the users progress every 30 seconds
 
-    var queue: PlaybackQueue
-    var uuidOfPlayingList = ""
+    let queue: PlaybackQueue
+    private(set) var uuidOfPlayingList = ""
 
     private static let notSeeking: TimeInterval = -1
     private var seekingTo: TimeInterval = PlaybackManager.notSeeking
@@ -82,7 +82,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
     #if !APPCLIP
-    lazy var bookmarkManager: BookmarkManager = {
+    private(set) lazy var bookmarkManager: BookmarkManager = {
         BookmarkManager(playbackManager: self)
     }()
     #endif
@@ -101,7 +101,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 
-    init() {
+    private init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
 
@@ -1312,7 +1312,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    var activeError: PlaybackError?
+    private(set) var activeError: PlaybackError?
 
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
@@ -2744,7 +2744,7 @@ extension PlaybackManager {
         bookmarkManager.playTone()
     }
 
-    enum BookmarkPlayError: Error {
+    private enum BookmarkPlayError: Error {
         case episodeNotFound
     }
 
@@ -2866,7 +2866,7 @@ extension PlaybackManager {
 // MARK: - SearchResults
 extension PlaybackManager {
 
-    enum SearchResultPlayError: Error {
+    private enum SearchResultPlayError: Error {
         case episodeNotFound
     }
 
