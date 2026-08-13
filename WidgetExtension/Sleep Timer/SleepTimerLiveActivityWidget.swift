@@ -149,9 +149,11 @@ private struct SleepTimerIcon: View {
 
     var body: some View {
         Image("logo_white_small_transparent")
+            .renderingMode(.template)
             .resizable()
             .scaledToFit()
             .frame(width: size, height: size)
+            .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
     }
 }
 
