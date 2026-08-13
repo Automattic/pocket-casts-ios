@@ -4,6 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 
+@MainActor
 class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable {
     typealias SortSetting = Binding<BookmarkSortOption>
 

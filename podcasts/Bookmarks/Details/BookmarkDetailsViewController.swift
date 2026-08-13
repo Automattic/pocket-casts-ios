@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import SwiftUI
 
 /// Hosts `BookmarkDetailsView` and performs the actions its navigation bar offers.
+@MainActor
 class BookmarkDetailsViewController: ThemedHostingController<BookmarkDetailsView> {
     private let bookmarkManager: BookmarkManager
     private let playbackManager: PlaybackManager

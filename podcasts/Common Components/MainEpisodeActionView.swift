@@ -11,6 +11,7 @@ protocol MainEpisodeActionViewDelegate: AnyObject {
     func waitingForWifiTapped()
 }
 
+@MainActor
 class MainEpisodeActionView: UIView {
     enum ButtonState {
         case download, pauseDownload, play, pause, error, waitingForWifi, playedPlay, playedDownload
