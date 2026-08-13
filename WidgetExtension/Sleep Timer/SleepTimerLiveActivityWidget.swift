@@ -14,29 +14,24 @@ struct SleepTimerLiveActivityWidget: Widget {
                 .widgetURL(URL(string: "pktc://show_player"))
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    SleepTimerIcon(size: 24)
-                        .padding(.leading, 4)
-                }
-
-                DynamicIslandExpandedRegion(.center) {
-                    VStack(alignment: .center, spacing: 2) {
-                        Text(L10n.sleepTimer)
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
-                        SleepTimerCountdown(state: context.state, font: .title3.monospacedDigit().weight(.semibold))
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-
+                // A single full-width row mirrors the Lock Screen layout; splitting it across
+                // leading/center/trailing regions leaves too little width for the extend button.
                 DynamicIslandExpandedRegion(.bottom) {
                     HStack(spacing: 12) {
-                        SleepTimerEpisodeText(
-                            episodeTitle: context.state.episodeTitle,
-                            podcastTitle: context.state.podcastTitle
-                        )
+                        SleepTimerIcon(size: 24)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(L10n.sleepTimer)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .textCase(.uppercase)
+                                .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
+                            SleepTimerCountdown(state: context.state, font: .title3.monospacedDigit().weight(.semibold))
+                        }
+                        .lineLimit(1)
+
                         Spacer(minLength: 8)
+
                         SleepTimerTrailingContent(state: context.state)
                     }
                 }
@@ -104,30 +99,6 @@ private struct SleepTimerCountdown: View {
         .font(font)
         .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
         .multilineTextAlignment(.leading)
-    }
-}
-
-private struct SleepTimerEpisodeText: View {
-    let episodeTitle: String?
-    let podcastTitle: String?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 1) {
-            if let episodeTitle, !episodeTitle.isEmpty {
-                Text(episodeTitle)
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
-                    .lineLimit(1)
-            }
-
-            if let podcastTitle, !podcastTitle.isEmpty {
-                Text(podcastTitle)
-                    .font(.caption2)
-                    .foregroundStyle(SleepTimerLiveActivityStyle.secondaryTextColor)
-                    .lineLimit(1)
-            }
-        }
     }
 }
 
