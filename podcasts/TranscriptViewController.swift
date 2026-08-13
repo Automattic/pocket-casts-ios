@@ -545,7 +545,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         transcriptView.delegate = self
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-            self?.debugOverlay?.update()
+            Task { @MainActor in
+                self?.debugOverlay?.update()
+            }
         }
         RunLoop.main.add(timer, forMode: .common)
         debugTimer = timer

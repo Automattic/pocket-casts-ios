@@ -2,6 +2,7 @@ import PocketCastsUtils
 import PocketCastsDataModel
 import UIKit
 
+@MainActor
 class PlayerChapterCell: UITableViewCell {
     @IBOutlet var chapterName: UILabel! {
         didSet {

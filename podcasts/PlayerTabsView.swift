@@ -1,6 +1,7 @@
 import PocketCastsUtils
 import UIKit
 
+@MainActor
 protocol PlayerTabDelegate: AnyObject {
     func didSwitchToTab(index: Int)
 }
@@ -25,6 +26,7 @@ enum PlayerTabs: Int {
     }
 }
 
+@MainActor
 class PlayerTabsView: UIScrollView {
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {

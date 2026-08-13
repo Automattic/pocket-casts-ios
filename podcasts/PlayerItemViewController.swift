@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 protocol PlayerItemContainerDelegate: AnyObject {
     func scrollToCurrentChapter()
     func scrollToNowPlaying()
@@ -8,6 +9,7 @@ protocol PlayerItemContainerDelegate: AnyObject {
     func dismissTranscript()
 }
 
+@MainActor
 class PlayerItemViewController: SimpleNotificationsViewController {
     func willBeAddedToPlayer() {}
     func willBeRemovedFromPlayer() {}
