@@ -82,6 +82,7 @@ class EpisodeRowViewModel: Identifiable {
         }
     }
 
+    @MainActor
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         AnalyticsPlaybackHelper.shared.currentSource = source

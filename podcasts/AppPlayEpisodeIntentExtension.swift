@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension PlayEpisodeIntent {
+    @MainActor
     func intentPlayback(_ episodeUuid: String) {
         FileLog.shared.addMessage("PlayEpisodeIntent called for episode \(episodeUuid)")
 

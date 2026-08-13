@@ -18,7 +18,7 @@ class TVDataManager {
         self.playbackManager = playbackManager
     }
 
-    func loadPodcast(podcastUuid: String) async -> Podcast? {
+    @concurrent func loadPodcast(podcastUuid: String) async -> Podcast? {
         await withCheckedContinuation { continuation in
             if let podcast = dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 serverPodcastManager.updatePodcastIfRequired(podcast: podcast) { _ in
@@ -38,7 +38,7 @@ class TVDataManager {
         }
     }
 
-    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) -> [Episode] {
+    @concurrent func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) async -> [Episode] {
         guard let podcast else {
             return []
         }
@@ -52,14 +52,14 @@ class TVDataManager {
         }
         let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
-        guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
+        guard let episode = await fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
             return false
         }
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else {
             return false
         }
 
-        PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+        await PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
         return true
     }
 
@@ -70,7 +70,7 @@ class TVDataManager {
         return await playEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
     }
 
-    func loadEpisode(podcastUuid: String, episodeUuid: String) async -> (episode: Episode, podcast: Podcast?)? {
+    @concurrent func loadEpisode(podcastUuid: String, episodeUuid: String) async -> (episode: Episode, podcast: Podcast?)? {
         let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
         guard let episode = dataManager.findEpisode(uuid: episodeUuid) else {
@@ -90,7 +90,7 @@ class TVDataManager {
             return true
         }
 
-        PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+        await PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
         return true
     }
 
