@@ -2,7 +2,7 @@
 -----
 - Add Smart Bookmarks: bookmarks now suggest a title and capture the surrounding passage from the episode transcript, mark their spot in the transcript, and anchor their timestamp to the transcript's reference timeline so it stays accurate even when dynamic ads shift the audio [#4761](https://github.com/Automattic/pocket-casts-ios/pull/4761)
 - Add swipe actions to bookmark rows (Share and Delete) in the Player, the podcast screen's Bookmarks tab, standalone Podcast bookmarks, Episode, and Profile bookmark lists [#4900](https://github.com/Automattic/pocket-casts-ios/pull/4900) [#4912](https://github.com/Automattic/pocket-casts-ios/pull/4912)
-- Add a Sleep Timer Live Activity so users can see the remaining sleep timer countdown from the Lock Screen and Dynamic Island.
+- Add a Sleep Timer Live Activity so users can see the remaining sleep timer countdown from the Lock Screen and Dynamic Island. [#4949](https://github.com/Automattic/pocket-casts-ios/pull/4949)
 - Fix animations on the podcast screen's Bookmarks tab: rows now animate as they are added, removed and filtered, and highlight when tapped [#4904](https://github.com/Automattic/pocket-casts-ios/pull/4904)
 - Fix bookmark multi-select losing track of a selected bookmark when it was edited or updated by a sync, leaving a wrong selection count and a row that could not be deselected [#4913](https://github.com/Automattic/pocket-casts-ios/pull/4913)
 - Fix the bookmark multi-select long press options: Select all above/below now flip to Deselect all above/below once that range is selected, and are left out for the first and last bookmark [#4915](https://github.com/Automattic/pocket-casts-ios/pull/4915)
