@@ -433,8 +433,8 @@ platform :ios do
     require_env_vars!('GITHUB_TOKEN')
     ensure_git_status_clean
 
-    base_branch = "release/#{version}"
-    pr_branch = "translations/release-#{version}"
+    base_branch = release_branch_name(version)
+    pr_branch = translations_and_metadata_branch_name(version)
     ensure_git_branch(branch: "^#{Regexp.escape(base_branch)}$")
 
     Fastlane::Helper::GitHelper.delete_local_branch_if_exists!(pr_branch)
@@ -527,10 +527,10 @@ platform :ios do
 
     # Wrap up
     begin
-      set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
-      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+      set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version, freeze: false)
+      close_milestone(repository: GITHUB_REPO, milestone: release_version)
     rescue StandardError => e
-      report_milestone_error(error_title: "Error unfreezing or closing the milestone `#{release_version_current}`: #{e.message}")
+      report_milestone_error(error_title: "Error unfreezing or closing the milestone `#{release_version}`: #{e.message}")
     end
 
     create_backmerge_pr
@@ -1387,10 +1387,16 @@ platform :ios do
   # Helper Functions
   #####################################################################################
 
-  # Name of the `release/` branch for the current version
+  # Name of the `release/` branch for the given version, defaulting to the current version
   #
-  def release_branch_name
-    "release/#{release_version_current}"
+  def release_branch_name(version = release_version_current)
+    "release/#{version}"
+  end
+
+  # Name of the branch containing translation and App Store metadata updates for a release
+  #
+  def translations_and_metadata_branch_name(version)
+    "translations/#{release_branch_name(version)}"
   end
 
   def github_release_version(beta_release:)
@@ -1865,13 +1871,15 @@ platform :ios do
   def ensure_no_open_localization_pr!(release_version)
     localization_pr = Fastlane::Helper::GithubHelper.new(github_token: get_required_env!('GITHUB_TOKEN')).find_pull_request(
       repository: GITHUB_REPO,
-      base: "release/#{release_version}",
-      head: "translations/release-#{release_version}"
+      base: release_branch_name(release_version),
+      head: translations_and_metadata_branch_name(release_version)
     )
     return if localization_pr.nil?
 
     error_message = "Translations and App Store metadata PR #{localization_pr.html_url} is still open. " \
                     'Review and merge it, or close it if its changes should not be included, before finalizing.'
+    buildkite_annotate(style: 'error', context: 'error-checking-localization-pr', message: error_message) if is_ci
+
     UI.user_error!(error_message)
   end
 end
