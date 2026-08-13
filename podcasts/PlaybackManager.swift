@@ -11,8 +11,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let updatesPerSave = 30 // save the users progress every 30 seconds
 
-    var queue: PlaybackQueue
-    var uuidOfPlayingList = ""
+    private(set) var queue: PlaybackQueue
+    private(set) var uuidOfPlayingList = ""
 
     private static let notSeeking: TimeInterval = -1
     private var seekingTo: TimeInterval = PlaybackManager.notSeeking
@@ -82,7 +82,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
     #if !APPCLIP
-    lazy var bookmarkManager: BookmarkManager = {
+    private(set) lazy var bookmarkManager: BookmarkManager = {
         BookmarkManager(playbackManager: self)
     }()
     #endif
@@ -101,7 +101,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 
-    init() {
+    private init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
 
@@ -181,6 +181,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.recordUpNextUserInteraction()
     }
 
+    /// Loads `episode` for playback: saves the outgoing episode's position, updates the Up Next
+    /// queue, rebuilds the player (`cleanupCurrentPlayer` + `setupPlayer`), and — when `autoPlay`
+    /// is true — starts playback via `play(completion:)`. Doesn't itself call `player.loadEpisode`.
+    ///
+    /// Re-entrant: three call sites recurse back into `load`. If Up Next already holds other
+    /// episodes and `overrideUpNext` is false, this delegates to `switchTo(episodeToPlay:...)`,
+    /// which preserves the queue and calls back with `overrideUpNext: false`. `play(completion:)`
+    /// re-enters when the active player type doesn't match the episode (`playerSwitchRequired()`),
+    /// and `playbackDidFail` re-enters to fall back to `DefaultPlayer` after a playback error.
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
@@ -1312,7 +1321,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    var activeError: PlaybackError?
+    private(set) var activeError: PlaybackError?
 
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
@@ -2744,7 +2753,7 @@ extension PlaybackManager {
         bookmarkManager.playTone()
     }
 
-    enum BookmarkPlayError: Error {
+    private enum BookmarkPlayError: Error {
         case episodeNotFound
     }
 
@@ -2866,7 +2875,7 @@ extension PlaybackManager {
 // MARK: - SearchResults
 extension PlaybackManager {
 
-    enum SearchResultPlayError: Error {
+    private enum SearchResultPlayError: Error {
         case episodeNotFound
     }
 
