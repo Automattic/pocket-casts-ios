@@ -11,7 +11,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let updatesPerSave = 30 // save the users progress every 30 seconds
 
-    private(set) var queue: PlaybackQueue
+    let queue: PlaybackQueue
     private(set) var uuidOfPlayingList = ""
 
     private static let notSeeking: TimeInterval = -1
@@ -181,15 +181,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.recordUpNextUserInteraction()
     }
 
-    /// Loads `episode` for playback: saves the outgoing episode's position, updates the Up Next
-    /// queue, rebuilds the player (`cleanupCurrentPlayer` + `setupPlayer`), and — when `autoPlay`
-    /// is true — starts playback via `play(completion:)`. Doesn't itself call `player.loadEpisode`.
-    ///
-    /// Re-entrant: three call sites recurse back into `load`. If Up Next already holds other
-    /// episodes and `overrideUpNext` is false, this delegates to `switchTo(episodeToPlay:...)`,
-    /// which preserves the queue and calls back with `overrideUpNext: false`. `play(completion:)`
-    /// re-enters when the active player type doesn't match the episode (`playerSwitchRequired()`),
-    /// and `playbackDidFail` re-enters to fall back to `DefaultPlayer` after a playback error.
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
