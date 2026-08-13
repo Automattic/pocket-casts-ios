@@ -38,7 +38,7 @@ class TVDataManager {
         }
     }
 
-    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) -> [Episode] {
+    @concurrent func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) async -> [Episode] {
         guard let podcast else {
             return []
         }
@@ -46,13 +46,13 @@ class TVDataManager {
         return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 
-    @concurrent func playLatestEpisode(of podcast: DiscoverPodcast) async -> Bool {
+    func playLatestEpisode(of podcast: DiscoverPodcast) async -> Bool {
         guard let podcastUuid = podcast.uuid else {
             return false
         }
         let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
-        guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
+        guard let episode = await fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
             return false
         }
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else {
@@ -63,7 +63,7 @@ class TVDataManager {
         return true
     }
 
-    @concurrent func playEpisode(_ episode: DiscoverEpisode) async -> Bool {
+    func playEpisode(_ episode: DiscoverEpisode) async -> Bool {
         guard let podcastUuid = episode.podcastUuid, let episodeUuid = episode.uuid else {
             return false
         }
@@ -80,7 +80,7 @@ class TVDataManager {
         return (episode, podcast)
     }
 
-    @concurrent func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
+    func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
         guard let (episode, _) = await loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return false
         }
@@ -94,7 +94,7 @@ class TVDataManager {
         return true
     }
 
-    @concurrent func playEpisode(_ episode: EpisodeSearchResult) async -> Bool {
+    func playEpisode(_ episode: EpisodeSearchResult) async -> Bool {
         guard !episode.podcastUuid.isEmpty, !episode.uuid.isEmpty else {
             return false
         }
