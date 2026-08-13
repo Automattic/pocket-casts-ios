@@ -206,7 +206,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         setupAccessibility()
 
         if isCustomPlaybackSettingsEnabled {
-            playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal() ? 0 : 1
+            playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal ? 0 : 1
         }
         if let episode = PlaybackManager.shared.currentEpisode as? Episode, let podcast = episode.parentPodcast() {
             clearForPodcastImage.setPodcast(uuid: podcast.uuid, size: .list)

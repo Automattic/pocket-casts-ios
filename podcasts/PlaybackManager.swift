@@ -522,7 +522,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func isSeeking() -> Bool {
+    var isSeeking: Bool {
         seekingTo != PlaybackManager.notSeeking
     }
 
@@ -1111,8 +1111,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         effectsChangedExternally()
     }
 
-    func isCurrentEffectGlobal() -> Bool {
-        return effects().isGlobal
+    var isCurrentEffectGlobal: Bool {
+        effects().isGlobal
     }
 
     private func handlePlaybackEffectsChanged(effects: PlaybackEffects) {
@@ -1843,7 +1843,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func fireProgressNotification() {
-        if isSeeking() { return } // don't fire these while the app is seeking
+        if isSeeking { return } // don't fire these while the app is seeking
 
         if Thread.isMainThread {
             if isBackgrounded() { return }
@@ -1996,6 +1996,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private var lastSeekTime = Date()
+    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
     private func setupRemoteControlSupport() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
@@ -2626,11 +2627,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         return true
     }
-
-    // MARK: - Analytics
-
-    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
-
 
     // MARK: - tvOS
 
