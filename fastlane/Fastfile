@@ -449,7 +449,7 @@ platform :ios do
     if Fastlane::Helper::GitHelper.point_to_same_commit?('HEAD', base_branch)
       if remote_branch_exists
         UI.important("The existing `#{pr_branch}` branch has no remaining changes and will be deleted, closing its PR.")
-        sh('git', 'push', 'origin', '--delete', pr_branch)
+        Fastlane::Helper::GitHelper.delete_remote_branch_if_exists!(pr_branch)
       end
 
       message = if remote_branch_exists
