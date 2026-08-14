@@ -1468,7 +1468,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             cancelSleepTimer()
         } else {
-            playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
+            playNextEpisode(autoPlay: true)
         }
     }
 
