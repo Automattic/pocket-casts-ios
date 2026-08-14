@@ -38,6 +38,10 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - Internal Types
 
     private struct GenerationContext {
+        /// Identifies one stream run. A restart builds a fresh context for the
+        /// same episode, so work in flight has to be matched against this rather
+        /// than against `episodeUuid` to be recognised as stale.
+        let generation: Int
         let episodeUuid: String
         let audioFileURL: URL
         /// True when `audioFileURL` points at a streaming buffer that may still be
@@ -116,6 +120,9 @@ final class FingerprintTimingManager: NSObject {
         qos: .userInitiated
     )
     private var context: GenerationContext?
+    /// Source of `GenerationContext.generation`. Only touched on `queue`, where
+    /// every context is built.
+    private var lastGeneration = 0
     private var cancellationFlag = CancellationFlag()
     private var fetchTask: Task<Void, Never>?
 
@@ -273,6 +280,7 @@ final class FingerprintTimingManager: NSObject {
         cancellationFlag = CancellationFlag()
         let flag = cancellationFlag
         let newContext = GenerationContext(
+            generation: nextGeneration(),
             episodeUuid: ctx.episodeUuid,
             audioFileURL: ctx.audioFileURL,
             isStreaming: ctx.isStreaming,
@@ -848,6 +856,11 @@ final class FingerprintTimingManager: NSObject {
         main.filterCandidatePool.removeAll()
     }
 
+    private func nextGeneration() -> Int {
+        lastGeneration += 1
+        return lastGeneration
+    }
+
     private func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
         if let episodeUuid = context?.episodeUuid {
@@ -965,6 +978,7 @@ final class FingerprintTimingManager: NSObject {
         let flag = cancellationFlag
         let refPath = referencePath(for: episode)
         let newContext = GenerationContext(
+            generation: nextGeneration(),
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
             isStreaming: isStreaming,
@@ -1125,7 +1139,7 @@ final class FingerprintTimingManager: NSObject {
     /// abandoned context would clobber a healthy state.
     private func finishIfStillPreparing(terminalState: State, context ctx: GenerationContext) {
         queue.async { [weak self] in
-            guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            guard let self, self.context?.generation == ctx.generation else { return }
             let durationMs = self.preparationDurationMs
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
@@ -1476,6 +1490,10 @@ final class FingerprintTimingManager: NSObject {
     /// on `generationQueue` so they don't stall `queue.sync` callers (the
     /// `referenceTime(forPlaybackTime:)` / `playbackTime(forReferenceTime:)`
     /// queries that drive transcript highlighting and tap-to-seek).
+    ///
+    /// Guarded on `episodeUuid` rather than `generation`: the question here is
+    /// whether `main` still holds this episode's mapping, and a restart keeps
+    /// that mapping intact for the same audio file and reference.
     private func persistMappingCacheIfFull(context ctx: GenerationContext) {
         guard !ctx.isStreaming else { return }
         queue.async { [weak self] in
@@ -1534,7 +1552,7 @@ final class FingerprintTimingManager: NSObject {
         context ctx: GenerationContext
     ) {
         queue.async { [weak self] in
-            guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            guard let self, self.context?.generation == ctx.generation else { return }
             self.processMatches(windows: windows, startOffset: startOffset, context: ctx)
         }
     }
