@@ -3,6 +3,10 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import Combine
 
+private enum EpisodeLookupError: Error {
+    case episodeNotFound
+}
+
 @MainActor
 class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
@@ -59,7 +63,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func downloadTapped() {
-        guard let episode else { return }
+        guard let episode, !isLoadingEpisode else { return }
 
         // A search result's episode isn't necessarily in the database yet (the user might
         // not be subscribed to the podcast), so make sure it exists before queuing it for
@@ -69,18 +73,28 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             return
         }
 
-        let uuid = episode.uuid
-        let podcastUuid = episode.podcastUuid
-        // `addMissingPodcastAndEpisode` performs a synchronous network request, so keep it off
-        // the main thread.
-        DispatchQueue.global().async {
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: uuid, podcastUuid: podcastUuid) { [weak self] addedEpisode in
-                guard addedEpisode != nil else { return }
-                DispatchQueue.main.async {
-                    PlaybackActionHelper.download(episodeUuid: uuid)
-                    self?.reloadRealEpisode()
-                    self?.refreshTrigger.toggle()
+        isLoadingEpisode = true
+        Task { @MainActor in
+            let spinnerTask = Task { @MainActor in
+                try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
+                try Task.checkCancellation()
+                showsLoadingSpinner = true
+            }
+            defer {
+                spinnerTask.cancel()
+                isLoadingEpisode = false
+                showsLoadingSpinner = false
+            }
+            do {
+                guard try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid) != nil else {
+                    throw EpisodeLookupError.episodeNotFound
                 }
+                PlaybackActionHelper.download(episodeUuid: episode.uuid)
+                reloadRealEpisode()
+                refreshTrigger.toggle()
+            } catch {
+                HapticsHelper.triggerErrorHaptic()
+                Toast.show(L10n.discoverEpisodeFailToLoad)
             }
         }
     }
@@ -92,8 +106,11 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     func errorTapped() {
         guard let episode else { return }
-        // In search the error state is effectively always a failed download, so retry it.
-        PlaybackActionHelper.download(episodeUuid: episode.uuid)
+        if realEpisode?.playbackError() == true {
+            playTapped()
+        } else {
+            PlaybackActionHelper.download(episodeUuid: episode.uuid)
+        }
     }
 
     func waitingForWifiTapped() {
