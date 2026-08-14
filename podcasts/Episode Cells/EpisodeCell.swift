@@ -521,6 +521,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func uploadProgressDidUpdate() {
+        if Thread.isMainThread {
+            MainActor.assumeIsolated { uploadProgressDidUpdateOnMain() }
+        } else {
+            Task { @MainActor in uploadProgressDidUpdateOnMain() }
+        }
+    }
+
+    private func uploadProgressDidUpdateOnMain() {
         guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as uploading, update it from the DB
@@ -528,15 +536,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             episode = reloadEpisode()
         }
 
-        if Thread.isMainThread {
-            populate(progressOnly: true)
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-
-                self.populate(progressOnly: true)
-            }
-        }
+        populate(progressOnly: true)
     }
 
     @objc func reloadArtwork(_ notification: Notification) {
