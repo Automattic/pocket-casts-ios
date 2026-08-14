@@ -39,7 +39,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var currentEffects: PlaybackEffects?
     private var player: PlaybackProtocol?
 
-    private var switchingToDifferentUpNextEpisode = false
     private var interruptInProgress = false
 
     private var wasPlayingBeforeInterruption = false
@@ -185,6 +184,26 @@ class PlaybackManager: ServerPlaybackDelegate {
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
+        // if the user has built an Up Next list, preserve that but make this the currently playing episode
+        if !overrideUpNext, queue.upNextCount() > 0, let currEpisode = currentEpisode, currEpisode.uuid != episode.uuid {
+            switchTo(episodeToPlay: episode, autoPlay: autoPlay, completion: completion)
+
+            return
+        }
+
+        performLoad(episode: episode, autoPlay: autoPlay, overrideUpNext: overrideUpNext, saveCurrentEpisode: saveCurrentEpisode, completion: completion)
+    }
+
+    private func switchTo(episodeToPlay: BaseEpisode, autoPlay: Bool, completion: (() -> Void)? = nil) {
+        cancelUpdateTimer()
+
+        performLoad(episode: episodeToPlay, autoPlay: autoPlay, overrideUpNext: false, saveCurrentEpisode: false, completion: completion)
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
+    }
+
+    private func performLoad(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool, completion: (() -> Void)?) {
         let episodeIsChanging = episode.uuid != currentEpisode?.uuid
 
         // A new episode shouldn't inherit the previous one's "watch downloaded video" choice.
@@ -192,20 +211,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             streamingVideoForDownloadedEpisode.value = false
         }
 
-        // if the user has built an Up Next list, preserve that but make this the currently playing episode
-        if !overrideUpNext && !switchingToDifferentUpNextEpisode && queue.upNextCount() > 0 {
-            if let currEpisode = currentEpisode, currEpisode.uuid != episode.uuid {
-                switchTo(episodeToPlay: episode, autoPlay: autoPlay, completion: completion)
-
-                return
-            }
-        }
-
         if let uuid = currentEpisode?.uuid, uuid != episode.uuid {
             chapterManager.clearChapterInfo()
         }
 
-        if saveCurrentEpisode && currentEpisode != nil && !switchingToDifferentUpNextEpisode {
+        if saveCurrentEpisode, currentEpisode != nil {
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
         }
 
@@ -770,17 +780,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         numberOfEpisodesToSleepAfter -= 1
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-    }
-
-    private func switchTo(episodeToPlay: BaseEpisode, autoPlay: Bool, completion: (() -> Void)? = nil) {
-        cancelUpdateTimer()
-
-        switchingToDifferentUpNextEpisode = true
-        load(episode: episodeToPlay, autoPlay: autoPlay, overrideUpNext: false, completion: completion)
-        switchingToDifferentUpNextEpisode = false
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
     }
 
     func play(playlist: EpisodeFilter) {
