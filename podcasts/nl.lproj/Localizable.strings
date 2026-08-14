@@ -335,12 +335,26 @@ Download de app voor de volledige ervaring!</string>
     <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_details_title</key>
+    <string>Bladwijzer</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Selecteer een transcriptiepassage voor deze bladwijzer</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Transcriptie bewerken</string>
     <key>bookmark_search_no_results_message</key>
     <string>We konden geen bladwijzers vinden voor die zoekopdrachten.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Geen bladwijzers gevonden</string>
     <key>bookmark_suggested_title</key>
     <string>Voorgestelde titel: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggestie: </string>
+    <key>bookmark_title_label</key>
+    <string>Titel</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Transcriptie toevoegen ...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcriptie vastgelegd</string>
     <key>bookmark_updated_notification</key>
     <string>Bladwijzer %1$@ bijgewerkt</string>
     <key>bookmarks</key>
@@ -947,6 +961,8 @@ Haal alles uit Pocket Casts.</string>
     <string>We hebben gemerkt dat je niet bent ingelogd</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>edit_bookmark</key>
+    <string>Bladwijzer bewerken</string>
     <key>edit_clip</key>
     <string>Clip bewerken</string>
     <key>enable_it_now</key>
@@ -3996,6 +4012,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Geen luistergeschiedenis</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Door categorieën bladeren</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Home kan niet worden geladen</string>
     <key>tv_home_featured_section_title</key>
     <string>Uitgelicht op Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4198,6 +4216,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Gebruiker/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Bezig met aanmelden</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Gebruikersnaam</string>
     <key>tv_welcome_browse_without_account</key>

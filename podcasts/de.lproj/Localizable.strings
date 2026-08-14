@@ -338,11 +338,11 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Lesezeichen löschen?</string>
     <key>bookmark_details_title</key>
-    <string>Als Lesezeichen markieren</string>
+    <string>Lesezeichen</string>
     <key>bookmark_edit_transcript_subtitle</key>
     <string>Wähle eine Transkriptpassage für dieses Lesezeichen aus</string>
     <key>bookmark_edit_transcript_title</key>
-    <string>Transkript</string>
+    <string>Transkript bearbeiten</string>
     <key>bookmark_search_no_results_message</key>
     <string>Wir konnten keine Lesezeichen für diese Suche finden.</string>
     <key>bookmark_search_no_results_title</key>
@@ -354,7 +354,7 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <key>bookmark_title_label</key>
     <string>Titel</string>
     <key>bookmark_transcript_adding</key>
-    <string>Transkript wird hinzugefügt ...</string>
+    <string>Transkript wird hinzugefügt …</string>
     <key>bookmark_transcript_captured</key>
     <string>Transkript erfasst</string>
     <key>bookmark_updated_notification</key>
@@ -4019,7 +4019,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>tv_home_browse_categories_section_title</key>
     <string>Kategorien durchsuchen</string>
     <key>tv_home_failed_to_load_title</key>
-    <string>Ladevorgang fehlgeschlagen</string>
+    <string>Startseite konnte nicht geladen werden</string>
     <key>tv_home_featured_section_title</key>
     <string>In Pocket Casts vorgestellt</string>
     <key>tv_home_keep_listening_title</key>
@@ -4223,7 +4223,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
     <key>tv_user_sign_in_signing_in</key>
-    <string>Anmeldung läuft...</string>
+    <string>Anmeldung läuft</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Benutzername</string>
     <key>tv_welcome_browse_without_account</key>
