@@ -3,6 +3,7 @@ import Combine
 import PocketCastsDataModel
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
+@MainActor
 class BookmarksPlayerTabController: PlayerItemViewController {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager

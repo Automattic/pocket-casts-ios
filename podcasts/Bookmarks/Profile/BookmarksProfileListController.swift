@@ -2,6 +2,7 @@ import Combine
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class BookmarksProfileListController: ThemedHostingController<BookmarksProfileListView> {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager

@@ -543,13 +543,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         transcriptView.delegate = self
-        #if DEBUG
+#if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-            self?.debugOverlay?.update()
+            MainActor.assumeIsolated {
+                self?.debugOverlay?.update()
+            }
         }
         RunLoop.main.add(timer, forMode: .common)
         debugTimer = timer
-        #endif
+#endif
     }
 
     override func willBeRemovedFromPlayer() {
@@ -558,10 +560,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled {
             FingerprintTimingManager.shared.stop()
         }
-        #if DEBUG
+#if DEBUG
         debugTimer?.invalidate()
         debugTimer = nil
-        #endif
+#endif
     }
 
     private func stopSyncedTranscripts() {

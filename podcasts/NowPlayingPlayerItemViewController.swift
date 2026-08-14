@@ -8,6 +8,7 @@ import PocketCastsUtils
 import SwiftUI
 import PocketCastsServer
 
+@MainActor
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
