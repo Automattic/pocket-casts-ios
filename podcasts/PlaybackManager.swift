@@ -790,7 +790,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
-        populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
+        // there's a new list of episodes to play, so clear what's currently playing and play that
+        load(episode: startingEpisode, autoPlay: true, overrideUpNext: true)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+
+        let remainingEpisodes = playlistEpisodes.filter { $0.uuid != startingEpisode.uuid }
+        if !remainingEpisodes.isEmpty {
+            queue.bulkAdd(remainingEpisodes)
+        }
+
         uuidOfPlayingList = playlist.uuid
     }
 
@@ -1510,18 +1518,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Helper Methods
-
-    private func populateFrom(episodes: [BaseEpisode], startingAtEpisode: BaseEpisode) {
-        // there's a new list of episodes to play, so clear what's currently playing and play that
-        load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-
-        let filteredEpisodes = episodes.filter { $0.uuid != startingAtEpisode.uuid }
-        if filteredEpisodes.isEmpty {
-            return
-        }
-        queue.bulkAdd(filteredEpisodes)
-    }
 
     private func playerSwitchRequired() -> Bool {
         let possiblePlayers = supportedPlayers()
