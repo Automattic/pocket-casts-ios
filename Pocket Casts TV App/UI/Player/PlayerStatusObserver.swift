@@ -37,6 +37,7 @@ class PlayerStatusObserver {
         remainingEventsToSkip = amount
     }
 
+    @MainActor
     private func updatePlayState() {
         guard let player else {
             return

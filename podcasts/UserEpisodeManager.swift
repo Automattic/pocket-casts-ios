@@ -87,7 +87,9 @@ struct UserEpisodeManager {
         })
 
         #if !os(watchOS) && !os(tvOS)
-            AnalyticsEpisodeHelper.shared.episodeDeletedFromCloud(episode: episode)
+            Task { @MainActor in
+                AnalyticsEpisodeHelper.shared.episodeDeletedFromCloud(episode: episode)
+            }
         #endif
     }
 

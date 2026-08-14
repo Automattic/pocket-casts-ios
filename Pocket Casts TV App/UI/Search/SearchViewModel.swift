@@ -73,7 +73,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 
     func saveHistory(_ term: String)
 
-    func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
+    @MainActor func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
 
     var isInSearchMode: Bool { get }
 }
