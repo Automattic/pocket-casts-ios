@@ -337,12 +337,26 @@
     <string>これらのブックマークを削除してもよろしいですか。元に戻すことはできません。</string>
     <key>bookmark_delete_warning_title</key>
     <string>ブックマークを削除しますか ?</string>
+    <key>bookmark_details_title</key>
+    <string>ブックマーク</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>このブックマークにトランスクリプトの一節を選択</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>トランスクリプトを編集</string>
     <key>bookmark_search_no_results_message</key>
     <string>その検索に該当するブックマークは見つかりませんでした。</string>
     <key>bookmark_search_no_results_title</key>
     <string>ブックマークが見つかりません</string>
     <key>bookmark_suggested_title</key>
     <string>提案タイトル: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>提案: </string>
+    <key>bookmark_title_label</key>
+    <string>タイトル</string>
+    <key>bookmark_transcript_adding</key>
+    <string>トランスクリプトを追加中…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>トランスクリプトをキャプチャしました</string>
     <key>bookmark_updated_notification</key>
     <string>ブックマーク「%1$@」を更新しました</string>
     <key>bookmarks</key>
@@ -949,6 +963,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ログインしていないようです</string>
     <key>edit</key>
     <string>編集する</string>
+    <key>edit_bookmark</key>
+    <string>ブックマークを編集</string>
     <key>edit_clip</key>
     <string>クリップを編集</string>
     <key>enable_it_now</key>
@@ -3635,6 +3651,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>タイマーをキャンセル</string>
     <key>sleep_timer_end_of_episode</key>
     <string>エピソード終了時</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>%1$@件のエピソードでスリープ</string>
     <key>sleep_timer_sleeping_after_current_episode</key>
     <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
@@ -3998,6 +4016,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取履歴なし</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>カテゴリーを表示</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>ホームの読み込みに失敗しました</string>
     <key>tv_home_featured_section_title</key>
     <string>Pocket Casts で特集されました</string>
     <key>tv_home_keep_listening_title</key>
@@ -4200,6 +4220,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ユーザー / パス</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>ログイン中</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>ユーザー名</string>
     <key>tv_welcome_browse_without_account</key>
