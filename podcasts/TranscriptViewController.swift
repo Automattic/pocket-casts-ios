@@ -553,7 +553,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         debugTimer = timer
 #endif
     }
-    
+
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
         stopHighlightDisplayLink()
