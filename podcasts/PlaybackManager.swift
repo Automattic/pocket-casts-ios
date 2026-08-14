@@ -194,7 +194,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // if the user has built an Up Next list, preserve that but make this the currently playing episode
         if !overrideUpNext && !switchingToDifferentUpNextEpisode && queue.upNextCount() > 0 {
             if let currEpisode = currentEpisode, currEpisode.uuid != episode.uuid {
-                switchTo(episodeToPlay: episode, moveExistingToUpNext: true, autoPlay: autoPlay, completion: completion)
+                switchTo(episodeToPlay: episode, autoPlay: autoPlay, completion: completion)
 
                 return
             }
@@ -769,12 +769,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
-    private func switchTo(episodeToPlay: BaseEpisode, moveExistingToUpNext: Bool, autoPlay: Bool, completion: (() -> Void)? = nil) {
+    private func switchTo(episodeToPlay: BaseEpisode, autoPlay: Bool, completion: (() -> Void)? = nil) {
         cancelUpdateTimer()
-
-        if let previousEpisode = currentEpisode, !moveExistingToUpNext {
-            queue.remove(episode: previousEpisode, fireNotification: false)
-        }
 
         switchingToDifferentUpNextEpisode = true
         load(episode: episodeToPlay, autoPlay: autoPlay, overrideUpNext: false, completion: completion)
@@ -1515,21 +1511,16 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Helper Methods
 
-    private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
-        if episodes == nil, queue.upNextCount() > 0 {
-            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
-            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
-        } else {
-            // there's a new list of episodes to play, so clear what's currently playing and play that
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+    private func populateFrom(episodes: [BaseEpisode], startingAtEpisode: BaseEpisode) {
+        // there's a new list of episodes to play, so clear what's currently playing and play that
+        load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
 
-            let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
-            if filteredEpisodes.isEmpty {
-                return
-            }
-            queue.bulkAdd(filteredEpisodes)
+        let filteredEpisodes = episodes.filter { $0.uuid != startingAtEpisode.uuid }
+        if filteredEpisodes.isEmpty {
+            return
         }
+        queue.bulkAdd(filteredEpisodes)
     }
 
     private func playerSwitchRequired() -> Bool {
