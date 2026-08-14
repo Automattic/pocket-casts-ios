@@ -6,7 +6,7 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     @ObservedObject var style: Style
     @StateObject private var upgradeModel: BookmarksUpgradeViewModel
 
-    private var title: String = L10n.noBookmarksTitle
+    private var title: String = L10n.noBookmarksLockedTitle
     private var message: String = L10n.noBookmarksLockedMessage
     private var actionTitle: String = L10n.noBookmarksLockedButtonTitle
 

@@ -4,10 +4,22 @@ import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 
-class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
+@MainActor
+class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable {
     typealias SortSetting = Binding<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
+
+    @Published var isMultiSelecting = false
+    @Published var selectedIDs: Set<Bookmark.ID> = []
+
+    var selectableItems: [Bookmark] { items }
+
+    override var items: [Bookmark] {
+        didSet {
+            selectableItemsDidChange()
+        }
+    }
 
     let bookmarkManager: BookmarkManager
 
@@ -53,9 +65,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     func reload() { }
 
     /// Outside of the multi selection, a tap opens the bookmark's details
-    override func tapped(item: Bookmark) {
-        guard !isMultiSelecting else {
-            super.tapped(item: item)
+    func tapped(item: Bookmark) {
+        if isMultiSelecting {
+            toggleSelected(item)
             return
         }
 
@@ -70,9 +82,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     /// Reload a single item from the list
     func refresh(bookmark: Bookmark) {
-        guard let index = items.firstIndex(of: bookmark) else { return }
+        guard let index = items.firstIndex(where: { $0.id == bookmark.id }) else { return }
 
-        items.replaceSubrange(index...index, with: [bookmark])
+        items[index] = bookmark
     }
 
     func addListeners() {
@@ -150,15 +162,29 @@ extension BookmarkListViewModel {
         toggleMultiSelection()
     }
 
+    /// Whether the share swipe action should be shown for this bookmark
+    func canShare(_ bookmark: Bookmark) -> Bool {
+        bookmark.episode is Episode
+    }
+
+    func shareTapped(_ bookmark: Bookmark) {
+        router?.bookmarkShare(bookmark)
+    }
+
+    func deleteTapped(_ bookmark: Bookmark) {
+        confirmDeletion { [weak self] in
+            self?.actuallyDelete([bookmark])
+        }
+    }
+
     func sorted(by option: BookmarkSortOption) {
         sortOption = option
         reload()
     }
 
     func deleteSelectedBookmarks() {
-        guard numberOfSelectedItems > 0 else { return }
-
-        let items = Array(selectedItems)
+        let items = selectedItems
+        guard !items.isEmpty else { return }
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)

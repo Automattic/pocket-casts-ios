@@ -32,11 +32,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// When `true`, we only mark podcasts as unsynced if the user never signed in before
     case onlyMarkPodcastsUnsyncedForNewUsers
 
-    /// Only update an episode if it fails playing
-    /// If set to `false`, it will use the previous mechanism that always update
-    /// but can lead to a bigger time between tapping play and actually playing it
-    case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
-
     /// Enables the Kids banner
     case kidsProfile
 
@@ -191,9 +186,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new predictive endpoint and show predictions
     case searchPredictive
 
-    /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
-    case podcastBookmarksInline
-
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
 
@@ -218,11 +210,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when another app is playing non-mixable audio
     case ignorePlayWithOtherAudio
 
-    /// activates the audio session in the background to avoid locks in the main thread
-    case activateAudioSessionInBackground
-
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
+
     /// Optimizes manual playlist queries with improved deduplication
     case optimizeManualPlaylistQueries
 
@@ -321,6 +311,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// user turns it on in Appearance
     case minimizeTabsOptIn
 
+    /// Introduce Smart Bookmarks with a tip in the player and a "New" badge on the Add Bookmark row.
+    ///
+    /// The promo runs for 8.19, 8.20 and 8.21 only. Remove this flag and `SmartBookmarksPromo` when 8.22 is cut.
+    case smartBookmarksPromo
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -352,8 +347,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .onlyMarkPodcastsUnsyncedForNewUsers:
-            true
-        case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
             true
         case .kidsProfile:
             false
@@ -451,8 +444,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .searchPredictive:
             true
-        case .podcastBookmarksInline:
-            true
         case .earlyReloadSubscriptionStatus:
             true
         case .enableLocalizationHeaders:
@@ -469,12 +460,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignorePlayWithOtherAudio:
             true
-        case .activateAudioSessionInBackground:
-#if os(tvOS)
-            false
-#else
-            true
-#endif
         case .useCellularNetworkApis:
             true
         case .optimizeManualPlaylistQueries:
@@ -540,6 +525,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .tvHomeCategoriesAndCurated:
             false
         case .minimizeTabsOptIn:
+            true
+        case .smartBookmarksPromo:
             true
         }
     }

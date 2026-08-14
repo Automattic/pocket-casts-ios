@@ -116,7 +116,7 @@ extension EpisodeFilter {
     }
 
     func episodeUuidToAddToQueries() -> String? {
-        if let playingEpisode = PlaybackManager.shared.currentEpisode(), PlaybackManager.shared.uuidOfPlayingList == uuid {
+        if let playingEpisode = PlaybackManager.shared.currentEpisode, PlaybackManager.shared.uuidOfPlayingList == uuid {
             return playingEpisode.uuid
         }
 

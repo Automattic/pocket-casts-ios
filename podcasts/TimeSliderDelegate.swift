@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 protocol TimeSliderDelegate: AnyObject {
     func sliderDidBeginSliding()
     func sliderDidEndSliding()

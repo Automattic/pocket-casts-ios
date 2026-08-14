@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import UIKit
 
+@MainActor
 protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark) async throws
     func bookmarkEdit(_ bookmark: Bookmark)

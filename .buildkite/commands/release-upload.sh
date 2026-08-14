@@ -21,6 +21,7 @@ case "$RELEASE_PLATFORM" in
     ARCHIVE_ZIP_PATH="artifacts/pocket-casts.xcarchive.zip"
     SENTRY_ANNOTATION_CONTEXT="sentry-failure-ios"
     TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight"
+    TESTFLIGHT_LANE_ARGS=(ipa_path:"$IPA_PATH")
     ;;
   tvos)
     PLATFORM_NAME="tvOS"
@@ -29,6 +30,7 @@ case "$RELEASE_PLATFORM" in
     ARCHIVE_ZIP_PATH="artifacts/pocket-casts-tvos.xcarchive.zip"
     SENTRY_ANNOTATION_CONTEXT="sentry-failure-tvos"
     TESTFLIGHT_LANE="upload_app_store_connect_build_to_testflight_tvos"
+    TESTFLIGHT_LANE_ARGS=(ipa_path:"$IPA_PATH" distribute_external:"$BETA_RELEASE")
     ;;
   *)
     echo "Unsupported RELEASE_PLATFORM: $RELEASE_PLATFORM. Expected 'ios' or 'tvos'." >&2
@@ -54,7 +56,7 @@ fi
 
 echo "Running $0 with BETA_RELEASE = $BETA_RELEASE, RELEASE_PLATFORM = $RELEASE_PLATFORM, NOTIFY_SLACK = $NOTIFY_SLACK, CREATE_GITHUB_RELEASE = $CREATE_GITHUB_RELEASE..."
 
-"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
+checkout_release_branch "$RELEASE_VERSION"
 
 echo "--- :arrow_down: Downloading Artifacts"
 STEP=release_build
@@ -64,9 +66,6 @@ buildkite-agent artifact download "$ARCHIVE_ZIP_PATH" . --step "$STEP"
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
-
-echo "--- :closed_lock_with_key: Installing Secrets"
-bundle exec fastlane run configure_apply
 
 echo "--- :github: Updating GitHub Release"
 bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE" archive_zip_path:"$ARCHIVE_ZIP_PATH" notify_slack:false create_release:"$CREATE_GITHUB_RELEASE"
@@ -91,7 +90,7 @@ upload_symbols() {
 upload_symbols "$PLATFORM_NAME" "$DSYM_PATH" "$SENTRY_ANNOTATION_CONTEXT"
 
 echo "--- :testflight: Uploading $PLATFORM_NAME to TestFlight"
-bundle exec fastlane "$TESTFLIGHT_LANE" ipa_path:"$IPA_PATH"
+bundle exec fastlane "$TESTFLIGHT_LANE" "${TESTFLIGHT_LANE_ARGS[@]}"
 
 if [[ "$NOTIFY_SLACK" == "true" ]]; then
   echo "--- :slack: Notifying Slack"

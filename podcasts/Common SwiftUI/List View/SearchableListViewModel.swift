@@ -2,14 +2,14 @@ import Combine
 import PocketCastsUtils
 
 ///Allows a mode to be searched by the `SearchableListViewModel`
-protocol SearchableDataModel: Hashable {
+protocol SearchableDataModel: Identifiable {
     /// Defines a field that the search text should match against
     /// This should contain all keywords for the model
     var searchableContent: String { get }
 }
 
 /// A generic list view model that allows the user to filter the items using the given `searchText`.
-class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewModel<Model> {
+class SearchableListViewModel<Model: SearchableDataModel>: ListViewModel<Model> {
     @Published var searchText: String = ""
     @Published private(set) var isSearching: Bool = false
 
@@ -52,7 +52,7 @@ class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewMo
             return super.isLast(item: item)
         }
 
-        return filteredItems.last == item
+        return filteredItems.last?.id == item.id
     }
 
     /// Search the items with the given text

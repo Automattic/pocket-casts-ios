@@ -89,7 +89,7 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
+            let allEpisodes = await dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
                 EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
             }
             await MainActor.run {

@@ -3,10 +3,6 @@ import PocketCastsServer
 
 struct DiscoverPodcastRow: View {
 
-    fileprivate enum Layout {
-        static let gridSize = CGFloat(250)
-    }
-
     @State private var model: DiscoverSectionModel
 
     private let callback: ((String?)->())?
@@ -53,10 +49,7 @@ struct DiscoverPodcastRow: View {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     if let uuid = podcast.uuid {
                         NavigationLink(value: podcast) {
-                            PodcastImage(uuid: uuid, size: .page)
-                                .frame(width: Layout.gridSize, height: Layout.gridSize)
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                .focusedCardDepth(cornerRadius: 12, style: .surface)
+                            PodcastCoverCard(uuid: uuid)
                         }
                         .buttonStyle(.card)
                         .accessibilityLabel(podcast.title ?? "")

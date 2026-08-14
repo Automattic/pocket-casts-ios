@@ -543,13 +543,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         transcriptView.delegate = self
-        #if DEBUG
+#if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-            self?.debugOverlay?.update()
+            MainActor.assumeIsolated {
+                self?.debugOverlay?.update()
+            }
         }
         RunLoop.main.add(timer, forMode: .common)
         debugTimer = timer
-        #endif
+#endif
     }
 
     override func willBeRemovedFromPlayer() {
@@ -558,10 +560,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled {
             FingerprintTimingManager.shared.stop()
         }
-        #if DEBUG
+#if DEBUG
         debugTimer?.invalidate()
         debugTimer = nil
-        #endif
+#endif
     }
 
     private func stopSyncedTranscripts() {
@@ -664,7 +666,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
                     if isDisplayingGenerated {
-                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: self.playbackManager.episodeUUID) {
+                        let isCurrentEpisode = PlaybackManager.shared.isCurrentEpisode(uuid: episodeUUID)
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || isCurrentEpisode {
                             FingerprintTimingManager.shared.prepareForCurrentEpisode()
                         }
                         self.startHighlightDisplayLink()

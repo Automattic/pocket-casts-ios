@@ -142,7 +142,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     @IBOutlet weak var playbackSettingsSegmentedControl: UISegmentedControl! {
         didSet {
-            let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
+            let isUserEpisode = PlaybackManager.shared.currentEpisode?.isUserEpisode == true
             let shouldDisplaySegmentedControl = isCustomPlaybackSettingsEnabled && !isUserEpisode
             playbackSettingsSegmentedControl.isHidden = !shouldDisplaySegmentedControl
 
@@ -158,7 +158,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     @IBOutlet weak var speedControlTopConstraint: NSLayoutConstraint! {
         didSet {
-            let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
+            let isUserEpisode = PlaybackManager.shared.currentEpisode?.isUserEpisode == true
             speedControlTopConstraint.isActive = isCustomPlaybackSettingsEnabled && !isUserEpisode
         }
     }
@@ -206,9 +206,9 @@ class EffectsViewController: SimpleNotificationsViewController {
         setupAccessibility()
 
         if isCustomPlaybackSettingsEnabled {
-            playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal() ? 0 : 1
+            playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal ? 0 : 1
         }
-        if let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() {
+        if let episode = PlaybackManager.shared.currentEpisode as? Episode, let podcast = episode.parentPodcast() {
             clearForPodcastImage.setPodcast(uuid: podcast.uuid, size: .list)
         }
 
@@ -344,7 +344,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func clearForPodcastTapped(_ sender: Any) {
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode, let podcast = episode.parentPodcast() else { return }
 
         podcast.overrideGlobalEffects = false
         DataManager.sharedManager.save(podcast: podcast)
@@ -379,7 +379,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         if isCustomPlaybackSettingsEnabled {
             return
         }
-        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else {
+        guard let episode = PlaybackManager.shared.currentEpisode as? Episode, let podcast = episode.parentPodcast() else {
             clearForPodcastView.isHidden = true
             customEffectsToVolumeBoostConstraint.isActive = false
 
@@ -440,7 +440,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         // is higher. The applied rate is already capped in DefaultPlayer; this keeps the display honest
         // without persisting a change to the user's non-HLS preference.
         var displaySpeed = effects.playbackSpeed
-        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+        if let episode = PlaybackManager.shared.currentEpisode, EpisodeManager.willPlayViaHLS(episode) {
             displaySpeed = min(displaySpeed, 2)
         }
         speedBtn.fillColor = ThemeColor.playerContrast01()

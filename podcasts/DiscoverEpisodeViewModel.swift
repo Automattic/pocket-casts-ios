@@ -5,6 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 class DiscoverEpisodeViewModel: ObservableObject {
     private enum ClientError: Swift.Error {
         case noPodcastUuid
@@ -40,13 +41,14 @@ class DiscoverEpisodeViewModel: ObservableObject {
             .dropFirst()
             .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, authenticated: $0?.authenticated ?? false, type: PodcastCollection?.self) }
             .replaceError(with: nil)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$discoverCollection)
 
         $discoverCollection
             .dropFirst()
             .map { $0?.episodes?.first }
             .replaceError(with: nil)
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$discoverEpisode)
 
         $discoverEpisode
@@ -97,6 +99,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         let listId = discoverItem?.uuid ?? listId
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] podcast in
                 // We don't need the fetched podcast but we want to make sure the episode is available.
                 guard podcast != nil, let self else {
@@ -127,7 +130,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         }
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] podcast in
                 guard let podcast else {
                     self?.delegate?.failedToLoadEpisode()

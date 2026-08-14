@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+---
+
+# This pipeline is meant to be triggered by the MC scenario in ReleasesV2
+
+env:
+  IMAGE_ID: $IMAGE_ID
+
+steps:
+  - label: "🌐 Download Translations and Metadata"
+    command: |
+      echo '--- 🤖 Use bot for Git operations'
+      source use-bot-for-git
+
+      checkout_release_branch "${RELEASE_VERSION}"
+
+      echo '--- :ruby: Setup Ruby Tools'
+      install_gems
+
+      echo '--- 🌐 Download Translations and Metadata'
+      bundle exec fastlane download_translations_and_metadata version:"${RELEASE_VERSION}"
+    plugins: [$CI_TOOLKIT]
+    agents:
+      queue: "mac"
+    retry:
+      manual:
+        reason: If release jobs fail, you should always re-trigger the task from Releases V2 rather than retrying the individual job from Buildkite
+        allowed: false

@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
+@MainActor
 class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
@@ -520,6 +521,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func uploadProgressDidUpdate() {
+        if Thread.isMainThread {
+            MainActor.assumeIsolated { uploadProgressDidUpdateOnMain() }
+        } else {
+            Task { @MainActor in uploadProgressDidUpdateOnMain() }
+        }
+    }
+
+    private func uploadProgressDidUpdateOnMain() {
         guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as uploading, update it from the DB
@@ -527,15 +536,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             episode = reloadEpisode()
         }
 
-        if Thread.isMainThread {
-            populate(progressOnly: true)
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-
-                self.populate(progressOnly: true)
-            }
-        }
+        populate(progressOnly: true)
     }
 
     @objc func reloadArtwork(_ notification: Notification) {
@@ -563,7 +564,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let episode else { return }
 
         // if the user tapped play from a featured list, record that. We just want the first play, if they are unpausing it, that's not relevant (hence the last check below)
-        if let podcastUuid, let listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if let podcastUuid, let listUuid, !PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 

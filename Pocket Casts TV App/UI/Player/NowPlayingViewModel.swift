@@ -22,6 +22,9 @@ class NowPlayingViewModel: Identifiable {
     var episode: BaseEpisode?
     var podcast: Podcast?
 
+    @MainActor
+    private var artworkManager = EpisodeArtwork()
+
     /// True while the player is still preparing its item (initial load or
     /// mid-stream buffering). Drives the branded loading UI in
     /// `MediaOverlayView` and lets `NowPlayingView` suppress AVKit's system
@@ -53,7 +56,7 @@ class NowPlayingViewModel: Identifiable {
     private var seekAfterLoad = false
 
     func load() {
-        let newEpisode = playbackManager.currentEpisode()
+        let newEpisode = playbackManager.currentEpisode
         guard newEpisode?.uuid != episode?.uuid else {
             return
         }
@@ -61,7 +64,7 @@ class NowPlayingViewModel: Identifiable {
         isFirstLoad = true
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
-        if !playbackManager.playing(), !playbackManager.isReadyToPlay {
+        if !playbackManager.isPlaying, !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
             seekAfterLoad = true
         }
@@ -208,6 +211,11 @@ class NowPlayingViewModel: Identifiable {
     private func loadEpisodeArtworkData() async -> UIImage? {
         guard let episode else {
             return nil
+        }
+
+        if Settings.loadEmbeddedImages, let podcastEpisode = episode as? Episode,
+           let image = await artworkManager.artworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
+            return image
         }
 
         return await imageManager.imageForEpisode(episode, size: .page)

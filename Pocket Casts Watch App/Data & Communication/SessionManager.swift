@@ -141,7 +141,7 @@ class SessionManager: NSObject, WCSessionDelegate {
         guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
               !WatchDataManager.isPlaying(),
               let phoneEpisode = WatchDataManager.playingEpisode(),
-              let localCurrent = PlaybackManager.shared.currentEpisode() else { return }
+              let localCurrent = PlaybackManager.shared.currentEpisode else { return }
 
         guard localCurrent.uuid == phoneEpisode.uuid else {
             FileLog.shared.addMessage("SessionManager: skipping phone progress - episode mismatch (local \(localCurrent.uuid), phone \(phoneEpisode.uuid))")

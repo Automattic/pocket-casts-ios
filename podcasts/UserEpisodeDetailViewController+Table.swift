@@ -186,9 +186,9 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         let option = playPauseButton.isPlaying ? "play" : "pause"
         Analytics.track(.userFilePlayPauseButtonTapped, properties: ["option": option])
 
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             // dismiss the dialog if the user hit play
-            if !PlaybackManager.shared.playing() {
+            if !PlaybackManager.shared.isPlaying {
                 close()
             }
 

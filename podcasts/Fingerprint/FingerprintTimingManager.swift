@@ -158,7 +158,7 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - Public API
 
     func prepareForCurrentEpisode() {
-        let episode = PlaybackManager.shared.currentEpisode()
+        let episode = PlaybackManager.shared.currentEpisode
 
         queue.async { [weak self] in
             guard let self else { return }
@@ -185,7 +185,7 @@ final class FingerprintTimingManager: NSObject {
     /// processing a partial streaming buffer, we now have a complete file to fingerprint.
     @objc private func handleEpisodeDownloaded(_ notification: Notification) {
         guard let downloadedUuid = notification.object as? String,
-              let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid,
+              let currentUuid = PlaybackManager.shared.currentEpisode?.uuid,
               currentUuid == downloadedUuid else { return }
 
         DispatchQueue.main.async { [weak self] in
@@ -205,7 +205,7 @@ final class FingerprintTimingManager: NSObject {
         let playbackTime = PlaybackManager.shared.currentTime()
         guard playbackTime >= 0 else { return }
 
-        let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid
+        let episodeUuid = PlaybackManager.shared.currentEpisode?.uuid
         queue.async { [weak self] in
             self?.processProgress(playbackTime: playbackTime, episodeUuid: episodeUuid)
         }

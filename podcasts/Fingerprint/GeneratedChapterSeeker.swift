@@ -18,7 +18,7 @@ enum GeneratedChapterSeeker {
         FeatureFlag.generatedChapters.enabled
             && FeatureFlag.syncedTranscripts.enabled
             && PlaybackManager.shared.chaptersAreGenerated
-            && PlaybackManager.shared.currentEpisode() != nil
+            && PlaybackManager.shared.currentEpisode != nil
     }
 
     /// Resolve `chapter` to its real playback position and seek there.
@@ -41,7 +41,7 @@ enum GeneratedChapterSeeker {
         // resolve complete afterwards and yank playback back to its chapter.
         FingerprintTimingManager.shared.cancelPendingChapterResolve()
 
-        guard let episode = PlaybackManager.shared.currentEpisode() else {
+        guard let episode = PlaybackManager.shared.currentEpisode else {
             PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: startPlayback)
             return
         }
@@ -62,7 +62,7 @@ enum GeneratedChapterSeeker {
 
             // The listener switched episodes while we were resolving — the resolved
             // position is meaningless now, so don't seek.
-            guard PlaybackManager.shared.currentEpisode()?.uuid == episodeUuid else {
+            guard PlaybackManager.shared.currentEpisode?.uuid == episodeUuid else {
                 return
             }
 

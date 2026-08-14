@@ -3,8 +3,8 @@ import PocketCastsUtils
 import PocketCastsDataModel
 
 struct BookmarkRow<Style: BookmarksStyle>: View {
-    @EnvironmentObject var viewModel: BookmarkListViewModel
-    @StateObject private var rowModel = BookmarkRowViewModel()
+    @EnvironmentObject var listViewModel: BookmarkListViewModel
+    @State private var viewModel: BookmarkRowViewModel
 
     private let bookmark: Bookmark
 
@@ -16,11 +16,12 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     init(bookmark: Bookmark, style: Style) {
         self.bookmark = bookmark
         self.style = style
+        self._viewModel = State(initialValue: BookmarkRowViewModel(bookmark: bookmark))
     }
 
     var body: some View {
-        let selected = viewModel.isSelected(bookmark)
-        MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
+        let selected = listViewModel.isSelected(bookmark)
+        MultiSelectRow(showSelectButton: listViewModel.isMultiSelecting, selected: selected) {
             HStack(spacing: RowConstants.spacing) {
                 imageView
                 detailsView
@@ -28,13 +29,22 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
             }
         } onSelectionToggled: {
             withAnimation {
-                viewModel.toggleSelected(bookmark)
+                listViewModel.toggleSelected(bookmark)
             }
         }
         .selectButtonStyle(tintColor: style.selectButton, checkColor: style.selectCheck, strokeColor: style.selectButtonStroke)
         .padding(.horizontal, RowConstants.horizontalPadding)
         .padding(.vertical, RowConstants.verticalPadding)
-        .animation(.default, value: viewModel.isMultiSelecting)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            listViewModel.tapped(item: bookmark)
+        }
+        .onLongPressGesture {
+            listViewModel.longPressed(bookmark)
+        } onPressingChanged: { pressed in
+            highlighted = pressed
+        }
+        .animation(.default, value: listViewModel.isMultiSelecting)
 
         // Display a highlight when tapped, or the row is selected
         .background((!selected && highlighted) ? style.rowHighlight : nil)
@@ -44,13 +54,13 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         .animation(.linear, value: selected)
 
         .task(id: bookmark.id) {
-            await rowModel.configure(with: bookmark)
+            await viewModel.configure(with: bookmark)
         }
     }
 
     @ViewBuilder
     private var imageView: some View {
-        if let episode = rowModel.episode {
+        if let episode = viewModel.episode {
             EpisodeImage(episode: episode)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: imageSize, height: imageSize)
@@ -65,34 +75,24 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
     /// Displays a title and subtitle
     private var detailsView: some View {
-        NonBlockingLongPressView {
-            VStack(alignment: .leading, spacing: rowModel.heading != nil ? 4 : 8) {
-                rowModel.heading.map {
-                    Text($0)
-                        .foregroundStyle(style.tertiaryText)
-                        .font(style: .caption, weight: .semibold)
-                        .lineLimit(1)
-                }
-
-                Text(bookmark.title)
-                    .foregroundStyle(style.primaryText)
-                    .font(style: .subheadline, weight: .medium)
-
-                Text(subtitle)
+        VStack(alignment: .leading, spacing: viewModel.heading != nil ? 4 : 8) {
+            viewModel.heading.map {
+                Text($0)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
                     .lineLimit(1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        } onTapped: {
-            viewModel.tapped(item: bookmark)
-        } onPressed: { pressed in
-            highlighted = pressed
-        } onLongPressed: {
-            withAnimation {
-                viewModel.longPressed(bookmark)
-            }
+
+            Text(bookmark.title)
+                .foregroundStyle(style.primaryText)
+                .font(style: .subheadline, weight: .medium)
+
+            Text(subtitle)
+                .foregroundStyle(style.tertiaryText)
+                .font(style: .caption, weight: .semibold)
+                .lineLimit(1)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var subtitle: String {
@@ -101,11 +101,11 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
-        let isLoading = viewModel.loadingBookmarkUuid == bookmark.uuid
-        let isMultiSelecting = viewModel.isMultiSelecting
+        let isLoading = listViewModel.loadingBookmarkUuid == bookmark.uuid
+        let isMultiSelecting = listViewModel.isMultiSelecting
 
         return PlayButton(title: TimeFormatter.shared.playTimeFormat(time: bookmark.time), isLoading: isLoading, isCollapsed: isMultiSelecting, style: style).buttonize {
-            viewModel.bookmarkPlayTapped(bookmark)
+            listViewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label
                 .opacity(config.isPressed ? 0.9 : 1)

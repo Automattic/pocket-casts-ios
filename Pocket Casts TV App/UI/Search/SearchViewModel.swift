@@ -3,11 +3,14 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 enum SearchScope: CaseIterable, Equatable {
+    case topResults
     case podcasts
     case episodes
 
     var localizedName: String {
         switch self {
+        case .topResults:
+            return L10n.tvSearchScopeTopResults
         case .podcasts:
             return L10n.podcastsPlural
         case .episodes:
@@ -18,6 +21,8 @@ enum SearchScope: CaseIterable, Equatable {
     /// Matches the iOS `SearchDisplayMode` analytics values.
     var analyticsDescription: String {
         switch self {
+        case .topResults:
+            return "top_results"
         case .podcasts:
             return "podcasts"
         case .episodes:
@@ -54,6 +59,13 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var scope: SearchScope { get set }
     var podcastResults: [CombinedSearchResultType] { get }
     var episodeResults: [EpisodeSearchResult] { get }
+
+    /// `episodeResults` split into the episodes the `Featured` row previews and the
+    /// ones left for the `Episodes` row. Partitioned once per search rather than on
+    /// every render.
+    var videoEpisodeResults: [EpisodeSearchResult] { get }
+    var remainingEpisodeResults: [EpisodeSearchResult] { get }
+
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -64,6 +76,24 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
 
     var isInSearchMode: Bool { get }
+}
+
+extension SearchableViewModel {
+    /// `podcastResults` only ever holds `.podcast` cases — this unwraps them for the
+    /// rows that take a podcast directly.
+    var podcastOnlyResults: [PodcastFolderSearchResult] {
+        podcastResults.compactMap {
+            guard case .podcast(let podcast) = $0 else { return nil }
+            return podcast
+        }
+    }
+}
+
+extension EpisodeSearchResult {
+    /// A video episode we also have a stream for — the only kind the `Featured` row can preview.
+    var isPlayableVideo: Bool {
+        hasVideo && videoURL != nil
+    }
 }
 
 @Observable
@@ -95,11 +125,22 @@ class SearchViewModel: SearchableViewModel {
 
     var state: SearchState = .query
 
-    var scope: SearchScope = .podcasts
+    var scope: SearchScope = .topResults
 
     var podcastResults: [CombinedSearchResultType] = []
 
-    var episodeResults: [EpisodeSearchResult] = []
+    // Partitioned here rather than in the view so the filtering runs once per search
+    // instead of on every render, and the two halves can't drift from `episodeResults`.
+    var episodeResults: [EpisodeSearchResult] = [] {
+        didSet {
+            videoEpisodeResults = episodeResults.filter(\.isPlayableVideo)
+            remainingEpisodeResults = episodeResults.filter { !$0.isPlayableVideo }
+        }
+    }
+
+    private(set) var videoEpisodeResults: [EpisodeSearchResult] = []
+
+    private(set) var remainingEpisodeResults: [EpisodeSearchResult] = []
 
     var searchHistory: [String] {
         searchModel.entries.compactMap(\.searchTerm)

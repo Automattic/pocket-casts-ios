@@ -210,7 +210,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
 
         // if we're actively playing this episode, let the player know
-        if let episode = PlaybackManager.shared.currentEpisode() as? Episode, podcast.uuid == episode.parentIdentifier() {
+        if let episode = PlaybackManager.shared.currentEpisode as? Episode, podcast.uuid == episode.parentIdentifier() {
             PlaybackManager.shared.effectsChangedExternally()
         }
     }

@@ -16,6 +16,10 @@ struct DiscoverVideoEpisodeCell: View {
     private let listId: String?
     private let source: String
 
+    /// Fires just before playback starts, for screens that reuse the cell outside
+    /// Discover and need to record their own tap (search results, for instance).
+    private let onTap: (() -> Void)?
+
     @FocusState private var isFocused: Bool
 
     enum Layout {
@@ -26,15 +30,17 @@ struct DiscoverVideoEpisodeCell: View {
         static let playDelay: TimeInterval = 2
     }
 
-    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
+    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "", onTap: (() -> Void)? = nil) {
         _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration, playDelay: Layout.playDelay))
         self.listId = listId
         self.source = source
+        self.onTap = onTap
     }
 
     var body: some View {
         Button {
             trackEpisodeTapped()
+            onTap?()
             Task {
                 AnalyticsPlaybackHelper.shared.currentSource = AnalyticsSource(rawValue: source)
                 let successPlay = await TVDataManager.shared.playEpisode(model.episode)

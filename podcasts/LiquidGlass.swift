@@ -36,7 +36,7 @@ extension Constants {
             // added to bottom safe area.
             return 0
         }
-        return PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        return PlaybackManager.shared.currentEpisode == nil ? 0 : Constants.Values.miniPlayerOffset
     }
 
     static var effectiveFooterViewPadding: CGFloat {

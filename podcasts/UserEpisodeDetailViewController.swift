@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
+@MainActor
 protocol UserEpisodeDetailProtocol: AnyObject {
     func showEdit(userEpisode: UserEpisode)
     func showDeleteConfirmation(userEpisode: UserEpisode)

@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 class PlaybackActionHelper {
     class func play(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
@@ -81,7 +82,7 @@ class PlaybackActionHelper {
     }
 
     private class func performPlay(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.play()
         } else {
             if episode.archived, let episode = episode as? Episode {
@@ -92,17 +93,7 @@ class PlaybackActionHelper {
                 AnalyticsHelper.playedEpisode()
             }
 
-            // if we're streaming an episode, try to make sure the URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later
-            if !FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               let episode = episode as? Episode, let podcast = episode.parentPodcast(), !episode.downloaded(pathFinder: DownloadManager.shared) {
-                ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { wasUpdated in
-                    guard let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episode.uuid) : episode else { return }
-
-                    PlaybackManager.shared.load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
-                }
-            } else {
-                PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-            }
+            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         }
         #if !os(tvOS)
         if let playlistUuid {

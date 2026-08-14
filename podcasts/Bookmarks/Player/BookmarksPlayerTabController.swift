@@ -3,6 +3,7 @@ import Combine
 import PocketCastsDataModel
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
+@MainActor
 class BookmarksPlayerTabController: PlayerItemViewController {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
@@ -72,7 +73,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     // MARK: - Notification Handlers
 
     private func updateCurrentEpisode() {
-        viewModel.episode = playbackManager.currentEpisode()
+        viewModel.episode = playbackManager.currentEpisode
     }
 
     private func handleBookmarkCreated(bookmark: Bookmark, isDuplicate: Bool) {

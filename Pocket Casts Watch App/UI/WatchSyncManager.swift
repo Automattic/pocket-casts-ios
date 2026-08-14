@@ -300,7 +300,7 @@ class WatchSyncManager {
     @objc private func playbackPaused() {
         guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
               SyncManager.isUserLoggedIn(),
-              let episode = PlaybackManager.shared.currentEpisode() else { return }
+              let episode = PlaybackManager.shared.currentEpisode else { return }
 
         FileLog.shared.addMessage("WatchSync: pushing playback progress \(episode.playedUpTo) to phone for \(episode.uuid)")
         SessionManager.shared.sendPlaybackProgress(episodeUuid: episode.uuid,
