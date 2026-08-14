@@ -169,6 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         PlaybackManager.shared.updateIdleTimer()
+        PlaybackManager.shared.reconcileSleepTimerLiveActivity()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {

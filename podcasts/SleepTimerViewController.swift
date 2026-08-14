@@ -356,13 +356,12 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
         updateDisplay()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": "end_of_episode", "number_of_episodes": numberOfEpisodes])
+        Analytics.track(.playerSleepTimerExtended, source: AnalyticsSource.player, properties: ["amount": "end_of_episode", "number_of_episodes": numberOfEpisodes])
     }
 
     @IBAction func plusFiveTapped(_ sender: Any) {
-        PlaybackManager.shared.sleepTimeRemaining += 5.minutes
+        PlaybackManager.shared.extendSleepTimer(by: 5.minutes, source: .player)
         updateSleepRemainingTime()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": Int(5.minutes)])
     }
 
     @IBAction func closeTapped(_ sender: Any) {

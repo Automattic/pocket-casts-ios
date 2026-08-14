@@ -316,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// The promo runs for 8.19, 8.20 and 8.21 only. Remove this flag and `SmartBookmarksPromo` when 8.22 is cut.
     case smartBookmarksPromo
 
+    /// Show a Live Activity on the Lock Screen and Dynamic Island while the sleep timer is running
+    case sleepTimerLiveActivity
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -527,6 +530,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .minimizeTabsOptIn:
             true
         case .smartBookmarksPromo:
+            true
+        case .sleepTimerLiveActivity:
             true
         }
     }
