@@ -71,16 +71,26 @@ final class FingerprintTimingManager: NSObject {
     }
 
     /// The mutable state a fingerprint match run accumulates: the two sorted
-    /// mapping views plus the drift filter's rolling state. Extracted into a
-    /// value type so the continuous transcript path (`main`) and the one-shot
-    /// chapter resolve can each run the identical matching pipeline against
-    /// their own isolated accumulator, without the one-shot ever touching the
-    /// mapping the highlighter depends on.
+    /// mapping views, the drift filter's rolling state, and the DEBUG rejection
+    /// log. Extracted into a value type so the continuous transcript path
+    /// (`main`) and the one-shot resolves can each run the identical matching
+    /// pipeline against their own isolated accumulator, without the one-shots
+    /// ever touching the mapping the highlighter depends on.
+    ///
+    /// This is the *complete* mutable state of a match run: `matchWindows` and
+    /// everything below it are static and read nothing else, so a caller holding
+    /// exclusive access to its own accumulator needs no further synchronization.
     struct MappingAccumulator {
         var playbackToReference: [TimeMappingEntry] = []
         var referenceToPlayback: [TimeMappingEntry] = []
         var filterLastTrusted: TimeMappingEntry?
         var filterCandidatePool: [TimeMappingEntry] = []
+        #if DEBUG
+        /// Candidates the drift filter rejected, capped at `debugRejectionCap`.
+        /// Lives here rather than on the manager so the whole match pipeline is a
+        /// pure function of its accumulator — see `matchWindows`.
+        var rejections: [TimeMappingEntry] = []
+        #endif
     }
 
     // MARK: - Private State
@@ -100,8 +110,7 @@ final class FingerprintTimingManager: NSObject {
     /// The two one-shots share it because both are bounded, which is the distinction
     /// that matters here. A bookmark resolve's long budget is spent waiting for its
     /// buffer, not on this queue, so its decode is no longer than a chapter's; and
-    /// running them concurrently would only make them contend for CPU and for `queue`
-    /// during matching.
+    /// running them concurrently would only make them contend for CPU.
     private let onDemandQueue = DispatchQueue(
         label: "au.com.pocketcasts.FingerprintTimingManager.onDemand",
         qos: .userInitiated
@@ -130,7 +139,6 @@ final class FingerprintTimingManager: NSObject {
 
     #if DEBUG
     private static let debugRejectionCap = 500
-    private var debugRejections: [TimeMappingEntry] = []
     #endif
 
     // MARK: - Init
@@ -544,8 +552,7 @@ final class FingerprintTimingManager: NSObject {
 
         // Fingerprint + match the bounded region into a local scratch accumulator
         // on `onDemandQueue` (heavy decode, dedicated so the continuous stream on
-        // `generationQueue` can't starve it) while matching stays serialized on
-        // `queue` — `main` is never touched.
+        // `generationQueue` can't starve it) — `main` is never touched.
         let outcome: Result<MappingAccumulator, StreamError> = await withCheckedContinuation { continuation in
             onDemandQueue.async {
                 var scratch = MappingAccumulator()
@@ -752,8 +759,7 @@ final class FingerprintTimingManager: NSObject {
             audioURL = url
         }
 
-        // Fingerprint + match the bounded region into a local scratch accumulator;
-        // matching stays serialized on `queue` inside `streamFingerprintBounded`.
+        // Fingerprint + match the bounded region into a local scratch accumulator.
         let scratch: MappingAccumulator? = await withCheckedContinuation { continuation in
             onDemandQueue.async {
                 var acc = MappingAccumulator()
@@ -813,12 +819,12 @@ final class FingerprintTimingManager: NSObject {
         return queue.sync { main.playbackToReference }
     }
 
-    /// Candidates that reached the drift filter but were rejected. The debug
-    /// overlay uses this to distinguish "matcher never fired here" from
-    /// "matcher fired but everything was filtered out as noise".
+    /// Candidates that reached the continuous mapping's drift filter but were
+    /// rejected. The debug overlay uses this to distinguish "matcher never fired
+    /// here" from "matcher fired but everything was filtered out as noise".
     func debugRejectionsSnapshot() -> [TimeMappingEntry] {
         dispatchPrecondition(condition: .notOnQueue(queue))
-        return queue.sync { debugRejections }
+        return queue.sync { main.rejections }
     }
     #endif
 
@@ -835,9 +841,6 @@ final class FingerprintTimingManager: NSObject {
         preparationStartDate = nil
         hasReachedActive = false
         hasEmittedPreparationStarted = false
-        #if DEBUG
-        debugRejections.removeAll()
-        #endif
     }
 
     private func resetFilterState() {
@@ -1236,11 +1239,11 @@ final class FingerprintTimingManager: NSObject {
     /// resolve. Decodes only `[startSeconds, endSeconds]` of `audioFileURL`,
     /// matching each window against `matcher` into `acc`. Unlike the continuous
     /// variant it stops at `endSeconds` (not EOF), skips the lookahead throttle,
-    /// and never touches shared manager state — matching runs on `queue` (so the
-    /// drift filter and DEBUG rejection log stay serialized) while decode stays
-    /// on the calling `generationQueue`. Throws `.regionUnavailable` when the
-    /// local file doesn't yet reach `startSeconds` (a streaming episode whose
-    /// buffer hasn't advanced to the target chapter).
+    /// and never touches shared manager state — decode and matching both run
+    /// inline on the calling `onDemandQueue` against the caller's own `acc`, so
+    /// it takes no locks at all. Throws `.regionUnavailable` when the local file
+    /// doesn't yet reach `startSeconds` (a streaming episode whose buffer hasn't
+    /// advanced to the target chapter).
     private func streamFingerprintBounded(
         audioFileURL: URL,
         startSeconds: Double,
@@ -1288,18 +1291,14 @@ final class FingerprintTimingManager: NSObject {
             Self.interleave(buffer, into: &interleaved)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
-                queue.sync {
-                    self.matchWindows(windows: windows, startOffset: startSeconds, matcher: matcher, into: &acc)
-                }
+                Self.matchWindows(windows: windows, startOffset: startSeconds, matcher: matcher, into: &acc)
             }
         }
 
         if flag.isCancelled { throw StreamError.cancelled }
         let tail = streamer.flush()
         if !tail.isEmpty {
-            queue.sync {
-                self.matchWindows(windows: tail, startOffset: startSeconds, matcher: matcher, into: &acc)
-            }
+            Self.matchWindows(windows: tail, startOffset: startSeconds, matcher: matcher, into: &acc)
         }
     }
 
@@ -1585,7 +1584,7 @@ final class FingerprintTimingManager: NSObject {
         startOffset: Double,
         context ctx: GenerationContext
     ) {
-        matchWindows(windows: windows, startOffset: startOffset, matcher: ctx.matcher, into: &main)
+        Self.matchWindows(windows: windows, startOffset: startOffset, matcher: ctx.matcher, into: &main)
 
         let coverage = main.playbackToReference.count
         if coverage >= FingerprintConstants.minimumCoverageForActive {
@@ -1601,12 +1600,16 @@ final class FingerprintTimingManager: NSObject {
     }
 
     /// The core match loop shared by the continuous transcript path and the
-    /// one-shot chapter resolve: run each window through `matcher`, apply the
+    /// one-shot resolves: run each window through `matcher`, apply the
     /// score/dominance gates, and route survivors through the drift filter into
-    /// `acc`. Returns the number of mappings committed this call. Mutates only
-    /// `acc` (plus `debugRejections` in DEBUG builds), so it MUST run on `queue`.
+    /// `acc`. Returns the number of mappings committed this call.
+    ///
+    /// Pure in `acc`: it reads and writes nothing else, so each caller only needs
+    /// exclusive access to the accumulator it passes in. The continuous path's
+    /// `main` is serialized on `queue`; the one-shot resolves own a local
+    /// accumulator outright and need no synchronization at all.
     @discardableResult
-    private func matchWindows(
+    private static func matchWindows(
         windows: [WindowedFingerprint],
         startOffset: Double,
         matcher: CheckpointMatcher,
@@ -1649,7 +1652,11 @@ final class FingerprintTimingManager: NSObject {
             // rejections so the debug overlay can visualize "matcher fired but
             // we didn't trust it" distinctly from "matcher never fired here".
             if best.score < FingerprintConstants.driftAnchorScoreThreshold {
-                recordRejection(candidate, reason: "low score \(String(format: "%.2f", best.score))")
+                recordRejection(
+                    candidate,
+                    reason: "low score \(String(format: "%.2f", best.score))",
+                    into: &acc
+                )
                 continue
             }
             let runnerUpScore = matches.dropFirst().first?.score ?? 0
@@ -1658,7 +1665,8 @@ final class FingerprintTimingManager: NSObject {
                 recordRejection(
                     candidate,
                     reason: "ambiguous top-1 vs top-2 "
-                        + "(\(String(format: "%.2f", best.score)) vs \(String(format: "%.2f", runnerUpScore)))"
+                        + "(\(String(format: "%.2f", best.score)) vs \(String(format: "%.2f", runnerUpScore)))",
+                    into: &acc
                 )
                 continue
             }
@@ -1704,8 +1712,8 @@ final class FingerprintTimingManager: NSObject {
     /// and for post-trusted jumps, so a single lucky pair can never admit an
     /// anchor — what the user was seeing as "jump-arounds" in the debug UI.
     @discardableResult
-    private func consider(candidate: TimeMappingEntry, into acc: inout MappingAccumulator) -> Int {
-        if let trusted = acc.filterLastTrusted, Self.isInTrend(candidate, relativeTo: trusted) {
+    private static func consider(candidate: TimeMappingEntry, into acc: inout MappingAccumulator) -> Int {
+        if let trusted = acc.filterLastTrusted, isInTrend(candidate, relativeTo: trusted) {
             // Sequential continuation. Anything that had collected in the pool
             // was a jump attempt that never stabilized — reject it.
             flushPoolAsRejected(reason: "returned to trend", into: &acc)
@@ -1720,12 +1728,13 @@ final class FingerprintTimingManager: NSObject {
         guard acc.filterCandidatePool.count >= n else { return 0 }
 
         let recent = Array(acc.filterCandidatePool.suffix(n))
-        if Self.formsConsistentSequence(recent) {
+        if formsConsistentSequence(recent) {
             // Confirmed new anchor. Anything older in the pool is noise.
             let keepStart = acc.filterCandidatePool.count - n
             if keepStart > 0 {
-                for entry in acc.filterCandidatePool.prefix(keepStart) {
-                    recordRejection(entry, reason: "pool evicted by confirmed anchor")
+                let evicted = Array(acc.filterCandidatePool.prefix(keepStart))
+                for entry in evicted {
+                    recordRejection(entry, reason: "pool evicted by confirmed anchor", into: &acc)
                 }
             }
             #if DEBUG
@@ -1747,15 +1756,16 @@ final class FingerprintTimingManager: NSObject {
         // Not consistent yet — evict oldest and keep waiting for the window to
         // roll onto a consistent stretch.
         let evicted = acc.filterCandidatePool.removeFirst()
-        recordRejection(evicted, reason: "pool evicted, no consistent run")
+        recordRejection(evicted, reason: "pool evicted, no consistent run", into: &acc)
         return 0
     }
 
-    private func flushPoolAsRejected(reason: String, into acc: inout MappingAccumulator) {
-        for entry in acc.filterCandidatePool {
-            recordRejection(entry, reason: reason)
-        }
+    private static func flushPoolAsRejected(reason: String, into acc: inout MappingAccumulator) {
+        let pooled = acc.filterCandidatePool
         acc.filterCandidatePool.removeAll()
+        for entry in pooled {
+            recordRejection(entry, reason: reason, into: &acc)
+        }
     }
 
     /// Two entries are in-trend when `Δreference ≈ Δplayback` (rate ≈ 1),
@@ -1774,16 +1784,20 @@ final class FingerprintTimingManager: NSObject {
         return true
     }
 
-    private func recordRejection(_ entry: TimeMappingEntry, reason: String) {
+    private static func recordRejection(
+        _ entry: TimeMappingEntry,
+        reason: String,
+        into acc: inout MappingAccumulator
+    ) {
         #if DEBUG
         FileLog.shared.addMessage(
             "FingerprintTimingManager: drift filter dropped \(reason) "
                 + "at playback \(String(format: "%.1f", entry.playbackTime))s "
                 + "(matched reference \(String(format: "%.1f", entry.referenceTime))s)"
         )
-        debugRejections.append(entry)
-        if debugRejections.count > Self.debugRejectionCap {
-            debugRejections.removeFirst(debugRejections.count - Self.debugRejectionCap)
+        acc.rejections.append(entry)
+        if acc.rejections.count > debugRejectionCap {
+            acc.rejections.removeFirst(acc.rejections.count - debugRejectionCap)
         }
         #endif
     }
@@ -1793,7 +1807,9 @@ final class FingerprintTimingManager: NSObject {
     /// Test seam: inserts a mapping on the manager's serial queue so queries are
     /// consistent with production insertions that happen from within `processMatches`.
     func insert(mapping: TimeMappingEntry) {
-        queue.sync { insertMapping(mapping, into: &main) }
+        queue.sync {
+            Self.insertMapping(mapping, into: &main)
+        }
     }
 
     /// Test seam: routes a sequence of candidates through the drift filter
@@ -1802,12 +1818,12 @@ final class FingerprintTimingManager: NSObject {
     func stubMatches(_ entries: [TimeMappingEntry]) {
         queue.sync {
             for entry in entries {
-                _ = consider(candidate: entry, into: &main)
+                Self.consider(candidate: entry, into: &main)
             }
         }
     }
 
-    private func insertMapping(_ entry: TimeMappingEntry, into acc: inout MappingAccumulator) {
+    private static func insertMapping(_ entry: TimeMappingEntry, into acc: inout MappingAccumulator) {
         let pbIdx = acc.playbackToReference.sortedInsertionIndex { $0.playbackTime < entry.playbackTime }
         acc.playbackToReference.insert(entry, at: pbIdx)
 
