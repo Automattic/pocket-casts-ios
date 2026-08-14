@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 class UpNextHistoryModel: ObservableObject {
     @Published var historyEntries: [UpNextHistoryManager.UpNextHistoryEntry] = []
     @Published var episodes: [BaseEpisode] = []
@@ -12,14 +13,12 @@ class UpNextHistoryModel: ObservableObject {
         self.dataManager = dataManager
     }
 
-    @MainActor
     func loadEntries() {
         Task {
             historyEntries = dataManager.upNextHistoryEntries()
         }
     }
 
-    @MainActor
     func loadEpisodes(for entry: Date) {
         Task {
             let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)

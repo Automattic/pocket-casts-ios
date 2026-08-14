@@ -25,6 +25,7 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
     }
 }
 
+@MainActor
 protocol CheckTranscriptAvailability: AnyObject {
     var isTranscriptEnabled: Bool { get set }
     var hasGeneratedTranscripts: Bool { get set }
@@ -36,19 +37,23 @@ protocol CheckTranscriptAvailability: AnyObject {
 extension CheckTranscriptAvailability {
     func addTranscriptObservers() {
         NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil, queue: .main) { [weak self] notification in
-            guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
-                  let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
-                  let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool,
-                  episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else {
-                return
-            }
+            MainActor.assumeIsolated {
+                guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
+                      let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+                      let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool,
+                      episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else {
+                    return
+                }
 
-            self?.isTranscriptEnabled = isAvailable
-            self?.hasGeneratedTranscripts = hasGeneratedTranscripts
+                self?.isTranscriptEnabled = isAvailable
+                self?.hasGeneratedTranscripts = hasGeneratedTranscripts
+            }
         }
 
         NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] _ in
-            self?.checkTranscriptAvailability()
+            MainActor.assumeIsolated {
+                self?.checkTranscriptAvailability()
+            }
         }
     }
 

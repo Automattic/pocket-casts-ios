@@ -29,6 +29,7 @@ extension Theme {
     static var systemIsDark: Bool = false
 }
 
+@MainActor
 extension Constants {
     static var effectiveMiniPlayerOffset: CGFloat {
         if LiquidGlass.isEnabled {

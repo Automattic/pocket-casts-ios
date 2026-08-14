@@ -10,6 +10,7 @@ import PocketCastsUtils
 /// playback position first, with a graceful fallback to the raw seek. Embedded /
 /// podcast-index chapters already carry real playback times and must not be
 /// routed here.
+@MainActor
 enum GeneratedChapterSeeker {
 
     /// Whether generated-chapter navigation should resolve via fingerprinting
@@ -28,8 +29,6 @@ enum GeneratedChapterSeeker {
     ///   already-resolved cache hit, which seeks synchronously.
     /// - `startPlayback` matches each call site's existing behaviour: the chapters
     ///   list starts playback on a tap, the player's skip buttons don't.
-    ///
-    /// Must be called on the main queue.
     static func seek(
         to chapter: ChapterInfo,
         startPlayback: Bool,
