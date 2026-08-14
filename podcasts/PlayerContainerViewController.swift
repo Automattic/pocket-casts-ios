@@ -1,7 +1,6 @@
 import PocketCastsUtils
 import UIKit
 
-@MainActor
 class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTabDelegate, PlayerItemContainerDelegate {
     @IBOutlet var headerView: UIView!
     @IBOutlet var tabsView: PlayerTabsView! {
@@ -427,7 +426,7 @@ private extension PlayerContainerViewController {
     }
 }
 
-extension PlayerContainerViewController: @preconcurrency AnalyticsSourceProvider {
+extension PlayerContainerViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .player
     }
