@@ -32,7 +32,7 @@ struct SleepTimerLiveActivityWidget: Widget {
 
                         Spacer(minLength: 8)
 
-                        SleepTimerTrailingContent(state: context.state)
+                        SleepTimerExtendButton()
                     }
                 }
             } compactLeading: {
@@ -72,7 +72,7 @@ private struct SleepTimerLockScreenView: View {
 
             Spacer(minLength: 8)
 
-            SleepTimerTrailingContent(state: context.state)
+            SleepTimerExtendButton()
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
@@ -85,9 +85,7 @@ private struct SleepTimerCountdown: View {
 
     var body: some View {
         Group {
-            if state.stopsAtEndOfEpisode {
-                Text(L10n.sleepTimerEndOfEpisode)
-            } else if state.isPaused {
+            if state.isPaused {
                 // The sleep timer doesn't tick while playback is paused, so show a fixed
                 // time rather than letting the system run the countdown down to zero.
                 Text(TimeFormatter.shared.playTimeFormat(time: state.remaining))
@@ -99,16 +97,6 @@ private struct SleepTimerCountdown: View {
         .font(font)
         .foregroundStyle(SleepTimerLiveActivityStyle.primaryTextColor)
         .multilineTextAlignment(.leading)
-    }
-}
-
-private struct SleepTimerTrailingContent: View {
-    let state: SleepTimerActivityAttributes.ContentState
-
-    var body: some View {
-        if !state.stopsAtEndOfEpisode {
-            SleepTimerExtendButton()
-        }
     }
 }
 
@@ -154,19 +142,11 @@ private enum SleepTimerLiveActivityStyle {
     SleepTimerActivityAttributes.ContentState(
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
-        isPaused: false,
-        stopsAtEndOfEpisode: false
+        isPaused: false
     )
     SleepTimerActivityAttributes.ContentState(
         timerEndDate: Date().addingTimeInterval(14.minutes),
         remaining: 14.minutes,
-        isPaused: true,
-        stopsAtEndOfEpisode: false
-    )
-    SleepTimerActivityAttributes.ContentState(
-        timerEndDate: Date().addingTimeInterval(14.minutes),
-        remaining: 14.minutes,
-        isPaused: false,
-        stopsAtEndOfEpisode: true
+        isPaused: true
     )
 }

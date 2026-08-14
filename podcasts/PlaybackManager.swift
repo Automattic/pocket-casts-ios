@@ -27,12 +27,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
                 FileLog.shared.addMessage("Sleep Timer: starting with \(numberOfEpisodesToSleepAfter) episodes")
-
-                if numberOfEpisodesToSleepAfter == 1, let remaining = remainingTimeInCurrentEpisode() {
-                    startSleepTimerLiveActivity(duration: remaining, stopsAtEndOfEpisode: true)
-                } else {
-                    endSleepTimerLiveActivity()
-                }
+                endSleepTimerLiveActivity()
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         }
@@ -770,7 +765,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         numberOfEpisodesToSleepAfter -= 1
-        syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
@@ -785,7 +779,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         load(episode: episodeToPlay, autoPlay: autoPlay, overrideUpNext: false, completion: completion)
         switchingToDifferentUpNextEpisode = false
 
-        syncSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
     }
@@ -2007,31 +2000,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         sleepTimerManager.restartSleepTimer()
     }
 
-    private func startSleepTimerLiveActivity(duration: TimeInterval, stopsAtEndOfEpisode: Bool = false) {
+    private func startSleepTimerLiveActivity(duration: TimeInterval) {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
         guard FeatureFlag.sleepTimerLiveActivity.enabled else { return }
 
-        SleepTimerLiveActivityController.shared.startTimer(duration: duration, stopsAtEndOfEpisode: stopsAtEndOfEpisode)
+        SleepTimerLiveActivityController.shared.startTimer(duration: duration)
 #endif
-    }
-
-    private func currentSleepTimerRemaining() -> TimeInterval? {
-        if sleepTimeRemaining >= 0 {
-            return sleepTimeRemaining
-        }
-        if numberOfEpisodesToSleepAfter == 1 {
-            return remainingTimeInCurrentEpisode()
-        }
-        return nil
-    }
-
-    private func remainingTimeInCurrentEpisode() -> TimeInterval? {
-        guard currentEpisode != nil else { return nil }
-
-        let episodeEndTime = chapterManager.lastChapter.map { ceil($0.startTime.seconds) + $0.duration } ?? duration()
-        guard episodeEndTime > 0 else { return nil }
-
-        return max(0, episodeEndTime - currentTime())
     }
 
     /// Pushes the current sleep timer state to the Live Activity. The timer only counts down
@@ -2039,13 +2013,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// it keeps counting to zero and sits there showing an expired timer.
     func syncSleepTimerLiveActivity(isPaused: Bool? = nil) {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
-        guard FeatureFlag.sleepTimerLiveActivity.enabled, let remaining = currentSleepTimerRemaining() else { return }
+        guard FeatureFlag.sleepTimerLiveActivity.enabled, sleepTimeRemaining >= 0 else { return }
 
-        SleepTimerLiveActivityController.shared.sync(
-            remaining: remaining,
-            isPaused: isPaused ?? !isPlaying,
-            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1
-        )
+        SleepTimerLiveActivityController.shared.sync(remaining: sleepTimeRemaining, isPaused: isPaused ?? !isPlaying)
 #endif
     }
 
@@ -2053,13 +2023,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// force quit while a timer is running. Called when the app becomes active.
     func reconcileSleepTimerLiveActivity() {
 #if !APPCLIP && !os(watchOS) && !os(tvOS)
-        let remaining = currentSleepTimerRemaining()
-
         SleepTimerLiveActivityController.shared.reconcile(
-            isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && remaining != nil,
-            remaining: remaining ?? 0,
-            isPaused: !isPlaying,
-            stopsAtEndOfEpisode: numberOfEpisodesToSleepAfter == 1
+            isTimerRunning: FeatureFlag.sleepTimerLiveActivity.enabled && sleepTimeRemaining >= 0,
+            remaining: sleepTimeRemaining,
+            isPaused: !isPlaying
         )
 #endif
     }
