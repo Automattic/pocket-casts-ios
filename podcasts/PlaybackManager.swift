@@ -300,8 +300,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             analyticsPlaybackHelper.play()
         }
 
-        aboutToPlay.value = true
-
         if playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
         }
@@ -309,6 +307,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             player?.loadEpisode(currEpisode)
             haveCalledPlayerLoad = true
         }
+
+        // Marked after the player is in place: rebuilding it above goes through
+        // `cleanupCurrentPlayer`, which clears this flag.
+        aboutToPlay.value = true
 
         // Marked synchronously (before the async audio-session activation) so concurrent `play()`
         // calls can't each capture `true` and report twice for the same player. Only engaged when
@@ -319,7 +321,13 @@ class PlaybackManager: ServerPlaybackDelegate {
             hasReportedSourceResolved.value = true
         }
 
+        let playerToStart = player
+
         activateAudioSession(completion: { activated in
+            // Activation is asynchronous, so the player this call was started for can be torn down
+            // or replaced before it completes, leaving nothing to run the play command.
+            guard let player = self.player, player === playerToStart else { return }
+
             if !activated {
                 self.aboutToPlay.value = false
                 // Playback didn't start, so allow a later retry to report the resolved source.
@@ -329,7 +337,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return
             }
 
-            self.player?.play {
+            player.play {
                 completion?()
             }
             self.startUpdateTimer()
@@ -1607,7 +1615,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             player.endPlayback(permanent: permanent)
         }
 
-        if permanent { aboutToPlay.value = false }
+        aboutToPlay.value = false
         currentEffects = nil
 
         // DefaultPlayer and EffectsPlayer both have issues if you discard them immediately after stopping them. DefaultPlayer will crash while trying to render more audio and EffectsPlayer has internal issues as well.
