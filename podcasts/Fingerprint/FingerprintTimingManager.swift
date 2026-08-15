@@ -4,6 +4,7 @@ import Foundation
 import Fingerprint
 import PocketCastsDataModel
 import PocketCastsUtils
+import os
 
 final class FingerprintTimingManager: NSObject {
 
@@ -1986,16 +1987,15 @@ final class FingerprintTimingManager: NSObject {
 
 // MARK: - Cancellation
 
-private final class CancellationFlag {
-    private let lock = NSLock()
-    private var cancelled = false
+private final class CancellationFlag: Sendable {
+    private let cancelled = OSAllocatedUnfairLock(initialState: false)
 
     var isCancelled: Bool {
-        lock.withLock { cancelled }
+        cancelled.withLock { $0 }
     }
 
     func cancel() {
-        lock.withLock { cancelled = true }
+        cancelled.withLock { $0 = true }
     }
 }
 
