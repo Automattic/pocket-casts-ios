@@ -522,7 +522,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .troubleshooting:
             true
         case .smartBookmarks:
-            BuildEnvironment.current == .debug
+            true
         case .captureBestFrame:
             true
         case .tvHomeCategoriesAndCurated:
