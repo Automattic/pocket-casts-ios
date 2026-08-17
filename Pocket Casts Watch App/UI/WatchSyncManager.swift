@@ -147,28 +147,26 @@ class WatchSyncManager {
     }
 
     func login() {
-        Task {
+        Task { @MainActor in
             do {
                 try await AuthenticationHelper.refreshLogin()
-                DispatchQueue.main.async {
-                    self.handleLogin()
-                }
+                handleLogin()
             }
             catch {
-                DispatchQueue.main.async {
-                    self.handleError(error)
-                }
+                handleError(error)
             }
         }
     }
 
+    @MainActor
     private func handleLogin() {
         FileLog.shared.addMessage("Login successful")
-        self.checkSubscriptionStatus()
+        checkSubscriptionStatus()
         NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 
+    @MainActor
     private func handleError(_ error: Error) {
         let error = error as? APIError
 
