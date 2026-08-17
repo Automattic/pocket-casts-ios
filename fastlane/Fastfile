@@ -1451,10 +1451,10 @@ platform :ios do
 
       case app_store_metadata_length_verdict(file_name, length)
       when :over_max
-        UI.user_error!("#{path} is #{length} characters, over the #{limits.fetch(:max_size)} App Store Connect accepts.")
+        UI.user_error!("#{path} is #{length} characters, over the #{limits.fetch(:max_size)}-character maximum App Store Connect accepts.")
       when :over_budget
         UI.important(
-          "#{path} is #{length} characters, over the #{limits.fetch(:budget)} budget that leaves translations room to expand. " \
+          "#{path} is #{length} characters, over the #{limits.fetch(:budget)}-character budget that leaves translations room to expand. " \
           "Locales translating past #{limits.fetch(:max_size)} will ship with no #{file_name} at all."
         )
       end
