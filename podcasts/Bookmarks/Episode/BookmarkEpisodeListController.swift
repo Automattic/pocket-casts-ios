@@ -41,6 +41,9 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 // MARK: - BookmarkListRouter
 
 extension BookmarkEpisodeListController: BookmarkListRouter {
+    /// The list is shown within the episode's own details, so its artwork doesn't open them again
+    var opensBookmarkEpisode: Bool { false }
+
     func bookmarkPlay(_ bookmark: Bookmark) async throws {
         try await playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
     }

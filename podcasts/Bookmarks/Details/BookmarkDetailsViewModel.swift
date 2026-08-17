@@ -31,6 +31,10 @@ class BookmarkDetailsViewModel: ObservableObject {
     /// Assigned by the hosting controller, which owns playback
     var onPlay: () -> Void = {}
 
+    /// Assigned by the hosting controller, which owns navigation. Absent where there are no
+    /// episode details to open, such as an uploaded file or the player.
+    var onEpisodeTapped: (() -> Void)?
+
     private let bookmarkManager: BookmarkManager
 
     init(bookmark: Bookmark,

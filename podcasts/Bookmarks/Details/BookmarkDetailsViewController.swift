@@ -12,7 +12,8 @@ class BookmarkDetailsViewController: ThemedHostingController<BookmarkDetailsView
     init(bookmark: Bookmark,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,
          playbackManager: PlaybackManager = .shared,
-         source: BookmarkAnalyticsSource = .unknown) {
+         source: BookmarkAnalyticsSource = .unknown,
+         opensEpisode: Bool = true) {
         self.bookmarkManager = bookmarkManager
         self.playbackManager = playbackManager
         self.analyticsSource = source
@@ -24,6 +25,12 @@ class BookmarkDetailsViewController: ThemedHostingController<BookmarkDetailsView
 
         viewModel.onPlay = { [weak self] in
             self?.play()
+        }
+
+        if opensEpisode, let episode = viewModel.episode as? Episode {
+            viewModel.onEpisodeTapped = { [weak self] in
+                self?.presentBookmarkEpisode(episode)
+            }
         }
     }
 

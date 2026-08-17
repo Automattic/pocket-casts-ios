@@ -76,6 +76,18 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable 
         router?.bookmarkDetails(item, source: analyticsSource)
     }
 
+    /// A tap on the artwork opens the episode the bookmark was made in, anything else,
+    /// such as an uploaded file, falls back to the row's own tap behaviour
+    func episodeTapped(_ episode: BaseEpisode, for bookmark: Bookmark) {
+        guard !isMultiSelecting, router?.opensBookmarkEpisode == true,
+              let episode = episode as? Episode else {
+            tapped(item: bookmark)
+            return
+        }
+
+        router?.bookmarkEpisode(episode)
+    }
+
     func dismiss() {
         router?.dismissBookmarksList()
     }

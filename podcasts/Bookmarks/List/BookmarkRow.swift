@@ -61,10 +61,15 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     @ViewBuilder
     private var imageView: some View {
         if let episode = viewModel.episode {
-            EpisodeImage(episode: episode)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: imageSize, height: imageSize)
-                .cornerRadius(8)
+            Button {
+                listViewModel.episodeTapped(episode, for: bookmark)
+            } label: {
+                EpisodeImage(episode: episode)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: imageSize, height: imageSize)
+                    .cornerRadius(8)
+            }
+            .buttonStyle(.plain)
         } else {
             Rectangle()
                 .foregroundColor(style.tertiaryText)
