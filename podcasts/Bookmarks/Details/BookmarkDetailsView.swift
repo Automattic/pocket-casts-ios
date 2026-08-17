@@ -96,15 +96,26 @@ struct BookmarkDetailsView: View {
     @ViewBuilder
     private var artwork: some View {
         if let episode = viewModel.episode {
-            EpisodeImage(episode: episode)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: imageSize, height: imageSize)
-                .cornerRadius(8)
+            if let onEpisodeTapped = viewModel.onEpisodeTapped {
+                Button(action: onEpisodeTapped) {
+                    artworkImage(for: episode)
+                }
+                .buttonStyle(.plain)
+            } else {
+                artworkImage(for: episode)
+            }
         } else {
             RoundedRectangle(cornerRadius: 8)
                 .foregroundStyle(theme.primaryUi05)
                 .frame(width: imageSize, height: imageSize)
         }
+    }
+
+    private func artworkImage(for episode: BaseEpisode) -> some View {
+        EpisodeImage(episode: episode)
+            .aspectRatio(contentMode: .fill)
+            .frame(width: imageSize, height: imageSize)
+            .cornerRadius(8)
     }
 
     private var playButton: some View {

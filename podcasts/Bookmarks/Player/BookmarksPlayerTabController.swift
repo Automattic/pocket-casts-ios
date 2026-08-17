@@ -129,6 +129,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 // MARK: - BookmarkListRouter
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
+    /// The player is already showing the episode, so its artwork doesn't open it again
+    var opensBookmarkEpisode: Bool { false }
+
     func bookmarkPlay(_ bookmark: Bookmark) async throws {
         try await playbackManager.playBookmark(bookmark, source: .player)
     }
