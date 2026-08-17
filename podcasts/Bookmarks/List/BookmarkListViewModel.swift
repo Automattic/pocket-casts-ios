@@ -79,7 +79,7 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable 
     /// A tap on the artwork opens the episode the bookmark was made in, anything else,
     /// such as an uploaded file, falls back to the row's own tap behaviour
     func episodeTapped(_ episode: BaseEpisode, for bookmark: Bookmark) {
-        guard !isMultiSelecting, let episode = episode as? Episode else {
+        guard FeatureFlag.smartBookmarks.enabled, !isMultiSelecting, let episode = episode as? Episode else {
             tapped(item: bookmark)
             return
         }

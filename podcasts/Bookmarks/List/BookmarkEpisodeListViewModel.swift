@@ -16,6 +16,16 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
         reload()
     }
 
+    /// The list is already shown within its own episode, so a tap on the artwork opens the bookmark instead
+    override func episodeTapped(_ episode: BaseEpisode, for bookmark: Bookmark) {
+        guard episode.uuid != self.episode?.uuid else {
+            tapped(item: bookmark)
+            return
+        }
+
+        super.episodeTapped(episode, for: bookmark)
+    }
+
     override func reload() {
         guard feature.isUnlocked, let episode else {
             items = []
