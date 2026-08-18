@@ -64,9 +64,11 @@ class PodcastEpisodeListViewModel: ObservableObject {
             .compactMap { podcast in
                 let query = Self.createEpisodesQuery(forPodcast: podcast)
                 return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
-                    .map { EpisodeRowViewModel(episode: $0) }
             }
             .receive(on: RunLoop.main)
+            .map { episodes in
+                MainActor.assumeIsolated { episodes.map { EpisodeRowViewModel(episode: $0) } }
+            }
             .assign(to: &$episodes)
     }
 

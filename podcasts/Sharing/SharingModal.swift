@@ -67,6 +67,7 @@ enum SharingModal {
         }
     }
 
+    @MainActor
     static func showModal(episode: Episode, from source: AnalyticsSource, in viewController: UIViewController) {
         guard let podcast = episode.parentPodcast() else {
             assertionFailure("Podcast should exist for episode")
@@ -75,6 +76,7 @@ enum SharingModal {
         showModal(podcast: podcast, episode: episode, from: source, in: viewController)
     }
 
+    @MainActor
     static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController) {
 
         if podcast.isPrivate {
@@ -108,6 +110,7 @@ enum SharingModal {
         optionPicker.present(from: viewController)
     }
 
+    @MainActor
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
 
         if option.podcast.isPrivate {

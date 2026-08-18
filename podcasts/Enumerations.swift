@@ -331,6 +331,7 @@ extension PlayerAction: AnalyticsDescribable {
         }
     }
 
+    @MainActor
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
         case .effects:
@@ -392,6 +393,7 @@ extension PlayerAction: AnalyticsDescribable {
         }
     }
 
+    @MainActor
     func iconName(episode: BaseEpisode?) -> String {
         switch self {
         case .effects:
@@ -428,6 +430,7 @@ extension PlayerAction: AnalyticsDescribable {
         }
     }
 
+    @MainActor
     func largeIconName(episode: BaseEpisode?) -> String {
         switch self {
         case .effects:
@@ -464,6 +467,7 @@ extension PlayerAction: AnalyticsDescribable {
         }
     }
 
+    @MainActor
     func canBePerformedOn(episode: BaseEpisode) -> Bool {
         switch self {
         case .starEpisode, .shareEpisode:
@@ -637,6 +641,7 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         }
     }
 
+    @MainActor
     func isVisible(with episodes: [BaseEpisode]) -> Bool {
         switch self {
         case .share:

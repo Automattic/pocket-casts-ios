@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class PodcastsListViewModel: ObservableObject {
     @Published var gridItems = [HomeGridItem]()
     @Published var sortOrder: LibrarySort {

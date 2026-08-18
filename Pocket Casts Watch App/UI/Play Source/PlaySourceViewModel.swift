@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 struct PlaySourceHelper {
     static var playSourceViewModel: PlaySourceViewModel {
         SourceManager.shared.isWatch() ? WatchSourceViewModel() : PhoneSourceViewModel()
@@ -14,6 +15,7 @@ enum PlaySourceError: Error {
     case wrongBaseType
 }
 
+@MainActor
 protocol PlaySourceViewModel {
     var isPlaying: Bool { get }
 

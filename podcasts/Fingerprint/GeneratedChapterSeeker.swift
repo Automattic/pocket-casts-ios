@@ -10,6 +10,7 @@ import PocketCastsUtils
 /// playback position first, with a graceful fallback to the raw seek. Embedded /
 /// podcast-index chapters already carry real playback times and must not be
 /// routed here.
+@MainActor
 enum GeneratedChapterSeeker {
 
     /// Whether generated-chapter navigation should resolve via fingerprinting

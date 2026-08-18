@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import WatchKit
 
+@MainActor
 class EffectsViewModel: ObservableObject {
     private var playSource = PlaySourceHelper.playSourceViewModel
 

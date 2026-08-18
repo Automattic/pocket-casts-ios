@@ -31,6 +31,7 @@ enum SwipeSourceType {
     }
 }
 
+@MainActor
 protocol SwipeHandler: AnyObject {
     var swipeSource: String { get }
     var swipeSourceType: SwipeSourceType { get }
@@ -43,6 +44,7 @@ protocol SwipeHandler: AnyObject {
     func removeFromManualPlaylist(episode: Episode, at: IndexPath)
 }
 
+@MainActor
 enum SwipeActionsHelper {
     // Contrast themes prioritise readability; the green `support02` background
     // doesn't pass against the white "+" icon, so fall back to `support06` (the
@@ -227,6 +229,7 @@ enum SwipeActionsHelper {
     }
 }
 
+@MainActor
 fileprivate extension TableSwipeAction {
     static func removeAction(indexPath: IndexPath, tableView: UITableView, swipeHandler: SwipeHandler, episode: Episode) -> TableSwipeAction {
         return TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: true, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in

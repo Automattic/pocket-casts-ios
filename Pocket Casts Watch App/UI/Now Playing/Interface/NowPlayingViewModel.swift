@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class NowPlayingViewModel: ObservableObject {
     @Published var episode: BaseEpisode?
     @Published var isPlaying = false

@@ -5,7 +5,8 @@ import PocketCastsServer
 import UIKit
 import PocketCastsUtils
 
-class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, CPNowPlayingTemplateObserver {
+@MainActor
+class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, @preconcurrency CPNowPlayingTemplateObserver {
     var interfaceController: CPInterfaceController?
 
     // Reloading

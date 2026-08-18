@@ -154,6 +154,7 @@ class ChaptersHeader: UIView {
     }
 }
 
+@MainActor
 protocol ChaptersHeaderDelegate: AnyObject {
     func toggleTapped()
 }

@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 
+@MainActor
 class FilterEpisodeListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var episodes: [EpisodeRowViewModel]

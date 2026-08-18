@@ -5,7 +5,7 @@ import UIKit
 import UserNotifications
 import PocketCastsUtils
 
-class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
+class NotificationsHelper: NSObject, @preconcurrency UNUserNotificationCenterDelegate {
     private let downloadEpisodeActionId = "SJEpDownload"
     private let playNowActionid = "SJPlayNow"
     private let addToQueueFirstActionId = "SJEpAddQueueFirst"
@@ -69,7 +69,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    func registerForPushNotifications(completion: ((Bool) -> ())? = nil) {
+    func registerForPushNotifications(completion: (@MainActor (Bool) -> ())? = nil) {
         let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.download, options: [])
         let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.notificationsPlayNow, options: [])
         let addQueueFirstAction = UNNotificationAction(identifier: addToQueueFirstActionId, title: L10n.playNext, options: [])
@@ -116,6 +116,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     }
 
     // called when the user taps a notification action, or just the notification itself
+    @MainActor
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         FileLog.shared.addMessage("[Notifications] push notification received with category: \(response.notification.request.content.categoryIdentifier)")
         let categoryIdentifier = response.notification.request.content.categoryIdentifier
@@ -137,6 +138,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+    @MainActor
     private func handleEpisodeNotification(response: UNNotificationResponse, completionHandler: @escaping () -> Void) {
 
         guard let episodeUuid = response.notification.request.content.userInfo["eu"] as? String, !episodeUuid.isEmpty else {
@@ -205,7 +207,8 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         completionHandler([.banner, .sound])
     }
 
-    private func findEpisode(episodeUuid: String, performing action: @escaping (BaseEpisode?) -> Void) {
+    @MainActor
+    private func findEpisode(episodeUuid: String, performing action: @escaping @MainActor (BaseEpisode?) -> Void) {
         if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
             action(existingEpisode)
         } else {

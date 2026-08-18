@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class UpNextViewModel: ObservableObject {
     @Published var isPlaying: Bool
     @Published var isEmpty: Bool = false

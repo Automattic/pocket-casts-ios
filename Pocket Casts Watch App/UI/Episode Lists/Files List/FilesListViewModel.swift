@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class FilesListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var episodes: [EpisodeRowViewModel]
