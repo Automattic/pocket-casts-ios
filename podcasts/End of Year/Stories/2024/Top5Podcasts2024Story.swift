@@ -37,9 +37,10 @@ struct Top5Podcasts2024Story: ShareableStory {
                         view
                     } else {
                         ScrollView(.vertical) {
-                            view.scrollIndicators(.never)
-                                .scrollBounceBehavior(.basedOnSize)
+                            view
                         }
+                        .scrollIndicators(.never)
+                        .scrollBounceBehavior(.basedOnSize)
                     }
                 }
                 .padding(.horizontal, 24)
