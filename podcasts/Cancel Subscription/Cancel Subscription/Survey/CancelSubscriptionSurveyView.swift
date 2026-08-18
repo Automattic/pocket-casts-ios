@@ -50,11 +50,7 @@ struct CancelSubscriptionSurveyView: View {
                     }
                 }
                 .padding(.top, 48)
-                .modify {
-                    if #available(iOS 16.4, *) {
-                        $0.scrollBounceBehavior(.basedOnSize)
-                    }
-                }
+                .scrollBounceBehavior(.basedOnSize)
             }
 
             VStack {
