@@ -108,11 +108,7 @@ struct PlusPurchaseModal: View {
             .padding(.vertical, sizeCategory.isAccessibilityCategory ? 24 : 0)
         }
         .background(Color.backgroundColor.ignoresSafeArea())
-        .modify {
-            if #available(iOS 16.4, *) {
-                $0.scrollBounceBehavior(.basedOnSize)
-            }
-        }
+        .scrollBounceBehavior(.basedOnSize)
     }
 
     private var pricingTermsLabel: String {

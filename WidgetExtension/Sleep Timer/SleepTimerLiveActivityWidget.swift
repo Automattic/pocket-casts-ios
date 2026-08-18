@@ -135,7 +135,6 @@ private enum SleepTimerLiveActivityStyle {
     static let secondaryTextColor = Color.secondary
 }
 
-@available(iOSApplicationExtension 17.0, *)
 #Preview("Sleep Timer", as: .content, using: SleepTimerActivityAttributes()) {
     SleepTimerLiveActivityWidget()
 } contentStates: {

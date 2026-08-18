@@ -75,14 +75,8 @@ struct EpisodeDetailTabView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             content()
         }
-        .modify { view in
-            if #available(iOS 16.4, *) {
-                view.scrollIndicators(.never)
-                    .scrollBounceBehavior(.basedOnSize, axes: [.horizontal])
-            } else {
-                view
-            }
-        }
+        .scrollIndicators(.never)
+        .scrollBounceBehavior(.basedOnSize, axes: [.horizontal])
     }
 }
 

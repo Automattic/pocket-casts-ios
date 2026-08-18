@@ -32,13 +32,10 @@ struct Top5Podcasts2025Story: ShareableStory {
                         view
                     } else {
                         ScrollView(.vertical) {
-                            if #available(iOS 16.4, *) {
-                                view.scrollIndicators(.never)
-                                    .scrollBounceBehavior(.basedOnSize)
-                            } else {
-                                view
-                            }
+                            view
                         }
+                        .scrollIndicators(.never)
+                        .scrollBounceBehavior(.basedOnSize)
                     }
                 }
                 .disabled(!isSmallScreen) // Disable scrolling on larger where we shouldn't be clipping.

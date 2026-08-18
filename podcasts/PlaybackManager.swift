@@ -2402,14 +2402,12 @@ class PlaybackManager: ServerPlaybackDelegate {
             // receive a different notification which is already handled elsewhere.
             // Also put this new check behind a feature flag so we can remotely revert to the old logic if
             // we run into any issues
-            if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
+            if FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
                 if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
                     interruptInProgress = true
                 }
             } else {
-                // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
-                // no need to perform the same check for older versions.
-                // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
+                // Default to the old behaviour if the feature flag is disabled.
                 interruptInProgress = true
             }
 

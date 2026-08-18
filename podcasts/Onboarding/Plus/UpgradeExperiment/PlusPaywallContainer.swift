@@ -69,17 +69,11 @@ struct PlusPaywallContainer: View {
         .background(Constants.backgroundColor)
     }
 
-    @ViewBuilder private var purchaseModal: some View {
-        ZStack {
-            if #unavailable(iOS 16.4) {
-                Constants.sheetBackgroundColor
-                    .edgesIgnoringSafeArea(.all)
-            }
-            PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
-                .setupDefaultEnvironment()
-        }
-        .presentationDetents([.custom(PlusPurchaseModalDetent.self)])
-        .presentationDragIndicator(.visible)
+    private var purchaseModal: some View {
+        PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
+            .setupDefaultEnvironment()
+            .presentationDetents([.custom(PlusPurchaseModalDetent.self)])
+            .presentationDragIndicator(.visible)
     }
 
     init(viewModel: PlusLandingViewModel, type: ContainerType) {
@@ -105,14 +99,8 @@ struct PlusPaywallContainer: View {
         .background(Constants.backgroundColor)
         .sheet(isPresented: $presentSubscriptionView) {
             purchaseModal
-                .modify {
-                    if #available(iOS 16.4, *) {
-                        $0.presentationBackground {
-                            Constants.sheetBackgroundColor
-                        }
-                    } else {
-                        $0
-                    }
+                .presentationBackground {
+                    Constants.sheetBackgroundColor
                 }
                 .onAppear {
                     OnboardingFlow.shared.track(.selectPaymentFrequencyShown)
