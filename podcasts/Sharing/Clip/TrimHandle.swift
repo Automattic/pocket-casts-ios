@@ -21,12 +21,10 @@ struct TrimHandle: View {
         ZStack {
             Rectangle()
                 .fill(.tint)
-                .modify { view in
-                    view.clipShape(.rect(topLeadingRadius: edgeRadius.leading,
-                                         bottomLeadingRadius: edgeRadius.leading,
-                                         bottomTrailingRadius: edgeRadius.trailing,
-                                         topTrailingRadius: edgeRadius.trailing))
-                }
+                .clipShape(.rect(topLeadingRadius: edgeRadius.leading,
+                                 bottomLeadingRadius: edgeRadius.leading,
+                                 bottomTrailingRadius: edgeRadius.trailing,
+                                 topTrailingRadius: edgeRadius.trailing))
             handleLine
         }
         .frame(width: width)
