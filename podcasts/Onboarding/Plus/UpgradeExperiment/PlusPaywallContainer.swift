@@ -69,7 +69,7 @@ struct PlusPaywallContainer: View {
         .background(Constants.backgroundColor)
     }
 
-    @ViewBuilder private var purchaseModal: some View {
+    private var purchaseModal: some View {
         PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
             .setupDefaultEnvironment()
             .presentationDetents([.custom(PlusPurchaseModalDetent.self)])
