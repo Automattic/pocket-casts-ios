@@ -38,20 +38,21 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
         super.init(episode: episode)
 
         playbackChanged
+            .receive(on: RunLoop.main)
             .map { [unowned self] episode in
                 self.playSourceViewModel.isPlaying(forEpisode: episode)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$isPlaying)
 
         playbackChanged
+            .receive(on: RunLoop.main)
             .map { [unowned self] episode in
                 self.playSourceViewModel.isCurrentlyPlaying(episode: episode)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$isCurrentlyPlaying)
 
         Publishers.CombineLatest3(playbackChanged, $isCurrentlyPlaying, $inUpNext)
+            .receive(on: RunLoop.main)
             .map { [unowned self] episode, isCurrentlyPlayingEpisode, inUpNext in
                 var actions = [EpisodeAction]()
 
@@ -87,31 +88,30 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
                 return actions
             }
             .removeDuplicates()
-            .receive(on: RunLoop.main)
             .assign(to: &$actions)
 
         $episode
+            .receive(on: RunLoop.main)
             .map { [unowned self] episode in
                 self.playSourceViewModel.supportsPodcastNavigation(forEpisode: episode)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$supportsPodcastNavigation)
 
         updateEpisode
+            .receive(on: RunLoop.main)
             .compactMap { [unowned self] _ in
                 let currentEpisode = self.episode
                 return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$episode)
 
         Publishers.Notification.userEpisodeDeleted
+            .receive(on: RunLoop.main)
             .map { [unowned self] notification -> BaseEpisode? in
                 let currentEpisode = self.episode
                 guard let uuid = notification.object as? String, currentEpisode.uuid == uuid else { return currentEpisode }
                 return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid)
             }
-            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] fetchedEpisode in
                 if let fetchedEpisode {
                     self.episode = fetchedEpisode
