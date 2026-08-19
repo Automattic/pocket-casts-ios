@@ -1,12 +1,12 @@
 import AVFoundation
 import Accelerate
 import Foundation
-import Fingerprint
-import PocketCastsDataModel
+@preconcurrency import Fingerprint
+@preconcurrency import PocketCastsDataModel
 import PocketCastsUtils
 import os
 
-final class FingerprintTimingManager: NSObject {
+final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 
     // MARK: - Public Types
 
