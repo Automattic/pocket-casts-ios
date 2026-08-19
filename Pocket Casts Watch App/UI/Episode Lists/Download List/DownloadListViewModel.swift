@@ -17,22 +17,22 @@ class DownloadListViewModel: ObservableObject {
             Publishers.Notification.dataUpdated,
             Publishers.Notification.episodeDownloadStatusChanged,
             Publishers.Notification.episodeDownloaded
-            )
-            .receive(on: RunLoop.main)
-            .sink(receiveValue: { [unowned self] _ in
-                self.loadEpisodes()
-            })
-            .store(in: &cancellables)
+        )
+        .receive(on: RunLoop.main)
+        .sink(receiveValue: { [unowned self] _ in
+            self.loadEpisodes()
+        })
+        .store(in: &cancellables)
     }
 
     public func loadEpisodes() {
         isLoading = episodes.isEmpty
         playSourceViewModel.fetchDownloadedEpisodes()
             .replaceError(with: [])
+            .receive(on: RunLoop.main)
             .map {
                 $0.map { EpisodeRowViewModel(episode: $0) }
             }
-            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] episodes in
                 self.isLoading = false
                 self.episodes = episodes
