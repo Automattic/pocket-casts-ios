@@ -17,6 +17,8 @@ APP_STORE_METADATA_LIMITS = {
   'subtitle.txt' => { max_size: 30 },
   # 3400 keeps a deliberate reserve; the measured expansion alone would allow ~3950.
   'description.txt' => { max_size: 4000, budget: 3400 },
+  # 95 is today's source length, not a reserve: `metadata/it/keywords.txt` already sits at 100 of 100,
+  # so raising this needs the Italian translation shortened in GlotPress first.
   'keywords.txt' => { max_size: 100, budget: 95 }
 }.freeze
 
