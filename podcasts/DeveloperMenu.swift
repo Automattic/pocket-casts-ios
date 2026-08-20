@@ -289,9 +289,13 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Reset Informational Modal Visibility") {
+                Button("Trigger Encourage Account Creation Modal") {
+                    // Backdate the anchor past the interval so the modal is due on the next launch
+                    // (setting it to nil would instead re-anchor and suppress it for another cycle).
+                    Settings.encourageAccountCreationReferenceDate = Date().addingTimeInterval(-Settings.encourageAccountCreationInterval)
+                }
+                Button("Reset Initial Onboarding Flow") {
                     Settings.shouldShowInitialOnboardingFlow = true
-                    Settings.encourageAccountCreationReferenceDate = nil
                 }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {
