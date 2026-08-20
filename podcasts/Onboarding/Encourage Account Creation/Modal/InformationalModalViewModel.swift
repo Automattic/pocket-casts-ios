@@ -82,6 +82,11 @@ fileprivate class InformationalModalHostingController<Content>: OnboardingHostin
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? InformationalModalViewModel else { return }
 
+        // Reset the 60-day cadence clock when the modal is actually presented (not merely when
+        // navigation is requested), so the "60 days from shown" semantics hold and a superseded
+        // navigation doesn't silently burn the interval.
+        Settings.encourageAccountCreationReferenceDate = Date()
+
         let imageView = ThemeableImageView(frame: .zero)
         imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
         imageView.accessibilityLabel = L10n.setupAccount
