@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 import PocketCastsUtils
 
 struct OnboardingFlow: AnalyticsSourceProvider {
@@ -72,13 +73,29 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
-        if (currentFlow == .initialOnboarding) || (currentFlow == .encourageAccountCreation) {
+        if shouldShowNotificationsPermissions(for: currentFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
         source = .unknown
         currentFlow = .none
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
+    }
+
+    /// Whether dismissing `flow` should chain into the notifications-permission prompt.
+    ///
+    /// Initial onboarding always prompts (the standard first-run notifications ask). The recurring
+    /// account-creation prompt only leads there when the user actually created an account / signed
+    /// in — dismissing it without signing in should not trigger the notifications modal.
+    private func shouldShowNotificationsPermissions(for flow: Flow) -> Bool {
+        switch flow {
+        case .initialOnboarding:
+            return true
+        case .encourageAccountCreation:
+            return SyncManager.isUserLoggedIn()
+        default:
+            return false
+        }
     }
 
     /// Updates the source passed for analytics
