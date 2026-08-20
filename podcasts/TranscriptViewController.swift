@@ -1229,7 +1229,9 @@ extension TranscriptViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
         guard let bookmarkAction = makeBookmarkAction(for: range) else { return nil }
 
-        return UIMenu(children: suggestedActions + [bookmarkAction])
+        // Leads the menu: bookmarking is what the transcript is selected for, and the system
+        // actions run several pages deep on a phone
+        return UIMenu(children: [bookmarkAction] + suggestedActions)
     }
 }
 
