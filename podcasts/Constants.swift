@@ -168,7 +168,7 @@ struct Constants {
         static let hasSyncedEpisodesForPlaybackAsPlusUser = "hasSyncedEpisodesForPlayback%dAsPlusUser"
         static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
-        static let shouldShowEncourageAccountCreationModal = "shouldShowEncourageAccountCreationModal"
+        static let encourageAccountCreationReferenceDate = "encourageAccountCreationReferenceDate"
 
         static let autoplay = "autoplay"
 
@@ -255,10 +255,6 @@ struct Constants {
             static let recommendations = "notifications.recommendations"
             static let offers = "notifications.offers"
             static let triggerDates = "notifications.triggerDates"
-        }
-
-        enum informationalModal {
-            static let hasShownViewModal = "hasShownViewModal"
         }
 
         static let voiceBoostNEnabled = "VoiceBoostNEnabled"

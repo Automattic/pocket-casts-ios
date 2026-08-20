@@ -82,8 +82,6 @@ fileprivate class InformationalModalHostingController<Content>: OnboardingHostin
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? InformationalModalViewModel else { return }
 
-        Settings.hasShownInformationalViewModal = true
-
         let imageView = ThemeableImageView(frame: .zero)
         imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
         imageView.accessibilityLabel = L10n.setupAccount

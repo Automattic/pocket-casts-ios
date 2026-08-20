@@ -49,9 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let appInstallState {
             switch appInstallState {
             case .updated:
-                if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
-                    Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
-                }
                 Settings.shouldShowNewFilterTip = false
                 Settings.shouldShowNewFilterTipInCreationView = false
             case .installed:

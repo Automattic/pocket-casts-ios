@@ -1406,13 +1406,39 @@ class Settings: NSObject {
 
     // MARK: - Encourage Account Creation
 
-    static var hasShownInformationalViewModal: Bool {
+    /// Anchor for the Encourage Account Creation modal cadence. The first eligible launch sets this
+    /// (without showing the modal); each time the modal is shown it is reset, so the modal recurs
+    /// every `encourageAccountCreationInterval` while the user stays logged out.
+    static var encourageAccountCreationReferenceDate: Date? {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate)
         }
+    }
+
+    /// How long to wait between showings of the Encourage Account Creation modal (60 days).
+    static let encourageAccountCreationInterval: TimeInterval = 60 * 24 * 60 * 60
+
+    /// Whether the Encourage Account Creation modal should be shown on this launch.
+    ///
+    /// Shown to logged-out users who have already seen initial onboarding, first 60 days after the
+    /// initial eligible launch and every 60 days thereafter. The initial eligible launch only
+    /// anchors the clock (returns `false`) so we don't collide with onboarding.
+    static var shouldShowEncourageAccountCreationModal: Bool {
+        guard FeatureFlag.encourageAccountCreation.enabled,
+              !SyncManager.isUserLoggedIn(),
+              hasSeenInitialOnboardingBefore else {
+            return false
+        }
+
+        guard let reference = encourageAccountCreationReferenceDate else {
+            encourageAccountCreationReferenceDate = Date()
+            return false
+        }
+
+        return Date().timeIntervalSince(reference) >= encourageAccountCreationInterval
     }
 
     // MARK: - VoiceBoostN

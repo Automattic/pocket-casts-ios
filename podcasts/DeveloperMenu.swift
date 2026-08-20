@@ -291,7 +291,7 @@ struct DeveloperMenu: View {
             Section {
                 Button("Reset Informational Modal Visibility") {
                     Settings.shouldShowInitialOnboardingFlow = true
-                    Settings.hasShownInformationalViewModal = false
+                    Settings.encourageAccountCreationReferenceDate = nil
                 }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {
