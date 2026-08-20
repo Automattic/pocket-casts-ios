@@ -28,6 +28,7 @@ public protocol ServerSyncDelegate {
 
     // Data required from App during sync
     func isPushEnabled() -> Bool
+    func isNewEpisodeNotificationsEnabled() -> Bool
 
     func defaultPodcastGrouping() -> Int32
     func defaultShowArchived() -> Bool

@@ -213,10 +213,11 @@ enum NotificationsGroup: CaseIterable {
                     // the user has just turned on push, enable it for all their podcasts for simplicity
                     DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
                     NotificationsHelper.shared.registerForPushNotifications()
-                } else {
-                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                 }
                 Settings.notificationsNewEpisodes = newValue
+                if !newValue || FeatureFlag.newEpisodeNotificationsPushOptOut.enabled {
+                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                }
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
