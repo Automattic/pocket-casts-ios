@@ -1225,6 +1225,129 @@ extension TranscriptViewController: UITextViewDelegate {
             track(.transcriptTextHighlighted)
         }
     }
+
+    func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+        guard let bookmarkAction = makeBookmarkAction(for: range) else { return nil }
+
+        return UIMenu(children: suggestedActions + [bookmarkAction])
+    }
+}
+
+// MARK: - Bookmarking a selection
+
+private extension TranscriptViewController {
+    /// Where a selected passage sits on the audio, and on the transcript's own timeline when
+    /// there is one worth recording.
+    struct BookmarkPosition {
+        /// The playback time the bookmark is created at
+        let time: TimeInterval
+
+        /// The same moment on the transcript's reference timeline, for a generated transcript;
+        /// nil for an external one, which is cued against the audio itself
+        let referenceTime: TimeInterval?
+    }
+
+    /// The "Bookmark" action to offer alongside the selection's system actions, or nil when
+    /// this selection can't be bookmarked.
+    func makeBookmarkAction(for range: NSRange) -> UIAction? {
+        guard range.length > 0, PaidFeature.bookmarks.isUnlocked,
+              let transcript,
+              let episode = playbackManager.episodeUUID.flatMap({ DataManager.sharedManager.findBaseEpisode(uuid: $0) }),
+              let position = bookmarkPosition(forSelectionStartingAt: range.location, in: transcript) else {
+            return nil
+        }
+
+        return UIAction(title: L10n.transcriptBookmarkSelection, image: UIImage(systemName: "bookmark")) { [weak self] _ in
+            self?.addBookmark(at: position, for: episode, selection: range, in: transcript)
+        }
+    }
+
+    /// The moment the selection starts at, which is where the cue holding its first character begins.
+    func bookmarkPosition(forSelectionStartingAt characterIndex: Int, in transcript: TranscriptModel) -> BookmarkPosition? {
+        guard let cue = transcript.cue(atCharacterIndex: characterIndex) else { return nil }
+
+        // An external transcript is cued against the audio, so its times are playback times
+        // already. A generated one is cued against a reference copy of the episode that
+        // dynamic ads shift away from, so the cue has to be mapped back onto this device's
+        // audio — and where it can't be, there's no time to bookmark.
+        guard transcriptManager?.isDisplayingGeneratedTranscript == true else {
+            return BookmarkPosition(time: cue.startTime, referenceTime: nil)
+        }
+
+        return FingerprintTimingManager.shared.playbackTime(forReferenceTime: cue.startTime).map {
+            BookmarkPosition(time: $0, referenceTime: cue.startTime)
+        }
+    }
+
+    func addBookmark(at position: BookmarkPosition, for episode: BaseEpisode, selection: NSRange, in transcript: TranscriptModel) {
+        let manager = PlaybackManager.shared.bookmarkManager
+
+        // The passage is only read by the Smart Bookmarks path, so it's stored on the same terms
+        let selectedText = BookmarkManager.isTitleSuggestionEnabled
+            ? BookmarkTranscriptSnippetExtractor.text(in: selection, of: transcript.attributedText)
+            : ""
+        let passage = selectedText.isEmpty ? nil : BookmarkUpdateParameters.Passage(text: selectedText, location: selection.location)
+
+        // Asked before adding, because `add` hands back the bookmark that's already there when
+        // this moment has one — the sheet then edits that one instead of titling a new one
+        let isNew = manager.dataManager.existingBookmark(forEpisode: episode.uuid, time: position.time) == nil
+
+        guard let bookmark = manager.add(to: episode,
+                                         at: position.time,
+                                         passage: passage,
+                                         referenceTime: position.referenceTime,
+                                         source: .transcript) else { return }
+
+        // Dropping the selection takes the menu with it, so the transcript is readable again
+        // behind the edit sheet
+        transcriptView.selectedRange = NSRange(location: selection.location, length: 0)
+
+        Analytics.track(.bookmarkCreated, source: BookmarkAnalyticsSource.transcript, properties: [
+            "episode_uuid": episode.uuid,
+            "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
+            "time": Int(position.time)
+        ])
+
+        showBookmarkEdit(bookmark, isNew: isNew, manager: manager)
+    }
+
+    /// The transcript titles its own bookmarks rather than leaving it to the player's bookmarks
+    /// tab, which can't present over a transcript opened from Episode Details and isn't there at
+    /// all until the full screen player has been opened.
+    func showBookmarkEdit(_ bookmark: Bookmark, isNew: Bool, manager: BookmarkManager) {
+        let controller = BookmarkEditTitleViewController(manager: manager,
+                                                        bookmark: bookmark,
+                                                        state: isNew ? .adding : .updating,
+                                                        style: showFromEpisode ? .themed : .player,
+                                                        source: .transcript) { [weak self] outcome in
+            self?.handleBookmarkEditDismissed(bookmark, isNew: isNew, manager: manager, outcome: outcome)
+        }
+
+        present(controller, animated: true)
+    }
+
+    func handleBookmarkEditDismissed(_ bookmark: Bookmark, isNew: Bool, manager: BookmarkManager, outcome: BookmarkEditOutcome) {
+        // Only a bookmark this selection just made is the sheet's to take back
+        guard isNew else { return }
+
+        switch outcome {
+        case .cancelled:
+            Task { await manager.remove([bookmark]) }
+
+        case .saved(let title):
+            let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
+
+            // Only the player has a bookmarks tab to send them to
+            let actions: [Toast.Action]? = showFromEpisode ? nil : [
+                .init(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
+                    self?.containerDelegate?.dismissTranscript()
+                    self?.containerDelegate?.scrollToBookmarks()
+                }
+            ]
+
+            Toast.show(message, actions: actions, theme: .playerTheme)
+        }
+    }
 }
 
 extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {

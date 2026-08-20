@@ -79,6 +79,14 @@ struct TranscriptModel: Sendable {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
     }
 
+    /// The cue the character at `characterIndex` reads as part of.
+    ///
+    /// A position that lands on a speaker name, or in the gap between two cues, belongs to
+    /// the cue that follows it rather than the one that ended before it.
+    func cue(atCharacterIndex characterIndex: Int) -> TranscriptCue? {
+        cues.first { NSLocationInRange(characterIndex, $0.characterRange) || $0.characterRange.location >= characterIndex }
+    }
+
     var isEmtpy: Bool {
         return attributedText.string.trim().isEmpty
     }

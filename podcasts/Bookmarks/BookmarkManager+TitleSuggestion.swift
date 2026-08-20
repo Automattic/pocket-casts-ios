@@ -17,7 +17,8 @@ extension BookmarkManager {
         FeatureFlag.smartBookmarks.enabled
     }
 
-    /// The transcript passage surrounding the bookmark, which the title is generated from.
+    /// The transcript passage the bookmark's title is generated from: the one it was created
+    /// with, when it carries one, and otherwise the transcript surrounding its position.
     ///
     /// Returns nil when suggestions are disabled or the episode has no usable transcript.
     func transcriptSnippet(for bookmark: Bookmark, episode: BaseEpisode) async -> BookmarkTranscriptSnippet? {
@@ -27,6 +28,12 @@ extension BookmarkManager {
 
         // Let the on-device model load while the transcript is fetched.
         prewarmTitleGeneration()
+
+        // A bookmark made from a transcript selection arrives with the passage the user
+        // picked out. Capturing a window around its position would throw that away.
+        if let captured = await capturedSnippet(for: bookmark, episode: episode) {
+            return captured
+        }
 
         let result = await BookmarkTranscriptSnippetExtractor().capture(forTime: bookmark.time, referenceTime: bookmark.referenceTime, episode: episode)
 

@@ -11,6 +11,9 @@ enum BookmarkAnalyticsSource: String, AnalyticsDescribable {
     case headphones
     case whatsNew = "whats_new"
 
+    /// Created from a passage the user selected in the transcript
+    case transcript
+
     case unknown
 
     var analyticsDescription: String {

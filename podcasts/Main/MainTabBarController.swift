@@ -960,7 +960,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
 private extension MainTabBarController {
     /// The edit sheet, where a bookmark is normally titled, only opens over the full screen player
-    /// with the app in the foreground — see `BookmarksPlayerTabController`
+    /// with the app in the foreground — see `BookmarksPlayerTabController`. A bookmark made from a
+    /// transcript selection is the exception: the transcript opens the sheet itself, wherever it's
+    /// shown from, so those are filtered out below rather than covered here.
     static var showsBookmarkEditSheet: Bool {
         UIApplication.shared.applicationState == .active
         && !CarPlayHelper.isConnectedToCarPlay
@@ -974,7 +976,7 @@ private extension MainTabBarController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
-            .filter { !$0.isDuplicate && !Self.showsBookmarkEditSheet }
+            .filter { !$0.isDuplicate && $0.source != .transcript && !Self.showsBookmarkEditSheet }
             .compactMap { event in
                 bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
             }
@@ -992,8 +994,9 @@ private extension MainTabBarController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
-            .filter { _ in
-                UIApplication.shared.applicationState == .active
+            .filter { event in
+                event.source != .transcript
+                && UIApplication.shared.applicationState == .active
                 && !CarPlayHelper.isConnectedToCarPlay
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
             }

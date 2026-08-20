@@ -52,8 +52,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
+            // A bookmark made from a transcript selection is titled by the transcript itself
             .filter { [weak self] event in
-                self?.viewModel.episode?.uuid == event.episode
+                self?.viewModel.episode?.uuid == event.episode && event.source != .transcript
             }
             .map { [weak self] event in
                 (event.isDuplicate, self?.bookmarkManager.bookmark(for: event.uuid))
