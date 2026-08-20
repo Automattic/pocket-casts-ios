@@ -42,8 +42,14 @@ final class SettingsTests: XCTestCase {
 
     // MARK: - Encourage Account Creation cadence
 
-    private let eacInterval: TimeInterval = 60 * 24 * 60 * 60 // 60 days
+    private let eacInterval: TimeInterval = Settings.encourageAccountCreationInterval
     private let eacNow = Date(timeIntervalSince1970: 1_700_000_000)
+
+    func testEncourageAccountCreationIntervalIsSixtyDays() {
+        // Pins the shipped cadence so a change to the constant is caught here (the cadence tests
+        // below read the same constant, so on their own they'd silently follow a bad value).
+        XCTAssertEqual(Settings.encourageAccountCreationInterval, 60 * 24 * 60 * 60)
+    }
 
     func testEncourageAccountCreationWaitsWhenNotEligible() {
         // Even with an elapsed clock, an ineligible user is never shown the modal.
