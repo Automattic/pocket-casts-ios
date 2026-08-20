@@ -20,7 +20,8 @@ public actor ShowInfoDataRetriever {
     public func loadEpisodeDataFromCache(
         for podcastUuid: String,
         episodeUuid: String,
-        useCacheOnly: Bool = false
+        useCacheOnly: Bool = false,
+        ignoreCache: Bool = false
     ) async throws -> String? {
         if useCacheOnly {
             let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
@@ -35,9 +36,9 @@ public actor ShowInfoDataRetriever {
         }
 
         do {
-            return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
+            return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid, ignoreCache: ignoreCache)
         } catch {
-            if isNetworkUnavailableError(error) {
+            if !ignoreCache, isNetworkUnavailableError(error) {
                 FileLog.shared.addMessage("Show Info: network unavailable, falling back to cache for episode \(episodeUuid)")
                 return try await loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid, useCacheOnly: true)
             }
@@ -56,18 +57,20 @@ public actor ShowInfoDataRetriever {
     }
 
     public func loadShowInfoData(
-        for podcastUuid: String
+        for podcastUuid: String,
+        ignoreCache: Bool = false
     ) async throws -> Data {
-        if let task = dataRequestMap[podcastUuid] {
+        let requestKey = ignoreCache ? "\(podcastUuid)-ignore-cache" : podcastUuid
+        if let task = dataRequestMap[requestKey] {
             return try await task.value
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let cachePolicy: URLRequest.CachePolicy = .reloadRevalidatingCacheData
+        let cachePolicy: URLRequest.CachePolicy = ignoreCache ? .reloadIgnoringLocalAndRemoteCacheData : .reloadRevalidatingCacheData
         var request = URLRequest(url: url, cachePolicy: cachePolicy)
         request.addLocalizationHeaders()
 
-        if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
+        if !ignoreCache, let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
             if let etag = cachedResponse.response.etag {
                 request.setValue(etag, forHTTPHeaderField: ServerConstants.HttpHeaders.ifNoneMatch)
             }
@@ -89,21 +92,21 @@ public actor ShowInfoDataRetriever {
                     let responseToCache = CachedURLResponse(response: response, data: data)
                     cache.storeCachedResponse(responseToCache, for: request)
                     FileLog.shared.addMessage("Show Info: request succeeded for podcast \(podcastUuid).")
-                } else if let data = cache.cachedResponse(for: request)?.data {
-                    await setDataRequestMapToNil(for: podcastUuid)
+                } else if !ignoreCache, let data = cache.cachedResponse(for: request)?.data {
+                    await setDataRequestMapToNil(for: requestKey)
                     FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid). Returning cached data")
                     return data
                 }
 
-                await setDataRequestMapToNil(for: podcastUuid)
+                await setDataRequestMapToNil(for: requestKey)
                 return data
             } catch {
                 FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid): \(error.localizedDescription). Returning cached data")
-                await setDataRequestMapToNil(for: podcastUuid)
+                await setDataRequestMapToNil(for: requestKey)
                 throw error
             }
         }
-        dataRequestMap[podcastUuid] = task
+        dataRequestMap[requestKey] = task
 
         return try await task.value
     }
@@ -114,13 +117,11 @@ public actor ShowInfoDataRetriever {
 
     private func loadEpisodeData(
         for podcastUuid: String,
-        episodeUuid: String
+        episodeUuid: String,
+        ignoreCache: Bool
     ) async throws -> String? {
-        if let data = try? await loadShowInfoData(for: podcastUuid) {
-            return extractMetadata(for: episodeUuid, from: data)
-        }
-
-        return nil
+        let data = try await loadShowInfoData(for: podcastUuid, ignoreCache: ignoreCache)
+        return extractMetadata(for: episodeUuid, from: data)
     }
 
     private func extractMetadata(for episodeUuid: String, from data: Data) -> String? {

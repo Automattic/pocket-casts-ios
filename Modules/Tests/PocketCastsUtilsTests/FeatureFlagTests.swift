@@ -60,6 +60,20 @@ class FeatureFlagTests: XCTestCase {
         try? store.override(flag, withValue: false)
         XCTAssertFalse(store.isOverridden(flag))
     }
+
+    func testOnDemandTranscriptsDefaultsOnOnlyForDebugBuilds() {
+        let previousEnvironment = BuildEnvironment.current
+        defer { BuildEnvironment.current = previousEnvironment }
+
+        BuildEnvironment.current = .debug
+        XCTAssertTrue(FeatureFlag.onDemandTranscripts.default)
+
+        BuildEnvironment.current = .testFlight
+        XCTAssertFalse(FeatureFlag.onDemandTranscripts.default)
+
+        BuildEnvironment.current = .appStore
+        XCTAssertFalse(FeatureFlag.onDemandTranscripts.default)
+    }
 }
 
 enum MockFeatureFlag: OverrideableFlag {

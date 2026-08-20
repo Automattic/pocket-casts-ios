@@ -83,6 +83,14 @@ class TranscriptErrorView: UIView {
             updatedAttributes[.foregroundColor] = ThemeColor.primaryText01()
         }
         label.attributedText = NSAttributedString(string: message, attributes: updatedAttributes)
+        accessibilityLabel = message
+    }
+
+    func configure(isRetryVisible: Bool, isWarningVisible: Bool = true) {
+        retryButton.isHidden = !isRetryVisible
+        icon.isHidden = !isWarningVisible
+        isAccessibilityElement = true
+        accessibilityTraits = .staticText
     }
 
     func setTextAttributes(_ attributes: [NSAttributedString.Key: Any]) {
