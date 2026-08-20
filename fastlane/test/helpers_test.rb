@@ -102,9 +102,10 @@ class FastlaneHelpersTest < Minitest::Test
       APP_STORE_METADATA_LIMITS.each do |file_name, limits|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
         length = File.read(path, mode: 'r:UTF-8').rstrip.length
-        limit = limits[:budget] || limits.fetch(:max_size)
+        budget = limits[:budget] ? "#{limits[:budget]}-character budget, " : ''
 
-        assert_equal :ok, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} of #{limit} characters"
+        assert_equal :ok, app_store_metadata_length_verdict(file_name, length),
+                     "#{path} is #{length} characters, over its #{budget}#{limits.fetch(:max_size)}-character maximum"
       end
     end
   end
