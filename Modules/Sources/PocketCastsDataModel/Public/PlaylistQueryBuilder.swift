@@ -736,7 +736,7 @@ public class PlaylistQueryBuilder {
         queryString: inout String,
         haveStartedWhere: inout Bool
     ) {
-        if !(playlist.filterDownloaded && playlist.filterDownloading && playlist.filterNotDownloaded), playlist.filterDownloaded || playlist.filterDownloading || playlist.filterNotDownloaded {
+        if playlist.filtersByDownloadStatus {
             if haveStartedWhere { queryString += "AND " }
             queryString += "("
             if playlist.filterDownloaded {
@@ -906,7 +906,7 @@ public class PlaylistQueryBuilder {
         }
 
         // Download Status
-        if !(filter.filterDownloaded && filter.filterDownloading && filter.filterNotDownloaded), filter.filterDownloaded || filter.filterDownloading || filter.filterNotDownloaded {
+        if filter.filtersByDownloadStatus {
             if haveStartedWhere { queryString += "AND " }
             queryString += "("
             if filter.filterDownloaded {

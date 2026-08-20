@@ -19,9 +19,17 @@ extension PlaylistDetailViewController {
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesIfFilteringByDownloadStatus))
+        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesIfFilteringByDownloadStatus))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
         addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
+    }
+
+    @objc func refreshEpisodesIfFilteringByDownloadStatus(notification: Notification) {
+        guard viewModel.playlist.isAffected(by: .downloadStatus) else { return }
+
+        reloader.request(.episodes)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {

@@ -165,7 +165,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
     }
 
     private func startRegister(_ username: String, password: String) {
-        Analytics.track(.createAccountNextButtonTapped)
+        OnboardingFlow.shared.track(.createAccountNextButtonTapped)
 
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
