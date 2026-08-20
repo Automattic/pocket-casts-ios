@@ -252,7 +252,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // "60 days from shown" semantics and still prevents re-presentation loops (the tab bar's
         // `viewDidAppear` only fires again once the modal is dismissed, by which point the clock is
         // reset).
-        if Settings.shouldShowEncourageAccountCreationModal {
+        if Settings.shouldShowEncourageAccountCreationModal() {
             // Consume this launch: don't also queue the first-run onboarding flow for next launch.
             Settings.shouldShowInitialOnboardingFlow = false
             NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])

@@ -1440,25 +1440,33 @@ class Settings: NSObject {
     ///   - interval: how long to wait between showings.
     static func encourageAccountCreationDecision(isEligible: Bool, referenceDate: Date?, now: Date, interval: TimeInterval) -> EncourageAccountCreationModalDecision {
         guard isEligible else { return .wait }
-        guard let referenceDate else { return .anchor }
+        // (Re)anchor when there's no clock yet, or when the stored anchor is in the future — the
+        // latter happens if the device clock moves backwards or a backup taken on a skewed clock is
+        // restored, and would otherwise suppress the modal indefinitely.
+        guard let referenceDate, referenceDate <= now else { return .anchor }
         return now.timeIntervalSince(referenceDate) >= interval ? .show : .wait
     }
 
-    /// Whether the Encourage Account Creation modal should be shown on this launch.
+    /// Evaluates whether the Encourage Account Creation modal should be shown on this launch,
+    /// anchoring the cadence clock on the first eligible launch.
     ///
     /// Shown to logged-out users who have already seen initial onboarding, first 60 days after the
     /// initial eligible launch and every 60 days thereafter. The initial eligible launch only
     /// anchors the clock (returns `false`) so we don't collide with onboarding.
-    static var shouldShowEncourageAccountCreationModal: Bool {
+    ///
+    /// This is a function rather than a property because it has a side effect: it persists the
+    /// anchor date on the first eligible launch (and re-anchors on a skewed clock). `now` is
+    /// injectable so the cadence can be unit-tested; production callers use the default.
+    static func shouldShowEncourageAccountCreationModal(now: Date = Date()) -> Bool {
         let isEligible = FeatureFlag.encourageAccountCreation.enabled
             && !SyncManager.isUserLoggedIn()
             && hasSeenInitialOnboardingBefore
 
-        switch encourageAccountCreationDecision(isEligible: isEligible, referenceDate: encourageAccountCreationReferenceDate, now: Date(), interval: encourageAccountCreationInterval) {
+        switch encourageAccountCreationDecision(isEligible: isEligible, referenceDate: encourageAccountCreationReferenceDate, now: now, interval: encourageAccountCreationInterval) {
         case .show:
             return true
         case .anchor:
-            encourageAccountCreationReferenceDate = Date()
+            encourageAccountCreationReferenceDate = now
             return false
         case .wait:
             return false

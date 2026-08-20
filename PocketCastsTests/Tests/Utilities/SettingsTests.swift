@@ -98,4 +98,16 @@ final class SettingsTests: XCTestCase {
         )
         XCTAssertEqual(decision, .show)
     }
+
+    func testEncourageAccountCreationReanchorsWhenReferenceIsInTheFuture() {
+        // A reference date in the future (backwards device clock / restored skewed backup) must
+        // re-anchor rather than suppress the modal indefinitely.
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: true,
+            referenceDate: eacNow.addingTimeInterval(eacInterval),
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .anchor)
+    }
 }
