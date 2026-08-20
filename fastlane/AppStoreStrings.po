@@ -93,7 +93,7 @@ msgctxt "app_store_subtitle"
 msgid "Apple Audiobooks & Podcasts"
 msgstr ""
 
-msgctxt "v8.18-whats-new"
+msgctxt "v8.17-whats-new"
 msgid ""
 "Never fear, a new feature is here! We took a poll in our virtual office about "
 "what gestures we most use on our devices and the results are in! Coming in a h"
