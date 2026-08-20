@@ -159,7 +159,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                 self.selectedEpisodes.removeAll()
             }
             // The bookmarks tab shows the action bar of the bookmarks lists instead of the table's own footer
-            self.multiSelectFooter.isHidden = currentViewMode == .bookmarks
+            if currentViewMode == .bookmarks {
+                self.multiSelectFooter.isHidden = true
+            }
             self.updateMultiSelectNavBar()
             searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
             bookmarkList?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
