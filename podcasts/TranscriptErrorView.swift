@@ -89,7 +89,7 @@ class TranscriptErrorView: UIView {
     func configure(isRetryVisible: Bool, isWarningVisible: Bool = true) {
         retryButton.isHidden = !isRetryVisible
         icon.isHidden = !isWarningVisible
-        isAccessibilityElement = true
+        isAccessibilityElement = !isRetryVisible
         accessibilityTraits = .staticText
     }
 

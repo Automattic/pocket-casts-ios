@@ -66,6 +66,12 @@ final class TranscriptManagerTests: XCTestCase {
         }
     }
 
+    class FailingMockShowCoordinator: MockShowCoordinator {
+        override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+            throw URLError(.notConnectedToInternet)
+        }
+    }
+
     func testLoadingTranscript() async throws {
         let mockShowCoordinator = MockShowCoordinator()
         let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
@@ -98,6 +104,21 @@ final class TranscriptManagerTests: XCTestCase {
             _ = try await manager.loadTranscript()
         } catch {
             XCTAssertTrue(error is TranscriptError)
+        }
+    }
+
+    func testLoadingTranscriptPropagatesMetadataFailure() async {
+        let manager = TranscriptManager(
+            episodeUUID: UUID().uuidString,
+            podcastUUID: UUID().uuidString,
+            showCoordinator: FailingMockShowCoordinator()
+        )
+
+        do {
+            _ = try await manager.loadTranscript()
+            XCTFail("Expected metadata failure")
+        } catch {
+            XCTAssertEqual((error as? URLError)?.code, .notConnectedToInternet)
         }
     }
 

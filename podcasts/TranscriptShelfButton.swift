@@ -53,6 +53,7 @@ extension CheckTranscriptAvailability {
     }
 
     func checkTranscriptAvailability() {
+        isTranscriptEnabled = false
         hasGeneratedTranscripts = false
         let currentEpisode = PlaybackManager.shared.currentEpisode as? Episode
         isTranscriptEnabled = currentEpisode != nil && OnDemandTranscriptEligibility.isEligible

@@ -61,6 +61,7 @@ final class OnDemandTranscriptServiceTests: XCTestCase {
             (400, OnDemandTranscriptServiceError.malformedRequest),
             (403, .accessDenied),
             (404, .notFound),
+            (429, .throttled),
             (503, .transient)
         ] {
             let service = makeService { request in

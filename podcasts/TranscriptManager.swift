@@ -55,6 +55,7 @@ enum OnDemandTranscriptEligibility {
 enum TranscriptGenerationError: Error {
     case delayed
     case rejected(OnDemandTranscriptResponse.Reason)
+    case throttled
     case transient
 }
 
@@ -115,9 +116,8 @@ class TranscriptManager {
     }
 
     public func loadTranscript() async throws -> TranscriptModel {
-        guard
-            let metadata = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
-            !metadata.transcripts.isEmpty else {
+        let metadata = try await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID)
+        guard !metadata.transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
         var transcriptsAvailable = metadata.transcripts
@@ -155,14 +155,21 @@ class TranscriptManager {
                 return response
             case .notEligible:
                 throw TranscriptGenerationError.rejected(response.reason)
-            case .transientFailure, .throttled, .unspecified:
+            case .throttled:
+                throw TranscriptGenerationError.throttled
+            case .transientFailure, .unspecified:
                 throw TranscriptGenerationError.transient
             }
-        } catch is CancellationError {
-            throw CancellationError()
+        } catch let error as CancellationError {
+            throw error
         } catch let error as TranscriptGenerationError {
             throw error
+        } catch OnDemandTranscriptServiceError.throttled {
+            throw TranscriptGenerationError.throttled
         } catch {
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                throw CancellationError()
+            }
             throw TranscriptGenerationError.transient
         }
     }
@@ -174,8 +181,16 @@ class TranscriptManager {
             pollingBudget.consume(from: pollingStartedAt, to: Date())
         }
 
+        var isFirstAttempt = true
         while Date() < deadline {
+            if !isFirstAttempt || acceptedOnDemandResponse?.outcome != .available {
+                let sleepDuration = min(pollingInterval, max(0, deadline.timeIntervalSinceNow))
+                guard sleepDuration > 0 else { break }
+                try await Task.sleep(nanoseconds: UInt64(sleepDuration * 1_000_000_000))
+            }
+            isFirstAttempt = false
             try Task.checkCancellation()
+            guard Date() < deadline else { break }
             let metadata = try await showCoordinator.refreshTranscriptsMetadata(
                 podcastUuid: podcastUUID,
                 episodeUuid: episodeUUID
@@ -185,9 +200,6 @@ class TranscriptManager {
                 isDisplayingGeneratedTranscript = metadata.isDisplayingGeneratedTranscript
                 return
             }
-            let sleepDuration = min(pollingInterval, max(0, deadline.timeIntervalSinceNow))
-            guard sleepDuration > 0 else { break }
-            try await Task.sleep(nanoseconds: UInt64(sleepDuration * 1_000_000_000))
         }
         throw TranscriptGenerationError.delayed
     }

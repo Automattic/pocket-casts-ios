@@ -4,7 +4,7 @@ protocol TranscriptExcerptViewModeling: ObservableObject {
     var loadingState: TranscriptExcerptLoadingState { get set }
     var isGeneratedTranscript: Bool { get }
 
-    init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: @escaping () -> Void)
+    init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, shouldLoadExcerpt: Bool, tapAction: @escaping () -> Void)
 
     func loadExcerptTranscript() async
     func excerptTapped()
@@ -26,16 +26,19 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
     private let tapAction: () -> Void
     private let episodeUUID: String
     private let podcastUUID: String
+    private let shouldLoadExcerpt: Bool
 
     required init(
         episodeUUID: String,
         podcastUUID: String,
         isGeneratedTranscript: Bool,
+        shouldLoadExcerpt: Bool,
         tapAction: @escaping () -> Void
     ) {
         self.episodeUUID = episodeUUID
         self.podcastUUID = podcastUUID
         self.isGeneratedTranscript = isGeneratedTranscript
+        self.shouldLoadExcerpt = shouldLoadExcerpt
         self.tapAction = tapAction
         self.manager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
     }
@@ -46,6 +49,7 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
     }
 
     func loadExcerptTranscript() async {
+        guard shouldLoadExcerpt else { return }
         if case .loading = loadingState { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -143,11 +147,11 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
     private var _privateLoadingState: TranscriptExcerptLoadingState = .loading
 
     convenience init(loadingState: TranscriptExcerptLoadingState, isGeneratedTranscript: Bool) {
-        self.init(episodeUUID: "", podcastUUID: "", isGeneratedTranscript: isGeneratedTranscript, tapAction: {  })
+        self.init(episodeUUID: "", podcastUUID: "", isGeneratedTranscript: isGeneratedTranscript, shouldLoadExcerpt: true, tapAction: {  })
         self._privateLoadingState = loadingState
     }
 
-    required init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: () -> Void) {
+    required init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, shouldLoadExcerpt: Bool, tapAction: () -> Void) {
         self.isGeneratedTranscript = isGeneratedTranscript
     }
 

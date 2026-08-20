@@ -58,11 +58,13 @@ public enum OnDemandTranscriptServiceError: Error, Equatable {
     case unauthenticated
     case accessDenied
     case notFound
+    case throttled
     case transient
     case invalidResponse
     case unexpectedStatus(Int)
 }
 
+// The service has no mutable state; TokenHelper owns the synchronization of its secure requests.
 public final class OnDemandTranscriptService: OnDemandTranscriptRequesting, @unchecked Sendable {
     public static let shared = OnDemandTranscriptService()
 
@@ -103,11 +105,13 @@ public final class OnDemandTranscriptService: OnDemandTranscriptRequesting, @unc
             throw OnDemandTranscriptServiceError.malformedRequest
         case ServerConstants.HttpConstants.unauthorized:
             throw OnDemandTranscriptServiceError.unauthenticated
-        case 403:
+        case ServerConstants.HttpConstants.forbidden:
             throw OnDemandTranscriptServiceError.accessDenied
         case ServerConstants.HttpConstants.notFound:
             throw OnDemandTranscriptServiceError.notFound
-        case 503:
+        case ServerConstants.HttpConstants.tooManyRequests:
+            throw OnDemandTranscriptServiceError.throttled
+        case ServerConstants.HttpConstants.serviceUnavailable:
             throw OnDemandTranscriptServiceError.transient
         default:
             throw OnDemandTranscriptServiceError.unexpectedStatus(statusCode)

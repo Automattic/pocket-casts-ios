@@ -95,7 +95,11 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             ignoreCache: true
         )
         let metadata = await getShowInfo(for: data?.data(using: .utf8))
-        return transcriptData(from: metadata, podcastUuid: podcastUuid, episodeUuid: episodeUuid, preferRemoteGeneratedState: true)
+        let transcriptData = transcriptData(from: metadata, podcastUuid: podcastUuid, episodeUuid: episodeUuid, preferRemoteGeneratedState: true)
+        if metadata != nil {
+            persistGeneratedTranscriptState(transcriptData.hasGeneratedTranscripts, episodeUuid: episodeUuid)
+        }
+        return transcriptData
 #endif
     }
 
@@ -118,11 +122,6 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
                 }
             } else {
                 pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
-                if !pocketCastsTranscripts.isEmpty,
-                   let episode = dataManager.findEpisode(uuid: episodeUuid) {
-                    episode.hasGeneratedTranscript = true
-                    dataManager.save(episode: episode)
-                }
             }
 
             let isDisplayingGenerated = externalTranscripts.isEmpty && !pocketCastsTranscripts.isEmpty
@@ -134,6 +133,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
         }
         return (transcripts: transcripts, hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
+    }
+
+    private func persistGeneratedTranscriptState(_ hasGeneratedTranscript: Bool, episodeUuid: String) {
+        guard let episode = dataManager.findEpisode(uuid: episodeUuid),
+              episode.hasGeneratedTranscript != hasGeneratedTranscript else {
+            return
+        }
+        episode.hasGeneratedTranscript = hasGeneratedTranscript
+        dataManager.save(episode: episode)
     }
 #endif
 

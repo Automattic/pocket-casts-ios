@@ -3,7 +3,12 @@ import PocketCastsUtils
 
 /// Request information about an episode using the show notes endpoint
 public actor ShowInfoDataRetriever {
-    private var dataRequestMap: [String: Task<Data, Error>] = [:]
+    private struct RequestKey: Hashable {
+        let podcastUuid: String
+        let ignoreCache: Bool
+    }
+
+    private var dataRequestMap: [RequestKey: Task<Data, Error>] = [:]
 
     private let cache: URLCache
 
@@ -60,7 +65,7 @@ public actor ShowInfoDataRetriever {
         for podcastUuid: String,
         ignoreCache: Bool = false
     ) async throws -> Data {
-        let requestKey = ignoreCache ? "\(podcastUuid)-ignore-cache" : podcastUuid
+        let requestKey = RequestKey(podcastUuid: podcastUuid, ignoreCache: ignoreCache)
         if let task = dataRequestMap[requestKey] {
             return try await task.value
         }
@@ -111,8 +116,8 @@ public actor ShowInfoDataRetriever {
         return try await task.value
     }
 
-    private func setDataRequestMapToNil(for podcastUuid: String) {
-        dataRequestMap[podcastUuid] = nil
+    private func setDataRequestMapToNil(for requestKey: RequestKey) {
+        dataRequestMap[requestKey] = nil
     }
 
     private func loadEpisodeData(

@@ -277,7 +277,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NSLayoutConstraint.activate(
             [
                 errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 40),
+                errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 errorView.widthAnchor.constraint(equalTo: view.readableContentGuide.widthAnchor, constant: -Sizes.textMargin)
             ]
         )
@@ -741,9 +741,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 await self.completeTranscriptLoading(using: transcriptManager)
             } catch TranscriptError.notAvailable where OnDemandTranscriptEligibility.isEligible {
                 await self.requestAndWaitForTranscript(using: transcriptManager)
-            } catch is CancellationError {
-                return
             } catch {
+                guard !Task.isCancelled, (error as? URLError)?.code != .cancelled else {
+                    return
+                }
                 await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
@@ -765,7 +766,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                         "outcome": response.outcome.rawValue,
                         "reason": response.reason.rawValue,
                         "enablement": response.enablement.rawValue,
-                        "newly_queued_count": response.newlyQueuedCount
+                        "newly_queued_count": Int(response.newlyQueuedCount)
                     ])
                 }
             }
@@ -779,8 +780,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 UIAccessibility.post(notification: .announcement, argument: L10n.transcriptOnDemandCompleted)
                 self.loadTranscript(using: transcriptManager)
             }
-        } catch is CancellationError {
-            return
         } catch TranscriptGenerationError.delayed {
             let requestDate = transcriptManager.onDemandRequestAcceptedAt ?? attemptDate
             await MainActor.run {
@@ -788,6 +787,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                     "elapsed_time_ms": Int(Date().timeIntervalSince(requestDate) * 1_000)
                 ])
                 self.showGenerationError(message: L10n.transcriptOnDemandDelayed, canRetry: false)
+                self.completeTranscriptLoading(using: transcriptManager)
+            }
+        } catch TranscriptGenerationError.throttled {
+            await MainActor.run {
+                self.track(.transcriptOnDemandOutcome, properties: [
+                    "outcome": OnDemandTranscriptResponse.Outcome.throttled.rawValue
+                ])
+                self.showGenerationError(message: L10n.transcriptOnDemandUnavailable, canRetry: false)
                 self.completeTranscriptLoading(using: transcriptManager)
             }
         } catch TranscriptGenerationError.rejected(let reason) {
@@ -800,6 +807,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 self.completeTranscriptLoading(using: transcriptManager)
             }
         } catch {
+            guard !Task.isCancelled, (error as? URLError)?.code != .cancelled else {
+                return
+            }
             await MainActor.run {
                 self.track(.transcriptOnDemandOutcome, properties: [
                     "outcome": OnDemandTranscriptResponse.Outcome.transientFailure.rawValue
@@ -1017,8 +1027,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        addCustomObserver(UIApplication.didEnterBackgroundNotification, selector: #selector(appDidEnterBackground))
-        addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(appDidBecomeActive))
+        if FeatureFlag.onDemandTranscripts.enabled {
+            addCustomObserver(UIApplication.didEnterBackgroundNotification, selector: #selector(appDidEnterBackground))
+            addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(appDidBecomeActive))
+        }
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
             addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
