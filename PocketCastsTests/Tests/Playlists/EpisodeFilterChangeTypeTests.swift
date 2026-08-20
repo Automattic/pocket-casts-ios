@@ -10,15 +10,23 @@ final class EpisodeFilterChangeTypeTests: XCTestCase {
         XCTAssertFalse(playlist.isAffected(by: .downloadStatus))
     }
 
-    func testSmartPlaylistIsAffectedByDownloadStatusWhenOnlyNotDownloadedIsIncluded() {
+    func testSmartPlaylistIsAffectedByDownloadStatusWhenDownloadedIsExcluded() {
         let playlist = EpisodeFilter.makeDefault()
         playlist.filterDownloaded = false
 
         XCTAssertTrue(playlist.isAffected(by: .downloadStatus))
     }
 
-    func testSmartPlaylistIsAffectedByDownloadStatusWhenOnlyDownloadedIsIncluded() {
+    func testSmartPlaylistIsAffectedByDownloadStatusWhenNotDownloadedIsExcluded() {
         let playlist = EpisodeFilter.makeDefault()
+        playlist.filterNotDownloaded = false
+
+        XCTAssertTrue(playlist.isAffected(by: .downloadStatus))
+    }
+
+    func testSmartPlaylistIsAffectedByDownloadStatusWhenOnlyDownloadingIsIncluded() {
+        let playlist = EpisodeFilter.makeDefault()
+        playlist.filterDownloaded = false
         playlist.filterNotDownloaded = false
 
         XCTAssertTrue(playlist.isAffected(by: .downloadStatus))

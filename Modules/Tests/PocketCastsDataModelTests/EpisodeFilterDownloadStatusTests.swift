@@ -11,15 +11,23 @@ final class EpisodeFilterDownloadStatusTests: XCTestCase {
         XCTAssertFalse(filter.filtersByDownloadStatus)
     }
 
-    func testFiltersByDownloadStatusWhenOnlyNotDownloadedIsIncluded() {
+    func testFiltersByDownloadStatusWhenDownloadedIsExcluded() {
         let filter = EpisodeFilter.makeDefault()
         filter.filterDownloaded = false
 
         XCTAssertTrue(filter.filtersByDownloadStatus)
     }
 
-    func testFiltersByDownloadStatusWhenOnlyDownloadedIsIncluded() {
+    func testFiltersByDownloadStatusWhenNotDownloadedIsExcluded() {
         let filter = EpisodeFilter.makeDefault()
+        filter.filterNotDownloaded = false
+
+        XCTAssertTrue(filter.filtersByDownloadStatus)
+    }
+
+    func testFiltersByDownloadStatusWhenOnlyDownloadingIsIncluded() {
+        let filter = EpisodeFilter.makeDefault()
+        filter.filterDownloaded = false
         filter.filterNotDownloaded = false
 
         XCTAssertTrue(filter.filtersByDownloadStatus)
@@ -34,21 +42,24 @@ final class EpisodeFilterDownloadStatusTests: XCTestCase {
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
     }
 
-    func testQueryExcludesDownloadedEpisodesWhenOnlyNotDownloadedIsIncluded() throws {
+    func testQueryStillMatchesDownloadingEpisodesWhenDownloadedIsExcluded() throws {
         let filter = EpisodeFilter.makeDefault()
         filter.filterDownloaded = false
 
         let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.downloading.rawValue)"))
         XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
     }
 
-    func testQueryOnlyIncludesDownloadedEpisodesWhenOnlyDownloadedIsIncluded() throws {
+    func testQueryStillMatchesDownloadingEpisodesWhenNotDownloadedIsExcluded() throws {
         let filter = EpisodeFilter.makeDefault()
         filter.filterNotDownloaded = false
 
@@ -56,6 +67,22 @@ final class EpisodeFilterDownloadStatusTests: XCTestCase {
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
         XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.downloading.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
+    }
+
+    func testQueryOnlyMatchesDownloadingEpisodesWhenOnlyDownloadingIsIncluded() throws {
+        let filter = EpisodeFilter.makeDefault()
+        filter.filterDownloaded = false
+        filter.filterNotDownloaded = false
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.downloading.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
     }
 
@@ -65,16 +92,31 @@ final class EpisodeFilterDownloadStatusTests: XCTestCase {
         let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: nil, limit: 0)
 
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
     }
 
-    func testLegacyQueryExcludesDownloadedEpisodesWhenOnlyNotDownloadedIsIncluded() {
+    func testLegacyQueryStillMatchesDownloadingEpisodesWhenDownloadedIsExcluded() {
         let filter = EpisodeFilter.makeDefault()
         filter.filterDownloaded = false
 
         let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: nil, limit: 0)
 
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
         XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
         XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
+    }
+
+    func testLegacyQueryOnlyMatchesDownloadingEpisodesWhenOnlyDownloadingIsIncluded() {
+        let filter = EpisodeFilter.makeDefault()
+        filter.filterDownloaded = false
+        filter.filterNotDownloaded = false
+
+        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: nil, limit: 0)
+
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.queued.rawValue)"))
+        XCTAssertTrue(query.contains("episodeStatus = \(DownloadStatus.downloading.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.downloaded.rawValue)"))
+        XCTAssertFalse(query.contains("episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)"))
     }
 }
