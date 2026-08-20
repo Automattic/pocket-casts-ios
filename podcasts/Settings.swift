@@ -1419,7 +1419,7 @@ class Settings: NSObject {
     }
 
     /// How long to wait between showings of the Encourage Account Creation modal (60 days).
-    static let encourageAccountCreationInterval: TimeInterval = 60 * 24 * 60 * 60
+    static let encourageAccountCreationInterval: TimeInterval = 60.days
 
     /// The outcome of evaluating the Encourage Account Creation modal cadence.
     enum EncourageAccountCreationModalDecision: Equatable {
