@@ -39,4 +39,63 @@ final class SettingsTests: XCTestCase {
 
         XCTAssertEqual(defaultPlayerActions, Settings.playerActions(), "Player actions should include changes from update")
     }
+
+    // MARK: - Encourage Account Creation cadence
+
+    private let eacInterval: TimeInterval = 60 * 24 * 60 * 60 // 60 days
+    private let eacNow = Date(timeIntervalSince1970: 1_700_000_000)
+
+    func testEncourageAccountCreationWaitsWhenNotEligible() {
+        // Even with an elapsed clock, an ineligible user is never shown the modal.
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: false,
+            referenceDate: eacNow.addingTimeInterval(-eacInterval * 2),
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .wait)
+    }
+
+    func testEncourageAccountCreationAnchorsOnFirstEligibleLaunch() {
+        // First eligible launch (no reference date yet) anchors the clock instead of showing.
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: true,
+            referenceDate: nil,
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .anchor)
+    }
+
+    func testEncourageAccountCreationWaitsBeforeIntervalElapses() {
+        // One second short of the interval should not show yet.
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: true,
+            referenceDate: eacNow.addingTimeInterval(-(eacInterval - 1)),
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .wait)
+    }
+
+    func testEncourageAccountCreationShowsWhenIntervalElapsed() {
+        // Exactly at the interval boundary should show.
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: true,
+            referenceDate: eacNow.addingTimeInterval(-eacInterval),
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .show)
+    }
+
+    func testEncourageAccountCreationShowsWhenIntervalWellExceeded() {
+        let decision = Settings.encourageAccountCreationDecision(
+            isEligible: true,
+            referenceDate: eacNow.addingTimeInterval(-eacInterval * 3),
+            now: eacNow,
+            interval: eacInterval
+        )
+        XCTAssertEqual(decision, .show)
+    }
 }

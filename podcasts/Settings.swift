@@ -1421,24 +1421,48 @@ class Settings: NSObject {
     /// How long to wait between showings of the Encourage Account Creation modal (60 days).
     static let encourageAccountCreationInterval: TimeInterval = 60 * 24 * 60 * 60
 
+    /// The outcome of evaluating the Encourage Account Creation modal cadence.
+    enum EncourageAccountCreationModalDecision: Equatable {
+        /// Show the modal now.
+        case show
+        /// Don't show, but anchor the cadence clock to now (the first eligible launch).
+        case anchor
+        /// Don't show and leave the clock untouched.
+        case wait
+    }
+
+    /// Pure cadence decision, factored out so it can be unit-tested without touching singletons.
+    ///
+    /// - Parameters:
+    ///   - isEligible: whether the user currently qualifies (logged out, flag on, has seen onboarding).
+    ///   - referenceDate: the persisted anchor, or `nil` if the clock has never been started.
+    ///   - now: the current date.
+    ///   - interval: how long to wait between showings.
+    static func encourageAccountCreationDecision(isEligible: Bool, referenceDate: Date?, now: Date, interval: TimeInterval) -> EncourageAccountCreationModalDecision {
+        guard isEligible else { return .wait }
+        guard let referenceDate else { return .anchor }
+        return now.timeIntervalSince(referenceDate) >= interval ? .show : .wait
+    }
+
     /// Whether the Encourage Account Creation modal should be shown on this launch.
     ///
     /// Shown to logged-out users who have already seen initial onboarding, first 60 days after the
     /// initial eligible launch and every 60 days thereafter. The initial eligible launch only
     /// anchors the clock (returns `false`) so we don't collide with onboarding.
     static var shouldShowEncourageAccountCreationModal: Bool {
-        guard FeatureFlag.encourageAccountCreation.enabled,
-              !SyncManager.isUserLoggedIn(),
-              hasSeenInitialOnboardingBefore else {
-            return false
-        }
+        let isEligible = FeatureFlag.encourageAccountCreation.enabled
+            && !SyncManager.isUserLoggedIn()
+            && hasSeenInitialOnboardingBefore
 
-        guard let reference = encourageAccountCreationReferenceDate else {
+        switch encourageAccountCreationDecision(isEligible: isEligible, referenceDate: encourageAccountCreationReferenceDate, now: Date(), interval: encourageAccountCreationInterval) {
+        case .show:
+            return true
+        case .anchor:
             encourageAccountCreationReferenceDate = Date()
             return false
+        case .wait:
+            return false
         }
-
-        return Date().timeIntervalSince(reference) >= encourageAccountCreationInterval
     }
 
     // MARK: - VoiceBoostN
