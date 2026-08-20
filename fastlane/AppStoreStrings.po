@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-08-20 17:09+1000\n"
+"PO-Revision-Date: 2026-08-20 17:16+1000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: fastlane-plugin-wpmreleasetoolkit 14.11.2\n"
 
-#. translators: Multi-paragraph text used to display in the Apple App Store. Limit to 4000 characters including spaces!
+#. translators: Multi-paragraph text used to display in the Apple App Store. Limit to 4000 characters including spaces! A translation over that length is dropped, and the locale then ships with no description at all.
 msgctxt "app_store_desc"
 msgid ""
 "Pocket Casts is the world's most powerful podcast platform, an app by listener"
@@ -81,19 +81,19 @@ msgid ""
 "Privacy Policy: https://support.pocketcasts.com/article/privacy-policy"
 msgstr ""
 
-#. translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!
+#. translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no keywords at all.
 msgctxt "app_store_keywords"
 msgid ""
 "podcast,podcasts,pod,podcatcher,cast,casts,netcast,stream,audio,video,tech,rad"
 "io,relay,npr,twit"
 msgstr ""
 
-#. translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!
+#. translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no subtitle at all.
 msgctxt "app_store_subtitle"
 msgid "Apple Audiobooks & Podcasts"
 msgstr ""
 
-msgctxt "v8.17-whats-new"
+msgctxt "v8.18-whats-new"
 msgid ""
 "Never fear, a new feature is here! We took a poll in our virtual office about "
 "what gestures we most use on our devices and the results are in! Coming in a h"
