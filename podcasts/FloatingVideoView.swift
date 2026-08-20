@@ -1,10 +1,14 @@
-
 import AVFoundation
 import UIKit
 
 class FloatingVideoView: UIView {
+    private static let fullScreenButtonSize: CGFloat = 36
+    private static let fullScreenButtonInset: CGFloat = 8
+
     private let shadowView = UIView()
     private let videoView = VideoPlayerView()
+
+    var onFullScreenTapped: (() -> Void)?
 
     var player: AVPlayer? {
         didSet {
@@ -79,5 +83,53 @@ class FloatingVideoView: UIView {
             videoHeightConstraint
         ])
         shadowView.anchorToAllSidesOf(view: videoView)
+
+        #if !APPCLIP
+            setupFullScreenButton()
+        #endif
     }
+
+    #if !APPCLIP
+        private lazy var fullScreenButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.setImage(UIImage(named: "fullscreen-video"), for: .normal)
+            button.tintColor = UIColor.white
+            button.accessibilityLabel = L10n.playerVideoFullScreen
+            button.addTarget(self, action: #selector(fullScreenButtonTapped), for: .touchUpInside)
+
+            return button
+        }()
+
+        private lazy var fullScreenButtonBackground: UIVisualEffectView = {
+            let backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
+            backgroundView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundView.layer.cornerRadius = Self.fullScreenButtonSize / 2
+            backgroundView.clipsToBounds = true
+
+            return backgroundView
+        }()
+
+        private func setupFullScreenButton() {
+            addSubview(fullScreenButtonBackground)
+            fullScreenButtonBackground.contentView.addSubview(fullScreenButton)
+            fullScreenButton.anchorToAllSidesOf(view: fullScreenButtonBackground.contentView)
+
+            // Keep the button inside our bounds for videos taller than the space we have, otherwise
+            // it would sit outside the area that receives touches.
+            let bottomInsideBounds = fullScreenButtonBackground.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Self.fullScreenButtonInset)
+            bottomInsideBounds.priority = .defaultHigh
+
+            NSLayoutConstraint.activate([
+                fullScreenButtonBackground.widthAnchor.constraint(equalToConstant: Self.fullScreenButtonSize),
+                fullScreenButtonBackground.heightAnchor.constraint(equalToConstant: Self.fullScreenButtonSize),
+                fullScreenButtonBackground.trailingAnchor.constraint(equalTo: videoView.trailingAnchor, constant: -Self.fullScreenButtonInset),
+                fullScreenButtonBackground.bottomAnchor.constraint(lessThanOrEqualTo: videoView.bottomAnchor, constant: -Self.fullScreenButtonInset),
+                bottomInsideBounds
+            ])
+        }
+
+        @objc private func fullScreenButtonTapped() {
+            onFullScreenTapped?()
+        }
+    #endif
 }

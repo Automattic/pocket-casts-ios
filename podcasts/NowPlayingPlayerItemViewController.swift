@@ -103,6 +103,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
             floatingVideoView.addGestureRecognizer(tapGesture)
+
+            floatingVideoView.onFullScreenTapped = { [weak self] in
+                self?.videoTapped()
+            }
         }
     }
 
@@ -605,7 +609,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard PlaybackManager.shared.currentEpisode != nil else { return }
+        guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
