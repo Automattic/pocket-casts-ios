@@ -8,11 +8,21 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
+
+    /// The flow that started this onboarding session, preserved across sub-flow transitions (e.g.
+    /// the encourage-account-creation modal pushing a `.loggedOut` login flow). Use this for
+    /// attribution so a signup is credited to where it began, not the active sub-flow.
+    private(set) var originFlow: Flow = .none
+
     private(set) var source: PlusUpgradeViewSource? = nil
 
     private(set) var accountCreated: ((Bool)->())?
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
+        // Capture the flow that starts the session; sub-flows begun within it keep this origin.
+        if currentFlow == .none {
+            originFlow = flow
+        }
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
@@ -73,17 +83,21 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
-        if shouldShowNotificationsPermissions(for: currentFlow) {
+        // Key off the originating flow: a session that started at the EAC modal keeps that origin
+        // even after it pushes a .loggedOut sub-flow to create the account.
+        if shouldShowNotificationsPermissions(for: originFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
         source = .unknown
         currentFlow = .none
+        originFlow = .none
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
-    /// Whether dismissing `flow` should chain into the notifications-permission prompt. Initial
-    /// onboarding always does; the account-creation prompt only when the user actually signed in.
+    /// Whether the finished session (identified by its originating `flow`) should chain into the
+    /// notifications-permission prompt. Initial onboarding always does; the account-creation prompt
+    /// only when the user actually signed in.
     private func shouldShowNotificationsPermissions(for flow: Flow) -> Bool {
         switch flow {
         case .initialOnboarding:
@@ -102,7 +116,9 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     }
 
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        var defaultProperties: [String: Any] = ["flow": currentFlow]
+        // Use the originating flow so events in an EAC-started session attribute to it, not the
+        // pushed .loggedOut sub-flow.
+        var defaultProperties: [String: Any] = ["flow": originFlow]
 
         // Append the source, only if it's set because not every event needs a source
         if let source {
