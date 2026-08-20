@@ -9,7 +9,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     private var episodeDownloadQueue: Set<String> = []
     private var episodeUploadQueue: Set<String> = []
     // Keep track of where a download was initiated so completion/failure logs use the same source
-    private let episodeDownloadSources = ThreadSafeDictionary<String, AnalyticsSource>()
+    private var episodeDownloadSources: [String: AnalyticsSource] = [:]
 
     override init() {
         super.init()
@@ -212,48 +212,62 @@ private extension AnalyticsEpisodeHelper {
     func addNotificationObservers() {
         #if !os(watchOS)
             NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeDownloaded, object: nil, queue: .main) { notification in
-                // Verify the UUID is one that we're tracking
-                guard let uuid = notification.object as? String, self.episodeDownloadQueue.contains(uuid) else {
-                    return
+                MainActor.assumeIsolated {
+                    self.episodeDownloadedNotificationReceived(notification)
                 }
-
-                // Verify that the file has finished downloading
-                guard
-                    let episode = DataManager.sharedManager.findEpisode(uuid: uuid),
-                    let status = DownloadStatus(rawValue: episode.episodeStatus),
-                    status == .downloaded
-                else {
-                    return
-                }
-
-                self.episodeDownloadQueue.remove(uuid)
-                self.downloadFinished(episodeUUID: uuid)
             }
 
             NotificationCenter.default.addObserver(forName: ServerNotifications.userEpisodeUploadStatusChanged, object: nil, queue: .main) { notification in
-                // Verify the UUID is one that we're tracking
-                guard let uuid = notification.object as? String, self.episodeUploadQueue.contains(uuid) else {
-                    return
-                }
-
-                // Verify that the file has finished uploading
-                guard
-                    let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
-                    let status = UploadStatus(rawValue: episode.uploadStatus)
-                else {
-                    return
-                }
-
-                switch status {
-                case .uploaded:
-                    self.episodeUploadQueue.remove(uuid)
-                    self.episodeUploadFinished(episodeUUID: uuid)
-                case .uploadFailed:
-                    self.episodeUploadFailed(episodeUUID: uuid)
-                default:
-                    break
+                MainActor.assumeIsolated {
+                    self.userEpisodeUploadStatusChangedNotificationReceived(notification)
                 }
             }
         #endif
     }
+
+    #if !os(watchOS)
+    func episodeDownloadedNotificationReceived(_ notification: Notification) {
+        // Verify the UUID is one that we're tracking
+        guard let uuid = notification.object as? String, episodeDownloadQueue.contains(uuid) else {
+            return
+        }
+
+        // Verify that the file has finished downloading
+        guard
+            let episode = DataManager.sharedManager.findEpisode(uuid: uuid),
+            let status = DownloadStatus(rawValue: episode.episodeStatus),
+            status == .downloaded
+        else {
+            return
+        }
+
+        episodeDownloadQueue.remove(uuid)
+        downloadFinished(episodeUUID: uuid)
+    }
+
+    func userEpisodeUploadStatusChangedNotificationReceived(_ notification: Notification) {
+        // Verify the UUID is one that we're tracking
+        guard let uuid = notification.object as? String, episodeUploadQueue.contains(uuid) else {
+            return
+        }
+
+        // Verify that the file has finished uploading
+        guard
+            let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
+            let status = UploadStatus(rawValue: episode.uploadStatus)
+        else {
+            return
+        }
+
+        switch status {
+        case .uploaded:
+            episodeUploadQueue.remove(uuid)
+            episodeUploadFinished(episodeUUID: uuid)
+        case .uploadFailed:
+            episodeUploadFailed(episodeUUID: uuid)
+        default:
+            break
+        }
+    }
+    #endif
 }

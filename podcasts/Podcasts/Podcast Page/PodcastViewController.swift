@@ -989,8 +989,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         DispatchQueue.global().async {
             DataManager.sharedManager.markAllUnarchivedForPodcast(id: podcast.id)
 
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())
+            let count = self.episodeCount()
+            Task { @MainActor in
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: count)
+            }
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -1015,8 +1018,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                 count += 1
             }
 
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
+            Task { @MainActor in
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
+            }
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -1031,8 +1036,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             guard let self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
             let episodes = allObjects.compactMap { ($0 as? ListEpisode)?.episode }
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+            Task { @MainActor in
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+            }
 
             self.downloadItems(allObjects: allObjects)
         }
@@ -1132,8 +1139,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             DispatchQueue.global().async {
                 guard let self else { return }
 
-                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-                AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+                Task { @MainActor in
+                    AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                    AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+                }
 
                 if later {
                     self.queueItems(allObjects: listEpisodesForSeason)

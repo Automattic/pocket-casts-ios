@@ -6,9 +6,13 @@ import Combine
 extension DownloadManager {
     func logDownload(_ episode: BaseEpisode, failure: FailureReason, extraProperties: [String: Any?] = [:]) {
         let properties = ["reason": failure.localizedDescription].merging(extraProperties) { current, _ in return current }
-        AnalyticsEpisodeHelper.shared.downloadFailed(episodeUUID: episode.uuid,
-                                                     podcastUUID: episode.parentIdentifier(),
-                                                     extraProperties: properties.compactMapValues({ $0 }))
+        let episodeUUID = episode.uuid
+        let podcastUUID = episode.parentIdentifier()
+        Task { @MainActor in
+            AnalyticsEpisodeHelper.shared.downloadFailed(episodeUUID: episodeUUID,
+                                                         podcastUUID: podcastUUID,
+                                                         extraProperties: properties.compactMapValues({ $0 }))
+        }
     }
 
     func logDownload(_ episode: BaseEpisode, failure: FailureReason, metrics: URLSessionTaskMetrics, session: URLSession) {

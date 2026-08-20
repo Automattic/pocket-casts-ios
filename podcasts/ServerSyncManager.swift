@@ -176,7 +176,9 @@ class ServerSyncManager: ServerSyncDelegate {
         if Settings.autoDownloadEnabled() {
             if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 for uuid in uuids {
-                    AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: uuid)
+                    Task { @MainActor in
+                        AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: uuid)
+                    }
                     DownloadManager.shared.addToQueue(episodeUuid: uuid)
                 }
             }

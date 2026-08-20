@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class EpisodeManager: NSObject {
-    static var analyticsHelper = AnalyticsEpisodeHelper.shared
+    @MainActor static let analyticsHelper = AnalyticsEpisodeHelper.shared
 
     class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         // request to remove it from the download queue, just in case it's in there
@@ -36,7 +36,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.markAsPlayed(episode: episode)
+            Task { @MainActor in
+                analyticsHelper.markAsPlayed(episode: episode)
+            }
         }
     }
 
@@ -100,7 +102,10 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
+        let markedAsPlayedCount = episodesMinusCurrent.count
+        Task { @MainActor in
+            analyticsHelper.bulkMarkAsPlayed(count: markedAsPlayedCount)
+        }
     }
 
     class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
@@ -114,7 +119,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitated {
-            analyticsHelper.downloadDeleted(episode: episode)
+            Task { @MainActor in
+                analyticsHelper.downloadDeleted(episode: episode)
+            }
         }
     }
 
@@ -146,7 +153,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.markAsUnplayed(episode: episode)
+            Task { @MainActor in
+                analyticsHelper.markAsUnplayed(episode: episode)
+            }
         }
     }
 
@@ -154,7 +163,9 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
+        Task { @MainActor in
+            analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
+        }
     }
 
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
@@ -178,7 +189,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.archiveEpisode(episode)
+            Task { @MainActor in
+                analyticsHelper.archiveEpisode(episode)
+            }
         }
     }
 
@@ -207,7 +220,9 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
+        Task { @MainActor in
+            analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
+        }
     }
 
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
@@ -225,7 +240,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.unarchiveEpisode(episode)
+            Task { @MainActor in
+                analyticsHelper.unarchiveEpisode(episode)
+            }
         }
     }
 
@@ -235,7 +252,9 @@ class EpisodeManager: NSObject {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
         if trackEvent {
-            analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+            Task { @MainActor in
+                analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+            }
         }
     }
 
@@ -244,7 +263,9 @@ class EpisodeManager: NSObject {
             DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.listeningHistoryChanged)
-        analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+        Task { @MainActor in
+            analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+        }
     }
 
     class func deleteAllEpisodesInPodcast(id: Int64) {
@@ -280,10 +301,12 @@ class EpisodeManager: NSObject {
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
 
-        if starred {
-            analyticsHelper.star(episode: episode)
-        } else {
-            analyticsHelper.unstar(episode: episode)
+        Task { @MainActor in
+            if starred {
+                analyticsHelper.star(episode: episode)
+            } else {
+                analyticsHelper.unstar(episode: episode)
+            }
         }
     }
 
@@ -297,10 +320,12 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        if starred {
-            analyticsHelper.bulkStar(count: episodes.count)
-        } else {
-            analyticsHelper.bulkUnstar(count: episodes.count)
+        Task { @MainActor in
+            if starred {
+                analyticsHelper.bulkStar(count: episodes.count)
+            } else {
+                analyticsHelper.bulkUnstar(count: episodes.count)
+            }
         }
     }
 
@@ -592,6 +617,9 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
+        let removedFromQueueCount = episodesToRemoveFromQueue.count
+        Task { @MainActor in
+            analyticsHelper.bulkDeleteDownloadedEpisodes(count: removedFromQueueCount)
+        }
     }
 }

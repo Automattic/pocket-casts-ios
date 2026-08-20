@@ -143,19 +143,23 @@ class WatchManager: NSObject, WCSessionDelegate {
                 handlePlayRequest(episodeUuid: episodeUuid, playlist: playlist)
             }
         } else if WatchConstants.Messages.PlayPauseRequest.type == messageType {
-            AnalyticsPlaybackHelper.shared.currentSource = .watch
+            Task { @MainActor in
+                AnalyticsPlaybackHelper.shared.currentSource = .watch
+            }
             if PlaybackManager.shared.isPlaying {
                 PlaybackManager.shared.pause()
             } else {
                 PlaybackManager.shared.play()
             }
         } else if WatchConstants.Messages.SkipBackRequest.type == messageType {
-            AnalyticsPlaybackHelper.shared.currentSource = .watch
-            DispatchQueue.main.async {
+            Task { @MainActor in
+                AnalyticsPlaybackHelper.shared.currentSource = .watch
                 PlaybackManager.shared.skipBack()
             }
         } else if WatchConstants.Messages.SkipForwardRequest.type == messageType {
-            AnalyticsPlaybackHelper.shared.currentSource = .watch
+            Task { @MainActor in
+                AnalyticsPlaybackHelper.shared.currentSource = .watch
+            }
             PlaybackManager.shared.skipForward()
         } else if WatchConstants.Messages.StarRequest.type == messageType {
             if let starred = payload[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = payload[WatchConstants.Messages.StarRequest.episodeUuid] as? String {

@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import PocketCastsDataModel
 
+@MainActor
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions
     var analyticsSource: AnalyticsSource { get }
@@ -70,6 +71,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
+@MainActor
 class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
@@ -99,34 +101,26 @@ class AnalyticsCoordinator {
     }
 
 #if !os(watchOS) && !APPCLIP
-        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-            // Only dispatch async on the main thread if needed
-            guard Thread.isMainThread else {
-                DispatchQueue.main.async {
-                    self.track(event, properties: properties)
-                }
-                return
-            }
-
-            let defaultProperties: [String: Any] = ["source": currentAnalyticsSource, "content_type": currentEpisodeIsVideo ? "video" : "audio"]
-            let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
-            Analytics.track(event, properties: mergedProperties)
-        }
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
+        let defaultProperties: [String: Any] = ["source": currentAnalyticsSource, "content_type": currentEpisodeIsVideo ? "video" : "audio"]
+        let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+        Analytics.track(event, properties: mergedProperties)
+    }
 
     func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
-            guard UIApplication.shared.applicationState == .active else {
-                return nil
-            }
-
-            if let nav = base as? UINavigationController {
-                return getTopViewController(base: nav.visibleViewController)
-            } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-                return getTopViewController(base: selected)
-            } else if let presented = base?.presentedViewController {
-                return getTopViewController(base: presented)
-            }
-            return base
+        guard UIApplication.shared.applicationState == .active else {
+            return nil
         }
+
+        if let nav = base as? UINavigationController {
+            return getTopViewController(base: nav.visibleViewController)
+        } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return getTopViewController(base: selected)
+        } else if let presented = base?.presentedViewController {
+            return getTopViewController(base: presented)
+        }
+        return base
+    }
 
     func topAnalyticsSourceProvider() -> AnalyticsSourceProvider? {
         guard let topViewController = getTopViewController() else { return nil }
@@ -141,8 +135,8 @@ class AnalyticsCoordinator {
 
         return nil
     }
-    #else
-        /// NOOP track event to preventing needing to wrap all the events in #if checks
-        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
-    #endif
+#else
+    /// NOOP track event to preventing needing to wrap all the events in #if checks
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
+#endif
 }

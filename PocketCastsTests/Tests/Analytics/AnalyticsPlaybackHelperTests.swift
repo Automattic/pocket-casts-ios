@@ -4,6 +4,7 @@ import PocketCastsUtils
 
 @testable import podcasts
 
+@MainActor
 class AnalyticsPlaybackHelperTests: XCTestCase {
     override func tearDown() {
         FeatureFlagOverrideStore().resetOverrides()
@@ -189,9 +190,7 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
 
         AnalyticsPlaybackHelper.shared.play()
 
-        eventually {
-            XCTAssertNil(AnalyticsPlaybackHelper.shared.currentSource)
-        }
+        XCTAssertNil(AnalyticsPlaybackHelper.shared.currentSource)
     }
 
     func testSeekToDoesntCrashWithNanOrInfinite() {
@@ -228,6 +227,7 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
 
 // MARK: - AnalyticsPlaybackHelper Mock
 
+@MainActor
 private class AnalyticsPlaybackHelperMock: AnalyticsPlaybackHelper {
     var lastEvent: TrackEvent?
 
