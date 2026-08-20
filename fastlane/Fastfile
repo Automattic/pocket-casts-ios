@@ -1445,9 +1445,9 @@ platform :ios do
       path = File.join(metadata_folder, 'default', file_name)
       UI.user_error!("Could not find the App Store metadata at #{path}.") unless File.exist?(path)
 
-      # Count the content, not the file as written: `gp_downloadmetadata` measures the translation string,
-      # so a source ending in a newline would be one character stricter here than it is at download time.
-      length = File.read(path, mode: 'r:UTF-8').chomp.length
+      # Mirror `PoFileGenerator#create_standard_entry`, which stores `content.rstrip` as the msgid:
+      # trailing whitespace never reaches GlotPress, so counting it here would be stricter than reality.
+      length = File.read(path, mode: 'r:UTF-8').rstrip.length
 
       case app_store_metadata_length_verdict(file_name, length)
       when :over_max
