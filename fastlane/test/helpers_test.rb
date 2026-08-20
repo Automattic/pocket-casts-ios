@@ -101,7 +101,7 @@ class FastlaneHelpersTest < Minitest::Test
     %w[metadata metadata-tvos].each do |folder|
       APP_STORE_METADATA_LIMITS.each do |file_name, limits|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
-        length = File.read(path, mode: 'r:UTF-8').chomp.length
+        length = File.read(path, mode: 'r:UTF-8').rstrip.length
         limit = limits[:budget] || limits.fetch(:max_size)
 
         assert_equal :ok, app_store_metadata_length_verdict(file_name, length), "#{path} is #{length} of #{limit} characters"
