@@ -46,8 +46,8 @@ final class SettingsTests: XCTestCase {
     private let eacNow = Date(timeIntervalSince1970: 1_700_000_000)
 
     func testEncourageAccountCreationIntervalIsSixtyDays() {
-        // Pins the shipped cadence so a change to the constant is caught here (the cadence tests
-        // below read the same constant, so on their own they'd silently follow a bad value).
+        // Pins the shipped cadence; the cadence tests below read the constant, so on their own
+        // they'd silently follow a bad value.
         XCTAssertEqual(Settings.encourageAccountCreationInterval, 60 * 24 * 60 * 60)
     }
 
@@ -106,8 +106,7 @@ final class SettingsTests: XCTestCase {
     }
 
     func testEncourageAccountCreationReanchorsWhenReferenceIsInTheFuture() {
-        // A reference date in the future (backwards device clock / restored skewed backup) must
-        // re-anchor rather than suppress the modal indefinitely.
+        // A future reference date (backwards clock / restored skewed backup) must re-anchor.
         let decision = Settings.encourageAccountCreationDecision(
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(eacInterval),

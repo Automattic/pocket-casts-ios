@@ -1406,9 +1406,7 @@ class Settings: NSObject {
 
     // MARK: - Encourage Account Creation
 
-    /// Anchor for the Encourage Account Creation modal cadence. The first eligible launch sets this
-    /// (without showing the modal); each time the modal is shown it is reset, so the modal recurs
-    /// every `encourageAccountCreationInterval` while the user stays logged out.
+    /// Anchor for the Encourage Account Creation modal cadence; reset each time the modal is shown.
     static var encourageAccountCreationReferenceDate: Date? {
         get {
             UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
@@ -1421,42 +1419,24 @@ class Settings: NSObject {
     /// How long to wait between showings of the Encourage Account Creation modal (60 days).
     static let encourageAccountCreationInterval: TimeInterval = 60.days
 
-    /// The outcome of evaluating the Encourage Account Creation modal cadence.
     enum EncourageAccountCreationModalDecision: Equatable {
-        /// Show the modal now.
         case show
-        /// Don't show, but anchor the cadence clock to now (the first eligible launch).
+        /// Don't show, but anchor the clock to now (first eligible launch, or recovering a future anchor).
         case anchor
-        /// Don't show and leave the clock untouched.
         case wait
     }
 
     /// Pure cadence decision, factored out so it can be unit-tested without touching singletons.
-    ///
-    /// - Parameters:
-    ///   - isEligible: whether the user currently qualifies (logged out, flag on, has seen onboarding).
-    ///   - referenceDate: the persisted anchor, or `nil` if the clock has never been started.
-    ///   - now: the current date.
-    ///   - interval: how long to wait between showings.
     static func encourageAccountCreationDecision(isEligible: Bool, referenceDate: Date?, now: Date, interval: TimeInterval) -> EncourageAccountCreationModalDecision {
         guard isEligible else { return .wait }
-        // (Re)anchor when there's no clock yet, or when the stored anchor is in the future — the
-        // latter happens if the device clock moves backwards or a backup taken on a skewed clock is
-        // restored, and would otherwise suppress the modal indefinitely.
+        // (Re)anchor with no clock yet, or a future anchor (backwards clock / skewed-backup restore).
         guard let referenceDate, referenceDate <= now else { return .anchor }
         return now.timeIntervalSince(referenceDate) >= interval ? .show : .wait
     }
 
-    /// Evaluates whether the Encourage Account Creation modal should be shown on this launch,
-    /// anchoring the cadence clock on the first eligible launch.
-    ///
-    /// Shown to logged-out users who have already seen initial onboarding, first 60 days after the
-    /// initial eligible launch and every 60 days thereafter. The initial eligible launch only
-    /// anchors the clock (returns `false`) so we don't collide with onboarding.
-    ///
-    /// This is a function rather than a property because it has a side effect: it persists the
-    /// anchor date on the first eligible launch (and re-anchors on a skewed clock). `now` is
-    /// injectable so the cadence can be unit-tested; production callers use the default.
+    /// Whether to show the modal this launch, anchoring the clock on the first eligible launch.
+    /// A function, not a property, because it persists the anchor as a side effect; `now` is
+    /// injectable for tests.
     static func shouldShowEncourageAccountCreationModal(now: Date = Date()) -> Bool {
         let isEligible = FeatureFlag.encourageAccountCreation.enabled
             && !SyncManager.isUserLoggedIn()

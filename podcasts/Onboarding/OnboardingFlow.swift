@@ -82,11 +82,8 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
-    /// Whether dismissing `flow` should chain into the notifications-permission prompt.
-    ///
-    /// Initial onboarding always prompts (the standard first-run notifications ask). The recurring
-    /// account-creation prompt only leads there when the user actually created an account / signed
-    /// in — dismissing it without signing in should not trigger the notifications modal.
+    /// Whether dismissing `flow` should chain into the notifications-permission prompt. Initial
+    /// onboarding always does; the account-creation prompt only when the user actually signed in.
     private func shouldShowNotificationsPermissions(for flow: Flow) -> Bool {
         switch flow {
         case .initialOnboarding:

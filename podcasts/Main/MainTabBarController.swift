@@ -239,21 +239,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        // Recurring Encourage Account Creation modal: shown to logged-out users who have already
-        // seen initial onboarding, once every 60 days regardless of app updates.
-        //
-        // This deliberately takes precedence over the initial onboarding flow below: a logged-out
-        // user due for the 60-day re-engagement prompt sees that instead of the first-run flow.
-        //
-        // The 60-day clock is intentionally reset at *presentation* time (in
-        // `InformationalModalHostingController.viewWillAppear`), not here. This method runs on every
-        // `viewDidAppear`, so resetting here would burn 60 days even if the modal never actually
-        // presented (e.g. a flow already in progress); resetting on presentation keeps the
-        // "60 days from shown" semantics and still prevents re-presentation loops (the tab bar's
-        // `viewDidAppear` only fires again once the modal is dismissed, by which point the clock is
-        // reset).
+        // The recurring account-creation modal takes precedence over initial onboarding. Its clock
+        // is reset at presentation time (InformationalModalHostingController.viewWillAppear), not
+        // here, since this runs on every viewDidAppear.
         if Settings.shouldShowEncourageAccountCreationModal() {
-            // Consume this launch: don't also queue the first-run onboarding flow for next launch.
+            // Consume this launch so the first-run flow isn't also queued for next launch.
             Settings.shouldShowInitialOnboardingFlow = false
             NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
             return
