@@ -140,6 +140,9 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        hasAppeared = true
+        rotateToLandscapeIfNeeded()
+
         addUiNotificationObservers()
         if PlaybackManager.shared.isPlaying {
             startHideControlsTimer()
@@ -149,12 +152,17 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        if isBeingDismissed {
+            rotateBackToPortraitIfNeeded()
+        }
+
         willDeattachPlayer?()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        videoSizeObserver = nil
         videoPlayerView.player = nil
         removeAllCustomObservers()
     }
@@ -331,6 +339,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func attachPlayer() {
         willAttachPlayer?()
         videoPlayerView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
+        observeVideoSize()
         setupPictureInPicturePlayback()
     }
 
@@ -352,6 +361,66 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .allButUpsideDown
+    }
+
+    private var hasAppeared = false
+    private var hasEvaluatedLandscapeRotation = false
+    private var didRotateToLandscape = false
+    private var videoSizeObserver: NSKeyValueObservation?
+
+    /// The size of a stream isn't always known by the time we appear, so keep watching for it.
+    private func observeVideoSize() {
+        videoSizeObserver = videoPlayerView.player?.currentItem?.observe(\.presentationSize, options: [.initial, .new]) { [weak self] _, _ in
+            DispatchQueue.main.async {
+                self?.rotateToLandscapeIfNeeded()
+            }
+        }
+    }
+
+    // Only attempted once we've appeared, UIKit ignores geometry updates requested during a transition.
+    private func rotateToLandscapeIfNeeded() {
+        guard hasAppeared, !hasEvaluatedLandscapeRotation,
+              UIDevice.current.userInterfaceIdiom == .phone,
+              let windowScene = view.window?.windowScene,
+              let videoSize = videoPlayerView.player?.currentItem?.presentationSize,
+              videoSize.width > 0, videoSize.height > 0
+        else { return }
+
+        hasEvaluatedLandscapeRotation = true
+        videoSizeObserver = nil
+
+        guard videoSize.width > videoSize.height, windowScene.interfaceOrientation.isPortrait else { return }
+
+        didRotateToLandscape = true
+        setNeedsUpdateOfSupportedInterfaceOrientations()
+        presentingViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: preferredLandscapeOrientation)) { error in
+            DispatchQueue.main.async { [weak self] in
+                FileLog.shared.addMessage("VideoViewController: unable to rotate to landscape: \(error)")
+                self?.didRotateToLandscape = false
+                self?.hasEvaluatedLandscapeRotation = false
+                self?.observeVideoSize()
+            }
+        }
+    }
+
+    private func rotateBackToPortraitIfNeeded() {
+        guard didRotateToLandscape, let windowScene = view.window?.windowScene else { return }
+
+        didRotateToLandscape = false
+        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
+    }
+
+    /// Matches the way the device is being held, if it's already being held in landscape.
+    private var preferredLandscapeOrientation: UIInterfaceOrientationMask {
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            return .landscapeRight
+        case .landscapeRight:
+            return .landscapeLeft
+        default:
+            return .landscapeRight
+        }
     }
 
     // MARK: - Swipe to close
