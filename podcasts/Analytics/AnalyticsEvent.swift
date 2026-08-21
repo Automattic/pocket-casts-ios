@@ -769,6 +769,7 @@ enum AnalyticsEvent: String {
     case settingsAboutWebsiteTapped
     case settingsAboutInstagramTapped
     case settingsAboutTwitterTapped
+    case settingsAboutBlueskyTapped
     case settingsAboutAutomatticFamilyTapped
     case settingsAboutLegalAndMoreTapped
     case settingsAboutWorkWithUsTapped

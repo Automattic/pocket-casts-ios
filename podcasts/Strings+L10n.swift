@@ -10,7 +10,9 @@ extension L10n {
     static let pocketCastsShort = "Casts"
     static let xCom = "X"
     static let instagram = "Instagram"
+    static let bluesky = "Bluesky"
     static let socialHandle = "@pocketcasts"
+    static let blueskyHandle = "@pocketcasts.com"
     static let websiteShort = "pocketcasts.com"
 
     // MARK: Support
