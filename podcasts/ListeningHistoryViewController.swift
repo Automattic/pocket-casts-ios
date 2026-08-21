@@ -160,7 +160,7 @@ class ListeningHistoryViewController: PCViewController {
             // than after: running it anyway would hold up the current term for its full duration.
             let isCurrent = DispatchQueue.main.sync { () -> Bool in
                 guard searchTerm == self.searchTerm else {
-                    completion?()
+                    self.finishSuperseded(completion)
                     return false
                 }
                 return true
@@ -170,15 +170,26 @@ class ListeningHistoryViewController: PCViewController {
             let newData = searchTerm.map { self.episodesDataManager.searchEpisodes(for: $0) } ?? self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
-                defer { completion?() }
-
-                guard searchTerm == self.searchTerm else { return }
+                guard searchTerm == self.searchTerm else {
+                    self.finishSuperseded(completion)
+                    return
+                }
 
                 self.setEpisodes(newData, animated: animated)
                 self.hasLoadedSearchTerm = true
                 self.refreshContentUnavailable()
+                completion?()
             }
         }
+    }
+
+    /// The search bar has a single spinner and no refcount, so a superseded term must leave the
+    /// completion to the newer load that replaced it. A cleared or cancelled search queues no such
+    /// completion, so that one still has to be called here.
+    private func finishSuperseded(_ completion: (() -> Void)?) {
+        guard searchTerm == nil else { return }
+
+        completion?()
     }
 
     private func setEpisodes(_ newData: [ArraySection<String, ListEpisode>], animated: Bool) {
