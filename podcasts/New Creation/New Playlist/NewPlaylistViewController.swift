@@ -150,7 +150,6 @@ class NewPlaylistViewController: PCViewController {
         ]
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.sizeToFit()
     }
 
     private func setupContent() {
@@ -210,8 +209,6 @@ class NewPlaylistViewController: PCViewController {
         }
 
         NSLayoutConstraint.activate(constraints)
-
-        view.layoutSubviews()
     }
 
     private func addCloseButton() {

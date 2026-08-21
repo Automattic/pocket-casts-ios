@@ -62,7 +62,6 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
             ]
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
             navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.sizeToFit()
         }
     }
 
@@ -78,8 +77,6 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
-
-        view.layoutSubviews()
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
     }

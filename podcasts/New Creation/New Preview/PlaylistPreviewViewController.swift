@@ -168,8 +168,6 @@ class PlaylistPreviewViewController: PCViewController {
                 list.bottomAnchor.constraint(equalTo: footerView.topAnchor)
             ])
         }
-
-        view.layoutSubviews()
     }
 
     private func setupSaveButtonTitle() {

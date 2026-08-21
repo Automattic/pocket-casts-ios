@@ -306,8 +306,6 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             multiSelectFooterBottomConstraint,
             multiSelectFooter.heightAnchor.constraint(equalToConstant: 64),
         ])
-
-        view.layoutSubviews()
     }
 
     private func updateColors() {

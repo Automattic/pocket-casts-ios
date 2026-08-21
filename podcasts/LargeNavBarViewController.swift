@@ -5,7 +5,6 @@ class LargeNavBarViewController: PCViewController {
         changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .automatic
-        navigationController?.navigationBar.sizeToFit()
         largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
         if !LiquidGlass.isEnabled {
