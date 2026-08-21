@@ -6,8 +6,7 @@ import PocketCastsUtils
 class ManageDownloadsCoordinator {
 
     static var shouldShowBanner: Bool {
-        guard FeatureFlag.manageDownloadedEpisodes.enabled,
-              let percentage = FileManager.devicePercentageFreeSpace,
+        guard let percentage = FileManager.devicePercentageFreeSpace,
               EpisodeManager.hasDownloadedEpisodes()
         else {
             return false

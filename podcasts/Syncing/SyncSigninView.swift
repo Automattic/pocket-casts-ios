@@ -311,8 +311,7 @@ final class SyncSigninViewModel: ObservableObject {
         ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
 
-        if (FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled && ServerSettings.lastSyncTime == nil)
-            || !FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled {
+        if ServerSettings.lastSyncTime == nil {
             DataManager.sharedManager.markAllPodcastsUnsynced()
         }
 
