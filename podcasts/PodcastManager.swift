@@ -55,7 +55,8 @@ class PodcastManager: NSObject {
                     if !foundPushOff {
                         dataManager.setPushForAllPodcasts(pushEnabled: false)
                     }
-                    NotificationsCoordinator.shared.setupNotifications(for: .newEpisodes)
+                    NotificationsHelper.shared.enablePush()
+                    NotificationsGroup.newEpisodes.setEnabled(true)
                 }
             }
 
