@@ -1,27 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Set sleep timer" : {
-      "comment" : "Summary for the migrated sleep timer App Intent.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Configura el temporitzador" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Schlummerfunktion einstellen" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set sleep timer" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Configurar temporizador" } },
-        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Establecer temporizador de suspensión" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Définir un délai de mise en veille" } },
-        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Régler la minuterie de veille" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Imposta autospegnimento" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スリープタイマーを設定" } },
-        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Slaaptimer instellen" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Definir temporizador" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Установить таймер сна" } },
-        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Ställ in sovtimer" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置睡眠计时器" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "設定睡眠計時器" } }
-      }
-    },
     "siri_shortcut_set_sleep_timer_description" : {
       "comment" : "Description for the App Intent that sets the sleep timer.",
       "extractionState" : "manual",

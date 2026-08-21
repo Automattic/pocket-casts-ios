@@ -33,7 +33,7 @@ struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppInt
     var minutes: Int?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Set sleep timer", table: "AppIntents") {
+        Summary("siri_shortcut_set_sleep_timer_title", table: "AppIntents") {
             \.$minutes
         }
     }
