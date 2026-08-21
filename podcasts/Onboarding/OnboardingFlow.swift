@@ -1,5 +1,4 @@
 import Foundation
-import PocketCastsServer
 import PocketCastsUtils
 
 struct OnboardingFlow: AnalyticsSourceProvider {
@@ -10,7 +9,16 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
+    /// Whether an account was created during this onboarding session. Drives the post-onboarding
+    /// notifications-permission prompt, since we only want to ask about emailing the user once we
+    /// have their address. Cleared on `reset()`.
+    private(set) var didCreateAccount = false
+
     private(set) var accountCreated: ((Bool)->())?
+
+    mutating func markAccountCreated() {
+        didCreateAccount = true
+    }
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
@@ -73,26 +81,21 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
-        if shouldShowNotificationsPermissions(for: currentFlow) {
+        if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
         source = .unknown
         currentFlow = .none
+        didCreateAccount = false
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
-    /// Whether dismissing `flow` should chain into the notifications-permission prompt. Initial
-    /// onboarding always does; the account-creation prompt only when the user actually signed in.
-    private func shouldShowNotificationsPermissions(for flow: Flow) -> Bool {
-        switch flow {
-        case .initialOnboarding:
-            return true
-        case .encourageAccountCreation:
-            return SyncManager.isUserLoggedIn()
-        default:
-            return false
-        }
+    /// Whether dismissing an onboarding session should chain into the notifications-permission
+    /// prompt. Shown whenever an account was created (to ask about emailing the user), regardless of
+    /// the flow, plus the standard first-run prompt after initial onboarding.
+    static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
+        didCreateAccount || flow == .initialOnboarding
     }
 
     /// Updates the source passed for analytics
