@@ -148,6 +148,7 @@ class ListeningHistoryViewController: PCViewController {
         listeningHistoryTable.reloadData()
     }
 
+    @MainActor
     func refreshEpisodes(animated: Bool, completion: (() -> Void)? = nil) {
         let searchTerm = searchTerm
         refreshContentUnavailable()
