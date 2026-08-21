@@ -253,6 +253,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the What's New feed's research messages, which ask the user to answer a poll
     case whatsNewPolls
 
+    /// Update the app icon badge after a background refresh finishes, rather than before it starts,
+    /// and wait for the badge write to land before signalling the background task as complete
+    case updateBadgeAfterBackgroundRefresh
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -431,6 +435,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .whatsNewPolls:
             false
+        case .updateBadgeAfterBackgroundRefresh:
+            true
         }
     }
 
