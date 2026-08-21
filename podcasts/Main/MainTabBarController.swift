@@ -25,6 +25,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// when the queue actually changes (not on every refresh notification).
     private var previousUpNextCount: Int?
 
+    /// True once initial onboarding has been presented in this app session, so the recurring
+    /// account-creation modal isn't chained onto the same launch. Reset per process launch.
+    private var didPresentInitialOnboardingThisLaunch = false
+
     /// `true` while the Up Next "pulse" spring is in flight, so a burst of
     /// rapid adds doesn't stack overlapping transforms on the target (the tab
     /// button, or the mini player artwork when minimized).
@@ -249,12 +253,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // presentation time (InformationalModalHostingController.viewWillAppear).
         let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true
         if hasCompletedInitialOnboarding {
+            // Don't chain into the account-creation modal on the same launch we presented initial
+            // onboarding — `shouldShowInitialOnboardingFlow` flips to false as soon as onboarding is
+            // shown, so dismissing it would otherwise immediately re-trigger here. It shows on the
+            // next launch instead.
+            guard !didPresentInitialOnboardingThisLaunch else { return }
+
             if Settings.shouldShowEncourageAccountCreationModal() {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
             }
             return
         }
 
+        didPresentInitialOnboardingThisLaunch = true
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
         // Set the flag so the user won't see the on launch flow again
