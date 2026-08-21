@@ -960,11 +960,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         queue.removeAllEpisodes()
         cleanupCurrentPlayer(permanent: true)
-        #if os(watchOS)
-            WatchNowPlayingHelper.clearNowPlayingInfo()
-        #else
-            NowPlayingHelper.clearNowPlayingInfo()
-        #endif
+        clearNowPlayingInfo()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackEnded)
     }
@@ -1442,13 +1438,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackEnded)
             cleanupCurrentPlayer(permanent: true)
-
-            #if os(watchOS)
-                WatchNowPlayingHelper.clearNowPlayingInfo()
-            #else
-                NowPlayingHelper.clearNowPlayingInfo()
-            #endif
-
+            clearNowPlayingInfo()
             cancelSleepTimer()
         } else {
             playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
@@ -1856,6 +1846,30 @@ class PlaybackManager: ServerPlaybackDelegate {
         refreshNowPlayingInfo(forceFullRebuild: false)
     }
 
+    private func clearNowPlayingInfo() {
+        #if os(watchOS)
+            WatchNowPlayingHelper.clearNowPlayingInfo()
+        #else
+            NowPlayingHelper.clearNowPlayingInfo()
+        #endif
+    }
+
+    private func setAllNowPlayingInfo(for episode: BaseEpisode) {
+        #if os(watchOS)
+            WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+        #else
+            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+        #endif
+    }
+
+    private func updateNowPlayingProgress(for episode: BaseEpisode) {
+        #if os(watchOS)
+            WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+        #else
+            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
+        #endif
+    }
+
     /// - Parameter forceFullRebuild: when `true`, rebuilds the whole now playing payload instead of
     ///   only refreshing progress. Needed when a value like the media type changes for the same
     ///   episode (e.g. an HLS stream promoted to video), which the progress-only path won't pick up.
@@ -1868,27 +1882,16 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // When Google Casting in the background, control over the casting device is not available, so remove the controls
         guard let episode = currentEpisode, !connectedToExternalDevice else {
-            #if os(watchOS)
-                WatchNowPlayingHelper.clearNowPlayingInfo()
-            #else
-                NowPlayingHelper.clearNowPlayingInfo()
-            #endif
+            clearNowPlayingInfo()
 
             return
         }
-        #if os(watchOS)
-            if forceFullRebuild {
-                WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-            } else {
-                WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-            }
-        #else
-            if forceFullRebuild {
-                NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-            } else {
-                NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-            }
-        #endif
+
+        if forceFullRebuild {
+            setAllNowPlayingInfo(for: episode)
+        } else {
+            updateNowPlayingProgress(for: episode)
+        }
     }
 
     func forceUpdateChapterInfo() {
@@ -1907,19 +1910,11 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc private func updateAllNowPlayingData() {
         guard let episode = currentEpisode else {
-            #if os(watchOS)
-                WatchNowPlayingHelper.clearNowPlayingInfo()
-            #else
-                NowPlayingHelper.clearNowPlayingInfo()
-            #endif
+            clearNowPlayingInfo()
             return
         }
 
-        #if os(watchOS)
-            WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-        #else
-            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: nowPlayingPlaybackRate)
-        #endif
+        setAllNowPlayingInfo(for: episode)
     }
 
     // MARK: - Sleep Timer
