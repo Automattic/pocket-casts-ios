@@ -10,9 +10,9 @@ struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppInt
     )
     static var description = IntentDescription(
         LocalizedStringResource(
-            "CXbd65",
-            defaultValue: "Set Sleep Timer",
-            table: "Intents"
+            "siri_shortcut_set_sleep_timer_description",
+            defaultValue: "Sets the sleep timer to a chosen duration, or the duration selected in Pocket Casts when none is provided.",
+            table: "AppIntents"
         )
     )
     static var isDiscoverable = false
