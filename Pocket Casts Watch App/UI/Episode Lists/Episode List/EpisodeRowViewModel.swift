@@ -3,8 +3,9 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
-    var id: String { episode.uuid }
+    nonisolated let id: String
 
     @Published var displayInfo: String = ""
     @Published var accessibilityInfo: String = ""
@@ -12,6 +13,7 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
     @Published var isDownloading = false
 
     init(episode: BaseEpisode) {
+        self.id = episode.uuid
         super.init(episode: episode, skipHydration: true)
     }
 

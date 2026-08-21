@@ -21,10 +21,10 @@ class UpNextViewModel: ObservableObject {
         isPlaying = playSource.isPlaying
 
         Publishers.Notification.playbackChanged
+            .receive(on: RunLoop.main)
             .map { [unowned self] _ in
                 self.playSource.isPlaying
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$isPlaying)
 
         Publishers.CombineLatest($upNextTitle, $episodes)
