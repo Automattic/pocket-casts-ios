@@ -85,7 +85,6 @@ class StarredFilterOverlayController: PCViewController {
             ]
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
             navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.sizeToFit()
         }
     }
 
@@ -147,8 +146,6 @@ class StarredFilterOverlayController: PCViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: 0)
         ])
-
-        view.layoutSubviews()
     }
 
     private func setupSaveButtonTitle() {

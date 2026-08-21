@@ -74,7 +74,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.sectionHeaderTopPadding = 0
 
         setupNavBar()
-        navigationController?.navigationBar.sizeToFit()
         viewModel = SmartRuleToggleViewModel(
             toggleIsOn: filterToEdit.filterAllPodcasts,
             title: L10n.playlistSmartRulePodcastsHeaderTitle,
@@ -154,8 +153,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
             podcastTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
-
-        view.layoutSubviews()
     }
 
     private func setupSaveButtonTitle() {
