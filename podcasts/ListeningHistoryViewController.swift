@@ -156,6 +156,17 @@ class ListeningHistoryViewController: PCViewController {
         operationQueue.addOperation { [weak self] in
             guard let self else { return }
 
+            // The queue is serial, so a superseded term is dropped before its query runs rather
+            // than after: running it anyway would hold up the current term for its full duration.
+            let isCurrent = DispatchQueue.main.sync { () -> Bool in
+                guard searchTerm == self.searchTerm else {
+                    completion?()
+                    return false
+                }
+                return true
+            }
+            guard isCurrent else { return }
+
             let newData = searchTerm.map { self.episodesDataManager.searchEpisodes(for: $0) } ?? self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
