@@ -152,25 +152,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var currentPodcast: Podcast? {
-        if let episode = currentEpisode as? Episode {
-            return episode.parentPodcast()
-        }
-
-        return nil
+        (currentEpisode as? Episode)?.parentPodcast()
     }
 
     var isPlaying: Bool {
         if aboutToPlay.value { return true }
 
-        guard let player else { return false }
-
-        return player.playing()
+        return player?.playing() ?? false
     }
 
     var isBuffering: Bool {
-        guard let player else { return false }
-
-        return player.buffering()
+        player?.buffering() ?? false
     }
 
     func futureBufferAvailable() -> TimeInterval {
@@ -294,7 +286,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode else { return }
 
-        FileLog.shared.addMessage("PlaybackManager Play \(currentEpisode?.title ?? "unknown episode") userInitiated: \(userInitiated)")
+        FileLog.shared.addMessage("PlaybackManager Play \(currEpisode.title ?? "unknown episode") userInitiated: \(userInitiated)")
 
         if userInitiated {
             analyticsPlaybackHelper.play()
@@ -368,13 +360,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
 
-        FileLog.shared.addMessage("PlaybackManager pausing playback \(currentEpisode?.title ?? "unknown episode")")
+        FileLog.shared.addMessage("PlaybackManager pausing playback \(episode.title ?? "unknown episode")")
 
         recordPlaybackPosition(sendToServerImmediately: isPlaying, fireNotifications: true)
 
-        if let player {
-            player.pause()
-        }
+        player?.pause()
         updateNowPlayingInfo()
 
         catchUpHelper.playbackDidPause(of: episode)
@@ -1022,16 +1012,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playingOverAirplay() -> Bool {
-        let currentRoute = AVAudioSession.sharedInstance().currentRoute
-
-        if currentRoute.outputs.isEmpty { return false }
-
-        let currentOutput = currentRoute.outputs[0]
-        if currentOutput.portType.rawValue == AVAudioSession.Port.airPlay.rawValue {
-            return true
-        }
-
-        return false
+        AVAudioSession.sharedInstance().currentRoute.outputs.first?.portType == .airPlay
     }
 
     func effects() -> PlaybackEffects {
@@ -1132,9 +1113,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: episode, autoPlay: isPlaying, overrideUpNext: false)
         }
 
-        if let player {
-            player.effectsDidChange()
-        }
+        player?.effectsDidChange()
         updateAllNowPlayingData()
         checkIfStreamBufferRequired(episode: episode, effects: effects)
 
@@ -1210,9 +1189,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         aboutToPlay.value = false
 
         // make sure we load the saved speed for this track
-        if let player {
-            player.setPlaybackRate(effects().playbackSpeed)
-        }
+        player?.setPlaybackRate(effects().playbackSpeed)
 
         updateAllNowPlayingData()
     }
@@ -1603,9 +1580,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
-        if let player {
-            player.endPlayback(permanent: permanent)
-        }
+        player?.endPlayback(permanent: permanent)
 
         if permanent { aboutToPlay.value = false }
         currentEffects = nil
@@ -2041,7 +2016,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let commandCenter = MPRemoteCommandCenter.shared()
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-            guard let self, let _ = self.currentEpisode else { return .noActionableNowPlayingItem }
+            guard let self, currentEpisode != nil else { return .noActionableNowPlayingItem }
             remotePlayPauseToggle()
             return .success
         }
@@ -2162,7 +2137,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if !Settings.isLockScreenScrubbingDisabled { // Only perform the seek if lock screen scrubbing is enabled
             commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
 
-                guard let self, let _ = currentEpisode else { return .noActionableNowPlayingItem }
+                guard let self, currentEpisode != nil else { return .noActionableNowPlayingItem }
 
                 analyticsPlaybackHelper.currentSource = commandCenterSource
 
@@ -2360,13 +2335,13 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func logRouteChange(userInfo: [AnyHashable: Any]) {
         guard let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
-              let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription,
-              let currentRoute = AVAudioSession.sharedInstance().currentRoute as AVAudioSessionRouteDescription? else {
+              let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else {
             return
         }
 
-        let previousOutputDescriptions = previousRoute.outputs.map { $0.portName }.joined(separator: ", ")
-        let currentOutputDescriptions = currentRoute.outputs.map { $0.portName }.joined(separator: ", ")
+        let currentRoute = AVAudioSession.sharedInstance().currentRoute
+        let previousOutputDescriptions = previousRoute.outputs.map(\.portName).joined(separator: ", ")
+        let currentOutputDescriptions = currentRoute.outputs.map(\.portName).joined(separator: ", ")
         if let reason = AVAudioSession.RouteChangeReason(rawValue: UInt(changeReason.intValue)) {
             FileLog.shared.addMessage("PlaybackManager: Handle route change \(reason) | Previous Outputs: [\(previousOutputDescriptions)] | Current Outputs: [\(currentOutputDescriptions)]")
         }
@@ -2462,7 +2437,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func remoteDeviceAutoConnected(_ episodeUuid: String) {
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if let _ = player as? GoogleCastPlayer {
+            if player is GoogleCastPlayer {
                 return // we already have a Google Cast player, probably just a background resume rather than a restart
             }
 
@@ -2669,21 +2644,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - tvOS
 
     var avPlayer: AVPlayer? {
-        guard let defaultPlayer = player as? DefaultPlayer else {
-            return nil
-        }
-
-        return defaultPlayer.player
+        (player as? DefaultPlayer)?.player
     }
 
     #if !os(watchOS)
     /// Current RMS audio level (0...1) from the audio processing tap.
     /// Returns 0 when no tap is active (e.g. HLS streams).
     var currentAudioLevel: Float {
-        guard let currentPlayer = player else {
-            return 0
-        }
-        return currentPlayer.currentAudioLevel
+        player?.currentAudioLevel ?? 0
     }
     #endif
 }
