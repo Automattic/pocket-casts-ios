@@ -256,6 +256,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignore non-200 responses (such as 304 Not Modified) to the background Up Next sync instead of treating them as an empty queue
     case ignoreUnsuccessfulBackgroundUpNextSync
 
+    /// Update the app icon badge after a background refresh finishes, rather than before it starts,
+    /// and wait for the badge write to land before signalling the background task as complete
+    case updateBadgeAfterBackgroundRefresh
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -435,6 +439,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreRouteChangeWhilePlayRequestPending:
             true
         case .ignoreUnsuccessfulBackgroundUpNextSync:
+            true
+        case .updateBadgeAfterBackgroundRefresh:
             true
         }
     }
