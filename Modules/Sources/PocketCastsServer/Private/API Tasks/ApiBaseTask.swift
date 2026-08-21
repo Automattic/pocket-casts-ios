@@ -12,11 +12,53 @@ class ApiBaseTask: Operation, @unchecked Sendable {
     private let urlConnection: URLConnection
     private let tokenHelper: TokenHelper
 
+    /// Read once, so that flipping the flag while an operation is in flight can't leave it in a state
+    /// where it starts asynchronously but reports its progress synchronously (or vice versa).
+    private let runsAsynchronously = FeatureFlag.asyncApiTasks.enabled
+
+    private let stateLock = NSLock()
+    private var _isExecuting = false
+    private var _isFinished = false
+
     init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.dataManager = dataManager
         self.urlConnection = urlConnection
         self.tokenHelper = TokenHelper(urlConnection: urlConnection)
         super.init()
+    }
+
+    // MARK: - Operation
+
+    override var isAsynchronous: Bool { runsAsynchronously }
+
+    override var isExecuting: Bool {
+        guard runsAsynchronously else { return super.isExecuting }
+
+        return stateLock.withLock { _isExecuting }
+    }
+
+    override var isFinished: Bool {
+        guard runsAsynchronously else { return super.isFinished }
+
+        return stateLock.withLock { _isFinished }
+    }
+
+    override func start() {
+        guard runsAsynchronously else {
+            super.start()
+            return
+        }
+
+        guard !isCancelled else {
+            markFinished()
+            return
+        }
+
+        markExecuting()
+        Task.detached(priority: .utility) { [self] in
+            await runTask()
+            markFinished()
+        }
     }
 
     override func main() {
@@ -25,40 +67,69 @@ class ApiBaseTask: Operation, @unchecked Sendable {
         }
     }
 
+    /// Runs the task, blocking the calling thread until it has finished.
     func runTaskSynchronously() {
-        if let token = acquiredToken() {
-            apiTokenAcquired(token: token)
+        let semaphore = DispatchSemaphore(value: 0)
+        Task.detached(priority: .utility) { [self] in
+            await runTask()
+            semaphore.signal()
+        }
+        semaphore.wait()
+    }
+
+    func runTask() async {
+        if let token = await acquiredToken() {
+            await apiTokenAcquired(token: token)
         } else {
             apiTokenAcquisitionFailed()
         }
     }
 
-    func acquiredToken() -> String? {
+    private func markExecuting() {
+        willChangeValue(forKey: #keyPath(ApiBaseTask.isExecuting))
+        stateLock.withLock { _isExecuting = true }
+        didChangeValue(forKey: #keyPath(ApiBaseTask.isExecuting))
+    }
+
+    private func markFinished() {
+        willChangeValue(forKey: #keyPath(ApiBaseTask.isExecuting))
+        willChangeValue(forKey: #keyPath(ApiBaseTask.isFinished))
+        stateLock.withLock {
+            _isExecuting = false
+            _isFinished = true
+        }
+        didChangeValue(forKey: #keyPath(ApiBaseTask.isFinished))
+        didChangeValue(forKey: #keyPath(ApiBaseTask.isExecuting))
+    }
+
+    // MARK: - Requests
+
+    func acquiredToken() async -> String? {
         if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
             return token
-        } else if let token = tokenHelper.acquireToken() {
+        } else if let token = await tokenHelper.acquireToken() {
             return token
         }
         return nil
     }
 
-    func postToServer(url: String, token: String, data: Data) -> (Data?, Int) {
-        return performPostToServer(url: url, token: token, data: data)
+    func postToServer(url: String, token: String, data: Data) async -> (Data?, Int) {
+        return await performPostToServer(url: url, token: token, data: data)
     }
 
-    func performPostToServer(url: String, token: String?, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
+    func performPostToServer(url: String, token: String?, data: Data, retryOnUnauthorized: Bool = true) async -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
         let method = "POST"
         var request = createRequest(url: requestUrl, method: method, token: token)
         do {
             request.httpBody = data
 
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try await urlConnection.send(request: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = await tokenHelper.acquireToken() {
                     FileLog.shared.addMessage("ApiBaseTask: Retrying 401 unauthorized POST to \(url)")
-                    return performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
+                    return await performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
                 }
 
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
@@ -75,11 +146,11 @@ class ApiBaseTask: Operation, @unchecked Sendable {
         return (nil, ServerConstants.HttpConstants.serverError)
     }
 
-    func getToServer(url: String, token: String, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
-        return performGetToServer(url: url, token: token, customHeaders: customHeaders)
+    func getToServer(url: String, token: String, customHeaders: [String: String]? = nil) async -> (Data?, HTTPURLResponse?) {
+        return await performGetToServer(url: url, token: token, customHeaders: customHeaders)
     }
 
-    func performGetToServer(url: String, token: String, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
+    func performGetToServer(url: String, token: String, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil) async -> (Data?, HTTPURLResponse?) {
         let requestUrl = ServerHelper.asUrl(url)
         let method = "GET"
         var request = createRequest(url: requestUrl, method: method, token: token)
@@ -90,12 +161,12 @@ class ApiBaseTask: Operation, @unchecked Sendable {
         }
 
         do {
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try await urlConnection.send(request: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, nil) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = await tokenHelper.acquireToken() {
                     FileLog.shared.addMessage("ApiBaseTask: Retrying 401 unauthorized GET to \(url)")
-                    return performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
+                    return await performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
                 }
 
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
@@ -112,14 +183,14 @@ class ApiBaseTask: Operation, @unchecked Sendable {
         return (nil, nil)
     }
 
-    func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
+    func deleteToServer(url: String, token: String?, data: Data) async -> (Data?, Int) {
         let url = ServerHelper.asUrl(url)
         let method = "DELETE"
         var request = createRequest(url: url, method: method, token: token)
         do {
             request.httpBody = data
 
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try await urlConnection.send(request: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
@@ -159,7 +230,7 @@ class ApiBaseTask: Operation, @unchecked Sendable {
     }
 
     // for subclasses that talk to the API server to override
-    func apiTokenAcquired(token: String) {}
+    func apiTokenAcquired(token: String) async {}
     func apiTokenAcquisitionFailed() { print("\(self) apiTokenAcquisitionFailed") }
 
     private func logFailure(method: String, url: String, error: Error) {

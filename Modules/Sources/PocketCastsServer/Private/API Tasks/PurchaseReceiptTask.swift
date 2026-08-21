@@ -5,7 +5,7 @@ import UIKit
 
 class PurchaseReceiptTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "subscription/purchase/ios"
 
         // Load the receipt into a Data object
@@ -27,7 +27,7 @@ class PurchaseReceiptTask: ApiBaseTask, @unchecked Sendable {
 
         do {
             let data = try updateRequest.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Purchase Receipt send failed \(httpStatus)")

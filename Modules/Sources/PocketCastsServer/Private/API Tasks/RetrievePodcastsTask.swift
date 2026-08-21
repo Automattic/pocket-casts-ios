@@ -6,7 +6,7 @@ import SwiftProtobuf
 class RetrievePodcastsTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([PodcastSyncInfo]?, [FolderSyncInfo]?, Bool) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         // this endpoint now returns folders and podcasts
         let url = ServerConstants.Urls.api() + "user/podcast/list"
 
@@ -15,7 +15,7 @@ class RetrievePodcastsTask: ApiBaseTask, @unchecked Sendable {
             podcastRequest.m = ServerConstants.Values.apiScope
             let data = try podcastRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil, nil, false)

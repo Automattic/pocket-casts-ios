@@ -81,6 +81,50 @@ class TokenHelper {
         }
     }
 
+    /// Acquires a token without blocking the calling thread.
+    func acquireToken() async -> String? {
+        var refreshedToken: String?
+        var refreshedRefreshToken: String?
+        var acquireError: Error?
+
+        do {
+            let authenticationResponse = try await acquireAuthenticationResponse()
+            refreshedToken = authenticationResponse?.token
+            refreshedRefreshToken = authenticationResponse?.refreshToken
+        } catch {
+            refreshedToken = nil
+            acquireError = error
+        }
+
+        guard let token = refreshedToken, !token.isEmpty else {
+            await handleFailureToAcquireToken(error: acquireError)
+
+            return nil
+        }
+
+        ServerSettings.syncingV2Token = token
+        ServerSettings.setRefreshToken(refreshedRefreshToken)
+
+        return token
+    }
+
+    private func handleFailureToAcquireToken(error: Error?) async {
+        if await isApplicationBackgrounded() {
+            FileLog.shared.addMessage("TokenHelper: Skipped logout in background due to error: \(String(describing: error))")
+
+            return
+        }
+
+        // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+        switch error as? APIError {
+        case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+            tokenCleanUp()
+        default:
+            // Do nothing so the user is not disrupted in the case of non-auth errors
+            FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
+        }
+    }
+
     func acquireToken() -> String? {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
@@ -125,6 +169,19 @@ class TokenHelper {
         return refreshedToken
     }
 
+    private func isApplicationBackgrounded() async -> Bool {
+        await MainActor.run {
+            var isBackgrounded = false
+            #if os(iOS)
+            isBackgrounded = UIApplication.shared.applicationState == .background
+            #elseif os(watchOS)
+            isBackgrounded = WKExtension.shared().applicationState == .background
+            #endif
+
+            return isBackgrounded
+        }
+    }
+
     private func isApplicationBackgrounded() -> Bool {
         let semaphore = DispatchSemaphore(value: 0)
         var isBackgrounded = false
@@ -146,55 +203,95 @@ class TokenHelper {
     // MARK: - Email / Password Token
 
     func acquirePasswordToken() throws -> AuthenticationResponse? {
-        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
-            // if the user doesn't have an email and password, then we'll check if they're using SSO
-            return nil
-        }
-
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
         do {
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
-            request.httpMethod = "POST"
-            request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
-            request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
-            request.addLocalizationHeaders()
-            if let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() {
-                request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
-            }
-
-            var loginRequest = Api_UserLoginRequest()
-            loginRequest.email = email
-            loginRequest.password = password
-            loginRequest.scope = ServerConstants.Values.apiScope
-            let data = try loginRequest.serializedData()
-            request.httpBody = data
-
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
-            guard let validData = responseData, let httpResponse = response as? HTTPURLResponse else {
-                FileLog.shared.addMessage("TokenHelper: Unable to acquire token")
+            guard let request = try passwordTokenRequest() else {
+                // if the user doesn't have an email and password, then we'll check if they're using SSO
                 return nil
             }
 
-            if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
-                let userLoginResponse = try Api_UserLoginResponse(serializedBytes: validData)
-                return AuthenticationResponse(from: userLoginResponse)
-            }
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
 
-            if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
-                SyncManager.signout()
-            }
-
-            let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
-            throw errorResponse ?? .UNKNOWN
+            return try passwordToken(from: responseData, response: response)
         } catch {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
             throw error
         }
     }
 
+    /// Acquires a password token without blocking the calling thread.
+    func acquirePasswordToken() async throws -> AuthenticationResponse? {
+        do {
+            guard let request = try passwordTokenRequest() else {
+                // if the user doesn't have an email and password, then we'll check if they're using SSO
+                return nil
+            }
+
+            let (responseData, response) = try await urlConnection.send(request: request)
+
+            return try passwordToken(from: responseData, response: response)
+        } catch {
+            FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    /// Returns nil when the user has no email and password stored
+    private func passwordTokenRequest() throws -> URLRequest? {
+        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
+            return nil
+        }
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
+        request.httpMethod = "POST"
+        request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.addLocalizationHeaders()
+        if let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() {
+            request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        }
+
+        var loginRequest = Api_UserLoginRequest()
+        loginRequest.email = email
+        loginRequest.password = password
+        loginRequest.scope = ServerConstants.Values.apiScope
+        request.httpBody = try loginRequest.serializedData()
+
+        return request
+    }
+
+    private func passwordToken(from responseData: Data?, response: URLResponse?) throws -> AuthenticationResponse? {
+        guard let validData = responseData, let httpResponse = response as? HTTPURLResponse else {
+            FileLog.shared.addMessage("TokenHelper: Unable to acquire token")
+            return nil
+        }
+
+        if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
+            let userLoginResponse = try Api_UserLoginResponse(serializedBytes: validData)
+            return AuthenticationResponse(from: userLoginResponse)
+        }
+
+        if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
+            FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
+            SyncManager.signout()
+        }
+
+        let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
+        throw errorResponse ?? .UNKNOWN
+    }
+
 
     // MARK: - Email / Password Token
+
+    /// Acquires an authentication response, first with the stored email and password and,
+    /// failing that, with the SSO identity token. Doesn't block the calling thread.
+    private func acquireAuthenticationResponse() async throws -> AuthenticationResponse? {
+        if let authenticationResponse = try await acquirePasswordToken() {
+            return authenticationResponse
+        }
+
+        return try await acquireIdentityToken()
+    }
 
     func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, Error>) -> Void) {
         do {

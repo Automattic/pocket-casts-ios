@@ -13,13 +13,13 @@ class UploadImageDeleteTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files/image/" + episode.uuid
         do {
             var deleteRequest = Files_FileDeleteRequest()
             deleteRequest.uuid = episode.uuid
             let data = try deleteRequest.serializedData()
-            let (_, httpStatus) = deleteToServer(url: url, token: token, data: data)
+            let (_, httpStatus) = await deleteToServer(url: url, token: token, data: data)
 
             // if the delete request 404's, then it has already been deleted and this is also considered successful
             guard httpStatus == ServerConstants.HttpConstants.ok || httpStatus == ServerConstants.HttpConstants.notFound else {

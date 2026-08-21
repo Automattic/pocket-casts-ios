@@ -8,7 +8,7 @@ class RetrieveStatsTask: ApiBaseTask, @unchecked Sendable {
 
     var getFullStatsData = false
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/stats/summary"
 
         do {
@@ -22,7 +22,7 @@ class RetrieveStatsTask: ApiBaseTask, @unchecked Sendable {
             statsRequest.deviceType = ServerConstants.Values.deviceTypeiOS
             let data = try statsRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

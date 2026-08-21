@@ -28,11 +28,11 @@ class ReferralValidateTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let urlString = "\(ServerConstants.Urls.api())referrals/validate?code=\(code)&platform=ios"
 
         do {
-            let (data, httpResponse) = getToServer(url: urlString, token: token)
+            let (data, httpResponse) = await getToServer(url: urlString, token: token)
 
             guard let responseData = data,
                   httpResponse?.statusCode == ServerConstants.HttpConstants.ok

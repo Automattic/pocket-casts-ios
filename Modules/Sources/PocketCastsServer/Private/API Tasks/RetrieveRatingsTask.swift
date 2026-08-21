@@ -16,11 +16,11 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
         return dispatchGroup
     }()
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/podcast_rating/list"
 
         do {
-            let (response, httpStatus) = getToServer(url: url, token: token)
+            let (response, httpStatus) = await getToServer(url: url, token: token)
 
             guard let responseData = response, httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

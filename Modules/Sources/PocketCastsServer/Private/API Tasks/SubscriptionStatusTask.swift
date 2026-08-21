@@ -6,10 +6,10 @@ import SwiftProtobuf
 class SubscriptionStatusTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "subscription/status"
         do {
-            let (response, httpStatus) = getToServer(url: url, token: token)
+            let (response, httpStatus) = await getToServer(url: url, token: token)
 
             guard let responseData = response, httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Subscription status failed \(httpStatus?.statusCode ?? -1)")

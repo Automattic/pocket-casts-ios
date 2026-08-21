@@ -5,14 +5,14 @@ import SwiftProtobuf
 class RetrieveLastSyncDateTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((String?) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/last_sync_at"
 
         do {
             let lastSyncRequest = Api_EmptyRequest()
             let data = try lastSyncRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

@@ -8,7 +8,7 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
         case add = 1, delete = 2, clearAll = 3
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         var dataToSync = Api_HistorySyncRequest()
         dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         dataToSync.version = apiVersion
@@ -39,7 +39,7 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
         let url = ServerConstants.Urls.api() + "history/sync"
         do {
             let data = try dataToSync.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
             } else if let response, httpStatus == ServerConstants.HttpConstants.ok {

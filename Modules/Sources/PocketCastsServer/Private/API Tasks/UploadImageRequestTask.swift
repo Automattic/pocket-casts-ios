@@ -13,7 +13,7 @@ class UploadImageRequestTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files/upload/image"
 
         let fileString = UploadManager.shared.customImageDirectory + "/" + episode.uuid + ".jpg"
@@ -38,7 +38,7 @@ class UploadImageRequestTask: ApiBaseTask, @unchecked Sendable {
             uploadRequest.size = Int64(fileSize)
             uploadRequest.contentType = "image/jpeg"
             let data = try uploadRequest.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Upload image file request failed \(httpStatus)")

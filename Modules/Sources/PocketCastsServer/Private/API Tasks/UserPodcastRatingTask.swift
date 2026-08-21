@@ -14,7 +14,7 @@ class UserPodcastRatingAddTask: ApiBaseTask, @unchecked Sendable {
         self.rating = rating
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let urlString = "\(ServerConstants.Urls.api())user/podcast_rating/add"
 
         do {
@@ -24,7 +24,7 @@ class UserPodcastRatingAddTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: urlString, token: token, data: data)
 
             if response == nil {
                 FileLog.shared.addMessage("Failed to get rating for podcast \(uuid) because response is empty")
@@ -54,7 +54,7 @@ class UserPodcastRatingGetTask: ApiBaseTask, @unchecked Sendable {
         self.uuid = uuid
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let urlString = "\(ServerConstants.Urls.api())user/podcast_rating/show"
 
         do {
@@ -63,7 +63,7 @@ class UserPodcastRatingGetTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: urlString, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Failed to get rating for podcast \(uuid), http status \(httpStatus)")

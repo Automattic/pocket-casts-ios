@@ -4,7 +4,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 
 class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files"
 
         do {
@@ -12,7 +12,7 @@ class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
             if let lastModified = ServerSettings.filesLastModified() {
                 headers = [ServerConstants.HttpHeaders.ifModifiedSince: lastModified]
             }
-            let (data, httpResponse) = getToServer(url: url, token: token, customHeaders: headers)
+            let (data, httpResponse) = await getToServer(url: url, token: token, customHeaders: headers)
 
             if httpResponse?.statusCode == ServerConstants.HttpConstants.notModified {
                 FileLog.shared.addMessage("RetrieveCustomFilesTask - not modified, no changes required")

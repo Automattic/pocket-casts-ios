@@ -12,11 +12,11 @@ class RetrieveFileUploadStatusTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files/upload/status/" + episode.uuid
 
         do {
-            let (data, httpResponse) = getToServer(url: url, token: token, customHeaders: nil)
+            let (data, httpResponse) = await getToServer(url: url, token: token, customHeaders: nil)
 
             if httpResponse?.statusCode == ServerConstants.HttpConstants.notModified {
                 FileLog.shared.addMessage("RetrieveFileUploadStatusTask - not modified, no changes required")

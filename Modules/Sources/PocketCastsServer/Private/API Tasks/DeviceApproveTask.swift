@@ -17,7 +17,7 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
     }
     var completion: ((Result<DeviceApproveResult, Error>) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let urlString = "\(ServerConstants.Urls.api())device/approve"
 
         do {
@@ -27,7 +27,7 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (responseData, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (responseData, httpStatus) = await postToServer(url: urlString, token: token, data: data)
 
             guard let responseData, httpStatus == ServerConstants.HttpConstants.ok else {
                 if let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: nil, error: nil) {

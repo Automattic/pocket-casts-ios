@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension SyncTask {
-    func processServerData(response: Api_SyncUpdateResponse) {
+    func processServerData(response: Api_SyncUpdateResponse) async {
         var podcastsToImport = [Api_SyncUserPodcast]()
         var episodesToImport = [Api_SyncUserEpisode]()
         var playlistsToImport = [Api_SyncUserPlaylist]()
@@ -57,7 +57,7 @@ extension SyncTask {
                 strongSelf.importPodcast(podcastItem)
             }
         }
-        importQueue.waitUntilAllOperationsAreFinished()
+        await importQueue.allOperationsFinished()
         NotificationCenter.default.post(name: ServerNotifications.syncProgressImportedPodcasts, object: nil)
 
         for episodeItem in episodesToImport {
@@ -92,7 +92,7 @@ extension SyncTask {
             }
         }
 
-        importQueue.waitUntilAllOperationsAreFinished()
+        await importQueue.allOperationsFinished()
 
         // If any podcasts were moved out of their folders, the app saves this info
         // In case of sync errors the user can restore.

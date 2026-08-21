@@ -215,7 +215,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         XCTAssertFalse(record?.hasReferenceTimeModified ?? true)
     }
 
-    func testFullSyncKeepsLocalPassageFields() throws {
+    func testFullSyncKeepsLocalPassageFields() async throws {
         let passageModified = Date(timeIntervalSince1970: 100)
         let uuid = try XCTUnwrap(bookmarkManager.add(episodeUuid: "episode-1",
                                                      podcastUuid: "podcast-uuid",
@@ -228,7 +228,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
                                                      referenceTimeModified: passageModified))
         let bookmark = try XCTUnwrap(bookmarkManager.bookmark(for: uuid))
 
-        syncTask.processServerBookmarks([.fromBookmark(bookmark)])
+        await syncTask.processServerBookmarks([.fromBookmark(bookmark)])
 
         let replaced = bookmarkManager.bookmark(for: uuid)
         XCTAssertEqual(replaced?.passage, "Local passage", "The passage fields should survive the full sync replacing the bookmark")
@@ -240,17 +240,17 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
 
     // MARK: - Server Data Processed
 
-    func testProcessServerDataParsesBookmarksCorrectly() {
+    func testProcessServerDataParsesBookmarksCorrectly() async {
         let count = 2000
         let deletedCount = 321
-        syncTask.processServerData(response: .bookmarkResponse(count: count, deletedCount: deletedCount))
+        await syncTask.processServerData(response: .bookmarkResponse(count: count, deletedCount: deletedCount))
 
         XCTAssertEqual(bookmarkManager.allBookmarks().count, count - deletedCount)
     }
 
     // MARK: - Full Sync
 
-    func testFullSyncMarksAllAsSynced() {
+    func testFullSyncMarksAllAsSynced() async {
         let bookmarks = [
             addBookmark(time: 1),
             addBookmark(time: 2),
@@ -261,12 +261,12 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
             Api_BookmarkResponse.fromBookmark($0)
         }
 
-        syncTask.processServerBookmarks(server)
+        await syncTask.processServerBookmarks(server)
 
         XCTAssertEqual(bookmarkManager.bookmarksToSync().count, 0)
     }
 
-    func testFullSyncReplacesExistingUUIDs() {
+    func testFullSyncReplacesExistingUUIDs() async {
         let bookmarks = [
             addBookmark(time: 1),
             addBookmark(time: 2),
@@ -280,7 +280,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
             Api_BookmarkResponse.forTesting(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid, title: newTitle, time: $0.time, created: created)
         }
 
-        syncTask.processServerBookmarks(server)
+        await syncTask.processServerBookmarks(server)
 
         let allBookmarks = bookmarkManager.allBookmarks()
 
@@ -288,14 +288,14 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         XCTAssertEqual(allBookmarks.map(\.created), Array(repeating: created, count: bookmarks.count))
     }
 
-    func testFullSyncImportsDataCorrectly() {
+    func testFullSyncImportsDataCorrectly() async {
         let serverData: [Api_BookmarkResponse] = [
             .forTesting(uuid: "one", episode: "two", podcast: "three", title: "four", time: 5, created: .init(timeIntervalSince1970: 6)),
             .forTesting(uuid: "seven", episode: "eight", podcast: "nine", title: "ten", time: 11, created: .init(timeIntervalSince1970: 12)),
             .forTesting(uuid: "thirteen", episode: "fourteen", podcast: "fifteen", title: "sixteen", time: 17, created: .init(timeIntervalSince1970: 18))
         ]
 
-        syncTask.processServerBookmarks(serverData)
+        await syncTask.processServerBookmarks(serverData)
 
         let allBookmarks = bookmarkManager.allBookmarks(sorted: .timestamp)
 
@@ -308,7 +308,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         XCTAssertEqual(allBookmarks.map(\.created), [.init(timeIntervalSince1970: 6), .init(timeIntervalSince1970: 12), .init(timeIntervalSince1970: 18)])
     }
 
-    func testFullSyncIgnoresExistingItems() {
+    func testFullSyncIgnoresExistingItems() async {
         addBookmark(time: 1)
         addBookmark(time: 2)
         addBookmark(time: 3)
@@ -319,7 +319,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
             .forTesting(uuid: "thirteen", episode: "fourteen", podcast: "fifteen", title: "sixteen", time: 17, created: .init(timeIntervalSince1970: 18))
         ]
 
-        syncTask.processServerBookmarks(serverData)
+        await syncTask.processServerBookmarks(serverData)
 
         XCTAssertEqual( bookmarkManager.allBookmarks().count, 6)
     }

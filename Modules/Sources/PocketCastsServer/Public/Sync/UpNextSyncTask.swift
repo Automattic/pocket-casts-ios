@@ -32,7 +32,7 @@ public enum UpNextSyncError: LocalizedError {
 class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     private static let processDataLock = NSObject()
 
-    override func main() {
+    override func runTask() async {
         // Skip sync when protected data is unavailable to prevent reading incorrect
         // UserDefaults values (which may return defaults instead of actual stored values)
         // This can happen when the app launches in background before first unlock after reboot
@@ -44,10 +44,10 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         }
 
         logProtectedDataAvailable()
-        super.main()
+        await super.runTask()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let trace = TraceManager.shared.beginTracing(eventName: "SERVER_UP_NEXT_SYNC")
         defer { TraceManager.shared.endTracing(trace: trace) }
 
@@ -55,7 +55,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         let url = ServerConstants.Urls.api() + "up_next/sync"
         do {
             let data = try syncRequest.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 // no changes that we need to process
                 FileLog.shared.addMessage("UpNextSyncTask: Server returned not modified to Up Next sync, no changes required")

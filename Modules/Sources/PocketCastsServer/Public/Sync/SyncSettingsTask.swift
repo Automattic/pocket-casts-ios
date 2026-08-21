@@ -5,7 +5,7 @@ import SwiftProtobuf
 
 class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/named_settings/update"
         do {
             var settingsRequest = Api_NamedSettingsRequest()
@@ -34,7 +34,7 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             }
 
             let data = try settingsRequest.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)

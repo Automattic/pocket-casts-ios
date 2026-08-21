@@ -14,7 +14,7 @@ class UploadFilesUpdateTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files"
 
         var updateRequest = Files_FileListUpdateRequest()
@@ -43,7 +43,7 @@ class UploadFilesUpdateTask: ApiBaseTask, @unchecked Sendable {
 
         do {
             let data = try updateRequest.serializedData()
-            let (_, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (_, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard httpStatus == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Upload file Update failed \(httpStatus)")

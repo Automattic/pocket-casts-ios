@@ -4,10 +4,10 @@ import Foundation
 class ExchangeSonosTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((String?) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/exchange_sonos"
 
-        let (response, httpStatus) = postToServer(url: url, token: token, data: .init())
+        let (response, httpStatus) = await postToServer(url: url, token: token, data: .init())
 
         guard httpStatus == ServerConstants.HttpConstants.ok, let response else {
             completion?(nil)

@@ -4,7 +4,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class SyncTask: ApiBaseTask, @unchecked Sendable {
-    private static let processDataLock = NSObject()
+    private static let processDataLock = AsyncLock()
 
     lazy var importQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -32,8 +32,8 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         return formatter
     }()
 
-    override func apiTokenAcquired(token: String) {
-        performSync(token: token)
+    override func apiTokenAcquired(token: String) async {
+        await performSync(token: token)
     }
 
     override func apiTokenAcquisitionFailed() {
@@ -54,19 +54,19 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         return request
     }
 
-    private func performSync(token: String) {
+    private func performSync(token: String) async {
         if let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), !lastServerModified.isEmpty {
             if ServerSettings.homeGridNeedsRefresh() {
-                performHomeGridRefresh()
+                await performHomeGridRefresh()
             }
 
-            performIncrementalSync(token: token)
+            await performIncrementalSync(token: token)
         } else {
-            performFullSync(token: token)
+            await performFullSync(token: token)
         }
     }
 
-    private func performHomeGridRefresh() {
+    private func performHomeGridRefresh() async {
         FileLog.shared.addMessage("Performing home grid refresh")
         let retrievePodcastsTask = RetrievePodcastsTask()
 
@@ -113,10 +113,10 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
 
             ServerSettings.setHomeGridNeedsRefresh(false)
         }
-        retrievePodcastsTask.runTaskSynchronously()
+        await retrievePodcastsTask.runTask()
     }
 
-    private func performFullSync(token: String) {
+    private func performFullSync(token: String) async {
         FileLog.shared.addMessage("Performing initial full sync")
 
         // grab the last sync date before we begin
@@ -125,7 +125,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         retrieveLastSyncTask.completion = { lastSync in
             lastSyncAt = lastSync
         }
-        retrieveLastSyncTask.runTaskSynchronously()
+        await retrieveLastSyncTask.runTask()
         guard let lastSyncDate = lastSyncAt else {
             status = .failed
             return
@@ -136,14 +136,19 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         // in a full sync we first ask for all the users podcasts
         let retrievePodcastsTask = RetrievePodcastsTask()
         var podcastRetrieveCallSucceeded = false
+        var podcastsToProcess: (podcasts: [PodcastSyncInfo]?, folders: [FolderSyncInfo]?)?
         retrievePodcastsTask.completion = { podcasts, folders, success in
             podcastRetrieveCallSucceeded = success
 
             if success {
-                self.processServerHomeGrid(podcasts: podcasts, folders: folders, lastSyncAt: lastSyncDate)
+                podcastsToProcess = (podcasts, folders)
             }
         }
-        retrievePodcastsTask.runTaskSynchronously()
+        await retrievePodcastsTask.runTask()
+
+        if let podcastsToProcess {
+            await processServerHomeGrid(podcasts: podcastsToProcess.podcasts, folders: podcastsToProcess.folders, lastSyncAt: lastSyncDate)
+        }
 
         if !podcastRetrieveCallSucceeded {
             status = .failed
@@ -157,21 +162,24 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
 
             self.processServerPlaylists(playlists)
         }
-        retrievePlaylistsTask.runTaskSynchronously()
+        await retrievePlaylistsTask.runTask()
 
         // Retrieve all the bookmarks
-        RetrieveBookmarksTask { bookmarks in
-            guard let bookmarks else { return }
+        var bookmarksToProcess: [Api_BookmarkResponse]?
+        await RetrieveBookmarksTask { bookmarks in
+            bookmarksToProcess = bookmarks
+        }.runTask()
 
-            self.processServerBookmarks(bookmarks)
-        }.runTaskSynchronously()
+        if let bookmarksToProcess {
+            await processServerBookmarks(bookmarksToProcess)
+        }
 
         UserDefaults.standard.set(lastSyncDate, forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
 
         status = .successNewData
     }
 
-    private func performIncrementalSync(token: String) {
+    private func performIncrementalSync(token: String) async {
         if isCancelled {
             status = .cancelled
             return
@@ -188,8 +196,8 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         }
 
         let url = ServerConstants.Urls.api() + "user/sync/update"
-        let (data, httpStatus) = postToServer(url: url, token: token, data: dataToSend)
-        status = processSyncData(data, httpStatus: httpStatus, episodesToSync: episodesToSync)
+        let (data, httpStatus) = await postToServer(url: url, token: token, data: dataToSend)
+        status = await processSyncData(data, httpStatus: httpStatus, episodesToSync: episodesToSync)
         if status == .failed {
             ServerNotificationsHelper.shared.fireSyncFailed()
             return
@@ -198,17 +206,22 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         status = .success
     }
 
-    func processSyncData(_ data: Data?, httpStatus: Int, episodesToSync: [Episode]) -> UpdateStatus {
+    func processSyncData(_ data: Data?, httpStatus: Int, episodesToSync: [Episode]) async -> UpdateStatus {
         guard let responseData = data, httpStatus == ServerConstants.HttpConstants.ok else {
             FileLog.shared.addMessage("SyncTask: syncing failed with status \(httpStatus)")
 
             return .failed
         }
 
-        // ensure that only one thread can be processing data at once. The code below isn't thread safe, and will lead to potential issues otherwise
-        objc_sync_enter(SyncTask.processDataLock)
-        defer { objc_sync_exit(SyncTask.processDataLock) }
+        // ensure that only one sync can be processing data at once. The code below isn't thread safe, and will lead to potential issues otherwise
+        await SyncTask.processDataLock.lock()
+        let status = await process(responseData: responseData)
+        await SyncTask.processDataLock.unlock()
 
+        return status
+    }
+
+    private func process(responseData: Data) async -> UpdateStatus {
         do {
             DataManager.sharedManager.markAllPodcastsSynced()
             DataManager.sharedManager.markAllPlaylistsSynced()
@@ -219,7 +232,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             }
 
             let response = try Api_SyncUpdateResponse(serializedBytes: responseData)
-            processServerData(response: response)
+            await processServerData(response: response)
 
             StatsManager.shared.setSyncStatus(.synced)
 

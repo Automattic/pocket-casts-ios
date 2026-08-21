@@ -11,17 +11,15 @@ class SupportFeedbackTask: ApiBaseTask, @unchecked Sendable {
         self.message = message
     }
 
-    override func main() {
-        autoreleasepool {
-            if SyncManager.isUserLoggedIn(), let token = acquiredToken() {
-                startRequest(token: token, feedbackType: .authenticated)
-            } else {
-                startRequest(feedbackType: .anonymous)
-            }
+    override func runTask() async {
+        if SyncManager.isUserLoggedIn(), let token = await acquiredToken() {
+            await startRequest(token: token, feedbackType: .authenticated)
+        } else {
+            await startRequest(feedbackType: .anonymous)
         }
     }
 
-    func startRequest(token: String? = nil, feedbackType: FeedbackType) {
+    func startRequest(token: String? = nil, feedbackType: FeedbackType) async {
         do {
             let urlString = "\(ServerConstants.Urls.api())\(feedbackType.endpoint)"
 
@@ -32,7 +30,7 @@ class SupportFeedbackTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = performPostToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = await performPostToServer(url: urlString, token: token, data: data)
 
             if response == nil {
                 FileLog.shared.addMessage("Failed to send the feedback message because response is empty")

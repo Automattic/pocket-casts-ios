@@ -6,14 +6,14 @@ import SwiftProtobuf
 class RecommendEpisodesTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Episode?) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "discover/recommend_episodes"
 
         do {
             let request = Api_BasicRequest()
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

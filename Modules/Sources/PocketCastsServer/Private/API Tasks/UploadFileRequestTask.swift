@@ -13,7 +13,7 @@ class UploadFileRequestTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files/upload/request"
         do {
             var uploadRequest = Files_FileUploadRequest()
@@ -25,7 +25,7 @@ class UploadFileRequestTask: ApiBaseTask, @unchecked Sendable {
             uploadRequest.colour = Google_Protobuf_Int32Value(episode.imageColor)
             uploadRequest.hasCustomImage_p = episode.hasCustomImage
             let data = try uploadRequest.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Upload file request failed \(httpStatus)")

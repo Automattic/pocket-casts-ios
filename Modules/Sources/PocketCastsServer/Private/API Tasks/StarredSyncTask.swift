@@ -12,7 +12,7 @@ class StarredSyncTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "sync/update_episode_star"
         do {
             var updateRequest = Api_UpdateEpisodeStarRequest()
@@ -21,7 +21,7 @@ class StarredSyncTask: ApiBaseTask, @unchecked Sendable {
             updateRequest.star = episode.keepEpisode
 
             let data = try updateRequest.serializedData()
-            let (_, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (_, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             if httpStatus == ServerConstants.HttpConstants.ok {
                 DataManager.sharedManager.clearKeepEpisodeModified(episode: episode)

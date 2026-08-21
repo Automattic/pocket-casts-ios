@@ -11,7 +11,7 @@ class ReferralRedeemTask: ApiBaseTask, @unchecked Sendable {
         self.code = code
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let urlString = "\(ServerConstants.Urls.api())referrals/redeem"
 
         do {
@@ -20,7 +20,7 @@ class ReferralRedeemTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: urlString, token: token, data: data)
 
             if response == nil {
                 FileLog.shared.addMessage("Referral failed to redeem offer \(code) because response is empty")

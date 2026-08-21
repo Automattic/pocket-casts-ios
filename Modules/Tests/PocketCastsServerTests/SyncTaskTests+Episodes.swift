@@ -14,7 +14,7 @@ final class SyncTaskTests_EpisodeImport: XCTestCase {
         FeatureFlagMock().reset()
     }
 
-    func testSyncingEpisodes() throws {
+    func testSyncingEpisodes() async throws {
         let beforeUnsynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         XCTAssertEqual(beforeUnsynced.count, 0)
 
@@ -30,7 +30,7 @@ final class SyncTaskTests_EpisodeImport: XCTestCase {
         XCTAssertEqual(afterUnsynced.count, episodeCount)
 
         let response = Api_SyncUpdateResponse.episodesResponse(episodes: afterUnsynced)
-        syncTask.processServerData(response: response)
+        await syncTask.processServerData(response: response)
 
         let unsyncedEpisodes = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
 

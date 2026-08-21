@@ -14,14 +14,14 @@ class CancelSubscriptionTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "subscription/cancel/web"
         do {
             var cancelRequest = Api_CancelUserSubscriptionRequest()
             cancelRequest.bundleUuid = bundleUuid
             let data = try cancelRequest.serializedData()
 
-            let (_, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (_, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             completion?(httpStatus == ServerConstants.HttpConstants.ok)
         } catch {

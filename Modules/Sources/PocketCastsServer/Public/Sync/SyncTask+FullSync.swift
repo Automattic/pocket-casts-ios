@@ -34,7 +34,7 @@ extension SyncTask {
         }
     }
 
-    func processServerHomeGrid(podcasts: [PodcastSyncInfo]?, folders: [FolderSyncInfo]?, lastSyncAt: String) {
+    func processServerHomeGrid(podcasts: [PodcastSyncInfo]?, folders: [FolderSyncInfo]?, lastSyncAt: String) async {
         // before looking at the server podcasts, mark any we have here locally as needing to be syncing so they get pushed up with the next sync
         DataManager.sharedManager.markAllPodcastsUnsyncedWhereLastSyncAtNot(lastSyncAt)
 
@@ -62,7 +62,7 @@ extension SyncTask {
                 self.processPodcast(podcast, lastSyncAt: lastSyncAt)
             }
         }
-        importQueue.waitUntilAllOperationsAreFinished()
+        await importQueue.allOperationsFinished()
 
         NotificationCenter.default.post(name: ServerNotifications.syncProgressImportedPodcasts, object: nil)
     }
@@ -136,36 +136,28 @@ extension SyncTask {
 
 extension SyncTask {
     /// Fully imports the server bookmarks and replaces the existing data if there is any available
-    func processServerBookmarks(_ bookmarks: [Api_BookmarkResponse]) {
-        let semaphore = DispatchSemaphore(value: 0)
+    func processServerBookmarks(_ bookmarks: [Api_BookmarkResponse]) async {
+        let bookmarkManager = dataManager.bookmarks
 
-        Task {
-            let bookmarkManager = dataManager.bookmarks
+        // Set all the bookmarks as synced
+        await bookmarkManager.markAllBookmarksAsSynced()
 
-            // Set all the bookmarks as synced
-            await bookmarkManager.markAllBookmarksAsSynced()
+        for apiBookmark in bookmarks {
+            // The response doesn't include the passage fields — they only flow through the
+            // incremental sync records — so carry them over from the replaced bookmark
+            let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true)
 
-            for apiBookmark in bookmarks {
-                // The response doesn't include the passage fields — they only flow through the
-                // incremental sync records — so carry them over from the replaced bookmark
-                let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true)
-
-                if let existingBookmark {
-                    await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false) {
-                        FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not delete existing bookmark: \(apiBookmark.bookmarkUuid)")
-                    }
-                }
-
-                // Add the incoming bookmark to the database
-                bookmarkManager.add(from: apiBookmark, passageFieldsFrom: existingBookmark).when(.none) {
-                    FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not add bookmark: \(String(describing: try? apiBookmark.jsonString()))")
+            if let existingBookmark {
+                await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false) {
+                    FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not delete existing bookmark: \(apiBookmark.bookmarkUuid)")
                 }
             }
 
-            semaphore.signal()
+            // Add the incoming bookmark to the database
+            bookmarkManager.add(from: apiBookmark, passageFieldsFrom: existingBookmark).when(.none) {
+                FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not add bookmark: \(String(describing: try? apiBookmark.jsonString()))")
+            }
         }
-
-        semaphore.wait()
     }
 }
 

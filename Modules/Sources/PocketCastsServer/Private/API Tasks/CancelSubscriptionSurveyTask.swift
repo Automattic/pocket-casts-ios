@@ -13,7 +13,7 @@ class CancelSubscriptionSurveyTask: ApiBaseTask, @unchecked Sendable {
         self.other = other
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         do {
             let urlString = "\(ServerConstants.Urls.api())subscription/survey"
             var request = Api_UserSubscriptionSurveyRequest()
@@ -25,7 +25,7 @@ class CancelSubscriptionSurveyTask: ApiBaseTask, @unchecked Sendable {
             FileLog.shared.addMessage("Post survey for reason \(reason), other: \(other ?? "nil")")
 
             let data = try request.serializedData()
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: urlString, token: token, data: data)
             if response == nil {
                 FileLog.shared.addMessage("Failed to post survey. Response nil.")
                 completion?(false)

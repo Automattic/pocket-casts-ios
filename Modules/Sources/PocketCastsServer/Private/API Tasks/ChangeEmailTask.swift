@@ -15,7 +15,7 @@ class ChangeEmailTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/change_email"
 
         do {
@@ -26,7 +26,7 @@ class ChangeEmailTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try changeRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(false)

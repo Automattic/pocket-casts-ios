@@ -17,11 +17,11 @@ class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
         self.completion = completion
     }
 
-    override func main() {
-        doNetworkCall()
+    override func runTask() async {
+        await doNetworkCall()
     }
 
-    func doNetworkCall() {
+    func doNetworkCall() async {
         let urlString = "\(ServerConstants.Urls.cache())podcast/suggest_folders"
 
         do {
@@ -31,7 +31,7 @@ class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
                 return
             }
 
-            let (data, statusCode) = super.performPostToServer(url: urlString, token: nil, data: requestData)
+            let (data, statusCode) = await super.performPostToServer(url: urlString, token: nil, data: requestData)
             guard let responseData = data,
                   statusCode == ServerConstants.HttpConstants.ok
             else {

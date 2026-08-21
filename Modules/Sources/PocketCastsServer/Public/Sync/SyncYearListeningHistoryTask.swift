@@ -39,13 +39,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         self.yearToSync = year
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         self.token = token
 
-        performRequest(token: token, shouldSync: false)
+        await performRequest(token: token, shouldSync: false)
     }
 
-    private func performRequest(token: String, shouldSync: Bool) {
+    private func performRequest(token: String, shouldSync: Bool) async {
         var dataToSync = Api_YearHistoryRequest()
         dataToSync.version = apiVersion
         dataToSync.year = yearToSync
@@ -54,12 +54,12 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         let url = ServerConstants.Urls.api() + "history/year"
         do {
             let data = try dataToSync.serializedData()
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
             if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 if !shouldSync {
-                    compareNumberOfEpisodes(serverData: response)
+                    await compareNumberOfEpisodes(serverData: response)
                 } else {
-                    syncMissingEpisodes(serverData: response)
+                    await syncMissingEpisodes(serverData: response)
                 }
             } else {
                 print("SyncYearListeningHistory Unable to sync with server got status \(httpStatus)")
@@ -69,7 +69,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
-    private func compareNumberOfEpisodes(serverData: Data) {
+    private func compareNumberOfEpisodes(serverData: Data) async {
         do {
             let response = try Api_YearHistoryResponse(serializedBytes: serverData)
 
@@ -77,7 +77,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
-                performRequest(token: token, shouldSync: true)
+                await performRequest(token: token, shouldSync: true)
             } else {
                 success = true
             }
@@ -86,13 +86,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
-    private func syncMissingEpisodes(serverData: Data) {
+    private func syncMissingEpisodes(serverData: Data) async {
         do {
             let response = try Api_YearHistoryResponse(serializedBytes: serverData)
 
             // on watchOS, we don't show history, so we also don't process server changes we only want to push changes up, not down
             #if !os(watchOS)
-            updateEpisodes(updates: response.history.changes)
+            await updateEpisodes(updates: response.history.changes)
             #endif
 
             success = true
@@ -101,7 +101,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
-    private func updateEpisodes(updates: [Api_HistoryChange]) {
+    private func updateEpisodes(updates: [Api_HistoryChange]) async {
         let lock = NSLock()
 
         var podcastsToUpdate: Set<String> = []
@@ -137,13 +137,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
             }
         }
 
-        dispatchGroup.wait()
+        await dispatchGroup.finished()
 
         // Sync episode status for the retrieved podcasts' episodes
-        updateEpisodes(for: podcastsToUpdate)
+        await updateEpisodes(for: podcastsToUpdate)
     }
 
-    private func updateEpisodes(for podcastsUuids: Set<String>) {
+    private func updateEpisodes(for podcastsUuids: Set<String>) async {
         let dispatchGroup = DispatchGroup()
 
         podcastsUuids.forEach { podcastUuid in
@@ -158,7 +158,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
             }
         }
 
-        dispatchGroup.wait()
+        await dispatchGroup.finished()
     }
 }
 
@@ -201,13 +201,13 @@ public class YearListeningHistory {
             DispatchQueue.global(qos: .userInitiated).async {
                 let syncYearListeningHistory = SyncYearListeningHistoryTask(year: yearToSync)
 
-                syncYearListeningHistory.start()
+                syncYearListeningHistory.runTaskSynchronously()
 
                 syncResults.append(syncYearListeningHistory.success)
 
                 let syncRatings = RetrieveRatingsTask()
 
-                syncRatings.start()
+                syncRatings.runTaskSynchronously()
 
                 syncResults.append(syncRatings.success)
 

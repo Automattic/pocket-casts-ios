@@ -13,7 +13,7 @@ class RetrieveBookmarksTask: ApiBaseTask, @unchecked Sendable {
         super.init(dataManager: dataManager)
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/bookmark/list"
 
         guard let data = try? Api_BookmarkRequest().serializedData() else {
@@ -21,7 +21,7 @@ class RetrieveBookmarksTask: ApiBaseTask, @unchecked Sendable {
             return
         }
 
-        let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+        let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
         guard let response, httpStatus == ServerConstants.HttpConstants.ok else {
             failed("Retrieve bookmarks received an invalid response: Status: \(httpStatus) - Response: \(String(describing: (response as? NSData)))")

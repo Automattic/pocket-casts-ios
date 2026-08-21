@@ -13,10 +13,10 @@ class UploadFilePlayRequestTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "files/play/" + episode.uuid
         do {
-            let (response, httpStatus) = getToServer(url: url, token: token)
+            let (response, httpStatus) = await getToServer(url: url, token: token)
 
             guard let responseData = response else {
                 FileLog.shared.addMessage("Upload file play request missing response data \(httpStatus?.statusCode ?? -1)")

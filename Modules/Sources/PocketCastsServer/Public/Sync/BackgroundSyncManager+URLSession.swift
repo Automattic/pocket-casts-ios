@@ -134,7 +134,14 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             // if this turns out to be an issue we could perhaps persist the UUIDs to UserDefaults, or come up with some other solution to this
             let episodesSynced: [Episode]
             episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
-            _ = syncTask.processSyncData(data, httpStatus: httpCode, episodesToSync: episodesSynced)
+
+            // the operation queue serialises the processing, so hold onto this thread until it's done
+            let semaphore = DispatchSemaphore(value: 0)
+            Task.detached(priority: .utility) {
+                _ = await syncTask.processSyncData(data, httpStatus: httpCode, episodesToSync: episodesSynced)
+                semaphore.signal()
+            }
+            semaphore.wait()
         }
     }
 

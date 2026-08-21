@@ -134,7 +134,7 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         XCTAssertEqual(episode.addedDate?.timeIntervalSince1970, 123_000)
     }
 
-    func testProcessServerDataAddsMissingEpisodesFromPlaylist() {
+    func testProcessServerDataAddsMissingEpisodesFromPlaylist() async {
         FailingURLProtocol.requestCount = 0
         URLProtocol.registerClass(FailingURLProtocol.self)
         defer { URLProtocol.unregisterClass(FailingURLProtocol.self) }
@@ -180,7 +180,7 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         var response = Api_SyncUpdateResponse()
         response.records = [record]
 
-        syncTask.processServerData(response: response)
+        await syncTask.processServerData(response: response)
 
         // Missing episode should be added
         let added = dataManager.findEpisode(uuid: "miss-2")

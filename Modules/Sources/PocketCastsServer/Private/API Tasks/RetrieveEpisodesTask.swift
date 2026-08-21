@@ -21,7 +21,7 @@ class RetrieveEpisodesTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/podcast/episodes"
 
         do {
@@ -30,7 +30,7 @@ class RetrieveEpisodesTask: ApiBaseTask, @unchecked Sendable {
             episodesRequest.uuid = podcastUuid
             let data = try episodesRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

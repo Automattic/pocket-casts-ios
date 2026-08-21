@@ -319,6 +319,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show a Live Activity on the Lock Screen and Dynamic Island while the sleep timer is running
     case sleepTimerLiveActivity
 
+    /// Run the sync/API tasks (`ApiBaseTask` and its subclasses) as asynchronous operations that
+    /// perform their networking with Swift concurrency instead of blocking a thread per request
+    case asyncApiTasks
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -533,6 +537,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .sleepTimerLiveActivity:
             true
+        case .asyncApiTasks:
+            false
         }
     }
 

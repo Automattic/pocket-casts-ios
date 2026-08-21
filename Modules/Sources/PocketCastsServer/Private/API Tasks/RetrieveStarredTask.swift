@@ -8,20 +8,14 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
 
     private var convertedEpisodes = [Episode]()
 
-    private lazy var addEpisodeGroup: DispatchGroup = {
-        let dispatchGroup = DispatchGroup()
-
-        return dispatchGroup
-    }()
-
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "starred/list"
 
         do {
             let starredRequest = Api_EmptyRequest()
             let data = try starredRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)
@@ -38,9 +32,7 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
                 }
 
                 for serverEpisode in serverEpisodes {
-                    addEpisodeGroup.enter()
-                    processEpisode(serverEpisode)
-                    addEpisodeGroup.wait()
+                    await processEpisode(serverEpisode)
                 }
 
                 completion?(convertedEpisodes)
@@ -54,31 +46,33 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
-    private func processEpisode(_ protoEpisode: Api_StarredEpisode) {
+    private func processEpisode(_ protoEpisode: Api_StarredEpisode) async {
         // take the easy case first, do we have this episode locally?
         if convertLocalEpisode(protoEpisode: protoEpisode) {
-            addEpisodeGroup.leave()
-
             return
         }
 
         // we don't have the episode, see if we have the podcast
         if let podcast = DataManager.sharedManager.findPodcast(uuid: protoEpisode.podcastUuid, includeUnsubscribed: true) {
             // we do, so try and refresh it
-            ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] updated in
-                if updated {
-                    // the podcast was updated, try to convert the episode
-                    self?.convertLocalEpisode(protoEpisode: protoEpisode)
-                }
+            await withCheckedContinuation { continuation in
+                ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] updated in
+                    if updated {
+                        // the podcast was updated, try to convert the episode
+                        self?.convertLocalEpisode(protoEpisode: protoEpisode)
+                    }
 
-                self?.addEpisodeGroup.leave()
+                    continuation.resume()
+                }
             }
         } else {
             // we don't, so try and add it
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: protoEpisode.podcastUuid, subscribe: false) { [weak self] _ in
-                // this will convert the episode if we now have it, if we don't not much we can do
-                self?.convertLocalEpisode(protoEpisode: protoEpisode)
-                self?.addEpisodeGroup.leave()
+            await withCheckedContinuation { continuation in
+                ServerPodcastManager.shared.addFromUuid(podcastUuid: protoEpisode.podcastUuid, subscribe: false) { [weak self] _ in
+                    // this will convert the episode if we now have it, if we don't not much we can do
+                    self?.convertLocalEpisode(protoEpisode: protoEpisode)
+                    continuation.resume()
+                }
             }
         }
     }

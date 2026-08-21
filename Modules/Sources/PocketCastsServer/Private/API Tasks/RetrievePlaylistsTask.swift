@@ -6,7 +6,7 @@ import SwiftProtobuf
 class RetrievePlaylistsTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([(EpisodeFilter, [Episode])]?) -> Void)?
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "user/playlist/list"
 
         do {
@@ -14,7 +14,7 @@ class RetrievePlaylistsTask: ApiBaseTask, @unchecked Sendable {
             playlistRequest.m = ServerConstants.Values.apiScope
             let data = try playlistRequest.serializedData()
 
-            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (response, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
                 completion?(nil)

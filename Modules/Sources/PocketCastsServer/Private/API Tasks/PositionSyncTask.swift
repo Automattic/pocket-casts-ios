@@ -16,7 +16,7 @@ class PositionSyncTask: ApiBaseTask, @unchecked Sendable {
         super.init()
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func apiTokenAcquired(token: String) async {
         let url = ServerConstants.Urls.api() + "sync/update_episode"
         do {
             var updateRequest = Api_UpdateEpisodeRequest()
@@ -28,7 +28,7 @@ class PositionSyncTask: ApiBaseTask, @unchecked Sendable {
             updateRequest.duration = Int32(duration)
 
             let data = try updateRequest.serializedData()
-            let (_, httpStatus) = postToServer(url: url, token: token, data: data)
+            let (_, httpStatus) = await postToServer(url: url, token: token, data: data)
 
             if httpStatus == ServerConstants.HttpConstants.ok {
                 FileLog.shared.addMessage("Sent position \(upToAsInt) status \(episode.playingStatus) for episode \(episode.displayableTitle()) to server")
