@@ -189,7 +189,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         #if APPCLIP
         false
         #else
-        FeatureFlag.customPlaybackSettings.enabled
+        true
         #endif
     }
 

@@ -561,8 +561,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
 
-        let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
-        if let player, isReadyToPlay {
+        if let player, player.isReadyToPlay() {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
@@ -2353,14 +2352,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // subsequent InterruptionType.ended notification, to set interruptInProgress correctly.
             // When routes are disconnected, there is no associated end event though. If the route reconnects, we'll
             // receive a different notification which is already handled elsewhere.
-            // Also put this new check behind a feature flag so we can remotely revert to the old logic if
-            // we run into any issues
-            if FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
-                if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
-                    interruptInProgress = true
-                }
-            } else {
-                // Default to the old behaviour if the feature flag is disabled.
+            if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
                 interruptInProgress = true
             }
 
