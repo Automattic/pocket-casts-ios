@@ -353,7 +353,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episode = currentEpisode else { return }
 
         // Only trigger the event if we are already playing
-        if isPlaying, userInitiated == true {
+        if isPlaying, userInitiated {
             analyticsPlaybackHelper.pause()
         }
 
@@ -389,8 +389,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipBack() {
-        let skipBackAmount = TimeInterval(Settings.skipBackTime)
-        skipBack(amount: skipBackAmount)
+        skipBack(amount: TimeInterval(Settings.skipBackTime))
     }
 
     private func skipBack(amount: TimeInterval) {
@@ -402,8 +401,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipForward() {
-        let skipForwardAmount = TimeInterval(Settings.skipForwardTime)
-        skipForward(amount: skipForwardAmount)
+        skipForward(amount: TimeInterval(Settings.skipForwardTime))
     }
 
     private func skipForward(amount: TimeInterval) {
@@ -478,7 +476,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var chaptersAreGenerated: Bool {
-        return chapterManager.chaptersOrigin == .generated
+        chapterManager.chaptersOrigin == .generated
     }
 
     /// The loaded chapters' origin as its Tracks value (e.g. "generated",
@@ -773,9 +771,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func play(playlist: EpisodeFilter) {
-        let playlistEpisodes: [Episode]
         let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
-        playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+        let playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
         if playlist.manual {
             let archivedEpisodes = playlistEpisodes.filter(\.archived)
             EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
@@ -1053,7 +1050,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let playbackEffects = effects()
         if playbackEffects.playbackSpeed < 0.6 { return }
 
-        playbackEffects.playbackSpeed = playbackEffects.playbackSpeed - 0.1
+        playbackEffects.playbackSpeed -= 0.1
         changeEffects(playbackEffects)
     }
 
@@ -1071,7 +1068,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
         if let episode = currentEpisode, EpisodeManager.willPlayViaHLS(episode), playbackEffects.playbackSpeed >= SharedConstants.PlaybackEffects.maximumHlsPlaybackSpeed { return }
 
-        playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
+        playbackEffects.playbackSpeed += 0.1
         changeEffects(playbackEffects)
     }
 
@@ -1441,7 +1438,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             clearNowPlayingInfo()
             cancelSleepTimer()
         } else {
-            playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
+            playNextEpisode(autoPlay: numberOfEpisodesToSleepAfter != 1)
         }
     }
 
@@ -1459,7 +1456,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func bulkAdd(_ episodes: [BaseEpisode], toTop: Bool = false) {
         var episodesToAdd = episodes
-        if let currentEpisodeIndex = episodes.firstIndex(where: { $0.uuid == PlaybackManager.shared.currentEpisode?.uuid }) {
+        if let currentEpisodeIndex = episodes.firstIndex(where: { $0.uuid == currentEpisode?.uuid }) {
             episodesToAdd.remove(at: currentEpisodeIndex)
         }
 
@@ -1584,10 +1581,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             playerCleanupQueue.asyncAfter(deadline: .now() + 5.seconds) { [weak self] in
                 guard let self else { return }
 
-                let index = self.playersToCleanUp.firstIndex(where: { listPlayer -> Bool in
-                    listPlayer == player
-                })
-                if let index {
+                if let index = self.playersToCleanUp.firstIndex(of: player) {
                     self.playersToCleanUp.remove(at: index)
                 }
 
@@ -1783,14 +1777,14 @@ class PlaybackManager: ServerPlaybackDelegate {
                 sleepTimerManager.performFadeOut(player: player)
             }
 
-            sleepTimeRemaining = sleepTimeRemaining - updateTimerInterval
+            sleepTimeRemaining -= updateTimerInterval
 
             if sleepTimeRemaining < 0 {
                 pauseAndRecordSleepTimerFinished()
             }
         }
 
-        if player.buffering() == false {
+        if !player.buffering() {
             updateChapterInfo()
         }
     }
@@ -2193,17 +2187,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
                 return .success
             }
-            if let episode = self.currentEpisode {
-                starCommand.isActive = episode.keepEpisode
-            } else {
-                starCommand.isActive = false
-            }
-            if self.currentEpisode is UserEpisode {
-                starCommand.isEnabled = false
-            }
-            else {
-                starCommand.isEnabled = true
-            }
+            starCommand.isActive = currentEpisode?.keepEpisode ?? false
+            starCommand.isEnabled = !(currentEpisode is UserEpisode)
         } else {
             markPlayedCommand.removeTarget(nil)
             markPlayedCommand.isEnabled = false
@@ -2284,10 +2269,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func setInterval(_ command: MPSkipIntervalCommand, interval: TimeInterval, handler: ((MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus)?) {
-        var intervalAmount = interval
-        if intervalAmount > 99 { intervalAmount = 99 }
         command.isEnabled = true
-        command.preferredIntervals = [NSNumber(value: intervalAmount)]
+        command.preferredIntervals = [NSNumber(value: min(interval, 99))]
 
         if let handler {
             command.addTarget(handler: handler)
@@ -2406,15 +2389,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func remoteDeviceConnected() {
         AnalyticsHelper.didConnectToChromecast()
-        if let episode = currentEpisode {
-            if playerSwitchRequired() {
-                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
-                pause()
 
-                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
-                load(episode: episode, autoPlay: true, overrideUpNext: false)
-            }
-        }
+        guard let episode = currentEpisode, playerSwitchRequired() else { return }
+
+        AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        pause()
+
+        AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
 
     func remoteDeviceWillDisconnect() {
@@ -2698,8 +2680,8 @@ extension PlaybackManager {
 
     func trackChapterEvent(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
         var baseProperties = chapterManager.chaptersAnalyticsProperties
-        if let extraProperties = properties {
-            baseProperties = baseProperties.merging(extraProperties, uniquingKeysWith: { current, _ in return current})
+        if let properties {
+            baseProperties = baseProperties.merging(properties, uniquingKeysWith: { current, _ in current })
         }
         analyticsPlaybackHelper.track(event, properties: baseProperties)
     }
