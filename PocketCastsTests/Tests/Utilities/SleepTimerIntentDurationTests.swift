@@ -2,6 +2,22 @@ import XCTest
 @testable import podcasts
 
 final class SleepTimerIntentDurationTests: XCTestCase {
+    func testBoundedValuePreservesDurationWithinLimits() {
+        XCTAssertEqual(SleepTimerIntentDuration.boundedValue(30.minutes), 30.minutes)
+    }
+
+    func testBoundedValueClampsToSleepTimerLimits() {
+        XCTAssertEqual(SleepTimerIntentDuration.boundedValue(3), Constants.Limits.minSleepTime)
+        XCTAssertEqual(SleepTimerIntentDuration.boundedValue(40.hours), Constants.Limits.maxSleepTime)
+    }
+
+    func testBoundedValueRejectsInvalidDuration() {
+        XCTAssertNil(SleepTimerIntentDuration.boundedValue(0))
+        XCTAssertNil(SleepTimerIntentDuration.boundedValue(-1))
+        XCTAssertNil(SleepTimerIntentDuration.boundedValue(.infinity))
+        XCTAssertNil(SleepTimerIntentDuration.boundedValue(.nan))
+    }
+
     func testResolvedValueConvertsSelectedDurationToSeconds() {
         let duration = SleepTimerIntentDuration.resolvedValue(
             Measurement(value: 1.5, unit: UnitDuration.hours),

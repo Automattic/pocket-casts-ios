@@ -426,7 +426,7 @@ class SiriShortcutsManager: CustomObserver {
 
     func setSleepTimer(duration: TimeInterval) -> Bool {
         AnalyticsHelper.siriSleeptimer()
-        guard duration > 0 else { return false }
+        guard let duration = SleepTimerIntentDuration.boundedValue(duration) else { return false }
         PlaybackManager.shared.setSleepTimerInterval(duration)
         return true
     }
@@ -511,6 +511,14 @@ class SiriShortcutsManager: CustomObserver {
 }
 
 enum SleepTimerIntentDuration {
+    static func boundedValue(_ duration: TimeInterval) -> TimeInterval? {
+        guard duration.isFinite, duration > 0 else {
+            return nil
+        }
+
+        return duration.clamped(to: Constants.Limits.minSleepTime...Constants.Limits.maxSleepTime)
+    }
+
     static func resolvedValue(
         _ selectedDuration: Measurement<UnitDuration>?,
         defaultDuration: TimeInterval
