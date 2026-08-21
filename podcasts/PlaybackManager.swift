@@ -1228,12 +1228,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         func shortUserAttributedMessage(mainColor: UIColor, interactiveColor: UIColor) -> NSAttributedString {
-            let baseText = self.shortUserMessage
-            let learnMore = String(L10n.learnMore).sentenceCased
-            let attributedString = NSMutableAttributedString(string: baseText, attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)])
-            if self.userAction != nil {
-                attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                attributedString.append(NSAttributedString(string: learnMore, attributes: [.foregroundColor: interactiveColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            let font = UIFont.systemFont(ofSize: 14, weight: .medium)
+            let attributedString = NSMutableAttributedString(string: shortUserMessage, attributes: [.foregroundColor: mainColor, .font: font])
+            if userAction != nil {
+                let learnMore = String(L10n.learnMore).sentenceCased
+                attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: font]))
+                attributedString.append(NSAttributedString(string: learnMore, attributes: [.foregroundColor: interactiveColor, .font: font]))
             }
             return attributedString
         }
@@ -1805,16 +1805,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         if isSeeking { return } // don't fire these while the app is seeking
 
         if Thread.isMainThread {
-            if isBackgrounded() { return }
-
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackProgress)
+            postProgressNotification()
         } else {
-            DispatchQueue.main.sync {
-                if isBackgrounded() { return }
-
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackProgress)
-            }
+            DispatchQueue.main.sync { postProgressNotification() }
         }
+    }
+
+    private func postProgressNotification() {
+        if isBackgrounded() { return }
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackProgress)
     }
 
     private func fireChapterChangeNotification() {
