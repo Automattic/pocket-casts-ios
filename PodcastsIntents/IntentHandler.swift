@@ -6,8 +6,6 @@ class IntentHandler: INExtension {
             return PlayMediaIntentHandler()
         } else if intent is SJChapterIntent {
             return ChapterIntentHandler()
-        } else if intent is SJSleepTimerIntent {
-            return SleepTimerIntentHandler()
         } else if intent is SJExtendSleepTimerIntent {
             return ExtendSleepTimerIntentHandler()
         } else if intent is SJOpenFilterIntent {

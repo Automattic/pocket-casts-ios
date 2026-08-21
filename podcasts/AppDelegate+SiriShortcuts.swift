@@ -102,11 +102,6 @@ extension AppDelegate {
             handleOpenFilterIntent(intent: intent as! SJOpenFilterIntent)
         } else if intent is SJChapterIntent {
             handleChapterIntent(intent: intent as! SJChapterIntent)
-        } else if intent is SJSleepTimerIntent {
-            let timerIntent = intent as! SJSleepTimerIntent
-            if let minutes = timerIntent.minutes {
-                _ = SiriShortcutsManager.shared.sleepTimer(newTime: Int(truncating: minutes))
-            }
         } else if intent is SJExtendSleepTimerIntent {
             let timerIntent = intent as! SJExtendSleepTimerIntent
             if let minutes = timerIntent.minutes {
