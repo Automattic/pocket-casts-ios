@@ -62,15 +62,15 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual(decision, .wait)
     }
 
-    func testEncourageAccountCreationAnchorsOnFirstEligibleLaunch() {
-        // First eligible launch (no reference date yet) anchors the clock instead of showing.
+    func testEncourageAccountCreationShowsOnFirstEligibleLaunch() {
+        // First eligible launch (no reference date yet) shows immediately, then the clock starts.
         let decision = Settings.encourageAccountCreationDecision(
             isEligible: true,
             referenceDate: nil,
             now: eacNow,
             interval: eacInterval
         )
-        XCTAssertEqual(decision, .anchor)
+        XCTAssertEqual(decision, .show)
     }
 
     func testEncourageAccountCreationWaitsBeforeIntervalElapses() {
@@ -105,14 +105,15 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual(decision, .show)
     }
 
-    func testEncourageAccountCreationReanchorsWhenReferenceIsInTheFuture() {
-        // A future reference date (backwards clock / restored skewed backup) must re-anchor.
+    func testEncourageAccountCreationShowsWhenReferenceIsInTheFuture() {
+        // A future reference date (backwards clock / restored skewed backup) shows rather than
+        // suppressing the modal indefinitely.
         let decision = Settings.encourageAccountCreationDecision(
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(eacInterval),
             now: eacNow,
             interval: eacInterval
         )
-        XCTAssertEqual(decision, .anchor)
+        XCTAssertEqual(decision, .show)
     }
 }

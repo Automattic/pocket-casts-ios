@@ -239,18 +239,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        // The recurring account-creation modal takes precedence over initial onboarding. Its clock
-        // is reset at presentation time (InformationalModalHostingController.viewWillAppear), not
-        // here, since this runs on every viewDidAppear.
-        if Settings.shouldShowEncourageAccountCreationModal() {
-            // Consume this launch so the first-run flow isn't also queued for next launch.
-            Settings.shouldShowInitialOnboardingFlow = false
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
+        if SyncManager.isUserLoggedIn() {
             return
         }
 
-        // Show initial onboarding if the user is not logged in and has never seen the prompt before
-        if SyncManager.isUserLoggedIn() || (Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true) {
+        // Logged-out users who have already completed initial onboarding are the audience for the
+        // recurring account-creation modal: shown on the first such launch, then every 60 days.
+        // Fresh installs fall through to initial onboarding first. The modal's clock is reset at
+        // presentation time (InformationalModalHostingController.viewWillAppear).
+        let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true
+        if hasCompletedInitialOnboarding {
+            if Settings.shouldShowEncourageAccountCreationModal() {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
+            }
             return
         }
 
