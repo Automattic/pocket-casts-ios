@@ -371,7 +371,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
         cancelUpdateTimer()
         syncSleepTimerLiveActivity(isPaused: true)
-        deactiveAudioSession()
+        deactivateAudioSession()
 
         updateIdleTimer()
     }
@@ -963,7 +963,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private var deactivateTimedActionHelper = TimedActionHelper()
-    private func deactiveAudioSession(waitBeforeDeactivating: Bool = true) {
+    private func deactivateAudioSession(waitBeforeDeactivating: Bool = true) {
         if !waitBeforeDeactivating {
             performDeactivate(audioSession: AVAudioSession.sharedInstance())
             return
@@ -984,9 +984,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func performDeactivate(audioSession: AVAudioSession) {
         do {
             try audioSession.setActive(false)
-            FileLog.shared.addMessage("deactiveAudioSession succeeded")
+            FileLog.shared.addMessage("deactivateAudioSession succeeded")
         } catch {
-            FileLog.shared.addMessage("deactiveAudioSession failed")
+            FileLog.shared.addMessage("deactivateAudioSession failed")
         }
     }
 
@@ -1586,7 +1586,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 }
 
                 if !self.isPlaying {
-                    self.deactiveAudioSession(waitBeforeDeactivating: false)
+                    self.deactivateAudioSession(waitBeforeDeactivating: false)
                 }
             }
         }
