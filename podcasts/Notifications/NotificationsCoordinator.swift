@@ -209,15 +209,7 @@ enum NotificationsGroup: CaseIterable {
     func setEnabled(_ newValue: Bool) {
         switch self {
             case .newEpisodes:
-                if newValue {
-                    // the user has just turned on push, enable it for all their podcasts for simplicity
-                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
-                    NotificationsHelper.shared.registerForPushNotifications()
-                }
                 Settings.notificationsNewEpisodes = newValue
-                if !newValue || FeatureFlag.newEpisodeNotificationsPushOptOut.enabled {
-                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-                }
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
@@ -346,12 +338,17 @@ class NotificationsCoordinator {
     }
 
     func setupNotifications(for group: NotificationsGroup) {
-        group.setEnabled(true)
         NotificationsHelper.shared.enablePush()
+        if group == .newEpisodes {
+            // the user has just turned on push, enable it for all their podcasts for simplicity
+            DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+        }
+        group.setEnabled(true)
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
             updateNotifications(for: group)
         }
+        refreshNewEpisodePushSettings(for: group, enabled: true)
     }
 
     func updateNotifications(for group: NotificationsGroup) {
@@ -396,6 +393,13 @@ class NotificationsCoordinator {
         if NotificationsGroup.allDisabled {
             NotificationsHelper.shared.disablePush()
         }
+        refreshNewEpisodePushSettings(for: group, enabled: false)
+    }
+
+    private func refreshNewEpisodePushSettings(for group: NotificationsGroup, enabled: Bool) {
+        guard group == .newEpisodes, !enabled || FeatureFlag.newEpisodeNotificationsPushOptOut.enabled else { return }
+
+        RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
     }
 
     func scheduleNotification(_ type: NotificationType, trigger: UNNotificationTrigger) {

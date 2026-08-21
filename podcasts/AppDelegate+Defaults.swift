@@ -137,6 +137,14 @@ extension AppDelegate {
             Settings.setMobileDataAllowed(false)
         }
 
+        // Users who enabled push before the notification groups screen existed have no value for
+        // this key, so seed it from the push flag they did set rather than defaulting them to off
+        performUpdateIfRequired(updateKey: "SeedNewEpisodeNotificationsFromPush") {
+            if defaults.value(forKey: Constants.UserDefaults.notifications.newEpisodes) == nil {
+                Settings.notificationsNewEpisodes = NotificationsHelper.shared.pushEnabled()
+            }
+        }
+
         defaults.synchronize()
     }
 

@@ -232,11 +232,8 @@ public class MainServerHandler {
         }
 
         let pushEnabled = ServerConfig.shared.syncDelegate?.isPushEnabled() ?? false
-        let newEpisodePushEnabled: Bool = if FeatureFlag.newEpisodeNotificationsPushOptOut.enabled {
-            ServerConfig.shared.syncDelegate?.isNewEpisodeNotificationsEnabled() ?? false
-        } else {
-            true
-        }
+        let newEpisodePushEnabled = !FeatureFlag.newEpisodeNotificationsPushOptOut.enabled
+            || (ServerConfig.shared.syncDelegate?.isNewEpisodeNotificationsEnabled() ?? false)
 
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
         jsonRequest["push_sound"] = "11" // for legacy reasons, this is always the push sound we send, since it's no longer configurable
