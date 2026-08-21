@@ -24,15 +24,18 @@ struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppInt
 
     @Parameter(
         title: LocalizedStringResource(
-            "siri_shortcut_migrated_sleep_timer_minutes_title",
-            defaultValue: "Minutes",
+            "siri_shortcut_migrated_sleep_timer_seconds_title",
+            defaultValue: "Seconds",
             table: "AppIntents"
         )
     )
+    // The property name must match the legacy intent parameter, whose values were stored in seconds.
     var minutes: Int?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Set sleep timer", table: "AppIntents")
+        Summary("Set sleep timer", table: "AppIntents") {
+            \.$minutes
+        }
     }
 
     @MainActor

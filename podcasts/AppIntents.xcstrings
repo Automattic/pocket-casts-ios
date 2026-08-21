@@ -85,25 +85,25 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "時間長度" } }
       }
     },
-    "siri_shortcut_migrated_sleep_timer_minutes_title" : {
-      "comment" : "Title for the number of minutes parameter in the hidden App Intent that migrates existing legacy sleep timer shortcuts.",
+    "siri_shortcut_migrated_sleep_timer_seconds_title" : {
+      "comment" : "Title for the legacy sleep timer duration parameter, whose values are stored in seconds.",
       "extractionState" : "manual",
       "localizations" : {
-        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Minuts" } },
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Minuten" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Minutes" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Minutos" } },
-        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Minutos" } },
-        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Minutes" } },
-        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Minutes" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Minuti" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "分" } },
-        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Minuten" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Minutos" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Минуты" } },
-        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Minuter" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分钟" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分鐘" } }
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Segons" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sekunden" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Seconds" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Secondes" } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Secondes" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Secondi" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Seconden" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Секунды" } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Sekunder" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "秒" } }
       }
     },
     "siri_shortcut_set_sleep_timer_title" : {
