@@ -44,50 +44,47 @@ class BadgeHelper {
         cancelable = nil
     }
 
-    @objc func updateBadge() {
-        guard let badgeSetting = Settings.appBadge else { return }
+    /// - Parameter completion: called once the system has acknowledged the badge write, or immediately if the badge was left untouched.
+    func updateBadge(completion: (() -> Void)? = nil) {
+        guard let badgeCount = badgeCount() else {
+            completion?()
 
-        let pushOn = NotificationsHelper.shared.pushEnabled()
+            return
+        }
 
-        if badgeSetting == .off && !pushOn { return } // user has both the badge and push turned off, don't attempt to badge their app. Results in iOS 8 push message request popup
-
-        if badgeSetting == .off || !pushOn {
-            clearBadge()
-        } else if badgeSetting == .totalUnplayed {
-            let unplayedCount = DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0", values: nil)
-            setBadgeTo(unplayedCount)
-        } else if badgeSetting == .newSinceLastOpened {
-            guard let lastClosedDate = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastAppCloseDate) as? Date else {
-                clearBadge()
-
-                return
-            }
-
-            let newCount = DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0 AND e.addedDate > ?", values: [lastClosedDate])
-            setBadgeTo(newCount)
-        } else if badgeSetting == .filterCount {
-            guard let playlistId = Settings.appBadgeFilterUuid else {
-                Settings.appBadge = .off
-
-                return
-            }
-
-            guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistId) else {
-                Settings.appBadge = .off
-
-                return
-            }
-
-            let episodeCount = DataManager.sharedManager.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
-            setBadgeTo(episodeCount)
+        UNUserNotificationCenter.current().setBadgeCount(badgeCount) { _ in
+            completion?()
         }
     }
 
-    private func clearBadge() {
-        UNUserNotificationCenter.current().setBadgeCount(0)
-    }
+    /// The number to badge the app with, or `nil` if the badge shouldn't be touched at all.
+    private func badgeCount() -> Int? {
+        guard let badgeSetting = Settings.appBadge else { return nil }
 
-    private func setBadgeTo(_ badgeNumber: Int) {
-        UNUserNotificationCenter.current().setBadgeCount(badgeNumber)
+        let pushOn = NotificationsHelper.shared.pushEnabled()
+
+        if badgeSetting == .off && !pushOn { return nil } // user has both the badge and push turned off, don't attempt to badge their app. Results in iOS 8 push message request popup
+
+        if !pushOn { return 0 }
+
+        switch badgeSetting {
+        case .off:
+            return 0
+        case .totalUnplayed:
+            return DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0", values: nil)
+        case .newSinceLastOpened:
+            guard let lastClosedDate = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastAppCloseDate) as? Date else { return 0 }
+
+            return DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0 AND e.addedDate > ?", values: [lastClosedDate])
+        case .filterCount:
+            guard let playlistId = Settings.appBadgeFilterUuid,
+                  let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistId) else {
+                Settings.appBadge = .off
+
+                return nil
+            }
+
+            return DataManager.sharedManager.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
+        }
     }
 }

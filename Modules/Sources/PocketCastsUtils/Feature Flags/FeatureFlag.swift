@@ -261,6 +261,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the network discovery Discover sections and podcast page entry points
     case networkDiscovery
 
+    /// Update the app icon badge after a background refresh finishes, rather than before it starts,
+    /// and wait for the badge write to land before signalling the background task as complete
+    case updateBadgeAfterBackgroundRefresh
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -445,6 +449,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .networkDiscovery:
             BuildEnvironment.current == .debug
+        case .updateBadgeAfterBackgroundRefresh:
+            true
         }
     }
 
