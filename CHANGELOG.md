@@ -1,5 +1,6 @@
 8.20
 -----
+- Fix Listening History search showing "No episodes found" before the search had finished, and results not turning up until the query was retyped when history synced late [#4984](https://github.com/Automattic/pocket-casts-ios/pull/4984)
 
 
 8.19

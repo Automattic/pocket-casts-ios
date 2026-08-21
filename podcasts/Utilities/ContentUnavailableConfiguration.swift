@@ -50,6 +50,7 @@ struct LoadingView: View {
                 .padding()
                 .tint(theme.primaryIcon01)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
