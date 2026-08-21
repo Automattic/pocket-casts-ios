@@ -4,7 +4,6 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftUI
 
-@MainActor
 class PhoneSourceViewModel: PlaySourceViewModel {
     var isPlaying: Bool {
         WatchDataManager.isPlaying()
