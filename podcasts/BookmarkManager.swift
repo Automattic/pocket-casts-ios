@@ -70,8 +70,19 @@ class BookmarkManager {
     }()
 
     /// Adds a new bookmark for an episode at the given time
+    ///
+    /// - Parameters:
+    ///   - passage: The transcript passage to store with the bookmark, for a bookmark made
+    ///     from one the user picked out. Left nil, the passage is captured afterwards from
+    ///     the transcript around `time`.
+    ///   - referenceTime: `time` on the transcript's reference timeline, when it's already known.
     @discardableResult
-    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle, source: BookmarkAnalyticsSource = .unknown) -> Bookmark? {
+    func add(to episode: BaseEpisode,
+             at time: TimeInterval,
+             title: String = L10n.bookmarkDefaultTitle,
+             passage: BookmarkUpdateParameters.Passage? = nil,
+             referenceTime: TimeInterval? = nil,
+             source: BookmarkAnalyticsSource = .unknown) -> Bookmark? {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
@@ -80,7 +91,18 @@ class BookmarkManager {
             return existing
         }
 
-        return dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, title: title, time: time).flatMap {
+        let now = Date()
+
+        return dataManager.add(episodeUuid: episode.uuid,
+                               podcastUuid: podcastUuid,
+                               title: title,
+                               time: time,
+                               dateCreated: now,
+                               passage: passage?.text,
+                               passageLocation: passage?.location,
+                               passageModified: passage != nil ? now : nil,
+                               referenceTime: referenceTime,
+                               referenceTimeModified: referenceTime != nil ? now : nil).flatMap {
             FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
 
             // Inform the subscribers a bookmark was added

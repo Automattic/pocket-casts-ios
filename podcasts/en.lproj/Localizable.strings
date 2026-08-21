@@ -4910,6 +4910,9 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Title of the action in the text selection menu of the transcript that creates a bookmark at the start of the selected text. Keep it short: it sits in a row of system actions such as Copy and Share. */
+"transcript_bookmark_selection" = "Bookmark";
+
 /* Highlighted transcripts What's New announcement sheet title */
 "transcript_highlight_announcement_title" = "Read along. Even at 2x.";
 
