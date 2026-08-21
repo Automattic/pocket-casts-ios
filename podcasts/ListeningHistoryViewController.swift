@@ -269,7 +269,7 @@ class ListeningHistoryViewController: PCViewController {
                 icon: { Image("profile-download").renderingMode(.template) }
             )
 
-            listeningHistoryTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
+            listeningHistoryTable.themeStyle = .primaryUi02
             listeningHistoryTable.backgroundView = config.makeContentView()
         case .noHistory:
             listeningHistoryTable.isHidden = true
