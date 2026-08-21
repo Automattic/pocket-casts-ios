@@ -54,11 +54,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enables the referrals Claim Flow
     case referralsClaim
 
-    /// When accessing Stats, it checks if the local stats are behind remote
-    /// If it is, it updates it
-    /// This is meant to fix an issue for users that were losing stats
-    case syncStats
-
     /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
     /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
     /// This makes the skip unusable as the player doesn't have its task set yet.
@@ -201,9 +196,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Upgrades the Effects Player's AudioReadTask to a QOS level of "userInitiated" from "default"
     case effectsPlayerQOSUpgrade
 
-    /// Refreshes by listening to notifications for podcast subscribe/unsubscribe
-    case refreshPlaylistOnSubscriptions
-
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
@@ -276,9 +268,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Show the listening activity heatmap on the Stats screen
     case statsHeatmap
-    /// If enabled, send explicit watch-related error logs to Sentry.
-    /// This does not control automatic crash reporting.
-    case watchSentryLogs
 
     /// Show explicit content badges on podcasts
     case showExplicitBadges
@@ -303,9 +292,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use best frame when capturing a thumbnail for video cells
     case captureBestFrame
-
-    /// Show the Categories and Curated rows on the tvOS Home screen
-    case tvHomeCategoriesAndCurated
 
     /// Make the tab bar's minimize-on-scroll behavior opt-in: it's off unless the
     /// user turns it on in Appearance
@@ -362,8 +348,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .referralsClaim:
             true
         case .referralsSend:
-            true
-        case .syncStats:
             true
         case .playerIsReadyToPlay:
             true
@@ -457,8 +441,6 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .effectsPlayerQOSUpgrade:
             true
-        case .refreshPlaylistOnSubscriptions:
-            true
         case .playlistDataCacheBeforeQuery:
             true
         case .ignorePlayWithOtherAudio:
@@ -507,8 +489,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .statsHeatmap:
             true
-        case .watchSentryLogs:
-            false
         case .showExplicitBadges:
             true
         case .shareProfile:
@@ -525,8 +505,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .captureBestFrame:
             true
-        case .tvHomeCategoriesAndCurated:
-            false
         case .minimizeTabsOptIn:
             true
         case .smartBookmarksPromo:
