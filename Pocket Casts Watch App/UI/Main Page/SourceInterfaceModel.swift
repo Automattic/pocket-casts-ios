@@ -2,7 +2,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
-@MainActor
 class SourceInterfaceModel: ObservableObject {
 
     @Published var activeSource: Source = .phone
@@ -36,6 +35,7 @@ class SourceInterfaceModel: ObservableObject {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: WatchConstants.Notifications.dataUpdated, object: nil)
+        removeAllCustomObservers()
         NotificationCenter.default.removeObserver(self)
     }
 

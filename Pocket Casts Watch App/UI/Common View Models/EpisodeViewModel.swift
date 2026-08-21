@@ -34,12 +34,12 @@ class EpisodeViewModel: ObservableObject {
         }
 
         Publishers.Notification.downloadStatusChanged
-            .receive(on: RunLoop.main)
             .compactMap { [unowned self] notification in
                 guard let episodeUuid = notification.object as? String, episodeUuid == self.episode.uuid else { return nil }
                 self.downloadProgress = nil
                 return DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid)
             }
+            .receive(on: RunLoop.main)
             .assign(to: &$episode)
 
         Publishers.Notification.downloadProgress
@@ -56,7 +56,6 @@ class EpisodeViewModel: ObservableObject {
             .store(in: &cancellables)
 
         Publishers.Notification.upNextEpisodeChanged
-            .receive(on: RunLoop.main)
             .compactMap { [unowned self] notification in
                 guard let episodeUuid = notification.object as? String, episodeUuid == self.episode.uuid else { return nil }
                 return self.episode
@@ -64,13 +63,14 @@ class EpisodeViewModel: ObservableObject {
             .map { [unowned self] episode in
                 self.playSourceViewModel.inUpNext(forEpisode: episode)
             }
+            .receive(on: RunLoop.main)
             .assign(to: &$inUpNext)
 
         Publishers.Notification.upNextQueueChanged
-            .receive(on: RunLoop.main)
             .map { [unowned self] _ in
                 self.playSourceViewModel.inUpNext(forEpisode: self.episode)
             }
+            .receive(on: RunLoop.main)
             .assign(to: &$inUpNext)
     }
 }
