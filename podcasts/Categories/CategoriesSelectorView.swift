@@ -51,6 +51,7 @@ struct PlaceholderPillsView: View {
             .frame(alignment: .leading)
             .padding(CategoriesPillsView.Constants.buttonInsets)
         }
+        .accessibilityHidden(true)
     }
 }
 
