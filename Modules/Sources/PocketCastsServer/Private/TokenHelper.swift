@@ -236,13 +236,17 @@ class TokenHelper {
             logMessages.append("no email address")
         }
 
-        if ServerSettings.syncingPassword() == nil {
+        let hasPassword = ServerSettings.syncingPassword() != nil
+        if !hasPassword {
             logMessages.append("no password")
         }
 
+        var hasRefreshToken = false
         do {
             if try ServerSettings.refreshToken() == nil {
                 logMessages.append("no SSO token")
+            } else {
+                hasRefreshToken = true
             }
         } catch {
             if case let KeychainHelper.KeychainError.status(status) = error, status == errSecInteractionNotAllowed {
@@ -250,6 +254,17 @@ class TokenHelper {
                 FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")
                 return
             }
+        }
+
+        if !hasPassword && !hasRefreshToken {
+            // No valid credentials exist — this is stale keychain data (e.g. from an old
+            // install). Clear it silently instead of calling SyncManager.signout(), which
+            // would show a "You've been signed out" alert that confuses never-signed-in users.
+            FileLog.shared.addMessage("Sync account has stale credentials with no valid auth, cleaning up silently")
+            SyncManager.clearTokensFromKeyChain()
+            ServerSettings.setSyncingEmail(email: nil)
+            ServerSettings.userId = nil
+            return
         }
 
         FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
