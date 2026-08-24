@@ -175,30 +175,22 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         registerSceneAppearanceObserverIfNeeded()
         fireSystemThemeMayHaveChanged()
-        checkSubscriptionStatusChanged()
-        checkPromotionFinishedAcknowledged()
-        checkWhatsNewAcknowledged()
-
-        // Show any app launch announcements/prompts only once
-        if !viewDidAppearBefore {
-            showWhatsNewIfNeeded()
-            showEndOfYearPromptIfNeeded()
-
-            viewDidAppearBefore = true
-        }
 
         // if this key was never set lets default to Discovery or Podcast depending of podcasts followed
         if UserDefaults.standard.object(forKey: Constants.UserDefaults.lastTabOpened) == nil {
             selectedIndex = DataManager.sharedManager.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
         }
 
-        showInitialOnboardingIfNeeded()
-
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
 
-        if DataManager.loginAgain {
-            loginAgain()
+        let isFirstAppearance = !viewDidAppearBefore
+        viewDidAppearBefore = true
+
+        // This can run inside the deferred-commit flush of a modal dismissal, where
+        // presenting or dismissing runs into the transition that is still tearing down.
+        DispatchQueue.main.async { [weak self] in
+            self?.showLaunchPromptsIfNeeded(isFirstAppearance: isFirstAppearance)
         }
     }
 
@@ -1092,6 +1084,24 @@ private extension MainTabBarController {
 // MARK: - App Launch Prompts
 
 private extension MainTabBarController {
+    func showLaunchPromptsIfNeeded(isFirstAppearance: Bool) {
+        checkSubscriptionStatusChanged()
+        checkPromotionFinishedAcknowledged()
+        checkWhatsNewAcknowledged()
+
+        // Show any app launch announcements/prompts only once
+        if isFirstAppearance {
+            showWhatsNewIfNeeded()
+            showEndOfYearPromptIfNeeded()
+        }
+
+        showInitialOnboardingIfNeeded()
+
+        if DataManager.loginAgain {
+            loginAgain()
+        }
+    }
+
     func showEndOfYearPromptIfNeeded() {
         // Only show the prompt if there isn't an active announcement flow
         guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
