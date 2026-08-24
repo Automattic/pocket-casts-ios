@@ -1115,9 +1115,9 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        // Only prime when the permission is still undecided, and never stack on another modal:
-        // avoids re-asking a user who already granted/denied, and a dropped presentation when
-        // another flow (referrals, device approval) is still presenting.
+        // Only prime when the permission is still undecided. If another flow is still presenting
+        // (e.g. referrals, device approval) we skip the prompt entirely rather than stacking or
+        // retrying — missing the one-time prompt in those edge-case flows is acceptable.
         guard presentedViewController == nil else { return }
         NotificationsHelper.shared.checkNotificationsNotDetermined { [weak self] notDetermined in
             DispatchQueue.main.async {
