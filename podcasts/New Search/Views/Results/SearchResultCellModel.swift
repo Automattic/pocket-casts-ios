@@ -105,12 +105,21 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func errorTapped() {
-        guard let episode else { return }
-        if realEpisode?.playbackError() == true {
-            playTapped()
+        guard let realEpisode else { return }
+
+        let optionsPicker = OptionsPicker(title: nil)
+        if realEpisode.playbackError() {
+            let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
+                self?.playTapped()
+            })
+            optionsPicker.addDescriptiveActions(title: L10n.playbackFailed, message: realEpisode.playbackErrorDetails, icon: "option-alert", actions: [retryAction])
         } else {
-            PlaybackActionHelper.download(episodeUuid: episode.uuid)
+            let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
+                self?.downloadTapped()
+            })
+            optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: realEpisode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
         }
+        optionsPicker.present()
     }
 
     func waitingForWifiTapped() {
