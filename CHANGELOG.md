@@ -7,6 +7,7 @@
 - Fix a crash when starting episode downloads [#5001](https://github.com/Automattic/pocket-casts-ios/pull/5001)
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
 - Add support for "Networks" row in "Discover" [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026)
+- Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 
 8.19
 -----
@@ -70,7 +71,6 @@
 - Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
 - [tvOS] Improve thumbnail algorithm for videos [#4861](https://github.com/Automattic/pocket-casts-ios/pull/4861)
 - [tvOS] Show correct number of playlist items, and update playlists episode status on changes [#4869](https://github.com/Automattic/pocket-casts-ios/pull/4869)
-- Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 
 8.16.1
 ------
