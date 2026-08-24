@@ -26,8 +26,11 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         }
     }
 
-    func removeValue(forKey key: Key) {
-        updateValue(nil, forKey: key)
+    @discardableResult
+    func removeValue(forKey key: Key) -> Value? {
+        tableLock.lock()
+        defer { tableLock.unlock() }
+        return table.removeValue(forKey: key)
     }
 
     func removeAll() {
