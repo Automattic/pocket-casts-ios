@@ -1434,7 +1434,10 @@ class Settings: NSObject {
     }
 
     /// Whether to show the modal this launch. Callers gate eligibility on the user having completed
-    /// onboarding; the clock is reset at presentation time. `now` is injectable for tests.
+    /// onboarding. The clock is anchored when the modal is presented
+    /// (`InformationalModalHostingController.viewWillAppear`) and when initial onboarding finishes
+    /// without an account (`OnboardingFlow.reset()`). The cadence itself is unit-tested through the
+    /// pure `encourageAccountCreationDecision` above; `now` lets callers evaluate against a fixed clock.
     static func shouldShowEncourageAccountCreationModal(now: Date = Date()) -> Bool {
         let isEligible = FeatureFlag.encourageAccountCreation.enabled
             && !SyncManager.isUserLoggedIn()
