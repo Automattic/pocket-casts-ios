@@ -14,6 +14,12 @@ class SocialsHelper {
         openUrls(urls: urls)
     }
 
+    class func openBluesky() {
+        let urls = ["bluesky://profile/pocketcasts.com", "https://bsky.app/profile/pocketcasts.com"]
+
+        openUrls(urls: urls)
+    }
+
     private class func openUrls(urls: [String]) {
         let application = UIApplication.shared
         for urlString in urls {

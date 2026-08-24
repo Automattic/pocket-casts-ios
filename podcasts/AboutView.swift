@@ -105,6 +105,10 @@ struct AboutView: View {
                 model.track(action: .twitter)
                 SocialsHelper.openTwitter()
             }
+            AboutRow(mainText: L10n.bluesky, secondaryText: L10n.blueskyHandle) {
+                model.track(action: .bluesky)
+                SocialsHelper.openBluesky()
+            }
         }
 
         Section {

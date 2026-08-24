@@ -28,6 +28,8 @@ class AboutViewModel: ObservableObject {
             Analytics.track(.settingsAboutInstagramTapped)
         case .twitter:
             Analytics.track(.settingsAboutTwitterTapped)
+        case .bluesky:
+            Analytics.track(.settingsAboutBlueskyTapped)
         case .automatticFamily:
             Analytics.track(.settingsAboutAutomatticFamilyTapped)
         case .workWithUs:
@@ -41,6 +43,7 @@ class AboutViewModel: ObservableObject {
         case website
         case instagram
         case twitter
+        case bluesky
         case automatticFamily
         case workWithUs
     }

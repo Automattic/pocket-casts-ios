@@ -2,6 +2,7 @@
 -----
 - Fix Listening History search showing "No episodes found" before the search had finished, and results not turning up until the query was retyped when history synced late [#4984](https://github.com/Automattic/pocket-casts-ios/pull/4984)
 - Fix the app freezing and closing itself when creating a Smart Playlist [#4993](https://github.com/Automattic/pocket-casts-ios/pull/4993)
+- Add a Bluesky link to the About screen alongside Website, Instagram and X [#4998](https://github.com/Automattic/pocket-casts-ios/pull/4998)
 - Fix setting the sleep timer through Siri or Shortcuts while the device is locked [#4812](https://github.com/Automattic/pocket-casts-ios/pull/4812)
 
 8.19
