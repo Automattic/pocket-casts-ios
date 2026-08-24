@@ -64,7 +64,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func stopDownloadTapped() {
-        guard let episode else { return }
+        guard let episode, !isLoadingEpisode else { return }
         PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
     }
 
@@ -87,7 +87,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func waitingForWifiTapped() {
-        guard let episode else { return }
+        guard let episode, !isLoadingEpisode else { return }
         PlaybackActionHelper.overrideWaitingForWifi(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
     }
 
@@ -146,15 +146,26 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             NotificationCenter.default.publisher(for: Constants.Notifications.playbackPaused),
         )
         .receive(on: OperationQueue.main)
-        .sink(receiveValue: { [unowned self] _ in
-            self.refreshTrigger.toggle()
+        .sink(receiveValue: { [weak self] _ in
+            self?.refreshTrigger.toggle()
         })
         .store(in: &cancellables)
 
+        // `playbackFailed` carries no episode UUID, but it only fires when playback actually fails,
+        // so reloading unconditionally is cheap.
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackFailed)
+            .receive(on: OperationQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.reloadRealEpisode()
+                self?.refreshTrigger.toggle()
+            })
+            .store(in: &cancellables)
+
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
             .receive(on: OperationQueue.main)
-            .sink(receiveValue: { [unowned self] notification in
-                guard let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode?.uuid,
+            .sink(receiveValue: { [weak self] notification in
+                guard let self,
+                      let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode?.uuid,
                       episodeUUID == episode.uuid
                 else {
                     return
@@ -168,8 +179,9 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         // finishes, or fails — otherwise the button never reflects the tap. Mirrors `EpisodeCell`.
         NotificationCenter.default.publisher(for: Constants.Notifications.downloadProgress)
             .receive(on: OperationQueue.main)
-            .sink(receiveValue: { [weak self] _ in
+            .sink(receiveValue: { [weak self] notification in
                 guard let self,
+                      notification.object as? String == episode.uuid,
                       DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) != nil else { return }
                 // Only hit the DB when our cached episode doesn't yet reflect the download; live
                 // progress is read straight from the DownloadManager when the button repopulates.
