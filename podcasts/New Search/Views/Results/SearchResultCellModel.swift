@@ -34,27 +34,10 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func playTapped() {
-        guard let episode, !isLoadingEpisode else {
-            return
-        }
-        isLoadingEpisode = true
-        Task { @MainActor in
-            let spinnerTask = Task { @MainActor in
-                try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
-                try Task.checkCancellation()
-                showsLoadingSpinner = true
-            }
-            defer {
-                spinnerTask.cancel()
-                isLoadingEpisode = false
-                showsLoadingSpinner = false
-            }
-            do {
-                try await PlaybackManager.shared.playEpisodeSearchResult(episode)
-            } catch {
-                HapticsHelper.triggerErrorHaptic()
-                Toast.show(L10n.discoverEpisodeFailToLoad)
-            }
+        guard let episode else { return }
+
+        withLoadingSpinner {
+            try await PlaybackManager.shared.playEpisodeSearchResult(episode)
         }
     }
 
@@ -65,37 +48,18 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     func downloadTapped() {
         guard let episode, !isLoadingEpisode else { return }
 
-        // A search result's episode isn't necessarily in the database yet (the user might
-        // not be subscribed to the podcast), so make sure it exists before queuing it for
-        // download — mirroring `playEpisodeSearchResult`.
-        if DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) != nil {
+        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+            realEpisode = existingEpisode
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
             return
         }
 
-        isLoadingEpisode = true
-        Task { @MainActor in
-            let spinnerTask = Task { @MainActor in
-                try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
-                try Task.checkCancellation()
-                showsLoadingSpinner = true
-            }
-            defer {
-                spinnerTask.cancel()
-                isLoadingEpisode = false
-                showsLoadingSpinner = false
-            }
-            do {
-                guard try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid) != nil else {
-                    throw EpisodeLookupError.episodeNotFound
-                }
-                PlaybackActionHelper.download(episodeUuid: episode.uuid)
-                reloadRealEpisode()
-                refreshTrigger.toggle()
-            } catch {
-                HapticsHelper.triggerErrorHaptic()
-                Toast.show(L10n.discoverEpisodeFailToLoad)
-            }
+        withLoadingSpinner { [weak self] in
+            guard let self else { return }
+            let resolvedEpisode = try await self.resolveEpisode(episode)
+            PlaybackActionHelper.download(episodeUuid: episode.uuid)
+            self.realEpisode = resolvedEpisode
+            self.refreshTrigger.toggle()
         }
     }
 
@@ -125,6 +89,44 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     func waitingForWifiTapped() {
         guard let episode else { return }
         PlaybackActionHelper.overrideWaitingForWifi(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
+    }
+
+    /// A search result's episode isn't necessarily in the database yet (the user might not be
+    /// subscribed to the podcast), so fetch it from the server when it's missing.
+    private func resolveEpisode(_ episode: EpisodeSearchResult) async throws -> BaseEpisode {
+        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+            return existingEpisode
+        }
+        guard let addedEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid) else {
+            throw EpisodeLookupError.episodeNotFound
+        }
+        return addedEpisode
+    }
+
+    /// Runs `work`, showing the row's spinner if it doesn't finish quickly and surfacing a toast if it fails.
+    private func withLoadingSpinner(_ work: @escaping @MainActor () async throws -> Void) {
+        guard !isLoadingEpisode else { return }
+
+        isLoadingEpisode = true
+        Task { @MainActor in
+            let spinnerTask = Task { @MainActor in
+                try await Task.sleep(nanoseconds: UInt64(Self.loadingSpinnerDelay * TimeInterval(NSEC_PER_SEC)))
+                try Task.checkCancellation()
+                showsLoadingSpinner = true
+            }
+            defer {
+                spinnerTask.cancel()
+                isLoadingEpisode = false
+                showsLoadingSpinner = false
+            }
+            do {
+                try await work()
+            } catch is CancellationError {
+            } catch {
+                HapticsHelper.triggerErrorHaptic()
+                Toast.show(L10n.discoverEpisodeFailToLoad)
+            }
+        }
     }
 
     private func reloadRealEpisode() {
