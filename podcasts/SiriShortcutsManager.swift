@@ -424,11 +424,16 @@ class SiriShortcutsManager: CustomObserver {
     func skipToNextEpisode() { // ? in podcast or playlist
     }
 
-    func sleepTimer(newTime: Int) -> Bool {
+    func setSleepTimer(duration: TimeInterval) -> Bool {
         AnalyticsHelper.siriSleeptimer()
-        guard let timeInterval = TimeInterval(exactly: newTime) else { return false }
-        PlaybackManager.shared.setSleepTimerInterval(timeInterval)
+        guard let duration = SleepTimerIntentDuration.boundedValue(duration) else { return false }
+        PlaybackManager.shared.setSleepTimerInterval(duration)
         return true
+    }
+
+    func sleepTimer(newTime: Int) -> Bool {
+        guard let duration = TimeInterval(exactly: newTime) else { return false }
+        return setSleepTimer(duration: duration)
     }
 
     func extendSleepTimer(addTime: Int) -> Bool {
