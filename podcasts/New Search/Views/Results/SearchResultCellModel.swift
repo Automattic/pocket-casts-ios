@@ -145,7 +145,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             NotificationCenter.default.publisher(for: Constants.Notifications.playbackEnded),
             NotificationCenter.default.publisher(for: Constants.Notifications.playbackPaused),
         )
-        .receive(on: OperationQueue.main)
+        .receive(on: DispatchQueue.main)
         .sink(receiveValue: { [weak self] _ in
             self?.refreshTrigger.toggle()
         })
@@ -154,7 +154,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         // `playbackFailed` carries no episode UUID, but it only fires when playback actually fails,
         // so reloading unconditionally is cheap.
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackFailed)
-            .receive(on: OperationQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.reloadRealEpisode()
                 self?.refreshTrigger.toggle()
@@ -162,7 +162,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
-            .receive(on: OperationQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] notification in
                 guard let self,
                       let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode?.uuid,
@@ -178,7 +178,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         // Keep the download/play action button in sync while a download is queued, in progress,
         // finishes, or fails — otherwise the button never reflects the tap. Mirrors `EpisodeCell`.
         NotificationCenter.default.publisher(for: Constants.Notifications.downloadProgress)
-            .receive(on: OperationQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] notification in
                 guard let self,
                       notification.object as? String == episode.uuid,
@@ -196,7 +196,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             NotificationCenter.default.publisher(for: Constants.Notifications.episodeDownloadStatusChanged),
             NotificationCenter.default.publisher(for: Constants.Notifications.episodeDownloaded)
         )
-        .receive(on: OperationQueue.main)
+        .receive(on: DispatchQueue.main)
         .sink(receiveValue: { [weak self] notification in
             guard let self, notification.object as? String == episode.uuid else { return }
             self.reloadRealEpisode()
