@@ -960,6 +960,10 @@ enum AnalyticsEvent: String {
     case episodeTranscriptShown
     case transcriptShared
     case transcriptTextHighlighted
+    case transcriptOnDemandRequested
+    case transcriptOnDemandOutcome
+    case transcriptOnDemandReady
+    case transcriptOnDemandTimedOut
     case syncedTranscriptsSeekUsed
     case syncedTranscriptsPreparationStarted
     case syncedTranscriptsPreparationCompleted

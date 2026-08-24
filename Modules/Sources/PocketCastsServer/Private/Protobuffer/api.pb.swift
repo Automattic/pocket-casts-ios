@@ -20,6 +20,184 @@ fileprivate nonisolated struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobu
   typealias Version = _2
 }
 
+nonisolated enum Api_OnDemandTranscriptOutcome: SwiftProtobuf.Enum, Swift.CaseIterable {
+  typealias RawValue = Int
+  case outcomeUnspecified // = 0
+  case queued // = 1
+  case inProgress // = 2
+  case available // = 3
+  case notEligible // = 4
+  case transientFailure // = 5
+  case throttled // = 6
+  case UNRECOGNIZED(Int)
+
+  init() {
+    self = .outcomeUnspecified
+  }
+
+  init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .outcomeUnspecified
+    case 1: self = .queued
+    case 2: self = .inProgress
+    case 3: self = .available
+    case 4: self = .notEligible
+    case 5: self = .transientFailure
+    case 6: self = .throttled
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  var rawValue: Int {
+    switch self {
+    case .outcomeUnspecified: return 0
+    case .queued: return 1
+    case .inProgress: return 2
+    case .available: return 3
+    case .notEligible: return 4
+    case .transientFailure: return 5
+    case .throttled: return 6
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static let allCases: [Api_OnDemandTranscriptOutcome] = [
+    .outcomeUnspecified,
+    .queued,
+    .inProgress,
+    .available,
+    .notEligible,
+    .transientFailure,
+    .throttled,
+  ]
+
+}
+
+nonisolated enum Api_OnDemandTranscriptEnablement: SwiftProtobuf.Enum, Swift.CaseIterable {
+  typealias RawValue = Int
+  case enablementUnspecified // = 0
+  case enabled // = 1
+  case alreadyEnabled // = 2
+  case alreadyEligible // = 3
+  case notEnabled // = 4
+  case UNRECOGNIZED(Int)
+
+  init() {
+    self = .enablementUnspecified
+  }
+
+  init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .enablementUnspecified
+    case 1: self = .enabled
+    case 2: self = .alreadyEnabled
+    case 3: self = .alreadyEligible
+    case 4: self = .notEnabled
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  var rawValue: Int {
+    switch self {
+    case .enablementUnspecified: return 0
+    case .enabled: return 1
+    case .alreadyEnabled: return 2
+    case .alreadyEligible: return 3
+    case .notEnabled: return 4
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static let allCases: [Api_OnDemandTranscriptEnablement] = [
+    .enablementUnspecified,
+    .enabled,
+    .alreadyEnabled,
+    .alreadyEligible,
+    .notEnabled,
+  ]
+
+}
+
+nonisolated enum Api_OnDemandTranscriptReason: SwiftProtobuf.Enum, Swift.CaseIterable {
+  typealias RawValue = Int
+  case reasonUnspecified // = 0
+  case featureDisabled // = 1
+  case podcastNotFound // = 2
+  case episodeNotFound // = 3
+  case episodeNotInPodcast // = 4
+  case podcastDisabled // = 5
+  case podcastDisallowed // = 6
+  case hostIgnored // = 7
+  case transcriptIneligible // = 8
+  case queueingFailed // = 9
+  case retryNotAvailable // = 10
+  case internalError // = 11
+  case unknownReason // = 12
+  case UNRECOGNIZED(Int)
+
+  init() {
+    self = .reasonUnspecified
+  }
+
+  init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .reasonUnspecified
+    case 1: self = .featureDisabled
+    case 2: self = .podcastNotFound
+    case 3: self = .episodeNotFound
+    case 4: self = .episodeNotInPodcast
+    case 5: self = .podcastDisabled
+    case 6: self = .podcastDisallowed
+    case 7: self = .hostIgnored
+    case 8: self = .transcriptIneligible
+    case 9: self = .queueingFailed
+    case 10: self = .retryNotAvailable
+    case 11: self = .internalError
+    case 12: self = .unknownReason
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  var rawValue: Int {
+    switch self {
+    case .reasonUnspecified: return 0
+    case .featureDisabled: return 1
+    case .podcastNotFound: return 2
+    case .episodeNotFound: return 3
+    case .episodeNotInPodcast: return 4
+    case .podcastDisabled: return 5
+    case .podcastDisallowed: return 6
+    case .hostIgnored: return 7
+    case .transcriptIneligible: return 8
+    case .queueingFailed: return 9
+    case .retryNotAvailable: return 10
+    case .internalError: return 11
+    case .unknownReason: return 12
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static let allCases: [Api_OnDemandTranscriptReason] = [
+    .reasonUnspecified,
+    .featureDisabled,
+    .podcastNotFound,
+    .episodeNotFound,
+    .episodeNotInPodcast,
+    .podcastDisabled,
+    .podcastDisallowed,
+    .hostIgnored,
+    .transcriptIneligible,
+    .queueingFailed,
+    .retryNotAvailable,
+    .internalError,
+    .unknownReason,
+  ]
+
+}
+
 nonisolated struct Api_UserChangeResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -119,6 +297,38 @@ nonisolated struct Api_EmptyResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+nonisolated struct Api_OnDemandTranscriptRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var podcastUuid: String = String()
+
+  var episodeUuid: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+nonisolated struct Api_OnDemandTranscriptResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var outcome: Api_OnDemandTranscriptOutcome = .outcomeUnspecified
+
+  var reason: Api_OnDemandTranscriptReason = .reasonUnspecified
+
+  var enablement: Api_OnDemandTranscriptEnablement = .enablementUnspecified
+
+  var newlyQueuedCount: UInt32 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -3669,6 +3879,8 @@ nonisolated struct Api_AlternateEnclosure: Sendable {
   var type: String = String()
 
   var sources: [Api_AlternateEnclosure.Source] = []
+
+  var mediaKind: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -8404,6 +8616,18 @@ nonisolated struct Api_PlaylistReorderRequest: Sendable {
 
 fileprivate nonisolated let _protobuf_package = "api"
 
+nonisolated extension Api_OnDemandTranscriptOutcome: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0OUTCOME_UNSPECIFIED\0\u{1}QUEUED\0\u{1}IN_PROGRESS\0\u{1}AVAILABLE\0\u{1}NOT_ELIGIBLE\0\u{1}TRANSIENT_FAILURE\0\u{1}THROTTLED\0")
+}
+
+nonisolated extension Api_OnDemandTranscriptEnablement: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ENABLEMENT_UNSPECIFIED\0\u{1}ENABLED\0\u{1}ALREADY_ENABLED\0\u{1}ALREADY_ELIGIBLE\0\u{1}NOT_ENABLED\0")
+}
+
+nonisolated extension Api_OnDemandTranscriptReason: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0REASON_UNSPECIFIED\0\u{1}FEATURE_DISABLED\0\u{1}PODCAST_NOT_FOUND\0\u{1}EPISODE_NOT_FOUND\0\u{1}EPISODE_NOT_IN_PODCAST\0\u{1}PODCAST_DISABLED\0\u{1}PODCAST_DISALLOWED\0\u{1}HOST_IGNORED\0\u{1}TRANSCRIPT_INELIGIBLE\0\u{1}QUEUEING_FAILED\0\u{1}RETRY_NOT_AVAILABLE\0\u{1}INTERNAL_ERROR\0\u{1}UNKNOWN_REASON\0")
+}
+
 nonisolated extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserChangeResponse"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0\u{1}message\0\u{1}messageId\0")
@@ -8631,6 +8855,86 @@ nonisolated extension Api_EmptyResponse: SwiftProtobuf.Message, SwiftProtobuf._M
   }
 
   static func ==(lhs: Api_EmptyResponse, rhs: Api_EmptyResponse) -> Bool {
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Api_OnDemandTranscriptRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".OnDemandTranscriptRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{3}episode_uuid\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.podcastUuid) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.episodeUuid) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.podcastUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.podcastUuid, fieldNumber: 1)
+    }
+    if !self.episodeUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.episodeUuid, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_OnDemandTranscriptRequest, rhs: Api_OnDemandTranscriptRequest) -> Bool {
+    if lhs.podcastUuid != rhs.podcastUuid {return false}
+    if lhs.episodeUuid != rhs.episodeUuid {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Api_OnDemandTranscriptResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".OnDemandTranscriptResponse"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}outcome\0\u{1}reason\0\u{1}enablement\0\u{3}newly_queued_count\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularEnumField(value: &self.outcome) }()
+      case 2: try { try decoder.decodeSingularEnumField(value: &self.reason) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.enablement) }()
+      case 4: try { try decoder.decodeSingularUInt32Field(value: &self.newlyQueuedCount) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.outcome != .outcomeUnspecified {
+      try visitor.visitSingularEnumField(value: self.outcome, fieldNumber: 1)
+    }
+    if self.reason != .reasonUnspecified {
+      try visitor.visitSingularEnumField(value: self.reason, fieldNumber: 2)
+    }
+    if self.enablement != .enablementUnspecified {
+      try visitor.visitSingularEnumField(value: self.enablement, fieldNumber: 3)
+    }
+    if self.newlyQueuedCount != 0 {
+      try visitor.visitSingularUInt32Field(value: self.newlyQueuedCount, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_OnDemandTranscriptResponse, rhs: Api_OnDemandTranscriptResponse) -> Bool {
+    if lhs.outcome != rhs.outcome {return false}
+    if lhs.reason != rhs.reason {return false}
+    if lhs.enablement != rhs.enablement {return false}
+    if lhs.newlyQueuedCount != rhs.newlyQueuedCount {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -12331,7 +12635,7 @@ nonisolated extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftPr
 
 nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".AlternateEnclosure"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}sources\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}sources\0\u{3}media_kind\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12341,6 +12645,7 @@ nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtob
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.type) }()
       case 2: try { try decoder.decodeRepeatedMessageField(value: &self.sources) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.mediaKind) }()
       default: break
       }
     }
@@ -12353,12 +12658,16 @@ nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtob
     if !self.sources.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.sources, fieldNumber: 2)
     }
+    if !self.mediaKind.isEmpty {
+      try visitor.visitSingularStringField(value: self.mediaKind, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_AlternateEnclosure, rhs: Api_AlternateEnclosure) -> Bool {
     if lhs.type != rhs.type {return false}
     if lhs.sources != rhs.sources {return false}
+    if lhs.mediaKind != rhs.mediaKind {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

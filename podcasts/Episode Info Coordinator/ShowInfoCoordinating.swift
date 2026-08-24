@@ -24,4 +24,18 @@ protocol ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> EpisodeTranscriptData
+
+    func refreshTranscriptsMetadata(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> EpisodeTranscriptData
+}
+
+extension ShowInfoCoordinating {
+    func refreshTranscriptsMetadata(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> EpisodeTranscriptData {
+        try await loadTranscriptsMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+    }
 }

@@ -71,6 +71,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable synced transcripts with playback timing
     case syncedTranscripts
 
+    /// Let eligible paid listeners request a missing transcript
+    case onDemandTranscripts
+
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -327,6 +330,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .syncedTranscripts:
             true
+        case .onDemandTranscripts:
+            BuildEnvironment.current == .debug
         case .libroFm:
             false
         case .encourageAccountCreation:

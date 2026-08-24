@@ -4907,6 +4907,21 @@
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
 
+/* Prototype status shown while an on-demand transcript is being generated. Copy must be reviewed before beta. */
+"transcript_on_demand_generating" = "We’re generating this transcript. It may take a few minutes.";
+
+/* Prototype status shown when an on-demand transcript is still unavailable after foreground refresh ends. Copy must be reviewed before beta. */
+"transcript_on_demand_delayed" = "This transcript is still being generated. Please check back later.";
+
+/* Prototype error shown when an on-demand transcript request fails temporarily. Copy must be reviewed before beta. */
+"transcript_on_demand_error" = "We couldn’t start this transcript right now. Please try again.";
+
+/* Prototype error shown when the server rejects an on-demand transcript request. Copy must be reviewed before beta. */
+"transcript_on_demand_unavailable" = "This episode isn’t available for transcript generation.";
+
+/* VoiceOver announcement when an on-demand transcript finishes generating. Copy must be reviewed before beta. */
+"transcript_on_demand_completed" = "Transcript ready.";
+
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 

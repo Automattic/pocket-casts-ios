@@ -1,5 +1,7 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
 #if !os(tvOS)
 import Sentry
 #endif
@@ -27,7 +29,52 @@ enum TranscriptError: Error {
     }
 }
 
+enum OnDemandTranscriptEligibility {
+    static var isEligible: Bool {
+        isEligible(
+            isLoggedIn: SyncManager.isUserLoggedIn(),
+            hasActiveSubscription: SubscriptionHelper.hasActiveSubscription(),
+            tier: SubscriptionHelper.activeTier,
+            flagEnabled: FeatureFlag.onDemandTranscripts.enabled
+        )
+    }
+
+    static func isEligible(
+        isLoggedIn: Bool,
+        hasActiveSubscription: Bool,
+        tier: SubscriptionTier,
+        flagEnabled: Bool
+    ) -> Bool {
+        guard flagEnabled, isLoggedIn, hasActiveSubscription else {
+            return false
+        }
+        return tier == .plus || tier == .patron
+    }
+}
+
+enum TranscriptGenerationError: Error {
+    case delayed
+    case rejected(OnDemandTranscriptResponse.Reason)
+    case throttled
+    case transient
+}
+
+struct TranscriptForegroundPollingBudget {
+    let duration: TimeInterval
+    private(set) var consumed: TimeInterval = 0
+
+    var remaining: TimeInterval {
+        max(0, duration - consumed)
+    }
+
+    mutating func consume(from startDate: Date, to endDate: Date) {
+        consumed = min(duration, consumed + max(0, endDate.timeIntervalSince(startDate)))
+    }
+}
+
 class TranscriptManager {
+    static let defaultPollingInterval: TimeInterval = 15
+    static let defaultPollingTimeout: TimeInterval = 5 * 60
 
     typealias Transcript = Episode.Metadata.Transcript
 
@@ -36,20 +83,41 @@ class TranscriptManager {
     let podcastUUID: String
 
     let showCoordinator: ShowInfoCoordinating
+    private let onDemandService: OnDemandTranscriptRequesting
+    private let pollingInterval: TimeInterval
+    private var pollingBudget: TranscriptForegroundPollingBudget
+    private let isEligibleForOnDemand: @Sendable () -> Bool
+    private var acceptedOnDemandResponse: OnDemandTranscriptResponse?
+    private(set) var onDemandRequestAcceptedAt: Date?
+
+    var hasAcceptedOnDemandRequest: Bool {
+        acceptedOnDemandResponse != nil
+    }
 
     private(set) var hasGeneratedTranscripts: Bool = false
     private(set) var isDisplayingGeneratedTranscript: Bool = false
 
-    init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
+    init(
+        episodeUUID: String,
+        podcastUUID: String,
+        showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared,
+        onDemandService: OnDemandTranscriptRequesting = OnDemandTranscriptService.shared,
+        pollingInterval: TimeInterval = TranscriptManager.defaultPollingInterval,
+        pollingTimeout: TimeInterval = TranscriptManager.defaultPollingTimeout,
+        isEligibleForOnDemand: @escaping @Sendable () -> Bool = { OnDemandTranscriptEligibility.isEligible }
+    ) {
         self.episodeUUID = episodeUUID
         self.podcastUUID = podcastUUID
         self.showCoordinator = showCoordinator
+        self.onDemandService = onDemandService
+        self.pollingInterval = pollingInterval
+        self.pollingBudget = TranscriptForegroundPollingBudget(duration: pollingTimeout)
+        self.isEligibleForOnDemand = isEligibleForOnDemand
     }
 
     public func loadTranscript() async throws -> TranscriptModel {
-        guard
-            let metadata = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
-            !metadata.transcripts.isEmpty else {
+        let metadata = try await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID)
+        guard !metadata.transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
         var transcriptsAvailable = metadata.transcripts
@@ -68,6 +136,72 @@ class TranscriptManager {
             }
         }
         throw TranscriptError.failedToLoad
+    }
+
+    func requestOnDemandTranscript() async throws -> OnDemandTranscriptResponse {
+        guard isEligibleForOnDemand() else {
+            throw TranscriptGenerationError.rejected(.transcriptIneligible)
+        }
+        if let acceptedOnDemandResponse {
+            return acceptedOnDemandResponse
+        }
+
+        do {
+            let response = try await onDemandService.requestTranscript(podcastUUID: podcastUUID, episodeUUID: episodeUUID)
+            switch response.outcome {
+            case .queued, .inProgress, .available:
+                acceptedOnDemandResponse = response
+                onDemandRequestAcceptedAt = Date()
+                return response
+            case .notEligible:
+                throw TranscriptGenerationError.rejected(response.reason)
+            case .throttled:
+                throw TranscriptGenerationError.throttled
+            case .transientFailure, .unspecified:
+                throw TranscriptGenerationError.transient
+            }
+        } catch let error as CancellationError {
+            throw error
+        } catch let error as TranscriptGenerationError {
+            throw error
+        } catch OnDemandTranscriptServiceError.throttled {
+            throw TranscriptGenerationError.throttled
+        } catch {
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                throw CancellationError()
+            }
+            throw TranscriptGenerationError.transient
+        }
+    }
+
+    func waitForGeneratedTranscript() async throws {
+        let pollingStartedAt = Date()
+        let deadline = pollingStartedAt.addingTimeInterval(pollingBudget.remaining)
+        defer {
+            pollingBudget.consume(from: pollingStartedAt, to: Date())
+        }
+
+        var isFirstAttempt = true
+        while Date() < deadline {
+            if !isFirstAttempt || acceptedOnDemandResponse?.outcome != .available {
+                let sleepDuration = min(pollingInterval, max(0, deadline.timeIntervalSinceNow))
+                guard sleepDuration > 0 else { break }
+                try await Task.sleep(nanoseconds: UInt64(sleepDuration * 1_000_000_000))
+            }
+            isFirstAttempt = false
+            try Task.checkCancellation()
+            guard Date() < deadline else { break }
+            let metadata = try await showCoordinator.refreshTranscriptsMetadata(
+                podcastUuid: podcastUUID,
+                episodeUuid: episodeUUID
+            )
+            if !metadata.transcripts.isEmpty {
+                hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
+                isDisplayingGeneratedTranscript = metadata.isDisplayingGeneratedTranscript
+                return
+            }
+        }
+        throw TranscriptGenerationError.delayed
     }
 
     private func loadTranscript(_ transcript: Transcript) async throws -> TranscriptModel {

@@ -4,6 +4,39 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+struct TranscriptLoadingLifecycle {
+    private(set) var isPending = false
+    private var resumeOnForeground = false
+
+    mutating func started() {
+        isPending = true
+    }
+
+    mutating func completed() {
+        isPending = false
+        resumeOnForeground = false
+    }
+
+    mutating func enteredBackground() {
+        resumeOnForeground = isPending
+    }
+
+    mutating func leftScreen() {
+        completed()
+    }
+
+    mutating func shouldResumeOnForeground(isVisible: Bool) -> Bool {
+        defer { resumeOnForeground = false }
+        guard resumeOnForeground, isPending, isVisible else {
+            if !isVisible {
+                isPending = false
+            }
+            return false
+        }
+        return true
+    }
+}
+
 class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvider {
     let analyticsSource: AnalyticsSource
 
@@ -58,6 +91,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var autoScrollSuppressedDate: Date?
 
     private var transcriptManager: TranscriptManager?
+    private var transcriptLoadingTask: Task<Void, Never>?
+    private var transcriptLoadingLifecycle = TranscriptLoadingLifecycle()
 
     #if DEBUG
     private var debugOverlay: FingerprintDebugOverlay?
@@ -106,11 +141,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         dismissSearch()
         resetSearch()
         cancelAutoScrollBack()
+        cancelTranscriptLoading()
+        if UIApplication.shared.applicationState != .background {
+            transcriptLoadingLifecycle.leftScreen()
+        }
     }
 
     deinit {
         autoScrollBackWorkItem?.cancel()
         highlightDisplayLink?.invalidate()
+        transcriptLoadingTask?.cancel()
     }
 
     private func startHighlightDisplayLink() {
@@ -555,6 +595,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     override func willBeRemovedFromPlayer() {
+        cancelTranscriptLoading()
+        transcriptLoadingLifecycle.leftScreen()
         removeAllCustomObservers()
         stopHighlightDisplayLink()
         if FeatureFlag.syncedTranscripts.enabled {
@@ -614,6 +656,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         restoreControlButtonsLayout()
         setControlButtonsVisible(false)
         errorView.isHidden = true
+        errorView.configure(isRetryVisible: true)
         activityIndicatorView.startAnimating()
     }
 
@@ -642,7 +685,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var currentEpisodeUUID: String?
 
-    private func loadTranscript() {
+    private func loadTranscript(using existingManager: TranscriptManager? = nil) {
         guard let episodeUUID = playbackManager.episodeUUID, let podcastUUID = playbackManager.podcastUUID else {
             return
         }
@@ -650,11 +693,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let shouldResetPosition = currentEpisodeUUID != episodeUUID
         currentEpisodeUUID = episodeUUID
 
-        transcriptManager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
+        cancelTranscriptLoading()
+        let transcriptManager = existingManager ?? TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
+        self.transcriptManager = transcriptManager
+        transcriptLoadingLifecycle.started()
 
         setupLoadingState()
 
-        Task.detached { [weak self, transcriptManager] in
+        transcriptLoadingTask = Task.detached { [weak self, transcriptManager] in
             guard let self, let transcriptManager else {
                 return
             }
@@ -692,12 +738,118 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                     }
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
+                await self.completeTranscriptLoading(using: transcriptManager)
+            } catch TranscriptError.notAvailable where OnDemandTranscriptEligibility.isEligible {
+                await self.requestAndWaitForTranscript(using: transcriptManager)
             } catch {
+                guard !Task.isCancelled, (error as? URLError)?.code != .cancelled else {
+                    return
+                }
                 await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
+                await self.completeTranscriptLoading(using: transcriptManager)
             }
         }
+    }
+
+    private func requestAndWaitForTranscript(using transcriptManager: TranscriptManager) async {
+        let attemptDate = Date()
+        do {
+            let wasAlreadyAccepted = transcriptManager.hasAcceptedOnDemandRequest
+            let response = try await transcriptManager.requestOnDemandTranscript()
+            let requestDate = transcriptManager.onDemandRequestAcceptedAt ?? attemptDate
+            await MainActor.run {
+                self.showGeneratingState()
+                if !wasAlreadyAccepted {
+                    self.track(.transcriptOnDemandRequested, properties: [
+                        "outcome": response.outcome.rawValue,
+                        "reason": response.reason.rawValue,
+                        "enablement": response.enablement.rawValue,
+                        "newly_queued_count": Int(response.newlyQueuedCount)
+                    ])
+                }
+            }
+
+            try await transcriptManager.waitForGeneratedTranscript()
+            let elapsedMilliseconds = Int(Date().timeIntervalSince(requestDate) * 1_000)
+            await MainActor.run {
+                self.track(.transcriptOnDemandReady, properties: [
+                    "elapsed_time_ms": elapsedMilliseconds
+                ])
+                UIAccessibility.post(notification: .announcement, argument: L10n.transcriptOnDemandCompleted)
+                self.loadTranscript(using: transcriptManager)
+            }
+        } catch TranscriptGenerationError.delayed {
+            let requestDate = transcriptManager.onDemandRequestAcceptedAt ?? attemptDate
+            await MainActor.run {
+                self.track(.transcriptOnDemandTimedOut, properties: [
+                    "elapsed_time_ms": Int(Date().timeIntervalSince(requestDate) * 1_000)
+                ])
+                self.showGenerationError(message: L10n.transcriptOnDemandDelayed, canRetry: false)
+                self.completeTranscriptLoading(using: transcriptManager)
+            }
+        } catch TranscriptGenerationError.throttled {
+            await MainActor.run {
+                self.track(.transcriptOnDemandOutcome, properties: [
+                    "outcome": OnDemandTranscriptResponse.Outcome.throttled.rawValue
+                ])
+                self.showGenerationError(message: L10n.transcriptOnDemandUnavailable, canRetry: false)
+                self.completeTranscriptLoading(using: transcriptManager)
+            }
+        } catch TranscriptGenerationError.rejected(let reason) {
+            await MainActor.run {
+                self.track(.transcriptOnDemandOutcome, properties: [
+                    "outcome": OnDemandTranscriptResponse.Outcome.notEligible.rawValue,
+                    "reason": reason.rawValue
+                ])
+                self.showGenerationError(message: L10n.transcriptOnDemandUnavailable, canRetry: false)
+                self.completeTranscriptLoading(using: transcriptManager)
+            }
+        } catch {
+            guard !Task.isCancelled, (error as? URLError)?.code != .cancelled else {
+                return
+            }
+            await MainActor.run {
+                self.track(.transcriptOnDemandOutcome, properties: [
+                    "outcome": OnDemandTranscriptResponse.Outcome.transientFailure.rawValue
+                ])
+                self.showGenerationError(message: L10n.transcriptOnDemandError, canRetry: true)
+                self.completeTranscriptLoading(using: transcriptManager)
+            }
+        }
+    }
+
+    @MainActor
+    private func completeTranscriptLoading(using transcriptManager: TranscriptManager) {
+        guard self.transcriptManager === transcriptManager else { return }
+        transcriptLoadingLifecycle.completed()
+        transcriptLoadingTask = nil
+    }
+
+    @MainActor
+    private func showGeneratingState() {
+        transcriptView.isHidden = true
+        setControlButtonsVisible(false)
+        errorView.configure(isRetryVisible: false, isWarningVisible: false)
+        errorView.setMessage(L10n.transcriptOnDemandGenerating, attributes: makeStyle(alignment: .center))
+        errorView.isHidden = false
+        activityIndicatorView.startAnimating()
+        UIAccessibility.post(notification: .announcement, argument: L10n.transcriptOnDemandGenerating)
+    }
+
+    @MainActor
+    private func showGenerationError(message: String, canRetry: Bool) {
+        activityIndicatorView.stopAnimating()
+        errorView.configure(isRetryVisible: canRetry)
+        errorView.setMessage(message, attributes: makeStyle(alignment: .center))
+        errorView.isHidden = false
+        UIAccessibility.post(notification: .announcement, argument: message)
+    }
+
+    private func cancelTranscriptLoading() {
+        transcriptLoadingTask?.cancel()
+        transcriptLoadingTask = nil
     }
 
     @objc private func showUpsellView() {
@@ -719,7 +871,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func retryLoad() {
         errorView.isHidden = true
-        loadTranscript()
+        loadTranscript(using: transcriptManager)
     }
 
     private func resetSearch() {
@@ -875,12 +1027,30 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        if FeatureFlag.onDemandTranscripts.enabled {
+            addCustomObserver(UIApplication.didEnterBackgroundNotification, selector: #selector(appDidEnterBackground))
+            addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(appDidBecomeActive))
+        }
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
             addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
             addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateHighlightDisplayLinkPauseState))
             addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateHighlightDisplayLinkPauseState))
         }
+    }
+
+    @objc private func appDidEnterBackground() {
+        transcriptLoadingLifecycle.enteredBackground()
+        cancelTranscriptLoading()
+    }
+
+    @objc private func appDidBecomeActive() {
+        let isVisible = isViewLoaded && view.window != nil
+        guard transcriptLoadingLifecycle.shouldResumeOnForeground(isVisible: isVisible),
+              let transcriptManager else {
+            return
+        }
+        loadTranscript(using: transcriptManager)
     }
 
     @objc private func updateTranscriptPosition() {

@@ -43,7 +43,7 @@ extension CheckTranscriptAvailability {
                 return
             }
 
-            self?.isTranscriptEnabled = isAvailable
+            self?.isTranscriptEnabled = isAvailable || OnDemandTranscriptEligibility.isEligible
             self?.hasGeneratedTranscripts = hasGeneratedTranscripts
         }
 
@@ -56,6 +56,7 @@ extension CheckTranscriptAvailability {
         isTranscriptEnabled = false
         hasGeneratedTranscripts = false
         let currentEpisode = PlaybackManager.shared.currentEpisode as? Episode
+        isTranscriptEnabled = currentEpisode != nil && OnDemandTranscriptEligibility.isEligible
         currentEpisode?.checkTranscriptAvailability()
     }
 }
