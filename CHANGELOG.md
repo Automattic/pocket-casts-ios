@@ -9,6 +9,7 @@
 - Add support for "Networks" row in "Discover" [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026)
 - Add networks to search, including "Combined Results" and a new dedicated tab/filter [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
+- Fix a crash when the What's New screen was shown while another screen was still being dismissed [#5003](https://github.com/Automattic/pocket-casts-ios/pull/5003)
 
 8.19
 -----
