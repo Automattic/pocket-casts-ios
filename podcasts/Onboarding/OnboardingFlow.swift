@@ -11,7 +11,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Whether an account was created during this onboarding session. Drives the post-onboarding
     /// notifications-permission prompt, since we only want to ask about emailing the user once we
-    /// have their address. Cleared on `reset()`.
+    /// have their address. Cleared on `begin()` and `reset()`, so it stays scoped to one flow.
     private(set) var didCreateAccount = false
 
     private(set) var accountCreated: ((Bool)->())?
@@ -24,6 +24,11 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
+        // Reset per-session state here as well as in `reset()`: `reset()` is reached conditionally
+        // from several dismissal paths, so anchoring the flag to `begin()` keeps it scoped to the
+        // current flow and stops a stale `true` from leaking into the next flow's notifications
+        // prompt. Account creation always happens after `begin()`, so nothing is lost.
+        self.didCreateAccount = false
 
         let navigationController = controller as? UINavigationController
 
@@ -96,7 +101,10 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Whether dismissing an onboarding session should chain into the notifications-permission
     /// prompt. Shown whenever an account was created (to ask about emailing the user), regardless of
-    /// the flow, plus the standard first-run prompt after initial onboarding.
+    /// the flow — so account creation from referrals, device approval, paywalls, etc. also qualifies —
+    /// plus the standard first-run prompt after initial onboarding. Presentation is gated separately
+    /// in `MainTabBarController.showNotificationsPermissions()`, which skips it when the system
+    /// permission is already decided or another modal is presenting.
     static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
         didCreateAccount || flow == .initialOnboarding
     }

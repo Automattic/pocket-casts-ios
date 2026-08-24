@@ -47,4 +47,30 @@ final class OnboardingFlowTests: XCTestCase {
         XCTAssertFalse(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: false, flow: .loggedOut))
         XCTAssertFalse(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: false, flow: .encourageAccountCreation))
     }
+
+    // MARK: - didCreateAccount lifecycle
+
+    // These exercise the flag through the mutating methods that actually drive it, not just the pure
+    // predicates above. A local `OnboardingFlow()` (not `.shared`) keeps the state off the singleton.
+    // `.loggedOut` avoids both the clock anchor (no UserDefaults write) and the upsell controller's
+    // Firebase Remote Config lookup, which isn't configured in this target.
+
+    func testResetClearsAccountCreatedFlag() {
+        var flow = OnboardingFlow()
+        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        flow.markAccountCreated()
+        XCTAssertTrue(flow.didCreateAccount)
+        flow.reset()
+        XCTAssertFalse(flow.didCreateAccount, "A stale flag would show the notifications prompt after an unrelated flow")
+    }
+
+    func testBeginClearsStaleAccountCreatedFlag() {
+        var flow = OnboardingFlow()
+        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        flow.markAccountCreated()
+        XCTAssertTrue(flow.didCreateAccount)
+        // A new flow that never reached reset() must not inherit the previous flow's flag.
+        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        XCTAssertFalse(flow.didCreateAccount, "begin() must scope didCreateAccount to a single flow")
+    }
 }

@@ -16,5 +16,11 @@ class SignOutHelper {
 
         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
         NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
+
+        // Intentionally does not anchor `Settings.encourageAccountCreationReferenceDate`. The
+        // Encourage Account Creation modal targets any logged-out user regardless of how they became
+        // logged out, so it should surface after a sign-out (user-initiated or forced). The 60-day
+        // interval still governs repeat showings, and the onboarding grace period only applies to a
+        // brand-new user who declined initial onboarding without an account.
     }
 }

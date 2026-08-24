@@ -25,8 +25,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// when the queue actually changes (not on every refresh notification).
     private var previousUpNextCount: Int?
 
-    /// True once initial onboarding has been presented in this app session, so the recurring
-    /// account-creation modal isn't chained onto the same launch. Reset per process launch.
+    /// True once initial onboarding has been presented, so the recurring account-creation modal
+    /// isn't chained onto the same launch. This is a backstop: on the normal path `reset()` anchors
+    /// the cadence clock when initial onboarding finishes without an account, which already prevents
+    /// the same-launch chain; this flag also covers the case where `reset()` is never reached. Set at
+    /// navigation intent (before presentation), so a superseded navigation blocks EAC for the rest of
+    /// the instance's lifetime — harmless, it retries next launch. Reset per `MainTabBarController`
+    /// instance (i.e. whenever the controller is recreated), not strictly per process.
     private var didPresentInitialOnboardingThisLaunch = false
 
     /// `true` while the Up Next "pulse" spring is in flight, so a burst of
@@ -1112,7 +1117,18 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        present(NotificationsPermissionsViewModel.makeController(), animated: true)
+        // Only prime for notifications when the system permission is still undecided, and never stack
+        // on top of another modal. This guards the two edge cases of showing the prompt after any
+        // account creation: re-asking a user who already granted/denied (e.g. creating a second
+        // account), and a dropped presentation when a flow (referrals, device approval) is still
+        // presenting its own UI.
+        guard presentedViewController == nil else { return }
+        NotificationsHelper.shared.checkNotificationsNotDetermined { [weak self] notDetermined in
+            DispatchQueue.main.async {
+                guard notDetermined, let self, self.presentedViewController == nil else { return }
+                self.present(NotificationsPermissionsViewModel.makeController(), animated: true)
+            }
+        }
     }
 }
 

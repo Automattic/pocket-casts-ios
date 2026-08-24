@@ -7,6 +7,10 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
 
     func didAppear() {
         Analytics.track(.informationalModalViewShowed)
+        // Reset the cadence clock alongside the "shown" event so the anchor and the funnel can't
+        // disagree about when the modal was presented. `didAppear()` runs from `viewDidAppear`, so a
+        // superseded navigation that never actually presents doesn't burn the interval.
+        Settings.encourageAccountCreationReferenceDate = Date()
         pageDidChange(0)
     }
 
@@ -81,10 +85,6 @@ fileprivate class InformationalModalHostingController<Content>: OnboardingHostin
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? InformationalModalViewModel else { return }
-
-        // Reset the cadence clock at presentation (not navigation) time so a superseded navigation
-        // doesn't burn the interval.
-        Settings.encourageAccountCreationReferenceDate = Date()
 
         let imageView = ThemeableImageView(frame: .zero)
         imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName

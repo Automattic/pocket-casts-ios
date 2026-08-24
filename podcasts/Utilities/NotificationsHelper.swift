@@ -26,6 +26,14 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+    /// Whether the system notification permission has not been decided yet. Used to gate priming
+    /// screens so we don't ask a user who has already granted or denied notifications.
+    func checkNotificationsNotDetermined(completion: @escaping (Bool) -> ()) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            completion(settings.authorizationStatus == .notDetermined)
+        }
+    }
+
     @objc func pushEnabled() -> Bool {
         UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
     }

@@ -1407,6 +1407,9 @@ class Settings: NSObject {
     // MARK: - Encourage Account Creation
 
     /// Anchor for the Encourage Account Creation modal cadence; reset each time the modal is shown.
+    /// Not reset on sign-out: the modal targets any logged-out user, so it may show on the next
+    /// launch after signing out (see `SignOutHelper.signout()`). Only set ahead of presentation to
+    /// grace-delay the first showing (e.g. a brand-new user who declined onboarding, `OnboardingFlow`).
     static var encourageAccountCreationReferenceDate: Date? {
         get {
             UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
