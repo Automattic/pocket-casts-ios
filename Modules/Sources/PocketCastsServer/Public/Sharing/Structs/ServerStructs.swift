@@ -368,6 +368,18 @@ extension DiscoverItem: Hashable {
     }
 }
 
+public extension DiscoverItem {
+    /// Item types the server sends that the app knowingly doesn't render.
+    ///
+    /// They are skipped quietly rather than reported as unknown items.
+    static let knowinglyIgnoredTypes: Set<String> = ["lists_list"]
+
+    var isKnowinglyIgnored: Bool {
+        guard let type else { return false }
+        return Self.knowinglyIgnoredTypes.contains(type)
+    }
+}
+
 public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
@@ -413,6 +425,10 @@ public struct PodcastCollection: Decodable {
     public let headerImage: String?
     public let featureImage: String?
     public let datetime: String?
+
+    /// The lists of a `lists_list` collection. Entries that aren't podcast lists are dropped while decoding.
+    @LossyDecodedArray public var lists: [NetworkListSummary]
+
     public enum CodingKeys: String, CodingKey {
         case webUrl = "web_url"
         case webTitle = "web_title"
@@ -423,7 +439,54 @@ public struct PodcastCollection: Decodable {
         case listId = "list_id"
         case featureImage = "feature_image"
         case shortDescription = "short_description"
-        case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
+        case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime, lists
+    }
+}
+
+/// An entry of a `lists_list` collection: one of the podcast lists that make up a network.
+public struct NetworkListSummary: Decodable, Equatable, Hashable {
+    /// The only item type a `lists_list` collection is allowed to contain.
+    public static let supportedType = "podcast_list"
+
+    public let uuid: String?
+    public let title: String?
+    public let type: String?
+    public let summaryStyle: String?
+    public let expandedStyle: String?
+    public let source: String?
+    public let collectionImage: String?
+    public let itemCount: Int?
+    public let description: String?
+    public let urlPath: String?
+
+    public enum CodingKeys: String, CodingKey {
+        case summaryStyle = "summary_style"
+        case expandedStyle = "expanded_style"
+        case collectionImage = "collection_image"
+        case itemCount = "item_count"
+        case urlPath = "url_path"
+
+        case uuid, title, type, source, description
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let type = try container.decodeIfPresent(String.self, forKey: .type)
+        guard type == Self.supportedType else {
+            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "A lists_list can only contain \(Self.supportedType) items, found \(type ?? "none")")
+        }
+
+        self.type = type
+        uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        summaryStyle = try container.decodeIfPresent(String.self, forKey: .summaryStyle)
+        expandedStyle = try container.decodeIfPresent(String.self, forKey: .expandedStyle)
+        source = try container.decodeIfPresent(String.self, forKey: .source)
+        collectionImage = try container.decodeIfPresent(String.self, forKey: .collectionImage)
+        itemCount = try container.decodeIfPresent(Int.self, forKey: .itemCount)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
+        urlPath = try container.decodeIfPresent(String.self, forKey: .urlPath)
     }
 }
 

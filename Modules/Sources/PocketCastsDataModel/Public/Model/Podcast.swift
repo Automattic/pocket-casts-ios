@@ -73,6 +73,10 @@ public class Podcast: NSObject, Identifiable {
     @GRDBIgnore
     public var forceRefreshEpisodeFrom: String? = nil
 
+    // transient not saved to database
+    @GRDBIgnore
+    public var networkList: PodcastNetworkList? = nil
+
     override public init() {}
 
     public func autoDownloadOn() -> Bool {

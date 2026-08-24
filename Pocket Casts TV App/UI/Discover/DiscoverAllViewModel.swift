@@ -34,10 +34,29 @@ class DiscoverAllViewModel {
             return
         }
 
-        await MainActor.run {
-            state = items.isEmpty ? .empty : .ready
-            self.sections = items
+        var sections = [DiscoverItem]()
+        var unrenderedItems = [DiscoverItem]()
+        for item in items {
+            if item.rowType != nil {
+                sections.append(item)
+            } else {
+                unrenderedItems.append(item)
+            }
         }
+        reportUnknownItems(unrenderedItems)
+
+        await MainActor.run {
+            state = sections.isEmpty ? .empty : .ready
+            self.sections = sections
+        }
+    }
+
+    private func reportUnknownItems(_ items: [DiscoverItem]) {
+        #if DEBUG || STAGING
+            guard let unknown = items.first(where: { !$0.isKnowinglyIgnored }) else { return }
+
+            ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(unknown.type ?? "unknown"), CHECK CONSOLE!")
+        #endif
     }
 
     @MainActor

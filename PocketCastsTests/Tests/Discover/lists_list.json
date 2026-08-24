@@ -1,0 +1,46 @@
+{
+  "list_id": "network-highlights",
+  "title": "Network Highlights",
+  "subtitle": "Shows from the networks we love",
+  "description": "A collection of lists curated by our favourite networks.",
+  "short_description": "Curated by our favourite networks",
+  "collection_image": "https://static.pocketcasts.com/discover/images/network-highlights.png",
+  "web_title": "Network Highlights",
+  "web_url": "https://pocketcasts.com/lists/network-highlights",
+  "lists": [
+    {
+      "uuid": "e5e1a0f0-1b3d-4f8e-9c1f-3a1d5b0c9f11",
+      "title": "News",
+      "type": "podcast_list",
+      "summary_style": "small_list",
+      "expanded_style": "plain_list",
+      "source": "https://lists.pocketcasts.com/network-news.json",
+      "collection_image": "https://static.pocketcasts.com/discover/images/network-news.png",
+      "item_count": 12,
+      "description": "The stories shaping the day.",
+      "url_path": "/lists/network-news"
+    },
+    {
+      "uuid": "b2c4d6e8-0a1b-4c3d-8e5f-6a7b8c9d0e12",
+      "title": "Culture",
+      "type": "podcast_list",
+      "summary_style": "small_list",
+      "expanded_style": "plain_list",
+      "source": "https://lists.pocketcasts.com/network-culture.json",
+      "item_count": 8,
+      "description": "Books, film and everything in between.",
+      "url_path": "/lists/network-culture"
+    },
+    {
+      "uuid": "c3d5e7f9-1b2c-4d5e-9f0a-1b2c3d4e5f13",
+      "title": "Latest episodes",
+      "type": "episode_list",
+      "summary_style": "small_list",
+      "expanded_style": "plain_list",
+      "source": "https://lists.pocketcasts.com/network-latest.json",
+      "item_count": 20,
+      "description": "Fresh from the network.",
+      "url_path": "/lists/network-latest"
+    }
+  ]
+}
