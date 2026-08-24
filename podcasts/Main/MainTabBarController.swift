@@ -258,8 +258,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             // Shows next launch instead.
             guard !didPresentInitialOnboardingThisLaunch else { return }
 
-            // Don't dismiss What's New (or any presented modal) to show EAC; navigating would
-            // force-dismiss it and burn the announcement. Retries next launch once it's gone.
             // Don't dismiss a presented modal (e.g. What's New) to show EAC — that would burn its
             // announcement. Skips EAC for this launch; the next launch retries.
             guard presentedViewController == nil else { return }
