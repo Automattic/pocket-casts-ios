@@ -260,7 +260,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
             // Don't dismiss What's New (or any presented modal) to show EAC; navigating would
             // force-dismiss it and burn the announcement. Retries next launch once it's gone.
-            guard !isShowingWhatsNew, presentedViewController == nil else { return }
+            // Don't dismiss a presented modal (e.g. What's New) to show EAC — that would burn its
+            // announcement. Skips EAC for this launch; the next launch retries.
+            guard presentedViewController == nil else { return }
 
             if Settings.shouldShowEncourageAccountCreationModal() {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
