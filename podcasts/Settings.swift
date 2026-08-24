@@ -1407,9 +1407,8 @@ class Settings: NSObject {
     // MARK: - Encourage Account Creation
 
     /// Anchor for the Encourage Account Creation modal cadence; reset each time the modal is shown.
-    /// Not reset on sign-out: the modal targets any logged-out user, so it may show on the next
-    /// launch after signing out (see `SignOutHelper.signout()`). Only set ahead of presentation to
-    /// grace-delay the first showing (e.g. a brand-new user who declined onboarding, `OnboardingFlow`).
+    /// Not reset on sign-out (the modal targets any logged-out user). Only set ahead of presentation
+    /// to grace-delay the first showing (e.g. a user who declined onboarding).
     static var encourageAccountCreationReferenceDate: Date? {
         get {
             UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
@@ -1436,11 +1435,9 @@ class Settings: NSObject {
         return now.timeIntervalSince(referenceDate) >= interval ? .show : .wait
     }
 
-    /// Whether to show the modal this launch. Callers gate eligibility on the user having completed
-    /// onboarding. The clock is anchored when the modal is presented
-    /// (`InformationalModalViewModel.didAppear()`) and when initial onboarding finishes
-    /// without an account (`OnboardingFlow.reset()`). The cadence itself is unit-tested through the
-    /// pure `encourageAccountCreationDecision` above; `now` lets callers evaluate against a fixed clock.
+    /// Whether to show the modal this launch. Callers gate on completed onboarding. The clock is
+    /// anchored at presentation (`InformationalModalViewModel.didAppear()`) and when onboarding
+    /// finishes without an account (`OnboardingFlow.reset()`). `now` is injectable for tests.
     static func shouldShowEncourageAccountCreationModal(now: Date = Date()) -> Bool {
         let isEligible = FeatureFlag.encourageAccountCreation.enabled
             && !SyncManager.isUserLoggedIn()

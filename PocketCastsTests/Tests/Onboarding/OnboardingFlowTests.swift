@@ -50,10 +50,9 @@ final class OnboardingFlowTests: XCTestCase {
 
     // MARK: - didCreateAccount lifecycle
 
-    // These exercise the flag through the mutating methods that actually drive it, not just the pure
-    // predicates above. A local `OnboardingFlow()` (not `.shared`) keeps the state off the singleton.
-    // `.loggedOut` avoids both the clock anchor (no UserDefaults write) and the upsell controller's
-    // Firebase Remote Config lookup, which isn't configured in this target.
+    // Exercise the flag through the mutating methods, not just the pure predicates. Uses a local
+    // `OnboardingFlow()` off the singleton; `.loggedOut` avoids the clock's UserDefaults write and
+    // the upsell controller's (unconfigured) Firebase lookup.
 
     func testResetClearsAccountCreatedFlag() {
         var flow = OnboardingFlow()

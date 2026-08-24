@@ -25,13 +25,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// when the queue actually changes (not on every refresh notification).
     private var previousUpNextCount: Int?
 
-    /// True once initial onboarding has been presented, so the recurring account-creation modal
-    /// isn't chained onto the same launch. This is a backstop: on the normal path `reset()` anchors
-    /// the cadence clock when initial onboarding finishes without an account, which already prevents
-    /// the same-launch chain; this flag also covers the case where `reset()` is never reached. Set at
-    /// navigation intent (before presentation), so a superseded navigation blocks EAC for the rest of
-    /// the instance's lifetime — harmless, it retries next launch. Reset per `MainTabBarController`
-    /// instance (i.e. whenever the controller is recreated), not strictly per process.
+    /// True once initial onboarding has been presented, so the account-creation modal isn't chained
+    /// onto the same launch. Backstop for when `reset()` (the normal anchor) isn't reached. Reset per
+    /// `MainTabBarController` instance, not per process.
     private var didPresentInitialOnboardingThisLaunch = false
 
     /// `true` while the Up Next "pulse" spring is in flight, so a burst of
@@ -252,16 +248,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        // Logged-out users who have already completed initial onboarding are the audience for the
-        // recurring account-creation modal: shown on the first such launch, then every 60 days.
-        // Fresh installs fall through to initial onboarding first. The modal's clock is reset at
-        // presentation time (InformationalModalHostingController.viewWillAppear).
+        // Logged-out users who completed initial onboarding are the audience for the recurring
+        // account-creation modal: first such launch, then every 60 days. Fresh installs run initial
+        // onboarding first.
         let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true
         if hasCompletedInitialOnboarding {
-            // Don't chain into the account-creation modal on the same launch we presented initial
-            // onboarding — `shouldShowInitialOnboardingFlow` flips to false as soon as onboarding is
-            // shown, so dismissing it would otherwise immediately re-trigger here. It shows on the
-            // next launch instead.
+            // Don't chain into the modal on the same launch we showed initial onboarding:
+            // `shouldShowInitialOnboardingFlow` flips false immediately, so it'd re-trigger here.
+            // Shows next launch instead.
             guard !didPresentInitialOnboardingThisLaunch else { return }
 
             if Settings.shouldShowEncourageAccountCreationModal() {
@@ -1117,11 +1111,9 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        // Only prime for notifications when the system permission is still undecided, and never stack
-        // on top of another modal. This guards the two edge cases of showing the prompt after any
-        // account creation: re-asking a user who already granted/denied (e.g. creating a second
-        // account), and a dropped presentation when a flow (referrals, device approval) is still
-        // presenting its own UI.
+        // Only prime when the permission is still undecided, and never stack on another modal:
+        // avoids re-asking a user who already granted/denied, and a dropped presentation when
+        // another flow (referrals, device approval) is still presenting.
         guard presentedViewController == nil else { return }
         NotificationsHelper.shared.checkNotificationsNotDetermined { [weak self] notDetermined in
             DispatchQueue.main.async {

@@ -24,10 +24,9 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
-        // Reset per-session state here as well as in `reset()`: `reset()` is reached conditionally
-        // from several dismissal paths, so anchoring the flag to `begin()` keeps it scoped to the
-        // current flow and stops a stale `true` from leaking into the next flow's notifications
-        // prompt. Account creation always happens after `begin()`, so nothing is lost.
+        // Also cleared here, not just in `reset()`: `reset()` is reached only conditionally, so
+        // anchoring to `begin()` keeps the flag scoped to one flow. Account creation always happens
+        // after `begin()`, so nothing is lost.
         self.didCreateAccount = false
 
         let navigationController = controller as? UINavigationController
@@ -99,12 +98,9 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
-    /// Whether dismissing an onboarding session should chain into the notifications-permission
-    /// prompt. Shown whenever an account was created (to ask about emailing the user), regardless of
-    /// the flow — so account creation from referrals, device approval, paywalls, etc. also qualifies —
-    /// plus the standard first-run prompt after initial onboarding. Presentation is gated separately
-    /// in `MainTabBarController.showNotificationsPermissions()`, which skips it when the system
-    /// permission is already decided or another modal is presenting.
+    /// Whether dismissing this session should chain into the notifications prompt: whenever an account
+    /// was created (any flow), plus the first-run prompt after initial onboarding. Presentation is
+    /// gated in `MainTabBarController.showNotificationsPermissions()`.
     static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
         didCreateAccount || flow == .initialOnboarding
     }
