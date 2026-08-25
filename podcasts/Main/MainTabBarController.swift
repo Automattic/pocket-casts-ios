@@ -1117,11 +1117,10 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        // Only prime when the permission is still undecided and nothing else is presenting. Gated
-        // synchronously off the cached status so the present lands inline — a deferred check would
-        // let a later same-runloop presenter (e.g. the End of Year prompt) win and drop this
-        // one-time prompt. If another flow is still presenting we skip it entirely rather than stack.
-        guard presentedViewController == nil, NotificationsHelper.shared.isNotificationsNotDetermined else { return }
+        // Shown on every account creation — it's how we ask about emailing the user (newsletter +
+        // notifications opt-in). Presented inline so it beats the `.onboardingFlowDidDismiss` EOY
+        // prompt; only skipped when another flow is already presenting, since we can't stack on it.
+        guard presentedViewController == nil else { return }
         present(NotificationsPermissionsViewModel.makeController(), animated: true)
     }
 }

@@ -26,26 +26,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    /// Last-known authorization status, kept so priming screens can be gated synchronously (the
-    /// system API is async, which would reorder same-runloop presentations). Main-thread confined.
-    private var cachedAuthorizationStatus: UNAuthorizationStatus?
-
-    /// Synchronous view of whether the permission is still undecided. Defaults to `.notDetermined`
-    /// before the first refresh so a fresh install (the common onboarding case) is still primed.
-    var isNotificationsNotDetermined: Bool {
-        (cachedAuthorizationStatus ?? .notDetermined) == .notDetermined
-    }
-
-    /// Refreshes `cachedAuthorizationStatus`. Call on launch and foreground so the synchronous
-    /// `isNotificationsNotDetermined` is up to date by the time a priming screen is gated.
-    func refreshAuthorizationStatusCache() {
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            DispatchQueue.main.async {
-                self?.cachedAuthorizationStatus = settings.authorizationStatus
-            }
-        }
-    }
-
     @objc func pushEnabled() -> Bool {
         UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
     }
