@@ -27,13 +27,14 @@ struct BookmarkDetailsView: View {
     @ViewBuilder
     private var layout: some View {
         if viewModel.passage != nil {
-            VStack(alignment: .leading, spacing: 24) {
-                Group {
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 24) {
                     header
                     details
                 }
                 .padding(.horizontal, 16)
 
+                // The room the transcript keeps clear at the top is the gap above it
                 transcriptSection
             }
             .padding(.top, 16)
@@ -169,6 +170,7 @@ struct BookmarkDetailsView: View {
                     passageView(passage)
                 }
                 .scrollBounceBehavior(.basedOnSize)
+                .padding(.top, 24)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -272,7 +274,7 @@ struct BookmarkDetailsView: View {
 /// How deep the transcript fades out at each edge. The transcript keeps the same room
 /// clear at its own edges, so its first and last lines come to rest clear of the fade.
 private enum TranscriptFade {
-    static let top: CGFloat = 96
+    static let top: CGFloat = 48
     static let bottom: CGFloat = 64
 }
 
