@@ -3,13 +3,13 @@ import PocketCastsUtils
 
 struct BookmarksProfileListView: View {
     @ObservedObject var viewModel: BookmarkPodcastListViewModel
-    @ObservedObject var style = ThemedBookmarksStyle()
+    @ObservedObject var style = FullScreenBookmarksStyle()
+    @ObservedObject private var searchTheme = BookmarksSearchFieldTheme()
 
     var body: some View {
-        VStack(spacing: BookmarkListConstants.padding) {
+        VStack(spacing: 0) {
             searchField
                 .padding([.horizontal], BookmarkListConstants.headerPadding)
-                .background(style.theme.secondaryUi01)
             bookmarkListView
         }
         .navigationTitle(L10n.bookmarks)
@@ -66,12 +66,21 @@ struct BookmarksProfileListView: View {
     @ViewBuilder
     private var searchField: some View {
         if viewModel.isSearching || !viewModel.bookmarks.isEmpty {
-            SearchField(text: $viewModel.searchText)
+            SearchField(theme: searchTheme, text: $viewModel.searchText)
                 .disabled(viewModel.isMultiSelecting)
         }
     }
 
     private var bookmarkListView: some View {
         BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
+            .padding(.top, BookmarkListConstants.padding)
     }
+}
+
+private final class BookmarksSearchFieldTheme: SearchField.SearchTheme {
+    override var background: Color { theme.primaryField01 }
+    override var placeholder: Color { theme.primaryText02 }
+    override var text: Color { theme.primaryText01 }
+    override var cancel: Color { theme.primaryText01 }
+    override var icon: Color { theme.primaryIcon02 }
 }

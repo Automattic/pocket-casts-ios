@@ -145,6 +145,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         .animation(.default, value: viewModel.bookmarks.map(\.id))
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+        .background(style.listBackground)
         .environment(\.defaultMinListRowHeight, 0)
     }
 
