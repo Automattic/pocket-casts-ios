@@ -156,6 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleBecomeActive() {
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
+        NotificationsHelper.shared.refreshAuthorizationStatusCache()
 
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()

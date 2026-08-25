@@ -1117,16 +1117,12 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        // Only prime when the permission is still undecided. If another flow is still presenting
-        // (e.g. referrals, device approval) we skip the prompt entirely rather than stacking or
-        // retrying — missing the one-time prompt in those edge-case flows is acceptable.
-        guard presentedViewController == nil else { return }
-        NotificationsHelper.shared.checkNotificationsNotDetermined { [weak self] notDetermined in
-            DispatchQueue.main.async {
-                guard notDetermined, let self, self.presentedViewController == nil else { return }
-                self.present(NotificationsPermissionsViewModel.makeController(), animated: true)
-            }
-        }
+        // Only prime when the permission is still undecided and nothing else is presenting. Gated
+        // synchronously off the cached status so the present lands inline — a deferred check would
+        // let a later same-runloop presenter (e.g. the End of Year prompt) win and drop this
+        // one-time prompt. If another flow is still presenting we skip it entirely rather than stack.
+        guard presentedViewController == nil, NotificationsHelper.shared.isNotificationsNotDetermined else { return }
+        present(NotificationsPermissionsViewModel.makeController(), animated: true)
     }
 }
 
