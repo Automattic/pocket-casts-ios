@@ -1422,10 +1422,11 @@ class Settings: NSObject {
     static let encourageAccountCreationInterval: TimeInterval = 60.days
 
     /// Whether to show the modal this launch. Callers gate on completed onboarding; the clock is
-    /// anchored at presentation (`InformationalModalViewModel.didAppear()`) and when onboarding
-    /// finishes without an account (`OnboardingFlow.reset()`). Shows on the first eligible launch,
-    /// once the interval elapses, or when the anchor is ahead of `now` (a restore carrying a future
-    /// date). All parameters are injectable so it can be unit-tested without touching singletons.
+    /// anchored at presentation (`InformationalModalViewModel.didAppear()`) and on a fresh install
+    /// (`AppDelegate.application(_:didFinishLaunchingWithOptions:)`, `case .installed`) so a brand-new
+    /// user gets a full interval of grace. Shows on the first eligible launch, once the interval
+    /// elapses, or when the anchor is ahead of `now` (a restore carrying a future date).
+    /// All parameters are injectable so it can be unit-tested without touching singletons.
     static func shouldShowEncourageAccountCreationModal(
         now: Date = Date(),
         isEligible: Bool = FeatureFlag.encourageAccountCreation.enabled && !SyncManager.isUserLoggedIn(),
