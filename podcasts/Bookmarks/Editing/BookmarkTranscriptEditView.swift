@@ -14,37 +14,36 @@ struct BookmarkTranscriptEditView: View {
 
     @ObservedObject var theme: BookmarkEditTheme
 
-    /// Measured, so the space kept clear for the subtitle grows with it
-    @State private var subtitleHeight: CGFloat = 0
-
     var body: some View {
-        TranscriptSelectionTextView(transcript: transcript,
-                                    bookmarkCharacterIndex: referenceTime.flatMap { transcript.characterIndex(at: $0) },
-                                    selection: $selection,
-                                    topInset: topInset,
-                                    textColor: UIColor(theme.title),
-                                    selectionColor: UIColor(theme.transcriptSelection))
-            .mask(topFadeMask)
-            .overlay(alignment: .top) {
-                subtitle
-                    .allowsHitTesting(false)
+        VStack(spacing: 0) {
+            subtitle
+                .padding(.horizontal, 16)
+
+            // The room the transcript keeps clear at the top is the gap below the subtitle
+            TranscriptSelectionTextView(transcript: transcript,
+                                        bookmarkCharacterIndex: referenceTime.flatMap { transcript.characterIndex(at: $0) },
+                                        selection: $selection,
+                                        topInset: Self.topFadeDepth,
+                                        textColor: UIColor(theme.title),
+                                        selectionColor: UIColor(theme.transcriptSelection))
+                .mask(topFadeMask)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top)
+        .background(theme.background.ignoresSafeArea())
+        .ignoresSafeArea(edges: .bottom)
+        // Colors the back button the bar gives us for free
+        .tint(theme.title)
+        .navigationTitle(L10n.bookmarkEditTranscriptTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // The bar's own title knows nothing about the player's colors
+            ToolbarItem(placement: .principal) {
+                Text(L10n.bookmarkEditTranscriptTitle)
+                    .font(style: .headline, weight: .semibold)
+                    .foregroundStyle(theme.title)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.top)
-            .background(theme.background.ignoresSafeArea())
-            .ignoresSafeArea(edges: .bottom)
-            // Colors the back button the bar gives us for free
-            .tint(theme.title)
-            .navigationTitle(L10n.bookmarkEditTranscriptTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                // The bar's own title knows nothing about the player's colors
-                ToolbarItem(placement: .principal) {
-                    Text(L10n.bookmarkEditTranscriptTitle)
-                        .font(style: .headline, weight: .semibold)
-                        .foregroundStyle(theme.title)
-                }
-            }
+        }
     }
 
     // MARK: - Views
@@ -54,35 +53,20 @@ struct BookmarkTranscriptEditView: View {
             .foregroundStyle(theme.subTitle)
             .font(style: .callout)
             .multilineTextAlignment(.center)
-            .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .task(id: proxy.size.height) { subtitleHeight = proxy.size.height }
-                }
-            }
     }
 
-    /// Softens the top edge so the passage scrolls out of view instead of being clipped
+    /// Softens the top edge so lines dissolve as they scroll past, rather than being clipped
     private var topFadeMask: some View {
         VStack(spacing: 0) {
             LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
-                .frame(height: topInset)
+                .frame(height: Self.topFadeDepth)
             Color.black
         }
     }
 
-    /// The room kept clear above the transcript, which the subtitle sits in and the text
-    /// fades out into. The transcript starts below it, so its opening lines come to rest
-    /// clear of the subtitle.
-    private var topInset: CGFloat {
-        max(Self.minimumTopInset, subtitleHeight + Self.subtitleSpacing)
-    }
-
-    /// Deep enough for the fade to read as one, whatever the subtitle measures
-    private static let minimumTopInset: CGFloat = 140
-
-    /// What the subtitle keeps between itself and the first line of the transcript
-    private static let subtitleSpacing: CGFloat = 24
+    /// How deep the transcript fades out at the top. It keeps the same room clear at its
+    /// own top edge, so its first line comes to rest clear of the fade.
+    private static let topFadeDepth: CGFloat = 48
 }
 
 // MARK: - TranscriptSelectionTextView
@@ -98,7 +82,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
 
     @Binding var selection: NSRange
 
-    /// The room the transcript keeps clear at the top, for the subtitle and the fade
+    /// The room the transcript keeps clear at the top, matching the fade drawn over it
     let topInset: CGFloat
 
     let textColor: UIColor
@@ -150,10 +134,6 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
     }
 
     func updateUIView(_ textView: BookmarkTranscriptTextView, context: Context) {
-        if textView.textContainerInset.top != topInset {
-            textView.textContainerInset.top = topInset
-        }
-
         guard textView.selectedRange != selection else { return }
 
         textView.selectedRange = selection
