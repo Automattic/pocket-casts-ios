@@ -28,26 +28,6 @@ final class OnboardingFlowTests: XCTestCase {
         XCTAssertFalse(OnboardingFlow.shouldShowNotificationsPermissions(didCreateAccount: false, flow: .loggedOut))
     }
 
-    // MARK: - Encourage Account Creation grace period
-
-    func testClockStartsWhenInitialOnboardingFinishedWithoutAccount() {
-        // Declining signup during initial onboarding starts the 60-day clock, so a fresh install
-        // isn't prompted on the very next launch.
-        XCTAssertTrue(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: false, flow: .initialOnboarding))
-    }
-
-    func testClockNotStartedWhenAccountCreatedDuringOnboarding() {
-        // Creating an account logs the user in, so there's nothing to anchor.
-        XCTAssertFalse(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: true, flow: .initialOnboarding))
-    }
-
-    func testClockNotStartedForOtherFlows() {
-        // Other flows (e.g. an existing logged-out user opening the app) don't run initial
-        // onboarding, so their clock stays unanchored and the modal shows on the first launch.
-        XCTAssertFalse(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: false, flow: .loggedOut))
-        XCTAssertFalse(OnboardingFlow.shouldStartEncourageAccountCreationClock(didCreateAccount: false, flow: .encourageAccountCreation))
-    }
-
     // MARK: - didCreateAccount lifecycle
 
     // Exercise the flag through the mutating methods, not just the pure predicates. Uses a local

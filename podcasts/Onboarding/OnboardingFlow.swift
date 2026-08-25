@@ -88,9 +88,6 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
-        if Self.shouldStartEncourageAccountCreationClock(didCreateAccount: didCreateAccount, flow: currentFlow) {
-            Settings.encourageAccountCreationReferenceDate = Date()
-        }
         source = .unknown
         currentFlow = .none
         didCreateAccount = false
@@ -103,13 +100,6 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     /// gated in `MainTabBarController.showNotificationsPermissions()`.
     static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
         didCreateAccount || flow == .initialOnboarding
-    }
-
-    /// Whether finishing this session should start the account-creation cadence clock — i.e. the
-    /// user finished initial onboarding without creating an account, so the recurring modal waits a
-    /// full interval instead of appearing on the very next launch.
-    static func shouldStartEncourageAccountCreationClock(didCreateAccount: Bool, flow: Flow) -> Bool {
-        flow == .initialOnboarding && !didCreateAccount
     }
 
     /// Updates the source passed for analytics
