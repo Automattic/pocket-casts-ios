@@ -13,7 +13,8 @@ struct BookmarkDetailsView: View {
 
     var body: some View {
         layout
-            .frame(maxWidth: .infinity)
+            // Top-anchored: the header sits at the top whatever height the transcript takes
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(theme.primaryUi01.ignoresSafeArea())
             .miniPlayerSafeAreaInset()
             .task {
@@ -178,6 +179,8 @@ struct BookmarkDetailsView: View {
         BookmarkTranscriptReadView(transcript: snippet.transcript,
                                    passageRange: snippet.range,
                                    bookmarkCharacterIndex: bookmarkCharacterIndex(for: snippet),
+                                   topInset: TranscriptFade.top,
+                                   bottomInset: TranscriptFade.bottom,
                                    passageColor: UIColor(theme.primaryText01),
                                    surroundingColor: UIColor(theme.primaryText02),
                                    selectionColor: UIColor(theme.primaryInteractive01))
@@ -196,10 +199,10 @@ struct BookmarkDetailsView: View {
     private var edgeFade: some View {
         VStack(spacing: 0) {
             LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
-                .frame(height: 96)
+                .frame(height: TranscriptFade.top)
             Color.black
             LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
-                .frame(height: 64)
+                .frame(height: TranscriptFade.bottom)
         }
     }
 
@@ -214,6 +217,8 @@ struct BookmarkDetailsView: View {
 
             placeholderParagraph(Self.trailingPlaceholder)
         }
+        // Starts clear of the fade, where the transcript that replaces it starts too
+        .padding(.top, TranscriptFade.top)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .clipped()
     }
@@ -260,6 +265,15 @@ struct BookmarkDetailsView: View {
     private var created: String {
         DateFormatter.localizedString(from: viewModel.bookmark.created, dateStyle: .medium, timeStyle: .short)
     }
+}
+
+// MARK: - TranscriptFade
+
+/// How deep the transcript fades out at each edge. The transcript keeps the same room
+/// clear at its own edges, so its first and last lines come to rest clear of the fade.
+private enum TranscriptFade {
+    static let top: CGFloat = 96
+    static let bottom: CGFloat = 64
 }
 
 // MARK: - BookmarkPassageTextView
@@ -327,6 +341,11 @@ private struct BookmarkTranscriptReadView: UIViewRepresentable {
     let transcript: TranscriptModel
     let passageRange: NSRange
     let bookmarkCharacterIndex: Int
+
+    /// The room the transcript keeps clear at each edge, matching the fade drawn over it
+    let topInset: CGFloat
+    let bottomInset: CGFloat
+
     let passageColor: UIColor
     let surroundingColor: UIColor
     let selectionColor: UIColor
@@ -344,9 +363,9 @@ private struct BookmarkTranscriptReadView: UIViewRepresentable {
         textView.backgroundColor = .clear
         // The gutter on both sides is the text view's own inset rather than outside
         // padding, so the bookmark indicator can sit in the leading one, beside the text
-        textView.textContainerInset = UIEdgeInsets(top: 0,
+        textView.textContainerInset = UIEdgeInsets(top: topInset,
                                                    left: BookmarkTranscriptTextView.gutterWidth,
-                                                   bottom: 0,
+                                                   bottom: bottomInset,
                                                    right: BookmarkTranscriptTextView.gutterWidth)
         textView.textContainer.lineFragmentPadding = 0
         textView.tintColor = selectionColor

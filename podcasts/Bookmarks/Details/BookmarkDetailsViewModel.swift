@@ -23,8 +23,13 @@ class BookmarkDetailsViewModel: ObservableObject {
     @Published private(set) var transcriptSnippet: BookmarkTranscriptSnippet?
 
     /// Whether the transcript is still being fetched, so placeholders can stand in for
-    /// the text around the passage until it arrives
-    @Published private(set) var isLoadingTranscript = false
+    /// the text around the passage until it arrives. Already true where a fetch is coming,
+    /// so the placeholder is what the screen opens on.
+    @Published private(set) var isLoadingTranscript: Bool
+
+    /// Guards against a second fetch while one is in flight, which `isLoadingTranscript`
+    /// can't do while it starts out true
+    private var isFetchingTranscript = false
 
     let episode: BaseEpisode?
 
@@ -49,6 +54,7 @@ class BookmarkDetailsViewModel: ObservableObject {
         self.podcastTitle = podcastTitle
         self.transcriptSnippet = transcriptSnippet
         self.bookmarkManager = bookmarkManager
+        self.isLoadingTranscript = transcriptSnippet == nil && passage?.isEmpty == false && episode != nil
     }
 
     convenience init(bookmark: Bookmark, bookmarkManager: BookmarkManager) {
@@ -67,11 +73,15 @@ class BookmarkDetailsViewModel: ObservableObject {
 
     /// Fetches the episode transcript and locates the passage in it
     func loadTranscript() async {
-        guard transcriptSnippet == nil, !isLoadingTranscript,
+        guard transcriptSnippet == nil, !isFetchingTranscript,
               passage?.isEmpty == false, let episode else { return }
 
+        isFetchingTranscript = true
         isLoadingTranscript = true
+
         transcriptSnippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
+
+        isFetchingTranscript = false
         isLoadingTranscript = false
     }
 

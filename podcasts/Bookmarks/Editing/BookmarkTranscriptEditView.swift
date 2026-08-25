@@ -14,10 +14,14 @@ struct BookmarkTranscriptEditView: View {
 
     @ObservedObject var theme: BookmarkEditTheme
 
+    /// Measured, so the space kept clear for the subtitle grows with it
+    @State private var subtitleHeight: CGFloat = 0
+
     var body: some View {
         TranscriptSelectionTextView(transcript: transcript,
                                     bookmarkCharacterIndex: referenceTime.flatMap { transcript.characterIndex(at: $0) },
                                     selection: $selection,
+                                    topInset: topInset,
                                     textColor: UIColor(theme.title),
                                     selectionColor: UIColor(theme.transcriptSelection))
             .mask(topFadeMask)
@@ -50,16 +54,35 @@ struct BookmarkTranscriptEditView: View {
             .foregroundStyle(theme.subTitle)
             .font(style: .callout)
             .multilineTextAlignment(.center)
+            .background {
+                GeometryReader { proxy in
+                    Color.clear
+                        .task(id: proxy.size.height) { subtitleHeight = proxy.size.height }
+                }
+            }
     }
 
     /// Softens the top edge so the passage scrolls out of view instead of being clipped
     private var topFadeMask: some View {
         VStack(spacing: 0) {
             LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
-                .frame(height: 140)
+                .frame(height: topInset)
             Color.black
         }
     }
+
+    /// The room kept clear above the transcript, which the subtitle sits in and the text
+    /// fades out into. The transcript starts below it, so its opening lines come to rest
+    /// clear of the subtitle.
+    private var topInset: CGFloat {
+        max(Self.minimumTopInset, subtitleHeight + Self.subtitleSpacing)
+    }
+
+    /// Deep enough for the fade to read as one, whatever the subtitle measures
+    private static let minimumTopInset: CGFloat = 140
+
+    /// What the subtitle keeps between itself and the first line of the transcript
+    private static let subtitleSpacing: CGFloat = 24
 }
 
 // MARK: - TranscriptSelectionTextView
@@ -75,6 +98,9 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
 
     @Binding var selection: NSRange
 
+    /// The room the transcript keeps clear at the top, for the subtitle and the fade
+    let topInset: CGFloat
+
     let textColor: UIColor
     let selectionColor: UIColor
 
@@ -89,7 +115,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         textView.backgroundColor = .clear
         // The gutter on both sides is the text view's own inset rather than outside
         // padding, so the bookmark indicator can sit in the leading one, beside the text
-        textView.textContainerInset = UIEdgeInsets(top: 0,
+        textView.textContainerInset = UIEdgeInsets(top: topInset,
                                                    left: BookmarkTranscriptTextView.gutterWidth,
                                                    bottom: 0,
                                                    right: BookmarkTranscriptTextView.gutterWidth)
@@ -124,6 +150,10 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
     }
 
     func updateUIView(_ textView: BookmarkTranscriptTextView, context: Context) {
+        if textView.textContainerInset.top != topInset {
+            textView.textContainerInset.top = topInset
+        }
+
         guard textView.selectedRange != selection else { return }
 
         textView.selectedRange = selection
