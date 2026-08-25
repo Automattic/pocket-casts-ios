@@ -6,6 +6,9 @@ enum BookmarkTranscriptStyle {
     static let fontSize: Double = 16
     static let lineHeightMultiple: Double = 1.5
 
+    /// The room between one paragraph and the next, on top of the line height
+    static let paragraphSpacing: Double = 10
+
     /// New York, scaling with the body text style
     static var font: UIFont {
         serifFont(ofSize: CGFloat(fontSize), scalingWith: .body)
@@ -51,7 +54,7 @@ enum BookmarkTranscriptStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
-        paragraphStyle.paragraphSpacing = 10
+        paragraphStyle.paragraphSpacing = CGFloat(paragraphSpacing)
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = .natural
 
