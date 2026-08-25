@@ -53,67 +53,61 @@ final class SettingsTests: XCTestCase {
 
     func testEncourageAccountCreationWaitsWhenNotEligible() {
         // Even with an elapsed clock, an ineligible user is never shown the modal.
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertFalse(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: false,
             referenceDate: eacNow.addingTimeInterval(-eacInterval * 2),
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .wait)
+        ))
     }
 
     func testEncourageAccountCreationShowsOnFirstEligibleLaunch() {
         // First eligible launch (no reference date yet) shows immediately, then the clock starts.
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertTrue(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: true,
             referenceDate: nil,
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .show)
+        ))
     }
 
     func testEncourageAccountCreationWaitsBeforeIntervalElapses() {
         // One second short of the interval should not show yet.
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertFalse(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(-(eacInterval - 1)),
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .wait)
+        ))
     }
 
     func testEncourageAccountCreationShowsWhenIntervalElapsed() {
         // Exactly at the interval boundary should show.
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertTrue(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(-eacInterval),
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .show)
+        ))
     }
 
     func testEncourageAccountCreationShowsWhenIntervalWellExceeded() {
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertTrue(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(-eacInterval * 3),
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .show)
+        ))
     }
 
     func testEncourageAccountCreationShowsWhenReferenceIsInTheFuture() {
-        // A future reference date (backwards clock / restored skewed backup) shows rather than
+        // A future reference date (a restore carrying a future anchor) shows rather than
         // suppressing the modal indefinitely.
-        let decision = Settings.encourageAccountCreationDecision(
+        XCTAssertTrue(Settings.shouldShowEncourageAccountCreationModal(
+            now: eacNow,
             isEligible: true,
             referenceDate: eacNow.addingTimeInterval(eacInterval),
-            now: eacNow,
             interval: eacInterval
-        )
-        XCTAssertEqual(decision, .show)
+        ))
     }
 }

@@ -1421,28 +1421,21 @@ class Settings: NSObject {
     /// How long to wait between showings of the Encourage Account Creation modal (60 days).
     static let encourageAccountCreationInterval: TimeInterval = 60.days
 
-    enum EncourageAccountCreationModalDecision: Equatable {
-        case show
-        case wait
-    }
-
-    /// Pure cadence decision, factored out so it can be unit-tested without touching singletons.
-    /// Shows on the first eligible launch (no anchor yet), once the interval elapses, or when the
-    /// stored anchor is in the future (backwards clock / skewed-backup restore).
-    static func encourageAccountCreationDecision(isEligible: Bool, referenceDate: Date?, now: Date, interval: TimeInterval) -> EncourageAccountCreationModalDecision {
-        guard isEligible else { return .wait }
-        guard let referenceDate, referenceDate <= now else { return .show }
-        return now.timeIntervalSince(referenceDate) >= interval ? .show : .wait
-    }
-
-    /// Whether to show the modal this launch. Callers gate on completed onboarding. The clock is
+    /// Whether to show the modal this launch. Callers gate on completed onboarding; the clock is
     /// anchored at presentation (`InformationalModalViewModel.didAppear()`) and when onboarding
-    /// finishes without an account (`OnboardingFlow.reset()`). `now` is injectable for tests.
-    static func shouldShowEncourageAccountCreationModal(now: Date = Date()) -> Bool {
-        let isEligible = FeatureFlag.encourageAccountCreation.enabled
-            && !SyncManager.isUserLoggedIn()
-
-        return encourageAccountCreationDecision(isEligible: isEligible, referenceDate: encourageAccountCreationReferenceDate, now: now, interval: encourageAccountCreationInterval) == .show
+    /// finishes without an account (`OnboardingFlow.reset()`). Shows on the first eligible launch,
+    /// once the interval elapses, or when the anchor is ahead of `now` (a restore carrying a future
+    /// date). All parameters are injectable so it can be unit-tested without touching singletons.
+    static func shouldShowEncourageAccountCreationModal(
+        now: Date = Date(),
+        isEligible: Bool = FeatureFlag.encourageAccountCreation.enabled && !SyncManager.isUserLoggedIn(),
+        referenceDate: Date? = encourageAccountCreationReferenceDate,
+        interval: TimeInterval = encourageAccountCreationInterval
+    ) -> Bool {
+        guard isEligible else { return false }
+        guard let referenceDate else { return true }
+        let elapsed = now.timeIntervalSince(referenceDate)
+        return elapsed >= interval || elapsed < 0 // anchor ahead of now (clock/backup skew)
     }
 
     // MARK: - VoiceBoostN
