@@ -26,8 +26,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private var previousUpNextCount: Int?
 
     /// True once initial onboarding has been presented, so the account-creation modal isn't chained
-    /// onto the same launch. Backstop for when `reset()` (the normal anchor) isn't reached. Reset per
-    /// `MainTabBarController` instance, not per process.
+    /// onto the same launch (`shouldShowInitialOnboardingFlow` flips false immediately, and a
+    /// never-anchored clock shows on its first eligible launch). Reset per `MainTabBarController`
+    /// instance, not per process. Set at navigation intent, so a superseded navigation blocks EAC
+    /// for the instance's lifetime — harmless, it retries next launch.
     private var didPresentInitialOnboardingThisLaunch = false
 
     /// `true` while the Up Next "pulse" spring is in flight, so a burst of
