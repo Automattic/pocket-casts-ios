@@ -5,6 +5,8 @@ protocol BookmarksStyle: ObservableObject {
     associatedtype ActionStyle: ActionBarStyle
     associatedtype EmptyStyle: EmptyStateViewStyle
 
+    var background: Color { get }
+    var listBackground: Color { get }
     var primaryText: Color { get }
     var secondaryText: Color { get }
     var tertiaryText: Color { get }
@@ -44,6 +46,7 @@ class ThemeObserver: ObservableObject {
 
 class BookmarksPlayerTabStyle: ThemeObserver, BookmarksStyle {
     var background: Color { theme.playerBackground01 }
+    var listBackground: Color { .clear }
     var primaryText: Color { theme.playerContrast01 }
     var secondaryText: Color { theme.playerContrast02 }
     var tertiaryText: Color { theme.playerContrast02 }
@@ -67,6 +70,7 @@ class BookmarksPlayerTabStyle: ThemeObserver, BookmarksStyle {
 
 class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var background: Color { theme.primaryUi01 }
+    var listBackground: Color { background }
     var primaryText: Color { theme.primaryText01 }
     var secondaryText: Color { theme.primaryText02 }
     var tertiaryText: Color { theme.primaryText02 }
@@ -84,6 +88,13 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var deleteSwipeTint: Color { theme.support05 }
     var actionBarStyle = ThemedActionBarStyle()
     var emptyStyle = DefaultEmptyStateStyle()
+}
+
+// MARK: - Full Screen Style
+
+/// A full screen list, which uses the same surface as the other list screens in the app
+class FullScreenBookmarksStyle: ThemedBookmarksStyle {
+    override var background: Color { theme.primaryUi02 }
 }
 
 // MARK: - Override Themed Style
