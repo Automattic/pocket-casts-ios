@@ -10,9 +10,16 @@ class EpisodeFileSizeUpdater {
         let asset = AVURLAsset(url: url)
 
         Task {
-            guard let duration = try? await asset.load(.duration) else { return }
+            let duration: CMTime
+            do {
+                duration = try await asset.load(.duration)
+            } catch {
+                FileLog.shared.addMessage("EpisodeFileSizeUpdater: failed to load duration for episode \(episode.uuid): \(error)")
+                return
+            }
 
             let calculatedDuration = CMTimeGetSeconds(duration)
+            guard calculatedDuration.isFinite else { return }
             if calculatedDuration < 10 || calculatedDuration > 36000 { return } // duration is too short or too long to be a podcast eg: less than 10 seconds or more than 10 hours
 
             let currentDuration = episode.duration
