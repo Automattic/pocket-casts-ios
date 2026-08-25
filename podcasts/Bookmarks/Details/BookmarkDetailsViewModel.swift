@@ -22,9 +22,9 @@ class BookmarkDetailsViewModel: ObservableObject {
     /// transcript isn't available, leaving the passage to stand alone.
     @Published private(set) var transcriptSnippet: BookmarkTranscriptSnippet?
 
-    /// Whether the transcript is still being fetched, so placeholders can stand in for
-    /// the text around the passage until it arrives. Already true where a fetch is coming,
-    /// so the placeholder is what the screen opens on.
+    /// Whether the transcript is still being fetched, so a placeholder can stand in for
+    /// it until it arrives. Already true where a fetch is coming, so the placeholder is
+    /// what the screen opens on.
     @Published private(set) var isLoadingTranscript: Bool
 
     /// Guards against a second fetch while one is in flight, which `isLoadingTranscript`

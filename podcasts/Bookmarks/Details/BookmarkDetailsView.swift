@@ -161,9 +161,13 @@ struct BookmarkDetailsView: View {
     private var transcriptSection: some View {
         Group {
             if let snippet = viewModel.transcriptSnippet {
+                // Fades itself in once it's laid out and scrolled to the passage, so it
+                // arrives in place rather than at the top of the transcript
                 transcriptView(for: snippet)
+                    .transition(.identity)
             } else if viewModel.isLoadingTranscript {
                 loadingPlaceholder
+                    .transition(.opacity)
             } else if let passage = viewModel.passage {
                 // No transcript to place the passage in, so it stands alone
                 ScrollView {
@@ -171,10 +175,11 @@ struct BookmarkDetailsView: View {
                 }
                 .scrollBounceBehavior(.basedOnSize)
                 .padding(.top, 24)
+                .transition(.opacity)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .animation(.easeInOut(duration: 0.2), value: viewModel.isLoadingTranscript)
+        .animation(.easeInOut(duration: TranscriptTransition.duration), value: viewModel.isLoadingTranscript)
     }
 
     private func transcriptView(for snippet: BookmarkTranscriptSnippet) -> some View {
@@ -208,57 +213,65 @@ struct BookmarkDetailsView: View {
         }
     }
 
-    /// The passage with placeholder text standing in for the transcript around it while
-    /// the real one loads
+    /// Stands in for the transcript while it loads, laid out as the turns of a
+    /// conversation so it breaks up the way the text that replaces it will
     private var loadingPlaceholder: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            placeholderParagraph(Self.leadingPlaceholder)
-
-            // The glyph waits for the real transcript, where it can mark the right line
-            viewModel.passage.map { passageView($0, showsBookmarkIndicator: false) }
-
-            placeholderParagraph(Self.trailingPlaceholder)
+        VStack(alignment: .leading, spacing: paragraphSpacing) {
+            ForEach(Self.transcriptPlaceholder, id: \.self) { paragraph in
+                Text(paragraph)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
-        // Starts clear of the fade, where the transcript that replaces it starts too
-        .padding(.top, TranscriptFade.top)
+        .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
+        .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
+        .foregroundStyle(theme.primaryText02)
+        .redacted(reason: .placeholder)
+        .padding(.horizontal, BookmarkTranscriptTextView.gutterWidth)
+        .padding(.top, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .clipped()
+        .accessibilityHidden(true)
     }
 
-    private func placeholderParagraph(_ text: String) -> some View {
-        Text(text)
-            .font(size: BookmarkTranscriptStyle.fontSize, style: .body, design: .serif)
-            .lineSpacing(BookmarkTranscriptStyle.lineSpacing)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .foregroundStyle(theme.primaryText02)
-            .redacted(reason: .placeholder)
-            .padding(.horizontal, BookmarkTranscriptTextView.gutterWidth)
-            .accessibilityHidden(true)
+    /// The gap the transcript leaves between paragraphs, which TextKit adds on top of the
+    /// room the line height already leaves between lines
+    private var paragraphSpacing: CGFloat {
+        BookmarkTranscriptStyle.lineSpacing + BookmarkTranscriptStyle.paragraphSpacing
     }
 
     /// The passage on its own, in the same text view the full transcript uses, so it
     /// reads identically before and after the transcript arrives
-    private func passageView(_ passage: String, showsBookmarkIndicator: Bool = true) -> some View {
+    private func passageView(_ passage: String) -> some View {
         BookmarkPassageTextView(passage: passage,
-                                showsBookmarkIndicator: showsBookmarkIndicator,
                                 textColor: UIColor(theme.primaryText01),
                                 selectionColor: UIColor(theme.primaryInteractive01))
     }
 
-    /// Stand-ins for the transcript around the passage while it loads. The redaction
-    /// blocks them out, so they're never read; they only give the placeholders the
-    /// shape of prose.
-    private static let leadingPlaceholder = """
-    The lines of the transcript leading into the bookmarked passage land here once the \
-    episode transcript has been fetched, filling out a few lines above it.
-    """
-
-    private static let trailingPlaceholder = """
-    The rest of the transcript follows the passage the moment it arrives, running on \
-    long enough to fill the space below with the shape of the conversation as it \
-    continues past the bookmarked moment, line after line, until the fetched text \
-    takes its place.
-    """
+    /// Stands in for the transcript while it loads: turns of varying length, so the
+    /// placeholder reads as a conversation rather than a block. The redaction blocks the
+    /// words out, so they're never read; they only give the placeholder its shape.
+    private static let transcriptPlaceholder = [
+        """
+        The lines of the transcript leading into the bookmarked passage land here once \
+        the episode transcript has been fetched, filling out the space above the moment \
+        the bookmark was taken at.
+        """,
+        """
+        Right, and the conversation carries on either side of it, so the passage reads \
+        in the context it was captured in rather than standing on its own.
+        """,
+        "Shorter turns land in between the longer ones.",
+        """
+        The rest of the transcript follows below, running on long enough to fill the \
+        screen with the shape of the conversation as it continues past the bookmarked \
+        moment, line after line, until the fetched text takes its place.
+        """,
+        """
+        Each paragraph here stands in for one turn of the transcript, spaced the way the \
+        real turns are.
+        """,
+        "And it keeps going past the bottom of the screen, where the fade takes over."
+    ]
 
     private var timestamp: String {
         TimeFormatter.shared.playTimeFormat(time: viewModel.bookmark.time)
@@ -278,15 +291,23 @@ private enum TranscriptFade {
     static let bottom: CGFloat = 64
 }
 
+// MARK: - TranscriptTransition
+
+/// How long the placeholder takes to give way to the transcript. Both halves of the
+/// crossfade run for the same time: the placeholder fading out in SwiftUI, and the
+/// transcript fading itself in once it's scrolled to the passage.
+private enum TranscriptTransition {
+    static let duration: TimeInterval = 0.3
+}
+
 // MARK: - BookmarkPassageTextView
 
-/// The passage alone — while the transcript loads, or when there is none — rendered by
-/// the same text view the full transcript uses: the same styling and gutter, optionally
-/// the glyph marking its first line, and the text already selectable. Sized to its
-/// content, so it sits in the surrounding layout rather than scrolling.
+/// The passage alone, when there's no transcript to place it in, rendered by the same
+/// text view the full transcript uses: the same styling and gutter, the glyph marking
+/// its first line, and the text already selectable. Sized to its content, so it sits in
+/// the surrounding layout rather than scrolling.
 private struct BookmarkPassageTextView: UIViewRepresentable {
     let passage: String
-    let showsBookmarkIndicator: Bool
     let textColor: UIColor
     let selectionColor: UIColor
 
@@ -304,9 +325,7 @@ private struct BookmarkPassageTextView: UIViewRepresentable {
                                                    right: BookmarkTranscriptTextView.gutterWidth)
         textView.textContainer.lineFragmentPadding = 0
         textView.tintColor = selectionColor
-        if showsBookmarkIndicator {
-            textView.showBookmarkIndicator(at: 0, color: textColor)
-        }
+        textView.showBookmarkIndicator(at: 0, color: textColor)
         return textView
     }
 
@@ -381,6 +400,9 @@ private struct BookmarkTranscriptReadView: UIViewRepresentable {
 
             UIView.performWithoutAnimation {
                 textView.scrollToRange(passageRange, verticalAnchor: verticalAnchor, animated: false)
+            }
+
+            UIView.animate(withDuration: TranscriptTransition.duration) {
                 textView.alpha = 1
             }
         }
