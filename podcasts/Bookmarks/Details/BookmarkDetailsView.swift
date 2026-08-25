@@ -179,7 +179,13 @@ struct BookmarkDetailsView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .animation(.easeInOut(duration: TranscriptTransition.duration), value: viewModel.isLoadingTranscript)
+        .animation(transcriptTransition, value: viewModel.isLoadingTranscript)
+    }
+
+    /// Nothing to animate when the transcript was there all along: the placeholder is
+    /// gone before it's been seen, and fading it out would only read as a flicker
+    private var transcriptTransition: Animation? {
+        viewModel.animatesTranscriptTransition ? .easeInOut(duration: TranscriptTransition.duration) : nil
     }
 
     private func transcriptView(for snippet: BookmarkTranscriptSnippet) -> some View {
@@ -190,7 +196,8 @@ struct BookmarkDetailsView: View {
                                    bottomInset: TranscriptFade.bottom,
                                    passageColor: UIColor(theme.primaryText01),
                                    surroundingColor: UIColor(theme.primaryText02),
-                                   selectionColor: UIColor(theme.primaryInteractive01))
+                                   selectionColor: UIColor(theme.primaryInteractive01),
+                                   fadesIn: viewModel.animatesTranscriptTransition)
             .mask(edgeFade)
             // Re-created when an edit moves the passage, so the view scrolls to it anew
             .id(snippet.range)
@@ -371,6 +378,9 @@ private struct BookmarkTranscriptReadView: UIViewRepresentable {
     let surroundingColor: UIColor
     let selectionColor: UIColor
 
+    /// Whether to fade in once it's in place, in step with the placeholder fading out
+    let fadesIn: Bool
+
     /// Where the passage sits vertically once scrolled to
     private let verticalAnchor: CGFloat = 0.4
 
@@ -402,7 +412,9 @@ private struct BookmarkTranscriptReadView: UIViewRepresentable {
                 textView.scrollToRange(passageRange, verticalAnchor: verticalAnchor, animated: false)
             }
 
-            UIView.animate(withDuration: TranscriptTransition.duration) {
+            // In step with the placeholder fading out, or straight to visible when there
+            // was no placeholder to speak of
+            UIView.animate(withDuration: fadesIn ? TranscriptTransition.duration : 0) {
                 textView.alpha = 1
             }
         }

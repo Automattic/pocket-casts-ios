@@ -27,9 +27,18 @@ class BookmarkDetailsViewModel: ObservableObject {
     /// what the screen opens on.
     @Published private(set) var isLoadingTranscript: Bool
 
+    /// Whether the transcript took long enough to be worth fading the placeholder out
+    /// for. One that's already to hand arrives before the placeholder has really been
+    /// seen, where a crossfade reads as a flicker rather than a transition.
+    @Published private(set) var animatesTranscriptTransition = false
+
     /// Guards against a second fetch while one is in flight, which `isLoadingTranscript`
     /// can't do while it starts out true
     private var isFetchingTranscript = false
+
+    /// How long the transcript has to keep the placeholder up before its arrival is
+    /// worth animating
+    private static let transitionThreshold: Duration = .milliseconds(200)
 
     let episode: BaseEpisode?
 
@@ -76,10 +85,15 @@ class BookmarkDetailsViewModel: ObservableObject {
         guard transcriptSnippet == nil, !isFetchingTranscript,
               passage?.isEmpty == false, let episode else { return }
 
+        let startedLoading = ContinuousClock.now
+
         isFetchingTranscript = true
         isLoadingTranscript = true
 
-        transcriptSnippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
+        let snippet = await bookmarkManager.capturedSnippet(for: bookmark, episode: episode)
+
+        animatesTranscriptTransition = startedLoading.duration(to: .now) > Self.transitionThreshold
+        transcriptSnippet = snippet
 
         isFetchingTranscript = false
         isLoadingTranscript = false
@@ -96,6 +110,10 @@ class BookmarkDetailsViewModel: ObservableObject {
     /// Points the already-loaded transcript at the passage as it stands after an edit
     private func relocatePassage() {
         guard let transcript = transcriptSnippet?.transcript else { return }
+
+        // The transcript is already up, so it's replaced in place rather than fading in
+        // over the placeholder
+        animatesTranscriptTransition = false
 
         transcriptSnippet = passage.flatMap { passage in
             BookmarkTranscriptSnippetExtractor.passageRange(for: passage, at: bookmark.passageLocation, in: transcript.attributedText)
