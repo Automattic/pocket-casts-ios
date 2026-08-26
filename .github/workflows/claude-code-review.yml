@@ -95,9 +95,17 @@ jobs:
 
             Output:
             - Inline comments for anything anchored to a line.
-            - One summary: two to four sentences of verdict, then Blocking findings
-              only, one line each, linked to their thread. No tables, no re-analysis,
-              no checklist of what you read.
+            - One summary comment:
+              - Two to four sentences of verdict. No preamble, no restating the PR.
+              - Then the findings grouped under `### Blocking`, `### Non-blocking`,
+                `### Nits`. Skip a group that is empty; skip the section entirely if
+                there are no findings, leaving the verdict as the whole summary.
+              - One line per finding: `path/File.swift:123` followed by a single
+                sentence naming the problem and the fix - enough to act on without
+                opening the thread. Add the inline comment's URL when you have one.
+              - A finding with no line to anchor to takes the same shape with just
+                the path, or no path when it is repo-wide.
+            - No tables, no re-analysis, no checklist of what you read, no praise.
 
             If new commits arrived since your last review on this PR:
             - Review only what changed since then.
