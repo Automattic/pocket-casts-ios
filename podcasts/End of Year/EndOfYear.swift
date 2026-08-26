@@ -206,6 +206,7 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue, "current_year": EndOfYear.currentYear.literalValue])
     }
 
+    @MainActor
     static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()
 
