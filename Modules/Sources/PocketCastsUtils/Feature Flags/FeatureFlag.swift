@@ -267,6 +267,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show a Live Activity on the Lock Screen and Dynamic Island while the sleep timer is running
     case sleepTimerLiveActivity
 
+    /// Enable the network discovery Discover sections and podcast page entry points
+    case networkDiscovery
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -455,6 +458,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .sleepTimerLiveActivity:
             true
+        case .networkDiscovery:
+            false
         }
     }
 

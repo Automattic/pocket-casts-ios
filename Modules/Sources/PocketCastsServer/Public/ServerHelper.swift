@@ -39,6 +39,10 @@ public class ServerHelper: NSObject {
         URL(string: "\(ServerConstants.Urls.lists())bundle-\(bundleUuid).json")!
     }
 
+    public static func listUrlString(listId: String) -> String {
+        "\(ServerConstants.Urls.lists())\(listId).json"
+    }
+
     class func decodeRefreshResponse(from data: Data) -> PodcastRefreshResponse {
         do {
             let jsonDecoder = JSONDecoder()
