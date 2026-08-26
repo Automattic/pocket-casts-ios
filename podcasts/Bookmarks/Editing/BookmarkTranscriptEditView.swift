@@ -15,32 +15,35 @@ struct BookmarkTranscriptEditView: View {
     @ObservedObject var theme: BookmarkEditTheme
 
     var body: some View {
-        TranscriptSelectionTextView(transcript: transcript,
-                                    bookmarkCharacterIndex: referenceTime.flatMap { transcript.characterIndex(at: $0) },
-                                    selection: $selection,
-                                    textColor: UIColor(theme.title),
-                                    selectionColor: UIColor(theme.transcriptSelection))
-            .mask(topFadeMask)
-            .overlay(alignment: .top) {
-                subtitle
-                    .allowsHitTesting(false)
+        VStack(spacing: 0) {
+            subtitle
+                .padding(.horizontal, 16)
+
+            // The room the transcript keeps clear at the top is the gap below the subtitle
+            TranscriptSelectionTextView(transcript: transcript,
+                                        bookmarkCharacterIndex: referenceTime.flatMap { transcript.characterIndex(at: $0) },
+                                        selection: $selection,
+                                        topInset: Self.topFadeDepth,
+                                        textColor: UIColor(theme.title),
+                                        selectionColor: UIColor(theme.transcriptSelection))
+                .mask(topFadeMask)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top)
+        .background(theme.background.ignoresSafeArea())
+        .ignoresSafeArea(edges: .bottom)
+        // Colors the back button the bar gives us for free
+        .tint(theme.title)
+        .navigationTitle(L10n.bookmarkEditTranscriptTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // The bar's own title knows nothing about the player's colors
+            ToolbarItem(placement: .principal) {
+                Text(L10n.bookmarkEditTranscriptTitle)
+                    .font(style: .headline, weight: .semibold)
+                    .foregroundStyle(theme.title)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.top)
-            .background(theme.background.ignoresSafeArea())
-            .ignoresSafeArea(edges: .bottom)
-            // Colors the back button the bar gives us for free
-            .tint(theme.title)
-            .navigationTitle(L10n.bookmarkEditTranscriptTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                // The bar's own title knows nothing about the player's colors
-                ToolbarItem(placement: .principal) {
-                    Text(L10n.bookmarkEditTranscriptTitle)
-                        .font(style: .headline, weight: .semibold)
-                        .foregroundStyle(theme.title)
-                }
-            }
+        }
     }
 
     // MARK: - Views
@@ -52,14 +55,18 @@ struct BookmarkTranscriptEditView: View {
             .multilineTextAlignment(.center)
     }
 
-    /// Softens the top edge so the passage scrolls out of view instead of being clipped
+    /// Softens the top edge so lines dissolve as they scroll past, rather than being clipped
     private var topFadeMask: some View {
         VStack(spacing: 0) {
             LinearGradient(colors: [.clear, .black], startPoint: .top, endPoint: .bottom)
-                .frame(height: 140)
+                .frame(height: Self.topFadeDepth)
             Color.black
         }
     }
+
+    /// How deep the transcript fades out at the top. It keeps the same room clear at its
+    /// own top edge, so its first line comes to rest clear of the fade.
+    private static let topFadeDepth: CGFloat = 48
 }
 
 // MARK: - TranscriptSelectionTextView
@@ -75,6 +82,9 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
 
     @Binding var selection: NSRange
 
+    /// The room the transcript keeps clear at the top, matching the fade drawn over it
+    let topInset: CGFloat
+
     let textColor: UIColor
     let selectionColor: UIColor
 
@@ -89,7 +99,7 @@ private struct TranscriptSelectionTextView: UIViewRepresentable {
         textView.backgroundColor = .clear
         // The gutter on both sides is the text view's own inset rather than outside
         // padding, so the bookmark indicator can sit in the leading one, beside the text
-        textView.textContainerInset = UIEdgeInsets(top: 0,
+        textView.textContainerInset = UIEdgeInsets(top: topInset,
                                                    left: BookmarkTranscriptTextView.gutterWidth,
                                                    bottom: 0,
                                                    right: BookmarkTranscriptTextView.gutterWidth)
