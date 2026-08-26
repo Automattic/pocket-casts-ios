@@ -75,9 +75,10 @@ jobs:
             4. Performance - only where the impact is user-visible.
 
             Comments:
-            - Every comment MUST be short and concise - a few sentences at most.
-              State the problem and the fix, not the reasoning that led you there.
-              No tables, no multi-paragraph analysis.
+            - Keep comments short by default - a few sentences stating the problem
+              and the fix, not the reasoning that led you there. Spend more words
+              only where the finding needs them to be actionable: a subtle race, a
+              non-obvious call path, a concrete repro.
             - Start a comment with "(nit)" for a trivial suggestion, and
               "(non-blocking)" for something worth knowing that should not hold up
               the merge. An unprefixed comment means it blocks.
