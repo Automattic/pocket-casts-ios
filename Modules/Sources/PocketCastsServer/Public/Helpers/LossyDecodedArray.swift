@@ -2,7 +2,7 @@ import Foundation
 
 /// An array that drops the elements it can't decode instead of failing the whole payload.
 ///
-/// A missing or `null` key decodes as an empty array.
+/// A missing key, a `null`, or a value that isn't an array at all decodes as an empty array.
 @propertyWrapper
 public struct LossyDecodedArray<Element: Decodable>: Decodable {
     public var wrappedValue: [Element]
@@ -13,7 +13,7 @@ public struct LossyDecodedArray<Element: Decodable>: Decodable {
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
-        wrappedValue = try container.decode([DecodedElement].self).compactMap(\.element)
+        wrappedValue = (try? container.decode([DecodedElement].self))?.compactMap(\.element) ?? []
     }
 
     private struct DecodedElement: Decodable {
@@ -31,6 +31,6 @@ extension LossyDecodedArray: Hashable where Element: Hashable {}
 
 public extension KeyedDecodingContainer {
     func decode<Element>(_ type: LossyDecodedArray<Element>.Type, forKey key: Key) throws -> LossyDecodedArray<Element> {
-        try decodeIfPresent(type, forKey: key) ?? LossyDecodedArray(wrappedValue: [])
+        (try? decodeIfPresent(type, forKey: key)) ?? LossyDecodedArray(wrappedValue: [])
     }
 }

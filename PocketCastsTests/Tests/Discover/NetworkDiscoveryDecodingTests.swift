@@ -61,6 +61,15 @@ final class NetworkDiscoveryDecodingTests: XCTestCase {
         XCTAssertTrue(collection.lists.isEmpty)
     }
 
+    func testDecodesListsThatArentAnArray() throws {
+        for lists in ["{}", #""""#, "0", "null"] {
+            let collection = try decodeCollection(from: #"{"list_id": "network-highlights", "title": "Network Highlights", "lists": \#(lists)}"#)
+
+            XCTAssertEqual(collection.title, "Network Highlights")
+            XCTAssertTrue(collection.lists.isEmpty)
+        }
+    }
+
     // MARK: - network_list
 
     func testDecodesNetworkList() throws {
