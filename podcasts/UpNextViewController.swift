@@ -54,7 +54,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     // Use HitTargetButton so these small header controls meet Apple's recommended 44x44pt minimum tap target without changing their visible size.
     let shuffleButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     let sortButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-    let clearQueueButton = HitTargetButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
@@ -96,7 +95,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             ])
         }
 
-        // When the sort button is shown, the shuffle/clear buttons sit to its left.
+        // When the sort button is shown, the shuffle button sits to its left.
         let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.trailingAnchor
         let trailingButtonConstant: CGFloat = FeatureFlag.upNextSort.enabled ? -16 : -20
 
@@ -111,22 +110,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             shuffleButton.heightAnchor.constraint(equalToConstant: 24)
         ])
 
-        headerView.addSubview(clearQueueButton)
-        clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
-        clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
-        NSLayoutConstraint.activate([
-            clearQueueButton.trailingAnchor.constraint(equalTo: trailingButtonAnchor, constant: trailingButtonConstant),
-            clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
-        ])
-
-        if FeatureFlag.upNextShuffle.enabled {
-            clearQueueButton.isHidden = true
-            shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
-        } else {
-            shuffleButton.isHidden = true
-            clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
-        }
+        shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         if FeatureFlag.upNextSort.enabled {
             sortButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         }
@@ -206,7 +190,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidBegin), name: .tableViewReorderWillBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidEnd), name: .tableViewReorderDidEnd, object: nil)
 
-        if FeatureFlag.upNextShuffle.enabled, showingInTab {
+        if showingInTab {
             NotificationCenter.default.addObserver(self, selector: #selector(updateShuffleButtonState), name: Constants.Notifications.upNextShuffleToggle, object: nil)
         }
 
@@ -230,9 +214,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         updateNavBarButtons()
         setupActionButtonsIfNecessary()
-        if FeatureFlag.upNextShuffle.enabled {
-            themeDidChange()
-        }
+        themeDidChange()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -264,16 +246,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func clearQueueTapped() {
         let queueCount = PlaybackManager.shared.queue.upNextCount()
 
-        if queueCount <= Constants.Limits.upNextClearWithoutWarning && !FeatureFlag.upNextShuffle.enabled {
-            performClearAll()
-        } else {
-            let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { [weak self] _ in
-                self?.performClearAll()
-            })
-            present(alert, animated: true)
-        }
+        let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { [weak self] _ in
+            self?.performClearAll()
+        })
+        present(alert, animated: true)
 
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
@@ -327,34 +305,21 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc private func subscriptionStatusDidChange() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            if FeatureFlag.upNextShuffle.enabled {
-                // Update UI
-                FileLog.shared.addMessage("UpNext subscriptionStatusDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+            FileLog.shared.addMessage("UpNext subscriptionStatusDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
 
-                setupActionButtonsIfNecessary()
-                themeDidChange()
-                updateNavBarButtons()
-                reloadTable()
-            }
+            setupActionButtonsIfNecessary()
+            themeDidChange()
+            updateNavBarButtons()
+            reloadTable()
         }
     }
 
     private func setupActionButtonsIfNecessary() {
-        if FeatureFlag.upNextShuffle.enabled {
-            guard shuffleButton.allTargets.isEmpty else { return }
-            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
-            themeDidChange()
-            shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
-        } else {
-            guard clearQueueButton.allTargets.isEmpty else { return }
-            clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
-            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
-            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
-            clearQueueButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .footnote)
-            clearQueueButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
-        }
+        guard shuffleButton.allTargets.isEmpty else { return }
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        themeDidChange()
+        shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
         setupSortButtonIfNecessary()
     }
 
@@ -400,7 +365,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     private func actionLabelText(_ queueCount: Int) -> String {
-        if FeatureFlag.upNextShuffle.enabled, queueCount == 1 {
+        if queueCount == 1 {
             return L10n.queueClearEpisodeQueueSingular
         }
         return L10n.queueClearEpisodeQueuePlural(queueCount.localized())
@@ -511,22 +476,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else {
             let hasEpisodes = PlaybackManager.shared.queue.upNextCount() > 0
 
-            if FeatureFlag.upNextShuffle.enabled {
-                if hasEpisodes {
-                    let selectButton = UIBarButtonItem(image: UIImage(named: "option-multiselect"), style: .plain, target: self, action: #selector(selectTapped))
-                    selectButton.accessibilityLabel = L10n.selectEpisodes
-                    let moreButton = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
-                    moreButton.accessibilityLabel = L10n.accessibilityMoreActions
-                    rightButtons = [selectButton, moreButton]
-                } else {
-                    rightButtons = []
-                }
-                leftButton = showingInTab ? nil : UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(doneTapped))
+            if hasEpisodes {
+                let selectButton = UIBarButtonItem(image: UIImage(named: "option-multiselect"), style: .plain, target: self, action: #selector(selectTapped))
+                selectButton.accessibilityLabel = L10n.selectEpisodes
+                let moreButton = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
+                moreButton.accessibilityLabel = L10n.accessibilityMoreActions
+                rightButtons = [selectButton, moreButton]
             } else {
-                let selectButton = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-                rightButtons = hasEpisodes ? [selectButton] : []
-                leftButton = showingInTab ? nil : UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+                rightButtons = []
             }
+            leftButton = showingInTab ? nil : UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(doneTapped))
         }
 
         if rightButtons.count > 1 {

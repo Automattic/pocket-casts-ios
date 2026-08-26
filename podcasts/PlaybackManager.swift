@@ -735,7 +735,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if queueCount == 0 { return }
 
         var index = 0
-        if FeatureFlag.upNextShuffle.enabled, queueCount > 1, Settings.upNextShuffleEnabled() {
+        if queueCount > 1, Settings.upNextShuffleEnabled() {
             index = Int.random(in: 0..<queueCount)
             FileLog.shared.addMessage("Play Next Episode with Shuffle enabled: playing episode \(index) out of \(queueCount)")
         }
@@ -744,7 +744,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         FileLog.shared.addMessage("Play Next Episode \(nextEpisode.displayableTitle())")
 
-        if FeatureFlag.upNextShuffle.enabled, queueCount > 1, index > 0 {
+        if queueCount > 1, index > 0 {
             queue.move(episode: nextEpisode, to: 0)
         }
 

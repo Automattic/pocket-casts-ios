@@ -29,14 +29,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
         updateTimeRemainingLabel()
 
-        if FeatureFlag.upNextShuffle.enabled {
-            clearQueueButton.isHidden = true
-            shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
-        } else {
-            clearQueueButton.isHidden = false
-            shuffleButton.isHidden = true
-            clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
-        }
+        shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         if FeatureFlag.upNextSort.enabled {
             sortButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         }
