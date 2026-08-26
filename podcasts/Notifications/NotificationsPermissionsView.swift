@@ -6,10 +6,7 @@ class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
     @Published var notificationsOptIn: Bool = true
 
-    /// The newsletter opt-in is only meaningful when there's an account to attach it to. Captured
-    /// once at creation (login state doesn't change while this screen is up) so a logged-out user
-    /// who skipped account creation during onboarding still sees the notifications prompt, without
-    /// being asked to subscribe a non-existent address.
+    /// Only ask to subscribe when there's an account to attach the newsletter to.
     let showNewsletterOptIn = SyncManager.isUserLoggedIn()
 
     func setupPermissions() async {
