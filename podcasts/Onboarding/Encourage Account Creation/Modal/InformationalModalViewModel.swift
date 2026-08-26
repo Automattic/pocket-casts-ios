@@ -7,9 +7,7 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
 
     func didAppear() {
         Analytics.track(.informationalModalViewShowed)
-        // Reset the cadence clock alongside the "shown" event so the anchor and the funnel can't
-        // disagree about when the modal was presented. `didAppear()` runs from `viewDidAppear`, so a
-        // superseded navigation that never actually presents doesn't burn the interval.
+        // Reset the cadence clock only once the modal actually appears, not at navigation time.
         Settings.encourageAccountCreationReferenceDate = Date()
         pageDidChange(0)
     }
