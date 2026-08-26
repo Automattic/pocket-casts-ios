@@ -68,7 +68,7 @@ enum VideoExporter {
     // Step 1 of video export
     private static func exportInitialVideo<Content: AnimatableContent>(of view: Content, to outputURL: URL, with parameters: Parameters, frameCount: Int, progress: Progress) async throws {
         let videoSize = CGSize(width: parameters.size.width * parameters.scale, height: parameters.size.height * parameters.scale)
-        let videoWriter = try AVAssetWriter(outputURL: outputURL, fileType: parameters.fileType)
+        nonisolated(unsafe) let videoWriter = try AVAssetWriter(outputURL: outputURL, fileType: parameters.fileType)
         let videoSettings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecType.h264,
             AVVideoWidthKey: videoSize.width,
@@ -98,38 +98,32 @@ enum VideoExporter {
 
     // Part of Step 1
     private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, scale: CGFloat, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
-        let counter = Counter()
-        try await videoWriterInput.unsafeRequestMediaDataWhenReady {
-            while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
+        do {
+            for frame in 0...frameCount {
                 guard videoWriter.status != .cancelled else {
                     throw ExportError.taskCancelled
                 }
 
-                let frameProgress = Double(await counter.count) / Double(frameCount)
-                await view.update(for: frameProgress)
+                await view.update(for: Double(frame) / Double(frameCount))
 
-                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
-                let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                if videoWriterInput.isReadyForMoreMediaData {
-                    adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                    progress.completedUnitCount += 1
+                let buffer = try await pixelBuffer(for: view, size: size, scale: scale)
+                let frameTime = CMTime(seconds: Double(frame) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
 
-                    await counter.increment()
-                }
+                try await videoWriterInput.waitUntilReadyForMoreMediaData()
+                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                progress.completedUnitCount += 1
             }
-
-            if await counter.count >= frameCount {
-                videoWriterInput.markAsFinished()
-                await videoWriter.finishWriting()
-                return true
-            }
-
-            return false
+        } catch {
+            videoWriterInput.markAsFinished()
+            throw error
         }
+
+        videoWriterInput.markAsFinished()
+        await videoWriter.finishWriting()
     }
 
     @MainActor
-    private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
+    private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))
     }
 
@@ -183,9 +177,10 @@ enum VideoExporter {
             throw ExportError.taskCancelled
         }
 
-        guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
+        guard let session = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
             throw ExportError.failedToCreateExportSession
         }
+        nonisolated(unsafe) let exportSession = session
 
         exportSession.outputURL = outputURL
         exportSession.outputFileType = fileType
@@ -219,36 +214,11 @@ enum VideoExporter {
     }
 }
 
-/// Used to safely increment a counter from within an async context
-fileprivate actor Counter {
-    var count: Int = 0
-
-    func run(block: () async throws -> Void) async throws {
-        try await block()
-        await increment()
-    }
-
-    func increment() async {
-        count += 1
-    }
-}
-
 fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
-                _unsafeWait {
-                    do {
-                        let finished = try await block()
-                        if finished {
-                            continuation.resume()
-                        }
-                    } catch {
-                        self.markAsFinished()
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
+    /// Suspends until the input is ready to accept more media data.
+    func waitUntilReadyForMoreMediaData() async throws {
+        while !isReadyForMoreMediaData {
+            try await Task.sleep(for: .milliseconds(5))
         }
     }
 }
