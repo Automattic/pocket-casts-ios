@@ -459,7 +459,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .sleepTimerLiveActivity:
             true
         case .networkDiscovery:
-            false
+            BuildEnvironment.current == .debug
         }
     }
 
