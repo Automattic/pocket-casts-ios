@@ -270,8 +270,6 @@ class Settings: NSObject {
 
     static let upNextShuffleKey = "SJUpNextShuffleKey"
     class func upNextShuffleToggle() {
-        guard FeatureFlag.upNextShuffle.enabled else { return }
-
         let isOn = upNextShuffleEnabled()
         UserDefaults.standard.set(!isOn, forKey: Settings.upNextShuffleKey)
 
@@ -279,7 +277,7 @@ class Settings: NSObject {
     }
 
     class func upNextShuffleEnabled() -> Bool {
-        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             return false
         }
         return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)

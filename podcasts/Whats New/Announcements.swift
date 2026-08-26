@@ -116,7 +116,7 @@ struct Announcements {
             action: {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
-            isEnabled: FeatureFlag.upNextShuffle.enabled,
+            isEnabled: true,
             fullModal: true
         ),
         .init(

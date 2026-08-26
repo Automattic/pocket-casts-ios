@@ -2200,9 +2200,6 @@
 /* Confirmation message to clear one episode from the queue. */
 "queue_clear_episode_queue_singular" = "Clear 1 Episode";
 
-/* Prompt to allow the user to clear their queue. */
-"queue_clear_queue" = "CLEAR QUEUE";
-
 /* A common string used throughout the app. Provides an option to add the selected item(s) to a queue instead of performing the action now. Used for downloads and uploads. */
 "queue_for_later" = "Queue For Later";
 

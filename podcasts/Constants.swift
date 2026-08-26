@@ -295,7 +295,6 @@ struct Constants {
     enum Limits {
         static let minTimeBetweenRemoteSkips: TimeInterval = 0.2
         static let maxDownloadConnectionsPerHost = 2
-        static let upNextClearWithoutWarning = 2
 
         static let minSleepTime = 5.minutes
         static let maxSleepTime = 5.hours
