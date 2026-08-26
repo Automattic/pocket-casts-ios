@@ -16,7 +16,7 @@ class SubscribeButton: ThemeableView {
 
     @IBOutlet var titleLabel: ThemeableLabel! {
         didSet {
-            titleLabel.text =  FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+            titleLabel.text = L10n.follow
             titleLabel.style = .primaryInteractive02
         }
     }

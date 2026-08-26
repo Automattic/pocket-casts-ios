@@ -37,10 +37,7 @@ struct PodcastSubscribeButton: View {
                 .scaleEffect(scale)
                 .offset(x: -4, y: -4)
         }
-        .accessibilityLabel(isSubscribed ?
-            (FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed) :
-            (FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe)
-        )
+        .accessibilityLabel(isSubscribed ? L10n.unfollow : L10n.follow)
     }
 
     private func toggleSubscription() {
