@@ -50,9 +50,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Push two auto downloads on subscribe of a podcast
     case autoDownloadOnSubscribe
 
-    /// Replace Subscribe/Unsubscribe with Follow/Unfollow
-    case useFollowNaming
-
     /// Enable the winback screen and flow
     case winback
 
@@ -315,8 +312,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .upNextShuffle:
             true
         case .autoDownloadOnSubscribe:
-            true
-        case .useFollowNaming:
             true
         case .winback:
             true

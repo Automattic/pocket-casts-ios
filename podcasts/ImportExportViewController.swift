@@ -16,7 +16,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     @IBOutlet var importPodcastsDescription: ThemeableLabel! {
         didSet {
-            importPodcastsDescription.text = FeatureFlag.useFollowNaming.enabled ? L10n.importPodcastsDescriptionNew : L10n.importPodcastsDescription
+            importPodcastsDescription.text = L10n.importPodcastsDescriptionNew
         }
     }
 

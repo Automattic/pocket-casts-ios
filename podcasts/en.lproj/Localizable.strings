@@ -808,9 +808,6 @@
 /* A common string used throughout the app. Title for screens and prompts related to storage and downloaded files. */
 "downloaded_files" = "Downloaded Files";
 
-/* Message for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. */
-"downloaded_files_conf_message" = "Unsubscribing will delete all downloaded files in this Podcast, are you sure?";
-
 /* Message for an unfollow message box that informs the user that unfollowing will remove downloaded files. */
 "downloaded_files_conf_message_new" = "Unfollowing will delete all downloaded files in this Podcast, are you sure?";
 
@@ -1206,9 +1203,6 @@
 
 /* The summary text at the end of the screen explaining how to upload a file */
 "how_to_upload_summary" = "That's it, you're done. Change any details you want, hit save and play!";
-
-/* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
-"import_podcasts_description" = "You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
 
 /* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
 "import_podcasts_description_new" = "You can import your podcasts to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
@@ -3405,12 +3399,6 @@
 
 /* A common string used throughout the app. Prompt to cancel the download for the selected item(s). */
 "stop_download" = "Stop Download";
-
-/* Prompt to subscribe to the selected podcast. */
-"subscribe" = "Subscribe";
-
-/* Label indicating that the user is currently subscribed to the selected podcast. */
-"subscribed" = "Subscribed";
 
 /* Prompt to follow to the selected podcast. */
 "follow" = "Follow";
