@@ -111,6 +111,13 @@ struct DiscoverRowSection: View {
                 EmptyView()
             }
         }
+        .task {
+        #if DEBUG || STAGING
+            if item.rowType == nil {
+                ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(item.type ?? "unknow"), CHECK CONSOLE!")
+            }
+        #endif
+        }
     }
 
     @ViewBuilder
