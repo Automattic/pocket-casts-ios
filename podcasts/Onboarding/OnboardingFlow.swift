@@ -9,9 +9,10 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
-    /// Whether an account was created during this onboarding session. Drives the post-onboarding
-    /// notifications-permission prompt, since we only want to ask about emailing the user once we
-    /// have their address. Cleared on `begin()` and `reset()`, so it stays scoped to one flow.
+    /// Whether an account was created during this onboarding session. Lets the post-onboarding
+    /// notifications prompt fire after account creation in a non-onboarding flow (e.g. EAC) while
+    /// staying hidden when the user taps "Not Now" without creating one; initial onboarding shows it
+    /// regardless (its purpose there is enabling push). Cleared on `begin()` and `reset()`.
     private(set) var didCreateAccount = false
 
     private(set) var accountCreated: ((Bool)->())?

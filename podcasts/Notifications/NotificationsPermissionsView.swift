@@ -6,6 +6,12 @@ class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
     @Published var notificationsOptIn: Bool = true
 
+    /// The newsletter opt-in is only meaningful when there's an account to attach it to. Captured
+    /// once at creation (login state doesn't change while this screen is up) so a logged-out user
+    /// who skipped account creation during onboarding still sees the notifications prompt, without
+    /// being asked to subscribe a non-existent address.
+    let showNewsletterOptIn = SyncManager.isUserLoggedIn()
+
     func setupPermissions() async {
         let coordinator = NotificationsCoordinator.shared
         await coordinator.requestAndSetupInitialPermissions()
@@ -126,7 +132,9 @@ struct NotificationsPermissionsView: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                     VStack(alignment: .leading, spacing: 24) {
-                        optionRow(for: .newsletter)
+                        if viewModel.showNewsletterOptIn {
+                            optionRow(for: .newsletter)
+                        }
                         optionRow(for: .notifications)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -140,8 +148,10 @@ struct NotificationsPermissionsView: View {
             ZStack {
                 Button(action: {
                     Analytics.track(.notificationsPermissionsAllowTapped)
-                    viewModel.saveNewsletterOptIn()
-                    viewModel.trackNewsletterOptIn()
+                    if viewModel.showNewsletterOptIn {
+                        viewModel.saveNewsletterOptIn()
+                        viewModel.trackNewsletterOptIn()
+                    }
                     Task {
                         if viewModel.notificationsOptIn {
                             await viewModel.setupPermissions()
