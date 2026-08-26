@@ -53,7 +53,7 @@ class DiscoverAllViewModel {
 
     private func reportUnknownItems(_ items: [DiscoverItem]) {
         #if DEBUG || STAGING
-            guard let unknown = items.first(where: { !$0.isKnowinglyIgnored }) else { return }
+            guard let unknown = items.first else { return }
 
             ToastManager.shared.show("UNKNOWN DISCOVER ITEM: \(unknown.type ?? "unknown"), CHECK CONSOLE!")
         #endif

@@ -368,18 +368,6 @@ extension DiscoverItem: Hashable {
     }
 }
 
-public extension DiscoverItem {
-    /// Item types the server sends that the app knowingly doesn't render.
-    ///
-    /// They are skipped quietly rather than reported as unknown items.
-    static let knowinglyIgnoredTypes: Set<String> = ["lists_list"]
-
-    var isKnowinglyIgnored: Bool {
-        guard let type else { return false }
-        return Self.knowinglyIgnoredTypes.contains(type)
-    }
-}
-
 public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
