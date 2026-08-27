@@ -457,8 +457,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear2025:
             "end_of_year_2025"
         case .encourageAccountCreation:
-            // Not the derived "encourage_account_creation" — that Firebase parameter still exists
-            // from the 2025 one-shot experiment, and its stale value would override the default.
             "encourage_account_creation_recurring"
         default:
             rawValue.lowerSnakeCased()
