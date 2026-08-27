@@ -1404,13 +1404,32 @@ class Settings: NSObject {
 
     // MARK: - Encourage Account Creation
 
-    static var hasShownInformationalViewModal: Bool {
+    /// Anchor for the Encourage Account Creation modal cadence; reset when shown. Not reset on
+    /// sign-out (targets any logged-out user); set once on fresh install for a full grace interval.
+    static var encourageAccountCreationReferenceDate: Date? {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate)
         }
+    }
+
+    /// How long to wait between showings of the Encourage Account Creation modal (60 days).
+    static let encourageAccountCreationInterval: TimeInterval = 60.days
+
+    /// Whether to show the modal this launch: on the first eligible launch, once the interval elapses,
+    /// or when the anchor is ahead of `now` (a restored future date). Params injectable for tests.
+    static func shouldShowEncourageAccountCreationModal(
+        now: Date = Date(),
+        isEligible: Bool = FeatureFlag.encourageAccountCreation.enabled && !SyncManager.isUserLoggedIn(),
+        referenceDate: Date? = encourageAccountCreationReferenceDate,
+        interval: TimeInterval = encourageAccountCreationInterval
+    ) -> Bool {
+        guard isEligible else { return false }
+        guard let referenceDate else { return true }
+        let elapsed = now.timeIntervalSince(referenceDate)
+        return elapsed >= interval || elapsed < 0 // anchor ahead of now (clock/backup skew)
     }
 
     // MARK: - VoiceBoostN
