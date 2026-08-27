@@ -333,9 +333,11 @@ class NotificationsCoordinator {
                     continuation.resume(returning: false)
                     return
                 }
-                // activate all notifications
-                for group in NotificationsGroup.allCases {
-                    self.setupNotifications(for: group)
+                // Only activate all groups for a fresh setup; if the user already configured notifications, leave their per-group/per-podcast settings untouched.
+                if !NotificationsGroup.allCases.contains(where: { $0.isEnabled }) {
+                    for group in NotificationsGroup.allCases {
+                        self.setupNotifications(for: group)
+                    }
                 }
                 continuation.resume(returning: granted)
             }

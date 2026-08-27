@@ -4,7 +4,8 @@ import PocketCastsServer
 
 class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
-    @Published var notificationsOptIn: Bool = true
+    // Seed from existing state so we don't wipe a user's per-podcast/per-group settings if they already enabled push.
+    @Published var notificationsOptIn: Bool = NotificationsGroup.allCases.contains { $0.isEnabled }
 
     /// Only ask to subscribe when there's an account to attach the newsletter to.
     let showNewsletterOptIn = SyncManager.isUserLoggedIn()
