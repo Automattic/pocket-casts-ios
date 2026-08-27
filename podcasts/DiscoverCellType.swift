@@ -26,6 +26,8 @@ extension DiscoverItem {
             return .categoryPodcasts
         case ("podcast_list", "large_list_with_podcast", _):
             return .largeListWithPodcast
+        case ("lists_list", "large_list", _):
+            return FeatureFlag.networkDiscovery.enabled ? .networksList : nil
         case ("network_list", _, _):
             FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
             return nil
@@ -56,6 +58,7 @@ enum DiscoverCellType: CaseIterable {
     case singleEpisode
     case categoryPodcasts
     case largeListWithPodcast
+    case networksList
 
     struct ItemType: Hashable {
         let cellType: DiscoverCellType
@@ -84,6 +87,8 @@ enum DiscoverCellType: CaseIterable {
             CategoryPodcastsViewController(region: region)
         case .largeListWithPodcast:
             LargeListSummaryViewController()
+        case .networksList:
+            NetworksListViewController()
         }
     }
 

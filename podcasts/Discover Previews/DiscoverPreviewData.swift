@@ -218,6 +218,7 @@ enum DiscoverPreviewData {
         case .singleEpisode: ("episode_list", "single_episode")
         case .categoryPodcasts: ("category_podcast_list", "category_podcast_list")
         case .largeListWithPodcast: ("podcast_list", "large_list_with_podcast")
+        case .networksList: ("lists_list", "large_list")
         }
     }
 
