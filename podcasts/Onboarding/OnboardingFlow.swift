@@ -9,12 +9,23 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
+    /// Gates the notifications prompt for non-onboarding flows (e.g. EAC): shown only after account
+    /// creation, not on "Not Now". Cleared on `begin()` and `reset()`.
+    private(set) var didCreateAccount = false
+
     private(set) var accountCreated: ((Bool)->())?
+
+    mutating func markAccountCreated() {
+        didCreateAccount = true
+    }
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
+        // Also cleared here (not just `reset()`, which is only reached conditionally) to keep the
+        // flag scoped to one flow. Account creation always happens after `begin()`, so nothing is lost.
+        self.didCreateAccount = false
 
         let navigationController = controller as? UINavigationController
 
@@ -72,13 +83,20 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
-        if (currentFlow == .initialOnboarding) || (currentFlow == .encourageAccountCreation) {
+        if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
         source = .unknown
         currentFlow = .none
+        didCreateAccount = false
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
+    }
+
+    /// Whether dismissing this session should chain into the notifications prompt: whenever an account
+    /// was created (any flow), plus the first-run prompt after initial onboarding.
+    static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
+        didCreateAccount || flow == .initialOnboarding
     }
 
     /// Updates the source passed for analytics

@@ -1,7 +1,7 @@
 import UIKit
 import PocketCastsServer
 
-class HorizontalCollectionListViewController: ThemedHostingController<HorizontalCollectionList>, DiscoverSummaryProtocol {
+class HorizontalCollectionListViewController: ThemedHostingController<HorizontalCollectionListRowView>, DiscoverSummaryProtocol {
 
     let model: HorizontalCollectionModel
 
@@ -12,7 +12,7 @@ class HorizontalCollectionListViewController: ThemedHostingController<Horizontal
 
     init() {
         model = HorizontalCollectionModel()
-        super.init(rootView: HorizontalCollectionList(model: model))
+        super.init(rootView: HorizontalCollectionListRowView(model: model))
     }
 
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {
