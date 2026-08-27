@@ -101,9 +101,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
 
-    /// Guest List and Network Highligh Redesign
-    case guestListsNetworkHighlightsRedesign
-
     /// Adds Discover category user recommendations
     case smartCategories
 
@@ -343,8 +340,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .bannerAdPlayer:
             false
         case .streamingCustomSessionConfiguration:
-            true
-        case .guestListsNetworkHighlightsRedesign:
             true
         case .smartCategories:
             true
