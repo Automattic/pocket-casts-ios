@@ -3226,13 +3226,6 @@
 			name = Scheet;
 			sourceTree = "<group>";
 		};
-		4006E30D23A35F4000174DEB /* Collection List */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Collection List";
-			sourceTree = "<group>";
-		};
 		4006E30E23A8662100174DEB /* Expanded Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -4204,7 +4197,6 @@
 				BD4CA19321096D6B0052F93E /* Small List */,
 				46C3D56A2762880A00DDE116 /* Episode */,
 				4031373523606B00002C7411 /* Single Podcast */,
-				4006E30D23A35F4000174DEB /* Collection List */,
 			);
 			name = "Summary Items";
 			sourceTree = "<group>";
