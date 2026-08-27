@@ -84,11 +84,6 @@ extension DiscoverItem {
             return .singlePodcast
         case ("podcast_list", "collection", _):
             return .collectionSummary
-        // Legacy item type: podcast networks were removed from the app, so this
-        // item can no longer be rendered. It should not be used for new content.
-        case ("network_list", _, _):
-            assertionFailure("Received a legacy network_list Discover item, which is no longer supported")
-            return nil
         case ("categories", "category", _):
             return .categorySummary
         case ("episode_list", "single_episode", _):
@@ -99,6 +94,9 @@ extension DiscoverItem {
             return .categoryPodcasts
         case ("podcast_list", "large_list_with_podcast", _):
             return .largeListWithPodcast
+        case ("network_list", _, _):
+            assertionFailure("Received a legacy network_list Discover item, which is no longer supported")
+            return nil
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
 #if DEBUG
