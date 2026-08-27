@@ -258,6 +258,9 @@ public struct FolderSyncInfo {
     var addedDate: Date
 }
 
+/// The whole Discover page as sent by the server: an ordered list of ``DiscoverItem``
+/// sections, plus the regions the user can pick between and the tokens to substitute into
+/// each item's `source` and `title`.
 public struct DiscoverLayout: Decodable {
     public var layout: [DiscoverItem]?
     public var regions: [String: DiscoverRegion]?
@@ -280,27 +283,102 @@ public struct DiscoverRegion: Decodable {
     public var flag: String
 }
 
+/// A single section of the server-driven Discover page.
+///
+/// `DiscoverServerHandler.discoverPage()` fetches a ``DiscoverLayout`` whose `layout` array
+/// is the list of sections, rendered top to bottom. Each item says *what* to show (`source`,
+/// a URL returning a `PodcastList`, `PodcastCollection` or `[DiscoverCategory]`) and *how*
+/// (the `type` / `summaryStyle` / `expandedStyle` triple).
+///
+/// ```json
+/// {
+///   "uuid": "3d32e400-2f2a-013b-ef7a-0acc26574db2",
+///   "title": "Featured",
+///   "type": "podcast_list",
+///   "summary_style": "carousel",
+///   "expanded_style": "plain_list",
+///   "source": "https://lists.pocketcasts.com/featured.json",
+///   "regions": ["us", "gb", "au"]
+/// }
+/// ```
+///
+/// `cellType()` (`podcasts/DiscoverCellType.swift`) maps that triple to a cell; unknown
+/// combinations return `nil` and the item is skipped, so the server can ship new styles to
+/// newer clients. tvOS has its own mapping, `rowType`.
+///
+/// ```swift
+/// for item in layout.layout ?? [] where item.regions.contains(region) {
+///     guard let cellType = item.cellType() else { continue }
+///     cellType.viewController(in: region).populateFrom(item: item, region: region, category: nil)
+/// }
+/// ```
 public struct DiscoverItem: Decodable, Equatable {
+    /// Identifies the item in the layout. Also set on items the app synthesises locally, such
+    /// as the "Most Popular" row added when a category is selected.
     public var id: String?
+
+    /// UUID of the list on the server, and the `list_id` reported to analytics. See
+    /// `inferredListId` for the fallback when it's missing.
     public var uuid: String?
+
+    /// English title as authored on the server (`"Featured"`, `"Popular in [regionname]"`).
+    /// Pass it through `String.localized` and `replaceRegionName(string:)` before display.
     public var title: String?
+
+    /// What `source` returns: `podcast_list`, `episode_list`, `categories`,
+    /// `category_podcast_list`, or `banner` (tvOS).
     public var type: String?
+
+    /// Inline appearance of the section, paired with `type` by `cellType()` to pick the cell.
+    /// Each platform handles its own set of values — see `DiscoverCellType.swift` and, for
+    /// tvOS, `rowType`.
     public var summaryStyle: String?
+
+    /// Appearance after "Show All": `plain_list`, `ranked_list`, `descriptive_list`, `grid`.
     public var expandedStyle: String?
+
     public var summaryItemCount: Int?
+
+    /// URL of the section's JSON. May embed `DiscoverLayout.regionCodeToken`, which must be
+    /// replaced with the current region code (`replaceRegionCode(string:)`) before requesting.
     public var source: String?
+
+    /// tvOS-only discriminator for sections built from local data, such as `up_next`.
     public var sourceType: String?
+
+    /// `true` when `source` needs the user's token: hidden while logged out, and probed with
+    /// `DiscoverServerHandler.checkSourceAuthentication(for:)`.
     public var authenticated: Bool?
+
+    /// Paid placements spliced into a carousel at fixed positions, each with its own source.
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
+
+    /// Label the server suggests for the first item of the expanded list.
     public var expandedTopItemLabel: String?
+
+    /// Marks a hand-curated list. tvOS uses it to pick the "Fresh Pick" row.
     public var curated: Bool?
+
+    /// Regions the item applies to, matched against `Settings.discoverRegion(discoverLayout:)`.
     public var regions: [String]
+
+    /// The whole section is an ad.
     public var isSponsored: Bool?
+
+    /// For `categories` items, the IDs to keep — the shortlist shown as pills.
     public var popular: [Int]?
+
+    /// Set on items belonging to a category page: filtered out of the main feed and shown
+    /// only once that category is selected.
     public var categoryID: Int?
+
+    /// When the list was generated on the server. Reported with list analytics events.
     public var dateTime: String?
+
+    /// IDs of categories that are paid placements in the pills selector.
     public var sponsoredCategoryIDs: [Int]?
-    // This is a local only field that is filled with the source region that was used for the item
+
+    /// Local only: the region code that was substituted into `source`.
     public var sourceRegion: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -356,6 +434,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.sponsoredCategoryIDs = sponsoredCategoryIDs
     }
 
+    /// Non-optional form of `authenticated`, treating a missing value as `false`.
     public var isAuthenticated: Bool {
         authenticated == true
     }
