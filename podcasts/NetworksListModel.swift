@@ -51,8 +51,13 @@ class NetworksListModel: ObservableObject {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
 
-        let gridController = NetworksGridViewController(model: self)
-        gridController.title = title
+        let gridController = ExpandedCollectionViewController(item: item, podcasts: [])
+        gridController.cellStyle = .networkGrid
+        gridController.networks = networks
+        gridController.onSelectNetwork = { [weak self] network in
+            self?.show(network: network)
+        }
+        gridController.registerDiscoverDelegate(delegate)
         delegate.navController()?.pushViewController(gridController, animated: true)
     }
 

@@ -3,7 +3,7 @@ import SafariServices
 import UIKit
 
 enum CollectionCellStyle {
-    case grid, descriptive_list
+    case grid, descriptive_list, networkGrid
 }
 
 class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDelegate {
@@ -14,11 +14,17 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
     var cellStyle: CollectionCellStyle = .grid
 
+    /// The networks drawn in place of `podcasts` when ``cellStyle`` is `networkGrid`.
+    var networks: [NetworkListSummary] = []
+
+    var onSelectNetwork: ((NetworkListSummary) -> Void)?
+
     let inset: CGFloat = 16
     let bigDevicePortraitWidth: CGFloat = 500
     let gridStyleSpacing: CGFloat = 16
     let gridNumColumns: CGFloat = 2
     let gridPreferredWidth: CGFloat = 150
+    let networkGridPreferredWidth: CGFloat = 180
     let gridPeferredHeight: CGFloat = 265
     let descriptiveListPreferredMaxWidth: CGFloat = 280
     var descriptiveListPreferredMaxHeight: CGFloat {
@@ -37,6 +43,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.gridCellId)
             collectionView.register(UINib(nibName: "DescriptiveCollectionCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId)
             collectionView.register(UINib(nibName: "DiscoverCollectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ExpandedCollectionViewController.headerId)
+            collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ExpandedCollectionViewController.networkCellId)
             collectionView.style = .primaryUi02
         }
     }
@@ -45,6 +52,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     static let headerId = "DiscoverCollectionHeader"
     static let gridCellId = "LargeListCell"
     static let descriptiveCellId = "DescriptiveCollectionCell"
+    static let networkCellId = "NetworkGridCell"
     private var lastWillLayoutWidth: CGFloat = 0
 
     init(item: DiscoverItem, podcasts: [DiscoverPodcast]) {
