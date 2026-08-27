@@ -57,7 +57,7 @@ extension DiscoverItem {
             return .newVideoReleases
         case ("banner", "inline_banner", _, _):
             return .banner
-        case ("network_list", _, _):
+        case ("network_list", _, _, _):
             FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
             return nil
         default:
