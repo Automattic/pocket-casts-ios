@@ -1343,11 +1343,6 @@
 		FF6505A32FAA9F4100C3662E /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */; };
 		FF6505A42FAA9F5200C3662E /* TranscriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */; };
 		FF68E8BA2DF338A800114FC7 /* HorizontalCollectionListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8B92DF3388500114FC7 /* HorizontalCollectionListRowView.swift */; };
-		FFA1000000000000000011AA /* NetworksList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000001AA /* NetworksList.swift */; };
-		FFA1000000000000000012AA /* NetworksListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000002AA /* NetworksListModel.swift */; };
-		FFA1000000000000000013AA /* NetworksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000003AA /* NetworksListViewController.swift */; };
-		FFA1000000000000000014AA /* NetworksGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000004AA /* NetworksGridViewController.swift */; };
-		FF68E8BA2DF338A800114FC7 /* HorizontalCollectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */; };
 		FF68E8BE2DF33D6100114FC7 /* HorizontalCollectionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8BD2DF33D5700114FC7 /* HorizontalCollectionListViewController.swift */; };
 		FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */; };
@@ -2730,11 +2725,6 @@
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF5DF8D82FF28B9E00DEFA75 /* GeneratedEpisodeMetadataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedEpisodeMetadataRetriever.swift; sourceTree = "<group>"; };
 		FF68E8B92DF3388500114FC7 /* HorizontalCollectionListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionListRowView.swift; sourceTree = "<group>"; };
-		FFA1000000000000000001AA /* NetworksList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksList.swift; sourceTree = "<group>"; };
-		FFA1000000000000000002AA /* NetworksListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksListModel.swift; sourceTree = "<group>"; };
-		FFA1000000000000000003AA /* NetworksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksListViewController.swift; sourceTree = "<group>"; };
-		FFA1000000000000000004AA /* NetworksGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksGridViewController.swift; sourceTree = "<group>"; };
-		FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionList.swift; sourceTree = "<group>"; };
 		FF68E8BD2DF33D5700114FC7 /* HorizontalCollectionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionListViewController.swift; sourceTree = "<group>"; };
 		FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsDataRetriever.swift; sourceTree = "<group>"; };
 		FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptViewController.swift; sourceTree = "<group>"; };
@@ -7446,7 +7436,6 @@
 				BD2DE2321E65224900BE21A4 /* ShowNotesUpdater.swift in Sources */,
 				BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */,
 				FF68E8BA2DF338A800114FC7 /* HorizontalCollectionListRowView.swift in Sources */,
-				FF68E8BA2DF338A800114FC7 /* HorizontalCollectionList.swift in Sources */,
 				FFA1000000000000000011AA /* NetworksListRowView.swift in Sources */,
 				FFA1000000000000000012AA /* NetworksListModel.swift in Sources */,
 				FFA1000000000000000013AA /* NetworksListViewController.swift in Sources */,
