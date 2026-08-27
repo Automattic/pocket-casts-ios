@@ -1,6 +1,44 @@
 import PocketCastsServer
 import PocketCastsUtils
 
+extension DiscoverItem {
+    func cellType() -> DiscoverCellType? {
+        switch (type, summaryStyle, expandedStyle) {
+        case ("categories", "pills", _):
+            return .categoriesSelector
+        case ("podcast_list", "carousel", _):
+            return .featuredSummary
+        case ("podcast_list", "small_list", _):
+            return .smallPagedListSummary
+        case ("podcast_list", "large_list", _):
+            return .largeListSummary
+        case ("podcast_list", "single_podcast", _):
+            return .singlePodcast
+        case ("podcast_list", "collection", _):
+            return .collectionSummary
+        case ("categories", "category", _):
+            return .categorySummary
+        case ("episode_list", "single_episode", _):
+            return .singleEpisode
+        case ("episode_list", "collection", "plain_list"):
+            return .collectionSummary
+        case ("category_podcast_list", _, _):
+            return .categoryPodcasts
+        case ("podcast_list", "large_list_with_podcast", _):
+            return .largeListWithPodcast
+        case ("network_list", _, _):
+            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
+            return nil
+        default:
+            FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
+#if DEBUG
+            UnknownDiscoverItemAlert.showIfNeeded(type: type, summaryStyle: summaryStyle, expandedStyle: expandedStyle)
+#endif
+            return nil
+        }
+    }
+}
+
 struct DiscoverCellModel: Hashable {
     let item: DiscoverItem
     let region: String
@@ -61,44 +99,6 @@ enum DiscoverCellType: CaseIterable {
             }
 
             vc.registerDiscoverDelegate(delegate)
-        }
-    }
-}
-
-extension DiscoverItem {
-    func cellType() -> DiscoverCellType? {
-        switch (type, summaryStyle, expandedStyle) {
-        case ("categories", "pills", _):
-            return .categoriesSelector
-        case ("podcast_list", "carousel", _):
-            return .featuredSummary
-        case ("podcast_list", "small_list", _):
-            return .smallPagedListSummary
-        case ("podcast_list", "large_list", _):
-            return .largeListSummary
-        case ("podcast_list", "single_podcast", _):
-            return .singlePodcast
-        case ("podcast_list", "collection", _):
-            return .collectionSummary
-        case ("categories", "category", _):
-            return .categorySummary
-        case ("episode_list", "single_episode", _):
-            return .singleEpisode
-        case ("episode_list", "collection", "plain_list"):
-            return .collectionSummary
-        case ("category_podcast_list", _, _):
-            return .categoryPodcasts
-        case ("podcast_list", "large_list_with_podcast", _):
-            return .largeListWithPodcast
-        case ("network_list", _, _):
-            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
-            return nil
-        default:
-            FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
-#if DEBUG
-            UnknownDiscoverItemAlert.showIfNeeded(type: type, summaryStyle: summaryStyle, expandedStyle: expandedStyle)
-#endif
-            return nil
         }
     }
 }
