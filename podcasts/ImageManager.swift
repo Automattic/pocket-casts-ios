@@ -130,15 +130,6 @@ class ImageManager {
         }
     }
 
-    // MARK: - Network Images
-
-    func loadNetworkImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
-        if let url = URL(string: imageUrl) {
-            let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
-            imageView.kf.setImage(with: url, placeholder: image, options: [.targetCache(networkImageCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
-        }
-    }
-
     // MARK: - Other images
 
     func loadSearchImage(imageUrl: String, imageView: UIImageView, placeHolderImage: UIImage? = nil) {

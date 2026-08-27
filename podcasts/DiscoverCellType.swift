@@ -14,7 +14,6 @@ enum DiscoverCellType: CaseIterable {
     case largeListSummary
     case singlePodcast
     case collectionSummary
-    case networkSummary
     case categorySummary
     case singleEpisode
     case categoryPodcasts
@@ -43,8 +42,6 @@ enum DiscoverCellType: CaseIterable {
             } else {
                 CollectionSummaryViewController()
             }
-        case .networkSummary:
-            NetworkSummaryViewController()
         case .categorySummary:
             CategorySummaryViewController(regionCode: region)
         case .singleEpisode:
@@ -87,8 +84,11 @@ extension DiscoverItem {
             return .singlePodcast
         case ("podcast_list", "collection", _):
             return .collectionSummary
+        // Legacy item type: podcast networks were removed from the app, so this
+        // item can no longer be rendered. It should not be used for new content.
         case ("network_list", _, _):
-            return .networkSummary
+            assertionFailure("Received a legacy network_list Discover item, which is no longer supported")
+            return nil
         case ("categories", "category", _):
             return .categorySummary
         case ("episode_list", "single_episode", _):

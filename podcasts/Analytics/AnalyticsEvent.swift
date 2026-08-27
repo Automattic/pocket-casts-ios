@@ -454,7 +454,6 @@ enum AnalyticsEvent: String {
     case discoverFeaturedPageChanged
     case discoverSmallListPageChanged
     case discoverLargeListPageChanged
-    case discoverNetworkListPageChanged
 
     case discoverRegionChanged
     case discoverCollectionLinkTapped
