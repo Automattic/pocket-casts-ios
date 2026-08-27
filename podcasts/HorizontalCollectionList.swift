@@ -28,6 +28,37 @@ struct HorizontalCollectionList: View {
         return min(320, max(180, scaledRowWidth))
     }
 
+    @State var currentPage: Int? = 0
+
+    var body: some View {
+        let pairs = model.list
+        VStack(spacing: 8) {
+            header
+            GeometryReader { geometry in
+                ScrollView([.horizontal]) {
+                    LazyHStack(alignment: .top, spacing: 0) {
+                        poster
+                            .id(0)
+                        list(pairs: pairs, width: geometry.size.width)
+                        Spacer()
+                            .frame(width: 24)
+                    }
+                    .scrollTargetLayout()
+                }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $currentPage, anchor: .leading)
+            }
+            DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
+            Rectangle()
+                .foregroundColor(theme.primaryUi05)
+                .frame(height: 1)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+        }
+        .frame(height: adjustedHeight)
+    }
+
     var header: some View {
         HStack(alignment: .center) {
             Text(model.type)
@@ -150,37 +181,6 @@ struct HorizontalCollectionList: View {
             .frame(width: max(width - 24, 0), height: adjustedRowHeight)
             .id(index + 1)
         }
-    }
-
-    @State var currentPage: Int? = 0
-
-    var body: some View {
-        let pairs = model.list
-        VStack(spacing: 8) {
-            header
-            GeometryReader { geometry in
-                ScrollView([.horizontal]) {
-                    LazyHStack(alignment: .top, spacing: 0) {
-                        poster
-                            .id(0)
-                        list(pairs: pairs, width: geometry.size.width)
-                        Spacer()
-                            .frame(width: 24)
-                    }
-                    .scrollTargetLayout()
-                }
-                .scrollIndicators(.hidden)
-                .scrollTargetBehavior(.viewAligned)
-                .scrollPosition(id: $currentPage, anchor: .leading)
-            }
-            DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
-            Rectangle()
-                .foregroundColor(theme.primaryUi05)
-                .frame(height: 1)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-        }
-        .frame(height: adjustedHeight)
     }
 }
 
