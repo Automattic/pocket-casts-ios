@@ -20,6 +20,8 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     weak var delegate: DiscoverDelegate?
 
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
+
     fileprivate var item: DiscoverItem?
 
     fileprivate var category: DiscoverCategory? {
@@ -130,7 +132,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         noNetworkView.isHidden = true
         loadingIndicator.startAnimating()
 
-        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
+        serverHandler.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
             DispatchQueue.main.async {
                 guard let strongSelf = self, let podcasts = categoryDetails?.podcasts else {
                     return
@@ -193,3 +195,39 @@ extension CategoryPodcastsViewController: DiscoverSummaryProtocol {
         loadPodcasts()
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Category podcasts") {
+    let section = CategoryPodcastsViewController(region: "us")
+    section.serverHandler = PreviewDiscoverServerHandler(
+        categoryDetails: DiscoverPreviewData.categoryDetails(title: "Technology", podcasts: DiscoverPreviewData.podcasts(12))
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.categoryPodcasts, title: "Technology"),
+        category: DiscoverPreviewData.categories()[11],
+        height: 700
+    )
+}
+
+#Preview("Category podcasts · promoted") {
+    let section = CategoryPodcastsViewController(region: "us")
+    section.serverHandler = PreviewDiscoverServerHandler(
+        categoryDetails: DiscoverPreviewData.categoryDetails(
+            title: "Technology",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            promotion: (title: "Hard Fork", description: "Two friends try to make sense of the week in tech.")
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.categoryPodcasts, title: "Technology"),
+        category: DiscoverPreviewData.categories()[11],
+        height: 700
+    )
+}
+
+#endif

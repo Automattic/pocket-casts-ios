@@ -14,6 +14,8 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
     private var categories = [DiscoverCategory]()
     private weak var delegate: DiscoverDelegate?
 
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
+
     @IBOutlet var categoryHeightConstraint: NSLayoutConstraint!
 
     private let regionCode: String
@@ -43,7 +45,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         guard let source = item.source else { return }
 
-        DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: item.authenticated, completion: { [weak self] discoverCategories in
+        serverHandler.discoverCategories(source: source, authenticated: item.authenticated, completion: { [weak self] discoverCategories in
             DispatchQueue.main.async {
                 guard let strongSelf = self, let discoverCategories else { return }
 
@@ -73,6 +75,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
         let category = categories[indexPath.row]
 
         let categoryPodcastsController = CategoryPodcastsViewController(category: category, region: regionCode)
+        categoryPodcastsController.serverHandler = serverHandler
         if let delegate {
             categoryPodcastsController.registerDiscoverDelegate(delegate)
             delegate.navController()?.pushViewController(categoryPodcastsController, animated: true)
@@ -91,3 +94,19 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
         categoryHeightConstraint.constant = CGFloat(requiredHeight)
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Category summary") {
+    let section = CategorySummaryViewController(regionCode: "us")
+    section.serverHandler = PreviewDiscoverServerHandler(categories: DiscoverPreviewData.categories())
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.categorySummary, title: "Browse by category"),
+        height: 760
+    )
+}
+
+#endif

@@ -48,6 +48,8 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     private var category: DiscoverCategory?
 
     private weak var delegate: DiscoverDelegate?
+
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
     @IBOutlet var smallPagedCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
@@ -194,7 +196,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         self.category = category
         titleLabel.text = delegate?.replaceRegionName(string: title)
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+        serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
             for podcast in discoverPodcast {
                 strongSelf.podcasts.append(podcast)
@@ -259,3 +261,21 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         smallPagedCollectionViewHeight.constant = (cellHeight + cellSpacing) * CGFloat(numberOfRows)
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Small paged list") {
+    let section = SmallPagedListSummaryViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastList: DiscoverPreviewData.podcastList(title: "Popular", podcasts: DiscoverPreviewData.podcasts(20))
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.smallPagedListSummary, title: "Popular in [regionname]"),
+        delegate: PreviewDiscoverDelegate(subscribedUUIDs: [DiscoverPreviewData.podcast(at: 1).uuid ?? ""])
+    )
+}
+
+#endif

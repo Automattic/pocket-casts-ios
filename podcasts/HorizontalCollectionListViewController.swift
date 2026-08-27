@@ -5,6 +5,11 @@ class HorizontalCollectionListViewController: ThemedHostingController<Horizontal
 
     let model: HorizontalCollectionModel
 
+    var serverHandler: DiscoverServerHandling {
+        get { model.serverHandler }
+        set { model.serverHandler = newValue }
+    }
+
     init() {
         model = HorizontalCollectionModel()
         super.init(rootView: HorizontalCollectionList(model: model))
@@ -31,3 +36,26 @@ class HorizontalCollectionListViewController: ThemedHostingController<Horizontal
         }
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Collection") {
+    let section = HorizontalCollectionListViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.podcastCollection(
+            title: "Sounds for sleeping",
+            subtitle: "Staff picks",
+            description: "Nine shows for winding down, chosen by the people who make Pocket Casts.",
+            shortDescription: "Chosen by the Pocket Casts team",
+            podcasts: DiscoverPreviewData.podcasts(9)
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.collectionSummary, title: "Collection")
+    )
+}
+
+#endif
