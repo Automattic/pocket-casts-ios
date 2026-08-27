@@ -24,7 +24,7 @@ enum DiscoverCellType: CaseIterable {
         let model: DiscoverCellModel
     }
 
-    func viewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
+    func makeViewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
         switch self {
         case .categoriesSelector:
             CategoriesSelectorViewController()
@@ -54,7 +54,7 @@ enum DiscoverCellType: CaseIterable {
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 
-            let vc = existingViewController ?? item.cellType.viewController(in: item.model.region)
+            let vc = existingViewController ?? item.cellType.makeViewController(in: item.model.region)
 
             if existingViewController == nil {
                 cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)
