@@ -329,15 +329,14 @@ public struct DiscoverItem: Decodable, Equatable {
     /// `category_podcast_list`, or `banner` (tvOS).
     public var type: String?
 
-    /// Inline appearance: `carousel`, `small_list`, `large_list`, `single_podcast`,
-    /// `collection`, `pills`, `category`.
+    /// Inline appearance of the section, paired with `type` by `cellType()` to pick the cell.
+    /// Each platform handles its own set of values — see `DiscoverCellType.swift` and, for
+    /// tvOS, `rowType`.
     public var summaryStyle: String?
 
     /// Appearance after "Show All": `plain_list`, `ranked_list`, `descriptive_list`, `grid`.
-    /// `nil` hides the button — the section has no expanded view.
     public var expandedStyle: String?
 
-    /// How many of the source's items the summary shows. `nil` shows all.
     public var summaryItemCount: Int?
 
     /// URL of the section's JSON. May embed `DiscoverLayout.regionCodeToken`, which must be
