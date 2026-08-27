@@ -1,70 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
 
-struct DiscoverCellModel: Hashable {
-    let item: DiscoverItem
-    let region: String
-    let selectedCategory: DiscoverCategory?
-}
-
-enum DiscoverCellType: CaseIterable {
-    case categoriesSelector
-    case featuredSummary
-    case smallPagedListSummary
-    case largeListSummary
-    case singlePodcast
-    case collectionSummary
-    case categorySummary
-    case singleEpisode
-    case categoryPodcasts
-    case largeListWithPodcast
-
-    struct ItemType: Hashable {
-        let cellType: DiscoverCellType
-        let model: DiscoverCellModel
-    }
-
-    func viewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
-        switch self {
-        case .categoriesSelector:
-            CategoriesSelectorViewController()
-        case .featuredSummary:
-            FeaturedSummaryViewController()
-        case .smallPagedListSummary:
-            SmallPagedListSummaryViewController()
-        case .largeListSummary:
-            LargeListSummaryViewController()
-        case .singlePodcast:
-            SinglePodcastViewController()
-        case .collectionSummary:
-            HorizontalCollectionListViewController()
-        case .categorySummary:
-            CategorySummaryViewController(regionCode: region)
-        case .singleEpisode:
-            SingleEpisodeViewController()
-        case .categoryPodcasts:
-            CategoryPodcastsViewController(region: region)
-        case .largeListWithPodcast:
-            LargeListSummaryViewController()
-        }
-    }
-
-    func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
-        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, _, item in
-
-            let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
-
-            let vc = existingViewController ?? item.cellType.viewController(in: item.model.region)
-
-            if existingViewController == nil {
-                cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)
-            }
-
-            vc.registerDiscoverDelegate(delegate)
-        }
-    }
-}
-
 extension DiscoverItem {
     func cellType() -> DiscoverCellType? {
         switch (type, summaryStyle, expandedStyle) {
@@ -103,46 +39,66 @@ extension DiscoverItem {
     }
 }
 
-#if DEBUG
-enum UnknownDiscoverItemAlert {
-    private static let versionKey = "DebugUnknownDiscoverItemsVersion"
-    private static let itemsKey = "DebugUnknownDiscoverItems"
+struct DiscoverCellModel: Hashable {
+    let item: DiscoverItem
+    let region: String
+    let selectedCategory: DiscoverCategory?
+}
 
-    static func showIfNeeded(type: String?, summaryStyle: String?, expandedStyle: String?) {
-        let item = "\(type ?? "unknown") / \(summaryStyle ?? "unknown") / \(expandedStyle ?? "unknown")"
+enum DiscoverCellType: CaseIterable {
+    case categoriesSelector
+    case featuredSummary
+    case smallPagedListSummary
+    case largeListSummary
+    case singlePodcast
+    case collectionSummary
+    case categorySummary
+    case singleEpisode
+    case categoryPodcasts
+    case largeListWithPodcast
 
-        guard markAsSeenIfNeeded(item) else { return }
+    struct ItemType: Hashable {
+        let cellType: DiscoverCellType
+        let model: DiscoverCellModel
+    }
 
-        let message = """
-        The Discover feed returned an item this build can't render:
-
-        type: \(type ?? "unknown")
-        summaryStyle: \(summaryStyle ?? "unknown")
-        expandedStyle: \(expandedStyle ?? "unknown")
-
-        The item was skipped. This alert only appears in DEBUG builds, once per item and app version.
-        """
-
-        DispatchQueue.main.async {
-            SJUIUtils.showAlert(title: "Unknown Discover Item (DEBUG)", message: message, from: SceneHelper.rootViewController())
+    func makeViewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
+        switch self {
+        case .categoriesSelector:
+            CategoriesSelectorViewController()
+        case .featuredSummary:
+            FeaturedSummaryViewController()
+        case .smallPagedListSummary:
+            SmallPagedListSummaryViewController()
+        case .largeListSummary:
+            LargeListSummaryViewController()
+        case .singlePodcast:
+            SinglePodcastViewController()
+        case .collectionSummary:
+            HorizontalCollectionListViewController()
+        case .categorySummary:
+            CategorySummaryViewController(regionCode: region)
+        case .singleEpisode:
+            SingleEpisodeViewController()
+        case .categoryPodcasts:
+            CategoryPodcastsViewController(region: region)
+        case .largeListWithPodcast:
+            LargeListSummaryViewController()
         }
     }
 
-    private static func markAsSeenIfNeeded(_ item: String) -> Bool {
-        let defaults = UserDefaults.standard
-        let version = Settings.appVersion()
+    func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
+        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, _, item in
 
-        if defaults.string(forKey: versionKey) != version {
-            defaults.set(version, forKey: versionKey)
-            defaults.removeObject(forKey: itemsKey)
+            let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
+
+            let vc = existingViewController ?? item.cellType.makeViewController(in: item.model.region)
+
+            if existingViewController == nil {
+                cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)
+            }
+
+            vc.registerDiscoverDelegate(delegate)
         }
-
-        var seen = defaults.stringArray(forKey: itemsKey) ?? []
-        guard !seen.contains(item) else { return false }
-
-        seen.append(item)
-        defaults.set(seen, forKey: itemsKey)
-        return true
     }
 }
-#endif
