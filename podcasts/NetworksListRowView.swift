@@ -75,59 +75,35 @@ struct NetworksListRowView: View {
     }
 }
 
-/// A network as a poster: its artwork, with the name and description over it.
+/// A network as a poster: its artwork, with the name and description read out by VoiceOver.
 struct NetworkPoster: View {
 
     let network: NetworkListSummary
 
     let size: CGFloat
 
+    private var accessibilityLabel: String {
+        [network.title, network.description].compactMap { $0 }.joined(separator: ", ")
+    }
+
     var body: some View {
-        ZStack(alignment: .bottom) {
-            AsyncImage(url: network.collectionImage.flatMap { URL(string: $0) }) { image in
-                image
+        AsyncImage(url: network.collectionImage.flatMap { URL(string: $0) }) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-            } placeholder: {
-                if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    Color.gray
-                }
+            } else {
+                Color.gray
             }
-            .frame(width: size, height: size)
-            VStack(spacing: 8) {
-                Spacer()
-                Text(network.title ?? "")
-                    .foregroundStyle(.white)
-                    .font(size: 13, style: .largeTitle, weight: .bold)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                Text(network.description ?? "")
-                    .foregroundStyle(.white)
-                    .font(size: 13, style: .largeTitle, weight: .regular)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                Spacer().frame(height: 4)
-            }
-            .padding(.horizontal, 8)
-            .frame(width: size, height: size / 2)
-            .background(
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
-                        Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0),
-                    endPoint: UnitPoint(x: 0.5, y: 0.7)
-                )
-            )
         }
-        .cornerRadius(4)
         .frame(width: size, height: size)
-        .accessibilityElement(children: .combine)
+        .cornerRadius(4)
+        .accessibilityElement()
+        .accessibilityLabel(accessibilityLabel)
         .accessibilityAddTraits(.isButton)
     }
 }
