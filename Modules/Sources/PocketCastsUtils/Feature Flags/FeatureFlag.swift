@@ -456,6 +456,8 @@ public enum FeatureFlag: String, CaseIterable {
             "new_account_upgrade_prompt_flow"
         case .endOfYear2025:
             "end_of_year_2025"
+        case .encourageAccountCreation:
+            "encourage_account_creation_recurring"
         default:
             rawValue.lowerSnakeCased()
         }
