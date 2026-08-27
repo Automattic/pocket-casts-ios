@@ -85,7 +85,8 @@ struct NetworkPoster: View {
 
     let network: NetworkListSummary
 
-    let size: CGFloat
+    /// A fixed side length, or `nil` for the poster to fill the space it's given.
+    var size: CGFloat?
 
     private var url: URL? {
         network.collectionImage.flatMap { URL(string: $0) }
@@ -100,22 +101,33 @@ struct NetworkPoster: View {
     }
 
     var body: some View {
-        Group {
-            if let url {
-                AsyncImageView(
-                    url: url,
-                    cache: ImageManager.sharedManager.discoverCache,
-                    placeholder: placeholder,
-                    contentMode: .fill
-                )
-            } else {
-                placeholder?.resizable()
-            }
+        poster
+            .cornerRadius(4)
+            .accessibilityElement()
+            .accessibilityLabel(accessibilityLabel)
+            .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var poster: some View {
+        if let size {
+            artwork.frame(width: size, height: size)
+        } else {
+            artwork.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: size, height: size)
-        .cornerRadius(4)
-        .accessibilityElement()
-        .accessibilityLabel(accessibilityLabel)
-        .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var artwork: some View {
+        if let url {
+            AsyncImageView(
+                url: url,
+                cache: ImageManager.sharedManager.discoverCache,
+                placeholder: placeholder,
+                contentMode: .fill
+            )
+        } else {
+            placeholder?.resizable()
+        }
     }
 }

@@ -39,7 +39,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.networkCellId, for: indexPath)
             let network = networks[indexPath.row]
             cell.contentConfiguration = UIHostingConfiguration {
-                NetworkPoster(network: network, size: networkItemSize(in: collectionView).width)
+                NetworkPoster(network: network)
             }
             .margins(.all, 0)
             return cell
