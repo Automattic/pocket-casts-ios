@@ -64,6 +64,11 @@ struct NetworksListRowView: View {
             .scrollIndicators(.hidden)
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $currentPage, anchor: .leading)
+            .onChange(of: currentPage) { _, page in
+                guard let page else { return }
+
+                model.pageDidChange(to: page + 1, totalPages: model.networks.count)
+            }
             DiscoveryPageIndicatorView(numberOfItems: model.networks.count, currentPage: $currentPage)
             Rectangle()
                 .foregroundColor(theme.primaryUi05)

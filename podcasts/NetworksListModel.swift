@@ -10,6 +10,9 @@ class NetworksListModel: ObservableObject {
 
     private weak var delegate: DiscoverDelegate?
 
+    /// The generation the list was built in, reported with every event about it.
+    private var datetime: String?
+
     var title: String {
         guard let title = item?.title?.localized else { return "" }
 
@@ -37,6 +40,7 @@ class NetworksListModel: ObservableObject {
             guard let networks = collection?.lists else { return }
 
             DispatchQueue.main.async {
+                self?.datetime = collection?.datetime
                 self?.networks = networks
             }
         }
@@ -46,7 +50,7 @@ class NetworksListModel: ObservableObject {
         guard let delegate, let item else { return }
 
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: datetime)
         } else {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
@@ -68,9 +72,17 @@ class NetworksListModel: ObservableObject {
             guard let self, let collection else { return }
 
             DispatchQueue.main.async {
-                delegate.showExpanded(item: self.discoverItem(for: network), podcasts: collection.podcasts ?? [], podcastCollection: collection)
+                delegate.showExpanded(item: self.discoverItem(for: network), podcasts: collection.podcasts ?? [], podcastCollection: collection, datetime: collection.datetime)
             }
         }
+    }
+
+    func pageDidChange(to currentPage: Int, totalPages: Int) {
+        guard let item else { return }
+
+        Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
+                                                                    "total_pages": totalPages,
+                                                                    "list_id": item.inferredListId])
     }
 
     /// The list the network points at, as the `DiscoverItem` the expanded screens expect.
