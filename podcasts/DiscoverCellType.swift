@@ -95,7 +95,7 @@ extension DiscoverItem {
         case ("podcast_list", "large_list_with_podcast", _):
             return .largeListWithPodcast
         case ("network_list", _, _):
-            assertionFailure("Received a legacy network_list Discover item, which is no longer supported")
+            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
             return nil
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")

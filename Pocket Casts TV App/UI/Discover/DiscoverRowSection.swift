@@ -35,8 +35,6 @@ extension DiscoverItem {
             return .singlePodcast
         case ("podcast_list", "collection", _, _):
             return .listPodcast
-        case ("network_list", _, _, _):
-            return .listPodcast
         case ("categories", "category", _, _):
             return .categories
         case ("episode_list", "single_episode", _, nil):
@@ -59,6 +57,9 @@ extension DiscoverItem {
             return .newVideoReleases
         case ("banner", "inline_banner", _, _):
             return .banner
+        case ("network_list", _, _):
+            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
+            return nil
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type?.uppercased() ?? "unknown") \(summaryStyle ?? "unknown")")
             return nil
