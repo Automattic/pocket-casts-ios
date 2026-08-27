@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsUtils
 
-enum DiscoverRowType: CaseIterable {
+enum TVDiscoverRowType: CaseIterable {
     case categories
     case categoriesPopular
     case featured
@@ -19,7 +19,7 @@ enum DiscoverRowType: CaseIterable {
 }
 
 extension DiscoverItem {
-    var rowType: DiscoverRowType? {
+    var rowType: TVDiscoverRowType? {
         switch (type, summaryStyle, expandedStyle, sourceType) {
         case ("categories", "pills", _, _), ("categories", "category_list", _, _):
             return .categories
@@ -67,7 +67,7 @@ extension DiscoverItem {
     }
 }
 
-struct DiscoverRowSection: View {
+struct TVDiscoverRowSection: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
