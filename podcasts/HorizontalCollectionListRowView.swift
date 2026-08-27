@@ -80,6 +80,16 @@ struct HorizontalCollectionListRowView: View {
     }
 
     private var poster: some View {
+        Button {
+            model.showCollection()
+        } label: {
+            posterCard
+        }
+        .buttonStyle(.plain)
+        .padding(.leading, 16)
+    }
+
+    private var posterCard: some View {
         ZStack(alignment: .bottom) {
             KFImage(model.posterImage)
                 .placeholder { _ in
@@ -126,7 +136,6 @@ struct HorizontalCollectionListRowView: View {
         }
         .cornerRadius(4)
         .frame(width: adjustedRowWidth, height: adjustedRowHeight)
-        .padding(.leading, 16)
     }
 
     private func row(for podcast: DiscoverPodcast) -> some View {
