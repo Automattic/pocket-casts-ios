@@ -14,7 +14,6 @@ enum DiscoverCellType: CaseIterable {
     case largeListSummary
     case singlePodcast
     case collectionSummary
-    case networkSummary
     case categorySummary
     case singleEpisode
     case categoryPodcasts
@@ -43,8 +42,6 @@ enum DiscoverCellType: CaseIterable {
             } else {
                 CollectionSummaryViewController()
             }
-        case .networkSummary:
-            NetworkSummaryViewController()
         case .categorySummary:
             CategorySummaryViewController(regionCode: region)
         case .singleEpisode:
@@ -87,8 +84,6 @@ extension DiscoverItem {
             return .singlePodcast
         case ("podcast_list", "collection", _):
             return .collectionSummary
-        case ("network_list", _, _):
-            return .networkSummary
         case ("categories", "category", _):
             return .categorySummary
         case ("episode_list", "single_episode", _):
@@ -99,6 +94,9 @@ extension DiscoverItem {
             return .categoryPodcasts
         case ("podcast_list", "large_list_with_podcast", _):
             return .largeListWithPodcast
+        case ("network_list", _, _):
+            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
+            return nil
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
 #if DEBUG

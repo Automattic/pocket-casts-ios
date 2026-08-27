@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsUtils
 
-enum DiscoverRowType: CaseIterable {
+enum TVDiscoverRowType: CaseIterable {
     case categories
     case categoriesPopular
     case featured
@@ -19,7 +19,7 @@ enum DiscoverRowType: CaseIterable {
 }
 
 extension DiscoverItem {
-    var rowType: DiscoverRowType? {
+    var rowType: TVDiscoverRowType? {
         switch (type, summaryStyle, expandedStyle, sourceType) {
         case ("categories", "pills", _, _), ("categories", "category_list", _, _):
             return .categories
@@ -34,8 +34,6 @@ extension DiscoverItem {
         case ("podcast_list", "single_podcast", _, _):
             return .singlePodcast
         case ("podcast_list", "collection", _, _):
-            return .listPodcast
-        case ("network_list", _, _, _):
             return .listPodcast
         case ("categories", "category", _, _):
             return .categories
@@ -59,6 +57,9 @@ extension DiscoverItem {
             return .newVideoReleases
         case ("banner", "inline_banner", _, _):
             return .banner
+        case ("network_list", _, _, _):
+            FileLog.shared.addMessage("Skipping legacy network_list Discover item") // Should never be used anymore
+            return nil
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type?.uppercased() ?? "unknown") \(summaryStyle ?? "unknown")")
             return nil
@@ -66,7 +67,7 @@ extension DiscoverItem {
     }
 }
 
-struct DiscoverRowSection: View {
+struct TVDiscoverRowSection: View {
 
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 

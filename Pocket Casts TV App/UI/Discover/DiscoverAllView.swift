@@ -42,7 +42,7 @@ struct DiscoverAllView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                    DiscoverRowSection(item: item, source: source)
+                    TVDiscoverRowSection(item: item, source: source)
                 }
             }
         }

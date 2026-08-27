@@ -373,20 +373,6 @@ public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var source: String?
 }
 
-public struct PodcastNetwork: Decodable {
-    public var title: String?
-    public var source: String?
-    public var description: String?
-    public var imageUrl: String?
-    public var color: String?
-
-    public enum CodingKeys: String, CodingKey {
-        case imageUrl = "image_url"
-
-        case title, source, description, color
-    }
-}
-
 public struct PodcastList: Decodable {
     public var title: String?
     public var description: String?

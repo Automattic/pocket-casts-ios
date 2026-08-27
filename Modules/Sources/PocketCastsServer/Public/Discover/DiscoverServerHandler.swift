@@ -88,12 +88,6 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
-    public func discoverNetworkList(source: String, authenticated: Bool?, completion: @escaping ([PodcastNetwork]?) -> Void) {
-        discoverRequest(path: source, type: [PodcastNetwork].self, authenticated: authenticated) { networkList, _ in
-            completion(networkList)
-        }
-    }
-
     public func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void) {
         discoverRequest(path: source, type: PodcastList.self, authenticated: authenticated) { podcastList, _ in
             completion(podcastList)
