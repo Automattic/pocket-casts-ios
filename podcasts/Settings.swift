@@ -1406,9 +1406,8 @@ class Settings: NSObject {
 
     // MARK: - Encourage Account Creation
 
-    /// Anchor for the Encourage Account Creation modal cadence; reset each time the modal is shown.
-    /// Not reset on sign-out (the modal targets any logged-out user). Also set once on a fresh install
-    /// (`AppDelegate`, `case .installed`) so a brand-new user gets a full interval of grace.
+    /// Anchor for the Encourage Account Creation modal cadence; reset when shown. Not reset on
+    /// sign-out (targets any logged-out user); set once on fresh install for a full grace interval.
     static var encourageAccountCreationReferenceDate: Date? {
         get {
             UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
@@ -1421,12 +1420,8 @@ class Settings: NSObject {
     /// How long to wait between showings of the Encourage Account Creation modal (60 days).
     static let encourageAccountCreationInterval: TimeInterval = 60.days
 
-    /// Whether to show the modal this launch. Callers gate on completed onboarding; the clock is
-    /// anchored at presentation (`InformationalModalViewModel.didAppear()`) and on a fresh install
-    /// (`AppDelegate.application(_:didFinishLaunchingWithOptions:)`, `case .installed`) so a brand-new
-    /// user gets a full interval of grace. Shows on the first eligible launch, once the interval
-    /// elapses, or when the anchor is ahead of `now` (a restore carrying a future date).
-    /// All parameters are injectable so it can be unit-tested without touching singletons.
+    /// Whether to show the modal this launch: on the first eligible launch, once the interval elapses,
+    /// or when the anchor is ahead of `now` (a restored future date). Params injectable for tests.
     static func shouldShowEncourageAccountCreationModal(
         now: Date = Date(),
         isEligible: Bool = FeatureFlag.encourageAccountCreation.enabled && !SyncManager.isUserLoggedIn(),

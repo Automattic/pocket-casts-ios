@@ -9,10 +9,8 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
-    /// Whether an account was created during this onboarding session. Lets the post-onboarding
-    /// notifications prompt fire after account creation in a non-onboarding flow (e.g. EAC) while
-    /// staying hidden when the user taps "Not Now" without creating one; initial onboarding shows it
-    /// regardless (its purpose there is enabling push). Cleared on `begin()` and `reset()`.
+    /// Gates the notifications prompt for non-onboarding flows (e.g. EAC): shown only after account
+    /// creation, not on "Not Now". Cleared on `begin()` and `reset()`.
     private(set) var didCreateAccount = false
 
     private(set) var accountCreated: ((Bool)->())?
@@ -25,9 +23,8 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
-        // Also cleared here, not just in `reset()`: `reset()` is reached only conditionally, so
-        // anchoring to `begin()` keeps the flag scoped to one flow. Account creation always happens
-        // after `begin()`, so nothing is lost.
+        // Also cleared here (not just `reset()`, which is only reached conditionally) to keep the
+        // flag scoped to one flow. Account creation always happens after `begin()`, so nothing is lost.
         self.didCreateAccount = false
 
         let navigationController = controller as? UINavigationController
@@ -97,8 +94,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     }
 
     /// Whether dismissing this session should chain into the notifications prompt: whenever an account
-    /// was created (any flow), plus the first-run prompt after initial onboarding. Presentation is
-    /// gated in `MainTabBarController.showNotificationsPermissions()`.
+    /// was created (any flow), plus the first-run prompt after initial onboarding.
     static func shouldShowNotificationsPermissions(didCreateAccount: Bool, flow: Flow) -> Bool {
         didCreateAccount || flow == .initialOnboarding
     }

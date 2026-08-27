@@ -58,9 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.shouldShowRecentlyPlayedSortingTip = false
                 Settings.shouldShowUpNextSortDurationTip = false
                 Settings.shouldShowPlaylistsOnboarding = false
-                // Anchor the EAC cadence on fresh install so the modal waits a full interval instead
-                // of firing on the first launch. Existing users updating (.updated) leave it nil and
-                // see it immediately.
+                // Anchor the EAC cadence on fresh install so the modal waits a full interval before
+                // its first show (existing users updating leave it nil and see it immediately).
                 Settings.encourageAccountCreationReferenceDate = Date()
             case .sameVersion:
                 break

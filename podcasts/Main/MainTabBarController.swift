@@ -246,14 +246,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        // Logged-out users who completed initial onboarding are the audience for the recurring
-        // account-creation modal: first such launch, then every 60 days. Fresh installs run initial
-        // onboarding first.
+        // Recurring account-creation modal targets logged-out users who completed initial onboarding:
+        // first eligible launch, then every 60 days.
         let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true
         if hasCompletedInitialOnboarding {
-            // Don't chain into the modal on the same launch we showed initial onboarding:
-            // `shouldShowInitialOnboardingFlow` flips false immediately, so it'd re-trigger here.
-            // Shows next launch instead.
+            // Don't chain into the modal on the same launch we showed onboarding — it'd re-trigger
+            // here since `shouldShowInitialOnboardingFlow` flips false immediately. Shows next launch.
             guard !didPresentInitialOnboardingThisLaunch else { return }
 
             // Don't dismiss a presented modal (e.g. What's New) to show EAC — that would burn its
@@ -1113,9 +1111,8 @@ private extension MainTabBarController {
 extension MainTabBarController {
 
     func showNotificationsPermissions() {
-        // Shown on every account creation — it's how we ask about emailing the user (newsletter +
-        // notifications opt-in). Presented inline so it beats the `.onboardingFlowDidDismiss` EOY
-        // prompt; only skipped when another flow is already presenting, since we can't stack on it.
+        // Present inline so it beats the `.onboardingFlowDidDismiss` EOY prompt; skip only when
+        // another flow is already presenting, since we can't stack on it.
         guard presentedViewController == nil else { return }
         present(NotificationsPermissionsViewModel.makeController(), animated: true)
     }
