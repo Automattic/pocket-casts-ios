@@ -5,6 +5,11 @@ class NetworksListViewController: ThemedHostingController<NetworksListRowView>, 
 
     let model: NetworksListModel
 
+    var serverHandler: DiscoverServerHandling {
+        get { model.serverHandler }
+        set { model.serverHandler = newValue }
+    }
+
     init() {
         model = NetworksListModel()
         super.init(rootView: NetworksListRowView(model: model))
@@ -31,3 +36,20 @@ class NetworksListViewController: ThemedHostingController<NetworksListRowView>, 
         }
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Networks") {
+    let section = NetworksListViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.networkCollection(title: "Networks")
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.networksList, title: "Networks")
+    )
+}
+
+#endif

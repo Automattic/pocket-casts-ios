@@ -13,6 +13,8 @@ class NetworksListModel: ObservableObject {
     /// The generation the list was built in, reported with every event about it.
     private var datetime: String?
 
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
+
     var title: String {
         guard let title = item?.title?.localized else { return "" }
 
@@ -36,7 +38,7 @@ class NetworksListModel: ObservableObject {
 
         guard let source = delegate?.replaceRegionCode(string: item.source) ?? item.source else { return }
 
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated) { [weak self] collection in
+        serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated) { [weak self] collection in
             guard let networks = collection?.lists else { return }
 
             DispatchQueue.main.async {
@@ -68,7 +70,7 @@ class NetworksListModel: ObservableObject {
     func show(network: NetworkListSummary) {
         guard let delegate, let source = network.source else { return }
 
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item?.authenticated) { [weak self] collection in
+        serverHandler.discoverPodcastCollection(source: source, authenticated: item?.authenticated) { [weak self] collection in
             guard let self, let collection else { return }
 
             DispatchQueue.main.async {

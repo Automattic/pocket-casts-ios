@@ -170,6 +170,32 @@ enum DiscoverPreviewData {
         ])
     }
 
+    private static let networkNames = [
+        "The New York Times", "The Economist", "SiriusXM", "NPR", "Goalhanger", "Wondery"
+    ]
+
+    /// The `lists_list` payload: a collection whose entries are podcast lists, one per network.
+    static func networkCollection(title: String, count: Int = 6) -> PodcastCollection {
+        decode(PodcastCollection.self, from: [
+            "list_id": "preview-networks",
+            "title": title,
+            "lists": (0 ..< count).map { index in
+                [
+                    "uuid": "preview-network-\(index)",
+                    "title": networkNames[index % networkNames.count],
+                    "type": NetworkListSummary.supportedType,
+                    "summary_style": "small_list",
+                    "expanded_style": "grid",
+                    "source": "https://lists.pocketcasts.com/preview-network-\(index).json",
+                    "collection_image": artworkURL(at: index),
+                    "item_count": 8 + index,
+                    "description": blurbs[index % blurbs.count]
+                ]
+            },
+            "datetime": datetime
+        ])
+    }
+
     static func sponsoredPodcast(position: Int, source: String) -> CarouselSponsoredPodcast {
         decode(CarouselSponsoredPodcast.self, from: ["position": position, "source": source])
     }
@@ -220,6 +246,11 @@ enum DiscoverPreviewData {
         case .largeListWithPodcast: ("podcast_list", "large_list_with_podcast")
         case .networksList: ("lists_list", "large_list")
         }
+    }
+
+    /// A podcast's cover on the live CDN, standing in for artwork a preview has none of.
+    private static func artworkURL(at index: Int) -> String {
+        "https://static.pocketcasts.com/discover/images/420/\(artworkUUIDs[index % artworkUUIDs.count]).jpg"
     }
 
     // MARK: - JSON plumbing
