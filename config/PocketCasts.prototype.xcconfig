@@ -11,4 +11,4 @@ DEVELOPMENT_TEAM = 99KV9Z6BKV // Automattic, Inc. (Enterprise)
 // this line is enough to set the Provisioning Profiles for all.
 PROVISIONING_PROFILE_SPECIFIER = match InHouse $(PRODUCT_BUNDLE_IDENTIFIER)
 
-OTHER_SWIFT_FLAGS = -D DEBUG
+OTHER_SWIFT_FLAGS = -D DEBUG -assert-config Debug
