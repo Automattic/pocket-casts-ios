@@ -77,8 +77,8 @@ jobs:
             Comments:
             - Open a blocking correctness or behaviour-change finding with its
               user-facing impact in one plain sentence: what breaks, for which
-              user, and when - a concrete scenario, not the code mechanism.
-              Then the problem and the fix.
+              user, and when - a concrete scenario, and the code mechanism, the
+              problem and the fix.
             - Keep comments short by default - a few sentences stating the problem
               and the fix, not the reasoning that led you there. Spend more words
               only where the finding needs them to be actionable: a subtle race, a
