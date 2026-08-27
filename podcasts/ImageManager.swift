@@ -36,7 +36,7 @@ class ImageManager {
     private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
 
     // Discover Cache
-    private var discoverCache = ImageCache(name: "discoverCache")
+    let discoverCache = ImageCache(name: "discoverCache")
 
     // cache for discover video thumbnails cache
     private var discoverVideoThumbnailCache: ImageCache = {

@@ -87,22 +87,29 @@ struct NetworkPoster: View {
 
     let size: CGFloat
 
+    private var url: URL? {
+        network.collectionImage.flatMap { URL(string: $0) }
+    }
+
+    private var placeholder: Image? {
+        ImageManager.sharedManager.placeHolderImage(.grid).map { Image(uiImage: $0) }
+    }
+
     private var accessibilityLabel: String {
         [network.title, network.description].compactMap { $0 }.joined(separator: ", ")
     }
 
     var body: some View {
-        AsyncImage(url: network.collectionImage.flatMap { URL(string: $0) }) { image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
+        Group {
+            if let url {
+                AsyncImageView(
+                    url: url,
+                    cache: ImageManager.sharedManager.discoverCache,
+                    placeholder: placeholder,
+                    contentMode: .fill
+                )
             } else {
-                Color.gray
+                placeholder?.resizable()
             }
         }
         .frame(width: size, height: size)
