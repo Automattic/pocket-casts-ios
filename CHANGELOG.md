@@ -4,6 +4,7 @@
 - Fix the app freezing and closing itself when creating a Smart Playlist [#4993](https://github.com/Automattic/pocket-casts-ios/pull/4993)
 - Add a Bluesky link to the About screen alongside Website, Instagram and X [#4998](https://github.com/Automattic/pocket-casts-ios/pull/4998)
 - Fix setting the sleep timer through Siri or Shortcuts while the device is locked [#4812](https://github.com/Automattic/pocket-casts-ios/pull/4812)
+- Fix a crash when starting episode downloads [#5001](https://github.com/Automattic/pocket-casts-ios/pull/5001)
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
 
 8.19
