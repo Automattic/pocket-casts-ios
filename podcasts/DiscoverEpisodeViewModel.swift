@@ -34,12 +34,15 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private let playbackManager: ServerPlaybackDelegate
+    private let serverHandler: DiscoverServerHandling
 
-    init(playbackManager: ServerPlaybackDelegate = PlaybackManager.shared) {
+    init(playbackManager: ServerPlaybackDelegate = PlaybackManager.shared,
+         serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared) {
         self.playbackManager = playbackManager
+        self.serverHandler = serverHandler
         $discoverItem
             .dropFirst()
-            .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, authenticated: $0?.authenticated ?? false, type: PodcastCollection?.self) }
+            .flatMap { serverHandler.discoverItem($0?.source, authenticated: $0?.authenticated ?? false, type: PodcastCollection?.self) }
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
             .assign(to: &$discoverCollection)

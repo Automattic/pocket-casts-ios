@@ -2,8 +2,17 @@ import Combine
 import Foundation
 import PocketCastsUtils
 
+/// The Discover network calls, behind a protocol so callers can be handed canned data.
+///
+/// `DiscoverServerHandler.shared` is the production implementation; previews and tests inject
+/// their own. Every method mirrors one section type of the Discover page.
 public protocol DiscoverServerHandling {
+    func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void)
+    func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void)
+    func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void)
     func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
+    func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void)
+    func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable
 }
 
 public class DiscoverServerHandler: DiscoverServerHandling {

@@ -28,6 +28,8 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     private var podcasts = [DiscoverPodcast]()
     private var datetime: String? // Used to track the generation of recommendations
     private weak var delegate: DiscoverDelegate?
+
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
     private var item: DiscoverItem?
     private var category: DiscoverCategory?
 
@@ -199,7 +201,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
         switch item.cellType() {
         case .largeListWithPodcast:
-            DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
+            serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
                 guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
@@ -213,7 +215,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 }
             })
         default:
-            DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+            serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
                 guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
@@ -268,3 +270,37 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         view.setNeedsLayout()
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Large list") {
+    let section = LargeListSummaryViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastList: DiscoverPreviewData.podcastList(title: "Trending", podcasts: DiscoverPreviewData.podcasts(8))
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.largeListSummary, title: "Trending")
+    )
+}
+
+/// The same section in its `large_list_with_podcast` shape: a collection, with the podcast the
+/// recommendations came from drawn in the header.
+#Preview("Large list with podcast") {
+    let section = LargeListSummaryViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.podcastCollection(
+            title: "More like Deep Sleep Sounds",
+            podcasts: DiscoverPreviewData.podcasts(8),
+            featureImage: "82e37e80-755d-0138-eddc-0acc26574db2"
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.largeListWithPodcast, title: "Because you follow")
+    )
+}
+
+#endif
