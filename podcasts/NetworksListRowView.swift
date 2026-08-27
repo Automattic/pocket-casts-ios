@@ -2,7 +2,7 @@ import PocketCastsServer
 import SwiftUI
 
 /// The Discover row for a `lists_list` item: the networks it contains, side by side.
-struct NetworksList: View {
+struct NetworksListRowView: View {
 
     @ObservedObject var model: NetworksListModel
 

@@ -1,13 +1,13 @@
 import PocketCastsServer
 import UIKit
 
-class NetworksListViewController: ThemedHostingController<NetworksList>, DiscoverSummaryProtocol {
+class NetworksListViewController: ThemedHostingController<NetworksListRowView>, DiscoverSummaryProtocol {
 
     let model: NetworksListModel
 
     init() {
         model = NetworksListModel()
-        super.init(rootView: NetworksList(model: model))
+        super.init(rootView: NetworksListRowView(model: model))
     }
 
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {
