@@ -152,3 +152,75 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         updateFlowLayoutSize()
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+/// Hosts the expanded collection in a navigation controller, the way Discover pushes it.
+private struct ExpandedCollectionPreview: UIViewControllerRepresentable {
+    let makeController: () -> ExpandedCollectionViewController
+
+    /// The controller holds its delegate weakly, so the preview is what keeps this one alive.
+    private let delegate = PreviewDiscoverDelegate()
+
+    init(_ makeController: @escaping () -> ExpandedCollectionViewController) {
+        self.makeController = makeController
+    }
+
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let controller = makeController()
+        controller.registerDiscoverDelegate(delegate)
+        return PCNavigationController(rootViewController: controller)
+    }
+
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {}
+}
+
+private let previewCollectionImage = "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg"
+
+#Preview("Grid") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Sounds for sleeping", expandedStyle: "grid"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.podcastCollection = DiscoverPreviewData.podcastCollection(
+            title: "Sounds for sleeping",
+            subtitle: "Staff picks",
+            description: "Twelve shows for winding down, chosen by the people who make Pocket Casts.",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            collectionImage: previewCollectionImage
+        )
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#Preview("Descriptive list") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Sounds for sleeping", expandedStyle: "descriptive_list"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.cellStyle = .descriptive_list
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+/// The grid a `lists_list` row opens: networks rather than podcasts, and no collection header.
+#Preview("Networks") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.networksList, title: "Networks"),
+            podcasts: []
+        )
+        controller.cellStyle = .networkGrid
+        controller.networks = DiscoverPreviewData.networkCollection(title: "Networks").lists
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#endif
