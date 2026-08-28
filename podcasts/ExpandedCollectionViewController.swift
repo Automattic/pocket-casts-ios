@@ -3,7 +3,7 @@ import SafariServices
 import UIKit
 
 enum CollectionCellStyle {
-    case grid, descriptive_list, networkGrid
+    case grid, descriptiveList, networkGrid
 }
 
 class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDelegate {

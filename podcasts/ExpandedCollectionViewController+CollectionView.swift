@@ -22,7 +22,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 }
             }
             return cell
-        case .descriptive_list:
+        case .descriptiveList:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId, for: indexPath) as! DescriptiveCollectionCell
             let thisPodcast = podcasts[indexPath.row]
             if let delegate {
@@ -87,7 +87,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         let isBigDevice = viewWidth >= bigDevicePortraitWidth
 
         switch cellStyle {
-        case .descriptive_list:
+        case .descriptiveList:
             guard isBigDevice else {
                 return CGSize(width: viewWidth, height: descriptiveListPreferredMaxHeight)
             }
@@ -113,13 +113,13 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let topInset = (podcastCollection == nil && cellStyle != .descriptive_list) ? inset : 0
+        let topInset = (podcastCollection == nil && cellStyle != .descriptiveList) ? inset : 0
         return UIEdgeInsets(top: topInset, left: inset, bottom: 0, right: inset)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch cellStyle {
-        case .descriptive_list:
+        case .descriptiveList:
             return 0
         case .grid, .networkGrid:
             return inset
