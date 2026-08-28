@@ -15,6 +15,7 @@
 - Add networks to search, including "Combined Results" and a new dedicated tab/filter [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 - Fix a rare crash when the What's New screen was shown while another screen was still being dismissed [#5003](https://github.com/Automattic/pocket-casts-ios/pull/5003)
+- Add a full screen button over the video in the player, and rotate to landscape when a landscape video is opened full screen on iPhone [#4988](https://github.com/Automattic/pocket-casts-ios/pull/4988)
 
 8.19
 -----
