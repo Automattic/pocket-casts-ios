@@ -12,6 +12,7 @@ enum SearchFocusSection {
     static let featured = "search_featured"
     static let episodes = "search_episodes"
     static let podcasts = "search_podcasts"
+    static let networks = "search_networks"
 }
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
@@ -58,6 +59,12 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     } else {
                         episodeResults
                     }
+                case .networks:
+                    if model.networkResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        networkResults
+                    }
                 }
             case .error(let error):
                 Text(L10n.tvSearchFailed(error.localizedDescription))
@@ -77,6 +84,9 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
         }
         .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+        }
+        .navigationDestination(for: NetworkSearchResult.self) { network in
+            SearchNetworkView(network: network)
         }
         .animation(.easeInOut, value: model.state)
         .animation(.easeInOut, value: model.scope)
@@ -104,6 +114,22 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     case .episode, .network:
                         EmptyView()
                     }
+                }
+            })
+        }
+    }
+
+    var networkResults: some View {
+        ScrollView {
+            LazyVGrid(columns: items, spacing: 48, content: {
+                ForEach(model.networkResults, id: \.self) { network in
+                    NavigationLink(value: network) {
+                        SearchNetworkCard(network: network, size: Layout.cellSize)
+                    }
+                    .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        SearchAnalytics.networkTapped(network)
+                    })
                 }
             })
         }

@@ -22,6 +22,7 @@ struct SearchTopResultsView<ViewModel: SearchableViewModel>: View {
                 featuredRow
                 episodesRow
                 podcastsRow
+                networksRow
             }
         }
     }
@@ -67,6 +68,28 @@ struct SearchTopResultsView<ViewModel: SearchableViewModel>: View {
                         .setFocus(section: SearchFocusSection.podcasts)
                         .simultaneousGesture(TapGesture().onEnded {
                             SearchAnalytics.podcastTapped(podcast)
+                        })
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var networksRow: some View {
+        let networks = Array(model.networkResults.prefix(Layout.maxItemsPerRow))
+        if !networks.isEmpty {
+            RowSection(title: L10n.searchFilterNetworks, focusSection: SearchFocusSection.networks) {
+                horizontalRow(spacing: Layout.podcastSpacing) {
+                    ForEach(networks, id: \.self) { network in
+                        NavigationLink(value: network) {
+                            SearchNetworkCard(network: network)
+                        }
+                        .buttonStyle(.card)
+                        .padding(.vertical, Layout.podcastPadding)
+                        .setFocus(section: SearchFocusSection.networks)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            SearchAnalytics.networkTapped(network)
                         })
                     }
                 }

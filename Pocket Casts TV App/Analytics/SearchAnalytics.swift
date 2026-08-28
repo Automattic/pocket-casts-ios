@@ -16,6 +16,14 @@ enum SearchAnalytics {
         ])
     }
 
+    static func networkTapped(_ network: NetworkSearchResult) {
+        Analytics.track(.searchResultTapped, properties: [
+            "source": source,
+            "uuid": network.uuid,
+            "result_type": "network"
+        ])
+    }
+
     static func podcastTapped(_ podcast: PodcastFolderSearchResult) {
         Analytics.track(.searchResultTapped, properties: [
             "source": source,
