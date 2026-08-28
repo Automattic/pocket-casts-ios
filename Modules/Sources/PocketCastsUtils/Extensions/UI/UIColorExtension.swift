@@ -3,46 +3,50 @@ import UIKit
 
 public extension UIColor {
     convenience init(hex: String) {
-        var red: CGFloat = 0.0
-        var green: CGFloat = 0.0
-        var blue: CGFloat = 0.0
-        var alpha: CGFloat = 1.0
+        let components = UIColor.components(hex: hex) ?? (red: 0, green: 0, blue: 0, alpha: 1)
+        self.init(red: components.red, green: components.green, blue: components.blue, alpha: components.alpha)
+    }
 
-        if hex.hasPrefix("#") {
-            let index = hex.index(hex.startIndex, offsetBy: 1)
-            let hexString = String(hex[index...])
-            let scanner = Scanner(string: hexString)
-            var hexValue: CUnsignedLongLong = 0
-            if scanner.scanHexInt64(&hexValue) {
-                switch hexString.count {
-                case 3:
-                    red = CGFloat((hexValue & 0xF00) >> 8) / 15.0
-                    green = CGFloat((hexValue & 0x0F0) >> 4) / 15.0
-                    blue = CGFloat(hexValue & 0x00F) / 15.0
-                case 4:
-                    red = CGFloat((hexValue & 0xF000) >> 12) / 15.0
-                    green = CGFloat((hexValue & 0x0F00) >> 8) / 15.0
-                    blue = CGFloat((hexValue & 0x00F0) >> 4) / 15.0
-                    alpha = CGFloat(hexValue & 0x000F) / 15.0
-                case 6:
-                    red = CGFloat((hexValue & 0xFF0000) >> 16) / 255.0
-                    green = CGFloat((hexValue & 0x00FF00) >> 8) / 255.0
-                    blue = CGFloat(hexValue & 0x0000FF) / 255.0
-                case 8:
-                    red = CGFloat((hexValue & 0xFF00_0000) >> 24) / 255.0
-                    green = CGFloat((hexValue & 0x00FF_0000) >> 16) / 255.0
-                    blue = CGFloat((hexValue & 0x0000_FF00) >> 8) / 255.0
-                    alpha = CGFloat(hexValue & 0x0000_00FF) / 255.0
-                default:
-                    print("Invalid RGB string, number of characters after '#' should be either 3, 4, 6 or 8")
-                }
-            } else {
-                print("Scan hex error")
-            }
-        } else {
-            print("Invalid RGB string, missing '#' as prefix")
+    /// The color `hex` describes, or `nil` when it isn't `#RGB`, `#RGBA`, `#RRGGBB` or `#RRGGBBAA`.
+    ///
+    /// Unlike ``init(hex:)``, which falls back to black, this lets a caller fall back to a theme color
+    /// when a server sends a blank or malformed value.
+    static func from(hex: String) -> UIColor? {
+        guard let components = components(hex: hex) else { return nil }
+        return UIColor(red: components.red, green: components.green, blue: components.blue, alpha: components.alpha)
+    }
+
+    private static func components(hex: String) -> (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
+        guard hex.hasPrefix("#") else { return nil }
+
+        let hexString = String(hex.dropFirst())
+        var hexValue: CUnsignedLongLong = 0
+        guard hexString.allSatisfy(\.isHexDigit), Scanner(string: hexString).scanHexInt64(&hexValue) else { return nil }
+
+        switch hexString.count {
+        case 3:
+            return (red: CGFloat((hexValue & 0xF00) >> 8) / 15.0,
+                    green: CGFloat((hexValue & 0x0F0) >> 4) / 15.0,
+                    blue: CGFloat(hexValue & 0x00F) / 15.0,
+                    alpha: 1.0)
+        case 4:
+            return (red: CGFloat((hexValue & 0xF000) >> 12) / 15.0,
+                    green: CGFloat((hexValue & 0x0F00) >> 8) / 15.0,
+                    blue: CGFloat((hexValue & 0x00F0) >> 4) / 15.0,
+                    alpha: CGFloat(hexValue & 0x000F) / 15.0)
+        case 6:
+            return (red: CGFloat((hexValue & 0xFF0000) >> 16) / 255.0,
+                    green: CGFloat((hexValue & 0x00FF00) >> 8) / 255.0,
+                    blue: CGFloat(hexValue & 0x0000FF) / 255.0,
+                    alpha: 1.0)
+        case 8:
+            return (red: CGFloat((hexValue & 0xFF00_0000) >> 24) / 255.0,
+                    green: CGFloat((hexValue & 0x00FF_0000) >> 16) / 255.0,
+                    blue: CGFloat((hexValue & 0x0000_FF00) >> 8) / 255.0,
+                    alpha: CGFloat(hexValue & 0x0000_00FF) / 255.0)
+        default:
+            return nil
         }
-        self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 
     func hexString() -> String {

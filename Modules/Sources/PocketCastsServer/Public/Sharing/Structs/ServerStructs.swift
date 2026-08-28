@@ -325,7 +325,7 @@ public struct DiscoverItem: Decodable, Equatable {
     /// Pass it through `String.localized` and `replaceRegionName(string:)` before display.
     public var title: String?
 
-    /// What `source` returns: `podcast_list`, `episode_list`, `categories`,
+    /// What `source` returns: `podcast_list`, `episode_list`, `lists_list`, `categories`,
     /// `category_podcast_list`, or `banner` (tvOS).
     public var type: String?
 
@@ -334,7 +334,8 @@ public struct DiscoverItem: Decodable, Equatable {
     /// tvOS, `rowType`.
     public var summaryStyle: String?
 
-    /// Appearance after "Show All": `plain_list`, `ranked_list`, `descriptive_list`, `grid`.
+    /// Appearance after "Show All": `plain_list`, `ranked_list`, `descriptive_list`, `grid`, or
+    /// `network_grid` for a `lists_list`.
     public var expandedStyle: String?
 
     public var summaryItemCount: Int?
