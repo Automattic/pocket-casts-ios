@@ -8,18 +8,18 @@ struct NetworksListRowView: View {
 
     @EnvironmentObject var theme: Theme
 
-    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(293)
+    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(351)
 
-    @ScaledMetric(relativeTo: .largeTitle) var scaledCardSize = CGFloat(180)
+    @ScaledMetric(relativeTo: .largeTitle) var scaledCardSize = CGFloat(168)
 
     @State var currentPage: Int? = 0
 
     var adjustedHeight: CGFloat {
-        max(293, scaledHeight)
+        max(351, scaledHeight)
     }
 
     var adjustedCardSize: CGFloat {
-        min(320, max(180, scaledCardSize))
+        min(320, max(168, scaledCardSize))
     }
 
     var header: some View {
@@ -47,12 +47,12 @@ struct NetworksListRowView: View {
         VStack(spacing: 8) {
             header
             ScrollView(.horizontal) {
-                LazyHStack(spacing: 16) {
+                LazyHStack(alignment: .top, spacing: 16) {
                     ForEach(Array(model.networks.enumerated()), id: \.offset) { index, network in
                         Button {
                             model.show(network: network)
                         } label: {
-                            NetworkPoster(network: network, size: adjustedCardSize)
+                            NetworkCard(network: network, size: adjustedCardSize)
                         }
                         .buttonStyle(.plain)
                         .id(index)
@@ -80,12 +80,67 @@ struct NetworksListRowView: View {
     }
 }
 
+/// A network in the Discover row: round artwork above its name and description.
+struct NetworkCard: View {
+
+    let network: NetworkListSummary
+
+    /// The side length of the artwork, which the card is as wide as.
+    let size: CGFloat
+
+    @EnvironmentObject var theme: Theme
+
+    var body: some View {
+        VStack(spacing: 10) {
+            NetworkArtwork(network: network, size: size)
+                .clipShape(.circle)
+            VStack(spacing: 2) {
+                if let title = network.title {
+                    Text(title)
+                        .foregroundStyle(theme.primaryText01)
+                        .font(size: 15, style: .subheadline, weight: .medium)
+                        .kerning(-0.3)
+                        .lineLimit(1)
+                }
+                if let description = network.description {
+                    Text(description)
+                        .foregroundStyle(theme.primaryText02)
+                        .font(size: 14, style: .subheadline, weight: .medium)
+                        .lineLimit(2)
+                }
+            }
+            .multilineTextAlignment(.center)
+        }
+        .frame(width: size)
+        .accessibilityElement()
+        .accessibilityLabel(network.accessibilityLabel)
+        .accessibilityAddTraits(.isButton)
+    }
+}
+
 /// A network as a poster: its artwork, with the name and description read out by VoiceOver.
 struct NetworkPoster: View {
 
     let network: NetworkListSummary
 
     /// A fixed side length, or `nil` for the poster to fill the space it's given.
+    var size: CGFloat?
+
+    var body: some View {
+        NetworkArtwork(network: network, size: size)
+            .cornerRadius(4)
+            .accessibilityElement()
+            .accessibilityLabel(network.accessibilityLabel)
+            .accessibilityAddTraits(.isButton)
+    }
+}
+
+/// A network's artwork, falling back to the grid placeholder while it loads or when there is none.
+private struct NetworkArtwork: View {
+
+    let network: NetworkListSummary
+
+    /// A fixed side length, or `nil` for the artwork to fill the space it's given.
     var size: CGFloat?
 
     private var url: URL? {
@@ -96,20 +151,7 @@ struct NetworkPoster: View {
         ImageManager.sharedManager.placeHolderImage(.grid).map { Image(uiImage: $0) }
     }
 
-    private var accessibilityLabel: String {
-        [network.title, network.description].compactMap { $0 }.joined(separator: ", ")
-    }
-
     var body: some View {
-        poster
-            .cornerRadius(4)
-            .accessibilityElement()
-            .accessibilityLabel(accessibilityLabel)
-            .accessibilityAddTraits(.isButton)
-    }
-
-    @ViewBuilder
-    private var poster: some View {
         if let size {
             artwork.frame(width: size, height: size)
         } else {
@@ -129,5 +171,11 @@ struct NetworkPoster: View {
         } else {
             placeholder?.resizable()
         }
+    }
+}
+
+private extension NetworkListSummary {
+    var accessibilityLabel: String {
+        [title, description].compactMap { $0 }.joined(separator: ", ")
     }
 }
