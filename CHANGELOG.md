@@ -7,6 +7,7 @@
 - Fix a crash when starting episode downloads [#5001](https://github.com/Automattic/pocket-casts-ios/pull/5001)
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
 - Add support for "Networks" row in "Discover" [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026)
+- Add networks to search, including "Combined Results" and a new dedicated tab/filter [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 
 8.19
