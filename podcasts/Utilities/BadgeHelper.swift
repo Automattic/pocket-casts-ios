@@ -81,7 +81,7 @@ class BadgeHelper {
                   let playlist = DataManager.shared.findPlaylist(uuid: playlistId) else {
                 Settings.appBadge = .off
 
-                return nil
+                return 0
             }
 
             return DataManager.shared.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
