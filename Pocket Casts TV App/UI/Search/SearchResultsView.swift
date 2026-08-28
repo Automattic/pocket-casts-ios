@@ -42,7 +42,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             case .results:
                 switch model.scope {
                 case .topResults:
-                    if model.podcastResults.isEmpty, model.episodeResults.isEmpty {
+                    if model.podcastResults.isEmpty, model.episodeResults.isEmpty, model.networkResults.isEmpty {
                         ContentUnavailableView.search(text: model.searchTerm)
                     } else {
                         SearchTopResultsView(model: model)
