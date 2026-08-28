@@ -1,11 +1,13 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 enum SearchScope: CaseIterable, Equatable {
     case topResults
     case podcasts
     case episodes
+    case networks
 
     var localizedName: String {
         switch self {
@@ -15,6 +17,8 @@ enum SearchScope: CaseIterable, Equatable {
             return L10n.podcastsPlural
         case .episodes:
             return L10n.episodes
+        case .networks:
+            return L10n.searchFilterNetworks
         }
     }
 
@@ -27,6 +31,8 @@ enum SearchScope: CaseIterable, Equatable {
             return "podcasts"
         case .episodes:
             return "episodes"
+        case .networks:
+            return "networks"
         }
     }
 }
@@ -59,6 +65,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var scope: SearchScope { get set }
     var podcastResults: [CombinedSearchResultType] { get }
     var episodeResults: [EpisodeSearchResult] { get }
+    var networkResults: [NetworkSearchResult] { get }
 
     /// `episodeResults` split into the episodes the `Featured` row previews and the
     /// ones left for the `Episodes` row. Partitioned once per search rather than on
@@ -79,6 +86,12 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 }
 
 extension SearchableViewModel {
+    /// The scopes offered for the current results: Networks only joins them when the
+    /// term actually matched one.
+    var availableScopes: [SearchScope] {
+        networkResults.isEmpty ? [.topResults, .podcasts, .episodes] : SearchScope.allCases
+    }
+
     /// `podcastResults` only ever holds `.podcast` cases — this unwraps them for the
     /// rows that take a podcast directly.
     var podcastOnlyResults: [PodcastFolderSearchResult] {
@@ -142,6 +155,15 @@ class SearchViewModel: SearchableViewModel {
 
     private(set) var remainingEpisodeResults: [EpisodeSearchResult] = []
 
+    var networkResults: [NetworkSearchResult] = [] {
+        didSet {
+            // Searching again can leave Networks selected with nothing left to show.
+            if networkResults.isEmpty, scope == .networks {
+                scope = .topResults
+            }
+        }
+    }
+
     var searchHistory: [String] {
         searchModel.entries.compactMap(\.searchTerm)
     }
@@ -163,6 +185,7 @@ class SearchViewModel: SearchableViewModel {
         searchTask?.cancel()
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             if !podcastResults.isEmpty { podcastResults = [] }
+            if !networkResults.isEmpty { networkResults = [] }
             if !autoCompleteSuggestions.isEmpty { autoCompleteSuggestions = [] }
             state = .query
             return
@@ -211,6 +234,7 @@ class SearchViewModel: SearchableViewModel {
                 saveHistory(query)
                 let fullResults = try await fullSearchTask.search(term: query)
                 var episodes: [EpisodeSearchResult] = []
+                var networks: [NetworkSearchResult] = []
                 for searchResult in fullResults {
                     switch searchResult {
                     case .podcast(let podcast):
@@ -219,6 +243,10 @@ class SearchViewModel: SearchableViewModel {
                         }
                     case .episode(let episode):
                         episodes.append(episode)
+                    case .network(let network):
+                        if FeatureFlag.networkDiscovery.enabled {
+                            networks.append(network)
+                        }
                     }
                 }
 
@@ -226,7 +254,8 @@ class SearchViewModel: SearchableViewModel {
 
                 podcastResults = combinedPodcastsResults
                 episodeResults = episodes
-                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty
+                networkResults = networks
+                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty && networks.isEmpty
                 if isEmpty {
                     Analytics.track(.searchEmptyResults, properties: ["source": "search", "term": query])
                 }

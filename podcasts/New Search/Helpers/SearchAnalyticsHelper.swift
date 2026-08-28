@@ -97,6 +97,12 @@ extension PodcastFolderSearchResult: AnalyticsSearchResultItem {
     }
 }
 
+extension NetworkSearchResult: AnalyticsSearchResultItem {
+    var analyticsDescription: String {
+        "network"
+    }
+}
+
 extension SearchHistoryEntry: AnalyticsSearchResultItem {
     var uuid: String {
         podcast?.uuid ?? episode?.uuid ?? ""

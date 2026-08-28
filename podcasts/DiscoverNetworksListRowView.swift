@@ -93,7 +93,7 @@ private struct DiscoverNetworkCard: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            DiscoverNetworkArtwork(network: network, size: size)
+            NetworkArtworkView(url: network.collectionImageURL, size: size)
                 .clipShape(.circle)
             VStack(spacing: 2) {
                 if let title = network.title {
@@ -128,7 +128,7 @@ struct DiscoverNetworkPoster: View {
     var size: CGFloat?
 
     var body: some View {
-        DiscoverNetworkArtwork(network: network, size: size)
+        NetworkArtworkView(url: network.collectionImageURL, size: size)
             .cornerRadius(4)
             .accessibilityElement()
             .accessibilityLabel(network.accessibilityLabel)
@@ -137,16 +137,13 @@ struct DiscoverNetworkPoster: View {
 }
 
 /// A network's artwork, falling back to the grid placeholder while it loads or when there is none.
-private struct DiscoverNetworkArtwork: View {
+struct NetworkArtworkView: View {
 
-    let network: NetworkListSummary
+    /// The network's collection image, or `nil` to draw the placeholder in its place.
+    let url: URL?
 
     /// A fixed side length, or `nil` for the artwork to fill the space it's given.
     var size: CGFloat?
-
-    private var url: URL? {
-        network.collectionImage.flatMap { URL(string: $0) }
-    }
 
     var body: some View {
         Group {
@@ -185,6 +182,10 @@ private struct DiscoverNetworkArtwork: View {
 private extension NetworkListSummary {
     var accessibilityLabel: String {
         [title, description].compactMap { $0 }.joined(separator: ", ")
+    }
+
+    var collectionImageURL: URL? {
+        collectionImage.flatMap { URL(string: $0) }
     }
 }
 

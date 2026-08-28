@@ -69,7 +69,7 @@ struct SearchResultsView: View {
                         filterPicker
                     }
                     List {
-                        if displayMode != .episodes {
+                        if activeDisplayMode == .allResults || activeDisplayMode == .podcasts {
                             localResults
                         }
                         combinedList
@@ -80,7 +80,7 @@ struct SearchResultsView: View {
                     .scrollContentBackground(.hidden)
                     .ignoresSafeArea(.keyboard, edges: .bottom)
                     .onAppear() {
-                        self.searchAnalyticsHelper.trackListShown(displayMode)
+                        self.searchAnalyticsHelper.trackListShown(activeDisplayMode)
                     }
                 }
             }
@@ -100,8 +100,23 @@ struct SearchResultsView: View {
         .background(theme.searchBackground)
     }
 
+    /// The filters offered for the current results: Networks only joins them when there are any.
+    var availableFilters: [SearchDisplayMode] {
+        var filters: [SearchDisplayMode] = [.allResults, .podcasts, .episodes]
+        if !searchResults.networks.isEmpty {
+            filters.append(.networks)
+        }
+        return filters
+    }
+
+    /// The filter in effect, which falls back to Top Results when the selected one is no longer
+    /// offered — searching again can leave Networks selected with no networks to show.
+    var activeDisplayMode: SearchDisplayMode {
+        availableFilters.contains(displayMode) ? displayMode : .allResults
+    }
+
     @ViewBuilder var filterPicker: some View {
-        PillSegmentControl(SearchDisplayMode.allCases, selection: $displayMode) { item in
+        PillSegmentControl(availableFilters, selection: Binding(get: { activeDisplayMode }, set: { displayMode = $0 })) { item in
             Text(item.localizedDescription)
         }
         .padding(.bottom, 8)
@@ -115,7 +130,7 @@ struct SearchResultsView: View {
         let podcastsUuids = searchResults.podcasts.map({ result in
             result.uuid
         })
-        switch displayMode {
+        switch activeDisplayMode {
             case .allResults:
                 return searchResults.combinedResults.filter { result in
                     switch result {
@@ -141,6 +156,14 @@ struct SearchResultsView: View {
                         return false
                     }
                 }
+            case .networks:
+                return searchResults.combinedResults.filter { result in
+                    if case .network = result {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
         }
     }
 
@@ -155,6 +178,12 @@ struct SearchResultsView: View {
                         }
                 case .episode(let episode):
                     SearchResultCell(episode: episode, result: nil, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                        .listRowBackground(theme.searchBackground)
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
+                            return 0
+                        }
+                case .network(let network):
+                    NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
                         .listRowBackground(theme.searchBackground)
                         .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
@@ -194,3 +223,20 @@ struct SearchResultsView_Previews: PreviewProvider {
             .previewWithAllThemes()
     }
 }
+
+#if DEBUG
+
+/// Results carrying networks, which is what puts the Networks filter on the pill row.
+#Preview("Results with networks") {
+    let searchResults = SearchResultsModel()
+    searchResults.combinedResults = NetworkSearchPreviewData.networks.map { .network($0) }
+
+    return SearchResultsView()
+        .setupDefaultEnvironment()
+        .environmentObject(searchResults)
+        .environmentObject(SearchAnalyticsHelper(source: .discover))
+        .environmentObject(SearchNetworkNavigator(source: .discover))
+        .environmentObject(SearchHistoryModel.shared)
+}
+
+#endif
