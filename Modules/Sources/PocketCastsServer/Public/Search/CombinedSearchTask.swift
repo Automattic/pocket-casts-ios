@@ -7,6 +7,7 @@ struct CombinedSearchEnvelope: Decodable {
 public enum CombinedSearchResultType: Hashable {
     case episode(EpisodeSearchResult)
     case podcast(PodcastFolderSearchResult)
+    case network(NetworkSearchResult)
 }
 
 public struct CombinedSearchResult: Decodable, Hashable {
@@ -22,6 +23,9 @@ public struct CombinedSearchResult: Decodable, Hashable {
     public let isVideo: Bool?
     public let hasVideo: Bool?
     public let videoUrl: String?
+    public let shortDescription: String?
+    public let collectionImage: String?
+    public let podcastCount: Int?
 
     public var resolvedResultType: CombinedSearchResultType? {
         switch type {
@@ -35,6 +39,11 @@ public struct CombinedSearchResult: Decodable, Hashable {
                 return nil
             }
             return .episode(episode)
+        case "network":
+            guard let network = NetworkSearchResult(from: self) else {
+                return nil
+            }
+            return .network(network)
         default:
             return nil
         }
@@ -57,6 +66,14 @@ public class CombinedSearchTask {
         }
 
         let (data, _) = try await session.data(for: request)
+
+        let envelope = try Self.decoder.decode(CombinedSearchEnvelope.self, from: data)
+        return envelope.results.compactMap { result in
+            return result.resolvedResultType
+        }
+    }
+
+    static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let dateFormatter = DateFormatter()
@@ -65,10 +82,6 @@ public class CombinedSearchTask {
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-
-        let envelope = try decoder.decode(CombinedSearchEnvelope.self, from: data)
-        return envelope.results.compactMap { result in
-            return result.resolvedResultType
-        }
-    }
+        return decoder
+    }()
 }

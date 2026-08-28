@@ -43,6 +43,14 @@ class SearchResultsModel: ObservableObject {
         podcasts.isEmpty && predictive.isEmpty && combinedResults.isEmpty
     }
 
+    /// The networks among ``combinedResults``, which the Networks filter and its rows are drawn from.
+    var networks: [NetworkSearchResult] {
+        combinedResults.compactMap {
+            guard case .network(let network) = $0 else { return nil }
+            return network
+        }
+    }
+
     func clearSearch() {
         podcasts = []
         combinedResults = []
@@ -192,6 +200,9 @@ class SearchResultsModel: ObservableObject {
 
     private func showCombinedResults(_ results: [CombinedSearchResultType]) {
         isShowingPredictiveSearch = false
-        combinedResults = results
+        combinedResults = results.filter { result in
+            guard case .network = result else { return true }
+            return FeatureFlag.networkDiscovery.enabled
+        }
     }
 }

@@ -6646,3 +6646,5 @@
 /* tv home failed to load message */
 "tv_home_failed_to_load_title" = "Home failed to load";
 
+/* Search Results filter option that narrows the results down to podcast networks */
+"search_filter_networks" = "Networks";
