@@ -8,6 +8,7 @@
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
 - Add support for "Networks" row in "Discover" [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
+- Fix the app icon badge showing a stale count after a background refresh: the badge is now updated once the refresh has finished instead of before it starts [#4996](https://github.com/Automattic/pocket-casts-ios/pull/4996)
 
 8.19
 -----

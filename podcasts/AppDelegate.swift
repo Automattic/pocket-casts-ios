@@ -180,10 +180,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // This method will be invoked even if the application was launched or resumed because of the remote notification. The respective delegate methods will be invoked first. Note that this behavior is in contrast to application:didReceiveRemoteNotification:, which is not called in those cases, and which will not be invoked if this method is implemented.
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
-            completionHandler(self.convertRefreshResult(result: refreshFetchResult))
-        })
-        badgeHelper.updateBadge()
+        if FeatureFlag.updateBadgeAfterBackgroundRefresh.enabled {
+            RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
+                self.badgeHelper.updateBadge {
+                    completionHandler(self.convertRefreshResult(result: refreshFetchResult))
+                }
+            })
+        } else {
+            RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
+                completionHandler(self.convertRefreshResult(result: refreshFetchResult))
+            })
+            badgeHelper.updateBadge()
+        }
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -284,10 +292,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FileLog.shared.addMessage("Background refresh timed out")
         }
 
-        RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
-            task.setTaskCompleted(success: refreshFetchResult != .failed)
-        })
-        badgeHelper.updateBadge()
+        if FeatureFlag.updateBadgeAfterBackgroundRefresh.enabled {
+            RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
+                self.badgeHelper.updateBadge {
+                    task.setTaskCompleted(success: refreshFetchResult != .failed)
+                }
+            })
+        } else {
+            RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
+                task.setTaskCompleted(success: refreshFetchResult != .failed)
+            })
+            badgeHelper.updateBadge()
+        }
     }
 
     private func configureFirebase() {
