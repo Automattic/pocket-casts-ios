@@ -54,7 +54,7 @@ jobs:
       - name: Run Claude Code Review
         if: steps.workflow-changes.outputs.skip != 'true'
         id: claude-review
-        uses: anthropics/claude-code-action@459ad358ae43fea66bfefd0a1f8d840b4b9791fb # v1.0.194
+        uses: anthropics/claude-code-action@c81e3bc69d1b18badbb63ba39581218f02421678 # v1.0.201
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           track_progress: true
@@ -104,7 +104,7 @@ jobs:
               - Then the findings grouped under `### Blocking`, `### Non-blocking`,
                 `### Nits`. Skip a group that is empty; skip the section entirely if
                 there are no findings, leaving the verdict as the whole summary.
-              - One line per finding: `path/File.swift:123` followed by a single
+              - One line per finding: `path/to/file:123` followed by a single
                 sentence that leads with the user-facing impact, then the fix -
                 enough to act on without opening the thread. Add the inline
                 comment's URL when you have one.
