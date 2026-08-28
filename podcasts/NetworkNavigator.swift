@@ -2,49 +2,52 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
-/// Opens a network tapped in search, on the navigation stack search is presented in.
+/// Opens a network, on the navigation stack of the screen that asked for it.
 ///
-/// The screen it pushes is the one Discover uses for a network, ``ExpandedCollectionViewController``
-/// in its `grid` style, which asks its delegate for the podcasts' subscription state and taps —
-/// hence the ``DiscoverDelegate`` conformance. The Discover feed itself is out of reach from here,
-/// so the methods that navigate around it do nothing.
-final class SearchNetworkNavigator: ObservableObject {
-    /// The view controller hosting the search results, whose navigation controller is pushed onto.
+/// A network is a list of podcasts, identified by the id the API gives it, and the screen it opens
+/// is the one Discover uses, ``ExpandedCollectionViewController`` in its `grid` style. That screen
+/// asks its delegate for the podcasts' subscription state and taps — hence the ``DiscoverDelegate``
+/// conformance. Callers see none of that: they hand over a list id and this loads the rest.
+final class NetworkNavigator: ObservableObject {
+    /// The view controller whose navigation controller is pushed onto.
     weak var presenter: UIViewController?
 
     private let source: AnalyticsSource
     private let serverHandler: DiscoverServerHandling
 
-    private var pendingNetwork: NetworkSearchResult?
+    private var pendingListId: String?
 
     init(source: AnalyticsSource, serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared) {
         self.source = source
         self.serverHandler = serverHandler
     }
 
-    func show(_ network: NetworkSearchResult) {
-        guard pendingNetwork != network else { return }
+    /// Loads the network's podcasts and shows them. `title` names the screen for callers that
+    /// already know it; the list names itself otherwise.
+    func show(listId: String, title: String? = nil) {
+        guard pendingListId != listId else { return }
 
-        pendingNetwork = network
-        serverHandler.discoverPodcastCollection(source: network.source, authenticated: nil) { [weak self] collection in
+        pendingListId = listId
+        serverHandler.discoverPodcastCollection(source: ServerHelper.listUrlString(listId: listId), authenticated: nil) { [weak self] collection in
             DispatchQueue.main.async {
-                guard let self, self.pendingNetwork == network else { return }
+                guard let self, self.pendingListId == listId else { return }
 
-                self.pendingNetwork = nil
-                self.show(collection, for: network)
+                self.pendingListId = nil
+                self.show(collection, listId: listId, title: title)
             }
         }
     }
 
-    private func show(_ collection: PodcastCollection?, for network: NetworkSearchResult) {
+    private func show(_ collection: PodcastCollection?, listId: String, title: String?) {
         guard let presenter, presenter.viewIfLoaded?.window != nil, let navigationController = presenter.navigationController else { return }
 
         guard let collection else {
-            Toast.show(L10n.searchNetworkFailToLoad)
+            Toast.show(L10n.networkFailToLoad)
             return
         }
 
-        let controller = ExpandedCollectionViewController(item: discoverItem(for: network), podcasts: collection.podcasts ?? [])
+        let item = discoverItem(listId: listId, title: title ?? collection.title)
+        let controller = ExpandedCollectionViewController(item: item, podcasts: collection.podcasts ?? [])
         controller.podcastCollection = collection
         controller.registerDiscoverDelegate(self)
         navigationController.pushViewController(controller, animated: true)
@@ -52,21 +55,21 @@ final class SearchNetworkNavigator: ObservableObject {
 
     /// The network's list, as the `DiscoverItem` the expanded screen expects. It opens as a `grid`,
     /// the same way a network opens from the Discover feed.
-    private func discoverItem(for network: NetworkSearchResult) -> DiscoverItem {
+    private func discoverItem(listId: String, title: String?) -> DiscoverItem {
         DiscoverItem(
-            id: network.uuid,
-            uuid: network.uuid,
-            title: network.title,
+            id: listId,
+            uuid: listId,
+            title: title,
             type: NetworkListSummary.supportedType,
             summaryStyle: "collection",
             expandedStyle: "grid",
-            source: network.source,
+            source: ServerHelper.listUrlString(listId: listId),
             regions: []
         )
     }
 }
 
-extension SearchNetworkNavigator: DiscoverDelegate {
+extension NetworkNavigator: DiscoverDelegate {
     func navController() -> UINavigationController? {
         presenter?.navigationController
     }

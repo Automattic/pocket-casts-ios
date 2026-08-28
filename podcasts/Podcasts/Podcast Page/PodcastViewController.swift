@@ -39,6 +39,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func folderTapped()
     func notificationTapped()
     func categoryTapped(_ category: String)
+    func networkTapped(listId: String)
     func subscribe()
     func unsubscribe()
     func refreshArtwork()
@@ -76,6 +77,13 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     var recommendations: PodcastCollection?
+
+    /// Opens the network the podcast belongs to, tapped in the header.
+    private lazy var networkNavigator: NetworkNavigator = {
+        let navigator = NetworkNavigator(source: .podcastScreen)
+        navigator.presenter = self
+        return navigator
+    }()
 
     /// The bookmarks tab, created the first time it's displayed
     var bookmarkList: BookmarkListController?
@@ -940,6 +948,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     func categoryTapped(_ category: String) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
         Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
+    }
+
+    func networkTapped(listId: String) {
+        Analytics.track(.podcastScreenNetworkTapped, properties: ["podcast_uuid": podcast?.uuid ?? "", "list_id": listId])
+        networkNavigator.show(listId: listId)
     }
 
     func searchEpisodes(query: String) {
