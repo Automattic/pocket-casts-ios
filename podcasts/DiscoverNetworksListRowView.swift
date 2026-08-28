@@ -22,27 +22,6 @@ struct DiscoverNetworksListRowView: View {
         min(320, max(168, scaledCardSize))
     }
 
-    var header: some View {
-        HStack(alignment: .center) {
-            Text(model.title)
-                .foregroundStyle(theme.primaryText01)
-                .font(size: 22, style: .title, weight: .bold)
-                .lineLimit(2)
-            Spacer()
-            if model.showsShowAll {
-                Button {
-                    model.showAll()
-                } label: {
-                    Text(L10n.discoverShowAll.localizedUppercase)
-                        .foregroundStyle(theme.primaryInteractive01)
-                        .font(size: 13, style: .title, weight: .bold)
-                        .kerning(0.6)
-                }
-            }
-        }
-        .padding(16)
-    }
-
     var body: some View {
         VStack(spacing: 8) {
             header
@@ -78,10 +57,31 @@ struct DiscoverNetworksListRowView: View {
         }
         .frame(height: adjustedHeight)
     }
+
+    var header: some View {
+        HStack(alignment: .center) {
+            Text(model.title)
+                .foregroundStyle(theme.primaryText01)
+                .font(size: 22, style: .title, weight: .bold)
+                .lineLimit(2)
+            Spacer()
+            if model.showsShowAll {
+                Button {
+                    model.showAll()
+                } label: {
+                    Text(L10n.discoverShowAll.localizedUppercase)
+                        .foregroundStyle(theme.primaryInteractive01)
+                        .font(size: 13, style: .title, weight: .bold)
+                        .kerning(0.6)
+                }
+            }
+        }
+        .padding(16)
+    }
 }
 
 /// A network in the Discover row: round artwork above its name and description.
-struct DiscoverNetworkCard: View {
+private struct DiscoverNetworkCard: View {
 
     let network: NetworkListSummary
 
