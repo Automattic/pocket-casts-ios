@@ -203,7 +203,7 @@ private let previewCollectionImage = "https://static.pocketcasts.com/discover/im
             item: DiscoverPreviewData.item(.collectionSummary, title: "Sounds for sleeping", expandedStyle: "descriptive_list"),
             podcasts: DiscoverPreviewData.podcasts(12)
         )
-        controller.cellStyle = .descriptive_list
+        controller.cellStyle = .descriptiveList
         return controller
     }
     .ignoresSafeArea()
