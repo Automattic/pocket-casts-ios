@@ -1,3 +1,4 @@
+import Kingfisher
 import PocketCastsServer
 import SwiftUI
 
@@ -147,29 +148,36 @@ private struct DiscoverNetworkArtwork: View {
         network.collectionImage.flatMap { URL(string: $0) }
     }
 
-    private var placeholder: Image? {
-        ImageManager.sharedManager.placeHolderImage(.grid).map { Image(uiImage: $0) }
-    }
-
     var body: some View {
-        if let size {
-            artwork.frame(width: size, height: size)
-        } else {
-            artwork.frame(maxWidth: .infinity, maxHeight: .infinity)
+        Group {
+            if let size {
+                artwork.frame(width: size, height: size)
+            } else {
+                artwork.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
+        .clipped()
     }
 
     @ViewBuilder
     private var artwork: some View {
         if let url {
-            AsyncImageView(
-                url: url,
-                cache: ImageManager.sharedManager.discoverCache,
-                placeholder: placeholder,
-                contentMode: .fill
-            )
+            KFImage(url)
+                .placeholder { _ in placeholder }
+                .targetCache(ImageManager.sharedManager.discoverCache)
+                .fade(duration: 0.25)
+                .resizable()
+                .scaledToFill()
         } else {
-            placeholder?.resizable()
+            placeholder.scaledToFill()
+        }
+    }
+
+    @ViewBuilder
+    private var placeholder: some View {
+        if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+            Image(uiImage: image)
+                .resizable()
         }
     }
 }
