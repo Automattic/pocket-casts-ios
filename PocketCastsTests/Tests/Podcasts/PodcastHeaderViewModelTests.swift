@@ -20,14 +20,14 @@ final class PodcastHeaderViewModelTests: XCTestCase {
     }
 
     func testTheAuthorOpensTheNetworkThePodcastBelongsTo() {
-        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(networkTint: .red)
+        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(linkTint: .red)
 
         XCTAssertEqual(text(of: line, linkedTo: .category), "Technology")
         XCTAssertEqual(text(of: line, linkedTo: .author), "Relay")
     }
 
     func testTheAuthorOfAPodcastWithoutANetworkIsPlainText() {
-        let line = viewModel(networkListId: nil).displayCategoryAndAuthor(networkTint: .red)
+        let line = viewModel(networkListId: nil).displayCategoryAndAuthor(linkTint: .red)
 
         XCTAssertEqual(String(line.characters), "Technology · Relay")
         XCTAssertNil(text(of: line, linkedTo: .author))
@@ -36,16 +36,23 @@ final class PodcastHeaderViewModelTests: XCTestCase {
     func testANetworkIsOnlyOfferedWhileTheAppShowsNetworks() {
         featureFlagMock.set(.networkDiscovery, value: false)
 
-        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(networkTint: .red)
+        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(linkTint: .red)
 
         XCTAssertNil(text(of: line, linkedTo: .author))
     }
 
-    func testTheNetworkIsDrawnInThePodcastsOwnColour() {
-        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(networkTint: .red)
+    func testTheCategoryAndTheNetworkAreDrawnInThePodcastsOwnColour() {
+        let line = viewModel(networkListId: "cdb75bc0-9f5a-4217-b1ca-f573821a7913").displayCategoryAndAuthor(linkTint: .red)
 
-        let author = line.runs.first { $0.link == PodcastHeaderLink.author.url }
-        XCTAssertEqual(author?.foregroundColor, .red)
+        XCTAssertEqual(colour(of: line, linkedTo: .category), .red)
+        XCTAssertEqual(colour(of: line, linkedTo: .author), .red)
+    }
+
+    func testOnlyTheCategoryIsColouredWhenThePodcastHasNoNetwork() {
+        let line = viewModel(networkListId: nil).displayCategoryAndAuthor(linkTint: .red)
+
+        XCTAssertEqual(colour(of: line, linkedTo: .category), .red)
+        XCTAssertEqual(line.runs.filter { $0.foregroundColor != nil }.count, 1)
     }
 
     func testALinkIsRecognisedFromItsURL() {
@@ -69,5 +76,9 @@ final class PodcastHeaderViewModelTests: XCTestCase {
         guard let run = line.runs.first(where: { $0.link == link.url }) else { return nil }
 
         return String(line[run.range].characters)
+    }
+
+    private func colour(of line: AttributedString, linkedTo link: PodcastHeaderLink) -> Color? {
+        line.runs.first { $0.link == link.url }?.foregroundColor
     }
 }

@@ -81,7 +81,7 @@ struct PodcastHeaderView: View {
     }
 
     func makeText() -> Text {
-        var output = Text(viewModel.displayCategoryAndAuthor(networkTint: networkTint))
+        var output = Text(viewModel.displayCategoryAndAuthor(linkTint: linkTint))
         if FeatureFlag.showExplicitBadges.enabled, viewModel.podcast.isExplicit {
             output = output + ExplicitBadgeHelper.inlineTitle(" ·", isExplicit: true, theme: theme.activeTheme)
         }
@@ -103,8 +103,8 @@ struct PodcastHeaderView: View {
         }
     }
 
-    /// The podcast's own colour, which is what marks the author as leading to its network.
-    private var networkTint: Color {
+    /// The podcast's own colour, which is what marks the category and the author as tappable.
+    private var linkTint: Color {
         Color(viewModel.podcast.iconTintColor(for: theme.activeTheme))
     }
 

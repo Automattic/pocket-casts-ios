@@ -85,17 +85,19 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return String(substring).lowercased()
     }
 
-    /// The category and author line, both tappable. The author is drawn in `networkTint` when it
-    /// leads somewhere — the podcast's network — and left as plain text when it doesn't.
-    func displayCategoryAndAuthor(networkTint: Color) -> AttributedString {
+    /// The category and author line. Each part that leads somewhere — the category's page in
+    /// Discover, and the podcast's network — is tappable and drawn in `linkTint`. The author is
+    /// left as plain text when the podcast has no network.
+    func displayCategoryAndAuthor(linkTint: Color) -> AttributedString {
         let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
         var result = AttributedString(category)
         result.link = PodcastHeaderLink.category.url
+        result.foregroundColor = linkTint
         if let author = podcast.author {
             var authorText = AttributedString(author)
             if networkListId != nil {
                 authorText.link = PodcastHeaderLink.author.url
-                authorText.foregroundColor = networkTint
+                authorText.foregroundColor = linkTint
             }
             result += AttributedString(" · ") + authorText
         }
