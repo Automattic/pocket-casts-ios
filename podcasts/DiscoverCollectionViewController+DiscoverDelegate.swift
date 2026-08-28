@@ -113,7 +113,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             let collectionListVC = ExpandedCollectionViewController(item: item, podcasts: podcasts)
             collectionListVC.podcastCollection = podcastCollection
             collectionListVC.registerDiscoverDelegate(self)
-            collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptive_list : CollectionCellStyle.grid
+            collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptiveList : CollectionCellStyle.grid
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
             let source = replaceRegionCode(string: item.source ?? "")
