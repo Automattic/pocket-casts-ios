@@ -43,9 +43,11 @@ class DiscoverCollectionHeader: UICollectionReusableView {
 
     @IBOutlet var subtitleLabel: UILabel! {
         didSet {
+            subtitleLabel.font = .font(ofSize: 13, weight: .bold, scalingWith: .footnote)
             subtitleLabel.adjustsFontForContentSizeCategory = true
         }
     }
+
     @IBOutlet var headerView: ThemeableView! {
         didSet {
             headerView.style = .primaryUi02
