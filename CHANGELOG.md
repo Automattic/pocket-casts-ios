@@ -1,6 +1,6 @@
 8.21
 -----
-
+- Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
 
 8.20
 -----
