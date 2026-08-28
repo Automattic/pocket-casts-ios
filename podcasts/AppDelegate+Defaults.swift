@@ -137,6 +137,12 @@ extension AppDelegate {
             Settings.setMobileDataAllowed(false)
         }
 
+        if FeatureFlag.networkDiscovery.enabled {
+            performUpdateIfRequired(updateKey: "RefreshPodcastMetadataForExplicitAndNetworkList") {
+                dataManager.clearLastUpdatedAtForAllPodcasts()
+            }
+        }
+
         defaults.synchronize()
     }
 

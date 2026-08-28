@@ -465,6 +465,12 @@ public class DataManager {
         podcastManager.setAllPodcastImageVersions(to: version, dbQueue: dbQueue)
     }
 
+    /// Clears the `If-Modified-Since` token used when refreshing podcasts from the cache server, so
+    /// the next refresh of each subscribed podcast returns the full metadata instead of a 304.
+    public func clearLastUpdatedAtForAllPodcasts() {
+        podcastManager.clearLastUpdatedAtForAllPodcasts(dbQueue: dbQueue)
+    }
+
     public func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String]) {
         podcastManager.bulkSetFolderUuid(folderUuid: folderUuid, podcastUuids: podcastUuids, dbQueue: dbQueue)
     }
