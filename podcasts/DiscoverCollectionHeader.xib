@@ -62,7 +62,7 @@
                                 <constraint firstItem="gwR-NQ-hKf" firstAttribute="trailing" secondItem="7cY-eL-Ku5" secondAttribute="trailing" id="zC0-4i-YrO"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="HIGHLIGHT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldU-3C-ZOr">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="HIGHLIGHT" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldU-3C-ZOr">
                             <rect key="frame" x="162.5" y="192" width="74.5" height="16"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <nil key="textColor"/>
@@ -146,6 +146,8 @@
                         <constraint firstItem="Oap-c4-00b" firstAttribute="centerY" secondItem="mvm-o6-mNy" secondAttribute="bottom" id="7hD-9u-ExU"/>
                         <constraint firstItem="mvm-o6-mNy" firstAttribute="top" secondItem="7eV-el-4ft" secondAttribute="top" id="9LE-R5-a6h"/>
                         <constraint firstItem="ldU-3C-ZOr" firstAttribute="centerX" secondItem="7JV-U8-0zd" secondAttribute="centerX" id="BBM-H9-kXx"/>
+                        <constraint firstItem="ldU-3C-ZOr" firstAttribute="leading" secondItem="7JV-U8-0zd" secondAttribute="leading" constant="16" id="Bqh-Nz-7tE"/>
+                        <constraint firstItem="ldU-3C-ZOr" firstAttribute="trailing" secondItem="7JV-U8-0zd" secondAttribute="trailing" constant="-16" id="Cvr-Kd-9pS"/>
                         <constraint firstItem="e6f-hB-C8a" firstAttribute="leading" secondItem="7JV-U8-0zd" secondAttribute="leading" constant="20" symbolic="YES" id="D2m-YL-tqn"/>
                         <constraint firstItem="7eV-el-4ft" firstAttribute="top" secondItem="7JV-U8-0zd" secondAttribute="top" id="Lei-T2-pmK"/>
                         <constraint firstItem="yYb-i1-leb" firstAttribute="trailing" secondItem="7eV-el-4ft" secondAttribute="trailing" id="RJJ-ct-HwH"/>
