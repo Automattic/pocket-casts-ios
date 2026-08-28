@@ -37,7 +37,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             }
             .searchScopes($model.scope) {
                 if model.isInSearchMode {
-                    ForEach(SearchScope.allCases, id: \.self) { scope in
+                    ForEach(model.availableScopes, id: \.self) { scope in
                         Text(" \(scope.localizedName) ")
                             .tag(scope)
                     }
