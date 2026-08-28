@@ -179,3 +179,22 @@ private extension NetworkListSummary {
         [title, description].compactMap { $0 }.joined(separator: ", ")
     }
 }
+
+#if DEBUG
+
+#Preview("Networks Row") {
+    let model = NetworksListModel()
+    model.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.networkCollection(title: "Networks")
+    )
+    model.populateFrom(item: DiscoverPreviewData.item(.networksList, title: "Networks"), region: "us", category: nil)
+
+    return VStack(spacing: 0) {
+        NetworksListRowView(model: model)
+        Spacer(minLength: 0)
+    }
+    .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
+    .environmentObject(Theme.sharedTheme)
+}
+
+#endif
