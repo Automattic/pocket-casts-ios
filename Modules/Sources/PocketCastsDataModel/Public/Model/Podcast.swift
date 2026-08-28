@@ -60,6 +60,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var isPrivate = false
     @objc public var isExplicit = false
     @objc public var fundingURL: String?
+    @objc public var networkListId: String?
 
     @GRDBIgnore
     public var settings = PodcastSettings.defaults
@@ -72,10 +73,6 @@ public class Podcast: NSObject, Identifiable {
     // UUID will be updated
     @GRDBIgnore
     public var forceRefreshEpisodeFrom: String? = nil
-
-    // transient not saved to database
-    @GRDBIgnore
-    public var networkList: PodcastNetworkList? = nil
 
     override public init() {}
 

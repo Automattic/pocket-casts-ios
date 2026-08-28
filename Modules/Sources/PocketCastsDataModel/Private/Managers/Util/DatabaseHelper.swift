@@ -942,6 +942,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 77 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN networkListId TEXT;", values: nil)
+                schemaVersion = 77
+            } catch {
+                failedAt(77)
+                return
+            }
+        }
+
         db.commit()
     }
 }

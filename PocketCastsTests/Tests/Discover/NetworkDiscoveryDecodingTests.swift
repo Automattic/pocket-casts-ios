@@ -72,26 +72,24 @@ final class NetworkDiscoveryDecodingTests: XCTestCase {
 
     // MARK: - network_list
 
-    func testDecodesNetworkList() throws {
-        let networkList = try XCTUnwrap(PodcastNetworkList(json: [
+    func testDecodesNetworkListId() {
+        let podcastJson: [String: Any] = ["network_list": [
             "list_id": "network-news",
             "source": "https://lists.pocketcasts.com/network-news.json"
-        ]))
+        ]]
 
-        XCTAssertEqual(networkList.listId, "network-news")
-        XCTAssertEqual(networkList.source, "https://lists.pocketcasts.com/network-news.json")
+        XCTAssertEqual(Podcast.networkListId(fromPodcastJson: podcastJson), "network-news")
     }
 
-    func testDerivesNetworkListSourceFromListId() throws {
-        let networkList = try XCTUnwrap(PodcastNetworkList(json: ["list_id": "network-news"]))
-
-        XCTAssertEqual(networkList.source, "\(ServerConstants.Urls.lists())network-news.json")
+    func testDecodesNetworkListIdWithoutSource() {
+        XCTAssertEqual(Podcast.networkListId(fromPodcastJson: ["network_list": ["list_id": "network-news"]]), "network-news")
     }
 
-    func testDecodesAbsentNetworkList() {
-        XCTAssertNil(PodcastNetworkList(json: nil))
-        XCTAssertNil(PodcastNetworkList(json: [:]))
-        XCTAssertNil(PodcastNetworkList(json: ["list_id": ""]))
+    func testDecodesAbsentNetworkListId() {
+        XCTAssertNil(Podcast.networkListId(fromPodcastJson: [:]))
+        XCTAssertNil(Podcast.networkListId(fromPodcastJson: ["network_list": "network-news"]))
+        XCTAssertNil(Podcast.networkListId(fromPodcastJson: ["network_list": [:]]))
+        XCTAssertNil(Podcast.networkListId(fromPodcastJson: ["network_list": ["list_id": ""]]))
     }
 
     // MARK: - Helpers
