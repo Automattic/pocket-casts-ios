@@ -1402,6 +1402,7 @@
 		FFA1000000000000000011AA /* DiscoverNetworksListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000001AA /* DiscoverNetworksListRowView.swift */; };
 		FFA1000000000000000012AA /* DiscoverNetworksListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000002AA /* DiscoverNetworksListModel.swift */; };
 		FFA1000000000000000013AA /* DiscoverNetworksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000003AA /* DiscoverNetworksListViewController.swift */; };
+		FFA1000000000000000014AA /* NetworkNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA1000000000000000004AA /* NetworkNavigator.swift */; };
 		FFB74B0F2E993A8C00F16857 /* end_of_year_2025_intro.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */; };
 		FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FFE4107F2FBB5FED00716EAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -2741,6 +2742,7 @@
 		FFA1000000000000000001AA /* DiscoverNetworksListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverNetworksListRowView.swift; sourceTree = "<group>"; };
 		FFA1000000000000000002AA /* DiscoverNetworksListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverNetworksListModel.swift; sourceTree = "<group>"; };
 		FFA1000000000000000003AA /* DiscoverNetworksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverNetworksListViewController.swift; sourceTree = "<group>"; };
+		FFA1000000000000000004AA /* NetworkNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkNavigator.swift; sourceTree = "<group>"; };
 		FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = end_of_year_2025_intro.json; sourceTree = "<group>"; };
 		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
 		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
@@ -4226,6 +4228,7 @@
 				FFA1000000000000000001AA /* DiscoverNetworksListRowView.swift */,
 				FFA1000000000000000002AA /* DiscoverNetworksListModel.swift */,
 				FFA1000000000000000003AA /* DiscoverNetworksListViewController.swift */,
+				FFA1000000000000000004AA /* NetworkNavigator.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -7439,6 +7442,7 @@
 				FFA1000000000000000011AA /* DiscoverNetworksListRowView.swift in Sources */,
 				FFA1000000000000000012AA /* DiscoverNetworksListModel.swift in Sources */,
 				FFA1000000000000000013AA /* DiscoverNetworksListViewController.swift in Sources */,
+				FFA1000000000000000014AA /* NetworkNavigator.swift in Sources */,
 				BDEBD3A91BA0108800AD038F /* BufferedAudio.swift in Sources */,
 				402772D721B6105D00769811 /* PodcastManager+Delete.swift in Sources */,
 				FF5381B12C91C6EF00829525 /* ReferralsOfferInfo.swift in Sources */,

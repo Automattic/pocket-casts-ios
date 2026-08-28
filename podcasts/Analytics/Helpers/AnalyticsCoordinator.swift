@@ -41,6 +41,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case playerPlaybackEffects = "player_playback_effects"
     case playerSkipForwardLongPress = "player_skip_forward_long_press"
     case podcastScreen = "podcast_screen"
+    case podcastScreenNetwork = "podcast_screen_network"
     case podcastScreenYouMightLike = "podcast_screen_you_might_like"
     case podcastSettings = "podcast_settings"
     case podcastsList = "podcasts_list"

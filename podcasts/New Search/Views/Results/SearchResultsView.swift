@@ -235,7 +235,7 @@ struct SearchResultsView_Previews: PreviewProvider {
         .setupDefaultEnvironment()
         .environmentObject(searchResults)
         .environmentObject(SearchAnalyticsHelper(source: .discover))
-        .environmentObject(SearchNetworkNavigator(source: .discover))
+        .environmentObject(NetworkNavigator(source: .discover))
         .environmentObject(SearchHistoryModel.shared)
 }
 

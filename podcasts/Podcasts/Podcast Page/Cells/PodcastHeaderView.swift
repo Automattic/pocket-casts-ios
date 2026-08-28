@@ -81,12 +81,13 @@ struct PodcastHeaderView: View {
     }
 
     func makeText() -> Text {
-        var output = Text(viewModel.displayCategoryAndAuthor)
+        var output = Text(viewModel.displayCategoryAndAuthor(networkTint: networkTint))
         if FeatureFlag.showExplicitBadges.enabled, viewModel.podcast.isExplicit {
             output = output + ExplicitBadgeHelper.inlineTitle(" ·", isExplicit: true, theme: theme.activeTheme)
         }
         return output
     }
+
     private var podcastCategory: some View {
         VStack {
                 makeText()
@@ -95,11 +96,16 @@ struct PodcastHeaderView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(theme.primaryText01)
             .tint(theme.primaryText01)
-            .environment(\.openURL, OpenURLAction { _ in
-                viewModel.categoryTapped()
+            .environment(\.openURL, OpenURLAction { url in
+                viewModel.headerLinkTapped(url)
                 return .handled
             })
         }
+    }
+
+    /// The podcast's own colour, which is what marks the author as leading to its network.
+    private var networkTint: Color {
+        Color(viewModel.podcast.iconTintColor(for: theme.activeTheme))
     }
 
     var topMarginForTitle: CGFloat {
@@ -345,16 +351,23 @@ struct PodcastHeaderView_Previews: PreviewProvider {
             podcast.estimatedNextEpisode = Date.now
             podcast.podcastHTMLDescription = "<p>Test description</p>"
             podcast.fundingURL = "https://www.pocketcasts.com"
+            podcast.networkListId = "cdb75bc0-9f5a-4217-b1ca-f573821a7913"
             return podcast
+        }
+
+        /// Expanded, which is the only state that shows the category and author line.
+        static func makeViewModel() -> PodcastHeaderViewModel {
+            let viewModel = PodcastHeaderViewModel(podcast: makePodcast())
+            viewModel.isExpanded = true
+            return viewModel
         }
 
         var body: some View {
             VStack() {
-                PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Self.makePodcast()))
+                PodcastHeaderView(viewModel: Self.makeViewModel())
                 Spacer()
             }
             .background(theme.primaryUi02)
-            .frame(maxHeight: 400)
         }
     }
     static var previews: some View {

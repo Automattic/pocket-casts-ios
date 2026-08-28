@@ -89,6 +89,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.usedCustomEffectsBefore, original.usedCustomEffectsBefore, "\(implementationName): usedCustomEffectsBefore should match")
             XCTAssertEqual(loaded.isPrivate, original.isPrivate, "\(implementationName): isPrivate should match")
             XCTAssertEqual(loaded.fundingURL, original.fundingURL, "\(implementationName): fundingURL should match")
+            XCTAssertEqual(loaded.networkListId, original.networkListId, "\(implementationName): networkListId should match")
             // Color fields
             XCTAssertEqual(loaded.backgroundColor, original.backgroundColor, "\(implementationName): backgroundColor should match")
             XCTAssertEqual(loaded.detailColor, original.detailColor, "\(implementationName): detailColor should match")
@@ -198,6 +199,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         podcast.usedCustomEffectsBefore = true
         podcast.isPrivate = false
         podcast.fundingURL = "https://example.com/support"
+        podcast.networkListId = "cdb75bc0-9f5a-4217-b1ca-f573821a7913"
         // Color fields
         podcast.backgroundColor = "#FFFFFF"
         podcast.detailColor = "#000000"
