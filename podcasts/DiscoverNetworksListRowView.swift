@@ -2,9 +2,9 @@ import PocketCastsServer
 import SwiftUI
 
 /// The Discover row for a `lists_list` item: the networks it contains, side by side.
-struct NetworksListRowView: View {
+struct DiscoverNetworksListRowView: View {
 
-    @ObservedObject var model: NetworksListModel
+    @ObservedObject var model: DiscoverNetworksListModel
 
     @EnvironmentObject var theme: Theme
 
@@ -52,7 +52,7 @@ struct NetworksListRowView: View {
                         Button {
                             model.show(network: network)
                         } label: {
-                            NetworkCard(network: network, size: adjustedCardSize)
+                            DiscoverNetworkCard(network: network, size: adjustedCardSize)
                         }
                         .buttonStyle(.plain)
                         .id(index)
@@ -81,7 +81,7 @@ struct NetworksListRowView: View {
 }
 
 /// A network in the Discover row: round artwork above its name and description.
-struct NetworkCard: View {
+struct DiscoverNetworkCard: View {
 
     let network: NetworkListSummary
 
@@ -92,7 +92,7 @@ struct NetworkCard: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            NetworkArtwork(network: network, size: size)
+            DiscoverNetworkArtwork(network: network, size: size)
                 .clipShape(.circle)
             VStack(spacing: 2) {
                 if let title = network.title {
@@ -119,7 +119,7 @@ struct NetworkCard: View {
 }
 
 /// A network as a poster: its artwork, with the name and description read out by VoiceOver.
-struct NetworkPoster: View {
+struct DiscoverNetworkPoster: View {
 
     let network: NetworkListSummary
 
@@ -127,7 +127,7 @@ struct NetworkPoster: View {
     var size: CGFloat?
 
     var body: some View {
-        NetworkArtwork(network: network, size: size)
+        DiscoverNetworkArtwork(network: network, size: size)
             .cornerRadius(4)
             .accessibilityElement()
             .accessibilityLabel(network.accessibilityLabel)
@@ -136,7 +136,7 @@ struct NetworkPoster: View {
 }
 
 /// A network's artwork, falling back to the grid placeholder while it loads or when there is none.
-private struct NetworkArtwork: View {
+private struct DiscoverNetworkArtwork: View {
 
     let network: NetworkListSummary
 
@@ -183,14 +183,14 @@ private extension NetworkListSummary {
 #if DEBUG
 
 #Preview("Networks Row") {
-    let model = NetworksListModel()
+    let model = DiscoverNetworksListModel()
     model.serverHandler = PreviewDiscoverServerHandler(
         podcastCollection: DiscoverPreviewData.networkCollection(title: "Networks")
     )
     model.populateFrom(item: DiscoverPreviewData.item(.networksList, title: "Networks"), region: "us", category: nil)
 
     return VStack(spacing: 0) {
-        NetworksListRowView(model: model)
+        DiscoverNetworksListRowView(model: model)
         Spacer(minLength: 0)
     }
     .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))

@@ -88,7 +88,7 @@ enum DiscoverCellType: CaseIterable {
         case .largeListWithPodcast:
             LargeListSummaryViewController()
         case .networksList:
-            NetworksListViewController()
+            DiscoverNetworksListViewController()
         }
     }
 

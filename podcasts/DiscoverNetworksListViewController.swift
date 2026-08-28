@@ -1,9 +1,9 @@
 import PocketCastsServer
 import UIKit
 
-class NetworksListViewController: ThemedHostingController<NetworksListRowView>, DiscoverSummaryProtocol {
+class DiscoverNetworksListViewController: ThemedHostingController<DiscoverNetworksListRowView>, DiscoverSummaryProtocol {
 
-    let model: NetworksListModel
+    let model: DiscoverNetworksListModel
 
     var serverHandler: DiscoverServerHandling {
         get { model.serverHandler }
@@ -11,8 +11,8 @@ class NetworksListViewController: ThemedHostingController<NetworksListRowView>, 
     }
 
     init() {
-        model = NetworksListModel()
-        super.init(rootView: NetworksListRowView(model: model))
+        model = DiscoverNetworksListModel()
+        super.init(rootView: DiscoverNetworksListRowView(model: model))
     }
 
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {
@@ -42,7 +42,7 @@ class NetworksListViewController: ThemedHostingController<NetworksListRowView>, 
 import SwiftUI
 
 #Preview("Networks") {
-    let section = NetworksListViewController()
+    let section = DiscoverNetworksListViewController()
     section.serverHandler = PreviewDiscoverServerHandler(
         podcastCollection: DiscoverPreviewData.networkCollection(title: "Networks")
     )

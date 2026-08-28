@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsServer
 
 /// Backs the `lists_list` Discover row: a collection whose entries are podcast lists, one per network.
-class NetworksListModel: ObservableObject {
+class DiscoverNetworksListModel: ObservableObject {
     @Published private(set) var networks: [NetworkListSummary] = []
 
     private(set) var item: DiscoverItem?
