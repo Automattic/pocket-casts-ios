@@ -219,6 +219,9 @@ class SearchViewModel: SearchableViewModel {
                         }
                     case .episode(let episode):
                         episodes.append(episode)
+                    case .network:
+                        // tvOS has no network surfaces yet.
+                        continue
                     }
                 }
 

@@ -101,7 +101,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         .simultaneousGesture(TapGesture().onEnded {
                             SearchAnalytics.podcastTapped(podcast)
                         })
-                    case .episode:
+                    case .episode, .network:
                         EmptyView()
                     }
                 }
