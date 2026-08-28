@@ -80,7 +80,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     /// Opens the network the podcast belongs to, tapped in the header.
     private lazy var networkNavigator: NetworkNavigator = {
-        let navigator = NetworkNavigator(source: .podcastScreen)
+        let navigator = NetworkNavigator(source: .podcastScreenNetwork)
         navigator.presenter = self
         return navigator
     }()
