@@ -15,23 +15,34 @@ final class SearchNetworkNavigator: ObservableObject {
     private let source: AnalyticsSource
     private let serverHandler: DiscoverServerHandling
 
+    private var pendingNetwork: NetworkSearchResult?
+
     init(source: AnalyticsSource, serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared) {
         self.source = source
         self.serverHandler = serverHandler
     }
 
     func show(_ network: NetworkSearchResult) {
+        guard pendingNetwork != network else { return }
+
+        pendingNetwork = network
         serverHandler.discoverPodcastCollection(source: network.source, authenticated: nil) { [weak self] collection in
             DispatchQueue.main.async {
-                guard let self, let collection else { return }
+                guard let self, self.pendingNetwork == network else { return }
 
-                self.push(collection, for: network)
+                self.pendingNetwork = nil
+                self.show(collection, for: network)
             }
         }
     }
 
-    private func push(_ collection: PodcastCollection, for network: NetworkSearchResult) {
-        guard let navigationController = presenter?.navigationController else { return }
+    private func show(_ collection: PodcastCollection?, for network: NetworkSearchResult) {
+        guard let presenter, presenter.viewIfLoaded?.window != nil, let navigationController = presenter.navigationController else { return }
+
+        guard let collection else {
+            Toast.show(L10n.searchNetworkFailToLoad)
+            return
+        }
 
         let controller = ExpandedCollectionViewController(item: discoverItem(for: network), podcasts: collection.podcasts ?? [])
         controller.podcastCollection = collection

@@ -13,7 +13,7 @@ public struct NetworkSearchResult: Hashable {
     /// Search returns no source of its own, so it is built the way the Discover feed spells it:
     /// the network's list, by uuid.
     public var source: String {
-        "\(ServerConstants.Urls.lists())\(uuid).json"
+        ServerHelper.listUrlString(listId: uuid)
     }
 
     public init(uuid: String, title: String, description: String? = nil, collectionImage: String? = nil, podcastCount: Int? = nil) {

@@ -1,7 +1,7 @@
 import Foundation
 
 struct CombinedSearchEnvelope: Decodable {
-    public let results: [CombinedSearchResult]
+    @LossyDecodedArray public var results: [CombinedSearchResult]
 }
 
 public enum CombinedSearchResultType: Hashable {

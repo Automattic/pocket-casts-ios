@@ -33,6 +33,10 @@ final class CombinedSearchNetworkTests: XCTestCase {
           "uuid": "3f7b2c10-0000-0000-0000-000000000000",
           "title": "Something new",
           "type": "future_type"
+        },
+        {
+          "id": 42,
+          "type": "future_type_keyed_differently"
         }
       ]
     }
@@ -46,7 +50,7 @@ final class CombinedSearchNetworkTests: XCTestCase {
     func testDecodesNetworkAlongsideOtherResults() throws {
         let results = try results()
 
-        XCTAssertEqual(results.count, 2, "The unsupported type is dropped rather than failing the whole response")
+        XCTAssertEqual(results.count, 2, "The unsupported types are dropped rather than failing the whole response")
 
         guard case .podcast(let podcast) = results[0] else {
             XCTFail("Expected the first result to stay a podcast, got \(results[0])")
@@ -74,6 +78,14 @@ final class CombinedSearchNetworkTests: XCTestCase {
             return
         }
         XCTAssertEqual(network.source, "\(ServerConstants.Urls.lists())c73d120f-c174-4324-b0a3-18f9b239a59d.json")
+    }
+
+    /// A result type the app has never seen can be keyed however the server likes: it has to be
+    /// dropped on its own rather than taking the results around it down with it.
+    func testResultThatFailsToDecodeDoesNotFailTheWholeResponse() throws {
+        let envelope = try CombinedSearchTask.decoder.decode(CombinedSearchEnvelope.self, from: Data(json.utf8))
+
+        XCTAssertEqual(envelope.results.map(\.type), ["podcast", "network", "future_type"])
     }
 
     func testNonNetworkResultDoesNotBecomeANetwork() throws {
