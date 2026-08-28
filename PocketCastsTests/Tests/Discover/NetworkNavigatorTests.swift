@@ -5,43 +5,46 @@ import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
 
-/// Opening a network tapped in search: one screen per tap, and nothing for a tap the user moved on from.
-final class SearchNetworkNavigatorTests: XCTestCase {
+/// Opening a network: one screen per tap, and nothing for a tap the user moved on from.
+final class NetworkNavigatorTests: XCTestCase {
     private var window: UIWindow!
     private var navigationController: RecordingNavigationController!
-    private var searchHost: UIViewController!
+    private var host: UIViewController!
     private var presenter: UIViewController!
     private var serverHandler: MockDiscoverServerHandler!
-    private var navigator: SearchNetworkNavigator!
+    private var navigator: NetworkNavigator!
 
-    private let network = NetworkSearchResult(uuid: "c73d120f-c174-4324-b0a3-18f9b239a59d", title: "WNYC")
-    private let otherNetwork = NetworkSearchResult(uuid: "cdb75bc0-9f5a-4217-b1ca-f573821a7913", title: "Relay")
+    private let listId = "c73d120f-c174-4324-b0a3-18f9b239a59d"
+    private let otherListId = "cdb75bc0-9f5a-4217-b1ca-f573821a7913"
+
+    private var source: String { ServerHelper.listUrlString(listId: listId) }
+    private var otherSource: String { ServerHelper.listUrlString(listId: otherListId) }
 
     override func setUp() {
         super.setUp()
 
-        // Search results are a child of the screen showing them, the way Discover and the podcast
-        // list present them, so the stack they push onto is the host's.
-        searchHost = UIViewController()
+        // The screen asking for a network can be a child of the one on the stack — search is,
+        // presented by Discover and by the podcast list — so the stack pushed onto is the host's.
+        host = UIViewController()
         navigationController = RecordingNavigationController()
-        navigationController.setViewControllers([searchHost], animated: false)
+        navigationController.setViewControllers([host], animated: false)
 
         presenter = UIViewController()
-        searchHost.addChild(presenter)
-        searchHost.view.addSubview(presenter.view)
-        presenter.didMove(toParent: searchHost)
+        host.addChild(presenter)
+        host.view.addSubview(presenter.view)
+        presenter.didMove(toParent: host)
 
-        // Results on screen: the navigator only pushes while its view is in a window, and the
-        // stack only puts its top screen's view there when it lays out.
+        // The asking screen on screen: the navigator only pushes while its view is in a window,
+        // and the stack only puts its top screen's view there when it lays out.
         window = UIWindow(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         window.layoutIfNeeded()
 
-        XCTAssertNotNil(presenter.viewIfLoaded?.window, "The results have to start on screen for any of this to be about the navigator")
+        XCTAssertNotNil(presenter.viewIfLoaded?.window, "The screen has to start on screen for any of this to be about the navigator")
 
         serverHandler = MockDiscoverServerHandler()
-        navigator = SearchNetworkNavigator(source: .discover, serverHandler: serverHandler)
+        navigator = NetworkNavigator(source: .discover, serverHandler: serverHandler)
         navigator.presenter = presenter
     }
 
@@ -50,7 +53,7 @@ final class SearchNetworkNavigatorTests: XCTestCase {
         window.isHidden = true
         window = nil
         navigationController = nil
-        searchHost = nil
+        host = nil
         presenter = nil
         navigator = nil
         serverHandler = nil
@@ -59,22 +62,22 @@ final class SearchNetworkNavigatorTests: XCTestCase {
     }
 
     func testShowsTheNetworksList() throws {
-        navigator.show(network)
+        navigator.show(listId: listId)
         serverHandler.complete(at: 0, with: collection())
         drainMainQueue()
 
         let pushed = try XCTUnwrap(navigationController.pushedViewControllers.first as? ExpandedCollectionViewController)
         XCTAssertEqual(navigationController.pushedViewControllers.count, 1)
-        XCTAssertEqual(serverHandler.requestedSources, [network.source])
-        XCTAssertEqual(pushed.item.uuid, network.uuid)
+        XCTAssertEqual(serverHandler.requestedSources, [source])
+        XCTAssertEqual(pushed.item.uuid, listId)
         XCTAssertEqual(pushed.item.expandedStyle, "grid")
     }
 
     func testTappingTheSameNetworkTwiceLoadsAndShowsItOnce() {
-        navigator.show(network)
-        navigator.show(network)
+        navigator.show(listId: listId)
+        navigator.show(listId: listId)
 
-        XCTAssertEqual(serverHandler.requestedSources, [network.source], "The second tap joins the request already in flight")
+        XCTAssertEqual(serverHandler.requestedSources, [source], "The second tap joins the request already in flight")
 
         serverHandler.complete(at: 0, with: collection())
         drainMainQueue()
@@ -83,8 +86,10 @@ final class SearchNetworkNavigatorTests: XCTestCase {
     }
 
     func testASupersededNetworkIsNotShown() throws {
-        navigator.show(network)
-        navigator.show(otherNetwork)
+        navigator.show(listId: listId)
+        navigator.show(listId: otherListId)
+
+        XCTAssertEqual(serverHandler.requestedSources, [source, otherSource])
 
         serverHandler.complete(at: 0, with: collection())
         drainMainQueue()
@@ -96,11 +101,11 @@ final class SearchNetworkNavigatorTests: XCTestCase {
 
         let pushed = try XCTUnwrap(navigationController.pushedViewControllers.first as? ExpandedCollectionViewController)
         XCTAssertEqual(navigationController.pushedViewControllers.count, 1)
-        XCTAssertEqual(pushed.item.uuid, otherNetwork.uuid)
+        XCTAssertEqual(pushed.item.uuid, otherListId)
     }
 
-    func testNothingIsShownOnceSearchHasGoneAway() {
-        navigator.show(network)
+    func testNothingIsShownOnceTheScreenHasGoneAway() {
+        navigator.show(listId: listId)
 
         // Dismissing search takes its view off screen, as does pushing another screen over it.
         presenter.view.removeFromSuperview()
@@ -112,15 +117,15 @@ final class SearchNetworkNavigatorTests: XCTestCase {
     }
 
     func testAFailedLoadCanBeTappedAgain() {
-        navigator.show(network)
+        navigator.show(listId: listId)
         serverHandler.complete(at: 0, with: nil)
         drainMainQueue()
 
         XCTAssertTrue(navigationController.pushedViewControllers.isEmpty)
 
-        navigator.show(network)
+        navigator.show(listId: listId)
 
-        XCTAssertEqual(serverHandler.requestedSources, [network.source, network.source])
+        XCTAssertEqual(serverHandler.requestedSources, [source, source])
 
         serverHandler.complete(at: 1, with: collection())
         drainMainQueue()
@@ -128,10 +133,30 @@ final class SearchNetworkNavigatorTests: XCTestCase {
         XCTAssertEqual(navigationController.pushedViewControllers.count, 1)
     }
 
+    func testACallerThatKnowsTheNetworksNameUsesIt() throws {
+        navigator.show(listId: listId, title: "WNYC")
+        serverHandler.complete(at: 0, with: collection(title: "WNYC Studios"))
+        drainMainQueue()
+
+        let pushed = try XCTUnwrap(navigationController.pushedViewControllers.first as? ExpandedCollectionViewController)
+        XCTAssertEqual(pushed.item.title, "WNYC")
+    }
+
+    func testANetworkNamesItselfForACallerThatDoesnt() throws {
+        navigator.show(listId: listId)
+        serverHandler.complete(at: 0, with: collection(title: "WNYC Studios"))
+        drainMainQueue()
+
+        let pushed = try XCTUnwrap(navigationController.pushedViewControllers.first as? ExpandedCollectionViewController)
+        XCTAssertEqual(pushed.item.title, "WNYC Studios")
+    }
+
     // MARK: - Helpers
 
-    private func collection() -> PodcastCollection {
-        try! JSONDecoder().decode(PodcastCollection.self, from: Data(#"{"podcasts": []}"#.utf8))
+    private func collection(title: String? = nil) -> PodcastCollection {
+        var collection = try! JSONDecoder().decode(PodcastCollection.self, from: Data(#"{"podcasts": []}"#.utf8))
+        collection.title = title
+        return collection
     }
 
     /// Waits for the work the navigator hops to the main queue, which runs after the test's own turn.
