@@ -896,8 +896,6 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Nedladdade filer</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Är du säker på att du vill ta bort dessa nedladdade filer?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Om du säger upp prenumerationen tas alla nedladdade filer för den här podcasten bort. Är du säker?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Om du slutar följa den här podcasten tas alla nedladdade filer för den bort. Är du säker?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att 
 4. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
     <key>import_opml_from_url</key>
     <string>Importera dina podcasts från en OPML-fil med hjälp av en URL</string>
-    <key>import_podcasts_description</key>
-    <string>Du kan importera alla dina prenumerationer till Pocket Casts via en OPML-fil som i stor utsträckning stöds av många podcast applikationer. Exportera filen från din andra app och välj Öppna i Pocket Casts.
-
-Observera: Du kan behöva skicka OPML-filen till dig själv via ett mejl, långtryck sedan på bilagan och välja Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Du kan importera dina podcasts till Pocket Casts med hjälp av OPML-formatet, som stöds i stor utsträckning. Exportera filen från den andra appen och välj Öppna i Pocket Casts.
 
@@ -1731,8 +1725,6 @@ podcasts med dig</string>
     <string>Hörlursinställningar</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Hämta bokmärken</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Du kan spara tidsstämplar för viktiga ögonblick i ett avsnitt.</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Rensa 1 avsnitt</string>
-    <key>queue_clear_queue</key>
-    <string>RENSA KÖ</string>
     <key>queue_for_later</key>
     <string>Lägg till i kön för senare uppspelning</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Uppladdat</string>
     <key>stop_download</key>
     <string>Stoppa nedladdning</string>
-    <key>subscribe</key>
-    <string>Prenumerera</string>
     <key>subscribe_all</key>
     <string>Prenumerera på alla</string>
-    <key>subscribed</key>
-    <string>Prenumenerad</string>
     <key>subscription_cancelled</key>
     <string>Prenumeration avbruten</string>
     <key>subscription_cancelled_msg</key>

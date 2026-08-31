@@ -896,8 +896,6 @@ Pocket Casts Plus</string>
     <string>ダウンロード済みファイル</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>これらのダウンロードされたファイルを削除してもよろしいですか ?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>フォローを解除すると、このポッドキャストのダウンロード済みファイルは削除されます。よろしいですか ?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>フォローを解除すると、このポッドキャストのダウンロード済みファイルはすべて削除されます。よろしいですか ?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Pocket Casts を最大限に活用しましょう。</string>
 4. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
     <key>import_opml_from_url</key>
     <string>URL を使用して OPML ファイルからポッドキャストをインポートします</string>
-    <key>import_podcasts_description</key>
-    <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストのサブスクリプションを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
-
-注意: 自分宛てに OPML ファイルをメールで送信し、添付ファイルを長押しして Pocket Casts を選択する必要がある場合があります。</string>
     <key>import_podcasts_description_new</key>
     <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
 
@@ -1731,8 +1725,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ヘッドフォン設定</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>ブックマークを取得</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>エピソード中の大切な瞬間のタイムスタンプを保存できます。</string>
     <key>no_bookmarks_message</key>
     <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1件のエピソードをクリア</string>
-    <key>queue_clear_queue</key>
-    <string>待機リストをクリア</string>
     <key>queue_for_later</key>
     <string>待機リストに追加して後で使用</string>
     <key>queue_now_playing_accessibility</key>
@@ -3761,12 +3751,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アップロード済み</string>
     <key>stop_download</key>
     <string>ダウンロードを停止</string>
-    <key>subscribe</key>
-    <string>フォロー</string>
     <key>subscribe_all</key>
     <string>すべてをフォロー</string>
-    <key>subscribed</key>
-    <string>フォロー済み</string>
     <key>subscription_cancelled</key>
     <string>サブスクリプションをキャンセル済み</string>
     <key>subscription_cancelled_msg</key>
