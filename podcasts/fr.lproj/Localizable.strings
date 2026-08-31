@@ -896,8 +896,6 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>Fichiers téléchargés</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Voulez-vous vraiment supprimer ces fichiers téléchargés ?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Le désabonnement supprimera tous les fichiers téléchargés dans ce podcast, confirmez-vous ?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Le désabonnement supprimera tous les fichiers téléchargés dans ce podcast, confirmez-vous ?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une
 4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
     <key>import_opml_from_url</key>
     <string>Importez vos podcasts à partir d’un fichier OPML en utilisant une URL.</string>
-    <key>import_podcasts_description</key>
-    <string>Vous pouvez importer vos abonnements à des podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
-
-Remarque : vous devrez peut-être vous envoyer le fichier OPML par e-mail, appuyer longuement sur la pièce jointe et sélectionner Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Vous pouvez importer vos podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
 
@@ -1731,8 +1725,6 @@ podcasts partout avec</string>
     <string>Réglages des écouteurs</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Mettre des signets</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Vous pouvez enregistrer les horodatages des moments importants d’un épisode.</string>
     <key>no_bookmarks_message</key>
     <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Supprimer %1$@ épisodes</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Effacer 1 épisode</string>
-    <key>queue_clear_queue</key>
-    <string>SUPPRIMER LA FILE D’ATTENTE</string>
     <key>queue_for_later</key>
     <string>Ajouter plus tard à la file d’attente</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Chargé</string>
     <key>stop_download</key>
     <string>Arrêter le téléchargement</string>
-    <key>subscribe</key>
-    <string>S’abonner</string>
     <key>subscribe_all</key>
     <string>S’abonner à tous les podcasts</string>
-    <key>subscribed</key>
-    <string>Abonné</string>
     <key>subscription_cancelled</key>
     <string>Abonnement annulé</string>
     <key>subscription_cancelled_msg</key>

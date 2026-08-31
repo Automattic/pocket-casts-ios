@@ -896,8 +896,6 @@ Pocket Casts Plus</string>
     <string>Скачанные файлы</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Вы уверены, что хотите удалить загруженные файлы?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>При отмене подписки все скачанные файлы этого подкаста будут удалены, продолжить?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>При отмене подписки все скачанные файлы этого подкаста будут удалены. Продолжить?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Pocket Casts на полную мощность.</string>
 4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
     <key>import_opml_from_url</key>
     <string>Импортируйте подкасты из файла OPML с помощью URL-адреса</string>
-    <key>import_podcasts_description</key>
-    <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
-
-Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Вы можете импортировать свои подкасты в Pocket Casts, воспользовавшись распространённым форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
@@ -1731,8 +1725,6 @@ Pocket Casts на полную мощность.</string>
     <string>Настройки наушников</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Пользуйтесь закладками</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Вы можете сохранять отметки времени важных моментов выпуска.</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Pocket Casts на полную мощность.</string>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Удалить 1 выпуск</string>
-    <key>queue_clear_queue</key>
-    <string>ОЧИСТИТЬ ОЧЕРЕДЬ</string>
     <key>queue_for_later</key>
     <string>Отложить</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Pocket Casts на полную мощность.</string>
     <string>Загружено</string>
     <key>stop_download</key>
     <string>Остановить скачивание</string>
-    <key>subscribe</key>
-    <string>Подписаться</string>
     <key>subscribe_all</key>
     <string>Подписаться на все</string>
-    <key>subscribed</key>
-    <string>Подписано</string>
     <key>subscription_cancelled</key>
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>

@@ -896,8 +896,6 @@ Pocket Casts Plus</string>
     <string>已下載的檔案</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>確定要刪除這些已下載的檔案嗎？</string>
-    <key>downloaded_files_conf_message</key>
-    <string>取消訂閱將刪除此 Podcast 節目中包含的所有已下載檔案，你確定嗎？</string>
     <key>downloaded_files_conf_message_new</key>
     <string>若你取消追蹤，系統會將此 Podcast 節目包含的所有已下載檔案刪除，你確定要繼續嗎？</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Pocket Casts Plus</string>
 4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
     <key>import_opml_from_url</key>
     <string>使用 URL 從 OPML 檔案匯入你的 Podcast</string>
-    <key>import_podcasts_description</key>
-    <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
-
-注意：你可能需將 OPML 檔案以電子郵件傳送給自己 (長按附件並選取 Pocket Casts)。</string>
     <key>import_podcasts_description_new</key>
     <string>你可以使用獲得廣泛支援的 OPML 格式，將你的 Podcast 匯入 Pocket Casts。 從另一個應用程式匯出檔案，並選擇在 Pocket Casts 開啟。
 
@@ -1731,8 +1725,6 @@ Pocket Casts Plus</string>
     <string>耳機設定</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>取得書籤</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>你可以儲存單集中重要時刻的時間戳記。</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Pocket Casts Plus</string>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>清除 1 集</string>
-    <key>queue_clear_queue</key>
-    <string>清除佇列</string>
     <key>queue_for_later</key>
     <string>排入佇列以稍後播放</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Pocket Casts Plus</string>
     <string>已上傳</string>
     <key>stop_download</key>
     <string>停止下載</string>
-    <key>subscribe</key>
-    <string>訂閱</string>
     <key>subscribe_all</key>
     <string>訂閱全部</string>
-    <key>subscribed</key>
-    <string>已訂閱</string>
     <key>subscription_cancelled</key>
     <string>訂閱已取消</string>
     <key>subscription_cancelled_msg</key>

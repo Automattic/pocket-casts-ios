@@ -894,8 +894,6 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Gedownloade bestanden</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Weet je zeker dat je deze gedownloade bestanden wilt verwijderen?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Door je uit te schrijven, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Door te stoppen met volgen, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1530,10 +1528,6 @@ Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnie
 4. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
     <key>import_opml_from_url</key>
     <string>Importeer je podcasts vanuit een OPML-bestand met een URL</string>
-    <key>import_podcasts_description</key>
-    <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
-
-Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk je op de bijlage en selecteer je Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Je kan je podcasts importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
@@ -1729,8 +1723,6 @@ podcasts mee</string>
     <string>Instellingen koptelefoon</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Gebruik Bladwijzers</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Je kan tijdstempels van belangrijke momenten in een aflevering opslaan.</string>
     <key>no_bookmarks_message</key>
     <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
     <key>no_bookmarks_title</key>
@@ -2784,8 +2776,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1 aflevering verwijderen</string>
-    <key>queue_clear_queue</key>
-    <string>WACHTRIJ WISSEN</string>
     <key>queue_for_later</key>
     <string>In de wachtrij zetten voor later</string>
     <key>queue_now_playing_accessibility</key>
@@ -3757,12 +3747,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Geüpload</string>
     <key>stop_download</key>
     <string>Download stoppen</string>
-    <key>subscribe</key>
-    <string>Abonneren</string>
     <key>subscribe_all</key>
     <string>Op alles abonneren</string>
-    <key>subscribed</key>
-    <string>Geabonneerd</string>
     <key>subscription_cancelled</key>
     <string>Het abonnement is geannuleerd</string>
     <key>subscription_cancelled_msg</key>
