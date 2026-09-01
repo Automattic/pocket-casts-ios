@@ -79,10 +79,10 @@ extension ServerPodcastManager {
         if let isPrivate = podcastJson["is_private"] as? Bool {
             podcast.isPrivate = isPrivate
         }
-        if let isExplicit = podcastJson["explicit"] as? Bool, isExplicit {
-            podcast.isExplicit = true
-        } else if let isExplicit = podcastJson["explicit"] as? Int, isExplicit > 0 {
-            podcast.isExplicit = true
+        if let isExplicit = podcastJson["explicit"] as? Bool {
+            podcast.isExplicit = isExplicit
+        } else if let isExplicit = podcastJson["explicit"] as? Int {
+            podcast.isExplicit = isExplicit > 0
         }
         if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
             podcast.fundingURL = url

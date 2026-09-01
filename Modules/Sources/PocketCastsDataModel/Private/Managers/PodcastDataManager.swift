@@ -574,6 +574,10 @@ class PodcastDataManager {
         setOnAllPodcasts(value: version, propertyName: "colorVersion", subscribedOnly: true, dbQueue: dbQueue)
     }
 
+    func clearLastUpdatedAtForAllPodcasts(dbQueue: PCDBQueue) {
+        setOnAllPodcasts(value: NSNull(), propertyName: "lastUpdatedAt", subscribedOnly: true, dbQueue: dbQueue)
+    }
+
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
