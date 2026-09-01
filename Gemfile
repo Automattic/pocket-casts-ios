@@ -19,5 +19,5 @@ gem 'openssl', '~> 4.0'
 # doesn't use Rake directly, so, to ensure the dependencies can resolve, let's
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
-gem 'rubocop', '~> 1.89'
+gem 'rubocop', '~> 1.90'
 gem 'watchbuild'
