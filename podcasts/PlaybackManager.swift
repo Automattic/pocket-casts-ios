@@ -1191,6 +1191,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         case episodeNotAvailable(errorCode: Int, logMessage: String?)
         case fileCorrupted(logMessage: String?)
         case chromecastError(logMessage: String?)
+        case notEnoughStorage(logMessage: String?)
         case playbackError(logMessage: String?, isLocalFile: Bool)
 
         var userMessage: String {
@@ -1203,6 +1204,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
                 return L10n.chromecastError
+            case .notEnoughStorage:
+                return L10n.playerErrorNotEnoughStorage
             case .playbackError(_, let isLocalFile):
                 return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorInternetConnection
             }
@@ -1218,6 +1221,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
                 return L10n.chromecastError
+            case .notEnoughStorage:
+                return L10n.playerErrorShortNotEnoughStorage
             case .playbackError:
                 return L10n.playerErrorShortPlaybackError
             }
@@ -1262,6 +1267,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return logMessage
             case .chromecastError(let logMessage):
                 return logMessage
+            case .notEnoughStorage(let logMessage):
+                return logMessage
             case .playbackError(let logMessage, _):
                 return logMessage
             }
@@ -1281,6 +1288,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return "file_corrupted"
             case .chromecastError:
                 return "chromecast_error"
+            case .notEnoughStorage:
+                return "not_enough_storage"
             case .playbackError:
                 return "playback_error"
             }
