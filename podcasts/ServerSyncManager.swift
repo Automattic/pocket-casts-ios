@@ -152,6 +152,14 @@ class ServerSyncManager: ServerSyncDelegate {
         #endif
     }
 
+    func isNewEpisodeNotificationsEnabled() -> Bool {
+        #if APPCLIP || os(tvOS)
+        false
+        #else
+        NotificationsGroup.newEpisodes.isEnabled
+        #endif
+    }
+
     func defaultPodcastGrouping() -> Int32 {
         Settings.defaultPodcastGrouping().rawValue
     }
