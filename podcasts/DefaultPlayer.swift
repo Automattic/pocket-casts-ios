@@ -14,6 +14,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var requiredPlaybackRate: Double = 0
     private var shouldKeepPlaying = false
     private var volumeBoostEnabled = false
+    private var isHandlingRateChange = false
 
     private var lastBackgroundedDate: Date?
 
@@ -870,7 +871,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
-            guard let self else { return }
+            guard let self, !self.isHandlingRateChange else { return }
+
+            self.isHandlingRateChange = true
+            defer { self.isHandlingRateChange = false }
 
             if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
