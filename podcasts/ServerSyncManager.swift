@@ -156,7 +156,7 @@ class ServerSyncManager: ServerSyncDelegate {
         #if APPCLIP || os(tvOS)
         false
         #else
-        Settings.notificationsNewEpisodes
+        NotificationsGroup.newEpisodes.isEnabled
         #endif
     }
 
