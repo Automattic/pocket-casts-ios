@@ -996,14 +996,8 @@ platform :ios do
   lane :notify_release_on_slack do |beta_release: true|
     beta_release = boolean_option(beta_release, default: true)
 
-    require_env_vars!('SLACK_WEBHOOK')
-
-    UI.message('Sending message to Slack...')
-    slack(
-      pretext: slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release),
-      default_payloads: [],
-      slack_url: get_required_env!('SLACK_WEBHOOK'),
-      fail_on_error: false
+    send_slack_message(
+      message: slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release)
     )
   end
 
@@ -1014,15 +1008,7 @@ platform :ios do
   # the phased release.
   #
   lane :notify_phased_release_on_slack do
-    require_env_vars!('SLACK_WEBHOOK')
-
-    UI.message('Sending message to Slack...')
-    slack(
-      pretext: phased_release_slack_message(fallback_version: release_version_current),
-      default_payloads: [],
-      slack_url: get_required_env!('SLACK_WEBHOOK'),
-      fail_on_error: false
-    )
+    send_slack_message(message: phased_release_slack_message(fallback_version: release_version_current))
   end
 
   #####################################################################################
@@ -1716,6 +1702,25 @@ platform :ios do
       default_branch: DEFAULT_BRANCH,
       labels: ['Releases'],
       milestone_title: release_version_next
+    )
+  end
+
+  # Sends a message to Slack via the incoming webhook, which is bound to the announcements channel.
+  #
+  # Failing to post must not fail the release job that got as far as announcing, so `slack` is told
+  # not to raise. Note that a missing `SLACK_WEBHOOK` still will.
+  #
+  # @param message [String] The message body to post.
+  #
+  def send_slack_message(message:)
+    require_env_vars!('SLACK_WEBHOOK')
+
+    UI.message('Sending message to Slack...')
+    slack(
+      pretext: message,
+      default_payloads: [],
+      slack_url: get_required_env!('SLACK_WEBHOOK'),
+      fail_on_error: false
     )
   end
 
