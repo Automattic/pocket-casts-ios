@@ -24,6 +24,7 @@
 - [tvOS] Add networks to search, in Combined Results and in a tab of their own [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 - Fix a Smart Bookmark's captured passage not syncing when signing in on a new device [#5103](https://github.com/Automattic/pocket-casts-ios/pull/5103)
 - Fix a crash when tapping the link in a Discover collection or network header [#5160](https://github.com/Automattic/pocket-casts-ios/pull/5160)
+- Make it easier to watch a video full screen: a button over the video in the player zooms it into the full screen player, rotating to landscape for landscape videos on iPhone, and a matching button brings it back [#4988](https://github.com/Automattic/pocket-casts-ios/pull/4988)
 
 8.20
 -----
@@ -36,7 +37,6 @@
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 - Fix a rare crash when the What's New screen was shown while another screen was still being dismissed [#5003](https://github.com/Automattic/pocket-casts-ios/pull/5003)
-- Add a full screen button over the video in the player, and rotate to landscape when a landscape video is opened full screen on iPhone [#4988](https://github.com/Automattic/pocket-casts-ios/pull/4988)
 
 8.19
 -----
