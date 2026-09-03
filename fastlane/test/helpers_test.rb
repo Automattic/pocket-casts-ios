@@ -64,51 +64,24 @@ class FastlaneHelpersTest < Minitest::Test
   end
 
   def test_phased_release_message_omits_the_milestone_when_it_is_not_set
-    with_env('RELEASE_VERSION' => '7.94', 'MILESTONE' => nil) do
-      assert_equal ':announcement: `7.94` has started phased release.',
-                   phased_release_slack_message(fallback_version: 'unused')
-    end
+    assert_equal ':announcement: `7.94` has started phased release.',
+                 phased_release_slack_message(version: '7.94')
   end
 
   def test_phased_release_message_includes_the_milestone_when_it_is_set
-    with_env('RELEASE_VERSION' => '7.94', 'MILESTONE' => '(Milestone 7.94)') do
-      assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
-                   phased_release_slack_message(fallback_version: 'unused')
-    end
+    assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
+                 phased_release_slack_message(version: '7.94', milestone: '(Milestone 7.94)')
   end
 
   def test_phased_release_message_trims_surrounding_whitespace
-    with_env('RELEASE_VERSION' => "\t7.94\n", 'MILESTONE' => ' (Milestone 7.94) ') do
-      assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
-                   phased_release_slack_message(fallback_version: 'unused')
-    end
-  end
-
-  def test_phased_release_message_falls_back_when_the_version_is_unset_or_blank
-    ['', "  \n", nil].each do |release_version|
-      with_env('RELEASE_VERSION' => release_version, 'MILESTONE' => nil) do
-        assert_equal ':announcement: `7.94` has started phased release.',
-                     phased_release_slack_message(fallback_version: '7.94')
-      end
-    end
+    assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
+                 phased_release_slack_message(version: "\t7.94\n", milestone: ' (Milestone 7.94) ')
   end
 
   def test_phased_release_message_drops_a_blank_milestone_rather_than_padding_the_subject
-    with_env('RELEASE_VERSION' => '7.94', 'MILESTONE' => "  \n") do
+    ['', "  \n", nil].each do |milestone|
       assert_equal ':announcement: `7.94` has started phased release.',
-                   phased_release_slack_message(fallback_version: 'unused')
+                   phased_release_slack_message(version: '7.94', milestone: milestone)
     end
-  end
-
-  private
-
-  # Sets the given environment variables for the duration of the block, then puts back what was
-  # there. A `nil` value means the variable is unset for the block.
-  def with_env(vars)
-    original = vars.keys.to_h { |key| [key, ENV.fetch(key, nil)] }
-    vars.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
-    yield
-  ensure
-    original.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
   end
 end
