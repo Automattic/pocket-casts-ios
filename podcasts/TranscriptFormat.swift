@@ -56,7 +56,7 @@ extension Episode.Metadata.Transcript {
     /// The media type without any parameters, lowercased. For example, `Text/Plain; charset=utf-8` reads as `text/plain`.
     public var normalizedType: String {
         guard let mediaType = type.split(separator: ";", maxSplits: 1).first else { return type }
-        return mediaType.trimmingCharacters(in: .whitespaces).lowercased()
+        return mediaType.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
 
     public var transcriptFormat: TranscriptFormat? {
