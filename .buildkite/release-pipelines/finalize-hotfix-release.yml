@@ -6,6 +6,8 @@
 env:
   IMAGE_ID: $IMAGE_ID
 
+priority: 1
+
 steps:
   - label: "🚂 Finalize Hotfix Release"
     command: |
