@@ -1727,7 +1727,7 @@ platform :ios do
   # @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
   #
   def phased_release_slack_message
-    version = ENV.fetch('RELEASE_VERSION', nil).to_s
+    version = ENV.fetch('RELEASE_VERSION', nil).to_s.strip
     version = release_version_current if version.empty?
 
     milestone = ENV.fetch('MILESTONE', nil).to_s.strip
