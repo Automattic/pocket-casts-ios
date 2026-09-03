@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VideoViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="castButton" destination="DOV-qE-ZNr" id="Pfp-XB-yJD"/>
+                <outlet property="closeBtn" destination="1pC-PM-r7d" id="Rk6-Nd-8tV"/>
                 <outlet property="closeFileStackView" destination="yW4-dK-d0d" id="Lc9-Rp-2xN"/>
                 <outlet property="closeToSafeTopConstraint" destination="aWx-SG-wH6" id="SBI-GQ-fG8"/>
                 <outlet property="closeToViewTopConstraint" destination="MTO-yh-Zcf" id="FEh-jc-9Kl"/>
