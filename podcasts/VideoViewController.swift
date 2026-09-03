@@ -161,6 +161,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        stopObservingVideoSize()
         videoPlayerView.player = nil
         removeAllCustomObservers()
     }
@@ -337,7 +338,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func attachPlayer() {
         willAttachPlayer?()
         videoPlayerView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
-        updateSupportedOrientations()
+        observeVideoSize()
         setupPictureInPicturePlayback()
     }
 
@@ -373,23 +374,45 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private lazy var isLandscapeVideo = Self.isLandscape(currentVideoSize) ?? false
 
     /// Matches the way the device is being held, if it's already being held in landscape.
+    /// `UIDeviceOrientation` and `UIInterfaceOrientation` name the two landscapes opposite ways.
     private var preferredLandscapeOrientation: UIInterfaceOrientation {
-        switch UIDevice.current.orientation {
-        case .landscapeLeft:
-            return .landscapeRight
-        case .landscapeRight:
-            return .landscapeLeft
-        default:
-            return .landscapeRight
-        }
+        UIDevice.current.orientation == .landscapeRight ? .landscapeLeft : .landscapeRight
     }
 
     private var currentVideoSize: CGSize? {
         (videoPlayerView?.player ?? PlaybackManager.shared.internalPlayerForVideoPlayback())?.currentItem?.presentationSize
     }
 
+    private var videoSizeObserver: NSKeyValueObservation?
+    private weak var observedItem: AVPlayerItem?
+
+    /// A stream's size isn't known until the item is ready, and `attachPlayer` runs again for every
+    /// track change, so watch each new item until it tells us how big it is.
+    private func observeVideoSize() {
+        let item = videoPlayerView.player?.currentItem
+
+        guard item !== observedItem else { return }
+
+        observedItem = item
+        videoSizeObserver = item?.observe(\.presentationSize, options: [.initial, .new]) { [weak self] _, _ in
+            DispatchQueue.main.async {
+                self?.updateSupportedOrientations()
+            }
+        }
+    }
+
+    private func stopObservingVideoSize() {
+        videoSizeObserver = nil
+        observedItem = nil
+    }
+
     private func updateSupportedOrientations() {
-        guard let isLandscapeVideo = Self.isLandscape(currentVideoSize), isLandscapeVideo != self.isLandscapeVideo else { return }
+        guard let isLandscapeVideo = Self.isLandscape(currentVideoSize) else { return }
+
+        // We know this item's size now, `observedItem` keeps us from watching it again.
+        videoSizeObserver = nil
+
+        guard isLandscapeVideo != self.isLandscapeVideo else { return }
 
         self.isLandscapeVideo = isLandscapeVideo
         setNeedsUpdateOfSupportedInterfaceOrientations()
