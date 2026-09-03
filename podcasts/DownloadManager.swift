@@ -579,6 +579,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let isOnUnexpensiveConnection = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
         let networkDescription = isOnUnexpensiveConnection ? "unexpensive connection" : "expensive connection"
         FileLog.shared.addMessage("DownloadManager: Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed), \(userAgentDescription), session: \(sessionDescription), network: \(networkDescription)")
+        dataManager.saveEpisode(downloadTaskId: episode.uuid, episode: episode)
         resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes, retryWithoutUserAgent: retryWithoutUserAgent)
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }

@@ -53,6 +53,8 @@ extension DownloadManager {
         }
     }
 
+    private static let inFlightDownloadGracePeriod: TimeInterval = 1.minute
+
     func clearStuckDownloads() async {
         let episodesWithDownloadIds = dataManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
 
@@ -76,6 +78,8 @@ extension DownloadManager {
 
         for episodeUuid in episodeUuids {
             guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }
+
+            if let lastAttempt = episode.lastDownloadAttemptDate, Date().timeIntervalSince(lastAttempt) < Self.inFlightDownloadGracePeriod { continue }
 
             let downloadStatus: DownloadStatus = episode.downloaded(pathFinder: self) ? .downloaded : .notDownloaded
             dataManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: nil, episode: episode)
