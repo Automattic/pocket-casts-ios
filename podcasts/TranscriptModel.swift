@@ -33,7 +33,8 @@ struct TranscriptModel: Sendable {
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
         if format == .textPlain {
-            return TranscriptModel(attributedText: NSAttributedString(string: trimmedTranscript), cues: [], type: format.rawValue, hasJavascript: false)
+            let filteredText = ComposeFilter.plainTextFilter.filter(trimmedTranscript).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: false)
         }
         let subtitles: Subtitles? = {
             do {

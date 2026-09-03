@@ -22,6 +22,13 @@ struct ComposeFilter: TranscriptFilter {
         RegexFilter.fullStopEndofCueFilter
     ])
 
+    static let plainTextFilter = ComposeFilter(filters: [
+        RegexFilter.carriageReturnFilter,
+        RegexFilter.emptySpacesAtEndOfLinesFilter,
+        RegexFilter.doubleOrMoreSpacesFilter,
+        RegexFilter.doubleOrMoreEmptyLinesFilter,
+    ])
+
     static let htmlFilter = ComposeFilter(filters: [
         RegexFilter.breakLineFilter,
         RegexFilter.htmlParagraphFilter,
@@ -81,6 +88,8 @@ extension RegexFilter {
     static let doubleOrMoreSpacesFilter = RegexFilter(pattern: "[ ]+", replacement: " ")
     // Double or more lines
     static let doubleOrMoreEmptyLinesFilter = RegexFilter(pattern: "[\\n]+", replacement: "\n")
+    // Normalize Windows and classic Mac line endings
+    static let carriageReturnFilter = RegexFilter(pattern: "\\r\\n?", replacement: "\n")
     // </p> filter
     static let htmlParagraphFilter = RegexFilter(pattern: "</p>", replacement: "\n")
 }
