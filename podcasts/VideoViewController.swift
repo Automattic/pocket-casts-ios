@@ -161,7 +161,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        videoSizeObserver = nil
         videoPlayerView.player = nil
         removeAllCustomObservers()
     }
@@ -338,7 +337,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func attachPlayer() {
         willAttachPlayer?()
         videoPlayerView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
-        observeVideoSize()
+        updateSupportedOrientations()
         setupPictureInPicturePlayback()
     }
 
@@ -371,9 +370,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     /// Asked for before we're presented, while the player is still attached to the video in the player.
-    private lazy var isLandscapeVideo = Self.isLandscape(PlaybackManager.shared.internalPlayerForVideoPlayback()?.currentItem?.presentationSize) ?? false
-
-    private var videoSizeObserver: NSKeyValueObservation?
+    private lazy var isLandscapeVideo = Self.isLandscape(currentVideoSize) ?? false
 
     /// Matches the way the device is being held, if it's already being held in landscape.
     private var preferredLandscapeOrientation: UIInterfaceOrientation {
@@ -387,21 +384,12 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         }
     }
 
-    /// The size of a stream isn't always known by the time we appear, so keep watching for it.
-    private func observeVideoSize() {
-        videoSizeObserver = videoPlayerView.player?.currentItem?.observe(\.presentationSize, options: [.initial, .new]) { [weak self] _, _ in
-            DispatchQueue.main.async {
-                self?.updateSupportedOrientations()
-            }
-        }
+    private var currentVideoSize: CGSize? {
+        (videoPlayerView?.player ?? PlaybackManager.shared.internalPlayerForVideoPlayback())?.currentItem?.presentationSize
     }
 
     private func updateSupportedOrientations() {
-        guard let isLandscapeVideo = Self.isLandscape(videoPlayerView.player?.currentItem?.presentationSize) else { return }
-
-        videoSizeObserver = nil
-
-        guard isLandscapeVideo != self.isLandscapeVideo else { return }
+        guard let isLandscapeVideo = Self.isLandscape(currentVideoSize), isLandscapeVideo != self.isLandscapeVideo else { return }
 
         self.isLandscapeVideo = isLandscapeVideo
         setNeedsUpdateOfSupportedInterfaceOrientations()
