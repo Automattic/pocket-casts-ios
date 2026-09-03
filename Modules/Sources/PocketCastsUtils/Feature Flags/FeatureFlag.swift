@@ -265,6 +265,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// notification group is off, instead of relying on the named settings sync
     case newEpisodeNotificationsPushOptOut
 
+    /// Enable the What's New feed
+    case whatsNewFeed
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -451,6 +454,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .newEpisodeNotificationsPushOptOut:
             true
+        case .whatsNewFeed:
+            BuildEnvironment.current == .debug
         }
     }
 
