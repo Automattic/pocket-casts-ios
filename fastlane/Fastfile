@@ -996,9 +996,7 @@ platform :ios do
   lane :notify_release_on_slack do |beta_release: true|
     beta_release = boolean_option(beta_release, default: true)
 
-    send_slack_message(
-      message: slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release)
-    )
+    notify_slack { slack_message(version: release_version_current, build_number: build_code_current, is_beta: beta_release) }
   end
 
   # Sends the phased-release notification to Slack.
@@ -1008,7 +1006,7 @@ platform :ios do
   # the phased release.
   #
   lane :notify_phased_release_on_slack do
-    send_slack_message(message: phased_release_slack_message(fallback_version: release_version_current))
+    notify_slack { phased_release_slack_message(fallback_version: release_version_current) }
   end
 
   #####################################################################################
@@ -1707,9 +1705,6 @@ platform :ios do
 
   # Sends a message to Slack via the incoming webhook, which is bound to the announcements channel.
   #
-  # Failing to post must not fail the release job that got as far as announcing, so `slack` is told
-  # not to raise. Note that a missing `SLACK_WEBHOOK` still will.
-  #
   # @param message [String] The message body to post.
   #
   def send_slack_message(message:)
@@ -1719,9 +1714,23 @@ platform :ios do
     slack(
       pretext: message,
       default_payloads: [],
-      slack_url: get_required_env!('SLACK_WEBHOOK'),
-      fail_on_error: false
+      slack_url: get_required_env!('SLACK_WEBHOOK')
     )
+  end
+
+  # Posts to Slack without letting the caller fail over it: a release step that did its work must
+  # not be reported as failed because the announcement did not land. The failure is annotated and
+  # not just logged, because an announcement that quietly stops posting is the one nobody notices.
+  #
+  # Takes a block rather than a string so that building the message is covered too, not just
+  # sending it.
+  #
+  def notify_slack(&message)
+    send_slack_message(message: message.call)
+  rescue StandardError => e
+    warning = "Slack notification failed (#{e.message}); continuing without it."
+    UI.important(warning)
+    buildkite_annotate(style: 'warning', context: 'slack-notification-failed', message: warning) if is_ci
   end
 
   # Constructs the slack message body to use for a given version
