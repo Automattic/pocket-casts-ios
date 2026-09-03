@@ -56,7 +56,7 @@ def tvos_testflight_changelog(release_notes)
   filtered_notes.empty? ? +'Minor changes.' : filtered_notes
 end
 
-# The phased-release announcement, keeping the wording the release scenario posted by hand.
+# The phased-release announcement.
 #
 # @param version [String] The version the announcement is about.
 # @param milestone [String, nil] The milestone to name alongside the version, when there is one.

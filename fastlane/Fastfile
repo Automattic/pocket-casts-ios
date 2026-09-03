@@ -1001,13 +1001,10 @@ platform :ios do
 
   # Sends the phased-release notification to Slack.
   #
-  # Typically called right after `publish_release`, which the release manager runs once the
-  # release has been made available by hand in App Store Connect — the act that actually starts
-  # the phased release.
+  # Typically called right after `publish_release` by the release automation.
   #
   # @param version [String] (optional) The release version the announcement is about. Defaults to the
-  #                checked-out project's version, which is what the pipeline relies on: it checks out
-  #                the release branch before calling this.
+  #                checked-out project's version.
   # @param milestone [String] (optional) The milestone to name alongside the version.
   #                  Provided by Releases V2, which is the only place it can come from.
   #
@@ -1709,8 +1706,6 @@ platform :ios do
     )
   end
 
-  # Sends a message to Slack via the incoming webhook, which is bound to the announcements channel.
-  #
   # @param message [String] The message body to post.
   #
   def send_slack_message(message:)
@@ -1724,9 +1719,9 @@ platform :ios do
     )
   end
 
-  # Posts to Slack without letting the caller fail over it: a release step that did its work must
-  # not be reported as failed because the announcement did not land. The failure is annotated and
-  # not just logged, because an announcement that quietly stops posting is the one nobody notices.
+  # Posts to Slack without letting the caller fail over it, reporting loudly and annotating the CI build
+  # (if any) instead. Rationale: A hard failure in the release process is costly to address. A missing
+  # Slack message is not worth halting the release process.
   #
   # Takes a block rather than a string so that building the message is covered too, not just
   # sending it.
