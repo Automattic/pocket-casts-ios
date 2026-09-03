@@ -19,6 +19,12 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     @IBOutlet var fillScreenBtn: UIButton!
 
+    @IBOutlet var exitFullScreenBtn: UIButton! {
+        didSet {
+            exitFullScreenBtn.accessibilityLabel = L10n.playerVideoExitFullScreen
+        }
+    }
+
     @IBOutlet var closeFileStackView: UIStackView!
     @IBOutlet var playPauseBtn: PlayPauseButton! {
         didSet {
@@ -155,6 +161,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        stopObservingVideoSize()
         videoPlayerView.player = nil
         removeAllCustomObservers()
     }
@@ -331,6 +338,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func attachPlayer() {
         willAttachPlayer?()
         videoPlayerView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
+        observeVideoSize()
         setupPictureInPicturePlayback()
     }
 
@@ -351,7 +359,70 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     // MARK: - Orientation
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        .allButUpsideDown
+        isLandscapeVideoOnPhone ? .landscape : .allButUpsideDown
+    }
+
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        isLandscapeVideoOnPhone ? preferredLandscapeOrientation : super.preferredInterfaceOrientationForPresentation
+    }
+
+    private var isLandscapeVideoOnPhone: Bool {
+        isLandscapeVideo && UIDevice.current.userInterfaceIdiom == .phone
+    }
+
+    /// Asked for before we're presented, while the player is still attached to the video in the player.
+    private lazy var isLandscapeVideo = Self.isLandscape(currentVideoSize) ?? false
+
+    /// Matches the way the device is being held, if it's already being held in landscape.
+    /// `UIDeviceOrientation` and `UIInterfaceOrientation` name the two landscapes opposite ways.
+    private var preferredLandscapeOrientation: UIInterfaceOrientation {
+        UIDevice.current.orientation == .landscapeRight ? .landscapeLeft : .landscapeRight
+    }
+
+    private var currentVideoSize: CGSize? {
+        (videoPlayerView?.player ?? PlaybackManager.shared.internalPlayerForVideoPlayback())?.currentItem?.presentationSize
+    }
+
+    private var videoSizeObserver: NSKeyValueObservation?
+    private weak var observedItem: AVPlayerItem?
+
+    /// A stream's size isn't known until the item is ready, and `attachPlayer` runs again for every
+    /// track change, so watch each new item until it tells us how big it is.
+    private func observeVideoSize() {
+        let item = videoPlayerView.player?.currentItem
+
+        guard item !== observedItem else { return }
+
+        observedItem = item
+        videoSizeObserver = item?.observe(\.presentationSize, options: [.initial, .new]) { [weak self] _, _ in
+            DispatchQueue.main.async {
+                self?.updateSupportedOrientations()
+            }
+        }
+    }
+
+    private func stopObservingVideoSize() {
+        videoSizeObserver = nil
+        observedItem = nil
+    }
+
+    private func updateSupportedOrientations() {
+        guard let isLandscapeVideo = Self.isLandscape(currentVideoSize) else { return }
+
+        // We know this item's size now, `observedItem` keeps us from watching it again.
+        videoSizeObserver = nil
+
+        guard isLandscapeVideo != self.isLandscapeVideo else { return }
+
+        self.isLandscapeVideo = isLandscapeVideo
+        setNeedsUpdateOfSupportedInterfaceOrientations()
+        presentingViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+    }
+
+    private static func isLandscape(_ videoSize: CGSize?) -> Bool? {
+        guard let videoSize, videoSize.width > 0, videoSize.height > 0 else { return nil }
+
+        return videoSize.width > videoSize.height
     }
 
     // MARK: - Swipe to close
@@ -363,10 +434,21 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     private static let pullDownThreshold: CGFloat = 100
 
+    /// The zoom transition brings its own interactive dismissal, so we leave the swipe to it.
+    private var usesZoomTransition: Bool {
+        if #available(iOS 18.0, *) {
+            return preferredTransition != nil
+        }
+
+        return false
+    }
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if timeSlider.isScrubbing() { return false }
 
         guard let recognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+
+        if usesZoomTransition { return false }
 
         let velocity = recognizer.velocity(in: view)
         let vertical = abs(velocity.y) > abs(velocity.x)

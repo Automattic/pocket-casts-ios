@@ -1624,6 +1624,12 @@
 /* Error title when there is an upload error. */
 "player_user_episode_upload_error" = "Upload Error";
 
+/* Accessibility label for the button shown in the full screen video player that returns the video to the player. */
+"player_video_exit_full_screen" = "Exit Full Screen";
+
+/* Accessibility label for the button shown over a playing video in the player that opens the video full screen. */
+"player_video_full_screen" = "Full Screen";
+
 /* Used in the player to describe effects you can use to change audio playback. Things like speed, volume, etc. */
 "playback_effects" = "Playback effects";
 

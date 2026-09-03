@@ -16,6 +16,7 @@
                 <outlet property="closeToSafeTopConstraint" destination="aWx-SG-wH6" id="SBI-GQ-fG8"/>
                 <outlet property="closeToViewTopConstraint" destination="MTO-yh-Zcf" id="FEh-jc-9Kl"/>
                 <outlet property="controlsOverlay" destination="Sos-2Z-sCZ" id="gMb-kx-r5n"/>
+                <outlet property="exitFullScreenBtn" destination="Kv7-9d-Ql2" id="Ht6-3q-Nz4"/>
                 <outlet property="fillScreenBtn" destination="8iE-hK-Fwe" id="WJn-2S-RsF"/>
                 <outlet property="pipButton" destination="cjy-4o-ZPE" id="OmF-VM-aNM"/>
                 <outlet property="playPauseBtn" destination="Ny3-GS-WmE" id="PBK-ha-Yqc"/>
@@ -157,6 +158,20 @@
                                 </button>
                             </subviews>
                         </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kv7-9d-Ql2" userLabel="Exit full screen">
+                            <rect key="frame" x="611" y="325" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="Qm3-1x-Rt8"/>
+                                <constraint firstAttribute="height" constant="44" id="Zp6-4b-Hn0"/>
+                            </constraints>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" image="exit-fullscreen-video">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="Wd2-7k-Ls5"/>
+                            </connections>
+                        </button>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="iAf-ua-MdT" userLabel="Playback controls">
                             <rect key="frame" x="0.0" y="117.5" width="667" height="140"/>
                             <subviews>
@@ -229,17 +244,19 @@
                             </subviews>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="iAf-ua-MdT" firstAttribute="centerY" secondItem="Sos-2Z-sCZ" secondAttribute="centerY" id="1y6-LZ-sqU"/>
                         <constraint firstAttribute="bottomMargin" secondItem="JZJ-vp-9Ul" secondAttribute="bottom" constant="-60" id="6GV-De-Cbi"/>
-                        <constraint firstAttribute="trailing" secondItem="JZJ-vp-9Ul" secondAttribute="trailing" id="8Bj-QH-fZZ"/>
+                        <constraint firstAttribute="trailing" secondItem="JZJ-vp-9Ul" secondAttribute="trailing" constant="48" id="8Bj-QH-fZZ"/>
                         <constraint firstAttribute="trailing" secondItem="GcO-hf-G0b" secondAttribute="trailing" constant="32" id="EdE-5R-YjS"/>
                         <constraint firstItem="yW4-dK-d0d" firstAttribute="top" secondItem="Sos-2Z-sCZ" secondAttribute="top" constant="20" symbolic="YES" id="MTO-yh-Zcf"/>
                         <constraint firstItem="yW4-dK-d0d" firstAttribute="leading" secondItem="Sos-2Z-sCZ" secondAttribute="leading" constant="32" id="WDz-yh-5TM"/>
                         <constraint firstItem="iAf-ua-MdT" firstAttribute="leading" secondItem="Sos-2Z-sCZ" secondAttribute="leading" id="gYz-FM-NHN"/>
-                        <constraint firstItem="JZJ-vp-9Ul" firstAttribute="leading" secondItem="Sos-2Z-sCZ" secondAttribute="leading" id="n6L-7Q-ybB"/>
+                        <constraint firstItem="JZJ-vp-9Ul" firstAttribute="leading" secondItem="Sos-2Z-sCZ" secondAttribute="leading" constant="48" id="n6L-7Q-ybB"/>
                         <constraint firstItem="yW4-dK-d0d" firstAttribute="top" secondItem="GcO-hf-G0b" secondAttribute="top" id="qaJ-Ii-G7v"/>
+                        <constraint firstAttribute="trailing" secondItem="Kv7-9d-Ql2" secondAttribute="trailing" constant="12" id="Bx4-2f-Mw9"/>
+                        <constraint firstItem="Kv7-9d-Ql2" firstAttribute="centerY" secondItem="JZJ-vp-9Ul" secondAttribute="centerY" id="Jr8-5h-Vc1"/>
                         <constraint firstAttribute="trailing" secondItem="iAf-ua-MdT" secondAttribute="trailing" id="wR5-oF-eBO"/>
                     </constraints>
                     <variation key="default">
@@ -268,6 +285,7 @@
     </objects>
     <resources>
         <image name="close" width="24" height="24"/>
+        <image name="exit-fullscreen-video" width="24" height="24"/>
         <image name="pip" width="24" height="24"/>
         <image name="video-expand" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">

@@ -1,6 +1,7 @@
 8.21
 -----
 - Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
+- Make it easier to watch a video full screen: a button over the video in the player zooms it into the full screen player, rotating to landscape for landscape videos on iPhone, and a matching button brings it back [#4988](https://github.com/Automattic/pocket-casts-ios/pull/4988)
 
 8.20
 -----

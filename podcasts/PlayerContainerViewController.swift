@@ -197,7 +197,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // we implement this here to lock all views (except presented modal VCs to portrait)
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        .portrait
+        // We're presented with a custom presentation, so UIKit asks us rather than the video player
+        if let videoViewController = presentedViewController as? VideoViewController {
+            return videoViewController.supportedInterfaceOrientations
+        }
+
+        return .portrait
     }
 
     // MARK: - PlayerItemContainerDelegate
