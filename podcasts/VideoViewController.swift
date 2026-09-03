@@ -19,6 +19,12 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     @IBOutlet var fillScreenBtn: UIButton!
 
+    @IBOutlet var exitFullScreenBtn: UIButton! {
+        didSet {
+            exitFullScreenBtn.accessibilityLabel = L10n.playerVideoExitFullScreen
+        }
+    }
+
     @IBOutlet var closeFileStackView: UIStackView!
     @IBOutlet var playPauseBtn: PlayPauseButton! {
         didSet {
