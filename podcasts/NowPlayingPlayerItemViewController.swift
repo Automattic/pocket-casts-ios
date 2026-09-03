@@ -614,8 +614,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
-            videoViewController?.modalTransitionStyle = .crossDissolve
             videoViewController?.modalPresentationStyle = .fullScreen
+            if #available(iOS 18.0, *) {
+                videoViewController?.preferredTransition = .zoom { [weak self] _ in
+                    self?.floatingVideoView
+                }
+            } else {
+                videoViewController?.modalTransitionStyle = .crossDissolve
+            }
             videoViewController?.willAttachPlayer = { [weak self] in
                 self?.floatingVideoView.player = nil
             }

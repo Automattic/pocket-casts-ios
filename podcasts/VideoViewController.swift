@@ -398,10 +398,21 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     private static let pullDownThreshold: CGFloat = 100
 
+    /// The zoom transition brings its own interactive dismissal, so we leave the swipe to it.
+    private var usesZoomTransition: Bool {
+        if #available(iOS 18.0, *) {
+            return preferredTransition != nil
+        }
+
+        return false
+    }
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if timeSlider.isScrubbing() { return false }
 
         guard let recognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+
+        if usesZoomTransition { return false }
 
         let velocity = recognizer.velocity(in: view)
         let vertical = abs(velocity.y) > abs(velocity.x)
