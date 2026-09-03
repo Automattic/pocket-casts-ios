@@ -55,3 +55,22 @@ def tvos_testflight_changelog(release_notes)
 
   filtered_notes.empty? ? +'Minor changes.' : filtered_notes
 end
+
+# The phased-release announcement, keeping the wording the release scenario posted by hand.
+#
+# `RELEASE_VERSION` and `MILESTONE` are passed by the Releases V2 Buildkite action. `MILESTONE` is
+# only sent once the Releases V2 side stops posting this message by hand, so the milestone-less
+# wording is what ships until then.
+#
+# @param fallback_version [String] Version to announce when `RELEASE_VERSION` is not set, as on a manual run.
+# @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
+#
+def phased_release_slack_message(fallback_version:)
+  version = ENV.fetch('RELEASE_VERSION', nil).to_s.strip
+  version = fallback_version if version.empty?
+
+  milestone = ENV.fetch('MILESTONE', nil).to_s.strip
+  subject = ["`#{version}`", milestone].reject(&:empty?).join(' ')
+
+  ":announcement: #{subject} has started phased release."
+end

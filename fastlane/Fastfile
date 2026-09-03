@@ -1018,7 +1018,7 @@ platform :ios do
 
     UI.message('Sending message to Slack...')
     slack(
-      pretext: phased_release_slack_message,
+      pretext: phased_release_slack_message(fallback_version: release_version_current),
       default_payloads: [],
       slack_url: get_required_env!('SLACK_WEBHOOK'),
       fail_on_error: false
@@ -1717,23 +1717,6 @@ platform :ios do
       labels: ['Releases'],
       milestone_title: release_version_next
     )
-  end
-
-  # The phased-release announcement, keeping the wording the release scenario posted by hand.
-  #
-  # `RELEASE_VERSION` and `MILESTONE` are passed by the Releases V2 Buildkite action; on a manual
-  # run the version falls back to the checked-out branch's and the milestone is left out.
-  #
-  # @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
-  #
-  def phased_release_slack_message
-    version = ENV.fetch('RELEASE_VERSION', nil).to_s.strip
-    version = release_version_current if version.empty?
-
-    milestone = ENV.fetch('MILESTONE', nil).to_s.strip
-    subject = ["`#{version}`", milestone].reject(&:empty?).join(' ')
-
-    ":announcement: #{subject} has started phased release."
   end
 
   # Constructs the slack message body to use for a given version
