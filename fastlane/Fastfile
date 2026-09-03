@@ -1005,10 +1005,11 @@ platform :ios do
   # release has been made available by hand in App Store Connect — the act that actually starts
   # the phased release.
   #
-  # @param version [String] (optional) The release version the announcement is about.
-  #                Typically provided by Releases V2. When omitted, uses the current project version.
+  # @param version [String] (optional) The release version the announcement is about. Defaults to the
+  #                checked-out project's version, which is what the pipeline relies on: it checks out
+  #                the release branch before calling this.
   # @param milestone [String] (optional) The milestone to name alongside the version.
-  #                  Typically provided by Releases V2.
+  #                  Provided by Releases V2, which is the only place it can come from.
   #
   lane :notify_phased_release_on_slack do |version: release_version_current, milestone: nil|
     notify_slack { phased_release_slack_message(version: version, milestone: milestone) }
