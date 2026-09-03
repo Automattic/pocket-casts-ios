@@ -957,7 +957,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
             let errorMessage = error?.localizedDescription ?? "Unknown item did fail to finish error"
-            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            if let nsError = error as? NSError, nsError.isOutOfStorage {
+                PlaybackManager.shared.playbackDidFail(error: .notEnoughStorage(logMessage: errorMessage))
+            } else {
+                PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            }
         }
 
         playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
