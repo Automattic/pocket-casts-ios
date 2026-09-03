@@ -1,6 +1,7 @@
 8.21
 -----
 - Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
+- Fix transcripts not showing for podcasts whose feeds serve them as plain text, such as those hosted on Transistor [#5055](https://github.com/Automattic/pocket-casts-ios/pull/5055)
 
 8.20
 -----
