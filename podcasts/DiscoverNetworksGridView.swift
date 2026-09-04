@@ -74,7 +74,7 @@ class DiscoverNetworksGridViewController: ThemedHostingController<DiscoverNetwor
 
 #Preview("Networks grid") {
     DiscoverNetworksGridView(
-        networks: DiscoverPreviewData.networkCollection(title: "Networks").lists,
+        networks: DiscoverPreviewData.networkCollection(title: "Networks", count: 12).lists,
         onSelect: { _ in }
     )
     .setupDefaultEnvironment()
