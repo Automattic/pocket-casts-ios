@@ -18,6 +18,17 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
     }
 
+    @IBOutlet var collageTopConstraint: NSLayoutConstraint!
+
+    /// How far the collage runs above the header, so that it fills the space behind the
+    /// navigation bar. Its bottom is pinned to the header, so the avatar and everything
+    /// below it stay put however far it bleeds.
+    var collageTopBleed: CGFloat = 0 {
+        didSet {
+            collageTopConstraint.constant = -collageTopBleed
+        }
+    }
+
     @IBOutlet var avatarImageView: UIImageView! {
         didSet {
             avatarImageView.layer.cornerRadius = 40
