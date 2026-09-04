@@ -135,6 +135,69 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(action.style, .primary)
     }
 
+    func testDropsPagesAndMessagesWithNothingToRender() throws {
+        let json = """
+        {
+          "schemaVersion": 1,
+          "messages": [
+            {
+              "id": "01K2Y2CFD0VAWA4N74D3N6JTVK",
+              "type": "tip",
+              "publishedAt": "2026-08-17T08:00:00Z",
+              "targeting": {},
+              "summary": { "title": "One page of its own" },
+              "content": {
+                "pages": [
+                  { "blocks": [{ "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT" }] },
+                  { "blocks": [{ "type": "paragraph", "content": "This page still renders." }] }
+                ]
+              }
+            },
+            {
+              "id": "01K2Y1JQ4T7Z7T5RY8G0QPA3NX",
+              "type": "tip",
+              "publishedAt": "2026-08-17T08:00:00Z",
+              "targeting": {},
+              "summary": { "title": "Nothing to render" },
+              "content": { "pages": [{ "blocks": [{ "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT" }] }] }
+            }
+          ]
+        }
+        """
+
+        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
+
+        XCTAssertEqual(catalog.messages.map(\.id), ["01K2Y2CFD0VAWA4N74D3N6JTVK"],
+                       "A message whose pages have nothing renderable is dropped rather than opening onto an empty pager")
+        XCTAssertEqual(catalog.messages.first?.content.pages.count, 1,
+                       "The page of unknown blocks is dropped, the page beside it is kept")
+    }
+
+    func testDropsVideoBlocksWithNoPlayableSources() throws {
+        let json = """
+        {
+          "blocks": [
+            { "type": "video", "posterUrl": "https://static.pocketcasts.com/whats-new/media/transcripts-poster.webp" },
+            {
+              "type": "video",
+              "sources": [{ "url": "https://static.pocketcasts.com/whats-new/media/transcripts.mp4", "mimeType": "video/mp4" }],
+              "alt": "Scrolling through a transcript"
+            }
+          ]
+        }
+        """
+
+        let page = try WhatsNewCatalog.decoder.decode(WhatsNewPage.self, from: Data(json.utf8))
+
+        XCTAssertEqual(page.blocks.count, 1, "The video with no playable sources is dropped")
+        guard case .video(let video) = page.blocks[0] else {
+            XCTFail("Expected a video block, got \(page.blocks[0])")
+            return
+        }
+        XCTAssertEqual(video.sources.map(\.url), [URL(string: "https://static.pocketcasts.com/whats-new/media/transcripts.mp4")])
+        XCTAssertEqual(video.alt, "Scrolling through a transcript")
+    }
+
     func testDecodesTimestampsWithFractionalSeconds() throws {
         let json = """
         {

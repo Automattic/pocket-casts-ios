@@ -77,6 +77,24 @@ public struct WhatsNewVideo: Decodable, Hashable {
     public let posterUrl: URL?
     public let alt: String?
     public let captionsUrl: URL?
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        _sources = try container.decode(LossyDecodedArray<Source>.self, forKey: .sources)
+        posterUrl = try container.decodeIfPresent(URL.self, forKey: .posterUrl)
+        alt = try container.decodeIfPresent(String.self, forKey: .alt)
+        captionsUrl = try container.decodeIfPresent(URL.self, forKey: .captionsUrl)
+        guard !sources.isEmpty else {
+            throw DecodingError.dataCorruptedError(forKey: .sources, in: container, debugDescription: "A video with no playable sources")
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case sources
+        case posterUrl
+        case alt
+        case captionsUrl
+    }
 }
 
 public struct WhatsNewAction: Decodable, Hashable {

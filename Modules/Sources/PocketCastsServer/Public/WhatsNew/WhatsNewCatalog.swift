@@ -96,11 +96,42 @@ public struct WhatsNewSummary: Decodable, Hashable {
 }
 
 /// How a message is presented once it's opened.
+///
+/// Content the app has nothing to render fails to decode, which drops the message it belongs to
+/// rather than showing a feed item that opens onto an empty pager.
 public struct WhatsNewContent: Decodable, Hashable {
     public let title: String?
     @LossyDecodedArray public var pages: [WhatsNewPage]
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        _pages = try container.decode(LossyDecodedArray<WhatsNewPage>.self, forKey: .pages)
+        guard !pages.isEmpty else {
+            throw DecodingError.dataCorruptedError(forKey: .pages, in: container, debugDescription: "Content with no renderable pages")
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case title
+        case pages
+    }
 }
 
+/// A single page of a message, dropped by the content's `LossyDecodedArray` when none of its blocks
+/// are ones the app knows how to render.
 public struct WhatsNewPage: Decodable, Hashable {
     @LossyDecodedArray public var blocks: [WhatsNewBlock]
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        _blocks = try container.decode(LossyDecodedArray<WhatsNewBlock>.self, forKey: .blocks)
+        guard !blocks.isEmpty else {
+            throw DecodingError.dataCorruptedError(forKey: .blocks, in: container, debugDescription: "A page with no renderable blocks")
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case blocks
+    }
 }
