@@ -39,8 +39,31 @@ public enum WhatsNewMessageType: String, Decodable, Hashable {
 
 /// The rules a client applies before a message can be shown.
 public struct WhatsNewTargeting: Decodable, Hashable {
-    @LossyDecodedArray public var audiences: [WhatsNewAudience]
+    /// The audiences as published, including any this version of the app doesn't understand.
+    @LossyDecodedArray public var rawAudiences: [String]
     public let minimumAppVersion: String?
+
+    /// The audiences this version of the app understands.
+    ///
+    /// Fewer of these than there are `rawAudiences` means the message is aimed at a tier this
+    /// version can't evaluate, which isn't the same as a message that isn't aimed at anyone.
+    public var audiences: [WhatsNewAudience] {
+        rawAudiences.compactMap(WhatsNewAudience.init(rawValue:))
+    }
+
+    /// Whether a user in `audience` is targeted by the message.
+    ///
+    /// A message with no audiences is for everyone. A message aimed only at audiences this version
+    /// doesn't understand is for nobody, so an unknown tier hides the message rather than showing
+    /// it to every user.
+    public func targets(_ audience: WhatsNewAudience) -> Bool {
+        rawAudiences.isEmpty || rawAudiences.contains(audience.rawValue)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case rawAudiences = "audiences"
+        case minimumAppVersion
+    }
 }
 
 public enum WhatsNewAudience: String, Decodable, Hashable {

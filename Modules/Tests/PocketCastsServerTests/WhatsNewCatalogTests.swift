@@ -140,7 +140,26 @@ final class WhatsNewCatalogTests: XCTestCase {
         let blocks = try XCTUnwrap(message.content.pages.first?.blocks)
 
         XCTAssertEqual(blocks.count, 2, "The poll block is dropped, the paragraphs around it are kept")
-        XCTAssertEqual(message.targeting.audiences, [.free], "The unsupported audience is dropped")
+        XCTAssertEqual(message.targeting.rawAudiences, ["free", "future_audience"], "The unsupported audience is kept as published")
+        XCTAssertEqual(message.targeting.audiences, [.free], "Only the audiences this version understands are mapped")
+    }
+
+    func testAMessageAimedOnlyAtAnUnknownAudienceTargetsNobody() throws {
+        let targeting = try decodedTargeting(#"{ "audiences": ["future_tier"] }"#)
+
+        XCTAssertTrue(targeting.audiences.isEmpty)
+        XCTAssertFalse(targeting.targets(.free), "An audience this version can't evaluate hides the message")
+        XCTAssertFalse(targeting.targets(.plus))
+        XCTAssertFalse(targeting.targets(.patron))
+    }
+
+    func testAMessageWithNoAudiencesTargetsEveryone() throws {
+        let targeting = try decodedTargeting("{}")
+
+        XCTAssertTrue(targeting.rawAudiences.isEmpty)
+        XCTAssertTrue(targeting.targets(.free))
+        XCTAssertTrue(targeting.targets(.plus))
+        XCTAssertTrue(targeting.targets(.patron))
     }
 
     func testCatalogFallsBackToTheCachedCopyWhenTheRequestFails() async throws {
@@ -169,6 +188,10 @@ final class WhatsNewCatalogTests: XCTestCase {
         } catch {
             XCTAssertEqual((error as? URLError)?.code, .notConnectedToInternet)
         }
+    }
+
+    private func decodedTargeting(_ json: String) throws -> WhatsNewTargeting {
+        try WhatsNewCatalog.decoder.decode(WhatsNewTargeting.self, from: Data(json.utf8))
     }
 
     private func decodedCatalog() throws -> WhatsNewCatalog {
