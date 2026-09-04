@@ -1,6 +1,7 @@
 8.21
 -----
 - Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
+- Fix portrait video episodes overflowing the player artwork area, overlapping the controls and episode title [#5058](https://github.com/Automattic/pocket-casts-ios/pull/5058)
 
 8.20
 -----
