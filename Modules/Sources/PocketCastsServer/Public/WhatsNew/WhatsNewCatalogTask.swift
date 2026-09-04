@@ -19,9 +19,12 @@ public struct WhatsNewCatalogTask {
         self.locale = locale
     }
 
+    /// The language the catalog falls back to when the CDN doesn't publish the current one.
+    public static let fallbackLocale = "en"
+
     /// The language the catalog is requested for, such as `en`.
     public static var currentLocale: String {
-        Locale.current.language.languageCode?.identifier ?? "en"
+        Locale.current.language.languageCode?.identifier ?? fallbackLocale
     }
 
     /// The catalog for the current locale, refreshed from the CDN.
@@ -46,7 +49,25 @@ public struct WhatsNewCatalogTask {
     }
 
     /// Fetches the catalog from the CDN, replacing the cached copy once it decodes.
+    ///
+    /// Requests the current language and falls back to `en` when the CDN doesn't publish it, so a
+    /// device set to a language the feed hasn't been translated into still sees the messages.
     public func refresh() async throws -> WhatsNewCatalog {
+        let data: Data
+        do {
+            data = try await fetchData(forLocale: locale)
+        } catch WhatsNewCatalogError.requestFailed(let statusCode)
+                    where statusCode == ServerConstants.HttpConstants.notFound && locale != Self.fallbackLocale {
+            FileLog.shared.addMessage("What's New: no catalog published for \(locale). Falling back to \(Self.fallbackLocale)")
+            data = try await fetchData(forLocale: Self.fallbackLocale)
+        }
+
+        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: data)
+        cache.save(data, forLocale: locale)
+        return catalog
+    }
+
+    private func fetchData(forLocale locale: String) async throws -> Data {
         let url = try URL(throwing: ServerConstants.Urls.whatsNew() + "\(locale).json")
         var request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30.seconds)
         request.addLocalizationHeaders()
@@ -57,10 +78,7 @@ public struct WhatsNewCatalogTask {
         guard statusCode == ServerConstants.HttpConstants.ok else {
             throw WhatsNewCatalogError.requestFailed(statusCode: statusCode)
         }
-
-        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: data)
-        cache.save(data, forLocale: locale)
-        return catalog
+        return data
     }
 }
 

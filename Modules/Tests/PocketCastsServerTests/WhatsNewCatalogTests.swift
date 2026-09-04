@@ -267,6 +267,26 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(cached.messages.map(\.id), fetched.messages.map(\.id))
     }
 
+    func testRefreshFallsBackToEnglishWhenTheLocaleIsNotPublished() async throws {
+        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "pt")
+
+        var requestedPaths: [String] = []
+        StubURLProtocol.requestHandler = { [json] request in
+            let url = request.url!
+            requestedPaths.append(url.lastPathComponent)
+            guard url.lastPathComponent == "en.json" else {
+                return (HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)!, Data())
+            }
+            return (HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!, Data(json.utf8))
+        }
+
+        let catalog = try await task.refresh()
+
+        XCTAssertEqual(requestedPaths, ["pt.json", "en.json"])
+        XCTAssertEqual(catalog.messages.count, 2)
+        XCTAssertEqual(task.cachedCatalog()?.messages.count, 2, "The fallback catalog is cached for the requested locale")
+    }
+
     func testCatalogRethrowsCancellationRatherThanReturningTheCachedCopy() async throws {
         let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
 
