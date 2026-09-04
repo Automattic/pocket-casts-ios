@@ -1,8 +1,8 @@
-import SwiftUI
+import UIKit
 
 extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        cellStyle == .networkGrid ? networks.count : podcasts.count
+        podcasts.count
     }
 
     // MARK: - CollectionView Datasource
@@ -35,26 +35,10 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 }
             }
             return cell
-        case .networkGrid:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.networkCellId, for: indexPath)
-            let network = networks[indexPath.row]
-            cell.contentConfiguration = UIHostingConfiguration {
-                DiscoverNetworkCard(network: network, size: networkItemSize(in: collectionView).width)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .environmentObject(Theme.sharedTheme)
-            }
-            .margins(.all, 0)
-            return cell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if cellStyle == .networkGrid {
-            onSelectNetwork?(networks[indexPath.row])
-            collectionView.deselectItem(at: indexPath, animated: true)
-            return
-        }
-
         let podcast = podcasts[indexPath.row]
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: item.uuid)
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -100,25 +84,12 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let numColumns = isBigDevice ? floor(viewWidth / (gridPreferredWidth + gridStyleSpacing)) : gridNumColumns
             let itemWidth = (viewWidth - (gridStyleSpacing * (numColumns - 1))) / numColumns
             return CGSize(width: itemWidth, height: itemWidth + cellExtraHeight)
-        case .networkGrid:
-            return networkItemSize(in: collectionView)
         }
     }
 
-    /// A network cell is its round artwork, as wide as the column, with the name and description below it.
-    func networkItemSize(in collectionView: UICollectionView) -> CGSize {
-        let viewWidth = collectionView.bounds.width - (2 * networkGridInset)
-        let numColumns = max(gridNumColumns, floor(viewWidth / (networkGridPreferredWidth + networkGridSpacing)))
-        let itemWidth = (viewWidth - (networkGridSpacing * (numColumns - 1))) / numColumns
-
-        return CGSize(width: itemWidth, height: itemWidth + DiscoverNetworkCard.textHeight)
-    }
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let horizontalInset = cellStyle == .networkGrid ? networkGridInset : inset
-        let topInset = (podcastCollection == nil && cellStyle != .descriptiveList) ? horizontalInset : 0
-        let bottomInset = cellStyle == .networkGrid ? networkGridInset : 0
-        return UIEdgeInsets(top: topInset, left: horizontalInset, bottom: bottomInset, right: horizontalInset)
+        let topInset = (podcastCollection == nil && cellStyle != .descriptiveList) ? inset : 0
+        return UIEdgeInsets(top: topInset, left: inset, bottom: 0, right: inset)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -127,8 +98,6 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             return 0
         case .grid:
             return inset
-        case .networkGrid:
-            return networkGridLineSpacing
         }
     }
 

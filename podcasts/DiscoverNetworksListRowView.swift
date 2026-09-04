@@ -86,41 +86,27 @@ struct DiscoverNetworkCard: View {
 
     let network: NetworkListSummary
 
-    /// The side length of the artwork, which the card is as wide as.
-    let size: CGFloat
+    /// The side length of the artwork, which the card is as wide as, or `nil` to fill the width it's given.
+    var size: CGFloat?
 
     @EnvironmentObject var theme: Theme
 
-    private static let titleSize: CGFloat = 15
-    private static let descriptionSize: CGFloat = 14
-    private static let descriptionLineLimit = 2
-    private static let artworkSpacing: CGFloat = 10
-    private static let textSpacing: CGFloat = 2
-
-    /// The height the name and description take up under the artwork, at the current text size.
-    static var textHeight: CGFloat {
-        let title = UIFont.font(ofSize: titleSize, weight: .medium, scalingWith: .subheadline)
-        let description = UIFont.font(ofSize: descriptionSize, weight: .medium, scalingWith: .subheadline)
-        return ceil(artworkSpacing + title.lineHeight + textSpacing + (CGFloat(descriptionLineLimit) * description.lineHeight))
-    }
-
     var body: some View {
-        VStack(spacing: Self.artworkSpacing) {
-            NetworkArtworkView(url: network.collectionImageURL, size: size)
-                .clipShape(.circle)
-            VStack(spacing: Self.textSpacing) {
+        VStack(spacing: 10) {
+            artwork
+            VStack(spacing: 2) {
                 if let title = network.title {
                     Text(title)
                         .foregroundStyle(theme.primaryText01)
-                        .font(size: Self.titleSize, style: .subheadline, weight: .medium)
+                        .font(size: 15, style: .subheadline, weight: .medium)
                         .kerning(-0.3)
                         .lineLimit(1)
                 }
                 if let description = network.description {
                     Text(description)
                         .foregroundStyle(theme.primaryText02)
-                        .font(size: Self.descriptionSize, style: .subheadline, weight: .medium)
-                        .lineLimit(Self.descriptionLineLimit)
+                        .font(size: 14, style: .subheadline, weight: .medium)
+                        .lineLimit(2)
                 }
             }
             .multilineTextAlignment(.center)
@@ -129,6 +115,18 @@ struct DiscoverNetworkCard: View {
         .accessibilityElement()
         .accessibilityLabel(network.accessibilityLabel)
         .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var artwork: some View {
+        if let size {
+            NetworkArtworkView(url: network.collectionImageURL, size: size)
+                .clipShape(.circle)
+        } else {
+            NetworkArtworkView(url: network.collectionImageURL)
+                .aspectRatio(1, contentMode: .fit)
+                .clipShape(.circle)
+        }
     }
 }
 
