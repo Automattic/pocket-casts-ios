@@ -4,6 +4,7 @@
 - Fix transcripts not showing for podcasts whose feeds serve them as plain text, such as those hosted on Transistor [#5055](https://github.com/Automattic/pocket-casts-ios/pull/5055)
 - Playback failures caused by a full disk now report a storage error instead of asking you to check your internet connection [#5056](https://github.com/Automattic/pocket-casts-ios/pull/5056)
 - Fix the Chromecast button being invisible in the fullscreen video player [#5060](https://github.com/Automattic/pocket-casts-ios/pull/5060)
+- Fix a memory leak that kept the episode details screen, its views and artwork in memory after it was closed [#5067](https://github.com/Automattic/pocket-casts-ios/pull/5067)
 - Fix the controls in the fullscreen video player being too small to tap reliably [#5059](https://github.com/Automattic/pocket-casts-ios/pull/5059)
 
 8.20

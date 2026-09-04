@@ -119,8 +119,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var messageView: RoundedBorderView! {
         didSet {
-            messageView.getBorderColor = { AppTheme.episodeMessageBorderColor(for: self.themeOverride) }
-            messageView.getBgColor = { AppTheme.episodeMessageBackgroundColor(for: self.themeOverride) }
+            messageView.getBorderColor = { [weak self] in AppTheme.episodeMessageBorderColor(for: self?.themeOverride) }
+            messageView.getBgColor = { [weak self] in AppTheme.episodeMessageBackgroundColor(for: self?.themeOverride) }
         }
     }
 
