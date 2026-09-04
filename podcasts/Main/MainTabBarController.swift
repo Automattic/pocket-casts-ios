@@ -986,7 +986,7 @@ private extension MainTabBarController {
             .compactMap { event in
                 bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
             }
-            .sink { bookmark, source in
+            .sink { (bookmark: Bookmark, source: BookmarkAnalyticsSource) in
                 Task {
                     await bookmarkManager.enrich(bookmark, source: source)
                 }

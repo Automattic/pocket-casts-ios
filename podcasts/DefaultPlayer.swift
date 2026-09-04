@@ -353,6 +353,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
+        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
+
+        if let playerNSError, playerNSError.isOutOfStorage {
+            PlaybackManager.shared.playbackDidFail(error: .notEnoughStorage(logMessage: logMessage))
+            return true
+        }
 
         if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
            let episodeUuid {
@@ -360,7 +366,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return false
             }
         }
-        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
         var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
         if let playerNSError,
            playerNSError.domain == NSURLErrorDomain {
@@ -952,7 +957,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
             let errorMessage = error?.localizedDescription ?? "Unknown item did fail to finish error"
-            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            if let nsError = error as? NSError, nsError.isOutOfStorage {
+                PlaybackManager.shared.playbackDidFail(error: .notEnoughStorage(logMessage: errorMessage))
+            } else {
+                PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            }
         }
 
         playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
@@ -1025,5 +1034,25 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func setVolume(_ volume: Float) {
         player?.volume = volume
+    }
+}
+
+extension NSError {
+    /// Whether this error, or any error underlying it, reports that the device has run out of storage.
+    var isOutOfStorage: Bool {
+        var error: NSError? = self
+        var depth = 0
+        while let current = error, depth < 10 {
+            depth += 1
+            switch (current.domain, current.code) {
+            case (NSCocoaErrorDomain, NSFileWriteOutOfSpaceError),
+                 (NSPOSIXErrorDomain, Int(ENOSPC)),
+                 (AVFoundationErrorDomain, AVError.Code.diskFull.rawValue):
+                return true
+            default:
+                error = current.userInfo[NSUnderlyingErrorKey] as? NSError
+            }
+        }
+        return false
     }
 }

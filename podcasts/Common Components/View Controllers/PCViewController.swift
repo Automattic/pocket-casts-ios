@@ -61,11 +61,10 @@ class PCViewController: SimpleNotificationsViewController {
         if supportsGoogleCast {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
-            if useTransparentNavigationBarAppearance {
-                if !LiquidGlass.isEnabled {
-                    FakeNavBarButton.applyStyle(to: castButton)
-                }
-                // On Liquid Glass, the bar's default tint already gives the cast button proper contrast.
+            if LiquidGlass.isEnabled {
+                castButton.tintColor = .label
+            } else if useTransparentNavigationBarAppearance {
+                FakeNavBarButton.applyStyle(to: castButton)
             } else {
                 castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
             }

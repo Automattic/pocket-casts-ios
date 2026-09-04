@@ -52,14 +52,16 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
                     vc?.showNotesWebViewTopConstraint?.constant = 20.0
                 }
                 if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID), !metadata.transcripts.isEmpty {
-                    let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
-                        DispatchQueue.main.async { [weak self] in
+                    let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) { [weak self] in
+                        DispatchQueue.main.async {
+                            guard let self else { return }
+
                             let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
                             let controller = TranscriptContainerViewController(playbackManager: playbackManager)
                             controller.playButtonTapped = { [weak self] playing in
                                 self?.playPauseEpisode(isPlaying: playing)
                             }
-                            self?.present(controller, animated: true)
+                            self.present(controller, animated: true)
                         }
                     }
                     await MainActor.run { [weak self] in
