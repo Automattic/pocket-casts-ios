@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DiscoverCollectionHeader" id="U6b-Vx-4bR" customClass="DiscoverCollectionHeader" customModule="podcasts" customModuleProvider="target">
+        <collectionReusableView opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DiscoverCollectionHeader" id="U6b-Vx-4bR" customClass="DiscoverCollectionHeader" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="399" height="425"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -21,15 +21,9 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eV-el-4ft">
                             <rect key="frame" x="0.0" y="0.0" width="399" height="140"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="140" id="cJp-ck-eqO"/>
-                            </constraints>
                         </view>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mvm-o6-mNy">
                             <rect key="frame" x="0.0" y="0.0" width="399" height="140"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="140" id="kf7-KT-s9v"/>
-                            </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yYb-i1-leb">
                             <rect key="frame" x="0.0" y="0.0" width="399" height="140"/>
@@ -141,6 +135,7 @@
                         <constraint firstItem="ldU-3C-ZOr" firstAttribute="leading" secondItem="7JV-U8-0zd" secondAttribute="leading" constant="16" id="Bqh-Nz-7tE"/>
                         <constraint firstItem="ldU-3C-ZOr" firstAttribute="trailing" secondItem="7JV-U8-0zd" secondAttribute="trailing" constant="-16" id="Cvr-Kd-9pS"/>
                         <constraint firstItem="e6f-hB-C8a" firstAttribute="leading" secondItem="7JV-U8-0zd" secondAttribute="leading" constant="20" symbolic="YES" id="D2m-YL-tqn"/>
+                        <constraint firstItem="7eV-el-4ft" firstAttribute="bottom" secondItem="7JV-U8-0zd" secondAttribute="top" constant="140" id="Hbl-3d-CoL"/>
                         <constraint firstItem="7eV-el-4ft" firstAttribute="top" secondItem="7JV-U8-0zd" secondAttribute="top" id="Lei-T2-pmK"/>
                         <constraint firstItem="yYb-i1-leb" firstAttribute="trailing" secondItem="7eV-el-4ft" secondAttribute="trailing" id="RJJ-ct-HwH"/>
                         <constraint firstItem="yYb-i1-leb" firstAttribute="top" secondItem="7eV-el-4ft" secondAttribute="top" id="Vef-W5-Ygv"/>
@@ -170,6 +165,7 @@
                 <outlet property="avatarBorderView" destination="Oap-c4-00b" id="gcA-iL-ncZ"/>
                 <outlet property="avatarImageView" destination="7cY-eL-Ku5" id="LXe-g0-nai"/>
                 <outlet property="collageImageView" destination="mvm-o6-mNy" id="u6U-ps-mhY"/>
+                <outlet property="collageTopConstraint" destination="Lei-T2-pmK" id="Kd9-Vb-2Nt"/>
                 <outlet property="collageTintView" destination="yYb-i1-leb" id="A5E-bf-ig2"/>
                 <outlet property="descriptionLabel" destination="p3W-lx-nAX" id="QLg-FI-p5N"/>
                 <outlet property="headerView" destination="7JV-U8-0zd" id="GW6-ZP-kpA"/>
