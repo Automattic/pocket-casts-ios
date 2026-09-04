@@ -27,17 +27,11 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     @IBOutlet var avatarBorderView: ThemeableView! {
         didSet {
             avatarBorderView.layer.cornerRadius = 44
-        }
-    }
-
-    @IBOutlet var avatarShadowView: UIView! {
-        didSet {
-            avatarShadowView.layer.cornerRadius = 40
-            avatarShadowView.layer.shadowColor = UIColor.black.cgColor
-            avatarShadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
-            avatarShadowView.layer.shadowOpacity = 0.15
-            avatarShadowView.layer.shadowRadius = 4
-            avatarShadowView.layer.shadowPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 80, height: 80)).cgPath
+            avatarBorderView.layer.shadowColor = UIColor.black.cgColor
+            avatarBorderView.layer.shadowOffset = CGSize(width: 0, height: 2)
+            avatarBorderView.layer.shadowOpacity = 0.15
+            avatarBorderView.layer.shadowRadius = 4
+            avatarBorderView.layer.shadowPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 88, height: 88)).cgPath
         }
     }
 

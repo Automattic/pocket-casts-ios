@@ -85,8 +85,8 @@ class DiscoverNetworksListModel: ObservableObject {
 
     /// The list the network points at, as the `DiscoverItem` the expanded screens expect.
     ///
-    /// A network opens as a `grid`, the style the curated collections already on the feed use, so
-    /// it gets ``ExpandedCollectionViewController`` and its header whatever the entry asks for.
+    /// A network opens as a `network_grid`: ``ExpandedCollectionViewController`` and its header,
+    /// laid out the way a curated collection is, titled the way a network is.
     private func discoverItem(for network: NetworkListSummary) -> DiscoverItem {
         DiscoverItem(
             id: network.uuid,
@@ -94,7 +94,7 @@ class DiscoverNetworksListModel: ObservableObject {
             title: network.title,
             type: network.type,
             summaryStyle: network.summaryStyle,
-            expandedStyle: "grid",
+            expandedStyle: "network_grid",
             source: network.source,
             regions: item?.regions ?? []
         )

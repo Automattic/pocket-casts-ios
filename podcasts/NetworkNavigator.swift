@@ -53,8 +53,8 @@ final class NetworkNavigator: ObservableObject {
         navigationController.pushViewController(controller, animated: true)
     }
 
-    /// The network's list, as the `DiscoverItem` the expanded screen expects. It opens as a `grid`,
-    /// the same way a network opens from the Discover feed.
+    /// The network's list, as the `DiscoverItem` the expanded screen expects. It opens as a
+    /// `network_grid`, the same way a network opens from the Discover feed.
     private func discoverItem(listId: String, title: String?) -> DiscoverItem {
         DiscoverItem(
             id: listId,
@@ -62,7 +62,7 @@ final class NetworkNavigator: ObservableObject {
             title: title,
             type: NetworkListSummary.supportedType,
             summaryStyle: "collection",
-            expandedStyle: "grid",
+            expandedStyle: "network_grid",
             source: ServerHelper.listUrlString(listId: listId),
             regions: []
         )

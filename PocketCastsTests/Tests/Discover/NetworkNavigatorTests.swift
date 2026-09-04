@@ -70,7 +70,7 @@ final class NetworkNavigatorTests: XCTestCase {
         XCTAssertEqual(navigationController.pushedViewControllers.count, 1)
         XCTAssertEqual(serverHandler.requestedSources, [source])
         XCTAssertEqual(pushed.item.uuid, listId)
-        XCTAssertEqual(pushed.item.expandedStyle, "grid")
+        XCTAssertEqual(pushed.item.expandedStyle, "network_grid")
     }
 
     func testTappingTheSameNetworkTwiceLoadsAndShowsItOnce() {
