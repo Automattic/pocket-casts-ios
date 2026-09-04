@@ -81,8 +81,8 @@ struct DiscoverNetworksListRowView: View {
     }
 }
 
-/// A network in the Discover row: round artwork above its name and description.
-private struct DiscoverNetworkCard: View {
+/// A network in the Discover row and in the expanded grid: round artwork above its name and description.
+struct DiscoverNetworkCard: View {
 
     let network: NetworkListSummary
 
@@ -91,23 +91,36 @@ private struct DiscoverNetworkCard: View {
 
     @EnvironmentObject var theme: Theme
 
+    private static let titleSize: CGFloat = 15
+    private static let descriptionSize: CGFloat = 14
+    private static let descriptionLineLimit = 2
+    private static let artworkSpacing: CGFloat = 10
+    private static let textSpacing: CGFloat = 2
+
+    /// The height the name and description take up under the artwork, at the current text size.
+    static var textHeight: CGFloat {
+        let title = UIFont.font(ofSize: titleSize, weight: .medium, scalingWith: .subheadline)
+        let description = UIFont.font(ofSize: descriptionSize, weight: .medium, scalingWith: .subheadline)
+        return ceil(artworkSpacing + title.lineHeight + textSpacing + (CGFloat(descriptionLineLimit) * description.lineHeight))
+    }
+
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Self.artworkSpacing) {
             NetworkArtworkView(url: network.collectionImageURL, size: size)
                 .clipShape(.circle)
-            VStack(spacing: 2) {
+            VStack(spacing: Self.textSpacing) {
                 if let title = network.title {
                     Text(title)
                         .foregroundStyle(theme.primaryText01)
-                        .font(size: 15, style: .subheadline, weight: .medium)
+                        .font(size: Self.titleSize, style: .subheadline, weight: .medium)
                         .kerning(-0.3)
                         .lineLimit(1)
                 }
                 if let description = network.description {
                     Text(description)
                         .foregroundStyle(theme.primaryText02)
-                        .font(size: 14, style: .subheadline, weight: .medium)
-                        .lineLimit(2)
+                        .font(size: Self.descriptionSize, style: .subheadline, weight: .medium)
+                        .lineLimit(Self.descriptionLineLimit)
                 }
             }
             .multilineTextAlignment(.center)
@@ -116,23 +129,6 @@ private struct DiscoverNetworkCard: View {
         .accessibilityElement()
         .accessibilityLabel(network.accessibilityLabel)
         .accessibilityAddTraits(.isButton)
-    }
-}
-
-/// A network as a poster: its artwork, with the name and description read out by VoiceOver.
-struct DiscoverNetworkPoster: View {
-
-    let network: NetworkListSummary
-
-    /// A fixed side length, or `nil` for the poster to fill the space it's given.
-    var size: CGFloat?
-
-    var body: some View {
-        NetworkArtworkView(url: network.collectionImageURL, size: size)
-            .cornerRadius(4)
-            .accessibilityElement()
-            .accessibilityLabel(network.accessibilityLabel)
-            .accessibilityAddTraits(.isButton)
     }
 }
 
@@ -179,7 +175,7 @@ struct NetworkArtworkView: View {
     }
 }
 
-private extension NetworkListSummary {
+extension NetworkListSummary {
     var accessibilityLabel: String {
         [title, description].compactMap { $0 }.joined(separator: ", ")
     }
