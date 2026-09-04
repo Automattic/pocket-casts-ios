@@ -38,6 +38,10 @@ public enum ServerConstants {
             production() ? "https://lists.pocketcasts.com/" : "https://lists.pocketcasts.net/"
         }
 
+        public static func whatsNew() -> String {
+            production() ? "https://static.pocketcasts.com/whats-new/v1/ios/" : "https://static.pocketcasts.net/whats-new/v1/ios/"
+        }
+
         public static var search: String {
             production() ? "https://search.pocketcasts.com/" : "https://search.pocketcasts.net/"
         }
