@@ -20,9 +20,6 @@ class PCGoogleCastButton: UIButton {
     }
 
     func setup() {
-        if LiquidGlass.isEnabled {
-            tintColor = .label
-        }
         updateForCurrentState()
         NotificationCenter.default.addObserver(self, selector: #selector(stateDidChange), name: Constants.Notifications.googleCastStatusChanged, object: nil)
     }
