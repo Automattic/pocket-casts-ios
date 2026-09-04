@@ -81,6 +81,7 @@ enum VideoExporter {
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
+        let cancellableWriter = UnsafeTransfer(videoWriter)
         try await withTaskCancellationHandler {
             try await writeFrames(of: view,
                                   size: parameters.size,
@@ -92,7 +93,7 @@ enum VideoExporter {
                                   progress: progress,
                                   frameCount: frameCount)
         } onCancel: {
-            videoWriter.cancelWriting()
+            cancellableWriter.wrappedValue.cancelWriting()
         }
     }
 
