@@ -73,12 +73,21 @@ class DiscoverNetworksGridViewController: ThemedHostingController<DiscoverNetwor
 #if DEBUG
 
 #Preview("Networks grid") {
+    networksGridPreview(theme: .light)
+}
+
+/// The app draws its own colours, so a dark grid takes a dark ``Theme``, not a dark appearance.
+#Preview("Networks grid, dark") {
+    networksGridPreview(theme: .dark)
+}
+
+private func networksGridPreview(theme: Theme.ThemeType) -> some View {
     NavigationStack {
         DiscoverNetworksGridView(
             networks: DiscoverPreviewData.networkCollection(title: "Networks", count: 12).lists,
             onSelect: { _ in }
         )
-        .setupDefaultEnvironment()
+        .setupDefaultEnvironment(theme: Theme(previewTheme: theme))
         .navigationTitle(Text("Networks"))
         .navigationBarTitleDisplayMode(.inline)
     }
