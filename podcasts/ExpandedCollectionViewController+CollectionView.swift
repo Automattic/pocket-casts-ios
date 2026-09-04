@@ -117,7 +117,8 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let horizontalInset = cellStyle == .networkGrid ? networkGridInset : inset
         let topInset = (podcastCollection == nil && cellStyle != .descriptiveList) ? horizontalInset : 0
-        return UIEdgeInsets(top: topInset, left: horizontalInset, bottom: 0, right: horizontalInset)
+        let bottomInset = cellStyle == .networkGrid ? networkGridInset : 0
+        return UIEdgeInsets(top: topInset, left: horizontalInset, bottom: bottomInset, right: horizontalInset)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
