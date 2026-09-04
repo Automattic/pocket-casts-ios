@@ -97,6 +97,11 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public static func ==(lhs: PodcastFolderSearchResult, rhs: PodcastFolderSearchResult) -> Bool {
         lhs.kind == rhs.kind && lhs.uuid == rhs.uuid
     }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(kind)
+        hasher.combine(uuid)
+    }
 }
 
 extension PodcastFolderSearchResult: Identifiable {
@@ -132,8 +137,14 @@ public class PodcastSearchTask {
         if let podcast = envelope?.result.podcast {
             return [podcast]
         } else {
-            return envelope?.result.searchResults ?? []
+            return Self.deduplicated(envelope?.result.searchResults ?? [])
         }
+    }
+
+    /// Drops results the search API repeated, keeping the first of each and the original order.
+    static func deduplicated(_ results: [PodcastFolderSearchResult]) -> [PodcastFolderSearchResult] {
+        var seen = Set<PodcastFolderSearchResult>()
+        return results.filter { seen.insert($0).inserted }
     }
 
     private func search(term: String) async throws -> PodcastsSearchEnvelope {
