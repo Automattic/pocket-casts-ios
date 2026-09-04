@@ -27,12 +27,13 @@ public struct WhatsNewCatalogTask {
     /// The catalog for the current locale, refreshed from the CDN.
     ///
     /// Falls back to the cached catalog when the request fails or returns something that can't be
-    /// decoded, and only rethrows when there's nothing cached to fall back to.
+    /// decoded, and only rethrows when the refresh was cancelled or there's nothing cached to fall
+    /// back to.
     public func catalog() async throws -> WhatsNewCatalog {
         do {
             return try await refresh()
         } catch {
-            guard let cached = cachedCatalog() else { throw error }
+            guard !error.isCancellation, let cached = cachedCatalog() else { throw error }
             FileLog.shared.addMessage("What's New: catalog request failed: \(error.localizedDescription). Returning the cached catalog")
             return cached
         }
@@ -60,5 +61,11 @@ public struct WhatsNewCatalogTask {
         let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: data)
         cache.save(data, forLocale: locale)
         return catalog
+    }
+}
+
+private extension Error {
+    var isCancellation: Bool {
+        self is CancellationError || (self as? URLError)?.code == .cancelled
     }
 }

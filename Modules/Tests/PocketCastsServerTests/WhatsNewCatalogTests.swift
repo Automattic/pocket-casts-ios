@@ -267,6 +267,25 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(cached.messages.map(\.id), fetched.messages.map(\.id))
     }
 
+    func testCatalogRethrowsCancellationRatherThanReturningTheCachedCopy() async throws {
+        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
+
+        StubURLProtocol.requestHandler = { [json] request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+        _ = try await task.catalog()
+
+        StubURLProtocol.requestHandler = { _ in throw URLError(.cancelled) }
+
+        do {
+            _ = try await task.catalog()
+            XCTFail("Expected the cancelled request to propagate")
+        } catch {
+            XCTAssertEqual((error as? URLError)?.code, .cancelled)
+        }
+    }
+
     func testCatalogThrowsWhenTheRequestFailsAndNothingIsCached() async {
         let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
 
