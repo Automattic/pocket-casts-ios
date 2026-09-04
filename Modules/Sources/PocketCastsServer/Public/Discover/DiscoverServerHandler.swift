@@ -61,16 +61,16 @@ public class DiscoverServerHandler: DiscoverServerHandling {
             switch self {
             case .discover:
                 if FeatureFlag.recommendations.enabled {
-                    contentPath.append("/content_v3.json")
+                    contentPath.append("/content_v4.json")
                 } else {
                     contentPath.append("/content_v2.json")
                 }
             case .search:
-                contentPath.append("/content_v3_search.json")
+                contentPath.append("/content_v4_search.json")
             case .signedIn:
-                contentPath.append("/content_v3_logged_in.json")
+                contentPath.append("/content_v4_logged_in.json")
             case .signedOut:
-                contentPath.append("/content_v3_logged_out.json")
+                contentPath.append("/content_v4_logged_out.json")
             }
 
             return contentPath
