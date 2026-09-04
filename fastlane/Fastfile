@@ -1492,12 +1492,39 @@ platform :ios do
   # @param po_file_path [String] Path to the GlotPress source `.po` file to update
   #
   def update_app_store_strings_source(metadata_folder:, po_file_path:)
+    lint_app_store_metadata_lengths(metadata_folder: metadata_folder)
+
     gp_update_metadata_source(
       po_file_path: po_file_path,
       source_files: app_store_metadata_source_files(metadata_folder: metadata_folder),
       release_version: release_version_current,
       commit_changes: true
     )
+  end
+
+  # Checks the English App Store metadata against the App Store Connect maximums and the source budgets.
+  #
+  # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
+  #
+  def lint_app_store_metadata_lengths(metadata_folder:)
+    APP_STORE_METADATA_LIMITS.each do |file_name, limits|
+      path = File.join(metadata_folder, 'default', file_name)
+      UI.user_error!("Could not find the App Store metadata at #{path}.") unless File.exist?(path)
+
+      # Mirror `PoFileGenerator#create_standard_entry`, which stores `content.rstrip` as the msgid:
+      # trailing whitespace never reaches GlotPress, so counting it here would be stricter than reality.
+      length = File.read(path, mode: 'r:UTF-8').rstrip.length
+
+      case app_store_metadata_length_verdict(file_name, length)
+      when :over_max
+        UI.user_error!("#{path} is #{length} characters, over the #{limits.fetch(:max_size)}-character maximum App Store Connect accepts.")
+      when :over_budget
+        UI.important(
+          "#{path} is #{length} characters, over the #{limits.fetch(:budget)}-character budget that leaves translations room to expand. " \
+          "Locales translating past #{limits.fetch(:max_size)} will ship with no #{file_name} at all."
+        )
+      end
+    end
   end
 
   # @param metadata_folder [String] Path to the Fastlane deliver metadata folder
@@ -1510,15 +1537,15 @@ platform :ios do
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
       app_store_subtitle: {
         path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
+        comment: "translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to #{app_store_metadata_max_size('subtitle.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no subtitle at all."
       },
       app_store_desc: {
         path: File.join(source_metadata_folder, 'description.txt'),
-        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
+        comment: "translators: Multi-paragraph text used to display in the Apple App Store. Limit to #{app_store_metadata_max_size('description.txt')} characters including spaces! A translation over that length is dropped, and the locale then ships with no description at all."
       },
       app_store_keywords: {
         path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+        comment: "translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to #{app_store_metadata_max_size('keywords.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no keywords at all."
       }
     }
   end
@@ -1527,14 +1554,18 @@ platform :ios do
   #
   def app_store_metadata_target_files
     {
-      "v#{release_version_current}-whats-new": {
-        desc: 'release_notes.txt',
-        max_size: 4000
-      },
-      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
-      app_store_desc: { desc: 'description.txt', max_size: 4000 },
-      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
+      "v#{release_version_current}-whats-new": app_store_metadata_target('release_notes.txt'),
+      app_store_subtitle: app_store_metadata_target('subtitle.txt'),
+      app_store_desc: app_store_metadata_target('description.txt'),
+      app_store_keywords: app_store_metadata_target('keywords.txt')
     }
+  end
+
+  # @param file_name [String] Metadata file name, as keyed in `APP_STORE_METADATA_LIMITS`
+  # @return [Hash] Single target entry expected by `gp_downloadmetadata`
+  #
+  def app_store_metadata_target(file_name)
+    { desc: file_name, max_size: app_store_metadata_max_size(file_name) }
   end
 
   # Downloads localized App Store metadata from a GlotPress project into a platform-specific metadata folder.

@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require_relative '../lib/helpers'
 
-# Tests the project-specific helpers used to prepare TestFlight changelogs.
+# Tests the project-specific helpers used to prepare TestFlight changelogs and App Store metadata.
 class FastlaneHelpersTest < Minitest::Test
   def test_ios_changelog_excludes_tvos_entries
     release_notes = <<~NOTES
@@ -61,5 +61,56 @@ class FastlaneHelpersTest < Minitest::Test
 
     assert_equal 'Minor changes.', ios_testflight_changelog(release_notes)
     assert_equal '- No separator', tvos_testflight_changelog(release_notes)
+  end
+
+  def test_metadata_length_verdict_is_ok_up_to_the_budget
+    assert_equal :ok, app_store_metadata_length_verdict('description.txt', 3399)
+    assert_equal :ok, app_store_metadata_length_verdict('description.txt', 3400)
+    assert_equal :ok, app_store_metadata_length_verdict('keywords.txt', 95)
+  end
+
+  def test_metadata_length_verdict_warns_between_the_budget_and_the_maximum
+    assert_equal :over_budget, app_store_metadata_length_verdict('description.txt', 3401)
+    assert_equal :over_budget, app_store_metadata_length_verdict('description.txt', 4000)
+    assert_equal :over_budget, app_store_metadata_length_verdict('keywords.txt', 96)
+    assert_equal :over_budget, app_store_metadata_length_verdict('keywords.txt', 100)
+  end
+
+  def test_metadata_length_verdict_fails_past_the_maximum
+    assert_equal :over_max, app_store_metadata_length_verdict('description.txt', 4001)
+    assert_equal :over_max, app_store_metadata_length_verdict('keywords.txt', 101)
+    assert_equal :over_max, app_store_metadata_length_verdict('subtitle.txt', 31)
+    assert_equal :over_max, app_store_metadata_length_verdict('release_notes.txt', 4001)
+  end
+
+  def test_metadata_length_verdict_never_warns_without_a_budget
+    assert_equal :ok, app_store_metadata_length_verdict('subtitle.txt', 30)
+    assert_equal :ok, app_store_metadata_length_verdict('release_notes.txt', 4000)
+  end
+
+  def test_metadata_length_verdict_rejects_an_unknown_file
+    assert_raises(KeyError) { app_store_metadata_length_verdict('changelog.txt', 1) }
+  end
+
+  # `RUN_FASTLANE_TESTS` enables this suite for any PR touching `fastlane/*`, which includes the metadata
+  # itself — so over-long copy fails on the PR that writes it, not mid-release.
+  #
+  # Budgets are asserted, not just maximums: a budget only warns from the release lane, and a warning
+  # nobody reads is how a locale ends up shipping with no metadata at all.
+  def test_shipped_metadata_fits_its_limits
+    %w[metadata metadata-tvos].each do |folder|
+      APP_STORE_METADATA_LIMITS.each do |file_name, limits|
+        path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
+        length = File.read(path, mode: 'r:UTF-8').rstrip.length
+        limit = if limits[:budget]
+                  "#{limits[:budget]}-character budget (App Store Connect's maximum is #{limits.fetch(:max_size)})"
+                else
+                  "#{limits.fetch(:max_size)}-character maximum"
+                end
+
+        assert_equal :ok, app_store_metadata_length_verdict(file_name, length),
+                     "#{path} is #{length} characters, over its #{limit}"
+      end
+    end
   end
 end
