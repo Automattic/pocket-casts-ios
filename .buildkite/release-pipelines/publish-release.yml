@@ -21,6 +21,9 @@ steps:
 
       echo '--- :github: Publish Release'
       bundle exec fastlane publish_release skip_confirm:true
+
+      echo '--- :slack: Notify Slack'
+      bundle exec fastlane notify_phased_release_on_slack milestone:"${MILESTONE}"
     plugins: [$CI_TOOLKIT]
     agents:
       queue: "mac"
