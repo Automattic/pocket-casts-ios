@@ -63,6 +63,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ExpandedCollectionViewController.headerId, for: indexPath) as! DiscoverCollectionHeader
         header.populate(podcastCollection: podcastCollection)
+        header.collageTopBleed = headerCollageBleed
         header.linkDelegate = self
         return header
     }
