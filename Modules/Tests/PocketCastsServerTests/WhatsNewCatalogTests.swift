@@ -135,6 +135,33 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(action.style, .primary)
     }
 
+    func testDecodesTimestampsWithFractionalSeconds() throws {
+        let json = """
+        {
+          "schemaVersion": 1,
+          "generatedAt": "2026-08-17T10:30:00.000Z",
+          "messages": [
+            {
+              "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
+              "type": "tip",
+              "publishedAt": "2026-08-17T08:00:00.123Z",
+              "targeting": {},
+              "summary": { "title": "Sleep timer shortcuts" },
+              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "Hold the sleep timer button." }] }] }
+            }
+          ]
+        }
+        """
+
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
+
+        XCTAssertEqual(catalog.generatedAt, formatter.date(from: "2026-08-17T10:30:00.000Z"))
+        XCTAssertEqual(catalog.messages.count, 1, "A timestamp with fractional seconds doesn't drop the message")
+        XCTAssertEqual(catalog.messages.first?.publishedAt, formatter.date(from: "2026-08-17T08:00:00.123Z"))
+    }
+
     func testDropsUnknownBlocksAndAudiencesWithoutLosingTheirNeighbours() throws {
         let message = try XCTUnwrap(decodedCatalog().messages.last)
         let blocks = try XCTUnwrap(message.content.pages.first?.blocks)

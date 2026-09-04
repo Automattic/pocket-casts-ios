@@ -10,9 +10,25 @@ public struct WhatsNewCatalog: Decodable, Hashable {
 
     static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            guard let date = WhatsNewCatalog.date(from: string) else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Not an ISO 8601 date: \(string)")
+            }
+            return date
+        }
         return decoder
     }()
+
+    /// Parses an ISO 8601 timestamp with or without fractional seconds.
+    private static func date(from string: String) -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: string) { return date }
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.date(from: string)
+    }
 }
 
 /// A single item in the What's New feed.
