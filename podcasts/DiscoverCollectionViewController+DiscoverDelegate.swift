@@ -109,7 +109,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
 
-        if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" {
+        if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" || item.expandedStyle == "network_grid" {
             let collectionListVC = ExpandedCollectionViewController(item: item, podcasts: podcasts)
             collectionListVC.podcastCollection = podcastCollection
             collectionListVC.registerDiscoverDelegate(self)

@@ -67,17 +67,23 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             controller.updateSize()
         }
 
-        if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
-            title = collectionSubtitle
-        } else {
-            title = item.title?.localized.localizedCapitalized
-        }
+        title = navigationTitle
 
         if item.source != nil && item.isAuthenticated == false {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
         }
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
+    }
+
+    /// A network is titled by its name, the way its header is: its subtitle names its kind, so
+    /// the bar would otherwise read "Network" on every one of them.
+    private var navigationTitle: String? {
+        if item.expandedStyle == "network_grid" {
+            return podcastCollection?.title?.localized ?? item.title?.localized
+        }
+
+        return podcastCollection?.subtitle?.localized.localizedCapitalized ?? item.title?.localized.localizedCapitalized
     }
 
     override func viewWillLayoutSubviews() {
@@ -170,6 +176,7 @@ private struct ExpandedCollectionPreview: UIViewControllerRepresentable {
 }
 
 private let previewCollectionImage = "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg"
+private let previewNetworkImage = "https://static.pocketcasts.com/share/images/979866dc-fcb6-400d-8586-9e5003ef33b8-author.png"
 
 #Preview("Grid") {
     ExpandedCollectionPreview {
@@ -183,6 +190,24 @@ private let previewCollectionImage = "https://static.pocketcasts.com/discover/im
             description: "Twelve shows for winding down, chosen by the people who make Pocket Casts.",
             podcasts: DiscoverPreviewData.podcasts(12),
             collectionImage: previewCollectionImage
+        )
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#Preview("Network") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Relay", expandedStyle: "network_grid"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.podcastCollection = DiscoverPreviewData.podcastCollection(
+            title: "Relay",
+            subtitle: "NETWORK",
+            description: "Independent podcasts about technology and the people who make it.",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            collectionImage: previewNetworkImage
         )
         return controller
     }
