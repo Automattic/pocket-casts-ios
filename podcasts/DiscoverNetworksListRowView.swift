@@ -81,58 +81,69 @@ struct DiscoverNetworksListRowView: View {
     }
 }
 
-/// A network in the Discover row: round artwork above its name and description.
-private struct DiscoverNetworkCard: View {
+/// A network in the Discover row and in the expanded grid: round artwork above its name and description.
+struct DiscoverNetworkCard: View {
 
     let network: NetworkListSummary
 
-    /// The side length of the artwork, which the card is as wide as.
-    let size: CGFloat
+    /// The side length of the artwork, which the card is as wide as, or `nil` to fill the width it's given.
+    var size: CGFloat?
+
+    @Environment(\.sizeCategory) private var sizeCategory
 
     @EnvironmentObject var theme: Theme
 
     var body: some View {
         VStack(spacing: 10) {
-            NetworkArtworkView(url: network.collectionImageURL, size: size)
-                .clipShape(.circle)
-            VStack(spacing: 2) {
-                if let title = network.title {
-                    Text(title)
-                        .foregroundStyle(theme.primaryText01)
-                        .font(size: 15, style: .subheadline, weight: .medium)
-                        .kerning(-0.3)
-                        .lineLimit(1)
-                }
-                if let description = network.description {
-                    Text(description)
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 14, style: .subheadline, weight: .medium)
-                        .lineLimit(2)
-                }
-            }
-            .multilineTextAlignment(.center)
+            artwork
+            text
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
         }
         .frame(width: size)
         .accessibilityElement()
         .accessibilityLabel(network.accessibilityLabel)
         .accessibilityAddTraits(.isButton)
     }
-}
 
-/// A network as a poster: its artwork, with the name and description read out by VoiceOver.
-struct DiscoverNetworkPoster: View {
+    @ViewBuilder
+    private var artwork: some View {
+        if let size {
+            NetworkArtworkView(url: network.collectionImageURL, size: size)
+                .clipShape(.circle)
+        } else {
+            NetworkArtworkView(url: network.collectionImageURL)
+                .aspectRatio(1, contentMode: .fit)
+                .clipShape(.circle)
+        }
+    }
 
-    let network: NetworkListSummary
+    /// The name and the description as one text, so that the line limit is theirs to share: a name
+    /// long enough to wrap takes a line the description would have had.
+    private var text: Text {
+        switch (network.title, network.description) {
+        case let (title?, description?):
+            titleText(title) + Text(verbatim: "\n") + descriptionText(description)
+        case let (title?, nil):
+            titleText(title)
+        case let (nil, description?):
+            descriptionText(description)
+        case (nil, nil):
+            Text(verbatim: "")
+        }
+    }
 
-    /// A fixed side length, or `nil` for the poster to fill the space it's given.
-    var size: CGFloat?
+    private func titleText(_ title: String) -> Text {
+        Text(title)
+            .font(.scaled(size: 15, style: .subheadline, weight: .medium, sizeCategory: sizeCategory))
+            .foregroundStyle(theme.primaryText01)
+            .kerning(-0.3)
+    }
 
-    var body: some View {
-        NetworkArtworkView(url: network.collectionImageURL, size: size)
-            .cornerRadius(4)
-            .accessibilityElement()
-            .accessibilityLabel(network.accessibilityLabel)
-            .accessibilityAddTraits(.isButton)
+    private func descriptionText(_ description: String) -> Text {
+        Text(description)
+            .font(.scaled(size: 14, style: .subheadline, weight: .medium, sizeCategory: sizeCategory))
+            .foregroundStyle(theme.primaryText02)
     }
 }
 
@@ -179,7 +190,7 @@ struct NetworkArtworkView: View {
     }
 }
 
-private extension NetworkListSummary {
+extension NetworkListSummary {
     var accessibilityLabel: String {
         [title, description].compactMap { $0 }.joined(separator: ", ")
     }

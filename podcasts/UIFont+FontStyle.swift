@@ -58,6 +58,29 @@ public extension View {
     }
 }
 
+public extension Font {
+    /// The font `View.font(size:style:weight:)` applies, for where a `Font` is needed instead: styling
+    /// the parts of a concatenated `Text`, say.
+    static func scaled(size: Double? = nil,
+                       style: Font.TextStyle,
+                       weight: Font.Weight = .regular,
+                       design: Font.Design? = nil,
+                       sizeCategory: ContentSizeCategory,
+                       maxSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge) -> Font {
+        // Setup the metrics for the font style we'll scale with
+        let metrics = UIFontMetrics(forTextStyle: style.UIFontTextStyle)
+        let size = size ?? UIFont.pointSize(for: style.UIFontTextStyle, sizeCategory: UIContentSizeCategory.large)
+
+        // Scale the given point size up to the largest size that we'll allow
+        let maxPointSize = metrics.scaledValue(for: size, compatibleWith: UITraitCollection(preferredContentSizeCategory: maxSizeCategory))
+
+        // Scale the point size to the current size category, then limit it to the maximum point size
+        let scaledSize = min(maxPointSize, metrics.scaledValue(for: size, compatibleWith: sizeCategory.traitCollection))
+
+        return .system(size: scaledSize, weight: weight, design: design)
+    }
+}
+
 private struct DynamicallyScalableFont: ViewModifier {
     @Environment(\.sizeCategory) var sizeCategory
 
@@ -68,19 +91,7 @@ private struct DynamicallyScalableFont: ViewModifier {
     var maxSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge
 
     func body(content: Content) -> some View {
-        // Setup the metrics for the font style we'll scale with
-        let metrics = UIFontMetrics(forTextStyle: style.UIFontTextStyle)
-        let traits = sizeCategory.traitCollection
-        let size = self.size ?? UIFont.pointSize(for: style.UIFontTextStyle, sizeCategory: UIContentSizeCategory.large)
-
-        // Scale the given point size up to the largest size that we'll allow
-        let maxPointSize = metrics.scaledValue(for: size, compatibleWith: UITraitCollection(preferredContentSizeCategory: maxSizeCategory))
-
-        // Scale the point size to the current size category, then limit it to the maximum point size
-        let scaledSize = min(maxPointSize, metrics.scaledValue(for: size, compatibleWith: traits))
-
-        // Return the new calculated font
-        return content.font(.system(size: scaledSize, weight: weight, design: design))
+        content.font(.scaled(size: size, style: style, weight: weight, design: design, sizeCategory: sizeCategory, maxSizeCategory: maxSizeCategory))
     }
 }
 
