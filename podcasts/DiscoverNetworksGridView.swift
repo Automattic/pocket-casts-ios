@@ -73,11 +73,15 @@ class DiscoverNetworksGridViewController: ThemedHostingController<DiscoverNetwor
 #if DEBUG
 
 #Preview("Networks grid") {
-    DiscoverNetworksGridView(
-        networks: DiscoverPreviewData.networkCollection(title: "Networks", count: 12).lists,
-        onSelect: { _ in }
-    )
-    .setupDefaultEnvironment()
+    NavigationStack {
+        DiscoverNetworksGridView(
+            networks: DiscoverPreviewData.networkCollection(title: "Networks", count: 12).lists,
+            onSelect: { _ in }
+        )
+        .setupDefaultEnvironment()
+        .navigationTitle(Text("Networks"))
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 #endif

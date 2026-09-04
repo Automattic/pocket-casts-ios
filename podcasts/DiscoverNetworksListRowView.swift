@@ -89,27 +89,16 @@ struct DiscoverNetworkCard: View {
     /// The side length of the artwork, which the card is as wide as, or `nil` to fill the width it's given.
     var size: CGFloat?
 
+    @Environment(\.sizeCategory) private var sizeCategory
+
     @EnvironmentObject var theme: Theme
 
     var body: some View {
         VStack(spacing: 10) {
             artwork
-            VStack(spacing: 2) {
-                if let title = network.title {
-                    Text(title)
-                        .foregroundStyle(theme.primaryText01)
-                        .font(size: 15, style: .subheadline, weight: .medium)
-                        .kerning(-0.3)
-                        .lineLimit(1)
-                }
-                if let description = network.description {
-                    Text(description)
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 14, style: .subheadline, weight: .medium)
-                        .lineLimit(2)
-                }
-            }
-            .multilineTextAlignment(.center)
+            text
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
         }
         .frame(width: size)
         .accessibilityElement()
@@ -127,6 +116,34 @@ struct DiscoverNetworkCard: View {
                 .aspectRatio(1, contentMode: .fit)
                 .clipShape(.circle)
         }
+    }
+
+    /// The name and the description as one text, so that the line limit is theirs to share: a name
+    /// long enough to wrap takes a line the description would have had.
+    private var text: Text {
+        switch (network.title, network.description) {
+        case let (title?, description?):
+            titleText(title) + Text(verbatim: "\n") + descriptionText(description)
+        case let (title?, nil):
+            titleText(title)
+        case let (nil, description?):
+            descriptionText(description)
+        case (nil, nil):
+            Text(verbatim: "")
+        }
+    }
+
+    private func titleText(_ title: String) -> Text {
+        Text(title)
+            .font(.scaled(size: 15, style: .subheadline, weight: .medium, sizeCategory: sizeCategory))
+            .foregroundStyle(theme.primaryText01)
+            .kerning(-0.3)
+    }
+
+    private func descriptionText(_ description: String) -> Text {
+        Text(description)
+            .font(.scaled(size: 14, style: .subheadline, weight: .medium, sizeCategory: sizeCategory))
+            .foregroundStyle(theme.primaryText02)
     }
 }
 
