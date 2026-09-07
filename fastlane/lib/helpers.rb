@@ -55,3 +55,15 @@ def tvos_testflight_changelog(release_notes)
 
   filtered_notes.empty? ? +'Minor changes.' : filtered_notes
 end
+
+# The phased-release announcement.
+#
+# @param version [String] The version the announcement is about.
+# @param milestone [String, nil] The milestone to name alongside the version, when there is one.
+# @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
+#
+def phased_release_slack_message(version:, milestone: nil)
+  subject = ["`#{version.to_s.strip}`", milestone.to_s.strip].reject(&:empty?).join(' ')
+
+  ":announcement: #{subject} has started phased release."
+end
