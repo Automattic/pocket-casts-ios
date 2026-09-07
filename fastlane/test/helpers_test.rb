@@ -88,6 +88,20 @@ class FastlaneHelpersTest < Minitest::Test
     assert_equal :ok, app_store_metadata_length_verdict('release_notes.txt', 4000)
   end
 
+  def test_metadata_source_length_ignores_trailing_whitespace
+    assert_equal 5, app_store_metadata_source_length('description.txt', 'Hello')
+    assert_equal 5, app_store_metadata_source_length('description.txt', "Hello  \n\n")
+    assert_equal 5, app_store_metadata_source_length('subtitle.txt', "Hello\n")
+    assert_equal 5, app_store_metadata_source_length('keywords.txt', "Hello\n")
+  end
+
+  # `create_whats_new_entries` keeps the trailing newline in the msgid, so the release notes are a
+  # character longer in GlotPress than an `rstrip` would suggest.
+  def test_metadata_source_length_counts_the_release_notes_trailing_newline
+    assert_equal 6, app_store_metadata_source_length('release_notes.txt', "Hello\n")
+    assert_equal 6, app_store_metadata_source_length('release_notes.txt', 'Hello')
+  end
+
   def test_metadata_length_verdict_rejects_an_unknown_file
     assert_raises(KeyError) { app_store_metadata_length_verdict('changelog.txt', 1) }
   end
@@ -101,7 +115,7 @@ class FastlaneHelpersTest < Minitest::Test
     %w[metadata metadata-tvos].each do |folder|
       APP_STORE_METADATA_LIMITS.each do |file_name, limits|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
-        length = File.read(path, mode: 'r:UTF-8').rstrip.length
+        length = app_store_metadata_source_length(file_name, File.read(path, mode: 'r:UTF-8'))
         limit = if limits[:budget]
                   "#{limits[:budget]}-character budget (App Store Connect's maximum is #{limits.fetch(:max_size)})"
                 else

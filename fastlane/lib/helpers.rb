@@ -72,6 +72,18 @@ def app_store_metadata_max_size(file_name)
   APP_STORE_METADATA_LIMITS.fetch(file_name).fetch(:max_size)
 end
 
+# @return [Integer] Length of the msgid `PoFileGenerator` stores for this file, which is the length
+#   `gp_downloadmetadata` later measures each translation against.
+#
+# `release_notes.txt` is the odd one out: it goes through `create_whats_new_entries`, which keeps the
+# content and guarantees a trailing newline. The other files go through `create_standard_entry`, which
+# stores `content.rstrip`.
+def app_store_metadata_source_length(file_name, content)
+  return content.rstrip.length unless file_name == 'release_notes.txt'
+
+  content.end_with?("\n") ? content.length : content.length + 1
+end
+
 # Builds the iOS TestFlight changelog without tvOS-only release notes.
 def ios_testflight_changelog(release_notes)
   filtered_notes = release_notes.each_line.reject { |line| line.start_with?(TVOS_NOTE_PREFIX) }.join.chomp
