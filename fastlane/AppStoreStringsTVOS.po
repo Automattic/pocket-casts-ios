@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-09-07 11:30+1000\n"
+"PO-Revision-Date: 2026-09-07 21:21+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: fastlane-plugin-wpmreleasetoolkit 14.11.2\n"
+"X-Generator: fastlane-plugin-wpmreleasetoolkit 15.0.0\n"
 
 #. translators: Multi-paragraph text used to display in the Apple App Store. Limit to 4000 characters including spaces! A translation over that length is dropped, and the locale then ships the English description instead.
 msgctxt "app_store_desc"

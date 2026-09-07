@@ -10,9 +10,9 @@ TVOS_NOTE_PREFIX = '- [tvOS]'
 # English copy in place of its translation. The budget keeps the English source short enough for
 # translations, which run longer, to fit.
 #
-# That margin cannot be one factor: the committed translations run 1.1% longer than the English
-# `description.txt` but 5.3% longer than `keywords.txt`, which against a 100 character cap is all of it.
-# `subtitle.txt` and `release_notes.txt` have no translations to measure, so they carry the maximum alone.
+# Budgets are field-specific: the description keeps a deliberate reserve, while keywords are already
+# constrained by a committed translation at the hard maximum. Subtitles and release notes use only their
+# hard maximum.
 APP_STORE_METADATA_LIMITS = {
   'release_notes.txt' => { max_size: 4000 },
   'subtitle.txt' => { max_size: 30 },
