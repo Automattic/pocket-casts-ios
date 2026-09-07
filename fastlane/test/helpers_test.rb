@@ -116,14 +116,13 @@ class FastlaneHelpersTest < Minitest::Test
       APP_STORE_METADATA_LIMITS.each do |file_name, limits|
         path = File.expand_path("../#{folder}/default/#{file_name}", __dir__)
         length = app_store_metadata_source_length(file_name, File.read(path, mode: 'r:UTF-8'))
-        limit = if limits[:budget]
-                  "#{limits[:budget]}-character budget (App Store Connect's maximum is #{limits.fetch(:max_size)})"
-                else
-                  "#{limits.fetch(:max_size)}-character maximum"
+        verdict = app_store_metadata_length_verdict(file_name, length)
+        limit = case verdict
+                when :over_max then "#{limits.fetch(:max_size)}-character maximum"
+                when :over_budget then "#{limits.fetch(:budget)}-character budget (App Store Connect's maximum is #{limits.fetch(:max_size)})"
                 end
 
-        assert_equal :ok, app_store_metadata_length_verdict(file_name, length),
-                     "#{path} is #{length} characters, over its #{limit}"
+        assert_equal :ok, verdict, "#{path} is #{length} characters, over its #{limit}"
       end
     end
   end
