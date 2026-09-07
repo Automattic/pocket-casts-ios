@@ -6,8 +6,9 @@ TVOS_NOTE_PREFIX = '- [tvOS]'
 # https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
 #
 # `gp_downloadmetadata` writes nothing for a locale whose translation is over the maximum, having already
-# deleted that locale's file — so an overflow leaves the locale with no metadata at all rather than a stale
-# copy. The budget keeps the English source short enough for translations, which run longer, to fit.
+# deleted that locale's file. `deliver` fills the gap from `default/`, so the locale silently ships the
+# English copy in place of its translation. The budget keeps the English source short enough for
+# translations, which run longer, to fit.
 #
 # That margin cannot be one factor: the committed translations run 1.1% longer than the English
 # `description.txt` but 5.3% longer than `keywords.txt`, which against a 100 character cap is all of it.

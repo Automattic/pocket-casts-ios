@@ -1519,7 +1519,7 @@ platform :ios do
       when :over_budget
         UI.important(
           "#{path} is #{length} characters, over the #{limits.fetch(:budget)}-character budget that leaves translations room to expand. " \
-          "Locales translating past #{limits.fetch(:max_size)} will ship with no #{file_name} at all."
+          "Locales translating past #{limits.fetch(:max_size)} will ship the English #{file_name} instead."
         )
       end
     end
@@ -1535,15 +1535,15 @@ platform :ios do
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
       app_store_subtitle: {
         path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: "translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to #{app_store_metadata_max_size('subtitle.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no subtitle at all."
+        comment: "translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to #{app_store_metadata_max_size('subtitle.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships the English subtitle instead."
       },
       app_store_desc: {
         path: File.join(source_metadata_folder, 'description.txt'),
-        comment: "translators: Multi-paragraph text used to display in the Apple App Store. Limit to #{app_store_metadata_max_size('description.txt')} characters including spaces! A translation over that length is dropped, and the locale then ships with no description at all."
+        comment: "translators: Multi-paragraph text used to display in the Apple App Store. Limit to #{app_store_metadata_max_size('description.txt')} characters including spaces! A translation over that length is dropped, and the locale then ships the English description instead."
       },
       app_store_keywords: {
         path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: "translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to #{app_store_metadata_max_size('keywords.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships with no keywords at all."
+        comment: "translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to #{app_store_metadata_max_size('keywords.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships the English keywords instead."
       }
     }
   end

@@ -110,7 +110,7 @@ class FastlaneHelpersTest < Minitest::Test
   # itself — so over-long copy fails on the PR that writes it, not mid-release.
   #
   # Budgets are asserted, not just maximums: a budget only warns from the release lane, and a warning
-  # nobody reads is how a locale ends up shipping with no metadata at all.
+  # nobody reads is how a locale ends up shipping English metadata in place of its translation.
   def test_shipped_metadata_fits_its_limits
     %w[metadata metadata-tvos].each do |folder|
       APP_STORE_METADATA_LIMITS.each do |file_name, limits|
