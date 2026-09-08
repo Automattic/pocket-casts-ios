@@ -22,12 +22,20 @@ class WhatsNewFeedViewController: PCHostingController<WhatsNewFeedView> {
         title = L10n.whatsNew
         navigationItem.largeTitleDisplayMode = .never
 
+        viewModel.onSelect = { [weak self] message in
+            self?.show(message)
+        }
+
         viewModel.$items
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.updateReadAllButton()
             }
             .store(in: &cancellables)
+    }
+
+    private func show(_ message: WhatsNewMessage) {
+        navigationController?.pushViewController(WhatsNewMessageViewController(message: message), animated: true)
     }
 
     private func updateReadAllButton() {

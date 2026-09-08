@@ -5,7 +5,7 @@ public extension WhatsNewCatalog {
     ///
     /// The messages are published relative to now rather than on fixed dates, so the feed keeps
     /// rendering the same spread of relative dates however long after this was written it's read.
-    static let mock = mock(publishedDaysAgo: [0, 8, 27, 36, 62])
+    static let mock = mock(publishedDaysAgo: [0, 8, 27, 36, 62, 90])
 
     /// A catalog whose messages were published the given number of days ago, most recent first.
     ///
@@ -39,8 +39,9 @@ public extension WhatsNewCatalog {
 
     /// The messages the mock catalog is built from, each missing the `$publishedAt` the catalog fills in.
     ///
-    /// The user research message carries a `poll` block the app doesn't model, so anything rendering
-    /// the mock exercises a page that drops a block and still has something left to show.
+    /// Between them they cover every message type and every block the app renders. The user research
+    /// message carries a `poll` block the app doesn't model, so anything rendering the mock exercises
+    /// a page that drops a block and still has something left to show.
     private static let mockMessages = [
         """
         {
@@ -158,6 +159,35 @@ public extension WhatsNewCatalog {
               {
                 "blocks": [
                   { "type": "action", "label": "Try transcripts", "url": "pocketcasts://podcasts", "style": "primary" }
+                ]
+              }
+            ]
+          }
+        }
+        """,
+        """
+        {
+          "id": "01K2Y4H2P6R8T0VXZB1DFG3JKM",
+          "type": "known_issue",
+          "publishedAt": "$publishedAt",
+          "targeting": { "audiences": [] },
+          "summary": { "title": "Downloads stalling on cellular", "label": "Known Issue" },
+          "content": {
+            "title": "Downloads stalling on cellular",
+            "pages": [
+              {
+                "blocks": [
+                  {
+                    "type": "video",
+                    "sources": [
+                      { "url": "https://static.pocketcasts.com/whats-new/media/retry-download.mp4", "mimeType": "video/mp4" }
+                    ],
+                    "posterUrl": "https://static.pocketcasts.com/whats-new/media/retry-download-poster.webp",
+                    "captionsUrl": "https://static.pocketcasts.com/whats-new/media/retry-download.vtt",
+                    "alt": "Swiping an episode to start its download again"
+                  },
+                  { "type": "heading", "level": 2, "text": "We're on it" },
+                  { "type": "paragraph", "content": "Some downloads stop short on a cellular connection. Swipe the episode and download it again while we work on a fix." }
                 ]
               }
             ]

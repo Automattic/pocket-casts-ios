@@ -28,12 +28,13 @@ final class WhatsNewFeedViewModel: ObservableObject {
     @Published private(set) var items: [WhatsNewFeedItem]
 
     /// Called with the message a tapped row belongs to.
-    var onSelect: ((WhatsNewFeedItem) -> Void)?
+    var onSelect: ((WhatsNewMessage) -> Void)?
+
+    private let messages: [WhatsNewMessage]
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = []) {
-        items = messages
-            .sorted { $0.publishedAt > $1.publishedAt }
-            .map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
+        self.messages = messages.sorted { $0.publishedAt > $1.publishedAt }
+        items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
     }
 
     var hasUnreadItems: Bool {
@@ -42,7 +43,9 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     func select(_ item: WhatsNewFeedItem) {
         markAsRead(item.id)
-        onSelect?(item)
+
+        guard let message = messages.first(where: { $0.id == item.id }) else { return }
+        onSelect?(message)
     }
 
     func markAllAsRead() {
