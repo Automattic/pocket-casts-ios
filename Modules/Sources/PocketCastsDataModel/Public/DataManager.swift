@@ -20,9 +20,9 @@ public class DataManager {
     private let episodeManager = EpisodeDataManager()
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
-    private lazy var endOfYearManager = EndOfYearDataManager()
-    private lazy var upNextHistoryManager = UpNextHistoryManager()
-    private lazy var folderHistoryManager = FolderHistoryManager()
+    private var endOfYearManager = EndOfYearDataManager()
+    private let upNextHistoryManager = UpNextHistoryManager()
+    private let folderHistoryManager = FolderHistoryManager()
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager

@@ -14,11 +14,7 @@ extension Podcast: Sortable {
 
 class PodcastDataManager {
     private var cachedPodcasts = [String: Podcast]()
-    private lazy var cachedPodcastsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
-
-        return queue
-    }()
+    private let cachedPodcastsQueue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
 
     /// Legacy column names for non-GRDB code path.
     let columnNames = [
