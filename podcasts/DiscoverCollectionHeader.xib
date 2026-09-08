@@ -38,10 +38,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oap-c4-00b" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="155.5" y="96" width="88" height="88"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gwR-NQ-hKf">
-                                    <rect key="frame" x="4" y="4" width="80" height="80"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7cY-eL-Ku5">
                                     <rect key="frame" x="4" y="4" width="80" height="80"/>
                                     <constraints>
@@ -53,13 +49,9 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="2M4-xE-sEa"/>
-                                <constraint firstItem="gwR-NQ-hKf" firstAttribute="leading" secondItem="7cY-eL-Ku5" secondAttribute="leading" id="FTN-6s-RnO"/>
                                 <constraint firstItem="7cY-eL-Ku5" firstAttribute="centerX" secondItem="Oap-c4-00b" secondAttribute="centerX" id="bav-Kd-vnY"/>
                                 <constraint firstAttribute="width" constant="88" id="mQF-3T-M5A"/>
                                 <constraint firstItem="7cY-eL-Ku5" firstAttribute="centerY" secondItem="Oap-c4-00b" secondAttribute="centerY" id="seR-xa-STf"/>
-                                <constraint firstItem="gwR-NQ-hKf" firstAttribute="top" secondItem="7cY-eL-Ku5" secondAttribute="top" id="uu7-IQ-MA0"/>
-                                <constraint firstItem="gwR-NQ-hKf" firstAttribute="bottom" secondItem="7cY-eL-Ku5" secondAttribute="bottom" id="ySS-Vm-iHa"/>
-                                <constraint firstItem="gwR-NQ-hKf" firstAttribute="trailing" secondItem="7cY-eL-Ku5" secondAttribute="trailing" id="zC0-4i-YrO"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="HIGHLIGHT" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldU-3C-ZOr">
@@ -177,7 +169,6 @@
             <connections>
                 <outlet property="avatarBorderView" destination="Oap-c4-00b" id="gcA-iL-ncZ"/>
                 <outlet property="avatarImageView" destination="7cY-eL-Ku5" id="LXe-g0-nai"/>
-                <outlet property="avatarShadowView" destination="gwR-NQ-hKf" id="ZeY-C4-f3z"/>
                 <outlet property="collageImageView" destination="mvm-o6-mNy" id="u6U-ps-mhY"/>
                 <outlet property="collageTintView" destination="yYb-i1-leb" id="A5E-bf-ig2"/>
                 <outlet property="descriptionLabel" destination="p3W-lx-nAX" id="QLg-FI-p5N"/>

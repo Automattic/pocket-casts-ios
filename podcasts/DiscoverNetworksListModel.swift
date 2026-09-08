@@ -57,13 +57,9 @@ class DiscoverNetworksListModel: ObservableObject {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
 
-        let gridController = ExpandedCollectionViewController(item: item, podcasts: [])
-        gridController.cellStyle = .networkGrid
-        gridController.networks = networks
-        gridController.onSelectNetwork = { [weak self] network in
+        let gridController = DiscoverNetworksGridViewController(item: item, networks: networks) { [weak self] network in
             self?.show(network: network)
         }
-        gridController.registerDiscoverDelegate(delegate)
         delegate.navController()?.pushViewController(gridController, animated: true)
     }
 
@@ -89,8 +85,8 @@ class DiscoverNetworksListModel: ObservableObject {
 
     /// The list the network points at, as the `DiscoverItem` the expanded screens expect.
     ///
-    /// A network opens as a `grid`, the style the curated collections already on the feed use, so
-    /// it gets ``ExpandedCollectionViewController`` and its header whatever the entry asks for.
+    /// A network opens as a `network_grid`: ``ExpandedCollectionViewController`` and its header,
+    /// laid out the way a curated collection is, titled the way a network is.
     private func discoverItem(for network: NetworkListSummary) -> DiscoverItem {
         DiscoverItem(
             id: network.uuid,
@@ -98,7 +94,7 @@ class DiscoverNetworksListModel: ObservableObject {
             title: network.title,
             type: network.type,
             summaryStyle: network.summaryStyle,
-            expandedStyle: "grid",
+            expandedStyle: "network_grid",
             source: network.source,
             regions: item?.regions ?? []
         )

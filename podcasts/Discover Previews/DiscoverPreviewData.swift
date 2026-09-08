@@ -170,26 +170,42 @@ enum DiscoverPreviewData {
         ])
     }
 
-    private static let networkNames = [
-        "The New York Times", "The Economist", "SiriusXM", "NPR", "Goalhanger", "Wondery"
+    /// Networks the live `lists_list` carries, so previews show the logos and blurbs of real ones.
+    private static let networks: [(uuid: String, title: String, description: String, imageType: String, itemCount: Int)] = [
+        ("88094252-ec9a-4c96-9120-95413664d9de", "The New York Times", "The New York Times collection of podcasts", "png", 12),
+        ("979866dc-fcb6-400d-8586-9e5003ef33b8", "Relay", "The Relay collection of podcasts.", "png", 19),
+        ("71c61818-1a5b-4bc5-9bb4-605318342b0c", "Maximum Fun", "Artist-owned comedy & culture shows", "jpg", 41),
+        ("a3d4dc76-3d2d-4698-bf2d-b01897512ed6", "Crime House", "Uncovering the truth", "jpg", 8),
+        ("af1ded0b-bea1-4abc-ac0f-3881cb41b57d", "Podmasters", "Exciting character-driven podcasts", "jpg", 7),
+        ("e8d51650-df8a-4a5e-a157-1f7b636fac8d", "Higher Ground", "Widely acclaimed stories that move culture forward", "jpg", 9),
+        ("6dd34339-bc03-4539-abae-4e3ff5b9fe59", "The Sonar Podcast Network", "The funny & the fascinating.", "jpg", 9),
+        ("4562eca8-14fd-4661-97bb-362a728d7e9f", "Slumber Studios", "The perfect podcasts for bedtime.", "jpg", 5),
+        ("77734d74-bdce-4934-87b0-40c8e33e3962", "Pushkin Industries", "Good, Smart, Fun.", "jpg", 10),
+        ("084e3d50-159e-464a-9642-24e0be93af3d", "Multitude", "We contain worlds", "jpg", 8),
+        ("b9028838-a60e-474a-9fe3-69a22c321286", "TAPEDECK", "Independent podcasts with familiar voices.", "jpg", 10),
+        ("da7e9206-3777-4715-ae60-29de3418bb1e", "Broads and Books Productions", "Broads and Books Productions creates podcasts that make you laugh, think, rage, and all of the above.", "jpg", 4),
+        ("45453984-cba5-4613-9d7a-bb73dd7a9f6b", "RNZ", "The best podcasts from New Zealand", "jpg", 25),
+        ("872898e6-33d5-48a9-b824-15104c64f5bc", "Atypical Artists", "Stories for your ears and hearts.", "jpg", 12)
     ]
 
     /// The `lists_list` payload: a collection whose entries are podcast lists, one per network.
+    ///
+    /// Tops out at the number of networks the fixture holds, so every entry stays a distinct one.
     static func networkCollection(title: String, count: Int = 6) -> PodcastCollection {
         decode(PodcastCollection.self, from: [
             "list_id": "preview-networks",
             "title": title,
-            "lists": (0 ..< count).map { index in
+            "lists": networks.prefix(count).map { network in
                 [
-                    "uuid": "preview-network-\(index)",
-                    "title": networkNames[index % networkNames.count],
+                    "uuid": network.uuid,
+                    "title": network.title,
                     "type": NetworkListSummary.supportedType,
-                    "summary_style": "small_list",
-                    "expanded_style": "grid",
-                    "source": "https://lists.pocketcasts.com/preview-network-\(index).json",
-                    "collection_image": artworkURL(at: index),
-                    "item_count": 8 + index,
-                    "description": blurbs[index % blurbs.count]
+                    "summary_style": "collection",
+                    "expanded_style": "network_grid",
+                    "source": "https://lists.pocketcasts.com/\(network.uuid).json",
+                    "collection_image": "https://static.pocketcasts.com/share/images/\(network.uuid)-author.\(network.imageType)",
+                    "item_count": network.itemCount,
+                    "description": network.description
                 ]
             },
             "datetime": datetime

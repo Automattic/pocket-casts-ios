@@ -896,8 +896,6 @@ Pocket Casts Plus</string>
     <string>下载的文件</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>是否确定要删除这些下载的文件？</string>
-    <key>downloaded_files_conf_message</key>
-    <string>取消订阅将删除此播客中下载的所有文件，是否确定？</string>
     <key>downloaded_files_conf_message_new</key>
     <string>取消关注将删除此播客中下载的所有文件，是否确定？</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Pocket Casts。</string>
 4. 在对话框打开后，找到 Pocket Casts 图标，然后点击此图标</string>
     <key>import_opml_from_url</key>
     <string>使用 URL 从 OPML 文件导入播客</string>
-    <key>import_podcasts_description</key>
-    <string>您可以使用广受支持的 OPML 格式将播客订阅导入到 Pocket casts。 从另一个应用程序导出文件并选择在 Pocket casts 中打开。
-
-注意：您可能需要通过电子邮件将 OPML 文件发送给自己，请长按附件并选择 Pocket Casts。</string>
     <key>import_podcasts_description_new</key>
     <string>您可以使用广受支持的 OPML 格式将播客导入到 Pocket Casts。 从另一个应用程序导出文件并选择在 Pocket Casts 中打开。
 
@@ -1731,8 +1725,6 @@ Pocket Casts。</string>
     <string>耳机设置</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>获取书签</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>您可以保存剧集中重要时刻的时间戳。</string>
     <key>no_bookmarks_message</key>
     <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Pocket Casts。</string>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>清除 1 集</string>
-    <key>queue_clear_queue</key>
-    <string>清除队列</string>
     <key>queue_for_later</key>
     <string>稍后加入队列</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Pocket Casts。</string>
     <string>已上传</string>
     <key>stop_download</key>
     <string>停止下载</string>
-    <key>subscribe</key>
-    <string>订阅</string>
     <key>subscribe_all</key>
     <string>全部订阅</string>
-    <key>subscribed</key>
-    <string>已订阅</string>
     <key>subscription_cancelled</key>
     <string>已取消订阅</string>
     <key>subscription_cancelled_msg</key>
