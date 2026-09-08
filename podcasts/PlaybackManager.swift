@@ -1004,7 +1004,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playingOverAirplay() -> Bool {
-        AVAudioSession.sharedInstance().currentRoute.outputs.first?.portType == .airPlay
+        AVAudioSession.sharedInstance().currentRoute.outputs.contains { $0.portType == .airPlay }
     }
 
     func effects() -> PlaybackEffects {
