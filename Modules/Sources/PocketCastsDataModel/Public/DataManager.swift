@@ -782,6 +782,14 @@ public class DataManager {
         }
     }
 
+    public func saveEpisode(downloadTaskId: String?, episode: BaseEpisode) {
+        if let episode = episode as? Episode {
+            episodeManager.saveEpisode(downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
+        } else if let episode = episode as? UserEpisode {
+            userEpisodeManager.saveEpisode(downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
+        }
+    }
+
     public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)

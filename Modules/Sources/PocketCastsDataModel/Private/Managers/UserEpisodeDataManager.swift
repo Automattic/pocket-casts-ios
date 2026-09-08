@@ -319,6 +319,12 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
+    func saveEpisode(downloadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
+        episode.downloadTaskId = downloadTaskId
+
+        save(fieldName: "downloadTaskId", value: DBUtils.replaceNilWithNull(value: downloadTaskId), episodeId: episode.id, dbQueue: dbQueue)
+    }
+
     func saveEpisode(uploadStatus: UploadStatus, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.uploadStatus = uploadStatus.rawValue
 
