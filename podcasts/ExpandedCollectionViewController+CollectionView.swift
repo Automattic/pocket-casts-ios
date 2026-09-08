@@ -1,8 +1,8 @@
-import SwiftUI
+import UIKit
 
 extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        cellStyle == .networkGrid ? networks.count : podcasts.count
+        podcasts.count
     }
 
     // MARK: - CollectionView Datasource
@@ -35,24 +35,10 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 }
             }
             return cell
-        case .networkGrid:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.networkCellId, for: indexPath)
-            let network = networks[indexPath.row]
-            cell.contentConfiguration = UIHostingConfiguration {
-                DiscoverNetworkPoster(network: network)
-            }
-            .margins(.all, 0)
-            return cell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if cellStyle == .networkGrid {
-            onSelectNetwork?(networks[indexPath.row])
-            collectionView.deselectItem(at: indexPath, animated: true)
-            return
-        }
-
         let podcast = podcasts[indexPath.row]
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: item.uuid)
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -98,18 +84,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let numColumns = isBigDevice ? floor(viewWidth / (gridPreferredWidth + gridStyleSpacing)) : gridNumColumns
             let itemWidth = (viewWidth - (gridStyleSpacing * (numColumns - 1))) / numColumns
             return CGSize(width: itemWidth, height: itemWidth + cellExtraHeight)
-        case .networkGrid:
-            return networkItemSize(in: collectionView)
         }
-    }
-
-    /// Network posters are square: unlike a podcast, the title is drawn over the artwork.
-    func networkItemSize(in collectionView: UICollectionView) -> CGSize {
-        let viewWidth = collectionView.bounds.width - (2 * inset)
-        let numColumns = max(gridNumColumns, floor(viewWidth / (networkGridPreferredWidth + gridStyleSpacing)))
-        let itemWidth = (viewWidth - (gridStyleSpacing * (numColumns - 1))) / numColumns
-
-        return CGSize(width: itemWidth, height: itemWidth)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -121,7 +96,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         switch cellStyle {
         case .descriptiveList:
             return 0
-        case .grid, .networkGrid:
+        case .grid:
             return inset
         }
     }

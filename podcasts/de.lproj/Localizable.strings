@@ -896,8 +896,6 @@ Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
     <string>Heruntergeladene Dateien</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Bist du sicher, dass du diese heruntergeladenen Dateien löschen möchtest?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst 
 4. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
     <key>import_opml_from_url</key>
     <string>Importiere deine Podcasts von einer OPML-Datei mithilfe einer URL</string>
-    <key>import_podcasts_description</key>
-    <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
-
-Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drücke länger auf den Anhang und wähle „Pocket Casts“ aus.</string>
     <key>import_podcasts_description_new</key>
     <string>Du kannst das weit verbreitete OPML-Format nutzen, um deine Podcasts in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
@@ -1731,8 +1725,6 @@ Podcasts mit</string>
     <string>Kopfhörereinstellungen</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Lesezeichen erhalten</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Du kannst Zeitstempel wichtiger Momente in einer Folge speichern.</string>
     <key>no_bookmarks_message</key>
     <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1 Episode löschen</string>
-    <key>queue_clear_queue</key>
-    <string>WARTESCHLANGE LÖSCHEN</string>
     <key>queue_for_later</key>
     <string>Für später in Warteschlange einreihen</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Hochgeladen</string>
     <key>stop_download</key>
     <string>Download beenden</string>
-    <key>subscribe</key>
-    <string>Abonnieren</string>
     <key>subscribe_all</key>
     <string>Alle abonnieren</string>
-    <key>subscribed</key>
-    <string>Abonniert</string>
     <key>subscription_cancelled</key>
     <string>Abonnement gekündigt</string>
     <key>subscription_cancelled_msg</key>

@@ -896,8 +896,6 @@ Puoi disconnetterti in qualsiasi momento da Impostazioni.</string>
     <string>File scaricati</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Vui eliminare questi file scaricati?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>L'annullamento dell'abbonamento eliminerà tutti i file scaricati in questo podcast, sei sicuro?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Se smetti di seguire, tutti i file scaricati in questo podcast saranno eliminati. Vuoi procedere?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Nota: se in precedenza hai eliminato l'app Scorciatoie, ti verrà chiesto di rei
 4. Quando si apre la finestra di dialogo, individua l'icona Pocket Casts e toccala</string>
     <key>import_opml_from_url</key>
     <string>Importa i podcast da un file OPML usando un URL</string>
-    <key>import_podcasts_description</key>
-    <string>Puoi importare i tuoi abbonamenti ai podcast in Pocket Casts utilizzando il formato OPML ampiamente supportato. Esporta il file da un'altra app e scegli Apri in Pocket Casts.
-
-Nota: potresti dover inviare a te stesso il file OPML tramite e-mail, premere a lungo sull'allegato e selezionare Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Puoi importare i tuoi podcast in Pocket Casts utilizzando il formato OPML ampiamente supportato. Esporta il file da un'altra app e scegli Apri in Pocket Casts.
 
@@ -1731,8 +1725,6 @@ pocast con te</string>
     <string>Impostazioni delle cuffie</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Ottieni Segnalibri</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Puoi salvare i timestamp dei momenti importanti di un episodio.</string>
     <key>no_bookmarks_message</key>
     <string>Puoi salvare data e ora degli episodi dal menu delle azioni nel lettore o configurando un'azione con le cuffie.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Cancella %1$@ episodi </string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Cancella 1 episodio</string>
-    <key>queue_clear_queue</key>
-    <string>CANCELLA CODA</string>
     <key>queue_for_later</key>
     <string>In coda per dopo</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Caricato</string>
     <key>stop_download</key>
     <string>Interrompi lo scaricamento</string>
-    <key>subscribe</key>
-    <string>Abbonati</string>
     <key>subscribe_all</key>
     <string>Abbonati a tutto</string>
-    <key>subscribed</key>
-    <string>Abbonato</string>
     <key>subscription_cancelled</key>
     <string>Abbonamento annullato</string>
     <key>subscription_cancelled_msg</key>

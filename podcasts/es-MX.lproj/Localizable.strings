@@ -896,8 +896,6 @@ Puedes desconectarte en cualquier momento desde Ajustes.</string>
     <string>Archivos descargados</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>¿Estás seguro de que deseas eliminar estos archivos descargados?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>¿Estás seguro de cancelar la suscripción? Esto eliminará todos los archivos descargados en este Podcast</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Al dejar de seguirlo, se borrarán todos los archivos descargados de este podcast, ¿seguro que quieres continuar?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Nota: En caso de que hayas eliminado la aplicación Atajos, se te pedirá que la
 4. Cuando se abra el dialogo, busca el icono de Pocket Casts y tócalo.</string>
     <key>import_opml_from_url</key>
     <string>Importa tus pódcast desde un archivo OPML a través de una URL.</string>
-    <key>import_podcasts_description</key>
-    <string>Puedes importar tus suscripciones de podcasts a Pocket Casts usando el formato OPML, ampliamente compatible. Exporta el archivo desde otra aplicación y elige abrir en Pocket Casts.
-
-Nota: Es posible que debas enviarte el archivo OPML por correo electrónico; mantén presionado el archivo adjunto y selecciona Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Puedes importar tus podcasts a Pocket Casts con el formato OPML, que se admite en muchas aplicaciones. Exporta el archivo de otra aplicación y elige abrirlo en Pocket Casts.
 
@@ -1731,8 +1725,6 @@ pódcast contigo</string>
     <string>Ajustes de los auriculares</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Obtener marcadores</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Puedes guardar las marcas de tiempo de los momentos importantes de un episodio.</string>
     <key>no_bookmarks_message</key>
     <string>Para guardar las marcas de tiempo de los episodios, ve al menú de acciones del reproductor o configura una acción con los auriculares.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Borrar %1$@ episodios</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Borrar 1 episodio</string>
-    <key>queue_clear_queue</key>
-    <string>BORRAR COLA</string>
     <key>queue_for_later</key>
     <string>Poner en cola para más tarde</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Cargado</string>
     <key>stop_download</key>
     <string>Detener descarga</string>
-    <key>subscribe</key>
-    <string>Suscribirme</string>
     <key>subscribe_all</key>
     <string>Suscribirme a todos</string>
-    <key>subscribed</key>
-    <string>Suscrito</string>
     <key>subscription_cancelled</key>
     <string>Has cancelado tu suscripción</string>
     <key>subscription_cancelled_msg</key>

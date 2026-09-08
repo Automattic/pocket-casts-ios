@@ -896,8 +896,6 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Arquivos baixados</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Tem certeza de que deseja excluir esses arquivos baixados?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Cancelar a assinatura apagará todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Deixar de seguir excluirá todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1530,6 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
     <key>import_opml_from_url</key>
     <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
-    <key>import_podcasts_description</key>
-    <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
-
-Observação: talvez seja preciso enviar um e-mail com o arquivo OPML para o seu próprio endereço. Toque e segure o anexo e escolha Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Você pode importar seus podcasts para o Pocket Casts usando o formato compatível OPML. Exporte o arquivo de outro app e o abra com o Pocket Casts.
 
@@ -1731,8 +1725,6 @@ podcasts com você</string>
     <string>Configurações do headset</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Buscar favoritos</string>
-    <key>no_bookmarks_locked_message</key>
-    <string>Você pode salvar a data/hora de momentos importantes em um episódio.</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2782,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Limpar %1$@ episódios</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Apagar 1 episódio</string>
-    <key>queue_clear_queue</key>
-    <string>LIMPAR FILA</string>
     <key>queue_for_later</key>
     <string>Adicionar à fila para mais tarde</string>
     <key>queue_now_playing_accessibility</key>
@@ -3763,12 +3753,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Upload realizado</string>
     <key>stop_download</key>
     <string>Parar o download</string>
-    <key>subscribe</key>
-    <string>Assinar</string>
     <key>subscribe_all</key>
     <string>Assinar todos</string>
-    <key>subscribed</key>
-    <string>Assinado</string>
     <key>subscription_cancelled</key>
     <string>Assinatura cancelada</string>
     <key>subscription_cancelled_msg</key>

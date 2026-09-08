@@ -3,7 +3,7 @@ import SafariServices
 import UIKit
 
 enum CollectionCellStyle {
-    case grid, descriptiveList, networkGrid
+    case grid, descriptiveList
 }
 
 class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDelegate {
@@ -14,17 +14,11 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
     var cellStyle: CollectionCellStyle = .grid
 
-    /// The networks drawn in place of `podcasts` when ``cellStyle`` is `networkGrid`.
-    var networks: [NetworkListSummary] = []
-
-    var onSelectNetwork: ((NetworkListSummary) -> Void)?
-
     let inset: CGFloat = 16
     let bigDevicePortraitWidth: CGFloat = 500
     let gridStyleSpacing: CGFloat = 16
     let gridNumColumns: CGFloat = 2
     let gridPreferredWidth: CGFloat = 150
-    let networkGridPreferredWidth: CGFloat = 180
     let gridPeferredHeight: CGFloat = 265
     let descriptiveListPreferredMaxWidth: CGFloat = 280
     var descriptiveListPreferredMaxHeight: CGFloat {
@@ -43,8 +37,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.gridCellId)
             collectionView.register(UINib(nibName: "DescriptiveCollectionCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId)
             collectionView.register(UINib(nibName: "DiscoverCollectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ExpandedCollectionViewController.headerId)
-            collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: ExpandedCollectionViewController.networkCellId)
-            collectionView.style = .primaryUi02
+                collectionView.style = .primaryUi02
         }
     }
 
@@ -52,7 +45,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     static let headerId = "DiscoverCollectionHeader"
     static let gridCellId = "LargeListCell"
     static let descriptiveCellId = "DescriptiveCollectionCell"
-    static let networkCellId = "NetworkGridCell"
     private var lastWillLayoutWidth: CGFloat = 0
 
     init(item: DiscoverItem, podcasts: [DiscoverPodcast]) {
@@ -75,17 +67,23 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             controller.updateSize()
         }
 
-        if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
-            title = collectionSubtitle
-        } else {
-            title = item.title?.localized.localizedCapitalized
-        }
+        title = navigationTitle
 
         if item.source != nil && item.isAuthenticated == false {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
         }
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
+    }
+
+    /// A network is titled by its name, the way its header is: its subtitle names its kind, so
+    /// the bar would otherwise read "Network" on every one of them.
+    private var navigationTitle: String? {
+        if item.expandedStyle == "network_grid" {
+            return podcastCollection?.title?.localized ?? item.title?.localized
+        }
+
+        return podcastCollection?.subtitle?.localized.localizedCapitalized ?? item.title?.localized.localizedCapitalized
     }
 
     override func viewWillLayoutSubviews() {
@@ -178,6 +176,7 @@ private struct ExpandedCollectionPreview: UIViewControllerRepresentable {
 }
 
 private let previewCollectionImage = "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg"
+private let previewNetworkImage = "https://static.pocketcasts.com/share/images/979866dc-fcb6-400d-8586-9e5003ef33b8-author.png"
 
 #Preview("Grid") {
     ExpandedCollectionPreview {
@@ -197,6 +196,24 @@ private let previewCollectionImage = "https://static.pocketcasts.com/discover/im
     .ignoresSafeArea()
 }
 
+#Preview("Network") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Relay", expandedStyle: "network_grid"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.podcastCollection = DiscoverPreviewData.podcastCollection(
+            title: "Relay",
+            subtitle: "NETWORK",
+            description: "Independent podcasts about technology and the people who make it.",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            collectionImage: previewNetworkImage
+        )
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
 #Preview("Descriptive list") {
     ExpandedCollectionPreview {
         let controller = ExpandedCollectionViewController(
@@ -204,20 +221,6 @@ private let previewCollectionImage = "https://static.pocketcasts.com/discover/im
             podcasts: DiscoverPreviewData.podcasts(12)
         )
         controller.cellStyle = .descriptiveList
-        return controller
-    }
-    .ignoresSafeArea()
-}
-
-/// The grid a `lists_list` row opens: networks rather than podcasts, and no collection header.
-#Preview("Networks") {
-    ExpandedCollectionPreview {
-        let controller = ExpandedCollectionViewController(
-            item: DiscoverPreviewData.item(.networksList, title: "Networks"),
-            podcasts: []
-        )
-        controller.cellStyle = .networkGrid
-        controller.networks = DiscoverPreviewData.networkCollection(title: "Networks").lists
         return controller
     }
     .ignoresSafeArea()
