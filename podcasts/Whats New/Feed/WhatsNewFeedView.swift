@@ -1,3 +1,4 @@
+import Kingfisher
 import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
@@ -98,7 +99,13 @@ private struct WhatsNewFeedArtworkView: View {
                 .foregroundStyle(.white)
 
             if let imageURL = item.imageURL {
-                AsyncImageView(url: imageURL, cache: ImageManager.sharedManager.discoverCache)
+                KFImage(imageURL)
+                    .targetCache(ImageManager.sharedManager.discoverCache)
+                    .fade(duration: 0.25)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 4))
