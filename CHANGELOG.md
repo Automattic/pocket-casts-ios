@@ -11,6 +11,7 @@
 - Add a What's New feed with announcements from the Pocket Casts team, opened from the Profile tab [#5077](https://github.com/Automattic/pocket-casts-ios/pull/5077) [#5294](https://github.com/Automattic/pocket-casts-ios/pull/5294)
 - Fix memory leaks when leaving empty playlists, empty folders, the Files screen and the Add to Playlist sheet [#5284](https://github.com/Automattic/pocket-casts-ios/pull/5284)
 - Reduce the memory the app uses for artwork [#5291](https://github.com/Automattic/pocket-casts-ios/pull/5291)
+- Fix Auto Download not downloading episodes added to a manual playlist until the next sync [#5080](https://github.com/Automattic/pocket-casts-ios/pull/5080)
 
 
 8.21
