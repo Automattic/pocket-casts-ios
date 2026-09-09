@@ -165,11 +165,29 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         isPlaying ? stop() : play()
     }
 
+    /// AVFoundation traps on a player deallocated with a time observer still on it, and going away
+    /// without the page disappearing first — a scene disconnect, say — never reaches `tearDown()`.
+    deinit {
+        if let timeObserver {
+            player.removeTimeObserver(timeObserver)
+        }
+        if let endObserver {
+            NotificationCenter.default.removeObserver(endObserver)
+        }
+    }
+
     /// Puts the player back to how it started, so nothing is left loaded behind a page the reader
     /// has moved on from. Playing again loads it back.
     func tearDown() {
         stop()
+        removeObservers()
 
+        statusObservation = nil
+        caption = nil
+        player.replaceCurrentItem(with: nil)
+    }
+
+    private func removeObservers() {
         if let timeObserver {
             player.removeTimeObserver(timeObserver)
         }
@@ -178,9 +196,6 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         }
         timeObserver = nil
         endObserver = nil
-        statusObservation = nil
-        caption = nil
-        player.replaceCurrentItem(with: nil)
     }
 
     /// Loads the video the first time it's asked to play, so a page nobody swipes to fetches nothing.
