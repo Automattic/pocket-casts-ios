@@ -253,8 +253,8 @@ private struct WhatsNewVideoLayerView: UIViewRepresentable {
 // MARK: - Previews
 
 private extension WhatsNewVideo {
-    /// A block pointing at Apple's public sample stream, so the preview has something that plays:
-    /// the mock catalog's media URLs are made up, like the rest of the fixture.
+    /// A block pointing at Apple's public sample stream, so the video can be previewed on its own
+    /// without going through a message.
     static var previewSample: WhatsNewVideo {
         let json = """
         {

@@ -43,6 +43,10 @@ public extension WhatsNewCatalog {
     /// message carries a `poll` block the app doesn't model, so anything rendering the mock exercises
     /// a page that drops a block and still has something left to show. The release notes message is
     /// taller than any screen, so a page that has to scroll is covered too.
+    ///
+    /// The media points at assets that are actually there — podcast artwork and Apple's public
+    /// sample stream — so previews render something rather than a hole the size of the image. Only
+    /// the captions sidecar is made up, since there's no public one to point at.
     private static let mockMessages = [
         """
         {
@@ -139,7 +143,7 @@ public extension WhatsNewCatalog {
           "summary": {
             "title": "Introducing episode transcripts",
             "label": "New Feature",
-            "imageUrl": "https://static.pocketcasts.com/whats-new/media/transcripts-card.webp"
+            "imageUrl": "https://static.pocketcasts.com/discover/images/420/3782b780-0bc5-012e-fb02-00163e1b201c.jpg"
           },
           "content": {
             "title": "Introducing episode transcripts",
@@ -150,9 +154,9 @@ public extension WhatsNewCatalog {
                   { "type": "paragraph", "content": "Search a transcript and follow the conversation." },
                   {
                     "type": "image",
-                    "url": "https://static.pocketcasts.com/whats-new/media/transcripts-detail.webp",
-                    "width": 1200,
-                    "height": 750,
+                    "url": "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg",
+                    "width": 420,
+                    "height": 420,
                     "alt": "Episode transcript open beside the player"
                   }
                 ]
@@ -181,9 +185,9 @@ public extension WhatsNewCatalog {
                   {
                     "type": "video",
                     "sources": [
-                      { "url": "https://static.pocketcasts.com/whats-new/media/retry-download.mp4", "mimeType": "video/mp4" }
+                      { "url": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8", "mimeType": "application/x-mpegURL" }
                     ],
-                    "posterUrl": "https://static.pocketcasts.com/whats-new/media/retry-download-poster.webp",
+                    "posterUrl": "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg",
                     "captionsUrl": "https://static.pocketcasts.com/whats-new/media/retry-download.vtt",
                     "alt": "Swiping an episode to start its download again"
                   },
@@ -214,9 +218,9 @@ public extension WhatsNewCatalog {
                   { "type": "paragraph", "content": "Automatic downloads start as soon as an episode is released rather than waiting for the next refresh, and a download that fails is retried once on its own before it asks you to try again." },
                   {
                     "type": "image",
-                    "url": "https://static.pocketcasts.com/whats-new/media/downloads-detail.webp",
-                    "width": 1200,
-                    "height": 750,
+                    "url": "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg",
+                    "width": 420,
+                    "height": 420,
                     "alt": "The downloads screen with an episode part way through"
                   },
                   { "type": "heading", "level": 2, "text": "Sync" },
