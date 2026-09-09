@@ -14,7 +14,13 @@ struct WhatsNewMessageViewModel {
     struct Page: Identifiable {
         /// The page's position, which is all the contract gives a page to be identified by.
         let id: Int
+
+        /// The blocks that scroll, in the order the catalog published them.
         let blocks: [WhatsNewBlock]
+
+        /// The page's calls to action, which sit at the bottom of the page rather than scrolling
+        /// away with the content they were published between.
+        let actions: [WhatsNewAction]
     }
 
     init(message: WhatsNewMessage) {
@@ -23,7 +29,7 @@ struct WhatsNewMessageViewModel {
             .map { $0.blocks.filter(Self.isSupported) }
             .filter { !$0.isEmpty }
             .enumerated()
-            .map { Page(id: $0.offset, blocks: $0.element) }
+            .map { Page(id: $0.offset, blocks: $0.element.filter { $0.action == nil }, actions: $0.element.compactMap(\.action)) }
     }
 
     /// Whether the app can draw the block, which for an action means having somewhere to send the
@@ -35,5 +41,12 @@ struct WhatsNewMessageViewModel {
             return false
         }
         return true
+    }
+}
+
+private extension WhatsNewBlock {
+    var action: WhatsNewAction? {
+        guard case .action(let action) = self else { return nil }
+        return action
     }
 }

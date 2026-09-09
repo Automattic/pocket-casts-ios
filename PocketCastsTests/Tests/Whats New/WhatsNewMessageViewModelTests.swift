@@ -52,8 +52,29 @@ final class WhatsNewMessageViewModelTests: XCTestCase {
         }
         """))
 
-        XCTAssertEqual(viewModel.pages.first?.blocks.count, 2)
-        XCTAssertEqual(viewModel.pages.first?.blocks.compactMap { $0.actionLabel }, ["Try transcripts"])
+        XCTAssertEqual(viewModel.pages.first?.actions.map(\.label), ["Try transcripts"])
+    }
+
+    /// The buttons are pinned to the bottom of the page, so they're kept apart from the blocks that
+    /// scroll rather than drawn where the catalog happened to put them.
+    func testActionsAreKeptOutOfTheBlocksThatScroll() throws {
+        let viewModel = WhatsNewMessageViewModel(message: try message(content: """
+        {
+          "pages": [
+            {
+              "blocks": [
+                { "type": "action", "label": "Try transcripts", "url": "pocketcasts://podcasts" },
+                { "type": "paragraph", "content": "…" },
+                { "type": "action", "label": "Read more", "url": "https://blog.pocketcasts.com" }
+              ]
+            }
+          ]
+        }
+        """))
+
+        let page = try XCTUnwrap(viewModel.pages.first)
+        XCTAssertEqual(page.blocks.count, 1)
+        XCTAssertEqual(page.actions.map(\.label), ["Try transcripts", "Read more"])
     }
 
     /// Dropping the only block on a page would leave an empty one to swipe through.
@@ -102,10 +123,5 @@ private extension WhatsNewBlock {
     var headingText: String? {
         guard case .heading(let heading) = self else { return nil }
         return heading.text
-    }
-
-    var actionLabel: String? {
-        guard case .action(let action) = self else { return nil }
-        return action.label
     }
 }

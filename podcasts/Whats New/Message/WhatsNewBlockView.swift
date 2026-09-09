@@ -126,7 +126,7 @@ private struct WhatsNewImageView: View {
 ///
 /// A URL the app has no way to open isn't drawn at all: whether the action succeeds or fails has
 /// nothing to do with the message being read, so there's nothing to report back either way.
-private struct WhatsNewActionView: View {
+struct WhatsNewActionView: View {
     @EnvironmentObject private var theme: Theme
 
     let action: WhatsNewAction

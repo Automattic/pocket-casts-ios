@@ -28,7 +28,7 @@ struct WhatsNewMessageView: View {
 }
 
 /// A single page, which scrolls when its blocks are taller than the space they're given rather than
-/// clipping them.
+/// clipping them, and keeps its calls to action pinned beneath them.
 private struct WhatsNewMessagePageView: View {
     /// The gutter the design leaves either side of a page's content.
     private let horizontalPadding: CGFloat = 20
@@ -40,17 +40,36 @@ private struct WhatsNewMessagePageView: View {
         GeometryReader { proxy in
             let contentSize = CGSize(width: proxy.size.width - horizontalPadding * 2, height: proxy.size.height)
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(Array(page.blocks.enumerated()), id: \.offset) { index, block in
-                        WhatsNewBlockView(block: block, contentSize: contentSize, isVisible: isVisible)
-                            .padding(.top, topPadding(forBlockAt: index))
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(Array(page.blocks.enumerated()), id: \.offset) { index, block in
+                            WhatsNewBlockView(block: block, contentSize: contentSize, isVisible: isVisible)
+                                .padding(.top, topPadding(forBlockAt: index))
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, horizontalPadding)
+                    .padding(.bottom, 24)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, horizontalPadding)
-                .padding(.bottom, 24)
+
+                actions
             }
+        }
+    }
+
+    /// The page's calls to action, kept where they can be reached however far the content scrolls.
+    @ViewBuilder
+    private var actions: some View {
+        if !page.actions.isEmpty {
+            VStack(spacing: 12) {
+                ForEach(Array(page.actions.enumerated()), id: \.offset) { _, action in
+                    WhatsNewActionView(action: action)
+                }
+            }
+            .padding(.horizontal, horizontalPadding)
+            .padding(.top, 16)
+            .padding(.bottom, 8)
         }
     }
 
@@ -65,8 +84,6 @@ private struct WhatsNewMessagePageView: View {
             return 40
         case (.heading, .paragraph):
             return 16
-        case (_, .action):
-            return 28
         default:
             return 20
         }
