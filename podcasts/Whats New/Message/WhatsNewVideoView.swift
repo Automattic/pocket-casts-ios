@@ -107,7 +107,11 @@ struct WhatsNewVideoView: View {
 /// Drives the `AVPlayer` behind a video block.
 @MainActor
 private final class WhatsNewVideoPlayer: ObservableObject {
+    /// Whether the video is running, read from the player rather than from the last call into it,
+    /// so a pause the app didn't ask for — backgrounding, an interruption — still shows the play
+    /// button and takes a single tap to get going again.
     @Published private(set) var isPlaying = false
+
     @Published private(set) var caption: String?
 
     /// The video's shape, which starts at the widescreen these demos are recorded in and settles on
@@ -116,11 +120,16 @@ private final class WhatsNewVideoPlayer: ObservableObject {
 
     let player = AVPlayer()
 
+    /// Whether the video was last asked to play, which is what the loop turns on rather than the
+    /// player's own state: it's momentarily not playing at the end of every pass.
+    private var shouldPlay = false
+
     private let video: WhatsNewVideo
     private var captions: WhatsNewVideoCaptions?
     private var timeObserver: Any?
     private var endObserver: Any?
     private var statusObservation: NSKeyValueObservation?
+    private var playbackObservation: NSKeyValueObservation?
 
     init(video: WhatsNewVideo) {
         self.video = video
@@ -129,19 +138,27 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         player.isMuted = true
         player.allowsExternalPlayback = false
         player.preventsDisplaySleepDuringVideoPlayback = false
+        // Looping is a seek back to the start, so the player is never asked to stop at the end and
+        // never drops out of playing between passes.
+        player.actionAtItemEnd = .none
+
+        playbackObservation = player.observe(\.timeControlStatus, options: [.initial, .new]) { player, _ in
+            let isPlaying = player.timeControlStatus != .paused
+            Task { @MainActor [weak self] in self?.isPlaying = isPlaying }
+        }
     }
 
     func play() {
         prepareIfNeeded()
         guard player.currentItem != nil else { return }
 
+        shouldPlay = true
         player.play()
-        isPlaying = true
     }
 
     func stop() {
+        shouldPlay = false
         player.pause()
-        isPlaying = false
     }
 
     func toggle() {
@@ -194,7 +211,7 @@ private final class WhatsNewVideoPlayer: ObservableObject {
 
     private func replay() {
         player.seek(to: .zero)
-        guard isPlaying else { return }
+        guard shouldPlay else { return }
         player.play()
     }
 
