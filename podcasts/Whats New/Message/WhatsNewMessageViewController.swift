@@ -1,7 +1,7 @@
 import PocketCastsServer
 import SwiftUI
 
-/// Hosts `WhatsNewMessageView` and owns the navigation bar the design puts around it.
+/// Hosts `WhatsNewMessageView` under the app's usual navigation bar.
 class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
     private let viewModel: WhatsNewMessageViewModel
 
@@ -19,26 +19,5 @@ class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
 
         title = viewModel.title
         navigationItem.largeTitleDisplayMode = .never
-        setupNavBar()
-    }
-
-    @objc override func themeDidChange() {
-        super.themeDidChange()
-        setupNavBar()
-    }
-
-    /// Puts a translucent bar over the message rather than the app's usual opaque one, so a page
-    /// scrolls up underneath it instead of stopping at its edge. Liquid Glass already does this.
-    private func setupNavBar() {
-        guard !LiquidGlass.isEnabled else { return }
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
-        appearance.shadowColor = nil
-        appearance.titleTextAttributes = [.foregroundColor: AppTheme.navBarTitleColor()]
-
-        navigationItem.standardAppearance = appearance
-        navigationItem.compactAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
     }
 }

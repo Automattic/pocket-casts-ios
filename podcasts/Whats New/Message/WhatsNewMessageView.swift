@@ -30,15 +30,10 @@ struct WhatsNewMessageView: View {
 /// A single page, which scrolls when its blocks are taller than the space they're given rather than
 /// clipping them, and keeps its calls to action pinned beneath them.
 private struct WhatsNewMessagePageView: View {
+    @EnvironmentObject private var theme: Theme
+
     /// The gutter the design leaves either side of a page's content.
     private let horizontalPadding: CGFloat = 20
-
-    /// The name the page's own geometry goes by, so the content and the actions can be measured
-    /// against each other.
-    private let coordinateSpace = "WhatsNewMessagePage"
-
-    @State private var contentBottom: CGFloat = 0
-    @State private var actionsTop: CGFloat = .greatestFiniteMagnitude
 
     let page: WhatsNewMessageViewModel.Page
     let isVisible: Bool
@@ -57,21 +52,12 @@ private struct WhatsNewMessagePageView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, horizontalPadding)
                 .padding(.bottom, 24)
-                .background {
-                    GeometryReader { content in
-                        Color.clear.preference(key: ContentBottomKey.self, value: content.frame(in: .named(coordinateSpace)).maxY)
-                    }
-                }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) { actions }
-            .coordinateSpace(name: coordinateSpace)
-            .onPreferenceChange(ContentBottomKey.self) { contentBottom = $0 }
-            .onPreferenceChange(ActionsTopKey.self) { actionsTop = $0 }
         }
     }
 
-    /// The page's calls to action, which the content scrolls behind. They take on a bar of their own
-    /// while it is back there, the way a navigation bar does.
+    /// The page's calls to action, pinned beneath the content that scrolls behind them.
     @ViewBuilder
     private var actions: some View {
         if !page.actions.isEmpty {
@@ -83,28 +69,8 @@ private struct WhatsNewMessagePageView: View {
             .padding(.horizontal, horizontalPadding)
             .padding(.top, 16)
             .padding(.bottom, 8)
-            .background {
-                if isContentBehindActions {
-                    Rectangle().fill(.bar)
-                }
-            }
-            .overlay(alignment: .top) {
-                if isContentBehindActions {
-                    Divider()
-                }
-            }
-            .animation(.easeInOut(duration: 0.2), value: isContentBehindActions)
-            .background {
-                GeometryReader { actions in
-                    Color.clear.preference(key: ActionsTopKey.self, value: actions.frame(in: .named(coordinateSpace)).minY)
-                }
-            }
+            .background(theme.primaryUi01)
         }
-    }
-
-    /// Whether the content has scrolled in behind the actions, which is when they need an edge.
-    private var isContentBehindActions: Bool {
-        contentBottom > actionsTop + 1
     }
 
     /// The space the design leaves above a block, which depends on what it follows.
@@ -121,24 +87,6 @@ private struct WhatsNewMessagePageView: View {
         default:
             return 20
         }
-    }
-}
-
-/// How far down the page the scrolling content reaches.
-private struct ContentBottomKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
-/// Where the page's actions begin.
-private struct ActionsTopKey: PreferenceKey {
-    static let defaultValue = CGFloat.greatestFiniteMagnitude
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = min(value, nextValue())
     }
 }
 
