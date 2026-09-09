@@ -102,6 +102,9 @@ private extension WhatsNewMessage {
     /// The mock catalog's single-page message, which shows no pagination controls.
     static var singlePageMock: WhatsNewMessage { mock(titled: "Sort your Up Next") }
 
+    /// The mock catalog's message whose blocks are taller than a page, so it has to scroll.
+    static var longPageMock: WhatsNewMessage { mock(titled: "Everything new this month") }
+
     /// The mock catalog's message built around a video demo.
     static var videoMock: WhatsNewMessage { mock(titled: "Downloads stalling on cellular") }
 
@@ -119,6 +122,10 @@ private extension WhatsNewMessage {
 
 #Preview("A single page") {
     PCNavigationController(rootViewController: WhatsNewMessageViewController(message: .singlePageMock))
+}
+
+#Preview("A long page") {
+    PCNavigationController(rootViewController: WhatsNewMessageViewController(message: .longPageMock))
 }
 
 #Preview("A video demo") {
