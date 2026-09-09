@@ -272,9 +272,7 @@ struct PodcastHeaderView: View {
     private var podcastDetails: some View {
         VStack(alignment: .leading) {
             if let displayAuthor = viewModel.displayAuthor {
-                infoLabel(displayAuthor, imageName: "podcast-author", linkTint: authorTint) {
-                    viewModel.networkTapped()
-                }
+                infoLabel(displayAuthor, imageName: "podcast-author", linkTint: authorTint, action: authorTint == nil ? nil : { viewModel.networkTapped() })
             }
             if let displayWebsite = viewModel.displayWebsite {
                 infoLabel(displayWebsite, imageName: "podcast-link", linkTint: networkTint) {
