@@ -3613,6 +3613,9 @@
 /* Title for the announcement screen that calls out new features. */
 "whats_new" = "What's New";
 
+/* Navigation bar button on the What's New feed that marks every message in the list as read. */
+"whats_new_feed_read_all" = "Read all";
+
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_title" = "Nothing in Up Next";
 
