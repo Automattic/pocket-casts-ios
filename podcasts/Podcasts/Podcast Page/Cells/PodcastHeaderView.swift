@@ -108,6 +108,12 @@ struct PodcastHeaderView: View {
         Color(viewModel.podcast.iconTintColor(for: theme.activeTheme))
     }
 
+    /// The details row's author is drawn in `networkTint` when it leads to the podcast's network,
+    /// the same place the header's author does, and left as plain text when it doesn't.
+    private var authorTint: Color? {
+        viewModel.networkListId == nil ? nil : networkTint
+    }
+
     var topMarginForTitle: CGFloat {
         let font = UIFont.preferredFont(forTextStyle: .title2)
         let adjustment =  font.lineHeight - font.capHeight + font.descender
@@ -266,16 +272,18 @@ struct PodcastHeaderView: View {
     private var podcastDetails: some View {
         VStack(alignment: .leading) {
             if let displayAuthor = viewModel.displayAuthor {
-                infoLabel(displayAuthor, imageName: "podcast-author", action: {})
+                infoLabel(displayAuthor, imageName: "podcast-author", linkTint: authorTint, action: authorTint == nil ? nil : { viewModel.networkTapped() })
             }
             if let displayWebsite = viewModel.displayWebsite {
-                infoLabel(displayWebsite, imageName: "podcast-link", isLink: true, action: { viewModel.websiteLinkTapped() })
+                infoLabel(displayWebsite, imageName: "podcast-link", linkTint: networkTint) {
+                    viewModel.websiteLinkTapped()
+                }
             }
             if let displayFrequency = viewModel.displayFrequency {
-                infoLabel(displayFrequency, imageName: "podcast-schedule", action: {})
+                infoLabel(displayFrequency, imageName: "podcast-schedule")
             }
             if let displayNextEpisodeDate = viewModel.displayNextEpisodeDate {
-                infoLabel(displayNextEpisodeDate, imageName: "podcast-nextepisode", action: {})
+                infoLabel(displayNextEpisodeDate, imageName: "podcast-nextepisode")
             }
         }
         .padding()
@@ -287,21 +295,27 @@ struct PodcastHeaderView: View {
         )
     }
 
-    private func infoLabel(_ label: String, imageName: String, isLink: Bool = false, action: @escaping ()->()) -> some View {
+    /// A row of the details box. `linkTint` colours the text and makes the row tappable; a row
+    /// without one is plain text.
+    private func infoLabel(_ label: String, imageName: String, linkTint: Color? = nil, action: (() -> Void)? = nil) -> some View {
         HStack {
             Image(imageName)
                 .resizable()
                 .frame(width: iconSize, height: iconSize)
                 .foregroundStyle(theme.primaryIcon02)
             Text(label)
-                .foregroundStyle(isLink ? theme.support05 : theme.primaryText01)
-                .onTapGesture {
-                    action()
-                }
+                .foregroundStyle(linkTint ?? theme.primaryText01)
                 .font(.subheadline)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer()
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            action?()
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(linkTint == nil ? [] : .isButton)
+        .allowsHitTesting(action != nil)
     }
 }
 

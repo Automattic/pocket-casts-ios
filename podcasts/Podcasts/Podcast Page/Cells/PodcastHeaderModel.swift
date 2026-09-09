@@ -103,8 +103,14 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     }
 
     /// The network the podcast belongs to, while the app shows networks at all.
-    private var networkListId: String? {
+    var networkListId: String? {
         FeatureFlag.networkDiscovery.enabled ? podcast.networkListId : nil
+    }
+
+    func networkTapped() {
+        guard let networkListId else { return }
+
+        delegate?.networkTapped(listId: networkListId)
     }
 
     var displayAuthor: String? {
@@ -179,8 +185,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         case .category:
             delegate?.categoryTapped(firstCategory)
         case .author:
-            guard let networkListId else { return }
-            delegate?.networkTapped(listId: networkListId)
+            networkTapped()
         case nil:
             delegate?.open(url: url)
         }
