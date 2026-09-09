@@ -7,6 +7,10 @@
 - Fix the Chromecast button being invisible in the fullscreen video player [#5060](https://github.com/Automattic/pocket-casts-ios/pull/5060)
 - Fix a memory leak that kept the episode details screen, its views and artwork in memory after it was closed [#5067](https://github.com/Automattic/pocket-casts-ios/pull/5067)
 - Fix the controls in the fullscreen video player being too small to tap reliably [#5059](https://github.com/Automattic/pocket-casts-ios/pull/5059)
+- Add podcast networks to Discover: a "Networks" row on the Discover tab, the full grid of networks behind "Show All", and a page for each network listing the podcasts it carries [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026) [#5064](https://github.com/Automattic/pocket-casts-ios/pull/5064) [#5065](https://github.com/Automattic/pocket-casts-ios/pull/5065)
+- Add networks to search: a matching network now shows up in Top Results, and a "Networks" filter appears when the term matches one [#5036](https://github.com/Automattic/pocket-casts-ios/pull/5036)
+- Open a podcast's network from the podcast page, either from the author in the header or from the author row in the details below it [#5040](https://github.com/Automattic/pocket-casts-ios/pull/5040) [#5075](https://github.com/Automattic/pocket-casts-ios/pull/5075)
+- [tvOS] Add networks to search, in Combined Results and in a tab of their own [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 
 8.20
 -----
@@ -17,8 +21,6 @@
 - Fix a rare crash when starting episode downloads [#5001](https://github.com/Automattic/pocket-casts-ios/pull/5001)
 - Fix a rare crash on the Apple Watch while downloading episodes in the background [#5002](https://github.com/Automattic/pocket-casts-ios/pull/5002)
 - Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
-- Add support for "Networks" row in "Discover" [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026)
-- Add networks to search, including "Combined Results" and a new dedicated tab/filter [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
 - Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
 - Fix a rare crash when the What's New screen was shown while another screen was still being dismissed [#5003](https://github.com/Automattic/pocket-casts-ios/pull/5003)
 
