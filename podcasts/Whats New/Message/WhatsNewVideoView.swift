@@ -130,11 +130,13 @@ private final class WhatsNewVideoPlayer: ObservableObject {
     private var endObserver: Any?
     private var statusObservation: NSKeyValueObservation?
     private var playbackObservation: NSKeyValueObservation?
+    private var preparation: Task<Void, Never>?
 
     init(video: WhatsNewVideo) {
         self.video = video
 
         // The app is usually playing a podcast, and a demo has nothing to say over the top of it.
+        // The audio is taken off the item as well, since muting alone still claims the session.
         player.isMuted = true
         player.allowsExternalPlayback = false
         player.preventsDisplaySleepDuringVideoPlayback = false
@@ -149,11 +151,13 @@ private final class WhatsNewVideoPlayer: ObservableObject {
     }
 
     func play() {
-        prepareIfNeeded()
-        guard player.currentItem != nil else { return }
-
         shouldPlay = true
-        player.play()
+
+        guard player.currentItem == nil else {
+            player.play()
+            return
+        }
+        prepare()
     }
 
     func stop() {
@@ -182,6 +186,8 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         stop()
         removeObservers()
 
+        preparation?.cancel()
+        preparation = nil
         statusObservation = nil
         caption = nil
         player.replaceCurrentItem(with: nil)
@@ -199,12 +205,72 @@ private final class WhatsNewVideoPlayer: ObservableObject {
     }
 
     /// Loads the video the first time it's asked to play, so a page nobody swipes to fetches nothing.
-    private func prepareIfNeeded() {
-        guard player.currentItem == nil, let source = video.sources.first else { return }
+    ///
+    /// Nothing starts until the audio is off the item, since the point of the delay is to keep the
+    /// player from ever asking for the audio session.
+    private func prepare() {
+        guard preparation == nil, let source = video.sources.first else { return }
 
-        let item = AVPlayerItem(url: source.url)
-        player.replaceCurrentItem(with: item)
+        preparation = Task {
+            let item = await silencedItem(for: source.url)
+            guard !Task.isCancelled else { return }
 
+            observe(item)
+            player.replaceCurrentItem(with: item)
+            preparation = nil
+
+            if shouldPlay {
+                player.play()
+            }
+
+            await loadAspectRatio()
+
+            if let captionsUrl = video.captionsUrl {
+                await loadCaptions(from: captionsUrl)
+            }
+        }
+    }
+
+    /// The video with its audio left out rather than turned down.
+    ///
+    /// A muted player still activates the shared audio session, which interrupts whatever the
+    /// reader has playing in another app — the very thing muting is here to avoid. A stream is
+    /// silenced by deselecting the audio it offers, a file by playing a copy of its video track
+    /// alone.
+    private func silencedItem(for url: URL) async -> AVPlayerItem {
+        let asset = AVURLAsset(url: url)
+
+        if let videoOnly = await videoOnlyCopy(of: asset) {
+            return AVPlayerItem(asset: videoOnly)
+        }
+
+        let item = AVPlayerItem(asset: asset)
+        if let audible = try? await asset.loadMediaSelectionGroup(for: .audible) {
+            item.select(nil, in: audible)
+        }
+        return item
+    }
+
+    /// The asset's video track on its own, or `nil` for a stream, whose tracks aren't there to copy
+    /// and which has media selection to turn its audio off with instead.
+    private func videoOnlyCopy(of asset: AVURLAsset) async -> AVAsset? {
+        guard let source = try? await asset.loadTracks(withMediaType: .video).first,
+              let duration = try? await asset.load(.duration) else { return nil }
+
+        let composition = AVMutableComposition()
+        guard let track = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
+              (try? track.insertTimeRange(CMTimeRange(start: .zero, duration: duration), of: source, at: .zero)) != nil
+        else { return nil }
+
+        // A copied track starts square-on, which would turn a video recorded on its side.
+        if let transform = try? await source.load(.preferredTransform) {
+            track.preferredTransform = transform
+        }
+
+        return composition
+    }
+
+    private func observe(_ item: AVPlayerItem) {
         endObserver = NotificationCenter.default.addObserver(forName: AVPlayerItem.didPlayToEndTimeNotification,
                                                             object: item,
                                                             queue: .main) { [weak self] _ in
@@ -216,12 +282,6 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         statusObservation = item.observe(\.status) { [weak self] item, _ in
             guard item.status == .failed else { return }
             Task { @MainActor in self?.tearDown() }
-        }
-
-        Task { await loadAspectRatio() }
-
-        if let captionsUrl = video.captionsUrl {
-            Task { await loadCaptions(from: captionsUrl) }
         }
     }
 
