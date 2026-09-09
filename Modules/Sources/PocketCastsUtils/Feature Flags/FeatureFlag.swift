@@ -451,7 +451,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .sleepTimerLiveActivity:
             true
         case .networkDiscovery:
-            BuildEnvironment.current == .debug
+            true
         case .newEpisodeNotificationsPushOptOut:
             true
         case .whatsNewFeed:
