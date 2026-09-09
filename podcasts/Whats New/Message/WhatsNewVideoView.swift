@@ -197,9 +197,10 @@ private final class WhatsNewVideoPlayer: ObservableObject {
         }
 
         // A video that can't be played leaves the poster up, with the play button back for a retry.
+        // The failed item goes with it, or the retry would find it still loaded and play nothing.
         statusObservation = item.observe(\.status) { [weak self] item, _ in
             guard item.status == .failed else { return }
-            Task { @MainActor in self?.stop() }
+            Task { @MainActor in self?.tearDown() }
         }
 
         Task { await loadAspectRatio() }
