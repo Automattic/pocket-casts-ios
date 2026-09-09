@@ -277,7 +277,7 @@ struct PodcastHeaderView: View {
                 }
             }
             if let displayWebsite = viewModel.displayWebsite {
-                infoLabel(displayWebsite, imageName: "podcast-link", linkTint: theme.support05) {
+                infoLabel(displayWebsite, imageName: "podcast-link", linkTint: networkTint) {
                     viewModel.websiteLinkTapped()
                 }
             }
@@ -297,8 +297,8 @@ struct PodcastHeaderView: View {
         )
     }
 
-    /// A row of the details box. `linkTint` colours the text and makes it tappable; a row without
-    /// one is plain text.
+    /// A row of the details box. `linkTint` colours the text and makes the row tappable; a row
+    /// without one is plain text.
     private func infoLabel(_ label: String, imageName: String, linkTint: Color? = nil, action: (() -> Void)? = nil) -> some View {
         HStack {
             Image(imageName)
@@ -307,14 +307,17 @@ struct PodcastHeaderView: View {
                 .foregroundStyle(theme.primaryIcon02)
             Text(label)
                 .foregroundStyle(linkTint ?? theme.primaryText01)
-                .onTapGesture {
-                    action?()
-                }
                 .font(.subheadline)
                 .fixedSize(horizontal: false, vertical: true)
-                .accessibilityAddTraits(linkTint == nil ? [] : .isButton)
             Spacer()
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            action?()
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(linkTint == nil ? [] : .isButton)
+        .allowsHitTesting(action != nil)
     }
 }
 
