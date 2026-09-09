@@ -205,6 +205,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         changedPlaylists.forEach { playlist in
             playlist.syncStatus = SyncStatus.notSynced.rawValue
             dataManager.save(playlist: playlist)
+            PlaylistManager.checkForAutoDownloads(in: playlist)
         }
 
         let showAddedToast = !added.isEmpty && !changedPlaylists.isEmpty
