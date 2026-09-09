@@ -32,6 +32,15 @@ struct WhatsNewMessageViewModel {
             .map { Page(id: $0.offset, blocks: $0.element.filter { $0.action == nil }, actions: $0.element.compactMap(\.action)) }
     }
 
+    /// Whether the app has anything to draw for the message.
+    ///
+    /// A page whose blocks are all dropped is dropped with them, and a message left with no pages
+    /// would open onto an empty pager, so the feed leaves it out rather than showing a row that
+    /// goes nowhere.
+    static func canRender(_ message: WhatsNewMessage) -> Bool {
+        !WhatsNewMessageViewModel(message: message).pages.isEmpty
+    }
+
     /// Whether the app can draw the block, which for an action means having somewhere to send the
     /// user: an action the allowlist rejects would otherwise render as a button that does nothing.
     private static func isSupported(_ block: WhatsNewBlock) -> Bool {

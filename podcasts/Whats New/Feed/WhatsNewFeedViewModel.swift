@@ -23,6 +23,9 @@ struct WhatsNewFeedItem: Identifiable, Hashable {
 }
 
 /// The messages the What's New feed shows, most recently published first.
+///
+/// A message this build has nothing to draw never reaches the list, so no row opens onto an empty
+/// screen — or marks itself read on the way there.
 @MainActor
 final class WhatsNewFeedViewModel: ObservableObject {
     @Published private(set) var items: [WhatsNewFeedItem]
@@ -33,7 +36,9 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private let messages: [WhatsNewMessage]
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = []) {
-        self.messages = messages.sorted { $0.publishedAt > $1.publishedAt }
+        self.messages = messages
+            .filter(WhatsNewMessageViewModel.canRender)
+            .sorted { $0.publishedAt > $1.publishedAt }
         items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
     }
 
