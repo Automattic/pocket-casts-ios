@@ -96,7 +96,9 @@ struct DiscoverNetworkCard: View {
     var body: some View {
         VStack(spacing: 10) {
             artwork
-                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                .overlay {
+                    Circle().strokeBorder(theme.primaryUi05, lineWidth: 1)
+                }
             text
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
