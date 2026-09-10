@@ -130,29 +130,39 @@ private struct WhatsNewFeedRow: View {
     }
 }
 
-/// The artwork the CDN published for a message, over a fallback the message's type picks.
+/// The artwork the CDN published for a message, or a fallback the message's type picks while there's none to show.
 private struct WhatsNewFeedArtworkView: View {
     let item: WhatsNewFeedItem
 
     var body: some View {
+        artwork
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+    }
+
+    @ViewBuilder
+    private var artwork: some View {
+        if let imageURL = item.imageURL {
+            KFImage(imageURL)
+                .placeholder { fallback }
+                .targetCache(ImageManager.sharedManager.discoverCache)
+                .fade(duration: 0.25)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .clipped()
+        } else {
+            fallback
+        }
+    }
+
+    private var fallback: some View {
         ZStack {
             LinearGradient(colors: item.type.artworkGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
 
             Image(systemName: item.type.artworkSymbolName)
                 .font(.system(size: 22, weight: .semibold))
                 .foregroundStyle(.white)
-
-            if let imageURL = item.imageURL {
-                KFImage(imageURL)
-                    .targetCache(ImageManager.sharedManager.discoverCache)
-                    .fade(duration: 0.25)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
-            }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 4))
     }
 }
 
