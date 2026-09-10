@@ -3616,6 +3616,9 @@
 /* Navigation bar button on the What's New feed that marks every message in the list as read. */
 "whats_new_feed_read_all" = "Read all";
 
+/* VoiceOver label for a video in a What's New message that was published without a description of its own. */
+"whats_new_message_video" = "Video";
+
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_title" = "Nothing in Up Next";
 
