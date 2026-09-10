@@ -30,11 +30,8 @@ final class WhatsNewPollViewModel: ObservableObject {
     /// The options chosen for each question, keyed by question ID.
     @Published private(set) var selectedOptionIDs: [String: Set<String>] = [:]
 
-    private let task: WhatsNewPollTask
-
-    init(poll: WhatsNewPoll?, task: WhatsNewPollTask = WhatsNewPollTask()) {
+    init(poll: WhatsNewPoll?) {
         self.poll = poll
-        self.task = task
     }
 
     var questions: [WhatsNewPoll.Question] {
@@ -81,27 +78,25 @@ final class WhatsNewPollViewModel: ObservableObject {
         }
     }
 
+    /// TODO: send the answers — a poll response has nowhere to go yet: its destination, whether
+    /// it's authenticated or anonymous, and whether sending it twice replaces the first answer are
+    /// all undecided. Until then this records the answers in the log and reports success, so the
+    /// screen can be exercised without inventing an endpoint.
     func submit() async {
         guard let poll, isComplete, isEditable else { return }
 
         state = .sending
-        do {
-            try await task.submit(response(for: poll))
-            state = .sent
-        } catch {
-            FileLog.shared.addMessage("What's New: failed to send the answers to poll \(poll.pollId): \(error.localizedDescription)")
-            state = .failed
-        }
-    }
 
-    /// The answers in the order the poll published its questions and options, rather than the order
-    /// they happened to be tapped in.
-    private func response(for poll: WhatsNewPoll) -> WhatsNewPollResponse {
-        let answers = poll.questions.map { question in
-            let selected = selectedOptionIDs[question.id, default: []]
-            return WhatsNewPollResponse.Answer(questionId: question.id,
-                                               optionIds: question.options.map(\.id).filter(selected.contains))
-        }
-        return WhatsNewPollResponse(pollId: poll.pollId, answers: answers)
+        let answers = poll.questions
+            .map { question in
+                let selected = selectedOptionIDs[question.id, default: []]
+                let chosen = question.options.map(\.id).filter(selected.contains)
+                return "\(question.id)=\(chosen.joined(separator: ","))"
+            }
+            .joined(separator: " ")
+        FileLog.shared.addMessage("What's New: poll \(poll.pollId) answered with \(answers). Not sent: no submission endpoint yet")
+
+        try? await Task.sleep(for: .seconds(1))
+        state = .sent
     }
 }
