@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-/// Keeps the What's New catalog in memory and up to date.
+/// Keeps the What's New catalog in memory and up to date, along with what the user has read of it.
 ///
 /// The catalog is one small file published for the whole platform, so the app works from the last
 /// copy it fetched rather than from a request: the feed opens on the messages it already has
@@ -12,6 +12,10 @@ import PocketCastsUtils
 /// from the background, and throttled by how old the copy on disk is. A timer would keep firing
 /// against a file that changes a few times a month, and refreshing only at launch would leave a
 /// user who never quits the app on whatever was published the day they installed it.
+///
+/// Read state is kept in a file next to the catalog until it syncs with the server, and is read
+/// back before the first catalog is published, so a message read in an earlier session never shows
+/// up unread, even for a moment.
 @MainActor
 public final class WhatsNewManager: ObservableObject {
     nonisolated public static let shared = WhatsNewManager()
@@ -20,17 +24,24 @@ public final class WhatsNewManager: ObservableObject {
     /// refresh of the session.
     @Published public private(set) var catalog: WhatsNewCatalog?
 
+    /// Which messages the user has read, and which the Profile tab has already pointed them at.
+    @Published public private(set) var readState = WhatsNewReadState()
+
     /// How long a fetched catalog is treated as current before the next foreground replaces it.
     nonisolated public static let refreshInterval: TimeInterval = 6.hours
 
     nonisolated private let task: WhatsNewCatalogTask
+    nonisolated private let readStateStore: WhatsNewReadStateStore
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
     private var isRefreshForced = false
+    private var hasLoadedReadState = false
 
     nonisolated public init(task: WhatsNewCatalogTask = WhatsNewCatalogTask(),
+                            readStateStore: WhatsNewReadStateStore = WhatsNewReadStateStore(),
                             refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) {
         self.task = task
+        self.readStateStore = readStateStore
         self.refreshInterval = refreshInterval
     }
 
@@ -61,7 +72,27 @@ public final class WhatsNewManager: ObservableObject {
         return refreshIfNeeded()
     }
 
+    /// Marks messages read, whether the user opened one or cleared the feed with "Read all".
+    public func markAsRead(_ messageIDs: some Sequence<String>) {
+        updateReadState { $0.readMessageIDs.formUnion(messageIDs) }
+    }
+
+    /// Records that the Profile tab has pointed the user at the messages, so its dot stays off until
+    /// a message arrives that it hasn't.
+    public func markAsSeen(_ messageIDs: some Sequence<String>) {
+        updateReadState { $0.seenMessageIDs.formUnion(messageIDs) }
+    }
+
+    /// Forgets every message read or seen, bringing back each unread indicator.
+    public func resetReadState() {
+        hasLoadedReadState = true
+        readState = WhatsNewReadState()
+        readStateStore.save(readState)
+    }
+
     private func performRefresh() async {
+        await loadReadStateIfNeeded()
+
         if catalog == nil, let cached = await cachedCatalog() {
             catalog = cached
         }
@@ -76,6 +107,37 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Saves a change to the read state once the copy on disk has been read back, since saving
+    /// before then would overwrite it. The load saves the two merged instead.
+    private func updateReadState(_ update: (inout WhatsNewReadState) -> Void) {
+        var readState = self.readState
+        update(&readState)
+        guard readState != self.readState else { return }
+
+        self.readState = readState
+        if hasLoadedReadState {
+            readStateStore.save(readState)
+        }
+    }
+
+    /// Reads back the state saved in an earlier session, keeping anything marked since launch.
+    ///
+    /// A reset made while the file is being read wins over what was in it.
+    private func loadReadStateIfNeeded() async {
+        guard !hasLoadedReadState else { return }
+        let stored = await storedReadState()
+        guard !hasLoadedReadState else { return }
+        hasLoadedReadState = true
+
+        let merged = stored.merging(readState)
+        if merged != readState {
+            readState = merged
+        }
+        if merged != stored {
+            readStateStore.save(merged)
+        }
+    }
+
     /// Reads the cached catalog off the main thread, so a refresh on becoming active doesn't decode
     /// it while the app is drawing its first frame.
     nonisolated private func cachedCatalog() async -> WhatsNewCatalog? {
@@ -84,5 +146,9 @@ public final class WhatsNewManager: ObservableObject {
 
     nonisolated private func cachedCatalogDate() async -> Date? {
         task.cachedCatalogDate
+    }
+
+    nonisolated private func storedReadState() async -> WhatsNewReadState {
+        readStateStore.load()
     }
 }

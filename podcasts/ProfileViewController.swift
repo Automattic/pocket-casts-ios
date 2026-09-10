@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -125,6 +126,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return view
     }()
 
+    private var cancellables = Set<AnyCancellable>()
+
     // MARK: - View Events
 
     override func viewDidLoad() {
@@ -148,6 +151,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateFooterFrame()
         setupRefreshControl()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
+        observeWhatsNewFeed()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -356,6 +360,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
         cell.separatorInset = .zero
+        cell.showsUnreadIndicator = false
 
         switch row {
         case .informationalBanner:
@@ -367,6 +372,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .whatsNew:
             cell.settingsImage.image = UIImage(named: "mail")
             cell.settingsLabel.text = L10n.whatsNew
+            cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnreadMessages()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -662,6 +668,33 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 
     var displaySource: PlusUpgradeViewSource {
         .profile
+    }
+}
+
+// MARK: - What's New
+
+private extension ProfileViewController {
+    /// Keeps the dot on the What's New row in step with the feed while Profile is on screen.
+    func observeWhatsNewFeed() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let manager = WhatsNewManager.shared
+        manager.$catalog.combineLatest(manager.$readState)
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateWhatsNewRow()
+            }
+            .store(in: &cancellables)
+    }
+
+    func updateWhatsNewRow() {
+        guard let section = tableData.firstIndex(where: { $0.contains(.whatsNew) }),
+              let row = tableData[section].firstIndex(of: .whatsNew),
+              let cell = profileTable.cellForRow(at: IndexPath(row: row, section: section)) as? TopLevelSettingsCell else {
+            return
+        }
+        cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnreadMessages()
     }
 }
 

@@ -432,6 +432,13 @@ struct DeveloperMenu: View {
                 Text("Up Next")
             }
             Section {
+                Button("Reset Read State") {
+                    WhatsNewManager.shared.resetReadState()
+                }
+            } header: {
+                Text("What's New Feed")
+            }
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
