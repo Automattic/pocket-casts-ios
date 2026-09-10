@@ -42,38 +42,41 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     private var messages: [WhatsNewMessage] = []
     private var readMessageIDs: Set<String>
-    private let catalogTask: WhatsNewCatalogTask?
+    private let manager: WhatsNewManager?
     private let targeting: WhatsNewMessageFilter
 
-    init(catalogTask: WhatsNewCatalogTask = WhatsNewCatalogTask(), targeting: WhatsNewMessageFilter = .current) {
-        self.catalogTask = catalogTask
+    init(manager: WhatsNewManager = .shared, targeting: WhatsNewMessageFilter = .current) {
+        self.manager = manager
         self.targeting = targeting
         readMessageIDs = []
-        state = .loading
+        state = manager.catalog == nil ? .loading : .loaded
+        show(manager.catalog?.messages ?? [])
     }
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = [], targeting: WhatsNewMessageFilter = .current) {
-        catalogTask = nil
+        manager = nil
         self.targeting = targeting
         self.readMessageIDs = readMessageIDs
         state = .loaded
         show(messages)
     }
 
-    /// Fills the feed in from the published catalog, or from the cached copy when it can't be reached.
+    /// Shows what the manager has, waiting on the refresh it starts when that copy has aged out.
     ///
-    /// Fails only when there's no cached copy to fall back to. A load cancelled by the feed going
-    /// away leaves the state as it was, so the next one picks up from there.
+    /// Fails only when the manager has no catalog at all: a refresh that fails over a cached copy
+    /// still has messages to show. A load cancelled by the feed going away leaves the state as it
+    /// was, so the next one picks up from there.
     func load() async {
-        guard let catalogTask else { return }
-        do {
-            let catalog = try await catalogTask.catalog()
-            show(catalog.messages)
-            state = .loaded
-        } catch {
-            guard !Task.isCancelled else { return }
+        guard let manager else { return }
+        await manager.refreshIfNeeded().value
+
+        guard !Task.isCancelled else { return }
+        guard let catalog = manager.catalog else {
             state = .failed
+            return
         }
+        show(catalog.messages)
+        state = .loaded
     }
 
     /// Loads the catalog again after it failed, showing progress while it does.
