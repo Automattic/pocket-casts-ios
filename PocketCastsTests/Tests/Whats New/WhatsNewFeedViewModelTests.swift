@@ -88,7 +88,42 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.hasUnreadItems)
     }
 
+    /// The Profile row hands over an empty feed, so nothing shows until the catalog arrives.
+    func testLoadingFillsTheFeedFromTheCatalog() async {
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON))
+        XCTAssertTrue(viewModel.items.isEmpty)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
+    }
+
+    /// Reads live in memory until read-state sync lands, so a refresh must not undo them.
+    func testReloadingTheCatalogKeepsWhatWasRead() async throws {
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON))
+        await viewModel.load()
+        viewModel.select(try XCTUnwrap(viewModel.items.first))
+
+        await viewModel.load()
+
+        XCTAssertFalse(viewModel.hasUnreadItems)
+    }
+
+    /// A feed built from messages the caller already has never goes to the network.
+    func testLoadingAFeedBuiltFromMessagesLeavesItAlone() async {
+        let viewModel = WhatsNewFeedViewModel(messages: messages)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.count, messages.count)
+    }
+
     // MARK: - Helpers
+
+    override func tearDown() {
+        StubURLProtocol.requestHandler = nil
+        super.tearDown()
+    }
 
     private func decodedMessages(json: String) throws -> [WhatsNewMessage] {
         let decoder = JSONDecoder()
@@ -96,4 +131,68 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
         return try decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8)).messages
     }
+
+    private func catalogTask(publishing json: String) -> WhatsNewCatalogTask {
+        StubURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [StubURLProtocol.self]
+
+        let directory = URL.temporaryDirectory.appending(path: "whats-new-tests-\(UUID().uuidString)", directoryHint: .isDirectory)
+        addTeardownBlock {
+            try? FileManager.default.removeItem(at: directory)
+        }
+
+        return WhatsNewCatalogTask(session: URLSession(configuration: configuration),
+                                   cache: WhatsNewCatalogCache(directory: directory))
+    }
+
+    private static let catalogJSON = """
+    {
+      "schemaVersion": 1,
+      "messages": [
+        {
+          "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
+          "type": "tip",
+          "publishedAt": "2026-08-17T08:00:00Z",
+          "targeting": { "audiences": [] },
+          "summary": { "title": "Sort your Up Next" },
+          "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+        }
+      ]
+    }
+    """
+}
+
+private final class StubURLProtocol: URLProtocol {
+    nonisolated(unsafe) static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        guard let requestHandler = Self.requestHandler else {
+            client?.urlProtocol(self, didFailWithError: URLError(.unknown))
+            return
+        }
+
+        do {
+            let (response, data) = try requestHandler(request)
+            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            client?.urlProtocol(self, didLoad: data)
+            client?.urlProtocolDidFinishLoading(self)
+        } catch {
+            client?.urlProtocol(self, didFailWithError: error)
+        }
+    }
+
+    override func stopLoading() {}
 }

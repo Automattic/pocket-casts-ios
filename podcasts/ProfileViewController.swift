@@ -87,7 +87,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, whatsNew, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -364,6 +364,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return KidsProfileBannerTableCell()
         case .referralsClaim:
             return ReferralsClaimBannerTableCell()
+        case .whatsNew:
+            cell.settingsImage.image = UIImage(named: "mail")
+            cell.settingsLabel.text = L10n.whatsNew
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -440,6 +443,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
                 self?.profileTable.reloadData()
             }
+        case .whatsNew:
+            let feedViewController = WhatsNewFeedViewController(viewModel: WhatsNewFeedViewModel())
+            navigationController?.pushViewController(feedViewController, animated: true)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -492,6 +498,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
+
+        if FeatureFlag.whatsNewFeed.enabled {
+            data[0].insert(.whatsNew, at: 0)
+        }
 
         if EndOfYear.isEndOfYearActive, EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
