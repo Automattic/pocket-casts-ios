@@ -24,8 +24,8 @@ struct WhatsNewFeedItem: Identifiable, Hashable {
 
 /// The messages the What's New feed shows, most recently published first.
 ///
-/// A message this build has nothing to draw never reaches the list, so no row opens onto an empty
-/// screen — or marks itself read on the way there.
+/// A message this build has nothing to draw, or that isn't aimed at this user, never reaches the
+/// list, so no row opens onto an empty screen — or marks itself read on the way there.
 @MainActor
 final class WhatsNewFeedViewModel: ObservableObject {
     @Published private(set) var items: [WhatsNewFeedItem] = []
@@ -36,14 +36,17 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private var messages: [WhatsNewMessage] = []
     private var readMessageIDs: Set<String>
     private let catalogTask: WhatsNewCatalogTask?
+    private let targeting: WhatsNewMessageFilter
 
-    init(catalogTask: WhatsNewCatalogTask = WhatsNewCatalogTask()) {
+    init(catalogTask: WhatsNewCatalogTask = WhatsNewCatalogTask(), targeting: WhatsNewMessageFilter = .current) {
         self.catalogTask = catalogTask
+        self.targeting = targeting
         readMessageIDs = []
     }
 
-    init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = []) {
+    init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = [], targeting: WhatsNewMessageFilter = .current) {
         catalogTask = nil
+        self.targeting = targeting
         self.readMessageIDs = readMessageIDs
         show(messages)
     }
@@ -81,6 +84,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     private func show(_ messages: [WhatsNewMessage]) {
         self.messages = messages
+            .filter { targeting.includes($0) }
             .filter(WhatsNewMessageViewModel.canRender)
             .sorted { $0.publishedAt > $1.publishedAt }
         items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }

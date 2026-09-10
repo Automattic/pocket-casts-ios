@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import XCTest
 
 @testable import podcasts
@@ -7,15 +8,19 @@ import XCTest
 final class WhatsNewFeedViewModelTests: XCTestCase {
     private let messages = WhatsNewCatalog.mock.messages
 
+    /// The mock messages are targeted, so the tests fix the audience and the build rather than
+    /// letting whatever the test host is signed in as decide which of them reach the feed.
+    private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"))
+
     func testItemsAreMostRecentlyPublishedFirst() {
-        let viewModel = WhatsNewFeedViewModel(messages: messages.shuffled())
+        let viewModel = WhatsNewFeedViewModel(messages: messages.shuffled(), targeting: targeting)
 
         XCTAssertEqual(viewModel.items.map(\.publishedAt), messages.map(\.publishedAt).sorted(by: >))
     }
 
     /// The detail screen needs the whole message, not just what the row happened to show.
     func testSelectingARowHandsOverItsMessage() throws {
-        let viewModel = WhatsNewFeedViewModel(messages: messages)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
         var selected: WhatsNewMessage?
         viewModel.onSelect = { selected = $0 }
 
@@ -27,7 +32,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// Opening the detail is what marks a message read.
     func testSelectingARowMarksItRead() throws {
-        let viewModel = WhatsNewFeedViewModel(messages: messages)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
 
         let item = try XCTUnwrap(viewModel.items.first)
         XCTAssertTrue(item.isUnread)
@@ -38,7 +43,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     func testReadMessagesStartRead() {
-        let viewModel = WhatsNewFeedViewModel(messages: messages, readMessageIDs: Set(messages.map(\.id)))
+        let viewModel = WhatsNewFeedViewModel(messages: messages, readMessageIDs: Set(messages.map(\.id)), targeting: targeting)
 
         XCTAssertFalse(viewModel.hasUnreadItems)
     }
@@ -74,13 +79,55 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         }
         """)
 
-        let viewModel = WhatsNewFeedViewModel(messages: messages)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
 
         XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
     }
 
+    /// The catalog is published per platform and locale, so the rest of the targeting is the
+    /// client's to apply — including to the unread count the Profile row is drawn from.
+    func testMessagesThisUserIsNotTargetedByNeverReachTheFeed() throws {
+        let messages = try decodedMessages(json: """
+        {
+          "schemaVersion": 1,
+          "messages": [
+            {
+              "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
+              "type": "tip",
+              "publishedAt": "2026-08-17T08:00:00Z",
+              "targeting": { "audiences": [] },
+              "summary": { "title": "Sort your Up Next" },
+              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+            },
+            {
+              "id": "01K2Y3D5J1H7QZP0B6RXKA4N3T",
+              "type": "announcement",
+              "publishedAt": "2026-08-18T08:00:00Z",
+              "targeting": { "audiences": ["patron"] },
+              "summary": { "title": "Thanks for being a Patron" },
+              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+            },
+            {
+              "id": "01K2Y4H2P6R8T0VXZB1DFG3JKM",
+              "type": "new_feature",
+              "publishedAt": "2026-08-19T08:00:00Z",
+              "expiresAt": "2026-08-20T08:00:00Z",
+              "targeting": { "audiences": [], "minimumAppVersion": "9.0" },
+              "summary": { "title": "Something newer builds have" },
+              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+            }
+          ]
+        }
+        """)
+
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+
+        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
+        XCTAssertTrue(viewModel.hasUnreadItems)
+    }
+
     func testReadingEverythingClearsEveryIndicator() {
-        let viewModel = WhatsNewFeedViewModel(messages: messages)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
         XCTAssertTrue(viewModel.hasUnreadItems)
 
         viewModel.markAllAsRead()
@@ -90,7 +137,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// The Profile row hands over an empty feed, so nothing shows until the catalog arrives.
     func testLoadingFillsTheFeedFromTheCatalog() async {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON))
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON), targeting: targeting)
         XCTAssertTrue(viewModel.items.isEmpty)
 
         await viewModel.load()
@@ -100,7 +147,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// Reads live in memory until read-state sync lands, so a refresh must not undo them.
     func testReloadingTheCatalogKeepsWhatWasRead() async throws {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON))
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON), targeting: targeting)
         await viewModel.load()
         viewModel.select(try XCTUnwrap(viewModel.items.first))
 
@@ -111,7 +158,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// A feed built from messages the caller already has never goes to the network.
     func testLoadingAFeedBuiltFromMessagesLeavesItAlone() async {
-        let viewModel = WhatsNewFeedViewModel(messages: messages)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
 
         await viewModel.load()
 
