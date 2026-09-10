@@ -160,13 +160,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
         navigationController?.navigationBar.shadowImage = UIImage()
         loadBannerAd()
-        updateEnclosingTabBarHidden(isOnScreen: true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -580,10 +573,4 @@ extension PodcastListViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .podcastsList
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension PodcastListViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isEditingOrder }
 }

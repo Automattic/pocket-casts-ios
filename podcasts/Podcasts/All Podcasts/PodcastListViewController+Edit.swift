@@ -40,7 +40,7 @@ extension PodcastListViewController {
 
         podcastsCollectionView.dragInteractionEnabled = true
         podcastsCollectionView.allowsSelection = false
-        setEnclosingTabBarHidden(true, animated: true)
+        setHidesEnclosingTabBar(true, animated: true)
 
         for cell in podcastsCollectionView.visibleCells {
             applyEditingTreatment(to: cell)
@@ -50,7 +50,7 @@ extension PodcastListViewController {
     private func exitEditMode() {
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.allowsSelection = true
-        setEnclosingTabBarHidden(false, animated: true)
+        setHidesEnclosingTabBar(false, animated: true)
 
         setCustomRightBtn(savedRightBarButtonItem, animated: true)
         savedRightBarButtonItem = nil

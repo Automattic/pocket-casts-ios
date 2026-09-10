@@ -30,7 +30,7 @@ class StarredViewController: PCViewController {
     var isMultiSelectEnabled: Bool = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             starredTable.beginUpdates()
             starredTable.setEditing(isMultiSelectEnabled, animated: true)
             starredTable.endUpdates()
@@ -81,18 +81,6 @@ class StarredViewController: PCViewController {
         }
         addEventObservers()
         Analytics.track(.starredShown)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     func refreshEpisodesFromServer(animated: Bool) {
@@ -195,10 +183,4 @@ extension StarredViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .starred
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension StarredViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }
