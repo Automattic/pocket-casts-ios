@@ -78,7 +78,7 @@ final class WhatsNewCatalogTests: XCTestCase {
     """
 
     override func tearDown() {
-        StubURLProtocol.requestHandler = nil
+        StubURLProtocol.reset()
         super.tearDown()
     }
 
@@ -252,23 +252,44 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertTrue(targeting.targets(.patron))
     }
 
-    func testCatalogFallsBackToTheCachedCopyWhenTheRequestFails() async throws {
-        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
+    func testASuccessfulRefreshIsReadableBackFromDisk() async throws {
+        let task = WhatsNewCatalogTask(session: StubURLProtocol.session(), cache: temporaryCache(), locale: "en")
+        XCTAssertNil(task.cachedCatalog())
+        XCTAssertNil(task.cachedCatalogDate)
 
         StubURLProtocol.requestHandler = { [json] request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, Data(json.utf8))
         }
-        let fetched = try await task.catalog()
-        XCTAssertEqual(fetched.messages.count, 2)
+        let fetched = try await task.refresh()
+
+        XCTAssertEqual(task.cachedCatalog()?.messages.map(\.id), fetched.messages.map(\.id))
+        XCTAssertEqual(try XCTUnwrap(task.cachedCatalogDate).timeIntervalSinceNow, 0, accuracy: 5,
+                       "The cache is dated when it's written, which is what decides the next refresh")
+    }
+
+    func testAFailedRefreshLeavesTheCachedCopyAlone() async throws {
+        let task = WhatsNewCatalogTask(session: StubURLProtocol.session(), cache: temporaryCache(), locale: "en")
+
+        StubURLProtocol.requestHandler = { [json] request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+        let fetched = try await task.refresh()
 
         StubURLProtocol.requestHandler = { _ in throw URLError(.notConnectedToInternet) }
-        let cached = try await task.catalog()
-        XCTAssertEqual(cached.messages.map(\.id), fetched.messages.map(\.id))
+        do {
+            _ = try await task.refresh()
+            XCTFail("Expected the request to fail")
+        } catch {
+            XCTAssertEqual((error as? URLError)?.code, .notConnectedToInternet)
+        }
+
+        XCTAssertEqual(task.cachedCatalog()?.messages.map(\.id), fetched.messages.map(\.id))
     }
 
     func testRefreshFallsBackToEnglishWhenTheLocaleIsNotPublished() async throws {
-        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "pt")
+        let task = WhatsNewCatalogTask(session: StubURLProtocol.session(), cache: temporaryCache(), locale: "pt")
 
         var requestedPaths: [String] = []
         StubURLProtocol.requestHandler = { [json] request in
@@ -287,37 +308,7 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(task.cachedCatalog()?.messages.count, 2, "The fallback catalog is cached for the requested locale")
     }
 
-    func testCatalogRethrowsCancellationRatherThanReturningTheCachedCopy() async throws {
-        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
-
-        StubURLProtocol.requestHandler = { [json] request in
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            return (response, Data(json.utf8))
-        }
-        _ = try await task.catalog()
-
-        StubURLProtocol.requestHandler = { _ in throw URLError(.cancelled) }
-
-        do {
-            _ = try await task.catalog()
-            XCTFail("Expected the cancelled request to propagate")
-        } catch {
-            XCTAssertEqual((error as? URLError)?.code, .cancelled)
-        }
-    }
-
-    func testCatalogThrowsWhenTheRequestFailsAndNothingIsCached() async {
-        let task = WhatsNewCatalogTask(session: stubbedSession(), cache: temporaryCache(), locale: "en")
-
-        StubURLProtocol.requestHandler = { _ in throw URLError(.notConnectedToInternet) }
-
-        do {
-            _ = try await task.catalog()
-            XCTFail("Expected the request to fail")
-        } catch {
-            XCTAssertEqual((error as? URLError)?.code, .notConnectedToInternet)
-        }
-    }
+    // MARK: - Helpers
 
     private func decodedTargeting(_ json: String) throws -> WhatsNewTargeting {
         try WhatsNewCatalog.decoder.decode(WhatsNewTargeting.self, from: Data(json.utf8))
@@ -327,12 +318,6 @@ final class WhatsNewCatalogTests: XCTestCase {
         try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
     }
 
-    private func stubbedSession() -> URLSession {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [StubURLProtocol.self]
-        return URLSession(configuration: configuration)
-    }
-
     private func temporaryCache() -> WhatsNewCatalogCache {
         let directory = URL.temporaryDirectory.appending(path: "whats-new-tests-\(UUID().uuidString)", directoryHint: .isDirectory)
         addTeardownBlock {
@@ -340,34 +325,4 @@ final class WhatsNewCatalogTests: XCTestCase {
         }
         return WhatsNewCatalogCache(directory: directory)
     }
-}
-
-private final class StubURLProtocol: URLProtocol {
-    nonisolated(unsafe) static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
-
-    override class func canInit(with request: URLRequest) -> Bool {
-        true
-    }
-
-    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
-        request
-    }
-
-    override func startLoading() {
-        guard let requestHandler = Self.requestHandler else {
-            client?.urlProtocol(self, didFailWithError: URLError(.unknown))
-            return
-        }
-
-        do {
-            let (response, data) = try requestHandler(request)
-            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-            client?.urlProtocol(self, didLoad: data)
-            client?.urlProtocolDidFinishLoading(self)
-        } catch {
-            client?.urlProtocol(self, didFailWithError: error)
-        }
-    }
-
-    override func stopLoading() {}
 }

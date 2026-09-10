@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 
 /// Keeps the last successfully fetched What's New catalog on disk so the feed works offline.
-public struct WhatsNewCatalogCache {
+public struct WhatsNewCatalogCache: Sendable {
     private let directory: URL
 
     public init(directory: URL = WhatsNewCatalogCache.defaultDirectory) {
@@ -15,6 +15,11 @@ public struct WhatsNewCatalogCache {
 
     public func data(forLocale locale: String) -> Data? {
         try? Data(contentsOf: fileURL(forLocale: locale))
+    }
+
+    /// When the cached catalog was last written, or `nil` when there's nothing cached.
+    public func modificationDate(forLocale locale: String) -> Date? {
+        try? fileURL(forLocale: locale).resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
     }
 
     public func save(_ data: Data, forLocale locale: String) {

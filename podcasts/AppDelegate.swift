@@ -158,6 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
 
+        if FeatureFlag.whatsNewFeed.enabled {
+            WhatsNewManager.shared.refreshIfNeeded()
+        }
+
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
         if DateUtil.hasEnoughTimePassed(since: lastUpdateTime, time: AppDelegate.minTimeBetweenRefreshes) {

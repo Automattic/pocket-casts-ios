@@ -137,7 +137,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// The Profile row hands over an empty feed, so nothing shows until the catalog arrives.
     func testLoadingFillsTheFeedFromTheCatalog() async {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON), targeting: targeting)
+        let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogJSON), targeting: targeting)
         XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertEqual(viewModel.state, .loading)
 
@@ -149,7 +149,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// With no cached copy to fall back to, a catalog that can't be reached is a failure, not an empty feed.
     func testFailingToReachTheCatalogWithNothingCachedFails() async {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask())
+        let viewModel = WhatsNewFeedViewModel(manager: manager())
 
         await viewModel.load()
 
@@ -158,7 +158,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     func testRetryingFillsTheFeedOnceTheCatalogCanBeReached() async {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask())
+        let viewModel = WhatsNewFeedViewModel(manager: manager())
         await viewModel.load()
         publish(Self.catalogJSON)
 
@@ -170,7 +170,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// Reads live in memory until read-state sync lands, so a refresh must not undo them.
     func testReloadingTheCatalogKeepsWhatWasRead() async throws {
-        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON), targeting: targeting)
+        let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogJSON), targeting: targeting)
         await viewModel.load()
         viewModel.select(try XCTUnwrap(viewModel.items.first))
 
@@ -202,8 +202,8 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         return try decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8)).messages
     }
 
-    /// A catalog task that answers with `json`, or fails every request until something is published.
-    private func catalogTask(publishing json: String? = nil) -> WhatsNewCatalogTask {
+    /// A manager whose catalog answers with `json`, or fails every request until something is published.
+    private func manager(publishing json: String? = nil) -> WhatsNewManager {
         if let json {
             publish(json)
         }
@@ -216,8 +216,9 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
             try? FileManager.default.removeItem(at: directory)
         }
 
-        return WhatsNewCatalogTask(session: URLSession(configuration: configuration),
-                                   cache: WhatsNewCatalogCache(directory: directory))
+        let task = WhatsNewCatalogTask(session: URLSession(configuration: configuration),
+                                       cache: WhatsNewCatalogCache(directory: directory))
+        return WhatsNewManager(task: task)
     }
 
     private func publish(_ json: String) {

@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 
 /// Fetches the What's New catalog published to the CDN, caching the last good copy on disk.
-public struct WhatsNewCatalogTask {
+public struct WhatsNewCatalogTask: Sendable {
     public enum WhatsNewCatalogError: Error {
         case requestFailed(statusCode: Int)
     }
@@ -27,25 +27,15 @@ public struct WhatsNewCatalogTask {
         Locale.current.language.languageCode?.identifier ?? fallbackLocale
     }
 
-    /// The catalog for the current locale, refreshed from the CDN.
-    ///
-    /// Falls back to the cached catalog when the request fails or returns something that can't be
-    /// decoded, and only rethrows when the refresh was cancelled or there's nothing cached to fall
-    /// back to.
-    public func catalog() async throws -> WhatsNewCatalog {
-        do {
-            return try await refresh()
-        } catch {
-            guard !error.isCancellation, let cached = cachedCatalog() else { throw error }
-            FileLog.shared.addMessage("What's New: catalog request failed: \(error.localizedDescription). Returning the cached catalog")
-            return cached
-        }
-    }
-
     /// The last catalog that was fetched successfully, read back from disk.
     public func cachedCatalog() -> WhatsNewCatalog? {
         guard let data = cache.data(forLocale: locale) else { return nil }
         return try? WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: data)
+    }
+
+    /// When the catalog on disk was last written, or `nil` when nothing has been cached yet.
+    public var cachedCatalogDate: Date? {
+        cache.modificationDate(forLocale: locale)
     }
 
     /// Fetches the catalog from the CDN, replacing the cached copy once it decodes.
@@ -79,11 +69,5 @@ public struct WhatsNewCatalogTask {
             throw WhatsNewCatalogError.requestFailed(statusCode: statusCode)
         }
         return data
-    }
-}
-
-private extension Error {
-    var isCancellation: Bool {
-        self is CancellationError || (self as? URLError)?.code == .cancelled
     }
 }
