@@ -3,6 +3,9 @@ import SwiftUI
 
 /// One block of a What's New page, drawn the way its type calls for.
 struct WhatsNewBlockView: View {
+    /// The answers to the page's poll, which the poll block draws and every other block ignores.
+    @EnvironmentObject private var poll: WhatsNewPollViewModel
+
     let block: WhatsNewBlock
 
     /// The space the page has for its content, which media sizes itself against.
@@ -21,6 +24,8 @@ struct WhatsNewBlockView: View {
             WhatsNewImageView(image: image, contentSize: contentSize)
         case .video(let video):
             WhatsNewVideoView(video: video, contentSize: contentSize, isVisible: isVisible)
+        case .poll:
+            WhatsNewPollView(viewModel: poll)
         case .action(let action):
             WhatsNewActionView(action: action)
         }

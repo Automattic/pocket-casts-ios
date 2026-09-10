@@ -3619,6 +3619,15 @@
 /* VoiceOver label for a video in a What's New message that was published without a description of its own. */
 "whats_new_message_video" = "Video";
 
+/* Message shown under a What's New poll when its answers couldn't be sent, above the button that tries again. */
+"whats_new_poll_failed" = "Your answers couldn't be sent. Please try again.";
+
+/* Message that replaces the button of a What's New poll once its answers have been sent. */
+"whats_new_poll_sent" = "Thanks for your feedback";
+
+/* Button that sends the answers to a What's New poll. */
+"whats_new_poll_submit" = "Continue";
+
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_title" = "Nothing in Up Next";
 

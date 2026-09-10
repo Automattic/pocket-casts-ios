@@ -40,9 +40,10 @@ public extension WhatsNewCatalog {
     /// The messages the mock catalog is built from, each missing the `$publishedAt` the catalog fills in.
     ///
     /// Between them they cover every message type and every block the app renders. The user research
-    /// message carries a `poll` block the app doesn't model, so anything rendering the mock exercises
-    /// a page that drops a block and still has something left to show. The release notes message is
-    /// taller than any screen, so a page that has to scroll is covered too.
+    /// message asks a poll in each of the two shapes the contract sketches, and carries a block type
+    /// the app doesn't model, so anything rendering the mock exercises a page that drops a block and
+    /// still has something left to show. The release notes message is taller than any screen, so a
+    /// page that has to scroll is covered too.
     ///
     /// The media points at assets that are actually there — podcast artwork and Apple's public
     /// sample stream — so previews render something rather than a hole the size of the image. Only
@@ -105,9 +106,48 @@ public extension WhatsNewCatalog {
             "pages": [
               {
                 "blocks": [
-                  { "type": "paragraph", "content": "Which improvement would make the biggest difference?" },
-                  { "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT", "question": "What next?", "options": [] },
-                  { "type": "paragraph", "content": "The survey takes about two minutes." }
+                  {
+                    "type": "poll",
+                    "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT",
+                    "question": "What social features would you be interested in?",
+                    "options": [
+                      { "id": "01K2Y2VJSSTJ66NPVQPM5YWFD1", "label": "Public profiles" },
+                      { "id": "01K2Y2W4D16N3EEWXQS7YWH610", "label": "Activity feed" },
+                      { "id": "01K2Y2WGGZQE65NJ4R2MB53PG3", "label": "Follow industry leaders" },
+                      { "id": "01K2Y2X1BQ8N5W7HRJTC4YKD62", "label": "Other" }
+                    ]
+                  },
+                  { "type": "quiz", "prompt": "A block this version of the app has never heard of" }
+                ]
+              },
+              {
+                "blocks": [
+                  { "type": "paragraph", "content": "Two more questions and you're done." },
+                  {
+                    "type": "poll",
+                    "pollId": "01K2Y3A7MC0R6VDBQF1WZS8HEJ",
+                    "questions": [
+                      {
+                        "id": "01K2Y3B2XKQ4G9TP7NMRV5CDW0",
+                        "text": "How often would you use them?",
+                        "options": [
+                          { "id": "01K2Y3BJ6ZR8YH2QW4KFT7NAD5", "label": "Every day" },
+                          { "id": "01K2Y3C0T5MDJ3VQXN9RB6HKW8", "label": "Now and then" },
+                          { "id": "01K2Y3CG9WPQ7ZK5HRTB2NDXM4", "label": "Never" }
+                        ]
+                      },
+                      {
+                        "id": "01K2Y3D4KVN6RQ8ZTWH3PB5YXC",
+                        "text": "Which would you turn on first?",
+                        "allowsMultipleAnswers": true,
+                        "options": [
+                          { "id": "01K2Y3DPB8ZW5QRTH7NKM2XVJ6", "label": "Sharing what you're listening to" },
+                          { "id": "01K2Y3E5R2QMT9WKHZ6NPB4XDC", "label": "Seeing what your friends play" },
+                          { "id": "01K2Y3EM7NVKQ5RTZ8HWB3PXJD", "label": "Recommending an episode" }
+                        ]
+                      }
+                    ]
+                  }
                 ]
               }
             ]

@@ -58,7 +58,7 @@ final class WhatsNewCatalogTests: XCTestCase {
               {
                 "blocks": [
                   { "type": "paragraph", "content": "Which improvement would make the biggest difference?" },
-                  { "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT", "question": "What next?", "options": [] },
+                  { "type": "quiz", "prompt": "A block this version of the app has never heard of" },
                   { "type": "paragraph", "content": "The survey takes about two minutes." }
                 ]
               }
@@ -148,7 +148,7 @@ final class WhatsNewCatalogTests: XCTestCase {
               "summary": { "title": "One page of its own" },
               "content": {
                 "pages": [
-                  { "blocks": [{ "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT" }] },
+                  { "blocks": [{ "type": "quiz", "prompt": "Nothing to draw" }] },
                   { "blocks": [{ "type": "paragraph", "content": "This page still renders." }] }
                 ]
               }
@@ -159,7 +159,7 @@ final class WhatsNewCatalogTests: XCTestCase {
               "publishedAt": "2026-08-17T08:00:00Z",
               "targeting": {},
               "summary": { "title": "Nothing to render" },
-              "content": { "pages": [{ "blocks": [{ "type": "poll", "pollId": "01K2Y2S65F22TQZQJVNAEXQKHT" }] }] }
+              "content": { "pages": [{ "blocks": [{ "type": "quiz", "prompt": "Nothing to draw" }] }] }
             }
           ]
         }
@@ -229,7 +229,7 @@ final class WhatsNewCatalogTests: XCTestCase {
         let message = try XCTUnwrap(decodedCatalog().messages.last)
         let blocks = try XCTUnwrap(message.content.pages.first?.blocks)
 
-        XCTAssertEqual(blocks.count, 2, "The poll block is dropped, the paragraphs around it are kept")
+        XCTAssertEqual(blocks.count, 2, "The unknown block is dropped, the paragraphs around it are kept")
         XCTAssertEqual(message.targeting.rawAudiences, ["free", "future_audience"], "The unsupported audience is kept as published")
         XCTAssertEqual(message.targeting.audiences, [.free], "Only the audiences this version understands are mapped")
     }

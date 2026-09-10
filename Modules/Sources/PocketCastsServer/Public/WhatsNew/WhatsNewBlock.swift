@@ -2,13 +2,14 @@ import Foundation
 
 /// A single piece of content on a What's New page.
 ///
-/// A block the app doesn't know about, such as `poll`, fails to decode and is dropped by the page's
+/// A block the app doesn't know about fails to decode and is dropped by the page's
 /// `LossyDecodedArray`, so the rest of the page still renders.
 public enum WhatsNewBlock: Decodable, Hashable {
     case heading(WhatsNewHeading)
     case paragraph(WhatsNewParagraph)
     case image(WhatsNewImage)
     case video(WhatsNewVideo)
+    case poll(WhatsNewPoll)
     case action(WhatsNewAction)
 
     public init(from decoder: any Decoder) throws {
@@ -22,6 +23,8 @@ public enum WhatsNewBlock: Decodable, Hashable {
             self = .image(try WhatsNewImage(from: decoder))
         case .video:
             self = .video(try WhatsNewVideo(from: decoder))
+        case .poll:
+            self = .poll(try WhatsNewPoll(from: decoder))
         case .action:
             self = .action(try WhatsNewAction(from: decoder))
         }
@@ -36,6 +39,7 @@ public enum WhatsNewBlock: Decodable, Hashable {
         case paragraph
         case image
         case video
+        case poll
         case action
     }
 }

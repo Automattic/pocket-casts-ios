@@ -32,11 +32,21 @@ struct WhatsNewMessageView: View {
 private struct WhatsNewMessagePageView: View {
     @EnvironmentObject private var theme: Theme
 
+    /// The answers to the page's poll, shared between the questions that scroll and the button
+    /// pinned beneath them.
+    @StateObject private var poll: WhatsNewPollViewModel
+
     /// The gutter the design leaves either side of a page's content.
     private let horizontalPadding: CGFloat = 20
 
     let page: WhatsNewMessageViewModel.Page
     let isVisible: Bool
+
+    init(page: WhatsNewMessageViewModel.Page, isVisible: Bool) {
+        self.page = page
+        self.isVisible = isVisible
+        _poll = StateObject(wrappedValue: WhatsNewPollViewModel(poll: page.poll))
+    }
 
     var body: some View {
         GeometryReader { proxy in
@@ -55,13 +65,18 @@ private struct WhatsNewMessagePageView: View {
             }
             .safeAreaInset(edge: .bottom, spacing: 0) { actions }
         }
+        .environmentObject(poll)
     }
 
     /// The page's calls to action, pinned beneath the content that scrolls behind them.
     @ViewBuilder
     private var actions: some View {
-        if !page.actions.isEmpty {
+        if page.poll != nil || !page.actions.isEmpty {
             VStack(spacing: 12) {
+                if page.poll != nil {
+                    WhatsNewPollSubmitView(viewModel: poll)
+                }
+
                 ForEach(Array(page.actions.enumerated()), id: \.offset) { _, action in
                     WhatsNewActionView(action: action)
                 }
@@ -78,7 +93,7 @@ private struct WhatsNewMessagePageView: View {
         guard index > 0 else { return 32 }
 
         switch (page.blocks[index - 1], page.blocks[index]) {
-        case (_, .image), (_, .video):
+        case (_, .image), (_, .video), (_, .poll):
             return 32
         case (.image, _), (.video, _):
             return 40
@@ -128,6 +143,9 @@ private extension WhatsNewMessage {
     /// The mock catalog's message whose call to action is the secondary style.
     static var secondaryActionMock: WhatsNewMessage { mock(titled: "Ads to support Pocket Casts") }
 
+    /// The mock catalog's message that asks a poll: one question on its first page, two on its second.
+    static var pollMock: WhatsNewMessage { mock(titled: "Exploring social features") }
+
     private static func mock(titled title: String) -> WhatsNewMessage {
         WhatsNewCatalog.mock.messages.first { $0.summary.title == title }!
     }
@@ -147,6 +165,10 @@ private extension WhatsNewMessage {
 
 #Preview("A video demo") {
     PCNavigationController(rootViewController: WhatsNewMessageViewController(message: .videoMock))
+}
+
+#Preview("A poll") {
+    PCNavigationController(rootViewController: WhatsNewMessageViewController(message: .pollMock))
 }
 
 struct WhatsNewMessageView_Previews: PreviewProvider {
