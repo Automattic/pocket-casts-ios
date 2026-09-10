@@ -372,7 +372,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .whatsNew:
             cell.settingsImage.image = UIImage(named: "mail")
             cell.settingsLabel.text = L10n.whatsNew
-            cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnreadMessages()
+            cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -694,7 +694,7 @@ private extension ProfileViewController {
               let cell = profileTable.cellForRow(at: IndexPath(row: row, section: section)) as? TopLevelSettingsCell else {
             return
         }
-        cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnreadMessages()
+        cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
     }
 }
 

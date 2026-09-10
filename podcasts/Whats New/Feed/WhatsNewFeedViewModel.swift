@@ -52,8 +52,8 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private let targeting: WhatsNewMessageFilter
     private var cancellables = Set<AnyCancellable>()
 
-    /// A feed of the manager's catalog, which saves what's read through the manager and follows
-    /// the manager's read state wherever else it changes.
+    /// A feed of the manager's catalog, which records what it lists and what's read through the
+    /// manager, and follows the manager's read state wherever else it changes.
     init(manager: WhatsNewManager = .shared, targeting: WhatsNewMessageFilter = .current) {
         self.manager = manager
         self.targeting = targeting
@@ -156,6 +156,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     private func show(_ messages: [WhatsNewMessage]) {
         self.messages = Self.feedMessages(from: messages, targeting: targeting)
+        manager?.markAsListed(self.messages.map(\.id))
         updateItems()
     }
 

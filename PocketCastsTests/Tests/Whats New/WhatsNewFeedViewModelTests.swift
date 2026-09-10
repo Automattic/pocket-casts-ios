@@ -59,7 +59,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// The catalog is published per platform and locale, so the rest of the targeting is the
-    /// client's to apply — including to the unread count the Profile row is drawn from.
+    /// client's to apply — including to whether the feed has anything unread.
     func testMessagesThisUserIsNotTargetedByNeverReachTheFeed() throws {
         let messages = try decodedMessages(json: """
         {
@@ -244,7 +244,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     // MARK: - Profile indicators
 
-    func testTappingTheProfileTabTakesItsDotOffWithoutReadingAnything() async {
+    func testTappingTheProfileTabTakesOnlyItsOwnDotOff() async {
         let manager = manager(publishing: Self.catalogJSON)
         await manager.refreshIfNeeded().value
         XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
@@ -252,7 +252,20 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         manager.markFeedAsSeen(targeting: targeting)
 
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
-        XCTAssertTrue(manager.hasUnreadMessages(targeting: targeting))
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+    }
+
+    /// The dot on the What's New row points at the feed, not at what's unread in it.
+    func testOpeningTheFeedTakesBothDotsOffWithoutReadingAnything() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
     func testANewMessagePutsTheDotBackOnTheProfileTab() async {
@@ -266,15 +279,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
     }
 
-    func testReadingEverythingTakesBothDotsOffProfile() async {
-        let manager = manager(publishing: Self.catalogJSON)
-        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
-        await viewModel.load()
+    /// The feed can open before the catalog is in, so what it goes on to list counts as well.
+    func testANewMessagePutsTheDotBackOnTheWhatsNewRow() async {
+        let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
+        await WhatsNewFeedViewModel(manager: manager, targeting: targeting).load()
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
 
-        viewModel.markAllAsRead()
+        publish(Self.catalogWithNewMessageJSON)
+        await manager.refreshIfNeeded().value
 
-        XCTAssertFalse(manager.hasUnreadMessages(targeting: targeting))
-        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
     }
 
     /// A dot on Profile has to lead to a row in the feed.
@@ -282,9 +296,9 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         let manager = manager(publishing: Self.catalogWithPatronMessageJSON)
         await manager.refreshIfNeeded().value
 
-        manager.markAsRead([Self.tipID])
+        manager.markAsListed([Self.tipID])
 
-        XCTAssertFalse(manager.hasUnreadMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
     }
 

@@ -5,7 +5,7 @@ import PocketCastsUtils
 ///
 /// The catalog is one small file published for the whole platform, so the app works from the last
 /// copy it fetched rather than from a request: the feed opens on the messages it already has
-/// instead of a spinner, and anything deriving state from the feed — the unread dot on Profile —
+/// instead of a spinner, and anything deriving state from the feed — the dots on Profile —
 /// can answer without waiting on the network.
 ///
 /// Refreshing is driven by the app becoming active, which covers a cold launch and every return
@@ -24,7 +24,8 @@ public final class WhatsNewManager: ObservableObject {
     /// refresh of the session.
     @Published public private(set) var catalog: WhatsNewCatalog?
 
-    /// Which messages the user has read, and which the Profile tab has already pointed them at.
+    /// Which messages the user has read, and which the feed and the Profile tab have already pointed
+    /// them at.
     @Published public private(set) var readState = WhatsNewReadState()
 
     /// How long a fetched catalog is treated as current before the next foreground replaces it.
@@ -83,7 +84,17 @@ public final class WhatsNewManager: ObservableObject {
         updateReadState { $0.seenMessageIDs.formUnion(messageIDs) }
     }
 
-    /// Forgets every message read or seen, bringing back each unread indicator.
+    /// Records that the feed has listed the messages, so the dot on the What's New row stays off
+    /// until a message arrives that it hasn't. The Profile tab has nothing left to point at either.
+    public func markAsListed(_ messageIDs: some Sequence<String>) {
+        let messageIDs = Set(messageIDs)
+        updateReadState {
+            $0.listedMessageIDs.formUnion(messageIDs)
+            $0.seenMessageIDs.formUnion(messageIDs)
+        }
+    }
+
+    /// Forgets every message read, seen or listed, bringing back each indicator.
     public func resetReadState() {
         hasLoadedReadState = true
         readState = WhatsNewReadState()

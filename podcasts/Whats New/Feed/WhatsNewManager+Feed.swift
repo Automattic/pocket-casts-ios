@@ -10,9 +10,10 @@ extension WhatsNewManager {
         WhatsNewFeedViewModel.feedMessages(from: catalog?.messages ?? [], targeting: targeting)
     }
 
-    /// Whether the feed has a message the user hasn't read, which puts a dot on the What's New row.
-    func hasUnreadMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
-        feedMessages(targeting: targeting).contains { !readState.isRead($0.id) }
+    /// Whether the feed has a message that arrived since the user last opened it, which puts a dot on
+    /// the What's New row.
+    func hasUnlistedMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
+        feedMessages(targeting: targeting).contains { !readState.isListed($0.id) }
     }
 
     /// Whether the feed has an unread message the Profile tab hasn't pointed the user at yet, which

@@ -28,7 +28,8 @@ class TopLevelSettingsCell: ThemeableCell {
         }
     }
 
-    /// Whether the row shows a dot for something new behind it, such as an unread What's New message.
+    /// Whether the row shows a dot for something new behind it, such as a What's New message that
+    /// arrived since the feed was last opened.
     var showsUnreadIndicator = false {
         didSet {
             if showsUnreadIndicator, unreadIndicator == nil {

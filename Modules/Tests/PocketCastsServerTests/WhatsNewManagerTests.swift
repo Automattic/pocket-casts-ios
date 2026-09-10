@@ -145,11 +145,14 @@ final class WhatsNewManagerTests: XCTestCase {
 
         manager.markAsRead([messageID])
         manager.markAsSeen([otherMessageID])
+        manager.markAsListed([messageID])
 
         let relaunched = self.manager(cache: temporaryCache(), readStateStore: store)
         await relaunched.refreshIfNeeded().value
 
-        XCTAssertEqual(relaunched.readState, WhatsNewReadState(readMessageIDs: [messageID], seenMessageIDs: [otherMessageID]))
+        XCTAssertEqual(relaunched.readState, WhatsNewReadState(readMessageIDs: [messageID],
+                                                               seenMessageIDs: [messageID, otherMessageID],
+                                                               listedMessageIDs: [messageID]))
     }
 
     /// The unread dots are drawn from the catalog and the read state together, so a message read in
@@ -186,12 +189,24 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(store.load().readMessageIDs, [messageID, otherMessageID])
     }
 
-    func testResettingForgetsEverythingReadOrSeen() async {
+    /// The Profile tab points the user at the feed, so once the feed has listed a message the tab has
+    /// nothing left to point at.
+    func testListingMessagesMarksThemSeen() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+
+        manager.markAsListed([messageID])
+
+        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
+    }
+
+    func testResettingForgetsEverythingReadSeenOrListed() async {
         let store = temporaryReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
         await manager.refreshIfNeeded().value
         manager.markAsRead([messageID])
-        manager.markAsSeen([messageID])
+        manager.markAsSeen([otherMessageID])
+        manager.markAsListed([messageID])
 
         manager.resetReadState()
 

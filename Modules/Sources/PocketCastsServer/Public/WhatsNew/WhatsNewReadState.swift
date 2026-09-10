@@ -3,19 +3,24 @@ import PocketCastsUtils
 
 /// What the user has done with the What's New messages, by message ID.
 ///
-/// Outside of a reset neither set ever shrinks — nothing marks a message unread again — so two
-/// copies of the state combine by keeping everything either one has.
+/// Outside of a reset no set ever shrinks — nothing marks a message unread again — so two copies of
+/// the state combine by keeping everything either one has.
 public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// Messages the user opened or cleared with "Read all".
     public var readMessageIDs: Set<String>
 
-    /// Messages that were in the feed the last time the user tapped the Profile tab, which the dot
-    /// on the tab has already pointed them at.
+    /// Messages that were in the feed when the user tapped the Profile tab or opened the feed, which
+    /// the dot on the tab has already pointed them at.
     public var seenMessageIDs: Set<String>
 
-    public init(readMessageIDs: Set<String> = [], seenMessageIDs: Set<String> = []) {
+    /// Messages the feed listed when the user opened it, which the dot on the What's New row has
+    /// already pointed them at.
+    public var listedMessageIDs: Set<String>
+
+    public init(readMessageIDs: Set<String> = [], seenMessageIDs: Set<String> = [], listedMessageIDs: Set<String> = []) {
         self.readMessageIDs = readMessageIDs
         self.seenMessageIDs = seenMessageIDs
+        self.listedMessageIDs = listedMessageIDs
     }
 
     public func isRead(_ messageID: String) -> Bool {
@@ -27,9 +32,15 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         !isRead(messageID) && !seenMessageIDs.contains(messageID)
     }
 
+    /// Whether the feed has listed the message, read or not.
+    public func isListed(_ messageID: String) -> Bool {
+        listedMessageIDs.contains(messageID)
+    }
+
     func merging(_ other: WhatsNewReadState) -> WhatsNewReadState {
         WhatsNewReadState(readMessageIDs: readMessageIDs.union(other.readMessageIDs),
-                          seenMessageIDs: seenMessageIDs.union(other.seenMessageIDs))
+                          seenMessageIDs: seenMessageIDs.union(other.seenMessageIDs),
+                          listedMessageIDs: listedMessageIDs.union(other.listedMessageIDs))
     }
 }
 
