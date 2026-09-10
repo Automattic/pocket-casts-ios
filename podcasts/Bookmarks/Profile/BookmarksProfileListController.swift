@@ -30,6 +30,18 @@ class BookmarksProfileListController: ThemedHostingController<BookmarksProfileLi
         Analytics.track(.profileBookmarksShow)
     }
 
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: true)
+    }
+
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
+    }
+
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -59,4 +71,10 @@ extension BookmarksProfileListController: BookmarkListRouter {
     func dismissBookmarksList() {
         dismiss(animated: true)
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension BookmarksProfileListController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { viewModel.isMultiSelecting }
 }

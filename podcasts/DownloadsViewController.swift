@@ -104,6 +104,13 @@ class DownloadsViewController: PCViewController {
         navigationController?.navigationBar.shadowImage = nil
 
         reloadEpisodes()
+        updateEnclosingTabBarHidden(isOnScreen: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -344,4 +351,10 @@ extension DownloadsViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .downloads
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension DownloadsViewController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

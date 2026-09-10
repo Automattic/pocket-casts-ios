@@ -127,6 +127,18 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         listenForChangedBookmarks()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
+    }
+
     var fileURL: URL?
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -388,4 +400,10 @@ extension UploadedViewController: UIDocumentPickerDelegate {
         let addCustomVC = AddCustomViewController(fileUrl: url)
         present(SJUIUtils.popupNavController(for: addCustomVC), animated: true, completion: nil)
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension UploadedViewController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

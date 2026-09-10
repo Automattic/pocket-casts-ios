@@ -423,6 +423,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             podcastRatingViewModel.update(podcast: podcast)
         }
         updateColors()
+        updateEnclosingTabBarHidden(isOnScreen: true)
     }
 
     lazy var blurHeaderView: UIView = {
@@ -496,6 +497,8 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
 
         if FeatureFlag.podcastFeedUpdate.enabled {
             podcastFeedViewModel?.cancelTask()
@@ -1663,4 +1666,10 @@ extension PodcastViewController: BookmarkListRouter {
         // For tab-based bookmarks, we switch to episodes view instead of dismissing
         switchViewMode(to: .episodes)
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension PodcastViewController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }
