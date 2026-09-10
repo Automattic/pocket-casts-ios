@@ -92,9 +92,32 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     func testLoadingFillsTheFeedFromTheCatalog() async {
         let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask(publishing: Self.catalogJSON))
         XCTAssertTrue(viewModel.items.isEmpty)
+        XCTAssertEqual(viewModel.state, .loading)
 
         await viewModel.load()
 
+        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
+        XCTAssertEqual(viewModel.state, .loaded)
+    }
+
+    /// With no cached copy to fall back to, a catalog that can't be reached is a failure, not an empty feed.
+    func testFailingToReachTheCatalogWithNothingCachedFails() async {
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask())
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.state, .failed)
+        XCTAssertTrue(viewModel.items.isEmpty)
+    }
+
+    func testRetryingFillsTheFeedOnceTheCatalogCanBeReached() async {
+        let viewModel = WhatsNewFeedViewModel(catalogTask: catalogTask())
+        await viewModel.load()
+        publish(Self.catalogJSON)
+
+        await viewModel.retry()
+
+        XCTAssertEqual(viewModel.state, .loaded)
         XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
     }
 
@@ -132,10 +155,10 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         return try decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8)).messages
     }
 
-    private func catalogTask(publishing json: String) -> WhatsNewCatalogTask {
-        StubURLProtocol.requestHandler = { request in
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            return (response, Data(json.utf8))
+    /// A catalog task that answers with `json`, or fails every request until something is published.
+    private func catalogTask(publishing json: String? = nil) -> WhatsNewCatalogTask {
+        if let json {
+            publish(json)
         }
 
         let configuration = URLSessionConfiguration.ephemeral
@@ -148,6 +171,13 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
         return WhatsNewCatalogTask(session: URLSession(configuration: configuration),
                                    cache: WhatsNewCatalogCache(directory: directory))
+    }
+
+    private func publish(_ json: String) {
+        StubURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
     }
 
     private static let catalogJSON = """
