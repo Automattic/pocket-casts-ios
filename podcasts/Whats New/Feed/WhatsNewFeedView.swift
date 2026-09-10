@@ -29,6 +29,7 @@ struct WhatsNewFeedView: View {
             }
         }
         .background(theme.primaryUi02.ignoresSafeArea())
+        .task { await viewModel.load() }
     }
 }
 

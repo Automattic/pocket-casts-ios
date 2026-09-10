@@ -28,18 +28,30 @@ struct WhatsNewFeedItem: Identifiable, Hashable {
 /// screen — or marks itself read on the way there.
 @MainActor
 final class WhatsNewFeedViewModel: ObservableObject {
-    @Published private(set) var items: [WhatsNewFeedItem]
+    @Published private(set) var items: [WhatsNewFeedItem] = []
 
     /// Called with the message a tapped row belongs to.
     var onSelect: ((WhatsNewMessage) -> Void)?
 
-    private let messages: [WhatsNewMessage]
+    private var messages: [WhatsNewMessage] = []
+    private var readMessageIDs: Set<String>
+    private let catalogTask: WhatsNewCatalogTask?
+
+    init(catalogTask: WhatsNewCatalogTask = WhatsNewCatalogTask()) {
+        self.catalogTask = catalogTask
+        readMessageIDs = []
+    }
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = []) {
-        self.messages = messages
-            .filter(WhatsNewMessageViewModel.canRender)
-            .sorted { $0.publishedAt > $1.publishedAt }
-        items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
+        catalogTask = nil
+        self.readMessageIDs = readMessageIDs
+        show(messages)
+    }
+
+    /// Fills the feed in from the published catalog, or from the cached copy when it can't be reached.
+    func load() async {
+        guard let catalogTask, let catalog = try? await catalogTask.catalog() else { return }
+        show(catalog.messages)
     }
 
     var hasUnreadItems: Bool {
@@ -54,13 +66,23 @@ final class WhatsNewFeedViewModel: ObservableObject {
     }
 
     func markAllAsRead() {
+        readMessageIDs.formUnion(items.map(\.id))
         for index in items.indices {
             items[index].isUnread = false
         }
     }
 
     private func markAsRead(_ id: WhatsNewFeedItem.ID) {
+        readMessageIDs.insert(id)
+
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].isUnread = false
+    }
+
+    private func show(_ messages: [WhatsNewMessage]) {
+        self.messages = messages
+            .filter(WhatsNewMessageViewModel.canRender)
+            .sorted { $0.publishedAt > $1.publishedAt }
+        items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
     }
 }
