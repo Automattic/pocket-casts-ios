@@ -338,6 +338,16 @@ enum MultiSelectHelper {
     }
 
     private static func addToPlaylist(actionDelegate: MultiSelectActionDelegate) {
+        guard let chooser = makeAddToPlaylistChooser(actionDelegate: actionDelegate) else { return }
+
+        let navController = UINavigationController(rootViewController: chooser)
+        actionDelegate.multiSelectPresentingViewController().present(navController, animated: true)
+    }
+
+    /// The playlist chooser for the current selection, or `nil` when the selection can't be
+    /// added to a playlist. Finishing in the chooser ends multi-select, the way every other
+    /// action does.
+    static func makeAddToPlaylistChooser(actionDelegate: MultiSelectActionDelegate) -> ManualPlaylistsChooserViewController? {
         let allSelected = actionDelegate.multiSelectedBaseEpisodes()
         let episodes = allSelected.compactMap { $0 as? Episode }
 
@@ -345,21 +355,22 @@ enum MultiSelectHelper {
         let containsFiles = allSelected.contains { $0 is UserEpisode }
         if containsFiles {
             Toast.show(L10n.playlistManualAddFilesNotSupportedToast)
-            return
+            return nil
         }
 
-        guard !episodes.isEmpty else { return }
+        guard !episodes.isEmpty else { return nil }
 
         let maxPlaylistItems = Constants.Limits.maxFilterItems
         if episodes.count > maxPlaylistItems {
             Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
-            return
+            return nil
         }
 
-        let presentingVC = actionDelegate.multiSelectPresentingViewController()
         let chooser = ManualPlaylistsChooserViewController(episodes: episodes, analyticsSource: "multi_select")
-        let navController = UINavigationController(rootViewController: chooser)
-        presentingVC.present(navController, animated: true)
+        chooser.onCompletion = { [weak actionDelegate] in
+            actionDelegate?.multiSelectActionCompleted()
+        }
+        return chooser
     }
 
     private static func removeListeningHistory(actionDelegate: MultiSelectActionDelegate) {
