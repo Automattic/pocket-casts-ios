@@ -61,7 +61,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             uploadsTable.beginUpdates()
             uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -125,18 +125,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         Analytics.track(.uploadedFilesShown)
 
         listenForChangedBookmarks()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     var fileURL: URL?
@@ -400,10 +388,4 @@ extension UploadedViewController: UIDocumentPickerDelegate {
         let addCustomVC = AddCustomViewController(fileUrl: url)
         present(SJUIUtils.popupNavController(for: addCustomVC), animated: true, completion: nil)
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension UploadedViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

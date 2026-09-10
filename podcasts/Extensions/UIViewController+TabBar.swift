@@ -17,21 +17,3 @@ extension UIViewController {
         }
     }
 }
-
-/// A screen that hides the tab bar and the mini player while a mode of its own is active,
-/// such as multi-select. The tab bar is shared with every other screen, so the mode only
-/// gets to hide it for as long as the screen is the one on-screen.
-@MainActor
-protocol EnclosingTabBarHiding: UIViewController {
-    var hidesEnclosingTabBar: Bool { get }
-}
-
-extension EnclosingTabBarHiding {
-    /// Takes the tab bar back when the screen appears and hands it over when it
-    /// disappears. Call from `viewWillAppear` and `viewWillDisappear`.
-    func updateEnclosingTabBarHidden(isOnScreen: Bool) {
-        guard hidesEnclosingTabBar else { return }
-
-        setEnclosingTabBarHidden(isOnScreen, animated: false)
-    }
-}

@@ -215,7 +215,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         updateNavBarButtons()
         setupActionButtonsIfNecessary()
         themeDidChange()
-        updateEnclosingTabBarHidden(isOnScreen: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -232,8 +231,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
 
         guard isViewLoaded else { return } // This method was called as a result of `setSelectedIndex` on UITabBarController. The view is not loaded at this point so we don't need to do anything to reset.
         selectedPlayListEpisodes.removeAll()
@@ -700,10 +697,4 @@ extension UpNextViewController {
             self?.upNextSortDurationTip = nil
         }
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension UpNextViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

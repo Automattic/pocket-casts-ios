@@ -56,7 +56,7 @@ class ListeningHistoryViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             listeningHistoryTable.beginUpdates()
             listeningHistoryTable.setEditing(isMultiSelectEnabled, animated: true)
             listeningHistoryTable.endUpdates()
@@ -112,13 +112,6 @@ class ListeningHistoryViewController: PCViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupInformationalBanner()
-        updateEnclosingTabBarHidden(isOnScreen: true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -425,10 +418,4 @@ extension ListeningHistoryViewController {
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         searchController?.parentScrollViewDidEndScrollingAnimation(scrollView)
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension ListeningHistoryViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

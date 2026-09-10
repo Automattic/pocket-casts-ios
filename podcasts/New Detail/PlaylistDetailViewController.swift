@@ -66,7 +66,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             tableView.beginUpdates()
             tableView.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -183,13 +183,6 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         reloadNavTitle()
 
         viewModel.reloadPlaylistAndEpisodes()
-        updateEnclosingTabBarHidden(isOnScreen: true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -542,10 +535,4 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-}
-
-// MARK: - EnclosingTabBarHiding
-
-extension PlaylistDetailViewController: EnclosingTabBarHiding {
-    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }
