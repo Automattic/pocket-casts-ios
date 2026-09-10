@@ -83,6 +83,18 @@ class StarredViewController: PCViewController {
         Analytics.track(.starredShown)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
+    }
+
     func refreshEpisodesFromServer(animated: Bool) {
         loadingIndicator.isHidden = false
         loadingIndicator.startAnimating()
@@ -183,4 +195,10 @@ extension StarredViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .starred
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension StarredViewController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }

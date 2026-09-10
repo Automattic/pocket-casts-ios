@@ -184,6 +184,13 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         reloadNavTitle()
 
         viewModel.reloadPlaylistAndEpisodes()
+        updateEnclosingTabBarHidden(isOnScreen: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateEnclosingTabBarHidden(isOnScreen: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -537,4 +544,10 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+}
+
+// MARK: - EnclosingTabBarHiding
+
+extension PlaylistDetailViewController: EnclosingTabBarHiding {
+    var hidesEnclosingTabBar: Bool { isMultiSelectEnabled }
 }
