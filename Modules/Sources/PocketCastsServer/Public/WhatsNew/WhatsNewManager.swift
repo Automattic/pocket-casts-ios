@@ -54,7 +54,7 @@ public final class WhatsNewManager: ObservableObject {
             catalog = cached
         }
 
-        guard DateUtil.hasEnoughTimePassed(since: await cachedCatalogDate(), time: refreshInterval) else { return }
+        guard catalog == nil || DateUtil.hasEnoughTimePassed(since: await cachedCatalogDate(), time: refreshInterval) else { return }
 
         do {
             catalog = try await task.refresh()
