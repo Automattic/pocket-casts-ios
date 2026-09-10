@@ -28,7 +28,14 @@ struct WhatsNewFeedItem: Identifiable, Hashable {
 /// list, so no row opens onto an empty screen — or marks itself read on the way there.
 @MainActor
 final class WhatsNewFeedViewModel: ObservableObject {
+    enum State {
+        case loading
+        case loaded
+        case failed
+    }
+
     @Published private(set) var items: [WhatsNewFeedItem] = []
+    @Published private(set) var state: State
 
     /// Called with the message a tapped row belongs to.
     var onSelect: ((WhatsNewMessage) -> Void)?
@@ -42,19 +49,37 @@ final class WhatsNewFeedViewModel: ObservableObject {
         self.catalogTask = catalogTask
         self.targeting = targeting
         readMessageIDs = []
+        state = .loading
     }
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = [], targeting: WhatsNewMessageFilter = .current) {
         catalogTask = nil
         self.targeting = targeting
         self.readMessageIDs = readMessageIDs
+        state = .loaded
         show(messages)
     }
 
     /// Fills the feed in from the published catalog, or from the cached copy when it can't be reached.
+    ///
+    /// Fails only when there's no cached copy to fall back to. A load cancelled by the feed going
+    /// away leaves the state as it was, so the next one picks up from there.
     func load() async {
-        guard let catalogTask, let catalog = try? await catalogTask.catalog() else { return }
-        show(catalog.messages)
+        guard let catalogTask else { return }
+        do {
+            let catalog = try await catalogTask.catalog()
+            show(catalog.messages)
+            state = .loaded
+        } catch {
+            guard !Task.isCancelled else { return }
+            state = .failed
+        }
+    }
+
+    /// Loads the catalog again after it failed, showing progress while it does.
+    func retry() async {
+        state = .loading
+        await load()
     }
 
     var hasUnreadItems: Bool {

@@ -28,8 +28,51 @@ struct WhatsNewFeedView: View {
                 }
             }
         }
+        .overlay {
+            if viewModel.items.isEmpty {
+                WhatsNewFeedUnavailableView(state: viewModel.state) {
+                    Task { await viewModel.retry() }
+                }
+            }
+        }
         .background(theme.primaryUi02.ignoresSafeArea())
         .task { await viewModel.load() }
+    }
+}
+
+/// What the feed shows while it has no rows: progress, an empty feed, or a failure to retry.
+private struct WhatsNewFeedUnavailableView: View {
+    @EnvironmentObject private var theme: Theme
+
+    let state: WhatsNewFeedViewModel.State
+    let retry: () -> Void
+
+    var body: some View {
+        content
+            .foregroundStyle(theme.primaryText01, theme.primaryText02)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch state {
+        case .loading:
+            ContentUnavailableView {
+                ProgressView()
+            }
+        case .loaded:
+            ContentUnavailableView(L10n.whatsNewFeedEmptyTitle,
+                                   systemImage: "envelope",
+                                   description: Text(L10n.whatsNewFeedEmptyDescription))
+        case .failed:
+            ContentUnavailableView {
+                Label(L10n.whatsNewFeedUnableToLoad, systemImage: "wifi.exclamationmark")
+            } description: {
+                Text(L10n.checkInternetConnection)
+            } actions: {
+                Button(L10n.tryAgain, action: retry)
+                    .foregroundStyle(theme.primaryInteractive01)
+            }
+        }
     }
 }
 
@@ -184,9 +227,17 @@ private extension WhatsNewFeedViewModel {
     PCNavigationController(rootViewController: WhatsNewFeedViewController(viewModel: .mock))
 }
 
-struct WhatsNewFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        WhatsNewFeedView(viewModel: .mock)
-            .previewWithAllThemes()
-    }
+#Preview("Loading") {
+    WhatsNewFeedUnavailableView(state: .loading) {}
+        .previewFollowingAppearance()
+}
+
+#Preview("Empty") {
+    WhatsNewFeedView(viewModel: WhatsNewFeedViewModel(messages: []))
+        .previewFollowingAppearance()
+}
+
+#Preview("Failed") {
+    WhatsNewFeedUnavailableView(state: .failed) {}
+        .previewFollowingAppearance()
 }

@@ -3613,8 +3613,17 @@
 /* Title for the announcement screen that calls out new features. */
 "whats_new" = "What's New";
 
+/* Description shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_description" = "New features, tips and announcements will show up here.";
+
+/* Title shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_title" = "No messages yet";
+
 /* Navigation bar button on the What's New feed that marks every message in the list as read. */
 "whats_new_feed_read_all" = "Read all";
+
+/* Title shown on the What's New feed when its messages couldn't be loaded. */
+"whats_new_feed_unable_to_load" = "Unable to load What's New";
 
 /* VoiceOver label for a video in a What's New message that was published without a description of its own. */
 "whats_new_message_video" = "Video";
