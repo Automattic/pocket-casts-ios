@@ -66,7 +66,7 @@ final class WhatsNewCatalogTests: XCTestCase {
           "publishedAt": "2026-08-14T08:00:00Z",
           "targeting": { "audiences": ["plus"] },
           "title": "Something new",
-          "pages": []
+          "pages": [{ "heading": "A page this version could draw", "description": "…" }]
         }
       ]
     }
@@ -320,6 +320,138 @@ final class WhatsNewCatalogTests: XCTestCase {
         let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
 
         XCTAssertTrue(catalog.messages.isEmpty)
+    }
+
+    /// A later release can add a type with a layout of its own, or one built from a layout this
+    /// version already draws. Either way the message isn't drawn in a layout it wasn't written for,
+    /// and doesn't cost the feed the messages around it.
+    func testAMessageOfATypeThisVersionDoesNotKnowIsDroppedWhateverItCarries() throws {
+        let json = """
+        {
+          "schemaVersion": 1,
+          "messages": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440010",
+              "type": "video_tour",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Take the tour",
+              "video": { "url": "https://static.pocketcasts.com/tour.mp4", "durationSeconds": 42 }
+            },
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440001",
+              "type": "tip",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Sort your Up Next",
+              "pages": [{ "heading": "Put the queue in the order you want", "description": "…" }]
+            },
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440011",
+              "type": "survey",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Tell us how you listen",
+              "poll": {
+                "pollId": "550e8400-e29b-41d4-a716-446655440102",
+                "pollKey": "listening_habits_2026",
+                "question": "When do you listen most?",
+                "options": [{ "id": "550e8400-e29b-41d4-a716-446655440203", "pollOptionKey": "commute", "label": "On my commute" }]
+              }
+            },
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440003",
+              "type": "research",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Help shape the player",
+              "poll": {
+                "pollId": "550e8400-e29b-41d4-a716-446655440101",
+                "pollKey": "player_improvements_2026",
+                "question": "What should we improve next?",
+                "options": [{ "id": "550e8400-e29b-41d4-a716-446655440201", "pollOptionKey": "up_next_controls", "label": "Up Next controls" }]
+              }
+            },
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440012",
+              "type": "digest",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Everything new this month",
+              "pages": [{ "heading": "Playback, downloads, and sync", "description": "…" }]
+            }
+          ]
+        }
+        """
+
+        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
+
+        XCTAssertEqual(catalog.messages.map(\.id), ["550e8400-e29b-41d4-a716-446655440001", "550e8400-e29b-41d4-a716-446655440003"])
+    }
+
+    /// A later release can add to what a type this version knows carries. Whatever it adds is left
+    /// out, and the message keeps everything this version knows how to draw.
+    func testFieldsThisVersionDoesNotKnowAreIgnored() throws {
+        let json = """
+        {
+          "schemaVersion": 1,
+          "etag": "0f3c9a",
+          "messages": [
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440001",
+              "type": "new_feature",
+              "publishedAt": "2026-08-17T08:00:00Z",
+              "targeting": {},
+              "title": "Introducing episode transcripts",
+              "subtitle": "In every episode that has one",
+              "pages": [
+                {
+                  "image": {
+                    "url": "https://static.pocketcasts.com/a.webp",
+                    "width": 1200,
+                    "height": 750,
+                    "alt": "…",
+                    "darkUrl": "https://static.pocketcasts.com/a-dark.webp"
+                  },
+                  "video": { "url": "https://static.pocketcasts.com/a.mp4" },
+                  "heading": "Read along while you listen",
+                  "description": "…",
+                  "action": { "event": "open_podcasts", "label": "Try transcripts", "style": "secondary" }
+                }
+              ]
+            },
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440003",
+              "type": "research",
+              "publishedAt": "2026-08-12T09:00:00Z",
+              "targeting": {},
+              "title": "Help shape the player",
+              "footer": "It takes one tap",
+              "poll": {
+                "pollId": "550e8400-e29b-41d4-a716-446655440101",
+                "pollKey": "player_improvements_2026",
+                "question": "What should we improve next?",
+                "illustration": { "url": "https://static.pocketcasts.com/poll.webp" },
+                "options": [
+                  { "id": "550e8400-e29b-41d4-a716-446655440201", "pollOptionKey": "up_next_controls", "label": "Up Next controls", "icon": "list" }
+                ]
+              }
+            }
+          ]
+        }
+        """
+
+        let catalog = try WhatsNewCatalog.decoder.decode(WhatsNewCatalog.self, from: Data(json.utf8))
+        XCTAssertEqual(catalog.messages.count, 2)
+
+        let page = try XCTUnwrap(catalog.messages.first?.content.pages.first)
+        XCTAssertEqual(page.image?.url, URL(string: "https://static.pocketcasts.com/a.webp"))
+        XCTAssertEqual(page.heading, "Read along while you listen")
+        XCTAssertEqual(page.action?.event, "open_podcasts")
+
+        let poll = try XCTUnwrap(catalog.messages.last?.content.research?.poll)
+        XCTAssertEqual(poll.question, "What should we improve next?")
+        XCTAssertEqual(poll.options.map(\.pollOptionKey), ["up_next_controls"])
     }
 
     func testDecodesTimestampsWithFractionalSeconds() throws {
