@@ -899,6 +899,11 @@ enum AnalyticsEvent: String {
 
     // MARK: - What's New Feed
 
+    case whatsNewFeedShown
+    case whatsNewMessageShown
+    case whatsNewActionTapped
+    case whatsNewReadAllTapped
+
     /// The first answer an account gives a research poll, which is where its results are counted.
     case whatsNewPollResponseSubmitted
 

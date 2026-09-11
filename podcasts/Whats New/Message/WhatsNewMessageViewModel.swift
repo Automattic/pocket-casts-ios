@@ -87,6 +87,16 @@ final class WhatsNewMessageViewModel: ObservableObject {
         }
     }
 
+    func trackShown() {
+        Analytics.track(.whatsNewMessageShown, properties: analyticsProperties)
+    }
+
+    /// Does what a page's call to action asks, reporting the tap first.
+    func perform(_ action: Action) {
+        Analytics.track(.whatsNewActionTapped, properties: analyticsProperties.merging(["action": action.event.rawValue]) { $1 })
+        action.event.perform()
+    }
+
     /// Picks an answer, which nothing is told about until the reader continues.
     func select(_ option: WhatsNewPoll.Option) {
         guard !hasResponded else { return }
@@ -107,16 +117,19 @@ final class WhatsNewMessageViewModel: ObservableObject {
 
         hasResponded = true
 
-        Analytics.track(.whatsNewPollResponseSubmitted, properties: [
-            "message_uuid": messageID,
-            "message_type": messageType.rawValue,
+        Analytics.track(.whatsNewPollResponseSubmitted, properties: analyticsProperties.merging([
             "poll_uuid": research.poll.pollId,
             "poll_key": research.poll.pollKey,
             "option_uuid": option.id,
             "poll_option_key": option.pollOptionKey
-        ])
+        ]) { $1 })
 
         onRespond?(research.poll, option)
+    }
+
+    /// The properties every event about the message is reported with.
+    private var analyticsProperties: [String: String] {
+        ["message_uuid": messageID, "message_type": messageType.rawValue]
     }
 
     private var selectedOption: WhatsNewPoll.Option? {

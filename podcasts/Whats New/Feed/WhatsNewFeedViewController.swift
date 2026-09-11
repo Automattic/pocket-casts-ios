@@ -22,6 +22,8 @@ class WhatsNewFeedViewController: PCHostingController<WhatsNewFeedView> {
         title = L10n.whatsNew
         navigationItem.largeTitleDisplayMode = .never
 
+        Analytics.track(.whatsNewFeedShown)
+
         viewModel.onSelect = { [weak self] message in
             self?.show(message)
         }
@@ -51,6 +53,7 @@ class WhatsNewFeedViewController: PCHostingController<WhatsNewFeedView> {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: L10n.whatsNewFeedReadAll,
             primaryAction: UIAction { [weak self] _ in
+                Analytics.track(.whatsNewReadAllTapped)
                 self?.viewModel.markAllAsRead()
             }
         )
