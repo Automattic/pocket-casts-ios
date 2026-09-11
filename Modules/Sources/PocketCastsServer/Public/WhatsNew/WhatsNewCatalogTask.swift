@@ -22,9 +22,30 @@ public struct WhatsNewCatalogTask: Sendable {
     /// The language the catalog falls back to when the CDN doesn't publish the current one.
     public static let fallbackLocale = "en"
 
-    /// The language the catalog is requested for, such as `en`.
+    /// The catalogs published under a region rather than under a bare language.
+    ///
+    /// Every other catalog is named after its language, so only the exceptions are worth listing:
+    /// a language the feed picks up later needs nothing here, and the CDN answering with a 404 is
+    /// what covers one it hasn't picked up yet.
+    private static let regionalLocales: Set<String> = ["pt-br", "zh-cn", "zh-tw"]
+
+    /// The catalog the app asks for, such as `en` or `pt-br`.
     public static var currentLocale: String {
-        Locale.current.language.languageCode?.identifier ?? fallbackLocale
+        locale(forLocalization: Bundle.main.preferredLocalizations.first ?? fallbackLocale)
+    }
+
+    /// The catalog named after one of the app's own localizations, such as `pt-BR`.
+    ///
+    /// The catalog names its Chinese variants by region where the app names them by script, and
+    /// names everything else by language, so a localization keeps its region only where the feed
+    /// publishes one: `es-MX` reads the Spanish catalog, `pt-BR` its own.
+    static func locale(forLocalization localization: String) -> String {
+        let identifier = localization.lowercased().replacingOccurrences(of: "_", with: "-")
+        if identifier.hasPrefix("zh-hans") { return "zh-cn" }
+        if identifier.hasPrefix("zh-hant") { return "zh-tw" }
+        if regionalLocales.contains(identifier) { return identifier }
+
+        return String(identifier.prefix { $0 != "-" })
     }
 
     /// The last catalog that was fetched successfully, read back from disk.

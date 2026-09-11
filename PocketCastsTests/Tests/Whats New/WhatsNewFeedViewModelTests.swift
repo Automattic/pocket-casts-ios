@@ -18,6 +18,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.items.map(\.publishedAt), messages.map(\.publishedAt).sorted(by: >))
     }
 
+    /// The label and the icon are this app's, picked from the type rather than published with the
+    /// message, so they arrive in the reader's language whoever wrote it.
+    func testARowIsLabelledByItsType() throws {
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+
+        let research = try XCTUnwrap(viewModel.items.first { $0.type == .research })
+        XCTAssertEqual(research.label, L10n.whatsNewCategoryResearch)
+        XCTAssertEqual(research.title, "Help shape the player")
+    }
+
     /// The detail screen needs the whole message, not just what the row happened to show.
     func testSelectingARowHandsOverItsMessage() throws {
         let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
@@ -48,42 +58,6 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.hasUnreadItems)
     }
 
-    /// Everything on a message's only page can be dropped — an action the allowlist won't open is
-    /// the app's own doing — which would leave a row that opens onto nothing.
-    func testMessagesWithNothingToShowNeverReachTheFeed() throws {
-        let messages = try decodedMessages(json: """
-        {
-          "schemaVersion": 1,
-          "messages": [
-            {
-              "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
-              "type": "tip",
-              "publishedAt": "2026-08-17T08:00:00Z",
-              "targeting": { "audiences": [] },
-              "summary": { "title": "Sort your Up Next" },
-              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
-            },
-            {
-              "id": "01K2Y3D5J1H7QZP0B6RXKA4N3T",
-              "type": "tip",
-              "publishedAt": "2026-08-18T08:00:00Z",
-              "targeting": { "audiences": [] },
-              "summary": { "title": "Rate us" },
-              "content": {
-                "pages": [
-                  { "blocks": [{ "type": "action", "label": "Rate us", "url": "itms-apps://apps.apple.com/app/id414834813" }] }
-                ]
-              }
-            }
-          ]
-        }
-        """)
-
-        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
-
-        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
-    }
-
     /// The catalog is published per platform and locale, so the rest of the targeting is the
     /// client's to apply — including to the unread count the Profile row is drawn from.
     func testMessagesThisUserIsNotTargetedByNeverReachTheFeed() throws {
@@ -91,30 +65,25 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         {
           "schemaVersion": 1,
           "messages": [
+            \(Self.tip(id: "550e8400-e29b-41d4-a716-446655440001",
+                       title: "Sort your Up Next",
+                       publishedAt: "2026-08-17T08:00:00Z")),
             {
-              "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
-              "type": "tip",
-              "publishedAt": "2026-08-17T08:00:00Z",
-              "targeting": { "audiences": [] },
-              "summary": { "title": "Sort your Up Next" },
-              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
-            },
-            {
-              "id": "01K2Y3D5J1H7QZP0B6RXKA4N3T",
+              "id": "550e8400-e29b-41d4-a716-446655440002",
               "type": "announcement",
               "publishedAt": "2026-08-18T08:00:00Z",
               "targeting": { "audiences": ["patron"] },
-              "summary": { "title": "Thanks for being a Patron" },
-              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+              "title": "Thanks for being a Patron",
+              "pages": [\(Self.page)]
             },
             {
-              "id": "01K2Y4H2P6R8T0VXZB1DFG3JKM",
+              "id": "550e8400-e29b-41d4-a716-446655440003",
               "type": "new_feature",
               "publishedAt": "2026-08-19T08:00:00Z",
               "expiresAt": "2026-08-20T08:00:00Z",
               "targeting": { "audiences": [], "minimumAppVersion": "9.0" },
-              "summary": { "title": "Something newer builds have" },
-              "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+              "title": "Something newer builds have",
+              "pages": [\(Self.page)]
             }
           ]
         }
@@ -133,6 +102,26 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         viewModel.markAllAsRead()
 
         XCTAssertFalse(viewModel.hasUnreadItems)
+    }
+
+    /// A poll is answered once, so backing out of a message and opening it again has to find the
+    /// answer that was already given.
+    func testAPollThatWasAnsweredStaysAnswered() throws {
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+        let message = try XCTUnwrap(messages.first { $0.type == .research })
+        let poll = try XCTUnwrap(message.content.research?.poll)
+
+        XCTAssertFalse(viewModel.hasResponded(to: message))
+        viewModel.markAsResponded(to: poll)
+
+        XCTAssertTrue(viewModel.hasResponded(to: message))
+    }
+
+    func testAMessageWithNoPollWasNeverAnswered() throws {
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+        let message = try XCTUnwrap(messages.first { $0.type == .tip })
+
+        XCTAssertFalse(viewModel.hasResponded(to: message))
     }
 
     /// The Profile row hands over an empty feed, so nothing shows until the catalog arrives.
@@ -228,19 +217,33 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         }
     }
 
+    private static let page = """
+    {
+      "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
+      "heading": "Put the queue in the order you want",
+      "description": "…"
+    }
+    """
+
+    private static func tip(id: String, title: String, publishedAt: String) -> String {
+        """
+        {
+          "id": "\(id)",
+          "type": "tip",
+          "publishedAt": "\(publishedAt)",
+          "targeting": { "audiences": [] },
+          "title": "\(title)",
+          "pages": [\(page)]
+        }
+        """
+    }
+
     private static let catalogJSON = """
     {
       "schemaVersion": 1,
-      "messages": [
-        {
-          "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
-          "type": "tip",
-          "publishedAt": "2026-08-17T08:00:00Z",
-          "targeting": { "audiences": [] },
-          "summary": { "title": "Sort your Up Next" },
-          "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
-        }
-      ]
+      "messages": [\(tip(id: "550e8400-e29b-41d4-a716-446655440001",
+                         title: "Sort your Up Next",
+                         publishedAt: "2026-08-17T08:00:00Z"))]
     }
     """
 }

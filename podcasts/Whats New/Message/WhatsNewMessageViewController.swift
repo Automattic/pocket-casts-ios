@@ -5,8 +5,15 @@ import SwiftUI
 class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
     private let viewModel: WhatsNewMessageViewModel
 
-    init(message: WhatsNewMessage) {
-        viewModel = WhatsNewMessageViewModel(message: message)
+    /// - Parameters:
+    ///   - hasResponded: Whether the account has already answered the message's poll, if it asks one.
+    ///   - onRespond: Called with the option the user answered the poll with.
+    init(message: WhatsNewMessage,
+         hasResponded: Bool = false,
+         onRespond: ((WhatsNewPoll, WhatsNewPoll.Option) -> Void)? = nil) {
+        let viewModel = WhatsNewMessageViewModel(message: message, hasResponded: hasResponded)
+        viewModel.onRespond = onRespond
+        self.viewModel = viewModel
         super.init(rootView: WhatsNewMessageView(viewModel: viewModel), background: \.primaryUi01)
     }
 
@@ -17,7 +24,7 @@ class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = viewModel.title
+        title = viewModel.navigationTitle
         navigationItem.largeTitleDisplayMode = .never
     }
 }

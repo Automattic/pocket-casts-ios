@@ -2,30 +2,34 @@ import Foundation
 import PocketCastsServer
 
 /// A single row of the What's New feed.
+///
+/// The catalog gives a message one title and a type. Everything else the row shows — what the type
+/// is called, the icon beside it — comes from this app rather than from the feed it's drawn from.
 struct WhatsNewFeedItem: Identifiable, Hashable {
     let id: String
     let type: WhatsNewMessageType
-    let label: String?
     let title: String
     let publishedAt: Date
-    let imageURL: URL?
     var isUnread: Bool
+
+    var label: String {
+        type.categoryLabel
+    }
 
     init(message: WhatsNewMessage, isUnread: Bool) {
         id = message.id
         type = message.type
-        label = message.summary.label
-        title = message.summary.title
+        title = message.title
         publishedAt = message.publishedAt
-        imageURL = message.summary.imageUrl
         self.isUnread = isUnread
     }
 }
 
 /// The messages the What's New feed shows, most recently published first.
 ///
-/// A message this build has nothing to draw, or that isn't aimed at this user, never reaches the
-/// list, so no row opens onto an empty screen — or marks itself read on the way there.
+/// A message this build can't make sense of never decodes, and one that isn't aimed at this user
+/// never reaches the list, so no row opens onto an empty screen — or marks itself read on the way
+/// there.
 @MainActor
 final class WhatsNewFeedViewModel: ObservableObject {
     enum State {
@@ -42,6 +46,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     private var messages: [WhatsNewMessage] = []
     private var readMessageIDs: Set<String>
+    private var respondedPollIDs: Set<String> = []
     private let manager: WhatsNewManager?
     private let targeting: WhatsNewMessageFilter
 
@@ -103,6 +108,19 @@ final class WhatsNewFeedViewModel: ObservableObject {
         }
     }
 
+    /// Whether the poll the message asks, if it asks one, has already been answered.
+    ///
+    /// Answers stay put for as long as the feed is around, so a poll answered and backed out of
+    /// doesn't offer itself again when the message is opened a second time.
+    func hasResponded(to message: WhatsNewMessage) -> Bool {
+        guard let poll = message.content.research?.poll else { return false }
+        return respondedPollIDs.contains(poll.pollId)
+    }
+
+    func markAsResponded(to poll: WhatsNewPoll) {
+        respondedPollIDs.insert(poll.pollId)
+    }
+
     private func markAsRead(_ id: WhatsNewFeedItem.ID) {
         readMessageIDs.insert(id)
 
@@ -113,7 +131,6 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private func show(_ messages: [WhatsNewMessage]) {
         self.messages = messages
             .filter { targeting.includes($0) }
-            .filter(WhatsNewMessageViewModel.canRender)
             .sorted { $0.publishedAt > $1.publishedAt }
         items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
     }

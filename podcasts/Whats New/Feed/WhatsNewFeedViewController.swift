@@ -35,7 +35,11 @@ class WhatsNewFeedViewController: PCHostingController<WhatsNewFeedView> {
     }
 
     private func show(_ message: WhatsNewMessage) {
-        navigationController?.pushViewController(WhatsNewMessageViewController(message: message), animated: true)
+        let controller = WhatsNewMessageViewController(message: message,
+                                                       hasResponded: viewModel.hasResponded(to: message)) { [weak self] poll, _ in
+            self?.viewModel.markAsResponded(to: poll)
+        }
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private func updateReadAllButton() {

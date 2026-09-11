@@ -126,8 +126,14 @@ final class WhatsNewMessageFilterTests: XCTestCase {
           "type": "tip",
           "publishedAt": "\(iso8601(from: publishedAt ?? now.addingTimeInterval(-1.day)))"\(expires),
           "targeting": \(targeting),
-          "summary": { "title": "Sort your Up Next" },
-          "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+          "title": "Sort your Up Next",
+          "pages": [
+            {
+              "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
+              "heading": "Put the queue in the order you want",
+              "description": "…"
+            }
+          ]
         }
         """
         return try WhatsNewCatalog.decoder.decode(WhatsNewMessage.self, from: Data(json.utf8))

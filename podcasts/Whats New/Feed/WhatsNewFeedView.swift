@@ -1,4 +1,3 @@
-import Kingfisher
 import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
@@ -78,26 +77,24 @@ private struct WhatsNewFeedUnavailableView: View {
 
 private struct WhatsNewFeedRow: View {
     @EnvironmentObject private var theme: Theme
-    @ScaledMetric(relativeTo: .largeTitle) private var artworkSize: CGFloat = 56
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize: CGFloat = 56
     @ScaledMetric(relativeTo: .caption2) private var unreadIndicatorSize: CGFloat = 8
 
     let item: WhatsNewFeedItem
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            WhatsNewFeedArtworkView(item: item)
-                .frame(width: artworkSize, height: artworkSize)
+            WhatsNewFeedIconView(type: item.type)
+                .frame(width: iconSize, height: iconSize)
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(alignment: .center, spacing: 12) {
-                    if let label = item.label {
-                        Text(label.localizedUppercase)
-                            .font(size: 11, style: .caption2, weight: .semibold)
-                            .tracking(0.33)
-                            .foregroundStyle(theme.primaryText02)
-                            .lineLimit(1)
-                    }
+                    Text(item.label.localizedUppercase)
+                        .font(size: 11, style: .caption2, weight: .semibold)
+                        .tracking(0.33)
+                        .foregroundStyle(theme.primaryText02)
+                        .lineLimit(1)
 
                     Spacer(minLength: 0)
 
@@ -130,39 +127,19 @@ private struct WhatsNewFeedRow: View {
     }
 }
 
-/// The artwork the CDN published for a message, or a fallback the message's type picks while there's none to show.
-private struct WhatsNewFeedArtworkView: View {
-    let item: WhatsNewFeedItem
+/// The icon the message's type picks, which the client owns: authors choose a type, not a thumbnail.
+private struct WhatsNewFeedIconView: View {
+    let type: WhatsNewMessageType
 
     var body: some View {
-        artwork
-            .clipShape(RoundedRectangle(cornerRadius: 4))
-    }
-
-    @ViewBuilder
-    private var artwork: some View {
-        if let imageURL = item.imageURL {
-            KFImage(imageURL)
-                .placeholder { fallback }
-                .targetCache(ImageManager.sharedManager.discoverCache)
-                .fade(duration: 0.25)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .clipped()
-        } else {
-            fallback
-        }
-    }
-
-    private var fallback: some View {
         ZStack {
-            LinearGradient(colors: item.type.artworkGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(colors: type.iconGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
 
-            Image(systemName: item.type.artworkSymbolName)
+            Image(systemName: type.iconSymbolName)
                 .font(.system(size: 22, weight: .semibold))
                 .foregroundStyle(.white)
         }
+        .clipShape(RoundedRectangle(cornerRadius: 4))
     }
 }
 
@@ -172,33 +149,6 @@ private struct WhatsNewFeedRowButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(configuration.isPressed ? theme.primaryUi02Active : theme.primaryUi02)
-    }
-}
-
-private extension WhatsNewMessageType {
-    var artworkGradient: [Color] {
-        switch self {
-        case .tip:
-            [UIColor(hex: "#03A9F4").color, UIColor(hex: "#50D0F1").color]
-        case .newFeature:
-            [UIColor(hex: "#F43769").color, UIColor(hex: "#FB5246").color]
-        case .research:
-            [UIColor(hex: "#6B59C7").color, UIColor(hex: "#BC4E7B").color]
-        case .announcement:
-            [UIColor(hex: "#C9522E").color, UIColor(hex: "#B82E3C").color]
-        case .knownIssue:
-            [UIColor(hex: "#FF9D3B").color, UIColor(hex: "#EB6F4F").color]
-        }
-    }
-
-    var artworkSymbolName: String {
-        switch self {
-        case .tip: "arrow.up.arrow.down"
-        case .newFeature: "list.bullet"
-        case .research: "doc.text"
-        case .announcement: "heart"
-        case .knownIssue: "exclamationmark.triangle"
-        }
     }
 }
 

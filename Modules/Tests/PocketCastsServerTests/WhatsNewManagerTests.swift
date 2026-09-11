@@ -14,8 +14,14 @@ final class WhatsNewManagerTests: XCTestCase {
           "type": "tip",
           "publishedAt": "2026-08-17T08:00:00Z",
           "targeting": {},
-          "summary": { "title": "Sort your Up Next" },
-          "content": { "pages": [{ "blocks": [{ "type": "paragraph", "content": "…" }] }] }
+          "title": "Sort your Up Next",
+          "pages": [
+            {
+              "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
+              "heading": "Put the queue in the order you want",
+              "description": "…"
+            }
+          ]
         }
       ]
     }
@@ -32,7 +38,7 @@ final class WhatsNewManagerTests: XCTestCase {
 
         await manager.refreshIfNeeded().value
 
-        XCTAssertEqual(manager.catalog?.messages.map(\.summary.title), ["Sort your Up Next"])
+        XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
     }
 
     /// The feed and the unread state read the catalog straight off the manager, so it has to hold
@@ -49,7 +55,7 @@ final class WhatsNewManagerTests: XCTestCase {
 
         await manager.refreshIfNeeded().value
 
-        XCTAssertEqual(manager.catalog?.messages.map(\.summary.title), ["Sort your Up Next"])
+        XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
     }
 
     func testDoesNotFetchAgainWhileTheCopyOnDiskIsCurrent() async {
@@ -89,7 +95,7 @@ final class WhatsNewManagerTests: XCTestCase {
         StubURLProtocol.requestHandler = { _ in throw URLError(.notConnectedToInternet) }
         await manager.refreshIfNeeded().value
 
-        XCTAssertEqual(manager.catalog?.messages.map(\.summary.title), ["Sort your Up Next"])
+        XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
     }
 
     // MARK: - Helpers
