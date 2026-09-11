@@ -22,6 +22,17 @@ extension WhatsNewManager {
         feedMessages(targeting: targeting).contains { readState.isUnseen($0.id) }
     }
 
+    /// Whether the What's New row shows its dot, which the user can turn off in Settings without
+    /// reading anything.
+    func showsDotOnWhatsNewRow(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
+        isDotEnabled && hasUnlistedMessages(targeting: targeting)
+    }
+
+    /// Whether the Profile tab shows a dot for What's New, which the same setting turns off.
+    func showsDotOnProfileTab(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
+        isDotEnabled && hasUnseenMessages(targeting: targeting)
+    }
+
     /// Takes the dot off the Profile tab until a message arrives that it hasn't pointed at.
     func markFeedAsSeen(targeting: WhatsNewMessageFilter = .current) {
         markAsSeen(feedMessages(targeting: targeting).map(\.id))

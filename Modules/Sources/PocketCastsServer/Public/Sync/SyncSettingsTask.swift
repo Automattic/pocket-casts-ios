@@ -26,6 +26,9 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             if ServerSettings.disableAiChaptersNeedsSyncing() {
                 settingsRequest.settings.disableAiChapters.value = ServerSettings.disableAiChapters()
             }
+            if ServerSettings.showWhatsNewDotNeedsSyncing() {
+                settingsRequest.settings.showWhatsNewDot.value = ServerSettings.showWhatsNewDot()
+            }
             if SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() {
                 settingsRequest.settings.freeGiftAcknowledgement.value = SubscriptionHelper.subscriptionGiftAcknowledgement()
             }
@@ -77,6 +80,10 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
                 ServerSettings.setDisableAiChapters(settings.disableAiChapters.value.value)
             }
 
+            if settings.showWhatsNewDot.changed.value {
+                ServerSettings.setShowWhatsNewDot(settings.showWhatsNewDot.value.value)
+            }
+
             if settings.freeGiftAcknowledgement.changed.value {
                 let acknowledgement = settings.freeGiftAcknowledgement.value.value
                 SubscriptionHelper.setSubscriptionGiftAcknowledgement(acknowledgement)
@@ -93,6 +100,7 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             ServerSettings.marketingOptInSynced()
             ServerSettings.audioOnlySynced()
             ServerSettings.disableAiChaptersSynced()
+            ServerSettings.showWhatsNewDotSynced()
             ServerSettings.setHomeGridSortOrderSynced()
             SubscriptionHelper.subscriptionGiftAcknowledgementSynced()
         } catch {
