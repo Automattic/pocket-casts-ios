@@ -8,8 +8,13 @@ enum WhatsNewImageLayout {
 
     /// As wide as the page allows, but never so tall that it pushes what follows it off the page.
     static func size(aspectRatio: CGFloat, in contentSize: CGSize) -> CGSize {
-        let height = min(contentSize.height * heightFraction, contentSize.width / aspectRatio)
+        let height = min(maximumHeight(in: contentSize), contentSize.width / aspectRatio)
         return CGSize(width: height * aspectRatio, height: height)
+    }
+
+    /// The tallest an image of unknown shape can draw once it has loaded.
+    static func maximumHeight(in contentSize: CGSize) -> CGFloat {
+        contentSize.height * heightFraction
     }
 }
 
@@ -20,16 +25,19 @@ struct WhatsNewImageView: View {
     let contentSize: CGSize
 
     var body: some View {
-        let size = WhatsNewImageLayout.size(aspectRatio: image.aspectRatio, in: contentSize)
+        let aspectRatio = image.aspectRatio.map { CGFloat($0) }
+        let size = aspectRatio.map { WhatsNewImageLayout.size(aspectRatio: $0, in: contentSize) }
 
         AsyncImageView(url: image.url,
                        cache: ImageManager.sharedManager.discoverCache,
-                       aspectRatio: image.aspectRatio,
+                       aspectRatio: aspectRatio,
                        contentMode: .fit)
-            .frame(width: size.width, height: size.height)
+            .frame(width: size?.width, height: size?.height)
+            .frame(maxWidth: contentSize.width, maxHeight: WhatsNewImageLayout.maximumHeight(in: contentSize))
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .frame(maxWidth: .infinity)
-            .accessibilityLabel(image.alt)
+            .accessibilityLabel(image.alt ?? "")
             .accessibilityAddTraits(.isImage)
+            .accessibilityHidden(image.alt == nil)
     }
 }

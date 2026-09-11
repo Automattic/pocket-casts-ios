@@ -64,8 +64,10 @@ private struct WhatsNewMessagePageView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    WhatsNewImageView(image: page.image, contentSize: contentSize)
-                        .padding(.top, 32)
+                    if let image = page.image {
+                        WhatsNewImageView(image: image, contentSize: contentSize)
+                            .padding(.top, 32)
+                    }
 
                     Text(page.heading)
                         .font(size: 17, style: .headline, weight: .semibold)

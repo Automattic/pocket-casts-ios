@@ -22,12 +22,13 @@ final class WhatsNewMessageViewModel: ObservableObject {
         case research(WhatsNewResearch)
     }
 
-    /// A page of a standard message: an image, what it's about, and at most one thing to do next.
+    /// A page of a standard message: what it's about, at most one image, and at most one thing to
+    /// do next.
     struct Page: Identifiable {
         /// The page's position, which is all the contract gives a page to be identified by.
         let id: Int
 
-        let image: WhatsNewImage
+        let image: WhatsNewImage?
         let heading: String
         let description: String
 

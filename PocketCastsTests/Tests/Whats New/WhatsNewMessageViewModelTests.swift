@@ -27,8 +27,8 @@ final class WhatsNewMessageViewModelTests: XCTestCase {
     func testAPageCarriesTheImageAndTextItWasPublishedWith() throws {
         let page = try XCTUnwrap(WhatsNewMessageViewModel(message: try message(pages: onePage)).pages.first)
 
-        XCTAssertEqual(page.image.url, URL(string: "https://static.pocketcasts.com/a.webp"))
-        XCTAssertEqual(page.image.alt, "Episode transcript open beside the player")
+        XCTAssertEqual(page.image?.url, URL(string: "https://static.pocketcasts.com/a.webp"))
+        XCTAssertEqual(page.image?.alt, "Episode transcript open beside the player")
         XCTAssertEqual(page.heading, "Read along while you listen")
         XCTAssertEqual(page.description, "Search a transcript and follow the conversation.")
     }

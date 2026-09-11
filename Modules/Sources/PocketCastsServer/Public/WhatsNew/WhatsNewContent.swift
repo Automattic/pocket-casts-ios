@@ -35,11 +35,13 @@ public enum WhatsNewContent: Hashable {
 
 /// One page of a standard message, drawn in the predefined layout its type shares.
 ///
-/// A page has no identity in the contract; its position in the message is what it's known by. Every
-/// field a page can carry is either required or a single optional action, so there's no such thing
-/// as a page with nothing to draw.
+/// A page has no identity in the contract; its position in the message is what it's known by. Its
+/// heading and description are what it's published for, so a page always has something to say even
+/// where it has nothing to show.
 public struct WhatsNewPage: Decodable, Hashable {
-    public let image: WhatsNewImage
+    /// The illustration the page is built around, which a page can go without.
+    public let image: WhatsNewImage?
+
     public let heading: String
     public let description: String
 
@@ -48,7 +50,7 @@ public struct WhatsNewPage: Decodable, Hashable {
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        image = try container.decode(WhatsNewImage.self, forKey: .image)
+        image = try container.decodeIfPresent(WhatsNewImage.self, forKey: .image)
         heading = try container.decodeNonEmptyString(forKey: .heading)
         description = try container.decodeNonEmptyString(forKey: .description)
         action = try container.decodeIfPresent(WhatsNewAction.self, forKey: .action)
@@ -80,26 +82,27 @@ public struct WhatsNewPage: Decodable, Hashable {
 /// to the CDN as a WebP.
 public struct WhatsNewImage: Decodable, Hashable {
     public let url: URL
-    public let width: Int
-    public let height: Int
+
+    /// The size the image was published at, which the catalog doesn't always know.
+    public let width: Int?
+    public let height: Int?
 
     /// What the image shows, for anyone who can't see it.
-    public let alt: String
+    public let alt: String?
 
-    /// The shape the image was published at, so a page can leave room for it before it arrives.
-    public var aspectRatio: Double {
-        Double(width) / Double(height)
+    /// The shape the image was published at, so a page can leave room for it before it arrives, or
+    /// `nil` where the page has to wait for the image itself to find out.
+    public var aspectRatio: Double? {
+        guard let width, let height, width > 0, height > 0 else { return nil }
+        return Double(width) / Double(height)
     }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         url = try container.decode(URL.self, forKey: .url)
-        width = try container.decode(Int.self, forKey: .width)
-        height = try container.decode(Int.self, forKey: .height)
-        alt = try container.decodeNonEmptyString(forKey: .alt)
-        guard width > 0, height > 0 else {
-            throw DecodingError.dataCorruptedError(forKey: .width, in: container, debugDescription: "An image with no size: \(width)×\(height)")
-        }
+        width = try container.decodeIfPresent(Int.self, forKey: .width)
+        height = try container.decodeIfPresent(Int.self, forKey: .height)
+        alt = try container.decodeNonEmptyStringIfPresent(forKey: .alt)
     }
 
     private enum CodingKeys: String, CodingKey {

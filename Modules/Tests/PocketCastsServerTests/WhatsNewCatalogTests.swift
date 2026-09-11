@@ -99,11 +99,12 @@ final class WhatsNewCatalogTests: XCTestCase {
     func testDecodesTheFieldsOfAPage() throws {
         let pages = try XCTUnwrap(decodedCatalog().messages.first?.content.pages)
 
-        XCTAssertEqual(pages[0].image.url, URL(string: "https://static.pocketcasts.com/whats-new/media/transcripts-detail.webp"))
-        XCTAssertEqual(pages[0].image.width, 1200)
-        XCTAssertEqual(pages[0].image.height, 750)
-        XCTAssertEqual(pages[0].image.alt, "Episode transcript open beside the player")
-        XCTAssertEqual(pages[0].image.aspectRatio, 1.6, accuracy: 0.001)
+        let image = try XCTUnwrap(pages[0].image)
+        XCTAssertEqual(image.url, URL(string: "https://static.pocketcasts.com/whats-new/media/transcripts-detail.webp"))
+        XCTAssertEqual(image.width, 1200)
+        XCTAssertEqual(image.height, 750)
+        XCTAssertEqual(image.alt, "Episode transcript open beside the player")
+        XCTAssertEqual(try XCTUnwrap(image.aspectRatio), 1.6, accuracy: 0.001)
         XCTAssertEqual(pages[0].heading, "Read along while you listen")
         XCTAssertEqual(pages[0].description, "Search a transcript and follow the conversation.")
         XCTAssertNil(pages[0].action, "A page without an action carries none")
@@ -151,26 +152,55 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertTrue(try decodedMessages(pages: "[]").isEmpty)
     }
 
-    func testAPageMissingItsImageIsDropped() throws {
+    /// A page is published for what it says, so one with nothing to show is still worth showing.
+    func testAPageWithNoImageKeepsWhatItSays() throws {
         let messages = try decodedMessages(pages: """
         [{ "heading": "Nothing to show", "description": "…" }]
         """)
 
-        XCTAssertTrue(messages.isEmpty)
+        let page = try XCTUnwrap(messages.first?.content.pages.first)
+        XCTAssertNil(page.image)
+        XCTAssertEqual(page.heading, "Nothing to show")
     }
 
-    func testAnImageWithNoSizeIsDropped() throws {
+    /// A size is what lets a page leave room for an image before it arrives, so an image published
+    /// without one draws at whatever shape it turns out to be rather than costing the message.
+    func testAnImageWithNoPublishedSizeHasNoShapeToLeaveRoomFor() throws {
         let messages = try decodedMessages(pages: """
         [
           {
-            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 0, "height": 0, "alt": "…" },
-            "heading": "Nothing to show",
+            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 0, "height": 0 },
+            "heading": "Something to show",
+            "description": "…"
+          },
+          {
+            "image": { "url": "https://static.pocketcasts.com/b.webp" },
+            "heading": "Something else to show",
             "description": "…"
           }
         ]
         """)
 
-        XCTAssertTrue(messages.isEmpty)
+        let pages = try XCTUnwrap(messages.first?.content.pages)
+        XCTAssertEqual(pages.count, 2)
+        XCTAssertNil(pages[0].image?.aspectRatio)
+        XCTAssertNil(pages[1].image?.aspectRatio)
+    }
+
+    /// Alt text is what the image is to anyone who can't see it, and its absence costs them that
+    /// rather than costing everyone the message.
+    func testAnImageWithNoAltTextIsStillPublished() throws {
+        let messages = try decodedMessages(pages: """
+        [
+          {
+            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "  " },
+            "heading": "Something to show",
+            "description": "…"
+          }
+        ]
+        """)
+
+        XCTAssertNil(try XCTUnwrap(messages.first?.content.pages.first?.image).alt)
     }
 
     /// Every field the contract requires has to say something, and an empty string doesn't.
