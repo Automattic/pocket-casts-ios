@@ -1232,6 +1232,15 @@ nonisolated struct Api_ChangeableSettings: @unchecked Sendable {
   /// Clears the value of `disableAiChapters`. Subsequent reads from it will return its default value.
   mutating func clearDisableAiChapters() {_uniqueStorage()._disableAiChapters = nil}
 
+  var showWhatsNewDot: Api_BoolSetting {
+    get {_storage._showWhatsNewDot ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showWhatsNewDot = newValue}
+  }
+  /// Returns true if `showWhatsNewDot` has been explicitly set.
+  var hasShowWhatsNewDot: Bool {_storage._showWhatsNewDot != nil}
+  /// Clears the value of `showWhatsNewDot`. Subsequent reads from it will return its default value.
+  mutating func clearShowWhatsNewDot() {_uniqueStorage()._showWhatsNewDot = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2146,6 +2155,15 @@ nonisolated struct Api_NamedSettings: @unchecked Sendable {
   var hasDisableAiChapters: Bool {_storage._disableAiChapters != nil}
   /// Clears the value of `disableAiChapters`. Subsequent reads from it will return its default value.
   mutating func clearDisableAiChapters() {_uniqueStorage()._disableAiChapters = nil}
+
+  var showWhatsNewDot: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._showWhatsNewDot ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showWhatsNewDot = newValue}
+  }
+  /// Returns true if `showWhatsNewDot` has been explicitly set.
+  var hasShowWhatsNewDot: Bool {_storage._showWhatsNewDot != nil}
+  /// Clears the value of `showWhatsNewDot`. Subsequent reads from it will return its default value.
+  mutating func clearShowWhatsNewDot() {_uniqueStorage()._showWhatsNewDot = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -3070,6 +3088,15 @@ nonisolated struct Api_NamedSettingsResponse: @unchecked Sendable {
   /// Clears the value of `disableAiChapters`. Subsequent reads from it will return its default value.
   mutating func clearDisableAiChapters() {_uniqueStorage()._disableAiChapters = nil}
 
+  var showWhatsNewDot: Api_BoolSetting {
+    get {_storage._showWhatsNewDot ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showWhatsNewDot = newValue}
+  }
+  /// Returns true if `showWhatsNewDot` has been explicitly set.
+  var hasShowWhatsNewDot: Bool {_storage._showWhatsNewDot != nil}
+  /// Clears the value of `showWhatsNewDot`. Subsequent reads from it will return its default value.
+  mutating func clearShowWhatsNewDot() {_uniqueStorage()._showWhatsNewDot = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -3669,6 +3696,8 @@ nonisolated struct Api_AlternateEnclosure: Sendable {
   var type: String = String()
 
   var sources: [Api_AlternateEnclosure.Source] = []
+
+  var mediaKind: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -9067,7 +9096,7 @@ nonisolated extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProt
 
 nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ChangeableSettings"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{3}show_whats_new_dot\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -9170,6 +9199,7 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
     var _upNextSortTooltipSeen: Api_BoolSetting? = nil
     var _audioOnly: Api_BoolSetting? = nil
     var _disableAiChapters: Api_BoolSetting? = nil
+    var _showWhatsNewDot: Api_BoolSetting? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -9280,6 +9310,7 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
       _upNextSortTooltipSeen = source._upNextSortTooltipSeen
       _audioOnly = source._audioOnly
       _disableAiChapters = source._disableAiChapters
+      _showWhatsNewDot = source._showWhatsNewDot
     }
   }
 
@@ -9398,6 +9429,7 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
         case 101: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSortTooltipSeen) }()
         case 102: try { try decoder.decodeSingularMessageField(value: &_storage._audioOnly) }()
         case 103: try { try decoder.decodeSingularMessageField(value: &_storage._disableAiChapters) }()
+        case 104: try { try decoder.decodeSingularMessageField(value: &_storage._showWhatsNewDot) }()
         default: break
         }
       }
@@ -9709,6 +9741,9 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
       } }()
       try { if let v = _storage._disableAiChapters {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 103)
+      } }()
+      try { if let v = _storage._showWhatsNewDot {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 104)
       } }()
     }
     try unknownFields.traverse(visitor: &visitor)
@@ -9819,6 +9854,7 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
         if _storage._upNextSortTooltipSeen != rhs_storage._upNextSortTooltipSeen {return false}
         if _storage._audioOnly != rhs_storage._audioOnly {return false}
         if _storage._disableAiChapters != rhs_storage._disableAiChapters {return false}
+        if _storage._showWhatsNewDot != rhs_storage._showWhatsNewDot {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9830,7 +9866,7 @@ nonisolated extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtob
 
 nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettings"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{3}show_whats_new_dot\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
@@ -9933,6 +9969,7 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
     var _upNextSortTooltipSeen: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _audioOnly: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _disableAiChapters: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _showWhatsNewDot: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -10043,6 +10080,7 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
       _upNextSortTooltipSeen = source._upNextSortTooltipSeen
       _audioOnly = source._audioOnly
       _disableAiChapters = source._disableAiChapters
+      _showWhatsNewDot = source._showWhatsNewDot
     }
   }
 
@@ -10161,6 +10199,7 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
         case 101: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSortTooltipSeen) }()
         case 102: try { try decoder.decodeSingularMessageField(value: &_storage._audioOnly) }()
         case 103: try { try decoder.decodeSingularMessageField(value: &_storage._disableAiChapters) }()
+        case 104: try { try decoder.decodeSingularMessageField(value: &_storage._showWhatsNewDot) }()
         default: break
         }
       }
@@ -10473,6 +10512,9 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
       try { if let v = _storage._disableAiChapters {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 103)
       } }()
+      try { if let v = _storage._showWhatsNewDot {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 104)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -10582,6 +10624,7 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
         if _storage._upNextSortTooltipSeen != rhs_storage._upNextSortTooltipSeen {return false}
         if _storage._audioOnly != rhs_storage._audioOnly {return false}
         if _storage._disableAiChapters != rhs_storage._disableAiChapters {return false}
+        if _storage._showWhatsNewDot != rhs_storage._showWhatsNewDot {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -10593,7 +10636,7 @@ nonisolated extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._M
 
 nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettingsResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{1}developer\0\u{3}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{1}developer\0\u{3}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{3}listening_time_stats\0\u{3}up_next_sort_tooltip_seen\0\u{3}audio_only\0\u{3}disable_ai_chapters\0\u{3}show_whats_new_dot\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -10697,6 +10740,7 @@ nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftPro
     var _upNextSortTooltipSeen: Api_BoolSetting? = nil
     var _audioOnly: Api_BoolSetting? = nil
     var _disableAiChapters: Api_BoolSetting? = nil
+    var _showWhatsNewDot: Api_BoolSetting? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -10808,6 +10852,7 @@ nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftPro
       _upNextSortTooltipSeen = source._upNextSortTooltipSeen
       _audioOnly = source._audioOnly
       _disableAiChapters = source._disableAiChapters
+      _showWhatsNewDot = source._showWhatsNewDot
     }
   }
 
@@ -10927,6 +10972,7 @@ nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftPro
         case 101: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSortTooltipSeen) }()
         case 102: try { try decoder.decodeSingularMessageField(value: &_storage._audioOnly) }()
         case 103: try { try decoder.decodeSingularMessageField(value: &_storage._disableAiChapters) }()
+        case 104: try { try decoder.decodeSingularMessageField(value: &_storage._showWhatsNewDot) }()
         default: break
         }
       }
@@ -11242,6 +11288,9 @@ nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftPro
       try { if let v = _storage._disableAiChapters {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 103)
       } }()
+      try { if let v = _storage._showWhatsNewDot {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 104)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11352,6 +11401,7 @@ nonisolated extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftPro
         if _storage._upNextSortTooltipSeen != rhs_storage._upNextSortTooltipSeen {return false}
         if _storage._audioOnly != rhs_storage._audioOnly {return false}
         if _storage._disableAiChapters != rhs_storage._disableAiChapters {return false}
+        if _storage._showWhatsNewDot != rhs_storage._showWhatsNewDot {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -12331,7 +12381,7 @@ nonisolated extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftPr
 
 nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".AlternateEnclosure"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}sources\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}sources\0\u{3}media_kind\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12341,6 +12391,7 @@ nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtob
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.type) }()
       case 2: try { try decoder.decodeRepeatedMessageField(value: &self.sources) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.mediaKind) }()
       default: break
       }
     }
@@ -12353,12 +12404,16 @@ nonisolated extension Api_AlternateEnclosure: SwiftProtobuf.Message, SwiftProtob
     if !self.sources.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.sources, fieldNumber: 2)
     }
+    if !self.mediaKind.isEmpty {
+      try visitor.visitSingularStringField(value: self.mediaKind, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_AlternateEnclosure, rhs: Api_AlternateEnclosure) -> Bool {
     if lhs.type != rhs.type {return false}
     if lhs.sources != rhs.sources {return false}
+    if lhs.mediaKind != rhs.mediaKind {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

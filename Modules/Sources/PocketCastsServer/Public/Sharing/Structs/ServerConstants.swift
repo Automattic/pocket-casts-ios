@@ -164,6 +164,8 @@ public enum ServerConstants {
         static let audioOnlyNeedsSyncKey = "SJAudioOnlyNeedsSync"
         public static let disableAiChaptersKey = "SJDisableAiChapters"
         static let disableAiChaptersNeedsSyncKey = "SJDisableAiChaptersNeedsSync"
+        static let showWhatsNewDotKey = "SJShowWhatsNewDot"
+        static let showWhatsNewDotNeedsSyncKey = "SJShowWhatsNewDotNeedsSync"
         static let subscriptionGiftAcknowledgementNeedsSyncKey = "SJGiftAcknowledgementNeedsSync"
         static let filesLastModifiedKey = "UserFilesLastModified"
         static let statsStartDate = "StatsStartDate"
