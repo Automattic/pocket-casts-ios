@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import PocketCastsServer
 
@@ -49,13 +50,26 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private var respondedPollIDs: Set<String> = []
     private let manager: WhatsNewManager?
     private let targeting: WhatsNewMessageFilter
+    private var cancellables = Set<AnyCancellable>()
 
+    /// A feed of the manager's catalog, which records what it lists, what's read and which polls are
+    /// answered through the manager, and follows the manager's read state wherever else it changes.
     init(manager: WhatsNewManager = .shared, targeting: WhatsNewMessageFilter = .current) {
         self.manager = manager
         self.targeting = targeting
-        readMessageIDs = []
+        readMessageIDs = manager.readState.readMessageIDs
+        respondedPollIDs = manager.readState.respondedPollIDs
         state = manager.catalog == nil ? .loading : .loaded
         show(manager.catalog?.messages ?? [])
+
+        manager.$readState
+            .dropFirst()
+            .sink { [weak self] readState in
+                self?.readMessageIDs = readState.readMessageIDs
+                self?.respondedPollIDs = readState.respondedPollIDs
+                self?.updateItems()
+            }
+            .store(in: &cancellables)
     }
 
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = [], targeting: WhatsNewMessageFilter = .current) {
@@ -95,23 +109,21 @@ final class WhatsNewFeedViewModel: ObservableObject {
     }
 
     func select(_ item: WhatsNewFeedItem) {
-        markAsRead(item.id)
+        markAsRead([item.id])
 
         guard let message = messages.first(where: { $0.id == item.id }) else { return }
         onSelect?(message)
     }
 
+    /// Marks every message the feed shows read, and none of the ones it leaves out.
     func markAllAsRead() {
-        readMessageIDs.formUnion(items.map(\.id))
-        for index in items.indices {
-            items[index].isUnread = false
-        }
+        markAsRead(items.map(\.id))
     }
 
     /// Whether the poll the message asks, if it asks one, has already been answered.
     ///
-    /// Answers stay put for as long as the feed is around, so a poll answered and backed out of
-    /// doesn't offer itself again when the message is opened a second time.
+    /// Answers are kept with the read state, so a poll doesn't offer itself again however many times
+    /// the message is opened.
     func hasResponded(to message: WhatsNewMessage) -> Bool {
         guard let poll = message.content.research?.poll else { return false }
         return respondedPollIDs.contains(poll.pollId)
@@ -119,13 +131,20 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     func markAsResponded(to poll: WhatsNewPoll) {
         respondedPollIDs.insert(poll.pollId)
+        manager?.markAsResponded(toPoll: poll.pollId)
     }
 
-    private func markAsRead(_ id: WhatsNewFeedItem.ID) {
-        readMessageIDs.insert(id)
+    /// The messages the feed lists out of `messages`, most recently published first.
+    static func feedMessages(from messages: [WhatsNewMessage], targeting: WhatsNewMessageFilter) -> [WhatsNewMessage] {
+        messages
+            .filter { targeting.includes($0) }
+            .sorted { $0.publishedAt > $1.publishedAt }
+    }
 
-        guard let index = items.firstIndex(where: { $0.id == id }) else { return }
-        items[index].isUnread = false
+    private func markAsRead(_ ids: [WhatsNewFeedItem.ID]) {
+        readMessageIDs.formUnion(ids)
+        manager?.markAsRead(ids)
+        updateItems()
     }
 
     private func showCatalog(of manager: WhatsNewManager) {
@@ -139,9 +158,14 @@ final class WhatsNewFeedViewModel: ObservableObject {
     }
 
     private func show(_ messages: [WhatsNewMessage]) {
-        self.messages = messages
-            .filter { targeting.includes($0) }
-            .sorted { $0.publishedAt > $1.publishedAt }
-        items = self.messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
+        self.messages = Self.feedMessages(from: messages, targeting: targeting)
+        manager?.markAsListed(self.messages.map(\.id))
+        updateItems()
+    }
+
+    private func updateItems() {
+        let items = messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
+        guard items != self.items else { return }
+        self.items = items
     }
 }

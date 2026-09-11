@@ -59,7 +59,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// The catalog is published per platform and locale, so the rest of the targeting is the
-    /// client's to apply — including to the unread count the Profile row is drawn from.
+    /// client's to apply — including to whether the feed has anything unread.
     func testMessagesThisUserIsNotTargetedByNeverReachTheFeed() throws {
         let messages = try decodedMessages(json: """
         {
@@ -185,7 +185,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.items.map(\.title), ["Folders for everyone", "Sort your Up Next"])
     }
 
-    /// Reads live in memory until read-state sync lands, so a refresh must not undo them.
+    /// A refresh publishes the catalog again, which mustn't undo what was read.
     func testReloadingTheCatalogKeepsWhatWasRead() async throws {
         let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogJSON), targeting: targeting)
         await viewModel.load()
@@ -205,6 +205,115 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.items.count, messages.count)
     }
 
+    // MARK: - Read state
+
+    /// Reads go through the manager, so the feed opens on them next time and the dots on Profile agree.
+    func testSelectingARowMarksItsMessageReadInTheManager() async throws {
+        let manager = manager(publishing: Self.catalogJSON)
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+        await viewModel.load()
+
+        viewModel.select(try XCTUnwrap(viewModel.items.first))
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [Self.tipID])
+        XCTAssertFalse(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
+    }
+
+    /// "Read all" can only vouch for the messages the user was shown.
+    func testReadingEverythingLeavesOutMessagesTheFeedDoesNotShow() async {
+        let manager = manager(publishing: Self.catalogWithPatronMessageJSON)
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+        await viewModel.load()
+
+        viewModel.markAllAsRead()
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [Self.tipID])
+    }
+
+    /// The read state can be reset from the developer menu while a feed is open.
+    func testResettingTheReadStateBringsBackTheFeedsIndicators() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+        await viewModel.load()
+        viewModel.markAllAsRead()
+
+        manager.resetReadState()
+
+        XCTAssertTrue(viewModel.hasUnreadItems)
+    }
+
+    /// Profile builds a new feed each time the row is tapped, so an answer has to outlast the feed it
+    /// was given in.
+    func testAPollAnsweredInAnEarlierFeedStaysAnswered() throws {
+        let manager = manager()
+        let message = try XCTUnwrap(messages.first { $0.type == .research })
+        let poll = try XCTUnwrap(message.content.research?.poll)
+
+        WhatsNewFeedViewModel(manager: manager, targeting: targeting).markAsResponded(to: poll)
+
+        XCTAssertTrue(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasResponded(to: message))
+    }
+
+    // MARK: - Profile indicators
+
+    func testTappingTheProfileTabTakesOnlyItsOwnDotOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
+
+        manager.markFeedAsSeen(targeting: targeting)
+
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+    }
+
+    /// The dot on the What's New row points at the feed, not at what's unread in it.
+    func testOpeningTheFeedTakesBothDotsOffWithoutReadingAnything() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(viewModel.hasUnreadItems)
+    }
+
+    func testANewMessagePutsTheDotBackOnTheProfileTab() async {
+        let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
+        await manager.refreshIfNeeded().value
+        manager.markFeedAsSeen(targeting: targeting)
+
+        publish(Self.catalogWithNewMessageJSON)
+        await manager.refreshIfNeeded().value
+
+        XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
+    }
+
+    /// The feed can open before the catalog is in, so what it goes on to list counts as well.
+    func testANewMessagePutsTheDotBackOnTheWhatsNewRow() async {
+        let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
+        await WhatsNewFeedViewModel(manager: manager, targeting: targeting).load()
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+
+        publish(Self.catalogWithNewMessageJSON)
+        await manager.refreshIfNeeded().value
+
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+    }
+
+    /// A dot on Profile has to lead to a row in the feed.
+    func testProfileDotsIgnoreMessagesTheFeedDoesNotShow() async {
+        let manager = manager(publishing: Self.catalogWithPatronMessageJSON)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsListed([Self.tipID])
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+    }
+
     // MARK: - Helpers
 
     override func tearDown() {
@@ -220,7 +329,8 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// A manager whose catalog answers with `json`, or fails every request until something is published.
-    private func manager(publishing json: String? = nil) -> WhatsNewManager {
+    private func manager(publishing json: String? = nil,
+                         refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
         if let json {
             publish(json)
         }
@@ -235,7 +345,9 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
         let task = WhatsNewCatalogTask(session: URLSession(configuration: configuration),
                                        cache: WhatsNewCatalogCache(directory: directory))
-        return WhatsNewManager(task: task)
+        return WhatsNewManager(task: task,
+                               readStateStore: WhatsNewReadStateStore(directory: directory),
+                               refreshInterval: refreshInterval)
     }
 
     private func publish(_ json: String) {
@@ -244,6 +356,8 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
             return (response, Data(json.utf8))
         }
     }
+
+    private static let tipID = "550e8400-e29b-41d4-a716-446655440001"
 
     private static let page = """
     {
@@ -269,9 +383,49 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     private static let catalogJSON = """
     {
       "schemaVersion": 1,
-      "messages": [\(tip(id: "550e8400-e29b-41d4-a716-446655440001",
+      "messages": [\(tip(id: tipID,
                          title: "Sort your Up Next",
                          publishedAt: "2026-08-17T08:00:00Z"))]
+    }
+    """
+
+    /// The tip, and a message a free account isn't shown.
+    private static let catalogWithPatronMessageJSON = """
+    {
+      "schemaVersion": 1,
+      "messages": [
+        \(tip(id: tipID,
+              title: "Sort your Up Next",
+              publishedAt: "2026-08-17T08:00:00Z")),
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440002",
+          "type": "announcement",
+          "publishedAt": "2026-08-18T08:00:00Z",
+          "targeting": { "audiences": ["patron"] },
+          "title": "Thanks for being a Patron",
+          "pages": [\(page)]
+        }
+      ]
+    }
+    """
+
+    /// The tip, and a message published after it.
+    private static let catalogWithNewMessageJSON = """
+    {
+      "schemaVersion": 1,
+      "messages": [
+        \(tip(id: tipID,
+              title: "Sort your Up Next",
+              publishedAt: "2026-08-17T08:00:00Z")),
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440003",
+          "type": "new_feature",
+          "publishedAt": "2026-08-19T08:00:00Z",
+          "targeting": { "audiences": [] },
+          "title": "Introducing Playlists",
+          "pages": [\(page)]
+        }
+      ]
     }
     """
 }
