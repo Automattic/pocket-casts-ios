@@ -303,6 +303,8 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Si está activado, el temporizador se reiniciará automáticamente si reproduces un episodio en los 5 minutos siguientes a la última pausa.</string>
     <key>back</key>
     <string>Atrás</string>
+    <key>badge_new</key>
+    <string>Nuevo</string>
     <key>banner_ads_info_label</key>
     <string>ANUNCIO</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos. Disponible para %2$@ suscriptores próximamente.</string>
     <key>bookmarks_locked_message</key>
     <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Conserva la parte que querías</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Añadir marcador</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Estás eligiendo a la persona, no el currículum.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>La sala de audiciones</string>
     <key>bottom</key>
     <string>Final de la cola</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ pódcast contigo</string>
     <string>Eliminando 1 episodio de destacado</string>
     <key>name</key>
     <string>Nombre</string>
+    <key>network_fail_to_load</key>
+    <string>No se ha podido cargar esta red</string>
     <key>new_email_address_prompt</key>
     <string>Nueva dirección de correo electrónico</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ pódcast contigo</string>
     <string>Ajustes de los auriculares</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Obtener marcadores</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Un toque. Su nombre, y las palabras vienen con él.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Guarda las piezas que vale la pena conservar</string>
     <key>no_bookmarks_message</key>
     <string>Para guardar las marcas de tiempo de los episodios, ve al menú de acciones del reproductor o configura una acción con los auriculares.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Buscar marcadores</string>
     <key>search_episodes</key>
     <string>Buscar episodios</string>
+    <key>search_filter_networks</key>
+    <string>Redes</string>
     <key>search_label</key>
     <string>Busca pódcast o añade la URL del RSS</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Principales</string>
     <key>transcript</key>
     <string>Transcripción</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Marcador</string>
     <key>transcript_error_empty</key>
     <string>Lo sentimos, pero parece que esta transcripción está vacía</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Cargando los episodios más recientes</string>
     <key>tv_search_failed</key>
     <string>Se ha producido un error en la búsqueda: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Destacado</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, programas y autores</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Resultados principales</string>
     <key>tv_search_searching</key>
     <string>Buscando...</string>
     <key>tv_search_type_something</key>
