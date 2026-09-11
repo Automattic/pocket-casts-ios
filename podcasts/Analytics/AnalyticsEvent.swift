@@ -660,6 +660,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
     case settingsGeneralGeneratedChaptersToggled
+    case settingsGeneralWhatsNewUnreadDotToggled
     case settingsGeneralAutoplayToggled
     case settingsGeneralAutoSleepTimerRestartToggled
     case settingsGeneralShakeToResetSleepTimerToggled

@@ -1351,15 +1351,17 @@ extension MainTabBarController {
 
 private extension MainTabBarController {
     /// Keeps the dot on the Profile tab in step with the feed: it shows while the feed has an unread
-    /// message the tab hasn't pointed the user at, and tapping the tab takes it off.
+    /// message the tab hasn't pointed the user at, unless the user turned the dot off in Settings, and
+    /// tapping the tab takes it off.
     func observeWhatsNewFeed() {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
         let manager = WhatsNewManager.shared
-        Publishers.Merge3(
+        Publishers.Merge4(
             manager.$catalog.map { _ in },
             manager.$readState.map { _ in },
-            NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged).map { _ in }
+            NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged).map { _ in },
+            NotificationCenter.default.publisher(for: ServerNotifications.showWhatsNewDotChanged).map { _ in }
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
@@ -1370,7 +1372,7 @@ private extension MainTabBarController {
 
     /// Shows the dot while End of Year or What's New has something waiting on Profile.
     func updateProfileTabBadge() {
-        let showsWhatsNewBadge = FeatureFlag.whatsNewFeed.enabled && WhatsNewManager.shared.hasUnseenMessages()
+        let showsWhatsNewBadge = FeatureFlag.whatsNewFeed.enabled && WhatsNewManager.shared.showsDotOnProfileTab()
         profileTabBarItem.badgeValue = showsEndOfYearBadge || showsWhatsNewBadge ? "●" : nil
     }
 }

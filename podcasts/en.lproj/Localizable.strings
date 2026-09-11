@@ -2680,6 +2680,12 @@
 /* Subtitle explaining the toggle to show automatically generated chapters. */
 "settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
 
+/* Setting toggle to show a dot on Profile when there are unread What's New messages. */
+"settings_general_whats_new_unread_dot" = "Show unread dot";
+
+/* Subtitle explaining the toggle to show a dot on Profile when there are unread What's New messages. */
+"settings_general_whats_new_unread_dot_subtitle" = "Show an unread dot on Profile when there are new What's New messages.";
+
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
 
