@@ -15,7 +15,7 @@ struct WhatsNewMessageView: View {
     private var content: some View {
         switch viewModel.content {
         case .pages(let pages):
-            WhatsNewPagesView(pages: pages)
+            WhatsNewPagesView(pages: pages, perform: viewModel.perform)
         case .research(let research):
             WhatsNewPollView(research: research, viewModel: viewModel)
         }
@@ -27,12 +27,13 @@ private struct WhatsNewPagesView: View {
     @State private var currentPage = 0
 
     let pages: [WhatsNewMessageViewModel.Page]
+    let perform: (WhatsNewMessageViewModel.Action) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $currentPage) {
                 ForEach(pages) { page in
-                    WhatsNewMessagePageView(page: page)
+                    WhatsNewMessagePageView(page: page, perform: perform)
                         .tag(page.id)
                 }
             }
@@ -57,6 +58,7 @@ private struct WhatsNewMessagePageView: View {
     private let horizontalPadding: CGFloat = 20
 
     let page: WhatsNewMessageViewModel.Page
+    let perform: (WhatsNewMessageViewModel.Action) -> Void
 
     var body: some View {
         GeometryReader { proxy in
@@ -97,7 +99,7 @@ private struct WhatsNewMessagePageView: View {
     @ViewBuilder
     private var action: some View {
         if let action = page.action {
-            WhatsNewActionView(action: action)
+            WhatsNewActionView(action: action) { perform(action) }
                 .padding(.horizontal, horizontalPadding)
                 .padding(.top, 16)
                 .padding(.bottom, 8)
@@ -111,12 +113,11 @@ private struct WhatsNewActionView: View {
     @EnvironmentObject private var theme: Theme
 
     let action: WhatsNewMessageViewModel.Action
+    let perform: () -> Void
 
     var body: some View {
-        Button(action.label) {
-            action.event.perform()
-        }
-        .buttonStyle(RoundedButtonStyle(theme: theme))
+        Button(action.label, action: perform)
+            .buttonStyle(RoundedButtonStyle(theme: theme))
     }
 }
 

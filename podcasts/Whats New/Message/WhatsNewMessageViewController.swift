@@ -26,5 +26,7 @@ class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
 
         title = viewModel.navigationTitle
         navigationItem.largeTitleDisplayMode = .never
+
+        viewModel.trackShown()
     }
 }
