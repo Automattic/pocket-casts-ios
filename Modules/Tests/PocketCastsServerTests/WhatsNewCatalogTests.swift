@@ -417,7 +417,8 @@ final class WhatsNewCatalogTests: XCTestCase {
     // MARK: - Locale
 
     /// The app names its Chinese and Brazilian localizations one way and the catalog another, so a
-    /// reader on one of them would otherwise be handed English.
+    /// reader on one of them would otherwise be handed English. Everywhere else the catalog is
+    /// named after the language, so a region the feed doesn't publish is dropped.
     func testAnAppLocalizationIsMatchedToThePublishedCatalog() {
         let expected = [
             "en": "en",
@@ -427,14 +428,20 @@ final class WhatsNewCatalogTests: XCTestCase {
             "zh-Hant-TW": "zh-tw",
             "es-MX": "es",
             "fr-CA": "fr",
-            "ca": "ca",
-            "pt-PT": "en",
-            "ko": "en"
+            "ca": "ca"
         ]
 
         for (localization, locale) in expected {
             XCTAssertEqual(WhatsNewCatalogTask.locale(forLocalization: localization), locale, "\(localization) should read the \(locale) catalog")
         }
+    }
+
+    /// A language the feed hasn't picked up yet is still asked for, so it starts working the day
+    /// it's published rather than waiting for an app release to hear about it. Until then the CDN
+    /// answers 404 and the request falls back to English.
+    func testALanguageTheFeedDoesNotPublishYetIsStillAskedFor() {
+        XCTAssertEqual(WhatsNewCatalogTask.locale(forLocalization: "ko"), "ko")
+        XCTAssertEqual(WhatsNewCatalogTask.locale(forLocalization: "pt-PT"), "pt")
     }
 
     // MARK: - Helpers

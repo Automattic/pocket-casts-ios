@@ -22,29 +22,30 @@ public struct WhatsNewCatalogTask: Sendable {
     /// The language the catalog falls back to when the CDN doesn't publish the current one.
     public static let fallbackLocale = "en"
 
-    /// The locales the CDN publishes a catalog for, under these exact lowercase names.
-    static let publishedLocales: Set<String> = [
-        "ca", "da", "de", "en", "es", "fr", "it", "ja", "nb", "nl", "pl", "pt-br", "ru", "sv", "zh-cn", "zh-tw"
-    ]
+    /// The catalogs published under a region rather than under a bare language.
+    ///
+    /// Every other catalog is named after its language, so only the exceptions are worth listing:
+    /// a language the feed picks up later needs nothing here, and the CDN answering with a 404 is
+    /// what covers one it hasn't picked up yet.
+    private static let regionalLocales: Set<String> = ["pt-br", "zh-cn", "zh-tw"]
 
     /// The catalog the app asks for, such as `en` or `pt-br`.
     public static var currentLocale: String {
         locale(forLocalization: Bundle.main.preferredLocalizations.first ?? fallbackLocale)
     }
 
-    /// The published catalog closest to one of the app's own localizations, such as `pt-BR`.
+    /// The catalog named after one of the app's own localizations, such as `pt-BR`.
     ///
     /// The catalog names its Chinese variants by region where the app names them by script, and
-    /// names everything else by language alone, so a localization is narrowed down until one of the
-    /// published names matches. An app translated into a language the feed isn't reads it in
-    /// English, which is what asking for it would have fallen back to anyway.
+    /// names everything else by language, so a localization keeps its region only where the feed
+    /// publishes one: `es-MX` reads the Spanish catalog, `pt-BR` its own.
     static func locale(forLocalization localization: String) -> String {
         let identifier = localization.lowercased().replacingOccurrences(of: "_", with: "-")
         if identifier.hasPrefix("zh-hans") { return "zh-cn" }
         if identifier.hasPrefix("zh-hant") { return "zh-tw" }
+        if regionalLocales.contains(identifier) { return identifier }
 
-        let language = String(identifier.prefix { $0 != "-" })
-        return [identifier, language].first(where: publishedLocales.contains) ?? fallbackLocale
+        return String(identifier.prefix { $0 != "-" })
     }
 
     /// The last catalog that was fetched successfully, read back from disk.
