@@ -303,6 +303,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在睡眠計時器開啟的狀態下，若你在最後暫停的 5 分鐘內播放一集單集，計時器就會自動重新啟動。</string>
     <key>back</key>
     <string>上一步</string>
+    <key>badge_new</key>
+    <string>新增</string>
     <key>banner_ads_info_label</key>
     <string>廣告</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。 即將為 %2$@ 訂閱者推出。</string>
     <key>bookmarks_locked_message</key>
     <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>把想要的部分留下來</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>新增書籤</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>你試鏡的是人，不是履歷。</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>試鏡室</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ Pocket Casts Plus</string>
     <string>正在移除 1 集的星號</string>
     <key>name</key>
     <string>名稱</string>
+    <key>network_fail_to_load</key>
+    <string>無法載入這個網路</string>
     <key>new_email_address_prompt</key>
     <string>新電子郵件地址</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ Pocket Casts Plus</string>
     <string>耳機設定</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>取得書籤</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>輕輕一點。 先有名字，才有意義。</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>把值得保留的部分留下來</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Pocket Casts Plus</string>
     <string>搜尋書籤</string>
     <key>search_episodes</key>
     <string>搜尋單集</string>
+    <key>search_filter_networks</key>
+    <string>網路</string>
     <key>search_label</key>
     <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Pocket Casts Plus</string>
     <string>頂端</string>
     <key>transcript</key>
     <string>文字稿</string>
+    <key>transcript_bookmark_selection</key>
+    <string>書籤</string>
     <key>transcript_error_empty</key>
     <string>不好意思，這份逐字稿似乎沒有內容</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Pocket Casts Plus</string>
     <string>正在擷取最新單集</string>
     <key>tv_search_failed</key>
     <string>搜尋失敗：%1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>精選</string>
     <key>tv_search_prompt</key>
     <string>Podcast、節目、作者</string>
+    <key>tv_search_scope_top_results</key>
+    <string>熱門結果</string>
     <key>tv_search_searching</key>
     <string>搜尋中...</string>
     <key>tv_search_type_something</key>

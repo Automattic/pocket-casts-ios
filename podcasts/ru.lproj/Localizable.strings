@@ -303,6 +303,8 @@
     <string>В режиме «Включено» таймер сна будет автоматически перезапущен, если вы воспроизведёте выпуск в течение 5 минут после последней остановки.</string>
     <key>back</key>
     <string>Назад</string>
+    <key>badge_new</key>
+    <string>Создать</string>
     <key>banner_ads_info_label</key>
     <string>Реклама</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов. Скоро станет доступно для подписчиков %2$@.</string>
     <key>bookmarks_locked_message</key>
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Оставьте нужную часть</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Добавить закладку</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Вы выбираете человека, а не резюме.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Комната для прослушивания</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удаление из избранного 1 выпуска</string>
     <key>name</key>
     <string>Название</string>
+    <key>network_fail_to_load</key>
+    <string>Эта сеть не может быть загружена</string>
     <key>new_email_address_prompt</key>
     <string>Новый адрес электронной почты</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ Pocket Casts на полную мощность.</string>
     <string>Настройки наушников</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Пользуйтесь закладками</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Одно касание. Название задано вместе с соответствующими словами.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Сохраните части, которые стоит хранить</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Pocket Casts на полную мощность.</string>
     <string>Поиск в закладках</string>
     <key>search_episodes</key>
     <string>Поиск выпусков</string>
+    <key>search_filter_networks</key>
+    <string>Сети</string>
     <key>search_label</key>
     <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Pocket Casts на полную мощность.</string>
     <string>Вверх</string>
     <key>transcript</key>
     <string>Расшифровка</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Закладка</string>
     <key>transcript_error_empty</key>
     <string>Кажется, эта расшифровка пуста</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Pocket Casts на полную мощность.</string>
     <string>Получение последних выпусков</string>
     <key>tv_search_failed</key>
     <string>Не удалось выполнить поиск: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Избранные</string>
     <key>tv_search_prompt</key>
     <string>Подкасты, шоу, авторы</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Лучшие результаты</string>
     <key>tv_search_searching</key>
     <string>Идёт поиск...</string>
     <key>tv_search_type_something</key>

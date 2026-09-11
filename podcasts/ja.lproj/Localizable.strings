@@ -303,6 +303,8 @@
     <string>オンにすると、最後の一時停止から5分以内にエピソードを再生した際にスリープタイマーが自動的に再開されます。</string>
     <key>back</key>
     <string>戻る</string>
+    <key>badge_new</key>
+    <string>新機能</string>
     <key>banner_ads_info_label</key>
     <string>広告</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@
     <string>Pocket Casts %1$@ でこの機能やその他の機能のロックを解除し、お気に入りのエピソードのタイムスタンプを保存します。 %2$@ にご登録の方はまもなくご利用いただけるようになります。</string>
     <key>bookmarks_locked_message</key>
     <string>Pocket Casts %1$@ でこの機能やその他の機能のロックを解除し、お気に入りのエピソードのタイムスタンプを保存します。</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>必要な部分を保存します</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>ブックマークを追加</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>履歴書ではなく人物を見極めてキャスティング。</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>オーディション室</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1件のエピソードの星を取り消しています</string>
     <key>name</key>
     <string>名前</string>
+    <key>network_fail_to_load</key>
+    <string>このネットワークを読み込めませんでした</string>
     <key>new_email_address_prompt</key>
     <string>新しいメールアドレス</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ヘッドフォン設定</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>ブックマークを取得</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>ワンタップで タイトルとそのときの言葉をそのまま保存します。</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>キープする価値のある部分を保存</string>
     <key>no_bookmarks_message</key>
     <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ブックマークを検索</string>
     <key>search_episodes</key>
     <string>エピソードを検索</string>
+    <key>search_filter_networks</key>
+    <string>ネットワーク</string>
     <key>search_label</key>
     <string>ポッドキャストを検索または RSS の URL を追加</string>
     <key>search_podcasts</key>
@@ -3861,6 +3879,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>一番上</string>
     <key>transcript</key>
     <string>トランスクリプト</string>
+    <key>transcript_bookmark_selection</key>
+    <string>ブックマーク</string>
     <key>transcript_error_empty</key>
     <string>申し訳ありません、このトランスクリプトは空のようです</string>
     <key>transcript_error_failed_to_load</key>
@@ -4138,8 +4158,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードを取得中</string>
     <key>tv_search_failed</key>
     <string>検索に失敗: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>おすすめ</string>
     <key>tv_search_prompt</key>
     <string>ポッドキャスト、番組、作成者</string>
+    <key>tv_search_scope_top_results</key>
+    <string>上位の結果</string>
     <key>tv_search_searching</key>
     <string>検索中…</string>
     <key>tv_search_type_something</key>
