@@ -183,6 +183,29 @@ public class ServerSettings {
         UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.disableAiChaptersNeedsSyncKey)
     }
 
+    // MARK: Show What's New Dot
+
+    public class func setShowWhatsNewDot(_ value: Bool) {
+        let hasChanged = value != showWhatsNewDot()
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.showWhatsNewDotKey)
+        UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+        if hasChanged {
+            NotificationCenter.default.post(name: ServerNotifications.showWhatsNewDotChanged, object: nil)
+        }
+    }
+
+    public class func showWhatsNewDot() -> Bool {
+        UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.showWhatsNewDotKey) as? Bool ?? true
+    }
+
+    public class func showWhatsNewDotNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+    }
+
+    public class func showWhatsNewDotSynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"
@@ -353,7 +376,7 @@ public class ServerSettings {
     }
 
     public class func syncSettings() {
-        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || ServerSettings.disableAiChaptersNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
+        guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || ServerSettings.audioOnlyNeedsSyncing() || ServerSettings.disableAiChaptersNeedsSyncing() || ServerSettings.showWhatsNewDotNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
 
         ApiServerHandler.shared.syncSettings()
     }

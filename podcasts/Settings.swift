@@ -989,6 +989,19 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - What's New
+
+    /// Whether Profile shows a dot when What's New has unread messages. Turning it off leaves the messages
+    /// unread. Backed by `ServerSettings` so it syncs globally with the server.
+    static var showWhatsNewDot: Bool {
+        set {
+            ServerSettings.setShowWhatsNewDot(newValue)
+        }
+        get {
+            ServerSettings.showWhatsNewDot()
+        }
+    }
+
     // MARK: - Sleep Timer
 
     static var autoRestartSleepTimer: Bool {
