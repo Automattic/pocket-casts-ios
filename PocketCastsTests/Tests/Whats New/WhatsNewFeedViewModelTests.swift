@@ -242,6 +242,18 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
+    /// Profile builds a new feed each time the row is tapped, so an answer has to outlast the feed it
+    /// was given in.
+    func testAPollAnsweredInAnEarlierFeedStaysAnswered() throws {
+        let manager = manager()
+        let message = try XCTUnwrap(messages.first { $0.type == .research })
+        let poll = try XCTUnwrap(message.content.research?.poll)
+
+        WhatsNewFeedViewModel(manager: manager, targeting: targeting).markAsResponded(to: poll)
+
+        XCTAssertTrue(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasResponded(to: message))
+    }
+
     // MARK: - Profile indicators
 
     func testTappingTheProfileTabTakesOnlyItsOwnDotOff() async {

@@ -24,8 +24,8 @@ public final class WhatsNewManager: ObservableObject {
     /// refresh of the session.
     @Published public private(set) var catalog: WhatsNewCatalog?
 
-    /// Which messages the user has read, and which the feed and the Profile tab have already pointed
-    /// them at.
+    /// Which messages the user has read, which the feed and the Profile tab have already pointed
+    /// them at, and which polls the user answered.
     @Published public private(set) var readState = WhatsNewReadState()
 
     /// How long a fetched catalog is treated as current before the next foreground replaces it.
@@ -94,7 +94,13 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
-    /// Forgets every message read, seen or listed, bringing back each indicator.
+    /// Records that the user answered a research poll, which keeps it closed from then on.
+    public func markAsResponded(toPoll pollID: String) {
+        updateReadState { $0.respondedPollIDs.insert(pollID) }
+    }
+
+    /// Forgets every message read, seen or listed and every poll answered, bringing back each
+    /// indicator and reopening each poll.
     public func resetReadState() {
         hasLoadedReadState = true
         readState = WhatsNewReadState()

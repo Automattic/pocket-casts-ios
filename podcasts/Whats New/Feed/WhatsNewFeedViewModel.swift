@@ -52,12 +52,13 @@ final class WhatsNewFeedViewModel: ObservableObject {
     private let targeting: WhatsNewMessageFilter
     private var cancellables = Set<AnyCancellable>()
 
-    /// A feed of the manager's catalog, which records what it lists and what's read through the
-    /// manager, and follows the manager's read state wherever else it changes.
+    /// A feed of the manager's catalog, which records what it lists, what's read and which polls are
+    /// answered through the manager, and follows the manager's read state wherever else it changes.
     init(manager: WhatsNewManager = .shared, targeting: WhatsNewMessageFilter = .current) {
         self.manager = manager
         self.targeting = targeting
         readMessageIDs = manager.readState.readMessageIDs
+        respondedPollIDs = manager.readState.respondedPollIDs
         state = manager.catalog == nil ? .loading : .loaded
         show(manager.catalog?.messages ?? [])
 
@@ -65,6 +66,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] readState in
                 self?.readMessageIDs = readState.readMessageIDs
+                self?.respondedPollIDs = readState.respondedPollIDs
                 self?.updateItems()
             }
             .store(in: &cancellables)
@@ -120,8 +122,8 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     /// Whether the poll the message asks, if it asks one, has already been answered.
     ///
-    /// Answers stay put for as long as the feed is around, so a poll answered and backed out of
-    /// doesn't offer itself again when the message is opened a second time.
+    /// Answers are kept with the read state, so a poll doesn't offer itself again however many times
+    /// the message is opened.
     func hasResponded(to message: WhatsNewMessage) -> Bool {
         guard let poll = message.content.research?.poll else { return false }
         return respondedPollIDs.contains(poll.pollId)
@@ -129,6 +131,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
     func markAsResponded(to poll: WhatsNewPoll) {
         respondedPollIDs.insert(poll.pollId)
+        manager?.markAsResponded(toPoll: poll.pollId)
     }
 
     /// The messages the feed lists out of `messages`, most recently published first.

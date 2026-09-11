@@ -8,6 +8,7 @@ import XCTest
 final class WhatsNewManagerTests: XCTestCase {
     private let messageID = "01K2Y08DAWG9N7XJZX5QTH9Z0K"
     private let otherMessageID = "01K2Y3D5J1H7QZP0B6RXKA4N3T"
+    private let pollID = "01K2Y2S65F22TQZQJVNAEXQKHT"
 
     private let json = """
     {
@@ -146,13 +147,15 @@ final class WhatsNewManagerTests: XCTestCase {
         manager.markAsRead([messageID])
         manager.markAsSeen([otherMessageID])
         manager.markAsListed([messageID])
+        manager.markAsResponded(toPoll: pollID)
 
         let relaunched = self.manager(cache: temporaryCache(), readStateStore: store)
         await relaunched.refreshIfNeeded().value
 
         XCTAssertEqual(relaunched.readState, WhatsNewReadState(readMessageIDs: [messageID],
                                                                seenMessageIDs: [messageID, otherMessageID],
-                                                               listedMessageIDs: [messageID]))
+                                                               listedMessageIDs: [messageID],
+                                                               respondedPollIDs: [pollID]))
     }
 
     /// The saved state predates whatever gets added to it next, and failing to read it would start the
@@ -212,13 +215,14 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
     }
 
-    func testResettingForgetsEverythingReadSeenOrListed() async {
+    func testResettingForgetsEverythingReadSeenListedOrAnswered() async {
         let store = temporaryReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
         await manager.refreshIfNeeded().value
         manager.markAsRead([messageID])
         manager.markAsSeen([otherMessageID])
         manager.markAsListed([messageID])
+        manager.markAsResponded(toPoll: pollID)
 
         manager.resetReadState()
 
