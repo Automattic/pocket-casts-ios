@@ -22,9 +22,29 @@ public struct WhatsNewCatalogTask: Sendable {
     /// The language the catalog falls back to when the CDN doesn't publish the current one.
     public static let fallbackLocale = "en"
 
-    /// The language the catalog is requested for, such as `en`.
+    /// The locales the CDN publishes a catalog for, under these exact lowercase names.
+    public static let publishedLocales: Set<String> = [
+        "ca", "da", "de", "en", "es", "fr", "it", "ja", "nb", "nl", "pl", "pt-br", "ru", "sv", "zh-cn", "zh-tw"
+    ]
+
+    /// The catalog the app asks for, such as `en` or `pt-br`.
     public static var currentLocale: String {
-        Locale.current.language.languageCode?.identifier ?? fallbackLocale
+        locale(forLocalization: Bundle.main.preferredLocalizations.first ?? fallbackLocale)
+    }
+
+    /// The published catalog closest to one of the app's own localizations, such as `pt-BR`.
+    ///
+    /// The catalog names its Chinese variants by region where the app names them by script, and
+    /// names everything else by language alone, so a localization is narrowed down until one of the
+    /// published names matches. An app translated into a language the feed isn't reads it in
+    /// English, which is what asking for it would have fallen back to anyway.
+    static func locale(forLocalization localization: String) -> String {
+        let identifier = localization.lowercased().replacingOccurrences(of: "_", with: "-")
+        if identifier.hasPrefix("zh-hans") { return "zh-cn" }
+        if identifier.hasPrefix("zh-hant") { return "zh-tw" }
+
+        let language = String(identifier.prefix { $0 != "-" })
+        return [identifier, language].first(where: publishedLocales.contains) ?? fallbackLocale
     }
 
     /// The last catalog that was fetched successfully, read back from disk.
