@@ -23,6 +23,13 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         self.listedMessageIDs = listedMessageIDs
     }
 
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        readMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .readMessageIDs) ?? []
+        seenMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .seenMessageIDs) ?? []
+        listedMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .listedMessageIDs) ?? []
+    }
+
     public func isRead(_ messageID: String) -> Bool {
         readMessageIDs.contains(messageID)
     }

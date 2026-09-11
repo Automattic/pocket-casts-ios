@@ -155,6 +155,18 @@ final class WhatsNewManagerTests: XCTestCase {
                                                                listedMessageIDs: [messageID]))
     }
 
+    /// The saved state predates whatever gets added to it next, and failing to read it would start the
+    /// user over.
+    func testReadStateSavedBeforeASetWasAddedStillLoads() throws {
+        let saved = Data("""
+        { "readMessageIDs": ["\(messageID)"], "seenMessageIDs": ["\(otherMessageID)"] }
+        """.utf8)
+
+        let readState = try JSONDecoder().decode(WhatsNewReadState.self, from: saved)
+
+        XCTAssertEqual(readState, WhatsNewReadState(readMessageIDs: [messageID], seenMessageIDs: [otherMessageID]))
+    }
+
     /// The unread dots are drawn from the catalog and the read state together, so a message read in
     /// an earlier session can't be published as unread, even for a moment.
     func testReadStateIsInPlaceBeforeTheCatalogIsPublished() async {
