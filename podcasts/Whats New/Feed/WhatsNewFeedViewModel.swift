@@ -74,14 +74,14 @@ final class WhatsNewFeedViewModel: ObservableObject {
     func load() async {
         guard let manager else { return }
         await manager.refreshIfNeeded().value
+        showCatalog(of: manager)
+    }
 
-        guard !Task.isCancelled else { return }
-        guard let catalog = manager.catalog else {
-            state = .failed
-            return
-        }
-        show(catalog.messages)
-        state = .loaded
+    /// Fetches the catalog again however recently it was fetched, for pulling to refresh the feed.
+    func refresh() async {
+        guard let manager else { return }
+        await manager.refresh().value
+        showCatalog(of: manager)
     }
 
     /// Loads the catalog again after it failed, showing progress while it does.
@@ -126,6 +126,16 @@ final class WhatsNewFeedViewModel: ObservableObject {
 
         guard let index = items.firstIndex(where: { $0.id == id }) else { return }
         items[index].isUnread = false
+    }
+
+    private func showCatalog(of manager: WhatsNewManager) {
+        guard !Task.isCancelled else { return }
+        guard let catalog = manager.catalog else {
+            state = .failed
+            return
+        }
+        show(catalog.messages)
+        state = .loaded
     }
 
     private func show(_ messages: [WhatsNewMessage]) {

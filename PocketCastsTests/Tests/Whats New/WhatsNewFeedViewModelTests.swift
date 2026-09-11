@@ -157,6 +157,34 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next"])
     }
 
+    /// Pulling to refresh doesn't wait for the copy the feed opened on to age out.
+    func testRefreshingShowsWhatWasPublishedSinceTheFeedLoaded() async {
+        let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogJSON), targeting: targeting)
+        await viewModel.load()
+        publish("""
+        {
+          "schemaVersion": 1,
+          "messages": [
+            \(Self.tip(id: "550e8400-e29b-41d4-a716-446655440001",
+                       title: "Sort your Up Next",
+                       publishedAt: "2026-08-17T08:00:00Z")),
+            {
+              "id": "550e8400-e29b-41d4-a716-446655440002",
+              "type": "new_feature",
+              "publishedAt": "2026-08-18T08:00:00Z",
+              "targeting": { "audiences": [] },
+              "title": "Folders for everyone",
+              "pages": [\(Self.page)]
+            }
+          ]
+        }
+        """)
+
+        await viewModel.refresh()
+
+        XCTAssertEqual(viewModel.items.map(\.title), ["Folders for everyone", "Sort your Up Next"])
+    }
+
     /// Reads live in memory until read-state sync lands, so a refresh must not undo them.
     func testReloadingTheCatalogKeepsWhatWasRead() async throws {
         let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogJSON), targeting: targeting)

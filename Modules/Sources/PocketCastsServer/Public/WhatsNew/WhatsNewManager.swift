@@ -26,6 +26,7 @@ public final class WhatsNewManager: ObservableObject {
     nonisolated private let task: WhatsNewCatalogTask
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
+    private var isRefreshForced = false
 
     nonisolated public init(task: WhatsNewCatalogTask = WhatsNewCatalogTask(),
                             refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) {
@@ -44,9 +45,20 @@ public final class WhatsNewManager: ObservableObject {
         let refreshTask = Task { [weak self] in
             await self?.performRefresh()
             self?.refreshTask = nil
+            self?.isRefreshForced = false
         }
         self.refreshTask = refreshTask
         return refreshTask
+    }
+
+    /// Fetches the catalog however recently the copy on disk was written, for when the user asks
+    /// for the latest messages, such as by pulling to refresh the feed.
+    ///
+    /// Joins a refresh already in flight, making sure it reaches the network.
+    @discardableResult
+    public func refresh() -> Task<Void, Never> {
+        isRefreshForced = true
+        return refreshIfNeeded()
     }
 
     private func performRefresh() async {
@@ -54,8 +66,8 @@ public final class WhatsNewManager: ObservableObject {
             catalog = cached
         }
 
-        let cachedDate = await cachedCatalogDate()
-        guard catalog == nil || DateUtil.hasEnoughTimePassed(since: cachedDate, time: refreshInterval) else { return }
+        let isStale = DateUtil.hasEnoughTimePassed(since: await cachedCatalogDate(), time: refreshInterval)
+        guard catalog == nil || isStale || isRefreshForced else { return }
 
         do {
             catalog = try await task.refresh()

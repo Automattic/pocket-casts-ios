@@ -27,6 +27,7 @@ struct WhatsNewFeedView: View {
                 }
             }
         }
+        .refreshable { await viewModel.refresh() }
         .overlay {
             if viewModel.items.isEmpty {
                 WhatsNewFeedUnavailableView(state: viewModel.state) {

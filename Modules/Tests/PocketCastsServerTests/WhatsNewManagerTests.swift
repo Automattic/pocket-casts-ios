@@ -87,6 +87,39 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(requestCount, 1)
     }
 
+    /// Pulling to refresh the feed asks for the latest messages, however recently they were fetched.
+    func testRefreshingFetchesWhileTheCopyOnDiskIsCurrent() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+
+        await manager.refresh().value
+
+        XCTAssertEqual(requestCount, 2)
+    }
+
+    /// The refresh already in flight may be about to find the copy on disk current and stop there.
+    func testRefreshingJoinsTheRefreshInFlightAndStillFetches() async {
+        let cache = temporaryCache()
+        cache.save(Data(json.utf8), forLocale: WhatsNewCatalogTask.currentLocale)
+        let manager = manager(cache: cache)
+
+        let first = manager.refreshIfNeeded()
+        let second = manager.refresh()
+        await first.value
+        await second.value
+
+        XCTAssertEqual(requestCount, 1)
+    }
+
+    func testRefreshingDoesNotForceTheNextRefresh() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refresh().value
+
+        await manager.refreshIfNeeded().value
+
+        XCTAssertEqual(requestCount, 1)
+    }
+
     /// Offline, the feed still has to show what it had rather than emptying itself out.
     func testKeepsTheCatalogItHasWhenTheRefreshFails() async {
         let manager = manager(cache: temporaryCache(), refreshInterval: 0)
