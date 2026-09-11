@@ -303,6 +303,8 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Si cette fonction est activée, la mise en veille redémarrera automatiquement si vous écoutez un épisode dans les 5 minutes suivant la dernière pause.</string>
     <key>back</key>
     <string>Revenir</string>
+    <key>badge_new</key>
+    <string>Nouveau</string>
     <key>banner_ads_info_label</key>
     <string>PUBLICITÉ</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris. Bientôt disponible pour les abonnés %2$@.</string>
     <key>bookmarks_locked_message</key>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Gardez la partie que vous vouliez</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Ajouter un signet</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Vous présentez la personne, pas son CV.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>La salle d’audition</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ podcasts partout avec</string>
     <string>Retrait de 1 épisode des favoris.</string>
     <key>name</key>
     <string>Nom</string>
+    <key>network_fail_to_load</key>
+    <string>Impossible de charger ce réseau</string>
     <key>new_email_address_prompt</key>
     <string>Nouvelle adresse courriel</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ podcasts partout avec</string>
     <string>Réglages des écouteurs</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Mettre des signets</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Un clic. Il porte un nom et s’accompagne de mots.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Enregistrez les parties qui valent la peine d’être conservées</string>
     <key>no_bookmarks_message</key>
     <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Rechercher des signets</string>
     <key>search_episodes</key>
     <string>Recherche des épisodes</string>
+    <key>search_filter_networks</key>
+    <string>Réseaux</string>
     <key>search_label</key>
     <string>Rechercher des podcasts ou ajouter l’URL RSS</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Haut</string>
     <key>transcript</key>
     <string>Transcription</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Signet</string>
     <key>transcript_error_empty</key>
     <string>Veuillez nous excuser. Cette transcription semble vide</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Récupération des derniers épisodes</string>
     <key>tv_search_failed</key>
     <string>Échec de la recherche : %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>À la une</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, émissions, auteurs</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Meilleurs résultats</string>
     <key>tv_search_searching</key>
     <string>Recherche en cours...</string>
     <key>tv_search_type_something</key>

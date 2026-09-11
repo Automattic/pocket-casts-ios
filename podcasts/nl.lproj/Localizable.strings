@@ -303,6 +303,8 @@ Download de app voor de volledige ervaring!</string>
     <string>Indien ingeschakeld, wordt de slaaptimer automatisch opnieuw opgestart als je een aflevering afspeelt binnen vijf minuten van de laatste pauzering.</string>
     <key>back</key>
     <string>Terug</string>
+    <key>badge_new</key>
+    <string>Nieuw</string>
     <key>banner_ads_remove_ads</key>
     <string>Advertenties verwijderen</string>
     <key>banner_ads_report_ad</key>
@@ -367,6 +369,14 @@ Download de app voor de volledige ervaring!</string>
     <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen. Binnenkort beschikbaar voor %2$@-abonnees.</string>
     <key>bookmarks_locked_message</key>
     <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behoud het onderdeel dat je wilde</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Bladwijzer toevoegen</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Je bent de persoon aan het casten, niet de cv.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>De auditieruimte</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
@@ -1707,6 +1717,8 @@ podcasts mee</string>
     <string>1 aflevering uit favorieten verwijderen</string>
     <key>name</key>
     <string>Naam</string>
+    <key>network_fail_to_load</key>
+    <string>Dit netwerk kon niet worden geladen</string>
     <key>new_email_address_prompt</key>
     <string>Nieuw e-mailadres</string>
     <key>new_episodes</key>
@@ -1723,6 +1735,10 @@ podcasts mee</string>
     <string>Instellingen koptelefoon</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Gebruik Bladwijzers</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Eén tik. Het heeft een naam gekregen en de woorden horen erbij.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Bewaar de onderdelen die je wil bewaren</string>
     <key>no_bookmarks_message</key>
     <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
     <key>no_bookmarks_title</key>
@@ -2923,6 +2939,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Bladwijzers zoeken</string>
     <key>search_episodes</key>
     <string>Afleveringen zoeken</string>
+    <key>search_filter_networks</key>
+    <string>Netwerken</string>
     <key>search_label</key>
     <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
@@ -3857,6 +3875,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Boven</string>
     <key>transcript</key>
     <string>Transcriptie</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Bladwijzer</string>
     <key>transcript_error_empty</key>
     <string>Deze transcriptie blijkt helaas leeg te zijn</string>
     <key>transcript_error_failed_to_load</key>
@@ -4134,8 +4154,12 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuwste afleveringen ophalen</string>
     <key>tv_search_failed</key>
     <string>Zoekopdracht mislukt: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Uitgelicht</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, shows, auteurs</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Topresultaten</string>
     <key>tv_search_searching</key>
     <string>Zoeken ...</string>
     <key>tv_search_type_something</key>
