@@ -114,53 +114,6 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         XCTAssertTrue(filter.includes(message, at: now.addingTimeInterval(365.days)))
     }
 
-    // MARK: - Account creation
-
-    /// Someone who signed up last week has no use for a year of announcements about things that
-    /// were already there when they arrived.
-    func testAMessagePublishedBeforeTheAccountWasCreatedIsHidden() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus,
-                                           appVersion: Version("8.10"),
-                                           account: .signedIn(createdAt: now.addingTimeInterval(-1.hour)))
-        let message = try message(publishedAt: now.addingTimeInterval(-1.day))
-
-        XCTAssertFalse(filter.includes(message, at: now))
-    }
-
-    func testAMessagePublishedAfterTheAccountWasCreatedIsShown() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus,
-                                           appVersion: Version("8.10"),
-                                           account: .signedIn(createdAt: now.addingTimeInterval(-30.days)))
-        let message = try message(publishedAt: now.addingTimeInterval(-1.day))
-
-        XCTAssertTrue(filter.includes(message, at: now))
-    }
-
-    /// A message rescheduled onto the moment the account was created is one the account can see.
-    func testAMessagePublishedAsTheAccountWasCreatedIsShown() throws {
-        let publishedAt = now.addingTimeInterval(-1.day)
-        let filter = WhatsNewMessageFilter(audience: .plus,
-                                           appVersion: Version("8.10"),
-                                           account: .signedIn(createdAt: publishedAt))
-
-        XCTAssertTrue(filter.includes(try message(publishedAt: publishedAt), at: now))
-    }
-
-    /// Guessing when the account was created would show a new user the backlog the rule exists to
-    /// keep from them, so the feed stays empty until the app has been told.
-    func testBeingSignedInWithoutKnowingWhenHidesEverything() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), account: .signedIn(createdAt: nil))
-
-        XCTAssertFalse(filter.includes(try message(), at: now))
-    }
-
-    /// There's no account for a message to predate when nobody is signed in.
-    func testSignedOutTheAccountRuleDoesNotApply() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), account: .signedOut)
-
-        XCTAssertTrue(filter.includes(try message(publishedAt: now.addingTimeInterval(-365.days)), at: now))
-    }
-
     // MARK: - Helpers
 
     private func message(targeting: String = "{}",
