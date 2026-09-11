@@ -9,8 +9,8 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// Messages the user opened or cleared with "Read all".
     public var readMessageIDs: Set<String>
 
-    /// Messages that were in the feed when the user tapped the Profile tab or opened the feed, which
-    /// the dot on the tab has already pointed them at.
+    /// Messages that were in the feed when the user went to Profile or opened the feed, which the
+    /// dot on the tab has already pointed them at.
     public var seenMessageIDs: Set<String>
 
     /// Messages the feed listed when the user opened it, which the dot on the What's New row has

@@ -192,6 +192,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        markWhatsNewFeedAsSeenIfOnScreen()
 
         if FeatureFlag.cancelSubscriptionSurvey.enabled,
            SyncManager.isUserLoggedIn(),
@@ -674,7 +675,8 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 // MARK: - What's New
 
 private extension ProfileViewController {
-    /// Keeps the dot on the What's New row in step with the feed while Profile is on screen.
+    /// Keeps the dot on the What's New row in step with the feed, and the dot on the tab off, while
+    /// Profile is on screen.
     func observeWhatsNewFeed() {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
@@ -684,8 +686,14 @@ private extension ProfileViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.updateWhatsNewRow()
+                self?.markWhatsNewFeedAsSeenIfOnScreen()
             }
             .store(in: &cancellables)
+    }
+
+    func markWhatsNewFeedAsSeenIfOnScreen() {
+        guard FeatureFlag.whatsNewFeed.enabled, view.window != nil else { return }
+        WhatsNewManager.shared.markFeedAsSeen()
     }
 
     func updateWhatsNewRow() {
