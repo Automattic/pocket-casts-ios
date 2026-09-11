@@ -95,6 +95,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
+    /// A type a later release adds is dropped with the catalog it arrives in, so no row opens onto a
+    /// message this build doesn't know how to draw.
+    func testMessagesOfATypeThisBuildDoesNotKnowNeverReachTheFeed() async {
+        let viewModel = WhatsNewFeedViewModel(manager: manager(publishing: Self.catalogWithFutureTypeJSON), targeting: targeting)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.id), [Self.tipID])
+    }
+
     func testReadingEverythingClearsEveryIndicator() {
         let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
         XCTAssertTrue(viewModel.hasUnreadItems)
@@ -314,6 +324,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
     }
 
+    func testProfileDotsIgnoreMessagesOfATypeThisBuildDoesNotKnow() async {
+        let manager = manager(publishing: Self.catalogWithFutureTypeJSON)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsListed([Self.tipID])
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+    }
+
     // MARK: - Helpers
 
     override func tearDown() {
@@ -424,6 +444,27 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
           "targeting": { "audiences": [] },
           "title": "Introducing Playlists",
           "pages": [\(page)]
+        }
+      ]
+    }
+    """
+
+    /// The tip, and a message of a type from a later release that's aimed at everyone.
+    private static let catalogWithFutureTypeJSON = """
+    {
+      "schemaVersion": 1,
+      "messages": [
+        \(tip(id: tipID,
+              title: "Sort your Up Next",
+              publishedAt: "2026-08-17T08:00:00Z")),
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440004",
+          "type": "video_tour",
+          "publishedAt": "2026-08-18T08:00:00Z",
+          "targeting": { "audiences": [] },
+          "title": "Take the tour",
+          "pages": [\(page)],
+          "video": { "url": "https://static.pocketcasts.com/tour.mp4" }
         }
       ]
     }
