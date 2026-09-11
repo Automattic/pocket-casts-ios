@@ -105,7 +105,7 @@ private struct WhatsNewMessagePageView: View {
 }
 
 /// A call to action, which does whatever this build maps its event to.
-struct WhatsNewActionView: View {
+private struct WhatsNewActionView: View {
     @EnvironmentObject private var theme: Theme
 
     let action: WhatsNewMessageViewModel.Action

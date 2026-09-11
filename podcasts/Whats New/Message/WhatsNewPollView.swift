@@ -10,7 +10,7 @@ import SwiftUI
 struct WhatsNewPollView: View {
     @EnvironmentObject private var theme: Theme
 
-    let research: WhatsNewMessageViewModel.Research
+    let research: WhatsNewResearch
 
     @ObservedObject var viewModel: WhatsNewMessageViewModel
 

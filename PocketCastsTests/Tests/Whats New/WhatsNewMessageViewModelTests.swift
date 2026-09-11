@@ -223,7 +223,7 @@ private extension WhatsNewMessageViewModel {
         return pages
     }
 
-    var research: Research? {
+    var research: WhatsNewResearch? {
         guard case .research(let research) = content else { return nil }
         return research
     }

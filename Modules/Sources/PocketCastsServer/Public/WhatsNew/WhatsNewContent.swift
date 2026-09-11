@@ -154,9 +154,7 @@ public struct WhatsNewResearch: Decodable, Hashable {
 ///
 /// The poll has an identity of its own, separate from the message it's asked in, because whether an
 /// account has answered is kept apart from whether it has read the message.
-public struct WhatsNewPoll: Decodable, Hashable, Identifiable {
-    public var id: String { pollId }
-
+public struct WhatsNewPoll: Decodable, Hashable {
     public let pollId: String
 
     /// The readable key the poll's answers are grouped under in analytics, which stays the same

@@ -19,7 +19,7 @@ final class WhatsNewMessageViewModel: ObservableObject {
         case pages([Page])
 
         /// The single poll a research message is built around.
-        case research(Research)
+        case research(WhatsNewResearch)
     }
 
     /// A page of a standard message: an image, what it's about, and at most one thing to do next.
@@ -39,13 +39,6 @@ final class WhatsNewMessageViewModel: ObservableObject {
     struct Action {
         let label: String
         let event: WhatsNewActionEvent
-    }
-
-    struct Research {
-        /// What the message says before the question, which not every research message has.
-        let description: String?
-
-        let poll: WhatsNewPoll
     }
 
     /// The option the reader has picked, which isn't sent until they continue, or the one they
@@ -89,7 +82,7 @@ final class WhatsNewMessageViewModel: ObservableObject {
                      action: page.action.flatMap(Action.init(action:)))
             })
         case .research(let research):
-            content = .research(Research(description: research.description, poll: research.poll))
+            content = .research(research)
         }
     }
 

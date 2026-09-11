@@ -23,7 +23,7 @@ public struct WhatsNewCatalogTask: Sendable {
     public static let fallbackLocale = "en"
 
     /// The locales the CDN publishes a catalog for, under these exact lowercase names.
-    public static let publishedLocales: Set<String> = [
+    static let publishedLocales: Set<String> = [
         "ca", "da", "de", "en", "es", "fr", "it", "ja", "nb", "nl", "pl", "pt-br", "ru", "sv", "zh-cn", "zh-tw"
     ]
 
