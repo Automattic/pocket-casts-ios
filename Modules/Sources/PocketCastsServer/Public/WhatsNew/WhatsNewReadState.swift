@@ -44,15 +44,19 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
     }
 }
 
-/// Keeps the What's New read state in a file next to the cached catalog.
+/// Keeps the What's New read state in a file.
 ///
 /// Read state is meant to sync across the user's devices through the server; until it does, this
 /// file is the only copy.
 public struct WhatsNewReadStateStore: Sendable {
     private let fileURL: URL
 
-    public init(directory: URL = WhatsNewCatalogCache.defaultDirectory) {
+    public init(directory: URL = WhatsNewReadStateStore.defaultDirectory) {
         fileURL = directory.appending(path: "read-state.json")
+    }
+
+    public static var defaultDirectory: URL {
+        URL.applicationSupportDirectory.appending(path: "whats-new", directoryHint: .isDirectory)
     }
 
     /// The state last saved, or an empty one when nothing has been saved or it can't be read back.

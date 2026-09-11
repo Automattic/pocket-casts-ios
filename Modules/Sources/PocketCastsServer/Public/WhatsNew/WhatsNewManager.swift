@@ -13,9 +13,9 @@ import PocketCastsUtils
 /// against a file that changes a few times a month, and refreshing only at launch would leave a
 /// user who never quits the app on whatever was published the day they installed it.
 ///
-/// Read state is kept in a file next to the catalog until it syncs with the server, and is read
-/// back before the first catalog is published, so a message read in an earlier session never shows
-/// up unread, even for a moment.
+/// Read state is kept in a file until it syncs with the server, and is read back before the first
+/// catalog is published, so a message read in an earlier session never shows up unread, even for a
+/// moment.
 @MainActor
 public final class WhatsNewManager: ObservableObject {
     nonisolated public static let shared = WhatsNewManager()

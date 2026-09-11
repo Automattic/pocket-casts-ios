@@ -137,7 +137,7 @@ final class WhatsNewManagerTests: XCTestCase {
 
     // MARK: - Read state
 
-    /// Until read state syncs with the server, the file next to the catalog is all that remembers it.
+    /// Until read state syncs with the server, the file on disk is all that remembers it.
     func testReadStateOutlivesTheManager() async {
         let store = temporaryReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
