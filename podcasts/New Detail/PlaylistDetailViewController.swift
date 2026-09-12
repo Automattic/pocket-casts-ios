@@ -66,7 +66,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             tableView.beginUpdates()
             tableView.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled

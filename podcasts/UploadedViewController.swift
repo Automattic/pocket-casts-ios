@@ -61,7 +61,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             uploadsTable.beginUpdates()
             uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled

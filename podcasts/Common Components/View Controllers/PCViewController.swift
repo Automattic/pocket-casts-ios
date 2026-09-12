@@ -50,6 +50,16 @@ class PCViewController: SimpleNotificationsViewController {
 
     private var isNavBarScrolled = false
 
+    private var hidesEnclosingTabBar = false
+
+    /// Hides the tab bar and the mini player, e.g. during multi-select. Both are shared with
+    /// other screens, so they're only kept hidden while this screen is on screen.
+    func setHidesEnclosingTabBar(_ hides: Bool, animated: Bool) {
+        guard hides != hidesEnclosingTabBar else { return }
+        hidesEnclosingTabBar = hides
+        setEnclosingTabBarHidden(hides, animated: animated)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -104,6 +114,10 @@ class PCViewController: SimpleNotificationsViewController {
             setTransparentNavBarScrolled(isNavBarScrolled)
         }
         refreshRightButtons()
+
+        if hidesEnclosingTabBar {
+            setEnclosingTabBarHidden(true, animated: false)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -122,6 +136,10 @@ class PCViewController: SimpleNotificationsViewController {
         if customRightBtn != nil || supportsGoogleCast {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = nil
+        }
+
+        if hidesEnclosingTabBar {
+            setEnclosingTabBarHidden(false, animated: false)
         }
     }
 
