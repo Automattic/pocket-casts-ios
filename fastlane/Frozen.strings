@@ -3617,6 +3617,36 @@
 /* Title for the announcement screen that calls out new features. */
 "whats_new" = "What's New";
 
+/* Category label shown on a What's New feed item announcing something new about Pocket Casts. */
+"whats_new_category_announcement" = "Announcement";
+
+/* Category label shown on a What's New feed item about a problem the team is working on. */
+"whats_new_category_known_issue" = "Known Issue";
+
+/* Category label shown on a What's New feed item announcing a new feature. */
+"whats_new_category_new_feature" = "New Feature";
+
+/* Category label shown on a What's New feed item asking the reader to answer a research question. */
+"whats_new_category_research" = "User Research";
+
+/* Category label shown on a What's New feed item with a tip on getting more out of the app. */
+"whats_new_category_tip" = "Tips and Tricks";
+
+/* Description shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_description" = "New features, tips and announcements will show up here.";
+
+/* Title shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_title" = "No messages yet";
+
+/* Navigation bar button on the What's New feed that marks every message in the list as read. */
+"whats_new_feed_read_all" = "Read all";
+
+/* Title shown on the What's New feed when its messages couldn't be loaded. */
+"whats_new_feed_unable_to_load" = "Unable to load What's New";
+
+/* Shown in place of the submit button once a What's New research poll has been answered. */
+"whats_new_poll_answered" = "Thanks for answering.";
+
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_title" = "Nothing in Up Next";
 
@@ -6142,6 +6172,12 @@
 
 /* Generic error used when playback fails. */
 "player_error_short_playback_error" = "Playback failed, please try again";
+
+/* Error used when playback fails because the device has run out of storage. Streaming needs free disk space for the playback buffer. */
+"player_error_not_enough_storage" = "Your device is out of storage. Free up some space and try again.";
+
+/* Short version of the error used when playback fails because the device has run out of storage. */
+"player_error_short_not_enough_storage" = "Device storage is full";
 
 /* tv app home tab */
 "tv_tab_home" = "Home";
