@@ -129,7 +129,11 @@ public enum ServerConstants {
         static let syncingV2TokenKey = "SJSyncV2Token"
         static let refreshTokenKey = "SJRefreshToken"
         static let appleAuthUserIDKey = "SJAppleAuthUserID"
+        #if os(iOS) && !targetEnvironment(macCatalyst)
+        public static let appUserAgent = "Pocket Casts (iOS)"
+        #else
         public static let appUserAgent = "Pocket Casts"
+        #endif
         static let customStorageUsed = "SJCustomStorageUsed"
         static let customStorageNumFiles = "SJCustomStorageNumFiles"
         static let customStorageUserLimit = "SJCustomStorageUserLimit"
