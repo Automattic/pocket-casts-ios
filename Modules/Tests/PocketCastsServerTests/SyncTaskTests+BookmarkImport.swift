@@ -215,27 +215,87 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         XCTAssertFalse(record?.hasReferenceTimeModified ?? true)
     }
 
-    func testFullSyncKeepsLocalPassageFields() throws {
+    func testFullSyncKeepsLocalPassageFieldsWhenResponseHasNone() throws {
         let passageModified = Date(timeIntervalSince1970: 100)
-        let uuid = try XCTUnwrap(bookmarkManager.add(episodeUuid: "episode-1",
-                                                     podcastUuid: "podcast-uuid",
-                                                     title: "Title",
-                                                     time: 1,
-                                                     passage: "Local passage",
-                                                     passageLocation: 2,
-                                                     passageModified: passageModified,
-                                                     referenceTime: 30,
-                                                     referenceTimeModified: passageModified))
-        let bookmark = try XCTUnwrap(bookmarkManager.bookmark(for: uuid))
+        let bookmark = try addBookmarkWithPassage(modified: passageModified)
 
         syncTask.processServerBookmarks([.fromBookmark(bookmark)])
 
-        let replaced = bookmarkManager.bookmark(for: uuid)
+        let replaced = bookmarkManager.bookmark(for: bookmark.uuid)
         XCTAssertEqual(replaced?.passage, "Local passage", "The passage fields should survive the full sync replacing the bookmark")
         XCTAssertEqual(replaced?.passageLocation, 2)
         XCTAssertEqual(replaced?.passageModified, passageModified)
         XCTAssertEqual(replaced?.referenceTime, 30)
         XCTAssertEqual(replaced?.referenceTimeModified, passageModified)
+    }
+
+    func testFullSyncImportsPassageFields() {
+        let passageModified = Date(timeIntervalSince1970: 100)
+        let referenceTimeModified = Date(timeIntervalSince1970: 200)
+
+        syncTask.processServerBookmarks([
+            .forTesting(uuid: "one",
+                        podcast: "podcast-uuid",
+                        passage: "Server passage",
+                        passageLocation: 4,
+                        passageModified: passageModified,
+                        referenceTime: 118,
+                        referenceTimeModified: referenceTimeModified)
+        ])
+
+        let bookmark = bookmarkManager.bookmark(for: "one")
+        XCTAssertEqual(bookmark?.passage, "Server passage")
+        XCTAssertEqual(bookmark?.passageLocation, 4)
+        XCTAssertEqual(bookmark?.passageModified, passageModified)
+        XCTAssertEqual(bookmark?.referenceTime, 118)
+        XCTAssertEqual(bookmark?.referenceTimeModified, referenceTimeModified)
+    }
+
+    func testFullSyncReplacesOlderLocalPassageFields() throws {
+        let bookmark = try addBookmarkWithPassage(modified: Date(timeIntervalSince1970: 100))
+        let serverModified = Date(timeIntervalSince1970: 200)
+
+        syncTask.processServerBookmarks([
+            .forTesting(uuid: bookmark.uuid,
+                        episode: bookmark.episodeUuid,
+                        podcast: bookmark.podcastUuid,
+                        passage: "Server passage",
+                        passageLocation: 9,
+                        passageModified: serverModified,
+                        referenceTime: 60,
+                        referenceTimeModified: serverModified)
+        ])
+
+        let replaced = bookmarkManager.bookmark(for: bookmark.uuid)
+        XCTAssertEqual(replaced?.passage, "Server passage", "A newer server passage should replace the local one")
+        XCTAssertEqual(replaced?.passageLocation, 9)
+        XCTAssertEqual(replaced?.passageModified, serverModified)
+        XCTAssertEqual(replaced?.referenceTime, 60, "A newer server reference time should replace the local one")
+        XCTAssertEqual(replaced?.referenceTimeModified, serverModified)
+    }
+
+    func testFullSyncKeepsNewerLocalPassageFields() throws {
+        let localModified = Date(timeIntervalSince1970: 200)
+        let bookmark = try addBookmarkWithPassage(modified: localModified)
+        let serverModified = Date(timeIntervalSince1970: 100)
+
+        syncTask.processServerBookmarks([
+            .forTesting(uuid: bookmark.uuid,
+                        episode: bookmark.episodeUuid,
+                        podcast: bookmark.podcastUuid,
+                        passage: "Server passage",
+                        passageLocation: 9,
+                        passageModified: serverModified,
+                        referenceTime: 60,
+                        referenceTimeModified: serverModified)
+        ])
+
+        let replaced = bookmarkManager.bookmark(for: bookmark.uuid)
+        XCTAssertEqual(replaced?.passage, "Local passage", "An older server passage should not replace the local one")
+        XCTAssertEqual(replaced?.passageLocation, 2)
+        XCTAssertEqual(replaced?.passageModified, localModified)
+        XCTAssertEqual(replaced?.referenceTime, 30, "An older server reference time should not replace the local one")
+        XCTAssertEqual(replaced?.referenceTimeModified, localModified)
     }
 
     // MARK: - Server Data Processed
@@ -336,6 +396,19 @@ private extension SyncTaskTests_BookmarkImport {
             bookmarkManager.bookmark(for: $0)
         }!
     }
+
+    func addBookmarkWithPassage(modified: Date) throws -> Bookmark {
+        let uuid = try XCTUnwrap(bookmarkManager.add(episodeUuid: "episode-1",
+                                                     podcastUuid: "podcast-uuid",
+                                                     title: "Title",
+                                                     time: 1,
+                                                     passage: "Local passage",
+                                                     passageLocation: 2,
+                                                     passageModified: modified,
+                                                     referenceTime: 30,
+                                                     referenceTimeModified: modified))
+        return try XCTUnwrap(bookmarkManager.bookmark(for: uuid))
+    }
 }
 
 private extension Api_SyncUpdateResponse {
@@ -423,7 +496,12 @@ private extension Api_BookmarkResponse {
                            podcast: String? = nil,
                            title: String = "Title",
                            time: TimeInterval = 1234,
-                           created: Date = Date()) -> Self {
+                           created: Date = Date(),
+                           passage: String? = nil,
+                           passageLocation: Int? = nil,
+                           passageModified: Date? = nil,
+                           referenceTime: TimeInterval? = nil,
+                           referenceTimeModified: Date? = nil) -> Self {
         var apiBookmark = Api_BookmarkResponse()
         apiBookmark.bookmarkUuid = uuid
         apiBookmark.episodeUuid = episode
@@ -435,6 +513,17 @@ private extension Api_BookmarkResponse {
         apiBookmark.title = title
         apiBookmark.time = Int32(time)
         apiBookmark.createdAt = .init(date: created)
+
+        if let passageModified {
+            apiBookmark.passage.value = passage ?? ""
+            apiBookmark.passageLocation.value = Int32(passageLocation ?? 0)
+            apiBookmark.passageModified = .init(date: passageModified)
+        }
+
+        if let referenceTimeModified {
+            apiBookmark.referenceTime.value = Int32(referenceTime ?? 0)
+            apiBookmark.referenceTimeModified = .init(date: referenceTimeModified)
+        }
 
         return apiBookmark
     }
