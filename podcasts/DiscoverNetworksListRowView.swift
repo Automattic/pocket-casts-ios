@@ -26,7 +26,7 @@ struct DiscoverNetworksListRowView: View {
             header
             ScrollView(.horizontal) {
                 LazyHStack(alignment: .top, spacing: 16) {
-                    ForEach(Array(model.networks.enumerated()), id: \.offset) { _, network in
+                    ForEach(Array(model.visibleNetworks.enumerated()), id: \.offset) { _, network in
                         Button {
                             model.show(network: network)
                         } label: {
