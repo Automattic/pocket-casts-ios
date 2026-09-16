@@ -3,8 +3,6 @@ import PocketCastsDataModel
 import UIKit
 
 class SelectPodcastCell: UICollectionViewCell {
-    private let selectedOffset = 8 as CGFloat
-
     @IBOutlet var podcastImage: UIImageView!
     @IBOutlet var backgroundColorView: ThemeableView! {
         didSet {

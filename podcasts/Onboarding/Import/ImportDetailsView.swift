@@ -13,7 +13,6 @@ struct ImportDetailsView: View {
     @State var opmlURLText = ""
     @State var opmlURLImportResult: OPMLImportResult = .none
     @State var opmlImportInProgress: Bool = false
-    @State var opmlButtonTitle: String = L10n.import
 
     let importSource: ImportViewModel.ImportSource
     let viewModel: ImportViewModel

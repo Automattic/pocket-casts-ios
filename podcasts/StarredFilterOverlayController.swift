@@ -5,7 +5,6 @@ import DifferenceKit
 import PocketCastsDataModel
 
 class StarredFilterOverlayController: PCViewController {
-    private static let starredEpisodeCellId = "StarredEpisodeCellId"
     private static let smartRuleHeaderCellId = "SmartRuleHeaderCellId"
     private static let previewCellId = "EpisodePreviewCell"
 

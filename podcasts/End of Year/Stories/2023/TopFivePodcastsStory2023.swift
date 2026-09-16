@@ -143,9 +143,3 @@ struct TopFivePodcastsStory2023_Previews: PreviewProvider {
         TopFivePodcastsStory2023(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
     }
 }
-
-extension AnyTransition {
-    static var identityHack: AnyTransition {
-        .asymmetric(insertion: .identity, removal: .identity)
-    }
-}

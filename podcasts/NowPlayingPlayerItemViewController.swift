@@ -11,7 +11,6 @@ import PocketCastsServer
 @MainActor
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
-    var lastChapterIndexRendered = -1
 
     /// Low-res artwork handed over from the mini player when opening the full
     /// screen player.

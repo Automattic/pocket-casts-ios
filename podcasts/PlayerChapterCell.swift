@@ -47,7 +47,6 @@ class PlayerChapterCell: UITableViewCell {
     private var playState = ChapterPlayState.played
 
     private var circleCenter: CGPoint!
-    var chapterPlayedTime: Int!
 
     private var isChapterToggleEnabled: Bool = false
 

@@ -5,8 +5,6 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class NewPlaylistCell: ThemeableCell {
-    typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
-
     let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
     lazy var artworkImageSource: UIView = {
