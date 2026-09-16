@@ -60,36 +60,17 @@ enum AnalyticsEvent: String {
     case signInTypeTapped // tvOS: switching between QR code and password sign-in
     case signInSyncShown // tvOS: sync of user data
 
-    // MARK: - Select Account Type
-
-    case selectAccountTypeShown
-    case selectAccountTypeDismissed
-    case selectAccountTypeNextButtonTapped
-
     // MARK: - Create Account
 
     case createAccountShown
     case createAccountDismissed
     case createAccountNextButtonTapped
 
-    // MARK: - Terms of Use
-
-    case termsOfUseShown
-    case termsOfUseDismissed
-    case termsOfUseAccepted
-    case termsOfUseRejected
-
     // MARK: - Select Payment Frequency
 
     case selectPaymentFrequencyShown
     case selectPaymentFrequencyDismissed
     case selectPaymentFrequencyNextButtonTapped
-
-    // MARK: - Confirm Payment
-
-    case confirmPaymentShown
-    case confirmPaymentDismissed
-    case confirmPaymentConfirmButtonTapped
 
     // MARK: - Podcasts List
 
@@ -297,7 +278,6 @@ enum AnalyticsEvent: String {
     // MARK: - Filters
 
     case filterListShown
-    case filterListEditButtonToggled
     case filterListReordered
 
     case filterCreateButtonTapped
@@ -317,7 +297,6 @@ enum AnalyticsEvent: String {
     case filterTooltipClosed
 
     case filterMultiSelectEntered
-    case filterSelectAllButtonTapped
     case filterSelectAll
     case filterDeselectAll
     case filterSelectAllAbove
@@ -327,7 +306,6 @@ enum AnalyticsEvent: String {
     case filterMultiSelectExited
 
     case filterOptionsButtonTapped
-    case filterOptionsModalOptionTapped
     case filterSortByChanged
     case filterEditDismissed
 
@@ -489,8 +467,6 @@ enum AnalyticsEvent: String {
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
-    case analyticsThirdPartyOptIn
-    case analyticsThirdPartyOptOut
 
     // MARK: - Player
 
@@ -598,7 +574,6 @@ enum AnalyticsEvent: String {
 
     case notificationsPermissionsShown
     case notificationsPermissionsAllowTapped
-    case notificationsPermissionsNotNowTapped
     case notificationsPermissionsOpenSystemSettings
 
     case notificationOpened
@@ -628,12 +603,6 @@ enum AnalyticsEvent: String {
     case podcastSettingsSiriShortcutAdded
     case podcastSettingsSiriShortcutRemoved
 
-    // MARK: - Settings: Plus
-
-    case settingsPlusShown
-    case settingsPlusUpgradeButtonTapped
-    case settingsPlusLearnMoreTapped
-
     // MARK: - Settings: General
 
     case settingsGeneralShown
@@ -653,7 +622,6 @@ enum AnalyticsEvent: String {
     case settingsGeneralDisableLockScreenScrubberToggled
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
-    case settingsGeneralRemoteSkipsChaptersToggled
     case settingsGeneralAudioOnlyToggled
     case settingsGeneralExtraPlaybackActionsToggled
     case settingsGeneralLegacyBluetoothToggled

@@ -254,12 +254,6 @@ class PlayerCell: ThemeableSwipeCell {
         setSelected(false, animated: false)
     }
 
-    private func updateBgColor(_ color: UIColor) {
-        contentView.backgroundColor = color
-        backgroundColor = color
-        accessoryView?.backgroundColor = color
-    }
-
     func shouldShowSelect(show: Bool, animate: Bool) {
         if animate {
             if show {

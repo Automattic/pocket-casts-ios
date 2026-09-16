@@ -15,13 +15,6 @@ struct FolderCardView: View {
     private let coverSize: CGFloat = 80
     private let coverSpacing: CGFloat = 6
 
-    private let gradient = LinearGradient(
-        colors: [Color(red: 0x60/255, green: 0x46/255, blue: 0xE9/255),
-                 Color(red: 0xE7/255, green: 0x4B/255, blue: 0x8A/255)],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
-
     var body: some View {
         ZStack(alignment: .bottom) {
             coverGrid

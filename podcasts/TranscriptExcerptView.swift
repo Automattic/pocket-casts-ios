@@ -6,7 +6,6 @@ protocol TranscriptExcerptViewModeling: ObservableObject {
 
     init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: @escaping () -> Void)
 
-    func loadExcerptTranscript() async
     func excerptTapped()
     func trackViewAppear()
 }
@@ -22,7 +21,6 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
     @Published var loadingState: TranscriptExcerptLoadingState = .success
 
     let isGeneratedTranscript: Bool
-    private let manager: TranscriptManager
     private let tapAction: () -> Void
     private let episodeUUID: String
     private let podcastUUID: String
@@ -37,26 +35,6 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
         self.podcastUUID = podcastUUID
         self.isGeneratedTranscript = isGeneratedTranscript
         self.tapAction = tapAction
-        self.manager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
-    }
-
-    @discardableResult
-    func loadTranscript() async throws -> TranscriptModel {
-        try await manager.loadTranscript()
-    }
-
-    func loadExcerptTranscript() async {
-        if case .loading = loadingState { return }
-        Task { @MainActor [weak self] in
-            guard let self else { return }
-            loadingState = .loading
-            do {
-                try await loadTranscript()
-                loadingState = .success
-            } catch {
-                loadingState = .failure
-            }
-        }
     }
 
     func excerptTapped() {
@@ -140,28 +118,13 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
 
     let isGeneratedTranscript: Bool
 
-    private var _privateLoadingState: TranscriptExcerptLoadingState = .loading
-
     convenience init(loadingState: TranscriptExcerptLoadingState, isGeneratedTranscript: Bool) {
         self.init(episodeUUID: "", podcastUUID: "", isGeneratedTranscript: isGeneratedTranscript, tapAction: {  })
-        self._privateLoadingState = loadingState
+        self.loadingState = loadingState
     }
 
     required init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: () -> Void) {
         self.isGeneratedTranscript = isGeneratedTranscript
-    }
-
-    func loadExcerptTranscript() async {
-        await MainActor.run {
-            self.loadingState = _privateLoadingState
-
-            switch self.loadingState {
-            case .idle, .loading:
-                break
-            case .failure, .success:
-                break
-            }
-        }
     }
 
     func excerptTapped() {}

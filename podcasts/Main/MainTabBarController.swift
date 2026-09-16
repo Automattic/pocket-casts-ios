@@ -505,10 +505,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         filtersViewController.showFilter(filter)
     }
 
-    func navigateToEditFilter(_ filter: EpisodeFilter) {
-        switchToTab(.filter)
-    }
-
     func navigateToAddFilter() {
         switchToTab(.filter)
     }
@@ -654,14 +650,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                     Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
                 }
             }
-        }
-    }
-
-    func showProfilePage() {
-        switchToTab(.profile)
-
-        if let navController = selectedViewController as? UINavigationController {
-            navController.popToRootViewController(animated: false)
         }
     }
 

@@ -403,11 +403,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
-    func showProfileController() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
-    }
-
     private lazy var foldersCoordinator: FoldersCoordinator = {
         return FoldersCoordinator()
     }()

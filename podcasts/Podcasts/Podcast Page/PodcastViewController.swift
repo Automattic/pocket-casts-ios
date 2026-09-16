@@ -23,17 +23,13 @@ enum PodcastFeedReloadSource {
 }
 
 protocol PodcastActionsDelegate: AnyObject {
-    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> { get }
     var currentViewModePublisher: AnyPublisher<PodcastViewController.ViewMode, Never> { get }
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
-    func isDescriptionExpanded() -> Bool
-    func setDescriptionExpanded(expanded: Bool)
 
     func tableView() -> UITableView
     func displayedPodcast() -> Podcast?
 
-    func manageSubscriptionTapped()
     func settingsTapped()
     func fundingTapped()
     func folderTapped()
@@ -55,22 +51,17 @@ protocol PodcastActionsDelegate: AnyObject {
     func open(url: URL)
 }
 
-class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
+class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSelectActionDelegate {
     var podcast: Podcast?
     var episodeInfo = [ArraySection<String, ListItem>]()
     var uuidsThatMatchSearch = [String]()
     var featuredPodcast = false
     var listUuid: String?
     var summaryExpanded = false
-    var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
     var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
     var isLoadingRecommendations = CurrentValueSubject<Bool, Never>(false)
     var currentViewModeSubject = CurrentValueSubject<ViewMode, Never>(.episodes)
-
-    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
-        hasSimilarShows.eraseToAnyPublisher()
-    }
 
     var currentViewModePublisher: AnyPublisher<ViewMode, Never> {
         currentViewModeSubject.eraseToAnyPublisher()
@@ -847,14 +838,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
     }
 
-    func isDescriptionExpanded() -> Bool {
-        descriptionExpanded
-    }
-
-    func setDescriptionExpanded(expanded: Bool) {
-        descriptionExpanded = expanded
-    }
-
     func tableView() -> UITableView {
         episodesTable
     }
@@ -888,19 +871,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         Analytics.track(.podcastScreenFundingTapped, properties: ["podcast_uuid": podcast?.uuid ?? ""])
         guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-
-    func manageSubscriptionTapped() {
-        guard SyncManager.isUserLoggedIn() else {
-            let signinPage = SyncSigninViewController()
-            signinPage.delegate = self
-
-            navigationController?.pushViewController(signinPage, animated: true)
-            return
-        }
-        guard let podcast, let bundle = SubscriptionHelper.bundleSubscriptionForPodcast(podcastUuid: podcast.uuid) else { return }
-        let subscriptionController = SupporterPodcastViewController(bundleSubscription: bundle)
-        navigationController?.pushViewController(subscriptionController, animated: true)
     }
 
     func didActivateSearch() {
@@ -1524,12 +1494,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     override func accessibilityPerformEscape() -> Bool {
         navigationController?.popViewController(animated: true)
         return true
-    }
-
-    // MARK: - SyncSigninDelegate
-
-    func signingProcessCompleted() {
-        navigationController?.popToViewController(self, animated: true)
     }
 
     @MainActor

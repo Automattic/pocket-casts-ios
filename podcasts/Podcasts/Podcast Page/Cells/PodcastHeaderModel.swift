@@ -202,7 +202,6 @@ extension PodcastHeaderViewModel: ExpandableLabelDelegate {
 
     func didExpandLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
-        delegate?.setDescriptionExpanded(expanded: true)
     }
 
     func willCollapseLabel(_ label: UIView) {
@@ -212,7 +211,6 @@ extension PodcastHeaderViewModel: ExpandableLabelDelegate {
 
     func didCollapseLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
-        delegate?.setDescriptionExpanded(expanded: false)
     }
 
     func linkTapped(url: URL) {

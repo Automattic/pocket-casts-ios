@@ -88,13 +88,6 @@ class TranscriptContainerViewController: UIViewController {
         transcriptsItem.view.removeFromSuperview()
         transcriptsItem.didDisappear()
     }
-
-    private func configureTranscriptView() {
-        view.backgroundColor = ThemeColor.primaryUi01()
-
-        view.addSubview(transcriptsItem.view)
-        transcriptsItem.view.anchorToAllSidesOf(view: view)
-    }
 }
 
 extension TranscriptContainerViewController: PlayerItemContainerDelegate {

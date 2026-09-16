@@ -20,7 +20,6 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         return DiscoverFeaturedView.scaledHeight
     }
 
-    private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
     private var lastLayedOutWidth = 0 as CGFloat
     private let maxFeaturedItems = 5

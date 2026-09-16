@@ -304,23 +304,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         engine?.stop()
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        true
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        true
-    }
-
     func supportsGoogleCast() -> Bool {
-        false
-    }
-
-    func supportsStreaming() -> Bool {
-        false
-    }
-
-    func supportsAirplay2() -> Bool {
         false
     }
 

@@ -301,24 +301,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         volumeBoostEnabled = effects.volumeBoost
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        false
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        true
-    }
-
     func supportsGoogleCast() -> Bool {
         false
-    }
-
-    func supportsStreaming() -> Bool {
-        true
-    }
-
-    func supportsAirplay2() -> Bool {
-        true
     }
 
     func shouldBePlaying() -> Bool {

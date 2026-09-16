@@ -8,11 +8,7 @@ struct UpgradePrompt: View {
     var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
     private let tiers: [UpgradeTier]
-    private var selectedTier: UpgradeTier {
-        tiers[currentPage]
-    }
 
-    @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
     @State private var currentSubscriptionPeriod: PlanFrequency = .yearly
 
@@ -31,10 +27,6 @@ struct UpgradePrompt: View {
             _currentSubscriptionPeriod = State(initialValue: displayProduct.frequency)
             _currentPage = State(initialValue: index)
         }
-    }
-
-    private var selectedProduct: IAPProductID {
-        currentSubscriptionPeriod == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
     var body: some View {

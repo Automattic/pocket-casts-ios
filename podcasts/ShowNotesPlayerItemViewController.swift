@@ -41,7 +41,6 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     private var downloadingShowNotes = false
     private var lastEpisodeUuidRendered = ""
-    private var docController: UIDocumentInteractionController?
 
     private var showNotesWebView: WKWebView!
     private var safariViewController: SFSafariViewController?
