@@ -146,8 +146,6 @@ extension SyncTask {
             await bookmarkManager.markAllBookmarksAsSynced()
 
             for apiBookmark in bookmarks {
-                // The response doesn't include the passage fields — they only flow through the
-                // incremental sync records — so carry them over from the replaced bookmark
                 let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true)
 
                 if let existingBookmark {
@@ -157,7 +155,7 @@ extension SyncTask {
                 }
 
                 // Add the incoming bookmark to the database
-                bookmarkManager.add(from: apiBookmark, passageFieldsFrom: existingBookmark).when(.none) {
+                bookmarkManager.add(from: apiBookmark, existingBookmark: existingBookmark).when(.none) {
                     FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not add bookmark: \(String(describing: try? apiBookmark.jsonString()))")
                 }
             }
@@ -170,19 +168,22 @@ extension SyncTask {
 }
 
 private extension BookmarkDataManager {
-    func add(from apiBookmark: Api_BookmarkResponse, passageFieldsFrom existingBookmark: Bookmark?) -> String? {
-        add(uuid: apiBookmark.bookmarkUuid,
-            episodeUuid: apiBookmark.episodeUuid,
-            podcastUuid: apiBookmark.podcastUuid,
-            title: apiBookmark.title,
-            time: .init(apiBookmark.time),
-            dateCreated: apiBookmark.createdAt.date,
-            passage: existingBookmark?.passage,
-            passageLocation: existingBookmark?.passageLocation,
-            passageModified: existingBookmark?.passageModified,
-            referenceTime: existingBookmark?.referenceTime,
-            referenceTimeModified: existingBookmark?.referenceTimeModified,
-            syncStatus: .synced)
+    func add(from apiBookmark: Api_BookmarkResponse, existingBookmark: Bookmark?) -> String? {
+        let takesServerPassage = apiBookmark.passageModifiedDate.map { $0 >= (existingBookmark?.passageModified ?? .distantPast) } ?? false
+        let takesServerReferenceTime = apiBookmark.referenceTimeModifiedDate.map { $0 >= (existingBookmark?.referenceTimeModified ?? .distantPast) } ?? false
+
+        return add(uuid: apiBookmark.bookmarkUuid,
+                   episodeUuid: apiBookmark.episodeUuid,
+                   podcastUuid: apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid,
+                   title: apiBookmark.title,
+                   time: .init(apiBookmark.time),
+                   dateCreated: apiBookmark.createdAt.date,
+                   passage: takesServerPassage ? apiBookmark.bookmarkPassage : existingBookmark?.passage,
+                   passageLocation: takesServerPassage ? apiBookmark.bookmarkPassageLocation : existingBookmark?.passageLocation,
+                   passageModified: takesServerPassage ? apiBookmark.passageModifiedDate : existingBookmark?.passageModified,
+                   referenceTime: takesServerReferenceTime ? apiBookmark.bookmarkReferenceTime : existingBookmark?.referenceTime,
+                   referenceTimeModified: takesServerReferenceTime ? apiBookmark.referenceTimeModifiedDate : existingBookmark?.referenceTimeModified,
+                   syncStatus: .synced)
     }
 }
 
