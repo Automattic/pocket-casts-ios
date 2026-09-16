@@ -12,6 +12,11 @@ PRODUCT_BUNDLE_IDENTIFIER_ROOT = au.com.shiftyjelly.podcasts
 
 DEVELOPMENT_TEAM = PZYM8XX95Q // Automattic, Inc. (Company)
 
+// Don't thin iOS asset catalogs for a watchOS run destination (actool can't resolve Watch traits for iOS)
+ENABLE_ONLY_ACTIVE_RESOURCES = $(ENABLE_ONLY_ACTIVE_RESOURCES_$(PLATFORM_NAME)_$(TARGET_DEVICE_PLATFORM_NAME):default=YES)
+ENABLE_ONLY_ACTIVE_RESOURCES_iphonesimulator_watchsimulator = NO
+ENABLE_ONLY_ACTIVE_RESOURCES_iphoneos_watchos = NO
+
 SECRETS_DIR = $(HOME)/.configure/pocketcasts-ios/secrets
 FIREBASE_SECRETS_PATH = $(SECRETS_DIR)/GoogleService-Info.plist
 CREDENTIALS_JSON_PATH = $(SECRETS_DIR)/pocket_casts_credentials.json
