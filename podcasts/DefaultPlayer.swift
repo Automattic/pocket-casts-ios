@@ -388,31 +388,33 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+        if assetTrack == nil, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
             loadEmbeddedImage()
+            loadAudioTrack(for: playerItem)
 
-            for track in tracks {
-                if track.mediaType == AVMediaType.audio {
-                    assetTrack = track
-                    break
-                }
+            isWaitingForInitialPlayback = false
+        }
+
+        PlaybackManager.shared.playerDidChangeNowPlayingInfo()
+    }
+
+    private func loadAudioTrack(for playerItem: AVPlayerItem) {
+        Task { @MainActor in
+            guard let track = try? await playerItem.asset.loadTracks(withMediaType: .audio).first,
+                  assetTrack == nil, player?.currentItem === playerItem else {
+                return
             }
+            assetTrack = track
 
             #if !os(watchOS)
                 // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
                 // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
                 // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
                 // video honors it. Only attach it when we actually found an audio track.
-                if assetTrack != nil {
-                    createAudioMix()
-                    player?.currentItem?.audioMix = audioMix
-                }
+                createAudioMix()
+                playerItem.audioMix = audioMix
             #endif
-
-            isWaitingForInitialPlayback = false
         }
-
-        PlaybackManager.shared.playerDidChangeNowPlayingInfo()
     }
 
     // MARK: - Audio Mix
