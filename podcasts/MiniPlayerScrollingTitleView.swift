@@ -94,11 +94,6 @@ final class MiniPlayerScrollingTitleView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    /// Restarts the marquee from the beginning of its pause-then-scroll cycle.
-    func restartAnimation() {
-        scheduleAnimation()
-    }
-
     /// Picks up another instance's marquee phase, so a snapshot clone scrolls
     /// in lock-step with the live mini player instead of restarting from
     /// frame zero. Call after this view is in a window so layer-local time

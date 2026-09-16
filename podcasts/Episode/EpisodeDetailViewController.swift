@@ -548,14 +548,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         docController = nil
     }
 
-    private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
-        let shareTime = sharePosition ? episode.playedUpTo : 0
-
-        let type = shareTime == 0 ? "episode" : "current_position"
-
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
-    }
-
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
         guard episode.downloaded(pathFinder: DownloadManager.shared) else {
             return nil

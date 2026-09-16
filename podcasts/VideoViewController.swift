@@ -294,10 +294,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
     }
 
-    private func removeUiNotificationObservers() {
-        removeAllCustomObservers()
-    }
-
     @objc private func playbackFinished() {
         dismiss(animated: true, completion: nil)
     }

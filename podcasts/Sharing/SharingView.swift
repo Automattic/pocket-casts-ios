@@ -193,15 +193,6 @@ struct SharingView: View {
             .id(style)
             .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
 	}
-
-    private func shareItems(style: ShareImageStyle) -> [Shareable] {
-        var media = shareable
-        media.shareType = style == .audio ? .audio : .video
-        var image = shareable
-        image.shareType = .image
-
-        return [media, (style != .audio ? image : nil)].compactMap { $0 }
-    }
 }
 
 #Preview {

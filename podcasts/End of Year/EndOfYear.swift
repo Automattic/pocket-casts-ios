@@ -57,11 +57,6 @@ struct EndOfYear {
         return false
     }
 
-    static var shouldShowBadge: Bool {
-        guard let year = currentYear.year else { return false }
-        return Settings.showBadgeForEndOfYear(year)
-    }
-
     // Eligibility checker to manage the `isEligible` state
     private static var eligibilityChecker: EligibilityChecker? = {
         if let year = currentYear.year {
