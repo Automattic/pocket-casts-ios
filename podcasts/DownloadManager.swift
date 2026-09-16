@@ -7,30 +7,6 @@ import AVKit
     import WatchKit
 #endif
 
-protocol DownloadManagerEpisodesCache {
-    subscript(index: String) -> BaseEpisode? { get set }
-
-    func contains(where predicate: ((key: String, value: BaseEpisode)) throws -> Bool) rethrows -> Bool
-}
-
-extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<String, BaseEpisode> {
-}
-
-extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
-}
-
-protocol DownloadManagerStreamAndDownloadCache {
-    subscript(index: String) -> AVAssetResourceLoaderDelegate? { get set }
-
-    func contains(where predicate: ((key: String, value: AVAssetResourceLoaderDelegate)) throws -> Bool) rethrows -> Bool
-}
-
-extension Dictionary: DownloadManagerStreamAndDownloadCache where Self == Dictionary<String, AVAssetResourceLoaderDelegate> {
-}
-
-extension ThreadSafeDictionary: DownloadManagerStreamAndDownloadCache where ThreadSafeDictionary == ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate> {
-}
-
 class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
@@ -43,21 +19,9 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var progressManager = DownloadProgressManager()
 
-    var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
-        if FeatureFlag.downloadsThreadSafeCache.enabled {
-            ThreadSafeDictionary<String, BaseEpisode>()
-        } else {
-            Dictionary<String, BaseEpisode>()
-        }
-    }()
+    let downloadingEpisodesCache = ThreadSafeDictionary<String, BaseEpisode>()
 
-    var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
-        if FeatureFlag.downloadsThreadSafeCache.enabled {
-            ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
-        } else {
-            Dictionary<String, AVAssetResourceLoaderDelegate>()
-        }
-    }()
+    let downloadAndStreamEpisodes = ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
 
     let taskFailure = ThreadSafeDictionary<String, FailureReason>()
 
