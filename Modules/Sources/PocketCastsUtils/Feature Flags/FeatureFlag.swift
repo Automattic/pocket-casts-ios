@@ -53,9 +53,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
 
-    /// Enable/Disable the use of a thread safe ongoing downloads cache
-    case downloadsThreadSafeCache
-
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
@@ -315,8 +312,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .winback:
             true
         case .podcastFeedUpdate:
-            true
-        case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
             true
