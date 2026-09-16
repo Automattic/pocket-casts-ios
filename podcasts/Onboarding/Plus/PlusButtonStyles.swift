@@ -223,7 +223,5 @@ extension Color {
     static let patronBackgroundColor = Color(hex: "6046F5")
 
     static let plusBackgroundColor = Color(hex: "121212")
-    static let plusLeftCircleColor = Color(hex: "ffd845")
-    static let plusRightCircleColor = Color(hex: "ffb626")
     static let plusBackgroundColor2 = Color(hex: "FFD846")
 }

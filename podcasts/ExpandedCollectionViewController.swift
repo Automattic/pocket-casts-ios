@@ -19,7 +19,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     let gridStyleSpacing: CGFloat = 16
     let gridNumColumns: CGFloat = 2
     let gridPreferredWidth: CGFloat = 150
-    let gridPeferredHeight: CGFloat = 265
     let descriptiveListPreferredMaxWidth: CGFloat = 280
     var descriptiveListPreferredMaxHeight: CGFloat {
         var baseHeight = CGFloat(200)

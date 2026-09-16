@@ -60,8 +60,6 @@ class PlayerTabsView: UIScrollView {
 
     weak var tabDelegate: PlayerTabDelegate?
 
-    private let lineLayer = CAShapeLayer()
-
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -181,7 +179,6 @@ private enum TabConstants {
     static let spacing: CGFloat = 0
 
     static let lineHeight: CGFloat = 2
-    static let lineOffset: CGFloat = 8
 
     static let fadeSize: CGFloat = 50
 }

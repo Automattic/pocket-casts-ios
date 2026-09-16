@@ -41,9 +41,6 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         }
     }
 
-    private var relatedPodcastImageView: PodcastImageView?
-    private var relatedPodcastLabel: UILabel?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

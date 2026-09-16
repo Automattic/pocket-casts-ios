@@ -98,8 +98,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    weak var accountUpdatedDelegate: AccountUpdatedDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createAccount

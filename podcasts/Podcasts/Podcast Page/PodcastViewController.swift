@@ -210,8 +210,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     static let headerSection = 0
     static let allEpisodesSection = 1
-    static let podrollSection = 1
-    static let similarShowsSection = 2
 
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
