@@ -52,17 +52,17 @@ struct UserRow: View {
 
 struct SourceInterfaceNavigationView: View {
 
-    @State var activeSource: Int? = SourceManager.shared.currentSource().rawValue
+    @State private var path: [Source] = [SourceManager.shared.currentSource()]
 
     @StateObject var model = SourceInterfaceModel()
 
     @ViewBuilder
     var sourceSection: some View {
         Section {
-            NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
+            NavigationLink(value: Source.phone) {
                 SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
             }
-            NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
+            NavigationLink(value: Source.watch) {
                 SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: !model.isLoggedIn || !model.isPlusUser, active: model.activeSource == .watch)
             }.disabled(!model.isPlusUser)
         } footer: {
@@ -129,7 +129,7 @@ struct SourceInterfaceNavigationView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             List {
                 sourceSection
                 dataRefreshSection
@@ -137,8 +137,8 @@ struct SourceInterfaceNavigationView: View {
                 refreshAccountSection
             }.onAppear {
                 model.willActivate()
-            }.onChange(of: activeSource) { _, newValue in
-                guard let newValue, let newSource = Source(rawValue: newValue) else {
+            }.onChange(of: path) { _, newValue in
+                guard let newSource = newValue.last else {
                     return
                 }
                 if newSource == .phone {
@@ -149,6 +149,9 @@ struct SourceInterfaceNavigationView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(L10n.watchPlaySource)
+            .navigationDestination(for: Source.self) { source in
+                InterfaceView(source: source)
+            }
         }
         .environmentObject(NavigationManager.shared)
     }
