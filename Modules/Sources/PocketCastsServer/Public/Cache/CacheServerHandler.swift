@@ -91,22 +91,6 @@ public class CacheServerHandler {
         }
     }
 
-    public func loadEpisodeUrl(episodeUuid: String, podcastUuid: String, completion: @escaping ((String?) -> Void)) {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/url/\(podcastUuid)/\(episodeUuid)")
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
-        request.addLocalizationHeaders()
-
-        tokenHelper.callSecureUrl(request: request) { response, data, _ in
-            if response?.statusCode == ServerConstants.HttpConstants.ok, let data, let url = String(data: data, encoding: .utf8) {
-                completion(url)
-
-                return
-            }
-
-            completion(nil)
-        }
-    }
-
     public func loadPodcastIfModified(podcast: Podcast, completion: @escaping (([String: Any]?, String?) -> Void)) {
         let url = urlForPodcast(uuid: podcast.uuid)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: CacheServerHandler.defaultTimeout)
@@ -214,19 +198,6 @@ public class CacheServerHandler {
 
     private func urlForPodcast(uuid: String) -> URL {
         ServerHelper.asUrl("\(ServerConstants.Urls.cache())mobile/podcast/full/\(uuid)")
-    }
-
-    private func topLevelValue<T>(data: Data?, name: String, ofType: T.Type) -> T? {
-        guard let data else { return nil }
-
-        do {
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            if let jsonDict = json as? [String: Any], let value = jsonDict[name] as? T {
-                return value
-            }
-        } catch {}
-
-        return nil
     }
 
     private func asJson(data: Data?) -> [String: Any]? {

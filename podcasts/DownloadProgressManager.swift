@@ -18,33 +18,6 @@ class DownloadProgressManager {
         }
     }
 
-    func hasProgressForEpisode(_ uuid: String) -> Bool {
-        progressItemsQueue.sync {
-            progressItems[uuid] != nil
-        }
-    }
-
-    func countOfDownloadingItems() -> Int {
-        progressItemsQueue.sync {
-            progressItems.count
-        }
-    }
-
-    func totalProgressAsPercentage() -> Double {
-        progressItemsQueue.sync {
-            let downloadingCount = Double(progressItems.count)
-            if downloadingCount == 0 { return 0 }
-
-            var totalProgress: Double = 0
-            for progressItem in progressItems {
-                totalProgress += progressItem.value.percentageProgress()
-            }
-            totalProgress += (finishedItemCount * 100)
-
-            return totalProgress / ((downloadingCount + finishedItemCount) * 100)
-        }
-    }
-
     func updateProgressForEpisode(_ uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
         var update: Bool = false
         progressItemsQueue.sync {

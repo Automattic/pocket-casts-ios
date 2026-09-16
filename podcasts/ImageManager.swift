@@ -403,15 +403,6 @@ class ImageManager {
         return urls
     }
 
-    private func radioactiveProcessor() -> ImageProcessor {
-        let processor =
-            BlendImageProcessor(blendMode: .color, alpha: 1, backgroundColor: UIColor(hex: "#808080").withAlphaComponent(0.5)) |>
-            ColorControlsProcessor(brightness: 0.1, contrast: 1.3, saturation: 0, inputEV: 0.5) |>
-            BlendImageProcessor(blendMode: .plusDarker, alpha: 1, backgroundColor: UIColor(hex: "#70E84E"))
-
-        return processor
-    }
-
     private func allUrlsFor(podcastUuid: String) -> [URL] {
         var urls = [URL]()
         urls.append(podcastUrl(imageSize: .list, uuid: podcastUuid))

@@ -22,11 +22,6 @@ open class SubscriptionHelper: NSObject {
         Self.activeTier
     }
 
-    /// Returns the users active subscription type or .none if they don't currently have one
-    public static var activeSubscriptionType: SubscriptionType {
-        hasActiveSubscription() ? subscriptionType() : .none
-    }
-
     /// Returns the users active subscription tier or .none if they don't currently have one
     public static var activeTier: SubscriptionTier {
         guard hasActiveSubscription() else {
