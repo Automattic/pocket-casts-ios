@@ -390,6 +390,7 @@ extension SyncTask {
         playlist.syncStatus = SyncStatus.synced.rawValue
         DataManager.sharedManager.save(playlist: playlist)
 
+        // Blocks the sync queue: each call performs synchronous networking.
         addedEpisodes.forEach { addedEpisode in
             ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
         }

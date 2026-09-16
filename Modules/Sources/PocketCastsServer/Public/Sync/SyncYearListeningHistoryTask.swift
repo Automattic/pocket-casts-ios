@@ -121,6 +121,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
             DispatchQueue.global(qos: .userInitiated).async {
                 let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
 
+                // Blocks a GCD worker thread: this call performs synchronous networking.
                 ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
 
