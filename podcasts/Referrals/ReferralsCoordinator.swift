@@ -1,6 +1,5 @@
 import Foundation
 import PocketCastsServer
-import PocketCastsUtils
 import StoreKit
 
 extension NSNotification.Name {
@@ -17,13 +16,11 @@ class ReferralsCoordinator {
     }
 
     var areReferralsAvailableToSend: Bool {
-        return FeatureFlag.referrals.enabled && FeatureFlag.referralsSend.enabled && SubscriptionHelper.hasActiveSubscription()
+        return SubscriptionHelper.hasActiveSubscription()
     }
 
     var isReferralAvailableToClaim: Bool {
-        return FeatureFlag.referrals.enabled && FeatureFlag.referralsClaim.enabled &&
-        !SubscriptionHelper.hasActiveSubscription() &&
-        Settings.referralURL != nil
+        return !SubscriptionHelper.hasActiveSubscription() && Settings.referralURL != nil
     }
 
     static var shared: ReferralsCoordinator = {
@@ -49,10 +46,6 @@ class ReferralsCoordinator {
     }
 
     func startClaimFlow(from viewController: UIViewController, referralURL: URL? = nil, onComplete: (() -> ())? = nil) {
-        guard FeatureFlag.referrals.enabled && FeatureFlag.referralsClaim.enabled else {
-            onComplete?()
-            return
-        }
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             var url: URL?

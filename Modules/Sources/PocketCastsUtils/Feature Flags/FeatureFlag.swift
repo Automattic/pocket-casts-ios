@@ -29,15 +29,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
-    /// Enable the Referrals feature
-    case referrals
-
-    /// Enables the referrals Send Flow
-    case referralsSend
-
-    /// Enables the referrals Claim Flow
-    case referralsClaim
-
     /// Run a vacuum process on the database in order to optimize data fetch
     case runVacuumOnVersionUpdate
 
@@ -297,12 +288,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .upgradeExperiment:
             false
-        case .referrals:
-            true
-        case .referralsClaim:
-            true
-        case .referralsSend:
-            true
         case .runVacuumOnVersionUpdate:
             false
         case .endOfYear2024:
