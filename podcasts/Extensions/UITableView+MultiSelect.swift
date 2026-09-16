@@ -1,63 +1,6 @@
 import Foundation
 
 extension UITableView {
-    func previousIndexPath(from indexPath: IndexPath) -> IndexPath? {
-        // Case 1: There is a previous row in the same section
-        if indexPath.row > 0 {
-            return IndexPath(row: indexPath.row - 1, section: indexPath.section)
-        }
-
-        // Case 2: We’re at the first row of a section, try the previous section
-        let currentSection = indexPath.section
-        guard currentSection > 0 else {
-            // We’re at section 0, row 0 — no previous
-            return nil
-        }
-
-        // Find the last non-empty previous section
-        var previousSection = currentSection - 1
-        while previousSection >= 0 {
-            let rows = numberOfRows(inSection: previousSection)
-            if rows > 0 {
-                return IndexPath(row: rows - 1, section: previousSection)
-            }
-            previousSection -= 1
-        }
-
-        // No previous section with rows
-        return nil
-    }
-
-    func nextIndexPath(from indexPath: IndexPath) -> IndexPath? {
-        let currentSection = indexPath.section
-        let currentRow = indexPath.row
-
-        // Case 1: There is a next row in the same section
-        let rowsInCurrentSection = numberOfRows(inSection: currentSection)
-        if currentRow + 1 < rowsInCurrentSection {
-            return IndexPath(row: currentRow + 1, section: currentSection)
-        }
-
-        // Case 2: Move to the first row of the next non-empty section
-        let lastSectionIndex = numberOfSections - 1
-        guard currentSection < lastSectionIndex else {
-            // We’re at the last section already — no next
-            return nil
-        }
-
-        var nextSection = currentSection + 1
-        while nextSection <= lastSectionIndex {
-            let rows = numberOfRows(inSection: nextSection)
-            if rows > 0 {
-                return IndexPath(row: 0, section: nextSection)
-            }
-            nextSection += 1
-        }
-
-        // No subsequent section with rows
-        return nil
-    }
-
     func selectIndexPath(_ indexPath: IndexPath) {
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
         delegate?.tableView?(self, didSelectRowAt: indexPath)
