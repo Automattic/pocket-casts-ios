@@ -181,25 +181,6 @@ extension SessionManager {
         sendWithFallback(removeFromUpNextRequest)
     }
 
-    func requestEpisode(uuid: String, onReply: @escaping ((BaseEpisode?) -> Void), onError: (() -> Void)? = nil) {
-        guard validateSessionActivated() else {
-            onError?()
-            return
-        }
-        if !WCSession.default.isReachable {
-            onError?()
-            return
-        }
-
-        let episodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.EpisodeRequest.type, WatchConstants.Messages.EpisodeRequest.episodeUuid: uuid] as [String: Any]
-        WCSession.default.sendMessage(episodeRequest, replyHandler: { response in
-            let episode = WatchDataManager.convertToEpisode(json: response)
-            onReply(episode)
-        }) { _ in
-            onError?()
-        }
-    }
-
     func requestContents(playlist: WatchPlaylist, replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
         guard validateSessionActivated() else {
             errorHandler?()
