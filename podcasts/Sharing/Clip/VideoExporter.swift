@@ -101,8 +101,13 @@ enum VideoExporter {
         var frame = 0
         do {
             while frame <= frameCount {
-                guard videoWriter.status != .cancelled else {
+                switch videoWriter.status {
+                case .cancelled:
                     throw ExportError.taskCancelled
+                case .failed:
+                    throw ExportError.exportFailed(videoWriter.error)
+                default:
+                    break
                 }
                 guard videoWriterInput.isReadyForMoreMediaData else {
                     try await Task.sleep(for: .milliseconds(10))
@@ -114,7 +119,9 @@ enum VideoExporter {
 
                 let buffer = try await pixelBuffer(for: view, size: size, scale: scale)
                 let frameTime = CMTime(seconds: Double(frame) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                guard adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime) else {
+                    throw ExportError.exportFailed(videoWriter.error)
+                }
                 progress.completedUnitCount += 1
                 frame += 1
             }
