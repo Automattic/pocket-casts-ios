@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var progressDialog: ShiftyLoadingAlert?
     var modalController: UINavigationController?
 
-    lazy var lenticularFilter: LenticularFilter = .init()
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?

@@ -40,26 +40,6 @@ struct ImportLandingView: View {
     }
 }
 
-private struct ImportSourceRow: View {
-    @EnvironmentObject var theme: Theme
-    let importSource: ImportViewModel.ImportSource
-    let action: () -> Void
-
-    init(importSource: ImportViewModel.ImportSource, _ action: @escaping () -> Void) {
-        self.importSource = importSource
-        self.action = action
-    }
-
-    var body: some View {
-        Button {
-            action()
-        } label: {
-            ImportSourceRowContent(importSource: importSource)
-        }
-        .buttonStyle(ClickyButton())
-    }
-}
-
 private struct ImportSourceRowContent: View {
     @EnvironmentObject var theme: Theme
     let importSource: ImportViewModel.ImportSource
