@@ -14,10 +14,6 @@ class AppTheme {
         Theme.isDarkTheme() ? UIColor(hex: "#808892") : UIColor(hex: "#C7C7CD")
     }
 
-    class func pcPlusRed() -> UIColor {
-        ThemeColor.support05()
-    }
-
     class func pcPlusGoldGradientDark() -> UIColor {
         UIColor(hex: "#feb525")
     }
@@ -36,24 +32,8 @@ class AppTheme {
 
     // MARK: - Mini Player
 
-    class func miniPlayerButtonColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor.white : UIColor(hex: "#9097A3")
-    }
-
     class func waitingForWifiColor() -> UIColor {
         Theme.isDarkTheme() ? UIColor(hex: "#525466") : UIColor(hex: "#B8C3C9")
-    }
-
-    // MARK: - Sync Buttons
-
-    class func disabledButtonColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor(hex: "#929292") : UIColor(hex: "#D9D9D9")
-    }
-
-    // MARK: - Discover
-
-    class func imagePlaceHolderColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor(hex: "#4F4F4F") : UIColor(hex: "#E0E6EA")
     }
 
     // MARK: - Podcast Page
@@ -96,17 +76,6 @@ class AppTheme {
         UIColor(hex: "#1E1F1E")
     }
 
-    #if !os(tvOS)
-    class func podcastSearchBarStyle() -> UIBarStyle {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .contrastDark:
-            return UIBarStyle.black
-        case .light, .classic, .indigo, .rosé, .contrastLight:
-            return UIBarStyle.default
-        }
-    }
-    #endif
-
     // MARK: - Paid podcast colours
 
     class func podcastHeartDarkGradientColor() -> UIColor {
@@ -125,66 +94,7 @@ class AppTheme {
         UIColor(hex: "#AD0000")
     }
 
-    class func supporterPodcastBackgroundColor() -> UIColor {
-        UIColor(hex: "#616874")
-    }
-
     // MARK: - Illustrations
-
-    class func noFilesImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .light, .classic:
-            return "no-files-light"
-        case .dark, .extraDark:
-            return "no-files-dark"
-        case .electric:
-            return "no-files-electric"
-        case .indigo:
-            return "no-files-indigo"
-        case .rosé:
-            return "no-files-rose"
-        case .contrastLight:
-            return "no-files-contrastLight"
-        case .contrastDark:
-            return "no-files-contrastDark"
-        }
-    }
-
-    class func noConnectionImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "no-connection-dark"
-        case .light, .classic, .indigo:
-            return "no-connection"
-        case .electric:
-            return "no-connection-electricity"
-        case .rosé:
-            return "no-connection-rose"
-        case .contrastLight:
-            return "no-connection-contrastLight"
-        case .contrastDark:
-            return "no-connection-contrastDark"
-        }
-    }
-
-    class func setupNewAccountImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "setup-new-account-dark"
-        case .light, .classic:
-            return "setup-new-account"
-        case .electric:
-            return "setup-new-account-electricity"
-        case .indigo:
-            return "setup-new-account-indigo"
-        case .rosé:
-            return "setup-new-account-rose"
-        case .contrastLight:
-            return "setup-new-account-contrastLight"
-        case .contrastDark:
-            return "setup-new-account-contrastDark"
-        }
-    }
 
     class func setupNewAccountGoldImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
@@ -243,25 +153,6 @@ class AppTheme {
         }
     }
 
-    class func paymentDeferredImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "payment-pending-dark"
-        case .light, .classic:
-            return "payment-pending"
-        case .electric:
-            return "payment-pending-electricity"
-        case .indigo:
-            return "payment-pending-indigo"
-        case .rosé:
-            return "payment-pending-rose"
-        case .contrastLight:
-            return "payment-pending-contrastLight"
-        case .contrastDark:
-            return "payment-pending-contrastDark"
-        }
-    }
-
     class func accountUpgradedImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark:
@@ -278,44 +169,6 @@ class AppTheme {
             return "avatar-plus-gold-contrastLight"
         case .contrastDark:
             return "avatar-plus-gold-contrastDark"
-        }
-    }
-
-    class func plusCreatedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "avatar-tick-gold-dark"
-        case .light, .classic:
-            return "avatar-tick-gold"
-        case .electric:
-            return "avatar-tick-gold-electricity"
-        case .indigo:
-            return "avatar-tick-gold-indigo"
-        case .rosé:
-            return "avatar-tick-gold-rose"
-        case .contrastLight:
-            return "avatar-tick-gold-contrastLight"
-        case .contrastDark:
-            return "avatar-tick-gold-contrastDark"
-        }
-    }
-
-    class func accountCreatedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "avatar-tick-dark"
-        case .light, .classic:
-            return "avatar-tick"
-        case .electric:
-            return "avatar-tick-electricity"
-        case .indigo:
-            return "avatar-tick-indigo"
-        case .rosé:
-            return "avatar-tick-rose"
-        case .contrastLight:
-            return "avatar-tick-contrastLight"
-        case .contrastDark:
-            return "avatar-tick-contrastDark"
         }
     }
 
@@ -395,25 +248,6 @@ class AppTheme {
         }
     }
 
-    class func folderLockedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "folder-locked-dark"
-        case .light, .classic:
-            return "folder-locked"
-        case .electric:
-            return "folder-locked-electricity"
-        case .indigo:
-            return "folder-locked-indigo"
-        case .rosé:
-            return "folder-locked-rose"
-        case .contrastLight:
-            return "folder-locked-contrastLight"
-        case .contrastDark:
-            return "folder-locked-contrastDark"
-        }
-    }
-
     class func pcPlusLogoHorizontalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
@@ -429,15 +263,6 @@ class AppTheme {
             return "horizontal-logo-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "horizontal-logo"
-        }
-    }
-
-    static func pcLogoSmallHorizontalImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .contrastDark, .indigo, .classic:
-            return "small-horizontal-logo-dark"
-        case .light, .rosé, .contrastLight:
-            return "small-horizontal-logo"
         }
     }
 
@@ -500,25 +325,6 @@ class AppTheme {
         }
     }
 
-    class func termsOfUseImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "clipboard-dark"
-        case .light, .classic:
-            return "clipboard"
-        case .electric:
-            return "clipboard-electricity"
-        case .indigo:
-            return "clipboard-indigo"
-        case .rosé:
-            return "clipboard-rose"
-        case .contrastLight:
-            return "clipboard-contrastLight"
-        case .contrastDark:
-            return "clipboard-contrastDark"
-        }
-    }
-
     class func promoErrorImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark:
@@ -535,25 +341,6 @@ class AppTheme {
             return "promo-error-contrastLight"
         case .contrastDark:
             return "promo-error-contrastDark"
-        }
-    }
-
-    class func emptyFilterImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark:
-            return "empty-filter-dark"
-        case .light, .classic:
-            return "empty-filter"
-        case .electric:
-            return "empty-filter-electricity"
-        case .indigo:
-            return "empty-filter-indigo"
-        case .rosé:
-            return "empty-filter-rose"
-        case .contrastLight:
-            return "empty-filter-contrastLight"
-        case .contrastDark:
-            return "empty-filter-contrastDark"
         }
     }
 
@@ -614,10 +401,6 @@ class AppTheme {
             return themeOverride.isDark ? .white : .black
         }
         return Theme.isDarkTheme() ? .white : .black
-    }
-
-    class func stepperColor() -> UIColor {
-        ThemeColor.primaryInteractive01()
     }
 
     class func tabBarBackgroundColor() -> UIColor {
@@ -711,26 +494,6 @@ class AppTheme {
         case 11: return ThemeColor.filter12()
         default: return ThemeColor.filter08()
         }
-    }
-
-    class func playlistRedColor() -> UIColor {
-        ThemeColor.filter01()
-    }
-
-    class func playlistBlueColor() -> UIColor {
-        ThemeColor.filter05()
-    }
-
-    class func playlistGreenColor() -> UIColor {
-        ThemeColor.filter04()
-    }
-
-    class func playlistPurpleColor() -> UIColor {
-        ThemeColor.filter06()
-    }
-
-    class func playlistYellowColor() -> UIColor {
-        ThemeColor.filter03()
     }
 
     // MARK: - Getting Colors from ThemeStyles
