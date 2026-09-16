@@ -22,14 +22,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let row = tableData[indexPath.section][indexPath.row]
-        switch row {
-        case .upgradeView:
-            return upgradePromptViewSize?.height ?? UITableView.automaticDimension
-
-        default:
-            return UITableView.automaticDimension
-        }
+        UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -54,9 +47,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 cell = PlusAccountPromptTableCell(reuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier, model: model)
             }
             cell.updateParent(self)
-            cell.contentSizeUpdated = { [weak self] size in
-                self?.upgradePromptViewSize = size
-            }
 
             return cell
 

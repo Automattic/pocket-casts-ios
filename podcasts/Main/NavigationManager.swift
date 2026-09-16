@@ -23,8 +23,6 @@ class NavigationManager {
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
 
-    static let filterAddKey = "filterPageAdd"
-
     static let uploadedPageKey = "uploadedPage"
     static let uploadFileKey = "uploadFile"
 
@@ -164,8 +162,6 @@ class NavigationManager {
             } else {
                 mainController?.navigateToFilter(nil, animated: animated)
             }
-        } else if place == NavigationManager.filterAddKey {
-            mainController?.navigateToAddFilter()
         } else if place == NavigationManager.uploadedPageKey {
             if let data, let fileURL = data[NavigationManager.uploadFileKey] as? URL {
                 mainController?.navigateToAddCustom(fileURL)

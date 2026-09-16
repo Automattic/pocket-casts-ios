@@ -5,7 +5,6 @@ class WhatsNewPageView: ThemeableView {
     var whatsNewLinkDelegate: WhatsNewLinkDelegate?
     @IBOutlet var contentView: ThemeableView!
 
-    @IBOutlet var topPaddingView: ThemeableView!
     @IBOutlet var stackView: UIStackView!
     @IBOutlet var scrollView: UIScrollView! {
         didSet {

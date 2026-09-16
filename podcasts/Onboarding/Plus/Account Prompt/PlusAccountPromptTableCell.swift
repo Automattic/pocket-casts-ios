@@ -3,12 +3,7 @@ import UIKit
 import PocketCastsUtils
 
 class PlusAccountPromptTableCell: ThemeableCell {
-//    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
-
     private weak var model: PlusAccountPromptViewModel?
-
-    /// Listen for size changes from the view so we can adjust the table size
-    var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
     init(reuseIdentifier: String?, model: PlusAccountPromptViewModel) {
         self.model = model

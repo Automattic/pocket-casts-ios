@@ -40,7 +40,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         }
     }
 
-    @IBOutlet var collectionViewHeader: UICollectionReusableView!
     static let headerId = "DiscoverCollectionHeader"
     static let gridCellId = "LargeListCell"
     static let descriptiveCellId = "DescriptiveCollectionCell"

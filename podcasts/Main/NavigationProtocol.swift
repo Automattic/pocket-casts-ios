@@ -21,7 +21,6 @@ protocol NavigationProtocol: AnyObject {
     func navigateToProfile(row: ProfileViewController.TableRow?, animated: Bool)
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
-    func navigateToAddFilter()
     func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?, source: String)
 
     func navigateToUpNext(_ animated: Bool)

@@ -180,11 +180,6 @@ class WatchSyncManager {
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 
-    @objc func handleUpdateFromPhone() {
-        _ = updateLoginDetailsIfRequired()
-        updatePodcastSettings()
-    }
-
     @objc func updateLoginDetailsIfRequired() -> Bool {
         guard let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let loginChanged = data[WatchConstants.Keys.loginChanged] as? Bool, loginChanged else {
             return false

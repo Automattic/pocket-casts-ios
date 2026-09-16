@@ -32,8 +32,6 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case liveActivity = "live_activity"
     case mediaType = "media_type"
     case miniplayer
-    case noFiles = "no_files"
-    case noFilters = "no_filters"
     case notifications
     case nowPlayingWidget = "now_playing_widget"
     case onboarding

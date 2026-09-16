@@ -505,10 +505,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         filtersViewController.showFilter(filter)
     }
 
-    func navigateToAddFilter() {
-        switchToTab(.filter)
-    }
-
     func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?, source: String) {
         guard let navController = selectedViewController as? UINavigationController else {
             return

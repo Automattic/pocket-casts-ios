@@ -23,12 +23,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         }
     }
 
-    var upgradePromptViewSize: CGSize? = nil {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
     lazy var headerViewModel: AccountHeaderViewModel = {
         let viewModel = AccountHeaderViewModel()
 

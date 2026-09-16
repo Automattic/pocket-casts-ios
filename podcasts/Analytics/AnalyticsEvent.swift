@@ -350,7 +350,6 @@ enum AnalyticsEvent: String {
     case filterShowArchivedCtaEmptyTapped
 
     case filterManualEpisodesRearranged
-    case filterManualEpisodeDeleted
 
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
@@ -702,7 +701,6 @@ enum AnalyticsEvent: String {
 
     // MARK: - Settings: Files
 
-    case settingsFilesShown
     case settingsFilesAutoAddUpNextToggled
     case settingsFilesDeleteLocalFileAfterPlayingToggled
     case settingsFilesDeleteCloudFileAfterPlayingToggled

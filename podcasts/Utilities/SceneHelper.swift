@@ -8,14 +8,6 @@ class SceneHelper {
         }.first
     }
 
-    class func newMainScreenWindow() -> UIWindow {
-        if let scene = connectedScene() {
-            return UIWindow(windowScene: scene)
-        }
-
-        return UIWindow(frame: UIScreen.main.bounds)
-    }
-
     class func rootViewController(includeTopMost: Bool = true) -> UIViewController? {
         #if os(tvOS)
             return nil

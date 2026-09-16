@@ -116,14 +116,6 @@ private extension PaidFeature {
         .init(tier: .patron, betaTier: .plus, inEarlyAccess: true)
     }
 
-    /// A `PaidFeature` that is available to Patron subscribers.
-    ///
-    /// - Available to Patron users on the AppStore and Beta.
-    /// - The `inEarlyAccess` flag is set to False
-    static var patronFeature: PaidFeature {
-        .init(tier: .patron)
-    }
-
     /// A `PaidFeature` that is available to Plus and Patron subscribers.
     ///
     /// - Available to Plus and Patron users on the AppStore and Beta.
