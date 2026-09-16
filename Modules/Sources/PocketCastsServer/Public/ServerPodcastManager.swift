@@ -145,23 +145,6 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
-    /// Soft-deprecated: performs synchronous networking, blocking the calling thread, and never calls
-    /// the completion on failure. Use the async ``addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:)`` instead.
-    @available(*, deprecated, message: "Performs synchronous networking and blocks the calling thread. Use the async addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:) instead.")
-    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false, completion: ((Episode?) -> ())? = nil) {
-        let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
-
-        if let info = loadFrom(url: url) {
-            // Ensure podcast is added, otherwise episode won't be
-            if !PodcastExistsHelper.shared.exists(uuid: podcastUuid) {
-                _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
-            }
-
-            let episode = addEpisode(podcastInfo: info, shouldUpdate: shouldUpdateEpisode)
-            completion?(episode)
-        }
-    }
-
     @discardableResult
     public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false) async throws -> Episode? {
         let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"

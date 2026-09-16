@@ -118,16 +118,16 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         for change in missingEpisodes {
             dispatchGroup.enter()
 
-            DispatchQueue.global(qos: .userInitiated).async {
+            Task {
                 let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
 
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
+                _ = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
 
                 // Ensure podcastsToUpdate access is thread-safe to avoid crashes
-                lock.lock()
-                podcastsToUpdate.insert(change.podcast)
-                lock.unlock()
+                lock.withLock {
+                    _ = podcastsToUpdate.insert(change.podcast)
+                }
 
                 DispatchQueue.main.async {
                     SyncYearListeningProgress.shared.episodeSynced()
