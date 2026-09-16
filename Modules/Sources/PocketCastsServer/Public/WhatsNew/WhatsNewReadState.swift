@@ -62,8 +62,9 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
 
 /// Keeps the What's New read state in a file.
 ///
-/// Read state is meant to sync across the user's devices through the server; until it does, this
-/// file is the only copy.
+/// Which messages are read also syncs with the user's account, but this file is what the feed works
+/// from: it's there before the first request, it's all a signed-out user has, and it holds what the
+/// server doesn't keep — what the dots have pointed at and which polls were answered.
 public struct WhatsNewReadStateStore: Sendable {
     private let fileURL: URL
 
