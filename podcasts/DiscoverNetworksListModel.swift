@@ -75,14 +75,6 @@ class DiscoverNetworksListModel: ObservableObject {
         }
     }
 
-    func pageDidChange(to currentPage: Int, totalPages: Int) {
-        guard let item else { return }
-
-        Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
-                                                                    "total_pages": totalPages,
-                                                                    "list_id": item.inferredListId])
-    }
-
     /// The list the network points at, as the `DiscoverItem` the expanded screens expect.
     ///
     /// A network opens as a `network_grid`: ``ExpandedCollectionViewController`` and its header,
