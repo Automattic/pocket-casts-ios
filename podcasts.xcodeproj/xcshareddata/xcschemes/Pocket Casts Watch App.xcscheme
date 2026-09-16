@@ -59,7 +59,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDD301631EFB9356004A9972"
             BuildableName = "Pocket Casts Watch App.app"
-            BlueprintName = "Pocket Casts Watch App"
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +75,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDD301631EFB9356004A9972"
             BuildableName = "Pocket Casts Watch App.app"
-            BlueprintName = "Pocket Casts Watch App"
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
