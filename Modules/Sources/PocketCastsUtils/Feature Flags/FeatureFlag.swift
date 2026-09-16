@@ -483,6 +483,4 @@ extension FeatureFlag: OverrideableFlag {
     public var canOverride: Bool {
         true
     }
-
-    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 }

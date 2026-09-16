@@ -33,15 +33,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         return cache
     }()
 
-    /**
-     * Valid image sizes: 130,140,200,210,280,340,400,420,680,960
-     */
-    public class func thumbnailUrl(forPodcast podcast: String, size: Int) -> URL {
-        let urlString = thumbnailUrlString(forPodcast: podcast, size: size)
-
-        return URL(string: urlString)!
-    }
-
+    /// Valid image sizes: 130,140,200,210,280,340,400,420,680,960
     public class func thumbnailUrlString(forPodcast podcast: String, size: Int) -> String {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
     }

@@ -10,12 +10,6 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
 
     private var convertedRatings = [UserPodcastRating]()
 
-    private lazy var addRatingGroup: DispatchGroup = {
-        let dispatchGroup = DispatchGroup()
-
-        return dispatchGroup
-    }()
-
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/podcast_rating/list"
 

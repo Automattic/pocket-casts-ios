@@ -73,10 +73,6 @@ public class UserEpisode: NSObject, BaseEpisode {
         DataConstants.userEpisodeFakePodcastId
     }
 
-    public func jumpToOnStart() -> TimeInterval {
-        0
-    }
-
     public func pathToDownloadedFile(pathFinder: FilePathProtocol) -> String {
         if downloaded(pathFinder: pathFinder) {
             return pathFinder.pathForEpisode(self)

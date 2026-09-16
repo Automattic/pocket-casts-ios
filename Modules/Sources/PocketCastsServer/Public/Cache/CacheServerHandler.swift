@@ -10,8 +10,6 @@ public class CacheServerHandler {
 
     private let colorsUrlsCache: URLCache
 
-    private lazy var episodeInfoHandler = ShowInfoDataRetriever()
-
     private let tokenHelper: TokenHelper
 
     public convenience init() {

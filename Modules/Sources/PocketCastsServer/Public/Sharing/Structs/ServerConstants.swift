@@ -54,10 +54,6 @@ public enum ServerConstants {
             production() ? "https://pocketcasts.com/pair" : "https://pocketcasts.net/pair"
         }
 
-        public static var tvCreate: String {
-            production() ? "https://pocketcasts.com/create" : "https://pocketcasts.net/create"
-        }
-
         public static let support = "https://support.pocketcasts.com/ios/"
         public static let cancelSubscription = "https://support.pocketcasts.com/knowledge-base/how-to-cancel-a-subscription/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
