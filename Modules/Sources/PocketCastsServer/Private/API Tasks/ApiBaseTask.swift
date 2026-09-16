@@ -4,7 +4,6 @@ import PocketCastsUtils
 
 class ApiBaseTask: Operation, @unchecked Sendable {
     private let syncTimeout = 60 as TimeInterval
-    private let isoDateFormatter = ISO8601DateFormatter()
     let apiVersion = "2"
 
     let dataManager: DataManager
@@ -134,14 +133,6 @@ class ApiBaseTask: Operation, @unchecked Sendable {
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
-    }
-
-    func formatDate(_ date: Date?) -> String {
-        if let date {
-            return isoDateFormatter.string(from: date)
-        }
-
-        return ""
     }
 
     func createRequest(url: URL, method: String, token: String?) -> URLRequest {

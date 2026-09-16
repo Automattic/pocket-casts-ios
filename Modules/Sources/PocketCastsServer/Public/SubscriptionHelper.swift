@@ -169,15 +169,6 @@ open class SubscriptionHelper: NSObject {
         SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
     }
 
-    public class func setSubscriptionPodcasts(_ value: [PodcastSubscription]) {
-        do {
-            let data = try PropertyListEncoder().encode(value)
-            UserDefaults.standard.set(data, forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
-        } catch {
-            print("failed to encode subscription podcasts")
-        }
-    }
-
     public class func subscriptionPodcasts() -> [PodcastSubscription]? {
         guard let data = UserDefaults.standard.data(forKey: ServerConstants.UserDefaults.subscriptionPodcasts), let subscriptions = try? PropertyListDecoder().decode([PodcastSubscription].self, from: data) else {
             return nil

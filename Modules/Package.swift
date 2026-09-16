@@ -316,8 +316,4 @@ extension String {
     var supportingName: String {
         "XcodeTarget_\(self)"
     }
-
-    var asDependency: Target.Dependency {
-        .target(name: self.supportingName)
-    }
 }

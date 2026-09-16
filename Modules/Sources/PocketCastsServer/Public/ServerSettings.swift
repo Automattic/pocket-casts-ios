@@ -210,14 +210,6 @@ public class ServerSettings {
 
     private static let filesUsageLastModifiedKey = "UserFilesUsageLastModified"
 
-    public class func setFilesUsageLastModified(_ value: String) {
-        UserDefaults.standard.set(value, forKey: filesUsageLastModifiedKey)
-    }
-
-    public class func filesUsageLastModified() -> String? {
-        UserDefaults.standard.string(forKey: filesUsageLastModifiedKey)
-    }
-
     public class func removeFilesUsageLastModifiedKey() {
         UserDefaults.standard.removeObject(forKey: filesUsageLastModifiedKey)
     }

@@ -13,11 +13,6 @@ struct PropertyInfo {
     let columnName: String?
     /// Whether to encode nil Date values as epoch (for NOT NULL DEFAULT 0 columns)
     let nullDateAsEpoch: Bool
-
-    /// The name to use for the database column (columnName if specified, otherwise name)
-    var databaseColumnName: String {
-        columnName ?? name
-    }
 }
 
 public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
@@ -178,24 +173,6 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
                 return false
             }
             guard hasObjc else { continue }
-
-            if let propInfo = extractPropertyInfo(from: varDecl) {
-                properties.append(propInfo)
-            }
-        }
-
-        return properties
-    }
-
-    /// Extract all stored properties (for Codable structs)
-    private static func extractAllProperties(from declaration: some DeclGroupSyntax) -> [PropertyInfo] {
-        var properties: [PropertyInfo] = []
-
-        for member in declaration.memberBlock.members {
-            guard let varDecl = member.decl.as(VariableDeclSyntax.self),
-                  varDecl.bindingSpecifier.tokenKind == .keyword(.var) else {
-                continue
-            }
 
             if let propInfo = extractPropertyInfo(from: varDecl) {
                 properties.append(propInfo)
@@ -385,18 +362,6 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
 
         return """
             \(raw: accessModifier)enum Columns {
-                \(raw: columns)
-            }
-            """
-    }
-
-    /// Generate Columns enum for structs using string-based column names
-    /// (since auto-synthesized CodingKeys are private)
-    private static func generateColumnsForStruct(properties: [PropertyInfo]) -> DeclSyntax {
-        let columns = properties.map { "static let \($0.name) = Column(\"\($0.databaseColumnName)\")" }.joined(separator: "\n        ")
-
-        return """
-            enum Columns {
                 \(raw: columns)
             }
             """
