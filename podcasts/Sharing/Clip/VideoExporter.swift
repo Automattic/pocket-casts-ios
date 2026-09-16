@@ -98,34 +98,33 @@ enum VideoExporter {
 
     // Part of Step 1
     private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, scale: CGFloat, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
-        let counter = Counter()
-        try await videoWriterInput.unsafeRequestMediaDataWhenReady {
-            while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
+        var frame = 0
+        do {
+            while frame <= frameCount {
                 guard videoWriter.status != .cancelled else {
                     throw ExportError.taskCancelled
                 }
+                guard videoWriterInput.isReadyForMoreMediaData else {
+                    try await Task.sleep(for: .milliseconds(10))
+                    continue
+                }
 
-                let frameProgress = Double(await counter.count) / Double(frameCount)
+                let frameProgress = Double(frame) / Double(frameCount)
                 await view.update(for: frameProgress)
 
-                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale)
-                let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                if videoWriterInput.isReadyForMoreMediaData {
-                    adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                    progress.completedUnitCount += 1
-
-                    await counter.increment()
-                }
+                let buffer = try await pixelBuffer(for: view, size: size, scale: scale)
+                let frameTime = CMTime(seconds: Double(frame) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                progress.completedUnitCount += 1
+                frame += 1
             }
-
-            if await counter.count >= frameCount {
-                videoWriterInput.markAsFinished()
-                await videoWriter.finishWriting()
-                return true
-            }
-
-            return false
+        } catch {
+            videoWriterInput.markAsFinished()
+            throw error
         }
+
+        videoWriterInput.markAsFinished()
+        await videoWriter.finishWriting()
     }
 
     @MainActor
@@ -217,39 +216,5 @@ enum VideoExporter {
             throw ExportError.failedToAddAudioTrack
         }
         try compositionAudioTrack.insertTimeRange(timeRange, of: audioTrack, at: .zero)
-    }
-}
-
-/// Used to safely increment a counter from within an async context
-fileprivate actor Counter {
-    var count: Int = 0
-
-    func run(block: () async throws -> Void) async throws {
-        try await block()
-        await increment()
-    }
-
-    func increment() async {
-        count += 1
-    }
-}
-
-fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
-                _unsafeWait {
-                    do {
-                        let finished = try await block()
-                        if finished {
-                            continuation.resume()
-                        }
-                    } catch {
-                        self.markAsFinished()
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        }
     }
 }
