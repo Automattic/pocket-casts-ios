@@ -13,19 +13,6 @@ class CommonWidgetHelper {
         return appIcon
     }
 
-    class func loadNowPlayingInfo() -> [CommonUpNextItem]? {
-        guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data else {
-            return nil
-        }
-
-        do {
-            let episodes = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
-            return episodes
-        } catch {
-            return nil
-        }
-    }
-
     class func loadNowPlayingEpisode() -> WidgetEpisode? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId),
               let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data,

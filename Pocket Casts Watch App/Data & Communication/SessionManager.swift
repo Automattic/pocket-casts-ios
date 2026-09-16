@@ -22,8 +22,6 @@ class SessionManager: NSObject, WCSessionDelegate {
         }
     }
 
-    func handleBackgroundTask(task: WKWatchConnectivityRefreshBackgroundTask) {}
-
     // MARK: - WCSessionDelegate
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {

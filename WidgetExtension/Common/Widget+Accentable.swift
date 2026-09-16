@@ -28,11 +28,6 @@ extension Image {
             self
         }
     }
-
-    @ViewBuilder
-    func backwardWidgetFullColorRenderingMode() -> some View {
-        backwardWidgetAccentedRenderingMode(false)
-    }
 }
 
 extension EnvironmentValues {
@@ -41,8 +36,4 @@ extension EnvironmentValues {
             widgetRenderingMode == .accented
         }
     }
-}
-
-private enum AccentedWidgetKey: EnvironmentKey {
-    static let defaultValue = false
 }
