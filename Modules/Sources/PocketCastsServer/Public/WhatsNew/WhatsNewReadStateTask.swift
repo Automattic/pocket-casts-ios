@@ -58,7 +58,7 @@ public struct WhatsNewReadStateTask {
         let (response, data) = try await tokenHelper.callSecureUrl(request: request)
 
         let statusCode = response?.statusCode ?? ServerConstants.HttpConstants.serverError
-        guard statusCode == ServerConstants.HttpConstants.ok else {
+        guard 200 ..< 300 ~= statusCode else {
             throw WhatsNewReadStateError.requestFailed(statusCode: statusCode)
         }
         return data

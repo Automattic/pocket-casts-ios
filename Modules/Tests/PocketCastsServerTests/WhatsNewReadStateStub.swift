@@ -32,12 +32,12 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
 
     private func answer(_ request: URLRequest) throws -> (Data?, URLResponse?) {
         let uuids = Set(try JSONDecoder().decode(UuidList.self, from: request.httpBody ?? Data()).uuids)
-        var body: Data?
 
         switch request.url?.path {
         case "/user/whats_new/read_state/list":
             listedMessageIDs.append(uuids)
-            body = try JSONEncoder().encode(UuidList(uuids: Array(readMessageIDs.intersection(uuids))))
+            let body = try JSONEncoder().encode(UuidList(uuids: Array(readMessageIDs.intersection(uuids))))
+            return (body, response(for: request, statusCode: ServerConstants.HttpConstants.ok))
         case "/user/whats_new/read":
             markedAsRead.append(uuids)
             readMessageIDs.formUnion(uuids)
@@ -48,7 +48,7 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
             return (nil, response(for: request, statusCode: ServerConstants.HttpConstants.notFound))
         }
 
-        return (body, response(for: request, statusCode: ServerConstants.HttpConstants.ok))
+        return (nil, response(for: request, statusCode: 204))
     }
 
     private func response(for request: URLRequest, statusCode: Int) -> URLResponse {
