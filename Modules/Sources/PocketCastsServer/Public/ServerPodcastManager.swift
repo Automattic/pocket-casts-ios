@@ -145,6 +145,23 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
+    /// - warning: Performs synchronous networking and blocks the calling thread until the request finishes.
+    /// Never call it from the main thread. The completion is never called on failure. Prefer the async
+    /// ``addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:)`` in new code.
+    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false, completion: ((Episode?) -> ())? = nil) {
+        let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
+
+        if let info = loadFrom(url: url) {
+            // Ensure podcast is added, otherwise episode won't be
+            if !PodcastExistsHelper.shared.exists(uuid: podcastUuid) {
+                _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
+            }
+
+            let episode = addEpisode(podcastInfo: info, shouldUpdate: shouldUpdateEpisode)
+            completion?(episode)
+        }
+    }
+
     @discardableResult
     public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false) async throws -> Episode? {
         let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"

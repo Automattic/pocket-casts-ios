@@ -390,15 +390,10 @@ extension SyncTask {
         playlist.syncStatus = SyncStatus.synced.rawValue
         DataManager.sharedManager.save(playlist: playlist)
 
-        let addedEpisodeIds = addedEpisodes.map { (uuid: $0.uuid, podcastUuid: $0.podcastUuid) }
-        let semaphore = DispatchSemaphore(value: 0)
-        Task {
-            for episode in addedEpisodeIds {
-                _ = try? await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid, shouldUpdateEpisode: true)
-            }
-            semaphore.signal()
+        // Blocks the sync queue: each call performs synchronous networking.
+        addedEpisodes.forEach { addedEpisode in
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
         }
-        semaphore.wait()
     }
 
     private func updateEpisodePositionsIfNeeded(for playlistItem: Api_SyncUserPlaylist, playlist: EpisodeFilter) {
