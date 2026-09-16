@@ -42,34 +42,65 @@ struct InterfaceView: View {
             ForEach(rowList) { row in
                 switch row {
                 case .downloads:
-                    NavigationLink(destination: DownloadListView(), tag: WatchInterfaceType.downloads.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .downloads) {
                         MenuRow(label: L10n.downloads, icon: "filter_downloaded", count: $downloadsViewModel.downloadedCount)
                     }
                 case .podcasts:
-                    NavigationLink(destination: PodcastsListView(), tag: WatchInterfaceType.podcasts.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .podcasts) {
                         MenuRow(label: L10n.podcastsPlural, icon: "podcasts")
                     }
                 case .files:
-                    NavigationLink(destination: FilesListView(), tag: WatchInterfaceType.files.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .files) {
                         MenuRow(label: L10n.files, icon: "file")
                     }
                 case .upNext:
-                    NavigationLink(destination: UpNextView(), tag: WatchInterfaceType.upnext.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .upnext) {
                         MenuRow(label: L10n.upNext, icon: "upnext", count: $upNextViewModel.upNextCount)
                     }
                 case .filters:
-                    NavigationLink(destination: PlaylistsListView(), tag: WatchInterfaceType.filterList.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .filterList) {
                         MenuRow(label: L10n.playlists, icon: "filters")
                     }
                 case .nowPlaying:
-                    NavigationLink(destination: NowPlayingContainerView(), tag: WatchInterfaceType.nowPlaying.indexPosition, selection: $navigationModel.currentInterface) {
+                    link(to: .nowPlaying) {
                         NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle)
                     }
                 }
             }
         }
+        .navigationDestination(item: $navigationModel.currentInterface) { type in
+            destination(for: type)
+        }
         .restorable(.interface)
         .navigationTitle(title)
+    }
+
+    private func link(to type: WatchInterfaceType, @ViewBuilder label: () -> some View) -> some View {
+        Button {
+            navigationModel.currentInterface = type
+        } label: {
+            label()
+        }
+    }
+
+    @ViewBuilder
+    private func destination(for type: WatchInterfaceType) -> some View {
+        switch type {
+        case .downloads:
+            DownloadListView()
+        case .podcasts:
+            PodcastsListView()
+        case .files:
+            FilesListView()
+        case .upnext:
+            UpNextView()
+        case .filterList:
+            PlaylistsListView()
+        case .nowPlaying:
+            NowPlayingContainerView()
+        default:
+            EmptyView()
+        }
     }
 }
 
