@@ -2602,7 +2602,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             lastRetryEpisodeUuid = episodeUuid
             return false
         }
-        Task {
+        Task { [self] in
             haveCalledPlayerLoad = false
             FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
             lastRetryEpisodeUuid = episodeUuid

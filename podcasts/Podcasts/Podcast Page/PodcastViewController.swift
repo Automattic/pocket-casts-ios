@@ -998,7 +998,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     func unarchiveAll() {
         guard let podcast else { return }
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [self] in
             DataManager.sharedManager.markAllUnarchivedForPodcast(id: podcast.id)
 
             AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen

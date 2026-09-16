@@ -105,7 +105,7 @@ extension CarPlaySceneDelegate {
 
 extension CarPlaySceneDelegate {
     func createMoreTab() -> CPListTemplate {
-        return CarPlayListData.staticTemplate(title: L10n.carplayMore, image: UIImage(named: "car_tab_more")) {
+        return CarPlayListData.staticTemplate(title: L10n.carplayMore, image: UIImage(named: "car_tab_more")) { [weak self] in
             let listeningHistoryItem = CPListItem(text: L10n.listeningHistory, detailText: nil, image: UIImage(named: "car_more_listening_history"))
             listeningHistoryItem.accessoryType = .disclosureIndicator
             listeningHistoryItem.handler = { [weak self] _, completion in

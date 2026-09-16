@@ -87,7 +87,7 @@ public class RefreshManager {
     private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                 guard let self else { return }
 
@@ -107,7 +107,7 @@ public class RefreshManager {
     private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [self] in
             let watchOsMajorVersion = WKInterfaceDevice.current().systemVersion.split(separator: ".")[safe: 0]
 
             if watchOsMajorVersion == "10" {
@@ -133,7 +133,7 @@ public class RefreshManager {
     #endif
 
     public func refreshPodcasts(completion: @escaping (RefreshFetchResult) -> Void) {
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
             let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                 guard let self else { return }

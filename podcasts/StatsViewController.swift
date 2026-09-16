@@ -208,7 +208,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         loadingState = LoadingStatus.loading
         reloadSections()
 
-        StatsManager.shared.loadRemoteStats { success in
+        StatsManager.shared.loadRemoteStats { [weak self] success in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.loadingState = success ? .loaded : .failed
