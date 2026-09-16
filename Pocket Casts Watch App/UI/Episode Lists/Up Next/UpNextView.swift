@@ -14,6 +14,7 @@ struct UpNextView: View {
                 NavigationLink(destination: NowPlayingContainerView()) {
                     NowPlayingRow(isPlaying: $viewModel.isPlaying, podcastName: $viewModel.upNextTitle)
                 }
+                .padding(-4)
                 EpisodeListView(title: L10n.upNext.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: nil)
                     .padding(.vertical, 10)
             }

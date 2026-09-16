@@ -64,6 +64,7 @@ struct InterfaceView: View {
                 case .nowPlaying:
                     link(to: .nowPlaying) {
                         NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle)
+                            .padding(-4)
                     }
                 }
             }

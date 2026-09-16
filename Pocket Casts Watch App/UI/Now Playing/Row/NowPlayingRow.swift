@@ -16,7 +16,6 @@ struct NowPlayingRow: View {
             .font(.dynamic(size: 13))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(-4)
     }
 }
 
