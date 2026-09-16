@@ -32,8 +32,7 @@ public struct WhatsNewReadStateTask {
     /// Which of the given messages the account has already read.
     public func readMessageIDs(among messageIDs: some Collection<String>) async throws -> Set<String> {
         let data = try await send(messageIDs, to: "user/whats_new/read_state/list", method: "POST")
-        guard let data, !data.isEmpty else { return [] }
-        return try Set(JSONDecoder().decode(UuidList.self, from: data).uuids)
+        return try Set(Api_UuidListResponse(serializedBytes: data ?? Data()).uuids)
     }
 
     /// Marks the messages read for the account, clearing them on the user's other devices.
@@ -50,10 +49,13 @@ public struct WhatsNewReadStateTask {
         let url = try URL(throwing: ServerConstants.Urls.api() + path)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         request.httpMethod = method
-        request.setValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
-        request.setValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.addLocalizationHeaders()
-        request.httpBody = try JSONEncoder().encode(UuidList(uuids: Array(messageIDs)))
+
+        var body = Api_UuidsRequest()
+        body.uuids = Array(messageIDs)
+        request.httpBody = try body.serializedData()
 
         let (response, data) = try await tokenHelper.callSecureUrl(request: request)
 
@@ -62,10 +64,5 @@ public struct WhatsNewReadStateTask {
             throw WhatsNewReadStateError.requestFailed(statusCode: statusCode)
         }
         return data
-    }
-
-    /// The body every read-state endpoint takes, and the one the list endpoint answers with.
-    private struct UuidList: Codable {
-        let uuids: [String]
     }
 }

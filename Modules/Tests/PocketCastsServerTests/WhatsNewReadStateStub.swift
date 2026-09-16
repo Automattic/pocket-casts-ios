@@ -19,10 +19,6 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
     /// Whether there's an account to sync with, as the manager sees it.
     var isSignedIn = true
 
-    private struct UuidList: Codable {
-        let uuids: [String]
-    }
-
     var task: WhatsNewReadStateTask {
         WhatsNewReadStateTask(tokenHelper: TokenHelper(urlConnection: URLConnection(mockHandler: { [self] request in
             if let error { throw error }
@@ -31,13 +27,14 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
     }
 
     private func answer(_ request: URLRequest) throws -> (Data?, URLResponse?) {
-        let uuids = Set(try JSONDecoder().decode(UuidList.self, from: request.httpBody ?? Data()).uuids)
+        let uuids = Set(try Api_UuidsRequest(serializedBytes: request.httpBody ?? Data()).uuids)
 
         switch request.url?.path {
         case "/user/whats_new/read_state/list":
             listedMessageIDs.append(uuids)
-            let body = try JSONEncoder().encode(UuidList(uuids: Array(readMessageIDs.intersection(uuids))))
-            return (body, response(for: request, statusCode: ServerConstants.HttpConstants.ok))
+            var body = Api_UuidListResponse()
+            body.uuids = Array(readMessageIDs.intersection(uuids))
+            return (try body.serializedData(), response(for: request, statusCode: ServerConstants.HttpConstants.ok))
         case "/user/whats_new/read":
             markedAsRead.append(uuids)
             readMessageIDs.formUnion(uuids)
