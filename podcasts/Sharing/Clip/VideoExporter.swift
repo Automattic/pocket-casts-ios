@@ -101,24 +101,12 @@ enum VideoExporter {
         var frame = 0
         do {
             while frame <= frameCount {
-                switch videoWriter.status {
-                case .cancelled:
-                    throw ExportError.taskCancelled
-                case .failed:
-                    throw ExportError.exportFailed(videoWriter.error)
-                default:
-                    break
-                }
-                guard videoWriterInput.isReadyForMoreMediaData else {
-                    try await Task.sleep(for: .milliseconds(10))
-                    continue
-                }
-
                 let frameProgress = Double(frame) / Double(frameCount)
                 await view.update(for: frameProgress)
 
                 let buffer = try await pixelBuffer(for: view, size: size, scale: scale)
                 let frameTime = CMTime(seconds: Double(frame) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                try await waitUntilReadyForMoreMediaData(videoWriterInput, of: videoWriter)
                 guard adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime) else {
                     throw ExportError.exportFailed(videoWriter.error)
                 }
@@ -132,6 +120,24 @@ enum VideoExporter {
 
         videoWriterInput.markAsFinished()
         await videoWriter.finishWriting()
+    }
+
+    // Part of Step 1
+    private static func waitUntilReadyForMoreMediaData(_ videoWriterInput: AVAssetWriterInput, of videoWriter: AVAssetWriter) async throws {
+        while true {
+            switch videoWriter.status {
+            case .cancelled:
+                throw ExportError.taskCancelled
+            case .failed:
+                throw ExportError.exportFailed(videoWriter.error)
+            default:
+                break
+            }
+            if videoWriterInput.isReadyForMoreMediaData {
+                return
+            }
+            try await Task.sleep(for: .milliseconds(10))
+        }
     }
 
     @MainActor
