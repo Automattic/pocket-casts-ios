@@ -213,7 +213,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.configure(title: L10n.failedRecommendations, icon: {
                     Image(systemName: "exclamationmark.circle")
                 }, actions: [
-                    .init(title: L10n.tryAgain, action: {
+                    .init(title: L10n.tryAgain, action: { [weak self] in
                         Task { [weak self] in
                             guard !Task.isCancelled else { return }
                             await self?.loadRecommendations()

@@ -32,7 +32,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         self.flowSource = flowSource
         self.style = style
         super.init()
-        loadPrices() {
+        loadPrices() { [weak self] in
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 self.products = self.pricingInfo.products.filter {

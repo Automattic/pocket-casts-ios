@@ -50,7 +50,7 @@ class FolderPreviewView: UIView {
     func populateFromAsync(folder: Folder) {
         currentFolder = folder
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [])
-        DispatchQueue.global(qos: .userInteractive).async {
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
             let folderUuid = folder.uuid
             DispatchQueue.main.async { [weak self] in

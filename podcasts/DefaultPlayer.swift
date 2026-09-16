@@ -795,7 +795,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             // schedule a timer to cancel the background task as soon as bufferring is done or we don't need to play anymore
             // do this on the main thread because timers require run loops
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
                     guard let self else {
                         timer.invalidate()

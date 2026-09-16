@@ -126,7 +126,7 @@ class BookmarkDetailsViewModel: ObservableObject {
 
         isLoadingPodcastTitle = true
 
-        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { podcastInfo, _ in
+        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, _ in
             let title = (podcastInfo?["podcast"] as? [String: Any])?["title"] as? String
 
             Task { @MainActor [weak self] in

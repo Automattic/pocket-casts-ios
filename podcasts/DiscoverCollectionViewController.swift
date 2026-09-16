@@ -248,7 +248,7 @@ extension DiscoverCollectionViewController {
             cell.contentConfiguration = ContentUnavailableConfiguration.loading()
         }
 
-        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
+        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
                 self?.reloadData()
             }
