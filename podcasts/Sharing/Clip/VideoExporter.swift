@@ -108,7 +108,7 @@ enum VideoExporter {
                 let frameProgress = Double(await counter.count) / Double(frameCount)
                 await view.update(for: frameProgress)
 
-                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
+                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                 if videoWriterInput.isReadyForMoreMediaData {
                     adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
@@ -129,7 +129,7 @@ enum VideoExporter {
     }
 
     @MainActor
-    private static func pixelBuffer(for view: some AnimatableContent, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
+    private static func pixelBuffer(for view: some AnimatableContent, size: CGSize, scale: CGFloat) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))
     }
 
