@@ -44,15 +44,6 @@ extension UpNextViewController: MultiSelectActionDelegate {
         return selectedUuids.contains(uuid)
     }
 
-    func selectedEpisodesContainsUserEpisode() -> Bool {
-        for episode in selectedPlayListEpisodes {
-            if episode.isUserEpisode() {
-                return true
-            }
-        }
-        return false
-    }
-
     func selectedEpisodesRemove(uuid: String) {
         let selectedUuids = selectedPlayListEpisodes.map(\.episodeUuid)
         if let currentEpisodeIndex = selectedUuids.firstIndex(of: uuid) {

@@ -109,12 +109,6 @@ public enum ServerConstants {
         public static let appLanguage = "X-App-Language"
     }
 
-    public enum Timeouts {
-        static let sync = 60 as TimeInterval
-        static let general = 60 as TimeInterval
-        static let cache = 30 as TimeInterval
-    }
-
     public enum Values {
         static var apiScope: String {
             #if os(tvOS)

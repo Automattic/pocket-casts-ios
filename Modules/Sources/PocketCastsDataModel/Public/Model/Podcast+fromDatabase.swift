@@ -64,10 +64,4 @@ extension Podcast {
     }
 }
 
-extension DBUtils {
-    static func convertData<T: JSONCodable>(value: Data) throws -> T? {
-        return try JSONDecoder().decode(T.self, from: value)
-    }
-}
-
 extension ModifiedDate: JSONCodable {}

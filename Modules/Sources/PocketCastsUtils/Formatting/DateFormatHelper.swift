@@ -93,16 +93,6 @@ public class DateFormatHelper: NSObject {
         return shortLocalizedFormatter.string(from: date)
     }
 
-    public func aboutPageFormat(_ date: Date?) -> String {
-        guard let date else { return "" }
-
-        if !date.isCurrentYear() {
-            return fullDateFormatter.string(from: date)
-        }
-
-        return monthDayFormatter.string(from: date)
-    }
-
     // MARK: - Tiny dd MMM
 
     public lazy var tinyLocalizedFormatter: DateFormatter = {

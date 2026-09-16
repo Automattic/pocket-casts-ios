@@ -54,9 +54,4 @@ public extension ApiServerHandler {
         deleteOperation.completion = completion
         apiQueue.addOperation(deleteOperation)
     }
-
-    func uploadFileUsageRequest() {
-        let fileUsageOperation = RetrieveFileUsageTask()
-        apiQueue.addOperation(fileUsageOperation)
-    }
 }

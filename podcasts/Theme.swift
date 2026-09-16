@@ -208,16 +208,6 @@ class Theme: ObservableObject {
         }
     }
 
-    func toggleDarkLightThemeAnimated(topLevelView: UIView, originView: UIView) {
-        let themeToChangeTo = toggledThemed()
-
-        changeThemeAnimated(themeToChangeTo, topLevelView: topLevelView, originView: originView)
-    }
-
-    func cycleThemeForTesting() {
-        activeTheme = ThemeType(rawValue: activeTheme.rawValue + 1) ?? ThemeType.light
-    }
-
     private func toggledThemed() -> ThemeType {
         guard Settings.shouldFollowSystemTheme() else {
             return Theme.preferredLightTheme()
