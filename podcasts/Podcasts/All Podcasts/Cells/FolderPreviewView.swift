@@ -19,7 +19,6 @@ class FolderPreviewView: UIView {
     private var gradientLayer: CAGradientLayer?
     private var nameLabel: UILabel?
     private var nameLabelVerticalPositionConstraint: NSLayoutConstraint?
-    private var nameLabelBottomConstraint: NSLayoutConstraint?
     private var currentFolder: Folder?
 
     private func addObservers() {

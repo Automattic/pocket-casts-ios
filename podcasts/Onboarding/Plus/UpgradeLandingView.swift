@@ -31,10 +31,6 @@ struct UpgradeLandingView: View {
         }
     }
 
-    private var selectedProduct: IAPProductID {
-        currentSubscriptionPeriod == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
-    }
-
     /// If this device has a small screen
     private var isSmallScreen: Bool {
         UIScreen.main.bounds.height <= 667

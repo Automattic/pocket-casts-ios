@@ -3,8 +3,6 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 public class ServerPodcastManager: NSObject {
-    private static let maxAutoDownloadSeperationTime = 12.hours
-
     public static let shared = ServerPodcastManager()
 
     lazy var isoFormatter: ISO8601DateFormatter = {

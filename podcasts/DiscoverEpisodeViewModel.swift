@@ -8,7 +8,6 @@ import PocketCastsUtils
 @MainActor
 class DiscoverEpisodeViewModel: ObservableObject {
     private enum ClientError: Swift.Error {
-        case noPodcastUuid
         case podcastNotFound
         case episodeNotFound
     }

@@ -9,7 +9,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let limitCellId = "LimitCell"
     private static let noSearchResultsCell = "NoSearchResults"
     private static let groupHeadingCellId = "GroupHeading"
-    private static let emptyStateCellId = "EmptyStateCell"
 
     private enum YouMightLikeSection {
         case header

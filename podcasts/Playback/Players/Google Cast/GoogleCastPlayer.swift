@@ -90,24 +90,8 @@ class GoogleCastPlayer: PlaybackProtocol {
         castManager.changePlaybackSpeed(speed)
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        false
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        false
-    }
-
     func supportsGoogleCast() -> Bool {
         true
-    }
-
-    func supportsStreaming() -> Bool {
-        true
-    }
-
-    func supportsAirplay2() -> Bool {
-        false
     }
 
     func shouldBePlaying() -> Bool {

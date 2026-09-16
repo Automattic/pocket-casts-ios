@@ -10,13 +10,6 @@ class EndOfYearDataManager {
         "\(year)-01-01"
     }
 
-    /// The date to stop including results from
-    /// This is set to the day after the final day we want to include in the results to make sure we include the full
-    /// day up to midnight
-    private func endDate(_ year: Int) -> String {
-        "\(year+1)-01-01"
-    }
-
     /// If the user is eligible to see End of Year stats
     ///
     /// All it's needed is a single episode listened for more than 5 minutes.

@@ -33,7 +33,6 @@ enum ShareDestination: Hashable {
 
     enum ShareError: Error {
         case noMatchingItemIdentifier
-        case loadFailed(Error?)
     }
 
     @MainActor

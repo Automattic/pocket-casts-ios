@@ -7,7 +7,6 @@ class FolderViewModel: ObservableObject {
     @Published var podcasts = [Podcast]()
 
     private let playSource = WatchSourceViewModel()
-    private var cancellables = Set<AnyCancellable>()
 
     init(folder: Folder) {
         self.folder = folder

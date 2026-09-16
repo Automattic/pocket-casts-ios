@@ -30,7 +30,6 @@ final class PodcastTableViewCell: ThemeableCell {
     }
 
     private enum ClientError: Swift.Error {
-        case noPodcastUuid
         case podcastNotFound
         case episodeNotFound
     }

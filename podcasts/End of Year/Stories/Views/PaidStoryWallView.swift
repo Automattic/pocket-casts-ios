@@ -3,8 +3,6 @@ import PocketCastsServer
 import PocketCastsUtils
 
 struct PaidStoryWallView: View {
-    @StateObject private var model = PlusPricingInfoModel()
-
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {

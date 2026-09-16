@@ -314,7 +314,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
 
     // MARK: Keyboard management
 
-    private var originalButtonConstant: CGFloat = 49
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)

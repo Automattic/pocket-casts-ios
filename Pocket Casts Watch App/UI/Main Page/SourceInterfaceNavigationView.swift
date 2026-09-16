@@ -152,17 +152,6 @@ struct SourceInterfaceNavigationView: View {
         }
         .environmentObject(NavigationManager.shared)
     }
-
-    private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
-        let watchCurrentEpisode = PlaybackManager.shared.currentEpisode
-        let phoneCurrentEpisode = WatchDataManager.playingEpisode()
-        if watchCurrentEpisode?.uuid == phoneCurrentEpisode?.uuid {
-            if watchCurrentEpisode?.playedUpTo == phoneCurrentEpisode?.playedUpTo {
-                return true
-            }
-        }
-        return false
-    }
 }
 
 #Preview {

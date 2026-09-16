@@ -18,7 +18,6 @@ struct LongestEpisode2025Story: ShareableStory {
     private let imageSize: CGFloat = UIScreen.isSmallScreen ? 190 : 206
 
     @State private var imageScale = CGFloat(1.1)
-    @State private var isAnimating: Bool = true
 
     private let scaleAnimation: Animation = .timingCurve(0.18, 0.00, 0.08, 1.00, duration: 1.25)
 
