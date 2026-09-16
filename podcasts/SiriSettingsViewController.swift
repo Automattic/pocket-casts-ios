@@ -235,16 +235,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         reloadData()
     }
 
-    func voiceShortcutForShortcut(shortcut: INShortcut) -> INVoiceShortcut? {
-        guard let existingShortcuts = enabledShortcuts else { return nil }
-        for voice in existingShortcuts {
-            if voice.shortcut == shortcut {
-                return voice
-            }
-        }
-        return nil
-    }
-
     // MARK: INUIAddVoiceShortcutViewController
 
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {

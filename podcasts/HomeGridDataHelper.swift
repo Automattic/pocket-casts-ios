@@ -12,36 +12,6 @@ class HomeGridDataHelper {
         DataManager.sharedManager.allFolders().count
     }
 
-    class func gridListItemsForSearchTerm(_ searchTerm: String) -> [HomeGridItem] {
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-
-        var filteredItems = [HomeGridItem]()
-        for podcast in allPodcasts {
-            guard let title = podcast.title else { continue }
-
-            if title.localizedCaseInsensitiveContains(searchTerm) {
-                filteredItems.append(HomeGridItem(podcast: podcast))
-            } else if let author = podcast.author, author.localizedCaseInsensitiveContains(searchTerm) {
-                filteredItems.append(HomeGridItem(podcast: podcast))
-            }
-        }
-
-        if SubscriptionHelper.hasActiveSubscription() {
-            let allFolders = DataManager.sharedManager.allFolders()
-            for folder in allFolders {
-                if folder.name.localizedCaseInsensitiveContains(searchTerm) {
-                    filteredItems.append(HomeGridItem(folder: folder))
-                }
-            }
-        }
-
-        filteredItems.sort { item1, item2 in
-            titleSort(item1: item1, item2: item2)
-        }
-
-        return filteredItems
-    }
-
     #if !os(watchOS)
         class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType) -> [HomeGridListItem] {
             let allPodcasts: [Podcast]

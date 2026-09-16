@@ -15,7 +15,6 @@ class NavigationManager {
     static let episodeUuidKey = "episode"
     static let episodeTimestamp = "episodeTimestamp"
 
-    private static let homePageKey = "homePage"
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
     static let discoverCategoryKey = "discoverCategory"
@@ -78,7 +77,6 @@ class NavigationManager {
 
     static let upNextPageKey = "upNextPage"
     static let signUpPageKey = "signUpPage"
-    static let importPageKey = "importPage"
 
     static let featurePageKey = "featurePageKey"
     static let featureKey = "featureKey"
@@ -94,7 +92,6 @@ class NavigationManager {
     var dimmingView: UIView?
     var miniPlayer: MiniPlayerViewController?
 
-    private var firstSetupCompleted = false
     var isPhone = false
 
     private var lastNavKey = ""

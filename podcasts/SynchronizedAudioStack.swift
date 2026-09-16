@@ -49,12 +49,6 @@ class SynchronizedAudioStack {
         }
     }
 
-    func sampleCount() -> Int64 {
-        singleQueue.sync {
-            Int64(samplesStored)
-        }
-    }
-
     func averageSampleCount() -> AVAudioFrameCount {
         singleQueue.sync {
             if itemQueueCount == 0 || samplesStored == 0 { return 0 }

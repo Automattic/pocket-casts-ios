@@ -38,8 +38,6 @@ class ChapterManager {
 
     private var lastEpisodeUuid = ""
 
-    var numberOfChaptersSkipped = 0
-
     var currentChapters = Chapters()
 
     var chaptersOrigin: ChapterOrigin = .unknown

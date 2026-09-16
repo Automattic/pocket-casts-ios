@@ -327,12 +327,6 @@ class EpisodeManager: NSObject {
         return fileSizeForEpisodes(episodes)
     }
 
-    class func downloadSizeOfAllBufferEpisodes() -> UInt64 {
-        let episodes = allBufferedEpisodes()
-
-        return fileSizeForEpisodes(episodes)
-    }
-
     class func downloadSizeOfUnplayedEpisodes(includeStarred: Bool) -> UInt64 {
         let episodes = allDownloadEpisodesWithStatus(.notPlayed, includeStarred: includeStarred)
 

@@ -74,8 +74,6 @@ extension RegexFilter {
     static let fullStopEndofCueFilter = RegexFilter(pattern: "([\\!\\?\\.])\\z", replacement: "$1\n")
     // Ensure that end of cues have a space when appended to the next cue
     static let notfullStopNewLineFilter = RegexFilter(pattern: "([^\\!\\?\\.])\\z", replacement: "$1 ")
-    // &nbsp filter
-    static let nbspFilter = RegexFilter(pattern: "&nbsp;", replacement: " ")
     // <br> filter
     static let breakLineFilter = RegexFilter(pattern: "<br>|<BR>|<br/>|<BR/>|<BR />|<br />", replacement: "\n")
     // Sound descriptor filter. Ex: [laughs]
@@ -92,19 +90,6 @@ extension RegexFilter {
     static let carriageReturnFilter = RegexFilter(pattern: "\\r\\n?", replacement: "\n")
     // </p> filter
     static let htmlParagraphFilter = RegexFilter(pattern: "</p>", replacement: "\n")
-}
-
-struct SuffixFilter: TranscriptFilter {
-    private let condition: String
-    private let replacement: String
-
-    func filter(_ input: String) -> String {
-        return input.hasSuffix(condition) ? input : input.appending(replacement)
-    }
-}
-
-extension SuffixFilter {
-    static let addSpaceWhenNotEndofLine = SuffixFilter(condition: ".\n", replacement: " ")
 }
 
 struct HTMLEntititiesFilter: TranscriptFilter {

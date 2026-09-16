@@ -21,14 +21,6 @@ class HapticsHelper {
         triggerImpactOccurredHaptic(style: .light)
     }
 
-    class func triggerRearrangeHaptic() {
-        triggerImpactOccurredHaptic(style: .light)
-    }
-
-    class func triggerPullToRefreshHaptic() {
-        triggerImpactOccurredHaptic(style: .heavy)
-    }
-
     #if os(tvOS)
     enum FeedbackStyle {
         case heavy
