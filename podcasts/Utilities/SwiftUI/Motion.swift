@@ -82,15 +82,6 @@ class MotionManager: ObservableObject {
         self.objectWillChange.send()
     }
 
-    private func adjustValueForUpsideDown(_ value: Double, gravityZ: Double) -> Double {
-        // Gravity Z will be less than 0 when the device is near upside down
-        guard gravityZ > 0 else {
-            return value
-        }
-
-        return value > 0 ? .pi - value : -(.pi + value)
-    }
-
     struct MotionOptions: OptionSet {
         let rawValue: Int
         static let attitude = MotionOptions(rawValue: 1 << 0)

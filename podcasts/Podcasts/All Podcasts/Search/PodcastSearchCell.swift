@@ -43,19 +43,6 @@ class PodcastSearchCell: ThemeableCell {
         subscribedIcon.isHidden = false
     }
 
-    func populateForm(podcastInfo: PodcastInfo) {
-        if let uuid = podcastInfo.uuid {
-            podcastImage.setPodcast(uuid: uuid, size: .list)
-        } else {
-            podcastImage.clearArtwork()
-        }
-        podcastName.text = podcastInfo.title
-        podcastAuthor.text = podcastInfo.author
-
-        folderPreview.isHidden = true
-        subscribedIcon.isHidden = true
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

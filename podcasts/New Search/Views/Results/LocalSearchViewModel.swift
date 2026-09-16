@@ -165,11 +165,6 @@ final class LocalSearchViewModel: ObservableObject {
         }
     }
 
-    func selectPodcast(_ podcastResult: PodcastFolderSearchResult) {
-        guard let podcast = podcast(from: podcastResult) else { return }
-        beginEpisodeMode(with: podcast)
-    }
-
     func selectFolder(_ folderResult: PodcastFolderSearchResult) {
         guard folderResult.kind == .folder,
               let folder = DataManager.sharedManager.findFolder(uuid: folderResult.uuid) else {

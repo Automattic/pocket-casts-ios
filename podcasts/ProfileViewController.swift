@@ -6,8 +6,6 @@ import UIKit
 import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
-    fileprivate enum StatValueType { case listened, saved }
-
     private var refreshController: FullSyncRefreshController?
 
     @IBOutlet var footerView: UIView!
@@ -236,11 +234,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
-    }
-
-    private func showAccountController() {
-        let accountVC = AccountViewController()
-        navigationController?.pushViewController(accountVC, animated: true)
     }
 
     private func refreshTapped() {
@@ -592,8 +585,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
-        static let giftSize = CGFloat(24)
-        static let giftBadgeSize = CGFloat(16)
         static let defaultTipSize = CGSizeMake(300, 50)
     }
 
