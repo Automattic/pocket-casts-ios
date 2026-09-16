@@ -174,7 +174,7 @@ private extension BookmarkDataManager {
 
         return add(uuid: apiBookmark.bookmarkUuid,
                    episodeUuid: apiBookmark.episodeUuid,
-                   podcastUuid: apiBookmark.podcastUuid,
+                   podcastUuid: apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid,
                    title: apiBookmark.title,
                    time: .init(apiBookmark.time),
                    dateCreated: apiBookmark.createdAt.date,

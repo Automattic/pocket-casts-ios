@@ -368,6 +368,16 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         XCTAssertEqual(allBookmarks.map(\.created), [.init(timeIntervalSince1970: 6), .init(timeIntervalSince1970: 12), .init(timeIntervalSince1970: 18)])
     }
 
+    func testFullSyncMapsUserEpisodeFakePodcastToNil() {
+        syncTask.processServerBookmarks([
+            .forTesting(uuid: "one", podcast: DataConstants.userEpisodeFakePodcastId)
+        ])
+
+        let bookmark = bookmarkManager.bookmark(for: "one")
+        XCTAssertNotNil(bookmark)
+        XCTAssertNil(bookmark?.podcastUuid)
+    }
+
     func testFullSyncIgnoresExistingItems() {
         addBookmark(time: 1)
         addBookmark(time: 2)
