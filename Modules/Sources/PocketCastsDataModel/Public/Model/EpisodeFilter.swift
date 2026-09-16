@@ -75,18 +75,6 @@ public class EpisodeFilter: NSObject {
         playlistName = title
     }
 
-    public func markingAsPlayedRemovesItem() -> Bool {
-        !filterFinished
-    }
-
-    public func markingAsUnplayedRemovesItem() -> Bool {
-        !filterUnplayed
-    }
-
-    public func deletingFileRemovesItem() -> Bool {
-        !filterDownloaded
-    }
-
     /// Whether an episode's download status decides if it belongs to this playlist.
     public var filtersByDownloadStatus: Bool {
         let allStatuses = filterDownloaded && filterDownloading && filterNotDownloaded

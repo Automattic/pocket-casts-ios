@@ -66,14 +66,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         let episodeUuid: String
         let originalUrl: URL
         let hasRetriedWithoutUserAgent: Bool
-
-        func withRetryAttempt() -> DownloadAttempt {
-            return DownloadAttempt(
-                episodeUuid: episodeUuid,
-                originalUrl: originalUrl,
-                hasRetriedWithoutUserAgent: true
-            )
-        }
     }
 
     let downloadAttempts = ThreadSafeDictionary<Int, DownloadAttempt>()
@@ -259,10 +251,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func addToQueue(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus = .notSpecified) {
         addToQueue(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: autoDownloadStatus)
-    }
-
-    func addToQueueForStreaming(episodeUuid: String) {
-        addToQueue(episodeUuid: episodeUuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
     }
 
     func addToQueue(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
@@ -701,10 +689,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         let path = (streamingBufferDirectory as NSString).appendingPathComponent(fileName)
 
         return path
-    }
-
-    func streamingBufferFolder() -> String {
-        streamingBufferDirectory
     }
 
     private func cancelTaskId(_ taskId: String?, episode: BaseEpisode, session: URLSession) {

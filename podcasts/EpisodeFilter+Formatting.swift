@@ -14,18 +14,6 @@ extension EpisodeFilter {
         return EpisodeFilter.imageForPlaylistIcon(icon: icon)
     }
 
-    func iconImageLarge() -> UIImage? {
-        guard let iconName = iconImageNameLarge() else { return nil }
-
-        return UIImage(named: iconName)
-    }
-
-    func iconImageNameLarge() -> String? {
-        guard let regularName = iconImageName() else { return nil }
-
-        return "\(regularName)_large"
-    }
-
     func iconImageName() -> String? {
         guard let icon = PlaylistIcon(rawValue: customIcon) else { return nil }
 
