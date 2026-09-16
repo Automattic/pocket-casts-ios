@@ -18,7 +18,6 @@ enum VideoExporter {
         let episodeAsset: AVAsset
         let audioStartTime: CMTime
         let audioDuration: CMTime
-        let additionalLoadingCount: Int64 = 50
         let fileType: AVFileType
     }
 

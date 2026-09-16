@@ -68,20 +68,6 @@ class SharingHelper: NSObject {
         let option: SharingModal.Option = shareTime == 0 ? .episode(episode) : .currentPosition(episode, shareTime)
         SharingModal.show(option: option, from: fromSource, in: fromController)
     }
-
-    func createActivityController(episode: Episode, shareTime: TimeInterval) -> UIActivityViewController {
-        var sharingUrl = episode.shareURL
-        if shareTime > 0 {
-            AnalyticsHelper.sharedEpisodeWithTimestamp()
-            sharingUrl += "?t=\(round(episode.playedUpTo))"
-        } else {
-            AnalyticsHelper.sharedEpisode()
-        }
-
-        let activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
-        activityController.completionWithItemsHandler = nil
-        return activityController
-    }
 }
 
 extension Podcast {

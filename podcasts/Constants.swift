@@ -447,25 +447,6 @@ enum PlusUpgradeViewSource: String {
     /// deferred/pending transaction). Keeps `source` defined and distinct from a real `unknown`.
     case unattributed
 
-    /// Converts the enum into a Firebase promotionId, this matches the values set on Android
-    func promotionId() -> String {
-        return rawValue.uppercased()
-    }
-
-    /// Converts the enum into a Firebase promotion name, this matches the values set on Android
-    func promotionName() -> String {
-        switch self {
-        case .profile, .appearance:
-            return "Upgrade to Plus from \(rawValue)"
-
-        case .unknown:
-            return "Unknown"
-
-        default:
-            return "Upgrade to Plus for \(rawValue)"
-        }
-    }
-
     func isEligibleForExperiment() -> Bool {
         switch self {
         case .profile, .onboarding:

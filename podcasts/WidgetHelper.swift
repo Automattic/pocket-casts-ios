@@ -50,13 +50,6 @@ class WidgetHelper {
         #endif
     }
 
-    func updateUpNextWidgets() {
-        WidgetCenter.shared.getCurrentConfigurations { result in
-            guard case .success = result else { return }
-            WidgetCenter.shared.reloadTimelines(ofKind: "Up_Next_Widget")
-        }
-    }
-
     func updateWidgetAppIcon() {
         WidgetCenter.shared.getCurrentConfigurations { result in
             guard case .success = result, let widgets = try? result.get() else { return }

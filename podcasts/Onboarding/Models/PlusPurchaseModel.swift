@@ -237,13 +237,4 @@ private extension PlusPurchaseModel {
     func handlePurchaseFailed(error: NSError?) {
         state = .failed
     }
-
-    private var defaultError: NSError {
-        let userInfo = [
-            NSLocalizedDescriptionKey: "Failed to initiate purchase.",
-            NSLocalizedFailureReasonErrorKey: "Failed because the product isn't available, or the user isn't signed in"
-        ]
-
-        return NSError(domain: "com.pocketcasts.iap", code: 1, userInfo: userInfo)
-    }
 }

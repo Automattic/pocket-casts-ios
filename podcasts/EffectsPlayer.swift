@@ -5,8 +5,6 @@ import PocketCastsUtils
 import UIKit
 
 class EffectsPlayer: PlaybackProtocol, Hashable {
-    private static let targetVolumeDbGain = 15.0 as Float
-
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
 

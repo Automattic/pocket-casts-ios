@@ -13,7 +13,6 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     private let transcriptDataRetriever: TranscriptsDataRetriever
 
     private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
-    private var requestingRawMetadata: [String: Task<String?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),

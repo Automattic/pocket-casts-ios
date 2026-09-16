@@ -79,14 +79,6 @@ class AnalyticsHelper {
         logEvent("shared_podcast_list", parameters: nil)
     }
 
-    class func sharedEpisode() {
-        logEvent("shared_episode", parameters: nil)
-    }
-
-    class func sharedEpisodeWithTimestamp() {
-        logEvent("shared_episode_time", parameters: nil)
-    }
-
     class func navigatedToDiscover() {
         logEvent("discover_open", parameters: nil)
     }
@@ -255,16 +247,8 @@ class AnalyticsHelper {
         logEvent("siri_play_podcast", parameters: nil)
     }
 
-    class func siriPlayAllFilter() {
-        logEvent("siri_play_all_filter", parameters: nil)
-    }
-
     class func siriPlayTopFilter() {
         logEvent("siri_play_top_filter", parameters: nil)
-    }
-
-    class func siriOpenFilter() {
-        logEvent("siri_open_filter", parameters: nil)
     }
 
     class func tourStarted(tourName: String) {
@@ -303,10 +287,6 @@ class AnalyticsHelper {
         logEvent("up_next_open", parameters: nil)
     }
 
-    class func filterOpened() {
-        logEvent("filter_opened", parameters: nil)
-    }
-
     class func podcastOpened(uuid: String) {
         logEvent("podcast_open", parameters: ["podcastUuid": uuid])
     }
@@ -332,66 +312,6 @@ class AnalyticsHelper {
 
 #if os(iOS)
     extension AnalyticsHelper {
-        static func plusUpgradeViewed(source: PlusUpgradeViewSource) {
-            Analytics.track(.plusPromotionShown, properties: ["source": source.rawValue])
-
-            logPromotionEvent(AnalyticsEventViewPromotion,
-                              promotionId: source.promotionId(),
-                              promotionName: source.promotionName())
-        }
-
-        static func plusUpgradeConfirmed(source: PlusUpgradeViewSource) {
-            Analytics.track(.plusPromotionUpgradeButtonTapped, properties: ["source": source.rawValue])
-
-            logPromotionEvent(AnalyticsEventSelectPromotion,
-                              promotionId: source.promotionId(),
-                              promotionName: source.promotionName())
-        }
-
-        static func plusUpgradeDismissed(source: PlusUpgradeViewSource) {
-            Analytics.track(.plusPromotionDismissed, properties: ["source": source.rawValue])
-
-            logPromotionEvent("close_promotion",
-                              promotionId: source.promotionId(),
-                              promotionName: source.promotionName())
-        }
-
-        #if !APPCLIP
-        static func plusAddToCart(identifier: IAPProductID) {
-            guard let product = IAPHelper.shared.getProduct(for: identifier) else {
-                return
-            }
-
-            let price = product.price
-            let currency = product.priceLocale.currency?.identifier ?? ""
-            let name = product.localizedTitle
-
-            let item: [String: Any] = [
-                AnalyticsParameterItemID: identifier,
-                AnalyticsParameterItemName: name,
-                AnalyticsParameterPrice: price,
-                AnalyticsParameterQuantity: 1
-            ]
-
-            var parameters: [String: Any] = [
-                AnalyticsParameterCurrency: currency,
-                AnalyticsParameterValue: price,
-                AnalyticsParameterItems: [item]
-            ]
-
-            // Log that a free trial was used
-            if IAPHelper.shared.isEligibleForOffer, let offerType = product.introductoryPrice?.paymentMode {
-                if offerType == .freeTrial {
-                    parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
-                } else if offerType == .payAsYouGo {
-                    parameters[AnalyticsParameterCoupon] = "INTRO_OFFER"
-                }
-            }
-
-            logEvent(AnalyticsEventAddToCart, parameters: parameters)
-        }
-        #endif
-
         static func plusPlanPurchased() {
             logEvent(AnalyticsEventPurchase)
         }
@@ -403,14 +323,6 @@ class AnalyticsHelper {
         static func createAccountDismissed() {
             logEvent("close_account_missing")
         }
-
-        static func createAccountConfirmed() {
-            logEvent("select_create_account")
-        }
-
-        static func createAccountSignIn() {
-            logEvent("select_sign_in_account")
-        }
     }
 
     // MARK: - Folders
@@ -418,20 +330,6 @@ class AnalyticsHelper {
     extension AnalyticsHelper {
         static func folderCreated() {
             logEvent("folder_created")
-        }
-    }
-
-    // MARK: - Promotion Events
-
-    private extension AnalyticsHelper {
-        // Helper method to log a Firebase promotion event
-        static func logPromotionEvent(_ name: String, promotionId: String, promotionName: String) {
-            let parameters = [
-                AnalyticsParameterPromotionID: promotionId,
-                AnalyticsParameterPromotionName: promotionName
-            ]
-
-            logEvent(name, parameters: parameters)
         }
     }
 #endif // End iOS Only Check

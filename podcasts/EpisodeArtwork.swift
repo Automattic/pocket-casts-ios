@@ -55,12 +55,6 @@ final class EpisodeArtwork {
         inProgressArtworkLoads[episodeUuid] = task
     }
 
-    /// Cancel any in-progress artwork load for the given episode
-    func cancelArtworkLoad(for episodeUuid: String) {
-        inProgressArtworkLoads[episodeUuid]?.cancel()
-        inProgressArtworkLoads[episodeUuid] = nil
-    }
-
     func isCached(episodeUuid: String) -> Bool {
         imageManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }

@@ -90,17 +90,6 @@ class PlaybackEffects {
         }
     }
 
-    func incrementSpeedBy(_ value: Double) {
-        var currentSpeed = playbackSpeed
-
-        currentSpeed += value
-        if currentSpeed > SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
-            currentSpeed = 1.0
-        }
-
-        playbackSpeed = currentSpeed
-    }
-
     private class func convertToTrimSilenceAmount(_ value: Int32) -> TrimSilenceAmount {
         if let amount = TrimSilenceAmount(rawValue: value) {
             return amount

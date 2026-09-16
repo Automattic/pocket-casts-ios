@@ -9,10 +9,6 @@ class PlaybackItem: NSObject {
         self.episode = episode
     }
 
-    static func itemFromEpisode(_ episode: BaseEpisode) -> PlaybackItem? {
-        PlaybackItem(episode: episode)
-    }
-
     func createPlayerItem() -> AVPlayerItem? {
         guard let url = EpisodeManager.urlForEpisode(episode) else { return nil }
         // there is now an official, working way to set the user-agent for every request

@@ -44,11 +44,6 @@ struct UserEpisodeManager {
         }
     #endif
 
-    static func renameUserEpisode(title: String, userEpisode: UserEpisode) {
-        userEpisode.title = title
-        DataManager.sharedManager.save(episode: userEpisode)
-    }
-
     static func uploadUserEpisode(userEpisode: UserEpisode) {
         if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             UploadManager.shared.queueForLaterUpload(episodeUuid: userEpisode.uuid, fireNotification: true)
