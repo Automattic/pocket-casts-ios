@@ -3,7 +3,7 @@ import AVFoundation
 import UIKit
 import PocketCastsUtils
 
-protocol AnimatableContent: View {
+protocol AnimatableContent: View, SendableMetatype {
     @MainActor
     func update(for progress: Double)
 }
@@ -129,7 +129,7 @@ enum VideoExporter {
     }
 
     @MainActor
-    private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
+    private static func pixelBuffer(for view: some AnimatableContent, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))
     }
 
