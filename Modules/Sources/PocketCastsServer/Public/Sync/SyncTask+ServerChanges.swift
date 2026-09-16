@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import SwiftProtobuf
 
 extension SyncTask {
     func processServerData(response: Api_SyncUpdateResponse) {
@@ -32,6 +33,8 @@ extension SyncTask {
                     totalSkipped: TimeInterval(item.device.timeSkipping.value),
                     savedAutoSkipping: TimeInterval(item.device.timeIntroSkipping.value)
                 )
+            case .whatsNew:
+                break
             }
         }
 
@@ -502,6 +505,30 @@ private extension Api_SyncUserBookmark {
         hasCreatedAt ? createdAt.date : nil
     }
 
+    var logDescription: String {
+        (try? jsonString()) ?? "invalid api bookmark"
+    }
+}
+
+// MARK: - Bookmark Passage Fields
+
+protocol ApiBookmarkPassageFields {
+    var hasPassage: Bool { get }
+    var passage: Google_Protobuf_StringValue { get }
+    var hasPassageLocation: Bool { get }
+    var passageLocation: Google_Protobuf_Int32Value { get }
+    var hasPassageModified: Bool { get }
+    var passageModified: Google_Protobuf_Int64Value { get }
+    var hasReferenceTime: Bool { get }
+    var referenceTime: Google_Protobuf_Int32Value { get }
+    var hasReferenceTimeModified: Bool { get }
+    var referenceTimeModified: Google_Protobuf_Int64Value { get }
+}
+
+extension Api_SyncUserBookmark: ApiBookmarkPassageFields {}
+extension Api_BookmarkResponse: ApiBookmarkPassageFields {}
+
+extension ApiBookmarkPassageFields {
     // The server only emits the passage and reference time groups when their modified timestamp
     // is set, using "" / 0 as placeholders for a null value within an emitted group. Each group
     // is gated on its modified date below, so an absent group leaves the local values untouched.
@@ -527,9 +554,5 @@ private extension Api_SyncUserBookmark {
 
     var referenceTimeModifiedDate: Date? {
         hasReferenceTimeModified ? Date(timeIntervalSince1970: TimeInterval(referenceTimeModified.value) / 1000) : nil
-    }
-
-    var logDescription: String {
-        (try? jsonString()) ?? "invalid api bookmark"
     }
 }
