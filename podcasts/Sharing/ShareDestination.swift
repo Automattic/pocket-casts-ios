@@ -162,6 +162,7 @@ enum ShareDestination: Hashable {
 // MARK: Analytics
 
 extension ShareDestination {
+    @MainActor
     private static func logClipShared(option: SharingModal.Option, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) {
         // This event is specifically for clip shares and not other shares. These are handled by `podcastShared`
         guard case let .clipShare(episode, clipTime, _) = option else {

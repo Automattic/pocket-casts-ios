@@ -3,9 +3,10 @@ import PocketCastsDataModel
 import Combine
 import SwiftUI
 
+@MainActor
 class ClipPlaybackManager: ObservableObject {
 
-    static var shared = ClipPlaybackManager()
+    static let shared = ClipPlaybackManager()
 
     @Published var isPlaying: Bool = false
     @Published var currentTime: TimeInterval?
@@ -67,7 +68,9 @@ class ClipPlaybackManager: ObservableObject {
     func seek(to time: CMTime) {
         isSeeking = true
         avPlayer?.seek(to: time) { [weak self] _ in
-            self?.isSeeking = false
+            DispatchQueue.main.async {
+                self?.isSeeking = false
+            }
         }
     }
 
@@ -83,26 +86,31 @@ class ClipPlaybackManager: ObservableObject {
     private func setupTimeObserver() {
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = avPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            guard let self else {
-                return
+            MainActor.assumeIsolated {
+                self?.handlePeriodicTime(time)
             }
-            // Loops back to the beginning at end of clip range
-            guard time.seconds < clipTime.end else {
-                isSeeking = true
-                avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: .audio)) { [weak self] _ in
+        }
+    }
+
+    private func handlePeriodicTime(_ time: CMTime) {
+        // Loops back to the beginning at end of clip range
+        guard time.seconds < clipTime.end else {
+            isSeeking = true
+            avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: .audio)) { [weak self] _ in
+                DispatchQueue.main.async {
                     guard let self else {
                         return
                     }
-                    isSeeking = false
-                    avPlayer?.pause()
-                    currentTime = clipTime.start
+                    self.isSeeking = false
+                    self.avPlayer?.pause()
+                    self.currentTime = self.clipTime.start
                 }
-                return
             }
+            return
+        }
 
-            if !isSeeking {
-                currentTime = time.seconds
-            }
+        if !isSeeking {
+            currentTime = time.seconds
         }
     }
 
@@ -115,6 +123,7 @@ class ClipPlaybackManager: ObservableObject {
 
     private func observePlaybackEnd() {
         avPlayer?.publisher(for: \.timeControlStatus)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
                 self?.isPlaying = (status == .playing || status == .waitingToPlayAtSpecifiedRate)
             }

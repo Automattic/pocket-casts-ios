@@ -282,6 +282,7 @@ extension SharingModal.Option {
         }
     }
 
+    @MainActor
     var shareURL: String {
         let formatter = SignificantDigitsFormatStyle(significantDigits: 4)
         switch self {

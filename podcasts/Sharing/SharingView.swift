@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class ClipTime: ObservableObject {
     @Published var start: TimeInterval
     @Published var end: TimeInterval
