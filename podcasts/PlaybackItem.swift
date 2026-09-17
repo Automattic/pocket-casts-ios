@@ -15,6 +15,6 @@ class PlaybackItem: NSObject {
         // https://developer.apple.com/documentation/avfoundation/avurlassethttpuseragentkey
         let options: [String: Any] = [AVURLAssetHTTPUserAgentKey: ServerConstants.Values.appUserAgent]
         let asset = AVURLAsset(url: url, options: options)
-        return AVPlayerItem(asset: asset)
+        return AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: [.tracks])
     }
 }

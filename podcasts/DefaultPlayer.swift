@@ -92,6 +92,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             cleanupPlayer()
             player = nil
         }
+        audioMix = nil
+        assetTrack = nil
 
         if let url = EpisodeManager.urlForEpisode(episode) {
             isPlayingLocalFile = url.isFileURL
@@ -372,31 +374,32 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+        if isWaitingForInitialPlayback, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
             loadEmbeddedImage()
-
-            for track in tracks {
-                if track.mediaType == AVMediaType.audio {
-                    assetTrack = track
-                    break
-                }
-            }
-
-            #if !os(watchOS)
-                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
-                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
-                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
-                // video honors it. Only attach it when we actually found an audio track.
-                if assetTrack != nil {
-                    createAudioMix()
-                    player?.currentItem?.audioMix = audioMix
-                }
-            #endif
+            loadAudioTrack(for: playerItem)
 
             isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
+    }
+
+    private func loadAudioTrack(for playerItem: AVPlayerItem) {
+        switch playerItem.asset.status(of: .tracks) {
+        case .loaded(let tracks):
+            assetTrack = tracks.first { $0.mediaType == .audio }
+        case .failed(let error):
+            FileLog.shared.addMessage("[DefaultPlayer] Failed to load asset tracks: \(error)")
+        default:
+            FileLog.shared.addMessage("[DefaultPlayer] Asset tracks were not loaded when the item became ready to play")
+        }
+
+        #if !os(watchOS)
+            if assetTrack != nil {
+                createAudioMix()
+                playerItem.audioMix = audioMix
+            }
+        #endif
     }
 
     // MARK: - Audio Mix

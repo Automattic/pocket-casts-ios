@@ -347,7 +347,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
-            newItem = AVPlayerItem(asset: newAsset)
+            newItem = AVPlayerItem(asset: newAsset, automaticallyLoadedAssetKeys: [.tracks])
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
                 if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
                     activeMediaExporterDelegate.releaseIfDownloadComplete()
@@ -405,7 +405,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
-        newItem = AVPlayerItem(asset: newAsset)
+        newItem = AVPlayerItem(asset: newAsset, automaticallyLoadedAssetKeys: [.tracks])
         if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
             if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
                 activeMediaExporterDelegate.releaseIfDownloadComplete()
