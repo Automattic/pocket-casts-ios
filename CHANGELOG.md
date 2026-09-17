@@ -15,6 +15,7 @@
 - Add networks to search: a matching network now shows up in Top Results, and a "Networks" filter appears when the term matches one [#5036](https://github.com/Automattic/pocket-casts-ios/pull/5036)
 - Open a podcast's network from the podcast page, either from the author in the header or from the author row in the details below it [#5040](https://github.com/Automattic/pocket-casts-ios/pull/5040) [#5075](https://github.com/Automattic/pocket-casts-ios/pull/5075)
 - [tvOS] Add networks to search, in Combined Results and in a tab of their own [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
+- Fix the app crashing on launch when its database can't be opened. It now explains what went wrong and offers to contact support and send a copy of the database, instead of starting over with an empty library [#5159](https://github.com/Automattic/pocket-casts-ios/pull/5159)
 
 8.20
 -----
