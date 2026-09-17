@@ -404,7 +404,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     }
 
     private lazy var foldersCoordinator: FoldersCoordinator = {
-        return FoldersCoordinator()
+        return FoldersCoordinator(navigationManager: .sharedManager)
     }()
 
     func showSuggestedFolders() {

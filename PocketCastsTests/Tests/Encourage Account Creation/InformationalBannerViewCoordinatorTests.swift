@@ -3,6 +3,7 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 final class InformationalBannerViewCoordinatorTests: XCTestCase {
     func testCoordinatorDismiss() throws {
         let vm = MockViewModel(bannerType: .profile)

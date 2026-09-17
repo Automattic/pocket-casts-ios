@@ -1,6 +1,7 @@
 @testable import podcasts
 import XCTest
 
+@MainActor
 final class BackgroundSignOutListenerTests: XCTestCase {
     private var signOutListener: BackgroundSignOutListener!
     private var notificationCenter: NotificationCenter!

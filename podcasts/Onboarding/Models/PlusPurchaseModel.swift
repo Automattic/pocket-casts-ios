@@ -32,7 +32,9 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
         // If the view is presented as its own part
         if parentController as? UINavigationController == nil {
-            OnboardingFlow.shared.reset()
+            DispatchQueue.main.async {
+                OnboardingFlow.shared.reset()
+            }
         }
     }
 

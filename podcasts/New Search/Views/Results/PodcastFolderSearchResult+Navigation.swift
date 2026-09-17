@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 extension PodcastFolderSearchResult {
+    @MainActor
     func navigateTo() {
         switch kind {
         case .folder:

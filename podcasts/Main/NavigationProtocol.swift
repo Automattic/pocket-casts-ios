@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
+@MainActor
 protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
     func navigateToPodcast(_ podcast: Podcast)

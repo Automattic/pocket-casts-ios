@@ -12,6 +12,7 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
     }
 
     /// Opens the login or account details depending on the users logged in state
+    @MainActor
     func accountTapped() {
         Analytics.track(.profileAccountButtonTapped)
 

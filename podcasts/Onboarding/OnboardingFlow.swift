@@ -82,6 +82,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     }
 
     /// Resets the internal flow state to none and clears any analytics sources
+    @MainActor
     mutating func reset() {
         if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()

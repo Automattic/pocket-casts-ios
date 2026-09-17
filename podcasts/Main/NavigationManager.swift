@@ -3,6 +3,7 @@ import PocketCastsServer
 import UIKit
 import PocketCastsUtils
 
+@MainActor
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
     static let podcastKey = "podcast"

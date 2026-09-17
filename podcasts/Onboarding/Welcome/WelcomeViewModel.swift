@@ -25,6 +25,7 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
         track(.welcomeDismissed)
     }
 
+    @MainActor
     func sectionTapped(_ section: WelcomeSection) {
         saveNewsletterOptIn()
 

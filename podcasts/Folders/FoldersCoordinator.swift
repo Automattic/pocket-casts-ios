@@ -5,6 +5,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 
+@MainActor
 class FoldersCoordinator: NSObject {
 
     enum UpsellFlow {
@@ -31,7 +32,7 @@ class FoldersCoordinator: NSObject {
         static let intervalAfterStartup: TimeInterval = 10.seconds
     }
 
-    init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
+    init(navigationManager: NavigationManager, dataManager: DataManager = .sharedManager) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
         self.suggestedFoldersModel = SuggestedFoldersModel()
