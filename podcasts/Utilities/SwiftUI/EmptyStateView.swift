@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 protocol EmptyStateViewStyle: ObservableObject {
     var title: Color { get }
     var message: Color { get }

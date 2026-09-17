@@ -127,6 +127,7 @@ private extension PlusLandingViewModel {
     }
 }
 
+@MainActor
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, viewSource: PlusUpgradeViewSource, config: PlusLandingViewModel.Config? = nil, customTitle: String? = nil) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, viewSource: viewSource, config: config)

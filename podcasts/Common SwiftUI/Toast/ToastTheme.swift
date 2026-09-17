@@ -1,6 +1,7 @@
 import SwiftUI
 
 /// Allows customization of the Toast message colors
+@MainActor
 protocol ToastTheme: ObservableObject {
     var background: Color { get }
     var title: Color { get }
@@ -25,7 +26,7 @@ class ToastPlayerTheme: ThemeObserver, ToastTheme {
 }
 
 extension ToastTheme where Self == ToastPlayerTheme {
-    static var playerTheme: ToastPlayerTheme {
+    nonisolated static var playerTheme: ToastPlayerTheme {
         ToastPlayerTheme()
     }
 }
@@ -46,7 +47,7 @@ class ToastDefaultTheme: ThemeObserver, ToastTheme {
 }
 
 extension ToastTheme where Self == ToastDefaultTheme {
-    static var defaultTheme: ToastDefaultTheme {
+    nonisolated static var defaultTheme: ToastDefaultTheme {
         ToastDefaultTheme()
     }
 }

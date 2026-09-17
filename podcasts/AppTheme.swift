@@ -97,7 +97,7 @@ class AppTheme {
     // MARK: - Illustrations
 
     class func setupNewAccountGoldImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "setup-new-account-gold-dark"
         case .electric:
@@ -116,7 +116,7 @@ class AppTheme {
     }
 
     class func paymentFailedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "payment-failed-dark"
         case .light, .classic:
@@ -135,7 +135,7 @@ class AppTheme {
     }
 
     class func passwordChangedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "key-stars-dark"
         case .light, .classic:
@@ -154,7 +154,7 @@ class AppTheme {
     }
 
     class func accountUpgradedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "avatar-plus-gold-dark"
         case .light, .classic:
@@ -173,7 +173,7 @@ class AppTheme {
     }
 
     class func plusCancelledImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "avatar-cancelled-dark"
         case .light, .classic:
@@ -192,7 +192,7 @@ class AppTheme {
     }
 
     class func plusCancelledGoldImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "avatar-cancelled-gold-dark"
         case .light, .classic:
@@ -211,7 +211,7 @@ class AppTheme {
     }
 
     class func changedEmailImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "email-stars-dark"
         case .light, .classic:
@@ -230,7 +230,7 @@ class AppTheme {
     }
 
     class func cancelSubscriptionImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "dollar-recycle-dark"
         case .light, .classic:
@@ -249,7 +249,7 @@ class AppTheme {
     }
 
     class func pcPlusLogoHorizontalImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return "PCPlusHorizontal-Dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -258,7 +258,7 @@ class AppTheme {
     }
 
     class func pcLogoHorizontalImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return "horizontal-logo-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -267,7 +267,7 @@ class AppTheme {
     }
 
     static func pcLogoSmallHorizontalForBackgroundImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return "small-horizontal-logo-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -275,6 +275,7 @@ class AppTheme {
         }
     }
 
+    @MainActor
     static func socialIconAppleImageName(theme: Theme = .sharedTheme) -> String {
         switch theme.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
@@ -289,7 +290,7 @@ class AppTheme {
     }
 
     class func pcPlusLogoVerticalImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return "verticalLogoDark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -298,7 +299,7 @@ class AppTheme {
     }
 
     class func pcLogoVerticalImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return "pc-logo-vertical-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -307,7 +308,7 @@ class AppTheme {
     }
 
     class func fileErrorImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "fileError-dark"
         case .light, .classic:
@@ -326,7 +327,7 @@ class AppTheme {
     }
 
     class func promoErrorImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark:
             return "promo-error-dark"
         case .light, .classic:
@@ -356,7 +357,7 @@ class AppTheme {
 
     #if !os(tvOS)
     class func defaultStatusBarStyle() -> UIStatusBarStyle {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
         case .classic, .indigo:
@@ -371,7 +372,7 @@ class AppTheme {
     }
 
     class func popupStatusBarStyle(themeOverride: Theme.ThemeType? = nil) -> UIStatusBarStyle {
-        switch themeOverride ?? Theme.sharedTheme.activeTheme {
+        switch themeOverride ?? Theme.activeThemeType {
         case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
         case .light, .classic, .indigo, .rosé, .contrastLight:
@@ -499,7 +500,13 @@ class AppTheme {
     // MARK: - Getting Colors from ThemeStyles
 
     /// Returns a SwiftUI color for the theme style
-    static func color(for style: ThemeStyle, theme: Theme? = nil) -> Color {
+    static func color(for style: ThemeStyle) -> Color {
+        return colorForStyle(style).color
+    }
+
+    /// Returns a SwiftUI color for the theme style
+    @MainActor
+    static func color(for style: ThemeStyle, theme: Theme?) -> Color {
         return colorForStyle(style, themeOverride: theme?.activeTheme).color
     }
 

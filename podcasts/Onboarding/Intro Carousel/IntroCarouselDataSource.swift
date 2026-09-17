@@ -44,10 +44,12 @@ class IntroCarouselDataSource: StoriesDataSource {
         nil
     }
 
+    @MainActor
     func indicatorColor(for storyNumber: Int) -> Color {
         theme.primaryText01
     }
 
+    @MainActor
     func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle {
         StoryIndicatorStyle(
             height: 4,
@@ -57,6 +59,7 @@ class IntroCarouselDataSource: StoriesDataSource {
         )
     }
 
+    @MainActor
     var primaryBackgroundColor: Color {
         theme.primaryUi01
     }

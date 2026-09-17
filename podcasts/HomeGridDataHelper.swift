@@ -24,7 +24,7 @@ class HomeGridDataHelper {
                 allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
             }
 
-            let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.sharedTheme.activeTheme) }
+            let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.activeThemeType) }
 
             // load the required badge information if the supplied badge type needs it
             if badgeType == .allUnplayed {

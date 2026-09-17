@@ -1,6 +1,6 @@
 import SwiftUI
-import Combine
 
+@MainActor
 protocol BookmarksStyle: ObservableObject {
     associatedtype ActionStyle: ActionBarStyle
     associatedtype EmptyStyle: EmptyStateViewStyle
@@ -28,17 +28,16 @@ protocol BookmarksStyle: ObservableObject {
 
 // MARK: - ThemeObserver
 
+@MainActor
 class ThemeObserver: ObservableObject {
     let theme: Theme = .sharedTheme
-    private var cancellables = Set<AnyCancellable>()
 
-    init() {
-        Constants.Notifications.themeChanged.publisher()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellables)
+    nonisolated init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
+    @objc private func themeDidChange() {
+        objectWillChange.send()
     }
 }
 

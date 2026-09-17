@@ -43,6 +43,7 @@ struct BannerAdView: View {
         let icon: Color
         let border: Color?
 
+        @MainActor
         static func playerColors(_ theme: Theme) -> Self {
             return Self(
                 background: theme.playerContrast06,
@@ -55,6 +56,7 @@ struct BannerAdView: View {
             )
         }
 
+        @MainActor
         static func podcastList(_ theme: Theme) -> Self {
             return Self(
                 background: .clear,

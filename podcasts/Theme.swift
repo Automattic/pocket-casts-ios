@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
+import os
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {
@@ -100,15 +101,22 @@ extension ThemeType: AnalyticsDescribable {
     }
 }
 
+@MainActor
 class Theme: ObservableObject {
-    static let themeKey = "theme"
-    static let preferredDarkThemeKey = "preferredDarkTheme"
-    static let preferredLightThemeKey = "preferredLightTheme"
-    static let sharedTheme = Theme()
+    nonisolated static let themeKey = "theme"
+    nonisolated static let preferredDarkThemeKey = "preferredDarkTheme"
+    nonisolated static let preferredLightThemeKey = "preferredLightTheme"
+    nonisolated static let sharedTheme = Theme()
 
     typealias ThemeType = PocketCastsServer.ThemeType
 
-    @Published var activeTheme: ThemeType {
+    nonisolated private static let activeThemeTypeLock = OSAllocatedUnfairLock(initialState: savedTheme())
+
+    nonisolated static var activeThemeType: ThemeType {
+        activeThemeTypeLock.withLock { $0 }
+    }
+
+    @Published var activeTheme: ThemeType = Theme.savedTheme() {
         willSet {
             // There's a SwiftUI bug (last checked in SwiftUI 3, iOS 15.4) where if this variable changes while the app is backgrounded, the events aren't correctly sent so here we manually fire a will change if our app isn't active
             // before removing this, test for the bug in this issue: https://github.com/shiftyjelly/pocketcasts-ios/issues/3969
@@ -117,6 +125,7 @@ class Theme: ObservableObject {
             }
         }
         didSet {
+            Theme.activeThemeTypeLock.withLock { [activeTheme] in $0 = activeTheme }
             UserDefaults.standard.set(activeTheme.old.rawValue, forKey: Theme.themeKey)
 
             // if the user is changing from or to the radioactive theme, we need to clear our memory cache because processing is applied to these images
@@ -126,13 +135,7 @@ class Theme: ObservableObject {
         }
     }
 
-    init() {
-        let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
-        if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
-            Settings.setShouldFollowSystemTheme(true)
-        }
-        activeTheme = ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
-
+    nonisolated init() {
         NotificationCenter.default.addObserver(self, selector: #selector(systemThemeDidChange(_:)), name: Constants.Notifications.systemThemeMayHaveChanged, object: nil)
     }
 
@@ -144,17 +147,25 @@ class Theme: ObservableObject {
         NotificationCenter.default.removeObserver(self)
     }
 
+    nonisolated private static func savedTheme() -> ThemeType {
+        let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
+        if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
+            Settings.setShouldFollowSystemTheme(true)
+        }
+        return ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
+    }
+
     @objc private func systemThemeDidChange(_ notification: Notification) {
         if Settings.shouldFollowSystemTheme() {
             toggleTheme()
         }
     }
 
-    class func isDarkTheme() -> Bool {
-        Theme.sharedTheme.activeTheme.isDark
+    nonisolated class func isDarkTheme() -> Bool {
+        Theme.activeThemeType.isDark
     }
 
-    class func preferredDarkTheme() -> ThemeType {
+    nonisolated class func preferredDarkTheme() -> ThemeType {
         let savedType = UserDefaults.standard.integer(forKey: preferredDarkThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .dark }
@@ -176,7 +187,7 @@ class Theme: ObservableObject {
         Settings.trackValueChanged(.settingsAppearanceDarkThemeChanged, value: preferredType)
     }
 
-    class func preferredLightTheme() -> ThemeType {
+    nonisolated class func preferredLightTheme() -> ThemeType {
         let savedType = UserDefaults.standard.integer(forKey: preferredLightThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .light }

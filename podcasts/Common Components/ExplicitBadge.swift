@@ -24,7 +24,7 @@ enum ExplicitBadgeHelper {
             cacheSize = fontSize
             imageCache.removeAll()
         }
-        let resolvedTheme = theme ?? Theme.sharedTheme.activeTheme
+        let resolvedTheme = theme ?? Theme.activeThemeType
         if let cached = imageCache[resolvedTheme] {
             return cached
         }

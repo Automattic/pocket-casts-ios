@@ -41,13 +41,13 @@ class PlayerEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
 }
 
 extension EmptyStateViewStyle where Self == PlayerEmptyStateStyle {
-    static var playerStyle: PlayerEmptyStateStyle {
+    nonisolated static var playerStyle: PlayerEmptyStateStyle {
         PlayerEmptyStateStyle()
     }
 }
 
 extension EmptyStateViewStyle where Self == DefaultEmptyStateStyle {
-    static var defaultStyle: DefaultEmptyStateStyle {
+    nonisolated static var defaultStyle: DefaultEmptyStateStyle {
         DefaultEmptyStateStyle()
     }
 }

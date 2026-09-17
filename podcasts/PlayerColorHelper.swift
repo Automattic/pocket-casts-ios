@@ -3,28 +3,28 @@ import PocketCastsDataModel
 import UIKit
 
 struct PlayerColorHelper {
-    static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.activeThemeType,
                                         episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastBackgroundColor = backgroundColor(for: episode) else { return UIColor.black }
 
         return ThemeColor.playerBackground01(podcastColor: podcastBackgroundColor, for: theme)
     }
 
-    static func playerBackgroundColor02(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerBackgroundColor02(for theme: Theme.ThemeType = Theme.activeThemeType,
                                         episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastBackgroundColor = backgroundColor(for: episode) else { return UIColor.black }
 
         return ThemeColor.playerBackground02(podcastColor: podcastBackgroundColor, for: theme)
     }
 
-    static func playerHighlightColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerHighlightColor01(for theme: Theme.ThemeType = Theme.activeThemeType,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
         return ThemeColor.playerHighlight01(podcastColor: podcastColor)
     }
 
-    static func playerHighlightColor02(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerHighlightColor02(for theme: Theme.ThemeType = Theme.activeThemeType,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
