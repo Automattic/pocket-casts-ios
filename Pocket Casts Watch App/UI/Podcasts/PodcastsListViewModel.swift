@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class PodcastsListViewModel: ObservableObject {
     @Published var gridItems = [HomeGridItem]()
     @Published var sortOrder: LibrarySort {
@@ -17,7 +18,7 @@ class PodcastsListViewModel: ObservableObject {
         sortOrder = playSource.podcastSortOrder
 
         Publishers.Merge(
-            Publishers.Notification.dataUpdated.map { [unowned self] _ in sortOrder },
+            Publishers.Notification.dataUpdated.receive(on: RunLoop.main).map { [unowned self] _ in sortOrder },
             $sortOrder
         ).map { [unowned self] sortingOption in
             self.playSource.allHomeGridItemsSorted(sortedBy: sortingOption)

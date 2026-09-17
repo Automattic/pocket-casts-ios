@@ -98,11 +98,11 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
             .assign(to: &$supportsPodcastNavigation)
 
         updateEpisode
+            .receive(on: RunLoop.main)
             .compactMap { [unowned self] _ in
                 let currentEpisode = self.episode
                 return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$episode)
 
         Publishers.Notification.userEpisodeDeleted

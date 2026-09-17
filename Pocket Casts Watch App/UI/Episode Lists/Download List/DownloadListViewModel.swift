@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class DownloadListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var episodes: [EpisodeRowViewModel] = []
@@ -28,10 +29,10 @@ class DownloadListViewModel: ObservableObject {
         isLoading = episodes.isEmpty
         playSourceViewModel.fetchDownloadedEpisodes()
             .replaceError(with: [])
+            .receive(on: RunLoop.main)
             .map {
                 $0.map { EpisodeRowViewModel(episode: $0) }
             }
-            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] episodes in
                 self.isLoading = false
                 self.episodes = episodes

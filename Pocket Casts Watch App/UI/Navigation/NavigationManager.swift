@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import WatchKit
 
+@MainActor
 class NavigationManager: ObservableObject {
     static let shared = NavigationManager()
 

@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class NowPlayingViewModel: ObservableObject {
     @Published var episode: BaseEpisode?
     @Published var isPlaying = false
@@ -79,10 +80,10 @@ class NowPlayingViewModel: ObservableObject {
             .assign(to: &$isPlaying)
 
         dataUpdated
+            .receive(on: RunLoop.main)
             .map { [unowned self] _ in
                 self.playSource.nowPlayingEpisode
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$episode)
 
         $episode
@@ -97,17 +98,17 @@ class NowPlayingViewModel: ObservableObject {
             dataUpdated,
             Publishers.Notification.playbackEffectsChanged
         )
+        .receive(on: RunLoop.main)
         .map { [unowned self] _ in
             self.playSource.effectsIconName
         }
-        .receive(on: RunLoop.main)
         .assign(to: &$effectsIconName)
 
         dataUpdated
+            .receive(on: RunLoop.main)
             .map { [unowned self] _ in
                 self.playSource.upNextCount
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$upNextCount)
 
         Publishers.Merge(

@@ -2,6 +2,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
+@MainActor
 class SourceInterfaceModel: ObservableObject {
 
     @Published var activeSource: Source = .phone
@@ -35,13 +36,12 @@ class SourceInterfaceModel: ObservableObject {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: WatchConstants.Notifications.dataUpdated, object: nil)
-        removeAllCustomObservers()
         NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Notifications For Updates
 
-    @objc private func dataDidUpdate() {
+    @objc nonisolated private func dataDidUpdate() {
         DispatchQueue.main.async {
             self.handleDataUpdated()
         }
@@ -55,16 +55,6 @@ class SourceInterfaceModel: ObservableObject {
         customObservers.append(name)
 
         NotificationCenter.default.addObserver(self, selector: selector, name: name, object: nil)
-    }
-
-    func removeAllCustomObservers() {
-        if customObservers.isEmpty { return }
-
-        let notCenter = NotificationCenter.default
-        for name in customObservers {
-            notCenter.removeObserver(self, name: name, object: nil)
-        }
-        customObservers.removeAll()
     }
 
     private func containsObserver(_ name: Notification.Name) -> Bool {
@@ -82,7 +72,7 @@ class SourceInterfaceModel: ObservableObject {
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(updateLastRefreshDetails))
     }
 
-    @objc private func handleStatusChangeFromNotification() {
+    @objc nonisolated private func handleStatusChangeFromNotification() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
 
@@ -154,7 +144,7 @@ class SourceInterfaceModel: ObservableObject {
         WatchSyncManager.shared.loginAndRefreshIfRequired()
     }
 
-    @objc private func updateLastRefreshDetails() {
+    @objc nonisolated private func updateLastRefreshDetails() {
         var lastRefreshText = String()
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed

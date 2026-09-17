@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class FolderViewModel: ObservableObject {
     @Published var folder: Folder
     @Published var podcasts = [Podcast]()
@@ -16,10 +17,10 @@ class FolderViewModel: ObservableObject {
             Publishers.Notification.dataUpdated,
             Publishers.Notification.folderChanged
         )
+        .receive(on: RunLoop.main)
         .map { [unowned self] _ in
             self.playSource.allPodcastsInFolder(folder: folder)
         }
-        .receive(on: RunLoop.main)
         .assign(to: &$podcasts)
     }
 }

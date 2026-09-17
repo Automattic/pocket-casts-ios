@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class PlaylistsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var playlists: [PlaylistRepresentable] = []

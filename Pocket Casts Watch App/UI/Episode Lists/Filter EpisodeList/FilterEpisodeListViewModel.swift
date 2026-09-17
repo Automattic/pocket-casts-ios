@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 
+@MainActor
 class FilterEpisodeListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var episodes: [EpisodeRowViewModel]
@@ -29,10 +30,10 @@ class FilterEpisodeListViewModel: ObservableObject {
         isLoading = episodes.isEmpty
         playSource.fetchPlaylistEpisodes(filter)
             .replaceError(with: [])
+            .receive(on: RunLoop.main)
             .map {
                 $0.map { EpisodeRowViewModel(episode: $0) }
             }
-            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] episodes in
                 self.isLoading = false
                 self.episodes = episodes

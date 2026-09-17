@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class PodcastEpisodeListViewModel: ObservableObject {
     static func createEpisodesQuery(forPodcast podcast: Podcast?) -> String {
         guard let podcast else { return "" }
@@ -54,10 +55,10 @@ class PodcastEpisodeListViewModel: ObservableObject {
         self.podcast = podcast
 
         updatePodcast
+            .receive(on: RunLoop.main)
             .compactMap { [unowned self] _ in
                 DataManager.sharedManager.findPodcast(uuid: self.podcast.uuid)
             }
-            .receive(on: RunLoop.main)
             .assign(to: &$podcast)
 
         $podcast

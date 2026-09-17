@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class EpisodeViewModel: ObservableObject {
     @Published var episode: BaseEpisode
     @Published var inUpNext = false
