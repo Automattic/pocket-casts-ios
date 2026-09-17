@@ -43,7 +43,9 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     // MARK: - Triggers the purchase process
     func purchase(product: IAPProductID) {
         guard purchaseHandler.canMakePurchases else {
-            showPurchaseDisabledAlert(product: product)
+            DispatchQueue.main.async {
+                self.showPurchaseDisabledAlert(product: product)
+            }
             return
         }
 
@@ -56,6 +58,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         state = .purchasing
     }
 
+    @MainActor
     func showPurchaseDisabledAlert(product: IAPProductID) {
         guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
             return

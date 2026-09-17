@@ -45,15 +45,18 @@ class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
         return offer.title
     }
 
+    @MainActor
     func upgradeTapped() {
         Analytics.track(.bookmarksGetBookmarksButtonTapped, source: bookmarksSource)
         showUpgrade()
     }
 
+    @MainActor
     func showUpgrade() {
         upgradeTapped(with: product(for: feature.tier))
     }
 
+    @MainActor
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 

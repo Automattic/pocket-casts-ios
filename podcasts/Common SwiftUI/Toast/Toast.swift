@@ -12,8 +12,9 @@ import Foundation
 ///          print("Hello World!")
 ///     })])
 ///
+@MainActor
 class Toast {
-    private static var shared = Toast()
+    private static let shared = Toast()
 
     /// Retain the visible window
     private var window: UIWindow? = nil
@@ -43,7 +44,7 @@ class Toast {
 
     struct Action: Identifiable {
         let title: String
-        let action: () -> Void
+        let action: @MainActor () -> Void
 
         var id: String { title }
     }

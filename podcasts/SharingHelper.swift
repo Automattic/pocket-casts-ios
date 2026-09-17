@@ -3,6 +3,7 @@ import PocketCastsServer
 import UIKit
 import PocketCastsUtils
 
+@MainActor
 class SharingHelper: NSObject {
     static let shared = SharingHelper()
     var activityController: UIActivityViewController?

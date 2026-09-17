@@ -51,6 +51,7 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
         return tempURL
     }
 
+    @MainActor
     func mailLogs() {
         guard MFMailComposeViewController.canSendMail() else {
             Toast.show(L10n.logsNoEmailAccountConfigured)

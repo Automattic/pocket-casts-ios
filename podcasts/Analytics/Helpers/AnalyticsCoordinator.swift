@@ -114,7 +114,7 @@ class AnalyticsCoordinator {
             Analytics.track(event, properties: mergedProperties)
         }
 
-    func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
+    func getTopViewController(base: UIViewController?) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }
@@ -130,7 +130,8 @@ class AnalyticsCoordinator {
         }
 
     func topAnalyticsSourceProvider() -> AnalyticsSourceProvider? {
-        guard let topViewController = getTopViewController() else { return nil }
+        guard Thread.isMainThread else { return nil }
+        guard let topViewController = getTopViewController(base: MainActor.assumeIsolated { SceneHelper.rootViewController() }) else { return nil }
 
         var candidate: UIViewController? = topViewController
         while let viewController = candidate {

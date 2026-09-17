@@ -6,6 +6,7 @@ import XCTest
 @testable import PocketCastsServer
 
 /// Opening a network: one screen per tap, and nothing for a tap the user moved on from.
+@MainActor
 final class NetworkNavigatorTests: XCTestCase {
     private var window: UIWindow!
     private var navigationController: RecordingNavigationController!
