@@ -92,6 +92,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             cleanupPlayer()
             player = nil
         }
+        audioMix = nil
+        assetTrack = nil
 
         if let url = EpisodeManager.urlForEpisode(episode) {
             isPlayingLocalFile = url.isFileURL
@@ -388,7 +390,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        if assetTrack == nil, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
+        if isWaitingForInitialPlayback, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
             loadEmbeddedImage()
             loadAudioTrack(for: playerItem)
 
@@ -399,22 +401,21 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     private func loadAudioTrack(for playerItem: AVPlayerItem) {
-        Task { @MainActor in
-            guard let track = try? await playerItem.asset.loadTracks(withMediaType: .audio).first,
-                  assetTrack == nil, player?.currentItem === playerItem else {
-                return
-            }
-            assetTrack = track
+        switch playerItem.asset.status(of: .tracks) {
+        case .loaded(let tracks):
+            assetTrack = tracks.first { $0.mediaType == .audio }
+        case .failed(let error):
+            FileLog.shared.addMessage("[DefaultPlayer] Failed to load asset tracks: \(error)")
+        default:
+            FileLog.shared.addMessage("[DefaultPlayer] Asset tracks were not loaded when the item became ready to play")
+        }
 
-            #if !os(watchOS)
-                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
-                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
-                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
-                // video honors it. Only attach it when we actually found an audio track.
+        #if !os(watchOS)
+            if assetTrack != nil {
                 createAudioMix()
                 playerItem.audioMix = audioMix
-            #endif
-        }
+            }
+        #endif
     }
 
     // MARK: - Audio Mix
