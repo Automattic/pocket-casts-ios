@@ -123,7 +123,7 @@ enum VideoExporter {
     }
 
     // Part of Step 1
-    private static func waitUntilReadyForMoreMediaData(_ videoWriterInput: AVAssetWriterInput, of videoWriter: AVAssetWriter) async throws {
+    static func waitUntilReadyForMoreMediaData(_ videoWriterInput: AVAssetWriterInput, of videoWriter: AVAssetWriter) async throws {
         while true {
             switch videoWriter.status {
             case .cancelled:
