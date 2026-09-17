@@ -6,6 +6,7 @@ protocol DiscoverSummaryProtocol: AnyObject {
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?)
 }
 
+@MainActor
 protocol DiscoverDelegate: AnyObject {
     func show(podcastInfo: PodcastInfo, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)
     func show(discoverPodcast: DiscoverPodcast, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)

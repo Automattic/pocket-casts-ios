@@ -8,6 +8,7 @@ import UIKit
 /// is the one Discover uses, ``ExpandedCollectionViewController`` in its `grid` style. That screen
 /// asks its delegate for the podcasts' subscription state and taps — hence the ``DiscoverDelegate``
 /// conformance. Callers see none of that: they hand over a list id and this loads the rest.
+@MainActor
 final class NetworkNavigator: ObservableObject {
     /// The view controller whose navigation controller is pushed onto.
     weak var presenter: UIViewController?

@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsUtils
 import Combine
 
+@MainActor
 class BannerModel: ObservableObject {
 
     let title: String?

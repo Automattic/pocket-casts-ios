@@ -5,6 +5,7 @@ import XCTest
 @testable import podcasts
 
 /// What the networks row shows of a `lists_list`: the first few networks, the rest behind "Show all".
+@MainActor
 final class DiscoverNetworksListModelTests: XCTestCase {
     private var serverHandler: StubDiscoverServerHandler!
     private var model: DiscoverNetworksListModel!

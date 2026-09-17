@@ -18,6 +18,7 @@ class ManageDownloadsCoordinator {
         return percentage < 0.1
     }
 
+    @MainActor
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
         guard Self.shouldShowBanner else {
             return

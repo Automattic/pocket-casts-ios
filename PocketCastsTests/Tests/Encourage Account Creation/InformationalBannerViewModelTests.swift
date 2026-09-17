@@ -3,6 +3,7 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 final class InformationalBannerViewModelTests: XCTestCase {
     func testBannerInFilters() throws {
         var didCloseButtonTap = false

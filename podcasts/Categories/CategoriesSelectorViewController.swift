@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
+    @MainActor
     class DiscoverItemObservable: ObservableObject {
         @Published public var item: DiscoverItem?
         @Published public var selectedCategory: DiscoverCategory?

@@ -3,6 +3,7 @@ import PocketCastsServer
 import Kingfisher
 import PocketCastsUtils
 
+@MainActor
 class BannerAdModel: ObservableObject {
     let adText: String
     let imageURL: URL?

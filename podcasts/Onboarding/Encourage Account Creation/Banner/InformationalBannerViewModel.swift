@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 protocol InformationalBannerPresenting {
     var bannerType: InformationalBannerType { get }
     var onCloseBannerTap: (() -> Void)? { get set }

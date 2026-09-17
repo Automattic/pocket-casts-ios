@@ -4,6 +4,7 @@ import XCTest
 @testable import PocketCastsServer
 @testable import PocketCastsUtils
 
+@MainActor
 final class DiscoverItemObservableTests: XCTestCase {
 
     let featureFlagMock = FeatureFlagMock()

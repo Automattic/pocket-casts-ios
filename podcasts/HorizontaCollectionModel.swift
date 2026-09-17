@@ -9,6 +9,7 @@ extension DiscoverPodcast: @retroactive Identifiable {
     }
 }
 
+@MainActor
 class HorizontalCollectionModel: ObservableObject {
 
     var category: DiscoverCategory?

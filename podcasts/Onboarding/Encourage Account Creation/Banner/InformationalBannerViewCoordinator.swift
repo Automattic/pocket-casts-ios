@@ -2,6 +2,7 @@ import PocketCastsUtils
 import SwiftUI
 import PocketCastsServer
 
+@MainActor
 class InformationalBannerViewCoordinator {
     private var viewModel: InformationalBannerPresenting
 
