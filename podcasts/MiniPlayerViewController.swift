@@ -722,6 +722,7 @@ extension MiniPlayerViewController: AnalyticsSourceProvider {
 }
 
 /// Backing store for the Liquid Glass mini player's time-left readout.
+@MainActor
 final class MiniPlayerTimeLeftModel: ObservableObject {
     /// The formatted string shown to the user, e.g. `-12:34`.
     @Published var text: String = ""

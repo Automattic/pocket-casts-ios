@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 // MARK: - Async Episode Loader
 
+@MainActor
 class EpisodeLoadingModel: ObservableObject {
     @Published var error = false
 }

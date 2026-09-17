@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreMotion
 
+@MainActor
 class MotionManager: ObservableObject {
     /// A number representing how much the user how tilted the device side to side
     @Published var pitch: Double = 0

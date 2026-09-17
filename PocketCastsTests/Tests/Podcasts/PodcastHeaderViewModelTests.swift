@@ -6,6 +6,7 @@ import XCTest
 @testable import PocketCastsUtils
 
 /// The header's category and author line: what each part is, and where tapping it goes.
+@MainActor
 final class PodcastHeaderViewModelTests: XCTestCase {
     private let featureFlagMock = FeatureFlagMock()
 

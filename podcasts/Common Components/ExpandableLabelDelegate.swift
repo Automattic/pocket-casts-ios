@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 protocol ExpandableLabelDelegate: NSObjectProtocol {
     func willExpandLabel(_ label: UIView)
     func didExpandLabel(_ label: UIView)

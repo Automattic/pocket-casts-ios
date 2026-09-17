@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 protocol TranscriptExcerptViewModeling: ObservableObject {
     var loadingState: TranscriptExcerptLoadingState { get set }
     var isGeneratedTranscript: Bool { get }

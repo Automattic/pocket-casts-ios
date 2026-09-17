@@ -25,6 +25,7 @@ enum PodcastHeaderLink: String {
     }
 }
 
+@MainActor
 class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     @Published var podcast: Podcast
