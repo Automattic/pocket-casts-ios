@@ -82,12 +82,26 @@ public class DataManager {
     /// the user what happened and let them export the file that failed.
     static func openDatabasePool(path: String, fallbackPath: String? = nil, configuration: Configuration) throws -> (DatabasePool, databaseError: Error?) {
         do {
+            if let simulatedError = simulatedDatabaseError {
+                throw simulatedError
+            }
             return (try DatabasePool(path: path, configuration: configuration), nil)
         } catch {
             FileLog.shared.addMessage("[DataManager] Failed to open the database: \(error)")
             logger?.log(error: error, context: ["action": "open_database"])
             return (try DatabasePool(path: fallbackPath ?? makeTemporaryDatabasePath(), configuration: configuration), error)
         }
+    }
+
+    /// Launch with `-PCSimulateDatabaseError` (Edit Scheme ▸ Run ▸ Arguments, off by default) to
+    /// pretend the database can't be opened, which puts the app behind its database error screen.
+    private static var simulatedDatabaseError: Error? {
+#if DEBUG
+        guard ProcessInfo.processInfo.arguments.contains("-PCSimulateDatabaseError") else { return nil }
+        return DatabaseError(resultCode: .SQLITE_CORRUPT, message: "malformed database schema (0)", sql: "SELECT * FROM sqlite_master LIMIT 1")
+#else
+        return nil
+#endif
     }
 
     /// An empty location in the temporary directory for the throwaway database. Any files left
