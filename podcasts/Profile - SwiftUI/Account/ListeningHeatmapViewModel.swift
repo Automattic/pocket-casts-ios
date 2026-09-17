@@ -1,5 +1,5 @@
 import Foundation
-import PocketCastsDataModel
+@preconcurrency import PocketCastsDataModel
 import PocketCastsUtils
 
 enum HeatmapIntensity: CaseIterable {
@@ -17,23 +17,24 @@ struct HeatmapDay: Identifiable {
     let intensity: HeatmapIntensity
 }
 
+@MainActor
 final class ListeningHeatmapViewModel: ObservableObject {
     @Published private(set) var weeks: [[HeatmapDay]] = []
 
-    let calendar: Calendar
+    nonisolated let calendar: Calendar
 
     private var isLoading = false
     private let dataManager: DataManager
-    private let now: () -> Date
-    private let dateFormatter: DateFormatter
+    nonisolated private let now: @Sendable () -> Date
+    nonisolated private let dateFormatter: DateFormatter
 
     // Make sure we have enough to cover the largest iPad screen
-    private let daysOfHistory = 2 * 365
+    nonisolated private let daysOfHistory = 2 * 365
 
     init(
         dataManager: DataManager = DataManager.sharedManager,
         calendar: Calendar = .current,
-        now: @escaping () -> Date = { Date() }
+        now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.dataManager = dataManager
         self.calendar = calendar
@@ -52,8 +53,8 @@ final class ListeningHeatmapViewModel: ObservableObject {
         guard !isLoading else { return }
         isLoading = true
 
-        DispatchQueue.global(qos: .userInitiated).async {
-            let rawData = self.dataManager.dailyListeningTime(forLast: self.daysOfHistory)
+        DispatchQueue.global(qos: .userInitiated).async { [dataManager] in
+            let rawData = dataManager.dailyListeningTime(forLast: self.daysOfHistory)
             let weeks = self.buildWeeks(from: rawData)
 
             DispatchQueue.main.async {
@@ -63,7 +64,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
         }
     }
 
-    func buildWeeks(from data: [String: Double]) -> [[HeatmapDay]] {
+    nonisolated func buildWeeks(from data: [String: Double]) -> [[HeatmapDay]] {
         let today = calendar.startOfDay(for: now())
 
         // Align to the start of the week (locale-aware) containing the oldest day in the window.
@@ -114,7 +115,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
         return weeks
     }
 
-    private func quartileThresholds(from sorted: [Double]) -> [Double] {
+    nonisolated private func quartileThresholds(from sorted: [Double]) -> [Double] {
         guard !sorted.isEmpty else { return [] }
         let count = sorted.count
         return [
@@ -124,7 +125,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
         ]
     }
 
-    private func intensityLevel(for seconds: Double, thresholds: [Double]) -> HeatmapIntensity {
+    nonisolated private func intensityLevel(for seconds: Double, thresholds: [Double]) -> HeatmapIntensity {
         guard seconds > 0 else { return .none }
         guard thresholds.count == 3 else { return .minimal }
         if seconds <= thresholds[0] { return .minimal }

@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsUtils
 
+@MainActor
 class StatusPageViewModel: ObservableObject {
     @Published var running = false
 
@@ -70,7 +71,6 @@ class StatusPageViewModel: ObservableObject {
 
     private lazy var networkUtils = NetworkUtils.shared
 
-    @MainActor
     func run() {
         running = true
 
@@ -93,7 +93,6 @@ class StatusPageViewModel: ObservableObject {
         }
     }
 
-    @MainActor
     private func test(service: Service) async {
         if let customTest = service.customTest {
             service.status = customTest() ? .success : .failure

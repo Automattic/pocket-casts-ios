@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsUtils
 import PocketCastsServer
 
+@MainActor
 class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
     @Published var notificationsOptIn: Bool = true
@@ -44,6 +45,7 @@ class NotificationsPermissionsViewModel: ObservableObject {
             }
         }
 
+        @MainActor
         func isSelected(_ viewModel: NotificationsPermissionsViewModel) -> Bool {
             switch self {
             case .newsletter:
@@ -53,6 +55,7 @@ class NotificationsPermissionsViewModel: ObservableObject {
             }
         }
 
+        @MainActor
         func toggle(_ viewModel: NotificationsPermissionsViewModel) {
             switch self {
             case .newsletter:

@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 class AboutViewModel: ObservableObject {
     @Published var shouldShowWhatsNew: Bool = false
     @Published var whatsNewInfo: WhatsNewInfo?

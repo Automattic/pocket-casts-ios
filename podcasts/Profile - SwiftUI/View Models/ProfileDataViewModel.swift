@@ -4,6 +4,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 /// Represents a view that will display information about the users profile such as email, subscription status, and stats
+@MainActor
 class ProfileDataViewModel: ObservableObject {
 
     // Allow UIKit to update to view size changes

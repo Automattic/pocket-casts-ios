@@ -4,6 +4,7 @@ import PocketCastsServer
 import SwiftUI
 import PhotosUI
 
+@MainActor
 class ShareProfileViewModel: ObservableObject {
     @Published var displayName: String = "" {
         didSet { Self.saveDisplayName(displayName) }
@@ -49,7 +50,7 @@ class ShareProfileViewModel: ObservableObject {
     }
 
     private func loadData() {
-        Task {
+        Task.detached(priority: .userInitiated) {
             let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
             let episodes = DataManager.sharedManager.episodesWithListenHistory(limit: 10)
             let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
@@ -74,7 +75,6 @@ class ShareProfileViewModel: ObservableObject {
         DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.title
     }
 
-    @MainActor
     func generateShareItems() -> [Any] {
         let cardView = ShareProfileCardView(viewModel: self)
             .environmentObject(Theme.sharedTheme)

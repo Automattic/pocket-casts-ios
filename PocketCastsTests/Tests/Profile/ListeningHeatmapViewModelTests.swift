@@ -4,6 +4,7 @@ import Combine
 @testable import PocketCastsDataModel
 @testable import podcasts
 
+@MainActor
 final class ListeningHeatmapViewModelTests: XCTestCase {
     private var cancellables: Set<AnyCancellable> = []
 

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import PocketCastsServer
 
+@MainActor
 class KidsProfileSheetViewModel: ObservableObject {
     @Published private(set) var currentScreen: SheetScreen = .thankYou
 
