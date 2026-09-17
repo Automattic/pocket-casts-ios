@@ -2,6 +2,7 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 class SearchHistoryModelTests: XCTestCase {
     private var userDefaults: UserDefaults!
     private var model: SearchHistoryModel!

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import PocketCastsUtils
 
+@MainActor
 protocol SearchResultsDelegate {
     func clearSearch()
     func performLocalSearch(searchTerm: String)

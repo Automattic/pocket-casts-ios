@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
+@MainActor
 class SearchAnalyticsHelper: ObservableObject {
     let source: AnalyticsSource
 

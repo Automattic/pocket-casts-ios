@@ -119,10 +119,10 @@ class SearchViewModel: SearchableViewModel {
     private var predictiveSearchTask = PredictiveSearchTask()
     private var fullSearchTask = CombinedSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+    init(dataManager: DataManager = DataManager.sharedManager, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel? = nil) {
         self.dataManager = dataManager
         self.tvDataManager = tvDataManager
-        self.searchModel = searchModel
+        self.searchModel = searchModel ?? .shared
     }
 
     var isInSearchMode: Bool {

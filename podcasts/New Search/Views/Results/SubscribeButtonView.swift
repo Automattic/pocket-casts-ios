@@ -39,6 +39,7 @@ struct SubscribeButtonView: View {
     }
 }
 
+@MainActor
 class SubscribeButtonModel: ObservableObject {
     @Published var isSubscribed: Bool
 

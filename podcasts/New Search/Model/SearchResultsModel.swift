@@ -3,6 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let predictiveSearch = PredictiveSearchTask()
@@ -32,9 +33,9 @@ class SearchResultsModel: ObservableObject {
 
     let showLocalResults: Bool
 
-    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown), showLocalResults: Bool = false,
+    init(analyticsHelper: SearchAnalyticsHelper? = nil, showLocalResults: Bool = false,
          dataManager: DataManager = DataManager.sharedManager) {
-        self.analyticsHelper = analyticsHelper
+        self.analyticsHelper = analyticsHelper ?? SearchAnalyticsHelper(source: .unknown)
         self.dataMangager = dataManager
         self.showLocalResults = showLocalResults
     }
@@ -63,7 +64,6 @@ class SearchResultsModel: ObservableObject {
         predictiveSearchError = nil
     }
 
-    @MainActor
     func predictiveSearch(term: String) {
         currentSearchTerm = term
         clearErrors()
@@ -92,7 +92,6 @@ class SearchResultsModel: ObservableObject {
         return term.lowercased().startsWith(string: "http://") || term.lowercased().startsWith(string: "https://")
     }
 
-    @MainActor
     func search(term: String) {
         if !isTermAnURL(term) {
             combinedSearch(term: term)
@@ -122,7 +121,6 @@ class SearchResultsModel: ObservableObject {
         analyticsHelper.trackSearchPerformed()
     }
 
-    @MainActor
     func combinedSearch(term: String) {
         currentSearchTerm = term
         clearErrors()
@@ -151,7 +149,6 @@ class SearchResultsModel: ObservableObject {
         analyticsHelper.trackSearchPerformed()
     }
 
-    @MainActor
     func searchLocally(term searchTerm: String) {
         clearSearch()
 

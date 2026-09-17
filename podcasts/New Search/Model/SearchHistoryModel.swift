@@ -9,6 +9,7 @@ struct SearchHistoryEntry: Codable, Hashable {
     var podcast: PodcastFolderSearchResult?
 }
 
+@MainActor
 class SearchHistoryModel: ObservableObject {
     static let shared = SearchHistoryModel()
 

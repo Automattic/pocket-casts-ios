@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 class SearchVisibilityModel: ObservableObject {
     @Published var isSearching = false
 }
