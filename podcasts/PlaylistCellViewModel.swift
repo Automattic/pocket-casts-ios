@@ -5,6 +5,7 @@ import PocketCastsDataModel
 import UIKit
 #endif
 
+@MainActor
 class PlaylistCellViewModel: ObservableObject {
     enum DisplayType {
         case count
@@ -146,20 +147,22 @@ class PlaylistCellViewModel: ObservableObject {
 
     private func loadListEpisodes() async -> [ListEpisode] {
         let playlist = self.playlist
-        return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.playlistFirstDistinctEpisodes(for: playlist, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
+        let episodesDataManager = self.episodesDataManager
+        return await Task.detached(priority: .userInitiated) {
+            episodesDataManager.playlistFirstDistinctEpisodes(for: playlist, shouldShowArchived: playlist.showArchivedEpisodes)
         }.value
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
-        try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
+        let imageManager = imageManager
+        return try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
             for episode in episodes {
                 group.addTask {
                     if includingEpisodeArtwork,
                        let url = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid) {
                         return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
-                    let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                    let url = imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
                     return PlaylistArtworkView.ImageItem(id: episode.episode.podcastUuid, url: url)
                 }
             }

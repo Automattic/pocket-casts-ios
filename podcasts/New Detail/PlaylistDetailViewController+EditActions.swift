@@ -183,11 +183,9 @@ extension PlaylistDetailViewController {
     }
 
     private func start(action: ActionType, forAllEpisodes episodes: [ListEpisode]) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
+        if episodes.isEmpty { return }
 
-            if self.viewModel.episodes.isEmpty { return }
-
+        DispatchQueue.global().async {
             var queuedEpisodes = 0
             for listEpisode in episodes {
                 if listEpisode.episode.downloading() || listEpisode.episode.downloaded(pathFinder: DownloadManager.shared) || listEpisode.episode.queued() {

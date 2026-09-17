@@ -7,14 +7,16 @@ extension PlaylistDetailViewModel {
     }
 
     func saveUpNextAndPlay() {
-        Task { [weak self] in
+        let dataManager = dataManager
+        Task.detached { [weak self] in
             guard let self else { return }
-            let episodes = self.currentUpNextEpisodes()
+            let uuids = dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
+            let episodes = dataManager.allUpNextEpisodes(from: uuids)
             await MainActor.run {
                 self.playAllEpisodes()
             }
             let baseName = "\(L10n.upNext) - \(Date().monthDayString())"
-            let created = self.dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
+            let created = dataManager.createManualPlaylists(from: episodes, batchSize: Constants.Limits.maxFilterItems, baseName: baseName)
             if created > 0 {
                 await MainActor.run {
                     Toast.show(
@@ -30,10 +32,5 @@ extension PlaylistDetailViewModel {
                 }
             }
         }
-    }
-
-    private func currentUpNextEpisodes() -> [Episode] {
-        let uuids = dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
-        return dataManager.allUpNextEpisodes(from: uuids)
     }
 }

@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class PlaylistPreviewViewModel: ObservableObject {
     enum PlaylistMode {
         case creation
@@ -160,7 +161,7 @@ class PlaylistPreviewViewModel: ObservableObject {
         startOperation()
     }
 
-    func removeObserver() {
+    nonisolated func removeObserver() {
         NotificationCenter.default.removeObserver(self)
     }
 

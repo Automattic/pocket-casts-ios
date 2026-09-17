@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
 
+@MainActor
 class PlaylistDetailViewModel: ObservableObject {
     let playlistMetadataLoader = PlaylistMetadataLoader.shared
 
@@ -135,16 +136,17 @@ class PlaylistDetailViewModel: ObservableObject {
             searchEpisodes(for: searchTerm)
             return
         }
+        let uuid = playlist.uuid
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self else { return }
-            if let reloadedPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
-                playlist = reloadedPlaylist
-
-                DispatchQueue.main.async { [weak self] in
-                    self?.playlistName = reloadedPlaylist.playlistName
+            let reloadedPlaylist = DataManager.sharedManager.findPlaylist(uuid: uuid)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if let reloadedPlaylist {
+                    playlist = reloadedPlaylist
+                    playlistName = reloadedPlaylist.playlistName
                 }
+                reloadEpisodeList(animated: true)
             }
-            reloadEpisodeList(animated: true)
         }
     }
 
@@ -274,14 +276,15 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
-        try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
+        let imageManager = imageManager
+        return try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
             for episode in episodes {
                 group.addTask {
                     if includingEpisodeArtwork,
                        let url = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid) {
                         return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
-                    let url = self.imageManager.podcastUrl(imageSize: .detail, uuid: episode.episode.podcastUuid)
+                    let url = imageManager.podcastUrl(imageSize: .detail, uuid: episode.episode.podcastUuid)
                     return PlaylistArtworkView.ImageItem(id: episode.episode.podcastUuid, url: url)
                 }
             }

@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 class SmartRuleToggleViewModel: ObservableObject {
     @Published var toggleIsOn: Bool = false
     let enabledString: String
