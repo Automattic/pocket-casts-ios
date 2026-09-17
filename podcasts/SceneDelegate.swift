@@ -1,5 +1,6 @@
 import JLRoutes
 import UIKit
+import PocketCastsDataModel
 import PocketCastsUtils
 
 class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
@@ -10,7 +11,11 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        window.rootViewController = MainTabBarController()
+        if let databaseError = DataManager.sharedManager.databaseError {
+            window.rootViewController = DatabaseErrorViewController(error: databaseError)
+        } else {
+            window.rootViewController = MainTabBarController()
+        }
 
         // Capture the system style before applying any window-level override so the
         // initial value reflects the actual system, not our override.
@@ -19,6 +24,9 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
 
         window.makeKeyAndVisible()
+
+        // Nothing below here can work without a database, and the error screen has to stay put.
+        guard DataManager.sharedManager.databaseError == nil else { return }
 
         if let shortcutItem = connectionOptions.shortcutItem {
             appDelegate()?.handleShortcutItem(shortcutItem)

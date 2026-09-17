@@ -14,6 +14,8 @@ extension AppDelegate {
     }
 
     func handleContinue(_ userActivity: NSUserActivity) {
+        guard isDatabaseAvailable else { return }
+
         if userActivity.activityType == "au.com.shiftyjelly.podcasts" {
             let info = userActivity.userInfo
             if let urlString = info?["url"] as? String, let url = URL(string: urlString) {

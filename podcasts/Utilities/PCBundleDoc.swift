@@ -68,9 +68,11 @@ struct PCBundleDoc: FileDocument {
         wrapper.addFileWrapper(databaseFileWrapper)
 
         let walURL = DataManager.pathToDb().appending(Constants.databaseWalSuffix)
-        let databaseWALFileWrapper = try FileWrapper(url: URL(fileURLWithPath: walURL))
-        databaseWALFileWrapper.preferredFilename = Constants.databaseFilename.appending(Constants.databaseWalSuffix)
-        wrapper.addFileWrapper(databaseWALFileWrapper)
+        if FileManager.default.fileExists(atPath: walURL) {
+            let databaseWALFileWrapper = try FileWrapper(url: URL(fileURLWithPath: walURL))
+            databaseWALFileWrapper.preferredFilename = Constants.databaseFilename.appending(Constants.databaseWalSuffix)
+            wrapper.addFileWrapper(databaseWALFileWrapper)
+        }
 
         if let prefURL = FileManager.preferencesURL {
             let preferencesFileWrapper = try FileWrapper(url: prefURL)

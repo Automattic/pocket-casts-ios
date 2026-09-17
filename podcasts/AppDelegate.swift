@@ -45,6 +45,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.logger = SentryLogger()
         ServerConfig.shared.errorLogger = SentryLogger()
 
+        if let databaseError = DataManager.sharedManager.databaseError {
+            FileLog.shared.addMessage("Could not open the database, showing the error screen: \(databaseError)")
+            SentryLogger().log(error: databaseError, context: ["action": "show_database_error_screen"])
+            return true
+        }
+
         appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
         if let appInstallState {
@@ -141,6 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func handleEnterBackground() {
+        guard isDatabaseAvailable else { return }
+
         scheduleNextBackgroundRefresh()
         FileLog.shared.forceFlush()
 
@@ -155,6 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func handleBecomeActive() {
+        guard isDatabaseAvailable else { return }
+
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
 
@@ -184,6 +194,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // This method will be invoked even if the application was launched or resumed because of the remote notification. The respective delegate methods will be invoked first. Note that this behavior is in contrast to application:didReceiveRemoteNotification:, which is not called in those cases, and which will not be invoked if this method is implemented.
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        guard isDatabaseAvailable else {
+            completionHandler(.noData)
+            return
+        }
+
         RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
             completionHandler(self.convertRefreshResult(result: refreshFetchResult))
         })
@@ -205,6 +220,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        guard isDatabaseAvailable else { return }
+
         GoogleCastManager.sharedManager.teardown()
         RefreshManager.shared.cancelAllRefreshes()
 
@@ -336,6 +353,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Task {
             await DownloadManager.shared.clearStuckDownloads()
         }
+    }
+
+    /// `false` while the app is blocked behind `DatabaseErrorViewController`: there is no database
+    /// to read or write, so none of the usual lifecycle work should run.
+    var isDatabaseAvailable: Bool {
+        DataManager.sharedManager.databaseError == nil
     }
 
     private func checkIfRestoreCleanupRequired() {
