@@ -123,8 +123,8 @@
 		403B5B0021796F2F00821A54 /* DownloadFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5AFF21796F2F00821A54 /* DownloadFilterOverlayController.swift */; };
 		403B5B0621812E6000821A54 /* AppDelegate+SiriShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5B0521812E6000821A54 /* AppDelegate+SiriShortcuts.swift */; };
 		403B5B1B21813FFA00821A54 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403B5B1A21813FFA00821A54 /* IntentsUI.framework */; };
-		403B5B2521813FFA00821A54 /* PodcastsIntentsUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 403B5B1021813FFA00821A54 /* PodcastsIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		403B5B2521813FFA00821A54 /* PodcastsIntentsUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 403B5B1021813FFA00821A54 /* PodcastsIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		403D1AB42281C36100CE7C9B /* AccountViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D1AB32281C36100CE7C9B /* AccountViewController+TableView.swift */; };
 		4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041FE562181751F0089D4A1 /* SiriShortcutsManager.swift */; };
 		4041FE8D218A7DA60089D4A1 /* SiriShortcutEnabledCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4041FE8B218A7DA60089D4A1 /* SiriShortcutEnabledCell.swift */; };
@@ -223,7 +223,7 @@
 		408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408C08862314BB50008C9667 /* WhatsNewThemeableImageView.swift */; };
 		408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408C088D23155B34008C9667 /* WhatsNewHelper.swift */; };
 		4090975025235DFA00CED68C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4090974F25235DFA00CED68C /* WidgetKit.framework */; };
-		4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4090974E25235DFA00CED68C /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4090974E25235DFA00CED68C /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		40930E4D22D6EFCC00B9313C /* player_play_white_button.json in Resources */ = {isa = PBXBuildFile; fileRef = 40930E4C22D6EFCC00B9313C /* player_play_white_button.json */; };
 		409C7917220D33E500386495 /* AddCustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C7915220D33E500386495 /* AddCustomViewController.swift */; };
 		409C7918220D33E500386495 /* AddCustomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C7916220D33E500386495 /* AddCustomViewController.xib */; };
@@ -313,7 +313,7 @@
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		81C8677C17743B85BF586B0B /* VoiceBoostN.c in Sources */ = {isa = PBXBuildFile; fileRef = 14DD11DB5830A48ACE6928B2 /* VoiceBoostN.c */; };
-		8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8B0845932A66C86C00742C2F /* Share Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
 		8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -598,7 +598,7 @@
 		BD35E9181D45AC3E00CAE2A7 /* ChapterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD35E9171D45AC3E00CAE2A7 /* ChapterInfo.swift */; };
 		BD35E91A1D45BBDA00CAE2A7 /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD35E9191D45BBDA00CAE2A7 /* EmailHelper.swift */; };
 		BD38F252253FB0670016713B /* PlaybackCatchUpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2219F0253EAEAF000025BE /* PlaybackCatchUpHelper.swift */; };
-		BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BD3A210D1E6CFC2400F42241 /* NotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BD3A210D1E6CFC2400F42241 /* NotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD3EB3AF179E622A00D0731C /* MiniPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD3EB3AD179E622A00D0731C /* MiniPlayerViewController.xib */; };
 		BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3FD737202A85E900A7F609 /* ListeningHistoryViewController+Table.swift */; };
 		BD40987A1B9ECA5F007F36BD /* AudioReadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4098791B9ECA5F007F36BD /* AudioReadTask.swift */; };
@@ -982,7 +982,7 @@
 		BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		BDEFBA151E6D3C2300B9024B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5231D81E3EC53B000F0D38 /* UserNotifications.framework */; };
 		BDEFBA171E6D3C2300B9024B /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDEFBA161E6D3C2300B9024B /* UserNotificationsUI.framework */; };
-		BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BDEFBA141E6D3C2300B9024B /* NotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BDEFBA141E6D3C2300B9024B /* NotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0507A1FBA65ED00194D68 /* ListeningHistoryViewController.swift */; };
 		BDF0507D1FBA65ED00194D68 /* ListeningHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDF0507B1FBA65ED00194D68 /* ListeningHistoryViewController.xib */; };
 		BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF09F031E669E16009E9845 /* BasePlayPauseButton.swift */; };
@@ -1570,20 +1570,20 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */ = {
+		BD5231EA1E3EDA6A000F0D38 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed App Extensions */,
-				8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */,
-				4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed App Extensions */,
-				BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed App Extensions */,
-				403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed App Extensions */,
-				403B5B2521813FFA00821A54 /* PodcastsIntentsUI.appex in Embed App Extensions */,
+				BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed Foundation Extensions */,
+				8B0845932A66C86C00742C2F /* Share Extension.appex in Embed Foundation Extensions */,
+				4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed Foundation Extensions */,
+				BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed Foundation Extensions */,
+				403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed Foundation Extensions */,
+				403B5B2521813FFA00821A54 /* PodcastsIntentsUI.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BDD3018A1EFB9356004A9972 /* Embed Watch Content */ = {
@@ -2929,6 +2929,11 @@
 		FF6033FB2FAB4B8600EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Config/PocketCastsTV.base.xcconfig,
+				Config/PocketCastsTV.debug.xcconfig,
+				Config/PocketCastsTV.prototype.xcconfig,
+				Config/PocketCastsTV.release.xcconfig,
+				Config/PocketCastsTV.staging.xcconfig,
 				"Pocket-Casts-TV-App-Info.plist",
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
@@ -5848,7 +5853,7 @@
 				3C5194112B716756006632DE /* ShellScript */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
-				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
+				BD5231EA1E3EDA6A000F0D38 /* Embed Foundation Extensions */,
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				9AB645172D51388400A842C8 /* Embed App Clips */,
@@ -6018,9 +6023,10 @@
 		BDBD53E417019B290048C8C5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SJ;
 				LastSwiftUpdateCheck = 2640;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "Shifty Jelly";
 				TargetAttributes = {
 					2F90990A2A4F88B00044FC55 = {
