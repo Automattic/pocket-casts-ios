@@ -36,8 +36,10 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
     }
 
     @objc private func syncProgressCountKnown(_ notification: Notification) {
-        if let number = notification.object as? NSNumber {
-            totalPodcastsToImport = number.intValue
+        guard let number = notification.object as? NSNumber else { return }
+
+        DispatchQueue.main.async {
+            self.totalPodcastsToImport = number.intValue
         }
     }
 

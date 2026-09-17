@@ -162,16 +162,18 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     // MARK: - Syncing Progress
 
     @objc private func syncProgressCountKnown(_ notification: Notification) {
-        if let number = notification.object as? NSNumber {
-            totalPodcastsToImport = number.intValue
+        guard let number = notification.object as? NSNumber else { return }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.totalPodcastsToImport = number.intValue
         }
     }
 
     @objc private func syncUpToChanged(_ notification: Notification) {
-        guard let progressAlert, let number = notification.object as? NSNumber else { return }
+        guard let number = notification.object as? NSNumber else { return }
 
         DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+            guard let self, let progressAlert = self.progressAlert else { return }
 
             let upTo = number.intValue
             if self.totalPodcastsToImport > 0 {
@@ -185,10 +187,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc private func podcastsImported() {
-        guard let progressAlert else { return }
-
-        DispatchQueue.main.async {
-            progressAlert.title = L10n.syncInProgress
+        DispatchQueue.main.async { [weak self] in
+            self?.progressAlert?.title = L10n.syncInProgress
         }
     }
 

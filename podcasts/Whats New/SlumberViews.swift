@@ -67,12 +67,13 @@ struct SlumberCustomBody: View {
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .padding(.top, 40)
         .padding(.bottom, 15)
-        .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
+        .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged).receive(on: DispatchQueue.main), perform: { _ in
             viewModel.update()
         })
     }
 }
 
+@MainActor
 class SlumberAnnouncementViewModel: ObservableObject {
     private lazy var upgradeOrRedeemViewModel = SlumberUpgradeRedeemViewModel()
 

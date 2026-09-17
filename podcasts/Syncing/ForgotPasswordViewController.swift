@@ -1,6 +1,7 @@
 import PocketCastsServer
 import UIKit
 
+@MainActor
 protocol ForgotPasswordDelegate: AnyObject {
     func handlePasswordResetSuccess()
 }

@@ -168,6 +168,7 @@ struct SyncSigninView: View {
 
 // MARK: - ViewModel
 
+@MainActor
 final class SyncSigninViewModel: ObservableObject {
     // Dependencies
     private let coordinator: LoginCoordinator
@@ -202,6 +203,7 @@ final class SyncSigninViewModel: ObservableObject {
 
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastCount)
             .compactMap { $0.object as? NSNumber }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] number in
                 self?.totalPodcastsToImport = number.intValue
             }
