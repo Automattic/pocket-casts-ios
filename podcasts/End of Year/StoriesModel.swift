@@ -85,12 +85,12 @@ class StoriesModel: ObservableObject {
     init(
         dataSource: StoriesDataSource,
         configuration: StoriesConfiguration,
-        progressModel: StoriesProgressModel = .shared,
+        progressModel: StoriesProgressModel? = nil,
         activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier
     ) {
         self.dataSource = dataSource
         self.configuration = configuration
-        self.progressModel = progressModel
+        self.progressModel = progressModel ?? .shared
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
         self.activeTier = activeTier
         self.shareAlertState = StoriesShareAlertState()
@@ -437,6 +437,7 @@ private extension StoriesModel {
     }
 }
 
+@MainActor
 final class StoriesShareAlertState: ObservableObject {
     @Published var isPresented: Bool = false {
         didSet {

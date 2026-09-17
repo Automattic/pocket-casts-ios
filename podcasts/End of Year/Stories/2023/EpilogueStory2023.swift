@@ -119,6 +119,7 @@ struct EpilogueStory2023: ShareableStory {
         static let backgroundColor = Color.black
     }
 
+    @MainActor
     private class Visiblity: ObservableObject {
         @Published var isVisible = false
     }

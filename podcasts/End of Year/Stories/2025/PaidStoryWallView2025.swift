@@ -5,6 +5,7 @@ import Combine
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 fileprivate class SubscriptionModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 

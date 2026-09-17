@@ -127,8 +127,11 @@ extension EnvironmentValues {
     }
 }
 
+@MainActor
 class PauseState: ObservableObject {
     @Published private(set) var isPaused: Bool = false
+
+    nonisolated init() {}
 
     func togglePause() {
         isPaused.toggle()

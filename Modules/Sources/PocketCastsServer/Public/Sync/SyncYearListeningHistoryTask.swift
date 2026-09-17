@@ -4,6 +4,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 import Combine
 
+@MainActor
 public class SyncYearListeningProgress: ObservableObject {
     public static var shared = SyncYearListeningProgress()
 
@@ -13,14 +14,12 @@ public class SyncYearListeningProgress: ObservableObject {
 
     var syncedEpisodes: Double = 0
 
-    @MainActor
     func episodeSynced() {
         syncedEpisodes += 1
         // There are a few additional requests after syncing episodes, so we hang on 95%
         progress = min(syncedEpisodes / episodesToSync, 0.95)
     }
 
-    @MainActor
     public func reset() {
         progress = 0
         episodesToSync = 0
@@ -111,7 +110,9 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: Int(yearToSync), uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
-        SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
+        DispatchQueue.main.async {
+            SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
+        }
 
         let dispatchGroup = DispatchGroup()
 

@@ -4,6 +4,7 @@ import Lottie
 import Combine
 import EndOfYear
 
+@MainActor
 class StepCounter: ObservableObject {
 
     private let interval: Double
@@ -21,8 +22,9 @@ class StepCounter: ObservableObject {
 
     func start() {
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
-            guard let self else { return }
-            counter = counter + 1
+            MainActor.assumeIsolated {
+                self?.counter += 1
+            }
         }
     }
 }

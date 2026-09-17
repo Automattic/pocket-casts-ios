@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 public class PlayPauseAnimationViewModel: ObservableObject {
     @Published public private(set) var paused = true
 

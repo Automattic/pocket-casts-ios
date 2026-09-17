@@ -14,10 +14,10 @@ struct StoriesView: View {
 
     @State private var loadAnimationFinished: Bool = false
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress? = nil) {
         let model = StoriesModel(dataSource: dataSource, configuration: configuration)
         _model = ObservedObject(initialValue: model)
-        self.syncProgressModel = syncProgressModel
+        self.syncProgressModel = syncProgressModel ?? .shared
     }
 
     @StateObject private var pauseState = PauseState()
