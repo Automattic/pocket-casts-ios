@@ -10,7 +10,7 @@ extension PlaylistDetailViewController {
     }
 
     func addObservers() {
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(podcastsRefreshed))
         addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
@@ -24,6 +24,12 @@ extension PlaylistDetailViewController {
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
         addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
+    }
+
+    @objc nonisolated func podcastsRefreshed(notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloader.request(.episodes)
+        }
     }
 
     @objc func refreshEpisodesIfFilteringByDownloadStatus(notification: Notification) {
