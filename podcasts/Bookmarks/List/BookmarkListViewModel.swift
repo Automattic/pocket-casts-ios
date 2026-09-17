@@ -109,13 +109,13 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable 
             .store(in: &cancellables)
 
         bookmarkManager.onBookmarkChanged
+            .receive(on: DispatchQueue.main)
             .filter { [weak self] event in
                 self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
             }
             .compactMap { [weak self] event in
                 self?.bookmarkManager.bookmark(for: event.uuid)
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] bookmark in
                 self?.refresh(bookmark: bookmark)
             }

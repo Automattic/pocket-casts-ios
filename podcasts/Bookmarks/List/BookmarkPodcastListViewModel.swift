@@ -54,13 +54,13 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
         super.addListeners()
 
         bookmarkManager.onBookmarkCreated
+            .receive(on: DispatchQueue.main)
             .filter { [weak self] event in
                 guard let podcast = self?.podcast else {
                     return true
                 }
                 return podcast.uuid == event.podcast
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.reload()
             }

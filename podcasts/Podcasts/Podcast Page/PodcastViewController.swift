@@ -382,10 +382,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         // Refresh when a bookmark is added to our podcast
         bookmarkManager.onBookmarkCreated
+            .receive(on: DispatchQueue.main)
             .filter({ [weak self] event in
                 event.podcast == self?.podcast?.uuid
             })
-            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.upNextChanged()
             })
@@ -393,10 +393,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         // Reload when a bookmark is deleted
         bookmarkManager.onBookmarksDeleted
+            .receive(on: DispatchQueue.main)
             .filter({ [weak self] event in
                 event.items.contains(where: { $0.podcast == self?.podcast?.uuid })
             })
-            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.upNextChanged()
             })

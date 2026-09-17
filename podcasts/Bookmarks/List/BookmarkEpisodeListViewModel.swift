@@ -29,10 +29,10 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
         super.addListeners()
 
         bookmarkManager.onBookmarkCreated
+            .receive(on: DispatchQueue.main)
             .filter { [weak self] event in
                 self?.episode?.uuid == event.episode
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.reload()
             }
