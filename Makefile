@@ -65,6 +65,7 @@ build_staging: ## Builds using the StagingDebug configuration
        -scheme "Pocket Casts Staging" \
        -configuration StagingDebug \
        -destination 'generic/platform=iOS Simulator' \
+       ARCHS=arm64 \
        build
 
 test_staging: ## Build and run Unit Tests using the StagingDebug configuration
