@@ -3,6 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
+@MainActor
 class PodcastRatingViewModel: ObservableObject {
     @Published var rating: PodcastRating? = nil
     @Published var presentingGiveRatings = false
@@ -44,11 +45,7 @@ class PodcastRatingViewModel: ObservableObject {
         Task {
             let rating = try? await PodcastRatingTask().retrieve(for: uuid, ignoringCache: ignoringCache)
 
-            // Publish on main thread only
-            await MainActor.run {
-                self.rating = rating
-            }
-
+            self.rating = rating
             state = .done
         }
     }

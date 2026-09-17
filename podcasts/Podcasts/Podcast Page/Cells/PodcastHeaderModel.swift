@@ -61,7 +61,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         .store(in: &cancellables)
     }
 
-    lazy var podcastRatingViewModel: PodcastRatingViewModel = {
+    @MainActor lazy var podcastRatingViewModel: PodcastRatingViewModel = {
         let podcastRatingViewModel = PodcastRatingViewModel()
         podcastRatingViewModel.update(podcast: podcast)
         podcastRatingViewModel.presentLogin = { [weak self] _ in

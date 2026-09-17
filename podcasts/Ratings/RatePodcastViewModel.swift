@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
+@MainActor
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
@@ -92,15 +93,16 @@ class RatePodcastViewModel: ObservableObject {
     }
 
     private func checkIfUserCanRatePodcast(id: Int64, uuid: String) {
-        Task { [weak self] in
+        let dataManager = dataManager
+        Task.detached { [weak self] in
             guard let self else { return }
             // Some podcasts can have just one episode.
             // Let's use the episode count to compute the requirement to rate
-            let episodeCount = self.dataManager.findEpisodeCount(podcastId: id)
+            let episodeCount = dataManager.findEpisodeCount(podcastId: id)
 
             // This shouldn't be necessary, but just in case it's empty we return
             guard episodeCount > 0 else { return }
-            let playedEpisodesCount = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
+            let playedEpisodesCount = await dataManager.findPlayedEpisodesCount(podcastId: id)
 
             // If the episode count is 1 -> requirement to rate is 1
             // If the episode count is > 1 -> requirement to rate is 2

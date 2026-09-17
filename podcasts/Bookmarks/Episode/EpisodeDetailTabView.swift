@@ -2,6 +2,7 @@ import SwiftUI
 
 // MARK: - EpisodeTabsViewModel
 
+@MainActor
 class EpisodeTabsViewModel: ObservableObject {
     @Published var selectedTab: Tab
     let tabs: [Tab]

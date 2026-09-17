@@ -6,6 +6,7 @@ protocol BookmarkEditRouter: AnyObject {
     func dismiss()
 }
 
+@MainActor
 class BookmarkEditTitleViewModel: ObservableObject {
     weak var router: BookmarkEditRouter?
 
@@ -64,9 +65,7 @@ class BookmarkEditTitleViewModel: ObservableObject {
                 Analytics.track(.bookmarkUpdateTitle, source: analyticsSource)
             }
 
-            await MainActor.run {
-                router?.titleUpdated(title: title)
-            }
+            router?.titleUpdated(title: title)
         }
     }
 
