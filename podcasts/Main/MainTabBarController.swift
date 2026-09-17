@@ -817,9 +817,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { _ in
-            self.endOfYear.showPromptBasedOnState(in: self)
+            MainActor.assumeIsolated {
+                self.endOfYear.showPromptBasedOnState(in: self)
 
-            self.displayEndOfYearBadgeIfNeeded()
+                self.displayEndOfYearBadgeIfNeeded()
+            }
         }
 
         // If the requirement for EOY changes and registration is not required anymore

@@ -4,6 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import EndOfYear
 
+@MainActor
 class RecommendationsViewModel: ObservableObject {
 
     enum Configuration {
@@ -112,7 +113,7 @@ struct OnboardingRecommendationsView: View {
     @State var searchTask: Task<Void, Never>?
     @State private var didTapContinue = false
 
-    init(coordinator: LoginCoordinator, viewModel: RecommendationsViewModel = RecommendationsViewModel(configuration: .all)) {
+    init(coordinator: LoginCoordinator, viewModel: RecommendationsViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
     }
@@ -277,6 +278,6 @@ struct OnboardingRecommendationsView: View {
 }
 
 #Preview("Live") {
-    OnboardingRecommendationsView(coordinator: LoginCoordinator())
+    OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: RecommendationsViewModel())
         .environmentObject(Theme(previewTheme: .extraDark))
 }

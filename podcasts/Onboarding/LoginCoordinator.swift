@@ -182,7 +182,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
-    @objc private func syncCompleted() {
+    @objc nonisolated private func syncCompleted() {
          DispatchQueue.main.async {
              self.progressAlert?.hideAlert(false)
              self.progressAlert = nil

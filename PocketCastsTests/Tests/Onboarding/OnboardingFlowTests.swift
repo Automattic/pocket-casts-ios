@@ -2,6 +2,7 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 final class OnboardingFlowTests: XCTestCase {
 
     // MARK: - Notifications-permission prompt

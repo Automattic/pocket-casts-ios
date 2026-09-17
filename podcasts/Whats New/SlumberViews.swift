@@ -73,6 +73,7 @@ struct SlumberCustomBody: View {
     }
 }
 
+@MainActor
 class SlumberAnnouncementViewModel: ObservableObject {
     private lazy var upgradeOrRedeemViewModel = SlumberUpgradeRedeemViewModel()
 

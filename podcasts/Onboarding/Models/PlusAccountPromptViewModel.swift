@@ -32,7 +32,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.expandViewController()
+            MainActor.assumeIsolated {
+                self?.expandViewController()
+            }
         }
     }
 

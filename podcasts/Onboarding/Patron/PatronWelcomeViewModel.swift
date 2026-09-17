@@ -25,7 +25,7 @@ class PatronWelcomeViewModel: ObservableObject, OnboardingModel {
     func iconSelected(_ icon: IconType) {
         let name = icon.iconName
 
-        UIApplication.shared.setAlternateIconName(name) { _ in
+        UIApplication.shared.setAlternateIconName(name) { @Sendable _ in
             WidgetHelper.shared.updateWidgetAppIcon()
         }
 

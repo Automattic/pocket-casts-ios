@@ -3,6 +3,7 @@ import CoreHaptics
 
 /// A dynamic haptic that plays over the course of a duration and increases with intensity the closer to the end
 ///
+@MainActor
 final class UnlockHaptic: ObservableObject {
     let duration: TimeInterval
 

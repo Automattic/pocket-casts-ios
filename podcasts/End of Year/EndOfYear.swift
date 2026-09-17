@@ -142,6 +142,7 @@ struct EndOfYear {
         Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
     }
 
+    @MainActor
     func showPromptBasedOnState(in viewController: UIViewController) {
         switch Self.state {
 
@@ -172,6 +173,7 @@ struct EndOfYear {
         return configuration
     }
 
+    @MainActor
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
         guard let storyModelType else { return }
 

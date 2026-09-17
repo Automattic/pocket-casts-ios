@@ -5,7 +5,8 @@ import PocketCastsUtils
 import WrappingHStack
 import EndOfYear
 
-class InterestsViewModel: ObservableObject, @unchecked Sendable {
+@MainActor
+class InterestsViewModel: ObservableObject {
 
     enum CategoryType: Int {
         case arts = 1

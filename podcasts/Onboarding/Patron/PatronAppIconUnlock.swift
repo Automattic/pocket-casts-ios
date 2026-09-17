@@ -358,6 +358,7 @@ private struct AnimatedAppIconImage: View {
 
 /// Helper class to perform the animations
 /// We use an `ObservableObject` so we can use `@StateObject` to prevent recreating the object when SwiftUI rerenders
+@MainActor
 private class PatronIconHaptics: ObservableObject {
     private let haptics: HapticsProxy? = .init()
 

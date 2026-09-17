@@ -239,7 +239,7 @@ extension CancelSubscriptionViewModel {
     func showManageSubscriptions() {
         Task { [weak self] in
             guard let self else { return }
-            guard let windowScene = await self.navigationController?.view.window?.windowScene else {
+            guard let windowScene = self.navigationController?.view.window?.windowScene else {
                 FileLog.shared.console("[CancelConfirmationViewModel] No window scene available")
                 return
             }

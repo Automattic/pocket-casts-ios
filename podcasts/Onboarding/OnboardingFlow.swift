@@ -19,6 +19,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         didCreateAccount = true
     }
 
+    @MainActor
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
@@ -72,6 +73,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
         return flowController
     }
 
+    @MainActor
     private func upgradeController(in controller: UINavigationController?, viewSource: PlusUpgradeViewSource, context: Context?, customTitle: String? = nil) -> UIViewController {
         let product = context?["product"] as? ProductInfo
         return UpgradeAccountViewModel.make(in: controller,

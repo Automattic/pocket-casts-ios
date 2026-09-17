@@ -27,6 +27,7 @@ class DeselectChaptersAnnouncementViewModel {
         SubscriptionHelper.hasActiveSubscription() ? L10n.gotIt : L10n.upgradeToPlus
     }
 
+    @MainActor
     func buttonAction() {
         // If Plus, just dismiss What's New
         // If free user, show upgrade

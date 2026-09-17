@@ -3,6 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 /// A parent model that allows a view to present pricing information
+@MainActor
 class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
     let purchaseHandler: IAPHelper
@@ -164,23 +165,27 @@ extension PlusPricingInfoModel {
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
-            if FeatureFlag.newOfferEligibilityCheck.enabled {
-                purchaseHandler.updateTrialEligibility() { [weak self] in
-                    guard let self else { return }
-                    priceAvailability = .available
-                    pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+            MainActor.assumeIsolated {
+                if FeatureFlag.newOfferEligibilityCheck.enabled {
+                    self.purchaseHandler.updateTrialEligibility() { [weak self] in
+                        guard let self else { return }
+                        priceAvailability = .available
+                        pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                        completion?()
+                    }
+                } else {
+                    self.priceAvailability = .available
+                    self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
                     completion?()
                 }
-            } else {
-                priceAvailability = .available
-                pricingInfo = Self.getPricingInfo(from: purchaseHandler)
-                completion?()
             }
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
-            self.priceAvailability = .failed
-            completion?()
+            MainActor.assumeIsolated {
+                self.priceAvailability = .failed
+                completion?()
+            }
         }
 
         purchaseHandler.requestProductInfo()

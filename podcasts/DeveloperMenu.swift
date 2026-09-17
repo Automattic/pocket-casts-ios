@@ -370,7 +370,7 @@ struct DeveloperMenu: View {
                 }
                 .sheet(isPresented: $showingRecommendationsOnboarding) {
                     NavigationStack {
-                        OnboardingRecommendationsView(coordinator: LoginCoordinator())
+                        OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: RecommendationsViewModel())
                             .environmentObject(Theme.sharedTheme)
                     }
                 }

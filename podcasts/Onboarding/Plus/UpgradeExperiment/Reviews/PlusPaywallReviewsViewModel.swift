@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 class PlusPaywallReviewsViewModel: ObservableObject {
     @Published var appStoreInfo: AppStoreInfo?
 
