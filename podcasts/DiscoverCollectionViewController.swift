@@ -21,7 +21,6 @@ class DiscoverCollectionViewController: PCViewController {
     }()
 
     private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
-    private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
     fileprivate var selectedCategory: DiscoverCategory?
@@ -36,8 +35,7 @@ class DiscoverCollectionViewController: PCViewController {
         searchResultsController
     }
 
-    init(coordinator: DiscoverCoordinator) {
-        self.coordinator = coordinator
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
