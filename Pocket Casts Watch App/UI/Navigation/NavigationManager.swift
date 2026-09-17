@@ -6,7 +6,7 @@ import WatchKit
 class NavigationManager: ObservableObject {
     static let shared = NavigationManager()
 
-    @Published var currentInterface: Int?
+    @Published var currentInterface: WatchInterfaceType?
 
     func navigateToRestorable(name: String, context: Any?) {
         let interfaceType = WatchInterfaceType(rawValue: name)
@@ -19,7 +19,12 @@ class NavigationManager: ObservableObject {
     }
 
     func navigateTo(_ type: WatchInterfaceType, context: Any?) {
-        currentInterface = type.interfacePosition
+        switch type {
+        case .downloads, .podcasts, .files, .upnext, .nowPlaying, .filterList:
+            currentInterface = type
+        case .unknown, .effects, .episodeDetails, .filter, .interface:
+            currentInterface = nil
+        }
     }
 
     private var navigatingToNowPlaying = false
