@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 
+@MainActor
 class FolderHistoryModel: ObservableObject {
     @Published var historyEntries: [FolderHistoryManager.PodcastFoldersHistoryEntry] = []
     @Published var podcastsAndFolders: [(Podcast, Folder)] = []
@@ -11,14 +12,12 @@ class FolderHistoryModel: ObservableObject {
         self.dataManager = dataManager
     }
 
-    @MainActor
     func loadEntries() {
         Task {
             historyEntries = dataManager.foldersHistoryEntries()
         }
     }
 
-    @MainActor
     func loadFoldersHistory(for entry: Date) {
         Task {
             podcastsAndFolders = dataManager.folderHistory(entry: entry).compactMap {

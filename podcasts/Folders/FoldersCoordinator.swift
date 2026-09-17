@@ -5,6 +5,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 
+@MainActor
 class FoldersCoordinator: NSObject {
 
     enum UpsellFlow {

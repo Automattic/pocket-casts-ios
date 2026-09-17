@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class PodcastPickerModel: ObservableObject {
     @Published var selectedPodcastUuids: [String] = []
     @Published var allPodcasts: [Podcast] = []

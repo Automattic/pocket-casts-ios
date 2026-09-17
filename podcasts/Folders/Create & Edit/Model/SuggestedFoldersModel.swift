@@ -12,6 +12,7 @@ struct SuggestedFolder: Identifiable, Codable {
     let podcastUuids: [String]
 }
 
+@MainActor
 class SuggestedFoldersModel: ObservableObject {
 
     @Published var folders: [SuggestedFolder] = []
@@ -40,7 +41,7 @@ class SuggestedFoldersModel: ObservableObject {
         if loadingState == .loading {
             return
         }
-        Task { @MainActor in
+        Task {
             if loadingState == .start {
                 loadFromCache()
             }

@@ -24,7 +24,7 @@ struct SuggestedFoldersView: View {
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
-    init(model: SuggestedFoldersModel = SuggestedFoldersModel(), source: AnalyticsSource, onCompletion: @escaping (SuggestedFoldersResult) -> Void) {
+    init(model: SuggestedFoldersModel, source: AnalyticsSource, onCompletion: @escaping (SuggestedFoldersResult) -> Void) {
         self.model = model
         self.source = source
         self.onCompletion = onCompletion
@@ -171,7 +171,7 @@ struct SuggestedFoldersView: View {
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(source: .unknown, onCompletion: { _ in })
+        SuggestedFoldersView(model: SuggestedFoldersModel(), source: .unknown, onCompletion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

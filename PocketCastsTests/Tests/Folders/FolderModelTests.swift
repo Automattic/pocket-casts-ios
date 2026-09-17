@@ -2,6 +2,7 @@ import XCTest
 
 @testable import podcasts
 
+@MainActor
 class FolderModelTests: XCTestCase {
     func testCapFolderNameAt100Chars() {
         let model = FolderModel()
