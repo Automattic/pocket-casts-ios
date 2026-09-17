@@ -21,7 +21,7 @@ extension SyncTask {
             var addedEpisodes: [Episode] = []
 
             // Add missing episodes
-            let matchedEpisodeUuids = Set(DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid })
+            let matchedEpisodeUuids = Set(DataManager.sharedManager.playlistEpisodes(for: playlist, includeArchived: true).map { $0.uuid })
             addedEpisodes = serverEpisodes.filter { !matchedEpisodeUuids.contains($0.uuid) }
 
             playlist.syncStatus = SyncStatus.synced.rawValue

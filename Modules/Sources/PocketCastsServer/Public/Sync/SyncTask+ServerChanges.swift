@@ -346,7 +346,7 @@ extension SyncTask {
         }
 
         let serverSet = Set(playlistItem.episodeOrder)
-        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist, includeArchived: true).map { $0.uuid }
         let missingEpisodes = serverSet.subtracting(matchedEpisodes)
         let episodesToDelete = Set(matchedEpisodes).subtracting(serverSet)
 
