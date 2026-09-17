@@ -13,6 +13,8 @@ extension AppDelegate {
     }
 
     func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
+        guard isDatabaseAvailable else { return }
+
         if let urlString = shortcutItem.userInfo?["url"] as? String, let url = URL(string: urlString) {
             JLRoutes.routeURL(url)
         }
@@ -24,6 +26,8 @@ extension AppDelegate {
     }
 
     func handleOpenUrl(url: URL, rootViewController: UIViewController) -> Bool {
+        guard isDatabaseAvailable else { return false }
+
         if url.isFileURL {
             guard let type = UTType(filenameExtension: url.pathExtension) else { return false }
 

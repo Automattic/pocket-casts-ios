@@ -36,6 +36,13 @@ public class DataManager {
     /// user seeing this means their data was wiped and a full resync is required.
     public let databaseWasCreated: Bool
 
+    /// The error that stopped the database at `pathToDb()` from being opened, if there was one.
+    ///
+    /// When this is set the manager runs on a throwaway database: the file on disk is left
+    /// exactly as it was so it can still be exported and recovered, and the app blocks itself
+    /// behind an error screen rather than carrying on with data the user doesn't have.
+    public private(set) var databaseError: Error?
+
     public internal(set) static var shared = DataManager()
 
     public static var logger: ErrorLogger?
@@ -62,11 +69,35 @@ public class DataManager {
             }
         }
 #endif
-        let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
+        let (dbPool, databaseError) = try! DataManager.openDatabasePool(path: DataManager.pathToDb(), configuration: config)
         let dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
         DataManager.setDatabaseFileProtectionToNone()
 
         self.init(dbQueue: dbQueue)
+        self.databaseError = databaseError
+    }
+
+    /// Opens the database at `path`. If it can't be opened the file is left untouched and a
+    /// throwaway database is opened in its place, so the app can start up far enough to tell
+    /// the user what happened and let them export the file that failed.
+    static func openDatabasePool(path: String, fallbackPath: String? = nil, configuration: Configuration) throws -> (DatabasePool, databaseError: Error?) {
+        do {
+            return (try DatabasePool(path: path, configuration: configuration), nil)
+        } catch {
+            FileLog.shared.addMessage("[DataManager] Failed to open the database: \(error)")
+            logger?.log(error: error, context: ["action": "open_database"])
+            return (try DatabasePool(path: fallbackPath ?? makeTemporaryDatabasePath(), configuration: configuration), error)
+        }
+    }
+
+    /// An empty location in the temporary directory for the throwaway database. Any files left
+    /// there by a previous launch are removed so it always starts out empty.
+    private static func makeTemporaryDatabasePath() -> String {
+        let path = (NSTemporaryDirectory() as NSString).appendingPathComponent("podcast_temporaryDB.sqlite3")
+        for suffix in ["", "-wal", "-shm"] {
+            try? FileManager.default.removeItem(atPath: path + suffix)
+        }
+        return path
     }
 
     /// Creates a DataManager using the given `GRDBQueue`.
