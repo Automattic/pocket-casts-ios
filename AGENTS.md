@@ -31,15 +31,12 @@ make test_staging ONLY_TESTING=PocketCastsTests/YourTestClass/testMethodName
 
 ### Running Module Tests
 
+Run module tests with the `Modules-Package` scheme from `Modules/`: one class takes ~16 s, against 47 s app-hosted. `swift test` doesn't work, since it builds for macOS and the GoogleCast, EventHorizon and Fingerprint frameworks are iOS-only.
+
 ```bash
-# DataModel module tests
-make test_staging ONLY_TESTING=PocketCastsDataModelTests
-
-# Server module tests
-make test_staging ONLY_TESTING=PocketCastsServerTests
-
-# Utils module tests
-make test_staging ONLY_TESTING=PocketCastsUtilsTests
+cd Modules && xcodebuild test -scheme Modules-Package \
+  -destination 'platform=iOS Simulator,id=<simulator-udid>' \
+  -only-testing:PocketCastsServerTests/YourTestClass
 ```
 
 ## Architecture
