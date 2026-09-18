@@ -57,6 +57,7 @@ SwiftLint custom rules, for RTL support: use `naturalContentHorizontalAlignment`
 ## Themes
 
 - In SwiftUI, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the view is used. Get colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
+- In UIKit, use `ThemeColor.primaryText01()` and override `handleThemeChanged()` in `PCViewController` subclasses.
 - Theme colors come from `scripts/themes/theme.csv`: edit it and run `make generate_colors`. The generated `podcasts/ThemeColor.swift` and `ThemeStyle.swift` are gitignored, so Grep can't find tokens like `primaryText01`; never edit them by hand.
 
 ## Protocol Buffers
