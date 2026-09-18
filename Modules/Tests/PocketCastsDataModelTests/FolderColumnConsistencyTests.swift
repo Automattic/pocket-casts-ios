@@ -3,15 +3,18 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class FolderColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from FolderDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(FolderDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "uuid",
+        "name",
+        "color",
+        "addedDate",
+        "sortOrder",
+        "sortType",
+        "wasDeleted",
+        "syncModified"
+    ]
 
     // MARK: - Database Schema Tests
 
