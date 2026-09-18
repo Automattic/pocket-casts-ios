@@ -4,7 +4,6 @@ import Foundation
 @preconcurrency import Fingerprint
 @preconcurrency import PocketCastsDataModel
 import PocketCastsUtils
-import os
 
 final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 
@@ -1988,7 +1987,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 // MARK: - Cancellation
 
 private final class CancellationFlag: Sendable {
-    private let cancelled = OSAllocatedUnfairLock(initialState: false)
+    private let cancelled = Mutex(false)
 
     var isCancelled: Bool {
         cancelled.withLock { $0 }

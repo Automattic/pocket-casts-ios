@@ -8,7 +8,7 @@ class AudioPlayTask {
     private var player: AVAudioPlayerNode
     private var bufferManager: PlayBufferManager
 
-    private let cancelled = AtomicBool()
+    private let cancelled = Mutex(false)
 
     private let audioQueue: DispatchQueue
     private let updateQueue: DispatchQueue
@@ -33,10 +33,10 @@ class AudioPlayTask {
             // call this once to immediately skip the 1st wait below
             strongSelf.queueingSemaphone.signal()
 
-            while !strongSelf.cancelled.value {
+            while !strongSelf.cancelled.withLock({ $0 }) {
                 strongSelf.queueingSemaphone.wait()
 
-                if !strongSelf.cancelled.value {
+                if !strongSelf.cancelled.withLock({ $0 }) {
                     strongSelf.scheduleNextBuffer()
                     if strongSelf.bufferManager.bufferLength() <= strongSelf.bufferManager.lowBufferPoint {
                         strongSelf.bufferManager.bufferSemaphore.signal()
@@ -47,7 +47,7 @@ class AudioPlayTask {
     }
 
     func shutdown() {
-        cancelled.value = true
+        cancelled.withLock { $0 = true }
         queueingSemaphone.signal() // the read task is probably waiting on more data, so fire this off to let it know we're done
     }
 
@@ -58,11 +58,11 @@ class AudioPlayTask {
     }
 
     private func scheduleNextBuffer() {
-        while !cancelled.value, bufferManager.bufferLength() == 0 {
+        while !cancelled.withLock({ $0 }), bufferManager.bufferLength() == 0 {
             // if the read thread has gotten to the end of the file and we haven't scheduled anything in the last second, playback is done
-            if bufferManager.readToEOFSuccessfully.value, Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
-                if !bufferManager.haveNotifiedPlayer.value {
-                    bufferManager.haveNotifiedPlayer.value = true
+            if bufferManager.readToEOFSuccessfully.withLock({ $0 }), Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
+                if !bufferManager.haveNotifiedPlayer.withLock({ $0 }) {
+                    bufferManager.haveNotifiedPlayer.withLock { $0 = true }
 
                     FileLog.shared.addMessage("EffectsPlayer got to end of episode, calling finished playing")
                     PlaybackManager.shared.playerDidFinishPlayingEpisode()
@@ -72,7 +72,7 @@ class AudioPlayTask {
                 return
             }
 
-            if bufferManager.readErrorOccurred.value {
+            if bufferManager.readErrorOccurred.withLock({ $0 }) {
                 PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: "Buffer read error occurred"))
                 shutdown()
 

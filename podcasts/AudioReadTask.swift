@@ -12,7 +12,7 @@ class AudioReadTask {
     private var minGapSizeInFrames = 3
     private var amountOfSilentFramesToReInsert = 1
 
-    private let cancelled = AtomicBool()
+    private let cancelled = Mutex(false)
 
     private let readQueue: DispatchQueue
     private let lock = NSObject()
@@ -35,11 +35,11 @@ class AudioReadTask {
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
     private var voiceBoostNState: OpaquePointer?
-    private var useVoiceBoostN: AtomicBool?
+    private let useVoiceBoostN: () -> Bool
     private var voiceBoostNSampleRate: Double = 0
     private var hasProcessedFirstBuffer = false
 
-    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: AtomicBool? = nil, sampleRate: Double = 0) {
+    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: @escaping () -> Bool = { false }, sampleRate: Double = 0) {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
         self.outputFormat = outputFormat
@@ -83,7 +83,7 @@ class AudioReadTask {
                     guard let self else { return }
 
                     do {
-                        while !self.cancelled.value {
+                        while !self.cancelled.withLock({ $0 }) {
                             // nil is returned when there are playback errors or us getting to the end of a file, sleep so we don't end up in a tight loop but these all set the cancelled flag
                             guard let audioBuffers = try self.readFromFile() else {
                                 Thread.sleep(forTimeInterval: 0.1)
@@ -95,19 +95,19 @@ class AudioReadTask {
                             }
                         }
                     } catch {
-                        self.bufferManager.readErrorOccurred.value = true
+                        self.bufferManager.readErrorOccurred.withLock { $0 = true }
                         FileLog.shared.addMessage("Audio Read failed (Swift): \(error.localizedDescription)")
                     }
                 }
             } catch {
-                self.bufferManager.readErrorOccurred.value = true
+                self.bufferManager.readErrorOccurred.withLock { $0 = true }
                 FileLog.shared.addMessage("Audio Read failed (obj-c): \(error.localizedDescription)")
             }
         }
     }
 
     func shutdown() {
-        cancelled.value = true
+        cancelled.withLock { $0 = true }
         bufferManager.bufferSemaphore.signal()
         endOfFileSemaphore.signal()
 
@@ -151,7 +151,7 @@ class AudioReadTask {
 
         if positionRequired.passedEndOfFile {
             bufferManager.removeAll()
-            bufferManager.readToEOFSuccessfully.value = true
+            bufferManager.readToEOFSuccessfully.withLock { $0 = true }
 
             seekedToEnd = true
         } else {
@@ -168,7 +168,7 @@ class AudioReadTask {
             }
 
             // if we've finished reading this file, wake the reading thread back up
-            if bufferManager.readToEOFSuccessfully.value {
+            if bufferManager.readToEOFSuccessfully.withLock({ $0 }) {
                 endOfFileSemaphore.signal()
             }
         }
@@ -177,7 +177,7 @@ class AudioReadTask {
     }
 
     private func handleReachedEndOfFile() {
-        bufferManager.readToEOFSuccessfully.value = true
+        bufferManager.readToEOFSuccessfully.withLock { $0 = true }
 
         // we've read to the end but the player won't yet have played to the end, wait til it signals us that it has
         endOfFileSemaphore.wait()
@@ -196,8 +196,8 @@ class AudioReadTask {
         }
 
         guard let audioPCMBuffer = AVAudioPCMBuffer(pcmFormat: outputFormat, frameCapacity: bufferLength) else {
-            bufferManager.readErrorOccurred.value = true
-            cancelled.value = true
+            bufferManager.readErrorOccurred.withLock { $0 = true }
+            cancelled.withLock { $0 = true }
             objc_sync_exit(lock)
             FileLog.shared.addMessage("[AudioReadTask] Failed to allocate AVAudioPCMBuffer (format: \(outputFormat), capacity: \(bufferLength))")
 
@@ -220,7 +220,7 @@ class AudioReadTask {
         }
 
         // Handle dynamic VoiceBoostN state creation/destruction
-        let shouldUseVoiceBoostN = useVoiceBoostN?.value == true
+        let shouldUseVoiceBoostN = useVoiceBoostN()
         if shouldUseVoiceBoostN && voiceBoostNState == nil {
             voiceBoostNState = VBN_Create(voiceBoostNSampleRate)
             if hasProcessedFirstBuffer {
@@ -256,8 +256,8 @@ class AudioReadTask {
         if channelCount == 0 { channelCount = audioPCMBuffer.audioBufferList.pointee.mNumberBuffers }
 
         if channelCount == 0 {
-            bufferManager.readErrorOccurred.value = true
-            cancelled.value = true
+            bufferManager.readErrorOccurred.withLock { $0 = true }
+            cancelled.withLock { $0 = true }
             objc_sync_exit(lock)
 
             return nil
@@ -351,11 +351,11 @@ class AudioReadTask {
 
     private func scheduleForPlayback(buffer: BufferedAudio) {
         // the play task will signal us when it needs more buffer, but it will keep signalling as long as the buffer is low, so keep calling wait until we get below the high point
-        while !cancelled.value, bufferManager.bufferLength() >= bufferManager.highBufferPoint {
+        while !cancelled.withLock({ $0 }), bufferManager.bufferLength() >= bufferManager.highBufferPoint {
             bufferManager.bufferSemaphore.wait()
         }
 
-        if !cancelled.value {
+        if !cancelled.withLock({ $0 }) {
             bufferManager.push(buffer)
         }
     }
