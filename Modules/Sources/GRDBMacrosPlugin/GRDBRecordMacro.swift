@@ -152,7 +152,7 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         }
     }
 
-    /// Extract properties with @objc attribute (for classes/NSObject subclasses)
+    /// Extract properties with @objc or @GRDBColumn attribute (for classes/NSObject subclasses)
     private static func extractObjcProperties(from declaration: some DeclGroupSyntax) -> [PropertyInfo] {
         var properties: [PropertyInfo] = []
 
@@ -165,14 +165,15 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             // Skip properties marked with @GRDBIgnore
             guard !hasGRDBIgnore(varDecl) else { continue }
 
-            // Only include properties with @objc attribute (database-stored properties)
-            let hasObjc = varDecl.attributes.contains { attr in
+            // Only include database-stored properties: @objc ones, and non-@objc ones marked with @GRDBColumn
+            let isStored = varDecl.attributes.contains { attr in
                 if case .attribute(let attributeSyntax) = attr {
-                    return attributeSyntax.attributeName.trimmedDescription == "objc"
+                    let attributeName = attributeSyntax.attributeName.trimmedDescription
+                    return attributeName == "objc" || attributeName == "GRDBColumn"
                 }
                 return false
             }
-            guard hasObjc else { continue }
+            guard isStored else { continue }
 
             if let propInfo = extractPropertyInfo(from: varDecl) {
                 properties.append(propInfo)

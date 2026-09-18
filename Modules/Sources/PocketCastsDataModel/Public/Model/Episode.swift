@@ -54,6 +54,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
     @objc public var wasDeleted = false
+    @GRDBColumn
     public var hasGeneratedTranscript: Bool? = nil
 
     public var hasBookmarks: Bool {

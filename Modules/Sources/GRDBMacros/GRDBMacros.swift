@@ -61,8 +61,15 @@ public macro GRDBRecord(table: String? = nil) = #externalMacro(module: "GRDBMacr
 /// @GRDBColumn("episodeKeepSetting")
 /// @objc public var autoArchiveEpisodeLimit = 0 as Int32
 /// ```
+///
+/// In NSObject subclasses, `@GRDBRecord` only persists `@objc` properties.
+/// Use `@GRDBColumn` to persist a property that can't be `@objc`, such as `Bool?`:
+/// ```swift
+/// @GRDBColumn
+/// public var hasGeneratedTranscript: Bool? = nil
+/// ```
 @attached(peer)
-public macro GRDBColumn(_ columnName: String) = #externalMacro(module: "GRDBMacrosPlugin", type: "GRDBColumnMacro")
+public macro GRDBColumn(_ columnName: String? = nil) = #externalMacro(module: "GRDBMacrosPlugin", type: "GRDBColumnMacro")
 
 /// Marks a property to be ignored by @GRDBRecord.
 ///
