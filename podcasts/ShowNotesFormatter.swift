@@ -1,5 +1,6 @@
 
 import Foundation
+import PocketCastsUtils
 
 class ShowNotesFormatter {
     class func format(showNotes: String, tintColor: UIColor, convertTimesToLinks: Bool, bgColor: UIColor?, textColor: UIColor) -> String {

@@ -1,5 +1,5 @@
 import Foundation
-@testable import podcasts
+@testable import PocketCastsUtils
 import XCTest
 
 class ShowNotesFormatterUtilsTests: XCTestCase {

@@ -1,5 +1,5 @@
 import XCTest
-@testable import podcasts
+@testable import PocketCastsUtils
 
 final class MediaFileHandleTests: XCTestCase {
 

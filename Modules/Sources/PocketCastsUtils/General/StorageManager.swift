@@ -1,13 +1,12 @@
 import Foundation
-import PocketCastsUtils
 
-struct StorageManager {
-    typealias Attributes = [FileAttributeKey: Any]
+public struct StorageManager {
+    public typealias Attributes = [FileAttributeKey: Any]
 
     private static var fileManager: FileManager = .default
 
     @discardableResult
-    static func moveItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil, options: Options? = nil) throws -> Bool {
+    public static func moveItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil, options: Options? = nil) throws -> Bool {
         if let options, options.contains(.overwriteExisting) {
             removeItem(at: toURL)
         }
@@ -21,7 +20,7 @@ struct StorageManager {
     }
 
     @discardableResult
-    static func copyItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil, options: Options? = nil) throws -> Bool {
+    public static func copyItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil, options: Options? = nil) throws -> Bool {
         if let options, options.contains(.overwriteExisting) {
             removeItem(at: toURL)
         }
@@ -34,14 +33,14 @@ struct StorageManager {
     }
 
     @discardableResult
-    static func createDirectory(atPath path: String, withIntermediateDirectories createIntermediates: Bool, attributes: Attributes? = nil) -> Bool {
+    public static func createDirectory(atPath path: String, withIntermediateDirectories createIntermediates: Bool, attributes: Attributes? = nil) -> Bool {
         let attrs = (attributes ?? [:]).merging(Constants.defaultAttributes) { current, _ in current }
 
         return tryLog(try fileManager.createDirectory(atPath: path, withIntermediateDirectories: createIntermediates, attributes: attrs), operation: "createDirectory")
     }
 
     @discardableResult
-    static func removeItem(at url: URL) -> Bool {
+    public static func removeItem(at url: URL) -> Bool {
         guard fileManager.fileExists(atPath: url.path) else {
             return true
         }
@@ -55,7 +54,7 @@ struct StorageManager {
     }
 
     @discardableResult
-    static func updateFileProtectionToDefault(for url: URL) -> Bool {
+    public static func updateFileProtectionToDefault(for url: URL) -> Bool {
         return setAttributes(Constants.defaultAttributes, of: url)
     }
 
@@ -69,10 +68,14 @@ struct StorageManager {
 
     // MARK: - Config
 
-    struct Options: OptionSet {
-        static let overwriteExisting = Options(rawValue: 1 << 0)
+    public struct Options: OptionSet {
+        public static let overwriteExisting = Options(rawValue: 1 << 0)
 
-        let rawValue: Int
+        public let rawValue: Int
+
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
     }
 
     private enum Constants {

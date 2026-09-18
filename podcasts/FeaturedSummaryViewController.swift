@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DiscoverSummaryProtocol, TinyPageControlDelegate {
