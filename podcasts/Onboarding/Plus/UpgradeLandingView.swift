@@ -226,10 +226,6 @@ extension String {
         self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
     }
 
-    var newSlumberStudiosWithUrl: String {
-        self.replacingOccurrences(of: self, with: "[\(self)](https://slumberstudios.com)")
-    }
-
     var libroFmWithURL: String {
         self.replacingOccurrences(of: "Libro.fm", with: "[Libro.fm](https://libro.fm)")
     }

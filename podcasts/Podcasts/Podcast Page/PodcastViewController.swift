@@ -1309,15 +1309,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         }
     }
 
-    func refreshPodcastFeed() {
-        // In case the FF is switched off
-        guard shouldDisplayPodcastFeedReloadButton() else {
-            refreshController?.refreshControl.endRefreshing()
-            return
-        }
-        reloadPodcastFeed(source: .refreshControl)
-    }
-
     func open(url: URL) {
         if Settings.openLinks {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

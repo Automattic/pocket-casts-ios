@@ -37,14 +37,6 @@ class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
         super.init()
     }
 
-    var upgradeLabel: String {
-        guard let offer = product(for: feature.tier)?.offer, offer.type == .freeTrial else {
-            return L10n.upgradeToPlan(feature.tier == .patron ? L10n.patron : L10n.pocketCastsPlusShort)
-        }
-
-        return offer.title
-    }
-
     @MainActor
     func upgradeTapped() {
         Analytics.track(.bookmarksGetBookmarksButtonTapped, source: bookmarksSource)
