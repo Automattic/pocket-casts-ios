@@ -114,6 +114,8 @@ Use generated `L10n` enum:
 let text = L10n.featureDescriptionKey(value)
 ```
 
+`L10n` lives in the `PocketCastsLocalization` module and is generated on every build that changes the English strings. The app targets re-export it from `podcasts/Exports.swift`, so app code doesn't need to import it; modules that use `L10n` depend on `PocketCastsLocalization` and import it.
+
 Key rules:
 - Use snake_case keys with pattern: `feature_relevantIdentifier_description`
 - Always include comment describing context and placeholders
