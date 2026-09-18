@@ -68,7 +68,7 @@ The main iOS app lives in `podcasts/` with:
 | `PocketCastsTests/` | Unit tests organized by feature |
 | `Pocket Casts Watch App/` | watchOS companion |
 | `WidgetExtension/` | Home screen widgets |
-| `BuildTools/` | SwiftLint and SwiftGen plugins |
+| `BuildTools/` | SwiftLint plugin |
 
 ## Data Access - DataManager (Singleton Facade)
 
