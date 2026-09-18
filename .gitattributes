@@ -1,4 +1,3 @@
 CHANGELOG.md merge=union
-*.pbxproj merge=union
 
 .a8c-secrets/*.age binary

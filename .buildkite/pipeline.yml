@@ -75,6 +75,18 @@ steps:
         agents:
           queue: mac
 
+      # A merge or rebase can leave the project unreadable without reporting a
+      # conflict, e.g. when it drops a closing brace between two added objects.
+      - label: ":xcode: Lint project.pbxproj"
+        command: |
+          plutil -lint podcasts.xcodeproj/project.pbxproj || {
+            echo "^^^ +++"
+            echo "project.pbxproj isn't a valid property list. Look for a merge that dropped a closing brace."
+            exit 1
+          }
+        agents:
+          queue: mac
+
       - label: ":fastlane: fastlane Helper Tests"
         if: ${RUN_FASTLANE_TESTS:-false}
         command: ruby fastlane/test/helpers_test.rb
