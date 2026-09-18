@@ -16,7 +16,7 @@ struct Pocket_Casts_App_ClipApp: App {
 
         Analytics.register(adapters: [
             AnalyticsLoggingAdapter(),
-            TracksAdapter(userDefaults: UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard)
+            TracksAdapter(userDefaults: SharedConstants.GroupUserDefaults.defaults)
         ])
     }
 
