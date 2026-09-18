@@ -71,7 +71,7 @@ The main iOS app lives in `podcasts/` with:
 | `PocketCastsTests/` | Unit tests organized by feature |
 | `Pocket Casts Watch App/` | watchOS companion |
 | `WidgetExtension/` | Home screen widgets |
-| `BuildTools/` | SwiftLint plugin |
+| `BuildTools/` | SwiftLint and SwiftGen plugins |
 
 ## Data Access - DataManager (Singleton Facade)
 
@@ -116,8 +116,6 @@ Use generated `L10n` enum:
 ```swift
 let text = L10n.featureDescriptionKey(value)
 ```
-
-`L10n` lives in the `PocketCastsLocalization` module and is generated on every build that changes the English strings. The app targets re-export it from `podcasts/Exports.swift`, so app code doesn't need to import it; modules that use `L10n` depend on `PocketCastsLocalization` and import it.
 
 Key rules:
 - Use snake_case keys with pattern: `feature_relevantIdentifier_description`
