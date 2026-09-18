@@ -972,8 +972,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         DispatchQueue.global().async { [self] in
             DataManager.sharedManager.markAllUnarchivedForPodcast(id: podcast.id)
 
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())
+            MainActor.runOrEnqueue {
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())
+            }
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -998,8 +1000,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
                 count += 1
             }
 
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
+            MainActor.runOrEnqueue { [count] in
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
+            }
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -1014,8 +1018,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             guard let self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
             let episodes = allObjects.compactMap { ($0 as? ListEpisode)?.episode }
-            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+            MainActor.runOrEnqueue {
+                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+            }
 
             self.downloadItems(allObjects: allObjects)
         }
@@ -1115,8 +1121,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             DispatchQueue.global().async {
                 guard let self else { return }
 
-                AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
-                AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+                MainActor.runOrEnqueue {
+                    AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+                    AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+                }
 
                 if later {
                     self.queueItems(allObjects: listEpisodesForSeason)
