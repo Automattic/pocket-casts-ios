@@ -1042,10 +1042,6 @@ public class DataManager {
         playlistManager.moveEpisode(episodeUuid, in: playlist, to: index, dbQueue: dbQueue)
     }
 
-    public func updateEpisodePosition(_ episodeUuid: String, in playlist: EpisodeFilter, to position: Int32) {
-        playlistManager.updateEpisodePosition(episodeUuid, in: playlist, to: position, dbQueue: dbQueue)
-    }
-
     public func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
         playlistManager.deleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
     }

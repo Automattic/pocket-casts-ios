@@ -223,12 +223,6 @@ class PlaylistDataManager {
         }
     }
 
-    /// Set a specific position for an episode within a manual playlist.
-    /// This is equivalent to calling moveEpisode to the given index.
-    func updateEpisodePosition(_ episodeUuid: String, in playlist: EpisodeFilter, to position: Int32, dbQueue: PCDBQueue) {
-        moveEpisode(episodeUuid, in: playlist, to: Int(position), dbQueue: dbQueue)
-    }
-
     /// Delete specific episodes from a manual playlist and reindex remaining items
     func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter, dbQueue: PCDBQueue) {
         guard !episodeUuids.isEmpty else { return }

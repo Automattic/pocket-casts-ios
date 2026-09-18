@@ -108,10 +108,6 @@ class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature = .slumber
     let upgradeSource: PlusUpgradeViewSource = .slumber
 
-    var upgradeLabel: String {
-        return L10n.plusSubscribeTo
-    }
-
     @MainActor
     func showRedeemOrUpgrade() {
         isEligible() ? showRedeem() : upgradeTapped()

@@ -27,10 +27,6 @@ class ColorManager {
         colorDownloadQueue.maxConcurrentOperationCount = 5
     }
 
-    class func podcastHasBackgroundColor(_ podcast: Podcast) -> Bool {
-        ColorManager.sharedManager.podcastHasBackgroundColor(podcast)
-    }
-
     class func backgroundColorForPodcast(_ podcast: Podcast) -> UIColor {
         ColorManager.sharedManager.backgroundColorForPodcast(podcast)
     }
@@ -60,10 +56,6 @@ class ColorManager {
 
     class func darkThemeTintForPodcast(_ podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
         ColorManager.sharedManager.darkThemeTintForPodcast(podcast, defaultColor: defaultColor)
-    }
-
-    private func podcastHasBackgroundColor(_ podcast: Podcast) -> Bool {
-        podcast.backgroundColor != nil && podcast.colorVersion == currentColorVersion
     }
 
     func updateColorsIfRequired(_ podcast: Podcast) {
