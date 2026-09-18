@@ -3,15 +3,53 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from EpisodeDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(EpisodeDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "id",
+        "addedDate",
+        "lastDownloadAttemptDate",
+        "detailedDescription",
+        "downloadErrorDetails",
+        "downloadTaskId",
+        "downloadUrl",
+        "episodeDescription",
+        "episodeStatus",
+        "fileType",
+        "contentType",
+        "keepEpisode",
+        "playedUpTo",
+        "duration",
+        "playingStatus",
+        "autoDownloadStatus",
+        "publishedDate",
+        "sizeInBytes",
+        "playingStatusModified",
+        "playedUpToModified",
+        "durationModified",
+        "keepEpisodeModified",
+        "title",
+        "uuid",
+        "podcastUuid",
+        "playbackErrorDetails",
+        "cachedFrameCount",
+        "lastPlaybackInteractionDate",
+        "lastPlaybackInteractionSyncStatus",
+        "podcast_id",
+        "episodeNumber",
+        "seasonNumber",
+        "episodeType",
+        "archived",
+        "archivedModified",
+        "lastArchiveInteractionDate",
+        "excludeFromEpisodeLimit",
+        "starredModified",
+        "deselectedChapters",
+        "deselectedChaptersModified",
+        "wasDeleted",
+        "hasGeneratedTranscript",
+        "hlsUrl"
+    ]
 
     // MARK: - Database Schema Tests
 
