@@ -1373,6 +1373,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3BC95E96A3F4E3AF80C7B493 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 462EE0C02702532E003D67DC;
+			remoteInfo = PreBuildActions;
+		};
 		403B5B2321813FFA00821A54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -5856,6 +5863,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D050D701E49EAC5263460A15 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */,
@@ -7723,6 +7731,11 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
+		};
+		D050D701E49EAC5263460A15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
+			targetProxy = 3BC95E96A3F4E3AF80C7B493 /* PBXContainerItemProxy */;
 		};
 		FF2CD57A2B9F4B2D009B58B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
