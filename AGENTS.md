@@ -130,6 +130,7 @@ SwiftLint is configured with opt-in rules. Notable custom rules:
 ## Themes
 - When styling Views, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the View is used.
 - Use `AppTheme.color(for: .primaryText01, theme: theme)` to access themed colors
+- Theme colors come from `scripts/themes/theme.csv`: edit it and run `make generate_colors`. The generated `podcasts/ThemeColor.swift` and `ThemeStyle.swift` are gitignored, so Grep can't find tokens like `primaryText01`; never edit them by hand.
 
 ## Protocol Buffers
 
