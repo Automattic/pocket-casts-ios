@@ -23,6 +23,8 @@ make clean
 make test_staging
 ```
 
+Each checkout runs tests on its own simulator, "Pocket Casts Tests (<checkout folder>)", created on first use, so worktrees can run tests in parallel. Pass `SIMULATOR_ID=<udid>` to use a different one. The run ends with a pass/fail summary and leaves the result bundle in `build/TestResults.xcresult`.
+
 ### Running a Single Test
 
 ```bash
