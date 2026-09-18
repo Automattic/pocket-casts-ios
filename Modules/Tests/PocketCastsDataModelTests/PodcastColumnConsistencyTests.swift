@@ -3,15 +3,65 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class PodcastColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from PodcastDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(PodcastDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "id",
+        "addedDate",
+        "autoDownloadSetting",
+        "autoAddToUpNext",
+        "episodeKeepSetting",
+        "backgroundColor",
+        "detailColor",
+        "primaryColor",
+        "secondaryColor",
+        "lastColorDownloadDate",
+        "imageURL",
+        "latestEpisodeUuid",
+        "latestEpisodeDate",
+        "mediaType",
+        "lastThumbnailDownloadDate",
+        "thumbnailStatus",
+        "podcastUrl",
+        "author",
+        "playbackSpeed",
+        "boostVolume",
+        "trimSilenceAmount",
+        "podcastCategory",
+        "podcastDescription",
+        "podcastHTMLDescription",
+        "sortOrder",
+        "startFrom",
+        "skipLast",
+        "subscribed",
+        "title",
+        "uuid",
+        "syncStatus",
+        "colorVersion",
+        "pushEnabled",
+        "episodeSortOrder",
+        "showType",
+        "estimatedNextEpisode",
+        "episodeFrequency",
+        "lastUpdatedAt",
+        "excludeFromAutoArchive",
+        "overrideGlobalEffects",
+        "overrideGlobalArchive",
+        "autoArchivePlayedAfter",
+        "autoArchiveInactiveAfter",
+        "episodeGrouping",
+        "isPaid",
+        "licensing",
+        "fullSyncLastSyncAt",
+        "showArchived",
+        "refreshAvailable",
+        "folderUuid",
+        "usedCustomEffectsBefore",
+        "isPrivate",
+        "fundingURL",
+        "isExplicit",
+        "networkListId"
+    ]
 
     // MARK: - Database Schema Tests
 
