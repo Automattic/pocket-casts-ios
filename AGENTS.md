@@ -11,6 +11,16 @@ make format
 make build_staging
 ```
 
+### Building in a Worktree
+
+Each worktree build creates 10–14 GB of DerivedData. Use a private one and delete it with the worktree:
+
+```bash
+xcodebuild -project podcasts.xcodeproj -scheme "Pocket Casts Staging" -configuration StagingDebug \
+  -destination 'generic/platform=iOS Simulator' -derivedDataPath "/tmp/DerivedData-$(basename "$PWD")" \
+  ARCHS=arm64 COMPILER_INDEX_STORE_ENABLE=NO build
+```
+
 ## Cleaning Build Artifacts
 
 ```bash
