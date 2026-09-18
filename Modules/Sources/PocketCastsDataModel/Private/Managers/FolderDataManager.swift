@@ -16,11 +16,7 @@ class FolderDataManager {
     ]
 
     private var cachedFolders = [Folder]()
-    private lazy var cachedFolderQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.FolderDataQueue")
-
-        return queue
-    }()
+    private let cachedFolderQueue = DispatchQueue(label: "au.com.pocketcasts.FolderDataQueue")
 
     func setup(dbQueue: PCDBQueue) {
         cacheFolders(dbQueue: dbQueue)
@@ -33,9 +29,11 @@ class FolderDataManager {
     }
 
     func allFolders(includeDeleted: Bool, dbQueue: PCDBQueue) -> [Folder] {
-        if includeDeleted { return cachedFolders }
+        let folders = cachedFolderQueue.sync { cachedFolders }
 
-        return cachedFolders.filter { $0.wasDeleted == false }
+        if includeDeleted { return folders }
+
+        return folders.filter { $0.wasDeleted == false }
     }
 
     func save(folder: Folder, dbQueue: PCDBQueue) {
@@ -54,9 +52,10 @@ class FolderDataManager {
             }
         } else {
             // Legacy path
+            let folderExists = cachedFolderQueue.sync { cachedFolders.contains(where: { $0.uuid == folder.uuid }) }
             dbQueue.write { db in
                 do {
-                    if self.cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
+                    if folderExists {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                         try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
                     } else {
