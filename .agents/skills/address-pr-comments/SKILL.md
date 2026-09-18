@@ -57,8 +57,10 @@ Skip comments that are:
 - Your own replies (from previous runs or the PR author)
 - Pure acknowledgments ("LGTM", "looks good", "thanks", etc.)
 - Already addressed by this automation (check if a previous reply contains "Done in")
-- Bot comments (github-actions, dependabot, etc.) — but NOT Copilot (`copilot`),
-  which posts actionable review feedback that should be addressed
+- Bot comments (github-actions, dependabot, etc.) — but NOT the review bots `claude[bot]`
+  and Copilot (`Copilot`, `copilot-pull-request-reviewer[bot]`), whose feedback should be
+  addressed. `claude[bot]` also posts a summary issue comment linking to its inline
+  comments; address the inline comments, not the summary
 - Inline thread replies where `in_reply_to_id` is non-null — only treat top-level
   inline comments (those with `in_reply_to_id == null`) as separate actionable items
 
@@ -84,17 +86,15 @@ Do NOT reply to comments during this phase — all replies happen at the end.
 3. **Make the fix**: Edit the code to address the feedback. Follow the project conventions
    from AGENTS.md / CLAUDE.md.
 
-4. **Commit and push**: Stage only the files changed for this comment, commit, and push
-   immediately. This ensures the commit hash is available on the remote for linking.
+4. **Format, build, commit and push**: Run `make format` and build the app; don't push
+   code that doesn't build. Stage only the files changed for this comment (`make format`
+   touches the whole repo), commit, and push immediately so the commit hash is available
+   on the remote for linking.
 
     ```bash
+    make format
     git add <changed-files>
-    git commit -m "$(cat <<'EOF'
-    Address review: <short description of what was fixed>
-
-    Co-Authored-By: Claude <noreply@anthropic.com>
-    EOF
-    )"
+    git commit -m "Address review: <short description of what was fixed>"
     git push
     ```
 
@@ -171,13 +171,13 @@ EOF
 ### 7. Re-request reviews
 
 Collect the unique usernames of all human commenters (exclude bot accounts like
-`copilot`, `github-actions`, etc.), then re-request their review:
+`claude[bot]`, `Copilot`, `github-actions`, etc.), then re-request their review:
 
 ```bash
 gh pr edit {pr_number} --add-reviewer reviewer1,reviewer2
 ```
 
-Note: Bot accounts like Copilot cannot be re-requested for review — they will
+Note: Bot accounts like Claude and Copilot cannot be re-requested for review — they will
 automatically re-review when new commits are pushed.
 
 ### 8. Output
