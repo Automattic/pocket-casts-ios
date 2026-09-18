@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import SwipeCellKit
+import UIKit
 
 extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate

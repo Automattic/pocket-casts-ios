@@ -2,6 +2,8 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
+import AVFoundation
 import AVKit
 #if os(watchOS)
     import WatchKit

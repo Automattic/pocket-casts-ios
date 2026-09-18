@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
 import PocketCastsUtils
+import UIKit
 
 extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate

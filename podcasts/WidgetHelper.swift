@@ -2,6 +2,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 import WidgetKit
 
 class WidgetHelper {

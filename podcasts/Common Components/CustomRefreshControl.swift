@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class CustomRefreshControl: UIRefreshControl {
     var perform: ((CustomRefreshControl) -> Void)?

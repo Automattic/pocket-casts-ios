@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 import WatchConnectivity
 
 /// Errors that can occur during Watch sync operations

@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension DiscoverItem {
     func cellType() -> DiscoverCellType? {

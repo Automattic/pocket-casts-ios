@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension CastToViewController: UITableViewDelegate, UITableViewDataSource {
     private static let castCellId = "GoogleCastCell"

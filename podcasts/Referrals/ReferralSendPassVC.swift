@@ -3,6 +3,7 @@ import LinkPresentation
 import SwiftUI
 import PocketCastsServer
 import EndOfYear
+import UniformTypeIdentifiers
 
 class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 

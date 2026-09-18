@@ -1,3 +1,5 @@
+import Foundation
+
 fileprivate class Box<ResultType> {
     var result: ResultType? = nil
 }

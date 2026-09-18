@@ -1,5 +1,6 @@
 
 import Foundation
+import UIKit
 
 class SocialsHelper {
     class func openTwitter() {

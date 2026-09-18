@@ -1,5 +1,6 @@
 
 import Foundation
+import UIKit
 
 class ReorderableFlowLayout: UICollectionViewFlowLayout {
     var alphaOnPickup = 0.7 as CGFloat

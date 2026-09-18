@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsServer
 
 enum DiscoverType: String, CaseIterable {

@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import PocketCastsDataModel
+import UIKit
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
 @MainActor

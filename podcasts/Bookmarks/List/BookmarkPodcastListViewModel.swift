@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 import PocketCastsDataModel
 
 class BookmarkPodcastListViewModel: BookmarkListViewModel {

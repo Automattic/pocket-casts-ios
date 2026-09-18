@@ -1,3 +1,4 @@
+import UIKit
 
 extension VideoViewController {
     private static let controlHideTime = 3.seconds

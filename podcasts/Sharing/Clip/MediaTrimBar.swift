@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import CoreMedia
 
 struct MediaTrimBar: View {
     @ObservedObject var clipTime: ClipTime

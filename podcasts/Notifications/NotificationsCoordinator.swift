@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsUtils
 import PocketCastsServer
 import PocketCastsDataModel
+import UserNotifications
 
 enum NotificationType: String {
 

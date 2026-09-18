@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
+import UIKit
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {

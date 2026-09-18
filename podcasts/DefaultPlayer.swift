@@ -4,6 +4,10 @@ import CoreAudioTypes
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
+#if !os(watchOS)
+    import VoiceBoostN
+#endif
 
 class DefaultPlayer: PlaybackProtocol, Hashable {
     private var audioMix: AVAudioMix?

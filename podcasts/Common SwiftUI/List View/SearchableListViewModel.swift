@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 import PocketCastsUtils
 
 ///Allows a mode to be searched by the `SearchableListViewModel`

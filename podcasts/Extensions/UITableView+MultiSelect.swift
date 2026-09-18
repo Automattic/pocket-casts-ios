@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension UITableView {
     func selectIndexPath(_ indexPath: IndexPath) {
