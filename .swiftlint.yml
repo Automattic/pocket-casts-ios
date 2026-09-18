@@ -158,37 +158,43 @@ trailing_whitespace:
 custom_rules:
   natural_content_alignment:
     name: "Natural Content Alignment"
-    regex: '\.contentHorizontalAlignment(\s*)=(\s*)(\.left|\.right)'
+    regex: '\.contentHorizontalAlignment\s*=\s*\.(?:left|right)'
     message: "Forcing content alignment left or right can affect the Right-to-Left layout. Use naturalContentHorizontalAlignment instead."
     severity: warning
+    excluded_match_kinds: [comment, doccomment, string]
 
   natural_text_alignment:
     name: "Natural Text Alignment"
-    regex: '\.textAlignment(\s*)=(\s*).left'
+    regex: '\.textAlignment\s*=\s*\.left'
     message: "Forcing text alignment to left can affect the Right-to-Left layout. Consider setting it to `natural`"
     severity: warning
+    excluded_match_kinds: [comment, doccomment, string]
 
   inverse_text_alignment:
     name: "Inverse Text Alignment"
-    regex: '\.textAlignment(\s*)=(\s*).right'
+    regex: '\.textAlignment\s*=\s*\.right'
     message: "When forcing text alignment to the right, be sure to handle the Right-to-Left layout case properly, and then silence this warning with this line `// swiftlint:disable:next inverse_text_alignment`"
     severity: warning
+    excluded_match_kinds: [comment, doccomment, string]
 
   localization_comment:
     name: "Localization Comment"
-    regex: 'NSLocalizedString([^,]+,\s+comment:\s*"")'
+    regex: 'NSLocalizedString\([^,]+,\s+comment:\s*""'
     message: "Localized strings should include a description giving context for how the string is used."
     severity: warning
+    excluded_match_kinds: [comment, doccomment]
 
   string_interpolation_in_localized_string:
     name: "String Interpolation in Localized String"
     regex: 'NSLocalizedString\("[^"]*\\\(\S*\)'
     message: "Localized strings must not use interpolated variables. Instead, use `String(format:`"
     severity: error
+    excluded_match_kinds: [comment, doccomment]
 
   swiftui_localization:
     name: "SwiftUI Localization"
     regex: 'LocalizedStringKey'
     message: "Using `LocalizedStringKey` is incompatible with our tooling and doesn't allow you to provide a hint/context comment for translators either. Please use `NSLocalizedString` instead, even with SwiftUI code."
     severity: error
+    excluded_match_kinds: [comment, doccomment, string]
     excluded: '.*Widgets/.*'
