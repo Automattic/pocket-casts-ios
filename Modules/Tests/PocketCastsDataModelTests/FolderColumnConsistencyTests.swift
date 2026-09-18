@@ -3,15 +3,18 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class FolderColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from FolderDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(FolderDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "uuid",
+        "name",
+        "color",
+        "addedDate",
+        "sortOrder",
+        "sortType",
+        "wasDeleted",
+        "syncModified"
+    ]
 
     // MARK: - Database Schema Tests
 
@@ -40,26 +43,25 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Round-Trip Tests
 
     func testSaveAndLoadPreservesAllFields() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let original = self.createFullyPopulatedFolder()
 
-            // Save using the current implementation (respects feature flag)
             dataManager.save(folder: original)
 
             // Load it back
             guard let loaded = dataManager.findFolder(uuid: original.uuid) else {
-                XCTFail("\(implementationName): Should be able to load saved folder")
+                XCTFail("Should be able to load saved folder")
                 return
             }
 
             // Verify all persisted fields match
-            XCTAssertEqual(loaded.uuid, original.uuid, "\(implementationName): uuid should match")
-            XCTAssertEqual(loaded.name, original.name, "\(implementationName): name should match")
-            XCTAssertEqual(loaded.color, original.color, "\(implementationName): color should match")
-            XCTAssertEqual(loaded.sortOrder, original.sortOrder, "\(implementationName): sortOrder should match")
-            XCTAssertEqual(loaded.sortType, original.sortType, "\(implementationName): sortType should match")
-            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
-            XCTAssertEqual(loaded.syncModified, original.syncModified, "\(implementationName): syncModified should match")
+            XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.name, original.name, "name should match")
+            XCTAssertEqual(loaded.color, original.color, "color should match")
+            XCTAssertEqual(loaded.sortOrder, original.sortOrder, "sortOrder should match")
+            XCTAssertEqual(loaded.sortType, original.sortType, "sortType should match")
+            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
+            XCTAssertEqual(loaded.syncModified, original.syncModified, "syncModified should match")
         }
     }
 
@@ -67,7 +69,7 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
 
     /// Verifies that cachedUnreadCount is NOT persisted (marked with @GRDBIgnore)
     func testCachedUnreadCountNotPersisted() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let folder = Folder()
             folder.uuid = UUID().uuidString.lowercased()
             folder.name = "Test Folder"
@@ -78,12 +80,12 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
 
             // Load it back - cachedUnreadCount should be default (0)
             guard let loaded = dataManager.findFolder(uuid: folder.uuid) else {
-                XCTFail("\(implementationName): Should find saved folder")
+                XCTFail("Should find saved folder")
                 return
             }
 
             // cachedUnreadCount should be 0 because it's not persisted
-            XCTAssertEqual(loaded.cachedUnreadCount, 0, "\(implementationName): cachedUnreadCount should NOT be persisted")
+            XCTAssertEqual(loaded.cachedUnreadCount, 0, "cachedUnreadCount should NOT be persisted")
         }
     }
 

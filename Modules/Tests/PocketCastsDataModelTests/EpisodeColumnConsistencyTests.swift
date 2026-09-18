@@ -3,15 +3,53 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from EpisodeDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(EpisodeDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "id",
+        "addedDate",
+        "lastDownloadAttemptDate",
+        "detailedDescription",
+        "downloadErrorDetails",
+        "downloadTaskId",
+        "downloadUrl",
+        "episodeDescription",
+        "episodeStatus",
+        "fileType",
+        "contentType",
+        "keepEpisode",
+        "playedUpTo",
+        "duration",
+        "playingStatus",
+        "autoDownloadStatus",
+        "publishedDate",
+        "sizeInBytes",
+        "playingStatusModified",
+        "playedUpToModified",
+        "durationModified",
+        "keepEpisodeModified",
+        "title",
+        "uuid",
+        "podcastUuid",
+        "playbackErrorDetails",
+        "cachedFrameCount",
+        "lastPlaybackInteractionDate",
+        "lastPlaybackInteractionSyncStatus",
+        "podcast_id",
+        "episodeNumber",
+        "seasonNumber",
+        "episodeType",
+        "archived",
+        "archivedModified",
+        "lastArchiveInteractionDate",
+        "excludeFromEpisodeLimit",
+        "starredModified",
+        "deselectedChapters",
+        "deselectedChaptersModified",
+        "wasDeleted",
+        "hasGeneratedTranscript",
+        "hlsUrl"
+    ]
 
     // MARK: - Database Schema Tests
 
@@ -40,7 +78,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Round-Trip Tests
 
     func testSaveAndLoadPreservesAllFields() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             // Create a podcast first since episodes require a parent podcast
             let podcast = Podcast()
             podcast.uuid = UUID().uuidString.lowercased()
@@ -50,60 +88,59 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
             let original = self.createFullyPopulatedEpisode(podcastUuid: podcast.uuid, podcastId: podcast.id)
 
-            // Save using the current implementation (respects feature flag)
             dataManager.save(episode: original)
 
             // Load it back
             guard let loaded = dataManager.findEpisode(uuid: original.uuid) else {
-                XCTFail("\(implementationName): Should be able to load saved episode")
+                XCTFail("Should be able to load saved episode")
                 return
             }
 
             // Verify all persisted fields match
-            XCTAssertEqual(loaded.uuid, original.uuid, "\(implementationName): uuid should match")
-            XCTAssertEqual(loaded.podcastUuid, original.podcastUuid, "\(implementationName): podcastUuid should match")
-            XCTAssertEqual(loaded.title, original.title, "\(implementationName): title should match")
-            XCTAssertEqual(loaded.episodeDescription, original.episodeDescription, "\(implementationName): episodeDescription should match")
-            XCTAssertEqual(loaded.detailedDescription, original.detailedDescription, "\(implementationName): detailedDescription should match")
-            XCTAssertEqual(loaded.duration, original.duration, "\(implementationName): duration should match")
-            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "\(implementationName): playedUpTo should match")
-            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "\(implementationName): playingStatus should match")
-            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "\(implementationName): episodeStatus should match")
-            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "\(implementationName): autoDownloadStatus should match")
-            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "\(implementationName): sizeInBytes should match")
-            XCTAssertEqual(loaded.fileType, original.fileType, "\(implementationName): fileType should match")
-            XCTAssertEqual(loaded.contentType, original.contentType, "\(implementationName): contentType should match")
-            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "\(implementationName): downloadUrl should match")
-            XCTAssertEqual(loaded.hlsUrl, original.hlsUrl, "\(implementationName): hlsUrl should match")
-            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "\(implementationName): downloadTaskId should match")
-            XCTAssertEqual(loaded.keepEpisode, original.keepEpisode, "\(implementationName): keepEpisode should match")
-            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "\(implementationName): cachedFrameCount should match")
-            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "\(implementationName): playingStatusModified should match")
-            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "\(implementationName): playedUpToModified should match")
-            XCTAssertEqual(loaded.durationModified, original.durationModified, "\(implementationName): durationModified should match")
-            XCTAssertEqual(loaded.keepEpisodeModified, original.keepEpisodeModified, "\(implementationName): keepEpisodeModified should match")
-            XCTAssertEqual(loaded.starredModified, original.starredModified, "\(implementationName): starredModified should match")
-            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "\(implementationName): downloadErrorDetails should match")
-            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "\(implementationName): playbackErrorDetails should match")
-            XCTAssertEqual(loaded.episodeNumber, original.episodeNumber, "\(implementationName): episodeNumber should match")
-            XCTAssertEqual(loaded.seasonNumber, original.seasonNumber, "\(implementationName): seasonNumber should match")
-            XCTAssertEqual(loaded.episodeType, original.episodeType, "\(implementationName): episodeType should match")
-            XCTAssertEqual(loaded.archived, original.archived, "\(implementationName): archived should match")
-            XCTAssertEqual(loaded.archivedModified, original.archivedModified, "\(implementationName): archivedModified should match")
-            XCTAssertEqual(loaded.excludeFromEpisodeLimit, original.excludeFromEpisodeLimit, "\(implementationName): excludeFromEpisodeLimit should match")
-            XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "\(implementationName): deselectedChapters should match")
-            XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "\(implementationName): deselectedChaptersModified should match")
-            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
+            XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.podcastUuid, original.podcastUuid, "podcastUuid should match")
+            XCTAssertEqual(loaded.title, original.title, "title should match")
+            XCTAssertEqual(loaded.episodeDescription, original.episodeDescription, "episodeDescription should match")
+            XCTAssertEqual(loaded.detailedDescription, original.detailedDescription, "detailedDescription should match")
+            XCTAssertEqual(loaded.duration, original.duration, "duration should match")
+            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "playedUpTo should match")
+            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "playingStatus should match")
+            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "episodeStatus should match")
+            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "autoDownloadStatus should match")
+            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "sizeInBytes should match")
+            XCTAssertEqual(loaded.fileType, original.fileType, "fileType should match")
+            XCTAssertEqual(loaded.contentType, original.contentType, "contentType should match")
+            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "downloadUrl should match")
+            XCTAssertEqual(loaded.hlsUrl, original.hlsUrl, "hlsUrl should match")
+            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "downloadTaskId should match")
+            XCTAssertEqual(loaded.keepEpisode, original.keepEpisode, "keepEpisode should match")
+            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "cachedFrameCount should match")
+            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "playingStatusModified should match")
+            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "playedUpToModified should match")
+            XCTAssertEqual(loaded.durationModified, original.durationModified, "durationModified should match")
+            XCTAssertEqual(loaded.keepEpisodeModified, original.keepEpisodeModified, "keepEpisodeModified should match")
+            XCTAssertEqual(loaded.starredModified, original.starredModified, "starredModified should match")
+            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "downloadErrorDetails should match")
+            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "playbackErrorDetails should match")
+            XCTAssertEqual(loaded.episodeNumber, original.episodeNumber, "episodeNumber should match")
+            XCTAssertEqual(loaded.seasonNumber, original.seasonNumber, "seasonNumber should match")
+            XCTAssertEqual(loaded.episodeType, original.episodeType, "episodeType should match")
+            XCTAssertEqual(loaded.archived, original.archived, "archived should match")
+            XCTAssertEqual(loaded.archivedModified, original.archivedModified, "archivedModified should match")
+            XCTAssertEqual(loaded.excludeFromEpisodeLimit, original.excludeFromEpisodeLimit, "excludeFromEpisodeLimit should match")
+            XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "deselectedChapters should match")
+            XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "deselectedChaptersModified should match")
+            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
             XCTExpectFailure("@GRDBRecord doesn't persist non-@objc properties such as hasGeneratedTranscript") {
-                XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "\(implementationName): hasGeneratedTranscript should match")
+                XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "hasGeneratedTranscript should match")
             }
-            XCTAssertEqual(loaded.podcast_id, original.podcast_id, "\(implementationName): podcast_id should match")
-            self.assertDatesEqual(loaded.addedDate, original.addedDate, "\(implementationName): addedDate should match")
-            self.assertDatesEqual(loaded.publishedDate, original.publishedDate, "\(implementationName): publishedDate should match")
-            self.assertDatesEqual(loaded.lastDownloadAttemptDate, original.lastDownloadAttemptDate, "\(implementationName): lastDownloadAttemptDate should match")
-            self.assertDatesEqual(loaded.lastPlaybackInteractionDate, original.lastPlaybackInteractionDate, "\(implementationName): lastPlaybackInteractionDate should match")
-            XCTAssertEqual(loaded.lastPlaybackInteractionSyncStatus, original.lastPlaybackInteractionSyncStatus, "\(implementationName): lastPlaybackInteractionSyncStatus should match")
-            self.assertDatesEqual(loaded.lastArchiveInteractionDate, original.lastArchiveInteractionDate, "\(implementationName): lastArchiveInteractionDate should match")
+            XCTAssertEqual(loaded.podcast_id, original.podcast_id, "podcast_id should match")
+            self.assertDatesEqual(loaded.addedDate, original.addedDate, "addedDate should match")
+            self.assertDatesEqual(loaded.publishedDate, original.publishedDate, "publishedDate should match")
+            self.assertDatesEqual(loaded.lastDownloadAttemptDate, original.lastDownloadAttemptDate, "lastDownloadAttemptDate should match")
+            self.assertDatesEqual(loaded.lastPlaybackInteractionDate, original.lastPlaybackInteractionDate, "lastPlaybackInteractionDate should match")
+            XCTAssertEqual(loaded.lastPlaybackInteractionSyncStatus, original.lastPlaybackInteractionSyncStatus, "lastPlaybackInteractionSyncStatus should match")
+            self.assertDatesEqual(loaded.lastArchiveInteractionDate, original.lastArchiveInteractionDate, "lastArchiveInteractionDate should match")
         }
     }
 
@@ -111,7 +148,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
     /// Verifies that hasOnlyUuid is NOT persisted (marked with @GRDBIgnore)
     func testHasOnlyUuidNotPersisted() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             // Create a podcast first
             let podcast = Podcast()
             podcast.uuid = UUID().uuidString.lowercased()
@@ -130,12 +167,12 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
             // Load it back - hasOnlyUuid should be default (false)
             guard let loaded = dataManager.findEpisode(uuid: episode.uuid) else {
-                XCTFail("\(implementationName): Should find saved episode")
+                XCTFail("Should find saved episode")
                 return
             }
 
             // hasOnlyUuid should be false (not persisted)
-            XCTAssertFalse(loaded.hasOnlyUuid, "\(implementationName): hasOnlyUuid should NOT be persisted")
+            XCTAssertFalse(loaded.hasOnlyUuid, "hasOnlyUuid should NOT be persisted")
         }
     }
 

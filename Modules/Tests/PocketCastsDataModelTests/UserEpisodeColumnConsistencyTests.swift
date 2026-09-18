@@ -3,15 +3,39 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
-    /// Access columnNames directly from UserEpisodeDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(UserEpisodeDataManager().columnNames)
-    }
+    private let columnNames: Set<String> = [
+        "id",
+        "addedDate",
+        "lastDownloadAttemptDate",
+        "downloadErrorDetails",
+        "downloadTaskId",
+        "downloadUrl",
+        "episodeStatus",
+        "fileType",
+        "playedUpTo",
+        "duration",
+        "playingStatus",
+        "autoDownloadStatus",
+        "publishedDate",
+        "sizeInBytes",
+        "playingStatusModified",
+        "playedUpToModified",
+        "title",
+        "uuid",
+        "playbackErrorDetails",
+        "cachedFrameCount",
+        "uploadStatus",
+        "uploadTaskId",
+        "imageUrl",
+        "imageColor",
+        "hasCustomImage",
+        "imageColorModified",
+        "titleModified",
+        "durationModified",
+        "imageModified"
+    ]
 
     // MARK: - Database Schema Tests
 
@@ -41,44 +65,43 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Round-Trip Tests
 
     func testSaveAndLoadPreservesAllFields() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let original = self.createFullyPopulatedUserEpisode()
 
-            // Save using the current implementation (respects feature flag)
             dataManager.save(episode: original)
 
             // Load it back
             guard let loaded = dataManager.findUserEpisode(uuid: original.uuid) else {
-                XCTFail("\(implementationName): Should be able to load saved episode")
+                XCTFail("Should be able to load saved episode")
                 return
             }
 
             // Verify all persisted fields match
-            XCTAssertEqual(loaded.uuid, original.uuid, "\(implementationName): uuid should match")
-            XCTAssertEqual(loaded.title, original.title, "\(implementationName): title should match")
-            XCTAssertEqual(loaded.duration, original.duration, "\(implementationName): duration should match")
-            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "\(implementationName): playedUpTo should match")
-            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "\(implementationName): playingStatus should match")
-            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "\(implementationName): episodeStatus should match")
-            XCTAssertEqual(loaded.uploadStatus, original.uploadStatus, "\(implementationName): uploadStatus should match")
-            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "\(implementationName): autoDownloadStatus should match")
-            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "\(implementationName): sizeInBytes should match")
-            XCTAssertEqual(loaded.fileType, original.fileType, "\(implementationName): fileType should match")
-            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "\(implementationName): downloadUrl should match")
-            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "\(implementationName): downloadTaskId should match")
-            XCTAssertEqual(loaded.uploadTaskId, original.uploadTaskId, "\(implementationName): uploadTaskId should match")
-            XCTAssertEqual(loaded.imageUrl, original.imageUrl, "\(implementationName): imageUrl should match")
-            XCTAssertEqual(loaded.imageColor, original.imageColor, "\(implementationName): imageColor should match")
-            XCTAssertEqual(loaded.hasCustomImage, original.hasCustomImage, "\(implementationName): hasCustomImage should match")
-            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "\(implementationName): cachedFrameCount should match")
-            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "\(implementationName): playingStatusModified should match")
-            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "\(implementationName): playedUpToModified should match")
-            XCTAssertEqual(loaded.titleModified, original.titleModified, "\(implementationName): titleModified should match")
-            XCTAssertEqual(loaded.durationModified, original.durationModified, "\(implementationName): durationModified should match")
-            XCTAssertEqual(loaded.imageModified, original.imageModified, "\(implementationName): imageModified should match")
-            XCTAssertEqual(loaded.imageColorModified, original.imageColorModified, "\(implementationName): imageColorModified should match")
-            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "\(implementationName): downloadErrorDetails should match")
-            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "\(implementationName): playbackErrorDetails should match")
+            XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.title, original.title, "title should match")
+            XCTAssertEqual(loaded.duration, original.duration, "duration should match")
+            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "playedUpTo should match")
+            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "playingStatus should match")
+            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "episodeStatus should match")
+            XCTAssertEqual(loaded.uploadStatus, original.uploadStatus, "uploadStatus should match")
+            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "autoDownloadStatus should match")
+            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "sizeInBytes should match")
+            XCTAssertEqual(loaded.fileType, original.fileType, "fileType should match")
+            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "downloadUrl should match")
+            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "downloadTaskId should match")
+            XCTAssertEqual(loaded.uploadTaskId, original.uploadTaskId, "uploadTaskId should match")
+            XCTAssertEqual(loaded.imageUrl, original.imageUrl, "imageUrl should match")
+            XCTAssertEqual(loaded.imageColor, original.imageColor, "imageColor should match")
+            XCTAssertEqual(loaded.hasCustomImage, original.hasCustomImage, "hasCustomImage should match")
+            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "cachedFrameCount should match")
+            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "playingStatusModified should match")
+            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "playedUpToModified should match")
+            XCTAssertEqual(loaded.titleModified, original.titleModified, "titleModified should match")
+            XCTAssertEqual(loaded.durationModified, original.durationModified, "durationModified should match")
+            XCTAssertEqual(loaded.imageModified, original.imageModified, "imageModified should match")
+            XCTAssertEqual(loaded.imageColorModified, original.imageColorModified, "imageColorModified should match")
+            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "downloadErrorDetails should match")
+            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "playbackErrorDetails should match")
         }
     }
 
@@ -86,7 +109,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
     /// Verifies that contentType is NOT persisted by save() but IS persisted by saveContentType()
     func testContentTypeNotPersistedBySave() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let episode = UserEpisode()
             episode.uuid = UUID().uuidString
             episode.title = "ContentType Test"
@@ -97,17 +120,17 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
             // Load it back - contentType should NOT be saved by save()
             guard let loaded = dataManager.findUserEpisode(uuid: episode.uuid) else {
-                XCTFail("\(implementationName): Should find saved episode")
+                XCTFail("Should find saved episode")
                 return
             }
 
             // contentType should be nil because save() doesn't persist it
-            XCTAssertNil(loaded.contentType, "\(implementationName): contentType should NOT be persisted by save() - use saveContentType() instead")
+            XCTAssertNil(loaded.contentType, "contentType should NOT be persisted by save() - use saveContentType() instead")
         }
     }
 
     func testContentTypePersistedBySaveContentType() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let episode = UserEpisode()
             episode.uuid = UUID().uuidString
             episode.title = "ContentType Test"
@@ -118,11 +141,11 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
             dataManager.saveEpisode(contentType: "audio/mpeg", episode: episode)
 
             guard let loaded = dataManager.findUserEpisode(uuid: episode.uuid) else {
-                XCTFail("\(implementationName): Should find saved episode")
+                XCTFail("Should find saved episode")
                 return
             }
 
-            XCTAssertEqual(loaded.contentType, "audio/mpeg", "\(implementationName): contentType should be persisted by saveContentType()")
+            XCTAssertEqual(loaded.contentType, "audio/mpeg", "contentType should be persisted by saveContentType()")
         }
     }
 

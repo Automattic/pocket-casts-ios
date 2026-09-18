@@ -3,36 +3,6 @@ import Foundation
 import GRDB
 
 class PlaylistDataManager {
-    /// Legacy column names for non-GRDB code path.
-    let columnNames = [
-        "id",
-        "autoDownloadEpisodes",
-        "customIcon",
-        "filterAllPodcasts",
-        "filterAudioVideoType",
-        "filterDownloaded",
-        "filterFinished",
-        "filterNotDownloaded",
-        "filterPartiallyPlayed",
-        "filterStarred",
-        "filterUnplayed",
-        "filterHours",
-        "playlistName",
-        "sortPosition",
-        "sortType",
-        "uuid",
-        "podcastUuids",
-        "autoDownloadLimit",
-        "syncStatus",
-        "wasDeleted",
-        "filterDuration",
-        "longerThan",
-        "shorterThan",
-        "manual",
-        "showArchivedEpisodes",
-        "playlistUpdateDate"
-    ]
-
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.read { db in
@@ -286,35 +256,17 @@ class PlaylistDataManager {
     }
 
     func save(playlist: EpisodeFilter, dbQueue: PCDBQueue) {
-        let isInsert = playlist.id == 0
-        if isInsert {
+        if playlist.id == 0 {
             playlist.id = DBUtils.generateUniqueId()
         }
         playlist.playlistUpdateDate = .now
 
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    try playlist.save(db)
-                }
-            } catch {
-                FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                try playlist.save(db)
             }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    if isInsert {
-                        try db.executeUpdate("INSERT INTO \(DataManager.playlistsTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlist: playlist, updateDate: .now))
-                    } else {
-                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(playlist: playlist, includeUuidForWhere: true, updateDate: .now))
-                    }
-                } catch {
-                    FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
-                }
-            }
+        } catch {
+            FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
         }
     }
 
@@ -531,41 +483,5 @@ class PlaylistDataManager {
         playlist.playlistUpdateDate = DBUtils.convertDate(value: rs.double(forColumn: "playlistUpdateDate"))
 
         return playlist
-    }
-
-    private func createValuesFrom(playlist: EpisodeFilter, includeUuidForWhere: Bool = false, updateDate: Date? = nil) -> [Any] {
-        var values = [Any]()
-        values.append(playlist.id)
-        values.append(playlist.autoDownloadEpisodes)
-        values.append(playlist.customIcon)
-        values.append(playlist.filterAllPodcasts)
-        values.append(playlist.filterAudioVideoType)
-        values.append(playlist.filterDownloaded)
-        values.append(playlist.filterFinished)
-        values.append(playlist.filterNotDownloaded)
-        values.append(playlist.filterPartiallyPlayed)
-        values.append(playlist.filterStarred)
-        values.append(playlist.filterUnplayed)
-        values.append(playlist.filterHours)
-        values.append(playlist.playlistName)
-        values.append(playlist.sortPosition)
-        values.append(playlist.sortType)
-        values.append(playlist.uuid)
-        values.append(playlist.podcastUuids)
-        values.append(playlist.autoDownloadLimit)
-        values.append(playlist.syncStatus)
-        values.append(playlist.wasDeleted)
-        values.append(playlist.filterDuration)
-        values.append(playlist.longerThan)
-        values.append(playlist.shorterThan)
-        values.append(playlist.manual)
-        values.append(playlist.showArchivedEpisodes)
-        values.append(DBUtils.nullIfNil(value: updateDate ?? playlist.playlistUpdateDate))
-
-        if includeUuidForWhere {
-            values.append(playlist.uuid)
-        }
-
-        return values
     }
 }

@@ -3,18 +3,6 @@ import Foundation
 import GRDB
 
 class FolderDataManager {
-    /// Legacy column names for non-GRDB code path.
-    let columnNames = [
-        "uuid",
-        "name",
-        "color",
-        "addedDate",
-        "sortOrder",
-        "sortType",
-        "wasDeleted",
-        "syncModified"
-    ]
-
     private var cachedFolders = [Folder]()
     private lazy var cachedFolderQueue: DispatchQueue = {
         let queue = DispatchQueue(label: "au.com.pocketcasts.FolderDataQueue")
@@ -43,29 +31,12 @@ class FolderDataManager {
             folder.uuid = UUID().uuidString.lowercased()
         }
 
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    try folder.save(db)
-                }
-            } catch {
-                FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                try folder.save(db)
             }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    if self.cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
-                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
-                    } else {
-                        try db.executeUpdate("INSERT INTO \(DataManager.folderTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(folder))
-                    }
-                } catch {
-                    FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
-                }
-            }
+        } catch {
+            FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
         }
         cacheFolders(dbQueue: dbQueue)
     }
@@ -166,23 +137,5 @@ class FolderDataManager {
         folder.syncModified = rs.longLongInt(forColumn: "syncModified")
 
         return folder
-    }
-
-    private func createValuesFrom(_ folder: Folder, includeUuidForWhere: Bool = false) -> [Any] {
-        var values = [Any]()
-        values.append(folder.uuid)
-        values.append(folder.name)
-        values.append(folder.color)
-        values.append(DBUtils.nullIfNil(value: folder.addedDate))
-        values.append(folder.sortOrder)
-        values.append(folder.sortType)
-        values.append(folder.wasDeleted)
-        values.append(folder.syncModified)
-
-        if includeUuidForWhere {
-            values.append(folder.uuid)
-        }
-
-        return values
     }
 }
