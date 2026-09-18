@@ -1,9 +1,13 @@
 BUNDLE=rbenv exec bundle
 LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
+# SwiftLint is pinned by BuildTools/Package.resolved, which takes its version
+# from `swiftlint_version` in .swiftlint.yml. Run the resolved binary directly:
+# `swift package plugin` adds ~0.4s of startup to every invocation.
+SWIFTLINT_BIN=BuildTools/.build/artifacts/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint
 # Explicit --config prevents SwiftLint from picking up nested configs in
 # BuildTools/.build/checkouts/ (e.g., SwiftGenPlugin's .swiftlint.yml).
-SWIFTLINT_FROM_BUILDTOOLS=swiftlint lint --working-directory .. --config .swiftlint.yml --quiet
+SWIFTLINT=$(SWIFTLINT_BIN) lint --config .swiftlint.yml --quiet
 # Parse the human-readable output of simctl
 SIMULATOR_NAME = $(shell xcrun simctl list devices available \
 	| grep "iPhone" \
@@ -33,11 +37,15 @@ generate_colors: ## Generate colors and themes based on themes.csv
 generate_code:
 	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
 
-lint: ## Lint the codebase
-	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
+# Downloads the pinned SwiftLint artifact bundle on a fresh checkout.
+$(SWIFTLINT_BIN):
+	@cd BuildTools && SDKROOT=$$(xcrun --sdk macosx --show-sdk-path) swift package resolve
 
-lint_lenient:
-	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --lenient)
+lint: $(SWIFTLINT_BIN) ## Lint the codebase
+	@$(SWIFTLINT)
+
+lint_lenient: $(SWIFTLINT_BIN)
+	@$(SWIFTLINT) --lenient
 
 build: ## Builds the Debug configuration using Xcode
 	xcodebuild -project podcasts.xcodeproj \
@@ -73,8 +81,8 @@ test_staging: ## Build and run Unit Tests using the StagingDebug configuration
         -only-testing:$(ONLY_TESTING) \
         -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
 
-format: ## Lint and autocorrect linter errors
-	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
+format: $(SWIFTLINT_BIN) ## Lint and autocorrect linter errors
+	@$(SWIFTLINT) --autocorrect
 
 upload_dsyms: ## Upload dSYMs
 	./scripts/upload-symbols -gsp $(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip
