@@ -46,12 +46,14 @@ make test_staging ONLY_TESTING=PocketCastsUtilsTests
 
 ### Modular Structure
 
-The codebase uses Swift Package Manager modules under `Modules/`:
+The codebase uses a single Swift package, `Modules/Package.swift`, with targets under `Modules/Sources/` and their tests under `Modules/Tests/`:
 
-- **DataModel** (`Modules/DataModel/`) - Core data persistence using GRDB. Contains podcast, episode, and playback models. Uses custom GRDB macros for model generation.
-- **Server** (`Modules/Server/`) - API communication layer using Protocol Buffers. Depends on DataModel and Utils.
-- **Utils** (`Modules/Utils/`) - Shared utilities including localization helpers.
-- **DependencyInjection** (`Modules/DependencyInjection/`) - DI container for the app.
+- **PocketCastsDataModel** (`Modules/Sources/PocketCastsDataModel/`) - Core data persistence using GRDB. Contains podcast, episode, and playback models. Uses custom GRDB macros for model generation.
+- **PocketCastsServer** (`Modules/Sources/PocketCastsServer/`) - API communication layer using Protocol Buffers. Depends on DataModel and Utils.
+- **PocketCastsUtils** (`Modules/Sources/PocketCastsUtils/`) - Shared utilities including localization helpers.
+- **GRDBMacros** (`Modules/Sources/GRDBMacros/`, `Modules/Sources/GRDBMacrosPlugin/`) - The `@GRDBRecord` macros used by DataModel.
+- **EndOfYear** (`Modules/Sources/EndOfYear/`) - End of Year stories.
+- **XcodeSupport** (`Modules/Sources/XcodeSupport/`) - Per-Xcode-target libraries that pull in each app target's package dependencies.
 
 ### Main App Structure
 
@@ -75,7 +77,7 @@ The main iOS app lives in `podcasts/` with:
 All data operations go through `DataManager.sharedManager`:
 
 ```swift
-// Located at: Modules/DataModel/Sources/PocketCastsDataModel/Public/DataManager.swift
+// Located at: Modules/Sources/PocketCastsDataModel/Public/DataManager.swift
 let dataManager = DataManager.sharedManager
 
 // Podcast operations
