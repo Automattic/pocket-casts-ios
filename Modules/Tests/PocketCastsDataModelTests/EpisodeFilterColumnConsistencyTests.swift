@@ -64,12 +64,19 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
             XCTAssertEqual(loaded.manual, original.manual, "manual should match")
             XCTAssertEqual(loaded.showArchivedEpisodes, original.showArchivedEpisodes, "showArchivedEpisodes should match")
+            XCTAssertEqual(loaded.id, original.id, "id should match")
+            XCTAssertEqual(
+                try XCTUnwrap(loaded.playlistUpdateDate).timeIntervalSince1970,
+                try XCTUnwrap(original.playlistUpdateDate).timeIntervalSince1970,
+                accuracy: 1,
+                "playlistUpdateDate should match"
+            )
         }
     }
 
     // MARK: - Ignored Property Tests
 
-    /// Verifies that filterDownloading is NOT persisted (marked with @GRDBIgnore)
+    /// Verifies that filterDownloading is NOT persisted
     func testFilterDownloadingNotPersisted() throws {
         try runWithDataManager { dataManager in
             let filter = EpisodeFilter()
@@ -90,7 +97,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
-    /// Verifies that internal tracking properties are NOT persisted (marked with @GRDBIgnore)
+    /// Verifies that internal tracking properties are NOT persisted
     func testInternalTrackingPropertiesNotPersisted() throws {
         try runWithDataManager { dataManager in
             let filter = EpisodeFilter()
@@ -118,6 +125,95 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertFalse(loaded.releaseDateSmartRuleApplied, "releaseDateSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.mediaTypeSmartRuleApplied, "mediaTypeSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.downloadStatusSmartRuleApplied, "downloadStatusSmartRuleApplied should NOT be persisted")
+        }
+    }
+
+    // MARK: - GRDB Record Tests
+
+    func testEncodedColumnsMatchLegacyColumnNames() throws {
+        let encoded = try createFullyPopulatedEpisodeFilter().databaseDictionary
+
+        XCTAssertEqual(
+            Set(encoded.keys),
+            columnNames,
+            "GRDB should encode exactly the columns the legacy SQL path writes"
+        )
+    }
+
+    func testEncodedColumnsExistInDatabaseSchema() throws {
+        let dataManager = DataManager.newTestDataManager()
+        let tableColumns = try dataManager.testDbQueue.dbPool.read { db -> Set<String> in
+            Set(try db.columns(in: DataManager.playlistsTableName).map(\.name))
+        }
+
+        let encoded = try createFullyPopulatedEpisodeFilter().databaseDictionary
+        let unknownColumns = Set(encoded.keys).subtracting(tableColumns)
+
+        XCTAssertTrue(
+            unknownColumns.isEmpty,
+            "GRDB encodes columns that do not exist in the table: \(unknownColumns)"
+        )
+    }
+
+    func testEncodesPropertyValues() throws {
+        let filter = createFullyPopulatedEpisodeFilter()
+        filter.id = 987654321
+
+        let encoded = try filter.databaseDictionary
+
+        XCTAssertEqual(Int64.fromDatabaseValue(try XCTUnwrap(encoded["id"])), 987654321)
+        XCTAssertEqual(String.fromDatabaseValue(try XCTUnwrap(encoded["uuid"])), filter.uuid)
+        XCTAssertEqual(String.fromDatabaseValue(try XCTUnwrap(encoded["playlistName"])), "Test Filter")
+        XCTAssertEqual(String.fromDatabaseValue(try XCTUnwrap(encoded["podcastUuids"])), "uuid1,uuid2,uuid3")
+        XCTAssertEqual(Int32.fromDatabaseValue(try XCTUnwrap(encoded["customIcon"])), 3)
+        XCTAssertEqual(Int32.fromDatabaseValue(try XCTUnwrap(encoded["filterHours"])), 24)
+        XCTAssertEqual(Int32.fromDatabaseValue(try XCTUnwrap(encoded["longerThan"])), 300)
+        XCTAssertEqual(Int32.fromDatabaseValue(try XCTUnwrap(encoded["shorterThan"])), 3600)
+        XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["filterStarred"])), true)
+        XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["filterUnplayed"])), false)
+        XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["showArchivedEpisodes"])), true)
+    }
+
+    /// playlistUpdateDate is stored as a Unix timestamp, not GRDB's default Date format.
+    /// The legacy read path reads it back with `rs.double(forColumn:)`, so a change
+    /// here would break the playlist's last-updated date.
+    func testPlaylistUpdateDateIsEncodedAsUnixTimestamp() throws {
+        let filter = createFullyPopulatedEpisodeFilter()
+        let encoded = try filter.databaseDictionary
+
+        let playlistUpdateDate = try XCTUnwrap(encoded["playlistUpdateDate"])
+        XCTAssertEqual(
+            Double.fromDatabaseValue(playlistUpdateDate),
+            filter.playlistUpdateDate?.timeIntervalSince1970,
+            "playlistUpdateDate should encode as a Unix timestamp"
+        )
+    }
+
+    func testNilPlaylistUpdateDateIsEncodedAsNull() throws {
+        let filter = createFullyPopulatedEpisodeFilter()
+        filter.playlistUpdateDate = nil
+
+        let encoded = try filter.databaseDictionary
+
+        XCTAssertEqual(encoded["playlistUpdateDate"], .null, "a nil playlistUpdateDate should encode as NULL")
+    }
+
+    func testTransientPropertiesAreNotEncoded() throws {
+        let filter = createFullyPopulatedEpisodeFilter()
+        filter.isNew = true
+        filter.podcastSmartRuleApplied = true
+        filter.episodesSmartRuleApplied = true
+        filter.releaseDateSmartRuleApplied = true
+        filter.mediaTypeSmartRuleApplied = true
+        filter.downloadStatusSmartRuleApplied = true
+
+        let encoded = try filter.databaseDictionary
+
+        for name in [
+            "filterDownloading", "isNew", "podcastSmartRuleApplied", "episodesSmartRuleApplied",
+            "releaseDateSmartRuleApplied", "mediaTypeSmartRuleApplied", "downloadStatusSmartRuleApplied"
+        ] {
+            XCTAssertNil(encoded[name], "\(name) is transient and should not be encoded")
         }
     }
 
