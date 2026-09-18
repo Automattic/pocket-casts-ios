@@ -275,6 +275,7 @@ public class Episode: NSObject, BaseEpisode {
         case deselectedChapters
         case deselectedChaptersModified
         case wasDeleted
+        case hasGeneratedTranscript
     }
 
     public required init(from decoder: Decoder) throws {
@@ -322,6 +323,7 @@ public class Episode: NSObject, BaseEpisode {
         deselectedChapters = try container.decodeIfPresent(String.self, forKey: .deselectedChapters)
         deselectedChaptersModified = try container.decodeIfPresent(Int64.self, forKey: .deselectedChaptersModified) ?? 0
         wasDeleted = try container.decodeIfPresent(Bool.self, forKey: .wasDeleted) ?? false
+        hasGeneratedTranscript = try container.decodeIfPresent(Bool.self, forKey: .hasGeneratedTranscript)
     }
 
     public func encode(to container: inout PersistenceContainer) {
@@ -367,6 +369,7 @@ public class Episode: NSObject, BaseEpisode {
         container["deselectedChapters"] = deselectedChapters
         container["deselectedChaptersModified"] = deselectedChaptersModified
         container["wasDeleted"] = wasDeleted
+        container["hasGeneratedTranscript"] = hasGeneratedTranscript
     }
 
     public enum Columns {
@@ -412,6 +415,7 @@ public class Episode: NSObject, BaseEpisode {
         public static let deselectedChapters = Column(CodingKeys.deselectedChapters)
         public static let deselectedChaptersModified = Column(CodingKeys.deselectedChaptersModified)
         public static let wasDeleted = Column(CodingKeys.wasDeleted)
+        public static let hasGeneratedTranscript = Column(CodingKeys.hasGeneratedTranscript)
     }
 }
 

@@ -20,7 +20,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         )
         XCTAssertEqual(
             tableColumns.subtracting(encodedColumns),
-            ["hasGeneratedTranscript", "metadata", "showNotes", "wasDeletedModified"],
+            ["metadata", "showNotes", "wasDeletedModified"],
             "Table columns that saving an Episode doesn't write"
         )
     }
@@ -82,9 +82,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "deselectedChapters should match")
             XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "deselectedChaptersModified should match")
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
-            XCTExpectFailure("Episode's GRDB record encoding doesn't persist hasGeneratedTranscript") {
-                XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "hasGeneratedTranscript should match")
-            }
+            XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "hasGeneratedTranscript should match")
             XCTAssertEqual(loaded.podcast_id, original.podcast_id, "podcast_id should match")
             self.assertDatesEqual(loaded.addedDate, original.addedDate, "addedDate should match")
             self.assertDatesEqual(loaded.publishedDate, original.publishedDate, "publishedDate should match")
