@@ -42,6 +42,7 @@ podcasts/ThemeStyle.swift
 
 # Artifacts produced when building locally
 artifacts/*
+build/
 *.app.dSYM.zip
 *.ipa
 *.build

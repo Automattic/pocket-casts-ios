@@ -8,10 +8,28 @@ SWIFTLINT_BIN=BuildTools/.build/artifacts/swiftlintplugins/SwiftLintBinary/Swift
 # Explicit --config prevents SwiftLint from picking up nested configs in
 # BuildTools/.build/checkouts/.
 SWIFTLINT=$(SWIFTLINT_BIN) lint --config .swiftlint.yml --quiet
-# Parse the human-readable output of simctl
-SIMULATOR_NAME = $(shell xcrun simctl list devices available \
-	| grep "iPhone" \
-	| tail -1 | sed 's/^[[:space:]]*//' | sed 's/ *(.*) *$$//')
+# Each checkout gets its own simulator so that parallel test runs from
+# different worktrees don't share the test database
+SIMULATOR_ID ?= $(shell scripts/test_simulator.sh)
+TEST_RESULTS ?= build/TestResults.xcresult
+XCBEAUTIFY := $(shell command -v xcbeautify)
+
+# Runs the tests in scheme $(1), beautifying the output when xcbeautify is
+# installed (otherwise printing only warnings and errors), then prints a summary
+define run_tests
+	@rm -rf "$(TEST_RESULTS)"
+	@set -o pipefail; \
+	xcodebuild test -project podcasts.xcodeproj \
+		-scheme "$(1)" \
+		-only-testing:$(ONLY_TESTING) \
+		-destination 'platform=iOS Simulator,id=$(SIMULATOR_ID)' \
+		-resultBundlePath "$(TEST_RESULTS)" \
+		-collect-test-diagnostics never \
+		$(if $(XCBEAUTIFY),2>&1 | $(XCBEAUTIFY) --quiet,-quiet); \
+	status=$$?; \
+	scripts/test_summary.sh "$(TEST_RESULTS)"; \
+	exit $$status
+endef
 
 .PHONY: help build clean test lint lint_changed lint_lenient format install_dependencies
 
@@ -58,10 +76,7 @@ clean: ## Cleans the build artifacts
 ONLY_TESTING ?= PocketCastsTests
 
 test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
-	xcodebuild test -project podcasts.xcodeproj \
-	    -scheme pocketcasts \
-        -only-testing:$(ONLY_TESTING) \
-        -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
+	$(call run_tests,pocketcasts)
 
 build_staging: ## Builds using the StagingDebug configuration
 	xcodebuild -project podcasts.xcodeproj \
@@ -72,10 +87,7 @@ build_staging: ## Builds using the StagingDebug configuration
        build
 
 test_staging: ## Build and run Unit Tests using the StagingDebug configuration
-	xcodebuild test -project podcasts.xcodeproj \
-	    -scheme "Pocket Casts Staging" \
-        -only-testing:$(ONLY_TESTING) \
-        -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
+	$(call run_tests,Pocket Casts Staging)
 
 format: $(SWIFTLINT_BIN) ## Lint and autocorrect linter errors
 	@$(SWIFTLINT) --autocorrect
