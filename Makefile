@@ -1,6 +1,9 @@
 BUNDLE=rbenv exec bundle
 LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
+# SwiftLint is pinned by BuildTools/Package.resolved, which takes its version
+# from `swiftlint_version` in .swiftlint.yml. Run the resolved binary directly:
+# `swift package plugin` adds ~0.4s of startup to every invocation.
 SWIFTLINT_BIN=BuildTools/.build/artifacts/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint
 # Explicit --config prevents SwiftLint from picking up nested configs in
 # BuildTools/.build/checkouts/ (e.g., SwiftGenPlugin's .swiftlint.yml).
