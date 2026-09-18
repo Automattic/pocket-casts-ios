@@ -18,10 +18,6 @@ let package = Package(
             targets: ["PocketCastsUtils"]
         ),
         .library(
-            name: "PocketCastsLocalization",
-            targets: ["PocketCastsLocalization"]
-        ),
-        .library(
             name: "PocketCastsDataModel",
             targets: ["PocketCastsDataModel"]
         ),
@@ -100,28 +96,6 @@ let package = Package(
             name: "PocketCastsUtilsTests",
             dependencies: ["PocketCastsUtils"],
             path: "Tests/PocketCastsUtilsTests"
-        ),
-        .target(
-            name: "PocketCastsLocalization",
-            dependencies: ["PocketCastsUtils"],
-            path: "Sources/PocketCastsLocalization",
-            plugins: ["GenerateL10n"]
-        ),
-        .testTarget(
-            name: "PocketCastsLocalizationTests",
-            dependencies: ["PocketCastsLocalization"],
-            path: "Tests/PocketCastsLocalizationTests"
-        ),
-        .plugin(
-            name: "GenerateL10n",
-            capability: .buildTool(),
-            dependencies: ["swiftgen"],
-            path: "Plugins/GenerateL10n"
-        ),
-        .binaryTarget(
-            name: "swiftgen",
-            url: "https://github.com/SwiftGen/SwiftGen/releases/download/6.6.2/swiftgen-6.6.2.artifactbundle.zip",
-            checksum: "7586363e24edcf18c2da3ef90f379e9559c1453f48ef5e8fbc0b818fbbc3a045"
         ),
         .target(
             name: "PocketCastsDataModel",
@@ -272,7 +246,6 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
-                    "PocketCastsLocalization",
                     "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
@@ -305,7 +278,6 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
-                    "PocketCastsLocalization",
                     "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
@@ -324,7 +296,6 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
-                    "PocketCastsLocalization",
                     "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
@@ -355,14 +326,12 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
-                    "PocketCastsLocalization",
                 ]
             ),
             .xcodeTarget(
                 XcodeTargetNames.pocketCastsTvApp,
                 dependencies: [
                     "PocketCastsUtils",
-                    "PocketCastsLocalization",
                     "PocketCastsAnalytics",
                     "PocketCastsDataModel",
                     "PocketCastsServer",

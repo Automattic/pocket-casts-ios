@@ -1521,10 +1521,6 @@ extension L10n {
     static var patronCloudStorageLimit: String {
         plusCloudStorageLimitFormat(Settings.patronCloudStorageLimit.localized())
     }
-
-    static var bulkDownloadMax: String {
-        bulkDownloadMaxFormat(Constants.Limits.maxBulkDownloads.localized())
-    }
 }
 #endif
 
