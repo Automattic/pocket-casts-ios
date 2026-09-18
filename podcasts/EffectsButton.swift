@@ -32,6 +32,6 @@ class EffectsButton: UIButton {
 
     private func setUpAccessibility() {
         accessibilityLabel = L10n.playerActionTitleEffects
-        accessibilityValue = L10n.off
+        accessibilityValue = effectsOn ? L10n.on : L10n.off
     }
 }
