@@ -29,8 +29,7 @@
     },
     {
       "skippedTests" : [
-        "AutoAddCandidatesDataManagerTests\/testQueryPerformance()",
-        "EpisodeColumnConsistencyTests\/testSaveAndLoadPreservesAllFields()"
+        "AutoAddCandidatesDataManagerTests\/testQueryPerformance()"
       ],
       "target" : {
         "containerPath" : "container:Modules",
