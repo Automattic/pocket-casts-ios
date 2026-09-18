@@ -1,6 +1,5 @@
 import AVFoundation
 import MediaPlayer
-import os
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -43,31 +42,31 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var interruptInProgress = false
 
     private var wasPlayingBeforeInterruption = false
-    private let aboutToPlay = OSAllocatedUnfairLock(initialState: false)
+    private let aboutToPlay = Mutex(false)
 
-    private let shouldDeactivateSession = OSAllocatedUnfairLock(initialState: false)
+    private let shouldDeactivateSession = Mutex(false)
     private var haveCalledPlayerLoad = false
 
     /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
     /// emitted once when playback actually starts (not on resume/seek) and again after the player
     /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`. Atomic because it's mutated
     /// from the `activateAudioSession` completion, which can run off the main queue.
-    private let hasReportedSourceResolved = OSAllocatedUnfairLock(initialState: false)
+    private let hasReportedSourceResolved = Mutex(false)
 
     /// Set at runtime when the currently playing stream is found to contain video tracks
     /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
     /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
     /// Atomic because it's read from now-playing updates that can run off the main queue.
-    private let currentStreamContainsVideo = OSAllocatedUnfairLock(initialState: false)
+    private let currentStreamContainsVideo = Mutex(false)
 
     /// Whether the video of the current stream should be rendered. Defaults to on; the user can
     /// switch an HLS video stream to audio-only via the player shelf toggle. Reset per episode.
-    private let videoRenderingEnabled = OSAllocatedUnfairLock(initialState: true)
+    private let videoRenderingEnabled = Mutex(true)
 
     /// Whether the user has chosen to watch the current downloaded episode's video. The downloaded file
     /// is the progressive (audio-only) enclosure, so watching video means streaming the HLS source
     /// instead. This survives the in-place reload that switches the source and is reset per episode.
-    private let streamingVideoForDownloadedEpisode = OSAllocatedUnfairLock(initialState: false)
+    private let streamingVideoForDownloadedEpisode = Mutex(false)
 
     private let updateTimerInterval = 1 as TimeInterval
 

@@ -1,6 +1,5 @@
 import AVFoundation
 import Foundation
-import os
 import PocketCastsUtils
 
 class PlayBufferManager {
@@ -10,9 +9,9 @@ class PlayBufferManager {
     let highBufferPoint = 3000 // this equates to roughly a minute of audio
     let bufferSemaphore = DispatchSemaphore(value: 0)
 
-    var readToEOFSuccessfully = OSAllocatedUnfairLock(initialState: false)
-    var readErrorOccurred = OSAllocatedUnfairLock(initialState: false)
-    var haveNotifiedPlayer = OSAllocatedUnfairLock(initialState: false)
+    let readToEOFSuccessfully = Mutex(false)
+    let readErrorOccurred = Mutex(false)
+    let haveNotifiedPlayer = Mutex(false)
 
     func aboutToSeek() {
         let itemThatWouldHavePlayedNext = playBuffer.pop()

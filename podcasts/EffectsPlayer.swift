@@ -1,6 +1,5 @@
 import AudioUnit
 import AVFoundation
-import os
 import PocketCastsDataModel
 import PocketCastsUtils
 import SJUtils
@@ -19,7 +18,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
     private var peakLimiter: AVAudioUnitEffect?
-    private let useVoiceBoostN = OSAllocatedUnfairLock(initialState: false)
+    private let useVoiceBoostN = Mutex(false)
     private var audioFileSampleRate: Double = 0
 
     private var playBufferManager: PlayBufferManager?
@@ -29,10 +28,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     private var effects = PlaybackEffects()
 
-    private let shouldKeepPlaying = OSAllocatedUnfairLock(initialState: false)
+    private let shouldKeepPlaying = Mutex(false)
     private var haveFiredDurationNotification = false
 
-    private let aboutToPlay = OSAllocatedUnfairLock(initialState: false)
+    private let aboutToPlay = Mutex(false)
     private var episodePath: String?
     private var episode: BaseEpisode?
     private var cachedFrameCount = 0 as Int64
@@ -357,7 +356,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.withLock { $0 } ?? false }, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()

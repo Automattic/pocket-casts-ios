@@ -1,5 +1,4 @@
 import AVFoundation
-import os
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -9,7 +8,7 @@ class AudioPlayTask {
     private var player: AVAudioPlayerNode
     private var bufferManager: PlayBufferManager
 
-    private let cancelled = OSAllocatedUnfairLock(initialState: false)
+    private let cancelled = Mutex(false)
 
     private let audioQueue: DispatchQueue
     private let updateQueue: DispatchQueue
