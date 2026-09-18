@@ -1,6 +1,7 @@
 8.22
 -----
 - Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
+- Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
 
 
 8.21
