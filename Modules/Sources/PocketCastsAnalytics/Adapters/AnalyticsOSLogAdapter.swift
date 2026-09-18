@@ -6,10 +6,12 @@ import OSLog
 /// Logs under the running app's bundle identifier, so each target (iOS, tvOS, App Clip…)
 /// surfaces its events under its respective subsystem, all in the `Analytics` category.
 /// Filter with `subsystem:<bundle id> category:Analytics`.
-struct AnalyticsOSLogAdapter: AnalyticsAdapter {
+public struct AnalyticsOSLogAdapter: AnalyticsAdapter {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PocketCasts", category: "Analytics")
 
-    func track(name: String, properties: [String: Sendable]) async {
+    public init() {}
+
+    public func track(name: String, properties: [String: Sendable]) async {
         if properties.isEmpty {
             Self.logger.debug("🔵 Tracked: \(name, privacy: .public)")
         } else {

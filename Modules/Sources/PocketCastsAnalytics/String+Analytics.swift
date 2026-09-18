@@ -3,7 +3,7 @@ import Foundation
 extension String {
     /// Converts a camel cased word (ohHelloThere) into snake case (oh_hello_there)
     /// - Returns: A snack cased string
-    func toSnakeCaseFromCamelCase() -> String {
+    public func toSnakeCaseFromCamelCase() -> String {
         // Support acronyms, and prevent early snake casing them.
         // helloJSONWorld -> hello_json_world
         let acronymPattern = "([A-Z0-9]+)([A-Z0-9][a-z]|[0-9])"

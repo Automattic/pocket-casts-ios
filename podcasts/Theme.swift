@@ -4,7 +4,7 @@ import PocketCastsUtils
 import Combine
 import UIKit
 
-extension ThemeType: AnalyticsDescribable {
+extension ThemeType {
     static var displayOrder: [ThemeType] {
         [.light, .dark, .rosé, .extraDark, .indigo, .contrastDark, .contrastLight, .electric, .classic]
     }
@@ -74,29 +74,6 @@ extension ThemeType: AnalyticsDescribable {
             return "contrastLightThemeAbstract"
         case .contrastDark:
             return "contrastDarkThemeAbstract"
-        }
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .light:
-            return"default_light"
-        case .dark:
-            return "default_dark"
-        case .extraDark:
-            return "extra_dark"
-        case .electric:
-            return "electric"
-        case .classic:
-            return "classic"
-        case .indigo:
-            return "indigo"
-        case .rosé:
-            return "rose"
-        case .contrastLight:
-            return "light_contrast"
-        case .contrastDark:
-            return "dark_contrast"
         }
     }
 }

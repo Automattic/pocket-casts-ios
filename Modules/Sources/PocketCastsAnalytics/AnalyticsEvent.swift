@@ -1,6 +1,6 @@
 import Foundation
 
-enum AnalyticsEvent: String {
+public enum AnalyticsEvent: String {
     // MARK: - App Lifecycle
 
     case applicationInstalled

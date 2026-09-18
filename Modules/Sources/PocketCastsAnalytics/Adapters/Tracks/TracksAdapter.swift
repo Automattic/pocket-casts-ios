@@ -1,11 +1,14 @@
+#if !os(watchOS)
+
 import AutomatticTracksEvents
 import AutomatticTracksModel
 import Foundation
 import os
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
-class TracksAdapter: AnalyticsAdapter {
+public class TracksAdapter: AnalyticsAdapter {
     private let userDefaults: UserDefaults
 
     /// Returns a UUID id to use if the user is in a logged out state
@@ -15,8 +18,8 @@ class TracksAdapter: AnalyticsAdapter {
 
     private let trackerTask: Task<TracksTracker, Never>
 
-    init(
-        userDefaults: UserDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard,
+    public init(
+        userDefaults: UserDefaults,
         subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
         notificationCenter: NotificationCenter = .default,
         abTestProvider: ABTestProviding = ABTestProvider.shared
@@ -33,7 +36,7 @@ class TracksAdapter: AnalyticsAdapter {
         }
     }
 
-    func track(name: String, properties: [String: Sendable]) async {
+    public func track(name: String, properties: [String: Sendable]) async {
         await trackerTask.value.track(name: name, properties: properties)
     }
 }
@@ -262,3 +265,5 @@ private class TracksAdapterLoggingDelegate: NSObject, TracksLoggingDelegate {
         Self.logger.log("\(str)")
     }
 }
+
+#endif

@@ -79,29 +79,11 @@ protocol AnalyticsSearchResultItem: AnalyticsDescribable {
     var uuid: String { get }
 }
 
-extension EpisodeSearchResult: AnalyticsSearchResultItem {
-    var analyticsDescription: String {
-        "episode"
-    }
-}
+extension EpisodeSearchResult: AnalyticsSearchResultItem {}
 
-extension PodcastFolderSearchResult: AnalyticsSearchResultItem {
-    var analyticsDescription: String {
-        if kind == .folder {
-            return "folder"
-        } else if isLocal == true {
-            return "podcast_local_result"
-        } else {
-            return "podcast_remote_result"
-        }
-    }
-}
+extension PodcastFolderSearchResult: AnalyticsSearchResultItem {}
 
-extension NetworkSearchResult: AnalyticsSearchResultItem {
-    var analyticsDescription: String {
-        "network"
-    }
-}
+extension NetworkSearchResult: AnalyticsSearchResultItem {}
 
 extension SearchHistoryEntry: AnalyticsSearchResultItem {
     var uuid: String {

@@ -17,7 +17,11 @@ extension AppDelegate {
 
         // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
         if !Settings.analyticsOptOut() {
-            adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
+            adapters = [
+                AnalyticsLoggingAdapter(),
+                TracksAdapter(userDefaults: UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard),
+                CrashLoggingAdapter()
+            ]
 #if DEBUG
             adapters.append(AnalyticsOSLogAdapter())
 #endif

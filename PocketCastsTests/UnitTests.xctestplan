@@ -40,6 +40,13 @@
     {
       "target" : {
         "containerPath" : "container:Modules",
+        "identifier" : "PocketCastsAnalyticsTests",
+        "name" : "PocketCastsAnalyticsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
         "identifier" : "PocketCastsServerTests",
         "name" : "PocketCastsServerTests"
       }

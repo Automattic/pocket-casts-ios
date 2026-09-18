@@ -1,5 +1,5 @@
+@testable import PocketCastsAnalytics
 import XCTest
-@testable import podcasts
 
 /// Tests that `Analytics` normalizes event properties before handing them to adapters.
 ///
@@ -27,7 +27,6 @@ class AnalyticsTrackPropertiesTests: XCTestCase {
 
     private func reset() {
         Analytics.unregister()
-        Settings.setAnalytics(optOut: false)
     }
 
     func testTrackNormalizesDescribableAndPlainProperties() {

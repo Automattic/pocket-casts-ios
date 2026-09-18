@@ -51,6 +51,7 @@ The codebase uses a single Swift package, `Modules/Package.swift`, with targets 
 - **PocketCastsDataModel** (`Modules/Sources/PocketCastsDataModel/`) - Core data persistence using GRDB. Contains podcast, episode, and playback models. Uses custom GRDB macros for model generation.
 - **PocketCastsServer** (`Modules/Sources/PocketCastsServer/`) - API communication layer using Protocol Buffers. Depends on DataModel and Utils.
 - **PocketCastsUtils** (`Modules/Sources/PocketCastsUtils/`) - Shared utilities including localization helpers.
+- **PocketCastsAnalytics** (`Modules/Sources/PocketCastsAnalytics/`) - `Analytics`, `AnalyticsEvent`, the Tracks and logging adapters, and the A/B test provider. Add new events to `AnalyticsEvent.swift`.
 - **GRDBMacros** (`Modules/Sources/GRDBMacros/`, `Modules/Sources/GRDBMacrosPlugin/`) - The `@GRDBRecord` macros used by DataModel.
 - **EndOfYear** (`Modules/Sources/EndOfYear/`) - End of Year stories.
 - **XcodeSupport** (`Modules/Sources/XcodeSupport/`) - Per-Xcode-target libraries that pull in each app target's package dependencies.
