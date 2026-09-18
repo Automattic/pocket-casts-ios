@@ -61,7 +61,8 @@ class DiscoverCollectionViewController: PCViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchController.viewDidAppear(animated)
+        searchController.beginAppearanceTransition(true, animated: animated)
+        searchController.endAppearanceTransition()
         AnalyticsHelper.navigatedToDiscover()
         Analytics.track(.discoverShown)
 
@@ -70,7 +71,8 @@ class DiscoverCollectionViewController: PCViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchController.viewDidDisappear(animated)
+        searchController.beginAppearanceTransition(false, animated: animated)
+        searchController.endAppearanceTransition()
     }
 
     func reloadData(completion: (() -> Void)? = nil) {
