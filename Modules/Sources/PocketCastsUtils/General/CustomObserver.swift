@@ -1,11 +1,13 @@
-class CustomObserver: NSObject {
+import Foundation
+
+open class CustomObserver: NSObject {
     private var customObservers = [Notification.Name]()
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func addCustomObserver(_ name: Notification.Name, selector: Selector) {
+    public func addCustomObserver(_ name: Notification.Name, selector: Selector) {
         if containsObserver(name) { return } // we already have this one
 
         customObservers.append(name)
@@ -13,7 +15,7 @@ class CustomObserver: NSObject {
         NotificationCenter.default.addObserver(self, selector: selector, name: name, object: nil)
     }
 
-    func removeAllCustomObservers() {
+    public func removeAllCustomObservers() {
         if customObservers.isEmpty { return }
 
         let notCenter = NotificationCenter.default

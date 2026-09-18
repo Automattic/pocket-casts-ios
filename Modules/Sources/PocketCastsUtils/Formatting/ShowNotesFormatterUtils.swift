@@ -1,11 +1,11 @@
 import Foundation
 
-class ShowNotesFormatterUtils {
+public class ShowNotesFormatterUtils {
     private static let regexTimePattern = "(\\A|\\s|>|[^a-zsA-Z_0-9/])(\\d{0,2}:?\\d{1,2}:\\d{2})(<|[^a-zsA-Z_0-9\"]|\\s|\\z)"
     private static let playerTimePattern = "$1<a href=\"http://localhost/#playerJumpTo=$2\">$2</a>$3"
     private static let regexATagPattern = "(<a.*?>.*?<\\/\\w?a>)"
 
-    class func convertToLinks(stringWithTimes: String) -> String {
+    public class func convertToLinks(stringWithTimes: String) -> String {
         do {
             var outString = stringWithTimes
 

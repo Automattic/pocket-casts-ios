@@ -1,7 +1,7 @@
 import Foundation
 
-enum AnonymousUUID {
-    static func generate(userDefaults: UserDefaults) -> String {
+public enum AnonymousUUID {
+    public static func generate(userDefaults: UserDefaults) -> String {
         let key = "TracksAnonymousUUID"
 
         // Generate a new UUID if there isn't currently one

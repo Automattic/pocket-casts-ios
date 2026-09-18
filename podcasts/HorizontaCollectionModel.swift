@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 import PocketCastsServer
+import PocketCastsUtils
 
 extension DiscoverPodcast: @retroactive Identifiable {
     public var id: String {

@@ -3,9 +3,7 @@ import AutomatticTracksModel
 import Foundation
 import os
 import PocketCastsServer
-#if DEBUG
 import PocketCastsUtils
-#endif
 
 class TracksAdapter: AnalyticsAdapter {
     private let userDefaults: UserDefaults

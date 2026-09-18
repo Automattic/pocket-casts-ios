@@ -1,6 +1,8 @@
 public struct Queue<T> {
     private var array = [T]()
 
+    public init() {}
+
     public var isEmpty: Bool {
         array.isEmpty
     }

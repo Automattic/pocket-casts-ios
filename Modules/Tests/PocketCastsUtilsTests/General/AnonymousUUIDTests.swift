@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import podcasts
+@testable import PocketCastsUtils
 
 final class AnonymousUUIDTests: XCTestCase {
     private let userDefaults = UserDefaults(suiteName: "AnonymousUUIDTests")

@@ -2,7 +2,7 @@ import Foundation
 
 extension FileManager {
 
-    func fileSize(of url: URL) -> Int64? {
+    public func fileSize(of url: URL) -> Int64? {
 
         guard let fileSize = try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize else {
             return nil
@@ -10,7 +10,7 @@ extension FileManager {
         return Int64(fileSize)
     }
 
-    static var deviceRemainingFreeSpaceInBytes: Int64? {
+    public static var deviceRemainingFreeSpaceInBytes: Int64? {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
         do {
             let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityKey])
@@ -30,7 +30,7 @@ extension FileManager {
         }
     }
 
-    static var devicePercentageFreeSpace: Double? {
+    public static var devicePercentageFreeSpace: Double? {
         guard let total = deviceTotalSpaceInBytes,
               let free = deviceRemainingFreeSpaceInBytes else {
             return nil

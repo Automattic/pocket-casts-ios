@@ -1,13 +1,12 @@
 import Foundation
-import PocketCastsUtils
 
-enum MediaFileHandleError: Error, Equatable {
+public enum MediaFileHandleError: Error, Equatable {
     case unableToOpenFile
     case readAfterEndOfFile
 }
 
 /// File handle for local file operations.
-final class MediaFileHandle {
+public final class MediaFileHandle {
     private let filePath: String
     private lazy var readHandle = FileHandle(forReadingAtPath: filePath)
     private lazy var writeHandle = FileHandle(forWritingAtPath: filePath)
@@ -16,7 +15,7 @@ final class MediaFileHandle {
 
     // MARK: Init
 
-    init(filePath: String) {
+    public init(filePath: String) {
         self.filePath = filePath
 
         if FileManager.default.fileExists(atPath: filePath) {
@@ -36,7 +35,7 @@ final class MediaFileHandle {
 
 extension MediaFileHandle {
 
-    func fileSize() throws -> Int {
+    public func fileSize() throws -> Int {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
             return (attributes[.size] as? NSNumber)?.intValue ?? 0
@@ -46,11 +45,11 @@ extension MediaFileHandle {
         }
     }
 
-    var safeFileSize: Int {
+    public var safeFileSize: Int {
         return (try? fileSize()) ?? 0
     }
 
-    func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
+    public func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
         lock.lock()
         defer { lock.unlock() }
 
@@ -74,7 +73,7 @@ extension MediaFileHandle {
         }
     }
 
-    func append(data: Data) throws {
+    public func append(data: Data) throws {
         lock.lock()
         defer { lock.unlock() }
 
@@ -98,7 +97,7 @@ extension MediaFileHandle {
         }
     }
 
-    func close() {
+    public func close() {
         do {
             try readHandle?.close()
         } catch {
@@ -113,7 +112,7 @@ extension MediaFileHandle {
         writeHandle = nil
     }
 
-    func deleteFile() {
+    public func deleteFile() {
         do {
             try FileManager.default.removeItem(atPath: filePath)
         } catch {
