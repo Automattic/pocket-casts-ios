@@ -46,47 +46,47 @@ final class OrphanedEpisodeDataManagerTests: DataManagerTestCase {
     }
 
     func testOrphanedEpisodeIsNotCaughtByGhostEpisodeCleanup() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let fixture = self.makeFixture(dataManager: dataManager)
 
             let ghosts = dataManager.findGhostEpisodes()
 
-            XCTAssertFalse(ghosts.contains(where: { $0.id == fixture.orphan.id }), "\(impl): ghost-episode cleanup joins on podcastUuid, which is still valid here, so it should miss this orphan")
+            XCTAssertFalse(ghosts.contains(where: { $0.id == fixture.orphan.id }), "ghost-episode cleanup joins on podcastUuid, which is still valid here, so it should miss this orphan")
         }
     }
 
     func testFindOrphanedEpisodesReturnsOnlyThePhantomRow() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let fixture = self.makeFixture(dataManager: dataManager)
 
             let orphans = dataManager.findOrphanedEpisodes()
 
-            XCTAssertEqual(orphans.map(\.id), [fixture.orphan.id], "\(impl): should find only the row whose podcast_id has no matching SJPodcast row")
+            XCTAssertEqual(orphans.map(\.id), [fixture.orphan.id], "should find only the row whose podcast_id has no matching SJPodcast row")
         }
     }
 
     func testDeleteOrphanedEpisodesRemovesOnlyTheOrphanRow() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let fixture = self.makeFixture(dataManager: dataManager)
 
             let orphans = dataManager.findOrphanedEpisodes()
             dataManager.deleteOrphanedEpisodes(ids: orphans.map(\.id))
 
             let remaining = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [self.episodeUuid])
-            XCTAssertEqual(remaining.map(\.id), [fixture.live.id], "\(impl): only the live row should remain")
-            XCTAssertNotNil(dataManager.findPodcast(uuid: self.podcastUuid, includeUnsubscribed: true), "\(impl): the real podcast should be untouched")
+            XCTAssertEqual(remaining.map(\.id), [fixture.live.id], "only the live row should remain")
+            XCTAssertNotNil(dataManager.findPodcast(uuid: self.podcastUuid, includeUnsubscribed: true), "the real podcast should be untouched")
         }
     }
 
     func testReconcileOrphanedEpisodeRepointsSurvivorAndDeletesOthersInOneWrite() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let fixture = self.makeFixture(dataManager: dataManager)
 
             dataManager.reconcileOrphanedEpisode(survivorId: fixture.orphan.id, realPodcastId: fixture.podcast.id, idsToDelete: [fixture.live.id])
 
             let remaining = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [self.episodeUuid])
-            XCTAssertEqual(remaining.map(\.id), [fixture.orphan.id], "\(impl): the survivor should remain, the stale live row should be gone")
-            XCTAssertEqual(remaining.first?.podcast_id, fixture.podcast.id, "\(impl): the survivor should be repointed at the real podcast")
+            XCTAssertEqual(remaining.map(\.id), [fixture.orphan.id], "the survivor should remain, the stale live row should be gone")
+            XCTAssertEqual(remaining.first?.podcast_id, fixture.podcast.id, "the survivor should be repointed at the real podcast")
         }
     }
 }
