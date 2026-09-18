@@ -30,7 +30,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
         }
 
         let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet)
-        delegate.urlSession(.shared, task: MockURLSessionTask(), didCompleteWithError: error)
+        delegate.urlSession(.shared, task: makeTask(), didCompleteWithError: error)
 
         wait(for: [expectation], timeout: 1.0)
 
@@ -51,7 +51,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
         }
 
         let fileError = MediaFileHandleError.unableToOpenFile
-        delegate.urlSession(.shared, task: MockURLSessionTask(), didCompleteWithError: fileError)
+        delegate.urlSession(.shared, task: makeTask(), didCompleteWithError: fileError)
 
         wait(for: [expectation], timeout: 1.0)
 
@@ -72,7 +72,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
         }
 
         let eofError = MediaFileHandleError.readAfterEndOfFile
-        delegate.urlSession(.shared, task: MockURLSessionTask(), didCompleteWithError: eofError)
+        delegate.urlSession(.shared, task: makeTask(), didCompleteWithError: eofError)
 
         wait(for: [expectation], timeout: 1.0)
 
@@ -100,7 +100,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
         defer { MediaExporterItemConfiguration.minimumExpectedFileSize = previousMinimumExpectedFileSize }
         MediaExporterItemConfiguration.minimumExpectedFileSize = 0
 
-        delegate.urlSession(.shared, task: MockURLSessionTask(), didCompleteWithError: nil)
+        delegate.urlSession(.shared, task: makeTask(), didCompleteWithError: nil)
 
         wait(for: [expectation], timeout: 1.0)
 
@@ -113,6 +113,6 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
 
 // MARK: - Helpers
 
-private class MockURLSessionTask: URLSessionTask {
-    override var originalRequest: URLRequest? { nil }
+private func makeTask() -> URLSessionTask {
+    URLSession.shared.dataTask(with: URL(filePath: "/dev/null"))
 }
