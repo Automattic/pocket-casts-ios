@@ -1,14 +1,11 @@
-## Formatting
-
-Format all code using the linter formatter:
-```bash
-make format
-```
-
-## Building and Running
+## Commands
 
 ```bash
+make format          # SwiftLint autocorrect over the whole repo
 make build_staging
+make clean
+make test_staging    # PocketCastsTests
+make test_staging ONLY_TESTING=PocketCastsTests/YourTestClass/testMethodName
 ```
 
 ### Building in a Worktree
@@ -19,24 +16,6 @@ Each worktree build creates 10–14 GB of DerivedData. Use a private one and del
 xcodebuild -project podcasts.xcodeproj -scheme "Pocket Casts Staging" -configuration StagingDebug \
   -destination 'generic/platform=iOS Simulator' -derivedDataPath "/tmp/DerivedData-$(basename "$PWD")" \
   ARCHS=arm64 COMPILER_INDEX_STORE_ENABLE=NO build
-```
-
-## Cleaning Build Artifacts
-
-```bash
-make clean
-```
-
-## Running Tests
-
-```bash
-make test_staging
-```
-
-### Running a Single Test
-
-```bash
-make test_staging ONLY_TESTING=PocketCastsTests/YourTestClass/testMethodName
 ```
 
 ### Running Module Tests
@@ -51,100 +30,39 @@ cd Modules && xcodebuild test -scheme Modules-Package \
 
 ## Architecture
 
-### Modular Structure
+`Modules/Package.swift` is a single Swift package, with targets in `Modules/Sources/` and tests in `Modules/Tests/`:
 
-The codebase uses a single Swift package, `Modules/Package.swift`, with targets under `Modules/Sources/` and their tests under `Modules/Tests/`:
+- **PocketCastsDataModel** - GRDB persistence for podcasts, episodes and playback, using the `@GRDBRecord` macros from **GRDBMacros**. All data access goes through `DataManager.sharedManager` (`Public/DataManager.swift`).
+- **PocketCastsServer** - API layer using Protocol Buffers.
+- **PocketCastsUtils** - Shared utilities, including feature flags and localization helpers.
+- **PocketCastsAnalytics** - `Analytics`, the Tracks and logging adapters, and the A/B test provider. Add new events to `AnalyticsEvent.swift`.
+- **EndOfYear** - End of Year stories.
+- **XcodeSupport** - Per-Xcode-target libraries that pull in each app target's package dependencies.
 
-- **PocketCastsDataModel** (`Modules/Sources/PocketCastsDataModel/`) - Core data persistence using GRDB. Contains podcast, episode, and playback models. Uses custom GRDB macros for model generation.
-- **PocketCastsServer** (`Modules/Sources/PocketCastsServer/`) - API communication layer using Protocol Buffers. Depends on DataModel and Utils.
-- **PocketCastsUtils** (`Modules/Sources/PocketCastsUtils/`) - Shared utilities including localization helpers.
-- **PocketCastsAnalytics** (`Modules/Sources/PocketCastsAnalytics/`) - `Analytics`, `AnalyticsEvent`, the Tracks and logging adapters, and the A/B test provider. Add new events to `AnalyticsEvent.swift`.
-- **GRDBMacros** (`Modules/Sources/GRDBMacros/`, `Modules/Sources/GRDBMacrosPlugin/`) - The `@GRDBRecord` macros used by DataModel.
-- **EndOfYear** (`Modules/Sources/EndOfYear/`) - End of Year stories.
-- **XcodeSupport** (`Modules/Sources/XcodeSupport/`) - Per-Xcode-target libraries that pull in each app target's package dependencies.
-
-### Main App Structure
-
-The main iOS app lives in `podcasts/` with:
-- UIKit + SwiftUI hybrid (123+ ViewControllers, XIBs/Storyboards)
-- Feature-based organization (Analytics, Bookmarks, Folders, IAP, Player, etc.)
-- Multi-platform targets: iOS, watchOS, widgets, App Clip, CarPlay
-
-### Key Directories
-
-| Directory | Purpose |
-|-----------|---------|
-| `podcasts/` | Main iOS app source |
-| `PocketCastsTests/` | Unit tests organized by feature |
-| `Pocket Casts Watch App/` | watchOS companion |
-| `WidgetExtension/` | Home screen widgets |
-| `BuildTools/` | SwiftLint and SwiftGen plugins |
-
-## Data Access - DataManager (Singleton Facade)
-
-All data operations go through `DataManager.sharedManager`:
-
-```swift
-// Located at: Modules/Sources/PocketCastsDataModel/Public/DataManager.swift
-let dataManager = DataManager.sharedManager
-
-// Podcast operations
-let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
-let podcast = dataManager.findPodcast(uuid: "...")
-dataManager.save(podcast: podcast)
-
-// Episode operations
-let episode = dataManager.findEpisode(uuid: "...")
-dataManager.save(episode: episode)
-let downloadedCount = dataManager.downloadedEpisodeCount()
-
-// Playlist/Filter operations
-let playlists = dataManager.allPlaylists(includeDeleted: false)
-let episodes = dataManager.playlistEpisodes(for: playlist)
-
-// Up Next queue
-let queue = dataManager.allUpNextEpisodes()
-
-// Folder operations
-let folders = dataManager.allFolders(includeDeleted: false)
-let podcastsInFolder = dataManager.allPodcastsInFolder(folder: folder)
-```
+The app lives in `podcasts/` (UIKit with XIBs and storyboards, plus SwiftUI; organized by feature), with unit tests in `PocketCastsTests/`. Other targets: `Pocket Casts Watch App/`, `WidgetExtension/`, App Clip, CarPlay and TV. `BuildTools/` holds the SwiftLint and SwiftGen plugins.
 
 ## Localization
 
-Strings are managed via SwiftGen. Add new strings to `podcasts/en.lproj/Localizable.strings`:
+Add strings to `podcasts/en.lproj/Localizable.strings` with a comment describing the context and placeholders; SwiftGen generates the `L10n` enum on build (`L10n.featureDescriptionKey(value)`).
 
-```swift
-/* Description for translators with placeholder info */
-"feature_description_key" = "Value with %1$@ placeholder";
-```
-
-Use generated `L10n` enum:
-```swift
-let text = L10n.featureDescriptionKey(value)
-```
-
-Key rules:
-- Use snake_case keys with pattern: `feature_relevantIdentifier_description`
-- Always include comment describing context and placeholders
+- Keys are snake_case: `feature_relevantIdentifier_description`
 - Use positional specifiers (`%1$@`, `%2$@`), never string interpolation
-- Handle plurals manually with separate `_singular`/`_plural` keys
+- Handle plurals with separate `_singular`/`_plural` keys
+- Never use `LocalizedStringKey` in SwiftUI; use `L10n`
 
 ## Code Style
 
-SwiftLint is configured with opt-in rules. Notable custom rules:
-- Use `naturalContentHorizontalAlignment` instead of `.left`/`.right` for RTL support
-- Use `.natural` text alignment instead of `.left`
-- Never use `LocalizedStringKey` in SwiftUI - use `NSLocalizedString` with L10n
+SwiftLint custom rules, for RTL support: use `naturalContentHorizontalAlignment` instead of `.left`/`.right`, and `.natural` text alignment instead of `.left`.
 
 ## Themes
-- When styling Views, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the View is used.
-- Use `AppTheme.color(for: .primaryText01, theme: theme)` to access themed colors
+
+- In SwiftUI, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the view is used. Get colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
 - Theme colors come from `scripts/themes/theme.csv`: edit it and run `make generate_colors`. The generated `podcasts/ThemeColor.swift` and `ThemeStyle.swift` are gitignored, so Grep can't find tokens like `primaryText01`; never edit them by hand.
 
 ## Protocol Buffers
 
-Server objects use protobuf. To regenerate after API changes:
+To regenerate after API changes:
+
 ```bash
 brew install protobuf swift-protobuf  # One-time setup
 make update_proto API_PATH=/path/to/pocketcasts-api/api/modules/protobuf/src/main/proto
