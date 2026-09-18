@@ -75,6 +75,7 @@ class ImageManager {
 
     // MARK: - Discover Images
 
+    @MainActor
     func loadDiscoverImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
         if let url = URL(string: imageUrl) {
             let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
@@ -139,6 +140,7 @@ class ImageManager {
         }
     }
 
+    @MainActor
     func loadSearchImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize) {
         if let url = URL(string: imageUrl) {
             let image = placeHolderImage(placeholderSize)
@@ -149,6 +151,7 @@ class ImageManager {
 
     // MARK: - Subscribed Podcast Images
 
+    @MainActor
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
@@ -156,6 +159,7 @@ class ImageManager {
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
     }
 
+    @MainActor
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
         if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
@@ -304,6 +308,7 @@ class ImageManager {
 
     // MARK: - UserEpisode Images
 
+    @MainActor
     func loadUserEpisodeImage(uuid: String, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
 
@@ -332,6 +337,7 @@ class ImageManager {
         }
     }
 
+    @MainActor
     func imageForUserEpisodeColor(color: Int, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
         let imageSize = size == .page ? 960 : 280
@@ -465,6 +471,7 @@ class ImageManager {
 
     // MARK: - Subscription Bundle Image
 
+    @MainActor
     func loadBundleImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
         if let url = URL(string: imageUrl) {
             let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
@@ -519,6 +526,7 @@ class ImageManager {
 
     private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
 
+    @MainActor
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
         let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
         if let cached = placeholderImageCache[key] {

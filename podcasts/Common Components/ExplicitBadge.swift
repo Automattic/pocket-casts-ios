@@ -1,9 +1,10 @@
 import SwiftUI
 import PocketCastsUtils
 
+@MainActor
 enum ExplicitBadgeHelper {
 
-    static let badgeFontSize: CGFloat = 8
+    nonisolated static let badgeFontSize: CGFloat = 8
     static var badgeSize: CGFloat {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let fontSize = metric.scaledValue(for: badgeFontSize)
@@ -24,7 +25,7 @@ enum ExplicitBadgeHelper {
             cacheSize = fontSize
             imageCache.removeAll()
         }
-        let resolvedTheme = theme ?? Theme.activeThemeType
+        let resolvedTheme = theme ?? Theme.sharedTheme.activeTheme
         if let cached = imageCache[resolvedTheme] {
             return cached
         }

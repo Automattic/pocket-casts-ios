@@ -43,12 +43,13 @@ protocol SwipeHandler: AnyObject {
     func removeFromManualPlaylist(episode: Episode, at: IndexPath)
 }
 
+@MainActor
 enum SwipeActionsHelper {
     // Contrast themes prioritise readability; the green `support02` background
     // doesn't pass against the white "+" icon, so fall back to `support06` (the
     // archive swatch) in those themes.
     static var addToPlaylistSwipeBackground: UIColor {
-        switch Theme.activeThemeType {
+        switch Theme.sharedTheme.activeTheme {
         case .contrastLight, .contrastDark:
             return ThemeColor.support06()
         default:
@@ -228,6 +229,7 @@ enum SwipeActionsHelper {
 }
 
 fileprivate extension TableSwipeAction {
+    @MainActor
     static func removeAction(indexPath: IndexPath, tableView: UITableView, swipeHandler: SwipeHandler, episode: Episode) -> TableSwipeAction {
         return TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: true, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
             swipeHandler.removeFromManualPlaylist(episode: episode, at: indexPath)

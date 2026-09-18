@@ -2,7 +2,6 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
-import os
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {
@@ -110,12 +109,6 @@ class Theme: ObservableObject {
 
     typealias ThemeType = PocketCastsServer.ThemeType
 
-    nonisolated private static let activeThemeTypeLock = OSAllocatedUnfairLock(initialState: savedTheme())
-
-    nonisolated static var activeThemeType: ThemeType {
-        activeThemeTypeLock.withLock { $0 }
-    }
-
     @Published var activeTheme: ThemeType = Theme.savedTheme() {
         willSet {
             // There's a SwiftUI bug (last checked in SwiftUI 3, iOS 15.4) where if this variable changes while the app is backgrounded, the events aren't correctly sent so here we manually fire a will change if our app isn't active
@@ -125,7 +118,6 @@ class Theme: ObservableObject {
             }
         }
         didSet {
-            Theme.activeThemeTypeLock.withLock { [activeTheme] in $0 = activeTheme }
             UserDefaults.standard.set(activeTheme.old.rawValue, forKey: Theme.themeKey)
 
             // if the user is changing from or to the radioactive theme, we need to clear our memory cache because processing is applied to these images
@@ -136,6 +128,10 @@ class Theme: ObservableObject {
     }
 
     nonisolated init() {
+        if UserDefaults.standard.integer(forKey: Theme.themeKey) == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
+            Settings.setShouldFollowSystemTheme(true)
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(systemThemeDidChange(_:)), name: Constants.Notifications.systemThemeMayHaveChanged, object: nil)
     }
 
@@ -147,22 +143,18 @@ class Theme: ObservableObject {
         NotificationCenter.default.removeObserver(self)
     }
 
-    nonisolated private static func savedTheme() -> ThemeType {
-        let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
-        if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
-            Settings.setShouldFollowSystemTheme(true)
-        }
-        return ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
-    }
-
     @objc private func systemThemeDidChange(_ notification: Notification) {
         if Settings.shouldFollowSystemTheme() {
             toggleTheme()
         }
     }
 
-    nonisolated class func isDarkTheme() -> Bool {
-        Theme.activeThemeType.isDark
+    class func isDarkTheme() -> Bool {
+        Theme.sharedTheme.activeTheme.isDark
+    }
+
+    nonisolated class func savedTheme() -> ThemeType {
+        ThemeType(old: ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: themeKey)) ?? .light)
     }
 
     nonisolated class func preferredDarkTheme() -> ThemeType {

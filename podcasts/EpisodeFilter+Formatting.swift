@@ -32,9 +32,10 @@ extension EpisodeFilter {
             .snapshot()
     }
 
+    @MainActor
     private func carPlayPreviewTheme() -> Theme.ThemeType {
         guard let interfaceStyle = CarPlayImageHelper.carTraitCollection?.userInterfaceStyle else {
-            return Theme.activeThemeType
+            return Theme.sharedTheme.activeTheme
         }
 
         switch interfaceStyle {
@@ -43,7 +44,7 @@ extension EpisodeFilter {
         case .light:
             return .light
         default:
-            return Theme.activeThemeType
+            return Theme.sharedTheme.activeTheme
         }
     }
     #endif
@@ -77,6 +78,7 @@ extension EpisodeFilter {
     }
 
     #if !os(watchOS)
+        @MainActor
         func playlistColor() -> UIColor {
             AppTheme.colorForStyle(playlistStyle())
         }

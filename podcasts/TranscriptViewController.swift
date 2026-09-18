@@ -1178,6 +1178,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         static let textMargin: CGFloat = 8
     }
 
+    @MainActor
     private enum Colors {
         static var gradientColor: UIColor {
             PlayerColorHelper.playerBackgroundColor01()

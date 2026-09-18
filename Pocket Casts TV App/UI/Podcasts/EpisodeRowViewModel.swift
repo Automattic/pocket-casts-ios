@@ -64,6 +64,7 @@ class EpisodeRowViewModel: Identifiable {
         return episode.displayableTimeLeft()
     }
 
+    @MainActor
     var currentPodcastTintColor: Color? {
         if let podcast {
             return Color(ColorManager.darkThemeTintForPodcast(podcast))

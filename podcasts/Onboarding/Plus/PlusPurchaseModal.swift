@@ -138,7 +138,7 @@ struct PlusPurchaseModal: View {
 private extension Color {
     static let backgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     static let textColor = Color(hex: "#FFFFFF")
-    static let error = AppTheme.color(for: .support05)
+    @MainActor static let error = AppTheme.color(for: .support05)
 }
 
 // MARK: - Views

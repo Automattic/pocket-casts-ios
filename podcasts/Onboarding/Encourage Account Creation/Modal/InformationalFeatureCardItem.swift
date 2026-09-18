@@ -31,10 +31,12 @@ enum InformationalFeatureCardItem: String, CaseIterable, Identifiable, Horizonta
         return "informational_card_\(rawValue.lowerSnakeCased())"
     }
 
+    @MainActor
     var backgroundColor: Color {
         AppTheme.color(for: .primaryUi02Active)
     }
 
+    @MainActor
     var titleColor: Color {
         AppTheme.color(for: .primaryText01)
     }
@@ -43,6 +45,7 @@ enum InformationalFeatureCardItem: String, CaseIterable, Identifiable, Horizonta
         18.0
     }
 
+    @MainActor
     var textColor: Color {
         AppTheme.color(for: .primaryText02)
     }

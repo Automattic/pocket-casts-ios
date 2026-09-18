@@ -138,7 +138,7 @@ File.truncate(file_path_colors, 0) if File.exist?(file_path_colors)
 File.truncate(file_path_styles, 0) if File.exist?(file_path_styles)
 
 File.write(file_path_colors,
-           "import PocketCastsUtils\nimport PocketCastsServer\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nstruct ThemeColor {\n", mode: 'a')
+           "import PocketCastsUtils\nimport PocketCastsServer\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\n@MainActor\nstruct ThemeColor {\n", mode: 'a')
 File.write(file_path_styles, "// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nenum ThemeStyle {\n",
            mode: 'a')
 
@@ -210,7 +210,7 @@ File.write(file_path_colors, "\n\n", mode: 'a')
 all_token_names.each do |token|
   token_str = if token.start_with?('podcast') || token.start_with?('playerBackground') || token.start_with?('playerHighlight')
                 "    static func #{token}(podcastColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
-        let theme = theme ?? Theme.activeThemeType
+        let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
             return ThemeColor.#{token}Light(podcastColor: podcastColor)
@@ -234,7 +234,7 @@ all_token_names.each do |token|
     }\n\n"
               elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
                 "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
-        let theme = theme ?? Theme.activeThemeType
+        let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
             return ThemeColor.#{token}Light(filterColor: filterColor)
@@ -258,7 +258,7 @@ all_token_names.each do |token|
     }\n\n"
               else
                 "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
-        let theme = theme ?? Theme.activeThemeType
+        let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
             return ThemeColor.#{token}Light

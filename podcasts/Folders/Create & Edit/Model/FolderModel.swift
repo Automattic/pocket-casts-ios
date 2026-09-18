@@ -4,6 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 
+@MainActor
 class FolderModel: ObservableObject {
     @Published var folderUuid: String?
     @Published var selectedPodcastUuids: [String] = [] {

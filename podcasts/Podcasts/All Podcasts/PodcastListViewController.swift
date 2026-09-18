@@ -378,14 +378,22 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     }
 
     @objc func refreshGridItems() {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.refreshGridItems()
+            }
+            return
+        }
+
+        let theme = Theme.sharedTheme.activeTheme
         refreshQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType(), theme: theme)
 
             if newData.isEmpty {
-                newData = [HomeGridListItem.empty]
+                newData = [HomeGridListItem(gridItem: nil, badgeType: .off, theme: theme)]
             }
 
             DispatchQueue.main.sync {

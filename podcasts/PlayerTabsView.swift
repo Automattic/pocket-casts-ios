@@ -207,6 +207,7 @@ private extension PlayerTabsView {
 
         var fadePosition: FadePosition = .leading
 
+        @MainActor
         init(fadePosition: FadePosition) {
             self.fadePosition = fadePosition
 
@@ -225,6 +226,7 @@ private extension PlayerTabsView {
             }
         }
 
+        @MainActor
         func updateColors() {
             let color = PlayerColorHelper.playerBackgroundColor01()
 

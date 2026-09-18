@@ -13,7 +13,7 @@ class HomeGridDataHelper {
     }
 
     #if !os(watchOS)
-        class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType) -> [HomeGridListItem] {
+        class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType, theme: Theme.ThemeType) -> [HomeGridListItem] {
             let allPodcasts: [Podcast]
             switch orderedBy {
             case .episodeDateNewestToOldest:
@@ -24,7 +24,7 @@ class HomeGridDataHelper {
                 allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
             }
 
-            let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.activeThemeType) }
+            let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: theme) }
 
             // load the required badge information if the supplied badge type needs it
             if badgeType == .allUnplayed {
