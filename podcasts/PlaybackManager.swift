@@ -79,8 +79,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let catchUpHelper = PlaybackCatchUpHelper()
 
-    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
-
     #if !APPCLIP
     private(set) lazy var bookmarkManager: BookmarkManager = {
         BookmarkManager(playbackManager: self)
@@ -265,7 +263,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     func seekToStartingPosition() {
         let startingTime = requiredStartingPosition()
         player?.play { [weak self] in
-            self?.analyticsPlaybackHelper.currentSource = .sync
+            MainActor.runOrEnqueue {
+                AnalyticsPlaybackHelper.shared.currentSource = .sync
+            }
             self?.seekTo(time: startingTime, startPlaybackAfterSeek: false)
             self?.player?.pause()
         }
@@ -289,7 +289,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("PlaybackManager Play \(currEpisode.title ?? "unknown episode") userInitiated: \(userInitiated)")
 
         if userInitiated {
-            analyticsPlaybackHelper.play()
+            MainActor.runOrEnqueue {
+                AnalyticsPlaybackHelper.shared.play()
+            }
         }
 
         aboutToPlay.value = true
@@ -335,7 +337,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             // current episode still matches the one we started: activation can run async, and if the
             // user has since switched episodes the new play cycle reports its own resolved source.
             if shouldReportSourceResolved, self.currentEpisode?.uuid == currEpisode.uuid {
-                self.analyticsPlaybackHelper.playbackSourceResolved(for: currEpisode)
+                MainActor.runOrEnqueue {
+                    AnalyticsPlaybackHelper.shared.playbackSourceResolved(for: currEpisode)
+                }
             }
 
             if currEpisode.videoPodcast() {
@@ -354,7 +358,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // Only trigger the event if we are already playing
         if isPlaying, userInitiated {
-            analyticsPlaybackHelper.pause()
+            MainActor.runOrEnqueue {
+                AnalyticsPlaybackHelper.shared.pause()
+            }
         }
 
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
@@ -393,7 +399,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func skipBack(amount: TimeInterval) {
-        analyticsPlaybackHelper.skipBack()
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.skipBack()
+        }
 
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
@@ -405,7 +413,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func skipForward(amount: TimeInterval) {
-        analyticsPlaybackHelper.skipForward()
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.skipForward()
+        }
 
         let forwardTime = min(currentTime() + amount, duration())
         seekTo(time: forwardTime)
@@ -536,7 +546,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
-        analyticsPlaybackHelper.currentSource = .sync
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.currentSource = .sync
+        }
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
@@ -595,7 +607,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         }
 
-        analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.seek(from: currentTime, to: time, duration: playingEpisode.duration)
+        }
     }
 
     private var previousSeekTime: TimeInterval?
@@ -665,7 +679,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
         if userInitiated {
-            AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+            MainActor.runOrEnqueue {
+                AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+            }
         }
 
         // If we don't have a current episode, reload the persisted queue to updated our cache just in case
@@ -708,7 +724,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
         if userInitiated, let episode {
-            AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+            MainActor.runOrEnqueue {
+                AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+            }
         }
         if let episode, isCurrentEpisode(uuid: episode.uuid) {
             autoplayIfNeeded()
@@ -898,7 +916,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             videoRenderingEnabled.toggle()
             switchedToVideo = videoRenderingEnabled.value
         }
-        analyticsPlaybackHelper.videoRenderingToggled(switchedToVideo: switchedToVideo, episode: episode)
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.videoRenderingToggled(switchedToVideo: switchedToVideo, episode: episode)
+        }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
     }
 
@@ -1301,7 +1321,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
-        AnalyticsPlaybackHelper.shared.playbackFailed(episode: currentEpisode, error: error.logMessage ?? "Unknown", hlsErrorDetail: error.analyticsDetail, player: player)
+        MainActor.runOrEnqueue { [currentEpisode, player] in
+            AnalyticsPlaybackHelper.shared.playbackFailed(episode: currentEpisode, error: error.logMessage ?? "Unknown", hlsErrorDetail: error.analyticsDetail, player: player)
+        }
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode {
@@ -1485,7 +1507,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         queue.bulkOperationDidComplete()
 
-        AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
+        MainActor.runOrEnqueue {
+            AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
+        }
     }
 
     // MARK: - Helper Methods
@@ -2002,7 +2026,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard self.currentEpisode != nil else {
             return
         }
-        analyticsPlaybackHelper.currentSource = self.commandCenterSource
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.currentSource = self.commandCenterSource
+        }
         FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
         playPause()
     }
@@ -2019,7 +2045,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.pauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode else { return .noActionableNowPlayingItem }
 
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
+            MainActor.runOrEnqueue {
+                AnalyticsPlaybackHelper.shared.currentSource = strongSelf.commandCenterSource
+            }
 
             FileLog.shared.addMessage("Remote control: pauseCommand")
             strongSelf.pause()
@@ -2030,7 +2058,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode else { return .noActionableNowPlayingItem }
 
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
+            MainActor.runOrEnqueue {
+                AnalyticsPlaybackHelper.shared.currentSource = strongSelf.commandCenterSource
+            }
 
             if Settings.legacyBluetoothModeEnabled() {
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
@@ -2134,7 +2164,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
                 guard let self, currentEpisode != nil else { return .noActionableNowPlayingItem }
 
-                analyticsPlaybackHelper.currentSource = commandCenterSource
+                MainActor.runOrEnqueue {
+                    AnalyticsPlaybackHelper.shared.currentSource = self.commandCenterSource
+                }
 
                 if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
                     if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
@@ -2178,7 +2210,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode else { return .noActionableNowPlayingItem }
 
-                AnalyticsEpisodeHelper.shared.currentSource = strongSelf.commandCenterSource
+                MainActor.runOrEnqueue {
+                    AnalyticsEpisodeHelper.shared.currentSource = strongSelf.commandCenterSource
+                }
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                 return .success
             }
@@ -2229,7 +2263,9 @@ class PlaybackManager: ServerPlaybackDelegate {
                     }
                 }
 
-                self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
+                MainActor.runOrEnqueue {
+                    AnalyticsPlaybackHelper.shared.currentSource = self.commandCenterSource
+                }
 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipBack(amount: skipEvent.interval)
@@ -2259,7 +2295,9 @@ class PlaybackManager: ServerPlaybackDelegate {
                     }
                 }
 
-                self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
+                MainActor.runOrEnqueue {
+                    AnalyticsPlaybackHelper.shared.currentSource = self.commandCenterSource
+                }
 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipForward(amount: skipEvent.interval)
@@ -2391,10 +2429,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         guard let episode = currentEpisode, playerSwitchRequired() else { return }
 
-        AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        }
         pause()
 
-        AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        }
         load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
 
@@ -2674,7 +2716,10 @@ extension PlaybackManager {
     // MARK: - Analytics
 
     private func trackChapterSkipped() {
-        analyticsPlaybackHelper.chapterSkipped(properties: chapterManager.chaptersAnalyticsProperties)
+        let properties = chapterManager.chaptersAnalyticsProperties
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.chapterSkipped(properties: properties)
+        }
     }
 
     func trackChapterEvent(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
@@ -2682,7 +2727,9 @@ extension PlaybackManager {
         if let properties {
             baseProperties = baseProperties.merging(properties, uniquingKeysWith: { current, _ in current })
         }
-        analyticsPlaybackHelper.track(event, properties: baseProperties)
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.track(event, properties: baseProperties)
+        }
     }
 }
 
@@ -2750,7 +2797,7 @@ extension PlaybackManager {
 
         Analytics.track(.bookmarkPlayTapped, source: source)
 
-        analyticsPlaybackHelper.currentSource = .bookmark
+        AnalyticsPlaybackHelper.shared.currentSource = .bookmark
 
         #if !os(watchOS) && !os(tvOS)
         // A bookmark's `referenceTime` sits on the transcript's canonical timeline, which
