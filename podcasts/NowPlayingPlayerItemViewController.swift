@@ -110,12 +110,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var chapterSkipBackBtn: UIButton! {
         didSet {
             chapterSkipBackBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipBackBtn.accessibilityLabel = L10n.siriShortcutPreviousChapter
         }
     }
 
     @IBOutlet var chapterSkipFwdBtn: UIButton! {
         didSet {
             chapterSkipFwdBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipFwdBtn.accessibilityLabel = L10n.siriShortcutNextChapter
         }
     }
 
