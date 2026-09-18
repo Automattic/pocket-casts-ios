@@ -183,6 +183,7 @@ struct PodcastHeaderView: View {
                 .clipped()
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(viewModel.isSubscribed ? L10n.unfollow : L10n.follow)
     }
 
     private var fundingButton: some View {
