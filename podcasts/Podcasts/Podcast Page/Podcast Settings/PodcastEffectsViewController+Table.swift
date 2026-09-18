@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelegate {
     private static let disclosureCellId = "DisclosureCell"

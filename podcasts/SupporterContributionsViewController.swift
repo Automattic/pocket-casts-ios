@@ -213,6 +213,4 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     @objc private func podcastColorsLoaded(_ notification: Notification) {
         loadPodcasts()
     }
-
-    private func loadBundle(uuid: String) {}
 }

@@ -43,17 +43,4 @@ public class PodcastHeader {
     public func iTunesOnly() -> Bool {
         uuid == nil && itunesId != nil
     }
-
-    public func toDiscoverPodcast() -> DiscoverPodcast {
-        var discoverPodcast = DiscoverPodcast()
-        discoverPodcast.author = author
-        discoverPodcast.shortDescription = headerDescription
-        discoverPodcast.title = title
-        discoverPodcast.uuid = uuid
-        if let iTunesId = itunesId?.intValue {
-            discoverPodcast.iTunesId = "\(iTunesId)"
-        }
-
-        return discoverPodcast
-    }
 }

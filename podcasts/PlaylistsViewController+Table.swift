@@ -56,7 +56,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         if !informationalBannerCoordinator.shouldShowBanner() {
             return nil
         }
-        return informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 135)) {
+        return informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 135)) { [weak self] in
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.filtersTable.reloadData()
             }

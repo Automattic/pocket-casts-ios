@@ -1,4 +1,3 @@
-import Combine
 import PocketCastsDataModel
 import SwiftUI
 
@@ -7,8 +6,6 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
     let viewModel: BookmarkEpisodeListViewModel
-
-    private var cancellables = Set<AnyCancellable>()
 
     init(episode: BaseEpisode, displayMode: BookmarkEpisodeListView.DisplayMode = .list,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,

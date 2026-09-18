@@ -103,8 +103,14 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     }
 
     /// The network the podcast belongs to, while the app shows networks at all.
-    private var networkListId: String? {
+    var networkListId: String? {
         FeatureFlag.networkDiscovery.enabled ? podcast.networkListId : nil
+    }
+
+    func networkTapped() {
+        guard let networkListId else { return }
+
+        delegate?.networkTapped(listId: networkListId)
     }
 
     var displayAuthor: String? {
@@ -138,10 +144,6 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
             return nil
         }
         return L10n.paidPodcastNextEpisodeFormat(estimatedDate)
-    }
-
-    var isPodcastSubscribed: Bool {
-        return podcast.isSubscribed()
     }
 
     func subscribeButtonTapped() {
@@ -179,8 +181,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         case .category:
             delegate?.categoryTapped(firstCategory)
         case .author:
-            guard let networkListId else { return }
-            delegate?.networkTapped(listId: networkListId)
+            networkTapped()
         case nil:
             delegate?.open(url: url)
         }
@@ -201,7 +202,6 @@ extension PodcastHeaderViewModel: ExpandableLabelDelegate {
 
     func didExpandLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
-        delegate?.setDescriptionExpanded(expanded: true)
     }
 
     func willCollapseLabel(_ label: UIView) {
@@ -211,7 +211,6 @@ extension PodcastHeaderViewModel: ExpandableLabelDelegate {
 
     func didCollapseLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
-        delegate?.setDescriptionExpanded(expanded: false)
     }
 
     func linkTapped(url: URL) {

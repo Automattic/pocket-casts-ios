@@ -17,7 +17,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     lazy var endOfYear = EndOfYear()
 
-    private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: pcTabs.firstIndex(of: .profile) ?? -1)
+    /// Styles its badge as a plain red dot on the item itself, since Liquid Glass ignores the tab bar
+    /// appearance that does it for the older tab bar.
+    private lazy var profileTabBarItem: UITabBarItem = {
+        let item = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: pcTabs.firstIndex(of: .profile) ?? -1)
+        item.badgeColor = .clear
+        item.setBadgeTextAttributes([.foregroundColor: UIColor.systemRed], for: .normal)
+        item.setBadgeTextAttributes([.foregroundColor: UIColor.systemRed], for: .selected)
+        return item
+    }()
 
     private lazy var upNextTabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: pcTabs.firstIndex(of: .upNext) ?? -1)
 
@@ -116,7 +124,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let filtersViewController = PlaylistsViewController()
         filtersViewController.tabBarItem = UITabBarItem(title: L10n.playlists, image: UIImage(named: "playlists_tab"), tag: pcTabs.firstIndex(of: .filter)!)
 
-        let discoverViewController = DiscoverCollectionViewController(coordinator: DiscoverCoordinator())
+        let discoverViewController = DiscoverCollectionViewController()
 
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: pcTabs.firstIndex(of: .discover)!)
 
@@ -156,6 +164,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // `upNextEpisodeAdded` refreshes the badge via the genie animation's tail, not here.
         NotificationCenter.default.addObserver(self, selector: #selector(animateEpisodeAddedToUpNext(_:)), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
         refreshUpNextTabBadge()
+
+        observeWhatsNewFeed()
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
@@ -322,6 +332,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             let tab = pcTabs[tabIndex]
             trackTabOpened(tab)
             AnalyticsHelper.tabSelected(tab: tab)
+        }
+
+        if item === profileTabBarItem, FeatureFlag.whatsNewFeed.enabled {
+            WhatsNewManager.shared.markFeedAsSeen()
         }
 
         UserDefaults.standard.set(tabIndex, forKey: Constants.UserDefaults.lastTabOpened)
@@ -491,10 +505,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         filtersViewController.showFilter(filter)
     }
 
-    func navigateToEditFilter(_ filter: EpisodeFilter) {
-        switchToTab(.filter)
-    }
-
     func navigateToAddFilter() {
         switchToTab(.filter)
     }
@@ -643,14 +653,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func showProfilePage() {
-        switchToTab(.profile)
-
-        if let navController = selectedViewController as? UINavigationController {
-            navController.popToRootViewController(animated: false)
-        }
-    }
-
     func showRedeemGuestPass(url: URL) {
         switchToTab(.profile)
 
@@ -788,8 +790,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     // MARK: - End of Year
 
+    /// Whether End of Year has a badge waiting on the Profile tab, which it shares with What's New.
+    private var showsEndOfYearBadge = false
+
     @objc private func profileSeen() {
-        profileTabBarItem.badgeValue = nil
+        showsEndOfYearBadge = false
+        updateProfileTabBadge()
         if let year = endOfYear.storyModelType?.year {
             Settings.setShowBadgeForEndOfYear(false, year: year)
         }
@@ -867,7 +873,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func displayEndOfYearBadgeIfNeeded() {
         if EndOfYear.isEligible, let year = endOfYear.storyModelType?.year, Settings.showBadgeForEndOfYear(year) {
-            profileTabBarItem.badgeValue = "●"
+            showsEndOfYearBadge = true
+            updateProfileTabBadge()
         }
     }
 
@@ -986,7 +993,7 @@ private extension MainTabBarController {
             .compactMap { event in
                 bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
             }
-            .sink { bookmark, source in
+            .sink { (bookmark: Bookmark, source: BookmarkAnalyticsSource) in
                 Task {
                     await bookmarkManager.enrich(bookmark, source: source)
                 }
@@ -1325,5 +1332,33 @@ extension MainTabBarController {
     func resetUpNextTabImage() {
         upNextTabBarItem.image = UIImage(named: "upnext_tab")
         upNextTabBarItem.selectedImage = nil
+    }
+}
+
+// MARK: - What's New
+
+private extension MainTabBarController {
+    /// Keeps the dot on the Profile tab in step with the feed: it shows while the feed has an unread
+    /// message the tab hasn't pointed the user at, and tapping the tab takes it off.
+    func observeWhatsNewFeed() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let manager = WhatsNewManager.shared
+        Publishers.Merge3(
+            manager.$catalog.map { _ in },
+            manager.$readState.map { _ in },
+            NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged).map { _ in }
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.updateProfileTabBadge()
+        }
+        .store(in: &cancellables)
+    }
+
+    /// Shows the dot while End of Year or What's New has something waiting on Profile.
+    func updateProfileTabBadge() {
+        let showsWhatsNewBadge = FeatureFlag.whatsNewFeed.enabled && WhatsNewManager.shared.hasUnseenMessages()
+        profileTabBarItem.badgeValue = showsEndOfYearBadge || showsWhatsNewBadge ? "●" : nil
     }
 }

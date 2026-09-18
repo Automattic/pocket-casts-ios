@@ -1,3 +1,5 @@
+import UIKit
+
 private var contentUnavailableKey: UInt8 = 0
 
 extension UIViewController {

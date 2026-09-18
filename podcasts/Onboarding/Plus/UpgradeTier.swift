@@ -112,16 +112,8 @@ extension UpgradeTier {
         TierFeature(iconName: "plus-feature-watch", title: L10n.featureMarketingWatchPlayback)
     }
 
-    static var slumberOrUndyingGratitude: TierFeature {
-        FeatureFlag.slumber.enabled ? slumber : loveFeature
-    }
-
     static var extraThemesIconsFeature: TierFeature {
         TierFeature(iconName: "plus-feature-extra", title: L10n.featureMarketingExtraThemesIcons)
-    }
-
-    static var loveFeature: TierFeature {
-        TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     }
 
     static var slumber: TierFeature {

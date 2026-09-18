@@ -1,3 +1,5 @@
+import Foundation
+
 public enum WatchConstants {
     public enum Keys {
         public static let messageVersion = "id"
@@ -34,9 +36,6 @@ public enum WatchConstants {
         public static let podcastSettings = "podcastSettings"
         public static let podcastUuid = "uuid"
         public static let podcastCustomPosition = "podcastCustomPosition"
-        public static let podcastEpisodeGrouping = "episodeGrouping"
-        public static let podcastEpisodeSortOrder = "episodeSortOrder"
-        public static let podcastAutoArchiveEpisodeLimit = "autoArchiveEpisodeLimit"
         public static let podcastAutoArchivePlayedAfter = "podcastAutoArchivePlayedAfter"
         public static let podcastOverrideGlobalArchive = "podcastOverrideGlobalArchive"
 
@@ -108,11 +107,6 @@ public enum WatchConstants {
         enum FilterRequest {
             public static let type = "filterRequest"
             public static let filterUuid = "uuid"
-        }
-
-        enum EpisodeRequest {
-            public static let type = "episodeRequest"
-            public static let episodeUuid = "uuid"
         }
 
         enum FilterResponse {

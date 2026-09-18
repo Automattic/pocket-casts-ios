@@ -303,6 +303,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在睡眠計時器開啟的狀態下，若你在最後暫停的 5 分鐘內播放一集單集，計時器就會自動重新啟動。</string>
     <key>back</key>
     <string>上一步</string>
+    <key>badge_new</key>
+    <string>新增</string>
     <key>banner_ads_info_label</key>
     <string>廣告</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。 即將為 %2$@ 訂閱者推出。</string>
     <key>bookmarks_locked_message</key>
     <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>把想要的部分留下來</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>新增書籤</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>你試鏡的是人，不是履歷。</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>試鏡室</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -896,8 +906,6 @@ Pocket Casts Plus</string>
     <string>已下載的檔案</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>確定要刪除這些已下載的檔案嗎？</string>
-    <key>downloaded_files_conf_message</key>
-    <string>取消訂閱將刪除此 Podcast 節目中包含的所有已下載檔案，你確定嗎？</string>
     <key>downloaded_files_conf_message_new</key>
     <string>若你取消追蹤，系統會將此 Podcast 節目包含的所有已下載檔案刪除，你確定要繼續嗎？</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1540,6 @@ Pocket Casts Plus</string>
 4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
     <key>import_opml_from_url</key>
     <string>使用 URL 從 OPML 檔案匯入你的 Podcast</string>
-    <key>import_podcasts_description</key>
-    <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
-
-注意：你可能需將 OPML 檔案以電子郵件傳送給自己 (長按附件並選取 Pocket Casts)。</string>
     <key>import_podcasts_description_new</key>
     <string>你可以使用獲得廣泛支援的 OPML 格式，將你的 Podcast 匯入 Pocket Casts。 從另一個應用程式匯出檔案，並選擇在 Pocket Casts 開啟。
 
@@ -1715,6 +1719,8 @@ Pocket Casts Plus</string>
     <string>正在移除 1 集的星號</string>
     <key>name</key>
     <string>名稱</string>
+    <key>network_fail_to_load</key>
+    <string>無法載入這個網路</string>
     <key>new_email_address_prompt</key>
     <string>新電子郵件地址</string>
     <key>new_episodes</key>
@@ -1732,7 +1738,9 @@ Pocket Casts Plus</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>取得書籤</string>
     <key>no_bookmarks_locked_message</key>
-    <string>你可以儲存單集中重要時刻的時間戳記。</string>
+    <string>輕輕一點。 先有名字，才有意義。</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>把值得保留的部分留下來</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2798,6 @@ Pocket Casts Plus</string>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>清除 1 集</string>
-    <key>queue_clear_queue</key>
-    <string>清除佇列</string>
     <key>queue_for_later</key>
     <string>排入佇列以稍後播放</string>
     <key>queue_now_playing_accessibility</key>
@@ -2939,6 +2945,8 @@ Pocket Casts Plus</string>
     <string>搜尋書籤</string>
     <key>search_episodes</key>
     <string>搜尋單集</string>
+    <key>search_filter_networks</key>
+    <string>網路</string>
     <key>search_label</key>
     <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
@@ -3763,12 +3771,8 @@ Pocket Casts Plus</string>
     <string>已上傳</string>
     <key>stop_download</key>
     <string>停止下載</string>
-    <key>subscribe</key>
-    <string>訂閱</string>
     <key>subscribe_all</key>
     <string>訂閱全部</string>
-    <key>subscribed</key>
-    <string>已訂閱</string>
     <key>subscription_cancelled</key>
     <string>訂閱已取消</string>
     <key>subscription_cancelled_msg</key>
@@ -3877,6 +3881,8 @@ Pocket Casts Plus</string>
     <string>頂端</string>
     <key>transcript</key>
     <string>文字稿</string>
+    <key>transcript_bookmark_selection</key>
+    <string>書籤</string>
     <key>transcript_error_empty</key>
     <string>不好意思，這份逐字稿似乎沒有內容</string>
     <key>transcript_error_failed_to_load</key>
@@ -4154,8 +4160,12 @@ Pocket Casts Plus</string>
     <string>正在擷取最新單集</string>
     <key>tv_search_failed</key>
     <string>搜尋失敗：%1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>精選</string>
     <key>tv_search_prompt</key>
     <string>Podcast、節目、作者</string>
+    <key>tv_search_scope_top_results</key>
+    <string>熱門結果</string>
     <key>tv_search_searching</key>
     <string>搜尋中...</string>
     <key>tv_search_type_something</key>

@@ -46,6 +46,16 @@ final class TranscriptManagerTests: XCTestCase {
         }
     }
 
+    class PlainTextMockShowCoordinator: MockShowCoordinator {
+        override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+            guard let transcriptURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "txt") else {
+                return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
+            }
+            let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/plain", language: nil)
+            return (transcripts: [transcript], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
+        }
+    }
+
     func testLoadingTranscript() async throws {
         let mockShowCoordinator = MockShowCoordinator()
         let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
@@ -79,5 +89,14 @@ final class TranscriptManagerTests: XCTestCase {
         } catch {
             XCTAssertTrue(error is TranscriptError)
         }
+    }
+
+    func testLoadingPlainTextTranscript() async throws {
+        let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: PlainTextMockShowCoordinator())
+
+        let model = try await manager.loadTranscript()
+
+        XCTAssertTrue(model.attributedText.string.contains("Today I'm speaking with Daniel Kokotajlo."))
+        XCTAssertTrue(model.cues.isEmpty)
     }
 }

@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension UpNextViewController: MultiSelectActionDelegate {
     func multiSelectPresentingViewController() -> UIViewController {
@@ -42,15 +43,6 @@ extension UpNextViewController: MultiSelectActionDelegate {
     func selectedEpisodesContains(uuid: String) -> Bool {
         let selectedUuids = selectedPlayListEpisodes.map(\.episodeUuid)
         return selectedUuids.contains(uuid)
-    }
-
-    func selectedEpisodesContainsUserEpisode() -> Bool {
-        for episode in selectedPlayListEpisodes {
-            if episode.isUserEpisode() {
-                return true
-            }
-        }
-        return false
     }
 
     func selectedEpisodesRemove(uuid: String) {

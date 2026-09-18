@@ -2,6 +2,8 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
+import VoiceBoostN
 
 class AudioReadTask {
     private let maxSilenceAmountToSave = 1000
@@ -22,7 +24,6 @@ class AudioReadTask {
     private var bufferManager: PlayBufferManager
 
     private let bufferLength = UInt32(Constants.Audio.defaultFrameSize)
-    private let bufferByteSize = Float32(MemoryLayout<Float32>.size)
 
     private var foundGap = false
     private var channelCount = 0 as UInt32

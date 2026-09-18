@@ -52,7 +52,6 @@ struct PlusPaywallFeaturesCarousell: View {
         static let titleSize = 22.0
         static let titleLineLimit = 2
         static let titleHPadding = 32.0
-        static let titleBottomPadding = 40.0
 
         static var cardHeight = 394.0
         static var carouselLeadingPadding = 20.0

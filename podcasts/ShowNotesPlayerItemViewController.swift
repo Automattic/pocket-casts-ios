@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import SafariServices
+import SJUtils
 import UIKit
 import WebKit
 
@@ -41,7 +42,6 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     private var downloadingShowNotes = false
     private var lastEpisodeUuidRendered = ""
-    private var docController: UIDocumentInteractionController?
 
     private var showNotesWebView: WKWebView!
     private var safariViewController: SFSafariViewController?

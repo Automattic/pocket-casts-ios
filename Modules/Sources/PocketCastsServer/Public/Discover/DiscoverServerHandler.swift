@@ -33,15 +33,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         return cache
     }()
 
-    /**
-     * Valid image sizes: 130,140,200,210,280,340,400,420,680,960
-     */
-    public class func thumbnailUrl(forPodcast podcast: String, size: Int) -> URL {
-        let urlString = thumbnailUrlString(forPodcast: podcast, size: size)
-
-        return URL(string: urlString)!
-    }
-
+    /// Valid image sizes: 130,140,200,210,280,340,400,420,680,960
     public class func thumbnailUrlString(forPodcast podcast: String, size: Int) -> String {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
     }
@@ -61,16 +53,16 @@ public class DiscoverServerHandler: DiscoverServerHandling {
             switch self {
             case .discover:
                 if FeatureFlag.recommendations.enabled {
-                    contentPath.append("/content_v3.json")
+                    contentPath.append("/content_v4.json")
                 } else {
                     contentPath.append("/content_v2.json")
                 }
             case .search:
-                contentPath.append("/content_v3_search.json")
+                contentPath.append("/content_v4_search.json")
             case .signedIn:
-                contentPath.append("/content_v3_logged_in.json")
+                contentPath.append("/content_v4_logged_in.json")
             case .signedOut:
-                contentPath.append("/content_v3_logged_out.json")
+                contentPath.append("/content_v4_logged_out.json")
             }
 
             return contentPath

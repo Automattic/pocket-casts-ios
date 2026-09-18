@@ -4,7 +4,6 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
-import Kingfisher
 import SafariServices
 
 class PodcastListViewController: PCViewController, ShareListDelegate {
@@ -233,57 +232,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
-    private func makeBadge(size: CGFloat) -> UIView {
-        let badgeView = CircleView()
-        badgeView.borderColor = ThemeColor.secondaryUi01()
-        badgeView.centerColor = ThemeColor.primaryInteractive01()
-        badgeView.backgroundColor = .clear
-        badgeView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            badgeView.widthAnchor.constraint(equalToConstant: size),
-            badgeView.heightAnchor.constraint(equalToConstant: size),
-        ])
-        return badgeView
-    }
-
-    private func makeProfileButton(email: String?) -> UIBarButtonItem {
-        let avatarSize = CGFloat(32)
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize))
-        imageView.contentMode = .center
-        let profileImage = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
-        imageView.image = profileImage
-        if let email {
-            imageView.contentMode = .scaleAspectFit
-            let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
-            let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
-            imageView.kf.setImage(with: gravatarURL, placeholder: profileImage, options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ])
-        }
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
-        imageView.addGestureRecognizer(tapGesture)
-        imageView.isUserInteractionEnabled = true
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: avatarSize),
-            imageView.heightAnchor.constraint(equalToConstant: avatarSize),
-        ])
-
-        if EndOfYear.isEligible, EndOfYear.shouldShowBadge {
-            let badgeSize = CGFloat(10)
-            let badge = makeBadge(size: badgeSize)
-            imageView.addSubview(badge)
-            NSLayoutConstraint.activate([
-                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor, constant: -(badgeSize / 2)),
-                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: +(badgeSize / 2)),
-            ])
-        }
-        return UIBarButtonItem(customView: imageView)
-    }
-
     private func updateNavigationButtons() {
         let folderImage = UIImage(named: "folder-create")
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
@@ -455,15 +403,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
     }
 
-    func showProfileController() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
-    }
-
-    @objc private func profileTapped(_ sender: UIBarButtonItem) {
-        showProfileController()
-    }
-
     private lazy var foldersCoordinator: FoldersCoordinator = {
         return FoldersCoordinator()
     }()
@@ -541,14 +480,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     func itemCount() -> Int {
         gridItems.count
-    }
-
-    func podcastAt(indexPath: IndexPath) -> Podcast? {
-        gridItems[safe: indexPath.row]?.podcast
-    }
-
-    func folderAt(indexPath: IndexPath) -> Folder? {
-        gridItems[safe: indexPath.row]?.folder
     }
 
     func itemAt(indexPath: IndexPath) -> HomeGridListItem? {

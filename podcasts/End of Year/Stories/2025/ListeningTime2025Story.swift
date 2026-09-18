@@ -134,29 +134,6 @@ private final class LottieTextProvider: AnimationKeypathTextProvider {
     }
 }
 
-struct GrowingParallelShape: Shape {
-    var growFactor: CGFloat
-
-    var animatableData: CGFloat {
-        get { growFactor }
-        set { growFactor = newValue }
-    }
-
-    func path(in rect: CGRect) -> Path {
-        let centerY = rect.midY
-
-        var path = Path()
-
-        path.move(to: CGPoint(x: rect.minX, y: centerY + (rect.height * 0.78 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.maxX, y: centerY + (rect.height * 0.6 / 2 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.maxX, y: centerY - (rect.height * 0.9 / 2 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.minX, y: centerY - (rect.height * 1 * growFactor)))
-
-        path.closeSubpath()
-        return path
-    }
-}
-
 #Preview("Days") {
     ListeningTime2025Story(listeningTime: 4.day + 5.hour + 20.minutes)
 }

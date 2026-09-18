@@ -4,6 +4,10 @@ import CoreAudioTypes
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
+#if !os(watchOS)
+    import VoiceBoostN
+#endif
 
 class DefaultPlayer: PlaybackProtocol, Hashable {
     private var audioMix: AVAudioMix?
@@ -14,6 +18,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var requiredPlaybackRate: Double = 0
     private var shouldKeepPlaying = false
     private var volumeBoostEnabled = false
+    private var isHandlingRateChange = false
 
     private var lastBackgroundedDate: Date?
 
@@ -91,6 +96,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             cleanupPlayer()
             player = nil
         }
+        audioMix = nil
+        assetTrack = nil
 
         if let url = EpisodeManager.urlForEpisode(episode) {
             isPlayingLocalFile = url.isFileURL
@@ -300,24 +307,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         volumeBoostEnabled = effects.volumeBoost
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        false
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        true
-    }
-
     func supportsGoogleCast() -> Bool {
         false
-    }
-
-    func supportsStreaming() -> Bool {
-        true
-    }
-
-    func supportsAirplay2() -> Bool {
-        true
     }
 
     func shouldBePlaying() -> Bool {
@@ -353,6 +344,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
+        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
+
+        if let playerNSError, playerNSError.isOutOfStorage {
+            PlaybackManager.shared.playbackDidFail(error: .notEnoughStorage(logMessage: logMessage))
+            return true
+        }
 
         if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
            let episodeUuid {
@@ -360,7 +357,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return false
             }
         }
-        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
         var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
         if let playerNSError,
            playerNSError.domain == NSURLErrorDomain {
@@ -382,31 +378,32 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+        if isWaitingForInitialPlayback, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
             loadEmbeddedImage()
-
-            for track in tracks {
-                if track.mediaType == AVMediaType.audio {
-                    assetTrack = track
-                    break
-                }
-            }
-
-            #if !os(watchOS)
-                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
-                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
-                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
-                // video honors it. Only attach it when we actually found an audio track.
-                if assetTrack != nil {
-                    createAudioMix()
-                    player?.currentItem?.audioMix = audioMix
-                }
-            #endif
+            loadAudioTrack(for: playerItem)
 
             isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
+    }
+
+    private func loadAudioTrack(for playerItem: AVPlayerItem) {
+        switch playerItem.asset.status(of: .tracks) {
+        case .loaded(let tracks):
+            assetTrack = tracks.first { $0.mediaType == .audio }
+        case .failed(let error):
+            FileLog.shared.addMessage("[DefaultPlayer] Failed to load asset tracks: \(error)")
+        default:
+            FileLog.shared.addMessage("[DefaultPlayer] Asset tracks were not loaded when the item became ready to play")
+        }
+
+        #if !os(watchOS)
+            if assetTrack != nil {
+                createAudioMix()
+                playerItem.audioMix = audioMix
+            }
+        #endif
     }
 
     // MARK: - Audio Mix
@@ -789,7 +786,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             // schedule a timer to cancel the background task as soon as bufferring is done or we don't need to play anymore
             // do this on the main thread because timers require run loops
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
                     guard let self else {
                         timer.invalidate()
@@ -870,7 +867,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
-            guard let self else { return }
+            guard let self, !self.isHandlingRateChange else { return }
+
+            self.isHandlingRateChange = true
+            defer { self.isHandlingRateChange = false }
 
             if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
@@ -952,7 +952,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
             let errorMessage = error?.localizedDescription ?? "Unknown item did fail to finish error"
-            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            if let nsError = error as? NSError, nsError.isOutOfStorage {
+                PlaybackManager.shared.playbackDidFail(error: .notEnoughStorage(logMessage: errorMessage))
+            } else {
+                PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
+            }
         }
 
         playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
@@ -1025,5 +1029,25 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func setVolume(_ volume: Float) {
         player?.volume = volume
+    }
+}
+
+extension NSError {
+    /// Whether this error, or any error underlying it, reports that the device has run out of storage.
+    var isOutOfStorage: Bool {
+        var error: NSError? = self
+        var depth = 0
+        while let current = error, depth < 10 {
+            depth += 1
+            switch (current.domain, current.code) {
+            case (NSCocoaErrorDomain, NSFileWriteOutOfSpaceError),
+                 (NSPOSIXErrorDomain, Int(ENOSPC)),
+                 (AVFoundationErrorDomain, AVError.Code.diskFull.rawValue):
+                return true
+            default:
+                error = current.userInfo[NSUnderlyingErrorKey] as? NSError
+            }
+        }
+        return false
     }
 }

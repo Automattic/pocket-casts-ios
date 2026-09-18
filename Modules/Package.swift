@@ -18,12 +18,20 @@ let package = Package(
             targets: ["PocketCastsUtils"]
         ),
         .library(
+            name: "PocketCastsLocalization",
+            targets: ["PocketCastsLocalization"]
+        ),
+        .library(
             name: "PocketCastsDataModel",
             targets: ["PocketCastsDataModel"]
         ),
         .library(
             name: "PocketCastsServer",
             targets: ["PocketCastsServer"]
+        ),
+        .library(
+            name: "PocketCastsAnalytics",
+            targets: ["PocketCastsAnalytics"]
         ),
         .library(
             name: "EndOfYear",
@@ -94,6 +102,28 @@ let package = Package(
             path: "Tests/PocketCastsUtilsTests"
         ),
         .target(
+            name: "PocketCastsLocalization",
+            dependencies: ["PocketCastsUtils"],
+            path: "Sources/PocketCastsLocalization",
+            plugins: ["GenerateL10n"]
+        ),
+        .testTarget(
+            name: "PocketCastsLocalizationTests",
+            dependencies: ["PocketCastsLocalization"],
+            path: "Tests/PocketCastsLocalizationTests"
+        ),
+        .plugin(
+            name: "GenerateL10n",
+            capability: .buildTool(),
+            dependencies: ["swiftgen"],
+            path: "Plugins/GenerateL10n"
+        ),
+        .binaryTarget(
+            name: "swiftgen",
+            url: "https://github.com/SwiftGen/SwiftGen/releases/download/6.6.2/swiftgen-6.6.2.artifactbundle.zip",
+            checksum: "7586363e24edcf18c2da3ef90f379e9559c1453f48ef5e8fbc0b818fbbc3a045"
+        ),
+        .target(
             name: "PocketCastsDataModel",
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift"),
@@ -135,6 +165,25 @@ let package = Package(
             resources: [.copy("Fixtures")]
         ),
         .target(
+            name: "PocketCastsAnalytics",
+            dependencies: [
+                "PocketCastsDataModel",
+                "PocketCastsServer",
+                "PocketCastsUtils",
+                "EventHorizonSDK",
+                .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
+            ],
+            path: "Sources/PocketCastsAnalytics",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ]
+        ),
+        .testTarget(
+            name: "PocketCastsAnalyticsTests",
+            dependencies: ["PocketCastsAnalytics"],
+            path: "Tests/PocketCastsAnalyticsTests"
+        ),
+        .target(
             name: "EndOfYear",
             dependencies: [
                 "PocketCastsDataModel",
@@ -143,6 +192,25 @@ let package = Package(
                 .product(name: "Kingfisher", package: "Kingfisher"),
             ],
             path: "Sources/EndOfYear"
+        ),
+        .target(
+            name: "AEXML",
+            path: "Sources/AEXML"
+        ),
+        .target(
+            name: "MNAVChapters",
+            path: "Sources/MNAVChapters"
+        ),
+        .target(
+            name: "SJUtils",
+            path: "Sources/SJUtils"
+        ),
+        .target(
+            name: "VoiceBoostN",
+            path: "Sources/VoiceBoostN",
+            linkerSettings: [
+                .linkedFramework("Accelerate")
+            ]
         ),
         .binaryTarget(
             name: "EventHorizonSDK",
@@ -204,6 +272,8 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
+                    "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
@@ -223,6 +293,10 @@ enum XcodeSupport {
                     .product(name: "WrappingHStack", package: "WrappingHStack"),
                     .product(name: "Fingerprint", package: "pocket-casts-ios-fingerprint"),
                     "EndOfYear",
+                    "AEXML",
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
             .xcodeTarget(
@@ -231,12 +305,17 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
+                    "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
                     .product(name: "Lottie", package: "lottie-ios"),
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
             .xcodeTarget(
@@ -245,9 +324,13 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
+                    "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
+                    "MNAVChapters",
+                    "SJUtils",
                 ]
             ),
             .xcodeTarget(
@@ -272,12 +355,15 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
+                    "PocketCastsLocalization",
                 ]
             ),
             .xcodeTarget(
                 XcodeTargetNames.pocketCastsTvApp,
                 dependencies: [
                     "PocketCastsUtils",
+                    "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "EventHorizonSDK",
@@ -287,6 +373,9 @@ enum XcodeSupport {
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
         ]
@@ -315,9 +404,5 @@ extension Target {
 extension String {
     var supportingName: String {
         "XcodeTarget_\(self)"
-    }
-
-    var asDependency: Target.Dependency {
-        .target(name: self.supportingName)
     }
 }

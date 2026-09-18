@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import PocketCastsUtils
 
 class SynchronizedAudioStack {
     private var itemQueue = Queue<BufferedAudio>()
@@ -46,12 +47,6 @@ class SynchronizedAudioStack {
     func count() -> Int {
         singleQueue.sync {
             itemQueueCount
-        }
-    }
-
-    func sampleCount() -> Int64 {
-        singleQueue.sync {
-            Int64(samplesStored)
         }
     }
 

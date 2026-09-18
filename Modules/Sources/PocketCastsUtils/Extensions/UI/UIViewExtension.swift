@@ -39,24 +39,6 @@
             }
         }
 
-        func moveTo(x: CGFloat, y: CGFloat) {
-            if frame.origin.x == x, frame.origin.y == y { return }
-
-            frame = CGRect(x: x, y: y, width: frame.width, height: frame.height)
-        }
-
-        func moveTo(x: CGFloat) {
-            if frame.origin.x == x { return }
-
-            frame = CGRect(x: x, y: frame.origin.y, width: frame.width, height: frame.height)
-        }
-
-        func moveTo(y: CGFloat) {
-            if frame.origin.y == y { return }
-
-            frame = CGRect(x: frame.origin.x, y: y, width: frame.width, height: frame.height)
-        }
-
         func removeAllSubviews() {
             for subview in subviews {
                 subview.removeFromSuperview()

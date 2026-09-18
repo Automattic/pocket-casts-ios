@@ -2,34 +2,12 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
+import AVFoundation
 import AVKit
 #if os(watchOS)
     import WatchKit
 #endif
-
-protocol DownloadManagerEpisodesCache {
-    subscript(index: String) -> BaseEpisode? { get set }
-
-    func contains(where predicate: ((key: String, value: BaseEpisode)) throws -> Bool) rethrows -> Bool
-}
-
-extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<String, BaseEpisode> {
-}
-
-extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
-}
-
-protocol DownloadManagerStreamAndDownloadCache {
-    subscript(index: String) -> AVAssetResourceLoaderDelegate? { get set }
-
-    func contains(where predicate: ((key: String, value: AVAssetResourceLoaderDelegate)) throws -> Bool) rethrows -> Bool
-}
-
-extension Dictionary: DownloadManagerStreamAndDownloadCache where Self == Dictionary<String, AVAssetResourceLoaderDelegate> {
-}
-
-extension ThreadSafeDictionary: DownloadManagerStreamAndDownloadCache where ThreadSafeDictionary == ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate> {
-}
 
 class DownloadManager: NSObject, FilePathProtocol {
 
@@ -43,21 +21,9 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var progressManager = DownloadProgressManager()
 
-    var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
-        if FeatureFlag.downloadsThreadSafeCache.enabled {
-            ThreadSafeDictionary<String, BaseEpisode>()
-        } else {
-            Dictionary<String, BaseEpisode>()
-        }
-    }()
+    let downloadingEpisodesCache = ThreadSafeDictionary<String, BaseEpisode>()
 
-    var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
-        if FeatureFlag.downloadsThreadSafeCache.enabled {
-            ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
-        } else {
-            Dictionary<String, AVAssetResourceLoaderDelegate>()
-        }
-    }()
+    let downloadAndStreamEpisodes = ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
 
     let taskFailure = ThreadSafeDictionary<String, FailureReason>()
 
@@ -66,14 +32,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         let episodeUuid: String
         let originalUrl: URL
         let hasRetriedWithoutUserAgent: Bool
-
-        func withRetryAttempt() -> DownloadAttempt {
-            return DownloadAttempt(
-                episodeUuid: episodeUuid,
-                originalUrl: originalUrl,
-                hasRetriedWithoutUserAgent: true
-            )
-        }
     }
 
     let downloadAttempts = ThreadSafeDictionary<Int, DownloadAttempt>()
@@ -261,10 +219,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         addToQueue(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: autoDownloadStatus)
     }
 
-    func addToQueueForStreaming(episodeUuid: String) {
-        addToQueue(episodeUuid: episodeUuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
-    }
-
     func addToQueue(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
         // if this episode is already downloading, ignore it
         if !shouldAddDownload(episodeUuid, autoDownloadStatus: autoDownloadStatus) { return }
@@ -395,7 +349,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
-            newItem = AVPlayerItem(asset: newAsset)
+            newItem = AVPlayerItem(asset: newAsset, automaticallyLoadedAssetKeys: [.tracks])
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
                 if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
                     activeMediaExporterDelegate.releaseIfDownloadComplete()
@@ -453,7 +407,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
-        newItem = AVPlayerItem(asset: newAsset)
+        newItem = AVPlayerItem(asset: newAsset, automaticallyLoadedAssetKeys: [.tracks])
         if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
             if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
                 activeMediaExporterDelegate.releaseIfDownloadComplete()
@@ -701,10 +655,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         let path = (streamingBufferDirectory as NSString).appendingPathComponent(fileName)
 
         return path
-    }
-
-    func streamingBufferFolder() -> String {
-        streamingBufferDirectory
     }
 
     private func cancelTaskId(_ taskId: String?, episode: BaseEpisode, session: URLSession) {

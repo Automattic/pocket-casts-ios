@@ -1,4 +1,5 @@
 import AVFoundation
+import SJUtils
 import UIKit
 
 class AVFileUtil: NSObject {
@@ -22,29 +23,27 @@ class AVFileUtil: NSObject {
     }
 
     func loadMetaData() {
-        asset.loadValuesAsynchronously(forKeys: [AVMetadataKey.commonKeyTitle.rawValue, AVMetadataKey.commonKeyArtwork.rawValue]) {
-            self.processTitle()
-            if self.asset.statusOfValue(forKey: AVMetadataKey.commonKeyArtwork.rawValue, error: nil) == .loaded {
-                self.processArtwork()
+        Task {
+            let metadata = try? await asset.load(.commonMetadata)
+            await processTitle(metadata ?? [])
+            if let metadata {
+                await processArtwork(metadata)
             }
         }
 
-        // do duration separately as it takes longer. the load function calls the closure
-        // only when all keys are available
-        asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-            let durationStatus = self.asset.statusOfValue(forKey: "duration", error: nil)
-            if durationStatus == .loaded {
-                let calculatedDuration = CMTimeGetSeconds(self.asset.duration)
-                self.durationHandler(calculatedDuration)
+        // do duration separately as it takes longer
+        Task {
+            if let duration = try? await asset.load(.duration) {
+                durationHandler(CMTimeGetSeconds(duration))
             }
         }
     }
 
-    private func processTitle() {
-        let titleMetaData = AVMetadataItem.metadataItems(from: asset.commonMetadata, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierTitle)
+    private func processTitle(_ metadata: [AVMetadataItem]) async {
+        let titleMetaData = AVMetadataItem.metadataItems(from: metadata, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierTitle)
 
         if let metaData = titleMetaData.first {
-            if let title = metaData.stringValue, !title.isEmpty {
+            if let title = try? await metaData.load(.stringValue), !title.isEmpty {
                 titleHandler(title)
                 return
             }
@@ -52,14 +51,14 @@ class AVFileUtil: NSObject {
         titleHandler(nil)
     }
 
-    private func processArtwork() {
-        let artworks = AVMetadataItem.metadataItems(from: asset.commonMetadata, withKey: AVMetadataKey.commonKeyArtwork, keySpace: AVMetadataKeySpace.common)
+    private func processArtwork(_ metadata: [AVMetadataItem]) async {
+        let artworks = AVMetadataItem.metadataItems(from: metadata, withKey: AVMetadataKey.commonKeyArtwork, keySpace: AVMetadataKeySpace.common)
         var artworkImages = [UIImage]()
 
         for item in artworks {
             var embeddedImage: UIImage
 
-            if let data = item.dataValue, SJMediaMetadataHelper.isValidEmbeddedImage(data), let image = UIImage(data: data) {
+            if let data = try? await item.load(.dataValue), SJMediaMetadataHelper.isValidEmbeddedImage(data), let image = UIImage(data: data) {
                 embeddedImage = image
                 artworkImages.append(embeddedImage)
             }

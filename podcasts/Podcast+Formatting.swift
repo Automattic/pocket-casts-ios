@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 extension Podcast {
     func displayableFrequency() -> String? {

@@ -303,6 +303,8 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Wenn die Schlummerfunktion aktiviert ist, wird sie automatisch neu gestartet, wenn du innerhalb von fünf Minuten nach der letzten Pause eine Folge abspielst.</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>badge_new</key>
+    <string>Neu</string>
     <key>banner_ads_info_label</key>
     <string>WERBUNG</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen. Bald für %2$@-Abonnenten verfügbar.</string>
     <key>bookmarks_locked_message</key>
     <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behalte den gewünschten Teil</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Lesezeichen hinzufügen</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Du wählst die Person aus, nicht den Lebenslauf.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Der Casting-Raum</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>
@@ -896,8 +906,6 @@ Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
     <string>Heruntergeladene Dateien</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Bist du sicher, dass du diese heruntergeladenen Dateien löschen möchtest?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1540,6 @@ Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst 
 4. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
     <key>import_opml_from_url</key>
     <string>Importiere deine Podcasts von einer OPML-Datei mithilfe einer URL</string>
-    <key>import_podcasts_description</key>
-    <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
-
-Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drücke länger auf den Anhang und wähle „Pocket Casts“ aus.</string>
     <key>import_podcasts_description_new</key>
     <string>Du kannst das weit verbreitete OPML-Format nutzen, um deine Podcasts in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
@@ -1715,6 +1719,8 @@ Podcasts mit</string>
     <string>Stern für 1 Folge wird entfernt</string>
     <key>name</key>
     <string>Name</string>
+    <key>network_fail_to_load</key>
+    <string>Fehler beim Laden des Netzwerks</string>
     <key>new_email_address_prompt</key>
     <string>Neue E-Mail-Adresse</string>
     <key>new_episodes</key>
@@ -1732,7 +1738,9 @@ Podcasts mit</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Lesezeichen erhalten</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Du kannst Zeitstempel wichtiger Momente in einer Folge speichern.</string>
+    <string>Einmal tippen. Und es wird nach dem gesprochenen Text benannt.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Wichtige Teile aufbewahren</string>
     <key>no_bookmarks_message</key>
     <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2798,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1 Episode löschen</string>
-    <key>queue_clear_queue</key>
-    <string>WARTESCHLANGE LÖSCHEN</string>
     <key>queue_for_later</key>
     <string>Für später in Warteschlange einreihen</string>
     <key>queue_now_playing_accessibility</key>
@@ -2939,6 +2945,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Lesezeichen suchen</string>
     <key>search_episodes</key>
     <string>Folgen suchen</string>
+    <key>search_filter_networks</key>
+    <string>Netzwerke</string>
     <key>search_label</key>
     <string>Podcasts suchen oder RSS-URL hinzufügen</string>
     <key>search_podcasts</key>
@@ -3763,12 +3771,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Hochgeladen</string>
     <key>stop_download</key>
     <string>Download beenden</string>
-    <key>subscribe</key>
-    <string>Abonnieren</string>
     <key>subscribe_all</key>
     <string>Alle abonnieren</string>
-    <key>subscribed</key>
-    <string>Abonniert</string>
     <key>subscription_cancelled</key>
     <string>Abonnement gekündigt</string>
     <key>subscription_cancelled_msg</key>
@@ -3877,6 +3881,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Anfang</string>
     <key>transcript</key>
     <string>Transkript</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Lesezeichen erstellen</string>
     <key>transcript_error_empty</key>
     <string>Dieses Transkript scheint leer zu sein</string>
     <key>transcript_error_failed_to_load</key>
@@ -4154,8 +4160,12 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Neueste Folgen werden abgerufen</string>
     <key>tv_search_failed</key>
     <string>Suche fehlgeschlagen: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Vorgestellt</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, Shows, Autoren</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Top-Ergebnisse</string>
     <key>tv_search_searching</key>
     <string>Suchen …</string>
     <key>tv_search_type_something</key>

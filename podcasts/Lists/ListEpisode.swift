@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 class ListEpisode: ListItem {
     let episode: Episode

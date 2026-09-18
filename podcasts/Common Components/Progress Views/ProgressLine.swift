@@ -9,12 +9,6 @@ class ProgressLine: UIView {
         }
     }
 
-    var showsBuffering = false {
-        didSet {
-            recalculatePositionRects(true)
-        }
-    }
-
     var progress: CGFloat = 0 {
         didSet {
             recalculatePositionRects(true)
@@ -26,10 +20,6 @@ class ProgressLine: UIView {
             recalculatePositionRects(true)
         }
     }
-
-    private let progressStyle: ThemeStyle = .playerHighlight01
-    private let bufferStyle: ThemeStyle = .playerHighlight06
-    private let bgTrackStyle: ThemeStyle = .playerHighlight07
 
     func updateColors() {
         let theme = Theme.sharedTheme.activeTheme

@@ -56,8 +56,6 @@ class ReferralSendPassModel: ObservableObject {
 struct ReferralSendPassView: View {
     @StateObject var viewModel: ReferralSendPassModel
 
-    @State var showShareView: Bool = false
-
     @ViewBuilder
     var loadingView: some View {
         VStack {

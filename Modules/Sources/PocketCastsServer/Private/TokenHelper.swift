@@ -133,7 +133,7 @@ class TokenHelper {
             #if os(iOS)
             isBackgrounded = UIApplication.shared.applicationState == .background
             #elseif os(watchOS)
-            isBackgrounded = WKExtension.shared().applicationState == .background
+            isBackgrounded = WKApplication.shared().applicationState == .background
             #endif
 
             semaphore.signal()

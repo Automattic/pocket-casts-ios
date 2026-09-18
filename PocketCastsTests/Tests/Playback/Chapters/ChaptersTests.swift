@@ -1,3 +1,4 @@
+import CoreMedia
 import XCTest
 
 @testable import podcasts

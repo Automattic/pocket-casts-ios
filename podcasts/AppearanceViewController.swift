@@ -5,7 +5,6 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
-    private let themeSelectorCellId = "ThemeSelectorCell"
     private let iconSelectorCellId = "IconSelectorCell"
     private let plusLockedInfoCellId = "PlusLockedCell"
 

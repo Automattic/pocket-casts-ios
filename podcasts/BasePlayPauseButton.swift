@@ -53,10 +53,6 @@ class BasePlayPauseButton: UIButton {
         place(animation: animationView)
     }
 
-    func animationCenter() -> CGPoint {
-        animationView.center
-    }
-
     private func animateToPlaying() {
         animate(from: 0.5, to: 1.0, changingToState: .playing)
     }

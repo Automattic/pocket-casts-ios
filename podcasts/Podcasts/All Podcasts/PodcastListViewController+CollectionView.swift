@@ -153,10 +153,10 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
                 .environmentObject(Theme.sharedTheme)
 
             let hostingController = UIHostingController(rootView: sizingView)
-            let targetSize = CGSize(width: collectionView.bounds.width - 32, height: UIView.layoutFittingCompressedSize.height)
+            let targetSize = CGSize(width: collectionView.bounds.width - 32, height: .greatestFiniteMagnitude)
             let size = hostingController.sizeThatFits(in: targetSize)
 
-            return CGSize(width: collectionView.bounds.width, height: size.height)
+            return CGSize(width: collectionView.bounds.width, height: size.height + 16)
         }
         return gridHelper.collectionView(collectionView, sizeForItemAt: indexPath, itemCount: itemCount())
     }

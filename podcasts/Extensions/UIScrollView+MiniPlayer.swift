@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension UIScrollView {
     func applyInsetForMiniPlayer(additionalBottomInset: CGFloat = 0) {

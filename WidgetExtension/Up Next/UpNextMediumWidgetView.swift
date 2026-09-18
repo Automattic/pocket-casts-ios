@@ -79,8 +79,6 @@ struct MediumFilterView: View {
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
-    private let logoHeight: CGFloat = 28
-
     var body: some View {
         ZStack {
             if showsWidgetBackground, !isAccentedRenderingMode {

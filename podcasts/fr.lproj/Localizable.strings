@@ -303,6 +303,8 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Si cette fonction est activée, la mise en veille redémarrera automatiquement si vous écoutez un épisode dans les 5 minutes suivant la dernière pause.</string>
     <key>back</key>
     <string>Retour</string>
+    <key>badge_new</key>
+    <string>Nouveau</string>
     <key>banner_ads_info_label</key>
     <string>PUBLICITÉ</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris. Bientôt disponible pour les abonnés %2$@.</string>
     <key>bookmarks_locked_message</key>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Gardez la partie que vous vouliez</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Ajouter un signet</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Vous présentez la personne, pas son CV.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>La salle d’audition</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
@@ -896,8 +906,6 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>Fichiers téléchargés</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Voulez-vous vraiment supprimer ces fichiers téléchargés ?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Le désabonnement supprimera tous les fichiers téléchargés dans ce podcast, confirmez-vous ?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Le désabonnement supprimera tous les fichiers téléchargés dans ce podcast, confirmez-vous ?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1540,6 @@ Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une
 4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
     <key>import_opml_from_url</key>
     <string>Importez vos podcasts à partir d’un fichier OPML en utilisant une URL.</string>
-    <key>import_podcasts_description</key>
-    <string>Vous pouvez importer vos abonnements à des podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
-
-Remarque : vous devrez peut-être vous envoyer le fichier OPML par e-mail, appuyer longuement sur la pièce jointe et sélectionner Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Vous pouvez importer vos podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
 
@@ -1715,6 +1719,8 @@ podcasts partout avec</string>
     <string>Retirer 1 épisode des favoris</string>
     <key>name</key>
     <string>Nom</string>
+    <key>network_fail_to_load</key>
+    <string>Impossible de charger ce réseau</string>
     <key>new_email_address_prompt</key>
     <string>Nouvelle adresse e-mail</string>
     <key>new_episodes</key>
@@ -1732,7 +1738,9 @@ podcasts partout avec</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Mettre des signets</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Vous pouvez enregistrer les horodatages des moments importants d’un épisode.</string>
+    <string>Un clic. Il porte un nom et s’accompagne de mots.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Enregistrez les parties qui valent la peine d’être conservées</string>
     <key>no_bookmarks_message</key>
     <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2798,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Supprimer %1$@ épisodes</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Effacer 1 épisode</string>
-    <key>queue_clear_queue</key>
-    <string>SUPPRIMER LA FILE D’ATTENTE</string>
     <key>queue_for_later</key>
     <string>Ajouter plus tard à la file d’attente</string>
     <key>queue_now_playing_accessibility</key>
@@ -2939,6 +2945,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Rechercher des signets</string>
     <key>search_episodes</key>
     <string>Recherche des épisodes</string>
+    <key>search_filter_networks</key>
+    <string>Réseaux</string>
     <key>search_label</key>
     <string>Rechercher des podcasts ou ajouter l’URL RSS</string>
     <key>search_podcasts</key>
@@ -3763,12 +3771,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Chargé</string>
     <key>stop_download</key>
     <string>Arrêter le téléchargement</string>
-    <key>subscribe</key>
-    <string>S’abonner</string>
     <key>subscribe_all</key>
     <string>S’abonner à tous les podcasts</string>
-    <key>subscribed</key>
-    <string>Abonné</string>
     <key>subscription_cancelled</key>
     <string>Abonnement annulé</string>
     <key>subscription_cancelled_msg</key>
@@ -3877,6 +3881,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Haut</string>
     <key>transcript</key>
     <string>Transcription</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Signet</string>
     <key>transcript_error_empty</key>
     <string>Veuillez nous excuser. Cette transcription semble vide</string>
     <key>transcript_error_failed_to_load</key>
@@ -4154,8 +4160,12 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Récupération des derniers épisodes</string>
     <key>tv_search_failed</key>
     <string>Échec de la recherche : %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>À la une</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, émissions, auteurs</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Meilleurs résultats</string>
     <key>tv_search_searching</key>
     <string>Recherche en cours...</string>
     <key>tv_search_type_something</key>

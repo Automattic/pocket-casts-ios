@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 struct OnboardingFlow: AnalyticsSourceProvider {
     typealias Context = [String: Any]

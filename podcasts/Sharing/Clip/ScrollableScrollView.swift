@@ -23,8 +23,6 @@ struct ScrollableScrollView<Content: View>: View {
 
     @ViewBuilder let content: (Scrollable) -> Content
 
-    @State private var lastScale: CGFloat?
-
     private let scrollIDPrefix = "tick"
 
     var body: some View {

@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 enum SwipeSourceType {
     case podcast

@@ -24,12 +24,6 @@ public class UploadProgressManager: NSObject {
         }
     }
 
-    public func countOfUploadingItems() -> Int {
-        progressItemsQueue.sync {
-            progressItems.count
-        }
-    }
-
     public func updateProgressForEpisode(_ uuid: String, totalBytesSent: Int64, totalBytesExpected: Int64) {
         progressItemsQueue.sync {
             var progressItem = progressItems[uuid]

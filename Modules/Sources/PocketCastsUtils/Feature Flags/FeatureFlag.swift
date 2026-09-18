@@ -29,15 +29,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
-    /// Enable the Referrals feature
-    case referrals
-
-    /// Enables the referrals Send Flow
-    case referralsSend
-
-    /// Enables the referrals Claim Flow
-    case referralsClaim
-
     /// Run a vacuum process on the database in order to optimize data fetch
     case runVacuumOnVersionUpdate
 
@@ -52,9 +43,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
-
-    /// Enable/Disable the use of a thread safe ongoing downloads cache
-    case downloadsThreadSafeCache
 
     /// Enable Disable the use of suggested folders
     case suggestedFolders
@@ -300,12 +288,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .upgradeExperiment:
             false
-        case .referrals:
-            true
-        case .referralsClaim:
-            true
-        case .referralsSend:
-            true
         case .runVacuumOnVersionUpdate:
             false
         case .endOfYear2024:
@@ -315,8 +297,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .winback:
             true
         case .podcastFeedUpdate:
-            true
-        case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
             true
@@ -451,7 +431,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .sleepTimerLiveActivity:
             true
         case .networkDiscovery:
-            BuildEnvironment.current == .debug
+            true
         case .newEpisodeNotificationsPushOptOut:
             true
         case .whatsNewFeed:
@@ -483,6 +463,4 @@ extension FeatureFlag: OverrideableFlag {
     public var canOverride: Bool {
         true
     }
-
-    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 }

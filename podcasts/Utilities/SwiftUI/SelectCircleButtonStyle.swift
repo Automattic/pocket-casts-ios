@@ -18,7 +18,7 @@ struct SelectCircleButtonStyle: ButtonStyle {
                 ZStack {
                     Circle().fill(theme.primaryIcon01)
 
-                    Image("discover_tick")
+                    Image(decorative: "discover_tick")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: checkSize)

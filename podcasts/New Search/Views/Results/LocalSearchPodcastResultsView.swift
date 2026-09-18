@@ -5,7 +5,6 @@ import PocketCastsUtils
 
 struct LocalSearchPodcastResultsView: View {
     @EnvironmentObject private var theme: Theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     let listMode: PodcastListMode
     let selectedFolder: Folder?
@@ -115,10 +114,6 @@ struct LocalSearchPodcastResultsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 48)
-    }
-
-    private var navigationAnimation: Animation {
-        reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3)
     }
 
     private var currentResults: [PodcastFolderSearchResult] {

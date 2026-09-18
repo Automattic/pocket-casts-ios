@@ -155,12 +155,6 @@ class Settings: NSObject {
         trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
     }
 
-    class func shouldDeleteWhenPlayed() -> Bool {
-        let finishedAction = UserDefaults.standard.integer(forKey: Constants.UserDefaults.episodeFinishedAction)
-
-        return finishedAction == PodcastFinishedAction.delete.rawValue
-    }
-
     class func setShouldDeleteWhenPlayed(_ shouldDelete: Bool) {
         let finishedAction = shouldDelete ? PodcastFinishedAction.delete : PodcastFinishedAction.doNothing
 
@@ -504,21 +498,6 @@ class Settings: NSObject {
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
-    }
-
-    // MARK: - Full Player Chapters Expanded
-
-    private static let playerChaptersExpandedKey = "PlayerChaptersExpanded"
-    class func playerChaptersExpanded() -> Bool {
-        if let expanded = UserDefaults.standard.value(forKey: playerChaptersExpandedKey) as? Bool {
-            return expanded
-        }
-
-        return true
-    }
-
-    class func setPlayerChaptersExpanded(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: playerChaptersExpandedKey)
     }
 
     // MARK: Subscription Cancelled Acknowledgement
@@ -1541,6 +1520,10 @@ extension L10n {
 
     static var patronCloudStorageLimit: String {
         plusCloudStorageLimitFormat(Settings.patronCloudStorageLimit.localized())
+    }
+
+    static var bulkDownloadMax: String {
+        bulkDownloadMaxFormat(Constants.Limits.maxBulkDownloads.localized())
     }
 }
 #endif

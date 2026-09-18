@@ -562,12 +562,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             SharingModal.show(option: .currentPosition(episode, fromTime), from: analyticsSource, in: self)
         }
     }
-
-    private func sharePodcast(source: UIView, podcast: Podcast?) {
-        guard let _ = source.superview, let podcast else { return }
-
-        SharingModal.show(option: .podcast(podcast), from: analyticsSource, in: self)
-    }
     #endif
 
     // MARK: - Private Helpers

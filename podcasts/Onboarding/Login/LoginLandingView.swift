@@ -138,17 +138,6 @@ private struct LoginLandingContent: View {
         CoverModel(size: 0.26, x: 0.6468, y: 0.1626),
     ]
 
-    // Smaller header image sizes for when there are less login options
-    private var largeHeaderModels: [CoverModel] = [
-        CoverModel(size: 0.38133333, x: -0.304, y: 0.31931669),
-        CoverModel(size: 0.24, x: 0.2154, y: 0.47700394),
-        CoverModel(size: 0.24, x: 0.127, y: 0.13396846),
-        CoverModel(size: 0.38133333, x: 0.2966, y: 0.2457293),
-        CoverModel(size: 0.24, x: 0.7135, y: 0.45729304),
-        CoverModel(size: 0.38133333, x: 1.06, y: 0.31931669),
-        CoverModel(size: 0.38133333, x: 0.7912, y: 0.18396846),
-    ]
-
     /// Return the models to use in the header and allow them to be
     /// swapped out dynamically
     var calculatedModels: [CoverModel] {

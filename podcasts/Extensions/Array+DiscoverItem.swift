@@ -1,4 +1,5 @@
 import PocketCastsServer
+import UIKit
 
 extension Array<DiscoverItem> {
     func makeDataSourceSnapshot(region: String, selectedCategory: DiscoverCategory?, itemFilter: (DiscoverItem) -> Bool) -> NSDiffableDataSourceSnapshot<Int, DiscoverCollectionViewController.Item> {

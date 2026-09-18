@@ -6,6 +6,7 @@ import XCTest
 @testable import PocketCastsServer
 
 /// Opening a network: one screen per tap, and nothing for a tap the user moved on from.
+@MainActor
 final class NetworkNavigatorTests: XCTestCase {
     private var window: UIWindow!
     private var navigationController: RecordingNavigationController!
@@ -70,7 +71,7 @@ final class NetworkNavigatorTests: XCTestCase {
         XCTAssertEqual(navigationController.pushedViewControllers.count, 1)
         XCTAssertEqual(serverHandler.requestedSources, [source])
         XCTAssertEqual(pushed.item.uuid, listId)
-        XCTAssertEqual(pushed.item.expandedStyle, "grid")
+        XCTAssertEqual(pushed.item.expandedStyle, "network_grid")
     }
 
     func testTappingTheSameNetworkTwiceLoadsAndShowsItOnce() {

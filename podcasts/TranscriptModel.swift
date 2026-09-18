@@ -32,6 +32,10 @@ struct TranscriptModel: Sendable {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
+        if format == .textPlain {
+            let filteredText = ComposeFilter.plainTextFilter.filter(trimmedTranscript).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: false)
+        }
         let subtitles: Subtitles? = {
             do {
                 if format == .jsonPodcastIndex {

@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     static var shared = AnalyticsEpisodeHelper()

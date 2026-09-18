@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 @MainActor
 protocol MultiSelectActionDelegate: AnyObject, Sendable {

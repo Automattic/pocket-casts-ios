@@ -5,8 +5,4 @@ public extension MPFeedbackCommand {
         localizedTitle = title
         localizedShortTitle = title
     }
-
-    func getTitle() -> String {
-        localizedTitle
-    }
 }

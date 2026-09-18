@@ -303,6 +303,8 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Quando ativado, o temporizador será reiniciado automaticamente se você reproduzir um episódio dentro de cinco minutos após a última pausa.</string>
     <key>back</key>
     <string>Voltar</string>
+    <key>badge_new</key>
+    <string>Novidade</string>
     <key>banner_ads_info_label</key>
     <string>ANÚNCIO</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos. Disponível para assinantes %2$@ em breve.</string>
     <key>bookmarks_locked_message</key>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Guarde a parte que você quiser</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Adicionar favorito</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Você está escolhendo a pessoa, não o currículo.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Sala de audições</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>
@@ -896,8 +906,6 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Arquivos baixados</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Tem certeza de que deseja excluir esses arquivos baixados?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Cancelar a assinatura apagará todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Deixar de seguir excluirá todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1540,6 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
     <key>import_opml_from_url</key>
     <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
-    <key>import_podcasts_description</key>
-    <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
-
-Observação: talvez seja preciso enviar um e-mail com o arquivo OPML para o seu próprio endereço. Toque e segure o anexo e escolha Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Você pode importar seus podcasts para o Pocket Casts usando o formato compatível OPML. Exporte o arquivo de outro app e o abra com o Pocket Casts.
 
@@ -1715,6 +1719,8 @@ podcasts com você</string>
     <string>Removendo 1 episódio dos favoritos.</string>
     <key>name</key>
     <string>Nome</string>
+    <key>network_fail_to_load</key>
+    <string>Não foi possível carregar esta rede</string>
     <key>new_email_address_prompt</key>
     <string>Novo endereço de e-mail</string>
     <key>new_episodes</key>
@@ -1732,7 +1738,9 @@ podcasts com você</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Buscar favoritos</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Você pode salvar a data/hora de momentos importantes em um episódio.</string>
+    <string>Basta um toque para dar um nome a ele, e as palavras faladas vêm junto.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Salve as partes que valem a pena guardar</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2798,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Limpar %1$@ episódios</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Apagar 1 episódio</string>
-    <key>queue_clear_queue</key>
-    <string>LIMPAR FILA</string>
     <key>queue_for_later</key>
     <string>Adicionar à fila para mais tarde</string>
     <key>queue_now_playing_accessibility</key>
@@ -2939,6 +2945,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Pesquisar favoritos</string>
     <key>search_episodes</key>
     <string>Pesquisar episódios</string>
+    <key>search_filter_networks</key>
+    <string>Redes</string>
     <key>search_label</key>
     <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
@@ -3763,12 +3771,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Upload realizado</string>
     <key>stop_download</key>
     <string>Parar o download</string>
-    <key>subscribe</key>
-    <string>Assinar</string>
     <key>subscribe_all</key>
     <string>Assinar todos</string>
-    <key>subscribed</key>
-    <string>Assinado</string>
     <key>subscription_cancelled</key>
     <string>Assinatura cancelada</string>
     <key>subscription_cancelled_msg</key>
@@ -3877,6 +3881,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Topo da lista</string>
     <key>transcript</key>
     <string>Transcrição</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Marcar como favorito</string>
     <key>transcript_error_empty</key>
     <string>Esta transcrição parece estar vazia</string>
     <key>transcript_error_failed_to_load</key>
@@ -4154,8 +4160,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Buscando episódios mais recentes</string>
     <key>tv_search_failed</key>
     <string>Falha na pesquisa: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Em destaque</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, programas e autores</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Principais resultados</string>
     <key>tv_search_searching</key>
     <string>Pesquisando...</string>
     <key>tv_search_type_something</key>

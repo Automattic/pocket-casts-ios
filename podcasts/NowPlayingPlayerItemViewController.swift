@@ -11,7 +11,6 @@ import PocketCastsServer
 @MainActor
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
-    var lastChapterIndexRendered = -1
 
     /// Low-res artwork handed over from the mini player when opening the full
     /// screen player.
@@ -115,12 +114,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var chapterSkipBackBtn: UIButton! {
         didSet {
             chapterSkipBackBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipBackBtn.accessibilityLabel = L10n.siriShortcutPreviousChapter
         }
     }
 
     @IBOutlet var chapterSkipFwdBtn: UIButton! {
         didSet {
             chapterSkipFwdBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipFwdBtn.accessibilityLabel = L10n.siriShortcutNextChapter
         }
     }
 

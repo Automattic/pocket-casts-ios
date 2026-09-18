@@ -124,12 +124,6 @@ extension Double {
     var storyTimeDescriptionForSharing: String {
         calculateStoryTimeDescription()
     }
-
-    /// For displaying units above the category pillars, allow the time components to be broken up across
-    /// multiple lines, but don't let the unit (10 minutes) itself to be broken up
-    var storyTimeDescriptionForPillars: String {
-        calculateStoryTimeDescription(unitSeparator: .nbsp, componentSeparator: "\n")
-    }
 }
 
 // MARK: - Custom Time Formatter that allows customizing of the spacing between units
@@ -191,74 +185,6 @@ private extension Double {
         }
 
         return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full)?.replacingOccurrences(of: ",", with: "")
-    }
-}
-
-// MARK: - Podcast Perspective
-
-/// Apply a perspective to the podcasts cover
-struct PodcastCoverPerspective: ViewModifier {
-    static let rotationAngle = Angle(degrees: -45)
-    static let scale = CGSize(width: 1.0, height: 0.5)
-
-    /// Allows overriding of the scaleEffect anchor property, defaults to .center
-    let scaleAnchor: UnitPoint
-
-    init(scaleAnchor: UnitPoint = .center) {
-        self.scaleAnchor = scaleAnchor
-    }
-
-    func body(content: Content) -> some View {
-        content
-            .rotationEffect(Self.rotationAngle, anchor: .center)
-            .scaleEffect(Self.scale, anchor: scaleAnchor)
-    }
-}
-
-struct PodcastPerspectiveRotator<Cover: View>: View {
-    let content: Cover
-
-    init(_ content: Cover) {
-        self.content = content
-    }
-
-    @State private var size: CGSize = .zero
-
-    var body: some View {
-        let scale = PodcastCoverPerspective.scale
-        let angle = PodcastCoverPerspective.rotationAngle
-
-        // Rotate the frame, and compute the smallest integral frame that contains it
-        let calculatedFrame = CGRect(origin: .zero, size: size)
-            .offsetBy(dx: -size.width * 0.5, dy: -size.height * 0.5)
-            .applying(.init(rotationAngle: CGFloat(angle.radians)))
-            .applying(.init(scaleX: scale.width, y: scale.height))
-            .integral
-
-        return content
-            .fixedSize()
-            .captureSize(in: $size)
-            .modifier(PodcastCoverPerspective())
-            .frame(width: calculatedFrame.width, height: calculatedFrame.height)
-    }
-}
-
-private struct SizeKey: PreferenceKey {
-    static let defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
-    }
-}
-
-extension View {
-    func applyPodcastCoverPerspective() -> some View {
-        PodcastPerspectiveRotator(self)
-    }
-
-    func captureSize(in binding: Binding<CGSize>) -> some View {
-        overlay(GeometryReader { proxy in
-            Color.clear.preference(key: SizeKey.self, value: proxy.size)
-        }).onPreferenceChange(SizeKey.self) { size in binding.wrappedValue = size }
     }
 }
 
@@ -325,94 +251,6 @@ struct StoryLabelContainer<Content: View>: View {
     }
 }
 
-// MARK: - Podcast Stack Views
-
-/// This is a view that displays a single podcast cover on top and the podcast colors below it
-/// in a stacked view
-struct PodcastStackView: View {
-    let podcasts: [Podcast]
-    let topPadding: Double?
-    let geometry: GeometryProxy
-
-    let topPaddingSmall = 0.10
-    let topPaddingLarge = 0.0
-    let smallDeviceHeight = 700.0
-
-    init(podcasts: [Podcast], topPadding: Double? = nil, geometry: GeometryProxy) {
-        self.podcasts = podcasts
-        self.topPadding = topPadding
-        self.geometry = geometry
-    }
-
-    var body: some View {
-        let isSmall = geometry.size.height <= smallDeviceHeight
-        let padding = isSmall ? topPaddingSmall : topPaddingLarge
-        let topPadding = geometry.size.height * padding
-
-        let size = geometry.size.width * Constants.coverSize
-        Spacer()
-        VStack(spacing: 0) {
-            if podcasts.count == 1 {
-                showSinglePodcastCover(podcasts[0], size: size)
-            } else {
-                showMultipleCovers(size: size)
-            }
-        }
-        .padding(.top, topPadding)
-    }
-
-    @ViewBuilder
-    private func showSinglePodcastCover(_ podcast: Podcast, size: Double) -> some View {
-        PodcastCover(podcastUuid: podcast.uuid, big: true)
-            .modifier(StackModifier(size: size))
-            .zIndex(2)
-
-        Rectangle()
-            .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
-            .modifier(BigCoverShadow())
-            .modifier(StackModifier(size: size))
-            .zIndex(1)
-
-        Rectangle()
-            .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
-            .modifier(BigCoverShadow())
-            .modifier(StackModifier(size: size))
-            .zIndex(0)
-    }
-
-    @ViewBuilder
-    private func showMultipleCovers(size: Double) -> some View {
-        ForEach(0..<Constants.maxStackCount, id: \.self) {
-            podcastCover($0)
-                .modifier(StackModifier(size: size))
-                .zIndex(Double(Constants.maxStackCount - $0))
-        }
-    }
-
-    @ViewBuilder
-    func podcastCover(_ index: Int) -> some View {
-        let podcast = podcasts[safe: index] ?? podcasts[0]
-        PodcastCover(podcastUuid: podcast.uuid, big: true)
-    }
-
-    private enum Constants {
-        static let coverSize = 0.6
-        static let maxStackCount = 3
-    }
-
-    /// Applies the frame and stacking modifier
-    private struct StackModifier: ViewModifier {
-        let size: Double
-
-        func body(content: Content) -> some View {
-            content
-                .frame(width: size, height: size)
-                .applyPodcastCoverPerspective()
-                .padding(.top, size * -0.55)
-        }
-    }
-}
-
 extension String {
     /// Limit the string to given length or truncate it with ...
     func limited(to len: Int) -> String {
@@ -423,17 +261,6 @@ extension String {
         }
 
         return self.prefix(len).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
-    }
-}
-
-extension NSLocale {
-    static var isCurrentLanguageEnglish: Bool {
-        // Get the current language from the user defaults, or default to checking the locale if that fails
-        let currentLanguageCode = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first ?? Locale.autoupdatingCurrent.language.languageCode?.identifier
-        guard let currentLanguageCode else { return false }
-
-        // Support multiple english language checks en-US, en-GB
-        return currentLanguageCode.hasPrefix("en")
     }
 }
 

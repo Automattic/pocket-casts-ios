@@ -1,9 +1,8 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension MiniPlayerViewController: UIGestureRecognizerDelegate {
-    private static let minMoveAmount = 80 as CGFloat
-
     func addGestureRecognizers() {
         panUpRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullingUpGesture(_:)))
         panUpRecognizer.delegate = self

@@ -145,10 +145,6 @@ actor PlaylistMetadataLoader {
         return cache.counts[playlistID]?.count
     }
 
-    func cachedCountState(for playlistID: String) -> CountCacheState? {
-        return cache.counts[playlistID]
-    }
-
     func cachedImages(for playlistID: String) -> [PlaylistArtworkView.ImageItem]? {
         return cache.images[playlistID]
     }

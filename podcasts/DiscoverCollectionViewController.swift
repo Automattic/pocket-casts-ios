@@ -21,7 +21,6 @@ class DiscoverCollectionViewController: PCViewController {
     }()
 
     private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
-    private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
     fileprivate var selectedCategory: DiscoverCategory?
@@ -36,8 +35,7 @@ class DiscoverCollectionViewController: PCViewController {
         searchResultsController
     }
 
-    init(coordinator: DiscoverCoordinator) {
-        self.coordinator = coordinator
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -63,7 +61,8 @@ class DiscoverCollectionViewController: PCViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchController.viewDidAppear(animated)
+        searchController.beginAppearanceTransition(true, animated: animated)
+        searchController.endAppearanceTransition()
         AnalyticsHelper.navigatedToDiscover()
         Analytics.track(.discoverShown)
 
@@ -72,7 +71,8 @@ class DiscoverCollectionViewController: PCViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchController.viewDidDisappear(animated)
+        searchController.beginAppearanceTransition(false, animated: animated)
+        searchController.endAppearanceTransition()
     }
 
     func reloadData(completion: (() -> Void)? = nil) {
@@ -248,7 +248,7 @@ extension DiscoverCollectionViewController {
             cell.contentConfiguration = ContentUnavailableConfiguration.loading()
         }
 
-        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
+        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
                 self?.reloadData()
             }

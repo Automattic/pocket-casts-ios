@@ -3,8 +3,6 @@ import PocketCastsServer
 import PocketCastsUtils
 
 struct PaidStoryWallView: View {
-    @StateObject private var model = PlusPricingInfoModel()
-
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
@@ -37,12 +35,6 @@ struct PaidStoryWallView: View {
             Analytics.track(.endOfYearUpsellShown)
         }
     }
-}
-
-private struct VisualEffectView: UIViewRepresentable {
-    var effect: UIVisualEffect?
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
-    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
 #Preview {

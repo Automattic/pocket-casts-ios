@@ -46,9 +46,6 @@ class PlayerChapterCell: UITableViewCell {
 
     private var playState = ChapterPlayState.played
 
-    private var circleCenter: CGPoint!
-    var chapterPlayedTime: Int!
-
     private var isChapterToggleEnabled: Bool = false
 
     /// Shown in place of the chapter number while a fingerprint-based seek is being

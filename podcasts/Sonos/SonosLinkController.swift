@@ -80,7 +80,7 @@ private extension SonosLinkController {
             return
         }
 
-        Task {
+        Task { [weak self] in
             let token = await ApiServerHandler.shared.exchangeSonosToken()
 
             DispatchQueue.main.async { [weak self] in

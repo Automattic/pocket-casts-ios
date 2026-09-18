@@ -11,7 +11,11 @@ enum AnalyticsSetup {
         var adapters: [AnalyticsAdapter] = []
 
         if !Settings.analyticsOptOut() {
-            adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
+            adapters = [
+                AnalyticsLoggingAdapter(),
+                TracksAdapter(userDefaults: SharedConstants.GroupUserDefaults.defaults),
+                CrashLoggingAdapter()
+            ]
 #if DEBUG
             adapters.append(AnalyticsOSLogAdapter())
 #endif

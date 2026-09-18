@@ -32,7 +32,6 @@ class MainEpisodeActionView: UIView {
 
     var rightPadding: CGFloat = 0
     var bottomPadding: CGFloat = 0
-    var playedColor: UIColor?
 
     weak var delegate: MainEpisodeActionViewDelegate?
 

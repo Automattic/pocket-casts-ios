@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
+import UniformTypeIdentifiers
 
 extension UTType {
     static var pcasts = UTType(filenameExtension: "pcasts", conformingTo: .package)!

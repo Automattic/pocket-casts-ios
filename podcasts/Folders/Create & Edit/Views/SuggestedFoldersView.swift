@@ -112,13 +112,10 @@ struct SuggestedFoldersView: View {
                     .textStyle(RoundedButton())
             }
             if model.userHasSubscription {
-                NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                    if let uuid {
-                        onCompletion(.createdManualFolder(uuid))
-                    } else {
-                        onCompletion(.dismiss)
-                    }
-                }, isActive: $createFolderActive) {
+                Button {
+                    track(.suggestedFoldersCreateCustomFolderTapped)
+                    createFolderActive = true
+                } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
                         .textStyle(BorderButton())
                 }
@@ -138,9 +135,13 @@ struct SuggestedFoldersView: View {
         .onAppear {
             track(.suggestedFoldersPageShown)
         }
-        .onChange(of: createFolderActive) { _, newFolder in
-            if newFolder {
-                track(.suggestedFoldersCreateCustomFolderTapped)
+        .navigationDestination(isPresented: $createFolderActive) {
+            CreateFolderView(isInsideNavigation: true) { uuid in
+                if let uuid {
+                    onCompletion(.createdManualFolder(uuid))
+                } else {
+                    onCompletion(.dismiss)
+                }
             }
         }
         .applyDefaultThemeOptions()

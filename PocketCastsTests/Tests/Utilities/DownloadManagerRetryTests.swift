@@ -175,11 +175,6 @@ extension DownloadManager {
     }
 
     func clearEpisodeCache() {
-        // Clear downloadingEpisodesCache based on its type
-        if let cache = downloadingEpisodesCache as? ThreadSafeDictionary<String, BaseEpisode> {
-            cache.removeAll()
-        } else if var cache = downloadingEpisodesCache as? Dictionary<String, BaseEpisode> {
-            cache.removeAll()
-        }
+        downloadingEpisodesCache.removeAll()
     }
 }

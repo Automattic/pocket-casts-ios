@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
@@ -32,6 +33,7 @@ class FolderHistoryModel: ObservableObject {
         }
     }
 
+    @MainActor
     func restore() {
         podcastsAndFolders.forEach { podcast, folder in
             podcast.folderUuid = folder.uuid

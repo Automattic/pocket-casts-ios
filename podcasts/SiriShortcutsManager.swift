@@ -33,10 +33,6 @@ class SiriShortcutsManager: CustomObserver {
         INVoiceShortcutCenter.shared.setShortcutSuggestions(defaultSuggestions())
     }
 
-    func removeAllSuggestions() {
-        INVoiceShortcutCenter.shared.setShortcutSuggestions([])
-    }
-
     func isDefaultSuggestion(voiceShortcut: INVoiceShortcut) -> Bool {
         defaultSuggestions().contains { $0.intent?.suggestedInvocationPhrase == voiceShortcut.shortcut.intent?.suggestedInvocationPhrase }
     }
@@ -419,9 +415,6 @@ class SiriShortcutsManager: CustomObserver {
 
         PlaybackManager.shared.skipToPreviousChapter(startPlaybackAfterSkip: true)
         return INPlayMediaIntentResponseCode.success
-    }
-
-    func skipToNextEpisode() { // ? in podcast or playlist
     }
 
     func setSleepTimer(duration: TimeInterval) -> Bool {

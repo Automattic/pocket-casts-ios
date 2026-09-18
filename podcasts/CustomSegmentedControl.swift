@@ -296,10 +296,6 @@ class CustomSegmentedControl: UIControl {
 
     private var actions: [SegmentedAction] = []
 
-    func setActionsWithAccessibility(_ actions: [SegmentedAction]) {
-        setActions(actions)
-    }
-
     private func clampSelectedIndexIfNeeded() {
         if actions.isEmpty {
             if selectedIndex != 0 {

@@ -69,7 +69,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    func registerForPushNotifications(completion: ((Bool) -> ())? = nil) {
+    func registerForPushNotifications(completion: (@MainActor (Bool) -> ())? = nil) {
         let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.download, options: [])
         let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.notificationsPlayNow, options: [])
         let addQueueFirstAction = UNNotificationAction(identifier: addToQueueFirstActionId, title: L10n.playNext, options: [])

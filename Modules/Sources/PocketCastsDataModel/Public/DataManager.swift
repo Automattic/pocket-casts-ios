@@ -69,35 +69,6 @@ public class DataManager {
         self.init(dbQueue: dbQueue)
     }
 
-    static func checkDatabaseCorruption(dbPool: DatabasePool) -> Bool {
-        var isDatabaseCorrupted = false
-        try? dbPool.write { db in
-            do {
-                let rows = try Row.fetchAll(db, sql: "PRAGMA integrity_check")
-                    for row in rows {
-                        let result: String = row[0]
-                        if result != "ok" {
-                            isDatabaseCorrupted = true
-                        }
-                    }
-            } catch {
-                if error.localizedDescription.contains("image is malformed") {
-                    isDatabaseCorrupted = true
-                }
-            }
-        }
-
-        if isDatabaseCorrupted {
-            try? dbPool.close()
-
-            try? FileManager.default.moveItem(at: URL(fileURLWithPath: DataManager.pathToDb()), to: URL(fileURLWithPath: DataManager.pathToDbBackup()))
-            try? FileManager.default.moveItem(at: URL(fileURLWithPath: "\(DataManager.pathToDb())-shm"), to: URL(fileURLWithPath: "\(DataManager.pathToDbBackup())-shm"))
-            try? FileManager.default.moveItem(at: URL(fileURLWithPath: "\(DataManager.pathToDb())-wal"), to: URL(fileURLWithPath: "\(DataManager.pathToDbBackup())-wal"))
-        }
-
-        return isDatabaseCorrupted
-    }
-
     /// Creates a DataManager using the given `PCDBQueue`.
     public init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue

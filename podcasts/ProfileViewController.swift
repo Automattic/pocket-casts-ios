@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -5,8 +6,6 @@ import UIKit
 import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
-    fileprivate enum StatValueType { case listened, saved }
-
     private var refreshController: FullSyncRefreshController?
 
     @IBOutlet var footerView: UIView!
@@ -87,7 +86,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, whatsNew, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -125,6 +124,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return view
     }()
 
+    private var cancellables = Set<AnyCancellable>()
+
     // MARK: - View Events
 
     override func viewDidLoad() {
@@ -148,6 +149,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateFooterFrame()
         setupRefreshControl()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
+        observeWhatsNewFeed()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -188,6 +190,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        markWhatsNewFeedAsSeenIfOnScreen()
 
         if FeatureFlag.cancelSubscriptionSurvey.enabled,
            SyncManager.isUserLoggedIn(),
@@ -231,11 +234,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
-    }
-
-    private func showAccountController() {
-        let accountVC = AccountViewController()
-        navigationController?.pushViewController(accountVC, animated: true)
     }
 
     private func refreshTapped() {
@@ -356,6 +354,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
         cell.separatorInset = .zero
+        cell.showsUnreadIndicator = false
 
         switch row {
         case .informationalBanner:
@@ -364,6 +363,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return KidsProfileBannerTableCell()
         case .referralsClaim:
             return ReferralsClaimBannerTableCell()
+        case .whatsNew:
+            cell.settingsImage.image = UIImage(named: "mail")
+            cell.settingsLabel.text = L10n.whatsNew
+            cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -440,6 +443,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
                 self?.profileTable.reloadData()
             }
+        case .whatsNew:
+            let feedViewController = WhatsNewFeedViewController(viewModel: WhatsNewFeedViewModel())
+            navigationController?.pushViewController(feedViewController, animated: true)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -492,6 +498,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
+
+        if FeatureFlag.whatsNewFeed.enabled {
+            data[0].insert(.whatsNew, at: 0)
+        }
 
         if EndOfYear.isEndOfYearActive, EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
@@ -575,8 +585,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
-        static let giftSize = CGFloat(24)
-        static let giftBadgeSize = CGFloat(16)
         static let defaultTipSize = CGSizeMake(300, 50)
     }
 
@@ -652,6 +660,40 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 
     var displaySource: PlusUpgradeViewSource {
         .profile
+    }
+}
+
+// MARK: - What's New
+
+private extension ProfileViewController {
+    /// Keeps the dot on the What's New row in step with the feed, and the dot on the tab off, while
+    /// Profile is on screen.
+    func observeWhatsNewFeed() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let manager = WhatsNewManager.shared
+        manager.$catalog.combineLatest(manager.$readState)
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateWhatsNewRow()
+                self?.markWhatsNewFeedAsSeenIfOnScreen()
+            }
+            .store(in: &cancellables)
+    }
+
+    func markWhatsNewFeedAsSeenIfOnScreen() {
+        guard FeatureFlag.whatsNewFeed.enabled, view.window != nil else { return }
+        WhatsNewManager.shared.markFeedAsSeen()
+    }
+
+    func updateWhatsNewRow() {
+        guard let section = tableData.firstIndex(where: { $0.contains(.whatsNew) }),
+              let row = tableData[section].firstIndex(of: .whatsNew),
+              let cell = profileTable.cellForRow(at: IndexPath(row: row, section: section)) as? TopLevelSettingsCell else {
+            return
+        }
+        cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
     }
 }
 

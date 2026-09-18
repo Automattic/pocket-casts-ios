@@ -119,8 +119,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var messageView: RoundedBorderView! {
         didSet {
-            messageView.getBorderColor = { AppTheme.episodeMessageBorderColor(for: self.themeOverride) }
-            messageView.getBgColor = { AppTheme.episodeMessageBackgroundColor(for: self.themeOverride) }
+            messageView.getBorderColor = { [weak self] in AppTheme.episodeMessageBorderColor(for: self?.themeOverride) }
+            messageView.getBgColor = { [weak self] in AppTheme.episodeMessageBackgroundColor(for: self?.themeOverride) }
         }
     }
 
@@ -546,14 +546,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     func documentInteractionControllerDidDismissOpenInMenu(_ controller: UIDocumentInteractionController) {
         docController = nil
-    }
-
-    private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
-        let shareTime = sharePosition ? episode.playedUpTo : 0
-
-        let type = shareTime == 0 ? "episode" : "current_position"
-
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
     }
 
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {

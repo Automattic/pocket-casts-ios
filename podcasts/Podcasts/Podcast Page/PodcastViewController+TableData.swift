@@ -6,12 +6,9 @@ import SwiftUI
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
-    private static let headerCellId = "HeaderCell"
     private static let limitCellId = "LimitCell"
     private static let noSearchResultsCell = "NoSearchResults"
     private static let groupHeadingCellId = "GroupHeading"
-    private static let emptyStateCellId = "EmptyStateCell"
-    private static let loadingCellId = "LoadingCell"
 
     private enum YouMightLikeSection {
         case header
@@ -213,7 +210,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.configure(title: L10n.failedRecommendations, icon: {
                     Image(systemName: "exclamationmark.circle")
                 }, actions: [
-                    .init(title: L10n.tryAgain, action: {
+                    .init(title: L10n.tryAgain, action: { [weak self] in
                         Task { [weak self] in
                             guard !Task.isCancelled else { return }
                             await self?.loadRecommendations()

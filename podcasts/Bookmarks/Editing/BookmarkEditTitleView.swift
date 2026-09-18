@@ -248,13 +248,6 @@ class BookmarkEditTheme: ThemeObserver {
         }
     }
 
-    var transcriptBackground: Color {
-        switch style {
-        case .player: theme.playerContrast06
-        case .themed: theme.primaryField01
-        }
-    }
-
     var saveButton: Color {
         switch style {
         case .player: saveButtonBackground.luminance() < 0.5 ? .white : .black

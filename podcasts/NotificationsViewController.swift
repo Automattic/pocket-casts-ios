@@ -7,9 +7,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 
-    private let soundOff = 0
-
-    private var sections: [Section] = [.episodes]
     private var rows: [[Row]] = [[.newEpisodes, .podcastsChosen, .appBadges], [.trendingRecommendations, .dailyReminders], [.newFeaturesAndTips, .pocketCastsOffers]]
 
     private var notificationsDenied = false

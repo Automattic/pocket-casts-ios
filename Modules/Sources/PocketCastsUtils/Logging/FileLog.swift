@@ -3,7 +3,6 @@ import os
 
 public final class FileLog {
     public enum LogError: Error {
-        case logCanceled
         case logGenerationFailed
     }
 

@@ -22,11 +22,6 @@ open class SubscriptionHelper: NSObject {
         Self.activeTier
     }
 
-    /// Returns the users active subscription type or .none if they don't currently have one
-    public static var activeSubscriptionType: SubscriptionType {
-        hasActiveSubscription() ? subscriptionType() : .none
-    }
-
     /// Returns the users active subscription tier or .none if they don't currently have one
     public static var activeTier: SubscriptionTier {
         guard hasActiveSubscription() else {
@@ -172,15 +167,6 @@ open class SubscriptionHelper: NSObject {
 
     public class func subscriptionType() -> SubscriptionType {
         SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
-    }
-
-    public class func setSubscriptionPodcasts(_ value: [PodcastSubscription]) {
-        do {
-            let data = try PropertyListEncoder().encode(value)
-            UserDefaults.standard.set(data, forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
-        } catch {
-            print("failed to encode subscription podcasts")
-        }
     }
 
     public class func subscriptionPodcasts() -> [PodcastSubscription]? {

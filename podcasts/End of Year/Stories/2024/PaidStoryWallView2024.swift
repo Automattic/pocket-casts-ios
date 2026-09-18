@@ -4,8 +4,6 @@ import PocketCastsUtils
 import EndOfYear
 
 struct PaidStoryWallView2024: View {
-    @StateObject private var model = PlusPricingInfoModel()
-
     let subscriptionTier: SubscriptionTier
 
     private let words = [

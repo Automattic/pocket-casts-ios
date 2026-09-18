@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension NowPlayingPlayerItemViewController: UIGestureRecognizerDelegate {
     private static let pullUpThresholdPercent: Float = 0.1

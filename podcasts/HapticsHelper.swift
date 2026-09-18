@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class HapticsHelper {
     class func triggerSkipBackHaptic() {
@@ -19,14 +20,6 @@ class HapticsHelper {
 
     class func triggerPlayPauseHaptic() {
         triggerImpactOccurredHaptic(style: .light)
-    }
-
-    class func triggerRearrangeHaptic() {
-        triggerImpactOccurredHaptic(style: .light)
-    }
-
-    class func triggerPullToRefreshHaptic() {
-        triggerImpactOccurredHaptic(style: .heavy)
     }
 
     #if os(tvOS)

@@ -20,6 +20,7 @@ class TranscriptAnnouncementViewModel {
         isSubscriber ? L10n.gotIt : L10n.freeTrialStartButton
     }
 
+    @MainActor
     func buttonAction() {
         // Plus users just dismiss; Free users are taken to the upgrade paywall.
         SceneHelper.rootViewController()?.dismiss(animated: true) {

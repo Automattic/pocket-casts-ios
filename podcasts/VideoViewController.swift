@@ -9,15 +9,27 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     var willAttachPlayer: (() -> Void)?
     var willDeattachPlayer: (() -> Void)?
 
+    private var controlsTintColor: UIColor { ThemeColor.contrast01(for: .extraDark) }
+
     @IBOutlet var routePickerView: PCRoutePickerView! {
         didSet {
-            routePickerView.tintColor = ThemeColor.contrast01(for: .extraDark)
+            routePickerView.tintColor = controlsTintColor
             routePickerView.activeTintColor = ThemeColor.primaryIcon01Active(for: .extraDark)
             routePickerView.backgroundColor = UIColor.clear
         }
     }
 
-    @IBOutlet var fillScreenBtn: UIButton!
+    @IBOutlet var closeBtn: UIButton! {
+        didSet {
+            closeBtn.tintColor = controlsTintColor
+        }
+    }
+
+    @IBOutlet var fillScreenBtn: UIButton! {
+        didSet {
+            fillScreenBtn.tintColor = controlsTintColor
+        }
+    }
 
     @IBOutlet var exitFullScreenBtn: UIButton! {
         didSet {
@@ -30,13 +42,14 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         didSet {
             playPauseBtn.backgroundColor = UIColor.clear
             playPauseBtn.circleColor = UIColor.clear
-            playPauseBtn.playButtonColor = ThemeColor.contrast01(for: .extraDark)
+            playPauseBtn.playButtonColor = controlsTintColor
         }
     }
 
     @IBOutlet var skipForwardBtn: SkipButton! {
         didSet {
             skipForwardBtn.skipBack = false
+            skipForwardBtn.tintColor = controlsTintColor
             skipForwardBtn.longPressed = { [weak self] in
                 self?.skipForwardLongPressed()
             }
@@ -46,6 +59,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
+            skipBackBtn.tintColor = controlsTintColor
         }
     }
 
@@ -93,14 +107,24 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         }
     }
 
-    @IBOutlet var pipButton: UIButton!
-
-    @IBOutlet var airplayButton: UIButton!
+    @IBOutlet var pipButton: UIButton! {
+        didSet {
+            pipButton.tintColor = controlsTintColor
+        }
+    }
 
     #if APPCLIP
-    @IBOutlet var castButton: UIButton!
+    @IBOutlet var castButton: UIButton! {
+        didSet {
+            castButton.tintColor = controlsTintColor
+        }
+    }
     #else
-    @IBOutlet var castButton: PCGoogleCastButton!
+    @IBOutlet var castButton: PCGoogleCastButton! {
+        didSet {
+            castButton.tintColor = controlsTintColor
+        }
+    }
     #endif
 
     private var pipController: AVPictureInPictureController?
@@ -275,10 +299,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackFinished))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(trackChanged))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
-    }
-
-    private func removeUiNotificationObservers() {
-        removeAllCustomObservers()
     }
 
     @objc private func playbackFinished() {

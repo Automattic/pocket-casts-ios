@@ -86,16 +86,6 @@ struct IntroStory2023: ShareableStory {
     func hideShareButton() -> Bool {
         true
     }
-
-    private struct Constants {
-        // Percentage based on total view height
-        static let imageVerticalPadding = 0.10
-
-        static let spaceBetweenImageAndText = 24.0
-
-        static let fontSize = 22.0
-        static let textHorizontalPadding = 35.0
-    }
 }
 
 private struct TwentyThreeParallaxModifier: ViewModifier {

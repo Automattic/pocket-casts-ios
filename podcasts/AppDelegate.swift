@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var progressDialog: ShiftyLoadingAlert?
     var modalController: UINavigationController?
 
-    lazy var lenticularFilter: LenticularFilter = .init()
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
@@ -157,6 +156,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleBecomeActive() {
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
+
+        if FeatureFlag.whatsNewFeed.enabled {
+            WhatsNewManager.shared.refreshIfNeeded()
+        }
 
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()

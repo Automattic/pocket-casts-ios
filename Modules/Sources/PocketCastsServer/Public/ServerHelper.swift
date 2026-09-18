@@ -29,12 +29,6 @@ public class ServerHelper: NSObject {
         URL(string: "\(ServerConstants.Urls.discover())images/metadata/\(podcastUuid).json")!
     }
 
-    public static func playerUrl(podcastUuid: String, episodeUuid: String, playedUpTo: Double) -> URL {
-        let urlString = NSString(format: "https://play.pocketcasts.com/web/user/handoff?podcast=%@&episode=%@&t=%1.0lf", podcastUuid, episodeUuid, round(playedUpTo))
-
-        return URL(string: urlString as String)!
-    }
-
     public static func bundleUrl(bundleUuid: String) -> URL {
         URL(string: "\(ServerConstants.Urls.lists())bundle-\(bundleUuid).json")!
     }

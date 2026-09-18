@@ -21,11 +21,7 @@ import PocketCastsDataModel
 
     func isReadyToPlay() -> Bool
 
-    func supportsSilenceRemoval() -> Bool
-    func supportsVolumeBoost() -> Bool
     func supportsGoogleCast() -> Bool
-    func supportsStreaming() -> Bool
-    func supportsAirplay2() -> Bool
 
     func shouldBePlaying() -> Bool
 

@@ -3,10 +3,6 @@ import PocketCastsServer
 
 struct DiscoverFeaturedPodcastsRow: View {
 
-    fileprivate enum Layout {
-        static let gridSize = CGFloat(250)
-    }
-
     @State private var model: DiscoverSectionModel
 
     private let callback: ((String?)->())?

@@ -3,6 +3,8 @@ import PocketCastsDataModel
 import Combine
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
+import UniformTypeIdentifiers
 
 enum ShareDestination: Hashable {
     case instagram
@@ -33,7 +35,6 @@ enum ShareDestination: Hashable {
 
     enum ShareError: Error {
         case noMatchingItemIdentifier
-        case loadFailed(Error?)
     }
 
     @MainActor

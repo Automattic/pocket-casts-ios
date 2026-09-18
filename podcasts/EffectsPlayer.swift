@@ -2,11 +2,10 @@ import AudioUnit
 import AVFoundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import SJUtils
 import UIKit
 
 class EffectsPlayer: PlaybackProtocol, Hashable {
-    private static let targetVolumeDbGain = 15.0 as Float
-
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
 
@@ -306,23 +305,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         engine?.stop()
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        true
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        true
-    }
-
     func supportsGoogleCast() -> Bool {
-        false
-    }
-
-    func supportsStreaming() -> Bool {
-        false
-    }
-
-    func supportsAirplay2() -> Bool {
         false
     }
 

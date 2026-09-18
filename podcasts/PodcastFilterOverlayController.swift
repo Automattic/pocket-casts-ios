@@ -6,7 +6,6 @@ import SwiftUI
 
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
     var filterToEdit: EpisodeFilter!
-    var filterTintColor: UIColor!
 
     var footerView: ThemeableView!
 

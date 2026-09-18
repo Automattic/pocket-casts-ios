@@ -31,8 +31,12 @@ struct DeveloperMenu: View {
                     case .success(let url):
                         print("Selected: \(url)")
                         Task {
-                            let fileWrapper = try FileWrapper(url: url)
-                            try PCBundleDoc.performImport(from: fileWrapper)
+                            do {
+                                let fileWrapper = try FileWrapper(url: url)
+                                try PCBundleDoc.performImport(from: fileWrapper)
+                            } catch {
+                                print("Failed to import pcasts: \(error)")
+                            }
                         }
                     case .failure(let error):
                         print("Failed to import pcasts: \(error)")
@@ -430,6 +434,13 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Up Next")
+            }
+            Section {
+                Button("Reset Read State") {
+                    WhatsNewManager.shared.resetReadState()
+                }
+            } header: {
+                Text("What's New Feed")
             }
             Section {
                 Text(Bundle.main.identifier)

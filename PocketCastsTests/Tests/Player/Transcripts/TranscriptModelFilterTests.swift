@@ -305,4 +305,37 @@ final class TranscriptModelFilterTests: XCTestCase {
         XCTAssertFalse(text.contains("42"))
         XCTAssertEqual(model.cues.count, 1)
     }
+
+    func testPlainText() throws {
+        let transcript = """
+        Luisa Rodriguez: Today I'm speaking with Daniel Kokotajlo.
+
+        Daniel Kokotajlo: Thanks for having me.
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .textPlain) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        let text = model.attributedText.string
+        XCTAssertEqual(text, "Luisa Rodriguez: Today I'm speaking with Daniel Kokotajlo.\nDaniel Kokotajlo: Thanks for having me.")
+        XCTAssertTrue(model.cues.isEmpty)
+        XCTAssertFalse(model.hasJavascript)
+    }
+
+    func testPlainTextCollapsesBlankLinesAndCarriageReturns() throws {
+        let transcript = "First paragraph.  \r\n\r\n\r\nSecond  paragraph.\r\n"
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .textPlain) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        XCTAssertEqual(model.attributedText.string, "First paragraph.\nSecond paragraph.")
+    }
+
+    func testPlainTextEmpty() throws {
+        XCTAssertNil(TranscriptModel.makeModel(from: "   \n  ", format: .textPlain))
+    }
 }

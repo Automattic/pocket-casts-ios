@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class OpmlImporter: Operation, XMLParserDelegate, @unchecked Sendable {
     private var podcastsToAdd = [String]()

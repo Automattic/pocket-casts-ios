@@ -1,3 +1,4 @@
+import AEXML
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -84,7 +85,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
         let uuids = podcasts.map(\.uuid)
 
-        MainServerHandler.shared.exportPodcasts(uuids: uuids) { exportResponse in
+        MainServerHandler.shared.exportPodcasts(uuids: uuids) { [weak self] exportResponse in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.loadingAlert?.hideAlert(false)

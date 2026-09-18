@@ -2,6 +2,7 @@ import Combine
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {

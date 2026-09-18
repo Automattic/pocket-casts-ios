@@ -2,6 +2,27 @@
 
 TVOS_NOTE_PREFIX = '- [tvOS]'
 
+# App Store Connect maximums, plus a budget for the English source where there is a basis for one.
+# https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
+#
+# `gp_downloadmetadata` writes nothing for a locale whose translation is over the maximum, having already
+# deleted that locale's file. `deliver` fills the gap from `default/`, so the locale silently ships the
+# English copy in place of its translation. The budget keeps the English source short enough for
+# translations, which run longer, to fit.
+#
+# Budgets are field-specific: the description keeps a deliberate reserve, while keywords are already
+# constrained by a committed translation at the hard maximum. Subtitles and release notes use only their
+# hard maximum.
+APP_STORE_METADATA_LIMITS = {
+  'release_notes.txt' => { max_size: 4000 },
+  'subtitle.txt' => { max_size: 30 },
+  # 3400 keeps a deliberate reserve; the measured expansion alone would allow ~3950.
+  'description.txt' => { max_size: 4000, budget: 3400 },
+  # 95 is today's source length, not a reserve: `metadata/it/keywords.txt` already sits at 100 of 100,
+  # so raising this needs the Italian translation shortened in GlotPress first.
+  'keywords.txt' => { max_size: 100, budget: 95 }
+}.freeze
+
 # Use this to ensure all env vars a lane requires are set.
 #
 # The best place to call this is at the start of a lane, to fail early.
@@ -32,6 +53,36 @@ def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
       mkdir -p #{env_file_dir} && cp #{env_file_example_path} #{env_file_path}
     MSG
   end
+end
+
+# Classifies an App Store metadata file's length as `:over_max`, `:over_budget` or `:ok`.
+#
+# Stays free of `UI` so `fastlane/test/helpers_test.rb` can exercise it under bare Ruby, without fastlane loaded.
+def app_store_metadata_length_verdict(file_name, length)
+  limits = APP_STORE_METADATA_LIMITS.fetch(file_name)
+  budget = limits[:budget]
+
+  return :over_max if length > limits.fetch(:max_size)
+  return :over_budget if budget && length > budget
+
+  :ok
+end
+
+# @return [Integer] Maximum number of characters App Store Connect accepts for that metadata file
+def app_store_metadata_max_size(file_name)
+  APP_STORE_METADATA_LIMITS.fetch(file_name).fetch(:max_size)
+end
+
+# @return [Integer] Length of the msgid `PoFileGenerator` stores for this file, which is the length
+#   `gp_downloadmetadata` later measures each translation against.
+#
+# `release_notes.txt` is the odd one out: it goes through `create_whats_new_entries`, which keeps the
+# content and guarantees a trailing newline. The other files go through `create_standard_entry`, which
+# stores `content.rstrip`.
+def app_store_metadata_source_length(file_name, content)
+  return content.rstrip.length unless file_name == 'release_notes.txt'
+
+  content.end_with?("\n") ? content.length : content.length + 1
 end
 
 # Builds the iOS TestFlight changelog without tvOS-only release notes.

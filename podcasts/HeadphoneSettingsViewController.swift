@@ -195,10 +195,6 @@ class HeadphoneSettingsViewController: PCTableViewController {
             }
         }
     }
-
-    private enum Constants {
-        static let rowHeight = 56.0
-    }
 }
 
 // MARK: - Private: Options Picker

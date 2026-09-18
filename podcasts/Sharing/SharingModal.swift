@@ -2,7 +2,9 @@ import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
 
+@MainActor
 enum SharingModal {
 
     /// Share options including which type of content will be shared

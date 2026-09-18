@@ -283,12 +283,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         removeAllCustomObservers()
     }
 
-    /// Resets the scrolling title marquee to the beginning of its pause-then-scroll
-    /// cycle.
-    func resetScrollingTitleAnimation() {
-        episodeTitleLabel?.restartAnimation()
-    }
-
     /// Aligns this controller's scrolling title with another's, so the
     /// snapshot clone built for the zoom transition picks up the live mini
     /// player's scroll phase. Must be called after the clone is in a window.
@@ -456,14 +450,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func rootViewController() -> MainTabBarController? {
         if let controller = view.window?.rootViewController as? MainTabBarController {
             return controller
-        }
-
-        return nil
-    }
-
-    private func rootNavController() -> UINavigationController? {
-        if let rootNav = rootViewController()?.selectedViewController as? UINavigationController {
-            return rootNav
         }
 
         return nil

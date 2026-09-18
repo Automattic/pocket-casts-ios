@@ -303,6 +303,8 @@
     <string>В режиме «Включено» таймер сна будет автоматически перезапущен, если вы воспроизведёте выпуск в течение 5 минут после последней остановки.</string>
     <key>back</key>
     <string>Назад</string>
+    <key>badge_new</key>
+    <string>Создать</string>
     <key>banner_ads_info_label</key>
     <string>Реклама</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов. Скоро станет доступно для подписчиков %2$@.</string>
     <key>bookmarks_locked_message</key>
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Оставьте нужную часть</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Добавить закладку</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Вы выбираете человека, а не резюме.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Комната для прослушивания</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -896,8 +906,6 @@ Pocket Casts Plus</string>
     <string>Скачанные файлы</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Вы уверены, что хотите удалить загруженные файлы?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>При отмене подписки все скачанные файлы этого подкаста будут удалены, продолжить?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>При отмене подписки все скачанные файлы этого подкаста будут удалены. Продолжить?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -1532,10 +1540,6 @@ Pocket Casts на полную мощность.</string>
 4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
     <key>import_opml_from_url</key>
     <string>Импортируйте подкасты из файла OPML с помощью URL-адреса</string>
-    <key>import_podcasts_description</key>
-    <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
-
-Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Вы можете импортировать свои подкасты в Pocket Casts, воспользовавшись распространённым форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
@@ -1715,6 +1719,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удаление из избранного 1 выпуска</string>
     <key>name</key>
     <string>Название</string>
+    <key>network_fail_to_load</key>
+    <string>Эта сеть не может быть загружена</string>
     <key>new_email_address_prompt</key>
     <string>Новый адрес электронной почты</string>
     <key>new_episodes</key>
@@ -1732,7 +1738,9 @@ Pocket Casts на полную мощность.</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Пользуйтесь закладками</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Вы можете сохранять отметки времени важных моментов выпуска.</string>
+    <string>Одно касание. Название задано вместе с соответствующими словами.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Сохраните части, которые стоит хранить</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
     <key>no_bookmarks_title</key>
@@ -2790,8 +2798,6 @@ Pocket Casts на полную мощность.</string>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Удалить 1 выпуск</string>
-    <key>queue_clear_queue</key>
-    <string>ОЧИСТИТЬ ОЧЕРЕДЬ</string>
     <key>queue_for_later</key>
     <string>Отложить</string>
     <key>queue_now_playing_accessibility</key>
@@ -2939,6 +2945,8 @@ Pocket Casts на полную мощность.</string>
     <string>Поиск в закладках</string>
     <key>search_episodes</key>
     <string>Поиск выпусков</string>
+    <key>search_filter_networks</key>
+    <string>Сети</string>
     <key>search_label</key>
     <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
@@ -3763,12 +3771,8 @@ Pocket Casts на полную мощность.</string>
     <string>Загружено</string>
     <key>stop_download</key>
     <string>Остановить скачивание</string>
-    <key>subscribe</key>
-    <string>Подписаться</string>
     <key>subscribe_all</key>
     <string>Подписаться на все</string>
-    <key>subscribed</key>
-    <string>Подписано</string>
     <key>subscription_cancelled</key>
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>
@@ -3877,6 +3881,8 @@ Pocket Casts на полную мощность.</string>
     <string>Вверх</string>
     <key>transcript</key>
     <string>Расшифровка</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Закладка</string>
     <key>transcript_error_empty</key>
     <string>Кажется, эта расшифровка пуста</string>
     <key>transcript_error_failed_to_load</key>
@@ -4154,8 +4160,12 @@ Pocket Casts на полную мощность.</string>
     <string>Получение последних выпусков</string>
     <key>tv_search_failed</key>
     <string>Не удалось выполнить поиск: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Избранные</string>
     <key>tv_search_prompt</key>
     <string>Подкасты, шоу, авторы</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Лучшие результаты</string>
     <key>tv_search_searching</key>
     <string>Идёт поиск...</string>
     <key>tv_search_type_something</key>

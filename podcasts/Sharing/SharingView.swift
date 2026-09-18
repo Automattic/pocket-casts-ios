@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
+import UniformTypeIdentifiers
 
 class ClipTime: ObservableObject {
     @Published var start: TimeInterval
@@ -193,15 +194,6 @@ struct SharingView: View {
             .id(style)
             .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
 	}
-
-    private func shareItems(style: ShareImageStyle) -> [Shareable] {
-        var media = shareable
-        media.shareType = style == .audio ? .audio : .video
-        var image = shareable
-        image.shareType = .image
-
-        return [media, (style != .audio ? image : nil)].compactMap { $0 }
-    }
 }
 
 #Preview {

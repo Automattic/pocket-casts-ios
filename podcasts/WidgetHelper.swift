@@ -2,6 +2,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 import WidgetKit
 
 class WidgetHelper {
@@ -48,13 +49,6 @@ class WidgetHelper {
             publishUpNextInfo()
             updateAllWidgets()
         #endif
-    }
-
-    func updateUpNextWidgets() {
-        WidgetCenter.shared.getCurrentConfigurations { result in
-            guard case .success = result else { return }
-            WidgetCenter.shared.reloadTimelines(ofKind: "Up_Next_Widget")
-        }
     }
 
     func updateWidgetAppIcon() {

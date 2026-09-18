@@ -106,19 +106,6 @@ struct YearOverYearCompare2025Story: ShareableStory {
         }
     }
 
-    private func fontSizes() -> (Double, Double) {
-        let big: Double = 128
-        let small: Double = 108
-        switch comparison {
-        case .down:
-            return (big, small)
-        case .up:
-            return (small, big)
-        case .same:
-            return (small, big)
-        }
-    }
-
     private var headerContent: HeaderContent {
         let maximumDifference: Double = 5
         let formatStyle = FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0))

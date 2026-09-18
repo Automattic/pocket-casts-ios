@@ -7,7 +7,6 @@ struct EpisodeView: View {
     @State var isPlaying: Bool = false
     @State var isFirstEpisode: Bool = false
 
-    @Environment(\.dynamicTypeSize) var typeSize
     @Environment(\.widgetColorScheme) var colorScheme
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 

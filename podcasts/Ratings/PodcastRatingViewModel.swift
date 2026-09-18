@@ -9,9 +9,6 @@ class PodcastRatingViewModel: ObservableObject {
 
     var presentLogin: ((PodcastRatingViewModel) -> Void)? = nil
 
-    /// Whether we should display the total ratings or not
-    var showTotal: Bool = true
-
     var hasRatings: Bool {
         guard let rating else {
             return false

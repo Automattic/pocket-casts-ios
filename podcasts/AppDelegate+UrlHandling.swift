@@ -4,6 +4,8 @@ import JLRoutes
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
+import UniformTypeIdentifiers
 
 extension AppDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {

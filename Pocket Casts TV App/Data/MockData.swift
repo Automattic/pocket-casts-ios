@@ -252,21 +252,6 @@ struct MockData {
         return podcast
     }
 
-    static func makeStubDiscoveryPodcasts() -> [DiscoverPodcast] {
-        var result = [DiscoverPodcast]()
-        for (index, name) in podcastNames.enumerated() {
-            var podcast = DiscoverPodcast()
-            podcast.uuid = UUID().uuidString
-            podcast.title = name
-            podcast.author = authorNames[index]
-            podcast.shortDescription = episodeTitles[index]
-
-            result.append(podcast)
-        }
-
-        return result
-    }
-
     static func makeStubVideoEpisodePodcasts() -> [DiscoverEpisode] {
         var result = [DiscoverEpisode]()
         let podcastsUuids: [String] = ["b0689300-ecd3-012e-e054-525400c11844", "68504d20-dc2b-012e-da14-525400c11844", "43e949f0-60ec-0131-7415-723c91aeae46"]
@@ -282,9 +267,5 @@ struct MockData {
         }
 
         return result
-    }
-
-    static func makeStubBanner(_ type: BannerType) -> DiscoverItem {
-        return DiscoverItem(id: type.rawValue, type: "banner", summaryStyle: "inline_banner", regions: [])
     }
 }

@@ -3,8 +3,6 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 public class ServerPodcastManager: NSObject {
-    private static let maxAutoDownloadSeperationTime = 12.hours
-
     public static let shared = ServerPodcastManager()
 
     lazy var isoFormatter: ISO8601DateFormatter = {
@@ -145,9 +143,9 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
-    /// Soft-deprecated: performs synchronous networking, blocking the calling thread, and never calls
-    /// the completion on failure. Use the async ``addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:)`` instead.
-    @available(*, deprecated, message: "Performs synchronous networking and blocks the calling thread. Use the async addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:) instead.")
+    /// - warning: Performs synchronous networking and blocks the calling thread until the request finishes.
+    /// Never call it from the main thread. The completion is never called on failure. Prefer the async
+    /// ``addMissingPodcastAndEpisode(episodeUuid:podcastUuid:shouldUpdateEpisode:)`` in new code.
     public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false, completion: ((Episode?) -> ())? = nil) {
         let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
 

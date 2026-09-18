@@ -63,16 +63,6 @@ struct EndOfYearModal: View {
         static let maxWidth: CGFloat = 600
 
         static let verticalSpacing: CGFloat = 20
-
-        static let smallTitleFontSize: CGFloat = 14
-        static let smallTitleTopPadding: CGFloat = -30
-        static let smallTitleHorizontalPadding: CGFloat = 10
-        static let smallTitleMinimumScaleFactor: CGFloat = 0.01
-
-        static let enfOfYearCoverSize: CGFloat = 145
-        static let coverCornerRadius: CGFloat = 8
-        static let coverShadowRadius: CGFloat = 3
-        static let coverShadowY: CGFloat = 1
     }
 }
 

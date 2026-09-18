@@ -5,8 +5,6 @@ struct NewPlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: NewPlaylistCellViewModel
 
-    @State private var refreshToken = UUID()
-
     @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 56
 
     private var title: String {

@@ -1,3 +1,4 @@
+import UIKit
 
 class TranscriptContainerViewController: UIViewController {
     private let playbackManager: TranscriptPlaybackManaging
@@ -87,13 +88,6 @@ class TranscriptContainerViewController: UIViewController {
         transcriptsItem.removeFromParent()
         transcriptsItem.view.removeFromSuperview()
         transcriptsItem.didDisappear()
-    }
-
-    private func configureTranscriptView() {
-        view.backgroundColor = ThemeColor.primaryUi01()
-
-        view.addSubview(transcriptsItem.view)
-        transcriptsItem.view.anchorToAllSidesOf(view: view)
     }
 }
 

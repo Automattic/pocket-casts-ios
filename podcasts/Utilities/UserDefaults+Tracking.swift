@@ -1,3 +1,5 @@
+import Foundation
+
 extension UserDefaults {
     enum VisitationTrackEvent: String {
         case discoverCategory

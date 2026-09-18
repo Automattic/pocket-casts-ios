@@ -237,36 +237,6 @@ class UserEpisodeDataManager {
         }
     }
 
-    func saveEpisodeSyncInfo(uuid: String, duration: Int?, playingStatus: Int?, playedUpTo: Int?, dbQueue: PCDBQueue) {
-        var fields = [String]()
-        var values = [Any]()
-
-        if let duration, duration > 0 {
-            fields.append("duration")
-            values.append(duration)
-        }
-
-        // this field defaults to non-null 0, which is not a valid playing status so we need to handle this
-        if let playingStatus {
-            let status = PlayingStatus(rawValue: Int32(playingStatus)) ?? .notPlayed
-            let actualStatus = Int(status.rawValue)
-            fields.append("playingStatus")
-            values.append(actualStatus)
-        } else {
-            fields.append("playingStatus")
-            values.append(PlayingStatus.notPlayed.rawValue)
-        }
-
-        if let playedUpTo, playedUpTo > 0 {
-            fields.append("playedUpTo")
-            values.append(playedUpTo)
-        }
-
-        values.append(uuid)
-
-        save(fields: fields, values: values, useId: false, dbQueue: dbQueue)
-    }
-
     func saveEpisode(playingStatus: PlayingStatus, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         episode.playingStatus = playingStatus.rawValue
         var fields = ["playingStatus"]

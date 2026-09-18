@@ -71,7 +71,6 @@ class PlaylistCellViewModel: ObservableObject {
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    @MainActor private lazy var episodeArtWork = EpisodeArtwork(imageManager: imageManager)
 
     let displayType: DisplayType
 

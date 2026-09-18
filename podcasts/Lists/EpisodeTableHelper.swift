@@ -1,6 +1,7 @@
 import DifferenceKit
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 struct EpisodeTableHelper {
     static func loadEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?) -> [ListEpisode] {

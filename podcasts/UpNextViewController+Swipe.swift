@@ -1,13 +1,10 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import SJUtils
 import SwipeCellKit
 
 extension UpNextViewController: SwipeTableViewCellDelegate {
-    func swipeCurrentlyAllowed() -> Bool {
-        return isReorderInProgress == false
-    }
-
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         switch orientation {
         case .left:
