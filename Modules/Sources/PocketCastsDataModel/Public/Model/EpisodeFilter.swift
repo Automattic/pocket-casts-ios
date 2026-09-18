@@ -1,8 +1,6 @@
 import Foundation
 import GRDB
-import GRDBMacros
 
-@GRDBRecord(table: "SJFilteredPlaylist")
 public class EpisodeFilter: NSObject {
     @objc public var id = 0 as Int64
     @objc public var autoDownloadEpisodes = false
@@ -10,7 +8,6 @@ public class EpisodeFilter: NSObject {
     @objc public var filterAllPodcasts = false
     @objc public var filterAudioVideoType = 0 as Int32
     @objc public var filterDownloaded = false
-    @GRDBIgnore
     @objc public let filterDownloading = true // we no longer let the user change this, it's just always true
     @objc public var filterFinished = false
     @objc public var filterNotDownloaded = false
@@ -34,17 +31,11 @@ public class EpisodeFilter: NSObject {
     @objc public var playlistUpdateDate: Date?
 
     // Internal tracking
-    @GRDBIgnore
     public var isNew: Bool = false
-    @GRDBIgnore
     public var podcastSmartRuleApplied: Bool = false
-    @GRDBIgnore
     public var episodesSmartRuleApplied: Bool = false
-    @GRDBIgnore
     public var releaseDateSmartRuleApplied: Bool = false
-    @GRDBIgnore
     public var mediaTypeSmartRuleApplied: Bool = false
-    @GRDBIgnore
     public var downloadStatusSmartRuleApplied: Bool = false
 
     override public init() {}
@@ -117,4 +108,39 @@ public class EpisodeFilter: NSObject {
     override public var hash: Int {
         Int(truncatingIfNeeded: id)
     }
+
+    // MARK: - GRDB
+
+    public static let databaseTableName = "SJFilteredPlaylist"
+
+    public func encode(to container: inout PersistenceContainer) {
+        container["id"] = id
+        container["autoDownloadEpisodes"] = autoDownloadEpisodes
+        container["customIcon"] = customIcon
+        container["filterAllPodcasts"] = filterAllPodcasts
+        container["filterAudioVideoType"] = filterAudioVideoType
+        container["filterDownloaded"] = filterDownloaded
+        container["filterFinished"] = filterFinished
+        container["filterNotDownloaded"] = filterNotDownloaded
+        container["filterPartiallyPlayed"] = filterPartiallyPlayed
+        container["filterStarred"] = filterStarred
+        container["filterUnplayed"] = filterUnplayed
+        container["filterHours"] = filterHours
+        container["playlistName"] = playlistName
+        container["sortPosition"] = sortPosition
+        container["sortType"] = sortType
+        container["uuid"] = uuid
+        container["podcastUuids"] = podcastUuids
+        container["autoDownloadLimit"] = autoDownloadLimit
+        container["filterDuration"] = filterDuration
+        container["longerThan"] = longerThan
+        container["shorterThan"] = shorterThan
+        container["syncStatus"] = syncStatus
+        container["wasDeleted"] = wasDeleted
+        container["manual"] = manual
+        container["showArchivedEpisodes"] = showArchivedEpisodes
+        container["playlistUpdateDate"] = playlistUpdateDate?.timeIntervalSince1970
+    }
 }
+
+extension EpisodeFilter: PersistableRecord {}
