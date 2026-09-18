@@ -10,10 +10,6 @@ excluded:
   - fastlane
   # Enumerate without pattern because it makes SwiftLint resolved faster
   - Modules/.build
-  - Modules/DataModel/.build
-  - Modules/GRDBMacros/.build
-  - Modules/Server/.build
-  - Modules/Utils/.build
   - Pods
   - Scripts
   # Automattic's CI caching setup may generate this in the project folder

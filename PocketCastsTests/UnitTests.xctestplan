@@ -29,25 +29,24 @@
     },
     {
       "skippedTests" : [
-        "AutoAddCandidatesDataManagerTests\/testNewQueryPerformance()",
-        "AutoAddCandidatesDataManagerTests\/testSyncableUpNextSetting()"
+        "AutoAddCandidatesDataManagerTests\/testQueryPerformance()"
       ],
       "target" : {
-        "containerPath" : "container:Modules\/DataModel",
+        "containerPath" : "container:Modules",
         "identifier" : "PocketCastsDataModelTests",
         "name" : "PocketCastsDataModelTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Modules\/Server",
+        "containerPath" : "container:Modules",
         "identifier" : "PocketCastsServerTests",
         "name" : "PocketCastsServerTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Modules\/Utils",
+        "containerPath" : "container:Modules",
         "identifier" : "PocketCastsUtilsTests",
         "name" : "PocketCastsUtilsTests"
       }
