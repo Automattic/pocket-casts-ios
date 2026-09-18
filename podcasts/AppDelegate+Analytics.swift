@@ -19,7 +19,7 @@ extension AppDelegate {
         if !Settings.analyticsOptOut() {
             adapters = [
                 AnalyticsLoggingAdapter(),
-                TracksAdapter(userDefaults: UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard),
+                TracksAdapter(userDefaults: SharedConstants.GroupUserDefaults.defaults),
                 CrashLoggingAdapter()
             ]
 #if DEBUG
