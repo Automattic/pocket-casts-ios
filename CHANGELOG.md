@@ -1,5 +1,6 @@
 8.22
 -----
+- Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
 
 
 8.21
