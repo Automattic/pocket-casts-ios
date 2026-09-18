@@ -134,6 +134,8 @@ enum NotificationType: String {
                 return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.90"
             case .reengagementDownloads:
                 return NotificationsCoordinator.shared.numberOfDownloadsAvailable() > 0
+            case .reengagementWeekly:
+                return false
             default:
                 return true
         }
