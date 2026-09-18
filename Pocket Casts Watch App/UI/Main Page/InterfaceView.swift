@@ -65,7 +65,7 @@ struct InterfaceView: View {
                         MenuRow(label: L10n.playlists, icon: "filters")
                     case .nowPlaying:
                         NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle)
-                            .padding(-4)
+                            .padding(.horizontal, -4)
                     }
                 }
             }
