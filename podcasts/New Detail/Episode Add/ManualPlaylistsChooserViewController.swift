@@ -20,6 +20,10 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private let analyticsSource: String
     private let dataManager = DataManager.sharedManager
 
+    /// Called once the user is done with the chooser, so a flow that opened it — such as
+    /// multi-select — can wrap itself up. Not called when the chooser is closed instead.
+    var onCompletion: (() -> Void)?
+
     private var tableView: ThemeableTable! {
         didSet {
             tableView.themeStyle = .primaryUi01
@@ -209,7 +213,9 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         let showAddedToast = !added.isEmpty && !changedPlaylists.isEmpty
 
-        dismiss(animated: true) {
+        dismiss(animated: true) { [onCompletion = self.onCompletion] in
+            onCompletion?()
+
             guard showAddedToast else {
                 return
             }

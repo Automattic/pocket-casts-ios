@@ -56,7 +56,7 @@ class ListeningHistoryViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             listeningHistoryTable.beginUpdates()
             listeningHistoryTable.setEditing(isMultiSelectEnabled, animated: true)
             listeningHistoryTable.endUpdates()
