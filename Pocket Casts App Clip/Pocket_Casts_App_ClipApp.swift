@@ -14,7 +14,10 @@ struct Pocket_Casts_App_ClipApp: App {
         ServerSettings.setSkipBackTime(10, syncChange: false)
         ServerSettings.setSkipForwardTime(45, syncChange: false)
 
-        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
+        Analytics.register(adapters: [
+            AnalyticsLoggingAdapter(),
+            TracksAdapter(userDefaults: UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard)
+        ])
     }
 
     var body: some Scene {

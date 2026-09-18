@@ -5,8 +5,10 @@ import PocketCastsUtils
 ///
 /// The unified logging system is covered by ``AnalyticsOSLogAdapter``, so events
 /// are never echoed to the console from here.
-struct AnalyticsLoggingAdapter: AnalyticsAdapter {
-    func track(name: String, properties: [String: Sendable]) async {
+public struct AnalyticsLoggingAdapter: AnalyticsAdapter {
+    public init() {}
+
+    public func track(name: String, properties: [String: Sendable]) async {
         guard FeatureFlag.tracksLogging.enabled else { return }
 
         if properties.isEmpty {

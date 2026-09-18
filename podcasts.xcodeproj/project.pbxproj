@@ -2726,13 +2726,10 @@
 		3F7479EC2F5551AA004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Analytics.swift,
-				"AnalyticsDescribable+Modules.swift",
-				AnalyticsEvent.swift,
+				"Exports+Analytics.swift",
 				Helpers/AnalyticsCoordinator.swift,
 				Helpers/AnalyticsEpisodeHelper.swift,
 				Helpers/AnalyticsPlaybackHelper.swift,
-				"String+Analytics.swift",
 			);
 			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
 		};

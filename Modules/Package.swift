@@ -30,6 +30,10 @@ let package = Package(
             targets: ["PocketCastsServer"]
         ),
         .library(
+            name: "PocketCastsAnalytics",
+            targets: ["PocketCastsAnalytics"]
+        ),
+        .library(
             name: "EndOfYear",
             targets: ["EndOfYear"]
         ),
@@ -161,6 +165,25 @@ let package = Package(
             resources: [.copy("Fixtures")]
         ),
         .target(
+            name: "PocketCastsAnalytics",
+            dependencies: [
+                "PocketCastsDataModel",
+                "PocketCastsServer",
+                "PocketCastsUtils",
+                "EventHorizonSDK",
+                .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
+            ],
+            path: "Sources/PocketCastsAnalytics",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ]
+        ),
+        .testTarget(
+            name: "PocketCastsAnalyticsTests",
+            dependencies: ["PocketCastsAnalytics"],
+            path: "Tests/PocketCastsAnalyticsTests"
+        ),
+        .target(
             name: "EndOfYear",
             dependencies: [
                 "PocketCastsDataModel",
@@ -250,6 +273,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
@@ -282,6 +306,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
@@ -300,6 +325,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
@@ -337,6 +363,7 @@ enum XcodeSupport {
                 dependencies: [
                     "PocketCastsUtils",
                     "PocketCastsLocalization",
+                    "PocketCastsAnalytics",
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "EventHorizonSDK",

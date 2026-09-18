@@ -1,9 +1,5 @@
 import Foundation
 
-protocol AnalyticsAppThemeProviding {
-    var appThemeProperties: [String: Sendable] { get }
-}
-
 struct AnalyticsAppThemeProvider: AnalyticsAppThemeProviding {
     var appThemeProperties: [String: Sendable] {
         return [

@@ -1,6 +1,5 @@
+@testable import PocketCastsAnalytics
 import XCTest
-
-@testable import podcasts
 
 class AnalyticsAppThemeProviderTests: XCTestCase {
     private var analytics = MockAnalytics()

@@ -1,3 +1,4 @@
+@testable import PocketCastsAnalytics
 @testable import podcasts
 import XCTest
 
