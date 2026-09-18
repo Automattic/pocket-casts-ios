@@ -3,6 +3,7 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import Combine
+import UIKit
 
 @Observable
 class NowPlayingViewModel: Identifiable {

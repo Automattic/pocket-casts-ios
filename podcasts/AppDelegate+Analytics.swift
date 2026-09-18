@@ -1,6 +1,7 @@
 import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
+import UIKit
 
 extension AppDelegate {
     private var shouldRegisterAdapters: Bool {

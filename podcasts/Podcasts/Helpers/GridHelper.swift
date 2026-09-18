@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class GridHelper {
     private static let bigDevicePortraitWidth: CGFloat = 600

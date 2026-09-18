@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension PCSearchBarController {
     func parentScrollViewDidScroll(_ scrollView: UIScrollView) {

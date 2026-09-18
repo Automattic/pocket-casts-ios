@@ -1,3 +1,5 @@
+import Foundation
+
 protocol TranscriptPlaybackManaging {
     var episodeUUID: String? { get }
     var podcastUUID: String? { get }

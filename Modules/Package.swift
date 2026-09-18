@@ -170,6 +170,22 @@ let package = Package(
             ],
             path: "Sources/EndOfYear"
         ),
+        .target(
+            name: "AEXML",
+            path: "Sources/AEXML"
+        ),
+        .target(
+            name: "MNAVChapters",
+            path: "Sources/MNAVChapters"
+        ),
+        .target(
+            name: "SJUtils",
+            path: "Sources/SJUtils"
+        ),
+        .target(
+            name: "VoiceBoostN",
+            path: "Sources/VoiceBoostN"
+        ),
         .binaryTarget(
             name: "EventHorizonSDK",
             url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocket-casts-2026-04-29-13-55-38/EventHorizon-pocket-casts-2026-04-29-13-55-38.xcframework.zip",
@@ -250,6 +266,10 @@ enum XcodeSupport {
                     .product(name: "WrappingHStack", package: "WrappingHStack"),
                     .product(name: "Fingerprint", package: "pocket-casts-ios-fingerprint"),
                     "EndOfYear",
+                    "AEXML",
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
             .xcodeTarget(
@@ -265,6 +285,9 @@ enum XcodeSupport {
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
                     .product(name: "Lottie", package: "lottie-ios"),
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
             .xcodeTarget(
@@ -277,6 +300,8 @@ enum XcodeSupport {
                     "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
+                    "MNAVChapters",
+                    "SJUtils",
                 ]
             ),
             .xcodeTarget(
@@ -318,6 +343,9 @@ enum XcodeSupport {
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
+                    "MNAVChapters",
+                    "SJUtils",
+                    "VoiceBoostN",
                 ]
             ),
         ]

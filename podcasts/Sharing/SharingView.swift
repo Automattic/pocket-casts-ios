@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
+import UniformTypeIdentifiers
 
 class ClipTime: ObservableObject {
     @Published var start: TimeInterval

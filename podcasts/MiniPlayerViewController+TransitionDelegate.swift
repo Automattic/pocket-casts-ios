@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {

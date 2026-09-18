@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 /// 🍞 Toast - A lightweight way to display informative overlay messages
 ///

@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import UIKit
 
 protocol DiscoverSummaryProtocol: AnyObject {
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate)

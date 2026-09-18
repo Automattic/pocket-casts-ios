@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class FeatureTour {
     private var tourController: TourViewController?

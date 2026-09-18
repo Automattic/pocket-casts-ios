@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import EventHorizonSDK
+import UIKit
 
 class Analytics {
     static let shared = Analytics()

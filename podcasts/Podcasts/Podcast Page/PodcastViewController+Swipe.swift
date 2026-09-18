@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
+import UIKit
 
 extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate

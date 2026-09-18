@@ -2,6 +2,7 @@ import Foundation
 @preconcurrency import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 @MainActor
 class MultiSelectHelper {

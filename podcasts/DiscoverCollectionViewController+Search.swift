@@ -1,5 +1,7 @@
 // All code needed for hooking up the search bar and related functionality to DiscoverCollectionViewController
 
+import UIKit
+
 extension DiscoverCollectionViewController {
     func setupSearchBar() {
         collectionView.delegate = self // For the UIScrollViewDelegate callbacks

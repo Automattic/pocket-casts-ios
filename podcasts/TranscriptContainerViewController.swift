@@ -1,3 +1,4 @@
+import UIKit
 
 class TranscriptContainerViewController: UIViewController {
     private let playbackManager: TranscriptPlaybackManaging

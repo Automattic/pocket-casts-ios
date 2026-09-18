@@ -1,3 +1,5 @@
+import Foundation
+
 public enum WatchConstants {
     public enum Keys {
         public static let messageVersion = "id"

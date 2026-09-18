@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension MiniPlayerViewController: UIGestureRecognizerDelegate {
     func addGestureRecognizers() {

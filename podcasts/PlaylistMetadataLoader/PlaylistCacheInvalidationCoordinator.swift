@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 import PocketCastsDataModel
 
 /// Coordinates playlist cache invalidation in response to episode changes.

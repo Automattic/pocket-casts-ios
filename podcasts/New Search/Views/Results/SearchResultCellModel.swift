@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils

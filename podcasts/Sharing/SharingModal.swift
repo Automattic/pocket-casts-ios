@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
 
 @MainActor
 enum SharingModal {

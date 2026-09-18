@@ -2,6 +2,8 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
+import VoiceBoostN
 
 class AudioReadTask {
     private let maxSilenceAmountToSave = 1000

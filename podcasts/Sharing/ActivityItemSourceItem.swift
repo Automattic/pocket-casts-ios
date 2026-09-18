@@ -1,3 +1,5 @@
+import UIKit
+
 class ActivityItemSourceItem: NSObject, UIActivityItemSource {
     let item: Any
     let disallowedActivityTypes: [UIActivity.ActivityType]?

@@ -3,6 +3,8 @@ import PocketCastsDataModel
 import Combine
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
+import UniformTypeIdentifiers
 
 enum ShareDestination: Hashable {
     case instagram

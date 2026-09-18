@@ -1,3 +1,5 @@
+import CoreGraphics
+
 extension CGSize {
     func fitting(aspectRatio: CGSize) -> CGSize {
         let targetAspectRatio = aspectRatio.width / aspectRatio.height

@@ -1,3 +1,4 @@
+import UIKit
 
 extension VideoViewController: TimeSliderDelegate {
     func sliderDidBeginSliding() {}

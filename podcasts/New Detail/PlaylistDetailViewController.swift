@@ -4,6 +4,7 @@ import DifferenceKit
 import SwiftUI
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
 
 class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     private(set) var viewModel: PlaylistDetailViewModel!

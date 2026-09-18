@@ -4,6 +4,7 @@ import Kingfisher
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
 
 class ImageManager {
     static let sharedManager = ImageManager()

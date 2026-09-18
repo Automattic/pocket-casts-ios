@@ -1,3 +1,5 @@
+import UIKit
+
 #if os(tvOS)
 class BackgroundShakeObserver {
     var whenShook: (() -> Void)?
