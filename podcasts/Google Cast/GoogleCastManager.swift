@@ -1,6 +1,7 @@
 import GoogleCast
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManagerListener, GCKCastDeviceStatusListener {
@@ -297,7 +298,9 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
 
     func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
         guard let mediaStatus else { return }
-        AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        MainActor.runOrEnqueue {
+            AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+        }
 
         if mediaStatus.playerState == .playing {
             if bufferingInitialPartOfEpisode {
@@ -318,7 +321,9 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
 
             if let playingEpisodeUuid = customData[episodeUuidKey] {
                 episodeUuidLoadedOnConnect = playingEpisodeUuid
-                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+                MainActor.runOrEnqueue {
+                    AnalyticsPlaybackHelper.shared.currentSource = .chromecast
+                }
                 PlaybackManager.shared.remoteDeviceAutoConnected(episodeUuidLoadedOnConnect)
             }
         }

@@ -13,7 +13,9 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
         let manager = DownloadManager(dataManager: DataManager.sharedManager)
-        AnalyticsEpisodeHelper.shared.setup()
+        MainActor.runOrEnqueue {
+            AnalyticsEpisodeHelper.shared.setup()
+        }
         return manager
     }()
 

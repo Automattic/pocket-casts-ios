@@ -36,7 +36,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.markAsPlayed(episode: episode)
+            MainActor.runOrEnqueue {
+                analyticsHelper.markAsPlayed(episode: episode)
+            }
         }
     }
 
@@ -100,7 +102,9 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
+        MainActor.runOrEnqueue {
+            analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
+        }
     }
 
     class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
@@ -114,7 +118,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitated {
-            analyticsHelper.downloadDeleted(episode: episode)
+            MainActor.runOrEnqueue {
+                analyticsHelper.downloadDeleted(episode: episode)
+            }
         }
     }
 
@@ -146,7 +152,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.markAsUnplayed(episode: episode)
+            MainActor.runOrEnqueue {
+                analyticsHelper.markAsUnplayed(episode: episode)
+            }
         }
     }
 
@@ -154,7 +162,9 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
+        MainActor.runOrEnqueue {
+            analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
+        }
     }
 
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
@@ -178,7 +188,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.archiveEpisode(episode)
+            MainActor.runOrEnqueue {
+                analyticsHelper.archiveEpisode(episode)
+            }
         }
     }
 
@@ -207,7 +219,9 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
+        MainActor.runOrEnqueue {
+            analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
+        }
     }
 
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
@@ -225,7 +239,9 @@ class EpisodeManager: NSObject {
         }
 
         if userInitiated {
-            analyticsHelper.unarchiveEpisode(episode)
+            MainActor.runOrEnqueue {
+                analyticsHelper.unarchiveEpisode(episode)
+            }
         }
     }
 
@@ -235,7 +251,9 @@ class EpisodeManager: NSObject {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
         if trackEvent {
-            analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+            MainActor.runOrEnqueue {
+                analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+            }
         }
     }
 
@@ -244,7 +262,9 @@ class EpisodeManager: NSObject {
             DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.listeningHistoryChanged)
-        analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+        MainActor.runOrEnqueue {
+            analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+        }
     }
 
     class func deleteAllEpisodesInPodcast(id: Int64) {
@@ -280,10 +300,12 @@ class EpisodeManager: NSObject {
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
 
-        if starred {
-            analyticsHelper.star(episode: episode)
-        } else {
-            analyticsHelper.unstar(episode: episode)
+        MainActor.runOrEnqueue {
+            if starred {
+                analyticsHelper.star(episode: episode)
+            } else {
+                analyticsHelper.unstar(episode: episode)
+            }
         }
     }
 
@@ -297,10 +319,12 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        if starred {
-            analyticsHelper.bulkStar(count: episodes.count)
-        } else {
-            analyticsHelper.bulkUnstar(count: episodes.count)
+        MainActor.runOrEnqueue {
+            if starred {
+                analyticsHelper.bulkStar(count: episodes.count)
+            } else {
+                analyticsHelper.bulkUnstar(count: episodes.count)
+            }
         }
     }
 
@@ -586,6 +610,8 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
+        MainActor.runOrEnqueue {
+            analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
+        }
     }
 }
