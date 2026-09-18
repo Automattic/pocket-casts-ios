@@ -105,6 +105,9 @@ let package = Package(
             name: "PocketCastsLocalization",
             dependencies: ["PocketCastsUtils"],
             path: "Sources/PocketCastsLocalization",
+            swiftSettings: [
+                .unsafeFlags(["-enable-incremental-imports"], .when(configuration: .debug))
+            ],
             plugins: ["GenerateL10n"]
         ),
         .testTarget(
