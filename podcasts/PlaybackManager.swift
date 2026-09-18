@@ -1,5 +1,6 @@
 import AVFoundation
 import MediaPlayer
+import os
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -42,31 +43,31 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var interruptInProgress = false
 
     private var wasPlayingBeforeInterruption = false
-    private let aboutToPlay = AtomicBool()
+    private let aboutToPlay = OSAllocatedUnfairLock(initialState: false)
 
-    private let shouldDeactivateSession = AtomicBool()
+    private let shouldDeactivateSession = OSAllocatedUnfairLock(initialState: false)
     private var haveCalledPlayerLoad = false
 
     /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
     /// emitted once when playback actually starts (not on resume/seek) and again after the player
     /// is rebuilt for a new episode. Reset in `cleanupCurrentPlayer`. Atomic because it's mutated
     /// from the `activateAudioSession` completion, which can run off the main queue.
-    private let hasReportedSourceResolved = AtomicBool()
+    private let hasReportedSourceResolved = OSAllocatedUnfairLock(initialState: false)
 
     /// Set at runtime when the currently playing stream is found to contain video tracks
     /// (e.g. an HLS stream carrying video). Complements `Episode.videoPodcast()`, which is
     /// based on the progressive file's MIME type and can't see into an HLS alternate enclosure.
     /// Atomic because it's read from now-playing updates that can run off the main queue.
-    private let currentStreamContainsVideo = AtomicBool()
+    private let currentStreamContainsVideo = OSAllocatedUnfairLock(initialState: false)
 
     /// Whether the video of the current stream should be rendered. Defaults to on; the user can
     /// switch an HLS video stream to audio-only via the player shelf toggle. Reset per episode.
-    private let videoRenderingEnabled = AtomicBool(true)
+    private let videoRenderingEnabled = OSAllocatedUnfairLock(initialState: true)
 
     /// Whether the user has chosen to watch the current downloaded episode's video. The downloaded file
     /// is the progressive (audio-only) enclosure, so watching video means streaming the HLS source
     /// instead. This survives the in-place reload that switches the source and is reset per episode.
-    private let streamingVideoForDownloadedEpisode = AtomicBool()
+    private let streamingVideoForDownloadedEpisode = OSAllocatedUnfairLock(initialState: false)
 
     private let updateTimerInterval = 1 as TimeInterval
 
@@ -156,7 +157,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var isPlaying: Bool {
-        if aboutToPlay.value { return true }
+        if aboutToPlay.withLock({ $0 }) { return true }
 
         return player?.playing() ?? false
     }
@@ -200,7 +201,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // A new episode shouldn't inherit the previous one's "watch downloaded video" choice.
         if episodeIsChanging {
-            streamingVideoForDownloadedEpisode.value = false
+            streamingVideoForDownloadedEpisode.withLock { $0 = false }
         }
 
         if let uuid = currentEpisode?.uuid, uuid != episode.uuid {
@@ -292,7 +293,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             analyticsPlaybackHelper.play()
         }
 
-        aboutToPlay.value = true
+        aboutToPlay.withLock { $0 = true }
 
         if playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
@@ -306,17 +307,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         // calls can't each capture `true` and report twice for the same player. Only engaged when
         // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
         // later in the session.
-        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.withLock { $0 }
         if shouldReportSourceResolved {
-            hasReportedSourceResolved.value = true
+            hasReportedSourceResolved.withLock { $0 = true }
         }
 
         activateAudioSession(completion: { activated in
             if !activated {
-                self.aboutToPlay.value = false
+                self.aboutToPlay.withLock { $0 = false }
                 // Playback didn't start, so allow a later retry to report the resolved source.
                 if shouldReportSourceResolved {
-                    self.hasReportedSourceResolved.value = false
+                    self.hasReportedSourceResolved.withLock { $0 = false }
                 }
                 return
             }
@@ -624,7 +625,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         if seekingTo >= 0, seekingTo <= duration(), !isPlaying { return seekingTo }
 
-        let playerTime = !aboutToPlay.value ? player?.currentTime() ?? 0 : 0
+        let playerTime = !aboutToPlay.withLock { $0 } ? player?.currentTime() ?? 0 : 0
 
         if playerTime <= 0 {
             let startFromTime = startFromTimeForCurrentEpisode()
@@ -637,7 +638,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func duration() -> TimeInterval {
         guard let currentEpisode else { return 0 }
 
-        if let player, !aboutToPlay.value, !isBuffering {
+        if let player, !aboutToPlay.withLock({ $0 }), !isBuffering {
             let episodeDuration = currentEpisode.duration
             let playerDuration = player.duration()
             return (playerDuration > 0) ? playerDuration : episodeDuration
@@ -841,7 +842,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
         // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
         // is actually HLS (a downloaded episode plays its local file, which may not be video).
-        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
+        return episode.videoPodcast() || currentStreamContainsVideo.withLock { $0 } || EpisodeManager.willPlayViaHLS(episode)
     }
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
@@ -854,14 +855,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
     /// or the global "Audio only" setting.
     func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
+        isCurrentEpisodeVideo() && videoRenderingEnabled.withLock { $0 } && !isAudioOnlyForced
     }
 
     /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
     /// or they've switched the current stream's video off via the shelf toggle. Reported as the
     /// `audio_only_mode` analytics property.
     var isAudioOnlyMode: Bool {
-        isAudioOnlyForced || !videoRenderingEnabled.value
+        isAudioOnlyForced || !videoRenderingEnabled.withLock { $0 }
     }
 
     /// Whether the audio/video toggle should be offered for the current episode. Any episode with an HLS
@@ -877,7 +878,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// because the user turned the video toggle on for it. Consulted by `EpisodeManager.willPlayViaHLS` /
     /// `urlForEpisode` when resolving the playback source.
     func shouldStreamVideoDespiteDownload(_ episode: BaseEpisode) -> Bool {
-        streamingVideoForDownloadedEpisode.value
+        streamingVideoForDownloadedEpisode.withLock { $0 }
             && episode.uuid == currentEpisode?.uuid
             && EpisodeManager.hasHLSStream(episode)
     }
@@ -891,12 +892,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let switchedToVideo: Bool
         if hasDownloadedFile(episode) {
-            streamingVideoForDownloadedEpisode.toggle()
-            switchedToVideo = streamingVideoForDownloadedEpisode.value
+            switchedToVideo = streamingVideoForDownloadedEpisode.withLock { $0.toggle(); return $0 }
             reloadCurrentEpisodeSource()
         } else {
-            videoRenderingEnabled.toggle()
-            switchedToVideo = videoRenderingEnabled.value
+            switchedToVideo = videoRenderingEnabled.withLock { $0.toggle(); return $0 }
         }
         analyticsPlaybackHelper.videoRenderingToggled(switchedToVideo: switchedToVideo, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
@@ -920,8 +919,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Called by the player when it detects video tracks in the stream it is playing.
     /// Used for HLS streams whose video content isn't reflected in the episode's file type.
     func handleVideoTracksDetected(forEpisode episodeUuid: String) {
-        guard currentEpisode?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
-        currentStreamContainsVideo.value = true
+        guard currentEpisode?.uuid == episodeUuid, !currentStreamContainsVideo.withLock({ $0 }) else { return }
+        currentStreamContainsVideo.withLock { $0 = true }
         setAudioSessionVideoProperties()
         // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
         refreshNowPlayingInfo(forceFullRebuild: true)
@@ -968,14 +967,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        shouldDeactivateSession.value = true
+        shouldDeactivateSession.withLock { $0 = true }
         // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
         deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
             guard let self else { return }
 
             let audioSession = AVAudioSession.sharedInstance()
-            if !self.shouldDeactivateSession.value { return }
-            self.shouldDeactivateSession.value = false
+            if !self.shouldDeactivateSession.withLock({ $0 }) { return }
+            self.shouldDeactivateSession.withLock { $0 = false }
             self.performDeactivate(audioSession: audioSession)
         }
     }
@@ -1178,7 +1177,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc func playerDidFinishPreparing() {
         // to speed things up, we report the player as playing before it actually has, this callback is so it can tell us when it has
-        aboutToPlay.value = false
+        aboutToPlay.withLock { $0 = false }
 
         // make sure we load the saved speed for this track
         player?.setPlaybackRate(effects().playbackSpeed)
@@ -1570,14 +1569,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
-        hasReportedSourceResolved.value = false
-        currentStreamContainsVideo.value = false
-        videoRenderingEnabled.value = true
+        hasReportedSourceResolved.withLock { $0 = false }
+        currentStreamContainsVideo.withLock { $0 = false }
+        videoRenderingEnabled.withLock { $0 = true }
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         player?.endPlayback(permanent: permanent)
 
-        if permanent { aboutToPlay.value = false }
+        if permanent { aboutToPlay.withLock { $0 = false } }
         currentEffects = nil
 
         // DefaultPlayer and EffectsPlayer both have issues if you discard them immediately after stopping them. DefaultPlayer will crash while trying to render more audio and EffectsPlayer has internal issues as well.
@@ -1615,7 +1614,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
 
-        shouldDeactivateSession.value = false
+        shouldDeactivateSession.withLock { $0 = false }
 
         #if os(watchOS)
             do {
