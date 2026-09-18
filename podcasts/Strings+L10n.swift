@@ -175,7 +175,9 @@ private final class BundleToken {
     }()
 
     static let baseBundle: Bundle = {
-        let path = Bundle.main.path(forResource: "en", ofType: "lproj")
-        return Bundle(path: path!)!
+        guard let path = Bundle.main.path(forResource: "en", ofType: "lproj"), let bundle = Bundle(path: path) else {
+            return Bundle.main
+        }
+        return bundle
     }()
 }

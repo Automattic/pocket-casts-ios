@@ -94,4 +94,4 @@ let localizedCount = count.localized(.none)
 
 ## Swift Packages
 
-The localization for swift packages currently exists in the host app ([DataModel+Strings](../podcasts/DataModel+Strings.swift), [Server+Strings](../podcasts/Server+Strings.swift)). As much as possible, try to keep localization to the host app, this simplifies the release process. If a string can't be defined in the host app you can reference it via the main bundle such as in the DataModel [Strings+L10n](../Modules/DataModel/Sources/DataModel/Private/Strings+L10n.swift)
+The translations live in the host app's `Localizable.strings` files, and the Swift package modules don't use `L10n`. When a package type needs a user-facing string, add it as an extension in the host app, such as [DataModel+Strings](../podcasts/DataModel+Strings.swift).
