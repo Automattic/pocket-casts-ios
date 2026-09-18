@@ -33,6 +33,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     @IBOutlet var exitFullScreenBtn: UIButton! {
         didSet {
+            exitFullScreenBtn.tintColor = controlsTintColor
             exitFullScreenBtn.accessibilityLabel = L10n.playerVideoExitFullScreen
         }
     }
