@@ -156,7 +156,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// Pass `isCurrentEpisode: false` for an episode that hasn't started yet (e.g. the next autoplay
     /// episode): the per-session video toggle only applies to the episode currently playing, so
     /// `audio_only_mode` should reflect just the global "Audio only" setting for an upcoming one.
-    static func hlsLifecycleProperties(for episode: BaseEpisode?, isCurrentEpisode: Bool = true) -> [String: Any] {
+    nonisolated static func hlsLifecycleProperties(for episode: BaseEpisode?, isCurrentEpisode: Bool = true) -> [String: Any] {
         guard FeatureFlag.hls.enabled else { return [:] }
         var properties: [String: Any] = ["hls_available": episodeOffersHLS(episode)]
         if let audioOnlyMode = audioOnlyMode(for: episode, isCurrentEpisode: isCurrentEpisode) {
@@ -172,7 +172,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// For the episode currently playing this is the full state (global setting OR per-session toggle).
     /// For an episode that hasn't started yet the per-session toggle doesn't apply — it resets to video
     /// when the episode opens — so only the global "Audio only" setting carries over.
-    private static func audioOnlyMode(for episode: BaseEpisode?, isCurrentEpisode: Bool) -> Bool? {
+    nonisolated private static func audioOnlyMode(for episode: BaseEpisode?, isCurrentEpisode: Bool) -> Bool? {
         guard let episode, EpisodeManager.willPlayViaHLS(episode) else { return nil }
         let manager = PlaybackManager.shared
         return isCurrentEpisode ? manager.isAudioOnlyMode : manager.isAudioOnlyForced
@@ -180,13 +180,13 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
 
     /// The protocol an episode's source resolves to for playback (`hls`/`progressive`), for events
     /// where the source is known. Empty unless the HLS feature flag is on.
-    static func hlsProtocolProperties(for episode: BaseEpisode) -> [String: Any] {
+    nonisolated static func hlsProtocolProperties(for episode: BaseEpisode) -> [String: Any] {
         guard FeatureFlag.hls.enabled else { return [:] }
         return ["playback_protocol": EpisodeManager.willPlayViaHLS(episode) ? "hls" : "progressive"]
     }
 
     /// Whether the episode advertises an HLS stream, independent of whether it's the selected source.
-    private static func episodeOffersHLS(_ episode: BaseEpisode?) -> Bool {
+    nonisolated private static func episodeOffersHLS(_ episode: BaseEpisode?) -> Bool {
         guard let episode = episode as? Episode, let hlsUrl = episode.hlsUrl else { return false }
         return !hlsUrl.isEmpty
     }

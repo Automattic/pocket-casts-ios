@@ -72,6 +72,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
+@MainActor
 class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
@@ -94,45 +95,34 @@ class AnalyticsCoordinator {
         }
 
         #if !os(watchOS) && !APPCLIP
-        guard Thread.isMainThread else { return .unknown }
-        return MainActor.assumeIsolated { topAnalyticsSourceProvider()?.analyticsSource } ?? .unknown
+        return topAnalyticsSourceProvider()?.analyticsSource ?? .unknown
         #else
         return .unknown
         #endif
     }
 
-#if !os(watchOS) && !APPCLIP
-        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-            // Only dispatch async on the main thread if needed
-            guard Thread.isMainThread else {
-                DispatchQueue.main.async {
-                    self.track(event, properties: properties)
-                }
-                return
-            }
+    #if !os(watchOS) && !APPCLIP
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
+        let defaultProperties: [String: Any] = ["source": currentAnalyticsSource, "content_type": currentEpisodeIsVideo ? "video" : "audio"]
+        let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+        Analytics.track(event, properties: mergedProperties)
+    }
 
-            let defaultProperties: [String: Any] = ["source": currentAnalyticsSource, "content_type": currentEpisodeIsVideo ? "video" : "audio"]
-            let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
-            Analytics.track(event, properties: mergedProperties)
-        }
-
-    @MainActor
     func getTopViewController(base: UIViewController?) -> UIViewController? {
-            guard UIApplication.shared.applicationState == .active else {
-                return nil
-            }
-
-            if let nav = base as? UINavigationController {
-                return getTopViewController(base: nav.visibleViewController)
-            } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-                return getTopViewController(base: selected)
-            } else if let presented = base?.presentedViewController {
-                return getTopViewController(base: presented)
-            }
-            return base
+        guard UIApplication.shared.applicationState == .active else {
+            return nil
         }
 
-    @MainActor
+        if let nav = base as? UINavigationController {
+            return getTopViewController(base: nav.visibleViewController)
+        } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return getTopViewController(base: selected)
+        } else if let presented = base?.presentedViewController {
+            return getTopViewController(base: presented)
+        }
+        return base
+    }
+
     func topAnalyticsSourceProvider() -> AnalyticsSourceProvider? {
         guard let topViewController = getTopViewController(base: SceneHelper.rootViewController()) else { return nil }
 
@@ -147,7 +137,7 @@ class AnalyticsCoordinator {
         return nil
     }
     #else
-        /// NOOP track event to preventing needing to wrap all the events in #if checks
-        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
+    /// NOOP track event to preventing needing to wrap all the events in #if checks
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
     #endif
 }

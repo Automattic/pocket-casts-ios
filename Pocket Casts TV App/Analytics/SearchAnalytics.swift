@@ -7,6 +7,7 @@ enum SearchAnalytics {
 
     static let source = "search"
 
+    @MainActor
     static func episodeTapped(_ episode: EpisodeSearchResult) {
         AnalyticsPlaybackHelper.shared.currentSource = .search
         Analytics.track(.searchResultTapped, properties: [
