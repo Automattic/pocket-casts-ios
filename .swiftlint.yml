@@ -179,19 +179,22 @@ custom_rules:
 
   localization_comment:
     name: "Localization Comment"
-    regex: 'NSLocalizedString([^,]+,\s+comment:\s*"")'
+    regex: 'NSLocalizedString\([^,]+,\s+comment:\s*""'
     message: "Localized strings should include a description giving context for how the string is used."
     severity: warning
+    excluded_match_kinds: [comment, doccomment]
 
   string_interpolation_in_localized_string:
     name: "String Interpolation in Localized String"
     regex: 'NSLocalizedString\("[^"]*\\\(\S*\)'
     message: "Localized strings must not use interpolated variables. Instead, use `String(format:`"
     severity: error
+    excluded_match_kinds: [comment, doccomment]
 
   swiftui_localization:
     name: "SwiftUI Localization"
     regex: 'LocalizedStringKey'
     message: "Using `LocalizedStringKey` is incompatible with our tooling and doesn't allow you to provide a hint/context comment for translators either. Please use `NSLocalizedString` instead, even with SwiftUI code."
     severity: error
+    excluded_match_kinds: [comment, doccomment, string]
     excluded: '.*Widgets/.*'
