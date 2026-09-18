@@ -8,21 +8,24 @@ public struct Mutex<Value>: ~Copyable {
     @usableFromInline
     let lock: OSAllocatedUnfairLock<Value>
 
-    public init(_ initialValue: Value) {
+    public init(_ initialValue: consuming sending Value) {
         lock = OSAllocatedUnfairLock(uncheckedState: initialValue)
     }
 
     /// Calls `body` with exclusive access to the protected value and returns its result.
     @inlinable
-    public borrowing func withLock<Result, E: Error>(_ body: (inout Value) throws(E) -> Result) throws(E) -> Result {
-        let result = lock.withLockUnchecked { value -> Swift.Result<Result, E> in
-            do throws(E) {
-                return .success(try body(&value))
-            } catch {
-                return .failure(error)
+    public borrowing func withLock<Result, E: Error>(_ body: (inout sending Value) throws(E) -> sending Result) throws(E) -> sending Result {
+        let result = lock.withLockUnchecked { value in
+            withUnsafeMutablePointer(to: &value) { pointer -> UnsafeTransfer<Swift.Result<Result, E>> in
+                let pointer = UnsafeTransfer(pointer)
+                do throws(E) {
+                    return UnsafeTransfer(.success(try body(&pointer.wrappedValue.pointee)))
+                } catch {
+                    return UnsafeTransfer(.failure(error))
+                }
             }
         }
-        return try result.get()
+        return try result.wrappedValue.get()
     }
 }
 
