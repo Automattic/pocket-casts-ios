@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-extension L10n {
+public extension L10n {
     // MARK: Proper Nouns
 
     /// These strings are proper nouns and shouldn't be localized
@@ -125,14 +125,6 @@ extension L10n {
         count == 1 ? L10n.downloadEpisodeSingular : L10n.downloadEpisodePluralFormat(count.localized())
     }
 
-    static let bulkDownloadMax: String = {
-        #if os(watchOS)
-            return L10n.bulkDownloadMaxFormat(100.localized())
-        #else
-            return L10n.bulkDownloadMaxFormat(Constants.Limits.maxBulkDownloads.localized())
-        #endif
-    }()
-
     static func seasonEpisodeShorthand(seasonNumber: Int64, episodeNumber: Int64, shortFormat: Bool = false) -> String {
         if seasonNumber > 0, episodeNumber > 0 {
             return L10n.seasonEpisodeShorthandFormat(seasonNumber.localized(), episodeNumber.localized())
@@ -152,30 +144,21 @@ extension L10n {
 }
 
 extension L10n {
-    static func localizedFormat(_ key: String, _ table: String?, _ value: String? = nil) -> String {
-        let format = BundleToken.bundle.localizedString(forKey: key, value: value, table: table)
+    public static func localizedFormat(_ key: String, _ table: String?, _ value: String? = nil) -> String {
+        let format = Bundle.main.localizedString(forKey: key, value: value, table: table)
 
         if format.isEmpty || format == key {
             // The key hasn't been translated yet so return the english translation
-            return BundleToken.baseBundle.localizedString(forKey: key, value: value, table: table)
+            return englishBundle.localizedString(forKey: key, value: value, table: table)
         }
 
         return format
     }
-}
 
-// swiftlint:disable convenience_type
-private final class BundleToken {
-    static let bundle: Bundle = {
-        #if SWIFT_PACKAGE
-            return Bundle.module
-        #else
-            return Bundle(for: BundleToken.self)
-        #endif
-    }()
-
-    static let baseBundle: Bundle = {
-        let path = Bundle.main.path(forResource: "en", ofType: "lproj")
-        return Bundle(path: path!)!
+    private static let englishBundle: Bundle = {
+        guard let path = Bundle.main.path(forResource: "en", ofType: "lproj"), let bundle = Bundle(path: path) else {
+            return Bundle.main
+        }
+        return bundle
     }()
 }

@@ -6,7 +6,7 @@ FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
 # `swift package plugin` adds ~0.4s of startup to every invocation.
 SWIFTLINT_BIN=BuildTools/.build/artifacts/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint
 # Explicit --config prevents SwiftLint from picking up nested configs in
-# BuildTools/.build/checkouts/ (e.g., SwiftGenPlugin's .swiftlint.yml).
+# BuildTools/.build/checkouts/.
 SWIFTLINT=$(SWIFTLINT_BIN) lint --config .swiftlint.yml --quiet
 # Parse the human-readable output of simctl
 SIMULATOR_NAME = $(shell xcrun simctl list devices available \
@@ -14,16 +14,6 @@ SIMULATOR_NAME = $(shell xcrun simctl list devices available \
 	| tail -1 | sed 's/^[[:space:]]*//' | sed 's/ *(.*) *$$//')
 
 .PHONY: help build clean test lint lint_changed lint_lenient format install_dependencies
-
-define run_in_buildtools
-	@pushd BuildTools && \
-	export SDKROOT=$$(xcrun --sdk macosx --show-sdk-path) && \
-	swift package plugin \
-		--allow-writing-to-directory .. \
-		--allow-writing-to-package-directory \
-		$(1) && \
-	popd
-endef
 
 help: ## Show this list of commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -33,9 +23,6 @@ swift_percentage: ## Swift and Obj-C percentage on the project
 
 generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
-
-generate_code:
-	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
 
 # Downloads the pinned SwiftLint artifact bundle on a fresh checkout, and
 # re-resolves when the pin changes so a version bump takes effect.

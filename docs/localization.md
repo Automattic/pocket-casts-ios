@@ -2,7 +2,7 @@
 
 The app uses [SwiftGen](https://github.com/SwiftGen/SwiftGen) to create the app strings from the `Localizable.strings` files in the app. To add a new string add it to the English translation of the [Localizable.strings](../podcasts/en.lproj/Localizable.strings) file. 
 
-On each build any new string added to the english localization of `Localizable.strings` will created a generated constant or function in [Strings+Generated.swift](../podcasts/Strings+Generated.swift) as part of the `L10n` enum.
+On each build any new string added to the english localization of `Localizable.strings` will created a generated constant or function in the `L10n` enum. The enum lives in the `PocketCastsLocalization` module ([Modules/Sources/PocketCastsLocalization](../Modules/Sources/PocketCastsLocalization)); its `GenerateL10n` build plugin runs SwiftGen whenever the English strings change. The app targets re-export the module from [Exports.swift](../podcasts/Exports.swift), so app code uses `L10n` without an import.
 
 When Strings are generated, they are converted from snake case to camel case and strings with an associated format are created as functions that will accept the passed in parameters and perform a type checking.
 
@@ -94,4 +94,4 @@ let localizedCount = count.localized(.none)
 
 ## Swift Packages
 
-The localization for swift packages currently exists in the host app ([DataModel+Strings](../podcasts/DataModel+Strings.swift), [Server+Strings](../podcasts/Server+Strings.swift)). As much as possible, try to keep localization to the host app, this simplifies the release process. If a string can't be defined in the host app you can reference it via the main bundle such as in the DataModel [Strings+L10n](../Modules/DataModel/Sources/DataModel/Private/Strings+L10n.swift)
+The translations stay in the host app's `Localizable.strings` files, which each target bundles; `L10n` reads them from the main bundle. A module that needs strings depends on `PocketCastsLocalization` and imports it. In module unit tests, where the main bundle has no translations, `L10n` returns the English values.
