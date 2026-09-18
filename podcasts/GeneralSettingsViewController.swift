@@ -12,7 +12,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly, whatsNewUnreadDot }
     private var tableData: [[TableRow]] {
         var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
         if FeatureFlag.hls.enabled {
@@ -23,6 +23,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         }
         if FeatureFlag.voiceBoostN.enabled {
             data.append([.voiceBoostN])
+        }
+        if FeatureFlag.whatsNewFeed.enabled {
+            data.append([.whatsNewUnreadDot])
         }
         return data
     }
@@ -340,6 +343,16 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(voiceBoostNToggled(_:)), for: .valueChanged)
 
             return cell
+        case .whatsNewUnreadDot:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralWhatsNewUnreadDot
+            cell.cellSwitch.isOn = Settings.showWhatsNewDot
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(whatsNewUnreadDotToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -456,6 +469,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralPlayerHeader)
         } else if tableData[safe: section]?.contains(.autoRestartSleepTimer) == true {
             return SettingsTableHeader(frame: headerFrame, title: L10n.sleepTimer)
+        } else if tableData[safe: section]?.contains(.whatsNewUnreadDot) == true {
+            return SettingsTableHeader(frame: headerFrame, title: L10n.whatsNew)
         }
 
         return nil
@@ -489,6 +504,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.shakeToRestartSleepTimerDescription
         case .voiceBoostN:
             return L10n.settingsGeneralVoiceBoostNSubtitle
+        case .whatsNewUnreadDot:
+            return L10n.settingsGeneralWhatsNewUnreadDotSubtitle
         default:
             return nil
         }
@@ -625,6 +642,13 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     @objc private func voiceBoostNToggled(_ sender: UISwitch) {
         Settings.isVoiceBoostNEnabled = sender.isOn
+    }
+
+    @objc private func whatsNewUnreadDotToggled(_ sender: UISwitch) {
+        Settings.showWhatsNewDot = sender.isOn
+        ServerSettings.syncSettings()
+
+        Settings.trackValueToggled(.settingsGeneralWhatsNewUnreadDotToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
