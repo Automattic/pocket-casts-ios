@@ -64,7 +64,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         }
 
         self.measure {
-            let candidates = dataManager.autoAddCandidates.candidates()
+            _ = dataManager.autoAddCandidates.candidates()
         }
     }
 }

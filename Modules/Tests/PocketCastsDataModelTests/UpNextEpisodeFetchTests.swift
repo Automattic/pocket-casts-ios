@@ -26,7 +26,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 dataManager: dataManager,
                 episodeUuid: upNextEpisode.uuid,
                 title: upNextEpisode.title ?? "",
-                podcastUuid: upNextEpisode.podcastUuid ?? "",
+                podcastUuid: upNextEpisode.podcastUuid,
                 position: 0
             )
             addPlaylistEntry(
@@ -35,7 +35,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 playlistId: 999,
                 position: 1,
                 title: otherEpisode.title ?? "",
-                podcastUuid: otherEpisode.podcastUuid ?? ""
+                podcastUuid: otherEpisode.podcastUuid
             )
 
             let results = dataManager.allUpNextEpisodes()

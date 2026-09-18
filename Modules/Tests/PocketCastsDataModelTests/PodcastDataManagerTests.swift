@@ -621,8 +621,8 @@ final class PodcastDataManagerTests: DataManagerTestCase {
 
     func testSaveSortOrdersUpdatesPodcastSortOrders() throws {
         try runWithBothImplementations { dataManager, impl in
-            var podcast1 = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", sortOrder: 0, dataManager: dataManager)
-            var podcast2 = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", sortOrder: 1, dataManager: dataManager)
+            let podcast1 = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", sortOrder: 0, dataManager: dataManager)
+            let podcast2 = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", sortOrder: 1, dataManager: dataManager)
 
             podcast1.sortOrder = 10
             podcast2.sortOrder = 20
@@ -638,7 +638,7 @@ final class PodcastDataManagerTests: DataManagerTestCase {
 
     func testSaveSortOrdersMarksPodcastsUnsynced() throws {
         try runWithBothImplementations { dataManager, impl in
-            var podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", sortOrder: 0, syncStatus: SyncStatus.synced.rawValue, dataManager: dataManager)
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", sortOrder: 0, syncStatus: SyncStatus.synced.rawValue, dataManager: dataManager)
 
             podcast.sortOrder = 5
             dataManager.saveSortOrders(podcasts: [podcast])
