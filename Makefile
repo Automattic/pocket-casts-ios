@@ -37,9 +37,11 @@ generate_colors: ## Generate colors and themes based on themes.csv
 generate_code:
 	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
 
-# Downloads the pinned SwiftLint artifact bundle on a fresh checkout.
-$(SWIFTLINT_BIN):
-	@cd BuildTools && SDKROOT=$$(xcrun --sdk macosx --show-sdk-path) swift package resolve
+# Downloads the pinned SwiftLint artifact bundle on a fresh checkout, and
+# re-resolves when the pin changes so a version bump takes effect.
+$(SWIFTLINT_BIN): BuildTools/Package.resolved
+	@cd BuildTools && SDKROOT=$$(xcrun --sdk macosx --show-sdk-path) swift package --manifest-cache none resolve
+	@touch -c $@
 
 lint: $(SWIFTLINT_BIN) ## Lint the codebase
 	@$(SWIFTLINT)
