@@ -164,6 +164,8 @@ final class LocalSearchCoordinator {
                 return
             }
 
+            PlaylistManager.checkForAutoDownloads(in: playlist)
+
             // For now let's track the event directly here to avoid swift concurrency warning using the PlaylistTypeTrackerProvider
             Analytics.track(
                 .episodeAddedToList,

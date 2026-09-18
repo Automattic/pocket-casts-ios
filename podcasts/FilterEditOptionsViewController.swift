@@ -66,6 +66,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
+        PlaylistManager.checkForAutoDownloads(in: filterToEdit)
 
         if isViewingShortcuts == false {
             let properties = ["did_change_name": didChangeName,
