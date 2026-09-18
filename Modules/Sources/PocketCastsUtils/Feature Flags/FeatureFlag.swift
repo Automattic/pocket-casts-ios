@@ -170,9 +170,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable VoiceBoostN with updated description copy (TestFlight only)
     case voiceBoostN
 
-    /// Use GRDB QueryInterface for database queries instead of raw SQL
-    case grdbQueryInterface
-
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
 
@@ -382,8 +379,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .voiceBoostN:
             false
-        case .grdbQueryInterface:
-            true
         case .playlistCacheInvalidation:
             true
         case .watchLogFileTransfer:
