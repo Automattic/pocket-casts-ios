@@ -13,7 +13,7 @@ SIMULATOR_NAME = $(shell xcrun simctl list devices available \
 	| grep "iPhone" \
 	| tail -1 | sed 's/^[[:space:]]*//' | sed 's/ *(.*) *$$//')
 
-.PHONY: help build clean test lint lint_lenient format install_dependencies
+.PHONY: help build clean test lint lint_changed lint_lenient format install_dependencies
 
 define run_in_buildtools
 	@pushd BuildTools && \
@@ -46,6 +46,11 @@ $(SWIFTLINT_BIN): BuildTools/Package.resolved .swiftlint.yml
 
 lint: $(SWIFTLINT_BIN) ## Lint the codebase
 	@$(SWIFTLINT)
+
+lint_changed: $(SWIFTLINT_BIN) ## Lint Swift files changed since the branch forked from trunk
+	@{ git diff --name-only -z --diff-filter=d $$(git merge-base HEAD origin/trunk 2>/dev/null || echo HEAD) -- '*.swift'; \
+		git ls-files -z --others --exclude-standard -- '*.swift'; } \
+		| xargs -0 $(SWIFTLINT) --force-exclude
 
 lint_lenient: $(SWIFTLINT_BIN)
 	@$(SWIFTLINT) --lenient

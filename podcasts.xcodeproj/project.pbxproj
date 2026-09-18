@@ -14,7 +14,6 @@
 				462EE0C527025346003D67DC /* GenerateCredentials */,
 				462F3AA2274EB4C3005FEB1F /* L10n */,
 				30E86BEDCAC549C19A296B6A /* Colors */,
-				3F407FBC28EC30B800818E41 /* SwiftLint */,
 			);
 			dependencies = (
 			);
@@ -5850,6 +5849,7 @@
 			buildConfigurationList = BDBD540E17019B2A0048C8C5 /* Build configuration list for PBXNativeTarget "podcasts" */;
 			buildPhases = (
 				BDBD53E817019B2A0048C8C5 /* Sources */,
+				3F407FBC28EC30B800818E41 /* SwiftLint */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
 				BD5231EA1E3EDA6A000F0D38 /* Embed Foundation Extensions */,
@@ -6783,7 +6783,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make lint\n";
+			shellScript = "[ -n \"$CI\" ] && exit 0\nmake lint_changed\n";
 			showEnvVarsInLog = 0;
 		};
 		462EE0C527025346003D67DC /* GenerateCredentials */ = {
