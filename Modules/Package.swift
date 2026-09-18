@@ -184,7 +184,10 @@ let package = Package(
         ),
         .target(
             name: "VoiceBoostN",
-            path: "Sources/VoiceBoostN"
+            path: "Sources/VoiceBoostN",
+            linkerSettings: [
+                .linkedFramework("Accelerate")
+            ]
         ),
         .binaryTarget(
             name: "EventHorizonSDK",
