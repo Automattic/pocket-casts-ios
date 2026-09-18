@@ -36,6 +36,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }
 
+    @MainActor
     func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
         loadPrices {
             switch self.priceAvailability {
@@ -80,6 +81,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }
 
+    @MainActor
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController, let product else { return }
 

@@ -1951,6 +1951,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         Analytics.track(.playerSleepTimerExtended, source: source, properties: ["amount": Int(duration)])
     }
 
+    @MainActor
     func restartSleepTimer() {
         guard sleepTimerActive() else {
             return

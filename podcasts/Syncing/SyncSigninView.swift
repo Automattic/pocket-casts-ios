@@ -241,6 +241,7 @@ final class SyncSigninViewModel: ObservableObject {
         // Button state reacts via @Published + computed isValid
     }
 
+    @MainActor
     func forgotPasswordTapped() {
         let vc = ForgotPasswordViewController()
         vc.delegate = self

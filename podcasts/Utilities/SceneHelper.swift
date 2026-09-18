@@ -1,6 +1,7 @@
 import PocketCastsUtils
 import UIKit
 
+@MainActor
 class SceneHelper {
     class func connectedScene() -> UIWindowScene? {
         UIApplication.shared.connectedScenes.compactMap {

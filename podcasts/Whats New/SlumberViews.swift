@@ -94,6 +94,7 @@ class SlumberAnnouncementViewModel: ObservableObject {
         setUpCopies()
     }
 
+    @MainActor
     func showRedeemOrUpgrade() {
         upgradeOrRedeemViewModel.showRedeemOrUpgrade()
     }
@@ -111,6 +112,7 @@ class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
         return L10n.plusSubscribeTo
     }
 
+    @MainActor
     func showRedeemOrUpgrade() {
         isEligible() ? showRedeem() : upgradeTapped()
     }
@@ -119,6 +121,7 @@ class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
         SubscriptionHelper.subscriptionFrequencyValue() == .yearly || SubscriptionHelper.hasLifetimeGift()
     }
 
+    @MainActor
     private func showRedeem() {
         guard let parentController = SceneHelper.rootViewController(), let url = URL(string: "https://slumberstudios.com/pocketcasts/") else { return }
 
@@ -127,6 +130,7 @@ class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
         parentController.present(safariController, animated: true)
     }
 
+    @MainActor
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 

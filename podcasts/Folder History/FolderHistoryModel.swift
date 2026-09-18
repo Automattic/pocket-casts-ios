@@ -32,6 +32,7 @@ class FolderHistoryModel: ObservableObject {
         }
     }
 
+    @MainActor
     func restore() {
         podcastsAndFolders.forEach { podcast, folder in
             podcast.folderUuid = folder.uuid

@@ -38,6 +38,7 @@ final class NetworkNavigator: ObservableObject {
         }
     }
 
+    @MainActor
     private func show(_ collection: PodcastCollection?, listId: String, title: String?) {
         guard let presenter, presenter.viewIfLoaded?.window != nil, let navigationController = presenter.navigationController else { return }
 
