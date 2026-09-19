@@ -12,7 +12,7 @@ The other platforms are sibling repos of the main iOS checkout (not worktrees):
 | Web | `$ROOT/../pocket-casts-webplayer` | `develop` |
 | Android | `$ROOT/../pocket-casts-android` | `main` |
 
-In a worktree, `$ROOT` is the main checkout: `ROOT=$(git worktree list --porcelain | head -n 1 | awk '{print $2}')`.
+`$ROOT` is the main checkout, even from a worktree: `ROOT=$(git worktree list --porcelain | head -n 1 | awk '{print $2}')`. If a repo is missing, tell the user where it's expected.
 
 ## Before exploring
 
