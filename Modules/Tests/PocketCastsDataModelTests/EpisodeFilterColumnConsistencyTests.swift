@@ -3,37 +3,25 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
-
-    /// Access columnNames directly from PlaylistDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(PlaylistDataManager().columnNames)
-    }
 
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.playlistsTableName).map(\.name))
         }
+        let encodedColumns = Set(try EpisodeFilter().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.playlistsTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "EpisodeFilter encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            ["filterDownloading"],
+            "Table columns that saving an EpisodeFilter doesn't write"
         )
     }
 
