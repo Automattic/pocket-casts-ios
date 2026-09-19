@@ -5,60 +5,23 @@ import GRDB
 
 final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
-    private let columnNames: Set<String> = [
-        "id",
-        "addedDate",
-        "lastDownloadAttemptDate",
-        "downloadErrorDetails",
-        "downloadTaskId",
-        "downloadUrl",
-        "episodeStatus",
-        "fileType",
-        "playedUpTo",
-        "duration",
-        "playingStatus",
-        "autoDownloadStatus",
-        "publishedDate",
-        "sizeInBytes",
-        "playingStatusModified",
-        "playedUpToModified",
-        "title",
-        "uuid",
-        "playbackErrorDetails",
-        "cachedFrameCount",
-        "uploadStatus",
-        "uploadTaskId",
-        "imageUrl",
-        "imageColor",
-        "hasCustomImage",
-        "imageColorModified",
-        "titleModified",
-        "durationModified",
-        "imageModified"
-    ]
-
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.userEpisodeTableName).map(\.name))
         }
+        let encodedColumns = Set(try UserEpisode().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.userEpisodeTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        // (it may have more due to migrations or legacy columns like contentType)
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "UserEpisode encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            ["contentType"],
+            "Table columns that saving a UserEpisode doesn't write"
         )
     }
 
