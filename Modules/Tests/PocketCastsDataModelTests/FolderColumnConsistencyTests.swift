@@ -5,38 +5,23 @@ import GRDB
 
 final class FolderColumnConsistencyTests: DataManagerTestCase {
 
-    private let columnNames: Set<String> = [
-        "uuid",
-        "name",
-        "color",
-        "addedDate",
-        "sortOrder",
-        "sortType",
-        "wasDeleted",
-        "syncModified"
-    ]
-
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.folderTableName).map(\.name))
         }
+        let encodedColumns = Set(try Folder().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.folderTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "Folder encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            [],
+            "Table columns that saving a Folder doesn't write"
         )
     }
 
@@ -96,31 +81,6 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
     }
 
     // MARK: - GRDB Record Tests
-
-    func testEncodedColumnsMatchLegacyColumnNames() throws {
-        let encoded = try createFullyPopulatedFolder().databaseDictionary
-
-        XCTAssertEqual(
-            Set(encoded.keys),
-            columnNames,
-            "GRDB should encode exactly the columns the legacy SQL path writes"
-        )
-    }
-
-    func testEncodedColumnsExistInDatabaseSchema() throws {
-        let dataManager = DataManager.newTestDataManager()
-        let tableColumns = try dataManager.testDbQueue.dbPool.read { db -> Set<String> in
-            Set(try db.columns(in: DataManager.folderTableName).map(\.name))
-        }
-
-        let encoded = try createFullyPopulatedFolder().databaseDictionary
-        let unknownColumns = Set(encoded.keys).subtracting(tableColumns)
-
-        XCTAssertTrue(
-            unknownColumns.isEmpty,
-            "GRDB encodes columns that do not exist in the table: \(unknownColumns)"
-        )
-    }
 
     /// addedDate is stored as a Unix timestamp, not GRDB's default Date format.
     /// The legacy read path reads it back with `rs.double(forColumn:)`, so a change
