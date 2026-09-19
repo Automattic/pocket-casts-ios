@@ -1,0 +1,180 @@
+<title>Pocket Casts QA Sweep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F4F5F7; --surface:#FFFFFF; --ink:#15171C; --muted:#5A6170; --faint:#8A909C; --line:#E1E4E9;
+  --accent:#D63D2E; --accent-soft:#FBE7E4;
+  --crit:#B3261E; --crit-bg:#FBE4E2; --major:#B85C00; --major-bg:#FCEEDD; --minor:#2159C4; --minor-bg:#E3ECFB; --note:#5D6573; --note-bg:#ECEEF1;
+  --ok:#1E7A46; --ok-bg:#E1F2E8; --part:#9A6B00; --part-bg:#FAF0D6;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif; --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#0F1114; --surface:#171A1F; --ink:#E7E9ED; --muted:#A0A6B1; --faint:#737A86; --line:#2A2E36;
+  --accent:#FF6A58; --accent-soft:#3A1D19;
+  --crit:#FF8A80; --crit-bg:#3B1B19; --major:#FFB35C; --major-bg:#3A2912; --minor:#8DB4FF; --minor-bg:#1A2740; --note:#B3B9C4; --note-bg:#262A31;
+  --ok:#6FD39A; --ok-bg:#16301F; --part:#F0C35A; --part-bg:#352B12;
+}}
+:root[data-theme="dark"]{
+  --ground:#0F1114; --surface:#171A1F; --ink:#E7E9ED; --muted:#A0A6B1; --faint:#737A86; --line:#2A2E36;
+  --accent:#FF6A58; --accent-soft:#3A1D19;
+  --crit:#FF8A80; --crit-bg:#3B1B19; --major:#FFB35C; --major-bg:#3A2912; --minor:#8DB4FF; --minor-bg:#1A2740; --note:#B3B9C4; --note-bg:#262A31;
+  --ok:#6FD39A; --ok-bg:#16301F; --part:#F0C35A; --part-bg:#352B12;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--sans);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:30px;line-height:1.15;margin:0;font-weight:700;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:18px;margin:0;font-weight:600}
+.env{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font:13px/1.4 var(--mono)}
+.env b{color:var(--ink);font-weight:500}
+.live{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.live.on .dot{background:var(--ok);box-shadow:0 0 0 3px var(--ok-bg)}
+.summary{display:flex;flex-wrap:wrap;gap:10px}
+.stat{display:flex;align-items:baseline;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:120px}
+.stat .n{font:600 22px/1 var(--mono);font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted)}
+.stat.crit .n{color:var(--crit)} .stat.major .n{color:var(--major)} .stat.minor .n{color:var(--minor)} .stat.note .n{color:var(--note)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:500 13px/1 var(--sans);padding:7px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sep{width:1px;height:22px;background:var(--line);margin-inline:4px}
+#q{flex:1 1 200px;min-width:0;font:14px var(--sans);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.item{border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item summary{list-style:none;display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start;padding:14px 16px;cursor:pointer}
+.item summary::-webkit-details-marker{display:none}
+.item[open] summary{background:color-mix(in srgb,var(--ground) 60%,var(--surface))}
+.id{font:500 12px/22px var(--mono);color:var(--faint);font-variant-numeric:tabular-nums}
+.ttl{font-weight:600;line-height:1.4}
+.meta{grid-column:2/4;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.pill{font:600 11px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:5px 7px;border-radius:5px;white-space:nowrap}
+.pill.critical{color:var(--crit);background:var(--crit-bg)} .pill.major{color:var(--major);background:var(--major-bg)}
+.pill.minor{color:var(--minor);background:var(--minor-bg)} .pill.note{color:var(--note);background:var(--note-bg)}
+.tag{font:12px/1 var(--mono);padding:4px 6px;border-radius:4px;border:1px solid var(--line);color:var(--muted)}
+.body{padding:4px 16px 18px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px}
+.body.noshot{grid-template-columns:minmax(0,1fr)}
+.body dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 14px}
+.body dt{font:500 12px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+.body dd{margin:0;max-width:68ch}
+.body ol{margin:0;padding-left:18px}
+.shots{display:flex;gap:10px;flex-wrap:wrap;align-content:flex-start}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:4px;width:150px}
+.shots img{width:150px;height:auto;border-radius:8px;border:1px solid var(--line);display:block;background:var(--ground)}
+.shots figcaption{font-size:11.5px;color:var(--muted);line-height:1.35}
+.empty{padding:28px 16px;color:var(--muted);text-align:center}
+.cov{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.area{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.area .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.area .nt{font-size:12.5px;color:var(--muted);line-height:1.4}
+.st{font:600 10.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:4px 6px;border-radius:4px}
+.st.done{color:var(--ok);background:var(--ok-bg)} .st.partial{color:var(--part);background:var(--part-bg)} .st.todo{color:var(--note);background:var(--note-bg)}
+section{display:flex;flex-direction:column;gap:12px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.count{font:13px var(--mono);color:var(--muted)}
+.fine{font-size:12.5px;color:var(--faint)}
+@media (max-width:640px){
+  .body{grid-template-columns:minmax(0,1fr)}
+  .body dl{grid-template-columns:minmax(0,1fr)}
+  .body dt{margin-top:4px}
+  .item summary{grid-template-columns:auto 1fr}
+  .item summary .pill{grid-column:2;justify-self:start}
+  .meta{grid-column:2}
+  .shots figure{width:130px}.shots img{width:130px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Exploratory test log</div>
+    <h1>Pocket Casts QA Sweep</h1>
+    <div class="env" id="env">
+      <span>Build <b id="m-build">—</b></span>
+      <span>Device <b id="m-device">—</b></span>
+      <span>Started <b id="m-started">—</b></span>
+      <span class="live" id="live"><span class="dot"></span><span id="m-status">Connecting…</span></span>
+    </div>
+  </header>
+
+  <div class="summary" id="summary"></div>
+
+  <section>
+    <div class="sechead"><h2>Findings</h2><span class="count" id="count"></span></div>
+    <div class="controls" id="controls">
+      <div id="sevf" style="display:contents"></div>
+      <span class="sep" aria-hidden="true"></span>
+      <div id="catf" style="display:contents"></div>
+      <input id="q" type="search" placeholder="Filter by text or area" aria-label="Filter findings">
+    </div>
+    <div class="list" id="list"><div class="empty">Loading findings…</div></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Coverage</h2><span class="count" id="covcount"></span></div>
+    <div class="cov" id="cov"></div>
+  </section>
+
+  <p class="fine">Severity: <b>critical</b> crash, data loss or blocked core flow · <b>major</b> broken feature or wrong result · <b>minor</b> cosmetic or edge-case defect · <b>note</b> UX observation or suggestion. Screenshots come from the simulator at the time of the finding.</p>
+</div>
+
+<script>
+const SEVS=[["critical","Critical"],["major","Major"],["minor","Minor"],["note","Note"]];
+const CATS=[["bug","Bug"],["ux","UX"],["a11y","Accessibility"],["visual","Visual"],["copy","Copy"],["perf","Performance"]];
+const state={findings:[],coverage:[],sev:new Set(),cat:new Set(),q:""};
+try{const s=JSON.parse(localStorage.getItem("qa-filters")||"{}");(s.sev||[]).forEach(x=>state.sev.add(x));(s.cat||[]).forEach(x=>state.cat.add(x));}catch(e){}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function saveFilters(){try{localStorage.setItem("qa-filters",JSON.stringify({sev:[...state.sev],cat:[...state.cat]}))}catch(e){}}
+function chips(el,defs,set){
+  el.innerHTML=defs.map(([k,l])=>`<button class="chip" id="f-${k}" data-k="${k}" aria-pressed="${set.has(k)}">${l}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const k=b.dataset.k;set.has(k)?set.delete(k):set.add(k);b.setAttribute("aria-pressed",set.has(k));saveFilters();render();});
+}
+chips($("sevf"),SEVS,state.sev);chips($("catf"),CATS,state.cat);
+$("q").oninput=e=>{state.q=e.target.value.toLowerCase();render();};
+const openSet=new Set();
+function shotSrc(s){return s.url||("/_blob/"+s.id)}
+function render(){
+  const f=state.findings;
+  $("summary").innerHTML=`<div class="stat"><span class="n">${f.length}</span><span class="l">findings</span></div>`+
+    SEVS.map(([k,l])=>`<div class="stat ${k==="critical"?"crit":k}"><span class="n">${f.filter(x=>x.severity===k).length}</span><span class="l">${l.toLowerCase()}</span></div>`).join("");
+  const vis=f.filter(x=>(!state.sev.size||state.sev.has(x.severity))&&(!state.cat.size||state.cat.has(x.category))&&
+    (!state.q||[x.title,x.area,x.actual,x.expected,x.notes].join(" ").toLowerCase().includes(state.q)));
+  $("count").textContent=vis.length===f.length?`${f.length} total`:`${vis.length} of ${f.length} shown`;
+  const catL=Object.fromEntries(CATS);
+  $("list").innerHTML=vis.length?vis.map(x=>{
+    const shots=(x.shots||[]);
+    const steps=(x.steps||[]).length?`<dt>Steps</dt><dd><ol>${x.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></dd>`:"";
+    return `<details class="item" data-id="${esc(x._id)}" ${openSet.has(x._id)?"open":""}>
+      <summary><span class="id">#${String(x.n).padStart(2,"0")}</span><span class="ttl">${esc(x.title)}</span><span class="pill ${esc(x.severity)}">${esc(x.severity)}</span>
+      <span class="meta"><span class="tag">${esc(catL[x.category]||x.category)}</span><span>${esc(x.area)}</span></span></summary>
+      <div class="body ${shots.length?"":"noshot"}"><dl>${steps}
+        ${x.actual?`<dt>Actual</dt><dd>${esc(x.actual)}</dd>`:""}
+        ${x.expected?`<dt>Expected</dt><dd>${esc(x.expected)}</dd>`:""}
+        ${x.notes?`<dt>Notes</dt><dd>${esc(x.notes)}</dd>`:""}</dl>
+        ${shots.length?`<div class="shots">${shots.map(s=>`<figure><a href="${esc(shotSrc(s))}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(shotSrc(s))}" alt="${esc(s.caption||"Screenshot")}"></a>${s.caption?`<figcaption>${esc(s.caption)}</figcaption>`:""}</figure>`).join("")}</div>`:""}
+      </div></details>`;}).join(""):`<div class="empty">${f.length?"No findings match these filters.":"No findings logged yet."}</div>`;
+  $("list").querySelectorAll("details").forEach(d=>d.ontoggle=()=>{d.open?openSet.add(d.dataset.id):openSet.delete(d.dataset.id)});
+  const c=state.coverage;
+  $("covcount").textContent=c.length?`${c.filter(a=>a.status==="done").length} of ${c.length} areas done`:"";
+  $("cov").innerHTML=c.length?c.map(a=>`<div class="area"><div class="top"><span>${esc(a.area)}</span><span class="st ${esc(a.status)}">${a.status==="done"?"Tested":a.status==="partial"?"Partial":"Not yet"}</span></div>${a.notes?`<div class="nt">${esc(a.notes)}</div>`:""}</div>`).join(""):`<div class="fine">Coverage map appears once testing starts.</div>`;
+}
+render();
+(async()=>{
+  const db=await window.claude?.use?.("db");
+  if(!db){$("m-status").textContent="Offline copy";$("list").innerHTML=`<div class="empty">Findings are stored with the published page and load only inside the viewer.</div>`;return;}
+  $("live").classList.add("on");$("m-status").textContent="Live";
+  const err=e=>{$("live").classList.remove("on");$("m-status").textContent="Updates paused"};
+  db.collection("findings").onSnapshot(s=>{state.findings=s.docs.map(d=>({_id:d.id,...d.data()})).sort((a,b)=>(b.n||0)-(a.n||0));render();},err);
+  db.collection("coverage").onSnapshot(s=>{state.coverage=s.docs.map(d=>({_id:d.id,...d.data()})).sort((a,b)=>(a.order||0)-(b.order||0));render();},err);
+  db.doc("meta/session").onSnapshot(s=>{if(!s.exists)return;const m=s.data();
+    if(m.build)$("m-build").textContent=m.build;if(m.device)$("m-device").textContent=m.device;if(m.started)$("m-started").textContent=m.started;
+    if(m.status)$("m-status").textContent=m.status;},err);
+})();
+</script>
