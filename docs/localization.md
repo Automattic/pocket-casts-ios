@@ -81,7 +81,7 @@ let label = count == 1 ? L10n.podcastSingular : L10n.podcastsPlural
 
 ## Numbers
 
-Localize numbers whenever possible. Numbers often vary based on their delimiters so make sure you account for that in strings. There are [helper functions](../Modules/Utils/Sources/Utils/Formatting/LocalizationHelpers.swift) to localize many base formats.
+Localize numbers whenever possible. Numbers often vary based on their delimiters so make sure you account for that in strings. There are [helper functions](../Modules/Sources/PocketCastsUtils/Formatting/LocalizationHelpers.swift) to localize many base formats.
 
 ```swift
 let localizedCount = NumberFormatter.localizedString(from: NSNumber(value: count), number: .none)
