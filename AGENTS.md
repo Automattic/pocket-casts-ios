@@ -52,7 +52,7 @@ Add strings to `podcasts/en.lproj/Localizable.strings` with a comment describing
 
 ## Code Style
 
-SwiftLint custom rules, for RTL support: use `naturalContentHorizontalAlignment` instead of `.left`/`.right`, and `.natural` text alignment instead of `.left`.
+SwiftLint runs after every Claude edit and on local builds; fix what it reports, including the RTL alignment rules in `.swiftlint.yml`.
 
 ## Themes
 
