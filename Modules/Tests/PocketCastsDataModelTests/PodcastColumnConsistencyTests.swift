@@ -5,85 +5,23 @@ import GRDB
 
 final class PodcastColumnConsistencyTests: DataManagerTestCase {
 
-    private let columnNames: Set<String> = [
-        "id",
-        "addedDate",
-        "autoDownloadSetting",
-        "autoAddToUpNext",
-        "episodeKeepSetting",
-        "backgroundColor",
-        "detailColor",
-        "primaryColor",
-        "secondaryColor",
-        "lastColorDownloadDate",
-        "imageURL",
-        "latestEpisodeUuid",
-        "latestEpisodeDate",
-        "mediaType",
-        "lastThumbnailDownloadDate",
-        "thumbnailStatus",
-        "podcastUrl",
-        "author",
-        "playbackSpeed",
-        "boostVolume",
-        "trimSilenceAmount",
-        "podcastCategory",
-        "podcastDescription",
-        "podcastHTMLDescription",
-        "sortOrder",
-        "startFrom",
-        "skipLast",
-        "subscribed",
-        "title",
-        "uuid",
-        "syncStatus",
-        "colorVersion",
-        "pushEnabled",
-        "episodeSortOrder",
-        "showType",
-        "estimatedNextEpisode",
-        "episodeFrequency",
-        "lastUpdatedAt",
-        "excludeFromAutoArchive",
-        "overrideGlobalEffects",
-        "overrideGlobalArchive",
-        "autoArchivePlayedAfter",
-        "autoArchiveInactiveAfter",
-        "episodeGrouping",
-        "isPaid",
-        "licensing",
-        "fullSyncLastSyncAt",
-        "showArchived",
-        "refreshAvailable",
-        "folderUuid",
-        "usedCustomEffectsBefore",
-        "isPrivate",
-        "fundingURL",
-        "isExplicit",
-        "networkListId"
-    ]
-
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.podcastTableName).map(\.name))
         }
+        let encodedColumns = Set(try Podcast().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.podcastTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "Podcast encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            ["settings", "thumbnailURL", "wasDeleted"],
+            "Table columns that saving a Podcast doesn't write"
         )
     }
 
