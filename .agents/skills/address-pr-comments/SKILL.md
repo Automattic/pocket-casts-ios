@@ -1,6 +1,6 @@
 ---
 name: address-pr-comments
-description: Address PR review comments by fixing code, replying to each comment, and re-requesting review. Use this skill when the user wants to handle, fix, resolve, or address PR feedback, review comments, or code review suggestions. Also use when the user says things like "fix the PR comments", "handle review feedback", "address the review", or "respond to PR feedback".
+description: Address PR review comments by fixing the code, replying to each comment, and re-requesting review. Use when asked to fix, handle, resolve, address or respond to PR feedback, review comments or code review suggestions.
 argument-hint: [pr-number]
 ---
 
