@@ -20,65 +20,6 @@ class PodcastDataManager {
         return queue
     }()
 
-    /// Legacy column names for non-GRDB code path.
-    let columnNames = [
-        "id",
-        "addedDate",
-        "autoDownloadSetting",
-        "autoAddToUpNext",
-        "episodeKeepSetting",
-        "backgroundColor",
-        "detailColor",
-        "primaryColor",
-        "secondaryColor",
-        "lastColorDownloadDate",
-        "imageURL",
-        "latestEpisodeUuid",
-        "latestEpisodeDate",
-        "mediaType",
-        "lastThumbnailDownloadDate",
-        "thumbnailStatus",
-        "podcastUrl",
-        "author",
-        "playbackSpeed",
-        "boostVolume",
-        "trimSilenceAmount",
-        "podcastCategory",
-        "podcastDescription",
-        "podcastHTMLDescription",
-        "sortOrder",
-        "startFrom",
-        "skipLast",
-        "subscribed",
-        "title",
-        "uuid",
-        "syncStatus",
-        "colorVersion",
-        "pushEnabled",
-        "episodeSortOrder",
-        "showType",
-        "estimatedNextEpisode",
-        "episodeFrequency",
-        "lastUpdatedAt",
-        "excludeFromAutoArchive",
-        "overrideGlobalEffects",
-        "overrideGlobalArchive",
-        "autoArchivePlayedAfter",
-        "autoArchiveInactiveAfter",
-        "episodeGrouping",
-        "isPaid",
-        "licensing",
-        "fullSyncLastSyncAt",
-        "showArchived",
-        "refreshAvailable",
-        "folderUuid",
-        "usedCustomEffectsBefore",
-        "isPrivate",
-        "fundingURL",
-        "isExplicit",
-        "networkListId"
-    ]
-
     func setup(dbQueue: PCDBQueue) {
         cachePodcasts(dbQueue: dbQueue)
     }
@@ -386,34 +327,16 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: PCDBQueue) {
-        let isInsert = podcast.id == 0
-        if isInsert {
+        if podcast.id == 0 {
             podcast.id = DBUtils.generateUniqueId()
         }
 
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    try podcast.save(db)
-                }
-            } catch {
-                FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                try podcast.save(db)
             }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    if isInsert {
-                        try db.executeUpdate("INSERT INTO \(DataManager.podcastTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(podcast: podcast))
-                    } else {
-                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-                    }
-                } catch {
-                    FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
-                }
-            }
+        } catch {
+            FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
         }
         cachePodcasts(dbQueue: dbQueue)
     }
@@ -612,71 +535,6 @@ class PodcastDataManager {
 
     private func createPodcastFrom(resultSet rs: PCDBResultSet) -> Podcast {
         Podcast.from(resultSet: rs)
-    }
-
-    private func createValuesFrom(podcast: Podcast, includeIdForWhere: Bool = false) -> [Any] {
-        var values = [Any]()
-        values.append(podcast.id)
-        values.append(DBUtils.nullIfNil(value: podcast.addedDate))
-        values.append(podcast.autoDownloadSetting)
-        values.append(podcast.autoAddToUpNext)
-        values.append(podcast.autoArchiveEpisodeLimit)
-        values.append(DBUtils.nullIfNil(value: podcast.backgroundColor))
-        values.append(DBUtils.nullIfNil(value: podcast.detailColor))
-        values.append(DBUtils.nullIfNil(value: podcast.primaryColor))
-        values.append(DBUtils.nullIfNil(value: podcast.secondaryColor))
-        values.append(DBUtils.nullIfNil(value: podcast.lastColorDownloadDate))
-        values.append(DBUtils.nullIfNil(value: podcast.imageURL))
-        values.append(DBUtils.nullIfNil(value: podcast.latestEpisodeUuid))
-        values.append(DBUtils.nullIfNil(value: podcast.latestEpisodeDate))
-        values.append(DBUtils.nullIfNil(value: podcast.mediaType))
-        values.append(DBUtils.nullIfNil(value: podcast.lastThumbnailDownloadDate))
-        values.append(podcast.thumbnailStatus)
-        values.append(DBUtils.nullIfNil(value: podcast.podcastUrl))
-        values.append(DBUtils.nullIfNil(value: podcast.author))
-        values.append(podcast.playbackSpeed)
-        values.append(podcast.boostVolume)
-        values.append(podcast.trimSilenceAmount)
-        values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
-        values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
-        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
-        values.append(podcast.sortOrder)
-        values.append(podcast.startFrom)
-        values.append(podcast.skipLast)
-        values.append(podcast.subscribed)
-        values.append(DBUtils.nullIfNil(value: podcast.title))
-        values.append(podcast.uuid)
-        values.append(podcast.syncStatus)
-        values.append(podcast.colorVersion)
-        values.append(podcast.pushEnabled)
-        values.append(podcast.episodeSortOrder)
-        values.append(DBUtils.nullIfNil(value: podcast.showType))
-        values.append(DBUtils.nullIfNil(value: podcast.estimatedNextEpisode))
-        values.append(DBUtils.nullIfNil(value: podcast.episodeFrequency))
-        values.append(DBUtils.nullIfNil(value: podcast.lastUpdatedAt))
-        values.append(podcast.excludeFromAutoArchive)
-        values.append(podcast.overrideGlobalEffects)
-        values.append(podcast.overrideGlobalArchive)
-        values.append(podcast.autoArchivePlayedAfter)
-        values.append(podcast.autoArchiveInactiveAfter)
-        values.append(podcast.episodeGrouping)
-        values.append(podcast.isPaid)
-        values.append(podcast.licensing)
-        values.append(DBUtils.nullIfNil(value: podcast.fullSyncLastSyncAt))
-        values.append(podcast.showArchived)
-        values.append(podcast.refreshAvailable)
-        values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
-        values.append(podcast.usedCustomEffectsBefore)
-        values.append(podcast.isPrivate)
-        values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
-        values.append(podcast.isExplicit)
-        values.append(DBUtils.nullIfNil(value: podcast.networkListId))
-
-        if includeIdForWhere {
-            values.append(podcast.id)
-        }
-
-        return values
     }
 
     private func addedDateSort(p1: Podcast, p2: Podcast) -> Bool {
