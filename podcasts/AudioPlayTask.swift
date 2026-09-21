@@ -33,10 +33,10 @@ class AudioPlayTask {
             // call this once to immediately skip the 1st wait below
             strongSelf.queueingSemaphone.signal()
 
-            while !strongSelf.cancelled.withLock({ $0 }) {
+            while !strongSelf.cancelled.value {
                 strongSelf.queueingSemaphone.wait()
 
-                if !strongSelf.cancelled.withLock({ $0 }) {
+                if !strongSelf.cancelled.value {
                     strongSelf.scheduleNextBuffer()
                     if strongSelf.bufferManager.bufferLength() <= strongSelf.bufferManager.lowBufferPoint {
                         strongSelf.bufferManager.bufferSemaphore.signal()
@@ -58,10 +58,10 @@ class AudioPlayTask {
     }
 
     private func scheduleNextBuffer() {
-        while !cancelled.withLock({ $0 }), bufferManager.bufferLength() == 0 {
+        while !cancelled.value, bufferManager.bufferLength() == 0 {
             // if the read thread has gotten to the end of the file and we haven't scheduled anything in the last second, playback is done
-            if bufferManager.readToEOFSuccessfully.withLock({ $0 }), Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
-                if !bufferManager.haveNotifiedPlayer.withLock({ $0 }) {
+            if bufferManager.readToEOFSuccessfully.value, Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
+                if !bufferManager.haveNotifiedPlayer.value {
                     bufferManager.haveNotifiedPlayer.withLock { $0 = true }
 
                     FileLog.shared.addMessage("EffectsPlayer got to end of episode, calling finished playing")
@@ -72,7 +72,7 @@ class AudioPlayTask {
                 return
             }
 
-            if bufferManager.readErrorOccurred.withLock({ $0 }) {
+            if bufferManager.readErrorOccurred.value {
                 PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: "Buffer read error occurred"))
                 shutdown()
 

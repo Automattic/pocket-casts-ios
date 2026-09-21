@@ -64,7 +64,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func playing() -> Bool {
-        if aboutToPlay.withLock({ $0 }) { return true }
+        if aboutToPlay.value { return true }
 
         if let player {
             return player.isPlaying
@@ -230,7 +230,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
                 if !seekedToEnd {
                     completion?()
-                } else if !(self?.playBufferManager?.haveNotifiedPlayer.withLock({ $0 }) ?? false) {
+                } else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
                     self?.playBufferManager?.haveNotifiedPlayer.withLock { $0 = true }
                     FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
                     PlaybackManager.shared.playerDidFinishPlayingEpisode()
@@ -278,7 +278,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         // Update VoiceBoostN flag for dynamic switching
         let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled && effects.volumeBoost
-        if shouldUseVoiceBoostN != useVoiceBoostN.withLock({ $0 }) {
+        if shouldUseVoiceBoostN != useVoiceBoostN.value {
             useVoiceBoostN.withLock { $0 = shouldUseVoiceBoostN }
             FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN flag changed to \(shouldUseVoiceBoostN)")
         }
@@ -320,7 +320,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func shouldBePlaying() -> Bool {
-        shouldKeepPlaying.withLock { $0 }
+        shouldKeepPlaying.value
     }
 
     func internalPlayerForVideoPlayback() -> AVPlayer? {
@@ -339,10 +339,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         // when this is called, the engine has detected an interruption like a route change. Because this happens on things like bluetooth connect, and not just disconnect, we deal with it here.
         // The audio engine has shut down at this point, so we call pause to destroy all our current state and play to restore it all if we should still be playing
-        if shouldKeepPlaying.withLock({ $0 }), !PlaybackManager.shared.interruptionInProgress() {
+        if shouldKeepPlaying.value, !PlaybackManager.shared.interruptionInProgress() {
             PlaybackManager.shared.pause(userInitiated: false)
             PlaybackManager.shared.play(userInitiated: false)
-        } else if !shouldKeepPlaying.withLock({ $0 }) {
+        } else if !shouldKeepPlaying.value {
             PlaybackManager.shared.pause(userInitiated: false)
         }
     }
@@ -356,7 +356,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.withLock { $0 } ?? false }, sampleRate: audioFileSampleRate)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.value ?? false }, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()
@@ -366,13 +366,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func setVolumeBoostSettings() {
-        let shouldBypassLegacy = !effects.volumeBoost || useVoiceBoostN.withLock { $0 }
+        let shouldBypassLegacy = !effects.volumeBoost || useVoiceBoostN.value
         if shouldBypassLegacy {
             // Bypass existing effects when VoiceBoostN handles it or volumeBoost off
             peakLimiter?.bypass = true
             highPassFilter?.bypass = true
             dynamicsProcessor?.bypass = true
-            if effects.volumeBoost && useVoiceBoostN.withLock({ $0 }) {
+            if effects.volumeBoost && useVoiceBoostN.value {
                 FileLog.shared.addMessage("[EffectsPlayer] Volume boost enabled with VoiceBoostN - bypassing legacy AudioUnit chain")
             } else if !effects.volumeBoost {
                 FileLog.shared.addMessage("[EffectsPlayer] Volume boost disabled - bypassing all effects")

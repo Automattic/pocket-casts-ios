@@ -156,7 +156,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var isPlaying: Bool {
-        if aboutToPlay.withLock({ $0 }) { return true }
+        if aboutToPlay.value { return true }
 
         return player?.playing() ?? false
     }
@@ -306,7 +306,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // calls can't each capture `true` and report twice for the same player. Only engaged when
         // the HLS flag is on, so the state stays consistent (and reportable) if the flag is enabled
         // later in the session.
-        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.withLock { $0 }
+        let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
         if shouldReportSourceResolved {
             hasReportedSourceResolved.withLock { $0 = true }
         }
@@ -624,7 +624,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         if seekingTo >= 0, seekingTo <= duration(), !isPlaying { return seekingTo }
 
-        let playerTime = !aboutToPlay.withLock { $0 } ? player?.currentTime() ?? 0 : 0
+        let playerTime = !aboutToPlay.value ? player?.currentTime() ?? 0 : 0
 
         if playerTime <= 0 {
             let startFromTime = startFromTimeForCurrentEpisode()
@@ -637,7 +637,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func duration() -> TimeInterval {
         guard let currentEpisode else { return 0 }
 
-        if let player, !aboutToPlay.withLock({ $0 }), !isBuffering {
+        if let player, !aboutToPlay.value, !isBuffering {
             let episodeDuration = currentEpisode.duration
             let playerDuration = player.duration()
             return (playerDuration > 0) ? playerDuration : episodeDuration
@@ -841,7 +841,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // Assume HLS episodes are video so the player can go full screen immediately, without waiting to
         // detect video tracks at runtime. Use willPlayViaHLS so this only applies when the current source
         // is actually HLS (a downloaded episode plays its local file, which may not be video).
-        return episode.videoPodcast() || currentStreamContainsVideo.withLock { $0 } || EpisodeManager.willPlayViaHLS(episode)
+        return episode.videoPodcast() || currentStreamContainsVideo.value || EpisodeManager.willPlayViaHLS(episode)
     }
 
     /// When the global "Audio only" setting is on (and HLS playback is enabled), every video episode
@@ -854,14 +854,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// (`isCurrentEpisodeVideo()`) while the user has chosen to listen audio-only via the shelf toggle
     /// or the global "Audio only" setting.
     func shouldRenderVideo() -> Bool {
-        isCurrentEpisodeVideo() && videoRenderingEnabled.withLock { $0 } && !isAudioOnlyForced
+        isCurrentEpisodeVideo() && videoRenderingEnabled.value && !isAudioOnlyForced
     }
 
     /// Whether the user is currently listening audio-only: either the global "Audio only" setting is on,
     /// or they've switched the current stream's video off via the shelf toggle. Reported as the
     /// `audio_only_mode` analytics property.
     var isAudioOnlyMode: Bool {
-        isAudioOnlyForced || !videoRenderingEnabled.withLock { $0 }
+        isAudioOnlyForced || !videoRenderingEnabled.value
     }
 
     /// Whether the audio/video toggle should be offered for the current episode. Any episode with an HLS
@@ -877,7 +877,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// because the user turned the video toggle on for it. Consulted by `EpisodeManager.willPlayViaHLS` /
     /// `urlForEpisode` when resolving the playback source.
     func shouldStreamVideoDespiteDownload(_ episode: BaseEpisode) -> Bool {
-        streamingVideoForDownloadedEpisode.withLock { $0 }
+        streamingVideoForDownloadedEpisode.value
             && episode.uuid == currentEpisode?.uuid
             && EpisodeManager.hasHLSStream(episode)
     }
@@ -918,7 +918,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Called by the player when it detects video tracks in the stream it is playing.
     /// Used for HLS streams whose video content isn't reflected in the episode's file type.
     func handleVideoTracksDetected(forEpisode episodeUuid: String) {
-        guard currentEpisode?.uuid == episodeUuid, !currentStreamContainsVideo.withLock({ $0 }) else { return }
+        guard currentEpisode?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
         currentStreamContainsVideo.withLock { $0 = true }
         setAudioSessionVideoProperties()
         // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
@@ -972,7 +972,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             guard let self else { return }
 
             let audioSession = AVAudioSession.sharedInstance()
-            if !self.shouldDeactivateSession.withLock({ $0 }) { return }
+            if !self.shouldDeactivateSession.value { return }
             self.shouldDeactivateSession.withLock { $0 = false }
             self.performDeactivate(audioSession: audioSession)
         }

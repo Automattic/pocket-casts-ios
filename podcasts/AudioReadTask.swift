@@ -83,7 +83,7 @@ class AudioReadTask {
                     guard let self else { return }
 
                     do {
-                        while !self.cancelled.withLock({ $0 }) {
+                        while !self.cancelled.value {
                             // nil is returned when there are playback errors or us getting to the end of a file, sleep so we don't end up in a tight loop but these all set the cancelled flag
                             guard let audioBuffers = try self.readFromFile() else {
                                 Thread.sleep(forTimeInterval: 0.1)
@@ -168,7 +168,7 @@ class AudioReadTask {
             }
 
             // if we've finished reading this file, wake the reading thread back up
-            if bufferManager.readToEOFSuccessfully.withLock({ $0 }) {
+            if bufferManager.readToEOFSuccessfully.value {
                 endOfFileSemaphore.signal()
             }
         }
@@ -351,11 +351,11 @@ class AudioReadTask {
 
     private func scheduleForPlayback(buffer: BufferedAudio) {
         // the play task will signal us when it needs more buffer, but it will keep signalling as long as the buffer is low, so keep calling wait until we get below the high point
-        while !cancelled.withLock({ $0 }), bufferManager.bufferLength() >= bufferManager.highBufferPoint {
+        while !cancelled.value, bufferManager.bufferLength() >= bufferManager.highBufferPoint {
             bufferManager.bufferSemaphore.wait()
         }
 
-        if !cancelled.withLock({ $0 }) {
+        if !cancelled.value {
             bufferManager.push(buffer)
         }
     }

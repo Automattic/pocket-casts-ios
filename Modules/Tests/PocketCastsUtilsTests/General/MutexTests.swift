@@ -14,7 +14,7 @@ final class MutexTests: XCTestCase {
         }
 
         XCTAssertEqual(result, 20)
-        XCTAssertEqual(mutex.withLock { $0 }, 2)
+        XCTAssertEqual(mutex.value, 2)
     }
 
     func testWithLockRethrowsTypedError() {
@@ -26,7 +26,7 @@ final class MutexTests: XCTestCase {
         }) { error in
             XCTAssertEqual(error as? TestError, TestError())
         }
-        XCTAssertEqual(mutex.withLock { $0 }, 1)
+        XCTAssertEqual(mutex.value, 1)
     }
 
     func testConcurrentIncrements() {
@@ -36,6 +36,6 @@ final class MutexTests: XCTestCase {
             mutex.withLock { $0 += 1 }
         }
 
-        XCTAssertEqual(mutex.withLock { $0 }, 10_000)
+        XCTAssertEqual(mutex.value, 10_000)
     }
 }
