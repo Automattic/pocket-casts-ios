@@ -1,16 +1,13 @@
 import Foundation
 import GRDB
-import GRDBMacros
 import PocketCastsUtils
 
-@GRDBRecord(table: "SJEpisode")
 public class Episode: NSObject, BaseEpisode {
     private static let bonusType = "bonus"
     private static let trailerType = "trailer"
 
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
-    @GRDBNullDateAsEpoch
     @objc public var lastDownloadAttemptDate: Date?
     @objc public var detailedDescription: String?
     @objc public var downloadErrorDetails: String?
@@ -46,10 +43,8 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var episodeType: String?
     @objc public var archived = false
     @objc public var archivedModified = 0 as Int64
-    @GRDBNullDateAsEpoch
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
-    @GRDBIgnore
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
@@ -232,4 +227,192 @@ public class Episode: NSObject, BaseEpisode {
             }
         }
     }
+
+    // MARK: - GRDB
+
+    public static let databaseTableName = "SJEpisode"
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case addedDate
+        case lastDownloadAttemptDate
+        case detailedDescription
+        case downloadErrorDetails
+        case downloadTaskId
+        case downloadUrl
+        case hlsUrl
+        case episodeDescription
+        case episodeStatus
+        case fileType
+        case contentType
+        case keepEpisode
+        case playedUpTo
+        case duration
+        case playingStatus
+        case autoDownloadStatus
+        case publishedDate
+        case sizeInBytes
+        case playingStatusModified
+        case playedUpToModified
+        case durationModified
+        case keepEpisodeModified
+        case starredModified
+        case lastPlaybackInteractionDate
+        case lastPlaybackInteractionSyncStatus
+        case title
+        case uuid
+        case podcastUuid
+        case playbackErrorDetails
+        case cachedFrameCount
+        case podcast_id
+        case episodeNumber
+        case seasonNumber
+        case episodeType
+        case archived
+        case archivedModified
+        case lastArchiveInteractionDate
+        case excludeFromEpisodeLimit
+        case deselectedChapters
+        case deselectedChaptersModified
+        case wasDeleted
+    }
+
+    public required init(from decoder: Decoder) throws {
+        super.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int64.self, forKey: .id) ?? 0
+        addedDate = try container.decodeIfPresent(Date.self, forKey: .addedDate)
+        lastDownloadAttemptDate = try container.decodeIfPresent(Date.self, forKey: .lastDownloadAttemptDate)
+        detailedDescription = try container.decodeIfPresent(String.self, forKey: .detailedDescription)
+        downloadErrorDetails = try container.decodeIfPresent(String.self, forKey: .downloadErrorDetails)
+        downloadTaskId = try container.decodeIfPresent(String.self, forKey: .downloadTaskId)
+        downloadUrl = try container.decodeIfPresent(String.self, forKey: .downloadUrl)
+        hlsUrl = try container.decodeIfPresent(String.self, forKey: .hlsUrl)
+        episodeDescription = try container.decodeIfPresent(String.self, forKey: .episodeDescription)
+        episodeStatus = try container.decodeIfPresent(Int32.self, forKey: .episodeStatus) ?? 0
+        fileType = try container.decodeIfPresent(String.self, forKey: .fileType)
+        contentType = try container.decodeIfPresent(String.self, forKey: .contentType)
+        keepEpisode = try container.decodeIfPresent(Bool.self, forKey: .keepEpisode) ?? false
+        playedUpTo = try container.decodeIfPresent(Double.self, forKey: .playedUpTo) ?? 0
+        duration = try container.decodeIfPresent(Double.self, forKey: .duration) ?? 0
+        playingStatus = try container.decodeIfPresent(Int32.self, forKey: .playingStatus) ?? 0
+        autoDownloadStatus = try container.decodeIfPresent(Int32.self, forKey: .autoDownloadStatus) ?? 0
+        publishedDate = try container.decodeIfPresent(Date.self, forKey: .publishedDate)
+        sizeInBytes = try container.decodeIfPresent(Int64.self, forKey: .sizeInBytes) ?? 0
+        playingStatusModified = try container.decodeIfPresent(Int64.self, forKey: .playingStatusModified) ?? 0
+        playedUpToModified = try container.decodeIfPresent(Int64.self, forKey: .playedUpToModified) ?? 0
+        durationModified = try container.decodeIfPresent(Int64.self, forKey: .durationModified) ?? 0
+        keepEpisodeModified = try container.decodeIfPresent(Int64.self, forKey: .keepEpisodeModified) ?? 0
+        starredModified = try container.decodeIfPresent(Int64.self, forKey: .starredModified) ?? 0
+        lastPlaybackInteractionDate = try container.decodeIfPresent(Date.self, forKey: .lastPlaybackInteractionDate)
+        lastPlaybackInteractionSyncStatus = try container.decodeIfPresent(Int32.self, forKey: .lastPlaybackInteractionSyncStatus) ?? 1
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        uuid = try container.decodeIfPresent(String.self, forKey: .uuid) ?? ""
+        podcastUuid = try container.decodeIfPresent(String.self, forKey: .podcastUuid) ?? ""
+        playbackErrorDetails = try container.decodeIfPresent(String.self, forKey: .playbackErrorDetails)
+        cachedFrameCount = try container.decodeIfPresent(Int64.self, forKey: .cachedFrameCount) ?? 0
+        podcast_id = try container.decodeIfPresent(Int64.self, forKey: .podcast_id) ?? 0
+        episodeNumber = try container.decodeIfPresent(Int64.self, forKey: .episodeNumber) ?? -1
+        seasonNumber = try container.decodeIfPresent(Int64.self, forKey: .seasonNumber) ?? -1
+        episodeType = try container.decodeIfPresent(String.self, forKey: .episodeType)
+        archived = try container.decodeIfPresent(Bool.self, forKey: .archived) ?? false
+        archivedModified = try container.decodeIfPresent(Int64.self, forKey: .archivedModified) ?? 0
+        lastArchiveInteractionDate = try container.decodeIfPresent(Date.self, forKey: .lastArchiveInteractionDate)
+        excludeFromEpisodeLimit = try container.decodeIfPresent(Bool.self, forKey: .excludeFromEpisodeLimit) ?? false
+        deselectedChapters = try container.decodeIfPresent(String.self, forKey: .deselectedChapters)
+        deselectedChaptersModified = try container.decodeIfPresent(Int64.self, forKey: .deselectedChaptersModified) ?? 0
+        wasDeleted = try container.decodeIfPresent(Bool.self, forKey: .wasDeleted) ?? false
+    }
+
+    public func encode(to container: inout PersistenceContainer) {
+        container["id"] = id
+        container["addedDate"] = addedDate?.timeIntervalSince1970
+        container["lastDownloadAttemptDate"] = (lastDownloadAttemptDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
+        container["detailedDescription"] = detailedDescription
+        container["downloadErrorDetails"] = downloadErrorDetails
+        container["downloadTaskId"] = downloadTaskId
+        container["downloadUrl"] = downloadUrl
+        container["hlsUrl"] = hlsUrl
+        container["episodeDescription"] = episodeDescription
+        container["episodeStatus"] = episodeStatus
+        container["fileType"] = fileType
+        container["contentType"] = contentType
+        container["keepEpisode"] = keepEpisode
+        container["playedUpTo"] = playedUpTo
+        container["duration"] = duration
+        container["playingStatus"] = playingStatus
+        container["autoDownloadStatus"] = autoDownloadStatus
+        container["publishedDate"] = publishedDate?.timeIntervalSince1970
+        container["sizeInBytes"] = sizeInBytes
+        container["playingStatusModified"] = playingStatusModified
+        container["playedUpToModified"] = playedUpToModified
+        container["durationModified"] = durationModified
+        container["keepEpisodeModified"] = keepEpisodeModified
+        container["starredModified"] = starredModified
+        container["lastPlaybackInteractionDate"] = lastPlaybackInteractionDate?.timeIntervalSince1970
+        container["lastPlaybackInteractionSyncStatus"] = lastPlaybackInteractionSyncStatus
+        container["title"] = title
+        container["uuid"] = uuid
+        container["podcastUuid"] = podcastUuid
+        container["playbackErrorDetails"] = playbackErrorDetails
+        container["cachedFrameCount"] = cachedFrameCount
+        container["podcast_id"] = podcast_id
+        container["episodeNumber"] = episodeNumber
+        container["seasonNumber"] = seasonNumber
+        container["episodeType"] = episodeType
+        container["archived"] = archived
+        container["archivedModified"] = archivedModified
+        container["lastArchiveInteractionDate"] = (lastArchiveInteractionDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
+        container["excludeFromEpisodeLimit"] = excludeFromEpisodeLimit
+        container["deselectedChapters"] = deselectedChapters
+        container["deselectedChaptersModified"] = deselectedChaptersModified
+        container["wasDeleted"] = wasDeleted
+    }
+
+    public enum Columns {
+        public static let id = Column(CodingKeys.id)
+        public static let addedDate = Column(CodingKeys.addedDate)
+        public static let lastDownloadAttemptDate = Column(CodingKeys.lastDownloadAttemptDate)
+        public static let detailedDescription = Column(CodingKeys.detailedDescription)
+        public static let downloadErrorDetails = Column(CodingKeys.downloadErrorDetails)
+        public static let downloadTaskId = Column(CodingKeys.downloadTaskId)
+        public static let downloadUrl = Column(CodingKeys.downloadUrl)
+        public static let hlsUrl = Column(CodingKeys.hlsUrl)
+        public static let episodeDescription = Column(CodingKeys.episodeDescription)
+        public static let episodeStatus = Column(CodingKeys.episodeStatus)
+        public static let fileType = Column(CodingKeys.fileType)
+        public static let contentType = Column(CodingKeys.contentType)
+        public static let keepEpisode = Column(CodingKeys.keepEpisode)
+        public static let playedUpTo = Column(CodingKeys.playedUpTo)
+        public static let duration = Column(CodingKeys.duration)
+        public static let playingStatus = Column(CodingKeys.playingStatus)
+        public static let autoDownloadStatus = Column(CodingKeys.autoDownloadStatus)
+        public static let publishedDate = Column(CodingKeys.publishedDate)
+        public static let sizeInBytes = Column(CodingKeys.sizeInBytes)
+        public static let playingStatusModified = Column(CodingKeys.playingStatusModified)
+        public static let playedUpToModified = Column(CodingKeys.playedUpToModified)
+        public static let durationModified = Column(CodingKeys.durationModified)
+        public static let keepEpisodeModified = Column(CodingKeys.keepEpisodeModified)
+        public static let starredModified = Column(CodingKeys.starredModified)
+        public static let lastPlaybackInteractionDate = Column(CodingKeys.lastPlaybackInteractionDate)
+        public static let lastPlaybackInteractionSyncStatus = Column(CodingKeys.lastPlaybackInteractionSyncStatus)
+        public static let title = Column(CodingKeys.title)
+        public static let uuid = Column(CodingKeys.uuid)
+        public static let podcastUuid = Column(CodingKeys.podcastUuid)
+        public static let playbackErrorDetails = Column(CodingKeys.playbackErrorDetails)
+        public static let cachedFrameCount = Column(CodingKeys.cachedFrameCount)
+        public static let podcast_id = Column(CodingKeys.podcast_id)
+        public static let episodeNumber = Column(CodingKeys.episodeNumber)
+        public static let seasonNumber = Column(CodingKeys.seasonNumber)
+        public static let episodeType = Column(CodingKeys.episodeType)
+        public static let archived = Column(CodingKeys.archived)
+        public static let archivedModified = Column(CodingKeys.archivedModified)
+        public static let lastArchiveInteractionDate = Column(CodingKeys.lastArchiveInteractionDate)
+        public static let excludeFromEpisodeLimit = Column(CodingKeys.excludeFromEpisodeLimit)
+        public static let deselectedChapters = Column(CodingKeys.deselectedChapters)
+        public static let deselectedChaptersModified = Column(CodingKeys.deselectedChaptersModified)
+        public static let wasDeleted = Column(CodingKeys.wasDeleted)
+    }
 }
+
+extension Episode: FetchableRecord, PersistableRecord, TableRecord, Decodable {}
