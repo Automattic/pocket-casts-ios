@@ -104,7 +104,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
 
     // MARK: - Ignored Property Tests
 
-    /// Verifies that cachedUnreadCount is NOT persisted (marked with @GRDBIgnore)
+    /// Verifies that cachedUnreadCount is NOT persisted (excluded from CodingKeys)
     func testCachedUnreadCountNotPersisted() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()
@@ -126,7 +126,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
-    /// Verifies that forceRefreshEpisodeFrom is NOT persisted (marked with @GRDBIgnore)
+    /// Verifies that forceRefreshEpisodeFrom is NOT persisted (excluded from CodingKeys)
     func testForceRefreshEpisodeFromNotPersisted() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()

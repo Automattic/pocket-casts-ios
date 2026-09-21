@@ -1,7 +1,6 @@
 // swift-tools-version: 5.10
 
 import PackageDescription
-import CompilerPluginSupport
 
 let package = Package(
     name: "Modules",
@@ -9,10 +8,6 @@ let package = Package(
         .iOS(.v17), .watchOS(.v10), .macOS(.v13), .tvOS(.v17)
     ],
     products: XcodeSupport.products + [
-        .library(
-            name: "GRDBMacros",
-            targets: ["GRDBMacros"]
-        ),
         .library(
             name: "PocketCastsUtils",
             targets: ["PocketCastsUtils"]
@@ -35,7 +30,6 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "510.0.0"),
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
         .package(url: "https://github.com/danielebogo/Swime", branch: "master"),
@@ -57,31 +51,6 @@ let package = Package(
     ],
     targets: XcodeSupport.targets + [
         .target(
-            name: "GRDBMacros",
-            dependencies: [
-                "GRDBMacrosPlugin",
-                .product(name: "GRDB", package: "GRDB.swift"),
-            ],
-            path: "Sources/GRDBMacros"
-        ),
-        .macro(
-            name: "GRDBMacrosPlugin",
-            dependencies: [
-                .product(name: "SwiftSyntax", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-            ],
-            path: "Sources/GRDBMacrosPlugin"
-        ),
-        .testTarget(
-            name: "GRDBMacrosTests",
-            dependencies: [
-                "GRDBMacrosPlugin",
-                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
-            ],
-            path: "Tests/GRDBMacrosTests"
-        ),
-        .target(
             name: "PocketCastsUtils",
             path: "Sources/PocketCastsUtils",
             swiftSettings: [
@@ -98,7 +67,6 @@ let package = Package(
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift"),
                 "PocketCastsUtils",
-                "GRDBMacros",
             ],
             path: "Sources/PocketCastsDataModel",
             swiftSettings: [
