@@ -6,11 +6,12 @@ final class DownloadManagerTests: DBTestCase {
     func testStuckSingleDownload() async throws {
         let (_, task) = try await setUpQueuedDownload()
 
-        // Create a predicate + expectation to check when task state is completed
-        let predicate = NSPredicate(block: { _, _ -> Bool in
-            return task.state == .completed
-        })
-        let publishExpectation = XCTNSPredicateExpectation(predicate: predicate, object: task)
+        // Create an expectation to check when task state is completed
+        let publishExpectation = XCTKVOExpectation(
+            keyPath: #keyPath(URLSessionTask.state),
+            object: task,
+            expectedValue: URLSessionTask.State.completed.rawValue
+        )
 
         // This should delete the podcast given the mock data
         dataManager.delete(episodeUuid: episode.uuid)

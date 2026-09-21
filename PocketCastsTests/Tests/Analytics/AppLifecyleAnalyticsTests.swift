@@ -6,13 +6,15 @@ class AppLifecycleAnalyticsTests: XCTestCase {
     private var userDefaults: UserDefaults!
     private var appLifecyleAnalytics: AppLifecycleAnalytics!
     private var analytics: MockAnalytics!
+    private var now = Date()
 
     override func setUp() {
         userDefaults = UserDefaults(suiteName: "AppLifecycleAnalyticsTests")
         userDefaults.removePersistentDomain(forName: "AppLifecycleAnalyticsTests")
 
+        now = Date()
         analytics = MockAnalytics()
-        appLifecyleAnalytics = AppLifecycleAnalytics(userDefaults: userDefaults, analytics: analytics)
+        appLifecyleAnalytics = AppLifecycleAnalytics(userDefaults: userDefaults, analytics: analytics, now: { [unowned self] in self.now })
     }
 
     // MARK: - Application Installed
@@ -97,7 +99,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 
         XCTAssertEqual(applicationInstallState, .sameVersion)
 
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 0.1)
     }
 
     func testApplicationUpdatedEventFiresOnlyOnce() {
@@ -268,7 +270,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
         appLifecyleAnalytics.didBecomeActive()
 
         // Dismiss the app after 2 seconds
-        sleep(2)
+        now = now.addingTimeInterval(2)
 
         let exp = expectation(description: "track method should be triggered")
         analytics.didTrack = { event, properties in

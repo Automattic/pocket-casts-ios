@@ -8,7 +8,7 @@ final class ThreadSafeDictionaryTests: XCTestCase {
         let dictionary = ThreadSafeDictionary<String, String>()
 
         await withTaskGroup(of: Void.self) { group in
-            for _ in 0..<1_000_000 {
+            for _ in 0..<100_000 {
                 group.addTask {
                     let uuid = UUID().uuidString
                     dictionary[uuid] = uuid

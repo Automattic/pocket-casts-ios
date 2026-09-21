@@ -5,6 +5,7 @@ class AppLifecycleAnalytics {
     // Dependencies
     private let userDefaults: UserDefaults
     private let analytics: Analytics
+    private let now: () -> Date
 
     /// The date the app was last opened, used for calculating time in app
     private var applicationOpenedTime: Date?
@@ -13,9 +14,10 @@ class AppLifecycleAnalytics {
     private lazy var widgetAnalytics = WidgetAnalytics()
 #endif
 
-    init(userDefaults: UserDefaults = .standard, analytics: Analytics = Analytics.shared) {
+    init(userDefaults: UserDefaults = .standard, analytics: Analytics = Analytics.shared, now: @escaping () -> Date = Date.init) {
         self.userDefaults = userDefaults
         self.analytics = analytics
+        self.now = now
     }
 }
 
@@ -53,7 +55,7 @@ extension AppLifecycleAnalytics {
             return
         }
 
-        applicationOpenedTime = Date()
+        applicationOpenedTime = now()
 
         analytics.track(.applicationOpened)
 
@@ -67,7 +69,7 @@ extension AppLifecycleAnalytics {
 
         // Calculate how long the app was opened for
         if let openTime = applicationOpenedTime {
-            let timeInApp = round(Date().timeIntervalSince(openTime))
+            let timeInApp = round(now().timeIntervalSince(openTime))
             properties = ["time_in_app": timeInApp.description]
         }
 
