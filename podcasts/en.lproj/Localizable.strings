@@ -886,15 +886,6 @@
 /* Title for the section that provides information on how to export podcasts from Pocket Casts */
 "export_podcasts_title" = "EXPORT";
 
-/* Indicator during the new feature tour serves as a prompt to end the tour. */
-"feature_tour_end_tour" = "End Tour";
-
-/* Indicator during the new feature tour. Used as a navigation indicator when the tour is on the first step. This is replaced with 'position of total' as the user progresses. */
-"feature_tour_new" = "NEW";
-
-/* Indicator during the new feature tour. Used as a navigation indicator as the user progresses through the tour. '%1$@' is a placeholder for the current position. '%2$@' is a placeholder for the total number of steps. */
-"feature_tour_step_format" = "%1$@ of %2$@";
-
 /* Option to continue with a Third-Party Mail app when the default Apple mail app isn't available. */
 "feedback_continue_with_mail" = "Open Default Mail App";
 
