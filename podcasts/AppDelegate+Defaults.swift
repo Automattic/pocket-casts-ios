@@ -143,8 +143,6 @@ extension AppDelegate {
                 dataManager.clearLastUpdatedAtForAllPodcasts()
             }
         }
-
-        defaults.synchronize()
     }
 
     private func performUpdateIfRequired(updateKey: String, update: () -> Void) {

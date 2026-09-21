@@ -123,7 +123,6 @@ class AppCoordinator {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
     }
 
@@ -191,7 +190,6 @@ class AppCoordinator {
 
         update()
         UserDefaults.standard.set(true, forKey: updateKey)
-        UserDefaults.standard.synchronize()
     }
 
     func remotePlayPauseToggle() {

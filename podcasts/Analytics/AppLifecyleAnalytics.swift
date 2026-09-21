@@ -100,7 +100,6 @@ extension AppLifecycleAnalytics {
         defer {
             // Set the current version in the user defaults
             userDefaults.set(currentVersion, forKey: Constants.UserDefaults.lastRunVersion)
-            userDefaults.synchronize()
         }
 
         // If there is no previous version, then record this as an install

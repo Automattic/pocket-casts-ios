@@ -20,7 +20,6 @@ public class StatsManager {
     public init() {
         if UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.statsStartDate) as? Date == nil {
             UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.statsStartDate)
-            UserDefaults.standard.synchronize()
         }
 
         times.withLock { times in
@@ -146,7 +145,6 @@ public class StatsManager {
 
             UserDefaults.standard.set(times.isSynced, forKey: ServerConstants.UserDefaults.statsSyncStatus)
         }
-        UserDefaults.standard.synchronize()
     }
 
     public func syncStatus() -> SyncStatus {
