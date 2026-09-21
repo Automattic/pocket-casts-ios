@@ -40,7 +40,9 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
             }
 
             // Verify all persisted fields match
+            XCTAssertEqual(loaded.id, original.id, "id should match")
             XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.addedDate, original.addedDate, "addedDate should match")
             XCTAssertEqual(loaded.title, original.title, "title should match")
             XCTAssertEqual(loaded.author, original.author, "author should match")
             XCTAssertEqual(loaded.podcastDescription, original.podcastDescription, "podcastDescription should match")
@@ -75,6 +77,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.folderUuid, original.folderUuid, "folderUuid should match")
             XCTAssertEqual(loaded.usedCustomEffectsBefore, original.usedCustomEffectsBefore, "usedCustomEffectsBefore should match")
             XCTAssertEqual(loaded.isPrivate, original.isPrivate, "isPrivate should match")
+            XCTAssertEqual(loaded.isExplicit, original.isExplicit, "isExplicit should match")
             XCTAssertEqual(loaded.fundingURL, original.fundingURL, "fundingURL should match")
             XCTAssertEqual(loaded.networkListId, original.networkListId, "networkListId should match")
             // Color fields
@@ -145,6 +148,129 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - GRDB Record Tests
+
+    /// Dates are stored as Unix timestamps, not GRDB's default Date format.
+    /// The legacy read path reads them back with `rs.double(forColumn:)`, so a change
+    /// here would silently shift every podcast date.
+    func testDatesAreEncodedAsUnixTimestamps() throws {
+        let podcast = createFullyPopulatedPodcast()
+        let encoded = try podcast.databaseDictionary
+
+        let dates: [String: Date?] = [
+            "addedDate": podcast.addedDate,
+            "lastColorDownloadDate": podcast.lastColorDownloadDate,
+            "latestEpisodeDate": podcast.latestEpisodeDate,
+            "lastThumbnailDownloadDate": podcast.lastThumbnailDownloadDate,
+            "estimatedNextEpisode": podcast.estimatedNextEpisode
+        ]
+        for (column, date) in dates {
+            XCTAssertEqual(
+                Double.fromDatabaseValue(try XCTUnwrap(encoded[column])),
+                try XCTUnwrap(date).timeIntervalSince1970,
+                "\(column) should encode as a Unix timestamp"
+            )
+        }
+    }
+
+    func testNilDatesAreEncodedAsNull() throws {
+        let encoded = try Podcast().databaseDictionary
+
+        for column in ["lastColorDownloadDate", "latestEpisodeDate", "lastThumbnailDownloadDate", "estimatedNextEpisode"] {
+            XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
+        }
+    }
+
+    /// `addedDate` is `REAL NOT NULL`, so a nil date is stored as 0, which the
+    /// legacy read path turns back into nil.
+    func testNilAddedDateIsEncodedAsZero() throws {
+        let encoded = try Podcast().databaseDictionary
+
+        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["addedDate"])), 0)
+    }
+
+    func testSavesPodcastWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createFullyPopulatedPodcast()
+            podcast.addedDate = nil
+
+            dataManager.save(podcast: podcast)
+
+            let loaded = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// A row stored with `addedDate` 0 loads with a nil date. Saving that podcast
+    /// again has to update the row instead of failing the `NOT NULL` constraint.
+    func testUpdatesPodcastWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createFullyPopulatedPodcast()
+            dataManager.save(podcast: podcast)
+
+            podcast.addedDate = nil
+            podcast.title = "Renamed"
+            dataManager.save(podcast: podcast)
+
+            let loaded = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true))
+            XCTAssertEqual(loaded.title, "Renamed")
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    func testAutoArchiveEpisodeLimitIsStoredInEpisodeKeepSetting() throws {
+        let podcast = createFullyPopulatedPodcast()
+        let encoded = try podcast.databaseDictionary
+
+        XCTAssertEqual(Int32.fromDatabaseValue(try XCTUnwrap(encoded["episodeKeepSetting"])), 10)
+        XCTAssertNil(encoded["autoArchiveEpisodeLimit"])
+        XCTAssertEqual(Podcast.Columns.autoArchiveEpisodeLimit.name, "episodeKeepSetting")
+    }
+
+    func testTransientPropertiesAreNotEncoded() throws {
+        let podcast = createFullyPopulatedPodcast()
+        podcast.cachedUnreadCount = 42
+        podcast.forceRefreshEpisodeFrom = "some-episode-uuid"
+
+        let encoded = try podcast.databaseDictionary
+
+        for name in ["settings", "cachedUnreadCount", "forceRefreshEpisodeFrom"] {
+            XCTAssertNil(encoded[name], "\(name) should not be encoded")
+        }
+    }
+
+    func testDecodesRowWrittenByGRDB() throws {
+        let dataManager = DataManager.newTestDataManager()
+        let original = createFullyPopulatedPodcast()
+        dataManager.save(podcast: original)
+
+        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+            try Podcast.filter(Podcast.Columns.uuid == original.uuid).fetchOne(db)
+        }
+
+        let podcast = try XCTUnwrap(decoded, "should decode a Podcast from its own row")
+        XCTAssertEqual(try podcast.databaseDictionary, try original.databaseDictionary)
+    }
+
+    /// Every property decodes with a fallback, so a row missing columns (an older
+    /// schema, or a projection) yields defaults instead of throwing.
+    func testDecodesRowWithMissingColumnsUsingDefaults() throws {
+        let podcast = try Podcast(row: ["uuid": "abc"])
+
+        let expected = Podcast()
+        expected.uuid = "abc"
+        XCTAssertEqual(try podcast.databaseDictionary, try expected.databaseDictionary)
+    }
+
+    func testDecodesRowWithNullColumnsUsingDefaults() throws {
+        let columns = try Podcast().databaseDictionary.keys
+        let row = Row(Dictionary(uniqueKeysWithValues: columns.map { ($0, nil as (any DatabaseValueConvertible)?) }))
+
+        let podcast = try Podcast(row: row)
+
+        XCTAssertEqual(try podcast.databaseDictionary, try Podcast().databaseDictionary)
+    }
+
     // MARK: - Helpers
 
     private func createFullyPopulatedPodcast() -> Podcast {
@@ -157,7 +283,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         podcast.podcastUrl = "https://example.com/feed.xml"
         podcast.imageURL = "https://example.com/image.jpg"
         podcast.mediaType = "audio"
-        podcast.addedDate = Date()
+        podcast.addedDate = Date(timeIntervalSince1970: 1690000000)
         podcast.subscribed = 1
         podcast.sortOrder = 5
         podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
@@ -178,13 +304,14 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         podcast.overrideGlobalArchive = true
         podcast.autoArchivePlayedAfter = 86400
         podcast.autoArchiveInactiveAfter = 604800
-        podcast.isPaid = false
-        podcast.licensing = 0
+        podcast.isPaid = true
+        podcast.licensing = 1
         podcast.showArchived = true
         podcast.refreshAvailable = true
         podcast.folderUuid = "folder-uuid-123"
         podcast.usedCustomEffectsBefore = true
-        podcast.isPrivate = false
+        podcast.isPrivate = true
+        podcast.isExplicit = true
         podcast.fundingURL = "https://example.com/support"
         podcast.networkListId = "cdb75bc0-9f5a-4217-b1ca-f573821a7913"
         // Color fields
