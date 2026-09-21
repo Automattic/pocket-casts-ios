@@ -82,7 +82,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "deselectedChapters should match")
             XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "deselectedChaptersModified should match")
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
-            XCTExpectFailure("@GRDBRecord doesn't persist non-@objc properties such as hasGeneratedTranscript") {
+            XCTExpectFailure("Episode's GRDB record encoding doesn't persist hasGeneratedTranscript") {
                 XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "hasGeneratedTranscript should match")
             }
             XCTAssertEqual(loaded.podcast_id, original.podcast_id, "podcast_id should match")
@@ -97,7 +97,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
     // MARK: - Ignored Property Tests
 
-    /// Verifies that hasOnlyUuid is NOT persisted (marked with @GRDBIgnore)
+    /// Verifies that hasOnlyUuid is NOT persisted (excluded from CodingKeys)
     func testHasOnlyUuidNotPersisted() throws {
         try runWithDataManager { dataManager in
             // Create a podcast first
