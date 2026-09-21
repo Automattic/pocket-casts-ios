@@ -326,7 +326,7 @@ public class Episode: NSObject, BaseEpisode {
 
     public func encode(to container: inout PersistenceContainer) {
         container["id"] = id
-        container["addedDate"] = addedDate?.timeIntervalSince1970
+        container["addedDate"] = (addedDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
         container["lastDownloadAttemptDate"] = (lastDownloadAttemptDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
         container["detailedDescription"] = detailedDescription
         container["downloadErrorDetails"] = downloadErrorDetails

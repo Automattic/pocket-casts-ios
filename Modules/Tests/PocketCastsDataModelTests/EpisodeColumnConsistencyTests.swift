@@ -155,17 +155,49 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
     func testNilDatesAreEncodedAsNull() throws {
         let encoded = try Episode().databaseDictionary
 
-        for column in ["addedDate", "publishedDate", "lastPlaybackInteractionDate"] {
+        for column in ["publishedDate", "lastPlaybackInteractionDate"] {
             XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
         }
     }
 
-    /// These columns are `NOT NULL DEFAULT 0`, so a nil date is stored as 0 instead of NULL.
+    /// These columns are `NOT NULL`, so a nil date is stored as 0 instead of NULL.
+    /// The legacy read path turns 0 back into nil.
     func testNilDatesInNotNullColumnsAreEncodedAsZero() throws {
         let encoded = try Episode().databaseDictionary
 
-        for column in ["lastDownloadAttemptDate", "lastArchiveInteractionDate"] {
+        for column in ["addedDate", "lastDownloadAttemptDate", "lastArchiveInteractionDate"] {
             XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded[column])), 0, "a nil \(column) should encode as 0")
+        }
+    }
+
+    func testSavesEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createFullyPopulatedEpisode(podcastUuid: podcast.uuid, podcastId: podcast.id)
+            episode.addedDate = nil
+
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// A row stored with `addedDate` 0 loads with a nil date. Saving that episode
+    /// again has to update the row instead of failing the `NOT NULL` constraint.
+    func testUpdatesEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createFullyPopulatedEpisode(podcastUuid: podcast.uuid, podcastId: podcast.id)
+            dataManager.save(episode: episode)
+
+            episode.addedDate = nil
+            episode.title = "Renamed"
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
+            XCTAssertEqual(loaded.title, "Renamed")
+            XCTAssertNil(loaded.addedDate)
         }
     }
 
