@@ -18,7 +18,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
     private var peakLimiter: AVAudioUnitEffect?
-    private let useVoiceBoostN = AtomicBool()
+    private let useVoiceBoostN = Mutex(false)
     private var audioFileSampleRate: Double = 0
 
     private var playBufferManager: PlayBufferManager?
@@ -28,10 +28,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     private var effects = PlaybackEffects()
 
-    private let shouldKeepPlaying = AtomicBool()
+    private let shouldKeepPlaying = Mutex(false)
     private var haveFiredDurationNotification = false
 
-    private let aboutToPlay = AtomicBool()
+    private let aboutToPlay = Mutex(false)
     private var episodePath: String?
     private var episode: BaseEpisode?
     private var cachedFrameCount = 0 as Int64
@@ -334,7 +334,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func routeDidChange(shouldPause: Bool) {
-        shouldKeepPlaying.value = shouldKeepPlaying.value && !shouldPause
+        shouldKeepPlaying.withLock { $0 = $0 && !shouldPause }
 
         // when this is called, the engine has detected an interruption like a route change. Because this happens on things like bluetooth connect, and not just disconnect, we deal with it here.
         // The audio engine has shut down at this point, so we call pause to destroy all our current state and play to restore it all if we should still be playing
@@ -355,7 +355,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.value ?? false }, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()
