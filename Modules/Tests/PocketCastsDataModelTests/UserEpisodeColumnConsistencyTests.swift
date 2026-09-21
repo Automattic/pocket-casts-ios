@@ -40,7 +40,11 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
             }
 
             // Verify all persisted fields match
+            XCTAssertEqual(loaded.id, original.id, "id should match")
             XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.addedDate, original.addedDate, "addedDate should match")
+            XCTAssertEqual(loaded.lastDownloadAttemptDate, original.lastDownloadAttemptDate, "lastDownloadAttemptDate should match")
+            XCTAssertEqual(loaded.publishedDate, original.publishedDate, "publishedDate should match")
             XCTAssertEqual(loaded.title, original.title, "title should match")
             XCTAssertEqual(loaded.duration, original.duration, "duration should match")
             XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "playedUpTo should match")
@@ -112,6 +116,98 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - GRDB Record Tests
+
+    /// Dates are stored as Unix timestamps, not GRDB's default Date format.
+    /// The legacy read path reads them back with `rs.double(forColumn:)`, so a change
+    /// here would silently shift every user episode date.
+    func testDatesAreEncodedAsUnixTimestamps() throws {
+        let episode = createFullyPopulatedUserEpisode()
+        let encoded = try episode.databaseDictionary
+
+        let dates: [String: Date?] = [
+            "addedDate": episode.addedDate,
+            "lastDownloadAttemptDate": episode.lastDownloadAttemptDate,
+            "publishedDate": episode.publishedDate
+        ]
+        for (column, date) in dates {
+            XCTAssertEqual(
+                Double.fromDatabaseValue(try XCTUnwrap(encoded[column])),
+                try XCTUnwrap(date).timeIntervalSince1970,
+                "\(column) should encode as a Unix timestamp"
+            )
+        }
+    }
+
+    func testNilDatesAreEncodedAsNull() throws {
+        let encoded = try UserEpisode().databaseDictionary
+
+        for column in ["addedDate", "publishedDate"] {
+            XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
+        }
+    }
+
+    /// The column is `NOT NULL DEFAULT 0`, so a nil date is stored as 0 instead of NULL.
+    func testNilLastDownloadAttemptDateIsEncodedAsZero() throws {
+        let encoded = try UserEpisode().databaseDictionary
+
+        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["lastDownloadAttemptDate"])), 0)
+    }
+
+    func testTransientPropertiesAreNotEncoded() throws {
+        let episode = createFullyPopulatedUserEpisode()
+        episode.contentType = "audio/mpeg"
+        episode.hasOnlyUuid = true
+        episode.deselectedChapters = "1,3,5"
+        episode.deselectedChaptersModified = 777
+        episode.archived = true
+        episode.keepEpisode = true
+        episode.wasDeleted = true
+
+        let encoded = try episode.databaseDictionary
+
+        for name in [
+            "contentType", "hasOnlyUuid", "deselectedChapters", "deselectedChaptersModified",
+            "archived", "keepEpisode", "wasDeleted"
+        ] {
+            XCTAssertNil(encoded[name], "\(name) should not be encoded")
+        }
+    }
+
+    func testDecodesRowWrittenByGRDB() throws {
+        let dataManager = DataManager.newTestDataManager()
+        let original = createFullyPopulatedUserEpisode()
+        dataManager.save(episode: original)
+
+        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+            try UserEpisode.filter(UserEpisode.Columns.uuid == original.uuid).fetchOne(db)
+        }
+
+        let episode = try XCTUnwrap(decoded, "should decode a UserEpisode from its own row")
+        XCTAssertEqual(try episode.databaseDictionary, try original.databaseDictionary)
+    }
+
+    /// Every property decodes with a fallback, so a row missing columns (an older
+    /// schema, or a projection) yields defaults instead of throwing.
+    func testDecodesRowWithMissingColumnsUsingDefaults() throws {
+        let episode = try UserEpisode(row: ["uuid": "abc"])
+
+        let expected = UserEpisode()
+        expected.uuid = "abc"
+        XCTAssertEqual(try episode.databaseDictionary, try expected.databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
+    }
+
+    func testDecodesRowWithNullColumnsUsingDefaults() throws {
+        let columns = try UserEpisode().databaseDictionary.keys
+        let row = Row(Dictionary(uniqueKeysWithValues: columns.map { ($0, nil as (any DatabaseValueConvertible)?) }))
+
+        let episode = try UserEpisode(row: row)
+
+        XCTAssertEqual(try episode.databaseDictionary, try UserEpisode().databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
+    }
+
     // MARK: - Helpers
 
     private func assertEpisodesMatch(_ original: UserEpisode, _ loaded: UserEpisode, context: String) {
@@ -146,8 +242,8 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         let episode = UserEpisode()
         episode.uuid = UUID().uuidString
         episode.title = "Test Episode Title"
-        episode.addedDate = Date()
-        episode.lastDownloadAttemptDate = Date()
+        episode.addedDate = Date(timeIntervalSince1970: 1700000000)
+        episode.lastDownloadAttemptDate = Date(timeIntervalSince1970: 1700000100)
         episode.downloadErrorDetails = "Test error"
         episode.downloadTaskId = "download-task-123"
         episode.downloadUrl = "https://example.com/episode.mp3"
@@ -158,7 +254,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.durationModified = 111
         episode.playingStatus = PlayingStatus.inProgress.rawValue
         episode.autoDownloadStatus = AutoDownloadStatus.autoDownloaded.rawValue
-        episode.publishedDate = Date()
+        episode.publishedDate = Date(timeIntervalSince1970: 1690000000)
         episode.sizeInBytes = 1024000
         episode.playingStatusModified = 222
         episode.playedUpToModified = 333
