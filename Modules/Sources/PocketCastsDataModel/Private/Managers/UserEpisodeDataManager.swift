@@ -3,39 +3,6 @@ import Foundation
 import GRDB
 
 class UserEpisodeDataManager {
-    /// Legacy column names for non-GRDB code path.
-    let columnNames = [
-        "id",
-        "addedDate",
-        "lastDownloadAttemptDate",
-        "downloadErrorDetails",
-        "downloadTaskId",
-        "downloadUrl",
-        "episodeStatus",
-        "fileType",
-        "playedUpTo",
-        "duration",
-        "playingStatus",
-        "autoDownloadStatus",
-        "publishedDate",
-        "sizeInBytes",
-        "playingStatusModified",
-        "playedUpToModified",
-        "title",
-        "uuid",
-        "playbackErrorDetails",
-        "cachedFrameCount",
-        "uploadStatus",
-        "uploadTaskId",
-        "imageUrl",
-        "imageColor",
-        "hasCustomImage",
-        "imageColorModified",
-        "titleModified",
-        "durationModified",
-        "imageModified"
-    ]
-
     // MARK: - Query
 
     func findBy(uuid: String, dbQueue: PCDBQueue) -> UserEpisode? {
@@ -206,34 +173,16 @@ class UserEpisodeDataManager {
     // MARK: - Updates
 
     func save(episode: UserEpisode, dbQueue: PCDBQueue) {
-        let isInsert = episode.id == 0
-        if isInsert {
+        if episode.id == 0 {
             episode.id = DBUtils.generateUniqueId()
         }
 
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    try episode.save(db)
-                }
-            } catch {
-                FileLog.shared.addMessage("UserEpisodeDataManager.save error: \(error)")
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                try episode.save(db)
             }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    if isInsert {
-                        try db.executeUpdate("INSERT INTO \(DataManager.userEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                    } else {
-                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
-                    }
-                } catch {
-                    FileLog.shared.addMessage("UserEpisodeDataManager.save error: \(error)")
-                }
-            }
+        } catch {
+            FileLog.shared.addMessage("UserEpisodeDataManager.save error: \(error)")
         }
     }
 
@@ -355,44 +304,18 @@ class UserEpisodeDataManager {
     }
 
     func bulkSave(episodes: [UserEpisode], dbQueue: PCDBQueue) {
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    for episode in episodes {
-                        let isInsert = episode.id == 0
-                        if isInsert {
-                            episode.id = DBUtils.generateUniqueId()
-                        }
-
-                        try episode.save(db)
-                    }
-                }
-            } catch {
-                FileLog.shared.addMessage("UserEpisodeDataManager.bulkSave error: \(error)")
-            }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    db.beginTransaction()
-
-                    for episode in episodes {
-                        let isInsert = episode.id == 0
-                        if isInsert {
-                            episode.id = DBUtils.generateUniqueId()
-                            try db.executeUpdate("INSERT INTO \(DataManager.userEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                        } else {
-                            let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                            try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
-                        }
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                for episode in episodes {
+                    if episode.id == 0 {
+                        episode.id = DBUtils.generateUniqueId()
                     }
 
-                    db.commit()
-                } catch {
-                    FileLog.shared.addMessage("UserEpisodeDataManager.bulkSave error: \(error)")
+                    try episode.save(db)
                 }
             }
+        } catch {
+            FileLog.shared.addMessage("UserEpisodeDataManager.bulkSave error: \(error)")
         }
     }
 
@@ -605,44 +528,5 @@ class UserEpisodeDataManager {
         episode.imageColorModified = rs.longLongInt(forColumn: "imageColorModified")
         episode.hasCustomImage = rs.bool(forColumn: "hasCustomImage")
         return episode
-    }
-
-    private func createValuesFrom(episode: UserEpisode, includeIdForWhere: Bool = false) -> [Any] {
-        var values = [Any]()
-        values.append(episode.id)
-        values.append(DBUtils.nullIfNil(value: episode.addedDate))
-        values.append(episode.lastDownloadAttemptDate ?? Date(timeIntervalSince1970: 0))
-        values.append(DBUtils.nullIfNil(value: episode.downloadErrorDetails))
-        values.append(DBUtils.nullIfNil(value: episode.downloadTaskId))
-        values.append(DBUtils.nullIfNil(value: episode.downloadUrl))
-        values.append(episode.episodeStatus)
-        values.append(DBUtils.nullIfNil(value: episode.fileType))
-        values.append(episode.playedUpTo)
-        values.append(episode.duration)
-        values.append(episode.playingStatus)
-        values.append(episode.autoDownloadStatus)
-        values.append(DBUtils.nullIfNil(value: episode.publishedDate))
-        values.append(episode.sizeInBytes)
-        values.append(episode.playingStatusModified)
-        values.append(episode.playedUpToModified)
-        values.append(DBUtils.nullIfNil(value: episode.title))
-        values.append(episode.uuid)
-        values.append(DBUtils.nullIfNil(value: episode.playbackErrorDetails))
-        values.append(episode.cachedFrameCount)
-        values.append(episode.uploadStatus)
-        values.append(DBUtils.nullIfNil(value: episode.uploadTaskId))
-        values.append(DBUtils.nullIfNil(value: episode.imageUrl))
-        values.append(episode.imageColor)
-        values.append(episode.hasCustomImage)
-        values.append(episode.imageColorModified)
-        values.append(episode.titleModified)
-        values.append(episode.durationModified)
-        values.append(episode.imageModified)
-
-        if includeIdForWhere {
-            values.append(episode.id)
-        }
-
-        return values
     }
 }
