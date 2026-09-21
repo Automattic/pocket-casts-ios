@@ -200,7 +200,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // A new episode shouldn't inherit the previous one's "watch downloaded video" choice.
         if episodeIsChanging {
-            streamingVideoForDownloadedEpisode.withLock { $0 = false }
+            streamingVideoForDownloadedEpisode.value = false
         }
 
         if let uuid = currentEpisode?.uuid, uuid != episode.uuid {
@@ -292,7 +292,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             analyticsPlaybackHelper.play()
         }
 
-        aboutToPlay.withLock { $0 = true }
+        aboutToPlay.value = true
 
         if playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
@@ -308,15 +308,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         // later in the session.
         let shouldReportSourceResolved = FeatureFlag.hls.enabled && !hasReportedSourceResolved.value
         if shouldReportSourceResolved {
-            hasReportedSourceResolved.withLock { $0 = true }
+            hasReportedSourceResolved.value = true
         }
 
         activateAudioSession(completion: { activated in
             if !activated {
-                self.aboutToPlay.withLock { $0 = false }
+                self.aboutToPlay.value = false
                 // Playback didn't start, so allow a later retry to report the resolved source.
                 if shouldReportSourceResolved {
-                    self.hasReportedSourceResolved.withLock { $0 = false }
+                    self.hasReportedSourceResolved.value = false
                 }
                 return
             }
@@ -919,7 +919,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// Used for HLS streams whose video content isn't reflected in the episode's file type.
     func handleVideoTracksDetected(forEpisode episodeUuid: String) {
         guard currentEpisode?.uuid == episodeUuid, !currentStreamContainsVideo.value else { return }
-        currentStreamContainsVideo.withLock { $0 = true }
+        currentStreamContainsVideo.value = true
         setAudioSessionVideoProperties()
         // Force a full now playing rebuild so the lock screen / Control Center switch to the video media type
         refreshNowPlayingInfo(forceFullRebuild: true)
@@ -966,14 +966,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        shouldDeactivateSession.withLock { $0 = true }
+        shouldDeactivateSession.value = true
         // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
         deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
             guard let self else { return }
 
             let audioSession = AVAudioSession.sharedInstance()
             if !self.shouldDeactivateSession.value { return }
-            self.shouldDeactivateSession.withLock { $0 = false }
+            self.shouldDeactivateSession.value = false
             self.performDeactivate(audioSession: audioSession)
         }
     }
@@ -1176,7 +1176,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc func playerDidFinishPreparing() {
         // to speed things up, we report the player as playing before it actually has, this callback is so it can tell us when it has
-        aboutToPlay.withLock { $0 = false }
+        aboutToPlay.value = false
 
         // make sure we load the saved speed for this track
         player?.setPlaybackRate(effects().playbackSpeed)
@@ -1568,14 +1568,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func cleanupCurrentPlayer(permanent: Bool) {
         haveCalledPlayerLoad = false
-        hasReportedSourceResolved.withLock { $0 = false }
-        currentStreamContainsVideo.withLock { $0 = false }
-        videoRenderingEnabled.withLock { $0 = true }
+        hasReportedSourceResolved.value = false
+        currentStreamContainsVideo.value = false
+        videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         player?.endPlayback(permanent: permanent)
 
-        if permanent { aboutToPlay.withLock { $0 = false } }
+        if permanent { aboutToPlay.value = false }
         currentEffects = nil
 
         // DefaultPlayer and EffectsPlayer both have issues if you discard them immediately after stopping them. DefaultPlayer will crash while trying to render more audio and EffectsPlayer has internal issues as well.
@@ -1613,7 +1613,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
 
-        shouldDeactivateSession.withLock { $0 = false }
+        shouldDeactivateSession.value = false
 
         #if os(watchOS)
             do {

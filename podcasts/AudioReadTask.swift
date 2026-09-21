@@ -95,19 +95,19 @@ class AudioReadTask {
                             }
                         }
                     } catch {
-                        self.bufferManager.readErrorOccurred.withLock { $0 = true }
+                        self.bufferManager.readErrorOccurred.value = true
                         FileLog.shared.addMessage("Audio Read failed (Swift): \(error.localizedDescription)")
                     }
                 }
             } catch {
-                self.bufferManager.readErrorOccurred.withLock { $0 = true }
+                self.bufferManager.readErrorOccurred.value = true
                 FileLog.shared.addMessage("Audio Read failed (obj-c): \(error.localizedDescription)")
             }
         }
     }
 
     func shutdown() {
-        cancelled.withLock { $0 = true }
+        cancelled.value = true
         bufferManager.bufferSemaphore.signal()
         endOfFileSemaphore.signal()
 
@@ -151,7 +151,7 @@ class AudioReadTask {
 
         if positionRequired.passedEndOfFile {
             bufferManager.removeAll()
-            bufferManager.readToEOFSuccessfully.withLock { $0 = true }
+            bufferManager.readToEOFSuccessfully.value = true
 
             seekedToEnd = true
         } else {
@@ -177,7 +177,7 @@ class AudioReadTask {
     }
 
     private func handleReachedEndOfFile() {
-        bufferManager.readToEOFSuccessfully.withLock { $0 = true }
+        bufferManager.readToEOFSuccessfully.value = true
 
         // we've read to the end but the player won't yet have played to the end, wait til it signals us that it has
         endOfFileSemaphore.wait()
@@ -196,8 +196,8 @@ class AudioReadTask {
         }
 
         guard let audioPCMBuffer = AVAudioPCMBuffer(pcmFormat: outputFormat, frameCapacity: bufferLength) else {
-            bufferManager.readErrorOccurred.withLock { $0 = true }
-            cancelled.withLock { $0 = true }
+            bufferManager.readErrorOccurred.value = true
+            cancelled.value = true
             objc_sync_exit(lock)
             FileLog.shared.addMessage("[AudioReadTask] Failed to allocate AVAudioPCMBuffer (format: \(outputFormat), capacity: \(bufferLength))")
 
@@ -256,8 +256,8 @@ class AudioReadTask {
         if channelCount == 0 { channelCount = audioPCMBuffer.audioBufferList.pointee.mNumberBuffers }
 
         if channelCount == 0 {
-            bufferManager.readErrorOccurred.withLock { $0 = true }
-            cancelled.withLock { $0 = true }
+            bufferManager.readErrorOccurred.value = true
+            cancelled.value = true
             objc_sync_exit(lock)
 
             return nil

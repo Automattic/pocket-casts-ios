@@ -22,9 +22,11 @@ public struct Mutex<Value>: ~Copyable {
 extension Mutex: @unchecked Sendable where Value: Sendable {}
 
 extension Mutex where Value: Sendable {
-    /// A copy of the protected value. Use `withLock` to read and modify the value in one step.
+    /// The protected value. The getter and setter each take the lock separately, so use `withLock`
+    /// to read and modify the value in one step.
     @inlinable
     public var value: Value {
-        withLock { $0 }
+        get { withLock { $0 } }
+        nonmutating set { withLock { $0 = newValue } }
     }
 }

@@ -47,7 +47,7 @@ class AudioPlayTask {
     }
 
     func shutdown() {
-        cancelled.withLock { $0 = true }
+        cancelled.value = true
         queueingSemaphone.signal() // the read task is probably waiting on more data, so fire this off to let it know we're done
     }
 
@@ -62,7 +62,7 @@ class AudioPlayTask {
             // if the read thread has gotten to the end of the file and we haven't scheduled anything in the last second, playback is done
             if bufferManager.readToEOFSuccessfully.value, Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
                 if !bufferManager.haveNotifiedPlayer.value {
-                    bufferManager.haveNotifiedPlayer.withLock { $0 = true }
+                    bufferManager.haveNotifiedPlayer.value = true
 
                     FileLog.shared.addMessage("EffectsPlayer got to end of episode, calling finished playing")
                     PlaybackManager.shared.playerDidFinishPlayingEpisode()

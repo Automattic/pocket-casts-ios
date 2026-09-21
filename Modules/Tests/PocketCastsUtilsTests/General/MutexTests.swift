@@ -29,6 +29,14 @@ final class MutexTests: XCTestCase {
         XCTAssertEqual(mutex.value, 1)
     }
 
+    func testValue() {
+        let mutex = Mutex(false)
+
+        mutex.value = true
+
+        XCTAssertTrue(mutex.value)
+    }
+
     func testConcurrentIncrements() {
         let mutex = Mutex(0)
 

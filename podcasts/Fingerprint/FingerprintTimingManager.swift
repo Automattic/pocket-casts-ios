@@ -1990,7 +1990,7 @@ private final class CancellationFlag: Sendable {
     private let cancelled = Mutex(false)
 
     var isCancelled: Bool {
-        cancelled.value
+        cancelled.withLock { $0 }
     }
 
     func cancel() {

@@ -74,8 +74,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func play(completion: (() -> Void)?) {
-        aboutToPlay.withLock { $0 = true }
-        shouldKeepPlaying.withLock { $0 = true }
+        aboutToPlay.value = true
+        shouldKeepPlaying.value = true
 
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self, let episode = strongSelf.episode else { return }
@@ -90,8 +90,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.playBufferManager = PlayBufferManager()
 
             // Set useVoiceBoostN before setVolumeBoostSettings so bypass is configured correctly
-            let useVoiceBoostN = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
-            strongSelf.useVoiceBoostN.withLock { $0 = useVoiceBoostN }
+            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
 
             strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
             strongSelf.engine?.attach(strongSelf.audioMixerNode!)
@@ -197,13 +196,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 PlaybackManager.shared.playerDidCalculateDuration()
             }
 
-            self?.aboutToPlay.withLock { $0 = false }
+            self?.aboutToPlay.value = false
         }
     }
 
     func pause() {
-        shouldKeepPlaying.withLock { $0 = false }
-        aboutToPlay.withLock { $0 = false }
+        shouldKeepPlaying.value = false
+        aboutToPlay.value = false
 
         PlaybackManager.shared.playerDidRequestTermination()
     }
@@ -231,7 +230,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 if !seekedToEnd {
                     completion?()
                 } else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
-                    self?.playBufferManager?.haveNotifiedPlayer.withLock { $0 = true }
+                    self?.playBufferManager?.haveNotifiedPlayer.value = true
                     FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
                     PlaybackManager.shared.playerDidFinishPlayingEpisode()
                 }
@@ -279,7 +278,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         // Update VoiceBoostN flag for dynamic switching
         let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled && effects.volumeBoost
         if shouldUseVoiceBoostN != useVoiceBoostN.value {
-            useVoiceBoostN.withLock { $0 = shouldUseVoiceBoostN }
+            useVoiceBoostN.value = shouldUseVoiceBoostN
             FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN flag changed to \(shouldUseVoiceBoostN)")
         }
 
@@ -290,8 +289,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         playerLock.lock()
         defer { playerLock.unlock() }
 
-        shouldKeepPlaying.withLock { $0 = false }
-        aboutToPlay.withLock { $0 = false }
+        shouldKeepPlaying.value = false
+        aboutToPlay.value = false
 
         audioReadTask?.shutdown()
         audioPlayTask?.shutdown()
