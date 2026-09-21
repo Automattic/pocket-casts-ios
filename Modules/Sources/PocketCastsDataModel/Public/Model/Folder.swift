@@ -52,7 +52,7 @@ public class Folder: NSObject, Identifiable {
         container["uuid"] = uuid
         container["name"] = name
         container["color"] = color
-        container["addedDate"] = addedDate?.timeIntervalSince1970
+        container["addedDate"] = (addedDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
         container["sortOrder"] = sortOrder
         container["sortType"] = sortType
         container["wasDeleted"] = wasDeleted
