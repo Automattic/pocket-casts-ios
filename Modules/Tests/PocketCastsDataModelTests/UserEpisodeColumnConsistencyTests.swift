@@ -139,19 +139,49 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
-    func testNilDatesAreEncodedAsNull() throws {
+    func testNilPublishedDateIsEncodedAsNull() throws {
         let encoded = try UserEpisode().databaseDictionary
 
-        for column in ["addedDate", "publishedDate"] {
-            XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
+        XCTAssertEqual(encoded["publishedDate"], .null, "a nil publishedDate should encode as NULL")
+    }
+
+    /// These columns are `NOT NULL`, so a nil date is stored as 0 instead of NULL.
+    /// The legacy read path turns 0 back into nil.
+    func testNilDatesInNotNullColumnsAreEncodedAsZero() throws {
+        let encoded = try UserEpisode().databaseDictionary
+
+        for column in ["addedDate", "lastDownloadAttemptDate"] {
+            XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded[column])), 0, "a nil \(column) should encode as 0")
         }
     }
 
-    /// The column is `NOT NULL DEFAULT 0`, so a nil date is stored as 0 instead of NULL.
-    func testNilLastDownloadAttemptDateIsEncodedAsZero() throws {
-        let encoded = try UserEpisode().databaseDictionary
+    func testSavesUserEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let episode = self.createFullyPopulatedUserEpisode()
+            episode.addedDate = nil
 
-        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["lastDownloadAttemptDate"])), 0)
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findUserEpisode(uuid: episode.uuid))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// A row stored with `addedDate` 0 loads with a nil date. Saving that episode
+    /// again has to update the row instead of failing the `NOT NULL` constraint.
+    func testUpdatesUserEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let episode = self.createFullyPopulatedUserEpisode()
+            dataManager.save(episode: episode)
+
+            episode.addedDate = nil
+            episode.title = "Renamed"
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findUserEpisode(uuid: episode.uuid))
+            XCTAssertEqual(loaded.title, "Renamed")
+            XCTAssertNil(loaded.addedDate)
+        }
     }
 
     func testTransientPropertiesAreNotEncoded() throws {
