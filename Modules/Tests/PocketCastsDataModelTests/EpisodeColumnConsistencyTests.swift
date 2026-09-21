@@ -47,6 +47,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             }
 
             // Verify all persisted fields match
+            XCTAssertEqual(loaded.id, original.id, "id should match")
             XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
             XCTAssertEqual(loaded.podcastUuid, original.podcastUuid, "podcastUuid should match")
             XCTAssertEqual(loaded.title, original.title, "title should match")
@@ -126,6 +127,94 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - GRDB Record Tests
+
+    /// Dates are stored as Unix timestamps, not GRDB's default Date format.
+    /// The legacy read path reads them back with `rs.double(forColumn:)`, so a change
+    /// here would silently shift every episode date.
+    func testDatesAreEncodedAsUnixTimestamps() throws {
+        let episode = createFullyPopulatedEpisode(podcastUuid: "podcast-uuid", podcastId: 1)
+        let encoded = try episode.databaseDictionary
+
+        let dates: [String: Date?] = [
+            "addedDate": episode.addedDate,
+            "lastDownloadAttemptDate": episode.lastDownloadAttemptDate,
+            "publishedDate": episode.publishedDate,
+            "lastPlaybackInteractionDate": episode.lastPlaybackInteractionDate,
+            "lastArchiveInteractionDate": episode.lastArchiveInteractionDate
+        ]
+        for (column, date) in dates {
+            XCTAssertEqual(
+                Double.fromDatabaseValue(try XCTUnwrap(encoded[column])),
+                try XCTUnwrap(date).timeIntervalSince1970,
+                "\(column) should encode as a Unix timestamp"
+            )
+        }
+    }
+
+    func testNilDatesAreEncodedAsNull() throws {
+        let encoded = try Episode().databaseDictionary
+
+        for column in ["addedDate", "publishedDate", "lastPlaybackInteractionDate"] {
+            XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
+        }
+    }
+
+    /// These columns are `NOT NULL DEFAULT 0`, so a nil date is stored as 0 instead of NULL.
+    func testNilDatesInNotNullColumnsAreEncodedAsZero() throws {
+        let encoded = try Episode().databaseDictionary
+
+        for column in ["lastDownloadAttemptDate", "lastArchiveInteractionDate"] {
+            XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded[column])), 0, "a nil \(column) should encode as 0")
+        }
+    }
+
+    func testTransientPropertiesAreNotEncoded() throws {
+        let episode = createFullyPopulatedEpisode(podcastUuid: "podcast-uuid", podcastId: 1)
+        episode.hasOnlyUuid = true
+
+        let encoded = try episode.databaseDictionary
+
+        XCTAssertNil(encoded["hasOnlyUuid"], "hasOnlyUuid should not be encoded")
+    }
+
+    func testDecodesRowWrittenByGRDB() throws {
+        let dataManager = DataManager.newTestDataManager()
+        let podcast = createTestPodcast(dataManager: dataManager)
+        let original = createFullyPopulatedEpisode(podcastUuid: podcast.uuid, podcastId: podcast.id)
+        dataManager.save(episode: original)
+
+        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+            try Episode.filter(Episode.Columns.uuid == original.uuid).fetchOne(db)
+        }
+
+        let episode = try XCTUnwrap(decoded, "should decode an Episode from its own row")
+        XCTAssertEqual(try episode.databaseDictionary, try original.databaseDictionary)
+    }
+
+    /// Every property decodes with a fallback, so a row missing columns (an older
+    /// schema, or a projection) yields defaults instead of throwing.
+    func testDecodesRowWithMissingColumnsUsingDefaults() throws {
+        let episode = try Episode(row: ["uuid": "abc"])
+
+        let expected = Episode()
+        expected.uuid = "abc"
+        XCTAssertEqual(try episode.databaseDictionary, try expected.databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
+        XCTAssertNil(episode.lastArchiveInteractionDate)
+    }
+
+    func testDecodesRowWithNullColumnsUsingDefaults() throws {
+        let columns = try Episode().databaseDictionary.keys
+        let row = Row(Dictionary(uniqueKeysWithValues: columns.map { ($0, nil as (any DatabaseValueConvertible)?) }))
+
+        let episode = try Episode(row: row)
+
+        XCTAssertEqual(try episode.databaseDictionary, try Episode().databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
+        XCTAssertNil(episode.lastArchiveInteractionDate)
+    }
+
     // MARK: - Helpers
 
     private func assertDatesEqual(_ date1: Date?, _ date2: Date?, _ message: String, file: StaticString = #file, line: UInt = #line) {
@@ -148,8 +237,8 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.title = "Test Episode Title"
         episode.episodeDescription = "Short description"
         episode.detailedDescription = "Detailed description of the episode"
-        episode.addedDate = Date()
-        episode.lastDownloadAttemptDate = Date()
+        episode.addedDate = Date(timeIntervalSince1970: 1700000000)
+        episode.lastDownloadAttemptDate = Date(timeIntervalSince1970: 1700000100)
         episode.downloadErrorDetails = "Test error"
         episode.downloadTaskId = "download-task-123"
         episode.downloadUrl = "https://example.com/episode.mp3"
@@ -162,7 +251,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.duration = 3600.0
         episode.playingStatus = PlayingStatus.inProgress.rawValue
         episode.autoDownloadStatus = AutoDownloadStatus.autoDownloaded.rawValue
-        episode.publishedDate = Date()
+        episode.publishedDate = Date(timeIntervalSince1970: 1690000000)
         episode.sizeInBytes = 1024000
         episode.playingStatusModified = 111
         episode.playedUpToModified = 222
@@ -174,15 +263,15 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.episodeNumber = 5
         episode.seasonNumber = 2
         episode.episodeType = "full"
-        episode.archived = false
+        episode.archived = true
         episode.archivedModified = 666
         episode.excludeFromEpisodeLimit = true
         episode.deselectedChapters = "1,3,5"
         episode.deselectedChaptersModified = 777
         episode.wasDeleted = false
-        episode.lastPlaybackInteractionDate = Date()
-        episode.lastPlaybackInteractionSyncStatus = 1
-        episode.lastArchiveInteractionDate = Date()
+        episode.lastPlaybackInteractionDate = Date(timeIntervalSince1970: 1700000200)
+        episode.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
+        episode.lastArchiveInteractionDate = Date(timeIntervalSince1970: 1700000300)
         episode.hasGeneratedTranscript = true
         return episode
     }
