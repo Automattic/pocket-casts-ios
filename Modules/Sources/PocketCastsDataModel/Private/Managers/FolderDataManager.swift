@@ -3,27 +3,24 @@ import Foundation
 import GRDB
 
 class FolderDataManager {
-    private var cachedFolders = [Folder]()
-    private lazy var cachedFolderQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.FolderDataQueue")
-
-        return queue
-    }()
+    private let cachedFolders = Mutex([Folder]())
 
     func setup(dbQueue: PCDBQueue) {
         cacheFolders(dbQueue: dbQueue)
     }
 
     func findFolder(uuid: String, dbQueue: PCDBQueue) -> Folder? {
-        cachedFolderQueue.sync {
+        cachedFolders.withLock { cachedFolders in
             cachedFolders.first { $0.uuid == uuid }
         }
     }
 
     func allFolders(includeDeleted: Bool, dbQueue: PCDBQueue) -> [Folder] {
-        if includeDeleted { return cachedFolders }
+        cachedFolders.withLock { cachedFolders in
+            if includeDeleted { return cachedFolders }
 
-        return cachedFolders.filter { $0.wasDeleted == false }
+            return cachedFolders.filter { $0.wasDeleted == false }
+        }
     }
 
     func save(folder: Folder, dbQueue: PCDBQueue) {
@@ -81,7 +78,7 @@ class FolderDataManager {
 
     func allUnsyncedFolders(dbQueue: PCDBQueue) -> [Folder] {
         var unsyncedFolders = [Folder]()
-        cachedFolderQueue.sync {
+        cachedFolders.withLock { cachedFolders in
             unsyncedFolders = cachedFolders.filter { $0.syncModified > 0 }
         }
 
@@ -113,7 +110,7 @@ class FolderDataManager {
                     let folder = self.createFrom(resultSet: resultSet)
                     newFolders.append(folder)
                 }
-                cachedFolderQueue.sync {
+                cachedFolders.withLock { cachedFolders in
                     cachedFolders = newFolders
                 }
             } catch {

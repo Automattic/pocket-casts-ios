@@ -13,13 +13,7 @@ class UpNextDataManager {
         "podcastUuid"
     ]
 
-    private var cachedItems = [PlaylistEpisode]()
-    private var allUuids = Set<String>()
-    private lazy var cachedItemsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.UpNextItemsQueue")
-
-        return queue
-    }()
+    private let cache = Mutex((items: [PlaylistEpisode](), uuids: Set<String>()))
 
     func setup(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
@@ -28,14 +22,12 @@ class UpNextDataManager {
     // MARK: - Queries
 
     func allUpNextPlaylistEpisodes(dbQueue: PCDBQueue) -> [PlaylistEpisode] {
-        cachedItemsQueue.sync {
-            cachedItems
-        }
+        cache.withLock { $0.items }
     }
 
     func findPlaylistEpisode(uuid: String, dbQueue: PCDBQueue) -> PlaylistEpisode? {
-        cachedItemsQueue.sync {
-            for episode in cachedItems {
+        cache.withLock { cache in
+            for episode in cache.items {
                 if episode.episodeUuid == uuid {
                     return episode
                 }
@@ -46,15 +38,13 @@ class UpNextDataManager {
     }
 
     func playlistEpisodeAt(index: Int, dbQueue: PCDBQueue) -> PlaylistEpisode? {
-        cachedItemsQueue.sync {
-            cachedItems[safe: index]
-        }
+        cache.withLock { $0.items[safe: index] }
     }
 
     func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: PCDBQueue) -> Int32 {
-        cachedItemsQueue.sync {
+        cache.withLock { cache in
             if bottomOfList {
-                if let lastItem = cachedItems.last {
+                if let lastItem = cache.items.last {
                     return lastItem.episodePosition + 1
                 }
             }
@@ -64,15 +54,11 @@ class UpNextDataManager {
     }
 
     func playlistEpisodeCount(dbQueue: PCDBQueue) -> Int {
-        cachedItemsQueue.sync {
-            cachedItems.count
-        }
+        cache.withLock { $0.items.count }
     }
 
     func isEpisodePresent(uuid: String, dbQueue: PCDBQueue) -> Bool {
-        cachedItemsQueue.sync {
-            return allUuids.contains(uuid)
-        }
+        cache.withLock { $0.uuids.contains(uuid) }
     }
 
     // MARK: - Updates
@@ -216,7 +202,7 @@ class UpNextDataManager {
     }
 
     func movePlaylistEpisode(from: Int, to: Int, dbQueue: PCDBQueue) {
-        var resortedItems = cachedItems
+        var resortedItems = cache.withLock { $0.items }
 
         if from == -1, to == 0 {
             // special case where we just added a new episode to the top, nothing needs to be done just redo the ordering below
@@ -263,10 +249,7 @@ class UpNextDataManager {
                     newItems.append(episode)
                     uuids.insert(episode.episodeUuid)
                 }
-                cachedItemsQueue.sync {
-                    cachedItems = newItems
-                    allUuids = uuids
-                }
+                cache.withLock { $0 = (newItems, uuids) }
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.cacheEpisodes error: \(error)")
             }
@@ -277,7 +260,7 @@ class UpNextDataManager {
 
     private func saveOrdering(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
-        let sortedItems = cachedItems
+        let sortedItems = cache.withLock { $0.items }
         dbQueue.write { db in
             do {
                 for (index, episode) in sortedItems.enumerated() {
