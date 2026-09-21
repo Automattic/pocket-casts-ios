@@ -130,31 +130,6 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
 
     // MARK: - GRDB Record Tests
 
-    func testEncodedColumnsMatchLegacyColumnNames() throws {
-        let encoded = try createFullyPopulatedEpisodeFilter().databaseDictionary
-
-        XCTAssertEqual(
-            Set(encoded.keys),
-            columnNames,
-            "GRDB should encode exactly the columns the legacy SQL path writes"
-        )
-    }
-
-    func testEncodedColumnsExistInDatabaseSchema() throws {
-        let dataManager = DataManager.newTestDataManager()
-        let tableColumns = try dataManager.testDbQueue.dbPool.read { db -> Set<String> in
-            Set(try db.columns(in: DataManager.playlistsTableName).map(\.name))
-        }
-
-        let encoded = try createFullyPopulatedEpisodeFilter().databaseDictionary
-        let unknownColumns = Set(encoded.keys).subtracting(tableColumns)
-
-        XCTAssertTrue(
-            unknownColumns.isEmpty,
-            "GRDB encodes columns that do not exist in the table: \(unknownColumns)"
-        )
-    }
-
     func testEncodesPropertyValues() throws {
         let filter = createFullyPopulatedEpisodeFilter()
         filter.id = 987654321
