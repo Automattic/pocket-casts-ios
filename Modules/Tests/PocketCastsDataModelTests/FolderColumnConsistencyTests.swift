@@ -96,13 +96,46 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
         )
     }
 
-    func testNilAddedDateIsEncodedAsNull() throws {
+    /// `addedDate` is `INTEGER NOT NULL`, so a nil date is stored as 0, which the
+    /// legacy read path turns back into nil.
+    func testNilAddedDateIsEncodedAsZero() throws {
         let folder = createFullyPopulatedFolder()
         folder.addedDate = nil
 
         let encoded = try folder.databaseDictionary
 
-        XCTAssertEqual(encoded["addedDate"], .null, "a nil addedDate should encode as NULL")
+        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["addedDate"])), 0)
+    }
+
+    func testSavesFolderWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let folder = self.createFullyPopulatedFolder()
+            folder.addedDate = nil
+
+            dataManager.save(folder: folder)
+
+            let loaded = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// Sync stores a missing server `dateAdded` as 0, which loads as a nil date.
+    /// Renaming that folder has to update the row instead of failing the `NOT NULL` constraint.
+    func testRenamesFolderStoredWithZeroAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let folder = self.createFullyPopulatedFolder()
+            folder.addedDate = Date(timeIntervalSince1970: 0)
+            dataManager.save(folder: folder)
+
+            let loaded = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertNil(loaded.addedDate)
+            loaded.name = "Renamed"
+            dataManager.save(folder: loaded)
+
+            let renamed = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertEqual(renamed.name, "Renamed")
+            XCTAssertNil(renamed.addedDate)
+        }
     }
 
     func testCachedUnreadCountIsNotEncoded() throws {
