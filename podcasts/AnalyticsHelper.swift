@@ -251,18 +251,6 @@ class AnalyticsHelper {
         logEvent("siri_play_top_filter", parameters: nil)
     }
 
-    class func tourStarted(tourName: String) {
-        logEvent("\(tourName)_tour_started", parameters: nil)
-    }
-
-    class func tourCompleted(tourName: String) {
-        logEvent("\(tourName)_tour_completed", parameters: nil)
-    }
-
-    class func tourCancelled(tourName: String, at step: Int) {
-        logEvent("\(tourName)_tour_cancelled_\(step)", parameters: nil)
-    }
-
     #if !os(watchOS) && !APPCLIP && !os(tvOS)
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
