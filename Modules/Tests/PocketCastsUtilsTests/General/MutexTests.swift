@@ -17,10 +17,10 @@ final class MutexTests: XCTestCase {
         XCTAssertEqual(mutex.value, 2)
     }
 
-    func testWithLockRethrowsTypedError() {
+    func testWithLockRethrowsError() {
         let mutex = Mutex(0)
 
-        XCTAssertThrowsError(try mutex.withLock { (value: inout Int) throws(TestError) in
+        XCTAssertThrowsError(try mutex.withLock { (value: inout Int) in
             value = 1
             throw TestError()
         }) { error in
