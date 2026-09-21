@@ -241,7 +241,7 @@ public class Podcast: NSObject, Identifiable {
 
     public func encode(to container: inout PersistenceContainer) {
         container["id"] = id
-        container["addedDate"] = addedDate?.timeIntervalSince1970
+        container["addedDate"] = (addedDate ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970
         container["autoDownloadSetting"] = autoDownloadSetting
         container["autoAddToUpNext"] = autoAddToUpNext
         container["episodeKeepSetting"] = autoArchiveEpisodeLimit

@@ -176,8 +176,45 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
     func testNilDatesAreEncodedAsNull() throws {
         let encoded = try Podcast().databaseDictionary
 
-        for column in ["addedDate", "lastColorDownloadDate", "latestEpisodeDate", "lastThumbnailDownloadDate", "estimatedNextEpisode"] {
+        for column in ["lastColorDownloadDate", "latestEpisodeDate", "lastThumbnailDownloadDate", "estimatedNextEpisode"] {
             XCTAssertEqual(encoded[column], .null, "a nil \(column) should encode as NULL")
+        }
+    }
+
+    /// `addedDate` is `REAL NOT NULL`, so a nil date is stored as 0, which the
+    /// legacy read path turns back into nil.
+    func testNilAddedDateIsEncodedAsZero() throws {
+        let encoded = try Podcast().databaseDictionary
+
+        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["addedDate"])), 0)
+    }
+
+    func testSavesPodcastWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createFullyPopulatedPodcast()
+            podcast.addedDate = nil
+
+            dataManager.save(podcast: podcast)
+
+            let loaded = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// A row stored with `addedDate` 0 loads with a nil date. Saving that podcast
+    /// again has to update the row instead of failing the `NOT NULL` constraint.
+    func testUpdatesPodcastWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createFullyPopulatedPodcast()
+            dataManager.save(podcast: podcast)
+
+            podcast.addedDate = nil
+            podcast.title = "Renamed"
+            dataManager.save(podcast: podcast)
+
+            let loaded = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true))
+            XCTAssertEqual(loaded.title, "Renamed")
+            XCTAssertNil(loaded.addedDate)
         }
     }
 
