@@ -7,11 +7,12 @@ final class PodcastManagerTests: DBTestCase {
     func testTaskCancellationForUnusednDeletion() async throws {
         let (podcastManager, task) = try await setUpQueuedDownload()
 
-        // Create a predicate + expectation to check when task state is completed
-        let predicate = NSPredicate(block: { _, _ -> Bool in
-            return task.state == .completed
-        })
-        let publishExpectation = XCTNSPredicateExpectation(predicate: predicate, object: task)
+        // Create an expectation to check when task state is completed
+        let publishExpectation = XCTKVOExpectation(
+            keyPath: #keyPath(URLSessionTask.state),
+            object: task,
+            expectedValue: URLSessionTask.State.completed.rawValue
+        )
 
         // This should delete the podcast given the mock data
         await podcastManager.deletePodcastIfUnused(podcast)
