@@ -11,7 +11,7 @@ extension WhatsNewManager {
     }
 
     /// Whether the feed has an unread message that arrived since the user last opened it, which puts
-    /// a dot on the What's New row.
+    /// a dot on the What's New button.
     func hasUnlistedMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
         feedMessages(targeting: targeting).contains { readState.isUnlisted($0.id) }
     }
@@ -22,9 +22,9 @@ extension WhatsNewManager {
         feedMessages(targeting: targeting).contains { readState.isUnseen($0.id) }
     }
 
-    /// Whether the What's New row shows its dot, which the user can turn off in Settings without
+    /// Whether the What's New button shows its dot, which the user can turn off in Settings without
     /// reading anything.
-    func showsDotOnWhatsNewRow(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
+    func showsDotOnWhatsNewButton(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
         isDotEnabled && hasUnlistedMessages(targeting: targeting)
     }
 

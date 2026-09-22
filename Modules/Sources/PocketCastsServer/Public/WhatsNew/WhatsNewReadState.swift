@@ -13,7 +13,7 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// dot on the tab has already pointed them at.
     public var seenMessageIDs: Set<String>
 
-    /// Messages the feed listed when the user opened it, which the dot on the What's New row has
+    /// Messages the feed listed when the user opened it, which the dot on the What's New button has
     /// already pointed them at.
     public var listedMessageIDs: Set<String>
 

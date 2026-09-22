@@ -86,7 +86,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, whatsNew, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -126,12 +126,23 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private var cancellables = Set<AnyCancellable>()
 
+    private lazy var whatsNewButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(whatsNewTapped))
+        button.accessibilityLabel = L10n.whatsNew
+        button.accessibilityIdentifier = "What's New"
+        return button
+    }()
+
     // MARK: - View Events
 
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "profile-settings"), style: .plain, target: self, action: #selector(settingsTapped))
         customRightBtn?.accessibilityLabel = L10n.accessibilityProfileSettings
         customRightBtn?.accessibilityIdentifier = "Settings"
+        if FeatureFlag.whatsNewFeed.enabled {
+            extraRightButtons = [whatsNewButton]
+            updateWhatsNewButton()
+        }
 
         super.viewDidLoad()
 
@@ -156,6 +167,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
 
         updateDisplayedData()
+        updateWhatsNewButton()
 
         Analytics.track(.profileShown)
     }
@@ -215,6 +227,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateWhatsNewButton()
     }
 
     private func updateRefreshFooterColors() {
@@ -234,6 +247,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
+    }
+
+    @objc private func whatsNewTapped() {
+        let feedViewController = WhatsNewFeedViewController(viewModel: WhatsNewFeedViewModel())
+        navigationController?.pushViewController(feedViewController, animated: true)
     }
 
     private func refreshTapped() {
@@ -354,7 +372,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
         cell.separatorInset = .zero
-        cell.showsUnreadIndicator = false
 
         switch row {
         case .informationalBanner:
@@ -363,10 +380,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return KidsProfileBannerTableCell()
         case .referralsClaim:
             return ReferralsClaimBannerTableCell()
-        case .whatsNew:
-            cell.settingsImage.image = UIImage(named: "mail")
-            cell.settingsLabel.text = L10n.whatsNew
-            cell.showsUnreadIndicator = WhatsNewManager.shared.showsDotOnWhatsNewRow()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -443,9 +456,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
                 self?.profileTable.reloadData()
             }
-        case .whatsNew:
-            let feedViewController = WhatsNewFeedViewController(viewModel: WhatsNewFeedViewModel())
-            navigationController?.pushViewController(feedViewController, animated: true)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -498,10 +508,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
-
-        if FeatureFlag.whatsNewFeed.enabled {
-            data[0].insert(.whatsNew, at: 0)
-        }
 
         if EndOfYear.isEndOfYearActive, EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
@@ -666,7 +672,7 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 // MARK: - What's New
 
 private extension ProfileViewController {
-    /// Keeps the dot on the What's New row in step with the feed, and the dot on the tab off, while
+    /// Keeps the dot on the What's New button in step with the feed, and the dot on the tab off, while
     /// Profile is on screen.
     func observeWhatsNewFeed() {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
@@ -679,7 +685,7 @@ private extension ProfileViewController {
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
-            self?.updateWhatsNewRow()
+            self?.updateWhatsNewButton()
             self?.markWhatsNewFeedAsSeenIfOnScreen()
         }
         .store(in: &cancellables)
@@ -690,13 +696,19 @@ private extension ProfileViewController {
         WhatsNewManager.shared.markFeedAsSeen()
     }
 
-    func updateWhatsNewRow() {
-        guard let section = tableData.firstIndex(where: { $0.contains(.whatsNew) }),
-              let row = tableData[section].firstIndex(of: .whatsNew),
-              let cell = profileTable.cellForRow(at: IndexPath(row: row, section: section)) as? TopLevelSettingsCell else {
-            return
+    func updateWhatsNewButton() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let showsDot = WhatsNewManager.shared.showsDotOnWhatsNewButton()
+        if #available(iOS 26.0, *) {
+            whatsNewButton.badge = showsDot ? .indicator() : nil
+        } else if showsDot {
+            let configuration = UIImage.SymbolConfiguration(paletteColors: [ThemeColor.support05(), AppTheme.navBarIconsColor()])
+            whatsNewButton.image = UIImage(systemName: "bell.badge", withConfiguration: configuration)?.withRenderingMode(.alwaysOriginal)
+        } else {
+            whatsNewButton.image = UIImage(systemName: "bell")
         }
-        cell.showsUnreadIndicator = WhatsNewManager.shared.showsDotOnWhatsNewRow()
+        whatsNewButton.accessibilityValue = showsDot ? L10n.badgeNew : nil
     }
 }
 

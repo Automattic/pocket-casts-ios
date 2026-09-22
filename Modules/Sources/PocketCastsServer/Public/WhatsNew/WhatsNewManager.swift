@@ -92,7 +92,7 @@ public final class WhatsNewManager: ObservableObject {
         updateReadState { $0.seenMessageIDs.formUnion(messageIDs) }
     }
 
-    /// Records that the feed has listed the messages, so the dot on the What's New row stays off
+    /// Records that the feed has listed the messages, so the dot on the What's New button stays off
     /// until a message arrives that it hasn't. The Profile tab has nothing left to point at either.
     public func markAsListed(_ messageIDs: some Sequence<String>) {
         let messageIDs = Set(messageIDs)
