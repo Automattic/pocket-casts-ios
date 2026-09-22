@@ -387,8 +387,15 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// A manager whose catalog answers with `json`, or fails every request until something is published.
+    ///
+    /// Signed out for the test: only the catalog is stubbed, so a manager left signed in would
+    /// reconcile its read state against whatever account the test host happens to be signed in as.
     private func manager(publishing json: String? = nil,
                          refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
+        let email = ServerSettings.syncingEmail()
+        ServerSettings.setSyncingEmail(email: nil)
+        addTeardownBlock { ServerSettings.setSyncingEmail(email: email) }
+
         if let json {
             publish(json)
         }
