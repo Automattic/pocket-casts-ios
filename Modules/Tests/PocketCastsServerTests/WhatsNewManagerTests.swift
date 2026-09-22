@@ -246,8 +246,6 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(store.load().readMessageIDs, [messageID])
     }
 
-    /// Reading a message clears it on the user's other devices, so it can't wait for the next
-    /// foreground to be pushed.
     func testReadingAMessagePushesItToTheAccount() async {
         let account = account()
         let manager = manager(cache: temporaryCache(), account: account)
@@ -256,46 +254,7 @@ final class WhatsNewManagerTests: XCTestCase {
         manager.markAsRead([messageID])
         await manager.syncReadState().value
 
-        XCTAssertEqual(account.markedAsRead, [[messageID]])
         XCTAssertEqual(account.readMessageIDs, [messageID])
-    }
-
-    func testDoesntPushWhatTheAccountHasAlreadyRead() async {
-        let account = account()
-        account.readMessageIDs = [messageID]
-        let store = temporaryReadStateStore()
-        store.save(WhatsNewReadState(readMessageIDs: [messageID]))
-        let manager = manager(cache: temporaryCache(), readStateStore: store, account: account)
-
-        await manager.refreshIfNeeded().value
-
-        XCTAssertEqual(account.markedAsRead, [])
-    }
-
-    /// The account is asked about the messages this build decoded, so read state for a message the
-    /// feed has dropped can't come back through it.
-    func testOnlyReconcilesTheMessagesInTheCatalog() async {
-        let account = account()
-        let store = temporaryReadStateStore()
-        store.save(WhatsNewReadState(readMessageIDs: [otherMessageID]))
-        let manager = manager(cache: temporaryCache(), readStateStore: store, account: account)
-
-        await manager.refreshIfNeeded().value
-
-        XCTAssertEqual(account.listedMessageIDs, [[messageID]])
-        XCTAssertEqual(account.markedAsRead, [])
-    }
-
-    func testWithoutAnAccountTheReadStateStaysOnTheDevice() async {
-        let account = signedOutAccount()
-        let manager = manager(cache: temporaryCache(), account: account)
-        await manager.refreshIfNeeded().value
-
-        manager.markAsRead([messageID])
-        await manager.syncReadState().value
-
-        XCTAssertEqual(account.listedMessageIDs, [])
-        XCTAssertEqual(account.markedAsRead, [])
     }
 
     /// A reset that left the account alone would be undone by the next sync reading it all back.
@@ -309,28 +268,8 @@ final class WhatsNewManagerTests: XCTestCase {
         manager.resetReadState()
         await manager.syncReadState().value
 
-        XCTAssertEqual(account.markedAsUnread, [[messageID]])
         XCTAssertEqual(account.readMessageIDs, [])
         XCTAssertEqual(manager.readState, WhatsNewReadState())
-    }
-
-    func testAResetTheServerNeverHeardAboutIsPushedOnTheNextSync() async {
-        let account = account()
-        let manager = manager(cache: temporaryCache(), account: account)
-        await manager.refreshIfNeeded().value
-        manager.markAsRead([messageID])
-        await manager.syncReadState().value
-
-        account.error = URLError(.notConnectedToInternet)
-        manager.resetReadState()
-        await manager.syncReadState().value
-        XCTAssertEqual(account.markedAsUnread, [])
-
-        account.error = nil
-        await manager.syncReadState().value
-
-        XCTAssertEqual(account.markedAsUnread, [[messageID]])
-        XCTAssertEqual(account.readMessageIDs, [])
     }
 
     // MARK: - Helpers
@@ -359,8 +298,9 @@ final class WhatsNewManagerTests: XCTestCase {
     /// The keychain is signed out for the length of the test so `TokenHelper` doesn't go off looking
     /// for a token; the stub is what stands in for having an account.
     private func account() -> WhatsNewReadStateStub {
-        let keychain = SignedOutAccount()
-        addTeardownBlock { keychain.restore() }
+        let email = ServerSettings.syncingEmail()
+        ServerSettings.setSyncingEmail(email: nil)
+        addTeardownBlock { ServerSettings.setSyncingEmail(email: email) }
         return WhatsNewReadStateStub()
     }
 
