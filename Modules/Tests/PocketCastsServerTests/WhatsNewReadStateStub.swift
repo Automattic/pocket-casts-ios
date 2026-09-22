@@ -1,7 +1,7 @@
 import Foundation
 @testable import PocketCastsServer
 
-/// Stands in for the account's What's New read state, answering the three endpoints in process.
+/// Stands in for the account's What's New read state, answering its endpoints in process.
 ///
 /// The requests go through a real `WhatsNewReadStateTask`, so what the stub reads back is what would
 /// go over the wire.
@@ -28,8 +28,6 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
             return (try body.serializedData(), response(for: request, statusCode: ServerConstants.HttpConstants.ok))
         case "/user/whats_new/read":
             readMessageIDs.formUnion(uuids)
-        case "/user/whats_new/unread":
-            readMessageIDs.subtract(uuids)
         default:
             return (nil, response(for: request, statusCode: ServerConstants.HttpConstants.notFound))
         }

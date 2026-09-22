@@ -257,21 +257,6 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(account.readMessageIDs, [messageID])
     }
 
-    /// A reset that left the account alone would be undone by the next sync reading it all back.
-    func testResettingMarksTheMessagesUnreadForTheAccount() async {
-        let account = account()
-        let manager = manager(cache: temporaryCache(), account: account)
-        await manager.refreshIfNeeded().value
-        manager.markAsRead([messageID])
-        await manager.syncReadState().value
-
-        manager.resetReadState()
-        await manager.syncReadState().value
-
-        XCTAssertEqual(account.readMessageIDs, [])
-        XCTAssertEqual(manager.readState, WhatsNewReadState())
-    }
-
     // MARK: - Helpers
 
     private var requestCount: Int { StubURLProtocol.requestCount }

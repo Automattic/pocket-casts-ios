@@ -42,14 +42,6 @@ public final class WhatsNewManager: ObservableObject {
     private var syncTask: Task<Void, Never>?
     private var isSyncPending = false
 
-    /// Messages a reset has to mark unread on the account, kept until the request goes through so a
-    /// reset made offline isn't lost.
-    private var pendingUnreadMessageIDs: Set<String> = []
-
-    /// Counts resets, so a sync that was already asking the server when the state was reset doesn't
-    /// put back what the reset just cleared.
-    private var resetCount = 0
-
     nonisolated public init(task: WhatsNewCatalogTask = WhatsNewCatalogTask(),
                             readStateStore: WhatsNewReadStateStore = WhatsNewReadStateStore(),
                             readStateTask: WhatsNewReadStateTask = WhatsNewReadStateTask(),
@@ -117,15 +109,10 @@ public final class WhatsNewManager: ObservableObject {
 
     /// Forgets every message read, seen or listed and every poll answered, bringing back each
     /// indicator and reopening each poll.
-    ///
-    /// The account is told to forget it too, or the next sync would read it all straight back.
     public func resetReadState() {
         hasLoadedReadState = true
-        resetCount += 1
-        pendingUnreadMessageIDs.formUnion(readState.readMessageIDs)
         readState = WhatsNewReadState()
         readStateStore.save(readState)
-        syncReadState()
     }
 
     /// Tells the account what this device has read and takes on what the user read elsewhere.
@@ -170,8 +157,8 @@ public final class WhatsNewManager: ObservableObject {
         await syncReadState().value
     }
 
-    /// Reconciles the read state with the account: what a reset cleared, then what this device has
-    /// read that the account hasn't, then what the account has read that this device hasn't.
+    /// Reconciles the read state with the account: what this device has read that the account
+    /// hasn't, then what the account has read that this device hasn't.
     ///
     /// Only the messages in the catalog are reconciled, and only `read` is: nothing else the state
     /// holds — what the dots have pointed at, which polls were answered — means anything off this
@@ -179,19 +166,11 @@ public final class WhatsNewManager: ObservableObject {
     private func performReadStateSync() async {
         guard readStateTask.canSync else { return }
 
-        let resetCount = self.resetCount
-        let unread = pendingUnreadMessageIDs
-        pendingUnreadMessageIDs = []
-
         let messageIDs = Set(catalog?.messages.map(\.id) ?? [])
+        guard !messageIDs.isEmpty else { return }
         let read = readState.readMessageIDs.intersection(messageIDs)
 
         do {
-            if !unread.isEmpty {
-                try await readStateTask.markAsUnread(unread)
-            }
-            guard !messageIDs.isEmpty else { return }
-
             let remotelyRead = try await readStateTask.readMessageIDs(among: messageIDs)
 
             let unsynced = read.subtracting(remotelyRead)
@@ -199,10 +178,9 @@ public final class WhatsNewManager: ObservableObject {
                 try await readStateTask.markAsRead(unsynced)
             }
 
-            guard resetCount == self.resetCount, !remotelyRead.isEmpty else { return }
+            guard !remotelyRead.isEmpty else { return }
             updateReadState { $0.readMessageIDs.formUnion(remotelyRead) }
         } catch {
-            pendingUnreadMessageIDs.formUnion(unread)
             FileLog.shared.addMessage("What's New: failed to sync the read state: \(error.localizedDescription)")
         }
     }

@@ -40,11 +40,6 @@ public struct WhatsNewReadStateTask: @unchecked Sendable {
         _ = try await send(messageIDs, to: "user/whats_new/read", method: "PUT")
     }
 
-    /// Marks the messages unread for the account, bringing them back on the user's other devices.
-    public func markAsUnread(_ messageIDs: some Collection<String>) async throws {
-        _ = try await send(messageIDs, to: "user/whats_new/unread", method: "PUT")
-    }
-
     private func send(_ messageIDs: some Collection<String>, to path: String, method: String) async throws -> Data? {
         let url = try URL(throwing: ServerConstants.Urls.api() + path)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
