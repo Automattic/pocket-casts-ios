@@ -3,8 +3,8 @@ import PocketCastsUtils
 
 /// What the user has done with the What's New messages and the polls they ask.
 ///
-/// Outside of a reset no set ever shrinks — nothing marks a message unread or a poll unanswered
-/// again — so two copies of the state combine by keeping everything either one has.
+/// Apart from a reset, and a message the user marks unread again, no set ever shrinks, so two
+/// copies of the state combine by keeping everything either one has.
 public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// Messages the user opened or cleared with "Read all".
     public var readMessageIDs: Set<String>

@@ -35,6 +35,8 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
             return (try body.serializedData(), response(for: request, statusCode: ServerConstants.HttpConstants.ok))
         case "/user/whats_new/read":
             readMessageIDs.formUnion(uuids)
+        case "/user/whats_new/unread":
+            readMessageIDs.subtract(uuids)
         default:
             return (nil, response(for: request, statusCode: ServerConstants.HttpConstants.notFound))
         }

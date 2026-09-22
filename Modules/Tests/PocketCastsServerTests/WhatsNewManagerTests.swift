@@ -314,6 +314,21 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(store.load().readMessageIDs, [])
     }
 
+    /// Marking a message unread has to reach the account, or the next sync would read it back.
+    func testMarkingAMessageUnreadTakesItOffTheAccount() async {
+        let account = account()
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        await manager.markAsUnread([messageID]).value
+        await manager.syncReadState().value
+
+        XCTAssertEqual(account.readMessageIDs, [])
+        XCTAssertEqual(manager.readState.readMessageIDs, [])
+    }
+
     // MARK: - Helpers
 
     private var requestCount: Int { StubURLProtocol.requestCount }

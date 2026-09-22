@@ -86,6 +86,25 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Marks messages unread again, here and for the account, so the user can come back to one.
+    ///
+    /// What the dots have pointed at is left alone: the user asked for the message back in the feed,
+    /// not for Profile to start pointing at it again.
+    @discardableResult
+    public func markAsUnread(_ messageIDs: some Sequence<String>) -> Task<Void, Never> {
+        let messageIDs = Set(messageIDs)
+        guard updateReadState({ $0.readMessageIDs.subtract(messageIDs) }) else { return Task {} }
+
+        return Task { [readStateTask] in
+            guard readStateTask.canSync else { return }
+            do {
+                try await readStateTask.markAsUnread(messageIDs)
+            } catch {
+                FileLog.shared.addMessage("What's New: failed to mark messages unread: \(error.localizedDescription)")
+            }
+        }
+    }
+
     /// Records that the Profile tab has pointed the user at the messages, so its dot stays off until
     /// a message arrives that it hasn't.
     public func markAsSeen(_ messageIDs: some Sequence<String>) {
