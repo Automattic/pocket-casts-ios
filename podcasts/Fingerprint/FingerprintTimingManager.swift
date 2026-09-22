@@ -839,7 +839,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
     /// manager has finished: a reference fetch, the pass it starts (or one already
     /// running), what that pass hands back to `queue`, the mapping cache write that
     /// follows it, and the state updates on main.
-    func debugNotifyWhenPendingWorkFinishes(_ completion: @escaping () -> Void) {
+    func debugNotifyWhenPendingWorkFinishes(_ completion: @escaping @Sendable () -> Void) {
         queue.async { [weak self, queue, generationQueue] in
             let fetchTask = self?.fetchTask
             Task {
