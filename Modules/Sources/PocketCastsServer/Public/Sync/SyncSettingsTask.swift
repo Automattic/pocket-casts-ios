@@ -81,7 +81,7 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             }
 
             if settings.showWhatsNewDot.changed.value {
-                ServerSettings.setShowWhatsNewDot(settings.showWhatsNewDot.value.value)
+                ServerSettings.setShowWhatsNewDot(settings.showWhatsNewDot.value.value, syncChange: false)
             }
 
             if settings.freeGiftAcknowledgement.changed.value {

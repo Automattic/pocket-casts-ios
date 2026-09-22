@@ -185,10 +185,12 @@ public class ServerSettings {
 
     // MARK: Show What's New Dot
 
-    public class func setShowWhatsNewDot(_ value: Bool) {
+    public class func setShowWhatsNewDot(_ value: Bool, syncChange: Bool = true) {
         let hasChanged = value != showWhatsNewDot()
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.showWhatsNewDotKey)
-        UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+        if syncChange {
+            UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+        }
         if hasChanged {
             NotificationCenter.default.post(name: ServerNotifications.showWhatsNewDotChanged, object: nil)
         }

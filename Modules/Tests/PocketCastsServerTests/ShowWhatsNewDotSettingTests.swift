@@ -27,6 +27,13 @@ final class ShowWhatsNewDotSettingTests: XCTestCase {
         XCTAssertFalse(ServerSettings.showWhatsNewDotNeedsSyncing())
     }
 
+    func testApplyingTheServerValueDoesNotSyncItBack() {
+        ServerSettings.setShowWhatsNewDot(false, syncChange: false)
+
+        XCTAssertFalse(ServerSettings.showWhatsNewDot())
+        XCTAssertFalse(ServerSettings.showWhatsNewDotNeedsSyncing())
+    }
+
     /// The dot on the Profile tab follows the setting wherever it changes, including a sync.
     func testChangingTheSettingIsAnnounced() {
         let changed = expectation(forNotification: ServerNotifications.showWhatsNewDotChanged, object: nil)
