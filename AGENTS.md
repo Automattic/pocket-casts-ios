@@ -1,17 +1,10 @@
 ## Building and Testing
 
-Use the `xcode` MCP server (`xcrun mcpbridge`) by default:
-
-- Build with `BuildProject`, and read errors with `GetBuildLog`. `XcodeRefreshCodeIssuesInFile` gives one file's diagnostics without a full build.
-- Find tests with `GetTestList`, then run them with `RunSomeTests` or `RunAllTests`. The `UnitTests` plan covers `PocketCastsTests` and the module test targets.
-- `RunProject` and `DeviceInteraction*` launch and drive the app in the simulator, `RenderPreview` renders SwiftUI previews, and `DocumentationSearch` searches Apple docs.
-
-The tools act on the workspace open in Xcode (`XcodeListWorkspaces`). Opening a new checkout, such as a git worktree, with `XcodeOpenWorkspace` needs the user's approval in the Xcode MCP menu-bar item.
-
-Without the MCP:
+When the `xcode` MCP server is available, prefer it for building, testing, running the app and more. Otherwise:
 
 ```bash
 make build_staging
+make test_staging  # PocketCastsTests only, not the module tests
 make test_staging ONLY_TESTING=PocketCastsTests/YourTestClass/testMethodName
 make test_staging ONLY_TESTING=PocketCastsDataModelTests  # or PocketCastsServerTests, PocketCastsUtilsTests, PocketCastsAnalyticsTests
 ```
