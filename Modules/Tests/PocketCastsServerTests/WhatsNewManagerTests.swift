@@ -241,6 +241,7 @@ final class WhatsNewManagerTests: XCTestCase {
         let manager = manager(cache: temporaryCache(), readStateStore: store, account: account)
 
         await manager.refreshIfNeeded().value
+        await manager.syncReadState().value
 
         XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
         XCTAssertEqual(store.load().readMessageIDs, [messageID])
@@ -255,6 +256,62 @@ final class WhatsNewManagerTests: XCTestCase {
         await manager.syncReadState().value
 
         XCTAssertEqual(account.readMessageIDs, [messageID])
+    }
+
+    /// The account answers about the messages it's asked about, and this build's catalog is the whole
+    /// of that: a message the feed has dropped can't come back through the account.
+    func testTakesOnOnlyTheMessagesThisBuildsCatalogHas() async {
+        let account = account()
+        account.readMessageIDs = [messageID, otherMessageID]
+        let manager = manager(cache: temporaryCache(), account: account)
+
+        await manager.refreshIfNeeded().value
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// Offline, or with the account answering an error, what this device has read has to survive to
+    /// be pushed by the next sync.
+    func testAFailedSyncKeepsWhatThisDeviceRead() async {
+        let account = account()
+        account.failingStatusCode = ServerConstants.HttpConstants.serverError
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// Signed out there's no account to reconcile with, so nothing is pushed and nothing is taken on.
+    func testSignedOutTheReadStateStaysOnTheDevice() async {
+        let account = signedOutAccount()
+        account.readMessageIDs = [otherMessageID]
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(account.readMessageIDs, [otherMessageID])
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// What one user read isn't the next user's, so signing out drops it before another account can
+    /// be signed into. The dots belong to the device and keep what they've pointed at.
+    func testSigningOutForgetsWhatWasReadButNotWhatTheDotsPointedAt() async {
+        let store = temporaryReadStateStore()
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+        await manager.refreshIfNeeded().value
+        manager.markAsRead([messageID])
+        manager.markAsListed([messageID])
+
+        await manager.forgetReadMessages().value
+
+        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
+        XCTAssertEqual(store.load().readMessageIDs, [])
     }
 
     // MARK: - Helpers

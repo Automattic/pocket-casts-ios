@@ -12,6 +12,9 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
     /// Whether there's an account to sync with, as the manager sees it.
     var isSignedIn = true
 
+    /// A status code to answer every request with, standing in for the account being unreachable.
+    var failingStatusCode: Int?
+
     var task: WhatsNewReadStateTask {
         WhatsNewReadStateTask(tokenHelper: TokenHelper(urlConnection: URLConnection(mockHandler: { [self] request in
             try answer(request)
@@ -19,6 +22,10 @@ final class WhatsNewReadStateStub: @unchecked Sendable {
     }
 
     private func answer(_ request: URLRequest) throws -> (Data?, URLResponse?) {
+        if let failingStatusCode {
+            return (nil, response(for: request, statusCode: failingStatusCode))
+        }
+
         let uuids = Set(try Api_UuidsRequest(serializedBytes: request.httpBody ?? Data()).uuids)
 
         switch request.url?.path {

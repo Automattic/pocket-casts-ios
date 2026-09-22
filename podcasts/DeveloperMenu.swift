@@ -436,7 +436,7 @@ struct DeveloperMenu: View {
                 Text("Up Next")
             }
             Section {
-                Button("Reset Read State") {
+                Button("Reset Read State (Local Only)") {
                     WhatsNewManager.shared.resetReadState()
                 }
             } header: {

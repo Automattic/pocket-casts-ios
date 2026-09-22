@@ -107,8 +107,23 @@ public final class WhatsNewManager: ObservableObject {
         updateReadState { $0.respondedPollIDs.insert(pollID) }
     }
 
+    /// Forgets which messages were read, for when the account signs out: what one user read isn't
+    /// the next user's, and leaving it here would push it onto whichever account signs in next.
+    ///
+    /// What the dots have pointed at stays, since it belongs to the device rather than the account,
+    /// and the messages that come back unread don't light either dot up again.
+    @discardableResult
+    public func forgetReadMessages() -> Task<Void, Never> {
+        Task { [weak self] in
+            await self?.loadReadStateIfNeeded()
+            self?.updateReadState { $0.readMessageIDs = [] }
+        }
+    }
+
     /// Forgets every message read, seen or listed and every poll answered, bringing back each
     /// indicator and reopening each poll.
+    ///
+    /// Local only: signed in, the next sync takes the account's read messages back on.
     public func resetReadState() {
         hasLoadedReadState = true
         readState = WhatsNewReadState()
@@ -154,7 +169,7 @@ public final class WhatsNewManager: ObservableObject {
             }
         }
 
-        await syncReadState().value
+        syncReadState()
     }
 
     /// Reconciles the read state with the account: what this device has read that the account
