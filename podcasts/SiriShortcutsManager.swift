@@ -496,7 +496,6 @@ class SiriShortcutsManager: CustomObserver {
         do {
             let serializedItems = try JSONEncoder().encode(searchPodcasts)
             sharedDefaults.set(serializedItems, forKey: SharedConstants.GroupUserDefaults.siriSearchItems)
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode data for Siri Podcast Search: \(error.localizedDescription)")
         }

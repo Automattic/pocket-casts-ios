@@ -34,7 +34,6 @@ class WatchSyncManager {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
 
         ServerConfig.shared.syncDelegate = self

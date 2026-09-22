@@ -306,7 +306,6 @@ class Settings: NSObject {
 
     class func setDiscoverRegion(region: String) {
         UserDefaults.standard.set(region, forKey: chartRegion)
-        UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
 
@@ -603,7 +602,6 @@ class Settings: NSObject {
     class var lastWhatsNewShown: String? {
         set {
             UserDefaults.standard.setValue(newValue, forKey: lastWhatsNewShownKey)
-            UserDefaults.standard.synchronize()
         }
 
         get {

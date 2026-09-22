@@ -91,8 +91,6 @@ class WidgetHelper {
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
             let playingStatus = PlaybackManager.shared.isPlaying
             sharedDefaults.set(playingStatus, forKey: SharedConstants.GroupUserDefaults.isPlaying)
-
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode data for Up Next Widget: \(error.localizedDescription)")
         }
@@ -122,7 +120,6 @@ class WidgetHelper {
             sharedDefaults.set(filterName, forKey: SharedConstants.GroupUserDefaults.topFilterName)
             sharedDefaults.set(false, forKey: SharedConstants.GroupUserDefaults.isPlaying)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.upNextItems)
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode top filter data  Widget: \(error.localizedDescription)")
         }
@@ -158,7 +155,6 @@ class WidgetHelper {
 
             if currentAppIcon != sharedAppIcon {
                 sharedDefaults.set(currentAppIcon, forKey: SharedConstants.GroupUserDefaults.appIcon)
-                sharedDefaults.synchronize()
             }
         }
     }

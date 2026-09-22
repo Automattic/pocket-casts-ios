@@ -61,7 +61,6 @@ public class SyncManager {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.removeDiscoverAds)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionCreateDate)
         ServerSettings.liveAnalyticsUrl = nil
-        UserDefaults.standard.synchronize()
 
         ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
     }

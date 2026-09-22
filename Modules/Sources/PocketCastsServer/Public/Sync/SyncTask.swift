@@ -227,7 +227,6 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             if response.lastModified > 0 {
                 UserDefaults.standard.set("\(response.lastModified)", forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
             }
-            UserDefaults.standard.synchronize()
 
             return .success
         } catch {
