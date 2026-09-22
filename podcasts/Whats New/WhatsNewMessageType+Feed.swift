@@ -18,30 +18,30 @@ extension WhatsNewMessageType {
         }
     }
 
-    /// The symbol at the centre of the feed icon, which stands in for the glyph the design picks.
-    var iconSymbolName: String {
+    /// The glyph at the centre of the feed icon.
+    var icon: Image {
         switch self {
-        case .newFeature: "list.bullet"
-        case .tip: "arrow.up.arrow.down"
-        case .announcement: "heart"
-        case .knownIssue: "exclamationmark.triangle"
-        case .research: "doc.text"
+        case .newFeature: Image("whatsnew_feed_new_feature")
+        case .tip: Image("whatsnew_feed_tip")
+        case .announcement: Image("whatsnew_feed_announcement")
+        case .knownIssue: Image(systemName: "exclamationmark.triangle")
+        case .research: Image("transcript")
         }
     }
 
-    /// The colours the feed icon is drawn on.
-    var iconGradient: [Color] {
+    /// The gradient the feed icon is drawn on.
+    func iconGradient(theme: Theme) -> LinearGradient {
         switch self {
         case .newFeature:
-            [UIColor(hex: "#F43769").color, UIColor(hex: "#FB5246").color]
+            LinearGradient(colors: [theme.gradient05A, theme.gradient05E], startPoint: UnitPoint(x: 0, y: 0.4), endPoint: UnitPoint(x: 1, y: 0.6))
         case .tip:
-            [UIColor(hex: "#03A9F4").color, UIColor(hex: "#50D0F1").color]
+            LinearGradient(colors: [theme.gradient03A, theme.gradient03E], startPoint: .topLeading, endPoint: .bottomTrailing)
         case .announcement:
-            [UIColor(hex: "#C9522E").color, UIColor(hex: "#B82E3C").color]
+            LinearGradient(colors: [theme.gradient02A, theme.gradient02E], startPoint: .topLeading, endPoint: .bottomTrailing)
         case .knownIssue:
-            [UIColor(hex: "#FF9D3B").color, UIColor(hex: "#EB6F4F").color]
+            LinearGradient(colors: [UIColor(hex: "#FF9D3B").color, UIColor(hex: "#EB6F4F").color], startPoint: .topLeading, endPoint: .bottomTrailing)
         case .research:
-            [UIColor(hex: "#6B59C7").color, UIColor(hex: "#BC4E7B").color]
+            LinearGradient(colors: [theme.gradient04A, theme.gradient04E], startPoint: .topLeading, endPoint: .bottomTrailing)
         }
     }
 }
