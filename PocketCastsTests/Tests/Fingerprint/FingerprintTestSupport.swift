@@ -140,9 +140,16 @@ extension XCTestCase {
     /// couple of anchors commit, with most of the file still to decode — so this
     /// waits for its queues to drain instead.
     @MainActor
-    func waitForPass(_ manager: FingerprintTimingManager, timeout: TimeInterval = 120) async {
-        let expectation = expectation(description: "the fingerprint pass to finish")
+    func waitForPass(
+        _ manager: FingerprintTimingManager,
+        timeout: TimeInterval = 120,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async {
+        let expectation = XCTestExpectation(description: "the fingerprint pass to finish")
         manager.debugNotifyWhenPendingWorkFinishes { expectation.fulfill() }
-        await fulfillment(of: [expectation], timeout: timeout)
+        if await XCTWaiter().fulfillment(of: [expectation], timeout: timeout) != .completed {
+            XCTFail("Timed out waiting for the fingerprint pass to finish", file: file, line: line)
+        }
     }
 }
