@@ -138,7 +138,8 @@ final class WhatsNewManagerTests: XCTestCase {
 
     // MARK: - Read state
 
-    /// Until read state syncs with the server, the file on disk is all that remembers it.
+    /// The file on disk is what the feed works from, so everything marked in one session has to be
+    /// there in the next one, account or no account.
     func testReadStateOutlivesTheManager() async {
         let store = temporaryReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
@@ -230,20 +231,126 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(store.load(), WhatsNewReadState())
     }
 
+    // MARK: - Read state sync
+
+    /// A message read on another device is read here too, and the file on disk keeps it that way.
+    func testTakesOnWhatTheUserReadOnAnotherDevice() async {
+        let account = account()
+        account.readMessageIDs = [messageID]
+        let store = temporaryReadStateStore()
+        let manager = manager(cache: temporaryCache(), readStateStore: store, account: account)
+
+        await manager.refreshIfNeeded().value
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+        XCTAssertEqual(store.load().readMessageIDs, [messageID])
+    }
+
+    func testReadingAMessagePushesItToTheAccount() async {
+        let account = account()
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(account.readMessageIDs, [messageID])
+    }
+
+    /// The account answers about the messages it's asked about, and this build's catalog is the whole
+    /// of that: a message the feed has dropped can't come back through the account.
+    func testTakesOnOnlyTheMessagesThisBuildsCatalogHas() async {
+        let account = account()
+        account.readMessageIDs = [messageID, otherMessageID]
+        let manager = manager(cache: temporaryCache(), account: account)
+
+        await manager.refreshIfNeeded().value
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// Offline, or with the account answering an error, what this device has read has to survive to
+    /// be pushed by the next sync.
+    func testAFailedSyncKeepsWhatThisDeviceRead() async {
+        let account = account()
+        account.failingStatusCode = ServerConstants.HttpConstants.serverError
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// Signed out there's no account to reconcile with, so nothing is pushed and nothing is taken on.
+    func testSignedOutTheReadStateStaysOnTheDevice() async {
+        let account = signedOutAccount()
+        account.readMessageIDs = [otherMessageID]
+        let manager = manager(cache: temporaryCache(), account: account)
+        await manager.refreshIfNeeded().value
+
+        manager.markAsRead([messageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(account.readMessageIDs, [otherMessageID])
+        XCTAssertEqual(manager.readState.readMessageIDs, [messageID])
+    }
+
+    /// What one user read isn't the next user's, so signing out drops it before another account can
+    /// be signed into. The dots belong to the device and keep what they've pointed at.
+    func testSigningOutForgetsWhatWasReadButNotWhatTheDotsPointedAt() async {
+        let store = temporaryReadStateStore()
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+        await manager.refreshIfNeeded().value
+        manager.markAsRead([messageID])
+        manager.markAsListed([messageID])
+
+        await manager.forgetReadMessages().value
+
+        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
+        XCTAssertEqual(store.load().readMessageIDs, [])
+    }
+
     // MARK: - Helpers
 
     private var requestCount: Int { StubURLProtocol.requestCount }
 
     private func manager(cache: WhatsNewCatalogCache,
                          readStateStore: WhatsNewReadStateStore? = nil,
+                         account: WhatsNewReadStateStub? = nil,
                          refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
         StubURLProtocol.requestHandler = { [json] request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, Data(json.utf8))
         }
 
+        let account = account ?? signedOutAccount()
         let task = WhatsNewCatalogTask(session: StubURLProtocol.session(), cache: cache)
-        return WhatsNewManager(task: task, readStateStore: readStateStore ?? temporaryReadStateStore(), refreshInterval: refreshInterval)
+        return WhatsNewManager(task: task,
+                               readStateStore: readStateStore ?? temporaryReadStateStore(),
+                               readStateTask: account.task,
+                               refreshInterval: refreshInterval)
+    }
+
+    /// An account to sync the read state with.
+    ///
+    /// The keychain is signed out for the length of the test so `TokenHelper` doesn't go off looking
+    /// for a token; the stub is what stands in for having an account.
+    private func account() -> WhatsNewReadStateStub {
+        let email = ServerSettings.syncingEmail()
+        ServerSettings.setSyncingEmail(email: nil)
+        addTeardownBlock { ServerSettings.setSyncingEmail(email: email) }
+        return WhatsNewReadStateStub()
+    }
+
+    /// No account, which is what every test that isn't about syncing runs with.
+    private func signedOutAccount() -> WhatsNewReadStateStub {
+        let account = WhatsNewReadStateStub()
+        account.isSignedIn = false
+        return account
     }
 
     private func temporaryCache() -> WhatsNewCatalogCache {

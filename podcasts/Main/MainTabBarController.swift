@@ -1356,6 +1356,22 @@ private extension MainTabBarController {
             self?.updateProfileTabBadge()
         }
         .store(in: &cancellables)
+
+        // Signing in is the first chance to reconcile with the account, and the messages the user
+        // read on their other devices shouldn't wait for the next foreground to be cleared here.
+        NotificationCenter.default.publisher(for: .userSignedIn)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                manager.syncReadState()
+            }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: .serverUserWillBeSignedOut)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                manager.forgetReadMessages()
+            }
+            .store(in: &cancellables)
     }
 
     /// Shows the dot while End of Year or What's New has something waiting on Profile.

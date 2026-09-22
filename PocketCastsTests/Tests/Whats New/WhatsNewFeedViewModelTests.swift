@@ -290,6 +290,19 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
+    /// What the dots have pointed at stays on the device, so a reinstall has listed nothing: without
+    /// this the messages the user read on another device would all come back as new.
+    func testMessagesReadElsewhereLeaveBothProfileDotsOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        manager.markAsRead(manager.feedMessages(targeting: targeting).map(\.id))
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+    }
+
     func testANewMessagePutsTheDotBackOnTheProfileTab() async {
         let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
         await manager.refreshIfNeeded().value
@@ -374,8 +387,15 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// A manager whose catalog answers with `json`, or fails every request until something is published.
+    ///
+    /// Signed out for the test: only the catalog is stubbed, so a manager left signed in would
+    /// reconcile its read state against whatever account the test host happens to be signed in as.
     private func manager(publishing json: String? = nil,
                          refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
+        let email = ServerSettings.syncingEmail()
+        ServerSettings.setSyncingEmail(email: nil)
+        addTeardownBlock { ServerSettings.setSyncingEmail(email: email) }
+
         if let json {
             publish(json)
         }
