@@ -313,6 +313,31 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
     }
 
+    /// Turning the dot off in Settings takes it off Profile without reading anything, so the feed
+    /// still shows what's unread.
+    func testTurningTheDotOffTakesOnlyTheProfileDotsOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+
+        XCTAssertFalse(manager.showsDotOnWhatsNewRow(targeting: targeting, isDotEnabled: false))
+        XCTAssertFalse(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: false))
+        XCTAssertTrue(manager.showsDotOnWhatsNewRow(targeting: targeting, isDotEnabled: true))
+        XCTAssertTrue(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: true))
+        XCTAssertTrue(manager.readState.readMessageIDs.isEmpty)
+        XCTAssertTrue(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
+    }
+
+    /// Tapping the Profile tab while the dot is off doesn't count as seeing it, so turning the dot
+    /// back on shows it again.
+    func testTappingTheProfileTabWithTheDotOffKeepsTheDotForLater() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+
+        manager.markFeedAsSeen(targeting: targeting, isDotEnabled: false)
+
+        XCTAssertTrue(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: true))
+    }
+
     /// A dot on Profile has to lead to a row in the feed.
     func testProfileDotsIgnoreMessagesTheFeedDoesNotShow() async {
         let manager = manager(publishing: Self.catalogWithPatronMessageJSON)

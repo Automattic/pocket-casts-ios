@@ -366,7 +366,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .whatsNew:
             cell.settingsImage.image = UIImage(named: "mail")
             cell.settingsLabel.text = L10n.whatsNew
-            cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
+            cell.showsUnreadIndicator = WhatsNewManager.shared.showsDotOnWhatsNewRow()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -672,14 +672,17 @@ private extension ProfileViewController {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
         let manager = WhatsNewManager.shared
-        manager.$catalog.combineLatest(manager.$readState)
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.updateWhatsNewRow()
-                self?.markWhatsNewFeedAsSeenIfOnScreen()
-            }
-            .store(in: &cancellables)
+        Publishers.Merge3(
+            manager.$catalog.dropFirst().map { _ in },
+            manager.$readState.dropFirst().map { _ in },
+            NotificationCenter.default.publisher(for: ServerNotifications.showWhatsNewDotChanged).map { _ in }
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.updateWhatsNewRow()
+            self?.markWhatsNewFeedAsSeenIfOnScreen()
+        }
+        .store(in: &cancellables)
     }
 
     func markWhatsNewFeedAsSeenIfOnScreen() {
@@ -693,7 +696,7 @@ private extension ProfileViewController {
               let cell = profileTable.cellForRow(at: IndexPath(row: row, section: section)) as? TopLevelSettingsCell else {
             return
         }
-        cell.showsUnreadIndicator = WhatsNewManager.shared.hasUnlistedMessages()
+        cell.showsUnreadIndicator = WhatsNewManager.shared.showsDotOnWhatsNewRow()
     }
 }
 
