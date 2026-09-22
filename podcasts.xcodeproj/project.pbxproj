@@ -8023,6 +8023,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = "$(APP_TREAT_WARNINGS_AS_ERRORS)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = StagingDebug;
@@ -9106,6 +9107,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = "$(APP_TREAT_WARNINGS_AS_ERRORS)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Prototype;
@@ -9387,6 +9389,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = "$(APP_TREAT_WARNINGS_AS_ERRORS)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -9409,6 +9412,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = "$(APP_TREAT_WARNINGS_AS_ERRORS)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

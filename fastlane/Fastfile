@@ -224,7 +224,8 @@ platform :ios do
     run_tests(
       scheme: SCHEME,
       devices: ['iPhone 17 Pro'],
-      output_types: 'junit'
+      output_types: 'junit',
+      xcargs: is_ci ? 'APP_TREAT_WARNINGS_AS_ERRORS=YES' : nil
     )
   end
 
