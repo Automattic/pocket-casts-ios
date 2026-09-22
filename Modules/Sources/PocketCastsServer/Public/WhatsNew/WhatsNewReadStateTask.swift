@@ -7,19 +7,19 @@ import PocketCastsUtils
 /// The server keeps a read flag per message and nothing else, and answers about the messages it's
 /// asked about rather than about everything it holds: the catalog this build decoded is what the
 /// read state is reconciled against, so a message the feed has dropped can't come back through it.
-public struct WhatsNewReadStateTask {
+public struct WhatsNewReadStateTask: @unchecked Sendable {
     public enum WhatsNewReadStateError: Error {
         case requestFailed(statusCode: Int)
     }
 
     private let tokenHelper: TokenHelper
-    private let isSignedIn: () -> Bool
+    private let isSignedIn: @Sendable () -> Bool
 
     public init() {
         self.init(tokenHelper: .shared)
     }
 
-    init(tokenHelper: TokenHelper, isSignedIn: @escaping () -> Bool = { SyncManager.isUserLoggedIn() }) {
+    init(tokenHelper: TokenHelper, isSignedIn: @escaping @Sendable () -> Bool = { SyncManager.isUserLoggedIn() }) {
         self.tokenHelper = tokenHelper
         self.isSignedIn = isSignedIn
     }
