@@ -252,7 +252,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
-    /// Profile builds a new feed each time the row is tapped, so an answer has to outlast the feed it
+    /// Profile builds a new feed each time the button is tapped, so an answer has to outlast the feed it
     /// was given in.
     func testAPollAnsweredInAnEarlierFeedStaysAnswered() throws {
         let manager = manager()
@@ -277,7 +277,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
     }
 
-    /// The dot on the What's New row points at the feed, not at what's unread in it.
+    /// The dot on the What's New button points at the feed, not at what's unread in it.
     func testOpeningTheFeedTakesBothDotsOffWithoutReadingAnything() async {
         let manager = manager(publishing: Self.catalogJSON)
         await manager.refreshIfNeeded().value
@@ -315,7 +315,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// The feed can open before the catalog is in, so what it goes on to list counts as well.
-    func testANewMessagePutsTheDotBackOnTheWhatsNewRow() async {
+    func testANewMessagePutsTheDotBackOnTheWhatsNewButton() async {
         let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
         await WhatsNewFeedViewModel(manager: manager, targeting: targeting).load()
         XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
@@ -332,9 +332,9 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         let manager = manager(publishing: Self.catalogJSON)
         await manager.refreshIfNeeded().value
 
-        XCTAssertFalse(manager.showsDotOnWhatsNewRow(targeting: targeting, isDotEnabled: false))
+        XCTAssertFalse(manager.showsDotOnWhatsNewButton(targeting: targeting, isDotEnabled: false))
         XCTAssertFalse(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: false))
-        XCTAssertTrue(manager.showsDotOnWhatsNewRow(targeting: targeting, isDotEnabled: true))
+        XCTAssertTrue(manager.showsDotOnWhatsNewButton(targeting: targeting, isDotEnabled: true))
         XCTAssertTrue(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: true))
         XCTAssertTrue(manager.readState.readMessageIDs.isEmpty)
         XCTAssertTrue(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
