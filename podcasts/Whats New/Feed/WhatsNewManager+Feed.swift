@@ -33,8 +33,10 @@ extension WhatsNewManager {
         isDotEnabled && hasUnseenMessages(targeting: targeting)
     }
 
-    /// Takes the dot off the Profile tab until a message arrives that it hasn't pointed at.
-    func markFeedAsSeen(targeting: WhatsNewMessageFilter = .current) {
+    /// Takes the dot off the Profile tab until a message arrives that it hasn't pointed at. While the
+    /// dot is turned off, it hasn't pointed at anything, so turning it back on shows it again.
+    func markFeedAsSeen(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) {
+        guard isDotEnabled else { return }
         markAsSeen(feedMessages(targeting: targeting).map(\.id))
     }
 }

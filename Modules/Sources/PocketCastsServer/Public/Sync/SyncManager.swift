@@ -54,6 +54,7 @@ public class SyncManager {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.marketingOptInKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.audioOnlyNeedsSyncKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.audioOnlyKey)
+        ServerSettings.resetShowWhatsNewDot()
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgementNeedsSyncKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionPodcasts)

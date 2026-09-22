@@ -208,6 +208,15 @@ public class ServerSettings {
         UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
     }
 
+    public class func resetShowWhatsNewDot() {
+        let oldValue = showWhatsNewDot()
+        UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.showWhatsNewDotKey)
+        UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
+        if showWhatsNewDot() != oldValue {
+            NotificationCenter.default.post(name: ServerNotifications.showWhatsNewDotChanged, object: nil)
+        }
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"

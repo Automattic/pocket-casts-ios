@@ -672,14 +672,17 @@ private extension ProfileViewController {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
         let manager = WhatsNewManager.shared
-        manager.$catalog.combineLatest(manager.$readState)
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.updateWhatsNewRow()
-                self?.markWhatsNewFeedAsSeenIfOnScreen()
-            }
-            .store(in: &cancellables)
+        Publishers.Merge3(
+            manager.$catalog.dropFirst().map { _ in },
+            manager.$readState.dropFirst().map { _ in },
+            NotificationCenter.default.publisher(for: ServerNotifications.showWhatsNewDotChanged).map { _ in }
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.updateWhatsNewRow()
+            self?.markWhatsNewFeedAsSeenIfOnScreen()
+        }
+        .store(in: &cancellables)
     }
 
     func markWhatsNewFeedAsSeenIfOnScreen() {

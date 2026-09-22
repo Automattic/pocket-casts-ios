@@ -53,6 +53,18 @@ final class ShowWhatsNewDotSettingTests: XCTestCase {
         wait(for: [changed], timeout: 0.1)
     }
 
+    /// The next account to sign in on the device starts with the dot on, not the previous account's choice.
+    func testResettingTurnsTheDotBackOn() {
+        ServerSettings.setShowWhatsNewDot(false)
+        let changed = expectation(forNotification: ServerNotifications.showWhatsNewDotChanged, object: nil)
+
+        ServerSettings.resetShowWhatsNewDot()
+
+        wait(for: [changed], timeout: 1)
+        XCTAssertTrue(ServerSettings.showWhatsNewDot())
+        XCTAssertFalse(ServerSettings.showWhatsNewDotNeedsSyncing())
+    }
+
     private func removeStoredValues() {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.showWhatsNewDotKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.showWhatsNewDotNeedsSyncKey)
