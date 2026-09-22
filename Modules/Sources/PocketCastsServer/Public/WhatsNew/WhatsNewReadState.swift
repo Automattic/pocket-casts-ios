@@ -47,9 +47,9 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         !isRead(messageID) && !seenMessageIDs.contains(messageID)
     }
 
-    /// Whether the feed has listed the message, read or not.
-    public func isListed(_ messageID: String) -> Bool {
-        listedMessageIDs.contains(messageID)
+    /// Whether the message is unread and the feed hasn't listed it yet.
+    public func isUnlisted(_ messageID: String) -> Bool {
+        !isRead(messageID) && !listedMessageIDs.contains(messageID)
     }
 
     func merging(_ other: WhatsNewReadState) -> WhatsNewReadState {

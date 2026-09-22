@@ -290,6 +290,19 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
+    /// What the dots have pointed at stays on the device, so a reinstall has listed nothing: without
+    /// this the messages the user read on another device would all come back as new.
+    func testMessagesReadElsewhereLeaveBothProfileDotsOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        manager.markAsRead(manager.feedMessages(targeting: targeting).map(\.id))
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+    }
+
     func testANewMessagePutsTheDotBackOnTheProfileTab() async {
         let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
         await manager.refreshIfNeeded().value
