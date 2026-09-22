@@ -834,6 +834,25 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         dispatchPrecondition(condition: .notOnQueue(queue))
         return queue.sync { main.rejections }
     }
+
+    /// Calls `completion` on the main queue once the work already submitted to the
+    /// manager has finished: a reference fetch, the pass it starts (or one already
+    /// running), what that pass hands back to `queue`, the mapping cache write that
+    /// follows it, and the state updates on main.
+    func debugNotifyWhenPendingWorkFinishes(_ completion: @escaping () -> Void) {
+        queue.async { [weak self, queue, generationQueue] in
+            let fetchTask = self?.fetchTask
+            Task {
+                await fetchTask?.value
+                for serialQueue in [queue, generationQueue, queue, generationQueue] {
+                    await withCheckedContinuation { continuation in
+                        serialQueue.async { continuation.resume() }
+                    }
+                }
+                DispatchQueue.main.async(execute: completion)
+            }
+        }
+    }
     #endif
 
     // MARK: - State Management
