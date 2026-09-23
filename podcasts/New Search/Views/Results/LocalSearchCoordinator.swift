@@ -159,7 +159,7 @@ final class LocalSearchCoordinator {
             Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": result.isFull])
 
             guard result.didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                 return
             }

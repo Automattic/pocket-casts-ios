@@ -16,7 +16,7 @@ extension UIWindow {
     /// `traitCollection.userInterfaceStyle`, which reflects this override.
     func applyInterfaceStyleForActiveTheme() {
         guard LiquidGlass.isEnabled else { return }
-        overrideUserInterfaceStyle = Theme.sharedTheme.activeTheme.isDark ? .dark : .light
+        overrideUserInterfaceStyle = Theme.shared.activeTheme.isDark ? .dark : .light
     }
 }
 

@@ -139,7 +139,7 @@ class FolderViewController: PCViewController {
                     }
                 }
             }
-            let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
+            let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.shared))
 
             self?.present(hostingController, animated: true, completion: nil)
 
@@ -176,7 +176,7 @@ class FolderViewController: PCViewController {
         let editFoldersView = EditFolderPodcastsView(model: model) { [weak self] in
             self?.dismiss(animated: true)
         }
-        let hostingController = PCHostingController(rootView: editFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: editFoldersView.environmentObject(Theme.shared))
 
         present(hostingController, animated: true, completion: nil)
     }

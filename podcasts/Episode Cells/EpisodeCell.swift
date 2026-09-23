@@ -77,7 +77,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.sharedTheme.activeTheme)
+            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.shared.activeTheme)
         }
     }
 
@@ -672,7 +672,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     // Handle theme change
     override func handleThemeDidChange() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
         guard lastAppliedTheme != theme else { return }
         lastAppliedTheme = theme
 

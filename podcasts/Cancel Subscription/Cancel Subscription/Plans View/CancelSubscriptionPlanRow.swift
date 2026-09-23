@@ -168,7 +168,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     basePrice: 39.99),
                 selected: true
             ) { _ in }
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
             CancelSubscriptionPlanRow(
                 product: .init(
                     identifier: .monthly,
@@ -180,7 +180,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     basePrice: 3.99),
                 selected: false
             ) { _ in }
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
             CancelSubscriptionPlanRow(
                 product: .init(
                     identifier: .yearlyReferral,
@@ -192,7 +192,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     basePrice: 39.99),
                 selected: false
             ) { _ in }
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
         }
         .background(.gray)
         .previewLayout(.fixed(width: 393, height: 300))

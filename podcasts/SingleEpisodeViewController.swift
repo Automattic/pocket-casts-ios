@@ -109,7 +109,7 @@ class SingleEpisodeViewController: UIViewController {
             })
             .store(in: &cancellables)
 
-        Publishers.CombineLatest(Theme.sharedTheme.$activeTheme, viewModel.$discoverCollection)
+        Publishers.CombineLatest(Theme.shared.$activeTheme, viewModel.$discoverCollection)
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _, discoverCollection in
                 self.playButton.colors = discoverCollection?.colors

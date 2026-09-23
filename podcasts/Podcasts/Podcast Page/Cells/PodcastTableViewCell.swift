@@ -19,7 +19,7 @@ final class PodcastTableViewCell: ThemeableCell {
 
         self.contentConfiguration = UIHostingConfiguration {
             PodcastTableCellView(viewModel: viewModel)
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
         }
         .margins(.horizontal, 16)
         .margins(.vertical, 8)

@@ -400,7 +400,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 BottomSheetSwiftUIWrapper.present(
                     PodrollInformationModalView(onDismiss: { [weak self] in
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)
-                    }).environmentObject(Theme.sharedTheme),
+                    }).environmentObject(Theme.shared),
                     autoSize: true,
                     in: self
                 )

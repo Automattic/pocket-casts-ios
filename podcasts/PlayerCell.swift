@@ -10,7 +10,7 @@ class PlayerCell: ThemeableSwipeCell {
             episodeInfo.themeOverride = themeOverride
             dayName.themeOverride = themeOverride
             dividerView.themeOverride = themeOverride
-            starIndicator?.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
+            starIndicator?.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.shared.activeTheme)
         }
     }
 
@@ -33,7 +33,7 @@ class PlayerCell: ThemeableSwipeCell {
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
+            starIndicator.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.shared.activeTheme)
         }
     }
 
@@ -288,7 +288,7 @@ class PlayerCell: ThemeableSwipeCell {
         selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
         downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         // Update the reorder control color
-        let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let activeTheme = themeOverride ?? Theme.shared.activeTheme
         starIndicator.image = PlayerCell.starIndicatorImage(for: activeTheme)
         overrideUserInterfaceStyle = activeTheme.isDark ? .dark : .light
     }

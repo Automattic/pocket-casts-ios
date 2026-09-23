@@ -190,7 +190,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             self.dismiss(animated: true, completion: nil)
         }, dismissAction: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
-        }, selectedTheme: selectedTheme).environmentObject(Theme.sharedTheme)
+        }, selectedTheme: selectedTheme).environmentObject(Theme.shared)
         let hostingController = PCHostingController(rootView: themeSelector)
 
         present(hostingController, animated: true, completion: nil)
@@ -253,8 +253,8 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
         if sender.isOn {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.followSystemThemeTurnedOn)
-        } else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
-            Theme.sharedTheme.activeTheme = Theme.preferredLightTheme()
+        } else if Theme.shared.activeTheme != Theme.preferredLightTheme() {
+            Theme.shared.activeTheme = Theme.preferredLightTheme()
         }
 
         Settings.trackValueToggled(.settingsAppearanceFollowSystemThemeToggled, enabled: sender.isOn)

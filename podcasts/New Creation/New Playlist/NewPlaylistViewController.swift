@@ -240,7 +240,7 @@ class NewPlaylistViewController: PCViewController {
         } else if case let .addEpisode(episode) = creationType {
             let didAdd = DataManager.shared.add(episodes: [episode], to: playlist)
             guard didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
@@ -280,7 +280,7 @@ class NewPlaylistViewController: PCViewController {
             }
             let didAdd = DataManager.shared.add(episodes: episodes, to: playlist)
             guard didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }

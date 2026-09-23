@@ -77,7 +77,7 @@ class ShareProfileViewModel: ObservableObject {
     @MainActor
     func generateShareItems() -> [Any] {
         let cardView = ShareProfileCardView(viewModel: self)
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
             .frame(width: 340, height: 400)
         return [cardView.snapshot()]
     }

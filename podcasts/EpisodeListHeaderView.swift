@@ -80,7 +80,7 @@ class EpisodeListHeaderView: UIView {
             ImageManager.shared.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
         }
 
-        Theme.sharedTheme.$activeTheme
+        Theme.shared.$activeTheme
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.updateTheme()

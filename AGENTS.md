@@ -44,7 +44,7 @@ For RTL support, use `.natural` text alignment and `naturalContentHorizontalAlig
 
 ## Themes
 
-- In SwiftUI, use `@EnvironmentObject private var theme: Theme`, inject `.environmentObject(Theme.sharedTheme)` where the view is used, and read colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
+- In SwiftUI, use `@EnvironmentObject private var theme: Theme`, inject `.environmentObject(Theme.shared)` where the view is used, and read colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
 - `ThemeColor.swift` and `ThemeStyle.swift` are generated. Edit `scripts/themes/theme.csv`, then run `make generate_colors`.
 
 ## Protocol Buffers

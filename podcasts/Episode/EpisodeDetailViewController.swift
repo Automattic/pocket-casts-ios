@@ -508,7 +508,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         messageIcon.tintColor = primaryText02
 
-        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.sharedTheme.activeTheme) {
+        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.shared.activeTheme) {
             renderShowNotes()
         }
 

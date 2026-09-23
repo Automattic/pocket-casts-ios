@@ -187,7 +187,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)

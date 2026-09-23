@@ -217,5 +217,5 @@ fileprivate extension View {
     }
 
     return PreviewWrapper()
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

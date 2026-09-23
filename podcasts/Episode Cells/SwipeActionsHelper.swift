@@ -49,7 +49,7 @@ enum SwipeActionsHelper {
     // doesn't pass against the white "+" icon, so fall back to `support06` (the
     // archive swatch) in those themes.
     static var addToPlaylistSwipeBackground: UIColor {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.shared.activeTheme {
         case .contrastLight, .contrastDark:
             return ThemeColor.support06()
         default:

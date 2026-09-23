@@ -1243,7 +1243,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         let chooseFolderView = ChoosePodcastFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true, completion: nil)
         }
-        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.shared))
 
         present(hostingController, animated: true, completion: nil)
     }

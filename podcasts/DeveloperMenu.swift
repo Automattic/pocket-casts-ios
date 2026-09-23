@@ -374,7 +374,7 @@ struct DeveloperMenu: View {
                 .sheet(isPresented: $showingRecommendationsOnboarding) {
                     NavigationStack {
                         OnboardingRecommendationsView(coordinator: LoginCoordinator())
-                            .environmentObject(Theme.sharedTheme)
+                            .environmentObject(Theme.shared)
                     }
                 }
                 Button("Show Onboarding Interests") {
@@ -386,11 +386,11 @@ struct DeveloperMenu: View {
                     }, notNowCallback: {
                         showingInterestsOnboarding.toggle()
                     }, isInsideNavigation: false)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
                 .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
                     OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: self.recommendationsViewModel)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
             } header: {
                 Text("Onboarding")

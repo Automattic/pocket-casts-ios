@@ -206,8 +206,8 @@ extension NetworkListSummary {
         DiscoverNetworksListRowView(model: model)
         Spacer(minLength: 0)
     }
-    .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
-    .environmentObject(Theme.sharedTheme)
+    .background(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
+    .environmentObject(Theme.shared)
 }
 
 #endif

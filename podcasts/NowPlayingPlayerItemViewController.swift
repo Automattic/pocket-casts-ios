@@ -659,7 +659,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @objc func googleCastTapped() {
         shelfButtonTapped(.chromecast)
 
-        let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
+        let themeOverride = Theme.shared.activeTheme.isDark ? Theme.shared.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)
         navController.modalPresentationStyle = .fullScreen
@@ -739,7 +739,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.shared)).padding(16)
         let hostingController = PCHostingController(rootView: AnyView(adView))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false

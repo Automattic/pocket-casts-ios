@@ -150,7 +150,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         let item = itemAt(indexPath: indexPath)
         if item?.isEmpty == true {
             let sizingView = makeEmptyStateView()
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
 
             let hostingController = UIHostingController(rootView: sizingView)
             let targetSize = CGSize(width: collectionView.bounds.width - 32, height: .greatestFiniteMagnitude)
@@ -226,11 +226,11 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         let additionalPadding: CGFloat = Settings.libraryType() == .list ? 16 : 0
 
-        return BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme))
+        return BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.shared))
             .padding(.top, !isSameColor ? 16 : 0)
             .padding(.bottom, additionalPadding)
             .padding(.horizontal, additionalPadding)
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

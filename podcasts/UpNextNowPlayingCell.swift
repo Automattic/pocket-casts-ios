@@ -145,7 +145,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     override func handleThemeDidChange() {
         super.handleThemeDidChange()
 
-        let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let activeTheme = themeOverride ?? Theme.shared.activeTheme
 
         // Rounded background
         if activeTheme.isDark {

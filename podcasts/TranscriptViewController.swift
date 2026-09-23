@@ -579,7 +579,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         let secondaryColor =  showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
         let activityIndicatorViewColor: UIColor = showFromEpisode ? ThemeColor.primaryIcon02() : ThemeColor.playerContrast02()
-        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.sharedTheme.activeTheme.isDark ? .white : .black) : .white
+        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.shared.activeTheme.isDark ? .white : .black) : .white
 
         view.backgroundColor = primaryColor
         transcriptView.backgroundColor =  primaryColor

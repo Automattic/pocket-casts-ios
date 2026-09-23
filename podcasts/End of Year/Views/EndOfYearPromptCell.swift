@@ -23,7 +23,7 @@ class EndOfYearPromptCell: ThemeableCell {
         }
 
         let childView = UIHostingController(rootView: EndOfYearCard(viewModel: viewModel)
-            .environmentObject(Theme.sharedTheme))
+            .environmentObject(Theme.shared))
         childView.view.backgroundColor = .clear
         contentView.addSubview(childView.view)
 

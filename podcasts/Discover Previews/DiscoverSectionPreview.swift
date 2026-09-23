@@ -40,8 +40,8 @@ struct DiscoverSectionPreview: View {
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
-        .environmentObject(Theme.sharedTheme)
+        .background(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
+        .environmentObject(Theme.shared)
         .task {
             try? await Task.sleep(for: .milliseconds(250))
             settleCount += 1

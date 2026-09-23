@@ -253,7 +253,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             sections.insert(.nowPlayingSection, at: 0)
             upNextTable.themeStyle = .primaryUi04
         } else {
-            upNextTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
+            upNextTable.backgroundColor = UIColor(Theme.shared.primaryUi02)
         }
         tableData = sections
     }

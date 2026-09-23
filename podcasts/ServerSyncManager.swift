@@ -87,7 +87,7 @@ class ServerSyncManager: ServerSyncDelegate {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             #if !os(tvOS)
-            Theme.sharedTheme.toggleTheme()
+            Theme.shared.toggleTheme()
             #endif
             #if !APPCLIP && !os(tvOS)
             NotificationsHelper.shared.register(checkToken: true)
