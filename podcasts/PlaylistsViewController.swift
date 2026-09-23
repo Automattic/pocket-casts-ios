@@ -166,7 +166,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         presentFilterPreview()
     }
 
-    private func presentFilterPreview() {
+    func presentFilterPreview() {
         let createPlaylistVC = NewPlaylistViewController()
         createPlaylistVC.delegate = self
         let navVC = SJUIUtils.navController(for: createPlaylistVC)
