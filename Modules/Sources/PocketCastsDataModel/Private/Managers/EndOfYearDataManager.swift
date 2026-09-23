@@ -13,7 +13,7 @@ class EndOfYearDataManager {
     /// If the user is eligible to see End of Year stats
     ///
     /// All it's needed is a single episode listened for more than 5 minutes.
-    func isEligible(in year: Int, dbQueue: PCDBQueue) -> Bool {
+    func isEligible(in year: Int, dbQueue: GRDBQueue) -> Bool {
         var isEligible = false
 
         dbQueue.read { db in
@@ -47,7 +47,7 @@ class EndOfYearDataManager {
     /// If this is not true, we check for the total number of items of
     /// this year. If the number is less than or equal 100, we assume they
     /// have the full history.
-    func isFullListeningHistory(in year: Int, dbQueue: PCDBQueue) -> Bool {
+    func isFullListeningHistory(in year: Int, dbQueue: GRDBQueue) -> Bool {
         var isFullListeningHistory = false
 
         dbQueue.read { db in
@@ -72,7 +72,7 @@ class EndOfYearDataManager {
     }
 
     /// Returns the number of episodes we have for this year
-    func numberOfEpisodes(year: Int, dbQueue: PCDBQueue) -> Int {
+    func numberOfEpisodes(year: Int, dbQueue: GRDBQueue) -> Int {
         var numberOfEpisodes: Int = 0
 
         dbQueue.read { db in
@@ -100,7 +100,7 @@ class EndOfYearDataManager {
     }
 
     /// Returns the approximate listening time for the current year
-    func listeningTime(in year: Int, dbQueue: PCDBQueue) -> Double? {
+    func listeningTime(in year: Int, dbQueue: GRDBQueue) -> Double? {
         var listeningTime: Double?
 
         dbQueue.read { db in
@@ -122,7 +122,7 @@ class EndOfYearDataManager {
     /// Returns all the categories the user has listened to podcasts
     ///
     /// The returned array is ordered from the most listened to the least
-    func listenedCategories(in year: Int, dbQueue: PCDBQueue) -> [ListenedCategory] {
+    func listenedCategories(in year: Int, dbQueue: GRDBQueue) -> [ListenedCategory] {
         var listenedCategories: [ListenedCategory] = []
 
         dbQueue.read { db in
@@ -168,7 +168,7 @@ class EndOfYearDataManager {
 
     /// Return the number of podcasts and episodes listened
     ///
-    func listenedNumbers(in year: Int, dbQueue: PCDBQueue) -> ListenedNumbers {
+    func listenedNumbers(in year: Int, dbQueue: GRDBQueue) -> ListenedNumbers {
         var listenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
 
         dbQueue.read { db in
@@ -197,7 +197,7 @@ class EndOfYearDataManager {
     }
 
     /// Return the top podcasts ordered by number of played episodes
-    func topPodcasts(in year: Int, dbQueue: PCDBQueue, limit: Int = 5) -> [TopPodcast] {
+    func topPodcasts(in year: Int, dbQueue: GRDBQueue, limit: Int = 5) -> [TopPodcast] {
         var allPodcasts = [TopPodcast]()
         dbQueue.read { db in
             do {
@@ -235,7 +235,7 @@ class EndOfYearDataManager {
     }
 
     /// Return the longest listened episode
-    func longestEpisode(in year: Int, dbQueue: PCDBQueue) -> Episode? {
+    func longestEpisode(in year: Int, dbQueue: GRDBQueue) -> Episode? {
         var episode: Episode?
         dbQueue.read { db in
             do {
@@ -260,7 +260,7 @@ class EndOfYearDataManager {
     }
 
     /// Given a list of UUIDs, return which UUIDs are present on the database
-    func episodesThatExist(year: Int, dbQueue: PCDBQueue, uuids: [String]) -> [String] {
+    func episodesThatExist(year: Int, dbQueue: GRDBQueue, uuids: [String]) -> [String] {
         var episodes: [String] = []
 
         dbQueue.read { db in
@@ -308,7 +308,7 @@ class EndOfYearDataManager {
     }
 
     /// Returns the approximate listening time for the current year
-    func yearOverYearListeningTime(in year: Int, dbQueue: PCDBQueue) -> YearOverYearListeningTime {
+    func yearOverYearListeningTime(in year: Int, dbQueue: GRDBQueue) -> YearOverYearListeningTime {
         var listeningTimeThisYear: Double = 0
         var listeningTimePreviousYear: Double = 0
 
@@ -334,7 +334,7 @@ class EndOfYearDataManager {
 
     /// Returns the number of episodes started and finished
     /// The episode is considered completed if it was played at least 90%
-    func episodesStartedAndCompleted(in year: Int, dbQueue: PCDBQueue) -> EpisodesStartedAndCompleted {
+    func episodesStartedAndCompleted(in year: Int, dbQueue: GRDBQueue) -> EpisodesStartedAndCompleted {
         var started: Int = 0
         var completed: Int = 0
 

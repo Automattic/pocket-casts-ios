@@ -29,7 +29,7 @@ public class DataManager {
     public let ratings: RatingsDataManager
     public let networkDataUsageManager: NetworkDataUsageManager
 
-    let dbQueue: PCDBQueue
+    let dbQueue: GRDBQueue
 
     /// `true` if the database was created from scratch during init (no tables existed).
     /// On tvOS, where the database lives in the purgeable Caches directory, a logged-in
@@ -69,8 +69,8 @@ public class DataManager {
         self.init(dbQueue: dbQueue)
     }
 
-    /// Creates a DataManager using the given `PCDBQueue`.
-    public init(dbQueue: PCDBQueue) {
+    /// Creates a DataManager using the given `GRDBQueue`.
+    public init(dbQueue: GRDBQueue) {
         self.dbQueue = dbQueue
 
         self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
@@ -78,8 +78,7 @@ public class DataManager {
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
         ratings = RatingsDataManager()
-        // Force unwrap is safe here as dbQueue is always a GRDBQueue at runtime
-        networkDataUsageManager = NetworkDataUsageManager(dbQueue: dbQueue as! GRDBQueue)
+        networkDataUsageManager = NetworkDataUsageManager(dbQueue: dbQueue)
 
         setupInMemoryCaches()
     }
@@ -1350,7 +1349,7 @@ extension DataManager {
             return
         }
 
-        let destinationDbQueue = (dbQueue as? GRDBQueue)!.dbPool
+        let destinationDbQueue = dbQueue.dbPool
 
         // Fetch all table names (excluding SQLite internal tables and SJEpisode)
         let tableNames: [String]? = try? sourceDbQueue.read { db in
@@ -1405,7 +1404,7 @@ extension DataManager {
     /// logout; a later login repopulates the database via a full sync.
     public func deleteAllData() {
         do {
-            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+            try dbQueue.dbPool.write { db in
                 let tableNames = try String.fetchAll(db, sql: "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")
                 for tableName in tableNames {
                     try db.execute(sql: "DELETE FROM \(tableName.quotedDatabaseIdentifier)")

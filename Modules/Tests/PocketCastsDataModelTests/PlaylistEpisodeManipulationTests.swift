@@ -88,7 +88,7 @@ final class PlaylistEpisodeManipulationTests: DataManagerTestCase {
         ORDER BY episodePosition ASC
         """
         var actual = [String]()
-        dataManager.testDbQueue.read { db in
+        dataManager.dbQueue.read { db in
             do {
                 let rs = try db.executeQuery(sql, values: [playlistUuid])
                 while rs.next() {
@@ -103,7 +103,7 @@ final class PlaylistEpisodeManipulationTests: DataManagerTestCase {
 
     private func countPlaylistEntries(dataManager: DataManager, playlistUuid: String) -> Int {
         var count = 0
-        dataManager.testDbQueue.read { db in
+        dataManager.dbQueue.read { db in
             do {
                 let rs = try db.executeQuery(
                     "SELECT COUNT(*) c FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ?",

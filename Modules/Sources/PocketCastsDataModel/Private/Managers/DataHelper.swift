@@ -10,7 +10,7 @@ class DataHelper {
         return inString
     }
 
-    class func run(query: String, values: [Any]?, methodName: String, onQueue: PCDBQueue) {
+    class func run(query: String, values: [Any]?, methodName: String, onQueue: GRDBQueue) {
         onQueue.write { db in
             do {
                 try db.executeUpdate(query, values: values)

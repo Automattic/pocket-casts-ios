@@ -2,7 +2,7 @@ import GRDB
 import PocketCastsUtils
 import Foundation
 
-class GRDBQueue: PCDBQueue {
+public final class GRDBQueue {
     public let dbPool: DatabasePool
     let logger: ErrorLogger?
 

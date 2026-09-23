@@ -6,7 +6,7 @@ class DatabaseHelper {
     /// - Returns: `true` if the database was created from scratch this call (starting
     ///   schema version 0) — i.e. there were no tables to begin with.
     @discardableResult
-    class func setup(queue: PCDBQueue) -> Bool {
+    class func setup(queue: GRDBQueue) -> Bool {
         var databaseWasCreated = false
         queue.write { db in
             do {

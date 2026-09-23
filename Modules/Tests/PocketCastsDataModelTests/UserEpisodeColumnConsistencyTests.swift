@@ -8,7 +8,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
             Set(try db.columns(in: DataManager.userEpisodeTableName).map(\.name))
         }
         let encodedColumns = Set(try UserEpisode().databaseDictionary.keys)
@@ -209,7 +209,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         let original = createFullyPopulatedUserEpisode()
         dataManager.save(episode: original)
 
-        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+        let decoded = try dataManager.dbQueue.dbPool.read { db in
             try UserEpisode.filter(UserEpisode.Columns.uuid == original.uuid).fetchOne(db)
         }
 
