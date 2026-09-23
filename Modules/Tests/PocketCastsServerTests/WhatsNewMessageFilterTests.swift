@@ -129,6 +129,37 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         XCTAssertTrue(filter.includes(try researchMessage(), at: now))
     }
 
+    // MARK: - Install date
+
+    /// Announcements and polls from before the install were news to whoever had the app back then.
+    func testAnnouncementsAndPollsPublishedBeforeTheInstallAreHidden() throws {
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true, installDate: now)
+
+        XCTAssertFalse(filter.includes(try message(type: "announcement"), at: now))
+        XCTAssertFalse(filter.includes(try researchMessage(), at: now))
+    }
+
+    func testNewFeaturesTipsAndKnownIssuesPublishedBeforeTheInstallAreShown() throws {
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true, installDate: now)
+
+        for type in ["new_feature", "tip", "known_issue"] {
+            XCTAssertTrue(filter.includes(try message(type: type), at: now), "A \(type) is as useful to a new user as to anyone")
+        }
+    }
+
+    func testAnnouncementsAndPollsPublishedAfterTheInstallAreShown() throws {
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true, installDate: now.addingTimeInterval(-2.days))
+
+        XCTAssertTrue(filter.includes(try message(type: "announcement"), at: now))
+        XCTAssertTrue(filter.includes(try researchMessage(), at: now))
+    }
+
+    /// An install updated from an earlier version has no install date, and its user was there for
+    /// everything the feed has.
+    func testAnnouncementsAreShownWhenTheInstallDateIsUnknown() throws {
+        XCTAssertTrue(filter.includes(try message(type: "announcement"), at: now))
+    }
+
     // MARK: - Helpers
 
     private func researchMessage() throws -> WhatsNewMessage {
@@ -153,14 +184,15 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         return try WhatsNewCatalog.decoder.decode(WhatsNewMessage.self, from: Data(json.utf8))
     }
 
-    private func message(targeting: String = "{}",
+    private func message(type: String = "tip",
+                         targeting: String = "{}",
                          publishedAt: Date? = nil,
                          expiresAt: Date? = nil) throws -> WhatsNewMessage {
         let expires = expiresAt.map { #", "expiresAt": "\#(iso8601(from: $0))""# } ?? ""
         let json = """
         {
           "id": "01K2Y08DAWG9N7XJZX5QTH9Z0K",
-          "type": "tip",
+          "type": "\(type)",
           "publishedAt": "\(iso8601(from: publishedAt ?? now.addingTimeInterval(-1.day)))"\(expires),
           "targeting": \(targeting),
           "title": "Sort your Up Next",

@@ -145,10 +145,11 @@ public final class WhatsNewManager: ObservableObject {
     /// Forgets every message read, seen or listed and every poll answered, bringing back each
     /// indicator and reopening each poll.
     ///
-    /// Local only: signed in, the next sync takes the account's read messages back on.
+    /// The messages in the catalog stay unseen rather than being caught up on again, so the dots come
+    /// back for them. Local only: signed in, the next sync takes the account's read messages back on.
     public func resetReadState() {
         hasLoadedReadState = true
-        readState = WhatsNewReadState()
+        readState = WhatsNewReadState(isCaughtUp: true)
         readStateStore.save(readState)
     }
 
@@ -201,19 +202,33 @@ public final class WhatsNewManager: ObservableObject {
         #endif
 
         if catalog == nil, let cached = await cachedCatalog() {
-            catalog = cached
+            publish(cached)
         }
 
         let isStale = DateUtil.hasEnoughTimePassed(since: await cachedCatalogDate(), time: refreshInterval)
         if catalog == nil || isStale || isRefreshForced {
             do {
-                catalog = try await task.refresh()
+                publish(try await task.refresh())
             } catch {
                 FileLog.shared.addMessage("What's New: failed to refresh the catalog: \(error.localizedDescription)")
             }
         }
 
         syncReadState()
+    }
+
+    /// Makes the catalog the one the app works from, catching up on its messages first if it's the
+    /// first to reach this device, so the dots never count them even for a moment.
+    private func publish(_ catalog: WhatsNewCatalog) {
+        if !readState.isCaughtUp {
+            let messageIDs = catalog.messages.map(\.id)
+            updateReadState {
+                $0.seenMessageIDs.formUnion(messageIDs)
+                $0.listedMessageIDs.formUnion(messageIDs)
+                $0.isCaughtUp = true
+            }
+        }
+        self.catalog = catalog
     }
 
     /// Reconciles the read state with the account: what this device has read that the account

@@ -152,7 +152,7 @@ final class WhatsNewManagerTests: XCTestCase {
     /// The file on disk is what the feed works from, so everything marked in one session has to be
     /// there in the next one, account or no account.
     func testReadStateOutlivesTheManager() async {
-        let store = temporaryReadStateStore()
+        let store = caughtUpReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
         await manager.refreshIfNeeded().value
 
@@ -167,7 +167,8 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(relaunched.readState, WhatsNewReadState(readMessageIDs: [messageID],
                                                                seenMessageIDs: [messageID, otherMessageID],
                                                                listedMessageIDs: [messageID],
-                                                               respondedPollIDs: [pollID]))
+                                                               respondedPollIDs: [pollID],
+                                                               isCaughtUp: true))
     }
 
     /// The saved state predates whatever gets added to it next, and failing to read it would start the
@@ -219,14 +220,15 @@ final class WhatsNewManagerTests: XCTestCase {
     /// The Profile tab points the user at the feed, so once the feed has listed a message the tab has
     /// nothing left to point at.
     func testListingMessagesMarksThemSeen() async {
-        let manager = manager(cache: temporaryCache())
+        let manager = manager(cache: temporaryCache(), readStateStore: caughtUpReadStateStore())
         await manager.refreshIfNeeded().value
 
         manager.markAsListed([messageID])
 
-        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
+        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID], isCaughtUp: true))
     }
 
+    /// Resetting brings the dots back, so the messages already in the catalog aren't caught up on again.
     func testResettingForgetsEverythingReadSeenListedOrAnswered() async {
         let store = temporaryReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
@@ -238,8 +240,74 @@ final class WhatsNewManagerTests: XCTestCase {
 
         manager.resetReadState()
 
-        XCTAssertEqual(manager.readState, WhatsNewReadState())
-        XCTAssertEqual(store.load(), WhatsNewReadState())
+        XCTAssertEqual(manager.readState, WhatsNewReadState(isCaughtUp: true))
+        XCTAssertEqual(store.load(), WhatsNewReadState(isCaughtUp: true))
+
+        await manager.refresh().value
+
+        XCTAssertTrue(manager.readState.isUnseen(messageID))
+    }
+
+    // MARK: - Catching up
+
+    /// A new user, or one updating to the first version with the feed, finds everything in it unread,
+    /// but none of it is news, so neither dot points them at it.
+    func testTheMessagesInTheFirstCatalogAreUnreadButDoNotLightTheDots() async {
+        let store = temporaryReadStateStore()
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+
+        await manager.refreshIfNeeded().value
+
+        let expected = WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID], isCaughtUp: true)
+        XCTAssertEqual(manager.readState, expected)
+        XCTAssertEqual(store.load(), expected)
+        XCTAssertFalse(manager.readState.isRead(messageID))
+    }
+
+    func testTheDotsAreCaughtUpBeforeTheFirstCatalogIsPublished() async {
+        let manager = manager(cache: temporaryCache())
+        var readStateWhenPublished: WhatsNewReadState?
+        let cancellable = manager.$catalog
+            .compactMap { $0 }
+            .sink { _ in readStateWhenPublished = manager.readState }
+
+        await manager.refreshIfNeeded().value
+        cancellable.cancel()
+
+        XCTAssertEqual(readStateWhenPublished?.isUnseen(messageID), false)
+    }
+
+    func testAMessagePublishedAfterTheFirstCatalogLightsTheDots() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+
+        let json = json.replacingOccurrences(of: messageID, with: otherMessageID)
+        StubURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+        await manager.refresh().value
+
+        XCTAssertTrue(manager.readState.isUnseen(otherMessageID))
+        XCTAssertTrue(manager.readState.isUnlisted(otherMessageID))
+    }
+
+    /// Without a catalog there's nothing to catch up on, and the first one to arrive is still the one
+    /// the user found waiting.
+    func testCatchesUpOnTheFirstCatalogToArriveAfterAFailedFetch() async {
+        let manager = manager(cache: temporaryCache())
+        StubURLProtocol.requestHandler = { _ in throw URLError(.notConnectedToInternet) }
+        await manager.refreshIfNeeded().value
+        XCTAssertFalse(manager.readState.isCaughtUp)
+
+        StubURLProtocol.requestHandler = { [json] request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+        await manager.refreshIfNeeded().value
+
+        XCTAssertTrue(manager.readState.isCaughtUp)
+        XCTAssertFalse(manager.readState.isUnseen(messageID))
     }
 
     // MARK: - Read state sync
@@ -313,7 +381,7 @@ final class WhatsNewManagerTests: XCTestCase {
     /// What one user read isn't the next user's, so signing out drops it before another account can
     /// be signed into. The dots belong to the device and keep what they've pointed at.
     func testSigningOutForgetsWhatWasReadButNotWhatTheDotsPointedAt() async {
-        let store = temporaryReadStateStore()
+        let store = caughtUpReadStateStore()
         let manager = manager(cache: temporaryCache(), readStateStore: store)
         await manager.refreshIfNeeded().value
         manager.markAsRead([messageID])
@@ -321,7 +389,7 @@ final class WhatsNewManagerTests: XCTestCase {
 
         await manager.forgetReadMessages().value
 
-        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID]))
+        XCTAssertEqual(manager.readState, WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID], isCaughtUp: true))
         XCTAssertEqual(store.load().readMessageIDs, [])
     }
 
@@ -419,6 +487,13 @@ final class WhatsNewManagerTests: XCTestCase {
 
     private func temporaryReadStateStore() -> WhatsNewReadStateStore {
         WhatsNewReadStateStore(directory: temporaryDirectory())
+    }
+
+    /// A store that has already caught up on an earlier catalog, so the one fetched in the test is news.
+    private func caughtUpReadStateStore() -> WhatsNewReadStateStore {
+        let store = temporaryReadStateStore()
+        store.save(WhatsNewReadState(isCaughtUp: true))
+        return store
     }
 
     private func temporaryDirectory() -> URL {

@@ -217,6 +217,18 @@ public class ServerSettings {
         }
     }
 
+    // MARK: App Install Date
+
+    /// Records when the app was installed, which is only known on the first launch of a fresh install.
+    public class func setAppInstallDate(_ value: Date) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.appInstallDateKey)
+    }
+
+    /// When the app was installed, or `nil` for an install updated from a version that didn't record it.
+    public class func appInstallDate() -> Date? {
+        UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.appInstallDateKey) as? Date
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"

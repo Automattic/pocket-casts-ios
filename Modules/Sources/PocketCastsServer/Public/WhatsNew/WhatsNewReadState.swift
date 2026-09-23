@@ -20,14 +20,24 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// Research polls the user answered, which stay closed from then on.
     public var respondedPollIDs: Set<String>
 
+    /// Whether the messages that were already in the catalog when it first reached this device have
+    /// been marked seen and listed.
+    ///
+    /// The feed opens with those unread, but they aren't news, so they don't light up either dot, for
+    /// a new user or for one updating to the first version with the feed. The dots are for what
+    /// arrives after.
+    public var isCaughtUp: Bool
+
     public init(readMessageIDs: Set<String> = [],
                 seenMessageIDs: Set<String> = [],
                 listedMessageIDs: Set<String> = [],
-                respondedPollIDs: Set<String> = []) {
+                respondedPollIDs: Set<String> = [],
+                isCaughtUp: Bool = false) {
         self.readMessageIDs = readMessageIDs
         self.seenMessageIDs = seenMessageIDs
         self.listedMessageIDs = listedMessageIDs
         self.respondedPollIDs = respondedPollIDs
+        self.isCaughtUp = isCaughtUp
     }
 
     public init(from decoder: any Decoder) throws {
@@ -36,6 +46,7 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         seenMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .seenMessageIDs) ?? []
         listedMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .listedMessageIDs) ?? []
         respondedPollIDs = try container.decodeIfPresent(Set<String>.self, forKey: .respondedPollIDs) ?? []
+        isCaughtUp = try container.decodeIfPresent(Bool.self, forKey: .isCaughtUp) ?? false
     }
 
     public func isRead(_ messageID: String) -> Bool {
@@ -56,7 +67,8 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         WhatsNewReadState(readMessageIDs: readMessageIDs.union(other.readMessageIDs),
                           seenMessageIDs: seenMessageIDs.union(other.seenMessageIDs),
                           listedMessageIDs: listedMessageIDs.union(other.listedMessageIDs),
-                          respondedPollIDs: respondedPollIDs.union(other.respondedPollIDs))
+                          respondedPollIDs: respondedPollIDs.union(other.respondedPollIDs),
+                          isCaughtUp: isCaughtUp || other.isCaughtUp)
     }
 }
 
