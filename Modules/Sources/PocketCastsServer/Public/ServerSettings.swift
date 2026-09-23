@@ -220,7 +220,7 @@ public class ServerSettings {
     // MARK: App Install Date
 
     /// Records when the app was installed, which is only known on the first launch of a fresh install.
-    public class func setAppInstallDate(_ value: Date) {
+    public class func setAppInstallDate(_ value: Date?) {
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.appInstallDateKey)
     }
 

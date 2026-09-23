@@ -448,6 +448,14 @@ struct DeveloperMenu: View {
                 Button("Reset Read State (Local Only)") {
                     WhatsNewManager.shared.resetReadState()
                 }
+                Button("Reset to First Run (New Install)") {
+                    ServerSettings.setAppInstallDate(Date())
+                    WhatsNewManager.shared.resetToFirstRun()
+                }
+                Button("Reset to First Run (Update)") {
+                    ServerSettings.setAppInstallDate(nil)
+                    WhatsNewManager.shared.resetToFirstRun()
+                }
             } header: {
                 Text("What's New Feed")
             }

@@ -250,6 +250,20 @@ final class WhatsNewManagerTests: XCTestCase {
 
     // MARK: - Catching up
 
+    /// Resetting to the first run catches up on the catalog again, so the dots stay off for it.
+    func testResettingToTheFirstRunCatchesUpOnTheCatalogAgain() async {
+        let store = caughtUpReadStateStore()
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+        await manager.refreshIfNeeded().value
+        manager.markAsRead([messageID])
+
+        await manager.resetToFirstRun().value
+
+        let expected = WhatsNewReadState(seenMessageIDs: [messageID], listedMessageIDs: [messageID], isCaughtUp: true)
+        XCTAssertEqual(manager.readState, expected)
+        XCTAssertEqual(store.load(), expected)
+    }
+
     /// A new user, or one updating to the first version with the feed, finds everything in it unread,
     /// but none of it is news, so neither dot points them at it.
     func testTheMessagesInTheFirstCatalogAreUnreadButDoNotLightTheDots() async {

@@ -156,6 +156,17 @@ public final class WhatsNewManager: ObservableObject {
         readStateStore.save(readState)
     }
 
+    /// Forgets everything `resetReadState()` does and catches up on the catalog again, as on the
+    /// first run, so the dots stay off for the messages already in it.
+    @discardableResult
+    public func resetToFirstRun() -> Task<Void, Never> {
+        hasLoadedReadState = true
+        readState = WhatsNewReadState()
+        readStateStore.save(readState)
+        catalog = nil
+        return refresh()
+    }
+
     /// Tells the account what this device has read and takes on what the user read elsewhere.
     ///
     /// Overlapping calls share one run, and anything read while that run is in flight starts another
