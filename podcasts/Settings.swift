@@ -183,7 +183,9 @@ class Settings: NSObject {
         get {
             if let action = cachedPrimaryRowAction { return action }
             let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-            return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+            let action = PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+            cachedPrimaryRowAction = action
+            return action
         }
         set(action) {
             UserDefaults.standard.set(
