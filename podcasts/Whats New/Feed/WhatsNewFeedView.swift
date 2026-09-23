@@ -130,15 +130,21 @@ private struct WhatsNewFeedRow: View {
 
 /// The icon the message's type picks, which the client owns: authors choose a type, not a thumbnail.
 private struct WhatsNewFeedIconView: View {
+    @EnvironmentObject private var theme: Theme
+    @ScaledMetric(relativeTo: .largeTitle) private var glyphSize: CGFloat = 24
+
     let type: WhatsNewMessageType
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: type.iconGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+            type.iconGradient(theme: theme)
 
-            Image(systemName: type.iconSymbolName)
-                .font(.system(size: 22, weight: .semibold))
+            type.icon
+                .resizable()
+                .scaledToFit()
+                .frame(width: glyphSize, height: glyphSize)
                 .foregroundStyle(.white)
+                .opacity(0.8)
         }
         .clipShape(RoundedRectangle(cornerRadius: 4))
     }
