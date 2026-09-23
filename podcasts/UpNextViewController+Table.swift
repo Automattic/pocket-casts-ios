@@ -138,7 +138,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
             guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
-            let playOnTap = Settings.playUpNextOnTap()
+            let playOnTap = Settings.playUpNextOnTap
 
             track(.upNextQueueEpisodeTapped, properties: ["will_play": playOnTap])
 
@@ -296,7 +296,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         if sender.state == .began {
             if isMultiSelectEnabled {
                 showLongPressSelectOptions(indexPath: indexPath)
-            } else if !Settings.playUpNextOnTap() {
+            } else if !Settings.playUpNextOnTap {
                 AnalyticsPlaybackHelper.shared.currentSource = .upNext
                 PlaybackActionHelper.play(episode: episode)
                 track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])
