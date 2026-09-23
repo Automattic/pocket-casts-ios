@@ -8,7 +8,7 @@ struct WhatsNewMessageView: View {
 
     var body: some View {
         content
-            .background(theme.primaryUi01.ignoresSafeArea())
+            .background(theme.primaryUi02.ignoresSafeArea())
     }
 
     @ViewBuilder
@@ -103,7 +103,7 @@ private struct WhatsNewMessagePageView: View {
                 .padding(.horizontal, horizontalPadding)
                 .padding(.top, 16)
                 .padding(.bottom, 8)
-                .background(theme.primaryUi01)
+                .background(theme.primaryUi02)
         }
     }
 }

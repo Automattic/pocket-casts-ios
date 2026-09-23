@@ -14,7 +14,7 @@ class WhatsNewMessageViewController: PCHostingController<WhatsNewMessageView> {
         let viewModel = WhatsNewMessageViewModel(message: message, hasResponded: hasResponded)
         viewModel.onRespond = onRespond
         self.viewModel = viewModel
-        super.init(rootView: WhatsNewMessageView(viewModel: viewModel), background: \.primaryUi01)
+        super.init(rootView: WhatsNewMessageView(viewModel: viewModel), background: \.primaryUi02)
     }
 
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {
