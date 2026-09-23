@@ -310,7 +310,7 @@ class ImageManager {
 
         let userEpisode = DataManager.shared.findUserEpisode(uuid: uuid)
         let imageSize = size == .page ? 960 : 280
-        let url = userEpisode?.urlForImage(size: imageSize) ?? ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: 1, size: imageSize)
+        let url = userEpisode?.urlForImage(size: imageSize) ?? ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme, color: 1, size: imageSize)
         if url.isFileURL {
             let provider = LocalFileImageDataProvider(fileURL: url)
             imageView.kf.setImage(with: provider, placeholder: placeHolderImage(size), options: [.targetCache(userEpisodeCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], completionHandler: { result in
@@ -336,7 +336,7 @@ class ImageManager {
     func imageForUserEpisodeColor(color: Int, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
         let imageSize = size == .page ? 960 : 280
-        let url = ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: color, size: imageSize)
+        let url = ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme, color: color, size: imageSize)
 
         imageView.backgroundColor = AppTheme.userEpisodeColor(number: color)
         imageView.kf.setImage(with: url, placeholder: nil, options: [.targetCache(userEpisodeCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], completionHandler: { result in
@@ -521,7 +521,7 @@ class ImageManager {
     private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
 
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
-        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
+        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme)
         if let cached = placeholderImageCache[key] {
             return cached
         }

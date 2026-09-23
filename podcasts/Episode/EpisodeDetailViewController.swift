@@ -485,7 +485,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         showNotesWebView.backgroundColor = bgColor
         view.backgroundColor = bgColor
 
-        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme()) ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme) ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
         podcastName.textColor = ThemeColor.podcastText02(podcastColor: podcastColor, for: themeOverride)
         episodeChevron.tintColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)
         progressView.backgroundColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)
