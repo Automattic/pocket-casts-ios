@@ -120,6 +120,17 @@ final class WhatsNewFeedViewModel: ObservableObject {
         markAsRead(items.map(\.id))
     }
 
+    /// Flips a row between read and unread, for the action its context menu offers.
+    func toggleRead(_ item: WhatsNewFeedItem) {
+        guard item.isUnread else {
+            readMessageIDs.remove(item.id)
+            manager?.markAsUnread([item.id])
+            updateItems()
+            return
+        }
+        markAsRead([item.id])
+    }
+
     /// Whether the poll the message asks, if it asks one, has already been answered.
     ///
     /// Answers are kept with the read state, so a poll doesn't offer itself again however many times

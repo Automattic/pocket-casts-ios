@@ -52,6 +52,17 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.items.first?.isUnread, false)
     }
 
+    func testTheContextMenuFlipsARowBothWays() throws {
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+        let item = try XCTUnwrap(viewModel.items.first)
+
+        viewModel.toggleRead(item)
+        XCTAssertEqual(viewModel.items.first?.isUnread, false)
+
+        viewModel.toggleRead(try XCTUnwrap(viewModel.items.first))
+        XCTAssertEqual(viewModel.items.first?.isUnread, true)
+    }
+
     func testReadMessagesStartRead() {
         let viewModel = WhatsNewFeedViewModel(messages: messages, readMessageIDs: Set(messages.map(\.id)), targeting: targeting)
 

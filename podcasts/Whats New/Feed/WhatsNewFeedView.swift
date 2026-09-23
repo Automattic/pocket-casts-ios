@@ -17,6 +17,16 @@ struct WhatsNewFeedView: View {
                         WhatsNewFeedRow(item: item)
                     }
                     .buttonStyle(WhatsNewFeedRowButtonStyle())
+                    #if DEBUG
+                    .contextMenu {
+                        Button {
+                            viewModel.toggleRead(item)
+                        } label: {
+                            Label(item.isUnread ? "Mark as Read" : "Mark as Unread",
+                                  systemImage: item.isUnread ? "envelope.open" : "envelope.badge")
+                        }
+                    }
+                    #endif
 
                     if item.id != viewModel.items.last?.id {
                         Rectangle()
