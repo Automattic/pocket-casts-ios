@@ -11,7 +11,7 @@ class PlaybackActionHelper {
         AutoplayHelper.shared.playedFrom(playlist: playlist)
 
         #if !os(tvOS)
-        if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+        if GoogleCastManager.shared.connectedOrConnectingToDevice() {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             return
         }

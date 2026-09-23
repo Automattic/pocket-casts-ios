@@ -1118,7 +1118,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         #elseif !os(watchOS) && !os(tvOS)
             if let episode = currentEpisode {
-                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+                return !episode.videoPodcast() && !EpisodeManager.willPlayViaHLS(episode) && !GoogleCastManager.shared.connectedOrConnectingToDevice()
             }
         #endif
 
@@ -1139,7 +1139,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #elseif os(watchOS)
             return false
         #else
-            return !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+            return !GoogleCastManager.shared.connectedOrConnectingToDevice()
         #endif
     }
 
@@ -1545,7 +1545,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return [fallbackToPlayer]
             }
 
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+            if GoogleCastManager.shared.connectedOrConnectingToDevice() {
                 possiblePlayers.append(GoogleCastPlayer.self)
 
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
@@ -1607,7 +1607,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+            if GoogleCastManager.shared.connectedOrConnectingToDevice() {
                 completeOnMain(true)
                 return
             }
@@ -1877,7 +1877,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
-            let connectedToExternalDevice = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+            let connectedToExternalDevice = GoogleCastManager.shared.connectedOrConnectingToDevice()
         #endif
 
         // When Google Casting in the background, control over the casting device is not available, so remove the controls
@@ -2288,7 +2288,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc private func handleRouteChanged(_ notification: Notification) {
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
+            if GoogleCastManager.shared.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
         guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
@@ -2334,7 +2334,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc private func handleAudioInterruption(_ notification: Notification) {
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
+            if GoogleCastManager.shared.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
         guard let userInfo = notification.userInfo else { return }
@@ -2379,7 +2379,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     @objc private func handleSystemAudioReset(_ notification: Notification) {
         #if !os(watchOS) && !APPCLIP && !os(tvOS)
-            if GoogleCastManager.sharedManager.connected() { return } // while google casting we don't care about system audio events
+            if GoogleCastManager.shared.connected() { return } // while google casting we don't care about system audio events
         #endif
 
         if currentEpisode != nil {
@@ -2424,7 +2424,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             // if we get here then we're either not playing anything, or we're meant to be playing this episode anyway, so connect back up with it
             if let episodePlaying = DataManager.shared.findBaseEpisode(uuid: episodeUuid) {
-                let shouldPlay = GoogleCastManager.sharedManager.playing()
+                let shouldPlay = GoogleCastManager.shared.playing()
                 load(episode: episodePlaying, autoPlay: shouldPlay, overrideUpNext: false)
             }
         #endif

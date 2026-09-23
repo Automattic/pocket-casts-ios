@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
         }
 
-        GoogleCastManager.sharedManager.setup()
+        GoogleCastManager.shared.setup()
 
         setupRoutes()
         PocketCastsAppShortcutsProvider.updateAppShortcutParameters()
@@ -203,7 +203,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        GoogleCastManager.sharedManager.teardown()
+        GoogleCastManager.shared.teardown()
         RefreshManager.shared.cancelAllRefreshes()
 
         badgeHelper.teardown()
