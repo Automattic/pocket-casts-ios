@@ -124,7 +124,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistsDefaultNewPlaylist
@@ -141,7 +141,7 @@ class NewPlaylistViewController: PCViewController {
 
     private func configureLegacyOpaqueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.viewBackgroundColor()
+        appearance.backgroundColor = AppTheme.viewBackgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
@@ -155,7 +155,7 @@ class NewPlaylistViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         textFieldBorderView = ThemeableSelectionView()
         view.addSubview(textFieldBorderView)

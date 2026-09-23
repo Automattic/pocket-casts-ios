@@ -197,7 +197,7 @@ private extension SearchResultCell {
                     Image("list_played", bundle: nil)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                        .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor.color)
                         .frame(width: 48, height: 48)
                 } else if !showEpisodeAddButton {
                     ZStack {

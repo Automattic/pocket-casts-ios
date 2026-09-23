@@ -28,7 +28,7 @@ struct SearchResultsView: View {
             } else if searchResults.isSearchingForPodcasts || (searchResults.isSearchingPredictive && searchResults.predictive.isEmpty) {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .tint(AppTheme.loadingActivityColor().color)
+                    .tint(AppTheme.loadingActivityColor.color)
             } else if searchResults.noResults {
                 if searchResults.isShowingPredictiveSearch {
                     VStack {

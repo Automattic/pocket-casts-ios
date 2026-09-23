@@ -16,7 +16,7 @@ class PlaylistPreviewViewController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
     private var saveButton: UIButton! {
@@ -132,7 +132,7 @@ class PlaylistPreviewViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         let list = SmartPlaylistRulesView(
             viewModel: viewModel

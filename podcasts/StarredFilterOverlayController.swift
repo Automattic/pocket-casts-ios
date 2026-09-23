@@ -27,7 +27,7 @@ class StarredFilterOverlayController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
     private var saveButton: UIButton! {
@@ -50,7 +50,7 @@ class StarredFilterOverlayController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         setupViewModel()
         setupNavBar()
@@ -63,7 +63,7 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)

@@ -4,17 +4,17 @@ import PocketCastsDataModel
 import UIKit
 
 struct EpisodeTableHelper {
-    static func loadEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?) -> [ListEpisode] {
+    static func loadEpisodes(tintColor: UIColor = AppTheme.appTintColor, query: String, arguments: [Any]?) -> [ListEpisode] {
         let loadedEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: arguments)
         return loadedEpisodes.map { ListEpisode(episode: $0, tintColor: tintColor) }
     }
 
-    static func loadPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]? = nil) -> [ListEpisode] {
+    static func loadPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor, query: String, arguments: [Any]? = nil) -> [ListEpisode] {
         let loadedEpisodes = DataManager.shared.findPlaylistEpisodesWhere(query: query, arguments: arguments)
         return loadedEpisodes.map { ListEpisode(episode: $0, tintColor: tintColor) }
     }
 
-    static func loadSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
+    static func loadSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor, query: String, arguments: [Any]?, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
         let loadedEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: arguments)
 
         var previousSectionName = ""
@@ -39,7 +39,7 @@ struct EpisodeTableHelper {
         return newData
     }
 
-    static func loadSortedSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?, sectionComparator: (String, String) -> Bool, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListItem>] {
+    static func loadSortedSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor, query: String, arguments: [Any]?, sectionComparator: (String, String) -> Bool, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListItem>] {
         let loadedEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: arguments)
 
         var sections = [String: [ListEpisode]]()
@@ -66,7 +66,7 @@ struct EpisodeTableHelper {
         return [newData]
     }
 
-    static func searchSectionedEpisodes(for search: String, listenedTo: Bool, tintColor: UIColor = AppTheme.appTintColor(), episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
+    static func searchSectionedEpisodes(for search: String, listenedTo: Bool, tintColor: UIColor = AppTheme.appTintColor, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
         let escapedSearch = search.escapeLike(escapeChar: "\\")
         let loadedEpisodes = DataManager.shared.findEpisodesAndPodcastsWhere(customWhere: escapedSearch, listenedTo: listenedTo)
 

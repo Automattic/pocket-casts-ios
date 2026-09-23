@@ -40,7 +40,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     @IBOutlet var descriptionPlaceholder: UILabel! {
         didSet {
-            descriptionPlaceholder.textColor = AppTheme.placeholderTextColor()
+            descriptionPlaceholder.textColor = AppTheme.placeholderTextColor
             descriptionPlaceholder.text = L10n.podcastShareListDescription
         }
     }

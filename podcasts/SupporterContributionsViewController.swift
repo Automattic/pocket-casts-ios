@@ -49,7 +49,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
 
         guard let bundleUuid = bundleSubscriptions?[indexPath.row].bundleUuid, let bundle = bundleInfo[bundleUuid] else {
             cell.isLoading = true
-            cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+            cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
             return cell
         }
@@ -57,7 +57,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         if bundle.podcasts?.count == 1 {
             guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, !subscription.uuid.isEmpty else {
                 cell.isLoading = true
-                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
                 return cell
             }
@@ -67,7 +67,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
 
             guard let podcast = podcasts[uuid] else {
                 cell.isLoading = true
-                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
                 return cell
             }
