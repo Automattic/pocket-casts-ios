@@ -4,8 +4,9 @@ import PocketCastsUtils
 /// Decides which of the catalog's messages a user is meant to see.
 ///
 /// The CDN publishes one catalog per platform and locale, so every remaining rule — who a message
-/// is for, which builds can render it, and when it's live — travels on the message itself. Anything
-/// reading the feed has to apply the same rules, whether it's drawing the list or only deriving the
+/// is for, which builds can render it, and when it's live — travels on the message itself, apart
+/// from the kinds of message this build is configured not to show, like polls. Anything reading the
+/// feed has to apply the same rules, whether it's drawing the list or only deriving the
 /// unread dot, or a message could be counted unread on the Profile row and then be nowhere to be
 /// found in the feed it sends the user to.
 public struct WhatsNewMessageFilter {
@@ -31,7 +32,7 @@ public struct WhatsNewMessageFilter {
         return WhatsNewMessageFilter(audience: .current, appVersion: Version(appVersion))
     }
 
-    /// Whether the message clears every rule it carries.
+    /// Whether the message clears every rule it carries and is a kind this build shows.
     public func includes(_ message: WhatsNewMessage, at date: Date = Date()) -> Bool {
         (includesPolls || message.type != .research)
             && message.targeting.targets(audience)
