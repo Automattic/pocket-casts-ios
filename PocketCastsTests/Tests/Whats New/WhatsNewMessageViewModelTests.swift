@@ -33,25 +33,13 @@ final class WhatsNewMessageViewModelTests: XCTestCase {
         XCTAssertEqual(page.description, "Search a transcript and follow the conversation.")
     }
 
-    func testAnActionIsResolvedToTheBehaviourItNames() throws {
+    func testAPageKeepsItsAction() throws {
         let viewModel = WhatsNewMessageViewModel(message: try message(pages: """
-        [\(page(heading: "Try transcripts", action: #"{ "event": "open_podcasts", "label": "Try transcripts" }"#))]
+        [\(page(heading: "Try playlists", action: #"{ "type": "create_playlist", "label": "Create a playlist" }"#))]
         """))
 
-        XCTAssertEqual(viewModel.pages.first?.action?.label, "Try transcripts")
-        XCTAssertEqual(viewModel.pages.first?.action?.event, .openPodcasts)
-    }
-
-    /// A button for an event this build doesn't implement would go nowhere, so the page keeps its
-    /// content and loses only the button.
-    func testAnActionNamingAnEventThisBuildDoesNotImplementIsDropped() throws {
-        let viewModel = WhatsNewMessageViewModel(message: try message(pages: """
-        [\(page(heading: "Read along", action: #"{ "event": "open_something_from_a_later_release", "label": "Open it" }"#))]
-        """))
-
-        XCTAssertEqual(viewModel.pages.count, 1)
-        XCTAssertEqual(viewModel.pages.first?.heading, "Read along")
-        XCTAssertNil(viewModel.pages.first?.action)
+        XCTAssertEqual(viewModel.pages.first?.action?.label, "Create a playlist")
+        XCTAssertEqual(viewModel.pages.first?.action?.kind, .createPlaylist)
     }
 
     // MARK: - Research

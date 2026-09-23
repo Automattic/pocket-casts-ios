@@ -113,24 +113,57 @@ public struct WhatsNewImage: Decodable, Hashable {
     }
 }
 
-/// A page's call to action, which names a behaviour rather than pointing anywhere.
+/// A page's call to action: one of a closed set of behaviours, and the label its button shows.
 ///
-/// The catalog is public, declarative content rather than a format the app executes, so an action
-/// carries an event name every client maps to behaviour of its own. An event this version doesn't
-/// implement costs the page its button and nothing else.
+/// The type and its arguments are the same in every locale; only the label is translated. A type
+/// this version doesn't know, or arguments that don't satisfy it, fail to decode, which drops the
+/// whole message rather than leaving a page with a button that does nothing.
 public struct WhatsNewAction: Decodable, Hashable {
-    public let event: String
+    public let kind: Kind
     public let label: String
+
+    public enum Kind: Hashable {
+        case createPlaylist
+
+        /// Opens an absolute HTTPS URL, which can be anywhere on the web.
+        case openLink(URL)
+
+        /// The name the catalog publishes the action under, such as `open_link`.
+        public var type: String {
+            switch self {
+            case .createPlaylist: "create_playlist"
+            case .openLink: "open_link"
+            }
+        }
+    }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        event = try container.decodeNonEmptyString(forKey: .event)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+        case "create_playlist":
+            kind = .createPlaylist
+        case "open_link":
+            let arguments = try container.nestedContainer(keyedBy: ArgumentsCodingKeys.self, forKey: .arguments)
+            let string = try arguments.decode(String.self, forKey: .url)
+            guard let url = URL(string: string), url.scheme?.lowercased() == "https", url.host?.isEmpty == false else {
+                throw DecodingError.dataCorruptedError(forKey: .url, in: arguments, debugDescription: "Not an absolute HTTPS URL: \(string)")
+            }
+            kind = .openLink(url)
+        default:
+            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
+        }
         label = try container.decodeNonEmptyString(forKey: .label)
     }
 
     private enum CodingKeys: String, CodingKey {
-        case event
+        case type
+        case arguments
         case label
+    }
+
+    private enum ArgumentsCodingKeys: String, CodingKey {
+        case url
     }
 }
 

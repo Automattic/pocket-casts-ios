@@ -1,11 +1,12 @@
 import Foundation
 
+#if DEBUG
 public extension WhatsNewCatalog {
     /// A catalog shaped like the published contract, for previews and manual testing.
     ///
     /// The messages are published relative to now rather than on fixed dates, so the feed keeps
     /// rendering the same spread of relative dates however long after this was written it's read.
-    static let mock = mock(publishedDaysAgo: [0, 8, 27, 36, 62, 90, 118])
+    static let mock = mock(publishedDaysAgo: [0, 8, 27, 36, 62, 90, 118, 150])
 
     /// A catalog whose messages were published the given number of days ago, most recent first.
     ///
@@ -40,8 +41,9 @@ public extension WhatsNewCatalog {
     /// The messages the mock catalog is built from, each missing the `$publishedAt` the catalog fills in.
     ///
     /// Between them they cover every message type, a single page and a pager, a page whose text is
-    /// longer than the screen, a page whose action names an event no client implements, and the
-    /// poll a research message is built around.
+    /// longer than the screen, pages with and without an action, every action type, and the poll a
+    /// research message is built around. The last message's action has a type no client
+    /// implements, so it's dropped from the catalog and never shows.
     ///
     /// The images point at artwork that's actually there, so previews render something rather than
     /// a hole the size of the image.
@@ -62,8 +64,7 @@ public extension WhatsNewCatalog {
                 "alt": "The sort menu open in Up Next"
               },
               "heading": "Put the queue in the order you want",
-              "description": "Drag an episode by its handle to move it, or sort the whole queue by release date, duration, or the order you added them.",
-              "action": { "event": "open_up_next", "label": "Open Up Next" }
+              "description": "Drag an episode by its handle to move it, or sort the whole queue by release date, duration, or the order you added them."
             }
           ]
         }
@@ -95,7 +96,7 @@ public extension WhatsNewCatalog {
               },
               "heading": "Start with the one you have",
               "description": "Every filter you made is already a playlist, with the same rules and the same episodes in it.",
-              "action": { "event": "open_playlists", "label": "Try Playlists" }
+              "action": { "type": "create_playlist", "label": "Create a playlist" }
             }
           ]
         }
@@ -138,7 +139,7 @@ public extension WhatsNewCatalog {
               },
               "heading": "A small number of ads, from today",
               "description": "We're adding a small number of ads to the free app so we can keep building Pocket Casts for everyone. Plus and Patron stay ad free.",
-              "action": { "event": "open_upsell", "label": "See what Plus includes" }
+              "action": { "type": "open_link", "arguments": { "url": "https://pocketcasts.com/plus/" }, "label": "See what Plus includes" }
             }
           ]
         }
@@ -170,7 +171,7 @@ public extension WhatsNewCatalog {
               },
               "heading": "Try it in any supported episode",
               "description": "Open an episode with a transcript and choose the transcript view to get started.",
-              "action": { "event": "open_podcasts", "label": "Try transcripts" }
+              "action": { "type": "open_link", "arguments": { "url": "https://support.pocketcasts.com/" }, "label": "Learn more" }
             }
           ]
         }
@@ -192,7 +193,7 @@ public extension WhatsNewCatalog {
               },
               "heading": "We're on it",
               "description": "Some downloads stop short on a cellular connection. Swipe the episode and download it again while we work on a fix.",
-              "action": { "event": "open_downloads_from_a_later_release", "label": "Open Downloads" }
+              "action": { "type": "open_link", "arguments": { "url": "https://support.pocketcasts.com/" }, "label": "Contact support" }
             }
           ]
         }
@@ -214,10 +215,33 @@ public extension WhatsNewCatalog {
               },
               "heading": "Playback, downloads, sync, and a pile of fixes",
               "description": "Playback speed is now per podcast as well as per episode, so a show you always listen to at 1.5x stays there without you setting it again each time. Skipping forward and back keeps its place when you change episodes mid-chapter, and the sleep timer can now be extended from the lock screen.\\n\\nAutomatic downloads start as soon as an episode is released rather than waiting for the next refresh, and a download that fails is retried once on its own before it asks you to try again.\\n\\nUp Next syncs faster between devices, and a queue you reorder offline no longer loses that order when you come back online. Folders sync on their own schedule instead of waiting for a full refresh, so a folder you make on the web shows up on your phone within a minute or so.\\n\\nWe fixed the artwork that stayed blank after a podcast changed its feed, the filter that counted archived episodes, and a crash when a chapter had no title. Thanks to everyone who wrote in about these — most of them were reported by people using the app every day.",
-              "action": { "event": "open_discover", "label": "Find something new" }
+              "action": { "type": "open_link", "arguments": { "url": "https://blog.pocketcasts.com/" }, "label": "Read the full post" }
+            }
+          ]
+        }
+        """,
+        """
+        {
+          "id": "01K2Y6M4QX2F8H1NJRBTC5VWDE",
+          "type": "tip",
+          "publishedAt": "$publishedAt",
+          "targeting": { "audiences": [] },
+          "title": "Bookmark the moments you want to keep",
+          "pages": [
+            {
+              "image": {
+                "url": "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg",
+                "width": 420,
+                "height": 420,
+                "alt": "A bookmark on an episode in the player"
+              },
+              "heading": "Tap the bookmark in the player",
+              "description": "Save the moment you're listening to and come back to it from the episode later.",
+              "action": { "type": "open_bookmarks", "label": "Open Bookmarks" }
             }
           ]
         }
         """
     ]
 }
+#endif
