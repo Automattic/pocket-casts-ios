@@ -47,7 +47,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     @IBOutlet var importImage: UIImageView! {
         didSet {
-            importImage.image = Theme.isDarkTheme() ? UIImage(named: "settings_importillustration_dark") : UIImage(named: "settings_importillustration")
+            importImage.image = Theme.isDarkTheme ? UIImage(named: "settings_importillustration_dark") : UIImage(named: "settings_importillustration")
         }
     }
 

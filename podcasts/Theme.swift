@@ -128,7 +128,7 @@ class Theme: ObservableObject {
         }
     }
 
-    class func isDarkTheme() -> Bool {
+    static var isDarkTheme: Bool {
         Theme.shared.activeTheme.isDark
     }
 

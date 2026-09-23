@@ -11,7 +11,7 @@ enum AppTheme {
     }
 
     static func placeholderTextColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor(hex: "#808892") : UIColor(hex: "#C7C7CD")
+        Theme.isDarkTheme ? UIColor(hex: "#808892") : UIColor(hex: "#C7C7CD")
     }
 
     static func pcPlusGoldGradientDark() -> UIColor {
@@ -27,29 +27,29 @@ enum AppTheme {
     }
 
     static func episodeCellPlayedIndicatorColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor.white : UIColor.black
+        Theme.isDarkTheme ? UIColor.white : UIColor.black
     }
 
     // MARK: - Mini Player
 
     static func waitingForWifiColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor(hex: "#525466") : UIColor(hex: "#B8C3C9")
+        Theme.isDarkTheme ? UIColor(hex: "#525466") : UIColor(hex: "#B8C3C9")
     }
 
     // MARK: - Podcast Page
 
     static func extraContentBorderColor() -> UIColor {
-        Theme.isDarkTheme() ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#E0E6EA")
+        Theme.isDarkTheme ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#E0E6EA")
     }
 
     // MARK: - Episode Card Message
 
     static func episodeMessageBorderColor(for theme: Theme.ThemeType? = nil) -> UIColor {
-        (theme?.isDark ?? Theme.isDarkTheme()) ? UIColor(hex: "#979797") : UIColor(hex: "#DCE1E4")
+        (theme?.isDark ?? Theme.isDarkTheme) ? UIColor(hex: "#979797") : UIColor(hex: "#DCE1E4")
     }
 
     static func episodeMessageBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
-        (theme?.isDark ?? Theme.isDarkTheme()) ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#FBFBFB")
+        (theme?.isDark ?? Theme.isDarkTheme) ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#FBFBFB")
     }
 
     static func switchDarkThemeDefaultColor() -> UIColor {
@@ -61,7 +61,7 @@ enum AppTheme {
     }
 
     static func uploadProgressBackgroundColor() -> UIColor {
-        Theme.isDarkTheme() ? viewBackgroundColor() : UIColor(hex: "#F9FAF9")
+        Theme.isDarkTheme ? viewBackgroundColor() : UIColor(hex: "#F9FAF9")
     }
 
     static func userEpisodeNoArtworkColor() -> UIColor {
@@ -347,7 +347,7 @@ enum AppTheme {
     // MARK: - App Colors
 
     static func keyboardAppearance() -> UIKeyboardAppearance {
-        Theme.isDarkTheme() ? UIKeyboardAppearance.dark : UIKeyboardAppearance.light
+        Theme.isDarkTheme ? UIKeyboardAppearance.dark : UIKeyboardAppearance.light
     }
 
     static func optionPickerBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
@@ -400,7 +400,7 @@ enum AppTheme {
         if let themeOverride = theme {
             return themeOverride.isDark ? .white : .black
         }
-        return Theme.isDarkTheme() ? .white : .black
+        return Theme.isDarkTheme ? .white : .black
     }
 
     static func tabBarBackgroundColor() -> UIColor {
@@ -451,31 +451,31 @@ enum AppTheme {
     }
 
     static func userEpisodeRedColor() -> UIColor {
-        ThemeColor.filter01(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter01(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodeBlueColor() -> UIColor {
-        ThemeColor.filter05(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter05(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodeGreenColor() -> UIColor {
-        ThemeColor.filter04(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter04(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodeYellowColor() -> UIColor {
-        ThemeColor.filter03(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter03(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodeOrangeColor() -> UIColor {
-        ThemeColor.filter02(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter02(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodePurpleColor() -> UIColor {
-        ThemeColor.filter06(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter06(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func userEpisodePinkColor() -> UIColor {
-        ThemeColor.filter07(for: Theme.isDarkTheme() ? .dark : .light)
+        ThemeColor.filter07(for: Theme.isDarkTheme ? .dark : .light)
     }
 
     static func folderColor(colorInt: Int32) -> UIColor {
