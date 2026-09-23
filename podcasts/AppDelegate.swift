@@ -61,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Anchor the EAC cadence on fresh install so the modal waits a full interval before
                 // its first show (existing users updating leave it nil and see it immediately).
                 Settings.encourageAccountCreationReferenceDate = Date()
-                ServerSettings.setAppInstallDate(Date())
             case .sameVersion:
                 break
             }

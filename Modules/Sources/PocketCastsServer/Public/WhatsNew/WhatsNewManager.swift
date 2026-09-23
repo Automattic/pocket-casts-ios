@@ -37,7 +37,6 @@ public final class WhatsNewManager: ObservableObject {
     nonisolated private let readStateTask: WhatsNewReadStateTask
     nonisolated private let userDefaults: UserDefaults
     private let refreshInterval: TimeInterval
-    private let targeting: @MainActor () -> WhatsNewMessageFilter
     private var refreshTask: Task<Void, Never>?
     private var isRefreshForced = false
     private var hasLoadedReadState = false
@@ -48,14 +47,12 @@ public final class WhatsNewManager: ObservableObject {
                             readStateStore: WhatsNewReadStateStore = WhatsNewReadStateStore(),
                             readStateTask: WhatsNewReadStateTask = WhatsNewReadStateTask(),
                             userDefaults: UserDefaults = .standard,
-                            refreshInterval: TimeInterval = WhatsNewManager.refreshInterval,
-                            targeting: @escaping @MainActor () -> WhatsNewMessageFilter = { .current }) {
+                            refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) {
         self.task = task
         self.readStateStore = readStateStore
         self.readStateTask = readStateTask
         self.userDefaults = userDefaults
         self.refreshInterval = refreshInterval
-        self.targeting = targeting
     }
 
     /// Publishes the catalog the app already has, and fetches a new one when that copy has aged out.
@@ -158,13 +155,13 @@ public final class WhatsNewManager: ObservableObject {
 
     /// Forgets everything `resetReadState()` does and catches up on the catalog again, as on the
     /// first run, so the dots stay off for the messages already in it.
-    @discardableResult
-    public func resetToFirstRun() -> Task<Void, Never> {
+    public func resetToFirstRun() {
         hasLoadedReadState = true
         readState = WhatsNewReadState()
         readStateStore.save(readState)
-        catalog = nil
-        return refresh()
+        if let catalog {
+            publish(catalog)
+        }
     }
 
     /// Tells the account what this device has read and takes on what the user read elsewhere.
@@ -233,13 +230,9 @@ public final class WhatsNewManager: ObservableObject {
 
     /// Makes the catalog the one the app works from, catching up on its messages first if it's the
     /// first to reach this device, so the dots never count them even for a moment.
-    ///
-    /// Only the messages the user can see are caught up on. The rest stay unseen, so the dots come
-    /// on for one once it reaches the feed, such as after subscribing to Plus.
     private func publish(_ catalog: WhatsNewCatalog) {
         if !readState.isCaughtUp {
-            let targeting = targeting()
-            let messageIDs = catalog.messages.filter { targeting.includes($0) }.map(\.id)
+            let messageIDs = catalog.messages.map(\.id)
             updateReadState {
                 $0.seenMessageIDs.formUnion(messageIDs)
                 $0.listedMessageIDs.formUnion(messageIDs)
