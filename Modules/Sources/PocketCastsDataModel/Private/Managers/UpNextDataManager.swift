@@ -100,8 +100,6 @@ class UpNextDataManager {
                 let topPosition = playlistEpisodes[0].episodePosition
                 let uuids = playlistEpisodes.map(\.episodeUuid)
                 // move every episode after this one down , if there are any
-                db.beginTransaction()
-
                 try db.executeUpdate(
                     """
                     UPDATE \(DataManager.playlistEpisodeTableName)
@@ -123,7 +121,6 @@ class UpNextDataManager {
                         try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))
                     }
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
             }
