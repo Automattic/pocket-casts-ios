@@ -64,32 +64,32 @@ extension Podcast {
     #if !os(watchOS)
         func iconTintColor(for theme: Theme.ThemeType? = nil) -> UIColor {
             let theme = theme ?? Theme.shared.activeTheme
-            let podcastColor = theme.isDark ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = theme.isDark ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon02(podcastColor: podcastColor, for: theme)
         }
 
         func navigationBarTintColor(for theme: Theme.ThemeType? = nil) -> UIColor {
             let theme = theme ?? Theme.shared.activeTheme
-            let podcastColor = theme.isDark ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = theme.isDark ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastUi01(podcastColor: podcastColor, for: theme)
         }
 
         func switchTintColor() -> UIColor {
-            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTintForPodcast(self, defaultColor: AppTheme.switchDarkThemeDefaultColor) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTint(for: self, defaultColor: AppTheme.switchDarkThemeDefaultColor) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon02(podcastColor: podcastColor)
         }
 
         func navIconTintColor() -> UIColor {
-            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon01(podcastColor: podcastColor)
         }
 
         func bgColor() -> UIColor {
-            ColorManager.backgroundColorForPodcast(self)
+            ColorManager.backgroundColor(for: self)
         }
     #endif
 

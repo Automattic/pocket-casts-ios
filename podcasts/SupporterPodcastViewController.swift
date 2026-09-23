@@ -412,9 +412,9 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             return
         }
         supportHeartView.setPodcastColor(podcast: podcast)
-        let podcastDarkColor = ColorManager.darkThemeTintForPodcast(podcast, defaultColor: AppTheme.extraContentBorderColor)
+        let podcastDarkColor = ColorManager.darkThemeTint(for: podcast, defaultColor: AppTheme.extraContentBorderColor)
         authorLabel.textColor = ThemeColor.podcastText02(podcastColor: podcastDarkColor)
-        let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
+        let podcastBgColor = ColorManager.backgroundColor(for: podcast)
         headerView.backgroundColor = ThemeColor.podcastUi03(podcastColor: podcastBgColor)
     }
 

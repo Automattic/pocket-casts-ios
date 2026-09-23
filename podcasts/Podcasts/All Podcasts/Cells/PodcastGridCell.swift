@@ -82,7 +82,7 @@ class PodcastGridCell: UICollectionViewCell {
 
     private func setColors(podcast: Podcast) {
         podcastName.text = podcast.title
-        let bgColor = ColorManager.backgroundColorForPodcast(podcast)
+        let bgColor = ColorManager.backgroundColor(for: podcast)
         backgroundColor = .clear
         containerView.backgroundColor = bgColor
         podcastName.backgroundColor = bgColor

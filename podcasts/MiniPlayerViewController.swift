@@ -682,7 +682,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func currentPodcastTintColor() -> UIColor {
         if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode) {
-            return Theme.isDarkTheme ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+            return Theme.isDarkTheme ? ColorManager.darkThemeTint(for: podcast) : ColorManager.lightThemeTint(for: podcast)
         } else if let episode = PlaybackManager.shared.currentEpisode as? UserEpisode, episode.imageColor > 0 {
             return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
         } else {

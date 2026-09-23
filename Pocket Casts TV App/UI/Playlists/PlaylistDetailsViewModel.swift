@@ -199,7 +199,7 @@ class PlaylistDetailsViewModel {
     private func refreshPlaylistColor() {
         if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
-           let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
+           let color = Self.pillColor(from: ColorManager.lightThemeTint(for: podcast)) {
             playlistColor = color
         } else {
             playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)
