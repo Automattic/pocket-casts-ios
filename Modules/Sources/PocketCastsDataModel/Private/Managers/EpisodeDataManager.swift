@@ -425,8 +425,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 let firstModified = DBUtils.currentUTCTimeInMillis() + Int64(episodes.count) - 1
                 for (index, episode) in episodes.enumerated() {
                     if episode.keepEpisode == starred { continue }
@@ -450,7 +448,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkSetStarred error: \(error)")
             }
@@ -462,8 +459,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     var fields = [String]()
                     var values = [Any]()
@@ -479,7 +474,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkUserFileDelete error: \(error)")
             }
@@ -506,8 +500,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     guard let uuid = episode.uuid else { continue }
 
@@ -548,8 +540,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveBulkEpisodeSyncInfo error: \(error)")
             }
@@ -822,10 +812,8 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
                 let ids = episodes.map({"\($0.id)"})
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id IN (\(ids.joined(separator: ",")))", values: nil)
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
             }
@@ -839,9 +827,7 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid IN (\(ids.map { "'\($0)'"}.joined(separator: ",")))", values: nil)
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
             }
@@ -857,8 +843,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     if episode.playingStatus == PlayingStatus.completed.rawValue { continue }
 
@@ -877,7 +861,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsPlayed error: \(error)")
             }
@@ -889,8 +872,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
 
@@ -910,7 +891,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsUnPlayed error: \(error)")
             }
@@ -922,8 +902,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     var fields = [String]()
                     var values = [Any]()
@@ -960,7 +938,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkArchive error: \(error)")
             }
@@ -972,8 +949,6 @@ class EpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     if !episode.archived { continue }
 
@@ -996,7 +971,6 @@ class EpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkUnarchive error: \(error)")
             }

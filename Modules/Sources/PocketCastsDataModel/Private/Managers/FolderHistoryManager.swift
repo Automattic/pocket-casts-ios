@@ -12,15 +12,11 @@ public class FolderHistoryManager {
     func snapshot(podcastsAndFolders: [String: String], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 let date = Date()
                 try podcastsAndFolders.forEach {
                     try db.executeUpdate("INSERT INTO PodcastFoldersHistory VALUES (?, ?, ?)", values: [$0.key, $0.value, date])
                 }
                 try db.executeUpdate("DELETE FROM PodcastFoldersHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
-
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("FolderHistoryManager.snapshot error: \(error)")
             }

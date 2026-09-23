@@ -324,8 +324,6 @@ class UserEpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     if episode.playingStatus == PlayingStatus.completed.rawValue { continue }
 
@@ -344,7 +342,6 @@ class UserEpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.bulkMarkAsPlayed error: \(error)")
             }
@@ -356,8 +353,6 @@ class UserEpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
 
@@ -377,7 +372,6 @@ class UserEpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.bulkMarkAsUnPlayed error: \(error)")
             }
@@ -389,8 +383,6 @@ class UserEpisodeDataManager {
 
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 for episode in episodes {
                     var fields = [String]()
                     var values = [Any]()
@@ -406,7 +398,6 @@ class UserEpisodeDataManager {
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.bulkUserFileDelete error: \(error)")
             }

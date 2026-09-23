@@ -29,8 +29,6 @@ class DatabaseHelper {
     }
 
     private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
-        db.beginTransaction()
-
         let failedAt = { (statement: Int) in
             let lastErrorCode = db.lastErrorCode()
             let lastErrorMessage = db.lastErrorMessage()
@@ -951,7 +949,5 @@ class DatabaseHelper {
                 return
             }
         }
-
-        db.commit()
     }
 }
