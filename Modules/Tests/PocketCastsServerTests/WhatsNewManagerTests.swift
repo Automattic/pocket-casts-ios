@@ -310,6 +310,46 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertFalse(manager.readState.isUnseen(messageID))
     }
 
+    /// A message the user can't see yet, like one for Plus, isn't caught up on, so the dots come on
+    /// for it once it reaches the feed.
+    func testTheFirstCatalogIsOnlyCaughtUpOnForMessagesTheUserCanSee() async {
+        let manager = manager(cache: temporaryCache())
+        let json = """
+        {
+          "schemaVersion": 1,
+          "messages": [
+            {
+              "id": "\(messageID)",
+              "type": "tip",
+              "publishedAt": "2026-08-17T08:00:00Z",
+              "targeting": {},
+              "title": "Sort your Up Next",
+              "pages": [{ "heading": "Put the queue in the order you want", "description": "…" }]
+            },
+            {
+              "id": "\(otherMessageID)",
+              "type": "announcement",
+              "publishedAt": "2026-08-18T08:00:00Z",
+              "targeting": { "audiences": ["plus"] },
+              "title": "Thanks for being a Plus subscriber",
+              "pages": [{ "heading": "Thanks", "description": "…" }]
+            }
+          ]
+        }
+        """
+        StubURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(json.utf8))
+        }
+
+        await manager.refreshIfNeeded().value
+
+        XCTAssertEqual(manager.catalog?.messages.count, 2)
+        XCTAssertFalse(manager.readState.isUnseen(messageID))
+        XCTAssertTrue(manager.readState.isUnseen(otherMessageID))
+        XCTAssertTrue(manager.readState.isUnlisted(otherMessageID))
+    }
+
     // MARK: - Read state sync
 
     /// A message read on another device is read here too, and the file on disk keeps it that way.
@@ -448,7 +488,8 @@ final class WhatsNewManagerTests: XCTestCase {
     private func manager(cache: WhatsNewCatalogCache,
                          readStateStore: WhatsNewReadStateStore? = nil,
                          account: WhatsNewReadStateStub? = nil,
-                         refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
+                         refreshInterval: TimeInterval = WhatsNewManager.refreshInterval,
+                         targeting: WhatsNewMessageFilter = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: true)) -> WhatsNewManager {
         StubURLProtocol.requestHandler = { [json] request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, Data(json.utf8))
@@ -460,7 +501,8 @@ final class WhatsNewManagerTests: XCTestCase {
                                readStateStore: readStateStore ?? temporaryReadStateStore(),
                                readStateTask: account.task,
                                userDefaults: userDefaults,
-                               refreshInterval: refreshInterval)
+                               refreshInterval: refreshInterval,
+                               targeting: { targeting })
     }
 
     /// An account to sync the read state with.
