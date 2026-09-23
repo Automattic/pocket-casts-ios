@@ -38,6 +38,15 @@ public final class GRDBQueue {
         try dbPool.vacuum()
     }
 
+    /// The fraction of the database file taken up by free pages that `VACUUM` would reclaim.
+    func freePageRatio() throws -> Double {
+        try dbPool.read { db in
+            let pageCount = try Int.fetchOne(db, sql: "PRAGMA page_count") ?? 0
+            let freelistCount = try Int.fetchOne(db, sql: "PRAGMA freelist_count") ?? 0
+            return pageCount > 0 ? Double(freelistCount) / Double(pageCount) : 0
+        }
+    }
+
     func close() {
         do {
             try dbPool.close()
