@@ -245,7 +245,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
             play(completion: completion)
 
-            checkIfStreamBufferRequired(episode: episode, effects: effects())
+            checkIfStreamBufferRequired(episode: episode, effects: effects)
         } else if episodeIsChanging {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
@@ -1005,7 +1005,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         AVAudioSession.sharedInstance().currentRoute.outputs.first?.portType == .airPlay
     }
 
-    func effects() -> PlaybackEffects {
+    var effects: PlaybackEffects {
         if let currentEffects {
             return currentEffects
         }
@@ -1044,7 +1044,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func decreasePlaybackSpeed() {
-        let playbackEffects = effects()
+        let playbackEffects = effects
         if playbackEffects.playbackSpeed < 0.6 { return }
 
         playbackEffects.playbackSpeed -= 0.1
@@ -1052,14 +1052,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func toggleDefinedPlaybackSpeed() {
-        let playbackEffects = effects()
+        let playbackEffects = effects
         playbackEffects.toggleDefinedSpeedInterval()
 
         changeEffects(playbackEffects)
     }
 
     func increasePlaybackSpeed() {
-        let playbackEffects = effects()
+        let playbackEffects = effects
         if playbackEffects.playbackSpeed > 4.9 { return }
 
         // HLS streams can't sustain playback above 2x, so don't let the speed be raised past it.
@@ -1093,7 +1093,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var isCurrentEffectGlobal: Bool {
-        effects().isGlobal
+        effects.isGlobal
     }
 
     private func handlePlaybackEffectsChanged(effects: PlaybackEffects) {
@@ -1179,7 +1179,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         aboutToPlay.value = false
 
         // make sure we load the saved speed for this track
-        player?.setPlaybackRate(effects().playbackSpeed)
+        player?.setPlaybackRate(effects.playbackSpeed)
 
         updateAllNowPlayingData()
     }
@@ -1505,7 +1505,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // check for rogue settings
         if currEpisode.videoPodcast() {
-            let currEffects = effects()
+            let currEffects = effects
             currEffects.trimSilence = .off
         }
 
@@ -1555,7 +1555,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !os(watchOS) && !os(tvOS)
         // HLS must be played by AVPlayer (DefaultPlayer): EffectsPlayer is an audio-only AVAudioEngine
         // pipeline that can't render video, and routing HLS through it desyncs audio from the video surface.
-        let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming()
+        let audioReadyForEffectsPlayer = (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects.trimSilence != .off) || currEpisode.bufferedForStreaming()
         if !playingOverAirplay(), !currEpisode.videoPodcast(), !EpisodeManager.willPlayViaHLS(currEpisode), audioReadyForEffectsPlayer {
             possiblePlayers.append(EffectsPlayer.self)
         }
@@ -2108,7 +2108,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             if let rateEvent = event as? MPChangePlaybackRateCommandEvent {
                 FileLog.shared.addMessage("Remote control: changePlaybackRateCommand")
-                let currentEffects = strongSelf.effects()
+                let currentEffects = strongSelf.effects
                 currentEffects.playbackSpeed = Double(rateEvent.playbackRate)
                 strongSelf.changeEffects(currentEffects)
 
@@ -2491,7 +2491,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
            FeatureFlag.streamAndCachePlayingEpisode.enabled,
            !episodeIsChanging,
-           effects().trimSilence == .off,
+           effects.trimSilence == .off,
            !playerSwitchRequired(),
            !refreshedEpisode.videoPodcast(),
            // HLS is streamed directly (no stream-and-cache), so when playback finishes downloading we must reload to switch to the downloaded local file
@@ -2499,7 +2499,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return false
         } else {
             if !episodeIsChanging {
-                FileLog.shared.addMessage("Playback Manager: Needs to reload current episode [\(refreshedEpisode.title ?? "") - \(refreshedEpisode.uuid)].\n Possible Reasons: Trim silence: \(effects().trimSilence), Player switch required: \(playerSwitchRequired()), Video podcast: \(refreshedEpisode.videoPodcast())")
+                FileLog.shared.addMessage("Playback Manager: Needs to reload current episode [\(refreshedEpisode.title ?? "") - \(refreshedEpisode.uuid)].\n Possible Reasons: Trim silence: \(effects.trimSilence), Player switch required: \(playerSwitchRequired()), Video podcast: \(refreshedEpisode.videoPodcast())")
             }
             return true
         }

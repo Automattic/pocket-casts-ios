@@ -86,7 +86,7 @@ class GoogleCastPlayer: PlaybackProtocol {
     }
 
     func effectsDidChange() {
-        let speed = Float(PlaybackManager.shared.effects().playbackSpeed)
+        let speed = Float(PlaybackManager.shared.effects.playbackSpeed)
         castManager.changePlaybackSpeed(speed)
     }
 

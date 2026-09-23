@@ -225,7 +225,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         let computedSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
 
         // if the trim silence view is hidden, allow enough space for it to appear
-        if !PlaybackManager.shared.effects().trimSilence.isEnabled() {
+        if !PlaybackManager.shared.effects.trimSilence.isEnabled() {
             let additionalHeightRequired: CGFloat = view.bounds.width < 340 ? 100 : 50
             preferredContentSize = CGSize(width: computedSize.width, height: computedSize.height + additionalHeightRequired)
         } else {
@@ -266,7 +266,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         analyticsPlaybackHelper.currentSource = analyticsSource
 
-        let speed = PlaybackManager.shared.effects().playbackSpeed
+        let speed = PlaybackManager.shared.effects.playbackSpeed
         analyticsPlaybackHelper.playbackSpeedChanged(to: speed)
     }
 
@@ -289,7 +289,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func trimSilenceChanged(_ sender: UISwitch) {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         if sender.isOn {
             effects.trimSilence = .low
         } else {
@@ -307,7 +307,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func trimSilenceAmountChanged() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         let amount = trimSilenceIndexToAmount(trimSilenceAmountControl.selectedIndex)
         effects.trimSilence = amount
 
@@ -330,7 +330,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         effects.volumeBoost = sender.isOn
 
         PlaybackManager.shared.changeEffects(effects)
@@ -356,7 +356,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         playbackSpeedDebouncer.call { [weak self] in
             guard let self else { return }
             analyticsPlaybackHelper.currentSource = analyticsSource
-            let speed = PlaybackManager.shared.effects().playbackSpeed
+            let speed = PlaybackManager.shared.effects.playbackSpeed
             analyticsPlaybackHelper.playbackSpeedChanged(to: speed, currentSettings: currentPlaybackSettings())
         }
     }
@@ -366,7 +366,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         trimSilenceSwitch.isEnabled = PlaybackManager.shared.silenceRemovalAvailable()
         volumeBoostSwitch.isEnabled = volumeBoostAvailable
 
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         // When the effect isn't available (e.g. HLS) show it as off rather than on-but-disabled.
         volumeBoostSwitch.isOn = volumeBoostAvailable && effects.volumeBoost
         updateRemoveSilenceViews()
@@ -391,7 +391,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     private func updateRemoveSilenceViews() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         // When the effect isn't available (e.g. HLS) show it as off rather than on-but-disabled.
         let isEnabled = PlaybackManager.shared.silenceRemovalAvailable() && effects.trimSilence.isEnabled()
         trimSilenceSwitch.isOn = isEnabled
@@ -435,7 +435,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     private func updateSpeedBtn() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         // HLS can't play above 2x, so never show a higher speed even if the stored global/podcast speed
         // is higher. The applied rate is already capped in DefaultPlayer; this keeps the display honest
         // without persisting a change to the user's non-HLS preference.
