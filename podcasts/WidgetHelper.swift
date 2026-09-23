@@ -135,7 +135,7 @@ class WidgetHelper {
             duration = duration - currentTime
             isPlaying = PlaybackManager.shared.isPlaying
         }
-        let podcastColor: UIColor = ColorManager.backgroundColorForPodcastUuid(episode.parentIdentifier())
+        let podcastColor: UIColor = ColorManager.backgroundColor(forPodcastUuid: episode.parentIdentifier())
         var imageUrl = ""
 
         if let episode = episode as? Episode {

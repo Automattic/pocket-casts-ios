@@ -37,7 +37,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             _ = self.createTestEpisode(podcast: podcast, title: "Episode 2", dataManager: dataManager)
             _ = self.createTestEpisode(podcast: podcast, title: "Episode 3", dataManager: dataManager)
 
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
 
             XCTAssertEqual(episodes.count, 3, "Should return 3 episodes")
         }
@@ -49,7 +49,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             _ = self.createTestEpisode(podcast: podcast, title: "Episode 1", dataManager: dataManager)
             _ = self.createTestEpisode(podcast: podcast, title: "Deleted Episode", wasDeleted: true, dataManager: dataManager)
 
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
 
             XCTAssertEqual(episodes.count, 1, "Should exclude deleted episode")
             XCTAssertEqual(episodes.first?.title, "Episode 1", "Should return non-deleted episode")
@@ -58,7 +58,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
 
     func testAllEpisodesForPodcastReturnsEmptyForNoPodcast() throws {
         try runWithDataManager { dataManager in
-            let episodes = dataManager.allEpisodesForPodcast(id: 999)
+            let episodes = dataManager.allEpisodes(forPodcastId: 999)
 
             XCTAssertTrue(episodes.isEmpty, "Should return empty array for non-existent podcast")
         }
@@ -275,12 +275,12 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             _ = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
             _ = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
-            let initialCount = dataManager.allEpisodesForPodcast(id: podcast.id).count
+            let initialCount = dataManager.allEpisodes(forPodcastId: podcast.id).count
             XCTAssertEqual(initialCount, 3, "Should have 3 episodes initially")
 
             dataManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
 
-            let finalCount = dataManager.allEpisodesForPodcast(id: podcast.id).count
+            let finalCount = dataManager.allEpisodes(forPodcastId: podcast.id).count
             XCTAssertEqual(finalCount, 0, "Should have 0 episodes after deletion")
         }
     }
@@ -547,7 +547,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             let episode1 = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: true, dataManager: dataManager)
             let episode2 = self.createTestEpisode(uuid: "ep-2", podcast: podcast, archived: true, dataManager: dataManager)
 
-            dataManager.markAllUnarchivedForPodcast(id: podcast.id)
+            dataManager.markAllUnarchived(forPodcastId: podcast.id)
 
             let found1 = dataManager.findEpisode(uuid: episode1.uuid)
             let found2 = dataManager.findEpisode(uuid: episode2.uuid)
@@ -565,7 +565,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             let episode1 = self.createTestEpisode(uuid: "ep-1", podcast: podcast1, archived: true, dataManager: dataManager)
             let episode2 = self.createTestEpisode(uuid: "ep-2", podcast: podcast2, archived: true, dataManager: dataManager)
 
-            dataManager.markAllUnarchivedForPodcast(id: podcast1.id)
+            dataManager.markAllUnarchived(forPodcastId: podcast1.id)
 
             let found1 = dataManager.findEpisode(uuid: episode1.uuid)
             let found2 = dataManager.findEpisode(uuid: episode2.uuid)

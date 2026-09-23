@@ -7,7 +7,7 @@ extension CarPlaySceneDelegate {
     func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool, playlist: AutoplayHelper.Playlist?) -> [CPListItem] {
         var items = [CPListItem]()
         for episode in episodes {
-            let artwork = showArtwork ? CarPlayImageHelper.imageForEpisode(episode) : nil
+            let artwork = showArtwork ? CarPlayImageHelper.image(for: episode) : nil
             let item = CPListItem(text: episode.displayableTitle(), detailText: episode.subTitle(), image: artwork)
 
             if episode.unplayed() {
@@ -55,7 +55,7 @@ extension CarPlaySceneDelegate {
     }
 
     func convertPodcastToListItem(_ podcast: Podcast) -> CPListItem {
-        let item = CPListItem(text: podcast.title, detailText: nil, image: CarPlayImageHelper.imageForPodcast(podcast))
+        let item = CPListItem(text: podcast.title, detailText: nil, image: CarPlayImageHelper.image(for: podcast))
 
         item.accessoryType = .disclosureIndicator
         item.handler = { [weak self] _, completion in
@@ -69,7 +69,7 @@ extension CarPlaySceneDelegate {
     func createUpNextImageItem(episodes: [BaseEpisode]) -> CPListImageRowItem {
         var images = [UIImage]()
         for episode in episodes {
-            images.append(CarPlayImageHelper.imageForEpisode(episode, maxSize: CPListImageRowItem.maximumImageSize))
+            images.append(CarPlayImageHelper.image(for: episode, maxSize: CPListImageRowItem.maximumImageSize))
         }
 
         let item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)

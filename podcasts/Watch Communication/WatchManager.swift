@@ -681,7 +681,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSubtitle] = playingEpisode.subTitle()
             nowPlayingInfo[WatchConstants.Keys.nowPlayingStatus] = playbackManager.isPlaying ? WatchConstants.PlayingStatus.playing : WatchConstants.PlayingStatus.paused
             if let playingEpisode = playingEpisode as? Episode, let podcast = playingEpisode.parentPodcast() {
-                let color = ColorManager.darkThemeTintForPodcast(podcast)
+                let color = ColorManager.darkThemeTint(for: podcast)
                 nowPlayingInfo[WatchConstants.Keys.nowPlayingColor] = color.hexString()
             } else {
                 nowPlayingInfo[WatchConstants.Keys.nowPlayingColor] = UIColor.white.hexString()

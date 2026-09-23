@@ -176,7 +176,7 @@ open class SubscriptionHelper: NSObject {
         return subscriptions
     }
 
-    public class func subscriptionForPodcast(uuid: String) -> PodcastSubscription? {
+    public class func subscription(forPodcastUuid uuid: String) -> PodcastSubscription? {
         guard let allSubscriptions = subscriptionPodcasts() else { return nil }
 
         return allSubscriptions.first { podcastSubscription -> Bool in
@@ -209,7 +209,7 @@ open class SubscriptionHelper: NSObject {
         return bundles
     }
 
-    public class func bundleSubscriptionForPodcast(podcastUuid: String) -> BundleSubscription? {
+    public class func bundleSubscription(forPodcastUuid podcastUuid: String) -> BundleSubscription? {
         guard let bundles = subscriptionBundles() else {
             return nil
         }

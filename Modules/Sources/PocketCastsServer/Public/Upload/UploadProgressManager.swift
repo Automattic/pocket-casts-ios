@@ -12,19 +12,19 @@ public class UploadProgressManager: NSObject {
     private var finishedItemCount: Double = 0
     private var lastUiUpdateTime: Date?
 
-    public func progressForEpisode(_ uuid: String) -> UploadProgress? {
+    public func progress(forEpisodeUuid uuid: String) -> UploadProgress? {
         progressItemsQueue.sync {
             progressItems[uuid]
         }
     }
 
-    public func hasProgressForUserEpisode(_ uuid: String) -> Bool {
+    public func hasProgress(forUserEpisodeUuid uuid: String) -> Bool {
         progressItemsQueue.sync {
             progressItems[uuid] != nil
         }
     }
 
-    public func updateProgressForEpisode(_ uuid: String, totalBytesSent: Int64, totalBytesExpected: Int64) {
+    public func updateProgress(forEpisodeUuid uuid: String, totalBytesSent: Int64, totalBytesExpected: Int64) {
         progressItemsQueue.sync {
             var progressItem = progressItems[uuid]
             if progressItem == nil {
@@ -44,7 +44,7 @@ public class UploadProgressManager: NSObject {
         }
     }
 
-    public func updateStatusForEpisode(_ uuid: String, status: UploadStatus) {
+    public func updateStatus(forEpisodeUuid uuid: String, status: UploadStatus) {
         progressItemsQueue.sync {
             var progressItem = progressItems[uuid]
             if progressItem == nil {
@@ -57,7 +57,7 @@ public class UploadProgressManager: NSObject {
         }
     }
 
-    public func removeProgressForEpisode(_ uuid: String) {
+    public func removeProgress(forEpisodeUuid uuid: String) {
         progressItemsQueue.sync {
             finishedItemCount += 1
             progressItems.removeValue(forKey: uuid)

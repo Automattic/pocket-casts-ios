@@ -97,7 +97,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         // podcast subscription in the bundle
         var frequencyText = ""
         var isCancelled = false
-        if let firstPodcastUuid = bundleSubscriptions?[indexPath.row].podcasts.first?.uuid, let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: firstPodcastUuid) {
+        if let firstPodcastUuid = bundleSubscriptions?[indexPath.row].podcasts.first?.uuid, let subscription = SubscriptionHelper.subscription(forPodcastUuid: firstPodcastUuid) {
             let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
 
             if subscription.autoRenewing {

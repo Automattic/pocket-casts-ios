@@ -7,7 +7,7 @@ class CarPlayImageHelper {
     static var imageCache = ImageCache(name: "carplay_cache")
     static var carTraitCollection: UITraitCollection?
 
-    class func imageForPodcast(_ podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+    class func image(for podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
         let cacheKey = podcast.uuid
 
         if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {
@@ -21,7 +21,7 @@ class CarPlayImageHelper {
         return adjustedImage
     }
 
-    class func imageForFolder(_ folder: Folder) -> UIImage {
+    class func image(for folder: Folder) -> UIImage {
         /// sj_snapshotImage is failing to generate the preview (artworks won't appear)
         /// A workaround is to wrap the view in a UIStackView. This prevents the folder
         /// image from being rendered without the artworks.
@@ -38,7 +38,7 @@ class CarPlayImageHelper {
         return adjustImageIfRequired(image: image)
     }
 
-    class func imageForEpisode(_ episode: BaseEpisode, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+    class func image(for episode: BaseEpisode, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
         let cacheKey = episode.cacheKey
 
         if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {

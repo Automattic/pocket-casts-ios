@@ -76,8 +76,8 @@ class PodcastHeartView: UIView {
 
     func setPodcastColor(podcast: Podcast) {
         self.podcast = podcast
-        let darkColor = ColorManager.darkThemeTintForPodcast(podcast, defaultColor: AppTheme.podcastHeartDarkRedGradientColor())
-        let lightColor = ColorManager.lightThemeTintForPodcast(podcast, defaultColor: AppTheme.podcastHeartLightRedGradientColor())
+        let darkColor = ColorManager.darkThemeTint(for: podcast, defaultColor: AppTheme.podcastHeartDarkRedGradientColor())
+        let lightColor = ColorManager.lightThemeTint(for: podcast, defaultColor: AppTheme.podcastHeartLightRedGradientColor())
         setGradientColors(light:
             lightColor, dark: darkColor)
     }

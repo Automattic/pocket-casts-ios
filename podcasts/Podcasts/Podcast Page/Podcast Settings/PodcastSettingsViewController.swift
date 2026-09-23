@@ -83,7 +83,7 @@ class PodcastSettingsViewController: PCViewController {
     }
 
     func updateExistingSortcutData() {
-        SiriShortcutsManager.shared.voiceShortcutForPodcast(podcast: podcast, completion: { voiceShortcut in
+        SiriShortcutsManager.shared.voiceShortcut(for: podcast, completion: { voiceShortcut in
             self.existingShortcut = voiceShortcut
             DispatchQueue.main.async {
                 self.settingsTable.reloadData()

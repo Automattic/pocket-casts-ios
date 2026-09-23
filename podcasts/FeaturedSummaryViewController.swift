@@ -120,7 +120,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
 
         if let uuid = podcast.uuid {
-            ColorManager.darkThemeTintColorForPodcastUuid(uuid, completion: { (color: UIColor) in
+            ColorManager.darkThemeTintColor(forPodcastUuid: uuid, completion: { (color: UIColor) in
                 DispatchQueue.main.async {
                     cell.setPodcastColor(color)
                 }

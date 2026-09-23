@@ -319,7 +319,7 @@ extension AppDelegate {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     ApiServerHandler.shared.retrieveSubscriptionStatus()
                     var bundleUuid: String?
-                    if let bundle = SubscriptionHelper.bundleSubscriptionForPodcast(podcastUuid: uuid) {
+                    if let bundle = SubscriptionHelper.bundleSubscription(forPodcastUuid: uuid) {
                         bundleUuid = bundle.bundleUuid
                     }
                     NavigationManager.shared.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: bundleUuid as Any])

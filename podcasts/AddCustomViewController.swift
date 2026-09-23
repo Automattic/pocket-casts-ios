@@ -170,7 +170,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     required init(episode: UserEpisode) {
         uuid = episode.uuid
-        fileUrl = URL(fileURLWithPath: DownloadManager.shared.pathForEpisode(episode))
+        fileUrl = URL(fileURLWithPath: DownloadManager.shared.path(for: episode))
         episodeToEdit = episode
         name = episode.title ?? ""
         super.init(nibName: nil, bundle: nil)
@@ -196,7 +196,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             sizeLabel.text = SizeFormatter.shared.defaultFormat(bytes: Int64(fileSize))
 
             if episode.imageColor == 0 {
-                ImageManager.shared.imageForEpisode(episode, size: .list) { [weak self] image in
+                ImageManager.shared.image(for: episode, size: .list) { [weak self] image in
                     self?.artwork = image
                 }
             } else {

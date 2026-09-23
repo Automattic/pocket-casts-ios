@@ -157,7 +157,7 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
 
-    func allEpisodesForPodcast(id: Int64, dbQueue: GRDBQueue) -> [Episode] {
+    func allEpisodes(forPodcastId id: Int64, dbQueue: GRDBQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0", values: [id], dbQueue: dbQueue)
     }
 
@@ -834,7 +834,7 @@ class EpisodeDataManager {
         }
     }
 
-    func markAllUnarchivedForPodcast(id: Int64, dbQueue: GRDBQueue) {
+    func markAllUnarchived(forPodcastId id: Int64, dbQueue: GRDBQueue) {
         updateAll(fields: ["archived"], values: [false, id], whereClause: "podcast_id = ?", dbQueue: dbQueue)
     }
 

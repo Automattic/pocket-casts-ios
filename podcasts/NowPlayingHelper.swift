@@ -35,7 +35,7 @@ class NowPlayingHelper {
         }
 
         let size = ImageManager.sizeFor(imageSize: .page)
-        ImageManager.shared.imageForEpisode(episode, size: .page) { image in
+        ImageManager.shared.image(for: episode, size: .page) { image in
             let imageToUse = image ?? UIImage(named: "noartwork-page")!
 
             let artwork = MPMediaItemArtwork(boundsSize: CGSize(width: size, height: size), requestHandler: { _ -> UIImage in

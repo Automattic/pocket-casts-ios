@@ -88,7 +88,7 @@ class CommonWidgetHelper {
         return playingStatus
     }
 
-    class func urlForEpisodeUuid(uuid: String) -> URL? {
+    class func url(forEpisodeUuid uuid: String) -> URL? {
         guard let url = URL(string: "pktc://widget-episode/\(uuid)") else {
             return nil
         }

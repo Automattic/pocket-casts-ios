@@ -280,7 +280,7 @@ class MultiSelectHelper {
         actionDelegate.multiSelectActionBegan(status: status)
 
         Task.detached {
-            EpisodeManager.removeDownloadForEpisodes(selectedEpisodes)
+            EpisodeManager.removeDownload(for: selectedEpisodes)
             await actionDelegate.multiSelectActionCompleted()
         }
     }

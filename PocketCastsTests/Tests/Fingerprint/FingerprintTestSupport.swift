@@ -35,7 +35,7 @@ final class FingerprintEpisodeFixture {
         // container `AVAudioFile` writes the fixture audio into.
         episode.contentType = "audio/wav"
 
-        audioURL = URL(fileURLWithPath: DownloadManager.shared.pathForEpisode(episode))
+        audioURL = URL(fileURLWithPath: DownloadManager.shared.path(for: episode))
         referenceURL = URL(
             fileURLWithPath: (audioURL.path as NSString).deletingPathExtension + ".ref.fp.json"
         )

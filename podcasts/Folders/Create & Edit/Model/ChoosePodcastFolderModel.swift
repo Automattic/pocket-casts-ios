@@ -31,8 +31,8 @@ class ChoosePodcastFolderModel: ObservableObject {
     func loadFolders() {
         var allFolders = DataManager.shared.allFolders()
         allFolders.sort { folder1, folder2 in
-            let title1 = nameForFolder(folder: folder1)
-            let title2 = nameForFolder(folder: folder2)
+            let title1 = name(for: folder1)
+            let title2 = name(for: folder2)
 
             return PodcastSorter.titleSort(title1: title1, title2: title2)
         }
@@ -41,7 +41,7 @@ class ChoosePodcastFolderModel: ObservableObject {
         availableFolders = allFolders
     }
 
-    func podcastCountForFolder(folder: Folder) -> Int {
+    func podcastCount(for folder: Folder) -> Int {
         if folder.uuid == rootFolder.uuid {
             return DataManager.shared.countOfPodcastsInRootFolder()
         }
@@ -49,7 +49,7 @@ class ChoosePodcastFolderModel: ObservableObject {
         return DataManager.shared.countOfPodcastsInFolder(folder: folder)
     }
 
-    func colorForFolder(folder: Folder) -> Color? {
+    func color(for folder: Folder) -> Color? {
         guard folder.uuid != rootFolder.uuid else {
             return nil
         }
@@ -57,7 +57,7 @@ class ChoosePodcastFolderModel: ObservableObject {
         return AppTheme.folderColor(colorInt: folder.color).color
     }
 
-    func nameForFolder(folder: Folder) -> String {
+    func name(for folder: Folder) -> String {
         guard folder.uuid != rootFolder.uuid else { return L10n.folderNoFolder }
 
         return folder.name.isEmpty ? L10n.folderUnnamed : folder.name
@@ -75,7 +75,7 @@ class ChoosePodcastFolderModel: ObservableObject {
         if currentFolder == folder.uuid { return } // already in this folder
 
         updateLastSync(folderUuid: currentFolder)
-        let sortOrder = ServerPodcastManager.shared.highestSortOrderForFolder(folder) + 1
+        let sortOrder = ServerPodcastManager.shared.highestSortOrder(for: folder) + 1
         DataManager.shared.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: folder.uuid, sortOrder: sortOrder)
         updateLastSync(folderUuid: folder.uuid)
 

@@ -407,7 +407,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 downloadBtn.setTitle(L10n.cancel, for: .normal)
                 downloadIndicator.progress = 1
                 downloadIndicator.color = ThemeColor.secondaryIcon01(for: themeOverride)
-            } else if let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) {
+            } else if let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) {
                 downloadBtn.setTitle(progress.percentageProgressAsString(), for: .normal)
                 downloadIndicator.progress = CGFloat(progress.progress())
             } else {
@@ -485,7 +485,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         showNotesWebView.backgroundColor = bgColor
         view.backgroundColor = bgColor
 
-        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme()) ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme()) ? ColorManager.darkThemeTint(for: podcast) : ColorManager.lightThemeTint(for: podcast)
         podcastName.textColor = ThemeColor.podcastText02(podcastColor: podcastColor, for: themeOverride)
         episodeChevron.tintColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)
         progressView.backgroundColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)

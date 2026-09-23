@@ -29,7 +29,7 @@ class EpisodeArtworkViewModel {
     func load() async {
         self.image = UIImage(resource: placeholderResource)
 
-        if let podcastImage = await imageManager.imageForEpisode(episode, size: size) {
+        if let podcastImage = await imageManager.image(for: episode, size: size) {
             image = podcastImage
         }
 
