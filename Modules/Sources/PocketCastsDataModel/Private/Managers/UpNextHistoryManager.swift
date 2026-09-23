@@ -21,7 +21,7 @@ public class UpNextHistoryManager {
 
     /// Saves the current Up Next state into another table
     /// So it can be reverted later in case of wrong syncs
-    func snapshot(dbQueue: PCDBQueue) {
+    func snapshot(dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT \(columnNames.joined(separator: ",")), ? as 'date' FROM SJPlaylistEpisode WHERE playlist_id = ?", values: [Date(), UpNextDataManager.upNextPlaylistId])
@@ -33,7 +33,7 @@ public class UpNextHistoryManager {
     }
 
     /// Return all the available Up Next entries
-    func entries(dbQueue: PCDBQueue) -> [UpNextHistoryEntry] {
+    func entries(dbQueue: GRDBQueue) -> [UpNextHistoryEntry] {
         var entries: [UpNextHistoryEntry] = []
         dbQueue.read { db in
             do {
@@ -50,7 +50,7 @@ public class UpNextHistoryManager {
         return entries
     }
 
-    func episodes(entry: Date, dbQueue: PCDBQueue) -> [String] {
+    func episodes(entry: Date, dbQueue: GRDBQueue) -> [String] {
         var episodesUuid: [String] = []
         dbQueue.read { db in
             do {

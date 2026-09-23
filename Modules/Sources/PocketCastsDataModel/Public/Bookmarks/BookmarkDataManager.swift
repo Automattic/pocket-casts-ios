@@ -3,9 +3,9 @@ import Foundation
 
 public struct BookmarkDataManager {
     static let tableName = "Bookmark"
-    private let dbQueue: PCDBQueue
+    private let dbQueue: GRDBQueue
 
-    init(dbQueue: PCDBQueue) {
+    init(dbQueue: GRDBQueue) {
         self.dbQueue = dbQueue
     }
 

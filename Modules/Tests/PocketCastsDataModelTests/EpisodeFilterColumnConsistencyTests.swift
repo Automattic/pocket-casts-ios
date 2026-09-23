@@ -8,7 +8,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
             Set(try db.columns(in: DataManager.playlistsTableName).map(\.name))
         }
         let encodedColumns = Set(try EpisodeFilter().databaseDictionary.keys)

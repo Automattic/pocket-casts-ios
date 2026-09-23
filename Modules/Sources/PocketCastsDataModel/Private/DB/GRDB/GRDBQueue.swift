@@ -2,11 +2,11 @@ import GRDB
 import PocketCastsUtils
 import Foundation
 
-class GRDBQueue: PCDBQueue {
+public final class GRDBQueue {
     public let dbPool: DatabasePool
     let logger: ErrorLogger?
 
-    init(dbPool: DatabasePool, logger: ErrorLogger? = nil) {
+    public init(dbPool: DatabasePool, logger: ErrorLogger? = nil) {
         self.dbPool = dbPool
         self.logger = logger
     }

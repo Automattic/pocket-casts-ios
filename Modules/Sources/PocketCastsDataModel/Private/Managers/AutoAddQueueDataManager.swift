@@ -2,9 +2,9 @@ import PocketCastsUtils
 import Foundation
 
 public struct AutoAddCandidatesDataManager {
-    private let dbQueue: PCDBQueue
+    private let dbQueue: GRDBQueue
 
-    init(dbQueue: PCDBQueue) {
+    init(dbQueue: GRDBQueue) {
         self.dbQueue = dbQueue
     }
 

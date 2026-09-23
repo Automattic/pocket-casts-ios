@@ -15,17 +15,17 @@ class UpNextDataManager {
 
     private let cache = Mutex((items: [PlaylistEpisode](), uuids: Set<String>()))
 
-    func setup(dbQueue: PCDBQueue) {
+    func setup(dbQueue: GRDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
     // MARK: - Queries
 
-    func allUpNextPlaylistEpisodes(dbQueue: PCDBQueue) -> [PlaylistEpisode] {
+    func allUpNextPlaylistEpisodes(dbQueue: GRDBQueue) -> [PlaylistEpisode] {
         cache.withLock { $0.items }
     }
 
-    func findPlaylistEpisode(uuid: String, dbQueue: PCDBQueue) -> PlaylistEpisode? {
+    func findPlaylistEpisode(uuid: String, dbQueue: GRDBQueue) -> PlaylistEpisode? {
         cache.withLock { cache in
             for episode in cache.items {
                 if episode.episodeUuid == uuid {
@@ -37,11 +37,11 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeAt(index: Int, dbQueue: PCDBQueue) -> PlaylistEpisode? {
+    func playlistEpisodeAt(index: Int, dbQueue: GRDBQueue) -> PlaylistEpisode? {
         cache.withLock { $0.items[safe: index] }
     }
 
-    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: PCDBQueue) -> Int32 {
+    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: GRDBQueue) -> Int32 {
         cache.withLock { cache in
             if bottomOfList {
                 if let lastItem = cache.items.last {
@@ -53,17 +53,17 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeCount(dbQueue: PCDBQueue) -> Int {
+    func playlistEpisodeCount(dbQueue: GRDBQueue) -> Int {
         cache.withLock { $0.items.count }
     }
 
-    func isEpisodePresent(uuid: String, dbQueue: PCDBQueue) -> Bool {
+    func isEpisodePresent(uuid: String, dbQueue: GRDBQueue) -> Bool {
         cache.withLock { $0.uuids.contains(uuid) }
     }
 
     // MARK: - Updates
 
-    func save(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
+    func save(playlistEpisode: PlaylistEpisode, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 // move every episode after this one down one, if there are any
@@ -94,7 +94,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: PCDBQueue) {
+    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 let topPosition = playlistEpisodes[0].episodePosition
@@ -132,7 +132,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func delete(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
+    func delete(playlistEpisode: PlaylistEpisode, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ? AND playlist_id = ?", values: [playlistEpisode.id, UpNextDataManager.upNextPlaylistId])
@@ -145,7 +145,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodes(dbQueue: PCDBQueue) {
+    func deleteAllUpNextEpisodes(dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])
@@ -157,7 +157,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: PCDBQueue) {
+    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ? AND playlist_id = ?", values: [episodeUuid, UpNextDataManager.upNextPlaylistId])
@@ -169,7 +169,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: PCDBQueue) {
+    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 if uuids.isEmpty {
@@ -188,7 +188,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: PCDBQueue) {
+    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: GRDBQueue) {
         guard !uuids.isEmpty else { return }
         dbQueue.write { db in
             do {
@@ -201,7 +201,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func movePlaylistEpisode(from: Int, to: Int, dbQueue: PCDBQueue) {
+    func movePlaylistEpisode(from: Int, to: Int, dbQueue: GRDBQueue) {
         var resortedItems = cache.withLock { $0.items }
 
         if from == -1, to == 0 {
@@ -231,13 +231,13 @@ class UpNextDataManager {
 
     // MARK: - Up Next History (Restoring)
 
-    public func refresh(dbQueue: PCDBQueue) {
+    func refresh(dbQueue: GRDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
     // MARK: - Caching
 
-    private func cacheEpisodes(dbQueue: PCDBQueue) {
+    private func cacheEpisodes(dbQueue: GRDBQueue) {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ? ORDER by episodePosition", values: [UpNextDataManager.upNextPlaylistId])
@@ -258,7 +258,7 @@ class UpNextDataManager {
 
     // MARK: - Ordering
 
-    private func saveOrdering(dbQueue: PCDBQueue) {
+    private func saveOrdering(dbQueue: GRDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
         let sortedItems = cache.withLock { $0.items }
         dbQueue.write { db in

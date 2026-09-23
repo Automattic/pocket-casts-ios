@@ -30,7 +30,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 position: 0
             )
             addPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: otherEpisode.uuid,
                 playlistId: 999,
                 position: 1,
@@ -66,7 +66,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 position: 0
             )
             addPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: otherUserEpisode.uuid,
                 playlistId: 999,
                 position: 1,
@@ -131,7 +131,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
         try runWithDataManager { dataManager in
             let manualPlaylistUuid = "manual-playlist"
             addManualPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: "manual-episode-1",
                 playlistId: 42,
                 playlistUuid: manualPlaylistUuid,
@@ -140,7 +140,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 podcastUuid: "manual-podcast"
             )
             addManualPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: "manual-episode-2",
                 playlistId: 42,
                 playlistUuid: manualPlaylistUuid,
@@ -152,7 +152,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
             saveUpNextEpisode(dataManager: dataManager, episodeUuid: "upnext-1", title: "Up Next Episode", podcastUuid: "upnext-podcast", position: 0)
 
             XCTAssertEqual(
-                fetchManualPlaylistOrder(queue: dataManager.testDbQueue, playlistUuid: manualPlaylistUuid),
+                fetchManualPlaylistOrder(queue: dataManager.dbQueue, playlistUuid: manualPlaylistUuid),
                 ["manual-episode-1", "manual-episode-2"],
                 "manual playlist ordering should be unchanged"
             )
@@ -163,7 +163,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
         try runWithDataManager { dataManager in
             let manualPlaylistUuid = "manual-playlist"
             addManualPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: "manual-episode-1",
                 playlistId: 42,
                 playlistUuid: manualPlaylistUuid,
@@ -172,7 +172,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
                 podcastUuid: "manual-podcast"
             )
             addManualPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: "manual-episode-2",
                 playlistId: 42,
                 playlistUuid: manualPlaylistUuid,
@@ -192,7 +192,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
             dataManager.save(playlistEpisodes: bulkEpisodes)
 
             XCTAssertEqual(
-                fetchManualPlaylistOrder(queue: dataManager.testDbQueue, playlistUuid: manualPlaylistUuid),
+                fetchManualPlaylistOrder(queue: dataManager.dbQueue, playlistUuid: manualPlaylistUuid),
                 ["manual-episode-1", "manual-episode-2"],
                 "manual playlist ordering should remain unchanged"
             )
@@ -203,7 +203,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
         try runWithDataManager { dataManager in
             let manualPlaylistUuid = "manual-playlist"
             addManualPlaylistEntry(
-                queue: dataManager.testDbQueue,
+                queue: dataManager.dbQueue,
                 episodeUuid: "manual-episode-1",
                 playlistId: 42,
                 playlistUuid: manualPlaylistUuid,
@@ -217,7 +217,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
             dataManager.deleteAllUpNextEpisodesNotIn(uuids: [])
 
             XCTAssertEqual(
-                fetchManualPlaylistOrder(queue: dataManager.testDbQueue, playlistUuid: manualPlaylistUuid),
+                fetchManualPlaylistOrder(queue: dataManager.dbQueue, playlistUuid: manualPlaylistUuid),
                 ["manual-episode-1"],
                 "manual playlist should be unchanged"
             )
@@ -236,7 +236,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
         dataManager.save(playlistEpisode: playlistEpisode)
     }
 
-    private func addPlaylistEntry(queue: PCDBQueue, episodeUuid: String, playlistId: Int, position: Int, title: String, podcastUuid: String) {
+    private func addPlaylistEntry(queue: GRDBQueue, episodeUuid: String, playlistId: Int, position: Int, title: String, podcastUuid: String) {
         queue.write { db in
             do {
                 try db.executeUpdate(
@@ -260,7 +260,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
     }
 
     private func addManualPlaylistEntry(
-        queue: PCDBQueue,
+        queue: GRDBQueue,
         episodeUuid: String,
         playlistId: Int,
         playlistUuid: String,
@@ -291,7 +291,7 @@ final class UpNextEpisodeFetchTests: DataManagerTestCase {
         }
     }
 
-    private func fetchManualPlaylistOrder(queue: PCDBQueue, playlistUuid: String) -> [String] {
+    private func fetchManualPlaylistOrder(queue: GRDBQueue, playlistUuid: String) -> [String] {
         var order = [String]()
         queue.read { db in
             do {

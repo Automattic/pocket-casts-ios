@@ -8,7 +8,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
             Set(try db.columns(in: DataManager.podcastTableName).map(\.name))
         }
         let encodedColumns = Set(try Podcast().databaseDictionary.keys)
@@ -244,7 +244,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         let original = createFullyPopulatedPodcast()
         dataManager.save(podcast: original)
 
-        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+        let decoded = try dataManager.dbQueue.dbPool.read { db in
             try Podcast.filter(Podcast.Columns.uuid == original.uuid).fetchOne(db)
         }
 

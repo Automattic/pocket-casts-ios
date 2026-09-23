@@ -8,7 +8,7 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let tableColumns = try DataManager.newTestDataManager().testDbQueue.dbPool.read { db in
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
             Set(try db.columns(in: DataManager.folderTableName).map(\.name))
         }
         let encodedColumns = Set(try Folder().databaseDictionary.keys)
@@ -152,7 +152,7 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
         let original = createFullyPopulatedFolder()
         dataManager.save(folder: original)
 
-        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+        let decoded = try dataManager.dbQueue.dbPool.read { db in
             try Folder.fetchOne(
                 db,
                 sql: "SELECT * FROM \(DataManager.folderTableName) WHERE uuid = ?",
