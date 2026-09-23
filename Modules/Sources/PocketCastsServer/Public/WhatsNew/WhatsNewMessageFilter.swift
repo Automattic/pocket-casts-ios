@@ -19,7 +19,7 @@ public struct WhatsNewMessageFilter {
     /// Whether research messages, which ask the user to answer a poll, are shown.
     public let includesPolls: Bool
 
-    public init(audience: WhatsNewAudience, appVersion: Version?, includesPolls: Bool = true) {
+    public init(audience: WhatsNewAudience, appVersion: Version?, includesPolls: Bool = FeatureFlag.whatsNewPolls.enabled) {
         self.audience = audience
         self.appVersion = appVersion
         self.includesPolls = includesPolls
@@ -28,9 +28,7 @@ public struct WhatsNewMessageFilter {
     /// The filter for the account signed in and the build it's running on.
     public static var current: WhatsNewMessageFilter {
         let appVersion = ServerConfig.shared.syncDelegate?.appVersion() ?? ""
-        return WhatsNewMessageFilter(audience: .current,
-                                     appVersion: Version(appVersion),
-                                     includesPolls: FeatureFlag.whatsNewPolls.enabled)
+        return WhatsNewMessageFilter(audience: .current, appVersion: Version(appVersion))
     }
 
     /// Whether the message clears every rule it carries.

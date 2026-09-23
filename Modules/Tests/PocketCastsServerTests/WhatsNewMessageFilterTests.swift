@@ -4,7 +4,7 @@ import PocketCastsUtils
 import XCTest
 
 final class WhatsNewMessageFilterTests: XCTestCase {
-    private let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"))
+    private let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true)
     private let now = Date(timeIntervalSince1970: 1_787_000_000)
 
     // MARK: - Audience
@@ -25,7 +25,7 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         let message = try message(targeting: "{}")
 
         for audience in [WhatsNewAudience.free, .plus, .patron] {
-            let filter = WhatsNewMessageFilter(audience: audience, appVersion: Version("8.10"))
+            let filter = WhatsNewMessageFilter(audience: audience, appVersion: Version("8.10"), includesPolls: true)
             XCTAssertTrue(filter.includes(message, at: now), "\(audience) should see a message aimed at nobody in particular")
         }
     }
@@ -73,7 +73,7 @@ final class WhatsNewMessageFilterTests: XCTestCase {
     }
 
     func testAMessageGatedOnAVersionIsHiddenWhenTheAppVersionIsUnknown() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: nil)
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: nil, includesPolls: true)
         let gated = try message(targeting: #"{ "minimumAppVersion": "8.9" }"#)
         let ungated = try message(targeting: "{}")
 
