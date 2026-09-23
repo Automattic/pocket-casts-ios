@@ -134,13 +134,11 @@ public class DataManager {
         }
 
         FileLog.shared.addMessage("VACUUM -> Start")
-        let duration =  DBUtils.measureTime {
-            dbQueue.write { db in
-                do {
-                    try db.executeUpdate("VACUUM;", values: nil)
-                } catch {
-                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
-                }
+        let duration = DBUtils.measureTime {
+            do {
+                try dbQueue.vacuum()
+            } catch {
+                FileLog.shared.addMessage("VACUUM -> error: \(error)")
             }
         }
         FileLog.shared.addMessage("VACUUM -> End")

@@ -33,6 +33,11 @@ public final class GRDBQueue {
         }
     }
 
+    /// Runs `VACUUM`, which SQLite rejects inside a transaction, so it can't go through `write`.
+    func vacuum() throws {
+        try dbPool.vacuum()
+    }
+
     func close() {
         do {
             try dbPool.close()
