@@ -205,14 +205,14 @@ class WatchManager: NSObject, WCSessionDelegate {
                 handleChangeChapter(next: nextChapter)
             }
         } else if WatchConstants.Messages.IncreaseSpeedRequest.type == messageType {
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             let desiredSpeed = effects.playbackSpeed + 0.1
             if desiredSpeed <= SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
                 effects.playbackSpeed = desiredSpeed
                 PlaybackManager.shared.changeEffects(effects)
             }
         } else if WatchConstants.Messages.DecreaseSpeedRequest.type == messageType {
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             let desiredSpeed = effects.playbackSpeed - 0.1
             if desiredSpeed >= SharedConstants.PlaybackEffects.minimumPlaybackSpeed {
                 effects.playbackSpeed = desiredSpeed
@@ -221,17 +221,17 @@ class WatchManager: NSObject, WCSessionDelegate {
         } else if WatchConstants.Messages.TrimSilenceRequest.type == messageType {
             guard let enabled = payload[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
 
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.trimSilence = enabled ? .low : .off
             PlaybackManager.shared.changeEffects(effects)
         } else if WatchConstants.Messages.VolumeBoostRequest.type == messageType {
             guard let enabled = payload[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
 
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.volumeBoost = enabled
             PlaybackManager.shared.changeEffects(effects)
         } else if WatchConstants.Messages.ChangeSpeedIntervalRequest.type == messageType {
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.toggleDefinedSpeedInterval()
 
             PlaybackManager.shared.changeEffects(effects)
@@ -489,7 +489,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleUserEpisodeRequest() -> [String: Any] {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
         var episodes: [UserEpisode]
         if SubscriptionHelper.hasActiveSubscription() {
             episodes = DataManager.shared.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
@@ -621,8 +621,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             applicationDict[WatchConstants.Keys.loginChanged] = true
         }
 
-        applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 0
-        applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
+        applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled == true ? Settings.watchAutoDownloadUpNextCount : 0
+        applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext == true ? Settings.watchAutoDownloadUpNextCount : 25
 
         if FeatureFlag.watchTransferUserInfoApi.enabled && session.isReachable {
             // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext
@@ -700,7 +700,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
             nowPlayingInfo[WatchConstants.Keys.nowPlayingUpNextCount] = playbackManager.queue.upNextCount()
 
-            let effects = playbackManager.effects()
+            let effects = playbackManager.effects
             nowPlayingInfo[WatchConstants.Keys.nowPlayingTrimSilence] = effects.trimSilence.isEnabled()
             nowPlayingInfo[WatchConstants.Keys.nowPlayingVolumeBoost] = effects.volumeBoost
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSpeed] = effects.playbackSpeed

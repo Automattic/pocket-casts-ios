@@ -79,7 +79,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var playbackSpeed: Double {
-        PlaybackManager.shared.effects().playbackSpeed
+        PlaybackManager.shared.effects.playbackSpeed
     }
 
     func increasePlaybackSpeed() {
@@ -91,7 +91,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func changeSpeedInterval() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         effects.toggleDefinedSpeedInterval()
 
         PlaybackManager.shared.changeEffects(effects)
@@ -170,10 +170,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
     var supportsFileSort = true
     var userEpisodeSortOrder: UploadedSort {
         get {
-            UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+            UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
         }
         set {
-            Settings.setUserEpisodeSortBy(newValue.rawValue)
+            Settings.userEpisodeSortBy = newValue.rawValue
         }
     }
 
@@ -245,7 +245,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var effectsIconName: String {
-        PlaybackManager.shared.effects().effectsEnabled() ? "speed-on" : "speed-off"
+        PlaybackManager.shared.effects.effectsEnabled() ? "speed-on" : "speed-off"
     }
 
     var upNextCount: Int {
@@ -287,10 +287,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     var podcastSortOrder: LibrarySort {
         get {
-            Settings.homeFolderSortOrder()
+            Settings.homeFolderSortOrder
         }
         set {
-            Settings.setHomeFolderSortOrder(order: newValue)
+            Settings.homeFolderSortOrder = newValue
         }
     }
 

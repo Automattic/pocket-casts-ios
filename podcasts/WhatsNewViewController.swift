@@ -7,7 +7,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
                 shadowView.layer.shadowRadius = 0
             } else {
                 shadowView.layer.masksToBounds = false
-                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor().cgColor
+                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor.cgColor
                 shadowView.layer.shadowOffset = CGSize(width: 0, height: -2)
                 shadowView.layer.shadowOpacity = 0.15
                 shadowView.layer.shadowRadius = 2
@@ -56,7 +56,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         scrollView.isPagingEnabled = true
         scrollView.isDirectionalLockEnabled = true
 
-        if !LiquidGlass.isEnabled, Settings.whatsNewLastAcknowledged() == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
+        if !LiquidGlass.isEnabled, Settings.whatsNewLastAcknowledged == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
             shadowViewBottomConstraint.constant = shadowViewBottomConstraint.constant - Constants.Values.miniPlayerOffset
         }
 
@@ -66,8 +66,8 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if Settings.whatsNewLastAcknowledged() != whatsNewInfo.versionCode {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+        if Settings.whatsNewLastAcknowledged != whatsNewInfo.versionCode {
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 

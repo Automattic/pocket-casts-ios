@@ -234,7 +234,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         pausing = false
         let loadOptions = GCKMediaLoadOptions()
 
-        let adjustedSpeed = min(googleCastMaxPlaybackRate, Float(PlaybackManager.shared.effects().playbackSpeed))
+        let adjustedSpeed = min(googleCastMaxPlaybackRate, Float(PlaybackManager.shared.effects.playbackSpeed))
         loadOptions.autoplay = true
         loadOptions.playPosition = PlaybackManager.shared.requiredStartingPosition()
         loadOptions.playbackRate = adjustedSpeed

@@ -94,7 +94,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.upNext
-            cell.cellSwitch.isOn = Settings.downloadUpNextEpisodes()
+            cell.cellSwitch.isOn = Settings.downloadUpNextEpisodes
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(downloadUpNextToggled(_:)), for: UIControl.Event.valueChanged)
 
@@ -131,7 +131,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
             cell.cellLabel.text = L10n.autoDownloadLimitDownloads
-            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits().localizedDescriptionForRow
+            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits.localizedDescriptionForRow
 
             return cell
         case .filterSelection:
@@ -205,8 +205,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
             let limitOptions = AutoDownloadLimit.allCases
             for limit in limitOptions {
-                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits() == limit) {
-                    Settings.setAutoDownloadLimits(limit)
+                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits == limit) {
+                    Settings.autoDownloadLimits = limit
                     tableView.reloadData()
                 }
                 picker.addAction(action: selectAction)
@@ -262,7 +262,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     }
 
     @objc private func downloadUpNextToggled(_ slider: UISwitch) {
-        Settings.setDownloadUpNextEpisodes(slider.isOn)
+        Settings.downloadUpNextEpisodes = slider.isOn
 
         settingsTable.reloadData()
     }

@@ -18,7 +18,7 @@ struct EpisodeLoadingView: View {
         ZStack(alignment: .center) {
             if !episodeLoadingModel.error {
                 ProgressView()
-                    .tint(AppTheme.loadingActivityColor().color)
+                    .tint(AppTheme.loadingActivityColor.color)
                     .scaleEffect(x: 2, y: 2, anchor: .center)
             } else {
                 Text(L10n.discoverEpisodeFailToLoad)

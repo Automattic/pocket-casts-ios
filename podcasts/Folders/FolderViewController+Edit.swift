@@ -20,7 +20,7 @@ extension FolderViewController {
     }
 
     func applyEditingTreatment(to cell: UICollectionViewCell) {
-        if Settings.libraryType() == .list {
+        if Settings.libraryType == .list {
             addReorderHandle(to: cell)
         } else {
             cell.startEditingWiggle()

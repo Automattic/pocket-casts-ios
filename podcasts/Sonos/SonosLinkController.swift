@@ -5,7 +5,7 @@ import UIKit
 class SonosLinkController: PCViewController {
     @IBOutlet var sonosImage: UIImageView! {
         didSet {
-            sonosImage.image = Theme.isDarkTheme() ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
+            sonosImage.image = Theme.isDarkTheme ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
         }
     }
 

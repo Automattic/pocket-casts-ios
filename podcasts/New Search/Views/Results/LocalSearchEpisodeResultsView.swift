@@ -58,7 +58,7 @@ struct LocalSearchEpisodeResultsView: View {
     private var loadingOverlay: some View {
         ProgressView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .tint(AppTheme.loadingActivityColor().color)
+            .tint(AppTheme.loadingActivityColor.color)
     }
 
     private var removalAnimation: Animation? {

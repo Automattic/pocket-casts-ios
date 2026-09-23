@@ -221,14 +221,14 @@ class PlayerCell: ThemeableSwipeCell {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else if episode.downloading() {
             if !downloadingIndicator.isAnimating {
                 downloadingIndicator.startAnimating()
                 downloadingIndicator.isHidden = false
                 downloadedIndicator.isHidden = true
             }
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true

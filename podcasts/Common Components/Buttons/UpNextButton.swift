@@ -146,6 +146,6 @@ class UpNextButton: UIButton {
         if let themeOverride {
             return themeOverride.isDark
         }
-        return Theme.isDarkTheme()
+        return Theme.isDarkTheme
     }
 }

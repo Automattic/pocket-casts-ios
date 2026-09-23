@@ -84,7 +84,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     }
 
     private func setupLoadingIndicator() {
-        loadingIndicator.color = AppTheme.loadingActivityColor()
+        loadingIndicator.color = AppTheme.loadingActivityColor
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingIndicator)
         NSLayoutConstraint.activate([

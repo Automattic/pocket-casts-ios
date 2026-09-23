@@ -140,7 +140,7 @@ class PodcastManager: NSObject {
 
     private func checkForEpisodesToDownload(podcast: Podcast) {
         if !podcast.autoDownloadOn() { return }
-        let episodesLimit = FeatureFlag.autoDownloadOnSubscribe.enabled ? Settings.autoDownloadLimits().rawValue : 4
+        let episodesLimit = FeatureFlag.autoDownloadOnSubscribe.enabled ? Settings.autoDownloadLimits.rawValue : 4
         let latestEpisodes = dataManager.findEpisodesWhere(customWhere: "podcast_id == ? ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", arguments: [podcast.id, episodesLimit])
         guard let latestEpisode = latestEpisodes.first else { return } // no episodes to download
 

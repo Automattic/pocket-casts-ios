@@ -155,8 +155,8 @@ class FilterDurationViewController: PCViewController {
 
         title = L10n.filterOptionEpisodeDuration
 
-        backgroundColor = AppTheme.viewBackgroundColor()
-        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        backgroundColor = AppTheme.viewBackgroundColor
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor)
         title = L10n.filterOptionEpisodeDuration.sentenceCased
 
         let navigationBar = navigationController?.navigationBar

@@ -27,7 +27,7 @@ extension AppDelegate {
             ServerSettings.setSkipForwardTime(45, syncChange: false)
 
             Settings.setShouldDeleteWhenPlayed(true)
-            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            Settings.homeFolderSortOrder = .dateAddedNewestToOldest
             Settings.setMobileDataAllowed(true)
             Settings.shouldShowInitialOnboardingFlow = true
             Settings.autoplay = true
@@ -156,7 +156,7 @@ extension AppDelegate {
 
     private func setWhatsNewAcknowledgeToLatest() {
         if let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo() {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 }

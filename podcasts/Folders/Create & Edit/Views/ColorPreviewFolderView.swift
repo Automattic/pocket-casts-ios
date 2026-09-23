@@ -31,9 +31,9 @@ struct ColorPreviewFolderView: View {
                     .padding(.top, 10)
                 ThemedDivider()
                 HStack {
-                    FolderPreviewWrapper(model: model, showName: Settings.libraryType() != .list)
+                    FolderPreviewWrapper(model: model, showName: Settings.libraryType != .list)
                         .frame(width: previewTileSize(), height: previewTileSize())
-                    if Settings.libraryType() == .list {
+                    if Settings.libraryType == .list {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(model.name)
                                 .textStyle(PrimaryText())
@@ -66,7 +66,7 @@ struct ColorPreviewFolderView: View {
     }
 
     private func previewTileSize() -> CGFloat {
-        switch Settings.libraryType() {
+        switch Settings.libraryType {
         case .list:
             return 60
         case .fourByFour:

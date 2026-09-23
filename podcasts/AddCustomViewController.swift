@@ -120,8 +120,8 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             if let artworkImage = artwork {
                 fileImageView.image = artworkImage // artworkImage.kf.scaled(to: 680)
                 fileImageView.contentMode = .scaleAspectFit
-                fileImageView.backgroundColor = AppTheme.embeddedArtworkColor()
-                imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor()
+                fileImageView.backgroundColor = AppTheme.embeddedArtworkColor
+                imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor
                 addCustomImageButton.setTitle(L10n.fileUploadRemoveImage, for: .normal)
                 colorPickerView.reloadData()
             } else {
@@ -148,7 +148,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 if let artworkImage = artwork {
                     fileImageView.image = artworkImage.kf.scaled(to: 680)
                     fileImageView.contentMode = .scaleAspectFit
-                    imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor()
+                    imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor
                 }
             }
         }
@@ -210,7 +210,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             navigationItem.leftBarButtonItem = cancelButton
 
             colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
-            view.backgroundColor = AppTheme.uploadProgressBackgroundColor()
+            view.backgroundColor = AppTheme.uploadProgressBackgroundColor
 
             nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             setupScrollViewOffset()
@@ -228,7 +228,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
                 navigationItem.leftBarButtonItem = cancelButton
 
-                view.backgroundColor = AppTheme.uploadProgressBackgroundColor()
+                view.backgroundColor = AppTheme.uploadProgressBackgroundColor
 
                 nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
                 setupFileDetails()
@@ -302,7 +302,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
                 self.addCustomImageButton.isEnabled = true
                 self.addCustomlock.isHidden = false
-                self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd()
+                self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd
 
                 if self.embeddedImage == nil {
                     self.customiseArtworkView.addGestureRecognizer(self.lockedArtworkTapGesture)
@@ -472,7 +472,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 extension AddCustomViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         lockView.isHidden = true
-        Settings.setPlusInfoDismissedOnFilesAdd(true)
+        Settings.plusInfoDismissedOnFilesAdd = true
     }
 
     var displayingViewController: UIViewController {

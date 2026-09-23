@@ -86,7 +86,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.player = AVAudioPlayerNode()
             strongSelf.engine?.attach(strongSelf.player!)
 
-            strongSelf.effects = PlaybackManager.shared.effects()
+            strongSelf.effects = PlaybackManager.shared.effects
             strongSelf.playBufferManager = PlayBufferManager()
 
             // Set useVoiceBoostN before setVolumeBoostSettings so bypass is configured correctly
@@ -269,7 +269,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func effectsDidChange() {
-        effects = PlaybackManager.shared.effects()
+        effects = PlaybackManager.shared.effects
 
         audioReadTask?.setTrimSilence(effects.trimSilence)
         playbackSpeed = effects.playbackSpeed

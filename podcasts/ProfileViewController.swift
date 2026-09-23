@@ -71,7 +71,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var plusInfoView: PlusLockedInfoView! {
         didSet {
-            plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
+            plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile || SubscriptionHelper.hasActiveSubscription()
             plusInfoView.delegate = self
         }
     }
@@ -286,7 +286,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         headerViewModel.update()
 
         updateLastRefreshDetails()
-        plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
+        plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
         refreshTableData()
     }
@@ -655,7 +655,7 @@ extension ProfileViewController: UIPopoverPresentationControllerDelegate {
 
 extension ProfileViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnProfile(true)
+        Settings.plusInfoDismissedOnProfile = true
         plusInfoView.isHidden = true
         updateFooterFrame()
     }

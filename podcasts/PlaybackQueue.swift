@@ -388,7 +388,7 @@ class PlaybackQueue: NSObject {
 
     #if !APPCLIP
     private func checkAllForAutoDownload() {
-        if !Settings.downloadUpNextEpisodes() { return }
+        if !Settings.downloadUpNextEpisodes { return }
 
         DispatchQueue.global().async { [weak self] in
             guard let self else { return }
@@ -404,7 +404,7 @@ class PlaybackQueue: NSObject {
         // interrupt the stream once the download completes. Skip it. See DownloadManager.downloadParallelToStream.
         if EpisodeManager.hasHLSStream(episode) { return }
 
-        if !Settings.downloadUpNextEpisodes() || episode.queued() || episode.downloaded(pathFinder: DownloadManager.shared) { return }
+        if !Settings.downloadUpNextEpisodes || episode.queued() || episode.downloaded(pathFinder: DownloadManager.shared) { return }
 
         if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)

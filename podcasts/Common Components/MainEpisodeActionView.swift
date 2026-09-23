@@ -116,7 +116,7 @@ class MainEpisodeActionView: UIView {
         // update button state
         let isPlaying = (isCurrent && PlaybackManager.shared.isPlaying)
         let googleCastConnected = GoogleCastManager.shared.connected()
-        let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
+        let primaryRowActionIsDownload = Settings.primaryRowAction == .download
         if googleCastConnected {
             state = isPlaying ? .pause : .play
         } else if episode.played() {
@@ -232,10 +232,10 @@ extension MainEpisodeActionView {
 
             accessibilityLabel = L10n.play
         case .playedPlay:
-            drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor())
+            drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor)
             accessibilityLabel = L10n.statusPlayed
         case .playedDownload:
-            drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor())
+            drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor)
             accessibilityLabel = L10n.statusPlayed
         case .download:
             drawDownloadArrow(context: context, color: tintColor)
@@ -284,7 +284,7 @@ extension MainEpisodeActionView {
 
             accessibilityLabel = L10n.podcastPauseDownload
         case .waitingForWifi:
-            let waitingColor = AppTheme.waitingForWifiColor()
+            let waitingColor = AppTheme.waitingForWifiColor
             waitingColor.setFill()
 
             let startingY = circleCenter.y - (Self.circleRadius * enlargementScale / 3)
@@ -339,7 +339,7 @@ extension MainEpisodeActionView {
             drawEmptyCircle(context: context, color: waitingColor)
             accessibilityLabel = L10n.waitForWifi
         case .error:
-            let color = AppTheme.waitingForWifiColor()
+            let color = AppTheme.waitingForWifiColor
             drawImageInCenter(imageName: "list_retry", color: color)
             drawEmptyCircle(context: context, color: color)
             accessibilityLabel = L10n.error

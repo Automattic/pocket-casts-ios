@@ -164,7 +164,7 @@ extension AppDelegate {
         }
         // developer features:
         JLRoutes.global().addRoute("/resetalltours") { _ -> Bool in
-            Settings.setWhatsNewLastAcknowledged(0)
+            Settings.whatsNewLastAcknowledged = 0
 
             return true
         }
