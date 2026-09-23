@@ -16,20 +16,29 @@ public struct WhatsNewMessageFilter {
     /// when it isn't a version this can make sense of.
     public let appVersion: Version?
 
-    public init(audience: WhatsNewAudience, appVersion: Version?) {
+    /// Whether research messages, which ask the user to answer a poll, are shown.
+    public let includesPolls: Bool
+
+    public init(audience: WhatsNewAudience, appVersion: Version?, includesPolls: Bool = true) {
         self.audience = audience
         self.appVersion = appVersion
+        self.includesPolls = includesPolls
     }
 
     /// The filter for the account signed in and the build it's running on.
     public static var current: WhatsNewMessageFilter {
         let appVersion = ServerConfig.shared.syncDelegate?.appVersion() ?? ""
-        return WhatsNewMessageFilter(audience: .current, appVersion: Version(appVersion))
+        return WhatsNewMessageFilter(audience: .current,
+                                     appVersion: Version(appVersion),
+                                     includesPolls: FeatureFlag.whatsNewPolls.enabled)
     }
 
     /// Whether the message clears every rule it carries.
     public func includes(_ message: WhatsNewMessage, at date: Date = Date()) -> Bool {
-        message.targeting.targets(audience) && isSupported(message) && isLive(message, at: date)
+        (includesPolls || message.type != .research)
+            && message.targeting.targets(audience)
+            && isSupported(message)
+            && isLive(message, at: date)
     }
 
     /// Whether the build is new enough for the message.

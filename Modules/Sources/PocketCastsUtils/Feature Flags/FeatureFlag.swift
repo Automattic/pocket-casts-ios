@@ -253,6 +253,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the What's New feed
     case whatsNewFeed
 
+    /// Show the What's New feed's research messages, which ask the user to answer a poll
+    case whatsNewPolls
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -431,6 +434,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .whatsNewFeed:
             BuildEnvironment.current == .debug
+        case .whatsNewPolls:
+            false
         }
     }
 
