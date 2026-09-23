@@ -389,7 +389,7 @@ public class ServerPodcastManager: NSObject {
         homeGridSortOrder(highest: false)
     }
 
-    public func highestSortOrderForFolder(_ folder: Folder) -> Int32 {
+    public func highestSortOrder(for folder: Folder) -> Int32 {
         let folderPodcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
         var highest: Int32 = 1
 

@@ -970,7 +970,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         guard let podcast else { return }
 
         DispatchQueue.global().async { [self] in
-            DataManager.shared.markAllUnarchivedForPodcast(id: podcast.id)
+            DataManager.shared.markAllUnarchived(forPodcastId: podcast.id)
 
             AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
             AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())

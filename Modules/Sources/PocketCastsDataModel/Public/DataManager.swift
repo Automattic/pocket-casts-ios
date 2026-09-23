@@ -415,8 +415,8 @@ public class DataManager {
         podcastManager.saveSortOrders(podcasts: podcasts, dbQueue: dbQueue)
     }
 
-    public func markAllUnarchivedForPodcast(id: Int64) {
-        episodeManager.markAllUnarchivedForPodcast(id: id, dbQueue: dbQueue)
+    public func markAllUnarchived(forPodcastId id: Int64) {
+        episodeManager.markAllUnarchived(forPodcastId: id, dbQueue: dbQueue)
     }
 
     public func updateAllPodcastGrouping(to grouping: PodcastGrouping) {
@@ -843,8 +843,8 @@ public class DataManager {
         episodeManager.markAllSynced(episodeIDs: episodeIDs, dbQueue: dbQueue)
     }
 
-    public func allEpisodesForPodcast(id: Int64) -> [Episode] {
-        episodeManager.allEpisodesForPodcast(id: id, dbQueue: dbQueue)
+    public func allEpisodes(forPodcastId id: Int64) -> [Episode] {
+        episodeManager.allEpisodes(forPodcastId: id, dbQueue: dbQueue)
     }
 
     public func delete(episodeUuid: String) {
