@@ -260,7 +260,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     @objc private func updateUploadProgress() {
-        guard UploadManager.shared.progressManager.hasProgressForUserEpisode(episode.uuid) else { return }
+        guard UploadManager.shared.progressManager.hasProgress(forUserEpisodeUuid: episode.uuid) else { return }
 
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -272,7 +272,7 @@ class UserEpisodeDetailViewController: UIViewController {
             self.uploadProgressIndicator.isHidden = !self.episode.uploading()
             if self.episode.uploading() {
                 self.infoLabel.text = self.episode.displayableInfo(includeSize: true)
-                if let progress = UploadManager.shared.progressManager.progressForEpisode(self.episode.uuid) {
+                if let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: self.episode.uuid) {
                     self.uploadProgressIndicator.progress = progress.percentageProgress()
                 } else {
                     self.uploadProgressIndicator.progress = 0
@@ -282,7 +282,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     @objc func updateDownloadProgress() {
-        guard let _ = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) else { return }
+        guard let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) else { return }
 
         if !episode.downloading() {
             reloadEpisode()

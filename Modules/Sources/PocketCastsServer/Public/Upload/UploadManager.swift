@@ -75,7 +75,7 @@ public class UploadManager: NSObject {
         episode.uploadTaskId = episode.uuid
         DataManager.shared.save(episode: episode)
 
-        progressManager.updateStatusForEpisode(episode.uuid, status: .queued)
+        progressManager.updateStatus(forEpisodeUuid: episode.uuid, status: .queued)
 
         if fireNotification { NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid) }
 
@@ -161,7 +161,7 @@ public class UploadManager: NSObject {
         guard let episode = uploadingEpisodesCache[taskId] else { return }
 
         if !isImageUpload(taskId: taskId) {
-            progressManager.removeProgressForEpisode(episode.uuid)
+            progressManager.removeProgress(forEpisodeUuid: episode.uuid)
         }
         uploadingEpisodesCache.removeValue(forKey: taskId)
     }

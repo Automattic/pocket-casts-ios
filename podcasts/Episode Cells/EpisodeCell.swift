@@ -344,7 +344,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if let userEpisode = episode as? UserEpisode {
             uploadProgressIndicator.isHidden = !(userEpisode.uploading() || userEpisode.uploadWaitingForWifi())
             if userEpisode.uploading() {
-                if let progress = UploadManager.shared.progressManager.progressForEpisode(userEpisode.uuid) {
+                if let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: userEpisode.uuid) {
                     uploadProgressIndicator.progress = progress.percentageProgress()
                 } else {
                     uploadProgressIndicator.progress = 0.1
@@ -510,7 +510,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func downloadProgressDidUpdate() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as downloading, update it from the DB
         if !ourEpisode.downloading() {
@@ -529,7 +529,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func uploadProgressDidUpdateOnMain() {
-        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as uploading, update it from the DB
         if !ourEpisode.uploading() {

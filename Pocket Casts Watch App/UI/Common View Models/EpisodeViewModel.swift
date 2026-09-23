@@ -29,7 +29,7 @@ class EpisodeViewModel: ObservableObject {
         inUpNext = playSourceViewModel.inUpNext(forEpisode: episode)
 
         if episode.downloading() {
-            downloadProgress = DownloadManager.shared.progressManager.progressForEpisode(self.episode.uuid)
+            downloadProgress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: self.episode.uuid)
         }
 
         Publishers.Notification.downloadStatusChanged
@@ -50,7 +50,7 @@ class EpisodeViewModel: ObservableObject {
                     self.episode = fetchedEpisode
                 }
 
-                self.downloadProgress = DownloadManager.shared.progressManager.progressForEpisode(self.episode.uuid)
+                self.downloadProgress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: self.episode.uuid)
             })
             .store(in: &cancellables)
 

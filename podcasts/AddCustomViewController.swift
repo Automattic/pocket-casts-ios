@@ -170,7 +170,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     required init(episode: UserEpisode) {
         uuid = episode.uuid
-        fileUrl = URL(fileURLWithPath: DownloadManager.shared.pathForEpisode(episode))
+        fileUrl = URL(fileURLWithPath: DownloadManager.shared.path(for: episode))
         episodeToEdit = episode
         name = episode.title ?? ""
         super.init(nibName: nil, bundle: nil)

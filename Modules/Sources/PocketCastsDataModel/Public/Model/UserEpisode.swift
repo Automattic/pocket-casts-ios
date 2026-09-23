@@ -65,16 +65,16 @@ public class UserEpisode: NSObject, BaseEpisode {
 
     public func pathToDownloadedFile(pathFinder: FilePathProtocol) -> String {
         if downloaded(pathFinder: pathFinder) {
-            return pathFinder.pathForEpisode(self)
+            return pathFinder.path(for: self)
         } else if bufferedForStreaming() {
-            return pathFinder.streamingBufferPathForEpisode(self)
+            return pathFinder.streamingBufferPath(for: self)
         }
 
         return pathToTempFile(pathFinder: pathFinder)
     }
 
     public func pathToTempFile(pathFinder: FilePathProtocol) -> String {
-        pathFinder.tempPathForEpisode(self)
+        pathFinder.tempPath(for: self)
     }
 
     // MARK: - State
@@ -82,7 +82,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     public func downloaded(pathFinder: FilePathProtocol) -> Bool {
         if episodeStatus != DownloadStatus.downloaded.rawValue { return false }
 
-        let path = pathFinder.pathForEpisode(self)
+        let path = pathFinder.path(for: self)
 
         return FileManager.default.fileExists(atPath: path)
     }

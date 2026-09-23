@@ -30,7 +30,7 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let task = task as? URLSessionUploadTask, let taskId = task.taskDescription, let episode = episodeForTask(task, forceReload: true, includeImageTasks: true) else {
+        guard let task = task as? URLSessionUploadTask, let taskId = task.taskDescription, let episode = episode(for: task, forceReload: true, includeImageTasks: true) else {
             // if there's no error then no need for us to do anything
             return
         }
@@ -67,12 +67,12 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
         guard let uploadTask = task as? URLSessionUploadTask,
               let taskId = task.taskDescription,
               !isImageUpload(taskId: taskId),
-              let uploadingEpisode = episodeForTask(uploadTask, forceReload: false) else { return }
+              let uploadingEpisode = episode(for: uploadTask, forceReload: false) else { return }
 
-        progressManager.updateProgressForEpisode(uploadingEpisode.uuid, totalBytesSent: totalBytesSent, totalBytesExpected: totalBytesExpectedToSend)
+        progressManager.updateProgress(forEpisodeUuid: uploadingEpisode.uuid, totalBytesSent: totalBytesSent, totalBytesExpected: totalBytesExpectedToSend)
     }
 
-    private func episodeForTask(_ task: URLSessionUploadTask, forceReload: Bool, includeImageTasks: Bool = false) -> UserEpisode? { // TODO: allow image upload
+    private func episode(for task: URLSessionUploadTask, forceReload: Bool, includeImageTasks: Bool = false) -> UserEpisode? { // TODO: allow image upload
         guard let uploadId = task.taskDescription else { return nil }
 
         if !forceReload {

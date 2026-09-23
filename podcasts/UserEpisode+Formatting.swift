@@ -8,7 +8,7 @@ extension UserEpisode {
 
     func displayableInfo(includeSize: Bool = true) -> String {
         if uploading() {
-            let progress = UploadManager.shared.progressManager.progressForEpisode(uuid)?.percentageProgressAsString() ?? ""
+            let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: uuid)?.percentageProgressAsString() ?? ""
             return L10n.podcastUploading(progress).trimmingCharacters(in: .whitespaces)
         } else if uploadWaitingForWifi() {
             return L10n.podcastWaitingUpload

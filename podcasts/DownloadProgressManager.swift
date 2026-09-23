@@ -5,13 +5,13 @@ import UIKit
 class DownloadProgressManager {
     private let progressItems = Mutex([String: DownloadProgress]())
 
-    func progressForEpisode(_ uuid: String) -> DownloadProgress? {
+    func progress(forEpisodeUuid uuid: String) -> DownloadProgress? {
         progressItems.withLock { progressItems in
             progressItems[uuid]
         }
     }
 
-    func updateProgressForEpisode(_ uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
+    func updateProgress(forEpisodeUuid uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
         var update: Bool = false
         progressItems.withLock { progressItems in
             var progressItem = progressItems[uuid] ?? DownloadProgress()
@@ -32,7 +32,7 @@ class DownloadProgressManager {
         }
     }
 
-    func updateStatusForEpisode(_ uuid: String, status: DownloadStatus) {
+    func updateStatus(forEpisodeUuid uuid: String, status: DownloadStatus) {
         progressItems.withLock { progressItems in
             var progressItem = progressItems[uuid] ?? DownloadProgress()
             progressItem.status = status
@@ -40,7 +40,7 @@ class DownloadProgressManager {
         }
     }
 
-    func removeProgressForEpisode(_ uuid: String) {
+    func removeProgress(forEpisodeUuid uuid: String) {
         progressItems.withLock { progressItems in
             progressItems[uuid] = nil
         }

@@ -46,7 +46,7 @@ final class PodcastManagerTests: DBTestCase {
 
         let refreshedEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
         XCTAssertEqual(refreshedEpisode.episodeStatus, DownloadStatus.downloaded.rawValue)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.path(for: refreshedEpisode)))
     }
 
     func testCleanupKeepsDownloadsNotInPlaylist() async throws {
@@ -60,7 +60,7 @@ final class PodcastManagerTests: DBTestCase {
 
         let refreshedEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
         XCTAssertEqual(refreshedEpisode.episodeStatus, DownloadStatus.downloaded.rawValue)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.path(for: refreshedEpisode)))
     }
 
     func testUnsubscribeRemovesDownloadsInPlaylist() throws {
@@ -80,7 +80,7 @@ final class PodcastManagerTests: DBTestCase {
 
         let refreshedEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
         XCTAssertEqual(refreshedEpisode.episodeStatus, DownloadStatus.notDownloaded.rawValue)
-        XCTAssertFalse(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: DownloadManager.shared.path(for: refreshedEpisode)))
     }
 
     func testUnsubscribeRemovesDownloadsNotInPlaylist() throws {
@@ -94,7 +94,7 @@ final class PodcastManagerTests: DBTestCase {
 
         let refreshedEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
         XCTAssertEqual(refreshedEpisode.episodeStatus, DownloadStatus.notDownloaded.rawValue)
-        XCTAssertFalse(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: DownloadManager.shared.path(for: refreshedEpisode)))
     }
 
     func testDeleteOrphanedEpisodesIfNeededRepointsInteractedOrphanAndDropsStaleLiveRow() throws {
@@ -165,7 +165,7 @@ final class PodcastManagerTests: DBTestCase {
     }
 
     private func createDownloadedFile(for episode: Episode) {
-        let path = DownloadManager.shared.pathForEpisode(episode)
+        let path = DownloadManager.shared.path(for: episode)
         let directory = (path as NSString).deletingLastPathComponent
         try? FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
         FileManager.default.createFile(atPath: path, contents: Data())

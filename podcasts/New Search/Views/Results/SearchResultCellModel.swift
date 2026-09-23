@@ -183,7 +183,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             .sink(receiveValue: { [weak self] notification in
                 guard let self,
                       notification.object as? String == episode.uuid,
-                      DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) != nil else { return }
+                      DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) != nil else { return }
                 // Only hit the DB when our cached episode doesn't yet reflect the download; live
                 // progress is read straight from the DownloadManager when the button repopulates.
                 if self.realEpisode?.downloading() != true {
