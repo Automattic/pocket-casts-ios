@@ -283,7 +283,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             newTableData.append([.tabBarMinimizing])
         }
 
-        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {
+        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance {
             newTableData.append([.plusCallout])
         }
 
@@ -324,7 +324,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
 extension AppearanceViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnAppearance(true)
+        Settings.plusInfoDismissedOnAppearance = true
         updateTableAndData()
     }
 

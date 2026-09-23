@@ -256,7 +256,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     private func codeRedeemed() {
         SubscriptionHelper.setSubscriptionGiftAcknowledgement(true)
         ApiServerHandler.shared.retrieveSubscriptionStatus()
-        Settings.setPromotionFinishedAcknowledged(false)
+        Settings.promotionFinishedAcknowledged = false
         delegate?.promotionRedeemed(message: serverMessage ?? "")
 
         DispatchQueue.main.async {

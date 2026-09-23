@@ -38,7 +38,7 @@ class PromotionFinishedViewController: UIViewController {
     }
 
     @IBAction func doneTapped(_ sender: Any) {
-        Settings.setPromotionFinishedAcknowledged(true)
+        Settings.promotionFinishedAcknowledged = true
         dismiss(animated: true, completion: nil)
     }
 

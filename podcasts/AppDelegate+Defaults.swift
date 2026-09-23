@@ -156,7 +156,7 @@ extension AppDelegate {
 
     private func setWhatsNewAcknowledgeToLatest() {
         if let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo() {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 }

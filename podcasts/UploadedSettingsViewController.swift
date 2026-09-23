@@ -42,7 +42,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 
     private func tableSections() -> [TableSections] {
         var sections: [TableSections] = [.autoAddToUpNext, .afterPlaying, .autoSync, .onlyOnWifi]
-        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnFilesSettings() {
+        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnFilesSettings {
             sections.append(.lockedInfo)
         }
 
@@ -56,7 +56,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         if hasSubscription {
             rows[1].append(.removeFromCloudAfterPlaying)
         }
-        if !hasSubscription, !Settings.plusInfoDismissedOnFilesSettings() {
+        if !hasSubscription, !Settings.plusInfoDismissedOnFilesSettings {
             rows.append([.lockedInfo])
         }
 
@@ -243,7 +243,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 
 extension UploadedSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnFilesSettings(true)
+        Settings.plusInfoDismissedOnFilesSettings = true
         settingsTable.reloadData()
     }
 
