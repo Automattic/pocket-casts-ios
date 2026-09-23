@@ -32,7 +32,7 @@ struct EpisodeImage: View {
     }
 
     private func loadImage() {
-        imageManager.imageForEpisode(episode, size: .list) { image in
+        imageManager.image(for: episode, size: .list) { image in
             guard let image else { return }
 
             self.episodeImage = image

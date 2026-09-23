@@ -219,7 +219,7 @@ class NowPlayingViewModel: Identifiable {
             return image
         }
 
-        return await imageManager.imageForEpisode(episode, size: .page)
+        return await imageManager.image(for: episode, size: .page)
     }
 
     var podcastUuid: String? {

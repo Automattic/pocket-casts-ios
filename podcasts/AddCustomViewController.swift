@@ -196,7 +196,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             sizeLabel.text = SizeFormatter.shared.defaultFormat(bytes: Int64(fileSize))
 
             if episode.imageColor == 0 {
-                ImageManager.shared.imageForEpisode(episode, size: .list) { [weak self] image in
+                ImageManager.shared.image(for: episode, size: .list) { [weak self] image in
                     self?.artwork = image
                 }
             } else {

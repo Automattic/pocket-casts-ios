@@ -225,15 +225,15 @@ class ImageManager {
         return nil
     }
 
-    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
+    func image(for episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
         await withCheckedContinuation { continuation in
-            imageForEpisode(episode, size: size) { image in
+            image(for: episode, size: size) { image in
                 continuation.resume(returning: image)
             }
         }
     }
 
-    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
+    func image(for episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
         if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
         }) {
