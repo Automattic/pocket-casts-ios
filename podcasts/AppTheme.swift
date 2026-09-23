@@ -3,100 +3,100 @@ import SwiftUI
 import PocketCastsUtils
 import PocketCastsServer
 
-class AppTheme {
+enum AppTheme {
     private static let tintColor = UIColor(hex: "#F44336")
 
-    class func appTintColor() -> UIColor {
+    static func appTintColor() -> UIColor {
         AppTheme.tintColor
     }
 
-    class func placeholderTextColor() -> UIColor {
+    static func placeholderTextColor() -> UIColor {
         Theme.isDarkTheme() ? UIColor(hex: "#808892") : UIColor(hex: "#C7C7CD")
     }
 
-    class func pcPlusGoldGradientDark() -> UIColor {
+    static func pcPlusGoldGradientDark() -> UIColor {
         UIColor(hex: "#feb525")
     }
 
-    class func pcPlusGoldGradientLight() -> UIColor {
+    static func pcPlusGoldGradientLight() -> UIColor {
         UIColor(hex: "#fed745")
     }
 
-    class func successGreen() -> UIColor {
+    static func successGreen() -> UIColor {
         UIColor(hex: "#78D549")
     }
 
-    class func episodeCellPlayedIndicatorColor() -> UIColor {
+    static func episodeCellPlayedIndicatorColor() -> UIColor {
         Theme.isDarkTheme() ? UIColor.white : UIColor.black
     }
 
     // MARK: - Mini Player
 
-    class func waitingForWifiColor() -> UIColor {
+    static func waitingForWifiColor() -> UIColor {
         Theme.isDarkTheme() ? UIColor(hex: "#525466") : UIColor(hex: "#B8C3C9")
     }
 
     // MARK: - Podcast Page
 
-    class func extraContentBorderColor() -> UIColor {
+    static func extraContentBorderColor() -> UIColor {
         Theme.isDarkTheme() ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#E0E6EA")
     }
 
     // MARK: - Episode Card Message
 
-    class func episodeMessageBorderColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func episodeMessageBorderColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         (theme?.isDark ?? Theme.isDarkTheme()) ? UIColor(hex: "#979797") : UIColor(hex: "#DCE1E4")
     }
 
-    class func episodeMessageBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func episodeMessageBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         (theme?.isDark ?? Theme.isDarkTheme()) ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#FBFBFB")
     }
 
-    class func switchDarkThemeDefaultColor() -> UIColor {
+    static func switchDarkThemeDefaultColor() -> UIColor {
         UIColor(hex: "#CCCCCC")
     }
 
-    class func appearanceShadowColor() -> UIColor {
+    static func appearanceShadowColor() -> UIColor {
         UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
     }
 
-    class func uploadProgressBackgroundColor() -> UIColor {
+    static func uploadProgressBackgroundColor() -> UIColor {
         Theme.isDarkTheme() ? viewBackgroundColor() : UIColor(hex: "#F9FAF9")
     }
 
-    class func userEpisodeNoArtworkColor() -> UIColor {
+    static func userEpisodeNoArtworkColor() -> UIColor {
         UIColor(hex: "#8F97A4")
     }
 
-    class func embeddedArtworkColor() -> UIColor {
+    static func embeddedArtworkColor() -> UIColor {
         UIColor.black
     }
 
-    class func defaultPodcastBackgroundColor() -> UIColor {
+    static func defaultPodcastBackgroundColor() -> UIColor {
         UIColor(hex: "#1E1F1E")
     }
 
     // MARK: - Paid podcast colours
 
-    class func podcastHeartDarkGradientColor() -> UIColor {
+    static func podcastHeartDarkGradientColor() -> UIColor {
         UIColor(hex: "#A6A6A6")
     }
 
-    class func podcastHeartLightGradientColor() -> UIColor {
+    static func podcastHeartLightGradientColor() -> UIColor {
         UIColor(hex: "#D5D5D5")
     }
 
-    class func podcastHeartDarkRedGradientColor() -> UIColor {
+    static func podcastHeartDarkRedGradientColor() -> UIColor {
         UIColor(hex: "#FF1100")
     }
 
-    class func podcastHeartLightRedGradientColor() -> UIColor {
+    static func podcastHeartLightRedGradientColor() -> UIColor {
         UIColor(hex: "#AD0000")
     }
 
     // MARK: - Illustrations
 
-    class func setupNewAccountGoldImageName() -> String {
+    static func setupNewAccountGoldImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "setup-new-account-gold-dark"
@@ -115,7 +115,7 @@ class AppTheme {
         }
     }
 
-    class func paymentFailedImageName() -> String {
+    static func paymentFailedImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "payment-failed-dark"
@@ -134,7 +134,7 @@ class AppTheme {
         }
     }
 
-    class func passwordChangedImageName() -> String {
+    static func passwordChangedImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "key-stars-dark"
@@ -153,7 +153,7 @@ class AppTheme {
         }
     }
 
-    class func accountUpgradedImageName() -> String {
+    static func accountUpgradedImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "avatar-plus-gold-dark"
@@ -172,7 +172,7 @@ class AppTheme {
         }
     }
 
-    class func plusCancelledImageName() -> String {
+    static func plusCancelledImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "avatar-cancelled-dark"
@@ -191,7 +191,7 @@ class AppTheme {
         }
     }
 
-    class func plusCancelledGoldImageName() -> String {
+    static func plusCancelledGoldImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "avatar-cancelled-gold-dark"
@@ -210,7 +210,7 @@ class AppTheme {
         }
     }
 
-    class func changedEmailImageName() -> String {
+    static func changedEmailImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "email-stars-dark"
@@ -229,7 +229,7 @@ class AppTheme {
         }
     }
 
-    class func cancelSubscriptionImageName() -> String {
+    static func cancelSubscriptionImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "dollar-recycle-dark"
@@ -248,7 +248,7 @@ class AppTheme {
         }
     }
 
-    class func pcPlusLogoHorizontalImageName() -> String {
+    static func pcPlusLogoHorizontalImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return "PCPlusHorizontal-Dark"
@@ -257,7 +257,7 @@ class AppTheme {
         }
     }
 
-    class func pcLogoHorizontalImageName() -> String {
+    static func pcLogoHorizontalImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return "horizontal-logo-dark"
@@ -288,7 +288,7 @@ class AppTheme {
         return "sso-icon-google"
     }
 
-    class func pcPlusLogoVerticalImageName() -> String {
+    static func pcPlusLogoVerticalImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return "verticalLogoDark"
@@ -297,7 +297,7 @@ class AppTheme {
         }
     }
 
-    class func pcLogoVerticalImageName() -> String {
+    static func pcLogoVerticalImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return "pc-logo-vertical-dark"
@@ -306,7 +306,7 @@ class AppTheme {
         }
     }
 
-    class func fileErrorImageName() -> String {
+    static func fileErrorImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "fileError-dark"
@@ -325,7 +325,7 @@ class AppTheme {
         }
     }
 
-    class func promoErrorImageName() -> String {
+    static func promoErrorImageName() -> String {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return "promo-error-dark"
@@ -346,16 +346,16 @@ class AppTheme {
 
     // MARK: - App Colors
 
-    class func keyboardAppearance() -> UIKeyboardAppearance {
+    static func keyboardAppearance() -> UIKeyboardAppearance {
         Theme.isDarkTheme() ? UIKeyboardAppearance.dark : UIKeyboardAppearance.light
     }
 
-    class func optionPickerBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func optionPickerBackgroundColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.primaryUi01(for: theme)
     }
 
     #if !os(tvOS)
-    class func defaultStatusBarStyle() -> UIStatusBarStyle {
+    static func defaultStatusBarStyle() -> UIStatusBarStyle {
         switch Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
@@ -370,7 +370,7 @@ class AppTheme {
         }
     }
 
-    class func popupStatusBarStyle(themeOverride: Theme.ThemeType? = nil) -> UIStatusBarStyle {
+    static func popupStatusBarStyle(themeOverride: Theme.ThemeType? = nil) -> UIStatusBarStyle {
         switch themeOverride ?? Theme.shared.activeTheme {
         case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
@@ -380,54 +380,54 @@ class AppTheme {
     }
     #endif
 
-    class func loadingActivityColor() -> UIColor {
+    static func loadingActivityColor() -> UIColor {
         ThemeColor.primaryIcon01()
     }
 
-    class func destructiveTextColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func destructiveTextColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.support05(for: theme)
     }
 
-    class func mainTextColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func mainTextColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.primaryText01(for: theme)
     }
 
-    class func tableDividerColor(for theme: Theme.ThemeType? = nil) -> UIColor {
+    static func tableDividerColor(for theme: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.primaryUi05(for: theme)
     }
 
-    class func indicatorStyle(for theme: Theme.ThemeType? = nil) -> UIScrollView.IndicatorStyle {
+    static func indicatorStyle(for theme: Theme.ThemeType? = nil) -> UIScrollView.IndicatorStyle {
         if let themeOverride = theme {
             return themeOverride.isDark ? .white : .black
         }
         return Theme.isDarkTheme() ? .white : .black
     }
 
-    class func tabBarBackgroundColor() -> UIColor {
+    static func tabBarBackgroundColor() -> UIColor {
         ThemeColor.primaryUi03()
     }
 
-    class func tabBarItemTintColor() -> UIColor {
+    static func tabBarItemTintColor() -> UIColor {
         ThemeColor.primaryIcon02Selected()
     }
 
-    class func unselectedTabBarItemColor() -> UIColor {
+    static func unselectedTabBarItemColor() -> UIColor {
         ThemeColor.primaryIcon02()
     }
 
-    class func navBarTitleColor(themeOverride: Theme.ThemeType? = nil) -> UIColor {
+    static func navBarTitleColor(themeOverride: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.secondaryText01(for: themeOverride)
     }
 
-    class func navBarIconsColor(themeOverride: Theme.ThemeType? = nil) -> UIColor {
+    static func navBarIconsColor(themeOverride: Theme.ThemeType? = nil) -> UIColor {
         ThemeColor.secondaryIcon01(for: themeOverride)
     }
 
-    class func viewBackgroundColor() -> UIColor {
+    static func viewBackgroundColor() -> UIColor {
         ThemeColor.primaryUi01()
     }
 
-    class func userEpisodeColor(number: Int) -> UIColor {
+    static func userEpisodeColor(number: Int) -> UIColor {
         switch number {
         case 1:
             return userEpisodeNoArtworkColor()
@@ -450,35 +450,35 @@ class AppTheme {
         }
     }
 
-    class func userEpisodeRedColor() -> UIColor {
+    static func userEpisodeRedColor() -> UIColor {
         ThemeColor.filter01(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodeBlueColor() -> UIColor {
+    static func userEpisodeBlueColor() -> UIColor {
         ThemeColor.filter05(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodeGreenColor() -> UIColor {
+    static func userEpisodeGreenColor() -> UIColor {
         ThemeColor.filter04(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodeYellowColor() -> UIColor {
+    static func userEpisodeYellowColor() -> UIColor {
         ThemeColor.filter03(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodeOrangeColor() -> UIColor {
+    static func userEpisodeOrangeColor() -> UIColor {
         ThemeColor.filter02(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodePurpleColor() -> UIColor {
+    static func userEpisodePurpleColor() -> UIColor {
         ThemeColor.filter06(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func userEpisodePinkColor() -> UIColor {
+    static func userEpisodePinkColor() -> UIColor {
         ThemeColor.filter07(for: Theme.isDarkTheme() ? .dark : .light)
     }
 
-    class func folderColor(colorInt: Int32) -> UIColor {
+    static func folderColor(colorInt: Int32) -> UIColor {
         switch colorInt {
         case 0: return ThemeColor.filter01()
         case 1: return ThemeColor.filter02()
@@ -504,7 +504,7 @@ class AppTheme {
     }
 
     // TODO: there probably is a more elegant way to do this...
-    class func colorForStyle(_ style: ThemeStyle, themeOverride: Theme.ThemeType? = nil) -> UIColor {
+    static func colorForStyle(_ style: ThemeStyle, themeOverride: Theme.ThemeType? = nil) -> UIColor {
         switch style {
         case .primaryText01: return ThemeColor.primaryText01(for: themeOverride)
         case .primaryText02: return ThemeColor.primaryText02(for: themeOverride)

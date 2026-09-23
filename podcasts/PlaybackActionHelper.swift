@@ -4,8 +4,8 @@ import PocketCastsServer
 import PocketCastsUtils
 
 @MainActor
-class PlaybackActionHelper {
-    class func play(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
+enum PlaybackActionHelper {
+    static func play(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
 
         AutoplayHelper.shared.playedFrom(playlist: playlist)
@@ -26,17 +26,17 @@ class PlaybackActionHelper {
         }
     }
 
-    class func pause() {
+    static func pause() {
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.pause()
     }
 
-    class func playPause() {
+    static func playPause() {
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
 
-    class func download(episodeUuid: String) {
+    static func download(episodeUuid: String) {
         AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: episodeUuid)
 
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
@@ -48,13 +48,13 @@ class PlaybackActionHelper {
         }, disallowed: nil)
     }
 
-    class func stopDownload(episodeUuid: String) {
+    static func stopDownload(episodeUuid: String) {
         DownloadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true, userInitiated: true)
 
         AnalyticsEpisodeHelper.shared.downloadCancelled(episodeUUID: episodeUuid)
     }
 
-    class func overrideWaitingForWifi(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) {
+    static func overrideWaitingForWifi(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) {
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: autoDownloadStatus, { later in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: autoDownloadStatus)
@@ -64,7 +64,7 @@ class PlaybackActionHelper {
         }, disallowed: nil)
     }
 
-    class func upload(episodeUuid: String) {
+    static func upload(episodeUuid: String) {
         NetworkUtils.shared.uploadEpisodeRequested({ later in
             if later {
                 UploadManager.shared.queueForLaterUpload(episodeUuid: episodeUuid, fireNotification: true)
@@ -76,12 +76,12 @@ class PlaybackActionHelper {
         AnalyticsEpisodeHelper.shared.episodeUploaded(episodeUUID: episodeUuid)
     }
 
-    class func stopUpload(episodeUuid: String) {
+    static func stopUpload(episodeUuid: String) {
         UploadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true)
         AnalyticsEpisodeHelper.shared.episodeUploadCancelled(episodeUUID: episodeUuid)
     }
 
-    private class func performPlay(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil) {
+    private static func performPlay(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil) {
         if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.play()
         } else {

@@ -2,8 +2,8 @@ import Foundation
 import MediaPlayer
 import PocketCastsDataModel
 
-class WatchNowPlayingHelper {
-    class func updateNowPlayingInfo(for episode: BaseEpisode, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+enum WatchNowPlayingHelper {
+    static func updateNowPlayingInfo(for episode: BaseEpisode, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
         guard let currNowPlaying = MPNowPlayingInfoCenter.default().nowPlayingInfo else {
             setAllNowPlayingInfo(for: episode, duration: duration, upTo: upTo, playbackRate: playbackRate)
             return
@@ -22,20 +22,20 @@ class WatchNowPlayingHelper {
         }
     }
 
-    class func setAllNowPlayingInfo(for episode: BaseEpisode, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+    static func setAllNowPlayingInfo(for episode: BaseEpisode, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
         let playingInfo = nowPlayingInfo(for: episode)
         MPNowPlayingInfoCenter.default().nowPlayingInfo = WatchNowPlayingHelper.addUpToInformationToNowPlaying(playingInfo, duration: duration, upTo: upTo, playbackRate: playbackRate)
     }
 
-    class func clearNowPlayingInfo() {
+    static func clearNowPlayingInfo() {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
 
-    private class func titleForNowPlayingInfo(episode: BaseEpisode) -> String {
+    private static func titleForNowPlayingInfo(episode: BaseEpisode) -> String {
         episode.displayableTitle()
     }
 
-    private class func nowPlayingInfo(for episode: BaseEpisode) -> [String: AnyObject] {
+    private static func nowPlayingInfo(for episode: BaseEpisode) -> [String: AnyObject] {
         var nowPlayingInfo = [String: AnyObject]()
 
         let nowPlayingMediaType = episode.videoPodcast() ? MPNowPlayingInfoMediaType.video.rawValue : MPNowPlayingInfoMediaType.audio.rawValue
@@ -63,7 +63,7 @@ class WatchNowPlayingHelper {
         return nowPlayingInfo
     }
 
-    private class func addUpToInformationToNowPlaying(_ nowPlaying: [String: AnyObject], duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) -> [String: AnyObject] {
+    private static func addUpToInformationToNowPlaying(_ nowPlaying: [String: AnyObject], duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) -> [String: AnyObject] {
         var nowPlayingClone = nowPlaying
 
         nowPlayingClone[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: duration)

@@ -1,8 +1,8 @@
 import Foundation
 import PocketCastsUtils
 
-class DataHelper {
-    class func convertArrayToInString(_ strArray: [String]) -> String {
+enum DataHelper {
+    static func convertArrayToInString(_ strArray: [String]) -> String {
         var inString = strArray.joined(separator: ",")
         inString = inString.replacingOccurrences(of: ",", with: "','")
         inString = "'" + inString + "'"
@@ -10,7 +10,7 @@ class DataHelper {
         return inString
     }
 
-    class func run(query: String, values: [Any]?, methodName: String, onQueue: GRDBQueue) {
+    static func run(query: String, values: [Any]?, methodName: String, onQueue: GRDBQueue) {
         onQueue.write { db in
             do {
                 try db.executeUpdate(query, values: values)

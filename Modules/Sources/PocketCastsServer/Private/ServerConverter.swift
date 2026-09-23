@@ -1,8 +1,8 @@
 import Foundation
 
 // our server has different enum values for some types, we convert them in this class
-class ServerConverter {
-    class func convertToServerSortType(clientType: Int) -> Int32 {
+enum ServerConverter {
+    static func convertToServerSortType(clientType: Int) -> Int32 {
         let clientSort = PodcastLibrarySortClient(rawValue: clientType) ?? .dateAddedNewestToOldest
 
         switch clientSort {
@@ -19,7 +19,7 @@ class ServerConverter {
         }
     }
 
-    class func convertToClientSortType(serverType: Int32) -> Int {
+    static func convertToClientSortType(serverType: Int32) -> Int {
         let serverSort = PodcastLibrarySortServer(rawValue: serverType) ?? .dateAddedNewestToOldest
         switch serverSort {
         case .dateAddedNewestToOldest:
