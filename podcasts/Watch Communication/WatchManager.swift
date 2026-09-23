@@ -489,7 +489,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleUserEpisodeRequest() -> [String: Any] {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
         var episodes: [UserEpisode]
         if SubscriptionHelper.hasActiveSubscription() {
             episodes = DataManager.shared.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
@@ -621,8 +621,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             applicationDict[WatchConstants.Keys.loginChanged] = true
         }
 
-        applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 0
-        applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
+        applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled == true ? Settings.watchAutoDownloadUpNextCount : 0
+        applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext == true ? Settings.watchAutoDownloadUpNextCount : 25
 
         if FeatureFlag.watchTransferUserInfoApi.enabled && session.isReachable {
             // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext

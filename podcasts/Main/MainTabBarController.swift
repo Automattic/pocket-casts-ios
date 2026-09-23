@@ -907,7 +907,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var lastNotifiedAboutDark: Bool?
     private func fireSystemThemeMayHaveChanged() {
-        if !Settings.shouldFollowSystemTheme() { return } // if the user has turned this off, then ignore system theme changes
+        if !Settings.shouldFollowSystemTheme { return } // if the user has turned this off, then ignore system theme changes
 
         let isDark = Theme.systemIsDark
         if lastNotifiedAboutDark == nil || isDark != lastNotifiedAboutDark {
@@ -927,7 +927,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func checkSubscriptionCancelledAcknowledgement() {
         let renewing = SubscriptionHelper.hasRenewingSubscription()
-        let cancelAcknowledged = Settings.subscriptionCancelledAcknowledged()
+        let cancelAcknowledged = Settings.subscriptionCancelledAcknowledged
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
 
@@ -937,17 +937,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func checkWhatsNewAcknowledged() {
-        guard let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo(), whatsNewInfo.versionCode > Settings.whatsNewLastAcknowledged() else { return }
+        guard let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo(), whatsNewInfo.versionCode > Settings.whatsNewLastAcknowledged else { return }
 
         if ProcessInfo().isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: whatsNewInfo.minOSVersion, minorVersion: 0, patchVersion: 0)) {
             NavigationManager.shared.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
         } else {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 
     private func checkPromotionFinishedAcknowledged() {
-        let promoFinishedAcknowledged = Settings.promotionFinishedAcknowledged()
+        let promoFinishedAcknowledged = Settings.promotionFinishedAcknowledged
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.shared.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)

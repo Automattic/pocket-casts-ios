@@ -107,7 +107,7 @@ class Theme: ObservableObject {
     init() {
         let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
         if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
-            Settings.setShouldFollowSystemTheme(true)
+            Settings.shouldFollowSystemTheme = true
         }
         activeTheme = ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
 
@@ -123,7 +123,7 @@ class Theme: ObservableObject {
     }
 
     @objc private func systemThemeDidChange(_ notification: Notification) {
-        if Settings.shouldFollowSystemTheme() {
+        if Settings.shouldFollowSystemTheme {
             toggleTheme()
         }
     }
@@ -146,7 +146,7 @@ class Theme: ObservableObject {
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredDarkThemeKey)
 
         // change the active theme if it needs to change
-        if Settings.shouldFollowSystemTheme(), systemIsDark {
+        if Settings.shouldFollowSystemTheme, systemIsDark {
             Theme.shared.activeTheme = preferredType
         }
 
@@ -168,7 +168,7 @@ class Theme: ObservableObject {
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredLightThemeKey)
 
         // change the active theme if it needs to change
-        if Settings.shouldFollowSystemTheme() {
+        if Settings.shouldFollowSystemTheme {
             if !systemIsDark {
                 Theme.shared.activeTheme = preferredType
             }
@@ -187,7 +187,7 @@ class Theme: ObservableObject {
     }
 
     private func toggledThemed() -> ThemeType {
-        guard Settings.shouldFollowSystemTheme() else {
+        guard Settings.shouldFollowSystemTheme else {
             return Theme.preferredLightTheme()
         }
 

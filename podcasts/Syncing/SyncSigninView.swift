@@ -292,7 +292,7 @@ final class SyncSigninViewModel: ObservableObject {
                 self.handleSuccessfulSignIn(username: username, password: password, userId: userId)
 
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-                Settings.setPromotionFinishedAcknowledged(true)
+                Settings.promotionFinishedAcknowledged = true
                 Settings.setLoginDetailsUpdated()
 
                 NotificationCenter.postOnMainThread(notification: .userSignedIn)

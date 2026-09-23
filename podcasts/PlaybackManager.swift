@@ -1421,7 +1421,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 } else if let episode = episode as? UserEpisode {
                     // No App Clip episodes should be user episodes
                     #if !APPCLIP
-                    if Settings.userEpisodeRemoveFileAfterPlaying() {
+                    if Settings.userEpisodeRemoveFileAfterPlaying {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
                     }
                     if Settings.userEpisodeRemoveFromCloudAfterPlaying() {
@@ -2033,7 +2033,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
 
-            if Settings.legacyBluetoothModeEnabled() {
+            if Settings.legacyBluetoothModeEnabled {
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
                 if !strongSelf.isPlaying { strongSelf.play() }
             } else if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
@@ -2138,7 +2138,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 analyticsPlaybackHelper.currentSource = commandCenterSource
 
                 if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
-                    if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
+                    if Settings.legacyBluetoothModeEnabled, seekEvent.positionTime < 1 {
                         FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
                     } else {
                         FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand to \(seekEvent.positionTime)")
@@ -2166,7 +2166,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func updateExtraActions() {
-        let actionsEnabled = Settings.extraMediaSessionActionsEnabled()
+        let actionsEnabled = Settings.extraMediaSessionActionsEnabled
 
         let markPlayedCommand = MPRemoteCommandCenter.shared().dislikeCommand
         let starCommand = MPRemoteCommandCenter.shared().likeCommand
