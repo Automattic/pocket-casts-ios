@@ -234,7 +234,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralPlayBackActions
-            cell.cellSwitch.isOn = Settings.extraMediaSessionActionsEnabled()
+            cell.cellSwitch.isOn = Settings.extraMediaSessionActionsEnabled
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(extraMediaSessionActionsToggled(_:)), for: .valueChanged)
@@ -244,7 +244,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralLegacyBluetooth
-            cell.cellSwitch.isOn = Settings.legacyBluetoothModeEnabled()
+            cell.cellSwitch.isOn = Settings.legacyBluetoothModeEnabled
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(legacyBluetoothToggled(_:)), for: .valueChanged)
@@ -264,7 +264,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralPublishChapterTitles
-            cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
+            cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: .valueChanged)
@@ -565,7 +565,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     @objc private func legacyBluetoothToggled(_ sender: UISwitch) {
-        Settings.setLegacyBluetoothModeEnabled(sender.isOn)
+        Settings.legacyBluetoothModeEnabled = sender.isOn
     }
 
     @objc private func multiSelectGestureToggled(_ sender: UISwitch) {
@@ -573,7 +573,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     @objc private func extraMediaSessionActionsToggled(_ sender: UISwitch) {
-        Settings.setExtraMediaSessionActionsEnabled(sender.isOn)
+        Settings.extraMediaSessionActionsEnabled = sender.isOn
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
@@ -593,7 +593,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     @objc private func publishChapterTitlesToggled(_ sender: UISwitch) {
-        Settings.setPublishChapterTitlesEnabled(sender.isOn)
+        Settings.publishChapterTitlesEnabled = sender.isOn
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
         Settings.trackValueToggled(.settingsGeneralPublishChapterTitlesToggled, enabled: sender.isOn)

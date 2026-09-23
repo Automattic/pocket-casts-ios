@@ -78,13 +78,14 @@ class Settings: NSObject {
     // MARK: - Up Next Auto Download
 
     private static let autoDownloadUpNext = "SJAutoDownloadUpNext"
-    class func downloadUpNextEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
-    }
-
-    class func setDownloadUpNextEpisodes(_ download: Bool) {
-        UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
-        trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
+    static var downloadUpNextEpisodes: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
+        }
+        set(download) {
+            UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
+            trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
+        }
     }
 
     // MARK: - Mobile Data
@@ -148,13 +149,14 @@ class Settings: NSObject {
     }
 
     private static let autoDownloadLimitKey = "AutoDownloadLimit"
-    class func autoDownloadLimits() -> AutoDownloadLimit {
-        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
-    }
-
-    class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
-        UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
-        trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
+    static var autoDownloadLimits: AutoDownloadLimit {
+        get {
+            AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
+        }
+        set(limit) {
+            UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+            trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
+        }
     }
 
     class func setShouldDeleteWhenPlayed(_ shouldDelete: Bool) {
@@ -395,16 +397,17 @@ class Settings: NSObject {
     // MARK: - Sleep Time
 
     private static let customSleepTimeKey = "CustomSleepTime"
-    class func customSleepTime() -> TimeInterval {
-        let savedTime = UserDefaults.standard.double(forKey: Settings.customSleepTimeKey)
-        if savedTime < Constants.Limits.minSleepTime { return Constants.Limits.minSleepTime }
+    static var customSleepTime: TimeInterval {
+        get {
+            let savedTime = UserDefaults.standard.double(forKey: Settings.customSleepTimeKey)
+            if savedTime < Constants.Limits.minSleepTime { return Constants.Limits.minSleepTime }
 
-        return savedTime
-    }
-
-    class func setCustomSleepTime(_ time: TimeInterval) {
-        let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
-        UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
+            return savedTime
+        }
+        set(time) {
+            let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
+            UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
+        }
     }
 
     static var sleepTimerNumberOfEpisodes: Int {
@@ -419,43 +422,46 @@ class Settings: NSObject {
     // MARK: - CarPlay/Lock Screen actions
 
     static let mediaSessionActionsKey = "MediaSessionActions"
-    class func extraMediaSessionActionsEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
-    }
+    static var extraMediaSessionActionsEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
+        }
+        set(enabled) {
+            UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
 
-    class func setExtraMediaSessionActionsEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
 
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
-
-        Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: enabled)
+            Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: enabled)
+        }
     }
 
     // MARK: - Legacy Bluetooth Support
 
     static let legacyBtSupportKey = "LegacyBtSupport"
-    class func legacyBluetoothModeEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
-    }
-
-    class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
-        Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
+    static var legacyBluetoothModeEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
+        }
+        set(enabled) {
+            UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
+            Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
+        }
     }
 
     // MARK: - Publish Chapter Titles
 
     static let publishChapterTitlesKey = "PublishChapterTitles"
-    class func publishChapterTitlesEnabled() -> Bool {
-        if let isEnabled = UserDefaults.standard.value(forKey: Settings.publishChapterTitlesKey) as? Bool {
-            return isEnabled
+    static var publishChapterTitlesEnabled: Bool {
+        get {
+            if let isEnabled = UserDefaults.standard.value(forKey: Settings.publishChapterTitlesKey) as? Bool {
+                return isEnabled
+            }
+
+            return true
         }
-
-        return true
-    }
-
-    class func setPublishChapterTitlesEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
+        set(enabled) {
+            UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
+        }
     }
 
     // MARK: - User Episode Settings

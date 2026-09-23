@@ -366,7 +366,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
             episode.autoDownloadStatus = previousStatus
         } else {
-            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
         }
 
         let downloadTaskUUID = episode.uuid

@@ -312,8 +312,8 @@ class SiriShortcutsManager: CustomObserver {
 
     func setSleepTimerIntent() -> INIntent {
         let intent = SJSleepTimerIntent()
-        intent.minutes = Settings.customSleepTime() as NSNumber
-        let formattedTime = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
+        intent.minutes = Settings.customSleepTime as NSNumber
+        let formattedTime = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime)
         intent.suggestedInvocationPhrase = L10n.siriShortcutExtendSleepTimer(formattedTime)
         return intent
     }
