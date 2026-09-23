@@ -79,7 +79,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var playbackSpeed: Double {
-        PlaybackManager.shared.effects().playbackSpeed
+        PlaybackManager.shared.effects.playbackSpeed
     }
 
     func increasePlaybackSpeed() {
@@ -91,7 +91,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func changeSpeedInterval() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         effects.toggleDefinedSpeedInterval()
 
         PlaybackManager.shared.changeEffects(effects)
@@ -245,7 +245,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var effectsIconName: String {
-        PlaybackManager.shared.effects().effectsEnabled() ? "speed-on" : "speed-off"
+        PlaybackManager.shared.effects.effectsEnabled() ? "speed-on" : "speed-off"
     }
 
     var upNextCount: Int {

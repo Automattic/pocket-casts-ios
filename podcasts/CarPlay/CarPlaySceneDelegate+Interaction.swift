@@ -100,7 +100,7 @@ extension CarPlaySceneDelegate {
     }
 
     func speedTapped() {
-        let currentSpeed = PlaybackManager.shared.effects().playbackSpeed
+        let currentSpeed = PlaybackManager.shared.effects.playbackSpeed
 
         var speedItems = [CPListItem]()
         addSpeed(0.5, to: &speedItems, currentSpeed: currentSpeed)
@@ -127,7 +127,7 @@ extension CarPlaySceneDelegate {
         item.playingIndicatorLocation = .trailing
         item.isPlaying = (speed == currentSpeed)
         item.handler = { [weak self] _, completion in
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.playbackSpeed = speed
             PlaybackManager.shared.changeEffects(effects)
 

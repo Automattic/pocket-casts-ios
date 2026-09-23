@@ -197,7 +197,7 @@ extension AppDelegate {
         // This may result in incorrectly overriding the existing speed set in the player
         // See https://github.com/Automattic/pocket-casts-ios/issues/41
         if let spokenSpeed = thisIntent.playbackSpeed, spokenSpeed != 1.0, responseCode == .success {
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.playbackSpeed = spokenSpeed
 
             PlaybackManager.shared.changeEffects(effects)
