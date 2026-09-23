@@ -10,7 +10,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// The mock messages are targeted, so the tests fix the audience and the build rather than
     /// letting whatever the test host is signed in as decide which of them reach the feed.
-    private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"))
+    private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: true)
 
     func testItemsAreMostRecentlyPublishedFirst() {
         let viewModel = WhatsNewFeedViewModel(messages: messages.shuffled(), targeting: targeting)
@@ -26,6 +26,15 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         let research = try XCTUnwrap(viewModel.items.first { $0.type == .research })
         XCTAssertEqual(research.label, L10n.whatsNewCategoryResearch)
         XCTAssertEqual(research.title, "Help shape the player")
+    }
+
+    /// With polls turned off, research messages don't reach the feed.
+    func testResearchMessagesAreHiddenWithoutPolls() {
+        let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: false)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+
+        XCTAssertFalse(viewModel.items.isEmpty)
+        XCTAssertFalse(viewModel.items.contains { $0.type == .research })
     }
 
     /// The detail screen needs the whole message, not just what the row happened to show.
