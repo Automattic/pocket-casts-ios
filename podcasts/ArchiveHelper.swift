@@ -2,8 +2,8 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class ArchiveHelper {
-    class func archiveTimeToText(_ time: TimeInterval) -> String {
+enum ArchiveHelper {
+    static func archiveTimeToText(_ time: TimeInterval) -> String {
         if time < 0 {
             return L10n.timeFormatNever.localizedCapitalized
         } else if time == 0 {
@@ -25,7 +25,7 @@ class ArchiveHelper {
         }
     }
 
-    class func applyAutoArchivingToPodcast(_ podcast: Podcast?) {
+    static func applyAutoArchivingToPodcast(_ podcast: Podcast?) {
         guard let podcast else { return }
 
         let afterPlayedTime = podcast.overrideGlobalArchive ? podcast.autoArchivePlayedAfter : Settings.autoArchivePlayedAfter()
@@ -66,7 +66,7 @@ class ArchiveHelper {
         }
     }
 
-    private class func removeEpisodesMatchingQuery(_ query: String, arguments: [Any]) {
+    private static func removeEpisodesMatchingQuery(_ query: String, arguments: [Any]) {
         let removableEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: arguments)
         for episode in removableEpisodes {
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)

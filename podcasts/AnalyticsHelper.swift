@@ -6,7 +6,7 @@ import Foundation
 import os
 import PocketCastsUtils
 
-class AnalyticsHelper {
+enum AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
     static var optedOut: Bool {
         #if APPCLIP
@@ -16,24 +16,24 @@ class AnalyticsHelper {
         #endif
     }
 
-    class func openedCategory(categoryId: Int, region: String) {
+    static func openedCategory(categoryId: Int, region: String) {
         logEvent("category_open", parameters: ["id": categoryId, "region": region])
         logEvent("category_page_open_\(categoryId)", parameters: nil)
     }
 
-    class func openedFeaturedPodcast() {
+    static func openedFeaturedPodcast() {
         logEvent("featured_podcast_clicked", parameters: nil)
     }
 
-    class func subscribedToFeaturedPodcast() {
+    static func subscribedToFeaturedPodcast() {
         logEvent("featured_podcast_subscribed", parameters: nil)
     }
 
-    class func userGuideOpened() {
+    static func userGuideOpened() {
         logEvent("user_guide_opened", parameters: nil)
     }
 
-    class func userGuideEmail(feedback: Bool) {
+    static func userGuideEmail(feedback: Bool) {
         if feedback {
             userGuideEmailFeedback()
             Analytics.track(.settingsLeaveFeedback)
@@ -43,23 +43,23 @@ class AnalyticsHelper {
         }
     }
 
-    class func userGuideEmailSupport() {
+    static func userGuideEmailSupport() {
         logEvent("user_guide_email", parameters: nil)
     }
 
-    class func userGuideEmailFeedback() {
+    static func userGuideEmailFeedback() {
         logEvent("user_guide_feedback", parameters: nil)
     }
 
-    class func downloadFromNotification() {
+    static func downloadFromNotification() {
         logEvent("notification_download", parameters: nil)
     }
 
-    class func archiveFromNotification() {
+    static func archiveFromNotification() {
         logEvent("notification_archive", parameters: nil)
     }
 
-    class func addToUpNextFromNotification(playFirst: Bool) {
+    static func addToUpNextFromNotification(playFirst: Bool) {
         if playFirst {
             logEvent("notification_add_to_up_next_top", parameters: nil)
         } else {
@@ -67,39 +67,39 @@ class AnalyticsHelper {
         }
     }
 
-    class func playNowFromNotification() {
+    static func playNowFromNotification() {
         logEvent("notification_play_now", parameters: nil)
     }
 
-    class func sharedPodcast() {
+    static func sharedPodcast() {
         logEvent("shared_podcast", parameters: nil)
     }
 
-    class func sharedPodcastList() {
+    static func sharedPodcastList() {
         logEvent("shared_podcast_list", parameters: nil)
     }
 
-    class func navigatedToDiscover() {
+    static func navigatedToDiscover() {
         logEvent("discover_open", parameters: nil)
     }
 
-    class func playedEpisode() {
+    static func playedEpisode() {
         logEvent("played_episode", parameters: nil)
     }
 
-    class func subscribedToPodcast() {
+    static func subscribedToPodcast() {
         logEvent("subscribed_to_podcast", parameters: nil)
     }
 
     // MARK: - List Analytics
 
-    class func podcastEpisodePlayedFromList(listId: String, podcastUuid: String) {
+    static func podcastEpisodePlayedFromList(listId: String, podcastUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         Analytics.track(.discoverListEpisodePlay, properties: properties)
         bumpStat("discover_list_episode_play", parameters: properties)
     }
 
-    class func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+    static func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
         var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         if let listDateTime {
             properties["list_datetime"] = listDateTime
@@ -108,7 +108,7 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_subscribe", parameters: properties)
     }
 
-    class func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil, source: String? = nil) {
+    static func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil, source: String? = nil) {
         var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         if let listDateTime {
             properties["list_datetime"] = listDateTime
@@ -120,17 +120,17 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_tap", parameters: properties)
     }
 
-    class func adTapped(categoryName: String, region: String, podcastUUID: String, categoryID: Int) {
+    static func adTapped(categoryName: String, region: String, podcastUUID: String, categoryID: Int) {
         let properties: [String: Any] = ["name": categoryName, "region": region, "id": categoryID, "podcast_id": podcastUUID]
         Analytics.track(.discoverAdCategoryTapped, properties: properties)
     }
 
-    class func adSubscribed(categoryName: String, region: String, podcastUUID: String, categoryID: Int) {
+    static func adSubscribed(categoryName: String, region: String, podcastUUID: String, categoryID: Int) {
         let properties: [String: Any] = ["name": categoryName, "region": region, "id": categoryID, "podcast_id": podcastUUID]
         Analytics.track(.discoverAdCategorySubscribed, properties: properties)
     }
 
-    class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String, source: String? = nil) {
+    static func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String, source: String? = nil) {
         var properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
         if let source {
             properties["source"] = source
@@ -139,7 +139,7 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_episode_tap", parameters: properties)
     }
 
-    class func listShowAllTapped(listId: String, dateTime: String? = nil) {
+    static func listShowAllTapped(listId: String, dateTime: String? = nil) {
         var properties = ["list_id": listId]
         if let dateTime {
             properties["list_datetime"] = dateTime
@@ -148,7 +148,7 @@ class AnalyticsHelper {
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
-    class func listImpression(listId: String, category: String?, source: String? = nil) {
+    static func listImpression(listId: String, category: String?, source: String? = nil) {
         var properties = ["list_id": listId]
         if let category {
             properties["category"] = category
@@ -160,53 +160,53 @@ class AnalyticsHelper {
         bumpStat("discover_list_impression", parameters: properties)
     }
 
-    class func bannerImpression(adID: String, location: String) {
+    static func bannerImpression(adID: String, location: String) {
         let properties = ["id": adID, "location": location]
         Analytics.track(.bannerAdImpression, properties: properties)
         bumpStat("banner_ad_impression", parameters: properties)
     }
 
-    class func bannerTapped(adID: String, location: String) {
+    static func bannerTapped(adID: String, location: String) {
         let properties = ["id": adID, "location": location]
         Analytics.track(.bannerAdTapped, properties: properties)
         bumpStat("banner_ad_tapped", parameters: properties)
     }
 
-    class func bannerReport(adID: String, reason: String, location: String) {
+    static func bannerReport(adID: String, reason: String, location: String) {
         let properties = ["id": adID, "location": location, "reason": reason]
         Analytics.track(.bannerAdReport, properties: properties)
         bumpStat("banner_ad_report", parameters: properties)
     }
 
-    class func forceTouchPlay() {
+    static func forceTouchPlay() {
         logEvent("play_force_touch", parameters: nil)
     }
 
-    class func forceTouchPause() {
+    static func forceTouchPause() {
         logEvent("pause_force_touch", parameters: nil)
     }
 
-    class func forceTouchMarkPlayed() {
+    static func forceTouchMarkPlayed() {
         logEvent("mark_as_played_force_touch", parameters: nil)
     }
 
-    class func forceTouchTopFilter() {
+    static func forceTouchTopFilter() {
         logEvent("top_filter_force_touch", parameters: nil)
     }
 
-    class func forceTouchPodcast() {
+    static func forceTouchPodcast() {
         logEvent("podcast_force_touch", parameters: nil)
     }
 
-    class func forceTouchDiscover() {
+    static func forceTouchDiscover() {
         logEvent("discover_force_touch", parameters: nil)
     }
 
-    class func didConnectToChromecast() {
+    static func didConnectToChromecast() {
         logEvent("connected_to_chromecast", parameters: nil)
     }
 
-    class func didChooseIcon(iconName: String?) {
+    static func didChooseIcon(iconName: String?) {
         if let name = iconName {
             // Firebase doesn't like dashes (Event name must contain only letters, numbers, or underscores)
             logEvent("icon_\(name.replacingOccurrences(of: "-", with: "_"))", parameters: nil)
@@ -215,44 +215,44 @@ class AnalyticsHelper {
         }
     }
 
-    class func siriSleeptimer() {
+    static func siriSleeptimer() {
         logEvent("siri_sleep_timer", parameters: nil)
     }
 
-    class func siriChapterChanged() {
+    static func siriChapterChanged() {
         logEvent("siri_chapter_change", parameters: nil)
     }
 
-    class func siriSurpriseMe() {
+    static func siriSurpriseMe() {
         logEvent("siri_surprise_me", parameters: nil)
     }
 
-    class func siriUpNext() {
+    static func siriUpNext() {
         logEvent("siri_up_next", parameters: nil)
     }
 
-    class func siriPause() {
+    static func siriPause() {
         logEvent("siri_pause", parameters: nil)
     }
 
-    class func siriMarkAsPlayed() {
+    static func siriMarkAsPlayed() {
         logEvent("siri_mark_as_played", parameters: nil)
     }
 
-    class func siriResume() {
+    static func siriResume() {
         logEvent("siri_resume", parameters: nil)
     }
 
-    class func siriPlayPodcast() {
+    static func siriPlayPodcast() {
         logEvent("siri_play_podcast", parameters: nil)
     }
 
-    class func siriPlayTopFilter() {
+    static func siriPlayTopFilter() {
         logEvent("siri_play_top_filter", parameters: nil)
     }
 
     #if !os(watchOS) && !APPCLIP && !os(tvOS)
-        class func tabSelected(tab: MainTabBarController.Tab) {
+        static func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
                 logEvent("podcast_tab_opened", parameters: nil)
@@ -267,31 +267,31 @@ class AnalyticsHelper {
         }
     #endif
 
-    class func nowPlayingOpened() {
+    static func nowPlayingOpened() {
         logEvent("now_playing_open", parameters: nil)
     }
 
-    class func upNextOpened() {
+    static func upNextOpened() {
         logEvent("up_next_open", parameters: nil)
     }
 
-    class func podcastOpened(uuid: String) {
+    static func podcastOpened(uuid: String) {
         logEvent("podcast_open", parameters: ["podcastUuid": uuid])
     }
 
-    class func episodeOpened(podcastUuid: String, episodeUuid: String) {
+    static func episodeOpened(podcastUuid: String, episodeUuid: String) {
         logEvent("episode_open", parameters: ["podcastUuid": podcastUuid, "episodeUuid": episodeUuid])
     }
 
-    class func playerShowNotesOpened() {
+    static func playerShowNotesOpened() {
         logEvent("now_playing_notes_open", parameters: nil)
     }
 
-    class func chaptersOpened() {
+    static func chaptersOpened() {
         logEvent("now_playing_chapters_open", parameters: nil)
     }
 
-    class func accountDeleted() {
+    static func accountDeleted() {
         logEvent("account_deleted", parameters: nil)
     }
 }
@@ -327,11 +327,11 @@ class AnalyticsHelper {
 private extension AnalyticsHelper {
     static let logger = Logger()
 
-    class func bumpStat(_ name: String, parameters: [String: Any]? = nil) {
+    static func bumpStat(_ name: String, parameters: [String: Any]? = nil) {
         Self.logEvent(name, parameters: parameters)
     }
 
-    class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
+    static func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         guard optedOut == false else { return }
 
         // assuming for now we don't want analytics on a watch

@@ -2,8 +2,8 @@ import PocketCastsDataModel
 import WatchKit
 import PocketCastsUtils
 
-class WatchDataManager {
-    class func playlists() -> [WatchPlaylist]? {
+enum WatchDataManager {
+    static func playlists() -> [WatchPlaylist]? {
         if let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let filters = data[WatchConstants.Keys.filters] as? [[String: Any]] {
             var convertedFilters = [WatchPlaylist]()
             for filter in filters {
@@ -27,7 +27,7 @@ class WatchDataManager {
         return nil
     }
 
-    class func upNextEpisodes() -> [BaseEpisode]? {
+    static func upNextEpisodes() -> [BaseEpisode]? {
         if let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let upNextEpisodes = data[WatchConstants.Keys.upNextInfo] as? [[String: Any]] {
             var convertedEpisodes = [BaseEpisode]()
             for episode in upNextEpisodes {
@@ -42,7 +42,7 @@ class WatchDataManager {
         return nil
     }
 
-    class func playingEpisode() -> BaseEpisode? {
+    static func playingEpisode() -> BaseEpisode? {
         if let episodeJson = nowPlayingValue(key: WatchConstants.Keys.nowPlayingEpisode) as? [String: Any] {
             return convertToEpisode(json: episodeJson)
         }
@@ -50,7 +50,7 @@ class WatchDataManager {
         return nil
     }
 
-    class func episodeIfAvailable(uuid: String) -> BaseEpisode? {
+    static func episodeIfAvailable(uuid: String) -> BaseEpisode? {
         if let playingEpisode = playingEpisode(), playingEpisode.uuid == uuid {
             return playingEpisode
         }
@@ -66,75 +66,75 @@ class WatchDataManager {
         return nil
     }
 
-    class func isPlaying() -> Bool {
+    static func isPlaying() -> Bool {
         guard let playingStatus = nowPlayingValue(key: WatchConstants.Keys.nowPlayingStatus) as? String else { return false }
 
         return WatchConstants.PlayingStatus.playing == playingStatus
     }
 
-    class func currentTime() -> TimeInterval {
+    static func currentTime() -> TimeInterval {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingCurrentTime) as? TimeInterval ?? 0
     }
 
-    class func nowPlayingPlayedUpToModified() -> Int64 {
+    static func nowPlayingPlayedUpToModified() -> Int64 {
         (nowPlayingValue(key: WatchConstants.Keys.nowPlayingPlayedUpToModified) as? NSNumber)?.int64Value ?? 0
     }
 
-    class func duration() -> TimeInterval {
+    static func duration() -> TimeInterval {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingDuration) as? TimeInterval ?? 0
     }
 
-    class func skipBackAmount() -> Int {
+    static func skipBackAmount() -> Int {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingSkipBackAmount) as? Int ?? 10
     }
 
-    class func skipForwardAmount() -> Int {
+    static func skipForwardAmount() -> Int {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingSkipForwardAmount) as? Int ?? 45
     }
 
-    class func playingEpisodeHasChapters() -> Bool {
+    static func playingEpisodeHasChapters() -> Bool {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingHasChapters) as? Bool ?? false
     }
 
-    class func playbackSpeed() -> Double {
+    static func playbackSpeed() -> Double {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingSpeed) as? Double ?? 1.0
     }
 
-    class func nowPlayingChapterTitle() -> String {
+    static func nowPlayingChapterTitle() -> String {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingChapterTitle) as? String ?? ""
     }
 
-    class func trimSilenceEnabled() -> Bool {
+    static func trimSilenceEnabled() -> Bool {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingTrimSilence) as? Bool ?? false
     }
 
-    class func volumeBoostEnabled() -> Bool {
+    static func volumeBoostEnabled() -> Bool {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingVolumeBoost) as? Bool ?? false
     }
 
-    class func nowPlayingColor() -> UIColor? {
+    static func nowPlayingColor() -> UIColor? {
         guard let color = nowPlayingValue(key: WatchConstants.Keys.nowPlayingColor) as? String else { return nil }
 
         return UIColor(hex: color)
     }
 
-    class func nowPlayingSubTitle() -> String? {
+    static func nowPlayingSubTitle() -> String? {
         guard let title = nowPlayingValue(key: WatchConstants.Keys.nowPlayingSubtitle) as? String else { return nil }
 
         return title
     }
 
-    class func upNextCount() -> Int {
+    static func upNextCount() -> Int {
         nowPlayingValue(key: WatchConstants.Keys.nowPlayingUpNextCount) as? Int ?? 0
     }
 
-    private class func nowPlayingValue(key: String) -> Any? {
+    private static func nowPlayingValue(key: String) -> Any? {
         guard let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let playingInfo = data[WatchConstants.Keys.nowPlayingInfo] as? [String: Any] else { return nil }
 
         return playingInfo[key]
     }
 
-    class func convertToEpisode(json: [String: Any]) -> BaseEpisode? {
+    static func convertToEpisode(json: [String: Any]) -> BaseEpisode? {
         guard let type = json[WatchConstants.Keys.episodeTypeKey] as? String, let episodeMap = json[WatchConstants.Keys.episodeSerialisedKey] as? [String: String] else {
             return nil
         }
@@ -152,7 +152,7 @@ class WatchDataManager {
         }
     }
 
-    class func convertToEpisodeList(data: [String: Any]) -> [BaseEpisode] {
+    static func convertToEpisodeList(data: [String: Any]) -> [BaseEpisode] {
         var episodes = [BaseEpisode]()
 
         if let allEpisodes = data[WatchConstants.Messages.FilterResponse.episodes] as? [[String: Any]] {
@@ -166,27 +166,27 @@ class WatchDataManager {
         return episodes
     }
 
-    class func upNextAutoDownloadCount() -> Int {
+    static func upNextAutoDownloadCount() -> Int {
         guard let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let downloadCount = data[WatchConstants.Keys.upNextDownloadEpisodeCount] as? Int else {
             return 0
         }
         return downloadCount
     }
 
-    class func upNextAutoDeleteCount() -> Int {
+    static func upNextAutoDeleteCount() -> Int {
         guard let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let deleteCount = data[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] as? Int else {
             return 25
         }
         return deleteCount
     }
 
-    class func updateLastDataTime(to date: Date = Date()) {
+    static func updateLastDataTime(to date: Date = Date()) {
         if FeatureFlag.watchUpNextSyncFix.enabled {
             UserDefaults.standard.set(date, forKey: WatchConstants.UserDefaults.lastDataTime)
         }
     }
 
-    class func lastDataTime() -> Date {
+    static func lastDataTime() -> Date {
         guard let lastTime = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.lastDataTime) as? Date else {
             return Date.distantPast
         }
