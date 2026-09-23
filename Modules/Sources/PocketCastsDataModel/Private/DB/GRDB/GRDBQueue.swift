@@ -38,11 +38,6 @@ public final class GRDBQueue {
     }
 
     func read(_ block: (any PCDatabase) -> Void) {
-        guard FeatureFlag.concurrentDatabaseReads.enabled else {
-            write(block)
-            return
-        }
-
         do {
             try dbPool.read { db in
                 let dbWrapper = GRDBDatabase(database: db)

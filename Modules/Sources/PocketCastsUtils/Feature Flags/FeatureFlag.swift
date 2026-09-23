@@ -104,9 +104,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show a satisfaction survey before prompting to rate
     case userSatisfactionSurvey
 
-    /// Whether to use database concurrent reads or not
-    case concurrentDatabaseReads
-
     /// Limit playback position changes when switching episodes
     case limitPlaybackPositionChanges
 
@@ -337,8 +334,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
-            true
-        case .concurrentDatabaseReads:
             true
         case .limitPlaybackPositionChanges:
             true
