@@ -8,7 +8,7 @@ class RetrieveBookmarksTask: ApiBaseTask, @unchecked Sendable {
 
     let onBookmarksRetrieved: BookmarkRetrievedHandler
 
-    init(onBookmarksRetrieved: @escaping BookmarkRetrievedHandler, dataManager: DataManager = .sharedManager) {
+    init(onBookmarksRetrieved: @escaping BookmarkRetrievedHandler, dataManager: DataManager = .shared) {
         self.onBookmarksRetrieved = onBookmarksRetrieved
         super.init(dataManager: dataManager)
     }

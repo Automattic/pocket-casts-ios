@@ -41,7 +41,7 @@ class FolderPreviewView: UIView {
 
     func populateFrom(folder: Folder) {
         currentFolder = folder
-        let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
+        let podcastUuids = DataManager.shared.topPodcastsUuidInFolder(folder: folder)
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
         addObservers()
     }
@@ -50,7 +50,7 @@ class FolderPreviewView: UIView {
         currentFolder = folder
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [])
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
+            let podcastUuids = DataManager.shared.topPodcastsUuidInFolder(folder: folder)
             let folderUuid = folder.uuid
             DispatchQueue.main.async { [weak self] in
                 // Check if the preview is still being used to preview the same folder
@@ -104,7 +104,7 @@ class FolderPreviewView: UIView {
     private func setImage(in imageView: PodcastImageView, for uuid: String) {
         if forCarPlay {
             // For CarPlay we just want to grab whatever we have in cache
-            imageView.imageView?.image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .list)
+            imageView.imageView?.image = ImageManager.shared.cachedImageFor(podcastUuid: uuid, size: .list)
         } else {
             imageView.setPodcast(uuid: uuid, size: .list)
         }

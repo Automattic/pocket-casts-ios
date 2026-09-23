@@ -3,7 +3,7 @@ import Foundation
 import PocketCastsDataModel
 
 class GoogleCastPlayer: PlaybackProtocol {
-    private lazy var castManager: GoogleCastManager = .sharedManager
+    private lazy var castManager: GoogleCastManager = .shared
 
     private var shouldKeepPlaying = false
 

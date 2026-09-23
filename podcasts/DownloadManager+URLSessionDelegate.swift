@@ -178,7 +178,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     func processEpisode(_ episode: BaseEpisode, downloadedFile location: URL, reportedContentType: String?, copyFile: Bool) {
         let contentType = MimetypeHelper.contetType(for: location)
         if let contentType, contentType != episode.contentType {
-            DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+            DataManager.shared.saveEpisode(contentType: contentType, episode: episode)
         }
 
         let fileSize = FileManager.default.fileSize(of: location) ?? 0

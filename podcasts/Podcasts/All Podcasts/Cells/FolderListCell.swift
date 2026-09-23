@@ -46,7 +46,7 @@ class FolderListCell: ThemeableCollectionCell {
 
         accessibilityLabel = folderPreview.accessibilityLabel
 
-        let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+        let count = DataManager.shared.countOfPodcastsInFolder(folder: folder)
         folderInfo.text = L10n.podcastCount(count)
 
         if badgeType == .allUnplayed {

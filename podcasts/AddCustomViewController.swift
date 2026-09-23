@@ -139,7 +139,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             selectedColor = artwork == nil ? selectedColorIndex + 1 : selectedColorIndex
             if selectedColor > 0 {
                 fileImageView.contentMode = .scaleToFill
-                ImageManager.sharedManager.imageForUserEpisodeColor(color: selectedColor, imageView: fileImageView, size: .list, completionHandler: { found in
+                ImageManager.shared.imageForUserEpisodeColor(color: selectedColor, imageView: fileImageView, size: .list, completionHandler: { found in
                     if !found {
                         self.fileImageView.backgroundColor = AppTheme.userEpisodeColor(number: self.selectedColorIndex)
                     }
@@ -196,7 +196,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             sizeLabel.text = SizeFormatter.shared.defaultFormat(bytes: Int64(fileSize))
 
             if episode.imageColor == 0 {
-                ImageManager.sharedManager.imageForEpisode(episode, size: .list) { [weak self] image in
+                ImageManager.shared.imageForEpisode(episode, size: .list) { [weak self] image in
                     self?.artwork = image
                 }
             } else {
@@ -463,7 +463,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 }
 

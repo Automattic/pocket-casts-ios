@@ -77,7 +77,7 @@ extension EpisodeDetailViewController {
     func playPauseEpisode(isPlaying: Bool) {
         if isPlaying {
             if let timestamp {
-                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                DataManager.shared.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
                 PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
                 updateProgress()
             }
@@ -87,7 +87,7 @@ extension EpisodeDetailViewController {
             if let timestamp {
                 episode.playingStatus = PlayingStatus.inProgress.rawValue
                 episode.playedUpTo = timestamp
-                DataManager.sharedManager.save(episode: episode)
+                DataManager.shared.save(episode: episode)
                 updateProgress()
             }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
@@ -115,7 +115,7 @@ extension EpisodeDetailViewController {
     // MARK: - UI State
 
     func updateButtonStates() {
-        guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
+        guard let updatedEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) else { return }
         episode = updatedEpisode
 
         let playbackManager = PlaybackManager.shared

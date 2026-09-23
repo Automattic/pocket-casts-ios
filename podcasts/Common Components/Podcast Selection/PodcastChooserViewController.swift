@@ -121,7 +121,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     }
 
     private func loadPodcasts() {
-        allPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
+        allPodcasts = DataManager.shared.allPodcastsOrderedByTitle()
 
         if selectAllOnLoad {
             selectedUuids = allPodcasts.map(\.uuid)

@@ -14,7 +14,7 @@ class CarPlayImageHelper {
             return cachedImage
         }
 
-        let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
+        let image = ImageManager.shared.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
 
         let adjustedImage = adjustImageIfRequired(image: image)
         cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
@@ -47,9 +47,9 @@ class CarPlayImageHelper {
 
         var image: UIImage?
         if let episode = episode as? Episode {
-            image = ImageManager.sharedManager.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
+            image = ImageManager.shared.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
         } else if let userEpisode = episode as? UserEpisode {
-            image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
+            image = ImageManager.shared.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
 
         if let image {

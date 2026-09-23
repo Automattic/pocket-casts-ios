@@ -48,7 +48,7 @@ class NewPlaylistCell: ThemeableCell {
 
         self.contentConfiguration = UIHostingConfiguration {
             NewPlaylistCellView(viewModel: viewModel)
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
         }
         .margins(.vertical, 12)
 
@@ -79,7 +79,7 @@ class NewPlaylistCell: ThemeableCell {
     }
 
     private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
     }

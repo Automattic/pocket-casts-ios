@@ -212,17 +212,17 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             present(controller, animated: true, completion: nil)
             Analytics.track(.accountDetailsCancelTapped)
         case .privacyPolicy:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
             Analytics.track(.accountDetailsShowPrivacyPolicy)
         case .termsOfUse:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
             Analytics.track(.accountDetailsShowTOS)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
     private func showSignOutWarning() {
-        let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
+        let numSubscriptionPodcasts = DataManager.shared.allPaidPodcasts().count
         let message: String
         if numSubscriptionPodcasts > 0 {
             message = L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle

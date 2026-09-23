@@ -52,7 +52,7 @@ class PlaylistCellViewModel: ObservableObject {
     static func gridArtworkItems<T>(
         from episodes: [T],
         limit: Int,
-        imageManager: ImageManager = .sharedManager,
+        imageManager: ImageManager = .shared,
         podcastUuid: (T) -> String
     ) -> [PlaylistArtworkView.ImageItem] {
         let distinctEpisodes = distinctPodcasts(from: episodes, limit: limit, podcastUuid: podcastUuid)
@@ -77,8 +77,8 @@ class PlaylistCellViewModel: ObservableObject {
     init(
         playlist: EpisodeFilter,
         displayType: DisplayType = .count,
-        dataManager: DataManager = .sharedManager,
-        imageManager: ImageManager = .sharedManager,
+        dataManager: DataManager = .shared,
+        imageManager: ImageManager = .shared,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.playlist = playlist

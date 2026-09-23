@@ -20,7 +20,7 @@ In Claude Code, a hook (`.claude/hooks/swiftlint.sh`) autocorrects each edited S
 - `PocketCastsTests/`: app unit tests.
 - `BuildTools/`: pins the SwiftLint and SwiftGen versions.
 - `Modules/Package.swift`: a single Swift package, with targets in `Modules/Sources/` and tests in `Modules/Tests/`:
-  - **PocketCastsDataModel**: GRDB persistence. All data access goes through `DataManager.sharedManager` (`Public/DataManager.swift`).
+  - **PocketCastsDataModel**: GRDB persistence. All data access goes through `DataManager.shared` (`Public/DataManager.swift`).
   - **PocketCastsServer**: the API client, using Protocol Buffers.
   - **PocketCastsUtils**: shared utilities.
   - **PocketCastsAnalytics**: `Analytics`, the Tracks and logging adapters, and the A/B test provider. Add new events to `AnalyticsEvent.swift`.
@@ -44,7 +44,7 @@ For RTL support, use `.natural` text alignment and `naturalContentHorizontalAlig
 
 ## Themes
 
-- In SwiftUI, use `@EnvironmentObject private var theme: Theme`, inject `.environmentObject(Theme.sharedTheme)` where the view is used, and read colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
+- In SwiftUI, use `@EnvironmentObject private var theme: Theme`, inject `.environmentObject(Theme.shared)` where the view is used, and read colors with `AppTheme.color(for: .primaryText01, theme: theme)`.
 - `ThemeColor.swift` and `ThemeStyle.swift` are generated. Edit `scripts/themes/theme.csv`, then run `make generate_colors`.
 
 ## Protocol Buffers

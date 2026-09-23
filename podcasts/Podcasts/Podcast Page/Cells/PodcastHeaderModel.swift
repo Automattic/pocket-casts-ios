@@ -51,7 +51,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         .sink { [unowned self] notification in
             guard let podcastUuid = notification.object as? String,
                   podcastUuid == podcast.uuid,
-                  let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+                  let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
             else {
                 return
             }

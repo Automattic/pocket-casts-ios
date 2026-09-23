@@ -70,7 +70,7 @@ class PodcastSettingsViewController: PCViewController {
         guard let uuidLoaded = notification.object as? String else { return }
 
         if podcast.uuid == uuidLoaded {
-            if let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid) {
+            if let updatedPodcast = DataManager.shared.findPodcast(uuid: podcast.uuid) {
                 podcast = updatedPodcast
                 updateColors()
             }
@@ -125,7 +125,7 @@ class PodcastSettingsViewController: PCViewController {
     }
 
     @objc func podcastUpdated(_ notification: Notification) {
-        guard let podcastUuid = notification.object as? String, podcastUuid == podcast.uuid, let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { return }
+        guard let podcastUuid = notification.object as? String, podcastUuid == podcast.uuid, let updatedPodcast = DataManager.shared.findPodcast(uuid: podcastUuid) else { return }
 
         podcast = updatedPodcast
     }

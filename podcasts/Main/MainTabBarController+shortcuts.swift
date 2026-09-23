@@ -90,11 +90,11 @@ extension MainTabBarController {
     }
 
     @objc private func handleOpenPlayer() {
-        NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer()
+        NavigationManager.shared.miniPlayer?.openFullScreenPlayer()
     }
 
     @objc private func handleClosePlayer() {
-        NavigationManager.sharedManager.miniPlayer?.closeFullScreenPlayer()
+        NavigationManager.shared.miniPlayer?.closeFullScreenPlayer()
     }
 
     @objc func textEditingDidStart() {

@@ -179,7 +179,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {
-                    NavigationManager.sharedManager.showUpsellView(from: self, source: .themes)
+                    NavigationManager.shared.showUpsellView(from: self, source: .themes)
                 }
 
                 return
@@ -190,7 +190,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             self.dismiss(animated: true, completion: nil)
         }, dismissAction: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
-        }, selectedTheme: selectedTheme).environmentObject(Theme.sharedTheme)
+        }, selectedTheme: selectedTheme).environmentObject(Theme.shared)
         let hostingController = PCHostingController(rootView: themeSelector)
 
         present(hostingController, animated: true, completion: nil)
@@ -253,8 +253,8 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
         if sender.isOn {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.followSystemThemeTurnedOn)
-        } else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
-            Theme.sharedTheme.activeTheme = Theme.preferredLightTheme()
+        } else if Theme.shared.activeTheme != Theme.preferredLightTheme() {
+            Theme.shared.activeTheme = Theme.preferredLightTheme()
         }
 
         Settings.trackValueToggled(.settingsAppearanceFollowSystemThemeToggled, enabled: sender.isOn)
@@ -266,7 +266,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     @objc private func tabBarMinimizingToggled(_ sender: UISwitch) {
         Settings.tabBarMinimizingEnabled = sender.isOn
-        NavigationManager.sharedManager.miniPlayer?.applyTabBarMinimizingPreference()
+        NavigationManager.shared.miniPlayer?.applyTabBarMinimizingPreference()
         Settings.trackValueToggled(.settingsAppearanceTabBarMinimizingToggled, enabled: sender.isOn)
     }
 
@@ -293,7 +293,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     private func refreshAllPodcastArtwork() {
         DispatchQueue.global(qos: .default).async { () in
-            ImageManager.sharedManager.clearPodcastCache(recacheWhenDone: true)
+            ImageManager.shared.clearPodcastCache(recacheWhenDone: true)
         }
 
         Analytics.track(.settingsAppearanceRefreshAllArtworkTapped)

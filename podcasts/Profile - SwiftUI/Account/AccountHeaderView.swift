@@ -63,14 +63,14 @@ struct AccountHeaderView: View {
         case .activeSubscription(_, let frequency, let expirationDate):
             // Show the next billing date, and how often their subscription reviews
             return (
-                L10n.nextPaymentFormat(DateFormatHelper.sharedHelper.longLocalizedFormat(expirationDate)),
+                L10n.nextPaymentFormat(DateFormatHelper.shared.longLocalizedFormat(expirationDate)),
                 frequency.localizedDescription.map { Text($0) },
                 nil
             )
         case .freeTrial(let remaining):
             // Show the time remaining in the free trial and the date it expires
             return (
-                L10n.plusFreeMembershipFormat(DateFormatHelper.sharedHelper.shortTimeRemaining(remaining).localizedCapitalized),
+                L10n.plusFreeMembershipFormat(DateFormatHelper.shared.shortTimeRemaining(remaining).localizedCapitalized),
                 expirationLabel(),
                 nil
             )
@@ -103,7 +103,7 @@ struct AccountHeaderView: View {
 
         // If we're more than the max days (progress >= 1) then show the expiration date
         guard expirationProgress < 1 else {
-            let label = L10n.plusExpirationFormat(DateFormatHelper.sharedHelper.longLocalizedFormat(expirationDate))
+            let label = L10n.plusExpirationFormat(DateFormatHelper.shared.longLocalizedFormat(expirationDate))
             return Text(label)
         }
 

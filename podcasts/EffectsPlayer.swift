@@ -116,7 +116,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 strongSelf.audioFile = try AVAudioFile(forReading: fileURL, commonFormat: AVAudioCommonFormat.pcmFormatFloat32, interleaved: false)
 
                 // AVAudioFile.length is an expensive operation (often in the seconds) so here we attempt to load a cached value instead
-                strongSelf.cachedFrameCount = DataManager.sharedManager.findFrameCount(episode: episode)
+                strongSelf.cachedFrameCount = DataManager.shared.findFrameCount(episode: episode)
                 if strongSelf.cachedFrameCount == 0 {
                     // we haven't cached a frame count for this episode, do that now
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
@@ -124,7 +124,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                         // If don't have a frameCount we cannot use the effect player
                         throw AVError(_nsError: NSError(domain: AVFoundationErrorDomain, code: AVError.fileFailedToParse.rawValue))
                     }
-                    DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
+                    DataManager.shared.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
             } catch {
                 strongSelf.playerLock.unlock()

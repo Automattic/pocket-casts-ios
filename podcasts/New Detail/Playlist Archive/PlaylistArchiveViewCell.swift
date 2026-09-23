@@ -57,7 +57,7 @@ class PlaylistArchiveViewCell: ThemeableCell {
                 episodesCount: archivedEpisodesCount,
                 isSelected: isSelected
             )
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
                 .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
         }
         .margins(.horizontal, 0)

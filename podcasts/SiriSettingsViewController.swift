@@ -138,7 +138,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     private func showPodcastShortcutsViewController() {
         let viewController = PodcastShortcutsViewController()
-        var podcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
+        var podcasts = DataManager.shared.allPodcastsOrderedByTitle()
         for podcast in podcasts {
             for existingShortcut in enabledShortcuts {
                 guard existingShortcut.shortcut.intent is INPlayMediaIntent else { continue }
@@ -157,7 +157,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     private func showPlaylistsShortcutsViewController() {
         let viewController = PlaylistsShortcutsViewController()
-        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let playlists = DataManager.shared.allPlaylists(includeDeleted: false)
         viewController.playlists = playlists
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)

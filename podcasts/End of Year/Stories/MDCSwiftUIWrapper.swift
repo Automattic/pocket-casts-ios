@@ -57,7 +57,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
         let hostingController = UIHostingController(
             rootView: content
                 .edgesIgnoringSafeArea(.all)
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
         )
         hostingController.sizingOptions = [.intrinsicContentSize]
         addChild(hostingController)

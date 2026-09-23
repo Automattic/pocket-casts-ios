@@ -9,7 +9,7 @@ extension UpNextViewController: MultiSelectActionDelegate {
     }
 
     func multiSelectedBaseEpisodes() -> [BaseEpisode] {
-        selectedPlayListEpisodes.compactMap { DataManager.sharedManager.findBaseEpisode(uuid: $0.episodeUuid) }
+        selectedPlayListEpisodes.compactMap { DataManager.shared.findBaseEpisode(uuid: $0.episodeUuid) }
     }
 
     func multiSelectedPlayListEpisodes() -> [PlaylistEpisode]? {

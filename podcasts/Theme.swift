@@ -82,7 +82,7 @@ class Theme: ObservableObject {
     static let themeKey = "theme"
     static let preferredDarkThemeKey = "preferredDarkTheme"
     static let preferredLightThemeKey = "preferredLightTheme"
-    static let sharedTheme = Theme()
+    static let shared = Theme()
 
     typealias ThemeType = PocketCastsServer.ThemeType
 
@@ -129,7 +129,7 @@ class Theme: ObservableObject {
     }
 
     class func isDarkTheme() -> Bool {
-        Theme.sharedTheme.activeTheme.isDark
+        Theme.shared.activeTheme.isDark
     }
 
     class func preferredDarkTheme() -> ThemeType {
@@ -147,7 +147,7 @@ class Theme: ObservableObject {
 
         // change the active theme if it needs to change
         if Settings.shouldFollowSystemTheme(), systemIsDark {
-            Theme.sharedTheme.activeTheme = preferredType
+            Theme.shared.activeTheme = preferredType
         }
 
         guard userInitiated else { return }
@@ -170,11 +170,11 @@ class Theme: ObservableObject {
         // change the active theme if it needs to change
         if Settings.shouldFollowSystemTheme() {
             if !systemIsDark {
-                Theme.sharedTheme.activeTheme = preferredType
+                Theme.shared.activeTheme = preferredType
             }
             Settings.trackValueChanged(.settingsAppearanceLightThemeChanged, value: preferredType)
         } else {
-            Theme.sharedTheme.activeTheme = preferredType
+            Theme.shared.activeTheme = preferredType
             Settings.trackValueChanged(.settingsAppearanceThemeChanged, value: preferredType)
         }
     }

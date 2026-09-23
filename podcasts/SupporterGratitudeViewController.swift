@@ -72,7 +72,7 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
             if self.bundleUuid == nil, let podcastUuid = self.podcastInfo?.uuid, let containerBundle = SubscriptionHelper.bundleSubscriptionForPodcast(podcastUuid: podcastUuid) {
                 uuid = containerBundle.bundleUuid
             }
-            NavigationManager.sharedManager.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: uuid as Any])
+            NavigationManager.shared.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: uuid as Any])
         })
     }
 

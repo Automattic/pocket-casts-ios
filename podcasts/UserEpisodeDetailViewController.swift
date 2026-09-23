@@ -107,7 +107,7 @@ class UserEpisodeDetailViewController: UIViewController {
     // MARK: - Init
 
     init(episodeUuid: String) {
-        episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid)! // TODO: consider making this optional
+        episode = DataManager.shared.findUserEpisode(uuid: episodeUuid)! // TODO: consider making this optional
         super.init(nibName: "UserEpisodeDetailViewController", bundle: nil)
     }
 
@@ -197,7 +197,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     private func reloadEpisode() {
-        guard let reloadedEpisode = DataManager.sharedManager.findUserEpisode(uuid: episode.uuid) else {
+        guard let reloadedEpisode = DataManager.shared.findUserEpisode(uuid: episode.uuid) else {
             return // episode no longer exists so nothing to reload
         }
 

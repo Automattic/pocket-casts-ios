@@ -13,7 +13,7 @@ struct EmptyStateAction: Identifiable {
 
     init<Style: ButtonStyle>(
         title: String,
-        style: Style = RoundedButtonStyle(theme: .sharedTheme),
+        style: Style = RoundedButtonStyle(theme: .shared),
         action: @escaping () -> Void
     ) {
         self.id = title

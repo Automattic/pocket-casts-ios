@@ -186,7 +186,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         filterToEdit.podcastSmartRuleApplied = true
 
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
@@ -269,7 +269,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)

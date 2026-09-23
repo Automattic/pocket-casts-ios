@@ -90,7 +90,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Unsubscribe from all Podcasts") {
-                    let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                    let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
 
                     for podcast in podcasts {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
@@ -98,7 +98,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Clear all folder information") {
-                    DataManager.sharedManager.clearAllFolderInformation()
+                    DataManager.shared.clearAllFolderInformation()
                 }
 
                 Button("Force Reload Feature Flags") {
@@ -374,7 +374,7 @@ struct DeveloperMenu: View {
                 .sheet(isPresented: $showingRecommendationsOnboarding) {
                     NavigationStack {
                         OnboardingRecommendationsView(coordinator: LoginCoordinator())
-                            .environmentObject(Theme.sharedTheme)
+                            .environmentObject(Theme.shared)
                     }
                 }
                 Button("Show Onboarding Interests") {
@@ -386,11 +386,11 @@ struct DeveloperMenu: View {
                     }, notNowCallback: {
                         showingInterestsOnboarding.toggle()
                     }, isInsideNavigation: false)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
                 .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
                     OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: self.recommendationsViewModel)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
             } header: {
                 Text("Onboarding")

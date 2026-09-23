@@ -119,7 +119,7 @@ actor PlaylistMetadataLoader {
     static func gridArtworkItems<T>(
         from episodes: [T],
         limit: Int,
-        imageManager: ImageManager = .sharedManager,
+        imageManager: ImageManager = .shared,
         podcastUuid: (T) -> String
     ) -> [PlaylistArtworkView.ImageItem] {
         let distinctEpisodes = distinctPodcasts(from: episodes, limit: limit, podcastUuid: podcastUuid)
@@ -132,8 +132,8 @@ actor PlaylistMetadataLoader {
     }
 
     init(
-        dataManager: DataManager = .sharedManager,
-        imageManager: ImageManager = .sharedManager,
+        dataManager: DataManager = .shared,
+        imageManager: ImageManager = .shared,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.dataManager = dataManager

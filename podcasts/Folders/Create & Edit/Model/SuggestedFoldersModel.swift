@@ -31,7 +31,7 @@ class SuggestedFoldersModel: ObservableObject {
 
     var previousUuids: [String] = []
 
-    init(dataManager: DataManager = DataManager.sharedManager, failedToLoadAction: (() -> ())? = nil) {
+    init(dataManager: DataManager = DataManager.shared, failedToLoadAction: (() -> ())? = nil) {
         self.dataManager = dataManager
         self.failedToLoadAction = failedToLoadAction
     }

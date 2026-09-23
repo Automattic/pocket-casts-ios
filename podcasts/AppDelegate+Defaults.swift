@@ -7,7 +7,7 @@ import UIKit
 extension AppDelegate {
     func checkDefaults() {
         let defaults = UserDefaults.standard
-        let dataManager = DataManager.sharedManager
+        let dataManager = DataManager.shared
 
         // Check if protected data is available before running migrations that touch keychain
         // This prevents the v5Run migration from incorrectly clearing tokens when the app
@@ -63,7 +63,7 @@ extension AppDelegate {
         }
 
         performUpdateIfRequired(updateKey: "v7_3Run") {
-            ImageManager.sharedManager.upgradeV2ToV3ArtworkFolder()
+            ImageManager.shared.upgradeV2ToV3ArtworkFolder()
             ServerSettings.setLastRefreshSucceeded(true)
             ServerSettings.setLastSyncSucceeded(true)
         }

@@ -33,7 +33,7 @@ extension CastToViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let device = devices[indexPath.row]
-        GoogleCastManager.sharedManager.connectToDevice(device)
+        GoogleCastManager.shared.connectToDevice(device)
 
         Analytics.track(.chromecastStartedCasting)
         AnalyticsPlaybackHelper.shared.currentSource = analyticsSource

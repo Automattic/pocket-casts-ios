@@ -31,7 +31,7 @@ class FoldersCoordinator: NSObject {
         static let intervalAfterStartup: TimeInterval = 10.seconds
     }
 
-    init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
+    init(navigationManager: NavigationManager = .shared, dataManager: DataManager = .shared) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
         self.suggestedFoldersModel = SuggestedFoldersModel()
@@ -94,7 +94,7 @@ class FoldersCoordinator: NSObject {
                 vc?.dismiss(animated: true, completion: nil)
             }
         }
-        let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.shared))
 
         vc.present(hostingController, animated: true, completion: nil)
     }
@@ -124,7 +124,7 @@ class FoldersCoordinator: NSObject {
                 })
             }
         }
-        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.shared))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
     }
@@ -147,14 +147,14 @@ class FoldersCoordinator: NSObject {
                 return
             }
         }
-        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.shared))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
         saveLastUuidsUsed()
-        DataManager.sharedManager.deleteAllFoldersAndMarkSync()
+        DataManager.shared.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.podcastUuids)

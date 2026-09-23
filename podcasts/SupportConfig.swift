@@ -143,7 +143,7 @@ struct SupportConfig: ZDConfig {
     }
 
     private var allPodcasts: ZDCustomField {
-        let allPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
+        let allPodcasts = DataManager.shared.allPodcastsOrderedByTitle()
             .map { podcast -> String in
                 let podcastTitle = podcast.title ?? ""
                 return "\(podcastTitle) (\(podcast.uuid)) override global archive? \(podcast.overrideGlobalArchive) with limit \(podcast.autoArchiveEpisodeLimit)"

@@ -314,7 +314,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleDeleteDownload(episodeUuid: String) {
-        guard let baseEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+        guard let baseEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Could not find episode for delete download: \(episodeUuid)")
             return
         }
@@ -329,14 +329,14 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleArchive(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         sendStateToWatchInBackground()
     }
 
     private func handleUnarchive(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
         sendStateToWatchInBackground()
@@ -373,7 +373,7 @@ class WatchManager: NSObject, WCSessionDelegate {
               let uuid = payload[WatchConstants.Messages.PlaybackProgressUpdate.episodeUuid] as? String,
               let playedUpTo = (payload[WatchConstants.Messages.PlaybackProgressUpdate.playedUpTo] as? NSNumber)?.doubleValue,
               let modifiedAt = (payload[WatchConstants.Messages.PlaybackProgressUpdate.modifiedAt] as? NSNumber)?.int64Value,
-              let episode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) else { return }
+              let episode = DataManager.shared.findBaseEpisode(uuid: uuid) else { return }
 
         // Don't clobber a position the phone itself is actively producing.
         if PlaybackManager.shared.isActivelyPlaying(episodeUuid: uuid) { return }
@@ -383,8 +383,8 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         episode.playedUpTo = playedUpTo
         episode.playedUpToModified = modifiedAt
-        DataManager.sharedManager.save(episode: episode)
-        DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
+        DataManager.shared.save(episode: episode)
+        DataManager.shared.updateEpisodePlaybackInteractionDate(episode: episode)
         FileLog.shared.addMessage("WatchManager: applied playback progress \(playedUpTo) from watch for \(uuid)")
 
         // If this episode is loaded in the phone's player (and paused), move the live position so the
@@ -401,24 +401,24 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleMarkPlayed(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         sendStateToWatchInBackground()
     }
 
     private func handleMarkUnplayed(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
         sendStateToWatchInBackground()
     }
 
     private func handleAddToUpnext(episodeUuid: String, toTop: Bool) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+        guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Episode not found for addToUpNext: \(episodeUuid)")
             let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "addToUpNext")
-            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
             return
         }
 
@@ -428,10 +428,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleRemoveFromUpnext(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+        guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Episode not found for removeFromUpNext: \(episodeUuid)")
             let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "removeFromUpNext")
-            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
             return
         }
 
@@ -439,13 +439,13 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleStarRequest(starred: Bool, episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.setStarred(starred, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
     }
 
     private func handlePlayRequest(episodeUuid: String, playlist: AutoplayHelper.Playlist?) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+        guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Could not find episode for play request: \(episodeUuid)")
             return
         }
@@ -455,11 +455,11 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handlePlaylistRequest(playlistUuid: String) -> [String: Any] {
-        guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid) else { return [String: Any]() }
+        guard let playlist = DataManager.shared.findPlaylist(uuid: playlistUuid) else { return [String: Any]() }
 
         let episodes: [Episode]
         let episodeQuery = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
-        episodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: episodeQuery, arguments: nil)
+        episodes = DataManager.shared.findPlaylistEpisodesWhere(query: episodeQuery, arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()
         for episode in episodes {
@@ -474,7 +474,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleDownloadsRequest() -> [String: Any] {
-        let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxListItemsToSendToWatch)", arguments: nil)
+        let episodes = DataManager.shared.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxListItemsToSendToWatch)", arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()
         for episode in episodes {
@@ -492,9 +492,9 @@ class WatchManager: NSObject, WCSessionDelegate {
         let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
         var episodes: [UserEpisode]
         if SubscriptionHelper.hasActiveSubscription() {
-            episodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
+            episodes = DataManager.shared.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
         } else {
-            episodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
+            episodes = DataManager.shared.allUserEpisodesDownloaded(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
         }
         var convertedEpisodes = [[String: Any]]()
         for episode in episodes {
@@ -737,7 +737,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func serializePlaylists() -> [[String: Any]] {
-        let allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let allPlaylists = DataManager.shared.allPlaylists(includeDeleted: false)
         var convertedPlaylists = [[String: Any]]()
         for playlist in allPlaylists {
             var convertedPlaylist = [String: Any]()
@@ -752,7 +752,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func serializePodcastArchiveSettings() -> [[String: Any]]? {
-        let podcastsWithOverride = DataManager.sharedManager.allOverrideGlobalArchivePodcasts()
+        let podcastsWithOverride = DataManager.shared.allOverrideGlobalArchivePodcasts()
         guard !podcastsWithOverride.isEmpty else { return nil }
 
         var podcastArchiveSettings = [[String: Any]]()

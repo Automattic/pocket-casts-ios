@@ -429,7 +429,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         track(.filterAddEpisodesTapped, properties: ["is_playlist_full": isPlaylistFull])
 
         if isPlaylistFull {
-            let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+            let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
             Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
             return
         }
@@ -444,7 +444,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
                 }
             }
         )
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
             .environmentObject(searchAnalyticsHelper)
             .environmentObject(searchResults)
         )

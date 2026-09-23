@@ -50,7 +50,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                     }, label: {
                         Text(L10n.fileUploadNoFilesHelper)
                             .font(.body)
-                    }).buttonStyle(SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01))
+                    }).buttonStyle(SimpleTextButtonStyle(theme: .shared, textColor: .primaryInteractive01))
                 }
             ])
         }
@@ -247,7 +247,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     func howTo() {
         Analytics.track(.uploadedFilesHelpButtonTapped)
 
-        let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.sharedTheme)
+        let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.shared)
         let navController = SJUIUtils.navController(for: UIHostingController(rootView: howToView))
         present(navController, animated: true, completion: nil)
     }
@@ -288,7 +288,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @objc func uploadCompletedRefresh(notification: Notification) {
-        guard let episodeUuid = notification.object as? String, let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
+        guard let episodeUuid = notification.object as? String, let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
             return
         }
         UserEpisodeManager.updateUserEpisodes()
@@ -317,7 +317,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func showUpgradeRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 
     func userEpisodeDetailClosed() {

@@ -520,7 +520,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
             Analytics.track(.settingsGeneralEpisodeGroupingApplyToExisting)
-            DataManager.sharedManager.updateAllPodcastGrouping(to: grouping)
+            DataManager.shared.updateAllPodcastGrouping(to: grouping)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
             Analytics.track(.settingsGeneralEpisodeGroupingDoNotApplyToExisting)
@@ -539,7 +539,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
             Analytics.track(.settingsGeneralArchivedEpisodesApplyToExisting)
-            DataManager.sharedManager.updateAllShowArchived(to: showArchived)
+            DataManager.shared.updateAllShowArchived(to: showArchived)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
             Analytics.track(.settingsGeneralArchivedEpisodesDoNotApplyToExisting)

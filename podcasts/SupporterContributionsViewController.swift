@@ -106,7 +106,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
                 frequencyText = SubscriptionHelper.readableSubscriptionFrequency(frequency: frequency).localizedUppercase
             } else {
                 isCancelled = true
-                let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate).localizedUppercase
+                let expiryDateStr = DateFormatHelper.shared.longLocalizedFormat(expiryDate).localizedUppercase
                 if expiryDate.timeIntervalSinceNow < 0 {
                     frequencyText = L10n.paidPodcastSubscriptionEnded(expiryDateStr)
                 } else {
@@ -203,7 +203,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     }
 
     private func loadPodcast(uuid: String) -> Bool {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             podcasts[uuid] = podcast
             return true
         }

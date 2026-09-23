@@ -18,7 +18,7 @@ class UpNextViewModel {
     var state: State = .loading
     var episodes: [EpisodeRowViewModel] = []
 
-    init(dataManager: DataManager = DataManager.sharedManager, refreshManager: RefreshManager = RefreshManager.shared) {
+    init(dataManager: DataManager = DataManager.shared, refreshManager: RefreshManager = RefreshManager.shared) {
         self.dataManager = dataManager
         self.refreshManager = refreshManager
         observeUpNextChanges()

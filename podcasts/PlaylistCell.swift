@@ -49,7 +49,7 @@ class PlaylistCell: ThemeableCell {
     }
 
     private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
     }
@@ -87,7 +87,7 @@ class PlaylistCell: ThemeableCell {
                 canBeDisabled: canBeDisabled,
                 analyticsSource: analyticsSource
             )
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
             .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
         }
         .margins(.horizontal, 0)
@@ -109,7 +109,7 @@ class PlaylistCell: ThemeableCell {
                 ),
                 isSelected: .constant(false)
             )
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
             .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
         }
         .margins(.horizontal, 0)

@@ -74,7 +74,7 @@ struct UpNextEntryView: View {
                 EpisodeImage(episode: episode)
                     .frame(width: 48, height: 48)
                 VStack(alignment: .leading) {
-                    Text("\(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)")
+                    Text("\(DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)")
                         .foregroundStyle(theme.primaryText02)
                         .font(style: .footnote)
                     Text("\(episode.title ?? "")")

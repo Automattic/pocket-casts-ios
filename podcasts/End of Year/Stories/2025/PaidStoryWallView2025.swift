@@ -81,7 +81,7 @@ struct PaidStoryWallView2025: StoryView {
                             return
                         }
                         Analytics.track(.endOfYearUpsellShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
-                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.shared.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
                         Analytics.track(.endOfYearPlusContinued, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         advanceToNextStory()

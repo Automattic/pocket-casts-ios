@@ -56,7 +56,7 @@ public class Episode: NSObject, BaseEpisode {
         // for episodes with bookmarks.
         // However, this call is happening on the main thread and can block the whole app.
         // We will re-add this again in a way that's not a blocker
-        //DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        //DataManager.shared.bookmarks.bookmarkCount(forEpisode: uuid) > 0
         false
     }
 
@@ -176,7 +176,7 @@ public class Episode: NSObject, BaseEpisode {
             fileType.caseInsensitiveCompare("audio/mpeg") == .orderedSame)
     }
 
-    public func parentPodcast(dataManager: DataManager = .sharedManager) -> Podcast? {
+    public func parentPodcast(dataManager: DataManager = .shared) -> Podcast? {
         dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
     }
 

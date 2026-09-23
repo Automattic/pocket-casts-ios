@@ -4,7 +4,7 @@ import PocketCastsServer
 import UIKit
 
 class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManagerListener, GCKCastDeviceStatusListener {
-    static let sharedManager = GoogleCastManager()
+    static let shared = GoogleCastManager()
 
     let deviceManager = CastDevicesManager()
 

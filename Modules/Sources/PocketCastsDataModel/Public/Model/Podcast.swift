@@ -87,11 +87,11 @@ public class Podcast: NSObject, Identifiable {
     }
 
     public func latestEpisode() -> Episode? {
-        DataManager.sharedManager.findLatestEpisode(podcast: self)
+        DataManager.shared.findLatestEpisode(podcast: self)
     }
 
     public func latestEpisodes(limit: Int = 1) -> [Episode] {
-        DataManager.sharedManager.findLatestEpisodes(podcast: self, limit: limit)
+        DataManager.shared.findLatestEpisodes(podcast: self, limit: limit)
     }
 
     public func isSubscribed() -> Bool {

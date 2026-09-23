@@ -61,7 +61,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // Copy data from the previous corrupted database (if possible)
         alert = ShiftyLoadingAlert(title: "Corrupted database. Recovering...")
         alert?.showAlert(self, hasProgress: false, completion: nil)
-        DataManager.sharedManager.copyAllData()
+        DataManager.shared.copyAllData()
 
         alert?.hideAlert(true, completion: {
             // Start the full sync
@@ -143,7 +143,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // Track the initial tab opened event
         trackTabOpened(pcTabs[selectedIndex], isInitial: true)
 
-        NavigationManager.sharedManager.mainViewControllerDidLoad(controller: self)
+        NavigationManager.shared.mainViewControllerDidLoad(controller: self)
         setupMiniPlayer()
         updateTabBarColor()
         setupKeyboardShortcuts()
@@ -188,7 +188,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         // if this key was never set lets default to Discovery or Podcast depending of podcasts followed
         if UserDefaults.standard.object(forKey: Constants.UserDefaults.lastTabOpened) == nil {
-            selectedIndex = DataManager.sharedManager.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
+            selectedIndex = DataManager.shared.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
         }
 
         updateDatabaseIndexes()
@@ -215,10 +215,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
 
-            if DataManager.sharedManager.podcastCount() > 100 {
+            if DataManager.shared.podcastCount() > 100 {
                 self.presentLoader()
             }
-            DataManager.sharedManager.cleanUp()
+            DataManager.shared.cleanUp()
             self.dismissLoader()
             Settings.upgradedIndexes = true
         }
@@ -235,10 +235,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.lastAppVersionThatRunVacuum = appVersion
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
-            if DataManager.sharedManager.podcastCount() > 100 {
+            if DataManager.shared.podcastCount() > 100 {
                 presentLoader()
             }
-            DataManager.sharedManager.vacuumDatabase()
+            DataManager.shared.vacuumDatabase()
             dismissLoader()
         }
     }
@@ -261,13 +261,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             guard presentedViewController == nil else { return }
 
             if Settings.shouldShowEncourageAccountCreationModal() {
-                NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
+                NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
             }
             return
         }
 
         didPresentInitialOnboardingThisLaunch = true
-        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
+        NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
         // Set the flag so the user won't see the on launch flow again
         Settings.shouldShowInitialOnboardingFlow = false
@@ -297,7 +297,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func setupMiniPlayer() {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
-        NavigationManager.sharedManager.miniPlayer = miniPlayer
+        NavigationManager.shared.miniPlayer = miniPlayer
 
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
             addChild(miniPlayer)
@@ -673,7 +673,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showHeadphoneSettings() {
-        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+        let state = NavigationManager.shared.miniPlayer?.playerOpenState
 
         // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
         if state != .open, state != .animating {
@@ -689,7 +689,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showGeneralSettings(row: GeneralSettingsViewController.TableRow?) {
-        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+        let state = NavigationManager.shared.miniPlayer?.playerOpenState
 
         // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
         if state != .open, state != .animating {
@@ -779,7 +779,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @discardableResult
     private func switchToTab(_ tab: Tab) -> Bool {
-        guard let miniPlayer = NavigationManager.sharedManager.miniPlayer else { return false }
+        guard let miniPlayer = NavigationManager.shared.miniPlayer else { return false }
 
         if miniPlayer.playerOpenState == .animating {
             return false // can't switch tabs while animating
@@ -932,7 +932,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
 
         if !renewing, !cancelAcknowledged, giftDays == 0, timeToSubscriptionExpiry < 0 {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionCancelledAcknowledgePageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.subscriptionCancelledAcknowledgePageKey, data: nil)
         }
     }
 
@@ -940,7 +940,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo(), whatsNewInfo.versionCode > Settings.whatsNewLastAcknowledged() else { return }
 
         if ProcessInfo().isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: whatsNewInfo.minOSVersion, minorVersion: 0, patchVersion: 0)) {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
+            NavigationManager.shared.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
         } else {
             Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
         }
@@ -950,7 +950,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let promoFinishedAcknowledged = Settings.promotionFinishedAcknowledged()
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
-        if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
+        if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.shared.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
     }
 
@@ -985,7 +985,7 @@ private extension MainTabBarController {
     static var showsBookmarkEditSheet: Bool {
         UIApplication.shared.applicationState == .active
         && !CarPlayHelper.isConnectedToCarPlay
-        && NavigationManager.sharedManager.miniPlayer?.playerOpenState != .closed
+        && NavigationManager.shared.miniPlayer?.playerOpenState != .closed
     }
 
     /// Generates the title and passage for the bookmarks that are never shown the edit sheet:
@@ -1017,7 +1017,7 @@ private extension MainTabBarController {
                 event.source != .transcript
                 && UIApplication.shared.applicationState == .active
                 && !CarPlayHelper.isConnectedToCarPlay
-                && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
+                && NavigationManager.shared.miniPlayer?.playerOpenState == .closed
             }
             .compactMap { event in
                 bookmarkManager.bookmark(for: event.uuid).map { ($0, event.source) }
@@ -1061,8 +1061,8 @@ private extension MainTabBarController {
 
     func showBookmarksInPlayer() {
         dismissIfNeeded {
-            NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer {
-                NavigationManager.sharedManager.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
+            NavigationManager.shared.miniPlayer?.openFullScreenPlayer {
+                NavigationManager.shared.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
             }
         }
     }

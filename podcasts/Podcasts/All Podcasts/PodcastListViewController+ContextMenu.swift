@@ -117,7 +117,7 @@ extension PodcastListViewController {
 
     private func showFolderPicker(for podcast: Podcast) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            NavigationManager.shared.showUpsellView(from: self, source: .folders)
             return
         }
 
@@ -125,7 +125,7 @@ extension PodcastListViewController {
         let chooseFolderView = ChoosePodcastFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true)
         }
-        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.shared))
         present(hostingController, animated: true)
     }
 
@@ -137,7 +137,7 @@ extension PodcastListViewController {
         let editFolderView = EditFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true)
         }
-        let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.shared))
         present(hostingController, animated: true)
     }
 }

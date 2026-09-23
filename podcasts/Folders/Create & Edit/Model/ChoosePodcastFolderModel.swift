@@ -29,7 +29,7 @@ class ChoosePodcastFolderModel: ObservableObject {
     }
 
     func loadFolders() {
-        var allFolders = DataManager.sharedManager.allFolders()
+        var allFolders = DataManager.shared.allFolders()
         allFolders.sort { folder1, folder2 in
             let title1 = nameForFolder(folder: folder1)
             let title2 = nameForFolder(folder: folder2)
@@ -43,10 +43,10 @@ class ChoosePodcastFolderModel: ObservableObject {
 
     func podcastCountForFolder(folder: Folder) -> Int {
         if folder.uuid == rootFolder.uuid {
-            return DataManager.sharedManager.countOfPodcastsInRootFolder()
+            return DataManager.shared.countOfPodcastsInRootFolder()
         }
 
-        return DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+        return DataManager.shared.countOfPodcastsInFolder(folder: folder)
     }
 
     func colorForFolder(folder: Folder) -> Color? {
@@ -76,7 +76,7 @@ class ChoosePodcastFolderModel: ObservableObject {
 
         updateLastSync(folderUuid: currentFolder)
         let sortOrder = ServerPodcastManager.shared.highestSortOrderForFolder(folder) + 1
-        DataManager.sharedManager.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: folder.uuid, sortOrder: sortOrder)
+        DataManager.shared.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: folder.uuid, sortOrder: sortOrder)
         updateLastSync(folderUuid: folder.uuid)
 
         currentFolder = folder.uuid
@@ -92,7 +92,7 @@ class ChoosePodcastFolderModel: ObservableObject {
 
         updateLastSync(folderUuid: currentFolder)
         let sortOrder = ServerPodcastManager.shared.highestSortOrderForHomeGrid() + 1
-        DataManager.sharedManager.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: nil, sortOrder: sortOrder)
+        DataManager.shared.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: nil, sortOrder: sortOrder)
 
         currentFolder = rootFolder.uuid
         loadFolders()
@@ -105,6 +105,6 @@ class ChoosePodcastFolderModel: ObservableObject {
     private func updateLastSync(folderUuid: String) {
         if folderUuid == rootFolder.uuid { return }
 
-        DataManager.sharedManager.updateFolderSyncModified(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
+        DataManager.shared.updateFolderSyncModified(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
     }
 }

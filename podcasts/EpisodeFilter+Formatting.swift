@@ -22,7 +22,7 @@ extension EpisodeFilter {
 
     #if !os(watchOS) && !APPCLIP && !os(tvOS)
     @MainActor func grid() -> UIImage {
-        let episodes = DataManager.sharedManager.playlistEpisodes(for: self)
+        let episodes = DataManager.shared.playlistEpisodes(for: self)
 
         let items = PlaylistCellViewModel.gridArtworkItems(from: episodes, limit: 4) { $0.podcastUuid }
 
@@ -34,7 +34,7 @@ extension EpisodeFilter {
 
     private func carPlayPreviewTheme() -> Theme.ThemeType {
         guard let interfaceStyle = CarPlayImageHelper.carTraitCollection?.userInterfaceStyle else {
-            return Theme.sharedTheme.activeTheme
+            return Theme.shared.activeTheme
         }
 
         switch interfaceStyle {
@@ -43,7 +43,7 @@ extension EpisodeFilter {
         case .light:
             return .light
         default:
-            return Theme.sharedTheme.activeTheme
+            return Theme.shared.activeTheme
         }
     }
     #endif

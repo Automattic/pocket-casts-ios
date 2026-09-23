@@ -89,7 +89,7 @@ extension NowPlayingPlayerItemViewController {
             updateError()
         }
         if !showingCustomImage {
-            ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+            ImageManager.shared.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
         }
     }
 
@@ -142,7 +142,7 @@ extension NowPlayingPlayerItemViewController {
                 artworkImageView.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
             } else if showingCustomImage {
                 showingCustomImage = false
-                ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+                ImageManager.shared.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
                 artworkImageView.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
             chapterLink.isHidden = chapters.url == nil

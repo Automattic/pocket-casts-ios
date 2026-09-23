@@ -158,7 +158,7 @@ class StarredFilterOverlayController: PCViewController {
 
     @objc private func saveTapped(sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
@@ -187,7 +187,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)

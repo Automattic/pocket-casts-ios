@@ -69,11 +69,11 @@ extension FolderViewController {
             podcast.sortOrder = Int32(index)
         }
 
-        DataManager.sharedManager.saveSortOrders(podcasts: podcasts)
+        DataManager.shared.saveSortOrders(podcasts: podcasts)
 
         folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
         folder.sortType = Int32(LibrarySort.Old.custom.rawValue)
-        DataManager.sharedManager.save(folder: folder)
+        DataManager.shared.save(folder: folder)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
     }
 

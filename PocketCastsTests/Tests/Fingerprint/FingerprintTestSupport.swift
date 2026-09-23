@@ -88,16 +88,16 @@ final class CurrentEpisodeOverride {
     private let previousDataManager: DataManager
 
     init(episode: BaseEpisode) {
-        previousDataManager = DataManager.sharedManager
+        previousDataManager = DataManager.shared
 
         let stub = NowPlayingStubDataManager(dbQueue: previousDataManager.dbQueue)
         stub.nowPlaying = episode
-        DataManager.sharedManager = stub
+        DataManager.shared = stub
         PlaybackManager.shared.queue.loadPersistedQueue()
     }
 
     func restore() {
-        DataManager.sharedManager = previousDataManager
+        DataManager.shared = previousDataManager
         PlaybackManager.shared.queue.loadPersistedQueue()
     }
 }

@@ -22,10 +22,10 @@ class LoginCoordinator: NSObject, OnboardingModel {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
 
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+        var randomPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: true)
             // Only return items we have a cached image for
             .filter {
-                ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)
+                ImageManager.shared.hasCachedImage(for: $0.uuid, size: .grid)
             }
             // Return a random-ish order
             .shuffled()
@@ -56,7 +56,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func loginTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
-        let vc = OnboardingHostingViewController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
+        let vc = OnboardingHostingViewController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.shared))
         vc.viewModel = self
         navigationController?.pushViewController(vc, animated: true)
     }

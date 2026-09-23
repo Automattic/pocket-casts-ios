@@ -93,7 +93,7 @@ struct HorizontalCollectionListRowView: View {
         ZStack(alignment: .bottom) {
             KFImage(model.posterImage)
                 .placeholder { _ in
-                    if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                    if let image = ImageManager.shared.placeHolderImage(.grid) {
                         Image(uiImage: image)
                             .resizable()
                     } else {

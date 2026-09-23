@@ -12,7 +12,7 @@ struct FolderPreviewWrapper: UIViewRepresentable {
     func updateUIView(_ folderView: FolderPreviewView, context: Context) {
         folderView.showFolderName = showName
 
-        if let folderUuid = model.folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+        if let folderUuid = model.folderUuid, let folder = DataManager.shared.findFolder(uuid: folderUuid) {
             folderView.populateFrom(folder: folder)
         } else {
             folderView.populateFrom(model: model)
@@ -30,7 +30,7 @@ struct SearchFolderPreviewWrapper: UIViewRepresentable {
     func updateUIView(_ folderView: FolderPreviewView, context: Context) {
         folderView.showFolderName = false
 
-        if let folder = DataManager.sharedManager.findFolder(uuid: uuid) {
+        if let folder = DataManager.shared.findFolder(uuid: uuid) {
             folderView.populateFrom(folder: folder)
         }
     }

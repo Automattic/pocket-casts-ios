@@ -65,7 +65,7 @@ struct SearchResultCell: View {
 
     private func performDefaultAction() {
         if let episode = model.episode {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+            NavigationManager.shared.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
             searchHistory.add(episode: episode)
             searchAnalyticsHelper.trackResultTapped(episode)
         } else if let result = model.podcastFolder {
@@ -91,10 +91,10 @@ private extension SearchResultCell {
 
     func subtitle(for result: PodcastFolderSearchResult) -> String {
         if result.kind == .folder {
-            guard let folder = DataManager.sharedManager.findFolder(uuid: result.uuid) else {
+            guard let folder = DataManager.shared.findFolder(uuid: result.uuid) else {
                 return L10n.folder
             }
-            let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+            let count = DataManager.shared.countOfPodcastsInFolder(folder: folder)
             return L10n.podcastCount(count)
         }
 
@@ -158,7 +158,7 @@ private extension SearchResultCell {
 
             VStack(alignment: .leading, spacing: 2) {
                 if let episode = model.episode {
-                    Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
+                    Text(DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                         .font(style: .footnote, weight: .bold)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                     Text(episode.title)
@@ -259,7 +259,7 @@ extension PodcastFolderSearchResult {
         if let explicit {
             return explicit
         }
-        return DataManager.sharedManager.findPodcast(uuid: uuid)?.isExplicit ?? false
+        return DataManager.shared.findPodcast(uuid: uuid)?.isExplicit ?? false
     }
 }
 

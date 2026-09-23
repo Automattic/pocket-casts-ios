@@ -61,7 +61,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             deleteAction.backgroundColor = ThemeColor.support05(for: themeOverride)
             deleteAction.accessibilityLabel = L10n.removeFromUpNext
 
-            if let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
+            if let episode = DataManager.shared.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
                 let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, _ in
                     guard let self else { return }
                     Analytics.track(
@@ -72,7 +72,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                         ]
                     )
                     let presentModal: () -> Void = { [weak self] in
-                        NavigationManager.sharedManager.navigateTo(
+                        NavigationManager.shared.navigateTo(
                             NavigationManager.manualPlaylistsChooserKey,
                             data: [
                                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode,

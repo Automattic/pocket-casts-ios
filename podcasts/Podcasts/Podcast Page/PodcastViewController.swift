@@ -233,7 +233,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     init(podcastInfo: PodcastInfo, existingImage: UIImage?) {
-        if let uuid = podcastInfo.uuid, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+        if let uuid = podcastInfo.uuid, let existingPodcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             podcast = existingPodcast
             summaryExpanded = !existingPodcast.isSubscribed()
         } else {
@@ -537,7 +537,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         guard let uuidLoaded = notification.object as? String else { return }
 
         if let uuid = podcast?.uuid, uuid == uuidLoaded {
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+            if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
                 self.podcast = podcast
             }
             updateColors()
@@ -564,7 +564,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     @objc private func podcastUpdated(_ notification: Notification) {
         guard let podcastUuid = notification.object as? String, podcastUuid == podcast?.uuid else { return }
 
-        podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+        podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
         if viewIfLoaded?.window != nil {
             refreshEpisodes()
         }
@@ -573,7 +573,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     @objc private func folderChanged(_ notification: Notification) {
         guard let podcastUuid = podcast?.uuid else { return }
 
-        podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+        podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
         if viewIfLoaded?.window != nil {
             refreshEpisodes()
         }
@@ -606,7 +606,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
                 let podcastUuid = podcast.uuid
                 Task {
                     await PodcastManager.shared.deletePodcastIfUnused(podcast)
-                    if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                    if let _ = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                         // podcast wasn't deleted, but needs to be updated
                         loadLocalEpisodes(podcast: podcast, animated: false)
                         checkIfPodcastNeedsUpdating()
@@ -722,7 +722,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         let optionsPicker = OptionsPicker(title: nil)
         let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: "option-download-retry") {
-            ImageManager.sharedManager.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
+            ImageManager.shared.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
         }
         optionsPicker.addAction(action: refreshAction)
 
@@ -772,7 +772,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         podcast.subscribed = 1
         podcast.syncStatus = SyncStatus.notSynced.rawValue
         podcast.autoDownloadSetting = (FeatureFlag.autoDownloadOnSubscribe.enabled && Settings.autoDownloadEnabled() && Settings.autoDownloadOnFollow() ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true, autoDownloadLimit: Settings.autoDownloadOnFollow() ? Settings.autoDownloadLimits().rawValue : 0)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
@@ -850,13 +850,13 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     func episodeCount() -> Int {
         guard let podcast else { return 0 }
 
-        return DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcast.id])
+        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcast.id])
     }
 
     func archivedEpisodeCount() -> Int {
         guard let podcast else { return 0 }
 
-        return DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ? AND archived = 1", values: [podcast.id])
+        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ? AND archived = 1", values: [podcast.id])
     }
 
     func settingsTapped() {
@@ -889,7 +889,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     func folderTapped() {
         Analytics.track(.podcastScreenFolderTapped)
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            NavigationManager.shared.showUpsellView(from: self, source: .folders)
             return
         }
 
@@ -915,7 +915,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func categoryTapped(_ category: String) {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
+        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
         Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
     }
 
@@ -956,7 +956,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         guard let podcast else { return }
 
         podcast.showArchived = !podcast.showArchived
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
         Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
@@ -970,7 +970,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         guard let podcast else { return }
 
         DispatchQueue.global().async { [self] in
-            DataManager.sharedManager.markAllUnarchivedForPodcast(id: podcast.id)
+            DataManager.shared.markAllUnarchivedForPodcast(id: podcast.id)
 
             AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
             AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())
@@ -1067,7 +1067,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     private func archiveActionForSeason(_ season: Int) -> OptionAction? {
         guard let podcast else { return nil }
         let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND seasonNumber = ?"
-        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id, season])
+        let unarchivedCount = DataManager.shared.count(query: unarchivedQuery, values: [podcast.id, season])
         if unarchivedCount > 0 {
             return OptionAction(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
                 self?.archiveAllSeasonTapped(season: season)
@@ -1201,16 +1201,16 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
-        guard let podcast, let folder = DataManager.sharedManager.findFolder(uuid: currentFolderUuid) else { return }
+        guard let podcast, let folder = DataManager.shared.findFolder(uuid: currentFolderUuid) else { return }
 
         let optionsPicker = OptionsPicker(title: folder.name.localizedUppercase)
         let removeAction = OptionAction(label: L10n.folderRemoveFrom.localizedCapitalized, icon: "folder-remove") {
             podcast.sortOrder = ServerPodcastManager.shared.highestSortOrderForHomeGrid() + 1
             podcast.folderUuid = nil
             podcast.syncStatus = SyncStatus.notSynced.rawValue
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
 
-            DataManager.sharedManager.updateFolderSyncModified(folderUuid: currentFolderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
+            DataManager.shared.updateFolderSyncModified(folderUuid: currentFolderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: currentFolderUuid)
 
@@ -1228,7 +1228,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         optionsPicker.addAction(action: changeFolderAction)
 
         let goToFolderAction = OptionAction(label: L10n.folderGoTo.localizedCapitalized, icon: "folder-goto") {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+            NavigationManager.shared.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
             Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "go_to"])
         }
         optionsPicker.addAction(action: goToFolderAction)
@@ -1243,7 +1243,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         let chooseFolderView = ChoosePodcastFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true, completion: nil)
         }
-        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.shared))
 
         present(hostingController, animated: true, completion: nil)
     }
@@ -1276,7 +1276,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             // so resolve the contrast color off the main thread and apply when ready.
             let uuid = podcastUUID
             Task.detached(priority: .utility) { [refreshControl = controller.refreshControl] in
-                guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
+                guard let image = ImageManager.shared.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
                 let isDark = image.isDark
                 await MainActor.run {
                     refreshControl.customTintColor = isDark ? .white : .black

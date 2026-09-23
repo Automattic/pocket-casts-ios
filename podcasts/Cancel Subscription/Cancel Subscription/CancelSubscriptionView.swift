@@ -82,5 +82,5 @@ struct CancelSubscriptionView: View {
 
 #Preview {
     CancelSubscriptionView(viewModel: CancelSubscriptionViewModel(navigationController: UINavigationController()))
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

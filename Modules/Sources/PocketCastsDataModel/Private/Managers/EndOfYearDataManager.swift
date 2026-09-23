@@ -360,7 +360,7 @@ class EndOfYearDataManager {
 
     func summarizedRatings(in year: Int) -> [UInt32: Int]? {
         let calendar = Calendar.current
-        let ratings = DataManager.sharedManager.ratings.ratings?.filter { rating in
+        let ratings = DataManager.shared.ratings.ratings?.filter { rating in
             calendar.component(.year, from: rating.modifiedAt) == year
         }
         let groupedRatings = ratings?.reduce(into: [:]) { counts, rating in

@@ -93,7 +93,7 @@ enum NetworkSearchPreviewData {
 #Preview("Network rows") {
     List(NetworkSearchPreviewData.networks, id: \.self) { network in
         NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi02))
-            .listRowBackground(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
+            .listRowBackground(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
     }
     .listStyle(.plain)
     .setupDefaultEnvironment()

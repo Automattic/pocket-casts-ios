@@ -18,7 +18,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var searchController: PCSearchBarController?
     private let episodes: [Episode]
     private let analyticsSource: String
-    private let dataManager = DataManager.sharedManager
+    private let dataManager = DataManager.shared
 
     private var tableView: ThemeableTable! {
         didSet {
@@ -225,7 +225,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                         if let rootVC = SceneHelper.rootViewController(includeTopMost: false),
                            rootVC.presentedViewController != nil {
                             rootVC.dismiss(animated: true) {
-                                NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.shared.navigateTo(
                                     NavigationManager.filterPageKey,
                                     data: [
                                         NavigationManager.filterUuidKey: playlist.uuid
@@ -233,7 +233,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                                 )
                             }
                         } else {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid

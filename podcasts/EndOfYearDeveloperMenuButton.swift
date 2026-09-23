@@ -27,11 +27,11 @@ struct EndOfYearDeveloperMenuButton: View {
                         showPickerAlert = false
                     }
                     .foregroundStyle(.red)
-                    .buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
+                    .buttonStyle(RoundedButtonStyle(theme: .shared))
                     Button("Cancel") {
                         showPickerAlert = false
                     }
-                    .buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
+                    .buttonStyle(RoundedButtonStyle(theme: .shared))
                 }
                 .padding()
             }

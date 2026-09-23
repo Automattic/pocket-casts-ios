@@ -181,8 +181,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil, timestamp: TimeInterval? = nil) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
-        podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
+        episode = DataManager.shared.findEpisode(uuid: episodeUuid)!
+        podcast = DataManager.shared.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
         viewSource = source
         fromPlaylist = playlist
         self.timestamp = timestamp
@@ -190,7 +190,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
+        episode = DataManager.shared.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
         self.podcast = podcast
         viewSource = source
         fromPlaylist = playlist
@@ -396,7 +396,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     private func performUpdateDisplayedData(reloadingEpisode: Bool = true) {
         if reloadingEpisode {
-            guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
+            guard let updatedEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) else { return }
             episode = updatedEpisode
         }
 
@@ -422,7 +422,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         podcastName.text = podcast.title
         updateArtwork()
 
-        episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
+        episodeInfo.text = DateFormatHelper.shared.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
         updateStar()
 
@@ -508,7 +508,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         messageIcon.tintColor = primaryText02
 
-        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.sharedTheme.activeTheme) {
+        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.shared.activeTheme) {
             renderShowNotes()
         }
 
@@ -532,7 +532,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
 
         dismiss(animated: true) {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
     }
 

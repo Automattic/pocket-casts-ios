@@ -21,8 +21,8 @@ struct DebugInfo {
         }
 
         let now = Date()
-        let localTime = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter.string(from: now)
-        let gmtTime = DateFormatHelper.sharedHelper.jsonFormat(now)
+        let localTime = DateFormatHelper.shared.localTimeJsonDateFormatter.string(from: now)
+        let gmtTime = DateFormatHelper.shared.jsonFormat(now)
 
         var debugString = """
         App Version: \(Settings.appVersion())

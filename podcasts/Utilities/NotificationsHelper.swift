@@ -187,11 +187,11 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             findEpisode(episodeUuid: episodeUuid) { [weak self] episode in
                 guard let self else { return }
 
-                if let episode = episode as? Episode, let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) {
+                if let episode = episode as? Episode, let podcast = DataManager.shared.findPodcast(uuid: episode.podcastUuid) {
                     self.appDelegate()?.openEpisode(episode.uuid, from: podcast)
-                } else if let podcastUuid = response.notification.request.content.userInfo["podcast_uuid"] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+                } else if let podcastUuid = response.notification.request.content.userInfo["podcast_uuid"] as? String, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) {
                     DispatchQueue.main.async {
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                     }
                 }
 
@@ -206,11 +206,11 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     }
 
     private func findEpisode(episodeUuid: String, performing action: @escaping (BaseEpisode?) -> Void) {
-        if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+        if let existingEpisode = DataManager.shared.findEpisode(uuid: episodeUuid) {
             action(existingEpisode)
         } else {
             RefreshManager.shared.refreshPodcasts(completion: { _ in
-                if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                if let episode = DataManager.shared.findEpisode(uuid: episodeUuid) {
                     DispatchQueue.main.async {
                         action(episode)
                     }

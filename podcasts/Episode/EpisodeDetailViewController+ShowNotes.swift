@@ -147,7 +147,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             failedToLoadLabel.text = showNotes
             hideErrorMessage(hide: false)
         } else {
-            let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+            let currentTheme = themeOverride ?? Theme.shared.activeTheme
             lastThemeRenderedNotesIn = currentTheme
             let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
@@ -155,7 +155,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
     }
 
     private func linkTintColor() -> UIColor {
-        let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let currentTheme = themeOverride ?? Theme.shared.activeTheme
 
         return ThemeColor.primaryInteractive01(for: currentTheme)
     }
