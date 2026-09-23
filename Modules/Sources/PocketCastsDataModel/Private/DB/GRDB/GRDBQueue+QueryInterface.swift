@@ -2,21 +2,9 @@ import Foundation
 import GRDB
 import PocketCastsUtils
 
-/// Extension to GRDBQueue providing GRDB QueryInterface support for type-safe queries.
-/// These methods allow using GRDB's strongly-typed query building instead of raw SQL strings.
+/// Extension to GRDBQueue providing direct access to GRDB's `Database` inside a write,
+/// for callers that need GRDB APIs rather than the `PCDatabase` abstraction.
 extension GRDBQueue {
-    /// Execute a read block with direct GRDB Database access
-    /// - Parameter block: Block that receives a GRDB Database instance and returns a value
-    /// - Returns: The value returned by the block, or nil on error
-    func read<T>(_ block: (Database) throws -> T) -> T? {
-        do {
-            return try dbPool.read(block)
-        } catch {
-            logger?.log(error: error, context: [:])
-            return nil
-        }
-    }
-
     /// Execute a write block with direct GRDB Database access
     /// - Parameter block: Block that receives a GRDB Database instance
     /// - Returns: True if successful
