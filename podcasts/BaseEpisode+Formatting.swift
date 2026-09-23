@@ -33,7 +33,7 @@ extension BaseEpisode {
 
     func commonDisplayableInfo(includeSize: Bool) -> String {
         if downloading() {
-            if let progress = DownloadManager.shared.progressManager.progressForEpisode(uuid) {
+            if let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: uuid) {
                 #if os(watchOS)
                     return "\(progress.percentageProgressAsString())"
                 #else

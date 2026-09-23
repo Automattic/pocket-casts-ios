@@ -102,7 +102,7 @@ class MainEpisodeActionView: UIView {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             setDownloadProgress(1)
         } else {
-            let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid)
+            let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid)
             updateDownloadProgress(progress)
         }
 

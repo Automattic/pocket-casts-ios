@@ -34,11 +34,11 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        guard let downloadingEpisode = episodeForTask(downloadTask, forceReload: false) else { return }
+        guard let downloadingEpisode = episode(for: downloadTask, forceReload: false) else { return }
 
         let downloadingToStream = downloadingEpisode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue
         if !downloadingToStream {
-            progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
+            progressManager.updateProgress(forEpisodeUuid: downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
         }
 
         // If our download status or downloadTaskId are incorrect, then we should update these
@@ -54,7 +54,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 } else {
                     dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
                 }
-                progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
+                progressManager.updateStatus(forEpisodeUuid: downloadingEpisode.uuid, status: .downloading)
             }
         }
     }
@@ -69,12 +69,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
+        progressManager.updateProgress(forEpisodeUuid: downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
 
         // If our download status or downloadTaskId are incorrect, then we should update these
         if !downloadingEpisode.downloading() || downloadingEpisode.downloadTaskId == nil {
             dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
-            progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
+            progressManager.updateStatus(forEpisodeUuid: downloadingEpisode.uuid, status: .downloading)
         }
     }
 
@@ -87,7 +87,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         // Check for downloads that were cancelled
-        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+        guard let episode = episode(for: downloadTask, forceReload: true) else {
             downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
@@ -137,7 +137,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+        guard let episode = episode(for: downloadTask, forceReload: true) else {
             downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
@@ -191,7 +191,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
-        let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
+        let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPath(for: episode) : path(for: episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
 
         do {
@@ -218,7 +218,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         guard let downloadTask = task as? URLSessionDownloadTask,
-              let episode = episodeForTask(downloadTask, forceReload: false) else {
+              let episode = episode(for: downloadTask, forceReload: false) else {
             return
         }
 
@@ -265,7 +265,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         downloadingEpisodesCache[taskId] = nil
     }
 
-    private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
+    private func episode(for task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
         guard let taskDescription = task.taskDescription else { return nil }
 
         if !forceReload {

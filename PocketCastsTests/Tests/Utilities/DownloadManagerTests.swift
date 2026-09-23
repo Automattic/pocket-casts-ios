@@ -40,8 +40,8 @@ final class DownloadManagerTests: DBTestCase {
         dataManager.save(episode: testEpisode)
 
         let fileManager = FileManager.default
-        let tempFilePath = downloadManager.tempPathForEpisode(testEpisode)
-        let destinationPath = downloadManager.pathForEpisode(testEpisode)
+        let tempFilePath = downloadManager.tempPath(for: testEpisode)
+        let destinationPath = downloadManager.path(for: testEpisode)
 
         // Create a temp file with test data (must be at least 10KB to pass validation)
         let testData = Data(repeating: 0, count: 10 * 1024)

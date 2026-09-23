@@ -1945,7 +1945,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
     }
 
     private func referencePath(for episode: BaseEpisode) -> String {
-        let audioPath = DownloadManager.shared.pathForEpisode(episode)
+        let audioPath = DownloadManager.shared.path(for: episode)
         return (audioPath as NSString).deletingPathExtension + ".ref.fp.json"
     }
 
@@ -1971,7 +1971,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
     }
 
     private func resolveAudioSource(for episode: BaseEpisode) -> AudioSource {
-        let downloadPath = DownloadManager.shared.pathForEpisode(episode)
+        let downloadPath = DownloadManager.shared.path(for: episode)
         if FileManager.default.fileExists(atPath: downloadPath) {
             return .downloaded(URL(fileURLWithPath: downloadPath))
         }
@@ -1980,7 +1980,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         // fingerprint path instead of the grow-loop — same path trunk took.
         if let episode = episode as? Episode,
            episode.streamDownloaded(pathFinder: DownloadManager.shared) {
-            let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+            let streamingPath = DownloadManager.shared.streamingBufferPath(for: episode)
             if FileManager.default.fileExists(atPath: streamingPath) {
                 return .downloaded(URL(fileURLWithPath: streamingPath))
             }
@@ -1990,8 +1990,8 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         // writes to `tempPathForEpisode`, while the legacy URLSession path writes
         // to `streamingBufferPathForEpisode`. Prefer whichever file already
         // exists; otherwise pick the one the active feature flag selects.
-        let tempPath = DownloadManager.shared.tempPathForEpisode(episode)
-        let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+        let tempPath = DownloadManager.shared.tempPath(for: episode)
+        let streamingPath = DownloadManager.shared.streamingBufferPath(for: episode)
         if FileManager.default.fileExists(atPath: tempPath) {
             return .streaming(URL(fileURLWithPath: tempPath))
         }

@@ -99,7 +99,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         audioMix = nil
         assetTrack = nil
 
-        if let url = EpisodeManager.urlForEpisode(episode) {
+        if let url = EpisodeManager.url(for: episode) {
             isPlayingLocalFile = url.isFileURL
         } else {
             isPlayingLocalFile = false

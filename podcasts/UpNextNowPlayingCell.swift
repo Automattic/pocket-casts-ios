@@ -218,7 +218,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     @objc private func updateCellForDownloadProgressChange() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         if !ourEpisode.downloading() {
             episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)

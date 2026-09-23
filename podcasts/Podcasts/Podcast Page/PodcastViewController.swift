@@ -1053,7 +1053,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         }
         if allDownloaded {
             return .init(label: L10n.removeAll, icon: "episode-remove-download") {
-                EpisodeManager.removeDownloadForEpisodes(episodes)
+                EpisodeManager.removeDownload(for: episodes)
                 Analytics.track(.podcastScreenSeasonOptionsRemoveAllTapped, properties: ["season": season])
             }
         } else {

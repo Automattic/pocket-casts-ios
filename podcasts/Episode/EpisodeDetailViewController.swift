@@ -407,7 +407,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 downloadBtn.setTitle(L10n.cancel, for: .normal)
                 downloadIndicator.progress = 1
                 downloadIndicator.color = ThemeColor.secondaryIcon01(for: themeOverride)
-            } else if let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) {
+            } else if let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) {
                 downloadBtn.setTitle(progress.percentageProgressAsString(), for: .normal)
                 downloadIndicator.progress = CGFloat(progress.progress())
             } else {
