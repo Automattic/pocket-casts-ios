@@ -21,7 +21,7 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if Settings.libraryType() == .list {
+        if Settings.libraryType == .list {
             return collectionView.dequeueReusableCell(withReuseIdentifier: FolderViewController.podcastListCellId, for: indexPath)
         }
 
@@ -31,8 +31,8 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let podcast = podcasts[safe: indexPath.row] else { return }
 
-        let libraryType = Settings.libraryType()
-        let badgeType = Settings.podcastBadgeType()
+        let libraryType = Settings.libraryType
+        let badgeType = Settings.podcastBadgeType
 
         if libraryType == .list {
             let castCell = cell as! PodcastListCell

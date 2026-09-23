@@ -287,10 +287,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     var podcastSortOrder: LibrarySort {
         get {
-            Settings.homeFolderSortOrder()
+            Settings.homeFolderSortOrder
         }
         set {
-            Settings.setHomeFolderSortOrder(order: newValue)
+            Settings.homeFolderSortOrder = newValue
         }
     }
 

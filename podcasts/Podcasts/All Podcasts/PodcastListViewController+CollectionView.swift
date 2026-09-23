@@ -47,7 +47,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let libraryType = Settings.libraryType()
+        let libraryType = Settings.libraryType
         let item = itemAt(indexPath: indexPath)
 
         if item?.isEmpty == true {
@@ -77,8 +77,8 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let item = itemAt(indexPath: indexPath) else { return }
 
-        let libraryType = Settings.libraryType()
-        let badgeType = Settings.podcastBadgeType()
+        let libraryType = Settings.libraryType
+        let badgeType = Settings.podcastBadgeType
 
         if libraryType == .list {
             if let podcast = item.podcast {
@@ -141,7 +141,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         DataManager.shared.saveSortOrders(podcasts: allPodcasts)
         DataManager.shared.saveSortOrders(folders: allFolders, syncModified: TimeFormatter.currentUTCTimeInMillis())
-        Settings.setHomeFolderSortOrder(order: .custom)
+        Settings.homeFolderSortOrder = .custom
     }
 
     // MARK: - Row Sizing
@@ -224,7 +224,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         let backgroundColor = (podcastsCollectionView as? ThemeableCollectionView)!.style
         let isSameColor = ThemeColor.secondaryUi01() == AppTheme.colorForStyle(backgroundColor)
 
-        let additionalPadding: CGFloat = Settings.libraryType() == .list ? 16 : 0
+        let additionalPadding: CGFloat = Settings.libraryType == .list ? 16 : 0
 
         return BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.shared))
             .padding(.top, !isSameColor ? 16 : 0)

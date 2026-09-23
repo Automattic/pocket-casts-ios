@@ -8,7 +8,7 @@ extension CarPlaySceneDelegate {
     var podcastTabSections: [CPListSection] {
         var podcastItems = [CPListTemplateItem]()
 
-        let gridItems = HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder())
+        let gridItems = HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder)
 
         for item in gridItems {
             if let podcast = item.podcast {

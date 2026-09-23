@@ -226,7 +226,7 @@ class FolderViewController: PCViewController {
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let horizontalMargin: CGFloat = Settings.libraryType == .list ? 0 : 16
         let bottomMargin: CGFloat = Constants.effectiveMiniPlayerOffset + 8
         mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
@@ -235,7 +235,7 @@ class FolderViewController: PCViewController {
     private func reloadPodcasts() {
         podcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
 
-        let badgeType = Settings.podcastBadgeType()
+        let badgeType = Settings.podcastBadgeType
         // load the required badge information if the supplied badge type needs it
         if badgeType == .allUnplayed {
             let podcastCounts = DataManager.shared.podcastUnfinishedCounts()
