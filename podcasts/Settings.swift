@@ -609,12 +609,13 @@ class Settings: NSObject {
         }
     }
 
-    class func setShouldFollowSystemTheme(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
-    }
-
-    class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+    static var shouldFollowSystemTheme: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
+        set(value) {
+            UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
     }
 
     // MARK: Player Actions
@@ -737,44 +738,47 @@ class Settings: NSObject {
 
     // MARK: - Watch number of episodes to auto sync from the Up Next queue
 
-    class func setWatchAutoDownloadUpNextEnabled(isEnabled: Bool) {
-        UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
+    static var watchAutoDownloadUpNextEnabled: Bool {
+        get {
+            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled) as? Bool else {
+                return false
+            }
 
-        trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
-    }
-
-    class func watchAutoDownloadUpNextEnabled() -> Bool {
-        guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled) as? Bool else {
-            return false
+            return isEnabled
         }
+        set(isEnabled) {
+            UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
 
-        return isEnabled
-    }
-
-    class func setWatchAutoDownloadUpNextCount(numEpisodes: Int) {
-        UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
-        trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
-    }
-
-    class func watchAutoDownloadUpNextCount() -> Int {
-        guard let numEpisodes = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount) as? Int else {
-            return 3
+            trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
         }
-
-        return numEpisodes
     }
 
-    class func setWatchAutoDeleteUpNext(isEnabled: Bool) {
-        UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
-        trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
-    }
+    static var watchAutoDownloadUpNextCount: Int {
+        get {
+            guard let numEpisodes = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount) as? Int else {
+                return 3
+            }
 
-    class func watchAutoDeleteUpNext() -> Bool {
-        guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDeleteUpNext) as? Bool else {
-            return true
+            return numEpisodes
         }
+        set(numEpisodes) {
+            UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
+            trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
+        }
+    }
 
-        return isEnabled
+    static var watchAutoDeleteUpNext: Bool {
+        get {
+            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDeleteUpNext) as? Bool else {
+                return true
+            }
+
+            return isEnabled
+        }
+        set(isEnabled) {
+            UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
+            trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
+        }
     }
 
     // MARK: - App Store Review Requests

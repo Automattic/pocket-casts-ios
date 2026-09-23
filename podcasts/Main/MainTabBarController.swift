@@ -907,7 +907,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var lastNotifiedAboutDark: Bool?
     private func fireSystemThemeMayHaveChanged() {
-        if !Settings.shouldFollowSystemTheme() { return } // if the user has turned this off, then ignore system theme changes
+        if !Settings.shouldFollowSystemTheme { return } // if the user has turned this off, then ignore system theme changes
 
         let isDark = Theme.systemIsDark
         if lastNotifiedAboutDark == nil || isDark != lastNotifiedAboutDark {

@@ -57,7 +57,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         let hasSubscription = SubscriptionHelper.hasActiveSubscription()
 
         var rows: [[TableRows]] = [[.autoDownloadUpNext]]
-        if hasSubscription, Settings.watchAutoDownloadUpNextEnabled() {
+        if hasSubscription, Settings.watchAutoDownloadUpNextEnabled {
             rows[0].append(.numUpNextEpisodes)
             rows[0].append(.autoDeleteUpNext)
         }
@@ -86,7 +86,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellLabel?.text = L10n.settingsWatchAutoDownload
-            cell.cellSwitch.isOn = Settings.watchAutoDownloadUpNextEnabled()
+            cell.cellSwitch.isOn = Settings.watchAutoDownloadUpNextEnabled
             cell.cellSwitch.addTarget(self, action: #selector(upNextToggled(_:)), for: .valueChanged)
             cell.isLocked = SubscriptionHelper.hasActiveSubscription()
             cell.imageView?.isHidden = true
@@ -98,13 +98,13 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         case .numUpNextEpisodes:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel?.text = L10n.settingsWatchEpisodeLimit
-            cell.cellSecondaryLabel?.text = L10n.settingsWatchEpisodeNumberOptionFormat(Settings.watchAutoDownloadUpNextCount().localized())
+            cell.cellSecondaryLabel?.text = L10n.settingsWatchEpisodeNumberOptionFormat(Settings.watchAutoDownloadUpNextCount.localized())
             return cell
         case .autoDeleteUpNext:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellLabel?.text = L10n.settingsWatchDeleteDownloads
-            cell.cellSwitch.isOn = Settings.watchAutoDeleteUpNext()
+            cell.cellSwitch.isOn = Settings.watchAutoDeleteUpNext
             cell.cellSwitch.addTarget(self, action: #selector(upNextAutoDeleteToggled(_:)), for: .valueChanged)
             cell.isLocked = SubscriptionHelper.hasActiveSubscription()
             cell.imageView?.isHidden = true
@@ -119,14 +119,14 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             let footer = UIView(frame: CGRect(x: 0, y: 0, width: settingsTable.bounds.width, height: footerHeight))
             let infoLabel = ThemeableLabel()
             infoLabel.style = .primaryText02
-            let numEpisodes = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 5
+            let numEpisodes = Settings.watchAutoDownloadUpNextEnabled == true ? Settings.watchAutoDownloadUpNextCount : 5
 
             var infoText: String
-            if Settings.watchAutoDownloadUpNextEnabled() {
+            if Settings.watchAutoDownloadUpNextEnabled {
                 infoText = L10n.settingsWatchEpisodeLimitSubtitle(numEpisodes.localized())
 
                 let secondInfoTextLine: String
-                if Settings.watchAutoDeleteUpNext() {
+                if Settings.watchAutoDeleteUpNext {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOnSubtitle
                 } else {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOffSubtitle
@@ -193,8 +193,8 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         case .numUpNextEpisodes:
             let upNextPicker = OptionsPicker(title: L10n.settingsWatchEpisodeLimit)
             for numEpisodes in autoDownloadCounts {
-                let action = OptionAction(label: L10n.settingsWatchEpisodeNumberOptionFormat(numEpisodes.localized()), selected: numEpisodes == Settings.watchAutoDownloadUpNextCount(), action: {
-                    Settings.setWatchAutoDownloadUpNextCount(numEpisodes: numEpisodes)
+                let action = OptionAction(label: L10n.settingsWatchEpisodeNumberOptionFormat(numEpisodes.localized()), selected: numEpisodes == Settings.watchAutoDownloadUpNextCount, action: {
+                    Settings.watchAutoDownloadUpNextCount = numEpisodes
                     self.settingsTable.reloadData()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
                 })
@@ -222,13 +222,13 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     // MARK: - Switch Actions
 
     @objc private func upNextToggled(_ sender: UISwitch) {
-        Settings.setWatchAutoDownloadUpNextEnabled(isEnabled: sender.isOn)
+        Settings.watchAutoDownloadUpNextEnabled = sender.isOn
         settingsTable.reloadData()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
     }
 
     @objc private func upNextAutoDeleteToggled(_ sender: UISwitch) {
-        Settings.setWatchAutoDeleteUpNext(isEnabled: sender.isOn)
+        Settings.watchAutoDeleteUpNext = sender.isOn
         settingsTable.reloadData()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
     }
