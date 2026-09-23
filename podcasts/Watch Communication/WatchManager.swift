@@ -418,7 +418,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Episode not found for addToUpNext: \(episodeUuid)")
             let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "addToUpNext")
-            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
             return
         }
 
@@ -431,7 +431,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             FileLog.shared.addMessage("WatchManager: Episode not found for removeFromUpNext: \(episodeUuid)")
             let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "removeFromUpNext")
-            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
             return
         }
 

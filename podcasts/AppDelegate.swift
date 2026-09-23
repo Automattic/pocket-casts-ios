@@ -420,7 +420,7 @@ struct SentryLogger: ErrorLogger {
         }
 
     #if os(iOS)
-    CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
+    CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
     #endif
     }
 }
