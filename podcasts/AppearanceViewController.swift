@@ -90,7 +90,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.appearanceMatchDeviceTheme
             cell.cellSwitch.accessibilityIdentifier = "system theme toggle"
-            cell.cellSwitch.isOn = Settings.shouldFollowSystemTheme()
+            cell.cellSwitch.isOn = Settings.shouldFollowSystemTheme
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(shouldFollowSystemThemeToggled(_:)), for: UIControl.Event.valueChanged)
@@ -117,7 +117,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
         case .lightTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
+            cell.cellLabel.text = Settings.shouldFollowSystemTheme ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
             cell.cellSecondaryLabel.text = Theme.preferredLightTheme().description
 
             return cell
@@ -248,7 +248,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     }
 
     @objc private func shouldFollowSystemThemeToggled(_ sender: UISwitch) {
-        Settings.setShouldFollowSystemTheme(sender.isOn)
+        Settings.shouldFollowSystemTheme = sender.isOn
         updateTableAndData()
 
         if sender.isOn {
@@ -272,7 +272,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
-        if Settings.shouldFollowSystemTheme() {
+        if Settings.shouldFollowSystemTheme {
             newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         } else {
             newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
