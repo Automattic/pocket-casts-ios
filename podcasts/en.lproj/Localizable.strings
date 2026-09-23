@@ -3631,12 +3631,6 @@
 /* Title shown on the What's New feed when no messages have been published yet. */
 "whats_new_feed_empty_title" = "No messages yet";
 
-/* Context menu action on an unread message in the What's New feed that marks it as read. */
-"whats_new_feed_mark_as_read" = "Mark as Read";
-
-/* Context menu action on a read message in the What's New feed that marks it as unread again. */
-"whats_new_feed_mark_as_unread" = "Mark as Unread";
-
 /* Navigation bar button on the What's New feed that marks every message in the list as read. */
 "whats_new_feed_read_all" = "Read all";
 
