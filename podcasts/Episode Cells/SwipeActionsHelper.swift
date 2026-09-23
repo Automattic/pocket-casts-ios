@@ -94,7 +94,7 @@ enum SwipeActionsHelper {
                 return true
             })
 
-            if Settings.primaryUpNextSwipeAction() == .playNext {
+            if Settings.primaryUpNextSwipeAction == .playNext {
                 tableSwipeActions.addAction(addTopAction)
                 tableSwipeActions.addAction(addBottomAction)
             } else {

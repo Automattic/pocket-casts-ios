@@ -164,34 +164,36 @@ class Settings: NSObject {
     // MARK: - Default Archive Hiding
 
     static let defaultArchiveBehaviour = "SJDefaultArchive"
-    class func showArchivedDefault() -> Bool {
-        UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
-    }
+    static var showArchivedDefault: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        }
+        set(showArchived) {
+            UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
 
-    class func setShowArchivedDefault(_ showArchived: Bool) {
-        UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
-
-        trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
+            trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
+        }
     }
 
     // MARK: - Primary Row Action
 
     static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
-    class func primaryRowAction() -> PrimaryRowAction {
-        if let action = cachedPrimaryRowAction { return action }
-        let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-        return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
-    }
+    static var primaryRowAction: PrimaryRowAction {
+        get {
+            if let action = cachedPrimaryRowAction { return action }
+            let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
+            return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+        }
+        set(action) {
+            UserDefaults.standard.set(
+                action.rawValue,
+                forKey: primaryRowActionKey
+            )
+            cachedPrimaryRowAction = action
 
-    class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        UserDefaults.standard.set(
-            action.rawValue,
-            forKey: primaryRowActionKey
-        )
-        cachedPrimaryRowAction = action
-
-        trackValueChanged(.settingsGeneralRowActionChanged, value: action)
+            trackValueChanged(.settingsGeneralRowActionChanged, value: action)
+        }
     }
 
     // MARK: - Podcast Sort Order
@@ -213,53 +215,56 @@ class Settings: NSObject {
 
     static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
     private static var cachedPodcastGrouping: PodcastGrouping?
-    class func defaultPodcastGrouping() -> PodcastGrouping {
-        if let grouping = cachedPodcastGrouping { return grouping }
+    static var defaultPodcastGrouping: PodcastGrouping {
+        get {
+            if let grouping = cachedPodcastGrouping { return grouping }
 
-        let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
-        let defaultGrouping = PodcastGrouping(rawValue: Int32(storedValue)) ?? .none
-        cachedPodcastGrouping = defaultGrouping
+            let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
+            let defaultGrouping = PodcastGrouping(rawValue: Int32(storedValue)) ?? .none
+            cachedPodcastGrouping = defaultGrouping
 
-        return defaultGrouping
-    }
+            return defaultGrouping
+        }
+        set(grouping) {
+            UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
+            cachedPodcastGrouping = grouping
 
-    class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
-        UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
-        cachedPodcastGrouping = grouping
-
-        trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
+            trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
+        }
     }
 
     // MARK: - Primary Up Next Swipe Action
 
     static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
     private static var cachedPrimaryUpNextSwipeAction: PrimaryUpNextSwipeAction? // we cache this because it's used in lists
-    class func primaryUpNextSwipeAction() -> PrimaryUpNextSwipeAction {
-        if let action = cachedPrimaryUpNextSwipeAction { return action }
+    static var primaryUpNextSwipeAction: PrimaryUpNextSwipeAction {
+        get {
+            if let action = cachedPrimaryUpNextSwipeAction { return action }
 
-        let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
-        let primaryAction = PrimaryUpNextSwipeAction(rawValue: Int32(storedValue)) ?? .playNext
-        cachedPrimaryUpNextSwipeAction = primaryAction
+            let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
+            let primaryAction = PrimaryUpNextSwipeAction(rawValue: Int32(storedValue)) ?? .playNext
+            cachedPrimaryUpNextSwipeAction = primaryAction
 
-        return primaryAction
-    }
+            return primaryAction
+        }
+        set(action) {
+            UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
+            cachedPrimaryUpNextSwipeAction = action
 
-    class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
-        UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
-        cachedPrimaryUpNextSwipeAction = action
-
-        trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
+            trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
+        }
     }
 
     // MARK: - Play Up Next On Tap
 
     static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
-    class func playUpNextOnTap() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
-    }
-
-    class func setPlayUpNextOnTap(_ isOn: Bool) {
-        UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
+    static var playUpNextOnTap: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
+        }
+        set(isOn) {
+            UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
+        }
     }
 
     static let upNextShuffleKey = "SJUpNextShuffleKey"
