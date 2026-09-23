@@ -28,7 +28,7 @@ class PlaylistHeaderViewCell: ThemeableCell {
     func configure(viewModel: PlaylistDetailViewModel) {
         contentConfiguration = UIHostingConfiguration {
             PlaylistHeaderView(viewModel: viewModel)
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
                 .frame(maxWidth: .infinity, minHeight: 335, alignment: .leading)
         }
         .margins(.horizontal, 0)

@@ -1,9 +1,72 @@
+8.22
+-----
+- Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
+- Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
+- Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
+
+
+8.21
+-----
+- Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
+- Fix portrait video episodes overflowing the player artwork area, overlapping the controls and episode title [#5058](https://github.com/Automattic/pocket-casts-ios/pull/5058)
+- Fix transcripts not showing for podcasts whose feeds serve them as plain text, such as those hosted on Transistor [#5055](https://github.com/Automattic/pocket-casts-ios/pull/5055)
+- Playback failures caused by a full disk now report a storage error instead of asking you to check your internet connection [#5056](https://github.com/Automattic/pocket-casts-ios/pull/5056)
+- Fix the Chromecast button being invisible in the fullscreen video player [#5060](https://github.com/Automattic/pocket-casts-ios/pull/5060)
+- Fix a memory leak that kept the episode details screen, its views and artwork in memory after it was closed [#5067](https://github.com/Automattic/pocket-casts-ios/pull/5067)
+- Fix the controls in the fullscreen video player being too small to tap reliably [#5059](https://github.com/Automattic/pocket-casts-ios/pull/5059)
+- Add podcast networks to Discover: a "Networks" row on the Discover tab, the full grid of networks behind "Show All", and a page for each network listing the podcasts it carries [#5026](https://github.com/Automattic/pocket-casts-ios/pull/5026) [#5064](https://github.com/Automattic/pocket-casts-ios/pull/5064) [#5065](https://github.com/Automattic/pocket-casts-ios/pull/5065)
+- Add networks to search: a matching network now shows up in Top Results, and a "Networks" filter appears when the term matches one [#5036](https://github.com/Automattic/pocket-casts-ios/pull/5036)
+- Open a podcast's network from the podcast page, either from the author in the header or from the author row in the details below it [#5040](https://github.com/Automattic/pocket-casts-ios/pull/5040) [#5075](https://github.com/Automattic/pocket-casts-ios/pull/5075)
+- [tvOS] Add networks to search, in Combined Results and in a tab of their own [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
+
+8.20
+-----
+- Fix Listening History search showing "No episodes found" before the search had finished, and results not turning up until the query was retyped when history synced late [#4984](https://github.com/Automattic/pocket-casts-ios/pull/4984)
+- Fix the app freezing and closing itself when creating a Smart Playlist [#4993](https://github.com/Automattic/pocket-casts-ios/pull/4993)
+- Add a Bluesky link to the About screen alongside Website, Instagram and X [#4998](https://github.com/Automattic/pocket-casts-ios/pull/4998)
+- Fix setting the sleep timer through Siri or Shortcuts while the device is locked [#4812](https://github.com/Automattic/pocket-casts-ios/pull/4812)
+- Fix a rare crash when starting episode downloads [#5001](https://github.com/Automattic/pocket-casts-ios/pull/5001)
+- Fix a rare crash on the Apple Watch while downloading episodes in the background [#5002](https://github.com/Automattic/pocket-casts-ios/pull/5002)
+- Tapping a Discover collection's poster now opens the expanded collection, the same as tapping "Show All" [#5028](https://github.com/Automattic/pocket-casts-ios/pull/5028)
+- Fix the Download button doing nothing in Search and Discover episode results [#4702](https://github.com/Automattic/pocket-casts-ios/pull/4702)
+- Fix a rare crash when the What's New screen was shown while another screen was still being dismissed [#5003](https://github.com/Automattic/pocket-casts-ios/pull/5003)
+
+8.19
+-----
+- Add Smart Bookmarks: bookmarks now suggest a title and capture the surrounding passage from the episode transcript, mark their spot in the transcript, and anchor their timestamp to the transcript's reference timeline so it stays accurate even when dynamic ads shift the audio [#4761](https://github.com/Automattic/pocket-casts-ios/pull/4761)
+- Add swipe actions to bookmark rows (Share and Delete) in the Player, the podcast screen's Bookmarks tab, standalone Podcast bookmarks, Episode, and Profile bookmark lists [#4900](https://github.com/Automattic/pocket-casts-ios/pull/4900) [#4912](https://github.com/Automattic/pocket-casts-ios/pull/4912)
+- Add a Sleep Timer Live Activity so users can see the remaining sleep timer countdown from the Lock Screen and Dynamic Island. [#4949](https://github.com/Automattic/pocket-casts-ios/pull/4949)
+- Tapping a bookmark's artwork now opens the episode the bookmark was made in [#4928](https://github.com/Automattic/pocket-casts-ios/pull/4928)
+- Fix animations on the podcast screen's Bookmarks tab: rows now animate as they are added, removed and filtered, and highlight when tapped [#4904](https://github.com/Automattic/pocket-casts-ios/pull/4904)
+- Fix bookmark multi-select losing track of a selected bookmark when it was edited or updated by a sync, leaving a wrong selection count and a row that could not be deselected [#4913](https://github.com/Automattic/pocket-casts-ios/pull/4913)
+- Fix the bookmark multi-select long press options: Select all above/below now flip to Deselect all above/below once that range is selected, and are left out for the first and last bookmark [#4915](https://github.com/Automattic/pocket-casts-ios/pull/4915)
+- Fix the podcast screen tabs being clipped when scrolled [#4918](https://github.com/Automattic/pocket-casts-ios/pull/4918)
+- Fix the colors on the Bookmarks screen in Profile: the list no longer shows up as a light gray slab on the dark themes, the whole screen uses one surface, and the search field is legible on every theme [#5007](https://github.com/Automattic/pocket-casts-ios/pull/5007)
+- Fix the About and Legal & More screens not following the app's theme, the Automattic family logos being misaligned, and legal pages (Terms of Service, Privacy Policy, Acknowledgements) not expanding beyond the safe area [#4887](https://github.com/Automattic/pocket-casts-ios/pull/4887)
+- Improve playback reliability when starting audio [#4938](https://github.com/Automattic/pocket-casts-ios/pull/4938)
+- Optimize fingerprinting and features that depend on it, including synced transcripts and more [#4846](https://github.com/Automattic/pocket-casts-ios/pull/4846), [#4847](https://github.com/Automattic/pocket-casts-ios/pull/4847)
+- [tvOS] Show Episode artworks on player, episode show notes and podcast episode list [#4893](https://github.com/Automattic/pocket-casts-ios/pull/4893)
+- [tvOS] Add a Top Results tab to Search, now the default, showing a Featured row of matching video episodes followed by Episodes and Podcasts rows. The Episodes tab leads with the same Featured row whenever a search turns up video episodes [#4926](https://github.com/Automattic/pocket-casts-ios/pull/4926)
+
 8.18
 -----
-
+- Fix the Bookmarks multi-select layout: rows keep their text width instead of shrinking, the selection bar sits just above the mini player instead of floating too high, and on iOS 26 it hides the tab bar and mini player correctly [#4819](https://github.com/Automattic/pocket-casts-ios/pull/4819)
+- Fix the day label in episode cells growing out of proportion at large text sizes [#4818](https://github.com/Automattic/pocket-casts-ios/pull/4818)
+- [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- Make the Up Next navigation bar consistent between the tab and player presentations: Select and a new "…" menu with Clear Up Next on the trailing edge, and a standard close button when opened from the player [#4875](https://github.com/Automattic/pocket-casts-ios/pull/4875)
+- [tvOS] Add audio-reactive waveform to TV now playing screen. [#4853](https://github.com/Automattic/pocket-casts-ios/pull/4853)
+- [tvOS] Fix VoiceOver accessibility issues across the app: unlabeled tiles, fragmented row/text reads, and missing announcements for toasts, sign-in, and pairing [#4888](https://github.com/Automattic/pocket-casts-ios/pull/4888)
+- [tvOS] Add support for regular episode lists. [#4852](https://github.com/Automattic/pocket-casts-ios/pull/4852)
+- [tvOS] Fix episode count on smart playlists [#4905](https://github.com/Automattic/pocket-casts-ios/pull/4905)
+- Fix a crash when the sign in prompt was shown while another screen was still being dismissed [#4903](https://github.com/Automattic/pocket-casts-ios/pull/4903)
+- [tvOS] Add support server driven home page layout [#4854](https://github.com/Automattic/pocket-casts-ios/pull/4854)
+- [tvOS] Add support for HLS episodes previews in episodes video list [#4921](https://github.com/Automattic/pocket-casts-ios/pull/4921)
+- Recognise more HLS content types in alternate enclosures [#4935](https://github.com/Automattic/pocket-casts-ios/pull/4935)
+- Disable "Tab Bar Minimizing" by default – there is an option to opt-in in Appearance Settings [#4950](https://github.com/Automattic/pocket-casts-ios/pull/4950)
 
 8.17
 -----
+- Fix headphone and Bluetooth play controls failing to resume playback after pausing [#4785](https://github.com/Automattic/pocket-casts-ios/pull/4785)
 - Enable HLS streaming playback [#4775](https://github.com/Automattic/pocket-casts-ios/pull/4775)
 - Fix intro-skipped time not syncing to your account when it is the only listening stat that changed [#4755](https://github.com/Automattic/pocket-casts-ios/pull/4755)
 - Fix Up Next multi-select keeping episodes selected after they leave the queue, causing a wrong count and bulk actions on episodes no longer queued [#4709](https://github.com/Automattic/pocket-casts-ios/pull/4709)
@@ -28,6 +91,12 @@
 - Fix a crash when swiping down with VoiceOver on the first style in the share sheet; it now wraps to the last style [#4783](https://github.com/Automattic/pocket-casts-ios/pull/4783)
 - Fix an issue where the now playing episode was not being auto-downloaded when setting was active for UpNext [#4792](https://github.com/Automattic/pocket-casts-ios/pull/4792)
 - Fix the Playlists tab showing a blank screen instead of the empty state when there are no playlists [#4794](https://github.com/Automattic/pocket-casts-ios/pull/4794)
+- [tvOS] Improve thumbnail algorithm for videos [#4861](https://github.com/Automattic/pocket-casts-ios/pull/4861)
+- [tvOS] Show correct number of playlist items, and update playlists episode status on changes [#4869](https://github.com/Automattic/pocket-casts-ios/pull/4869)
+
+8.16.1
+------
+- [tvOS] Move video row to top home position [https://github.com/Automattic/pocket-casts-ios/pull/4844](4844)
 
 8.16
 -----

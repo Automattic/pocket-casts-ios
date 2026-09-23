@@ -169,13 +169,13 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
     @objc private func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
         guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
               notification.userInfo?["isAvailable"] as? Bool != nil,
-              episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
+              episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else {
             return
         }
     }
 
     func updateAvailableActions() {
-        guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+        guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
         let availableActions = allActions.filter { $0.canBePerformedOn(episode: episode) }
         let slice = availableActions[Constants.Limits.maxShelfActions ..< availableActions.count]

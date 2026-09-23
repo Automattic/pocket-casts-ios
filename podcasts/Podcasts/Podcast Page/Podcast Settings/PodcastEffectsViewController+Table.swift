@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelegate {
     private static let disclosureCellId = "DisclosureCell"
@@ -112,7 +113,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             guard let self else { return }
 
             self.podcast.trimSilenceAmount = Int32(level.rawValue)
-            DataManager.sharedManager.save(podcast: self.podcast)
+            DataManager.shared.save(podcast: self.podcast)
 
             self.effectsTable.reloadData()
             AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
@@ -147,7 +148,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         #if APPCLIP
         false
         #else
-        FeatureFlag.customPlaybackSettings.enabled
+        true
         #endif
     }
 
@@ -206,11 +207,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
     private func saveUpdates() {
         effectsTable.reloadData()
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
 
         // if we're actively playing this episode, let the player know
-        if let episode = PlaybackManager.shared.currentEpisode() as? Episode, podcast.uuid == episode.parentIdentifier() {
+        if let episode = PlaybackManager.shared.currentEpisode as? Episode, podcast.uuid == episode.parentIdentifier() {
             PlaybackManager.shared.effectsChangedExternally()
         }
     }

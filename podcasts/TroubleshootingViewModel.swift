@@ -22,7 +22,7 @@ class TroubleshootingViewModel: ObservableObject {
         orphanedEpisodesState = .checking
 
         Task.detached(priority: .userInitiated) { [weak self] in
-            let episodes = DataManager.sharedManager.findOrphanedEpisodes()
+            let episodes = DataManager.shared.findOrphanedEpisodes()
             await self?.setFound(episodes: episodes)
         }
     }
@@ -36,7 +36,7 @@ class TroubleshootingViewModel: ObservableObject {
 
         Task.detached(priority: .userInitiated) { [weak self] in
             PodcastManager.shared.deleteOrphanedEpisodesIfNeeded()
-            let remaining = DataManager.sharedManager.findOrphanedEpisodes()
+            let remaining = DataManager.shared.findOrphanedEpisodes()
             await self?.finishRemoving(countBefore: countBefore, remaining: remaining)
         }
     }

@@ -4,7 +4,7 @@ import SwiftUI
 
 /// A style that should be used if the action bar appears in the full screen player
 struct PlayerActionBarStyle: ActionBarStyle {
-    @ObservedObject private var theme: Theme = .sharedTheme
+    @ObservedObject private var theme: Theme = .shared
 
     var backgroundTint: Color {
         theme.playerBackground02
@@ -33,14 +33,14 @@ extension ActionBarStyle where Self == PlayerActionBarStyle {
 
 /// A style that should be used if the action bar appears in the full screen player
 struct ThemedActionBarStyle: ActionBarStyle {
-    @ObservedObject private var theme: Theme = .sharedTheme
+    @ObservedObject private var theme: Theme = .shared
 
     var backgroundTint: Color {
         theme.primaryUi01
     }
 
     var buttonColor: Color {
-        theme.primaryText01
+        theme.primaryInteractive01
     }
 
     var titleColor: Color {
@@ -48,7 +48,7 @@ struct ThemedActionBarStyle: ActionBarStyle {
     }
 
     var iconColor: Color {
-        theme.primaryUi01
+        theme.primaryInteractive02
     }
 }
 

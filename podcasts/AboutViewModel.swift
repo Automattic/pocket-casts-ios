@@ -4,6 +4,8 @@ class AboutViewModel: ObservableObject {
     @Published var shouldShowWhatsNew: Bool = false
     @Published var whatsNewInfo: WhatsNewInfo?
 
+    @Published var navigationPath: [AboutNavigationPathComponent] = []
+
     var whatsNewText: String {
         L10n.whatsNewInVersion(Settings.appVersion())
     }
@@ -26,6 +28,8 @@ class AboutViewModel: ObservableObject {
             Analytics.track(.settingsAboutInstagramTapped)
         case .twitter:
             Analytics.track(.settingsAboutTwitterTapped)
+        case .bluesky:
+            Analytics.track(.settingsAboutBlueskyTapped)
         case .automatticFamily:
             Analytics.track(.settingsAboutAutomatticFamilyTapped)
         case .workWithUs:
@@ -39,7 +43,15 @@ class AboutViewModel: ObservableObject {
         case website
         case instagram
         case twitter
+        case bluesky
         case automatticFamily
         case workWithUs
     }
+}
+
+enum AboutNavigationPathComponent {
+    case legalAndMore
+    case termsOfService
+    case privacyPolicy
+    case acknowledgements
 }

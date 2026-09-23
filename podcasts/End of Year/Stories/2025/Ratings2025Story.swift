@@ -238,10 +238,6 @@ fileprivate struct ChartColumn: View {
 private final class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let index: Int
 
-    private static func formatted(hours: Int) -> String {
-        return hours == 1 ? L10n.hoursSingularFormat : L10n.hoursPluralFormat(hours)
-    }
-
     init(
         index: Int
     ) {

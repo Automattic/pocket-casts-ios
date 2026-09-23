@@ -1,12 +1,13 @@
-import BackgroundTasks
+import AppIntents
 import AutomatticRemoteLogging
+import BackgroundTasks
+import Combine
 import Firebase
 import FirebasePerformance
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
-import Combine
 import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var progressDialog: ShiftyLoadingAlert?
     var modalController: UINavigationController?
 
-    lazy var lenticularFilter: LenticularFilter = .init()
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
@@ -49,9 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let appInstallState {
             switch appInstallState {
             case .updated:
-                if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
-                    Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
-                }
                 Settings.shouldShowNewFilterTip = false
                 Settings.shouldShowNewFilterTipInCreationView = false
             case .installed:
@@ -61,6 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.shouldShowRecentlyPlayedSortingTip = false
                 Settings.shouldShowUpNextSortDurationTip = false
                 Settings.shouldShowPlaylistsOnboarding = false
+                // Anchor the EAC cadence on fresh install so the modal waits a full interval before
+                // its first show (existing users updating leave it nil and see it immediately).
+                Settings.encourageAccountCreationReferenceDate = Date()
             case .sameVersion:
                 break
             }
@@ -73,12 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
 
-        GoogleCastManager.sharedManager.setup()
+        GoogleCastManager.shared.setup()
 
         setupRoutes()
+        PocketCastsAppShortcutsProvider.updateAppShortcutParameters()
 
         if Settings.shouldResultEndOfYearSyncStatus {
             Settings.setHasSyncedEpisodesForPlayback(false, year: 2025)
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
 
-            ImageManager.sharedManager.updatePodcastImagesIfRequired()
+            ImageManager.shared.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
 
@@ -156,6 +156,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
 
+        if FeatureFlag.whatsNewFeed.enabled {
+            WhatsNewManager.shared.refreshIfNeeded()
+        }
+
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
         if DateUtil.hasEnoughTimePassed(since: lastUpdateTime, time: AppDelegate.minTimeBetweenRefreshes) {
@@ -169,6 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         PlaybackManager.shared.updateIdleTimer()
+        PlaybackManager.shared.reconcileSleepTimerLiveActivity()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -198,7 +203,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        GoogleCastManager.sharedManager.teardown()
+        GoogleCastManager.shared.teardown()
         RefreshManager.shared.cancelAllRefreshes()
 
         badgeHelper.teardown()
@@ -209,17 +214,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func miniPlayer() -> MiniPlayerViewController? {
-        NavigationManager.sharedManager.miniPlayer
+        NavigationManager.shared.miniPlayer
     }
 
     func openEpisode(_ episodeUuid: String, from podcast: Podcast, timestamp: TimeInterval? = nil) {
         DispatchQueue.main.async {
             self.hideProgressDialog()
 
-            guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else {
+            guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else {
                 // for some reason we can't find this episode, so open the podcast instead
                 FileLog.shared.addMessage("Unable to find episode with uuid \(episodeUuid), opening podcast `\(podcast.title ?? "")` instead")
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
 
                 return
             }
@@ -228,7 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 data[NavigationManager.episodeTimestamp] = timestamp
             }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
+            NavigationManager.shared.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
         }
     }
 
@@ -332,7 +337,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func checkIfRestoreCleanupRequired() {
-        let dataManager = DataManager.sharedManager
+        let dataManager = DataManager.shared
 
         // find the oldest episode in our database listed as being downloaded
         let query = "episodeStatus = \(DownloadStatus.downloaded.rawValue) ORDER BY publishedDate ASC, addedDate ASC LIMIT 1"
@@ -415,7 +420,7 @@ struct SentryLogger: ErrorLogger {
         }
 
     #if os(iOS)
-    CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
+    CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
     #endif
     }
 }

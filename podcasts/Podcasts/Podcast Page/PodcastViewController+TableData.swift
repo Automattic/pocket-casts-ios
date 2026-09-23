@@ -6,12 +6,9 @@ import SwiftUI
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
-    private static let headerCellId = "HeaderCell"
     private static let limitCellId = "LimitCell"
     private static let noSearchResultsCell = "NoSearchResults"
     private static let groupHeadingCellId = "GroupHeading"
-    private static let emptyStateCellId = "EmptyStateCell"
-    private static let loadingCellId = "LoadingCell"
 
     private enum YouMightLikeSection {
         case header
@@ -49,7 +46,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
         episodesTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
         episodesTable.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
-        episodesTable.register(BookmarksHostingCell.self, forCellReuseIdentifier: BookmarksHostingCell.reuseIdentifier)
+        BookmarkListController.registerCells(in: episodesTable)
     }
 
     func registerLongPress() {
@@ -58,7 +55,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began && currentViewMode != .youMightLike {
+        if sender.state == .began && currentViewMode == .episodes {
             let touchPoint = sender.location(in: episodesTable)
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
@@ -86,7 +83,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return 2
         case .bookmarks:
-            return 2 // Header + Bookmarks
+            return 3 // Header + Search + Bookmarks
         case .youMightLike:
             if isLoadingRecommendations.value || !hasSimilarShows.value {
                 return 2 // Header + Loading
@@ -110,7 +107,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return episodeInfo[safe: section]?.elements.count ?? 0
         case .bookmarks:
-            return section == PodcastViewController.headerSection ? 1 : 1 // Header + Bookmarks list
+            if section == PodcastViewController.headerSection {
+                return 1
+            }
+            return bookmarkList?.numberOfRows(inSection: section) ?? 0
         case .youMightLike:
             switch youMightLikeSectionType(for: section) {
             case .header, .loading, .empty:
@@ -166,8 +166,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     Image(systemName: "info.circle")
                 }, actions: [
                     .init(title: L10n.podcastShowArchived, action: { [weak self] in
-                        guard let self else { return }
-                        self.searchController?.showHideArchiveTapped(self)
+                        self?.toggleShowArchived()
                     })
                 ])
                 return cell
@@ -194,16 +193,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             if indexPath.section == PodcastViewController.headerSection {
                 let cell = podcastHeaderCell
                 return cell
-            } else {
-                guard let bookmarkViewModel else {
-                    return UITableViewCell()
-                }
-                let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
-                cell.configure(with: bookmarkViewModel) { [weak self] state in
-                    self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
-                }
-                return cell
             }
+
+            return bookmarkList?.cell(tableView, for: indexPath) ?? UITableViewCell()
 
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
@@ -218,7 +210,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.configure(title: L10n.failedRecommendations, icon: {
                     Image(systemName: "exclamationmark.circle")
                 }, actions: [
-                    .init(title: L10n.tryAgain, action: {
+                    .init(title: L10n.tryAgain, action: { [weak self] in
                         Task { [weak self] in
                             guard !Task.isCancelled else { return }
                             await self?.loadRecommendations()
@@ -263,11 +255,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return podcastHeaderCell.rowHeight
         }
 
-        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
-            // For bookmarks, we need to calculate the height dynamically
-            return UITableView.automaticDimension
-        }
-
         return UITableView.automaticDimension
     }
 
@@ -278,6 +265,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if currentViewMode == .bookmarks {
+            if indexPath.section == PodcastViewController.headerSection {
+                return indexPath
+            }
+            return bookmarkList?.canSelectRow(at: indexPath) == true ? indexPath : nil
+        }
+
         // Special handling for episodes only to deal with multi gesture
         guard currentViewMode == .episodes else { return indexPath }
 
@@ -319,7 +313,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if indexPath.section == PodcastViewController.allEpisodesSection {
                     guard let podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
-                    if searchController?.searchBarActive() == true {
+                    if searchController?.isSearchFieldActive == true {
                         hideSearchKeyboard()
                     }
 
@@ -330,6 +324,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
+            if indexPath.section == BookmarkListController.listSection {
+                tableView.deselectRow(at: indexPath, animated: true)
+                return
+            }
+
             if let headerCell = tableView.cellForRow(at: indexPath) as? PodcastHeaderCell,
                !isMultiSelectEnabled,
                indexPath.section == PodcastViewController.headerSection {
@@ -371,8 +370,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard isMultiSelectEnabled else { return }
-        if let listEpisode = episodeInfo[indexPath.section].elements[indexPath.row] as? ListEpisode, let index = selectedEpisodes.firstIndex(of: listEpisode) {
+        guard currentViewMode == .episodes, isMultiSelectEnabled else { return }
+        if let listEpisode = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListEpisode, let index = selectedEpisodes.firstIndex(of: listEpisode) {
             selectedEpisodes.remove(at: index)
             if let cell = tableView.cellForRow(at: indexPath) as? EpisodeCell {
                 cell.showTick = false
@@ -388,7 +387,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard currentViewMode == .youMightLike else {
-            // Episodes show a UIKit search header; Bookmarks embeds search inside its cell.
+            // Episodes show a UIKit search header; Bookmarks have their own search cell.
             return currentViewMode == .episodes ? searchController?.view : nil
         }
 
@@ -401,7 +400,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 BottomSheetSwiftUIWrapper.present(
                     PodrollInformationModalView(onDismiss: { [weak self] in
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)
-                    }).environmentObject(Theme.sharedTheme),
+                    }).environmentObject(Theme.shared),
                     autoSize: true,
                     in: self
                 )
@@ -480,8 +479,27 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard currentViewMode != .youMightLike else { return false }
-        return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        switch currentViewMode {
+        case .episodes:
+            return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        case .bookmarks:
+            return bookmarkList?.canEditRow(at: indexPath) ?? false
+        case .youMightLike:
+            return false
+        }
+    }
+
+    /// The episode cells swipe with SwipeCellKit, the bookmarks use the table's own swipe actions
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard currentViewMode == .bookmarks else { return nil }
+
+        return bookmarkList?.swipeActionsConfiguration(for: .leading, at: indexPath)
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard currentViewMode == .bookmarks else { return nil }
+
+        return bookmarkList?.swipeActionsConfiguration(for: .trailing, at: indexPath)
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
@@ -493,7 +511,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        guard currentViewMode != .youMightLike,
+        guard currentViewMode == .episodes,
               indexPath.section == PodcastViewController.allEpisodesSection,
               episodeAtIndexPath(indexPath) != nil else { return false }
 

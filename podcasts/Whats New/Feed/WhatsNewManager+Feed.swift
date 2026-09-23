@@ -1,0 +1,42 @@
+import PocketCastsServer
+
+/// The What's New feed as the rest of the app sees it.
+///
+/// The feed's rows, the dots on Profile pointing at them, and "Read all" all work from the same
+/// list of messages, so a dot never counts a message the feed leaves out.
+extension WhatsNewManager {
+    /// The catalog's messages the feed lists for this user, most recently published first.
+    func feedMessages(targeting: WhatsNewMessageFilter = .current) -> [WhatsNewMessage] {
+        WhatsNewFeedViewModel.feedMessages(from: catalog?.messages ?? [], targeting: targeting)
+    }
+
+    /// Whether the feed has an unread message that arrived since the user last opened it, which puts
+    /// a dot on the What's New button.
+    func hasUnlistedMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
+        feedMessages(targeting: targeting).contains { readState.isUnlisted($0.id) }
+    }
+
+    /// Whether the feed has an unread message the Profile tab hasn't pointed the user at yet, which
+    /// puts a dot on the tab.
+    func hasUnseenMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
+        feedMessages(targeting: targeting).contains { readState.isUnseen($0.id) }
+    }
+
+    /// Whether the What's New button shows its dot, which the user can turn off in Settings without
+    /// reading anything.
+    func showsDotOnWhatsNewButton(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
+        isDotEnabled && hasUnlistedMessages(targeting: targeting)
+    }
+
+    /// Whether the Profile tab shows a dot for What's New, which the same setting turns off.
+    func showsDotOnProfileTab(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) -> Bool {
+        isDotEnabled && hasUnseenMessages(targeting: targeting)
+    }
+
+    /// Takes the dot off the Profile tab until a message arrives that it hasn't pointed at. While the
+    /// dot is turned off, it hasn't pointed at anything, so turning it back on shows it again.
+    func markFeedAsSeen(targeting: WhatsNewMessageFilter = .current, isDotEnabled: Bool = Settings.showWhatsNewDot) {
+        guard isDotEnabled else { return }
+        markAsSeen(feedMessages(targeting: targeting).map(\.id))
+    }
+}

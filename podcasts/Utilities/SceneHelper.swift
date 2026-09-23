@@ -1,14 +1,15 @@
 import PocketCastsUtils
 import UIKit
 
-class SceneHelper {
-    class func connectedScene() -> UIWindowScene? {
+@MainActor
+enum SceneHelper {
+    static func connectedScene() -> UIWindowScene? {
         UIApplication.shared.connectedScenes.compactMap {
             $0 as? UIWindowScene
         }.first
     }
 
-    class func newMainScreenWindow() -> UIWindow {
+    static func newMainScreenWindow() -> UIWindow {
         if let scene = connectedScene() {
             return UIWindow(windowScene: scene)
         }
@@ -16,7 +17,7 @@ class SceneHelper {
         return UIWindow(frame: UIScreen.main.bounds)
     }
 
-    class func rootViewController(includeTopMost: Bool = true) -> UIViewController? {
+    static func rootViewController(includeTopMost: Bool = true) -> UIViewController? {
         #if os(tvOS)
             return nil
         #else

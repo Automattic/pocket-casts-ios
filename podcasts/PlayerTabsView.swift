@@ -1,6 +1,7 @@
 import PocketCastsUtils
 import UIKit
 
+@MainActor
 protocol PlayerTabDelegate: AnyObject {
     func didSwitchToTab(index: Int)
 }
@@ -25,6 +26,7 @@ enum PlayerTabs: Int {
     }
 }
 
+@MainActor
 class PlayerTabsView: UIScrollView {
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {
@@ -57,8 +59,6 @@ class PlayerTabsView: UIScrollView {
     }
 
     weak var tabDelegate: PlayerTabDelegate?
-
-    private let lineLayer = CAShapeLayer()
 
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -179,7 +179,6 @@ private enum TabConstants {
     static let spacing: CGFloat = 0
 
     static let lineHeight: CGFloat = 2
-    static let lineOffset: CGFloat = 8
 
     static let fadeSize: CGFloat = 50
 }
@@ -275,7 +274,7 @@ private extension PlayerTabsView {
         guard PlaybackManager.shared.chapterCount() > 0 else { return }
 
         Analytics.track(.chaptersShown, properties: [
-            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown",
             "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
             "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
             "source": "fullscreen_player"

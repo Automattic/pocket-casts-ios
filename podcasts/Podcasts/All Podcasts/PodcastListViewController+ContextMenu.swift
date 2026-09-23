@@ -86,8 +86,7 @@ extension PodcastListViewController {
             self?.setEditingOrder(true)
         }
 
-        let unfollowTitle = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
-        let unfollowAction = UIAction(title: unfollowTitle, image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
+        let unfollowAction = UIAction(title: L10n.unfollow, image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
             self?.confirmUnsubscribe(podcast: podcast)
         }
 
@@ -107,10 +106,9 @@ extension PodcastListViewController {
     // MARK: Action handlers
 
     private func confirmUnsubscribe(podcast: Podcast) {
-        let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
         let alert = UIAlertController(title: L10n.areYouSure, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-        alert.addAction(UIAlertAction(title: label, style: .destructive) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: L10n.unfollow, style: .destructive) { [weak self] _ in
             PodcastManager.shared.unsubscribe(podcast: podcast)
             Analytics.track(.podcastUnsubscribed, properties: ["source": self?.analyticsSource ?? AnalyticsSource.podcastsList, "uuid": podcast.uuid])
         })
@@ -119,7 +117,7 @@ extension PodcastListViewController {
 
     private func showFolderPicker(for podcast: Podcast) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            NavigationManager.shared.showUpsellView(from: self, source: .folders)
             return
         }
 
@@ -127,7 +125,7 @@ extension PodcastListViewController {
         let chooseFolderView = ChoosePodcastFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true)
         }
-        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.shared))
         present(hostingController, animated: true)
     }
 
@@ -139,7 +137,7 @@ extension PodcastListViewController {
         let editFolderView = EditFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true)
         }
-        let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
+        let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.shared))
         present(hostingController, animated: true)
     }
 }

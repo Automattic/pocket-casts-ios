@@ -4,10 +4,10 @@ source 'https://rubygems.org'
 
 gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.4'
-gem 'fastlane', '~> 2.237'
+gem 'fastlane', '~> 2.238'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
 gem 'fastlane-plugin-sentry', '~> 2.6'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.10.0'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 15.0.0'
 # To avoid errors like:
 #
 # SSL_connect returned=1 errno=0 peeraddr=3.5.132.155:443 state=error: certificate verify failed (unable to get certificate CRL)
@@ -19,5 +19,5 @@ gem 'openssl', '~> 4.0'
 # doesn't use Rake directly, so, to ensure the dependencies can resolve, let's
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
-gem 'rubocop', '~> 1.88'
+gem 'rubocop', '~> 1.90'
 gem 'watchbuild'

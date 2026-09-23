@@ -39,7 +39,7 @@ extension CheckTranscriptAvailability {
             guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
                   let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
                   let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool,
-                  episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
+                  episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else {
                 return
             }
 
@@ -55,7 +55,7 @@ extension CheckTranscriptAvailability {
     func checkTranscriptAvailability() {
         isTranscriptEnabled = false
         hasGeneratedTranscripts = false
-        let currentEpisode = PlaybackManager.shared.currentEpisode() as? Episode
+        let currentEpisode = PlaybackManager.shared.currentEpisode as? Episode
         currentEpisode?.checkTranscriptAvailability()
     }
 }

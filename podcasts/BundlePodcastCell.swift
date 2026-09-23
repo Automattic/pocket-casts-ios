@@ -29,8 +29,8 @@ class BundlePodcastCell: ThemeableCell {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
 
-            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
-            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.follow
+            subscribeButton.onAccessibilityLabel = L10n.unfollow
 
             NotificationCenter.default.addObserver(self, selector: #selector(podcastWasAdded), name: Constants.Notifications.podcastAdded, object: nil)
         }
@@ -64,13 +64,13 @@ class BundlePodcastCell: ThemeableCell {
                 subscribeButton.isHidden = true
             } else {
                 disclosureImage.isHidden = true
-                if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+                if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                     subscribeButton.currentlyOn = true
                 }
             }
 
             let imageUrl = DiscoverServerHandler.thumbnailUrlString(forPodcast: uuid, size: 140)
-            ImageManager.sharedManager.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
+            ImageManager.shared.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
         }
 
         subscribeButton.shouldAnimate = true
@@ -78,7 +78,7 @@ class BundlePodcastCell: ThemeableCell {
 
     @objc private func podcastWasAdded() {
         if let headerUuid = discoverPodcast?.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: headerUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
             } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }
@@ -105,7 +105,7 @@ class BundlePodcastCell: ThemeableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        ImageManager.sharedManager.cancelLoad(podcastImage)
+        ImageManager.shared.cancelLoad(podcastImage)
 
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil

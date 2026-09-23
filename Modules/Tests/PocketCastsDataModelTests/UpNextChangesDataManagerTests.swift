@@ -4,13 +4,12 @@ import GRDB
 @testable import PocketCastsUtils
 
 /// Tests for UpNextChangesDataManager using the public API.
-/// These tests run with both SQL and GRDB implementations.
 final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
     // MARK: - findReplaceAction Tests
 
     func testFindReplaceActionReturnsReplaceAction() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode1 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
             let episode2 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
@@ -27,24 +26,24 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             // The replace action is created when certain sync operations happen
             // This test verifies the method doesn't crash and returns expected type
             if let action = replaceAction {
-                XCTAssertEqual(action.type, UpNextChanges.Actions.replace.rawValue, "\(impl): Should be a replace action")
+                XCTAssertEqual(action.type, UpNextChanges.Actions.replace.rawValue, "Should be a replace action")
             }
         }
     }
 
     func testFindReplaceActionReturnsNilWhenNoReplaceAction() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             // Don't add any replace actions
             let replaceAction = dataManager.findReplaceAction()
 
-            XCTAssertNil(replaceAction, "\(impl): Should return nil when no replace action")
+            XCTAssertNil(replaceAction, "Should return nil when no replace action")
         }
     }
 
     // MARK: - findUpdateActions Tests
 
     func testFindUpdateActionsReturnsNonReplaceActions() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode1 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
             let episode2 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
@@ -57,23 +56,23 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             let updateActions = dataManager.findUpdateActions()
 
             // Update actions should not include replace actions
-            XCTAssertFalse(updateActions.contains { $0.type == UpNextChanges.Actions.replace.rawValue }, "\(impl): Should not contain replace actions")
+            XCTAssertFalse(updateActions.contains { $0.type == UpNextChanges.Actions.replace.rawValue }, "Should not contain replace actions")
         }
     }
 
     func testFindUpdateActionsReturnsEmptyWhenNoActions() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let updateActions = dataManager.findUpdateActions()
 
             // With no changes, should return empty
-            XCTAssertTrue(updateActions.isEmpty, "\(impl): Should return empty when no actions")
+            XCTAssertTrue(updateActions.isEmpty, "Should return empty when no actions")
         }
     }
 
     // MARK: - saveUpNext Actions Create Changes
 
     func testSaveUpNextAddToTopCreatesChange() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
@@ -81,12 +80,12 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let changes = dataManager.findUpdateActions()
             // Should have at least one change for the add action
-            XCTAssertGreaterThanOrEqual(changes.count, 0, "\(impl): Should create change for add to top")
+            XCTAssertGreaterThanOrEqual(changes.count, 0, "Should create change for add to top")
         }
     }
 
     func testSaveUpNextAddToBottomCreatesChange() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
@@ -94,12 +93,12 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let changes = dataManager.findUpdateActions()
             // Should have at least one change for the add action
-            XCTAssertGreaterThanOrEqual(changes.count, 0, "\(impl): Should create change for add to bottom")
+            XCTAssertGreaterThanOrEqual(changes.count, 0, "Should create change for add to bottom")
         }
     }
 
     func testSaveUpNextRemoveCreatesChange() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
@@ -108,12 +107,12 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let changes = dataManager.findUpdateActions()
             // Should have changes for add and remove
-            XCTAssertGreaterThanOrEqual(changes.count, 0, "\(impl): Should create change for remove")
+            XCTAssertGreaterThanOrEqual(changes.count, 0, "Should create change for remove")
         }
     }
 
     func testSaveUpNextAddNowPlayingCreatesChange() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
@@ -121,14 +120,14 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let changes = dataManager.findUpdateActions()
             // Should have at least one change
-            XCTAssertGreaterThanOrEqual(changes.count, 0, "\(impl): Should create change for add now playing")
+            XCTAssertGreaterThanOrEqual(changes.count, 0, "Should create change for add now playing")
         }
     }
 
     // MARK: - Multiple Actions Tests
 
     func testMultipleActionsCreateMultipleChanges() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode1 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
             let episode2 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
@@ -142,14 +141,14 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             // Verify we can find update actions without error
             let updateActions = dataManager.findUpdateActions()
-            XCTAssertNotNil(updateActions, "\(impl): Should return update actions array")
+            XCTAssertNotNil(updateActions, "Should return update actions array")
         }
     }
 
     // MARK: - Change Types Tests
 
     func testChangeTypesAreCorrect() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
@@ -165,7 +164,7 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
                     UpNextChanges.Actions.playLast.rawValue,
                     UpNextChanges.Actions.remove.rawValue
                 ]
-                XCTAssertTrue(validTypes.contains(change.type), "\(impl): Change type should be valid: \(change.type)")
+                XCTAssertTrue(validTypes.contains(change.type), "Change type should be valid: \(change.type)")
             }
         }
     }
@@ -173,7 +172,7 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
     // MARK: - saveReplace Tests
 
     func testSaveReplaceCreatesReplaceAction() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode1 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
             let episode2 = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
@@ -184,13 +183,13 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let replaceAction = dataManager.findReplaceAction()
 
-            XCTAssertNotNil(replaceAction, "\(impl): Should find replace action")
-            XCTAssertEqual(replaceAction?.type, UpNextChanges.Actions.replace.rawValue, "\(impl): Should be a replace action")
+            XCTAssertNotNil(replaceAction, "Should find replace action")
+            XCTAssertEqual(replaceAction?.type, UpNextChanges.Actions.replace.rawValue, "Should be a replace action")
         }
     }
 
     func testSaveReplaceStoresEpisodeList() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             _ = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
             _ = self.createTestEpisode(uuid: "episode-2", podcast: podcast, dataManager: dataManager)
@@ -200,13 +199,13 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let replaceAction = dataManager.findReplaceAction()
 
-            XCTAssertNotNil(replaceAction, "\(impl): Should find replace action")
-            XCTAssertEqual(replaceAction?.uuids, "episode-1,episode-2", "\(impl): Episode list should be stored")
+            XCTAssertNotNil(replaceAction, "Should find replace action")
+            XCTAssertEqual(replaceAction?.uuids, "episode-1,episode-2", "Episode list should be stored")
         }
     }
 
     func testSaveReplaceOverridesPreviousReplaceAction() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             _ = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
             _ = self.createTestEpisode(uuid: "episode-2", podcast: podcast, dataManager: dataManager)
@@ -219,15 +218,15 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
 
             let replaceAction = dataManager.findReplaceAction()
 
-            XCTAssertNotNil(replaceAction, "\(impl): Should find replace action")
-            XCTAssertEqual(replaceAction?.uuids, "episode-1,episode-2", "\(impl): Should have updated episode list")
+            XCTAssertNotNil(replaceAction, "Should find replace action")
+            XCTAssertEqual(replaceAction?.uuids, "episode-1,episode-2", "Should have updated episode list")
         }
     }
 
     // MARK: - deleteChangesOlderThan Tests
 
     func testDeleteChangesOlderThanRemovesOldChanges() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode1 = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
             let episode2 = self.createTestEpisode(uuid: "episode-2", podcast: podcast, dataManager: dataManager)
@@ -244,13 +243,13 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             let updateActions = dataManager.findUpdateActions()
             let replaceAction = dataManager.findReplaceAction()
 
-            XCTAssertTrue(updateActions.isEmpty, "\(impl): Should delete all update actions")
-            XCTAssertNil(replaceAction, "\(impl): Should delete replace action if any")
+            XCTAssertTrue(updateActions.isEmpty, "Should delete all update actions")
+            XCTAssertNil(replaceAction, "Should delete replace action if any")
         }
     }
 
     func testDeleteChangesOlderThanKeepsNewerChanges() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
 
@@ -265,12 +264,12 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             let updateActions = dataManager.findUpdateActions()
 
             // The change we added after deletion should still be there
-            XCTAssertGreaterThanOrEqual(updateActions.count, 0, "\(impl): Changes added after deletion should remain")
+            XCTAssertGreaterThanOrEqual(updateActions.count, 0, "Changes added after deletion should remain")
         }
     }
 
     func testDeleteChangesOlderThanWithZeroTimeDeletesNothing() throws {
-        try runWithBothImplementations { dataManager, impl in
+        try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
 
@@ -282,7 +281,7 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             // Changes should still exist since they have utcTime > 0
             let updateActions = dataManager.findUpdateActions()
             // Note: actual behavior depends on whether changes have utcTime set
-            XCTAssertNotNil(updateActions, "\(impl): Update actions should be accessible")
+            XCTAssertNotNil(updateActions, "Update actions should be accessible")
         }
     }
 }

@@ -16,7 +16,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         didSet {
             podcastDescription.style = .primaryText02
             podcastDescription.adjustsFontForContentSizeCategory = true
-            podcastDescription.updateNumberOfLines(regular: 4, accessibility: 6)
         }
     }
 
@@ -35,13 +34,15 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
 
-            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
-            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.follow
+            subscribeButton.onAccessibilityLabel = L10n.unfollow
         }
     }
 
     @IBOutlet var titleToDescriptionConstraint: NSLayoutConstraint!
     private weak var delegate: DiscoverDelegate?
+
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
     private var podcast: DiscoverPodcast?
     private var item: DiscoverItem?
     private var featuredDescription: String?
@@ -51,6 +52,10 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SinglePodcastViewController, _) in
+            controller.updateSize()
+        }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPodcast))
         view.addGestureRecognizer(tapGesture)
@@ -88,7 +93,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         self.item = item
         self.region = region
         self.category = category
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+        serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             self?.podcast = discoverPodcast.first
@@ -190,15 +195,44 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     }
 
     func updateSize() {
+        let isSponsored = item?.isSponsored ?? false
         podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
-        podcastDescription.updateNumberOfLines(regular: 4, accessibility: 6)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
+        podcastDescription.updateNumberOfLines(regular: isSponsored ? 0 : 4, accessibility: isSponsored ? 0 : 6)
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Single podcast · fresh pick") {
+    let section = SinglePodcastViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastList: DiscoverPreviewData.podcastList(
+            title: "Fresh pick",
+            description: "Whispered tales and trivia to help you fall asleep, three nights a week.",
+            podcasts: [DiscoverPreviewData.podcast(at: 2)]
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.singlePodcast, title: "Fresh pick")
+    )
+}
+
+#Preview("Single podcast · sponsored") {
+    let section = SinglePodcastViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastList: DiscoverPreviewData.podcastList(
+            title: "Sponsored",
+            description: "A paid placement, drawn with the sponsored badge instead of the fresh pick one.",
+            podcasts: [DiscoverPreviewData.podcast(at: 3)]
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.singlePodcast, title: "Sponsored", isSponsored: true)
+    )
+}
+
+#endif

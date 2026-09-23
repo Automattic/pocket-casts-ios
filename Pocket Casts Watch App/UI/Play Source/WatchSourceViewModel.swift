@@ -6,13 +6,13 @@ import SwiftUI
 
 class WatchSourceViewModel: PlaySourceViewModel {
     var isPlaying: Bool {
-        PlaybackManager.shared.playing()
+        PlaybackManager.shared.isPlaying
     }
 
     // MARK: Episodes
 
     func fetchEpisode(uuid: String) -> BaseEpisode? {
-        DataManager.sharedManager.findBaseEpisode(uuid: uuid)
+        DataManager.shared.findBaseEpisode(uuid: uuid)
     }
 
     func requiresConfirmation(forAction action: EpisodeAction) -> Bool {
@@ -33,7 +33,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func isCurrentlyPlaying(episode: BaseEpisode) -> Bool {
-        PlaybackManager.shared.currentEpisode()?.uuid == episode.uuid
+        PlaybackManager.shared.currentEpisode?.uuid == episode.uuid
     }
 
     func supportsPodcastNavigation(forEpisode episode: BaseEpisode) -> Bool {
@@ -55,7 +55,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
@@ -79,7 +79,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var playbackSpeed: Double {
-        PlaybackManager.shared.effects().playbackSpeed
+        PlaybackManager.shared.effects.playbackSpeed
     }
 
     func increasePlaybackSpeed() {
@@ -91,7 +91,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func changeSpeedInterval() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
         effects.toggleDefinedSpeedInterval()
 
         PlaybackManager.shared.changeEffects(effects)
@@ -157,12 +157,12 @@ class WatchSourceViewModel: PlaySourceViewModel {
     // MARK: Downloads
 
     func fetchDownloadedEpisodes() -> AnyPublisher<[BaseEpisode], PlaySourceError> {
-        let fetchedEpisodes = DataManager.sharedManager.findDownloadedEpisodes()
+        let fetchedEpisodes = DataManager.shared.findDownloadedEpisodes()
         return Just(fetchedEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
     var downloadedCount: Int {
-        return DataManager.sharedManager.downloadedEpisodeCount()
+        return DataManager.shared.downloadedEpisodeCount()
     }
 
     // MARK: User Episodes
@@ -179,7 +179,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     func fetchUserEpisodes(forOrder sortingOption: UploadedSort? = nil) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
         let sortOrder = sortingOption ?? userEpisodeSortOrder
-        let fetchedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortOrder, limit: Constants.Limits.watchListItems)
+        let fetchedEpisodes = DataManager.shared.allUserEpisodes(sortedBy: sortOrder, limit: Constants.Limits.watchListItems)
         return Just(fetchedEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
@@ -195,24 +195,24 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func fetchFilterEpisodes(_ filter: EpisodeFilter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
-        let playlistEpisodes = DataManager.sharedManager.playlistEpisodes(for: filter)
+        let playlistEpisodes = DataManager.shared.playlistEpisodes(for: filter)
         return Just(playlistEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
     func fetchPlaylists() -> AnyPublisher<[PlaylistRepresentable], PlaySourceError> {
-        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let filters = DataManager.shared.allPlaylists(includeDeleted: false)
         return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
     func fetchPlaylist(_ uuid: String) -> PlaylistRepresentable? {
-        DataManager.sharedManager.findPlaylist(uuid: uuid)
+        DataManager.shared.findPlaylist(uuid: uuid)
     }
 
     func episodeCount(for playlist: PlaylistRepresentable) -> Int {
         guard let playlist = playlist as? EpisodeFilter else {
             return 0
         }
-        return DataManager.sharedManager.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
+        return DataManager.shared.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
     }
 
     // MARK: Up Next
@@ -233,7 +233,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     // MARK: Now Playing
 
     var nowPlayingEpisode: BaseEpisode? {
-        PlaybackManager.shared.currentEpisode()
+        PlaybackManager.shared.currentEpisode
     }
 
     var playbackProgress: CGFloat {
@@ -245,7 +245,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var effectsIconName: String {
-        PlaybackManager.shared.effects().effectsEnabled() ? "speed-on" : "speed-off"
+        PlaybackManager.shared.effects.effectsEnabled() ? "speed-on" : "speed-off"
     }
 
     var upNextCount: Int {
@@ -270,7 +270,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingSubTitle(forEpisode episode: BaseEpisode) -> String? {
-        guard !PlaybackManager.shared.buffering() else { return L10n.watchBuffering }
+        guard !PlaybackManager.shared.isBuffering else { return L10n.watchBuffering }
         return episode.subTitle()
     }
 
@@ -287,10 +287,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     var podcastSortOrder: LibrarySort {
         get {
-            Settings.homeFolderSortOrder()
+            Settings.homeFolderSortOrder
         }
         set {
-            Settings.setHomeFolderSortOrder(order: newValue)
+            Settings.homeFolderSortOrder = newValue
         }
     }
 
@@ -299,6 +299,6 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func allPodcastsInFolder(folder: Folder) -> [Podcast] {
-        DataManager.sharedManager.allPodcastsInFolder(folder: folder)
+        DataManager.shared.allPodcastsInFolder(folder: folder)
     }
 }

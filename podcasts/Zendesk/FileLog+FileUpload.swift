@@ -1,5 +1,4 @@
 import AutomatticEncryptedLogs
-import Combine
 import Foundation
 import PocketCastsUtils
 import SwiftUI
@@ -33,34 +32,29 @@ extension FileLog: @retroactive EventLoggingDelegate {
         return logFile.uuid
     }
 
-    public func encryptedLogUUID() -> AnyPublisher<String, Never> {
-        logFileForUpload()
-            .tryMap { [unowned self] filePath in
-                try self.queueFileUpload(filePath)
-            }
-            .replaceError(with: FileLog.genericErrorMessage)
-            .eraseToAnyPublisher()
+    public func encryptedLogUUID() async -> String {
+        do {
+            return try queueFileUpload(try await logFileForUpload())
+        } catch {
+            return FileLog.genericErrorMessage
+        }
     }
 
-    func watchLogFileForUpload() -> AnyPublisher<String?, Never> {
-        Future<String?, Error> { promise in
-            WatchManager.shared.requestLogFile { watchLog in
-                guard let wearableLog = watchLog else {
-                    promise(.success(nil))
-                    return
-                }
-                let file = LogFilePaths.watchUploadLog
-                do {
-                    try wearableLog.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                } catch {
-                    promise(.failure(LogError.logGenerationFailed))
-                }
-
-                promise(.success(file))
-            }
+    /// Writes the watchOS log to a file to be enqueued for upload, returning the path it was written
+    /// to, or `nil` if the watch had no logs to give.
+    func watchLogFileForUpload() async throws -> String? {
+        guard let wearableLog = await WatchManager.shared.requestLogFile() else {
+            return nil
         }
-        .replaceError(with: FileLog.genericErrorMessage)
-        .eraseToAnyPublisher()
+
+        let file = LogFilePaths.watchUploadLog
+        do {
+            try wearableLog.write(toFile: file, atomically: true, encoding: .utf8)
+        } catch {
+            throw LogError.logGenerationFailed
+        }
+
+        return file
     }
 
     /// Returns the watchOS log contents as a string, using the same flow as support uploads
@@ -68,17 +62,16 @@ extension FileLog: @retroactive EventLoggingDelegate {
         await WatchManager.shared.requestLogFile()
     }
 
-    public func encryptedWatchLogUUID() -> AnyPublisher<String, Never> {
-        watchLogFileForUpload()
-            .tryMap { [unowned self] filePath in
-                guard let filePath else {
-                    return Self.noWearableLogsAvailable
-                }
-
-                return try self.queueFileUpload(filePath)
+    public func encryptedWatchLogUUID() async -> String {
+        do {
+            guard let filePath = try await watchLogFileForUpload() else {
+                return Self.noWearableLogsAvailable
             }
-            .replaceError(with: FileLog.genericErrorMessage)
-            .eraseToAnyPublisher()
+
+            return try queueFileUpload(filePath)
+        } catch {
+            return FileLog.genericErrorMessage
+        }
     }
 
     // MARK: - EventLoggingDelegate

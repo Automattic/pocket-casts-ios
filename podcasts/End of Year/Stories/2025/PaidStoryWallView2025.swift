@@ -32,8 +32,6 @@ struct PaidStoryWallView2025: StoryView {
     @Environment(\.pauseState) var pauseState: PauseState
     @EnvironmentObject var storyModel: StoriesModel
 
-    @StateObject private var model = PlusPricingInfoModel()
-
     @StateObject private var subscriptionModel =  SubscriptionModel()
     private let subscriptionTier: SubscriptionTier
 
@@ -83,7 +81,7 @@ struct PaidStoryWallView2025: StoryView {
                             return
                         }
                         Analytics.track(.endOfYearUpsellShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
-                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.shared.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
                         Analytics.track(.endOfYearPlusContinued, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         advanceToNextStory()

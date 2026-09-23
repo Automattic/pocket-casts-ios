@@ -98,8 +98,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    weak var accountUpdatedDelegate: AccountUpdatedDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createAccount
@@ -165,7 +163,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
     }
 
     private func startRegister(_ username: String, password: String) {
-        Analytics.track(.createAccountNextButtonTapped)
+        OnboardingFlow.shared.track(.createAccountNextButtonTapped)
 
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
@@ -233,7 +231,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.saveSyncingPassword(password)
 
         // we've signed in, set all our existing podcasts to be non synced
-        DataManager.sharedManager.markAllPodcastsUnsynced()
+        DataManager.shared.markAllPodcastsUnsynced()
 
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)

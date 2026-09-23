@@ -3,8 +3,6 @@ import PocketCastsDataModel
 import UIKit
 
 class SelectPodcastCell: UICollectionViewCell {
-    private let selectedOffset = 8 as CGFloat
-
     @IBOutlet var podcastImage: UIImageView!
     @IBOutlet var backgroundColorView: ThemeableView! {
         didSet {
@@ -26,7 +24,7 @@ class SelectPodcastCell: UICollectionViewCell {
     }
 
     func populateFrom(_ podcast: Podcast) {
-        ImageManager.sharedManager.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .grid, showPlaceHolder: true)
+        ImageManager.shared.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .grid, showPlaceHolder: true)
         podcastTitle = podcast.title
         updateAccessibilityLabel()
     }

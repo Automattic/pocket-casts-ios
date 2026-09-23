@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsDataModel
 
 extension EpisodeFilter {
@@ -28,7 +29,7 @@ extension EpisodeFilter {
 
         case .downloadStatus:
             // Affected if filtering by download status
-            return filterDownloaded || filterNotDownloaded
+            return filtersByDownloadStatus
 
         case .starred:
             // Affected if filtering by starred

@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsUtils
 import PocketCastsServer
 import PocketCastsDataModel
+import UserNotifications
 
 enum NotificationType: String {
 
@@ -211,7 +212,7 @@ enum NotificationsGroup: CaseIterable {
             case .newEpisodes:
                 if newValue {
                     // the user has just turned on push, enable it for all their podcasts for simplicity
-                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+                    DataManager.shared.setPushForAllPodcasts(pushEnabled: true)
                     NotificationsHelper.shared.registerForPushNotifications()
                 } else {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
@@ -333,9 +334,11 @@ class NotificationsCoordinator {
                     continuation.resume(returning: false)
                     return
                 }
-                // activate all notifications
-                for group in NotificationsGroup.allCases {
-                    self.setupNotifications(for: group)
+                // Only activate all groups for a fresh setup; if the user already configured notifications, leave their per-group/per-podcast settings untouched.
+                if NotificationsGroup.allDisabled {
+                    for group in NotificationsGroup.allCases {
+                        self.setupNotifications(for: group)
+                    }
                 }
                 continuation.resume(returning: granted)
             }

@@ -49,18 +49,13 @@ struct EpisodeShowNotesView: View {
                     .font(.caption)
                     .foregroundStyle(Color.pcTextSecondary)
             }
+            .accessibilityElement(children: .combine)
         }
     }
 
     @ViewBuilder
     private var artwork: some View {
-        if let podcastUuid = (episode as? Episode)?.podcastUuid {
-            PodcastImage(uuid: podcastUuid, size: .page)
-        } else {
-            Image(ImageResource.pcLogo)
-                .resizable()
-                .scaledToFit()
-        }
+        EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: episode, showEpisodeNotesImage: Settings.loadEmbeddedImages))
     }
 
     @ViewBuilder
@@ -82,7 +77,7 @@ struct EpisodeShowNotesView: View {
     }
 
     private var metadataLine: String {
-        let date = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+        let date = DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
         let duration = episode.displayableDuration
         return [date, duration].filter { !$0.isEmpty }.joined(separator: " · ")
     }

@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
@@ -7,7 +8,7 @@ class FolderHistoryModel: ObservableObject {
 
     private let dataManager: DataManager
 
-    init(dataManager: DataManager = DataManager.sharedManager) {
+    init(dataManager: DataManager = DataManager.shared) {
         self.dataManager = dataManager
     }
 
@@ -32,6 +33,7 @@ class FolderHistoryModel: ObservableObject {
         }
     }
 
+    @MainActor
     func restore() {
         podcastsAndFolders.forEach { podcast, folder in
             podcast.folderUuid = folder.uuid

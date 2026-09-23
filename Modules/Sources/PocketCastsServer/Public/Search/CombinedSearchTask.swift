@@ -1,12 +1,13 @@
 import Foundation
 
 struct CombinedSearchEnvelope: Decodable {
-    public let results: [CombinedSearchResult]
+    @LossyDecodedArray public var results: [CombinedSearchResult]
 }
 
 public enum CombinedSearchResultType: Hashable {
     case episode(EpisodeSearchResult)
     case podcast(PodcastFolderSearchResult)
+    case network(NetworkSearchResult)
 }
 
 public struct CombinedSearchResult: Decodable, Hashable {
@@ -19,19 +20,32 @@ public struct CombinedSearchResult: Decodable, Hashable {
     public let podcastTitle: String?
     public let author: String?
     public let explicit: Bool?
+    public let isVideo: Bool?
+    public let hasVideo: Bool?
+    public let videoUrl: String?
+    public let shortDescription: String?
+    public let collectionImage: String?
+    public let podcastCount: Int?
 
     public var resolvedResultType: CombinedSearchResultType? {
         switch type {
-            case "podcast":
-                guard let podcast = PodcastFolderSearchResult(from: self) else {
-                    return nil
-                }
-                return .podcast(podcast)
-            case "episode":
-            let episode = EpisodeSearchResult(uuid: self.uuid, title: self.title, publishedDate: self.publishedDate ?? Date.now, state: .normal, duration: duration, podcastUuid: self.podcastUuid ?? "", podcastTitle: self.podcastTitle ?? "")
-                return .episode(episode)
-            default:
+        case "podcast":
+            guard let podcast = PodcastFolderSearchResult(from: self) else {
                 return nil
+            }
+            return .podcast(podcast)
+        case "episode":
+            guard let episode = EpisodeSearchResult(from: self) else {
+                return nil
+            }
+            return .episode(episode)
+        case "network":
+            guard let network = NetworkSearchResult(from: self) else {
+                return nil
+            }
+            return .network(network)
+        default:
+            return nil
         }
     }
 }
@@ -44,7 +58,7 @@ public class CombinedSearchTask {
     }
 
     public func search(term: String) async throws -> [CombinedSearchResultType] {
-        let components = URLComponents(string: ServerConstants.Urls.cache() + "search/combined")
+        let components = URLComponents(string: ServerConstants.Urls.cache() + "v2/search/combined")
         guard let searchURL = components?.url,
               let request = ServerHelper.createJsonRequest(url: searchURL, params: ["term": term], timeout: 10, cachePolicy: .reloadIgnoringCacheData)
         else {
@@ -52,6 +66,14 @@ public class CombinedSearchTask {
         }
 
         let (data, _) = try await session.data(for: request)
+
+        let envelope = try Self.decoder.decode(CombinedSearchEnvelope.self, from: data)
+        return envelope.results.compactMap { result in
+            return result.resolvedResultType
+        }
+    }
+
+    static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let dateFormatter = DateFormatter()
@@ -60,10 +82,6 @@ public class CombinedSearchTask {
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-
-        let envelope = try decoder.decode(CombinedSearchEnvelope.self, from: data)
-        return envelope.results.compactMap { result in
-            return result.resolvedResultType
-        }
-    }
+        return decoder
+    }()
 }

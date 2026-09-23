@@ -38,6 +38,10 @@ public enum ServerConstants {
             production() ? "https://lists.pocketcasts.com/" : "https://lists.pocketcasts.net/"
         }
 
+        public static func whatsNew() -> String {
+            production() ? "https://static.pocketcasts.com/whats-new/v1/ios/" : "https://static.pocketcasts.net/whats-new/v1/ios/"
+        }
+
         public static var search: String {
             production() ? "https://search.pocketcasts.com/" : "https://search.pocketcasts.net/"
         }
@@ -48,10 +52,6 @@ public enum ServerConstants {
 
         public static var tvPair: String {
             production() ? "https://pocketcasts.com/pair" : "https://pocketcasts.net/pair"
-        }
-
-        public static var tvCreate: String {
-            production() ? "https://pocketcasts.com/create" : "https://pocketcasts.net/create"
         }
 
         public static let support = "https://support.pocketcasts.com/ios/"
@@ -105,12 +105,6 @@ public enum ServerConstants {
         public static let appLanguage = "X-App-Language"
     }
 
-    public enum Timeouts {
-        static let sync = 60 as TimeInterval
-        static let general = 60 as TimeInterval
-        static let cache = 30 as TimeInterval
-    }
-
     public enum Values {
         static var apiScope: String {
             #if os(tvOS)
@@ -160,6 +154,8 @@ public enum ServerConstants {
         static let audioOnlyNeedsSyncKey = "SJAudioOnlyNeedsSync"
         public static let disableAiChaptersKey = "SJDisableAiChapters"
         static let disableAiChaptersNeedsSyncKey = "SJDisableAiChaptersNeedsSync"
+        static let showWhatsNewDotKey = "SJShowWhatsNewDot"
+        static let showWhatsNewDotNeedsSyncKey = "SJShowWhatsNewDotNeedsSync"
         static let subscriptionGiftAcknowledgementNeedsSyncKey = "SJGiftAcknowledgementNeedsSync"
         static let filesLastModifiedKey = "UserFilesLastModified"
         static let statsStartDate = "StatsStartDate"

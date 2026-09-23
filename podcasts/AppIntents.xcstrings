@@ -1,0 +1,111 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "siri_shortcut_set_sleep_timer_description" : {
+      "comment" : "Description for the App Intent that sets the sleep timer.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Configura el temporitzador amb una durada escollida o amb la durada seleccionada a Pocket Casts si no se n'especifica cap." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Stellt die Schlummerfunktion auf eine ausgewählte Dauer ein oder verwendet die in Pocket Casts ausgewählte Dauer, wenn keine angegeben ist." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sets the sleep timer to a chosen duration, or the duration selected in Pocket Casts when none is provided." } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Configura el temporizador con una duración elegida o usa la duración seleccionada en Pocket Casts si no se especifica ninguna." } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Configura el temporizador de suspensión con una duración elegida o usa la duración seleccionada en Pocket Casts si no se especifica ninguna." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Définit le délai de mise en veille pour une durée choisie ou utilise la durée sélectionnée dans Pocket Casts si aucune n’est indiquée." } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Règle la minuterie de veille selon la durée choisie ou utilise la durée sélectionnée dans Pocket Casts si aucune n’est indiquée." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Imposta l'autospegnimento sulla durata scelta oppure usa la durata selezionata in Pocket Casts se non ne viene specificata una." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "選択した時間でスリープタイマーを設定します。指定がない場合は、Pocket Castsで選択した時間を使用します。" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Stelt de slaaptimer in op een gekozen duur, of gebruikt de in Pocket Casts geselecteerde duur als er geen is opgegeven." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Define o temporizador com a duração escolhida ou usa a duração selecionada no Pocket Casts quando nenhuma é informada." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Устанавливает выбранную продолжительность таймера сна или использует значение из Pocket Casts, если продолжительность не указана." } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Ställer in sovtimern på en vald längd eller använder längden som valts i Pocket Casts om ingen anges." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将睡眠计时器设置为所选时长；如果未指定，则使用 Pocket Casts 中选择的时长。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "將睡眠計時器設定為所選時長；如果未指定，則使用 Pocket Casts 中選擇的時長。" } }
+      }
+    },
+    "siri_shortcut_set_sleep_timer_duration_description" : {
+      "comment" : "Description for the sleep timer duration parameter.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Quant de temps ha de passar abans que s'aturi la reproducció." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie lange es dauert, bis die Wiedergabe stoppt." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "How long before playback stops." } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cuánto tiempo debe pasar antes de que se detenga la reproducción." } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Cuánto tiempo debe pasar antes de que se detenga la reproducción." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Durée avant l’arrêt de la lecture." } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Durée avant l’arrêt de la lecture." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Intervallo prima dell'interruzione della riproduzione." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "再生が停止するまでの時間。" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Hoe lang het duurt voordat het afspelen stopt." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Quanto tempo falta para a reprodução parar." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Через сколько времени остановить воспроизведение." } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Hur lång tid det tar innan uppspelningen stoppas." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "播放停止前的时长。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "播放停止前的時間。" } }
+      }
+    },
+    "siri_shortcut_set_sleep_timer_duration_title" : {
+      "comment" : "Title for the sleep timer duration parameter.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Durada" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dauer" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Duration" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Duración" } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Duración" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Durée" } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Durée" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Durata" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "時間" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Duur" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Duração" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Продолжительность" } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Längd" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "持续周期" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "時間長度" } }
+      }
+    },
+    "siri_shortcut_migrated_sleep_timer_seconds_title" : {
+      "comment" : "Title for the legacy sleep timer duration parameter, whose values are stored in seconds.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Segons" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sekunden" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Seconds" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Secondes" } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Secondes" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Secondi" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Seconden" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Segundos" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Секунды" } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Sekunder" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "秒" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "秒" } }
+      }
+    },
+    "siri_shortcut_set_sleep_timer_title" : {
+      "comment" : "Title for the App Intent that sets the sleep timer.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Configura el temporitzador" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Schlummerfunktion einstellen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set sleep timer" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Configurar temporizador" } },
+        "es-MX" : { "stringUnit" : { "state" : "translated", "value" : "Establecer temporizador de suspensión" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Définir un délai de mise en veille" } },
+        "fr-CA" : { "stringUnit" : { "state" : "translated", "value" : "Régler la minuterie de veille" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Imposta autospegnimento" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スリープタイマーを設定" } },
+        "nl" : { "stringUnit" : { "state" : "translated", "value" : "Slaaptimer instellen" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Definir temporizador" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Установить таймер сна" } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Ställ in sovtimer" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置睡眠计时器" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "設定睡眠計時器" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

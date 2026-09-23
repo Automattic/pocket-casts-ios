@@ -56,14 +56,14 @@ class CastToViewController: PCViewController {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelTapped))
 
-        let connected = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+        let connected = GoogleCastManager.shared.connectedOrConnectingToDevice()
         if connected {
-            title = GoogleCastManager.sharedManager.connectedDevice()?.friendlyName ?? L10n.chromecastConnected
+            title = GoogleCastManager.shared.connectedDevice()?.friendlyName ?? L10n.chromecastConnected
             connectedView.isHidden = false
             castTable.isHidden = true
-            volumeSlider.value = GoogleCastManager.sharedManager.currentVolume()
+            volumeSlider.value = GoogleCastManager.shared.currentVolume()
             updatePlayingDetails()
-            GoogleCastManager.sharedManager.requestMultizoneUpdate()
+            GoogleCastManager.shared.requestMultizoneUpdate()
         } else {
             title = L10n.chromecastCastTo
             castTable.isHidden = false
@@ -80,13 +80,13 @@ class CastToViewController: PCViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deviceListDidChange), name: Constants.Notifications.googleCastStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(multiZoneDevicesChanged), name: Constants.Notifications.googleCastMultiZoneStatusChanged, object: nil)
 
-        GoogleCastManager.sharedManager.startDeviceDiscovery()
+        GoogleCastManager.shared.startDeviceDiscovery()
 
         Analytics.track(.chromecastViewShown, properties: ["is_connected": connected])
     }
 
     deinit {
-        GoogleCastManager.sharedManager.stopDeviceDiscovery()
+        GoogleCastManager.shared.stopDeviceDiscovery()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -101,18 +101,18 @@ class CastToViewController: PCViewController {
     }
 
     @IBAction func stopCastingTapped(_ sender: Any) {
-        GoogleCastManager.sharedManager.stopCasting()
+        GoogleCastManager.shared.stopCasting()
         Analytics.track(.chromecastStoppedCasting)
 
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func volumeSliderDidChange(_ sender: UISlider) {
-        GoogleCastManager.sharedManager.changeVolume(to: sender.value)
+        GoogleCastManager.shared.changeVolume(to: sender.value)
     }
 
     private func updatePlayingDetails() {
-        guard GoogleCastManager.sharedManager.connected(), let playingEpisode = PlaybackManager.shared.currentEpisode() else {
+        guard GoogleCastManager.shared.connected(), let playingEpisode = PlaybackManager.shared.currentEpisode else {
             episodeName.text = L10n.chromecastConnectedToDevice
             podcastName.text = L10n.chromecastNothingPlaying
             playPauseBtn.isHidden = true
@@ -124,16 +124,16 @@ class CastToViewController: PCViewController {
         episodeName.text = playingEpisode.displayableTitle()
         podcastName.text = playingEpisode.subTitle()
 
-        let imageName = PlaybackManager.shared.playing() ? "icon-pause" : "icon-play"
+        let imageName = PlaybackManager.shared.isPlaying ? "icon-pause" : "icon-play"
         playPauseBtn.setImage(UIImage(named: imageName), for: .normal)
         playPauseBtn.isHidden = false
 
         playingArtwork.isHidden = false
-        ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: playingArtwork, size: .page)
+        ImageManager.shared.loadImage(episode: playingEpisode, imageView: playingArtwork, size: .page)
     }
 
     private func reloadAvailableDevices() {
-        devices = GoogleCastManager.sharedManager.deviceManager.availableDevices()
+        devices = GoogleCastManager.shared.deviceManager.availableDevices()
         castTable.reloadData()
     }
 

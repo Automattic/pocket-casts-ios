@@ -12,11 +12,14 @@ struct EpisodeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 7) {
                     artwork
-                    episodeDetails
-                        .offset(y: geo.size.width * -0.6)
-                        .padding(.bottom, geo.size.width * -0.6)
-                    Divider()
-                    episodeActions
+                    VStack(alignment: .leading, spacing: 7) {
+                        episodeDetails
+                            .offset(y: geo.size.width * -0.6)
+                            .padding(.bottom, geo.size.width * -0.6)
+                        Divider()
+                        episodeActions
+                    }
+                    .scenePadding(.horizontal)
                 }
             }
             .navigationTitle(listTitle)
@@ -108,7 +111,14 @@ struct EpisodeView: View {
 }
 
 struct EpisodeView_Previews: PreviewProvider {
-    static let testViewModel = EpisodeDetailsViewModel(episode: Episode(), playlist: nil)
+    static let testEpisode: Episode = {
+        let episode = Episode()
+        episode.title = "An Episode Title That Wraps Onto Multiple Lines"
+        episode.episodeDescription = "A sample episode description that is long enough to wrap so the layout can be checked."
+        return episode
+    }()
+
+    static let testViewModel = EpisodeDetailsViewModel(episode: testEpisode, playlist: nil)
     static var previews: some View {
         ForEach(PreviewDevice.previewDevices, id: \.rawValue) { device in
             EpisodeView(viewModel: testViewModel, listTitle: "Test")

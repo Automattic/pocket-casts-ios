@@ -6,6 +6,15 @@ fileprivate enum Layout {
     static let cellSize = CGFloat(250)
 }
 
+/// `FocusStore` identities for the search sections, so a `RowSection` title highlights
+/// while anything inside it holds focus.
+enum SearchFocusSection {
+    static let featured = "search_featured"
+    static let episodes = "search_episodes"
+    static let podcasts = "search_podcasts"
+    static let networks = "search_networks"
+}
+
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     @Environment(MainTabViewModel.self) var mainTabModel: MainTabViewModel
@@ -32,6 +41,12 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                 ContentUnavailableView.search(text: model.searchTerm)
             case .results:
                 switch model.scope {
+                case .topResults:
+                    if model.podcastResults.isEmpty, model.episodeResults.isEmpty, model.networkResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        SearchTopResultsView(model: model)
+                    }
                 case .podcasts:
                     if model.podcastResults.isEmpty {
                         ContentUnavailableView.search(text: model.searchTerm)
@@ -44,19 +59,34 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     } else {
                         episodeResults
                     }
+                case .networks:
+                    if model.networkResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        networkResults
+                    }
                 }
             case .error(let error):
                 Text(L10n.tvSearchFailed(error.localizedDescription))
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                DiscoverAllView(model: mainTabModel.discoverAllViewModel)
+                DiscoverAllView(model: mainTabModel.discoverAllViewModel, source: DiscoverAnalytics.searchSource)
             }
         }
         .navigationDestination(for: DiscoverPodcast.self) { podcast in
             if let uuid = podcast.uuid {
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid, isDiscover: true))
             }
+        }
+        .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+            DiscoverPodcastsListView(category: discoverCategory, source: DiscoverAnalytics.searchSource)
+        }
+        .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
+            PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+        }
+        .navigationDestination(for: NetworkSearchResult.self) { network in
+            SearchNetworkView(network: network)
         }
         .animation(.easeInOut, value: model.state)
         .animation(.easeInOut, value: model.scope)
@@ -77,52 +107,79 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                                 .frame(width: Layout.cellSize, height: Layout.cellSize)
                         }
                         .buttonStyle(.card)
+                        .accessibilityLabel(podcast.title ?? "")
                         .simultaneousGesture(TapGesture().onEnded {
-                            Analytics.track(.searchResultTapped, properties: [
-                                "source": "search",
-                                "uuid": podcast.uuid,
-                                "result_type": podcast.isLocal == true ? "podcast_local_result" : "podcast_remote_result"
-                            ])
+                            SearchAnalytics.podcastTapped(podcast)
                         })
-                    case .episode:
+                    case .episode, .network:
                         EmptyView()
                     }
                 }
             })
-            .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+        }
+    }
+
+    var networkResults: some View {
+        ScrollView {
+            LazyVGrid(columns: items, spacing: 48, content: {
+                ForEach(model.networkResults, id: \.self) { network in
+                    NavigationLink(value: network) {
+                        SearchNetworkCard(network: network, size: Layout.cellSize)
+                    }
+                    .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        SearchAnalytics.networkTapped(network)
+                    })
+                }
+            })
+        }
+    }
+
+    /// Without video results this is the plain grid it has always been. With them, the
+    /// video episodes lead in a `Featured` row and the grid drops below an `Episodes`
+    /// heading, holding whatever the row didn't already show.
+    @ViewBuilder
+    var episodeResults: some View {
+        if model.videoEpisodeResults.isEmpty {
+            ScrollView {
+                episodeGrid(model.episodeResults)
+            }
+        } else {
+            ScrollView {
+                VStack(alignment: .leading, spacing: RowSectionLayout.sectionSpacing) {
+                    SearchFeaturedEpisodesRow(episodes: model.videoEpisodeResults)
+                    if !model.remainingEpisodeResults.isEmpty {
+                        RowSection(title: L10n.episodes, focusSection: SearchFocusSection.episodes) {
+                            episodeGrid(model.remainingEpisodeResults)
+                        }
+                    }
+                }
             }
         }
     }
 
-    var episodeResults: some View {
-        ScrollView {
-            LazyVGrid(columns: episodeItems, spacing: 24, content: {
-                ForEach(model.episodeResults, id: \.self) { episode in
-                    Button() {
-                        Analytics.track(.searchResultTapped, properties: [
-                            "source": "search",
-                            "uuid": episode.uuid,
-                            "result_type": "episode"
-                        ])
-                        Task {
-
-                            let playSuccess = await model.playEpisode(episode)
-                            await MainActor.run {
-                                if playSuccess {
-                                    showNowPlayingPlayer = true
-                                } else {
-                                    ToastManager.shared.show(L10n.playbackFailed)
-                                }
+    private func episodeGrid(_ episodes: [EpisodeSearchResult]) -> some View {
+        LazyVGrid(columns: episodeItems, spacing: 24, content: {
+            ForEach(episodes, id: \.self) { episode in
+                Button() {
+                    SearchAnalytics.episodeTapped(episode)
+                    Task {
+                        let playSuccess = await model.playEpisode(episode)
+                        await MainActor.run {
+                            if playSuccess {
+                                showNowPlayingPlayer = true
+                            } else {
+                                ToastManager.shared.show(L10n.playbackFailed)
                             }
                         }
-                    } label: {
-                        SearchEpisodeRow(model: episode)
                     }
-                    .buttonStyle(.card)
-                    .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
+                } label: {
+                    SearchEpisodeRow(model: episode)
                 }
-            })
-        }
+                .buttonStyle(.card)
+                .setFocus(section: SearchFocusSection.episodes)
+                .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
+            }
+        })
     }
 }

@@ -18,7 +18,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var searchController: PCSearchBarController?
     private let episodes: [Episode]
     private let analyticsSource: String
-    private let dataManager = DataManager.sharedManager
+    private let dataManager = DataManager.shared
 
     private var tableView: ThemeableTable! {
         didSet {
@@ -48,7 +48,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
 
@@ -81,7 +81,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistManualEpisodeAddToPlaylist
@@ -102,14 +102,13 @@ class ManualPlaylistsChooserViewController: PCViewController {
             ]
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
             navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.sizeToFit()
         }
     }
 
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         tableView = ThemeableTable()
         view.insertSubview(tableView, at: 0)
@@ -138,8 +137,6 @@ class ManualPlaylistsChooserViewController: PCViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: 0)
         ])
-
-        view.layoutSubviews()
 
         allManualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
         manualPlaylists = allManualPlaylists
@@ -228,7 +225,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                         if let rootVC = SceneHelper.rootViewController(includeTopMost: false),
                            rootVC.presentedViewController != nil {
                             rootVC.dismiss(animated: true) {
-                                NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.shared.navigateTo(
                                     NavigationManager.filterPageKey,
                                     data: [
                                         NavigationManager.filterUuidKey: playlist.uuid
@@ -236,7 +233,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                                 )
                             }
                         } else {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid

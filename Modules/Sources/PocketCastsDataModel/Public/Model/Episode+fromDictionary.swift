@@ -1,8 +1,21 @@
 import Foundation
 
 extension Episode {
-    /// MIME type advertised for HLS streams inside a feed's `alternate_enclosures`.
-    public static let hlsEnclosureType = "application/x-mpegURL"
+    /// MIME type we advertise for HLS streams we send elsewhere, e.g. to Google Cast.
+    public static let advertisedHLSMimeType = "application/x-mpegURL"
+
+    /// HLS content types we accept and play as video. Stored lowercased, so lookups must lowercase their input too.
+    public static let hlsEnclosureTypes = Set([
+        "application/x-mpegurl",
+        "application/mpegurl",
+        "application/vnd.apple.mpegurl"
+    ].map { $0.lowercased() })
+
+    /// Whether an `alternate_enclosures` type string advertises an HLS stream.
+    public static func isHLSEnclosureType(_ type: String?) -> Bool {
+        guard let type else { return false }
+        return hlsEnclosureTypes.contains(type.lowercased())
+    }
 
     /// Extracts the HLS stream URL from a feed episode's `alternate_enclosures` array, if one is present.
     ///
@@ -17,7 +30,7 @@ extension Episode {
             return nil
         }
 
-        let hlsEnclosure = alternateEnclosures.first { ($0["type"] as? String)?.caseInsensitiveCompare(hlsEnclosureType) == .orderedSame }
+        let hlsEnclosure = alternateEnclosures.first { isHLSEnclosureType($0["type"] as? String) }
         let sources = hlsEnclosure?["sources"] as? [[String: Any]]
         return sources?.first?["uri"] as? String
     }

@@ -9,7 +9,7 @@ if [[ -z "$RELEASE_PLATFORM" ]]; then
   exit 1
 fi
 
-"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
+checkout_release_branch "$RELEASE_VERSION"
 
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 

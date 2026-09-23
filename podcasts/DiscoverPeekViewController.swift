@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
     @IBOutlet var collectionView: ThemeableCollectionView! {

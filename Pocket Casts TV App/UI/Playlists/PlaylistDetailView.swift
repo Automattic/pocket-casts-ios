@@ -145,6 +145,7 @@ struct PlaylistDetailView: View {
             ZStack {
                 Image(ImageResource.pcLogo)
                     .resizable()
+                    .accessibilityHidden(true)
                     .frame(width: Layout.mosaicSize * 0.75, height: Layout.mosaicSize * 0.75)
             }
             .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
@@ -191,6 +192,7 @@ struct PlaylistDetailView: View {
                     .font(.caption)
                     .foregroundColor(.pcTextSecondary)
             }
+            .accessibilityElement(children: .combine)
             if !model.episodes.isEmpty {
                 Button {
                     model.playAll()
@@ -220,11 +222,13 @@ struct PlaylistDetailView: View {
                     .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                HStack {
-                    Spacer()
-                    archivedFilterMenu
+                if model.isManual {
+                    HStack {
+                        Spacer()
+                        archivedFilterMenu
+                    }
+                    .padding(.bottom, 32)
                 }
-                .padding(.bottom, 32)
             }
         }
         .onChange(of: rowFocus) { _, new in

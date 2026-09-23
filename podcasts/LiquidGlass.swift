@@ -16,7 +16,7 @@ extension UIWindow {
     /// `traitCollection.userInterfaceStyle`, which reflects this override.
     func applyInterfaceStyleForActiveTheme() {
         guard LiquidGlass.isEnabled else { return }
-        overrideUserInterfaceStyle = Theme.sharedTheme.activeTheme.isDark ? .dark : .light
+        overrideUserInterfaceStyle = Theme.shared.activeTheme.isDark ? .dark : .light
     }
 }
 
@@ -36,7 +36,7 @@ extension Constants {
             // added to bottom safe area.
             return 0
         }
-        return PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        return PlaybackManager.shared.currentEpisode == nil ? 0 : Constants.Values.miniPlayerOffset
     }
 
     static var effectiveFooterViewPadding: CGFloat {

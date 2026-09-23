@@ -25,6 +25,25 @@ extension View {
     func previewOnAllDevices(with theme: Theme.ThemeType = .light) -> some View {
         modifier(PocketCastsPreviewer.allDevices(with: theme))
     }
+
+    /// Theme the preview from its appearance, so Xcode's Color Scheme variants switch the app's theme with them.
+    ///
+    /// The app draws its own colours, so a preview otherwise stays in whatever theme it was given whichever
+    /// appearance the canvas is set to.
+    func previewFollowingAppearance() -> some View {
+        modifier(AppearanceTheme())
+    }
+}
+
+private struct AppearanceTheme: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    private static let light = Theme(previewTheme: .light)
+    private static let dark = Theme(previewTheme: .dark)
+
+    func body(content: Content) -> some View {
+        content.setupDefaultEnvironment(theme: colorScheme == .dark ? Self.dark : Self.light)
+    }
 }
 
 // MARK: - Preview View Modifier

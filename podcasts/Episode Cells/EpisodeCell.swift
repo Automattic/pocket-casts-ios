@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
+@MainActor
 class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
@@ -70,13 +71,13 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
-            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.sharedTheme.activeTheme)
+            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.shared.activeTheme)
         }
     }
 
@@ -147,6 +148,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodeCell, _) in
+            view.updateSize()
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackEnded, object: nil)
@@ -239,8 +244,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             setEpisodeTitle(episode: episode)
 
             starIndicator.isHidden = !episode.keepEpisode
-            // Treat episodes with a usable HLS stream (HLS feature enabled + valid HLS URL) as video, so
-            // we show the video indicator without parsing the stream.
+            // Treat episodes that will stream HLS as video, so we show the video indicator without parsing
+            // the stream. Downloaded episodes play their local audio-only file, so they get no icon.
             videoIndicator.isHidden = !EpisodeManager.isVideo(episode)
             videoIndicator.tintColor = ThemeColor.support01()
             setUpNextIndicator(visible: PlaybackManager.shared.inUpNext(episode: episode), animated: false)
@@ -325,9 +330,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         else if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
-            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else {
-            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         }
 
         if episode.downloading(), !downloadingIndicator.isAnimating {
@@ -339,7 +344,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if let userEpisode = episode as? UserEpisode {
             uploadProgressIndicator.isHidden = !(userEpisode.uploading() || userEpisode.uploadWaitingForWifi())
             if userEpisode.uploading() {
-                if let progress = UploadManager.shared.progressManager.progressForEpisode(userEpisode.uuid) {
+                if let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: userEpisode.uuid) {
                     uploadProgressIndicator.progress = progress.percentageProgress()
                 } else {
                     uploadProgressIndicator.progress = 0.1
@@ -439,7 +444,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func updateCell(episodeUuid: String) {
-        guard let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let newEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { return }
 
         if Thread.isMainThread {
             populateFrom(episode: newEpisode, tintColor: mainTintColor, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
@@ -505,7 +510,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func downloadProgressDidUpdate() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as downloading, update it from the DB
         if !ourEpisode.downloading() {
@@ -516,22 +521,22 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func uploadProgressDidUpdate() {
-        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        if Thread.isMainThread {
+            MainActor.assumeIsolated { uploadProgressDidUpdateOnMain() }
+        } else {
+            Task { @MainActor in uploadProgressDidUpdateOnMain() }
+        }
+    }
+
+    private func uploadProgressDidUpdateOnMain() {
+        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as uploading, update it from the DB
         if !ourEpisode.uploading() {
             episode = reloadEpisode()
         }
 
-        if Thread.isMainThread {
-            populate(progressOnly: true)
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-
-                self.populate(progressOnly: true)
-            }
-        }
+        populate(progressOnly: true)
     }
 
     @objc func reloadArtwork(_ notification: Notification) {
@@ -559,7 +564,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let episode else { return }
 
         // if the user tapped play from a featured list, record that. We just want the first play, if they are unpausing it, that's not relevant (hence the last check below)
-        if let podcastUuid, let listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if let podcastUuid, let listUuid, !PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 
@@ -604,9 +609,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     private func reloadEpisode() -> BaseEpisode? {
         if let episode = episode as? Episode {
-            return DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+            return DataManager.shared.findEpisode(uuid: episode.uuid)
         } else if let episode = episode as? UserEpisode {
-            return DataManager.sharedManager.findUserEpisode(uuid: episode.uuid)
+            return DataManager.shared.findUserEpisode(uuid: episode.uuid)
         }
 
         return nil
@@ -667,7 +672,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     // Handle theme change
     override func handleThemeDidChange() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
         guard lastAppliedTheme != theme else { return }
         lastAppliedTheme = theme
 
@@ -710,11 +715,5 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         dayName.updateNumberOfLines(regular: 1, accessibility: 3)
         informationLabel.updateNumberOfLines(regular: 1, accessibility: 3)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

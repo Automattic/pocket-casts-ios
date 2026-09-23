@@ -72,5 +72,5 @@ struct PlaylistsOnboardingCardView: View {
 
 #Preview {
     PlaylistsOnboardingCardView(card: .smartPlaylist)
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

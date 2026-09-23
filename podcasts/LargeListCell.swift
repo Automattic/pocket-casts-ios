@@ -26,8 +26,8 @@ class LargeListCell: ThemeableCollectionCell {
             subscribeButton.tintColor = ThemeColor.contrast01()
             subscribeButton.backgroundColor = ThemeColor.veil()
 
-            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
-            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.follow
+            subscribeButton.onAccessibilityLabel = L10n.unfollow
         }
     }
 
@@ -62,6 +62,10 @@ class LargeListCell: ThemeableCollectionCell {
         super.awakeFromNib()
         setupExplicitBadge()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: LargeListCell, _) in
+            view.updateSize()
+        }
     }
 
     private func setupExplicitBadge() {
@@ -142,13 +146,5 @@ class LargeListCell: ThemeableCollectionCell {
     func updateSize() {
         podcastTitle.updateNumberOfLines(regular: 1, accessibility: 2)
         podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 2)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

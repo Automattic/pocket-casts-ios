@@ -39,7 +39,7 @@ extension ModifiedDate {
 
 extension ModifiedDate where Value: RawRepresentable {
     enum ApiUpdateError: Error {
-        case representableNotFound(value: Any, representable: Value.Type)
+        case representableNotFound(value: String, representable: String)
     }
 
     /// Updates the ModifiedDate instance with values from an ApiSetting
@@ -48,7 +48,7 @@ extension ModifiedDate where Value: RawRepresentable {
         let referenceDate = Date(timeIntervalSinceReferenceDate: 0)
         if setting.modifiedAt.date > modifiedAt ?? referenceDate {
             guard let value = Value(rawValue: setting.value.value) else {
-                throw ApiUpdateError.representableNotFound(value: setting.value.value, representable: Value.self)
+                throw ApiUpdateError.representableNotFound(value: "\(setting.value.value)", representable: String(describing: Value.self))
             }
             self = ModifiedDate(wrappedValue: value)
         }

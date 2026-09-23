@@ -303,6 +303,8 @@ Download de app voor de volledige ervaring!</string>
     <string>Indien ingeschakeld, wordt de slaaptimer automatisch opnieuw opgestart als je een aflevering afspeelt binnen vijf minuten van de laatste pauzering.</string>
     <key>back</key>
     <string>Terug</string>
+    <key>badge_new</key>
+    <string>Nieuw</string>
     <key>banner_ads_remove_ads</key>
     <string>Advertenties verwijderen</string>
     <key>banner_ads_report_ad</key>
@@ -335,10 +337,26 @@ Download de app voor de volledige ervaring!</string>
     <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_details_title</key>
+    <string>Bladwijzer</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Selecteer een transcriptiepassage voor deze bladwijzer</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Transcriptie bewerken</string>
     <key>bookmark_search_no_results_message</key>
     <string>We konden geen bladwijzers vinden voor die zoekopdrachten.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Geen bladwijzers gevonden</string>
+    <key>bookmark_suggested_title</key>
+    <string>Voorgestelde titel: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggestie: </string>
+    <key>bookmark_title_label</key>
+    <string>Titel</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Transcriptie toevoegen ...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcriptie vastgelegd</string>
     <key>bookmark_updated_notification</key>
     <string>Bladwijzer %1$@ bijgewerkt</string>
     <key>bookmarks</key>
@@ -351,6 +369,14 @@ Download de app voor de volledige ervaring!</string>
     <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen. Binnenkort beschikbaar voor %2$@-abonnees.</string>
     <key>bookmarks_locked_message</key>
     <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behoud het onderdeel dat je wilde</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Bladwijzer toevoegen</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Je bent de persoon aan het casten, niet de cv.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>De auditieruimte</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
@@ -878,8 +904,6 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Gedownloade bestanden</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Weet je zeker dat je deze gedownloade bestanden wilt verwijderen?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Door je uit te schrijven, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Door te stoppen met volgen, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -945,6 +969,8 @@ Haal alles uit Pocket Casts.</string>
     <string>We hebben gemerkt dat je niet bent ingelogd</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>edit_bookmark</key>
+    <string>Bladwijzer bewerken</string>
     <key>edit_clip</key>
     <string>Clip bewerken</string>
     <key>enable_it_now</key>
@@ -1512,10 +1538,6 @@ Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnie
 4. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
     <key>import_opml_from_url</key>
     <string>Importeer je podcasts vanuit een OPML-bestand met een URL</string>
-    <key>import_podcasts_description</key>
-    <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
-
-Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk je op de bijlage en selecteer je Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Je kan je podcasts importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
@@ -1585,6 +1607,8 @@ podcasts mee</string>
     <string>Geen afleveringen gevonden</string>
     <key>loading</key>
     <string>Laden...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Registreren via e-mail</string>
     <key>login_landing_subtitle</key>
     <string>Je podcasts, altijd gesynchroniseerd. Houd je bibliotheek veilig en geniet van Pocket Casts op internet en desktop.</string>
     <key>login_landing_title</key>
@@ -1693,6 +1717,8 @@ podcasts mee</string>
     <string>1 aflevering uit favorieten verwijderen</string>
     <key>name</key>
     <string>Naam</string>
+    <key>network_fail_to_load</key>
+    <string>Dit netwerk kon niet worden geladen</string>
     <key>new_email_address_prompt</key>
     <string>Nieuw e-mailadres</string>
     <key>new_episodes</key>
@@ -1710,7 +1736,9 @@ podcasts mee</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Gebruik Bladwijzers</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Je kan tijdstempels van belangrijke momenten in een aflevering opslaan.</string>
+    <string>Eén tik. Het heeft een naam gekregen en de woorden horen erbij.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Bewaar de onderdelen die je wil bewaren</string>
     <key>no_bookmarks_message</key>
     <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
     <key>no_bookmarks_title</key>
@@ -2109,6 +2137,10 @@ Dat is waar we voor staan!</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Slaaptimer aan</string>
+    <key>player_action_hide_video</key>
+    <string>Video verbergen</string>
+    <key>player_action_show_video</key>
+    <string>Video tonen</string>
     <key>player_action_subtitle_delete</key>
     <string>Weergegeven als verwijderen voor aangepaste afleveringen</string>
     <key>player_action_subtitle_hidden</key>
@@ -2760,8 +2792,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1 aflevering verwijderen</string>
-    <key>queue_clear_queue</key>
-    <string>WACHTRIJ WISSEN</string>
     <key>queue_for_later</key>
     <string>In de wachtrij zetten voor later</string>
     <key>queue_now_playing_accessibility</key>
@@ -2909,6 +2939,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Bladwijzers zoeken</string>
     <key>search_episodes</key>
     <string>Afleveringen zoeken</string>
+    <key>search_filter_networks</key>
+    <string>Netwerken</string>
     <key>search_label</key>
     <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
@@ -3183,6 +3215,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Gearchiveerde afleveringen</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Wil je al je huidige podcasts veranderen naar %1$@ gearchiveerde afleveringen?</string>
+    <key>settings_general_audio_only</key>
+    <string>Alleen audio</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Indien ingeschakeld, worden video-afleveringen alleen als audio afgespeeld.</string>
     <key>settings_general_auto_open_player</key>
     <string>Speler automatisch openen</string>
     <key>settings_general_autoplay</key>
@@ -3193,6 +3229,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>STANDAARD</string>
     <key>settings_general_episode_groups</key>
     <string>Groepering van podcast-afleveringen</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Gegenereerde hoofdstukken</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Automatisch gegenereerde hoofdstukken weergeven indien beschikbaar.</string>
     <key>settings_general_hide</key>
     <string>Verbergen</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3725,12 +3765,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Geüpload</string>
     <key>stop_download</key>
     <string>Download stoppen</string>
-    <key>subscribe</key>
-    <string>Abonneren</string>
     <key>subscribe_all</key>
     <string>Op alles abonneren</string>
-    <key>subscribed</key>
-    <string>Geabonneerd</string>
     <key>subscription_cancelled</key>
     <string>Het abonnement is geannuleerd</string>
     <key>subscription_cancelled_msg</key>
@@ -3839,6 +3875,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Boven</string>
     <key>transcript</key>
     <string>Transcriptie</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Bladwijzer</string>
     <key>transcript_error_empty</key>
     <string>Deze transcriptie blijkt helaas leeg te zijn</string>
     <key>transcript_error_failed_to_load</key>
@@ -3926,6 +3964,14 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Je podcasts verdienen een thuis</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Open de camera en wijs naar deze QR-code.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Bevestig de code hieronder indien hierom wordt gevraagd</string>
+    <key>tv_create_account_step_create</key>
+    <string>Maak je account aan of log in</string>
+    <key>tv_create_account_step_login</key>
+    <string>Log in bij je account.</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Scan de QR-code of ga naar %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Scan deze code om aan de slag te gaan op je telefoon, het duurt maar een minuut.</string>
     <key>tv_create_account_title</key>
@@ -3940,6 +3986,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuwste aflevering afspelen</string>
     <key>tv_discover_play_episode</key>
     <string>Aflevering afspelen</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>Laden mislukt</string>
     <key>tv_episode_archived</key>
     <string>Gearchiveerd</string>
     <key>tv_episode_info</key>
@@ -3970,6 +4018,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Geen luistergeschiedenis</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Door categorieën bladeren</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Home kan niet worden geladen</string>
     <key>tv_home_featured_section_title</key>
     <string>Uitgelicht op Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4104,12 +4154,34 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuwste afleveringen ophalen</string>
     <key>tv_search_failed</key>
     <string>Zoekopdracht mislukt: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Uitgelicht</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, shows, auteurs</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Topresultaten</string>
     <key>tv_search_searching</key>
     <string>Zoeken ...</string>
     <key>tv_search_type_something</key>
     <string>Typ iets ...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Scan de onderstaande QR-code of open de URL op je telefoon om toegang te krijgen tot het Privacybeleid.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>Levenslang</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Volgende verlenging</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Dit abonnement is op een ander platform gemaakt. Gebruik dat platform om het abonnement te beheren.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Abonnement</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Prijs</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>Niet beschikbaar</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Abonnement</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Scan de onderstaande QR-code of open de URL op je telefoon om toegang te krijgen tot de Gebruiksvoorwaarden.</string>
     <key>tv_sign_in_enter_code</key>
     <string>of voer de volgende code in</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4154,6 +4226,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Gebruiker/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Bezig met aanmelden</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Gebruikersnaam</string>
     <key>tv_welcome_browse_without_account</key>

@@ -76,7 +76,7 @@ public struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     public func body(content: Content) -> some View {
         content
-            .onChange(of: viewModel.paused) { _ in
+            .onChange(of: viewModel.paused) {
                 playOrPause()
             }
     }

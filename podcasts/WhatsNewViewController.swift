@@ -7,7 +7,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
                 shadowView.layer.shadowRadius = 0
             } else {
                 shadowView.layer.masksToBounds = false
-                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor().cgColor
+                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor.cgColor
                 shadowView.layer.shadowOffset = CGSize(width: 0, height: -2)
                 shadowView.layer.shadowOpacity = 0.15
                 shadowView.layer.shadowRadius = 2

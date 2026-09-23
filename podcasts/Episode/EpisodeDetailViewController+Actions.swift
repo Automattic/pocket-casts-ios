@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 extension EpisodeDetailViewController {
     // MARK: - Button Actions
@@ -8,7 +9,7 @@ extension EpisodeDetailViewController {
     @IBAction func addTapped(_ sender: UIButton) {
         let addPicker = OptionsPicker(title: nil)
 
-        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 
         if isInUpNext {
             let removeFromUpNextAction = OptionAction(label: L10n.removeFromUpNext, icon: "episode-removenext") { [weak self] in
@@ -61,10 +62,10 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: UIButton) {
-        let isNowPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+        let isNowPlaying = PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
         if isNowPlaying {
             // dismiss the dialog if the user hit play
-            if !PlaybackManager.shared.playing() {
+            if !PlaybackManager.shared.isPlaying {
                 dismiss(animated: true, completion: nil)
             }
         } else {
@@ -76,7 +77,7 @@ extension EpisodeDetailViewController {
     func playPauseEpisode(isPlaying: Bool) {
         if isPlaying {
             if let timestamp {
-                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                DataManager.shared.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
                 PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
                 updateProgress()
             }
@@ -86,7 +87,7 @@ extension EpisodeDetailViewController {
             if let timestamp {
                 episode.playingStatus = PlayingStatus.inProgress.rawValue
                 episode.playedUpTo = timestamp
-                DataManager.sharedManager.save(episode: episode)
+                DataManager.shared.save(episode: episode)
                 updateProgress()
             }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
@@ -114,7 +115,7 @@ extension EpisodeDetailViewController {
     // MARK: - UI State
 
     func updateButtonStates() {
-        guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
+        guard let updatedEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) else { return }
         episode = updatedEpisode
 
         let playbackManager = PlaybackManager.shared
@@ -164,7 +165,7 @@ extension EpisodeDetailViewController {
 
     func updateProgress() {
         var progress: CGFloat = 0
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             let currentTime = PlaybackManager.shared.currentTime()
             let duration = PlaybackManager.shared.duration()
             if currentTime > 0, duration > 0 {

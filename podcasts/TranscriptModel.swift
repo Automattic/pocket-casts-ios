@@ -32,6 +32,10 @@ struct TranscriptModel: Sendable {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
+        if format == .textPlain {
+            let filteredText = ComposeFilter.plainTextFilter.filter(trimmedTranscript).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: false)
+        }
         let subtitles: Subtitles? = {
             do {
                 if format == .jsonPodcastIndex {
@@ -77,6 +81,14 @@ struct TranscriptModel: Sendable {
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
+    }
+
+    /// The cue the character at `characterIndex` reads as part of.
+    ///
+    /// A position that lands on a speaker name, or in the gap between two cues, belongs to
+    /// the cue that follows it rather than the one that ended before it.
+    func cue(atCharacterIndex characterIndex: Int) -> TranscriptCue? {
+        cues.first { NSLocationInRange(characterIndex, $0.characterRange) || $0.characterRange.location >= characterIndex }
     }
 
     var isEmtpy: Bool {

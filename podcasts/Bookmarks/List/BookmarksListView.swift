@@ -2,19 +2,6 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
-/// A SearchField theme matching EpisodeListSearchController styling
-/// - Background: primaryField01
-/// - Text/Placeholder: primaryText02
-/// - Icons (search, clear): primaryIcon02
-/// - Cancel button text: primaryText01
-class PodcastSearchTheme: SearchField.SearchTheme {
-    override var background: Color { theme.primaryField01 }
-    override var placeholder: Color { theme.primaryText02 }
-    override var text: Color { theme.primaryText02 }
-    override var cancel: Color { theme.primaryText01 }
-    override var icon: Color { theme.primaryIcon02 }
-}
-
 struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ObservedObject var viewModel: BookmarkListViewModel
     @ObservedObject var style: ListStyle
@@ -27,70 +14,35 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     var showMoreInHeader: Bool = true
 
-    var allowInternalScrolling: Bool = true
-
-    // When true, renders a search field above the list content
-    var showSearchField: Bool = false
-
-    // When true, the SwiftUI overlay bar will not be rendered; instead we notify
-    // an external presenter (e.g., PodcastViewController) to show the bar.
-    var useExternalActionBar: Bool = false
-
-    // Callback to inform an external presenter of the desired action bar state
-    var externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil
+    // When false, the action bar won't reserve space for the mini player below it.
+    // Set this for hosts where the mini player never appears, like the full screen player.
+    var reservesMiniPlayerSpace: Bool = true
 
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
          showHeader: Bool = true,
          showMultiSelectInHeader: Bool = true,
          showMoreInHeader: Bool = true,
-         allowInternalScrolling: Bool = true,
-         showSearchField: Bool = false,
-         useExternalActionBar: Bool = false,
-         externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil) {
+         reservesMiniPlayerSpace: Bool = true) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
         self.style = style
         self.showHeader = showHeader
         self.showMultiSelectInHeader = showMultiSelectInHeader
         self.showMoreInHeader = showMoreInHeader
-        self.allowInternalScrolling = allowInternalScrolling
-        self.showSearchField = showSearchField
-        self.useExternalActionBar = useExternalActionBar
-        self.externalActionBarHandler = externalActionBarHandler
+        self.reservesMiniPlayerSpace = reservesMiniPlayerSpace
     }
 
     private var actionBarVisible: Bool {
-        viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
+        viewModel.isMultiSelecting && !viewModel.selectedItems.isEmpty
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            let searchTheme = PodcastSearchTheme()
-            // Optional search bar shown when flagged and either searching or there are items
-            if showSearchField, viewModel.isSearching || viewModel.numberOfItems > 0 {
-                HStack(spacing: BookmarkListConstants.padding) {
-                    SearchField(theme: searchTheme,
-                                text: $viewModel.searchText,
-                                showsCancelButton: false,
-                                placeholder: L10n.searchBookmarks)
-                        .disabled(viewModel.isMultiSelecting)
-                    Button(action: {
-                        viewModel.showMoreOptions()
-                    }) {
-                        Image("podcast-more-options")
-                            .padding(.trailing, 1) // Needed to nudge this over to match exactly. Not sure why.
-                    }
-                    .foregroundStyle(searchTheme.icon)
-                }
-                .padding(.horizontal, BookmarkListConstants.padding)
-                .padding(.bottom, BookmarkListConstants.searchFieldBottomPadding)
-            }
-
             if !feature.isUnlocked || viewModel.bookmarks.isEmpty {
                 emptyView
             } else {
-                listView
+                contentView
             }
         }
         .environmentObject(viewModel)
@@ -122,26 +74,35 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         }
     }
 
-    /// The main content view that displays a list of bookmarks
     @ViewBuilder
-    private var listView: some View {
+    private var contentView: some View {
         if showHeader {
-            if showSearchField {
-                divider
-                    .padding(.bottom, BookmarkListConstants.headerPadding)
-            }
             headerView
             divider
         }
 
-        actionBarView {
-            Group {
-                if allowInternalScrolling {
-                    scrollView
-                } else {
-                    stableContainer
+        if LiquidGlass.isEnabled {
+            scrollView
+                .safeAreaInset(edge: .bottom, spacing: 0) {
+                    if actionBarVisible {
+                        ActionBarView(
+                            title: L10n.selectedCountFormat(viewModel.selectedItems.count),
+                            style: style.actionBarStyle,
+                            actions: bookmarkActions
+                        )
+                        .transition(.opacity)
+                    }
                 }
-            }
+                .animation(.linear(duration: 0.1), value: actionBarVisible)
+                .enclosingTabBarHidden(viewModel.isMultiSelecting)
+        } else {
+            // `ActionBarOverlayView` is used on iOS 18 and earlier only.
+            ActionBarOverlayView(actionBarVisible: actionBarVisible,
+                                 title: L10n.selectedCountFormat(viewModel.selectedItems.count),
+                                 style: style.actionBarStyle,
+                                 content: { scrollView },
+                                 actions: bookmarkActions,
+                                 reservesMiniPlayerSpace: reservesMiniPlayerSpace)
         }
     }
 
@@ -159,7 +120,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
                 Spacer()
 
-                if showMoreInHeader && !showSearchField {
+                if showMoreInHeader {
                     Image("more").foregroundStyle(style.primaryText).buttonize {
                         viewModel.showMoreOptions()
                     }
@@ -178,68 +139,62 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     @ViewBuilder
     private var scrollView: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.bookmarks) { bookmark in
-                    BookmarkRow(bookmark: bookmark, style: style)
-
-                    if !viewModel.isLast(item: bookmark) {
-                        divider
-                    }
-                }
-
-                // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                if actionBarVisible && !useExternalActionBar {
-                    Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
-                }
-            }
+        List {
+            bookmarksRows
         }
-    }
-
-    private var stableContainer: some View {
-        LazyVStack(spacing: 0) { bookmarksRows }
-    }
-
-    @ViewBuilder
-    private var listContent: some View {
-        LazyVStack(spacing: 0) { bookmarksRows }
+        .animation(.default, value: viewModel.bookmarks.map(\.id))
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(style.listBackground)
+        .environment(\.defaultMinListRowHeight, 0)
     }
 
     @ViewBuilder
     private var bookmarksRows: some View {
         ForEach(viewModel.bookmarks) { bookmark in
-            BookmarkRow(bookmark: bookmark, style: style)
-            if !viewModel.isLast(item: bookmark) { divider }
-        }
-        if actionBarVisible && !useExternalActionBar { Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding) }
-    }
-
-    @ViewBuilder
-    private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
-        let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
-        let editVisible = viewModel.numberOfSelectedItems == 1
-        let shareVisible = viewModel.selectedItems.first?.episode is Episode
-        Group {
-            if useExternalActionBar {
-                content()
-                    .onAppear { notifyExternalActionBar() }
-                    .onChange(of: viewModel.numberOfSelectedItems) { notifyExternalActionBar() }
-                    .onChange(of: viewModel.isMultiSelecting) { notifyExternalActionBar() }
-                    .onDisappear {
-                        externalActionBarHandler?(ExternalActionBarState(visible: false, title: nil, showEdit: false, showShare: false, isMultiSelecting: false))
-                    }
-            } else {
-                ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
-                    content()
-                }, actions: makeBookmarkActions(BookmarkActionConfig(
-                    showShare: editVisible && shareVisible,
-                    showEdit: editVisible,
-                    onShare: { viewModel.shareSelectedBookmarks() },
-                    onEdit: { viewModel.editSelectedBookmarks() },
-                    onDelete: { viewModel.deleteSelectedBookmarks() }
-                )))
+            bookmarkRow(bookmark)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+            if !viewModel.isLast(item: bookmark) {
+                divider
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             }
         }
+        if !LiquidGlass.isEnabled && actionBarVisible {
+            Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+        }
+    }
+
+    private func bookmarkRow(_ bookmark: Bookmark) -> some View {
+        BookmarkRow(bookmark: bookmark, style: style)
+            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                swipeActions(for: bookmark, edge: .leading)
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                swipeActions(for: bookmark, edge: .trailing)
+            }
+    }
+
+    private func swipeActions(for bookmark: Bookmark, edge: HorizontalEdge) -> some View {
+        ForEach(makeBookmarkSwipeActions(for: bookmark, edge: edge, viewModel: viewModel, style: style)) { action in
+            Button(role: action.isDestructive ? .destructive : nil) {
+                action.handler()
+            } label: {
+                Image(action.imageName)
+            }
+            .tint(action.tint)
+            .accessibilityLabel(action.title)
+        }
+    }
+
+    private var bookmarkActions: [ActionBarView<ListStyle.ActionStyle>.Action] {
+        makeBookmarkActions(viewModel: viewModel)
     }
 
     // MARK: - Utility Views
@@ -282,34 +237,6 @@ enum BookmarkListConstants {
     static let headerPadding = 16.0
     static let headerTransitionOffset = 10.0
     static let multiSelectionBottomPadding = 70.0
-    static let searchFieldBottomPadding = 10.0
-}
-
-// Represents the current desired state for an externally presented action bar
-struct ExternalActionBarState {
-    let visible: Bool
-    let title: String?
-    let showEdit: Bool
-    let showShare: Bool
-    let isMultiSelecting: Bool
-}
-
-private extension BookmarksListView {
-    var externalState: ExternalActionBarState {
-        let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
-        let editVisible = viewModel.numberOfSelectedItems == 1
-        let shareVisible = viewModel.selectedItems.first?.episode is Episode
-        return ExternalActionBarState(visible: actionBarVisible,
-                                      title: actionBarVisible ? title : nil,
-                                      showEdit: actionBarVisible && editVisible,
-                                      showShare: actionBarVisible && editVisible && shareVisible,
-                                      isMultiSelecting: viewModel.isMultiSelecting)
-    }
-
-    func notifyExternalActionBar() {
-        guard useExternalActionBar else { return }
-        externalActionBarHandler?(externalState)
-    }
 }
 
 // MARK: - Previews

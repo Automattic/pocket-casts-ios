@@ -303,6 +303,8 @@
     <string>В режиме «Включено» таймер сна будет автоматически перезапущен, если вы воспроизведёте выпуск в течение 5 минут после последней остановки.</string>
     <key>back</key>
     <string>Назад</string>
+    <key>badge_new</key>
+    <string>Создать</string>
     <key>banner_ads_info_label</key>
     <string>Реклама</string>
     <key>banner_ads_remove_ads</key>
@@ -337,10 +339,26 @@
     <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Удалить закладки?</string>
+    <key>bookmark_details_title</key>
+    <string>Закладка</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Выберите отрывок расшифровки для этой закладки</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Изменить расшифровку</string>
     <key>bookmark_search_no_results_message</key>
     <string>Не удалось найти закладки по этому запросу.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Закладки не найдены</string>
+    <key>bookmark_suggested_title</key>
+    <string>Предлагаемый заголовок: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Предложение: </string>
+    <key>bookmark_title_label</key>
+    <string>Заголовок</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Добавление расшифровки...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Расшифровка записана</string>
     <key>bookmark_updated_notification</key>
     <string>Закладка «%1$@» обновлена</string>
     <key>bookmarks</key>
@@ -353,6 +371,14 @@
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов. Скоро станет доступно для подписчиков %2$@.</string>
     <key>bookmarks_locked_message</key>
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Оставьте нужную часть</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Добавить закладку</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Вы выбираете человека, а не резюме.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Комната для прослушивания</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -880,8 +906,6 @@ Pocket Casts Plus</string>
     <string>Скачанные файлы</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Вы уверены, что хотите удалить загруженные файлы?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>При отмене подписки все скачанные файлы этого подкаста будут удалены, продолжить?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>При отмене подписки все скачанные файлы этого подкаста будут удалены. Продолжить?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -947,6 +971,8 @@ Pocket Casts на полную мощность.</string>
     <string>Мы заметили, что вы не вошли в систему</string>
     <key>edit</key>
     <string>Править</string>
+    <key>edit_bookmark</key>
+    <string>Изменить закладку</string>
     <key>edit_clip</key>
     <string>Редактировать клип</string>
     <key>enable_it_now</key>
@@ -1514,10 +1540,6 @@ Pocket Casts на полную мощность.</string>
 4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
     <key>import_opml_from_url</key>
     <string>Импортируйте подкасты из файла OPML с помощью URL-адреса</string>
-    <key>import_podcasts_description</key>
-    <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
-
-Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Вы можете импортировать свои подкасты в Pocket Casts, воспользовавшись распространённым форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
@@ -1587,6 +1609,8 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуски не найдены</string>
     <key>loading</key>
     <string>Загрузка…</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Зарегистрироваться по адресу эл. почты</string>
     <key>login_landing_subtitle</key>
     <string>Ваши подкасты всегда будут синхронизированы. Защитите свою библиотеку и пользуйтесь Pocket Casts в Интернете и на ПК.</string>
     <key>login_landing_title</key>
@@ -1695,6 +1719,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удаление из избранного 1 выпуска</string>
     <key>name</key>
     <string>Название</string>
+    <key>network_fail_to_load</key>
+    <string>Эта сеть не может быть загружена</string>
     <key>new_email_address_prompt</key>
     <string>Новый адрес электронной почты</string>
     <key>new_episodes</key>
@@ -1712,7 +1738,9 @@ Pocket Casts на полную мощность.</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Пользуйтесь закладками</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Вы можете сохранять отметки времени важных моментов выпуска.</string>
+    <string>Одно касание. Название задано вместе с соответствующими словами.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Сохраните части, которые стоит хранить</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
     <key>no_bookmarks_title</key>
@@ -2111,6 +2139,10 @@ Pocket Casts на полную мощность.</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Таймер сна включен</string>
+    <key>player_action_hide_video</key>
+    <string>Скрыть видео</string>
+    <key>player_action_show_video</key>
+    <string>Показать видео</string>
     <key>player_action_subtitle_delete</key>
     <string>Показать как удаленный для настраиваемых выпусков</string>
     <key>player_action_subtitle_hidden</key>
@@ -2766,8 +2798,6 @@ Pocket Casts на полную мощность.</string>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Удалить 1 выпуск</string>
-    <key>queue_clear_queue</key>
-    <string>ОЧИСТИТЬ ОЧЕРЕДЬ</string>
     <key>queue_for_later</key>
     <string>Отложить</string>
     <key>queue_now_playing_accessibility</key>
@@ -2915,6 +2945,8 @@ Pocket Casts на полную мощность.</string>
     <string>Поиск в закладках</string>
     <key>search_episodes</key>
     <string>Поиск выпусков</string>
+    <key>search_filter_networks</key>
+    <string>Сети</string>
     <key>search_label</key>
     <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
@@ -3189,6 +3221,10 @@ Pocket Casts на полную мощность.</string>
     <string>Архивированные выпуски</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Хотите заменить все существующие подкасты на %1$@ архивированных выпусков?</string>
+    <key>settings_general_audio_only</key>
+    <string>Только аудио</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Если этот параметр включён, видеовыпуски будут воспроизводиться только в аудиоформате.</string>
     <key>settings_general_auto_open_player</key>
     <string>Открывать плеер автоматически</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3235,10 @@ Pocket Casts на полную мощность.</string>
     <string>ПО УМОЛЧАНИЮ</string>
     <key>settings_general_episode_groups</key>
     <string>Группирование выпусков подкаста</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Автоматическое оглавление</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Показывать автоматически сгенерированное оглавление, если оно имеется.</string>
     <key>settings_general_hide</key>
     <string>Скрыть</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3731,12 +3771,8 @@ Pocket Casts на полную мощность.</string>
     <string>Загружено</string>
     <key>stop_download</key>
     <string>Остановить скачивание</string>
-    <key>subscribe</key>
-    <string>Подписаться</string>
     <key>subscribe_all</key>
     <string>Подписаться на все</string>
-    <key>subscribed</key>
-    <string>Подписано</string>
     <key>subscription_cancelled</key>
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>
@@ -3845,6 +3881,8 @@ Pocket Casts на полную мощность.</string>
     <string>Вверх</string>
     <key>transcript</key>
     <string>Расшифровка</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Закладка</string>
     <key>transcript_error_empty</key>
     <string>Кажется, эта расшифровка пуста</string>
     <key>transcript_error_failed_to_load</key>
@@ -3932,6 +3970,14 @@ Pocket Casts на полную мощность.</string>
     <string>Вашим подкастам нужен свой дом</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Откройте камеру и наведите на этот QR-код.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Если появится запрос, введите код ниже</string>
+    <key>tv_create_account_step_create</key>
+    <string>Создайте учётную запись или войдите в систему</string>
+    <key>tv_create_account_step_login</key>
+    <string>Войдите в свою учётную запись</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Сканируйте QR-код или перейдите по ссылке %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Отсканируйте этот код, чтобы начать работу с телефона. Это займёт всего минуту.</string>
     <key>tv_create_account_title</key>
@@ -3946,6 +3992,8 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизвести последний выпуск</string>
     <key>tv_discover_play_episode</key>
     <string>Воспроизвести выпуск</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>Ошибка при загрузке</string>
     <key>tv_episode_archived</key>
     <string>Перенесено в архив</string>
     <key>tv_episode_info</key>
@@ -3976,6 +4024,8 @@ Pocket Casts на полную мощность.</string>
     <string>История прослушивания отсутствует</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Просмотр рубрик</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Ошибка при загрузке главной страницы</string>
     <key>tv_home_featured_section_title</key>
     <string>Популярное в Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4110,12 +4160,34 @@ Pocket Casts на полную мощность.</string>
     <string>Получение последних выпусков</string>
     <key>tv_search_failed</key>
     <string>Не удалось выполнить поиск: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Избранные</string>
     <key>tv_search_prompt</key>
     <string>Подкасты, шоу, авторы</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Лучшие результаты</string>
     <key>tv_search_searching</key>
     <string>Идёт поиск...</string>
     <key>tv_search_type_something</key>
     <string>Напишите что-нибудь...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Отсканируйте QR-код ниже или перейдите по URL-адресу на телефоне, чтобы открыть Политику конфиденциальности.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>Срок действия</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Следующее продление</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Подписка оформлена на другой платформе. Вы можете управлять подпиской на той платформе.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Тарифный план</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Цена</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>Недоступно</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Подписка</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Отсканируйте QR-код ниже или перейдите по URL-адресу на телефоне, чтобы открыть Условия использования.</string>
     <key>tv_sign_in_enter_code</key>
     <string>либо введите следующий код</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4160,6 +4232,8 @@ Pocket Casts на полную мощность.</string>
     <string>Пользователь/пароль</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR-код</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Вход в систему</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Имя пользователя</string>
     <key>tv_welcome_browse_without_account</key>

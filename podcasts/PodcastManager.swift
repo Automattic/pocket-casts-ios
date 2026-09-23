@@ -6,7 +6,7 @@ import PocketCastsUtils
 class PodcastManager: NSObject {
     private static let maxAutoDownloadSeperationTime = 12.hours
 
-    @objc static let shared = PodcastManager(dataManager: DataManager.sharedManager, downloadManager: DownloadManager.shared)
+    @objc static let shared = PodcastManager(dataManager: DataManager.shared, downloadManager: DownloadManager.shared)
 
     lazy var isoFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
@@ -188,6 +188,6 @@ class PodcastManager: NSObject {
         let archivedFilter = excludeArchive ? " AND archived = 0" : ""
         let query = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ?\(archivedFilter)"
 
-        return DataManager.sharedManager.count(query: query, values: [podcast.id])
+        return DataManager.shared.count(query: query, values: [podcast.id])
     }
 }

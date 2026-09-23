@@ -303,6 +303,8 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Quando ativado, o temporizador será reiniciado automaticamente se você reproduzir um episódio dentro de cinco minutos após a última pausa.</string>
     <key>back</key>
     <string>Voltar</string>
+    <key>badge_new</key>
+    <string>Novidade</string>
     <key>banner_ads_info_label</key>
     <string>ANÚNCIO</string>
     <key>banner_ads_remove_ads</key>
@@ -337,10 +339,26 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Tem certeza de que deseja excluir esses favoritos? Essa ação não pode ser desfeita.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Excluir favoritos?</string>
+    <key>bookmark_details_title</key>
+    <string>Marcar como favorito</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Selecione uma parte da transcrição para este favorito</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Editar transcrição</string>
     <key>bookmark_search_no_results_message</key>
     <string>Não encontramos nenhum favorito para essa pesquisa.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Nenhum favorito encontrado</string>
+    <key>bookmark_suggested_title</key>
+    <string>Título sugerido: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Sugestão: </string>
+    <key>bookmark_title_label</key>
+    <string>Título</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Adicionando transcrição…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcrição obtida</string>
     <key>bookmark_updated_notification</key>
     <string>Favorito "%1$@" atualizado</string>
     <key>bookmarks</key>
@@ -353,6 +371,14 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos. Disponível para assinantes %2$@ em breve.</string>
     <key>bookmarks_locked_message</key>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Guarde a parte que você quiser</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Adicionar favorito</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Você está escolhendo a pessoa, não o currículo.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Sala de audições</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>
@@ -880,8 +906,6 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Arquivos baixados</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Tem certeza de que deseja excluir esses arquivos baixados?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Cancelar a assinatura apagará todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Deixar de seguir excluirá todos os arquivos baixados deste podcast. Tem certeza?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -947,6 +971,8 @@ aproveitar o Pocket Casts ao máximo.</string>
     <string>Percebemos que você não fez login</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>edit_bookmark</key>
+    <string>Editar favorito</string>
     <key>edit_clip</key>
     <string>Editar clipe</string>
     <key>enable_it_now</key>
@@ -1514,10 +1540,6 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
     <key>import_opml_from_url</key>
     <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
-    <key>import_podcasts_description</key>
-    <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
-
-Observação: talvez seja preciso enviar um e-mail com o arquivo OPML para o seu próprio endereço. Toque e segure o anexo e escolha Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Você pode importar seus podcasts para o Pocket Casts usando o formato compatível OPML. Exporte o arquivo de outro app e o abra com o Pocket Casts.
 
@@ -1587,6 +1609,8 @@ podcasts com você</string>
     <string>Nenhum episódio encontrado</string>
     <key>loading</key>
     <string>Carregando...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Inscreva-se com e-mail</string>
     <key>login_landing_subtitle</key>
     <string>Seus podcasts sempre sincronizados. Mantenha sua biblioteca segura e aproveite o Pocket Casts na Web e no aplicativo para computador.</string>
     <key>login_landing_title</key>
@@ -1695,6 +1719,8 @@ podcasts com você</string>
     <string>Removendo 1 episódio dos favoritos.</string>
     <key>name</key>
     <string>Nome</string>
+    <key>network_fail_to_load</key>
+    <string>Não foi possível carregar esta rede</string>
     <key>new_email_address_prompt</key>
     <string>Novo endereço de e-mail</string>
     <key>new_episodes</key>
@@ -1712,7 +1738,9 @@ podcasts com você</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Buscar favoritos</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Você pode salvar a data/hora de momentos importantes em um episódio.</string>
+    <string>Basta um toque para dar um nome a ele, e as palavras faladas vêm junto.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Salve as partes que valem a pena guardar</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
     <key>no_bookmarks_title</key>
@@ -2111,6 +2139,10 @@ Isso que é compromisso!</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Temporizador ativado</string>
+    <key>player_action_hide_video</key>
+    <string>Ocultar vídeo</string>
+    <key>player_action_show_video</key>
+    <string>Mostrar vídeo</string>
     <key>player_action_subtitle_delete</key>
     <string>Exibido como Excluir para episódios personalizados</string>
     <key>player_action_subtitle_hidden</key>
@@ -2766,8 +2798,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Limpar %1$@ episódios</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Apagar 1 episódio</string>
-    <key>queue_clear_queue</key>
-    <string>LIMPAR FILA</string>
     <key>queue_for_later</key>
     <string>Adicionar à fila para mais tarde</string>
     <key>queue_now_playing_accessibility</key>
@@ -2915,6 +2945,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Pesquisar favoritos</string>
     <key>search_episodes</key>
     <string>Pesquisar episódios</string>
+    <key>search_filter_networks</key>
+    <string>Redes</string>
     <key>search_label</key>
     <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
@@ -3189,6 +3221,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Episódios arquivados</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Quer mudar todos os seus podcasts para %1$@ episódios arquivados?</string>
+    <key>settings_general_audio_only</key>
+    <string>Somente áudio</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Se esta opção estiver ativada, os episódios de vídeo serão reproduzidos apenas como áudio.</string>
     <key>settings_general_auto_open_player</key>
     <string>Abrir reprodutor automaticamente</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3235,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>PADRÃO</string>
     <key>settings_general_episode_groups</key>
     <string>Agrupamento de episódios do podcast</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Capítulos gerados</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Mostre capítulos gerados automaticamente quando disponíveis.</string>
     <key>settings_general_hide</key>
     <string>Ocultar</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3731,12 +3771,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Upload realizado</string>
     <key>stop_download</key>
     <string>Parar o download</string>
-    <key>subscribe</key>
-    <string>Assinar</string>
     <key>subscribe_all</key>
     <string>Assinar todos</string>
-    <key>subscribed</key>
-    <string>Assinado</string>
     <key>subscription_cancelled</key>
     <string>Assinatura cancelada</string>
     <key>subscription_cancelled_msg</key>
@@ -3845,6 +3881,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Topo da lista</string>
     <key>transcript</key>
     <string>Transcrição</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Marcar como favorito</string>
     <key>transcript_error_empty</key>
     <string>Esta transcrição parece estar vazia</string>
     <key>transcript_error_failed_to_load</key>
@@ -3932,6 +3970,14 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Seus podcasts merecem um lugar só deles</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Abra a câmera e aponte para este código QR.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Se solicitado, confirme o código abaixo</string>
+    <key>tv_create_account_step_create</key>
+    <string>Crie sua conta ou faça login</string>
+    <key>tv_create_account_step_login</key>
+    <string>Faça login na sua conta</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Leia o código QR ou acesse %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Leia este código para começar a ouvir no seu telefone. Leva apenas um minuto.</string>
     <key>tv_create_account_title</key>
@@ -3946,6 +3992,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Reproduzir o episódio mais recente</string>
     <key>tv_discover_play_episode</key>
     <string>Reproduzir episódio</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>Falha ao carregar</string>
     <key>tv_episode_archived</key>
     <string>Arquivado</string>
     <key>tv_episode_info</key>
@@ -3976,6 +4024,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Sem histórico de reprodução</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Procurar categorias</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Falha ao carregar a página inicial</string>
     <key>tv_home_featured_section_title</key>
     <string>Em destaque no Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4110,12 +4160,34 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Buscando episódios mais recentes</string>
     <key>tv_search_failed</key>
     <string>Falha na pesquisa: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Em destaque</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, programas e autores</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Principais resultados</string>
     <key>tv_search_searching</key>
     <string>Pesquisando...</string>
     <key>tv_search_type_something</key>
     <string>Digite algo...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Leia o código QR abaixo ou abra a URL no seu telefone para acessar a Política de privacidade.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>Vitalícia</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Próxima renovação</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Esta assinatura foi feita em outra plataforma. Use-a para gerenciar a assinatura.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Plano</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Preço</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>Indisponível</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Assinatura</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Leia o código QR abaixo ou abra a URL no seu telefone para acessar os Termos de uso.</string>
     <key>tv_sign_in_enter_code</key>
     <string>ou insira o código a seguir</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4160,6 +4232,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Usuário/senha</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Fazendo login</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nome de usuário</string>
     <key>tv_welcome_browse_without_account</key>

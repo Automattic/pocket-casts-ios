@@ -7,9 +7,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 
-    private let soundOff = 0
-
-    private var sections: [Section] = [.episodes]
     private var rows: [[Row]] = [[.newEpisodes, .podcastsChosen, .appBadges], [.trendingRecommendations, .dailyReminders], [.newFeaturesAndTips, .pocketCastsOffers]]
 
     private var notificationsDenied = false
@@ -166,7 +163,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         switch row {
         case .podcastsChosen:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
+            let podcastsSelected = DataManager.shared.pushEnabledPodcastsCount()
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
             cell.cellLabel.text = (podcastsSelected == 0) ? L10n.filterChoosePodcasts : chosenPodcasts
             cell.cellSecondaryLabel.text = nil
@@ -208,7 +205,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 podcastChooserController?.analyticsSource = .notifications
                 if let podcastsController = podcastChooserController {
                     podcastsController.delegate = self
-                    let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                    let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
                     podcastsController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
                     navigationController?.pushViewController(podcastsController, animated: true)
                 }
@@ -250,7 +247,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
     @objc func podcastUpdated(_ notification: Notification) {
         guard let podcastChooserController else { return }
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         podcastChooserController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
         podcastChooserController.selectedUuidsUpdated = true
     }
@@ -258,18 +255,18 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     // MARK: - PodcastSelectionDelegate
 
     func bulkSelectionChange(selected: Bool) {
-        DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: selected)
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        DataManager.shared.setPushForAllPodcasts(pushEnabled: selected)
+        let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         allPodcasts.forEach { NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: $0.uuid) }
     }
 
     func podcastSelected(podcast: String) {
-        DataManager.sharedManager.savePushSetting(podcastUuid: podcast, pushEnabled: true)
+        DataManager.shared.savePushSetting(podcastUuid: podcast, pushEnabled: true)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
     func podcastUnselected(podcast: String) {
-        DataManager.sharedManager.savePushSetting(podcastUuid: podcast, pushEnabled: false)
+        DataManager.shared.savePushSetting(podcastUuid: podcast, pushEnabled: false)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 

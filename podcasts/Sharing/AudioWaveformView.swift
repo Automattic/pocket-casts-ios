@@ -19,15 +19,6 @@ struct AudioWaveformView: View {
             case .tallest: return 0.5
             }
         }
-
-        /// Determines how when each line type begins fading
-        var fadeStartScale: CGFloat {
-            switch self {
-            case .shortest: return 1.8
-            case .medium: return 0.5
-            case .tallest: return 0.5
-            }
-        }
     }
 
     var body: some View {
@@ -60,10 +51,6 @@ struct AudioWaveformView: View {
         baseLineSpacing
     }
 
-    private var lineCount: Int {
-        Int(width / (lineWidth + lineSpacing))
-    }
-
     private func getLineHeight(for index: Int) -> LineHeight {
         switch index % 20 {
         case 0:
@@ -72,19 +59,6 @@ struct AudioWaveformView: View {
             return .medium
         default:
             return .shortest
-        }
-    }
-
-    private func lineBar(for index: Int, viewHeight: CGFloat) -> some View {
-        let lineHeight = getLineHeight(for: index)
-        let barHeight = viewHeight * lineHeight.fraction
-
-        return VStack {
-            Spacer()
-            Rectangle()
-                .fill(Color.gray)
-                .frame(width: lineWidth, height: barHeight)
-            Spacer()
         }
     }
 }

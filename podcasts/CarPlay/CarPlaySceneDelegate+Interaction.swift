@@ -12,7 +12,7 @@ extension CarPlaySceneDelegate {
 
     func filterTapped(_ filter: EpisodeFilter) {
         pushEpisodeList(title: filter.playlistName, emptyTitle: L10n.episodeFilterNoEpisodesTitle, showArtwork: true, playlist: .filter(uuid: filter.uuid)) { () -> [BaseEpisode] in
-            return DataManager.sharedManager.playlistEpisodes(for: filter, limit: Constants.Limits.maxCarplayItems)
+            return DataManager.shared.playlistEpisodes(for: filter, limit: Constants.Limits.maxCarplayItems)
         }
     }
 
@@ -21,13 +21,13 @@ extension CarPlaySceneDelegate {
             var query = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: nil, completion: nil).createEpisodesQuery()
             query += " LIMIT \(Constants.Limits.maxCarplayItems)"
 
-            return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+            return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
     func folderTapped(_ folder: Folder) {
         pushPodcastList(title: folder.name, emptyTitle: L10n.folderEmptyTitle) {
-            DataManager.sharedManager.allPodcastsInFolder(folder: folder)
+            DataManager.shared.allPodcastsInFolder(folder: folder)
         }
     }
 
@@ -43,7 +43,7 @@ extension CarPlaySceneDelegate {
         guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
 
         // If the episode is the currently playing one but isn't actively being played, then start playing it
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.play()
             return
         }
@@ -58,14 +58,14 @@ extension CarPlaySceneDelegate {
     func listeningHistoryTapped() {
         pushEpisodeList(title: L10n.listeningHistory, emptyTitle: L10n.watchNoPodcasts, showArtwork: true, playlist: nil) { () -> [BaseEpisode] in
             let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(Constants.Limits.maxCarplayItems)"
-            return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+            return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
     func filesTapped() {
         pushEpisodeList(title: L10n.files, emptyTitle: L10n.fileUploadNoFilesTitle, showArtwork: true, playlist: .files) { () -> [BaseEpisode] in
             let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
-            return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
+            return DataManager.shared.allUserEpisodes(sortedBy: sortBy)
         }
     }
 
@@ -100,7 +100,7 @@ extension CarPlaySceneDelegate {
     }
 
     func speedTapped() {
-        let currentSpeed = PlaybackManager.shared.effects().playbackSpeed
+        let currentSpeed = PlaybackManager.shared.effects.playbackSpeed
 
         var speedItems = [CPListItem]()
         addSpeed(0.5, to: &speedItems, currentSpeed: currentSpeed)
@@ -127,7 +127,7 @@ extension CarPlaySceneDelegate {
         item.playingIndicatorLocation = .trailing
         item.isPlaying = (speed == currentSpeed)
         item.handler = { [weak self] _, completion in
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.playbackSpeed = speed
             PlaybackManager.shared.changeEffects(effects)
 

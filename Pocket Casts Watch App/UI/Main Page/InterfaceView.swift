@@ -24,6 +24,17 @@ struct InterfaceView: View {
             return self.rawValue
         }
         case nowPlaying, upNext, podcasts, filters, downloads, files
+
+        var interfaceType: WatchInterfaceType {
+            switch self {
+            case .nowPlaying: .nowPlaying
+            case .upNext: .upnext
+            case .podcasts: .podcasts
+            case .filters: .filterList
+            case .downloads: .downloads
+            case .files: .files
+            }
+        }
     }
     private static var watchRows: [Row] = [.nowPlaying, .upNext, .podcasts, .filters, .downloads, .files]
     private static var phoneRows: [Row] = [.nowPlaying, .upNext, .filters, .downloads, .files]
@@ -40,36 +51,68 @@ struct InterfaceView: View {
     var body: some View {
         List {
             ForEach(rowList) { row in
-                switch row {
-                case .downloads:
-                    NavigationLink(destination: DownloadListView(), tag: WatchInterfaceType.downloads.indexPosition, selection: $navigationModel.currentInterface) {
+                link(to: row.interfaceType) {
+                    switch row {
+                    case .downloads:
                         MenuRow(label: L10n.downloads, icon: "filter_downloaded", count: $downloadsViewModel.downloadedCount)
-                    }
-                case .podcasts:
-                    NavigationLink(destination: PodcastsListView(), tag: WatchInterfaceType.podcasts.indexPosition, selection: $navigationModel.currentInterface) {
+                    case .podcasts:
                         MenuRow(label: L10n.podcastsPlural, icon: "podcasts")
-                    }
-                case .files:
-                    NavigationLink(destination: FilesListView(), tag: WatchInterfaceType.files.indexPosition, selection: $navigationModel.currentInterface) {
+                    case .files:
                         MenuRow(label: L10n.files, icon: "file")
-                    }
-                case .upNext:
-                    NavigationLink(destination: UpNextView(), tag: WatchInterfaceType.upnext.indexPosition, selection: $navigationModel.currentInterface) {
+                    case .upNext:
                         MenuRow(label: L10n.upNext, icon: "upnext", count: $upNextViewModel.upNextCount)
-                    }
-                case .filters:
-                    NavigationLink(destination: PlaylistsListView(), tag: WatchInterfaceType.filterList.indexPosition, selection: $navigationModel.currentInterface) {
+                    case .filters:
                         MenuRow(label: L10n.playlists, icon: "filters")
-                    }
-                case .nowPlaying:
-                    NavigationLink(destination: NowPlayingContainerView(), tag: WatchInterfaceType.nowPlaying.indexPosition, selection: $navigationModel.currentInterface) {
+                    case .nowPlaying:
                         NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle)
+                            .padding(.horizontal, -4)
                     }
                 }
             }
         }
+        .navigationDestination(item: presentedInterface) { type in
+            destination(for: type)
+        }
         .restorable(.interface)
         .navigationTitle(title)
+    }
+
+    private var presentedInterface: Binding<WatchInterfaceType?> {
+        Binding {
+            navigationModel.currentInterface.flatMap { type in
+                rowList.contains { $0.interfaceType == type } ? type : nil
+            }
+        } set: {
+            navigationModel.currentInterface = $0
+        }
+    }
+
+    private func link(to type: WatchInterfaceType, @ViewBuilder label: () -> some View) -> some View {
+        Button {
+            navigationModel.currentInterface = type
+        } label: {
+            label()
+        }
+    }
+
+    @ViewBuilder
+    private func destination(for type: WatchInterfaceType) -> some View {
+        switch type {
+        case .downloads:
+            DownloadListView()
+        case .podcasts:
+            PodcastsListView()
+        case .files:
+            FilesListView()
+        case .upnext:
+            UpNextView()
+        case .filterList:
+            PlaylistsListView()
+        case .nowPlaying:
+            NowPlayingContainerView()
+        case .unknown, .effects, .episodeDetails, .filter, .interface:
+            EmptyView()
+        }
     }
 }
 

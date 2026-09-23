@@ -14,18 +14,6 @@ extension EpisodeFilter {
         return EpisodeFilter.imageForPlaylistIcon(icon: icon)
     }
 
-    func iconImageLarge() -> UIImage? {
-        guard let iconName = iconImageNameLarge() else { return nil }
-
-        return UIImage(named: iconName)
-    }
-
-    func iconImageNameLarge() -> String? {
-        guard let regularName = iconImageName() else { return nil }
-
-        return "\(regularName)_large"
-    }
-
     func iconImageName() -> String? {
         guard let icon = PlaylistIcon(rawValue: customIcon) else { return nil }
 
@@ -34,7 +22,7 @@ extension EpisodeFilter {
 
     #if !os(watchOS) && !APPCLIP && !os(tvOS)
     @MainActor func grid() -> UIImage {
-        let episodes = DataManager.sharedManager.playlistEpisodes(for: self)
+        let episodes = DataManager.shared.playlistEpisodes(for: self)
 
         let items = PlaylistCellViewModel.gridArtworkItems(from: episodes, limit: 4) { $0.podcastUuid }
 
@@ -46,7 +34,7 @@ extension EpisodeFilter {
 
     private func carPlayPreviewTheme() -> Theme.ThemeType {
         guard let interfaceStyle = CarPlayImageHelper.carTraitCollection?.userInterfaceStyle else {
-            return Theme.sharedTheme.activeTheme
+            return Theme.shared.activeTheme
         }
 
         switch interfaceStyle {
@@ -55,7 +43,7 @@ extension EpisodeFilter {
         case .light:
             return .light
         default:
-            return Theme.sharedTheme.activeTheme
+            return Theme.shared.activeTheme
         }
     }
     #endif
@@ -116,7 +104,7 @@ extension EpisodeFilter {
     }
 
     func episodeUuidToAddToQueries() -> String? {
-        if let playingEpisode = PlaybackManager.shared.currentEpisode(), PlaybackManager.shared.uuidOfPlayingList == uuid {
+        if let playingEpisode = PlaybackManager.shared.currentEpisode, PlaybackManager.shared.uuidOfPlayingList == uuid {
             return playingEpisode.uuid
         }
 

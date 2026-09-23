@@ -10,12 +10,6 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
 
     private var convertedRatings = [UserPodcastRating]()
 
-    private lazy var addRatingGroup: DispatchGroup = {
-        let dispatchGroup = DispatchGroup()
-
-        return dispatchGroup
-    }()
-
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/podcast_rating/list"
 
@@ -39,7 +33,7 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
                 UserPodcastRating(podcastRating: rating.podcastRating, podcastUuid: rating.podcastUuid, modifiedAt: rating.modifiedAt.date)
             }
 
-            DataManager.sharedManager.ratings.ratings = convertedRatings
+            DataManager.shared.ratings.ratings = convertedRatings
 
             success = true
 

@@ -2,7 +2,9 @@ import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
 
+@MainActor
 enum SharingModal {
 
     /// Share options including which type of content will be shared
@@ -87,7 +89,7 @@ enum SharingModal {
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
         let timeInterval: Double
-        if PlaybackManager.shared.currentEpisode()?.uuid == episode?.uuid {
+        if PlaybackManager.shared.currentEpisode?.uuid == episode?.uuid {
             timeInterval = PlaybackManager.shared.currentTime()
         } else {
             timeInterval = episode?.playedUpTo ?? 0
@@ -186,7 +188,7 @@ extension SharingModal.Option {
             Color(uiColor: ColorManager.lightThemeTintForPodcast(podcast)),
             Color(uiColor: UIColor.calculateColor(orgColor: UIColor.black, overlayColor: ColorManager.lightThemeTintForPodcast(podcast).withAlphaComponent(0.8))),
         ])
-        let artwork = episodeArtworkUrl ?? ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
+        let artwork = episodeArtworkUrl ?? ImageManager.shared.podcastUrl(imageSize: .page, uuid: podcast.uuid)
         let imageInfo = ShareImageInfo(name: name ?? "",
                                        title: title ?? "",
                                        description: description ?? "",

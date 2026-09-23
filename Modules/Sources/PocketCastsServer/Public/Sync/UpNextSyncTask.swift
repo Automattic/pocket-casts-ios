@@ -126,7 +126,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         // up next queue and attempt to merge the changes later in the "applyServerChanges" call.
         if SyncManager.syncReason != .login {
             // replace action
-            if let replaceAction = DataManager.sharedManager.findReplaceAction() {
+            if let replaceAction = DataManager.shared.findReplaceAction() {
                 if replaceAction.utcTime > latestActionTime {
                     latestActionTime = replaceAction.utcTime
                 }
@@ -136,7 +136,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
             }
 
             // all other add/remove actions
-            let actions = DataManager.sharedManager.findUpdateActions()
+            let actions = DataManager.shared.findUpdateActions()
             if !actions.isEmpty {
                 for action in actions {
                     if action.utcTime > latestActionTime {
@@ -185,7 +185,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         // To ensure that the device's local copy of the queue is maintained, we ignore the incoming remote data and instead
         // save our local copy and then send it back to the server.
         let reason = SyncManager.syncReason
-        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
+        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
             FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync of a new account, saving that as the most current version and overwriting server copy")
 
@@ -214,12 +214,12 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
             }
         }
 
-        DataManager.sharedManager.snapshotUpNext()
+        DataManager.shared.snapshotUpNext()
 
         let modifiedList = addPlayingEpisode(list: episodes)
         FileLog.shared.addMessage("UpNextSyncTask: server sent \(episodes.count) episodes, we have \(modifiedList.count), making changes")
 
-        let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode()
+        let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode
         var uuids = [String]()
         if !modifiedList.isEmpty {
             for (index, episodeInfo) in modifiedList.enumerated() {
@@ -227,13 +227,13 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
                 // if the episode exists in the queue already
                 // move it to a new position if it's not already there
-                if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episodeInfo.uuid) {
+                if let existingEpisode = DataManager.shared.findPlaylistEpisode(uuid: episodeInfo.uuid) {
                     FileLog.shared.addMessage("UpNextSyncTask: Found episode \(episodeInfo.uuid) in the queue already at position \(existingEpisode.episodePosition)")
 
                     if existingEpisode.episodePosition != Int32(index) {
                         FileLog.shared.addMessage("UpNextSyncTask: Moving existing episode \(episodeInfo.uuid) from \(existingEpisode.episodePosition) to \(index)")
                         existingEpisode.episodePosition = Int32(index)
-                        DataManager.sharedManager.save(playlistEpisode: existingEpisode)
+                        DataManager.shared.save(playlistEpisode: existingEpisode)
                     }
                 } else {
                     FileLog.shared.addMessage("UpNextSyncTask: Incoming episode not found \(episodeInfo.uuid) in the devices queue.")
@@ -246,7 +246,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
                     // The code below adds each missing episode to the queue using one of 3 checks:
 
                     // 1. If the new episode exists in the local database already, then just add it to the queue
-                    if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
+                    if let localEpisode = DataManager.shared.findBaseEpisode(uuid: episodeInfo.uuid) {
                         FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
                         // The server may carry the HLS stream in the episode's alternate enclosures; pick it
                         // up here so synced episodes can stream HLS without waiting for a full feed refresh.
@@ -254,7 +254,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
-                        DataManager.sharedManager.save(playlistEpisode: newEpisode)
+                        DataManager.shared.save(playlistEpisode: newEpisode)
                     }
                     // 2. If the episode is a custom episode..
                     else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
@@ -263,7 +263,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
                         // handle this here by adding it to our Up Next
                         newEpisode.podcastUuid = DataConstants.userEpisodeFakePodcastId
                         newEpisode.title = episodeInfo.title
-                        DataManager.sharedManager.save(playlistEpisode: newEpisode)
+                        DataManager.shared.save(playlistEpisode: newEpisode)
                     }
                     // 3. The episode is not in the local database, and is not custom so it will attempt to retrieve the episode from
                     // the server. And will only add the episode if that succeeds.
@@ -281,7 +281,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
 
                                 newEpisode.podcastUuid = episodeInfo.podcast
                                 newEpisode.title = episodeInfo.title
-                                DataManager.sharedManager.save(playlistEpisode: newEpisode)
+                                DataManager.shared.save(playlistEpisode: newEpisode)
                             } else {
                                 FileLog.shared.addMessage("UpNextSyncTask [EpisodeServerFetch]: Episode (UUID: \(episodeInfo.uuid) - Title: \(episodeInfo.title)) NOT FOUND. It will not be added to the queue")
                             }
@@ -358,7 +358,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         }
 
         // Remove any episodes that no longer need to be in the queue.
-        DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
+        DataManager.shared.deleteAllUpNextEpisodesNotIn(uuids: uuids)
 
         // Apply the new changes if needed.
         if didMerge {
@@ -372,7 +372,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
-        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
+        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isCurrentEpisode(uuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         } else if episodePlayingBeforeChanges == nil, !modifiedList.isEmpty {
@@ -385,9 +385,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     private func addPlayingEpisode(list: [Api_UpNextResponse.EpisodeResponse]) -> [Api_UpNextResponse.EpisodeResponse] {
-        guard let isPlaying = ServerConfig.shared.playbackDelegate?.playing(), isPlaying == true else { return list }
+        guard ServerConfig.shared.playbackDelegate?.isPlaying == true else { return list }
 
-        guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode() else { return list }
+        guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode else { return list }
 
         // check it isn't already the top episode
         if let firstEpisode = list.first, firstEpisode.uuid == playingEpisode.uuid { return list }
@@ -412,7 +412,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     private func clearSyncedData(latestActionTime: Int64) {
-        DataManager.sharedManager.deleteChangesOlderThan(utcTime: latestActionTime)
+        DataManager.shared.deleteChangesOlderThan(utcTime: latestActionTime)
     }
 
     /// Populates an episode's `hlsUrl` from the alternate enclosures in an Up Next sync response.
@@ -429,7 +429,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
             return
         }
         episode.hlsUrl = hlsUrl
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
     }
 
     private func convertToProto(action: UpNextChanges) -> Api_UpNextChanges.Change? {
@@ -443,7 +443,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
             let uuidArr = uuids.components(separatedBy: ",")
             var episodes = [Api_UpNextEpisodeRequest]()
             for uuid in uuidArr {
-                if let episode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let episode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     var episodeInfo = Api_UpNextEpisodeRequest()
                     episodeInfo.title = episode.displayableTitle()
                     episodeInfo.url = episode.downloadUrl ?? ""
@@ -469,7 +469,7 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         change.action = action.type
         change.modified = action.utcTime
 
-        if let episode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+        if let episode = DataManager.shared.findBaseEpisode(uuid: uuid) {
             change.title = episode.displayableTitle()
             if episode is Episode, let url = episode.downloadUrl {
                 change.url = url

@@ -11,11 +11,27 @@ enum BookmarkAnalyticsSource: String, AnalyticsDescribable {
     case headphones
     case whatsNew = "whats_new"
 
+    /// Created from a passage the user selected in the transcript
+    case transcript
+
     case unknown
 
     var analyticsDescription: String {
         rawValue
     }
+}
+
+// MARK: - Smart Bookmarks
+
+/// Which of the two paths generated a bookmark's title and passage.
+///
+/// Bookmarks made with a headphone button, in CarPlay, or with the app backgrounded never
+/// open the edit sheet, so the two paths have to be measurable apart.
+enum BookmarkEnrichmentTrigger: String, AnalyticsDescribable {
+    case editSheet = "edit_sheet"
+    case background
+
+    var analyticsDescription: String { rawValue }
 }
 
 extension BookmarkSortOption: AnalyticsDescribable {

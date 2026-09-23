@@ -68,6 +68,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
             Text(L10n.tvPodcastsEmptySubtitle)
         } actions: {
             Button(L10n.tvPodcastsEmptyActionTitle) {
+                Analytics.track(.podcastsListDiscoverButtonTapped)
                 tabRouter.selectedTab = .home
             }
         }
@@ -86,6 +87,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .focusedCardDepth(cornerRadius: 12, style: .surface)
                     }
                     .buttonStyle(.card)
+                    .accessibilityLabel(podcast.title ?? "")
                     .simultaneousGesture(TapGesture().onEnded {
                         Analytics.track(.podcastsListPodcastTapped)
                     })

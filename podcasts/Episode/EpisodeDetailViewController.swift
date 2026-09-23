@@ -119,8 +119,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var messageView: RoundedBorderView! {
         didSet {
-            messageView.getBorderColor = { AppTheme.episodeMessageBorderColor(for: self.themeOverride) }
-            messageView.getBgColor = { AppTheme.episodeMessageBackgroundColor(for: self.themeOverride) }
+            messageView.getBorderColor = { [weak self] in AppTheme.episodeMessageBorderColor(for: self?.themeOverride) }
+            messageView.getBgColor = { [weak self] in AppTheme.episodeMessageBackgroundColor(for: self?.themeOverride) }
         }
     }
 
@@ -181,8 +181,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil, timestamp: TimeInterval? = nil) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
-        podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
+        episode = DataManager.shared.findEpisode(uuid: episodeUuid)!
+        podcast = DataManager.shared.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
         viewSource = source
         fromPlaylist = playlist
         self.timestamp = timestamp
@@ -190,7 +190,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
+        episode = DataManager.shared.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
         self.podcast = podcast
         viewSource = source
         fromPlaylist = playlist
@@ -221,6 +221,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: EpisodeDetailViewController, _) in
+            controller.updateSize()
+        }
 
         addBookmarksTabIfNeeded()
 
@@ -392,7 +396,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     private func performUpdateDisplayedData(reloadingEpisode: Bool = true) {
         if reloadingEpisode {
-            guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
+            guard let updatedEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) else { return }
             episode = updatedEpisode
         }
 
@@ -403,7 +407,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 downloadBtn.setTitle(L10n.cancel, for: .normal)
                 downloadIndicator.progress = 1
                 downloadIndicator.color = ThemeColor.secondaryIcon01(for: themeOverride)
-            } else if let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) {
+            } else if let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) {
                 downloadBtn.setTitle(progress.percentageProgressAsString(), for: .normal)
                 downloadIndicator.progress = CGFloat(progress.progress())
             } else {
@@ -418,7 +422,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         podcastName.text = podcast.title
         updateArtwork()
 
-        episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
+        episodeInfo.text = DateFormatHelper.shared.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
         updateStar()
 
@@ -481,7 +485,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         showNotesWebView.backgroundColor = bgColor
         view.backgroundColor = bgColor
 
-        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme()) ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        let podcastColor = (themeOverride?.isDark ?? Theme.isDarkTheme) ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
         podcastName.textColor = ThemeColor.podcastText02(podcastColor: podcastColor, for: themeOverride)
         episodeChevron.tintColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)
         progressView.backgroundColor = ThemeColor.podcastIcon02(podcastColor: podcastColor, for: themeOverride)
@@ -504,7 +508,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         messageIcon.tintColor = primaryText02
 
-        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.sharedTheme.activeTheme) {
+        if lastThemeRenderedNotesIn != (themeOverride ?? Theme.shared.activeTheme) {
             renderShowNotes()
         }
 
@@ -528,7 +532,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
 
         dismiss(animated: true) {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
     }
 
@@ -542,14 +546,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     func documentInteractionControllerDidDismissOpenInMenu(_ controller: UIDocumentInteractionController) {
         docController = nil
-    }
-
-    private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
-        let shareTime = sharePosition ? episode.playedUpTo : 0
-
-        let type = shareTime == 0 ? "episode" : "current_position"
-
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
     }
 
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
@@ -782,6 +778,7 @@ private extension EpisodeDetailViewController {
 }
 
 enum EpisodeDetailViewSource: String, AnalyticsDescribable {
+    case bookmarks
     case discover
     case downloads
     case listeningHistory = "listening_history"
@@ -809,11 +806,5 @@ extension EpisodeDetailViewController {
         let iconSize = max(24, metric.scaledValue(for: 24))
         messageIcon.updateSizeConstraints(to: iconSize)
         downloadIndicator.updateSizeConstraints(to: iconSize)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

@@ -6,6 +6,8 @@
 env:
   IMAGE_ID: $IMAGE_ID
 
+priority: 1
+
 steps:
   - label: "🚂 New Hotfix Release"
     command: |
@@ -14,8 +16,6 @@ steps:
 
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
-
-      .buildkite/commands/install-secrets.sh
 
       echo '--- 🚀 New Hotfix Release'
       bundle exec fastlane new_hotfix_release version:"$RELEASE_VERSION" skip_confirm:true

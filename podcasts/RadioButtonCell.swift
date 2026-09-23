@@ -32,11 +32,11 @@ class RadioButtonCell: ThemeableCell {
         roundView.backgroundColor = color
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: RadioButtonCell, _) in
+            view.updateSize()
         }
     }
 

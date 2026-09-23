@@ -43,6 +43,7 @@ extension ServerPodcastManager {
         if let author = podcastJson["author"] as? String {
             podcast.author = author
         }
+        podcast.networkListId = Podcast.networkListId(fromPodcastJson: podcastJson)
         if let url = podcastJson["url"] as? String {
             podcast.podcastUrl = url
         }
@@ -78,16 +79,16 @@ extension ServerPodcastManager {
         if let isPrivate = podcastJson["is_private"] as? Bool {
             podcast.isPrivate = isPrivate
         }
-        if let isExplicit = podcastJson["explicit"] as? Bool, isExplicit {
-            podcast.isExplicit = true
-        } else if let isExplicit = podcastJson["explicit"] as? Int, isExplicit > 0 {
-            podcast.isExplicit = true
+        if let isExplicit = podcastJson["explicit"] as? Bool {
+            podcast.isExplicit = isExplicit
+        } else if let isExplicit = podcastJson["explicit"] as? Int {
+            podcast.isExplicit = isExplicit > 0
         }
         if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
             podcast.fundingURL = url
         }
 
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
         var latestEpisodeWasMissing: Bool?
 
@@ -99,7 +100,7 @@ extension ServerPodcastManager {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
 
             // for existing episodes, update the fields we want to pick up when they change
-            if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: uuid) {
+            if let existingEpisode = DataManager.shared.findEpisode(uuid: uuid) {
                 var episodeChanged = false
                 if let title = episodeJson["title"] as? String, existingEpisode.title != title {
                     existingEpisode.title = title
@@ -138,7 +139,7 @@ extension ServerPodcastManager {
                 }
 
                 if episodeChanged {
-                    DataManager.sharedManager.save(episode: existingEpisode)
+                    DataManager.shared.save(episode: existingEpisode)
                 }
 
                 if latestEpisodeWasMissing == true {
@@ -205,7 +206,7 @@ extension ServerPodcastManager {
 
             episode.hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
 
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
         }
 
         if !podcast.isSubscribed() {
@@ -233,7 +234,7 @@ extension ServerPodcastManager {
 
         podcast.latestEpisodeDate = latestEpisode.publishedDate
         podcast.latestEpisodeUuid = latestEpisode.uuid
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisodes: latestEpisodes, autoDownload: autoDownloadLimit > 0)
@@ -245,8 +246,8 @@ extension ServerPodcastManager {
         let autoDownloadQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1 AND autoDownloadSetting = 1"
         let totalQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1"
 
-        let autoDownloadCount = DataManager.sharedManager.count(query: autoDownloadQuery, values: nil)
-        let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
+        let autoDownloadCount = DataManager.shared.count(query: autoDownloadQuery, values: nil)
+        let totalCount = (DataManager.shared.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         let shouldTriggerAutoDownload: Bool
         if FeatureFlag.autoDownloadOnSubscribe.enabled {
             shouldTriggerAutoDownload = autoDownload
@@ -265,8 +266,8 @@ extension ServerPodcastManager {
         podcast.episodeGrouping = (podcast.episodeGrouping == PodcastGrouping.none.rawValue) ?  ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0 : podcast.episodeGrouping
         podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
 
-        DataManager.sharedManager.save(podcast: podcast)
-        DataManager.sharedManager.setPushDefaultForNewPodcast(podcast)
+        DataManager.shared.save(podcast: podcast)
+        DataManager.shared.setPushDefaultForNewPodcast(podcast)
         #if !os(watchOS)
         if let latestEpisode = latestEpisodes.first {
                 MetadataUpdater.shared.updatedMetadata(episodeUuid: latestEpisode.uuid)
@@ -282,7 +283,7 @@ extension ServerPodcastManager {
         let inStr = serverUuids.joined(separator: ",")
         let playlistTable = DataManager.playlistEpisodeTableName
         let customWhere = "podcast_id == ? AND uuid NOT IN (\(inStr)) AND uuid NOT IN (SELECT episodeUuid FROM \(playlistTable) WHERE wasDeleted = 0 AND playlist_uuid IS NOT NULL)"
-        let nonServerEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: customWhere, arguments: [podcast.id])
+        let nonServerEpisodes = DataManager.shared.findEpisodesWhere(customWhere: customWhere, arguments: [podcast.id])
         for episode in nonServerEpisodes {
             guard ServerConfig.shared.syncDelegate?.episodeCanBeCleanedUp(episode: episode) == true else { continue }
 
@@ -290,7 +291,7 @@ extension ServerPodcastManager {
             if let publishedDate = episode.publishedDate, fabs(publishedDate.timeIntervalSinceNow) < ServerConstants.Values.oldEpisodeCutoff { continue }
 
             // this is an old episode we can safely blow away
-            DataManager.sharedManager.delete(episodeUuid: episode.uuid)
+            DataManager.shared.delete(episodeUuid: episode.uuid)
         }
     }
 }

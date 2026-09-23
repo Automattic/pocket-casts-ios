@@ -10,7 +10,9 @@ extension DownloadManager {
         func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask) {
             if task.sessionIdentifier == DownloadManager.cellBackgroundSessionId {
                 // If there was a previous task for the same identifier let's set it to complete
-                pendingWatchBackgroundTask?.setTaskCompletedWithSnapshot(false)
+                if let pendingWatchBackgroundTask, pendingWatchBackgroundTask !== task {
+                    pendingWatchBackgroundTask.setTaskCompletedWithSnapshot(false)
+                }
                 pendingWatchBackgroundTask = task
             } else {
                 task.setTaskCompletedWithSnapshot(true)
@@ -73,7 +75,7 @@ extension DownloadManager {
         if episodeUuids.isEmpty { return }
 
         for episodeUuid in episodeUuids {
-            guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }
+            guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { continue }
 
             let downloadStatus: DownloadStatus = episode.downloaded(pathFinder: self) ? .downloaded : .notDownloaded
             dataManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: nil, episode: episode)

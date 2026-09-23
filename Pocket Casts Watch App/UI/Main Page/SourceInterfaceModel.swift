@@ -127,7 +127,7 @@ class SourceInterfaceModel: ObservableObject {
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
-        let watchCurrentEpisode = PlaybackManager.shared.currentEpisode()
+        let watchCurrentEpisode = PlaybackManager.shared.currentEpisode
         let phoneCurrentEpisode = WatchDataManager.playingEpisode()
         if watchCurrentEpisode?.uuid == phoneCurrentEpisode?.uuid {
             if watchCurrentEpisode?.playedUpTo == phoneCurrentEpisode?.playedUpTo {

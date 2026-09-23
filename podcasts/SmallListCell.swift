@@ -16,8 +16,8 @@ class SmallListCell: ThemeableCollectionCell {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
 
-            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
-            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.follow
+            subscribeButton.onAccessibilityLabel = L10n.unfollow
         }
     }
 
@@ -49,6 +49,10 @@ class SmallListCell: ThemeableCollectionCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SmallListCell, _) in
+            view.updateSize()
+        }
     }
 
     func setSelectedState(_ selected: Bool) {
@@ -85,7 +89,7 @@ class SmallListCell: ThemeableCollectionCell {
         discoverPodcast = info
         podcastImage.accessibilityLabel = discoverPodcast?.title?.localized
         if let headerUuid = info.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: headerUuid) {
                 subscribeButton.currentlyOn = true
             } else {
                 subscribeButton.currentlyOn = false
@@ -143,13 +147,5 @@ class SmallListCell: ThemeableCollectionCell {
         podcastImage.updateSizeConstraints(to: max(48, metric.scaledValue(for: 48)))
 
         subscribeButton.updateSizeConstraints(to: max(44, metric.scaledValue(for: 44)))
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

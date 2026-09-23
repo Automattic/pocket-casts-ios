@@ -75,6 +75,17 @@ steps:
         agents:
           queue: mac
 
+      - label: ":fastlane: fastlane Helper Tests"
+        if: ${RUN_FASTLANE_TESTS:-false}
+        command: ruby fastlane/test/helpers_test.rb
+        agents:
+          queue: default
+        plugins:
+          - docker#v5.13.0:
+              image: "$DOCKER_RUBY_IMAGE"
+              propagate-environment: true
+              mount-buildkite-agent: true
+
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
           if .buildkite/commands/should-skip-job.sh --job-type localization; then

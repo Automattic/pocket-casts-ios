@@ -6,6 +6,8 @@
 env:
   IMAGE_ID: $IMAGE_ID
 
+priority: 1
+
 steps:
   - label: "🚂 Code Freeze"
     command: |
@@ -14,8 +16,6 @@ steps:
 
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
-
-      .buildkite/commands/install-secrets.sh
 
       echo '--- ❄️ Code Freeze'
       bundle exec fastlane code_freeze version:"${RELEASE_VERSION}" skip_confirm:true

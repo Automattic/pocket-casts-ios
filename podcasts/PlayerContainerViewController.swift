@@ -228,7 +228,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if APPCLIP
         //TODO: Show install banner
         #else
-        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         #endif
     }
 
@@ -275,7 +275,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     @objc private func playbackFinished() {
-        if PlaybackManager.shared.currentEpisode() == nil {
+        if PlaybackManager.shared.currentEpisode == nil {
             closeNowPlaying()
         }
     }

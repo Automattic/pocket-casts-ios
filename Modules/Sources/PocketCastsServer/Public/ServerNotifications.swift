@@ -27,9 +27,15 @@ public enum ServerNotifications {
     public static let userEpisodesRefreshFailed = NSNotification.Name(rawValue: "SJUserEpisodesRefreshFailed")
     public static let userEpisodesRefreshed = NSNotification.Name(rawValue: "SJUserEpisodesRefreshed")
     public static let userEpisodeUploadStatusChanged = NSNotification.Name(rawValue: "SJUserEpisodeUploadChanged")
+
+    // Settings
+    public static let showWhatsNewDotChanged = NSNotification.Name(rawValue: "SJShowWhatsNewDotChanged")
 }
 
 public extension NSNotification.Name {
     /// Fired before the user will be signed out
     static let serverUserWillBeSignedOut = NSNotification.Name("Server.User.WillBeSignedOut")
+
+    /// When a user has signed in, signed out, or been signed in during account creation
+    static let userLoginDidChange = NSNotification.Name("User.LoginChanged")
 }

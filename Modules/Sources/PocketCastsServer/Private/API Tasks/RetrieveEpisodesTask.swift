@@ -7,12 +7,6 @@ class RetrieveEpisodesTask: ApiBaseTask, @unchecked Sendable {
 
     private var podcastUuid: String
 
-    private lazy var addPodcastGroup: DispatchGroup = {
-        let dispatchGroup = DispatchGroup()
-
-        return dispatchGroup
-    }()
-
     private var convertedEpisodes = [EpisodeSyncInfo]()
 
     init(podcastUuid: String) {

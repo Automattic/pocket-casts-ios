@@ -29,6 +29,10 @@ class PodcastListCell: ThemeableCollectionCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         isAccessibilityElement = true
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PodcastListCell, _) in
+            view.updateSize()
+        }
     }
 
     func populateFrom(_ podcast: Podcast, badgeType: BadgeType) {
@@ -97,11 +101,5 @@ class PodcastListCell: ThemeableCollectionCell {
         }
 
         podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

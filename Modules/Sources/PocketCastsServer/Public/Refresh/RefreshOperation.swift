@@ -110,7 +110,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
         var newEpisodesAdded = 0
 
         // the returned dictionary is indexed by podcast UUID and contains all the new episodes for that podcast
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         let updatedPodcasts = refreshResult.podcastUpdates
         var metadataRequestsQueued = 0
         for podcast in podcasts {
@@ -118,7 +118,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
                 guard let episodeUuid = episode.uuid else { return nil }
-                if let _ = DataManager.sharedManager.findEpisode(uuid: episodeUuid) { return nil }
+                if let _ = DataManager.shared.findEpisode(uuid: episodeUuid) { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -130,7 +130,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 return newEpisode
             })
 
-            DataManager.sharedManager.bulkSave(episodes: episodes)
+            DataManager.shared.bulkSave(episodes: episodes)
 
             for episode in episodes {
                 if isCancelled {
@@ -141,7 +141,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
                 // store episodes that we might possibly add to Up Next for processing after a sync
                 if podcast.autoAddToUpNextOn() {
-                    DataManager.sharedManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
+                    DataManager.shared.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
                 }
 
                 #if !os(watchOS)
@@ -178,7 +178,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
         // look through our candidate episodes that are new and should be added to Up Next, and add any that haven't been played or archived as part of the sync
         let upNextLimit = ServerSettings.autoAddToUpNextLimit()
 
-        let autoAddCandidates = DataManager.sharedManager.autoAddCandidates.candidates()
+        let autoAddCandidates = DataManager.shared.autoAddCandidates.candidates()
 
         if !autoAddCandidates.isEmpty {
             let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
@@ -194,7 +194,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
             let episodeUuid = candidate.episodeUuid
             let toTop = candidate.autoAddToUpNextSetting == .addFirst
 
-            guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid), !episode.played(), !episode.archived, let inUpNext = ServerConfig.shared.playbackDelegate?.inUpNext(episode: episode), inUpNext == false else { continue }
+            guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid), !episode.played(), !episode.archived, let inUpNext = ServerConfig.shared.playbackDelegate?.inUpNext(episode: episode), inUpNext == false else { continue }
 
             let currentCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
             if currentCount < upNextLimit {
@@ -209,13 +209,13 @@ class RefreshOperation: Operation, @unchecked Sendable {
             }
 
             // The candidate has been processed, remove it from the database
-            DataManager.sharedManager.autoAddCandidates.remove(candidate)
+            DataManager.shared.autoAddCandidates.remove(candidate)
         }
 
         // We have finished processing all of the up next candidates.
         //
         // There is a chance that some candidates are invalid and were not processed. We'll solve this by deleting all
         // of the candidates from the DB to ensure there are no ghost episodes left over.
-        DataManager.sharedManager.autoAddCandidates.clearAll()
+        DataManager.shared.autoAddCandidates.clearAll()
     }
 }

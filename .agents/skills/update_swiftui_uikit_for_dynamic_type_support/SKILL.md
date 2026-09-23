@@ -174,7 +174,7 @@ When embedding SwiftUI content in cells, two approaches work:
 // UIHostingConfiguration example
 cell.contentConfiguration = UIHostingConfiguration {
     MyCellView(viewModel: viewModel)
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }
 .margins(.horizontal, 16)
 .margins(.vertical, 8)
@@ -197,7 +197,7 @@ Use `UIHostingController` or `UIHostingConfiguration` (for cells). Always inject
 ```swift
 let hostingController = UIHostingController(rootView:
     MySwiftUIView()
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 )
 addChild(hostingController)
 view.addSubview(hostingController.view)

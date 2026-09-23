@@ -8,7 +8,7 @@ class AudioPlayTask {
     private var player: AVAudioPlayerNode
     private var bufferManager: PlayBufferManager
 
-    private let cancelled = AtomicBool()
+    private let cancelled = Mutex(false)
 
     private let audioQueue: DispatchQueue
     private let updateQueue: DispatchQueue

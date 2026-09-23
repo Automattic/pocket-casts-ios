@@ -26,7 +26,7 @@ struct EndOfYearModal: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .buttonize {
                         Analytics.track(.endOfYearModalTapped, properties: ["current_year": EndOfYear.currentYear.literalValue])
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
+                        NavigationManager.shared.navigateTo(NavigationManager.endOfYearStories, data: nil)
                     }
                 Text(model.description)
                     .font(style: .callout, weight: .medium, maxSizeCategory: .accessibilityMedium)
@@ -53,7 +53,7 @@ struct EndOfYearModal: View {
     var showStoriesButton: some View {
         Button(model.buttonTitle) {
             Analytics.track(.endOfYearModalTapped, properties: ["current_year": EndOfYear.currentYear.literalValue])
-            NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .frame(height: 44)
@@ -63,16 +63,6 @@ struct EndOfYearModal: View {
         static let maxWidth: CGFloat = 600
 
         static let verticalSpacing: CGFloat = 20
-
-        static let smallTitleFontSize: CGFloat = 14
-        static let smallTitleTopPadding: CGFloat = -30
-        static let smallTitleHorizontalPadding: CGFloat = 10
-        static let smallTitleMinimumScaleFactor: CGFloat = 0.01
-
-        static let enfOfYearCoverSize: CGFloat = 145
-        static let coverCornerRadius: CGFloat = 8
-        static let coverShadowRadius: CGFloat = 3
-        static let coverShadowY: CGFloat = 1
     }
 }
 

@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsDataModel
 
 @Observable
@@ -8,7 +9,7 @@ class FolderCardViewModel {
 
     var topPodcastsUuids: [String] = []
 
-    init(folder: Folder, dataManager: DataManager = DataManager.sharedManager) {
+    init(folder: Folder, dataManager: DataManager = DataManager.shared) {
         self.folder = folder
         self.dataManager = dataManager
     }

@@ -2,8 +2,17 @@ import Combine
 import Foundation
 import PocketCastsUtils
 
+/// The Discover network calls, behind a protocol so callers can be handed canned data.
+///
+/// `DiscoverServerHandler.shared` is the production implementation; previews and tests inject
+/// their own. Every method mirrors one section type of the Discover page.
 public protocol DiscoverServerHandling {
+    func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void)
+    func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void)
+    func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void)
     func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
+    func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void)
+    func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable
 }
 
 public class DiscoverServerHandler: DiscoverServerHandling {
@@ -24,29 +33,48 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         return cache
     }()
 
-    /**
-     * Valid image sizes: 130,140,200,210,280,340,400,420,680,960
-     */
-    public class func thumbnailUrl(forPodcast podcast: String, size: Int) -> URL {
-        let urlString = thumbnailUrlString(forPodcast: podcast, size: size)
-
-        return URL(string: urlString)!
-    }
-
+    /// Valid image sizes: 130,140,200,210,280,340,400,420,680,960
     public class func thumbnailUrlString(forPodcast podcast: String, size: Int) -> String {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
     }
 
-    public func discoverPage() async -> (DiscoverLayout?, Bool) {
-        var contentPath: String = "ios"
-        #if os(tvOS)
-            contentPath = "tv"
-        #endif
-        if FeatureFlag.recommendations.enabled {
-            contentPath.append("/content_v3.json")
-        } else {
-            contentPath.append("/content_v2.json")
+    public enum DiscoverType {
+        case discover
+        case search
+        case signedIn
+        case signedOut
+
+        var path: String {
+            var contentPath: String = "ios"
+            #if os(tvOS)
+                contentPath = "tv"
+            #endif
+
+            switch self {
+            case .discover:
+                if FeatureFlag.recommendations.enabled {
+                    contentPath.append("/content_v4.json")
+                } else {
+                    contentPath.append("/content_v2.json")
+                }
+            case .search:
+                contentPath.append("/content_v4_search.json")
+            case .signedIn:
+                contentPath.append("/content_v4_logged_in.json")
+            case .signedOut:
+                contentPath.append("/content_v4_logged_out.json")
+            }
+
+            return contentPath
         }
+    }
+
+    public func discoverPage(type: DiscoverType = .discover) async -> (DiscoverLayout?, Bool) {
+        let contentPath = type.path
+        return await discoverPage(path: contentPath)
+    }
+
+    private func discoverPage(path contentPath: String) async -> (DiscoverLayout?, Bool) {
         return await withCheckedContinuation { continuation in
             discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
                 continuation.resume(returning: (discoverItems, cachedResponse))
@@ -58,12 +86,6 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         Task {
             let page = await discoverPage()
             completion(page.0, page.1)
-        }
-    }
-
-    public func discoverNetworkList(source: String, authenticated: Bool?, completion: @escaping ([PodcastNetwork]?) -> Void) {
-        discoverRequest(path: source, type: [PodcastNetwork].self, authenticated: authenticated) { networkList, _ in
-            completion(networkList)
         }
     }
 

@@ -86,6 +86,7 @@ struct MainTabView: View {
                             } icon: {
                                 if let icon = tab.icon { Image(systemName: icon) }
                             }
+                            .accessibilityLabel(tab.title ?? L10n.search)
                         }
                     }
                 }
@@ -97,6 +98,9 @@ struct MainTabView: View {
         }
         .defaultFocus($focusedArea, .tabBar)
         .focusScope(mainTabFocusNS)
+        .onAppear {
+            focusedArea = .tabBar
+        }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
         .requireAccountSupport()
@@ -218,6 +222,7 @@ struct MainTabView: View {
 
     var logoAccessory: some View {
         Image(ImageResource.pcLogo)
+            .accessibilityHidden(true)
     }
 }
 

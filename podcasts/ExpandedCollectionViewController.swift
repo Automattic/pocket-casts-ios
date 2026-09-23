@@ -3,7 +3,7 @@ import SafariServices
 import UIKit
 
 enum CollectionCellStyle {
-    case grid, descriptive_list
+    case grid, descriptiveList
 }
 
 class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDelegate {
@@ -19,7 +19,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     let gridStyleSpacing: CGFloat = 16
     let gridNumColumns: CGFloat = 2
     let gridPreferredWidth: CGFloat = 150
-    let gridPeferredHeight: CGFloat = 265
     let descriptiveListPreferredMaxWidth: CGFloat = 280
     var descriptiveListPreferredMaxHeight: CGFloat {
         var baseHeight = CGFloat(200)
@@ -37,7 +36,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.gridCellId)
             collectionView.register(UINib(nibName: "DescriptiveCollectionCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId)
             collectionView.register(UINib(nibName: "DiscoverCollectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ExpandedCollectionViewController.headerId)
-            collectionView.style = .primaryUi02
+                collectionView.style = .primaryUi02
         }
     }
 
@@ -63,17 +62,27 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
 
-        if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
-            title = collectionSubtitle
-        } else {
-            title = item.title?.localized.localizedCapitalized
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ExpandedCollectionViewController, _) in
+            controller.updateSize()
         }
+
+        title = navigationTitle
 
         if item.source != nil && item.isAuthenticated == false {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
         }
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
+    }
+
+    /// A network is titled by its name, the way its header is: its subtitle names its kind, so
+    /// the bar would otherwise read "Network" on every one of them.
+    private var navigationTitle: String? {
+        if item.expandedStyle == "network_grid" {
+            return podcastCollection?.title?.localized ?? item.title?.localized
+        }
+
+        return podcastCollection?.subtitle?.localized.localizedCapitalized ?? item.title?.localized.localizedCapitalized
     }
 
     override func viewWillLayoutSubviews() {
@@ -139,12 +148,81 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     func updateSize() {
         updateFlowLayoutSize()
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
-        }
-    }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+/// Hosts the expanded collection in a navigation controller, the way Discover pushes it.
+private struct ExpandedCollectionPreview: UIViewControllerRepresentable {
+    let makeController: () -> ExpandedCollectionViewController
+
+    /// The controller holds its delegate weakly, so the preview is what keeps this one alive.
+    private let delegate = PreviewDiscoverDelegate()
+
+    init(_ makeController: @escaping () -> ExpandedCollectionViewController) {
+        self.makeController = makeController
+    }
+
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let controller = makeController()
+        controller.registerDiscoverDelegate(delegate)
+        return PCNavigationController(rootViewController: controller)
+    }
+
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {}
+}
+
+private let previewCollectionImage = "https://static.pocketcasts.com/discover/images/420/82e37e80-755d-0138-eddc-0acc26574db2.jpg"
+private let previewNetworkImage = "https://static.pocketcasts.com/share/images/979866dc-fcb6-400d-8586-9e5003ef33b8-author.png"
+
+#Preview("Grid") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Sounds for sleeping", expandedStyle: "grid"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.podcastCollection = DiscoverPreviewData.podcastCollection(
+            title: "Sounds for sleeping",
+            subtitle: "Staff picks",
+            description: "Twelve shows for winding down, chosen by the people who make Pocket Casts.",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            collectionImage: previewCollectionImage
+        )
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#Preview("Network") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Relay", expandedStyle: "network_grid"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.podcastCollection = DiscoverPreviewData.podcastCollection(
+            title: "Relay",
+            subtitle: "NETWORK",
+            description: "Independent podcasts about technology and the people who make it.",
+            podcasts: DiscoverPreviewData.podcasts(12),
+            collectionImage: previewNetworkImage
+        )
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#Preview("Descriptive list") {
+    ExpandedCollectionPreview {
+        let controller = ExpandedCollectionViewController(
+            item: DiscoverPreviewData.item(.collectionSummary, title: "Sounds for sleeping", expandedStyle: "descriptive_list"),
+            podcasts: DiscoverPreviewData.podcasts(12)
+        )
+        controller.cellStyle = .descriptiveList
+        return controller
+    }
+    .ignoresSafeArea()
+}
+
+#endif

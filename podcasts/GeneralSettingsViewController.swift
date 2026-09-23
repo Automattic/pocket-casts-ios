@@ -12,7 +12,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, generatedChapters, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, audioOnly, whatsNewUnreadDot }
     private var tableData: [[TableRow]] {
         var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
         if FeatureFlag.hls.enabled {
@@ -23,6 +23,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         }
         if FeatureFlag.voiceBoostN.enabled {
             data.append([.voiceBoostN])
+        }
+        if FeatureFlag.whatsNewFeed.enabled {
+            data.append([.whatsNewUnreadDot])
         }
         return data
     }
@@ -191,19 +194,19 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .defaultRowAction:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsGeneralRowAction
-            cell.cellSecondaryLabel.text = Settings.primaryRowAction() == .stream ? L10n.play : L10n.download
+            cell.cellSecondaryLabel.text = Settings.primaryRowAction == .stream ? L10n.play : L10n.download
 
             return cell
         case .defaultArchive:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsGeneralArchivedEpisodes
-            cell.cellSecondaryLabel.text = Settings.showArchivedDefault() ? L10n.settingsGeneralShow : L10n.settingsGeneralHide
+            cell.cellSecondaryLabel.text = Settings.showArchivedDefault ? L10n.settingsGeneralShow : L10n.settingsGeneralHide
 
             return cell
         case .defaultAddToUpNextSwipe:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsGeneralUpNextSwipe
-            cell.cellSecondaryLabel.text = Settings.primaryUpNextSwipeAction() == .playNext ? L10n.playNext : L10n.playLast
+            cell.cellSecondaryLabel.text = Settings.primaryUpNextSwipeAction == .playNext ? L10n.playNext : L10n.playLast
 
             return cell
         case .defaultGrouping:
@@ -212,7 +215,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             // this label is quite wide at smaller than 370pt it won't fit, so don't show the value until they tap it
             if tableView.bounds.width > 370 {
-                let grouping = Settings.defaultPodcastGrouping()
+                let grouping = Settings.defaultPodcastGrouping
                 cell.cellSecondaryLabel.text = grouping.description
             } else {
                 cell.cellSecondaryLabel.text = nil
@@ -222,7 +225,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .playUpNextOnTap:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsGeneralUpNextTap
-            cell.cellSwitch.isOn = Settings.playUpNextOnTap()
+            cell.cellSwitch.isOn = Settings.playUpNextOnTap
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(playUpNextOnTapToggled(_:)), for: .valueChanged)
 
@@ -340,6 +343,16 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(voiceBoostNToggled(_:)), for: .valueChanged)
 
             return cell
+        case .whatsNewUnreadDot:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralWhatsNewUnreadDot
+            cell.cellSwitch.isOn = Settings.showWhatsNewDot
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(whatsNewUnreadDotToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -348,72 +361,72 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         let row = tableData[indexPath.section][indexPath.row]
         if row == .defaultRowAction {
-            let currentAction = Settings.primaryRowAction()
+            let currentAction = Settings.primaryRowAction
 
             let options = OptionsPicker(title: L10n.settingsGeneralRowAction)
             let playAction = OptionAction(label: L10n.play, selected: currentAction == .stream) {
-                Settings.setPrimaryRowAction(.stream)
+                Settings.primaryRowAction = .stream
                 tableView.reloadData()
             }
             options.addAction(action: playAction)
 
             let downloadAction = OptionAction(label: L10n.download, selected: currentAction == .download) {
-                Settings.setPrimaryRowAction(.download)
+                Settings.primaryRowAction = .download
                 tableView.reloadData()
             }
             options.addAction(action: downloadAction)
             options.present(from: self)
         } else if row == .defaultGrouping {
-            let currentGrouping = Settings.defaultPodcastGrouping()
+            let currentGrouping = Settings.defaultPodcastGrouping
 
             let options = OptionsPicker(title: L10n.settingsGeneralEpisodeGroups)
             let noneAction = OptionAction(label: L10n.none, selected: currentGrouping == .none) { [weak self] in
-                Settings.setDefaultPodcastGrouping(.none)
+                Settings.defaultPodcastGrouping = .none
 
                 tableView.reloadData()
-                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping())
+                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping)
             }
             options.addAction(action: noneAction)
 
             let downloadedAction = OptionAction(label: L10n.statusDownloaded, selected: currentGrouping == .downloaded) { [weak self] in
-                Settings.setDefaultPodcastGrouping(.downloaded)
+                Settings.defaultPodcastGrouping = .downloaded
 
                 tableView.reloadData()
-                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping())
+                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping)
             }
             options.addAction(action: downloadedAction)
 
             let unplayedAction = OptionAction(label: L10n.statusUnplayed, selected: currentGrouping == .unplayed) { [weak self] in
-                Settings.setDefaultPodcastGrouping(.unplayed)
+                Settings.defaultPodcastGrouping = .unplayed
 
                 tableView.reloadData()
-                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping())
+                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping)
             }
             options.addAction(action: unplayedAction)
 
             let seasonAction = OptionAction(label: L10n.season, selected: currentGrouping == .season) { [weak self] in
-                Settings.setDefaultPodcastGrouping(.season)
+                Settings.defaultPodcastGrouping = .season
 
                 tableView.reloadData()
-                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping())
+                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping)
             }
             options.addAction(action: seasonAction)
 
             let starredAction = OptionAction(label: L10n.statusStarred, selected: currentGrouping == .starred) { [weak self] in
-                Settings.setDefaultPodcastGrouping(.starred)
+                Settings.defaultPodcastGrouping = .starred
 
                 tableView.reloadData()
-                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping())
+                self?.promptToApplyGroupingToAll(grouping: Settings.defaultPodcastGrouping)
             }
             options.addAction(action: starredAction)
 
             options.present(from: self)
         } else if row == .defaultArchive {
-            let currentlyShowingArchived = Settings.showArchivedDefault()
+            let currentlyShowingArchived = Settings.showArchivedDefault
 
             let options = OptionsPicker(title: L10n.settingsGeneralArchivedEpisodes)
             let hideAction = OptionAction(label: L10n.settingsGeneralHide, selected: !currentlyShowingArchived) { [weak self] in
-                Settings.setShowArchivedDefault(false)
+                Settings.showArchivedDefault = false
 
                 tableView.reloadData()
                 self?.promptToApplyShowArchiveToAll(false)
@@ -421,7 +434,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             options.addAction(action: hideAction)
 
             let showAction = OptionAction(label: L10n.settingsGeneralShow, selected: currentlyShowingArchived) { [weak self] in
-                Settings.setShowArchivedDefault(true)
+                Settings.showArchivedDefault = true
 
                 tableView.reloadData()
                 self?.promptToApplyShowArchiveToAll(true)
@@ -430,17 +443,17 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             options.present(from: self)
         } else if row == .defaultAddToUpNextSwipe {
-            let currentAction = Settings.primaryUpNextSwipeAction()
+            let currentAction = Settings.primaryUpNextSwipeAction
 
             let options = OptionsPicker(title: L10n.settingsGeneralUpNextSwipe)
             let playNextAction = OptionAction(label: L10n.playNext, selected: currentAction == .playNext) {
-                Settings.setPrimaryUpNextSwipeAction(.playNext)
+                Settings.primaryUpNextSwipeAction = .playNext
                 tableView.reloadData()
             }
             options.addAction(action: playNextAction)
 
             let playLastAction = OptionAction(label: L10n.playLast, selected: currentAction == .playLast) {
-                Settings.setPrimaryUpNextSwipeAction(.playLast)
+                Settings.primaryUpNextSwipeAction = .playLast
                 tableView.reloadData()
             }
             options.addAction(action: playLastAction)
@@ -456,6 +469,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralPlayerHeader)
         } else if tableData[safe: section]?.contains(.autoRestartSleepTimer) == true {
             return SettingsTableHeader(frame: headerFrame, title: L10n.sleepTimer)
+        } else if tableData[safe: section]?.contains(.whatsNewUnreadDot) == true {
+            return SettingsTableHeader(frame: headerFrame, title: L10n.whatsNew)
         }
 
         return nil
@@ -468,7 +483,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .intelligentPlaybackResumption:
             return L10n.settingsGeneralSmartPlaybackSubtitle
         case .playUpNextOnTap:
-            return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
+            return Settings.playUpNextOnTap ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
         case .extraMediaActions:
             return L10n.settingsGeneralPlayBackActionsSubtitle
         case .legacyBluetooth:
@@ -489,6 +504,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.shakeToRestartSleepTimerDescription
         case .voiceBoostN:
             return L10n.settingsGeneralVoiceBoostNSubtitle
+        case .whatsNewUnreadDot:
+            return L10n.settingsGeneralWhatsNewUnreadDotSubtitle
         default:
             return nil
         }
@@ -503,7 +520,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
             Analytics.track(.settingsGeneralEpisodeGroupingApplyToExisting)
-            DataManager.sharedManager.updateAllPodcastGrouping(to: grouping)
+            DataManager.shared.updateAllPodcastGrouping(to: grouping)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
             Analytics.track(.settingsGeneralEpisodeGroupingDoNotApplyToExisting)
@@ -522,7 +539,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
             Analytics.track(.settingsGeneralArchivedEpisodesApplyToExisting)
-            DataManager.sharedManager.updateAllShowArchived(to: showArchived)
+            DataManager.shared.updateAllShowArchived(to: showArchived)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
             Analytics.track(.settingsGeneralArchivedEpisodesDoNotApplyToExisting)
@@ -570,7 +587,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     @objc private func playUpNextOnTapToggled(_ sender: UISwitch) {
-        Settings.setPlayUpNextOnTap(sender.isOn)
+        Settings.playUpNextOnTap = sender.isOn
         settingsTable.reloadData()
         Settings.trackValueToggled(.settingsGeneralPlayUpNextOnTapToggled, enabled: sender.isOn)
     }
@@ -625,6 +642,13 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     @objc private func voiceBoostNToggled(_ sender: UISwitch) {
         Settings.isVoiceBoostNEnabled = sender.isOn
+    }
+
+    @objc private func whatsNewUnreadDotToggled(_ sender: UISwitch) {
+        Settings.showWhatsNewDot = sender.isOn
+        ServerSettings.syncSettings()
+
+        Settings.trackValueToggled(.settingsGeneralWhatsNewUnreadDotToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

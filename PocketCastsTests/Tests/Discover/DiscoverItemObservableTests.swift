@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
@@ -18,6 +19,26 @@ final class DiscoverItemObservableTests: XCTestCase {
                 DiscoverCategory(id: 2, name: "News"),
                 DiscoverCategory(id: 3, name: "Science")
             ]
+        }
+
+        func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void) {
+            completion(nil)
+        }
+
+        func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void) {
+            completion(nil)
+        }
+
+        func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
+            Task { completion(await discoverCategories(source: source, authenticated: authenticated)) }
+        }
+
+        func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
+            completion(nil)
+        }
+
+        func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
+            Empty().eraseToAnyPublisher()
         }
     }
 

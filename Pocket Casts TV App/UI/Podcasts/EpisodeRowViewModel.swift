@@ -53,7 +53,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayDate: String {
-        return DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+        return DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
     }
 
     var displayDuration: String {
@@ -82,6 +82,7 @@ class EpisodeRowViewModel: Identifiable {
         }
     }
 
+    @MainActor
     func play() {
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         AnalyticsPlaybackHelper.shared.currentSource = source
@@ -157,7 +158,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }
@@ -171,7 +172,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }
@@ -180,7 +181,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     private func updateProgress() {
-        guard let currentEpisode = playbackManager.currentEpisode(), episode.uuid == currentEpisode.uuid else {
+        guard let currentEpisode = playbackManager.currentEpisode, episode.uuid == currentEpisode.uuid else {
             return
         }
         episode.playedUpTo = currentEpisode.playedUpTo

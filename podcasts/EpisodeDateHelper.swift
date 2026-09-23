@@ -16,7 +16,7 @@ struct EpisodeDateHelper {
 
     #if !os(watchOS)
         static func setDate(episode: BaseEpisode, on label: UILabel, tintColor: UIColor?) {
-            let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+            let episodeDate = DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
 
             guard let episode = episode as? Episode else {
                 label.text = episodeDate
@@ -35,7 +35,7 @@ struct EpisodeDateHelper {
         }
 
         static func formattedDate(for episode: BaseEpisode) -> String {
-            let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+            let episodeDate = DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
 
             guard let episode = episode as? Episode else {
                 return episodeDate
@@ -88,7 +88,7 @@ struct EpisodeDateHelper {
         }
 
         static func displayDate(forEpisode episode: BaseEpisode) -> String {
-            let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate)
+            let episodeDate = DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate)
 
             guard let episode = episode as? Episode else {
                 return episodeDate

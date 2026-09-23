@@ -57,11 +57,6 @@ struct EndOfYear {
         return false
     }
 
-    static var shouldShowBadge: Bool {
-        guard let year = currentYear.year else { return false }
-        return Settings.showBadgeForEndOfYear(year)
-    }
-
     // Eligibility checker to manage the `isEligible` state
     private static var eligibilityChecker: EligibilityChecker? = {
         if let year = currentYear.year {
@@ -206,6 +201,7 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue, "current_year": EndOfYear.currentYear.literalValue])
     }
 
+    @MainActor
     static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()
 
@@ -360,7 +356,7 @@ extension EndOfYear {
         }
 
         private func update() {
-            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories(in: year)
+            isEligible = DataManager.shared.isEligibleForEndOfYearStories(in: year)
 
             // Let others know this changed
             if isEligible {

@@ -40,6 +40,7 @@ struct SearchEpisodeRow: View {
                         .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
                 }
             }
+            .accessibilityElement(children: .combine)
             Spacer()
         }
         .padding(32)

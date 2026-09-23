@@ -205,7 +205,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     }
 
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 
     // MARK: - Switch Actions

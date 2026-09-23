@@ -9,7 +9,7 @@ import Foundation
 ///     }
 ///
 @MainActor
-class ListViewModel<Model: Hashable>: ObservableObject {
+class ListViewModel<Model: Identifiable>: ObservableObject {
     @Published var items: [Model] = [] {
         didSet {
             numberOfItems = items.count
@@ -30,6 +30,6 @@ class ListViewModel<Model: Hashable>: ObservableObject {
 
     /// Whether the given item is the last in the list
     func isLast(item: Model) -> Bool {
-        items.last == item
+        items.last?.id == item.id
     }
 }

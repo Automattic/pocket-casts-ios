@@ -812,9 +812,6 @@
 /* A common string used throughout the app. Title for screens and prompts related to storage and downloaded files. */
 "downloaded_files" = "Downloaded Files";
 
-/* Message for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. */
-"downloaded_files_conf_message" = "Unsubscribing will delete all downloaded files in this Podcast, are you sure?";
-
 /* Message for an unfollow message box that informs the user that unfollowing will remove downloaded files. */
 "downloaded_files_conf_message_new" = "Unfollowing will delete all downloaded files in this Podcast, are you sure?";
 
@@ -1210,9 +1207,6 @@
 
 /* The summary text at the end of the screen explaining how to upload a file */
 "how_to_upload_summary" = "That's it, you're done. Change any details you want, hit save and play!";
-
-/* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
-"import_podcasts_description" = "You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
 
 /* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
 "import_podcasts_description_new" = "You can import your podcasts to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
@@ -2203,9 +2197,6 @@
 
 /* Confirmation message to clear one episode from the queue. */
 "queue_clear_episode_queue_singular" = "Clear 1 Episode";
-
-/* Prompt to allow the user to clear their queue. */
-"queue_clear_queue" = "CLEAR QUEUE";
 
 /* A common string used throughout the app. Provides an option to add the selected item(s) to a queue instead of performing the action now. Used for downloads and uploads. */
 "queue_for_later" = "Queue For Later";
@@ -3410,12 +3401,6 @@
 /* A common string used throughout the app. Prompt to cancel the download for the selected item(s). */
 "stop_download" = "Stop Download";
 
-/* Prompt to subscribe to the selected podcast. */
-"subscribe" = "Subscribe";
-
-/* Label indicating that the user is currently subscribed to the selected podcast. */
-"subscribed" = "Subscribed";
-
 /* Prompt to follow to the selected podcast. */
 "follow" = "Follow";
 
@@ -3631,6 +3616,36 @@
 
 /* Title for the announcement screen that calls out new features. */
 "whats_new" = "What's New";
+
+/* Category label shown on a What's New feed item announcing something new about Pocket Casts. */
+"whats_new_category_announcement" = "Announcement";
+
+/* Category label shown on a What's New feed item about a problem the team is working on. */
+"whats_new_category_known_issue" = "Known Issue";
+
+/* Category label shown on a What's New feed item announcing a new feature. */
+"whats_new_category_new_feature" = "New Feature";
+
+/* Category label shown on a What's New feed item asking the reader to answer a research question. */
+"whats_new_category_research" = "User Research";
+
+/* Category label shown on a What's New feed item with a tip on getting more out of the app. */
+"whats_new_category_tip" = "Tips and Tricks";
+
+/* Description shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_description" = "New features, tips and announcements will show up here.";
+
+/* Title shown on the What's New feed when no messages have been published yet. */
+"whats_new_feed_empty_title" = "No messages yet";
+
+/* Navigation bar button on the What's New feed that marks every message in the list as read. */
+"whats_new_feed_read_all" = "Read all";
+
+/* Title shown on the What's New feed when its messages couldn't be loaded. */
+"whats_new_feed_unable_to_load" = "Unable to load What's New";
+
+/* Shown in place of the submit button once a What's New research poll has been answered. */
+"whats_new_poll_answered" = "Thanks for answering.";
 
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_title" = "Nothing in Up Next";
@@ -4502,8 +4517,32 @@
 /* Accessibility label for a tappable bookmark title suggestion generated from the episode transcript. '%1$@' is the suggested title. */
 "bookmark_suggested_title" = "Suggested title: %1$@";
 
+/* Prefix label shown before a generated, tappable bookmark title suggestion. Includes a trailing space so it reads inline with the suggested title that follows. */
+"bookmark_suggestion_prefix" = "Suggestion: ";
+
+/* Section title shown while the transcript passage for a bookmark is still being fetched */
+"bookmark_transcript_adding" = "Adding transcript...";
+
+/* Label above the section showing the transcript text captured around the bookmarked moment */
+"bookmark_transcript_captured" = "Transcript captured";
+
+/* The title of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_title" = "Edit transcript";
+
+/* The subtitle of a view where the user picks which part of the transcript the bookmark captured */
+"bookmark_edit_transcript_subtitle" = "Select a transcript passage for this bookmark";
+
+/* Label above the text field where the user edits the bookmark title */
+"bookmark_title_label" = "Title";
+
+/* The title of a view showing a single bookmark and the transcript passage it captured */
+"bookmark_details_title" = "Bookmark";
+
 /* The title of a view where the user can edit their bookmark title */
 "change_bookmark_title" = "Change title";
+
+/* The title of the sheet where the user edits a saved bookmark */
+"edit_bookmark" = "Edit Bookmark";
 
 /* The subtitle of a view where the user can edit their bookmark title */
 "change_bookmark_subtitle" = "Change the title that identifies this bookmark";
@@ -4542,10 +4581,28 @@
 "no_bookmarks_button_title" = "Headphone settings";
 
 /* Title shown when the bookmarks feature is locked due to account upgrade status */
-"no_bookmarks_locked_message" = "You can save timestamps of important moments in an episode.";
+"no_bookmarks_locked_title" = "Save the parts worth keeping";
+
+/* Subtitle shown when the bookmarks feature is locked due to account upgrade status. It describes that a bookmark is created with a single tap and is saved with a generated title and the words spoken at that moment. */
+"no_bookmarks_locked_message" = "One tap. It’s named, and the words come with it.";
 
 /* Button title shown when the bookmarks feature is locked due to account upgrade status. This will take the user to the upgrade screen. */
 "no_bookmarks_locked_button_title" = "Get Bookmarks";
+
+/* Badge marking a menu item as a feature introduced in the current release */
+"badge_new" = "New";
+
+/* Title of the tip shown in the player that points at the action used to add a bookmark */
+"bookmarks_player_tip_title" = "Add bookmark";
+
+/* Body of the tip shown in the player that points at the action used to add a bookmark */
+"bookmarks_player_tip_message" = "Keep the part you wanted";
+
+/* Title of the example bookmark shown on the bookmarks upgrade screen. It is a sample of a title generated for the user. */
+"bookmarks_upgrade_example_title" = "The audition room";
+
+/* Transcript excerpt of the example bookmark shown on the bookmarks upgrade screen. It is a sample of the words captured with a bookmark. */
+"bookmarks_upgrade_example_passage" = "You’re casting the person, not the résumé.";
 
 /* Title of a message when no search results appear */
 "bookmark_search_no_results_title" = "No bookmarks found";
@@ -4871,6 +4928,9 @@
 
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
+
+/* Title of the action in the text selection menu of the transcript that creates a bookmark at the start of the selected text. Keep it short: it sits in a row of system actions such as Copy and Share. */
+"transcript_bookmark_selection" = "Bookmark";
 
 /* Highlighted transcripts What's New announcement sheet title */
 "transcript_highlight_announcement_title" = "Read along. Even at 2x.";
@@ -6113,6 +6173,12 @@
 /* Generic error used when playback fails. */
 "player_error_short_playback_error" = "Playback failed, please try again";
 
+/* Error used when playback fails because the device has run out of storage. Streaming needs free disk space for the playback buffer. */
+"player_error_not_enough_storage" = "Your device is out of storage. Free up some space and try again.";
+
+/* Short version of the error used when playback fails because the device has run out of storage. */
+"player_error_short_not_enough_storage" = "Device storage is full";
+
 /* tv app home tab */
 "tv_tab_home" = "Home";
 
@@ -6425,6 +6491,9 @@
 /* tv Sign In manual login username text field placeholder */
 "tv_user_sign_in_username_placeholder" = "Username";
 
+/* tv Sign In manual login accessibility label announced while a username/password sign-in attempt is in progress */
+"tv_user_sign_in_signing_in" = "Signing In";
+
 /* tv search field placeholder prompt */
 "tv_search_prompt" = "Podcasts, shows, authors";
 
@@ -6436,6 +6505,12 @@
 
 /* tv search error label. '%1$@' is a placeholder for a localized error description. */
 "tv_search_failed" = "Search failed: %1$@";
+
+/* tv search scope title for the default tab that blends podcasts and episodes */
+"tv_search_scope_top_results" = "Top Results";
+
+/* tv search section title for the row of video episodes matching the query */
+"tv_search_featured_section_title" = "Featured";
 
 /* info message when authorization is pending on server */
 "server_error_login_auth_pending" = "Authorization pending";
@@ -6568,6 +6643,33 @@
 /* tv Discover row failed to load title*/
 "tv_discover_row_failed_to_load_title" = "Failed to load";
 
+/* tv settings - instruction to scan the QR code or open the URL on a phone to read the Privacy Policy */
+"tv_settings_privacy_policy_qr_message" = "Scan the QR code below, or open the URL on your phone to access the Privacy Policy.";
+
+/* tv settings - instruction to scan the QR code or open the URL on a phone to read the Terms of Use */
+"tv_settings_terms_of_use_qr_message" = "Scan the QR code below, or open the URL on your phone to access the Terms of Use.";
+
+/* tv settings - title of the subscription details screen */
+"tv_settings_subscription_title" = "Subscription";
+
+/* tv settings - label for the row showing the user's subscription plan (tier and frequency) */
+"tv_settings_subscription_plan" = "Plan";
+
+/* tv settings - label for the row showing when the subscription will next renew */
+"tv_settings_subscription_next_renewal" = "Next renewal";
+
+/* tv settings - label for the row showing the subscription price */
+"tv_settings_subscription_price" = "Price";
+
+/* tv settings - value shown for the subscription price when it could not be retrieved */
+"tv_settings_subscription_price_unavailable" = "Unavailable";
+
+/* tv settings - value shown for the renewal date when the user has a lifetime subscription */
+"tv_settings_subscription_lifetime" = "Lifetime";
+
+/* tv settings - message shown when the subscription was purchased on a different platform and must be managed there */
+"tv_settings_subscription_other_platform" = "This subscription was made on another platform. Please use that platform to manage the subscription.";
+
 
 /* tv create account step - scan the QR code */
 "tv_create_account_step_scan" = "Scan the QR code or go to %1$@";
@@ -6581,6 +6683,14 @@
 /* tv create account login step - log in to your account */
 "tv_create_account_step_login" = "Log in to your account";
 
+/* tv home failed to load message */
+"tv_home_failed_to_load_title" = "Home failed to load";
+
+/* Search Results filter option that narrows the results down to podcast networks */
+"search_filter_networks" = "Networks";
+
+/* Message shown when a network the user tapped fails to load */
+"network_fail_to_load" = "This network couldn't be loaded";
 
 /* MARK: - InfoPlist.strings */
 

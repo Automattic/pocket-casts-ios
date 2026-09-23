@@ -1,5 +1,6 @@
 import Foundation
 import SwipeCellKit
+import UIKit
 
 class TableSwipeActions {
     private var actions = [TableSwipeAction]()

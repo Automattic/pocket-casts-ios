@@ -62,6 +62,7 @@ class OptionsPicker {
     /// Presents the options as a native sheet from the app's top-most view
     /// controller. Use this when there's no obvious presenting controller at
     /// the call site.
+    @MainActor
     func present() {
         #if !APPCLIP
         guard let presenter = SceneHelper.rootViewController() else {

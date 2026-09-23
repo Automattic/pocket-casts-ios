@@ -16,13 +16,13 @@ final class EpisodeManagerTests: DBTestCase {
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
 
         // When: Calling urlForEpisode with streamingOnly: false
-        let localUrl = EpisodeManager.urlForEpisode(episode, streamingOnly: false)
+        let localUrl = EpisodeManager.url(for: episode, streamingOnly: false)
 
         // Then: Should return streaming URL (no local content available)
         XCTAssertEqual(localUrl?.absoluteString, "https://example.com/remote-podcast.mp3", "Should return streaming URL when no local content")
 
         // When: Calling urlForEpisode with streamingOnly: true
-        let streamingUrl = EpisodeManager.urlForEpisode(episode, streamingOnly: true)
+        let streamingUrl = EpisodeManager.url(for: episode, streamingOnly: true)
 
         // Then: Should return the same streaming URL
         XCTAssertEqual(streamingUrl?.absoluteString, "https://example.com/remote-podcast.mp3", "Should return streaming URL when streamingOnly is true")
@@ -45,7 +45,7 @@ final class EpisodeManagerTests: DBTestCase {
         }
 
         // When: Calling urlForEpisode with streamingOnly: true
-        let streamingUrl = EpisodeManager.urlForEpisode(userEpisode, streamingOnly: true)
+        let streamingUrl = EpisodeManager.url(for: userEpisode, streamingOnly: true)
 
         // Then: Should return API URL for user episodes
         let expectedUrl = "\(ServerConstants.Urls.api())files/url/user-episode-abc?token=mock-token-123"
@@ -60,7 +60,7 @@ final class EpisodeManagerTests: DBTestCase {
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
 
         // When: Calling urlForEpisode
-        let url = EpisodeManager.urlForEpisode(episode, streamingOnly: true)
+        let url = EpisodeManager.url(for: episode, streamingOnly: true)
 
         // Then: Should return nil
         XCTAssertNil(url, "Should return nil for episodes with no valid URL")
@@ -77,7 +77,7 @@ final class EpisodeManagerTests: DBTestCase {
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
 
         // When: Calling urlForEpisode with streamingOnly: true
-        let streamingUrl = EpisodeManager.urlForEpisode(episode, streamingOnly: true)
+        let streamingUrl = EpisodeManager.url(for: episode, streamingOnly: true)
 
         // Then: Should return streaming URL that Chromecast can access
         XCTAssertNotNil(streamingUrl, "Should return a valid URL")
@@ -107,8 +107,8 @@ final class EpisodeManagerTests: DBTestCase {
         episode2.episodeStatus = DownloadStatus.notDownloaded.rawValue
 
         // When: Calling urlForEpisode with different streamingOnly values
-        let url1 = EpisodeManager.urlForEpisode(episode1, streamingOnly: false)
-        let url2 = EpisodeManager.urlForEpisode(episode2, streamingOnly: true)
+        let url1 = EpisodeManager.url(for: episode1, streamingOnly: false)
+        let url2 = EpisodeManager.url(for: episode2, streamingOnly: true)
 
         // Then: Both should return streaming URLs since episodes are not downloaded
         XCTAssertEqual(url1?.absoluteString, "https://cdn.example.com/episode1.mp3", "Should return streaming URL")
@@ -136,7 +136,7 @@ final class EpisodeManagerTests: DBTestCase {
         }
 
         // When: Calling urlForEpisode
-        let url = EpisodeManager.urlForEpisode(userEpisode, streamingOnly: true)
+        let url = EpisodeManager.url(for: userEpisode, streamingOnly: true)
 
         // Then: Should return nil since no token available
         XCTAssertNil(url, "Should return nil when no sync token available for user episode")
@@ -252,7 +252,7 @@ final class EpisodeManagerTests: DBTestCase {
     func testUrlForEpisodeStreamsHLSWhenAvailableAndFlagEnabled() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
-        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode())
+        let url = EpisodeManager.url(for: makeStreamingHLSEpisode())
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/stream.m3u8", "Should stream the HLS url when available")
     }
@@ -260,7 +260,7 @@ final class EpisodeManagerTests: DBTestCase {
     func testUrlForEpisodeStreamsHLSWhenStreamingOnly() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
 
-        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode(), streamingOnly: true)
+        let url = EpisodeManager.url(for: makeStreamingHLSEpisode(), streamingOnly: true)
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/stream.m3u8", "Should stream the HLS url when available")
     }
@@ -268,7 +268,7 @@ final class EpisodeManagerTests: DBTestCase {
     func testUrlForEpisodeUsesProgressiveWhenHLSFlagDisabled() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: false)
 
-        let url = EpisodeManager.urlForEpisode(makeStreamingHLSEpisode())
+        let url = EpisodeManager.url(for: makeStreamingHLSEpisode())
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should fall back to the progressive file when the flag is off")
     }
@@ -279,7 +279,7 @@ final class EpisodeManagerTests: DBTestCase {
         let episode = makeStreamingHLSEpisode()
         episode.hlsUrl = nil
 
-        let url = EpisodeManager.urlForEpisode(episode)
+        let url = EpisodeManager.url(for: episode)
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should use the progressive file when there is no HLS url")
     }
@@ -315,5 +315,38 @@ final class EpisodeManagerTests: DBTestCase {
         episode.hlsUrl = nil
 
         XCTAssertFalse(EpisodeManager.isVideo(episode), "A plain audio episode should not be treated as video")
+    }
+
+    func testIsNotVideoForDownloadedHLSEpisode() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeStreamingHLSEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertFalse(EpisodeManager.isVideo(episode), "A downloaded episode plays its local audio file, so it should not be shown as video")
+    }
+
+    func testIsVideoForDownloadedNativeVideoPodcast() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+
+        let episode = makeVideoEpisode()
+        episode.episodeStatus = DownloadStatus.downloaded.rawValue
+        createDownloadedFile(for: episode)
+        defer { removeDownloadedFile(for: episode) }
+
+        XCTAssertTrue(EpisodeManager.isVideo(episode), "A downloaded video podcast still plays video from its local file")
+    }
+
+    private func createDownloadedFile(for episode: Episode) {
+        let path = DownloadManager.shared.path(for: episode)
+        let directory = (path as NSString).deletingLastPathComponent
+        try? FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+        FileManager.default.createFile(atPath: path, contents: Data())
+    }
+
+    private func removeDownloadedFile(for episode: Episode) {
+        try? FileManager.default.removeItem(atPath: DownloadManager.shared.path(for: episode))
     }
 }

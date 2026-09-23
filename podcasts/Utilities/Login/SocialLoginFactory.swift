@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import UIKit
 
 class SocialLoginFactory {
     static func provider(for provider: SocialAuthProvider, from viewController: UIViewController) -> SocialLogin {

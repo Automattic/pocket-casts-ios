@@ -34,12 +34,12 @@ class PlaybackQueue: NSObject {
     // MARK: - Editing
 
     func remove(episode: BaseEpisode, fireNotification: Bool) {
-        guard let episodeToRemove = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) else { return }
+        guard let episodeToRemove = DataManager.shared.findPlaylistEpisode(uuid: episode.uuid) else { return }
 
         FileLog.shared.addMessage("PlaybackQueue: removing \(episode.title ?? "Untitled") episode")
-        DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
+        DataManager.shared.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
-            DataManager.sharedManager.saveUpNextRemove(episodeUuid: episode.uuid)
+            DataManager.shared.saveUpNextRemove(episodeUuid: episode.uuid)
             SyncManager.syncReason = .remove
             startSyncTimer()
         }
@@ -48,12 +48,12 @@ class PlaybackQueue: NSObject {
     }
 
     func remove(uuid: String, fireNotification: Bool) {
-        guard let episodeToRemove = DataManager.sharedManager.findPlaylistEpisode(uuid: uuid) else { return }
+        guard let episodeToRemove = DataManager.shared.findPlaylistEpisode(uuid: uuid) else { return }
 
         FileLog.shared.addMessage("PlaybackQueue: removing \(episodeToRemove.title) episode")
-        DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
+        DataManager.shared.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
-            DataManager.sharedManager.saveUpNextRemove(episodeUuid: uuid)
+            DataManager.shared.saveUpNextRemove(episodeUuid: uuid)
             SyncManager.syncReason = .remove
             startSyncTimer()
         }
@@ -69,24 +69,24 @@ class PlaybackQueue: NSObject {
     }
 
     func add(episode: BaseEpisode, fireNotification: Bool, partOfBulkAdd: Bool = false, toTop: Bool = false) {
-        if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
-            existingEpisode.episodePosition = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
-            DataManager.sharedManager.save(playlistEpisode: existingEpisode)
+        if let existingEpisode = DataManager.shared.findPlaylistEpisode(uuid: episode.uuid) {
+            existingEpisode.episodePosition = DataManager.shared.positionForPlaylistEpisode(bottomOfList: !toTop)
+            DataManager.shared.save(playlistEpisode: existingEpisode)
         } else {
             let newEpisode = PlaylistEpisode()
             newEpisode.episodeUuid = episode.uuid
-            newEpisode.episodePosition = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
+            newEpisode.episodePosition = DataManager.shared.positionForPlaylistEpisode(bottomOfList: !toTop)
             newEpisode.title = episode.displayableTitle()
             newEpisode.podcastUuid = episode.parentIdentifier()
 
-            DataManager.sharedManager.save(playlistEpisode: newEpisode)
+            DataManager.shared.save(playlistEpisode: newEpisode)
         }
 
         if !partOfBulkAdd, SyncManager.isUserLoggedIn() {
             if toTop {
-                DataManager.sharedManager.saveUpNextAddToTop(episodeUuid: episode.uuid)
+                DataManager.shared.saveUpNextAddToTop(episodeUuid: episode.uuid)
             } else {
-                DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
+                DataManager.shared.saveUpNextAddToBottom(episodeUuid: episode.uuid)
             }
 
             SyncManager.syncReason = .add
@@ -111,16 +111,16 @@ class PlaybackQueue: NSObject {
     }
 
     func bulkDelete(uuids: [String]) {
-        DataManager.sharedManager.deleteAllUpNextEpisodesIn(uuids: uuids)
+        DataManager.shared.deleteAllUpNextEpisodesIn(uuids: uuids)
         saveReplaceIfRequired()
         refreshAppFiring(notificationName: Constants.Notifications.upNextQueueChanged)
     }
 
     func bulkAdd(_ episodes: [BaseEpisode], toTop: Bool = false) {
-        let topPosition = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
+        let topPosition = DataManager.shared.positionForPlaylistEpisode(bottomOfList: !toTop)
         var playlistEpisodes = [PlaylistEpisode]()
         for (index, episode) in episodes.enumerated() {
-            if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
+            if let existingEpisode = DataManager.shared.findPlaylistEpisode(uuid: episode.uuid) {
                 existingEpisode.episodePosition = topPosition + Int32(index)
                 playlistEpisodes.append(existingEpisode)
             } else {
@@ -132,18 +132,18 @@ class PlaybackQueue: NSObject {
                 playlistEpisodes.append(newEpisode)
             }
         }
-        DataManager.sharedManager.save(playlistEpisodes: playlistEpisodes)
+        DataManager.shared.save(playlistEpisodes: playlistEpisodes)
 
         bulkOperationDidComplete()
     }
 
     func bulkMove(_ playlistEpisodes: [PlaylistEpisode], toTop: Bool) {
-        let firstIndex = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
+        let firstIndex = DataManager.shared.positionForPlaylistEpisode(bottomOfList: !toTop)
         for (index, playlistEpisode) in playlistEpisodes.enumerated() {
             playlistEpisode.episodePosition = Int32(index) + firstIndex
         }
 
-        DataManager.sharedManager.save(playlistEpisodes: playlistEpisodes)
+        DataManager.shared.save(playlistEpisodes: playlistEpisodes)
 
         bulkOperationDidComplete()
     }
@@ -154,8 +154,8 @@ class PlaybackQueue: NSObject {
     }
 
     func pushNewCurrentlyPlaying(episode: BaseEpisode) {
-        if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
-            DataManager.sharedManager.movePlaylistEpisode(from: Int(existingEpisode.episodePosition), to: 0)
+        if let existingEpisode = DataManager.shared.findPlaylistEpisode(uuid: episode.uuid) {
+            DataManager.shared.movePlaylistEpisode(from: Int(existingEpisode.episodePosition), to: 0)
         } else {
             let newEpisode = PlaylistEpisode()
             newEpisode.episodeUuid = episode.uuid
@@ -163,12 +163,12 @@ class PlaybackQueue: NSObject {
             newEpisode.title = episode.displayableTitle()
             newEpisode.podcastUuid = episode.parentIdentifier()
 
-            DataManager.sharedManager.save(playlistEpisode: newEpisode)
-            DataManager.sharedManager.movePlaylistEpisode(from: -1, to: 0)
+            DataManager.shared.save(playlistEpisode: newEpisode)
+            DataManager.shared.movePlaylistEpisode(from: -1, to: 0)
         }
 
         if SyncManager.isUserLoggedIn() {
-            DataManager.sharedManager.saveUpNextAddNowPlaying(episodeUuid: episode.uuid)
+            DataManager.shared.saveUpNextAddNowPlaying(episodeUuid: episode.uuid)
             startSyncTimer()
         }
 
@@ -177,7 +177,7 @@ class PlaybackQueue: NSObject {
 
     func moveEpisode(from: Int, to: Int) {
         // externally to the rest of the app, the now playing episode isn't in up next, so we need to increment these indexes
-        DataManager.sharedManager.movePlaylistEpisode(from: from + 1, to: to + 1)
+        DataManager.shared.movePlaylistEpisode(from: from + 1, to: to + 1)
 
         saveReplaceIfRequired()
 
@@ -189,7 +189,7 @@ class PlaybackQueue: NSObject {
         guard sortedEpisodes.count > 1 else { return }
 
         // Up Next playlist entries, excluding the now playing episode at index 0.
-        var remaining = Array(DataManager.sharedManager.allUpNextPlaylistEpisodes().dropFirst())
+        var remaining = Array(DataManager.shared.allUpNextPlaylistEpisodes().dropFirst())
         var ordered = [PlaylistEpisode]()
 
         // Match the sorted episodes back to their playlist entries...
@@ -205,7 +205,7 @@ class PlaybackQueue: NSObject {
             // position 0 is the now playing episode, so the queue starts at 1
             playlistEpisode.episodePosition = Int32(index + 1)
         }
-        DataManager.sharedManager.save(playlistEpisodes: ordered)
+        DataManager.shared.save(playlistEpisodes: ordered)
 
         saveReplaceIfRequired()
 
@@ -224,7 +224,7 @@ class PlaybackQueue: NSObject {
             newEpisode.title = episode.displayableTitle()
             newEpisode.podcastUuid = episode.parentIdentifier()
 
-            DataManager.sharedManager.save(playlistEpisode: newEpisode)
+            DataManager.shared.save(playlistEpisode: newEpisode)
             saveReplaceIfRequired()
         }
 
@@ -232,10 +232,10 @@ class PlaybackQueue: NSObject {
     }
 
     func move(episode: BaseEpisode, to: Int, fireNotification: Bool = true) {
-        guard let episodeToMove = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) else { return }
+        guard let episodeToMove = DataManager.shared.findPlaylistEpisode(uuid: episode.uuid) else { return }
 
         // externally to the rest of the app, the now playing episode isn't in up next, so we need to increment this index
-        DataManager.sharedManager.movePlaylistEpisode(from: Int(episodeToMove.episodePosition), to: to + 1)
+        DataManager.shared.movePlaylistEpisode(from: Int(episodeToMove.episodePosition), to: to + 1)
 
         saveReplaceIfRequired()
 
@@ -245,7 +245,7 @@ class PlaybackQueue: NSObject {
     func overrideAllEpisodesWith(episode: BaseEpisode) {
         FileLog.shared.addMessage("PlaybackQueue: overrideAllEpisodesWith with \(episode.title ?? "Untitled")")
 
-        let upNext = DataManager.sharedManager.allUpNextEpisodes()
+        let upNext = DataManager.shared.allUpNextEpisodes()
         let shouldRemoveInsteadOfReplace = FeatureFlag.avoidReplaceOnEpisodeSwap.enabled && upNext.count == 1
 
         if shouldRemoveInsteadOfReplace {
@@ -254,7 +254,7 @@ class PlaybackQueue: NSObject {
             }
         }
 
-        DataManager.sharedManager.deleteAllUpNextEpisodes()
+        DataManager.shared.deleteAllUpNextEpisodes()
         if !shouldRemoveInsteadOfReplace {
             if FeatureFlag.replaceSpecificEpisode.enabled {
                 saveReplaceIfRequired(episodeList: [episode.uuid])
@@ -267,11 +267,11 @@ class PlaybackQueue: NSObject {
     }
 
     func removeAllEpisodes() {
-        DataManager.sharedManager.snapshotUpNext()
+        DataManager.shared.snapshotUpNext()
 
         FileLog.shared.addMessage("PlaybackQueue: removeAllEpisodes called, clearing list")
 
-        DataManager.sharedManager.deleteAllUpNextEpisodes()
+        DataManager.shared.deleteAllUpNextEpisodes()
 
         topEpisode = nil
         saveReplaceIfRequired()
@@ -282,9 +282,9 @@ class PlaybackQueue: NSObject {
     func clearUpNextList() {
         guard let topEpisode else { return }
 
-        DataManager.sharedManager.snapshotUpNext()
+        DataManager.shared.snapshotUpNext()
 
-        DataManager.sharedManager.deleteAllUpNextEpisodesExcept(episodeUuid: topEpisode.uuid)
+        DataManager.shared.deleteAllUpNextEpisodesExcept(episodeUuid: topEpisode.uuid)
         FileLog.shared.addMessage("PlaybackQueue: clearUpNextList called, clearing list")
 
         saveReplaceIfRequired()
@@ -315,13 +315,13 @@ class PlaybackQueue: NSObject {
     }
 
     func contains(episodeUuid: String) -> Bool {
-        DataManager.sharedManager.upNextPlayListContains(episodeUuid: episodeUuid)
+        DataManager.shared.upNextPlayListContains(episodeUuid: episodeUuid)
     }
 
     func allEpisodes(includeNowPlaying: Bool = true) -> [BaseEpisode] {
-        if includeNowPlaying { return DataManager.sharedManager.allUpNextEpisodes() }
+        if includeNowPlaying { return DataManager.shared.allUpNextEpisodes() }
 
-        var episodes = DataManager.sharedManager.allUpNextEpisodes()
+        var episodes = DataManager.shared.allUpNextEpisodes()
         if episodes.isEmpty { return episodes }
 
         episodes.removeFirst()
@@ -330,7 +330,7 @@ class PlaybackQueue: NSObject {
     }
 
     func allEpisodeUuids() -> [BaseEpisode] {
-        var episodes = DataManager.sharedManager.allUpNextEpisodeUuids()
+        var episodes = DataManager.shared.allUpNextEpisodeUuids()
         if episodes.isEmpty { return episodes }
 
         episodes.removeFirst()
@@ -344,18 +344,18 @@ class PlaybackQueue: NSObject {
 
     func upNextCount() -> Int {
         // the data manager counts the current episode, so we remove it here, since we don't expose that info to the rest of the app
-        max(0, DataManager.sharedManager.playlistEpisodeCount() - 1)
+        max(0, DataManager.shared.playlistEpisodeCount() - 1)
     }
 
     func episodeAt(index: Int) -> BaseEpisode? {
         let actualIndex = index + 1 // the rest of the app doesn't treat the current episode as being at position 0
         if actualIndex < 0 { return nil }
 
-        if let episode = DataManager.sharedManager.episodeInUpNextAt(index: actualIndex) {
+        if let episode = DataManager.shared.episodeInUpNextAt(index: actualIndex) {
             return episode
         }
 
-        guard let playlistEpisode = DataManager.sharedManager.playlistEpisodeAt(index: actualIndex) else { return nil }
+        guard let playlistEpisode = DataManager.shared.playlistEpisodeAt(index: actualIndex) else { return nil }
 
         let missingEpisode = UserEpisode()
         missingEpisode.title = playlistEpisode.title
@@ -400,6 +400,10 @@ class PlaybackQueue: NSObject {
     }
 
     private func autoDownloadIfRequired(episode: BaseEpisode) {
+        // HLS is streamed directly and never cached, so downloading it in parallel would just
+        // interrupt the stream once the download completes. Skip it. See DownloadManager.downloadParallelToStream.
+        if EpisodeManager.hasHLSStream(episode) { return }
+
         if !Settings.downloadUpNextEpisodes() || episode.queued() || episode.downloaded(pathFinder: DownloadManager.shared) { return }
 
         if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
@@ -431,14 +435,14 @@ class PlaybackQueue: NSObject {
         if let episodeList {
             episodeUuids = episodeList
         } else {
-            for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
+            for playlistEpisode in DataManager.shared.allUpNextPlaylistEpisodes() {
                 episodeUuids.append(playlistEpisode.episodeUuid)
             }
         }
 
         FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(upNextCount()) with \(episodeUuids.count) episodes")
 
-        DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
+        DataManager.shared.saveReplace(episodeList: episodeUuids)
 
         SyncManager.syncReason = .replace
 

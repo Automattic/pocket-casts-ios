@@ -241,6 +241,7 @@ final class SyncSigninViewModel: ObservableObject {
         // Button state reacts via @Published + computed isValid
     }
 
+    @MainActor
     func forgotPasswordTapped() {
         let vc = ForgotPasswordViewController()
         vc.delegate = self
@@ -311,9 +312,8 @@ final class SyncSigninViewModel: ObservableObject {
         ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
 
-        if (FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled && ServerSettings.lastSyncTime == nil)
-            || !FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled {
-            DataManager.sharedManager.markAllPodcastsUnsynced()
+        if ServerSettings.lastSyncTime == nil {
+            DataManager.shared.markAllPodcastsUnsynced()
         }
 
         SyncManager.syncReason = .login

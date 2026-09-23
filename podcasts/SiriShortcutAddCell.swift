@@ -36,11 +36,11 @@ class SiriShortcutAddCell: ThemeableCell {
         updateSize()
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: SiriShortcutAddCell, _) in
+            view.updateSize()
         }
     }
 

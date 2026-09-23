@@ -30,7 +30,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShelfActionsViewController.shelfCellId, for: indexPath) as! ShelfCell
 
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return cell }
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
         cell.actionIcon.tintColor = ThemeColor.playerContrast01()
@@ -47,7 +47,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
                 cell.actionIcon.image = nil
             }
 
-            if (action == .effects && PlaybackManager.shared.effects().effectsEnabled()) || (action == .sleepTimer && PlaybackManager.shared.sleepTimerActive()) || (action == .starEpisode && playingEpisode.keepEpisode) {
+            if (action == .effects && PlaybackManager.shared.effects.effectsEnabled()) || (action == .sleepTimer && PlaybackManager.shared.sleepTimerActive()) || (action == .starEpisode && playingEpisode.keepEpisode) {
                 cell.actionIcon.tintColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
             } else {
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
@@ -71,6 +71,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
         cell.actionSubtitle.isHidden = (cell.actionSubtitle.text == nil)
+
+        cell.showsNewBadge = !tableView.isEditing && action == .addBookmark && SmartBookmarksPromo.isActive
 
         return cell
     }

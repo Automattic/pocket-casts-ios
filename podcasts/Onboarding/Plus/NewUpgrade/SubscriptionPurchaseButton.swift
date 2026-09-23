@@ -49,7 +49,7 @@ struct SubscriptionPurchaseButton: View {
             .transition(.opacity)
             .id("plus_price" + tier.title)
         })
-        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: tier.plan, themeOverride: Theme.sharedTheme))
+        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: tier.plan, themeOverride: Theme.shared))
         .alert(isPresented: hasError) {
             Alert(
                 title: Text(L10n.plusPurchaseFailed),

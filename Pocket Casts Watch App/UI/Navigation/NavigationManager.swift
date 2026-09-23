@@ -6,14 +6,7 @@ import WatchKit
 class NavigationManager: ObservableObject {
     static let shared = NavigationManager()
 
-    @Published var currentInterface: Int?
-
-    func navigateToMainMenu() {
-        guard let topController = topMostController() else {
-            return
-        }
-        topController.popToRootController()
-    }
+    @Published var currentInterface: WatchInterfaceType?
 
     func navigateToRestorable(name: String, context: Any?) {
         let interfaceType = WatchInterfaceType(rawValue: name)
@@ -26,7 +19,12 @@ class NavigationManager: ObservableObject {
     }
 
     func navigateTo(_ type: WatchInterfaceType, context: Any?) {
-        currentInterface = type.interfacePosition
+        switch type {
+        case .downloads, .podcasts, .files, .upnext, .nowPlaying, .filterList:
+            currentInterface = type
+        case .unknown, .effects, .episodeDetails, .filter, .interface:
+            currentInterface = nil
+        }
     }
 
     private var navigatingToNowPlaying = false
@@ -39,11 +37,5 @@ class NavigationManager: ObservableObject {
         }
         navigateTo(.nowPlaying, context: nil)
         navigatingToNowPlaying = false
-    }
-
-    private func topMostController() -> WKInterfaceController? {
-        let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
-
-        return visibleController
     }
 }

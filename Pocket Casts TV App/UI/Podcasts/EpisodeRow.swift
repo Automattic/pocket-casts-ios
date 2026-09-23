@@ -17,12 +17,14 @@ struct EpisodeRow: View {
 
     let model: EpisodeRowViewModel
     var isActive: Bool?
+    var showEpisodeNotesImage: Bool
 
     @Environment(\.isFocused) private var isFocused: Bool
 
-    init(model: EpisodeRowViewModel, isActive: Bool? = nil) {
+    init(model: EpisodeRowViewModel, isActive: Bool? = nil, showEpisodeNotesImage: Bool = false) {
         self.model = model
         self.isActive = isActive
+        self.showEpisodeNotesImage = showEpisodeNotesImage
     }
 
     enum Layout {
@@ -31,10 +33,15 @@ struct EpisodeRow: View {
 
     @ViewBuilder
     private var thumbnail: some View {
-        if let uuid = model.podcastUuid {
-            PodcastImage(uuid: uuid, size: .list)
+        if showEpisodeNotesImage {
+            EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: model.episode, size: .list, showEpisodeNotesImage: showEpisodeNotesImage))
         } else {
-            Image(ImageResource.pcLogo)
+            if let uuid = model.podcastUuid {
+                PodcastImage(uuid: uuid, size: .list)
+            } else {
+                Image(ImageResource.pcLogo)
+                   .accessibilityHidden(true)
+            }
         }
     }
 
@@ -83,6 +90,12 @@ struct EpisodeRow: View {
         .focusedCardDepth(isFocused: isFocused, cornerRadius: 12, style: .content)
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        "\(model.episode.displayableTitle()) \(model.episode.accessibilityDisplayableInfo()), \(model.displayDate)"
     }
 
     private var isInProgress: Bool {
@@ -136,6 +149,7 @@ struct EpisodeRowWithActions: View {
 
     let model: EpisodeRowViewModel
     var context: EpisodeActionContext = .other(showGoToPodcast: false)
+    var showEpisodeNotesImage: Bool = false
     @FocusState.Binding var focus: EpisodeRowFocus?
     var customPlayDisplayAction: (() -> ())? = nil
     var detailsDismissed: (() -> ())? = nil
@@ -170,7 +184,7 @@ struct EpisodeRowWithActions: View {
                 model.play()
             } label: {
                 HStack(spacing: 0) {
-                    EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    EpisodeRow(model: model, isActive: isEpisodeFocused, showEpisodeNotesImage: showEpisodeNotesImage)
                     Spacer()
                         .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
                 }
@@ -189,6 +203,7 @@ struct EpisodeRowWithActions: View {
                 }
                 .buttonStyle(MoreButtonStyle())
                 .focused($focus, equals: .more(model.id))
+                .accessibilityLabel(L10n.accessibilityMoreActions)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
         }

@@ -7,6 +7,8 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
 
     func didAppear() {
         Analytics.track(.informationalModalViewShowed)
+        // Reset the cadence clock only once the modal actually appears, not at navigation time.
+        Settings.encourageAccountCreationReferenceDate = Date()
         pageDidChange(0)
     }
 
@@ -40,7 +42,7 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
     }
 
     private func pushOnboarding() {
-        let controller = OnboardingFlow.shared.begin(flow: .loggedOut, in: navigationController, source: .unknown)
+        let controller = OnboardingFlow.shared.begin(flow: .loggedOut, in: navigationController, source: .encourageAccountCreation)
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -81,8 +83,6 @@ fileprivate class InformationalModalHostingController<Content>: OnboardingHostin
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? InformationalModalViewModel else { return }
-
-        Settings.hasShownInformationalViewModal = true
 
         let imageView = ThemeableImageView(frame: .zero)
         imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName

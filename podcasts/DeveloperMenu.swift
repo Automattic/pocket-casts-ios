@@ -15,6 +15,9 @@ struct DeveloperMenu: View {
     @State var showDeviceApproval = false
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
+    #if DEBUG
+    @State var usesMockWhatsNewCatalog = WhatsNewManager.shared.usesMockCatalog
+    #endif
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -31,8 +34,12 @@ struct DeveloperMenu: View {
                     case .success(let url):
                         print("Selected: \(url)")
                         Task {
-                            let fileWrapper = try FileWrapper(url: url)
-                            try PCBundleDoc.performImport(from: fileWrapper)
+                            do {
+                                let fileWrapper = try FileWrapper(url: url)
+                                try PCBundleDoc.performImport(from: fileWrapper)
+                            } catch {
+                                print("Failed to import pcasts: \(error)")
+                            }
                         }
                     case .failure(let error):
                         print("Failed to import pcasts: \(error)")
@@ -83,7 +90,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Unsubscribe from all Podcasts") {
-                    let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                    let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
 
                     for podcast in podcasts {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
@@ -91,7 +98,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Clear all folder information") {
-                    DataManager.sharedManager.clearAllFolderInformation()
+                    DataManager.shared.clearAllFolderInformation()
                 }
 
                 Button("Force Reload Feature Flags") {
@@ -289,9 +296,12 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Reset Informational Modal Visibility") {
+                Button("Trigger Encourage Account Creation Modal") {
+                    // Backdate the anchor past the interval so the modal is due on the next launch.
+                    Settings.encourageAccountCreationReferenceDate = Date().addingTimeInterval(-Settings.encourageAccountCreationInterval)
+                }
+                Button("Reset Initial Onboarding Flow") {
                     Settings.shouldShowInitialOnboardingFlow = true
-                    Settings.hasShownInformationalViewModal = false
                 }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {
@@ -364,7 +374,7 @@ struct DeveloperMenu: View {
                 .sheet(isPresented: $showingRecommendationsOnboarding) {
                     NavigationStack {
                         OnboardingRecommendationsView(coordinator: LoginCoordinator())
-                            .environmentObject(Theme.sharedTheme)
+                            .environmentObject(Theme.shared)
                     }
                 }
                 Button("Show Onboarding Interests") {
@@ -376,11 +386,11 @@ struct DeveloperMenu: View {
                     }, notNowCallback: {
                         showingInterestsOnboarding.toggle()
                     }, isInsideNavigation: false)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
                 .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
                     OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: self.recommendationsViewModel)
-                        .environmentObject(Theme.sharedTheme)
+                        .environmentObject(Theme.shared)
                 }
             } header: {
                 Text("Onboarding")
@@ -427,6 +437,19 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Up Next")
+            }
+            Section {
+                #if DEBUG
+                Toggle("Use Mock Catalog", isOn: $usesMockWhatsNewCatalog)
+                    .onChange(of: usesMockWhatsNewCatalog) { _, newValue in
+                        WhatsNewManager.shared.usesMockCatalog = newValue
+                    }
+                #endif
+                Button("Reset Read State (Local Only)") {
+                    WhatsNewManager.shared.resetReadState()
+                }
+            } header: {
+                Text("What's New Feed")
             }
             Section {
                 Text(Bundle.main.identifier)

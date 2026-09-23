@@ -9,7 +9,6 @@ protocol SearchResultsDelegate {
 }
 
 extension SearchResultsDelegate {
-    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {}
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
 }
 
@@ -18,18 +17,23 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     private let searchHistoryModel = SearchHistoryModel.shared
     private let searchResults: SearchResultsModel
     private let searchAnalyticsHelper: SearchAnalyticsHelper
+    private let networkNavigator: NetworkNavigator
 
     init(source: AnalyticsSource, showLocalResults: Bool = false) {
         searchAnalyticsHelper = SearchAnalyticsHelper(source: source)
         self.searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper, showLocalResults: showLocalResults)
+        self.networkNavigator = NetworkNavigator(source: source)
         super.init(rootView: AnyView(
             SearchView()
             .setupDefaultEnvironment()
             .environmentObject(searchAnalyticsHelper)
             .environmentObject(searchResults)
             .environmentObject(searchHistoryModel)
+            .environmentObject(networkNavigator)
             .environmentObject(displaySearch))
         )
+
+        networkNavigator.presenter = self
     }
 
     required init?(coder aDecoder: NSCoder) {

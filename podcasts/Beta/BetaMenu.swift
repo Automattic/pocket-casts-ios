@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsUtils
+import UniformTypeIdentifiers
 
 struct BetaMenu: View {
     @State private var searchText = ""

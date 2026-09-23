@@ -6,7 +6,7 @@ class DatabaseHelper {
     /// - Returns: `true` if the database was created from scratch this call (starting
     ///   schema version 0) — i.e. there were no tables to begin with.
     @discardableResult
-    class func setup(queue: PCDBQueue) -> Bool {
+    class func setup(queue: GRDBQueue) -> Bool {
         var databaseWasCreated = false
         queue.write { db in
             do {
@@ -29,8 +29,6 @@ class DatabaseHelper {
     }
 
     private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
-        db.beginTransaction()
-
         let failedAt = { (statement: Int) in
             let lastErrorCode = db.lastErrorCode()
             let lastErrorMessage = db.lastErrorMessage()
@@ -928,6 +926,28 @@ class DatabaseHelper {
             }
         }
 
-        db.commit()
+        if schemaVersion < 76 {
+            do {
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage_location INTEGER;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN passage_modified_date INTEGER;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN reference_time real;", values: nil)
+                try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN reference_time_modified_date INTEGER;", values: nil)
+                schemaVersion = 76
+            } catch {
+                failedAt(76)
+                return
+            }
+        }
+
+        if schemaVersion < 77 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN networkListId TEXT;", values: nil)
+                schemaVersion = 77
+            } catch {
+                failedAt(77)
+                return
+            }
+        }
     }
 }

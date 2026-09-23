@@ -39,6 +39,7 @@ struct PlaylistCell: View {
                     Spacer()
                 }
             }
+            .accessibilityElement(children: .combine)
             // In light mode, use variable for light more over artwork (except for focus state)
             .environment(\.colorScheme, colorScheme == .light ? (isFocused ? .light : .dark) : colorScheme)
 

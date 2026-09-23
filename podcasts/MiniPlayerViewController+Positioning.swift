@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension MiniPlayerViewController {
     /// - parameter isTransient: If enabled, hiding temporarily with an intention to
@@ -34,7 +35,7 @@ extension MiniPlayerViewController {
 
     func showMiniPlayer() {
         // only show if something is playing
-        if PlaybackManager.shared.currentEpisode() == nil { return }
+        if PlaybackManager.shared.currentEpisode == nil { return }
 
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
@@ -60,7 +61,7 @@ extension MiniPlayerViewController {
     }
 
     func openFullScreenPlayer(completion: (() -> Void)? = nil) {
-        guard PlaybackManager.shared.currentEpisode() != nil else { return }
+        guard PlaybackManager.shared.currentEpisode != nil else { return }
 
         if fullScreenPlayer?.presentingViewController != nil || fullScreenPlayer?.isBeingPresented == true { return }
 

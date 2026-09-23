@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
+@MainActor
 protocol UserEpisodeDetailProtocol: AnyObject {
     func showEdit(userEpisode: UserEpisode)
     func showDeleteConfirmation(userEpisode: UserEpisode)
@@ -106,7 +107,7 @@ class UserEpisodeDetailViewController: UIViewController {
     // MARK: - Init
 
     init(episodeUuid: String) {
-        episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid)! // TODO: consider making this optional
+        episode = DataManager.shared.findUserEpisode(uuid: episodeUuid)! // TODO: consider making this optional
         super.init(nibName: "UserEpisodeDetailViewController", bundle: nil)
     }
 
@@ -196,7 +197,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     private func reloadEpisode() {
-        guard let reloadedEpisode = DataManager.sharedManager.findUserEpisode(uuid: episode.uuid) else {
+        guard let reloadedEpisode = DataManager.shared.findUserEpisode(uuid: episode.uuid) else {
             return // episode no longer exists so nothing to reload
         }
 
@@ -259,7 +260,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     @objc private func updateUploadProgress() {
-        guard UploadManager.shared.progressManager.hasProgressForUserEpisode(episode.uuid) else { return }
+        guard UploadManager.shared.progressManager.hasProgress(forUserEpisodeUuid: episode.uuid) else { return }
 
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -271,7 +272,7 @@ class UserEpisodeDetailViewController: UIViewController {
             self.uploadProgressIndicator.isHidden = !self.episode.uploading()
             if self.episode.uploading() {
                 self.infoLabel.text = self.episode.displayableInfo(includeSize: true)
-                if let progress = UploadManager.shared.progressManager.progressForEpisode(self.episode.uuid) {
+                if let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: self.episode.uuid) {
                     self.uploadProgressIndicator.progress = progress.percentageProgress()
                 } else {
                     self.uploadProgressIndicator.progress = 0
@@ -281,7 +282,7 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 
     @objc func updateDownloadProgress() {
-        guard let _ = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) else { return }
+        guard let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) else { return }
 
         if !episode.downloading() {
             reloadEpisode()

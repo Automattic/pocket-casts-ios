@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import PocketCastsDataModel
 
+@MainActor
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions
     var analyticsSource: AnalyticsSource { get }
@@ -29,6 +30,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case folder
     case incomingShareList = "incoming_share_list"
     case listeningHistory = "listening_history"
+    case liveActivity = "live_activity"
     case mediaType = "media_type"
     case miniplayer
     case noFiles = "no_files"
@@ -40,6 +42,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case playerPlaybackEffects = "player_playback_effects"
     case playerSkipForwardLongPress = "player_skip_forward_long_press"
     case podcastScreen = "podcast_screen"
+    case podcastScreenNetwork = "podcast_screen_network"
     case podcastScreenYouMightLike = "podcast_screen_you_might_like"
     case podcastSettings = "podcast_settings"
     case podcastsList = "podcasts_list"
@@ -78,7 +81,7 @@ class AnalyticsCoordinator {
         // in the episode's MIME type and is only detected once frames render — so assume video rather
         // than mislabel it as audio. `willPlayViaHLS` is gated behind the HLS flag and only true when the
         // current source is actually HLS, so this only affects analytics for real HLS playback.
-        if let episode = PlaybackManager.shared.currentEpisode(), EpisodeManager.willPlayViaHLS(episode) {
+        if let episode = PlaybackManager.shared.currentEpisode, EpisodeManager.willPlayViaHLS(episode) {
             return true
         }
         return PlaybackManager.shared.isCurrentEpisodeVideo()
@@ -91,7 +94,8 @@ class AnalyticsCoordinator {
         }
 
         #if !os(watchOS) && !APPCLIP
-        return topAnalyticsSourceProvider()?.analyticsSource ?? .unknown
+        guard Thread.isMainThread else { return .unknown }
+        return MainActor.assumeIsolated { topAnalyticsSourceProvider()?.analyticsSource } ?? .unknown
         #else
         return .unknown
         #endif
@@ -112,7 +116,8 @@ class AnalyticsCoordinator {
             Analytics.track(event, properties: mergedProperties)
         }
 
-    func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
+    @MainActor
+    func getTopViewController(base: UIViewController?) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }
@@ -127,8 +132,9 @@ class AnalyticsCoordinator {
             return base
         }
 
+    @MainActor
     func topAnalyticsSourceProvider() -> AnalyticsSourceProvider? {
-        guard let topViewController = getTopViewController() else { return nil }
+        guard let topViewController = getTopViewController(base: SceneHelper.rootViewController()) else { return nil }
 
         var candidate: UIViewController? = topViewController
         while let viewController = candidate {

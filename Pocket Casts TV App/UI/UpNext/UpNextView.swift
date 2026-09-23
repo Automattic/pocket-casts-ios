@@ -108,6 +108,7 @@ struct UpNextView: View {
             Text(L10n.tvUpNextEmptySubtitle)
         } actions: {
             Button(L10n.tvUpNextEmptyActionTitle) {
+                Analytics.track(.upNextDiscoverButtonTapped)
                 tabRouter.selectedTab = .home
             }
         }

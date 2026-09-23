@@ -71,6 +71,7 @@ struct PlaylistsView: View {
             Text(L10n.tvPlaylistsEmptySubtitle)
         } actions: {
             Button(L10n.tvPlaylistsEmptyActionTitle) {
+                Analytics.track(.filterCreateButtonTapped)
                 showDownloadModal = true
             }
         }
@@ -94,7 +95,7 @@ struct PlaylistsView: View {
         })
         .focusScope(listNamespace)
         .navigationDestination(for: PlaylistItem.self) { playlist in
-            PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist))
+            PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist, detail: true))
         }
     }
 }

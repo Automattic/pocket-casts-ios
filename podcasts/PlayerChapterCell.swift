@@ -2,6 +2,7 @@ import PocketCastsUtils
 import PocketCastsDataModel
 import UIKit
 
+@MainActor
 class PlayerChapterCell: UITableViewCell {
     @IBOutlet var chapterName: UILabel! {
         didSet {
@@ -44,9 +45,6 @@ class PlayerChapterCell: UITableViewCell {
     enum ChapterPlayState { case played, currentlyPlaying, currentlyPaused, future }
 
     private var playState = ChapterPlayState.played
-
-    private var circleCenter: CGPoint!
-    var chapterPlayedTime: Int!
 
     private var isChapterToggleEnabled: Bool = false
 
@@ -159,7 +157,7 @@ class PlayerChapterCell: UITableViewCell {
         guard let chapter, let link = chapter.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
         PlaybackManager.shared.trackChapterEvent(.chapterLinkClicked, properties: [
             "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown",
-            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown",
             "chapter_title": chapter.title
         ])
         linkTapped(url)
@@ -172,7 +170,7 @@ class PlayerChapterCell: UITableViewCell {
 
         setColors(dim: chapter?.isPlayable() == false)
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode, let index = chapter?.index {
             if chapter?.shouldPlay == true {
                 currentEpisode.select(chapterIndex: index)
                 track(.deselectChaptersChapterSelected)
@@ -183,7 +181,7 @@ class PlayerChapterCell: UITableViewCell {
 
             currentEpisode.deselectedChaptersModified = TimeFormatter.currentUTCTimeInMillis()
 
-            DataManager.sharedManager.save(episode: currentEpisode)
+            DataManager.shared.save(episode: currentEpisode)
         }
     }
 
@@ -219,6 +217,6 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func track(_ event: AnalyticsEvent) {
-        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
+        PlaybackManager.shared.trackChapterEvent(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown"])
     }
 }

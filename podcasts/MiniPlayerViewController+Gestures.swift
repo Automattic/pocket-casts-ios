@@ -1,9 +1,8 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension MiniPlayerViewController: UIGestureRecognizerDelegate {
-    private static let minMoveAmount = 80 as CGFloat
-
     func addGestureRecognizers() {
         panUpRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullingUpGesture(_:)))
         panUpRecognizer.delegate = self
@@ -84,7 +83,7 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
         let markAsPlayed = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") { [weak self] in
             guard let self else { return }
             Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
-            if let episode = PlaybackManager.shared.currentEpisode() {
+            if let episode = PlaybackManager.shared.currentEpisode {
                 AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
@@ -114,7 +113,7 @@ extension MiniPlayerViewController: UIContextMenuInteractionDelegate {
         return UIContextMenuConfiguration(
             identifier: nil,
             previewProvider: {
-                guard let episode = PlaybackManager.shared.currentEpisode() else { return nil }
+                guard let episode = PlaybackManager.shared.currentEpisode else { return nil }
                 return MiniPlayerLongPressPreviewViewController(episode: episode)
             },
             actionProvider: { [weak self] _ in

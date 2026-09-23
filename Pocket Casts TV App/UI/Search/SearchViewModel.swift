@@ -1,27 +1,38 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 enum SearchScope: CaseIterable, Equatable {
+    case topResults
     case podcasts
     case episodes
+    case networks
 
     var localizedName: String {
         switch self {
+        case .topResults:
+            return L10n.tvSearchScopeTopResults
         case .podcasts:
             return L10n.podcastsPlural
         case .episodes:
             return L10n.episodes
+        case .networks:
+            return L10n.searchFilterNetworks
         }
     }
 
     /// Matches the iOS `SearchDisplayMode` analytics values.
     var analyticsDescription: String {
         switch self {
+        case .topResults:
+            return "top_results"
         case .podcasts:
             return "podcasts"
         case .episodes:
             return "episodes"
+        case .networks:
+            return "networks"
         }
     }
 }
@@ -54,6 +65,14 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var scope: SearchScope { get set }
     var podcastResults: [CombinedSearchResultType] { get }
     var episodeResults: [EpisodeSearchResult] { get }
+    var networkResults: [NetworkSearchResult] { get }
+
+    /// `episodeResults` split into the episodes the `Featured` row previews and the
+    /// ones left for the `Episodes` row. Partitioned once per search rather than on
+    /// every render.
+    var videoEpisodeResults: [EpisodeSearchResult] { get }
+    var remainingEpisodeResults: [EpisodeSearchResult] { get }
+
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -66,6 +85,30 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var isInSearchMode: Bool { get }
 }
 
+extension SearchableViewModel {
+    /// The scopes offered for the current results: Networks only joins them when the
+    /// term actually matched one.
+    var availableScopes: [SearchScope] {
+        networkResults.isEmpty ? [.topResults, .podcasts, .episodes] : SearchScope.allCases
+    }
+
+    /// `podcastResults` only ever holds `.podcast` cases — this unwraps them for the
+    /// rows that take a podcast directly.
+    var podcastOnlyResults: [PodcastFolderSearchResult] {
+        podcastResults.compactMap {
+            guard case .podcast(let podcast) = $0 else { return nil }
+            return podcast
+        }
+    }
+}
+
+extension EpisodeSearchResult {
+    /// A video episode we also have a stream for — the only kind the `Featured` row can preview.
+    var isPlayableVideo: Bool {
+        hasVideo && videoURL != nil
+    }
+}
+
 @Observable
 @MainActor
 class SearchViewModel: SearchableViewModel {
@@ -76,7 +119,7 @@ class SearchViewModel: SearchableViewModel {
     private var predictiveSearchTask = PredictiveSearchTask()
     private var fullSearchTask = CombinedSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+    init(dataManager: DataManager = DataManager.shared, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.dataManager = dataManager
         self.tvDataManager = tvDataManager
         self.searchModel = searchModel
@@ -95,11 +138,31 @@ class SearchViewModel: SearchableViewModel {
 
     var state: SearchState = .query
 
-    var scope: SearchScope = .podcasts
+    var scope: SearchScope = .topResults
 
     var podcastResults: [CombinedSearchResultType] = []
 
-    var episodeResults: [EpisodeSearchResult] = []
+    // Partitioned here rather than in the view so the filtering runs once per search
+    // instead of on every render, and the two halves can't drift from `episodeResults`.
+    var episodeResults: [EpisodeSearchResult] = [] {
+        didSet {
+            videoEpisodeResults = episodeResults.filter(\.isPlayableVideo)
+            remainingEpisodeResults = episodeResults.filter { !$0.isPlayableVideo }
+        }
+    }
+
+    private(set) var videoEpisodeResults: [EpisodeSearchResult] = []
+
+    private(set) var remainingEpisodeResults: [EpisodeSearchResult] = []
+
+    var networkResults: [NetworkSearchResult] = [] {
+        didSet {
+            // Searching again can leave Networks selected with nothing left to show.
+            if networkResults.isEmpty, scope == .networks {
+                scope = .topResults
+            }
+        }
+    }
 
     var searchHistory: [String] {
         searchModel.entries.compactMap(\.searchTerm)
@@ -122,6 +185,7 @@ class SearchViewModel: SearchableViewModel {
         searchTask?.cancel()
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             if !podcastResults.isEmpty { podcastResults = [] }
+            if !networkResults.isEmpty { networkResults = [] }
             if !autoCompleteSuggestions.isEmpty { autoCompleteSuggestions = [] }
             state = .query
             return
@@ -170,6 +234,7 @@ class SearchViewModel: SearchableViewModel {
                 saveHistory(query)
                 let fullResults = try await fullSearchTask.search(term: query)
                 var episodes: [EpisodeSearchResult] = []
+                var networks: [NetworkSearchResult] = []
                 for searchResult in fullResults {
                     switch searchResult {
                     case .podcast(let podcast):
@@ -178,6 +243,10 @@ class SearchViewModel: SearchableViewModel {
                         }
                     case .episode(let episode):
                         episodes.append(episode)
+                    case .network(let network):
+                        if FeatureFlag.networkDiscovery.enabled {
+                            networks.append(network)
+                        }
                     }
                 }
 
@@ -185,7 +254,8 @@ class SearchViewModel: SearchableViewModel {
 
                 podcastResults = combinedPodcastsResults
                 episodeResults = episodes
-                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty
+                networkResults = networks
+                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty && networks.isEmpty
                 if isEmpty {
                     Analytics.track(.searchEmptyResults, properties: ["source": "search", "term": query])
                 }

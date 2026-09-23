@@ -5,7 +5,7 @@ import UIKit
 class SonosLinkController: PCViewController {
     @IBOutlet var sonosImage: UIImageView! {
         didSet {
-            sonosImage.image = Theme.isDarkTheme() ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
+            sonosImage.image = Theme.isDarkTheme ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
         }
     }
 
@@ -80,7 +80,7 @@ private extension SonosLinkController {
             return
         }
 
-        Task {
+        Task { [weak self] in
             let token = await ApiServerHandler.shared.exchangeSonosToken()
 
             DispatchQueue.main.async { [weak self] in

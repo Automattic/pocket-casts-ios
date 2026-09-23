@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
 import WatchKit
 
 class WatchSyncManager {
@@ -33,7 +34,6 @@ class WatchSyncManager {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
 
         ServerConfig.shared.syncDelegate = self
@@ -104,7 +104,7 @@ class WatchSyncManager {
                 comparisonResult: compareUpNextLists(),
                 isFirstSyncInProgress: SyncManager.isFirstSyncInProgress()
             ) {
-               let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+               let subscribedPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
                BackgroundSyncManager.shared.performBackgroundRefreshSafely(subscribedPodcasts: subscribedPodcasts)
             } else {
                 loginAndRefreshIfRequired()
@@ -147,28 +147,26 @@ class WatchSyncManager {
     }
 
     func login() {
-        Task {
+        Task { @MainActor in
             do {
                 try await AuthenticationHelper.refreshLogin()
-                DispatchQueue.main.async {
-                    self.handleLogin()
-                }
+                handleLogin()
             }
             catch {
-                DispatchQueue.main.async {
-                    self.handleError(error)
-                }
+                handleError(error)
             }
         }
     }
 
+    @MainActor
     private func handleLogin() {
         FileLog.shared.addMessage("Login successful")
-        self.checkSubscriptionStatus()
+        checkSubscriptionStatus()
         NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 
+    @MainActor
     private func handleError(_ error: Error) {
         let error = error as? APIError
 
@@ -251,7 +249,7 @@ class WatchSyncManager {
         guard let podcastSettings = data[WatchConstants.Keys.podcastSettings] as? [[String: Any]] else { return }
 
         for podcastSetting in podcastSettings {
-            guard let podcastUuid = podcastSetting[WatchConstants.Keys.podcastUuid] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { continue }
+            guard let podcastUuid = podcastSetting[WatchConstants.Keys.podcastUuid] as? String, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) else { continue }
 
             if let overrideGlobalArchive = podcastSetting[WatchConstants.Keys.podcastOverrideGlobalArchive] as? Bool {
                 podcast.overrideGlobalArchive = overrideGlobalArchive
@@ -260,7 +258,7 @@ class WatchSyncManager {
             if let autoArchivePlayedAfter = podcastSetting[WatchConstants.Keys.podcastAutoArchivePlayedAfter] as? TimeInterval {
                 podcast.autoArchivePlayedAfter = autoArchivePlayedAfter
             }
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
         }
     }
 
@@ -300,7 +298,7 @@ class WatchSyncManager {
     @objc private func playbackPaused() {
         guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
               SyncManager.isUserLoggedIn(),
-              let episode = PlaybackManager.shared.currentEpisode() else { return }
+              let episode = PlaybackManager.shared.currentEpisode else { return }
 
         FileLog.shared.addMessage("WatchSync: pushing playback progress \(episode.playedUpTo) to phone for \(episode.uuid)")
         SessionManager.shared.sendPlaybackProgress(episodeUuid: episode.uuid,

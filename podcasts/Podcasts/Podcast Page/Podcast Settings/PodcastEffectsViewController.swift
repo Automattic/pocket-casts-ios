@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class PodcastEffectsViewController: PCViewController {
@@ -56,7 +57,7 @@ class PodcastEffectsViewController: PCViewController {
         guard let uuidLoaded = notification.object as? String else { return }
 
         if podcast.uuid == uuidLoaded {
-            if let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid) {
+            if let updatedPodcast = DataManager.shared.findPodcast(uuid: podcast.uuid) {
                 podcast = updatedPodcast
                 updateColors()
                 effectsTable.reloadData()

@@ -2,9 +2,9 @@ import PocketCastsUtils
 import Foundation
 
 public struct AutoAddCandidatesDataManager {
-    private let dbQueue: PCDBQueue
+    private let dbQueue: GRDBQueue
 
-    init(dbQueue: PCDBQueue) {
+    init(dbQueue: GRDBQueue) {
         self.dbQueue = dbQueue
     }
 
@@ -117,7 +117,6 @@ public struct AutoAddCandidatesDataManager {
     private enum Constants {
         static let tableName = "AutoAddCandidates"
         static let autoAddSettingColumnName = "auto_add_setting"
-        static let settingsColumnName = "settings"
         static let episodeColumnName = "episode_uuid"
         static let idColumnName = "id"
     }

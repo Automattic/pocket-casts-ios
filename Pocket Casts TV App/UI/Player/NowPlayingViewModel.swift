@@ -3,6 +3,7 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import Combine
+import UIKit
 
 @Observable
 class NowPlayingViewModel: Identifiable {
@@ -22,6 +23,9 @@ class NowPlayingViewModel: Identifiable {
     var episode: BaseEpisode?
     var podcast: Podcast?
 
+    @MainActor
+    private var artworkManager = EpisodeArtwork()
+
     /// True while the player is still preparing its item (initial load or
     /// mid-stream buffering). Drives the branded loading UI in
     /// `MediaOverlayView` and lets `NowPlayingView` suppress AVKit's system
@@ -29,12 +33,13 @@ class NowPlayingViewModel: Identifiable {
     var isLoading: Bool = true
     var isFirstLoad: Bool = false
     var isFailed: Bool = false
+    var isPlaying: Bool = false
 
     @ObservationIgnored private var timeControlStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var currentItemObservation: NSKeyValueObservation?
 
-    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.sharedManager) {
+    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.shared) {
         self.playbackManager = playbackManager
         self.imageManager = imageManager
         observeUpNextChanges()
@@ -52,7 +57,7 @@ class NowPlayingViewModel: Identifiable {
     private var seekAfterLoad = false
 
     func load() {
-        let newEpisode = playbackManager.currentEpisode()
+        let newEpisode = playbackManager.currentEpisode
         guard newEpisode?.uuid != episode?.uuid else {
             return
         }
@@ -60,7 +65,7 @@ class NowPlayingViewModel: Identifiable {
         isFirstLoad = true
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
-        if !playbackManager.playing(), !playbackManager.isReadyToPlay {
+        if !playbackManager.isPlaying, !playbackManager.isReadyToPlay {
             playbackManager.loadCurrentEpisode()
             seekAfterLoad = true
         }
@@ -115,6 +120,7 @@ class NowPlayingViewModel: Identifiable {
         let itemNotReady = status == .unknown
         isLoading = waiting || itemNotReady
         isFailed = status == .failed
+        isPlaying = player.timeControlStatus == .playing
         if !isLoading {
             isFirstLoad = false
         }
@@ -175,30 +181,30 @@ class NowPlayingViewModel: Identifiable {
 
     var playbackSpeed: Double {
         get {
-            playbackManager.effects().playbackSpeed
+            playbackManager.effects.playbackSpeed
         }
         set {
-            playbackManager.effects().playbackSpeed = newValue
+            playbackManager.effects.playbackSpeed = newValue
             playbackManager.applyCurrentEffect()
         }
     }
 
     var volumeBoost: Bool {
         get {
-            playbackManager.effects().volumeBoost
+            playbackManager.effects.volumeBoost
         }
         set {
-            playbackManager.effects().volumeBoost = newValue
+            playbackManager.effects.volumeBoost = newValue
             playbackManager.applyCurrentEffect()
         }
     }
 
     var trimSilence: TrimSilenceAmount {
         get {
-            playbackManager.effects().trimSilence
+            playbackManager.effects.trimSilence
         }
         set {
-            playbackManager.effects().trimSilence = newValue
+            playbackManager.effects.trimSilence = newValue
             playbackManager.applyCurrentEffect()
         }
     }
@@ -208,7 +214,12 @@ class NowPlayingViewModel: Identifiable {
             return nil
         }
 
-        return await imageManager.imageForEpisode(episode, size: .page)
+        if Settings.loadEmbeddedImages, let podcastEpisode = episode as? Episode,
+           let image = await artworkManager.artworkFromShowNotes(podcastUuid: podcastEpisode.podcastUuid, episodeUuid: podcastEpisode.uuid) {
+            return image
+        }
+
+        return await imageManager.image(for: episode, size: .page)
     }
 
     var podcastUuid: String? {

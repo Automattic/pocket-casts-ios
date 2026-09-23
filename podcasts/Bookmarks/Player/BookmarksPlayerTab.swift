@@ -6,7 +6,7 @@ struct BookmarksPlayerTab: View {
     @ObservedObject var viewModel: BookmarkEpisodeListViewModel
 
     var body: some View {
-        BookmarksListView(viewModel: viewModel, style: BookmarksPlayerTabStyle())
+        BookmarksListView(viewModel: viewModel, style: BookmarksPlayerTabStyle(), reservesMiniPlayerSpace: false)
     }
 }
 

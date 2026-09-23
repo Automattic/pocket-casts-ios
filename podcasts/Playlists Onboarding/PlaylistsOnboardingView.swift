@@ -52,5 +52,5 @@ struct PlaylistsOnboardingView: View {
 
 #Preview {
     PlaylistsOnboardingView(onClose: {})
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

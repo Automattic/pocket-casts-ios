@@ -22,10 +22,6 @@ public extension String {
         Int(self) ?? 0
     }
 
-    func stringByRemovingEmoji() -> String {
-        String(filter { !$0.isEmoji() })
-    }
-
     var digits: Int {
         let numberStr = components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
 
@@ -51,14 +47,6 @@ public extension String {
         }
 
         return true
-    }
-
-    func widthOfString(usingFont font: UIFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-
-        let attributedSize = self.size(withAttributes: fontAttributes)
-
-        return attributedSize.width
     }
 
     /// Returns a lowercased copy of the string with punctuation removed and spaces replaced

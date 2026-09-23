@@ -19,7 +19,7 @@ class MultiSelectActionCell: ThemeableCell {
     }
 
     private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
     }
@@ -33,6 +33,10 @@ class MultiSelectActionCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: MultiSelectActionCell, _) in
+            view.updateSize()
+        }
     }
 
     private func updateSize() {
@@ -40,12 +44,5 @@ class MultiSelectActionCell: ThemeableCell {
         let iconSize = max(24, metric.scaledValue(for: 24))
 
         iconView.updateSizeConstraints(to: iconSize)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

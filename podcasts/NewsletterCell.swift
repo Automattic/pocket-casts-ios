@@ -38,20 +38,16 @@ class NewsletterCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: NewsletterCell, _) in
+            view.updateSize()
+        }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
         updateSize()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     func updateSize() {

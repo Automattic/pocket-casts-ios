@@ -51,7 +51,7 @@ class SubscribeButtonModel: ObservableObject {
         self.podcastUuid = podcastUuid
         self.source = source
         self.subscribeBlock = subscribeBlock
-        isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
+        isSubscribed = DataManager.shared.findPodcast(uuid: podcastUuid) != nil
     }
 
     func subscribe() {
@@ -61,7 +61,7 @@ class SubscribeButtonModel: ObservableObject {
     }
 
     func checkSubscriptionStatus() {
-        isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
+        isSubscribed = DataManager.shared.findPodcast(uuid: podcastUuid) != nil
     }
 }
 

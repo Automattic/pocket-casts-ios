@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 import Combine
 
@@ -52,21 +53,21 @@ class ShortcutManager: CustomObserver {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
 
         // top playlist
-        if let topPlaylist = DataManager.sharedManager.allPlaylists(includeDeleted: false).first, let iconName = topPlaylist.iconImageName() {
+        if let topPlaylist = DataManager.shared.allPlaylists(includeDeleted: false).first, let iconName = topPlaylist.iconImageName() {
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
                     type: "au.com.shiftyjelly.podcasts",
                     localizedTitle: topPlaylist.playlistName,
-                    localizedSubtitle: "\(DataManager.sharedManager.episodeCount(for: topPlaylist, episodeUuidToAdd: topPlaylist.episodeUuidToAddToQueries())) items",
+                    localizedSubtitle: "\(DataManager.shared.episodeCount(for: topPlaylist, episodeUuidToAdd: topPlaylist.episodeUuidToAddToQueries())) items",
                     icon: UIApplicationShortcutIcon(templateImageName: iconName),
                     userInfo: ["url": "pktc://shortcuts/filter/\(topPlaylist.uuid)" as NSSecureCoding]
                 )
             )
         }
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode() {
+        if let currentEpisode = PlaybackManager.shared.currentEpisode {
             // add a play/pause shortcut
-            if PlaybackManager.shared.playing() {
+            if PlaybackManager.shared.isPlaying {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",

@@ -4,20 +4,14 @@ import PocketCastsUtils
 import SwiftUI
 
 struct BookmarkEditTitleView: View {
-    @ObservedObject var viewModel: BookmarkEditViewModel
+    @ObservedObject var viewModel: BookmarkEditTitleViewModel
     @ObservedObject var theme: BookmarkEditTheme
 
     @State private var bookmarkTitle: String
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
-    @State private var hasEdited = false
-
-    /// The value about to be written into `bookmarkTitle` programmatically, so
-    /// its `onChange` doesn't count it as a user edit.
-    @State private var pendingSuggestion: String?
-
-    init(viewModel: BookmarkEditViewModel, theme: BookmarkEditTheme) {
+    init(viewModel: BookmarkEditTitleViewModel, theme: BookmarkEditTheme) {
         self.viewModel = viewModel
         self.theme = theme
 
@@ -50,53 +44,11 @@ struct BookmarkEditTitleView: View {
         VStack(spacing: EditConstants.padding) {
             headerView
             Spacer()
-            titleSection
+            textField
             Spacer()
             saveButton
         }
         .padding(.top, EditConstants.padding)
-    }
-
-    private var titleSection: some View {
-        VStack(spacing: EditConstants.suggestionSpacing) {
-            textField
-                .overlay(alignment: .trailing) {
-                    if viewModel.titleSuggestion == .generating, !hasEdited {
-                        ProgressView()
-                            .tint(theme.subTitle)
-                    }
-                }
-
-            if case .available(let suggestion) = viewModel.titleSuggestion {
-                suggestionView(suggestion)
-            }
-        }
-        .animation(.easeInOut(duration: 0.2), value: viewModel.titleSuggestion)
-        .onReceive(viewModel.autoApplySuggestion) { suggestion in
-            apply(suggestion: suggestion)
-        }
-    }
-
-    /// A generated title suggestion the user can tap to use
-    private func suggestionView(_ suggestion: String) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: "sparkles")
-            Text(suggestion)
-                .lineLimit(2)
-        }
-        .font(style: .callout)
-        .foregroundStyle(theme.subTitle)
-        .buttonize {
-            apply(suggestion: suggestion)
-            viewModel.suggestionHandled()
-        }
-        .accessibilityLabel(L10n.bookmarkSuggestedTitle(suggestion))
-        .transition(.opacity.combined(with: .move(edge: .top)))
-    }
-
-    private func apply(suggestion: String) {
-        pendingSuggestion = suggestion
-        bookmarkTitle = suggestion
     }
 
     /// The title and subtitle views
@@ -173,15 +125,8 @@ struct BookmarkEditTitleView: View {
                 // Force the height to be equal to the invisible text view
                 .frame(height: textFieldSize.height)
 
-                // Track user edits and enforce the max length of the title
+                // Enforce the max length of the title
                 .onChange(of: bookmarkTitle) { _, newValue in
-                    if newValue == pendingSuggestion {
-                        pendingSuggestion = nil
-                    } else {
-                        hasEdited = true
-                        viewModel.userDidEditTitle()
-                    }
-
                     let max = Constants.Values.bookmarkMaxTitleLength
                     guard newValue.count > max else { return }
 
@@ -203,7 +148,6 @@ struct BookmarkEditTitleView: View {
 
     private enum EditConstants {
         static let padding = 18.0
-        static let suggestionSpacing = 12.0
     }
 }
 
@@ -235,34 +179,87 @@ private extension View {
 // MARK: - Theme
 
 class BookmarkEditTheme: ThemeObserver {
-    let episode: BaseEpisode?
+    enum Style {
+        case player
+        case themed
+    }
 
-    init(episode: BaseEpisode?) {
+    let episode: BaseEpisode?
+    let style: Style
+
+    init(episode: BaseEpisode?, style: Style = .player) {
         self.episode = episode
+        self.style = style
     }
 
     var background: Color {
-        PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme, episode: episode).color
+        case .themed: theme.primaryUi01
+        }
     }
 
-    var title: Color { theme.playerContrast01 }
-    var subTitle: Color { theme.playerContrast02 }
-    var closeButton: Color { theme.playerContrast01 }
-    var textField: Color { theme.playerContrast01 }
+    var title: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
+
+    var subTitle: Color {
+        switch style {
+        case .player: theme.playerContrast02
+        case .themed: theme.primaryText02
+        }
+    }
+
+    var closeButton: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
+
+    var textField: Color {
+        switch style {
+        case .player: theme.playerContrast01
+        case .themed: theme.primaryText01
+        }
+    }
 
     var textFieldAccent: Color {
-        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        case .themed: theme.primaryInteractive01
+        }
     }
 
-    var textFieldPlaceholder: Color { theme.playerContrast05 }
-    var textFieldUnderline: Color { theme.playerContrast05 }
+    var textFieldPlaceholder: Color {
+        switch style {
+        case .player: theme.playerContrast05
+        case .themed: theme.primaryText02
+        }
+    }
+
+    var textFieldUnderline: Color {
+        switch style {
+        case .player: theme.playerContrast05
+        case .themed: theme.primaryUi05
+        }
+    }
 
     var saveButton: Color {
-        saveButtonBackground.luminance() < 0.5 ? .white : .black
+        switch style {
+        case .player: saveButtonBackground.luminance() < 0.5 ? .white : .black
+        case .themed: theme.primaryInteractive02
+        }
     }
 
     var saveButtonBackground: Color {
-        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        switch style {
+        case .player: PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+        case .themed: theme.primaryInteractive01
+        }
     }
 }
 

@@ -6,6 +6,8 @@ struct ProfileMenuView: View {
 
     @State private var isShowingLogoutConfirmation = false
 
+    @State private var isShowingSettings = false
+
     /// Called with the chosen destination when the signed-out user taps
     /// "Log in" or "Create account". The presenter is responsible for
     /// dismissing this menu and showing the destination.
@@ -56,6 +58,10 @@ struct ProfileMenuView: View {
         } message: {
             Text(L10n.tvProfileMenuLogOutConfirmationMessageVersion2)
         }
+        .sheet(isPresented: $isShowingSettings) {
+            SettingsMenuView()
+                .environment(coordinator)
+        }
         .onAppear {
             Analytics.track(.profileShown)
         }
@@ -70,6 +76,7 @@ struct ProfileMenuView: View {
                 ProfileImage(email: email)
                     .frame(width: 160, height: 160)
                     .clipShape(Circle())
+                    .accessibilityHidden(true)
                 Text(email)
                     .font(.title3)
                     .foregroundStyle(Color.pcTextPrimary)
@@ -78,7 +85,6 @@ struct ProfileMenuView: View {
 
             Divider()
                 .frame(maxWidth: 400)
-
             Button {
                 onProfileSelected(.starred)
             } label: {
@@ -91,7 +97,12 @@ struct ProfileMenuView: View {
                 Text(L10n.listeningHistory)
                     .frame(minWidth: 400)
             }
-
+            Button {
+                isShowingSettings = true
+            } label: {
+                Text(L10n.settings)
+                    .frame(minWidth: 400)
+            }
             Divider()
                 .frame(maxWidth: 400)
 
@@ -120,6 +131,12 @@ struct ProfileMenuView: View {
                 onAuthSelected(.createAccount)
             } label: {
                 Label(L10n.tvProfileMenuCreateAccount, systemImage: "person.crop.circle.badge.plus")
+                    .frame(minWidth: 400)
+            }
+            Button {
+                isShowingSettings = true
+            } label: {
+                Text(L10n.settings)
                     .frame(minWidth: 400)
             }
         }

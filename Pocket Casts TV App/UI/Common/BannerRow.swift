@@ -1,8 +1,8 @@
 import SwiftUI
 
-enum BannerType {
-    case createAccount
-    case discoverMore
+enum BannerType: String {
+    case createAccount = "create_account"
+    case discoverMore = "discover_more"
 
     var title: String {
         switch self {
@@ -74,6 +74,7 @@ struct BannerRow: View {
     var body: some View {
         ZStack(alignment: .trailing) {
             Image(icon)
+                .accessibilityHidden(true)
             if gradient {
                 // Solid dark on the left (where the CTA + text sit), fading to clear
                 // over the rightmost 18% so the artwork on the right blends into the
@@ -98,6 +99,7 @@ struct BannerRow: View {
                 }
                 .disabled(action == nil)
                 .setFocus(section: focusSection)
+                .accessibilityLabel("\(title). \(subtitle). \(actionTitle)")
                 Spacer().frame(width: 80)
                 VStack(alignment: .leading) {
                     Text(title)
@@ -109,6 +111,7 @@ struct BannerRow: View {
                         .foregroundStyle(Color.pcTextSecondary)
                         .lineLimit(2)
                 }
+                .accessibilityHidden(true)
                 Spacer()
             }
         }

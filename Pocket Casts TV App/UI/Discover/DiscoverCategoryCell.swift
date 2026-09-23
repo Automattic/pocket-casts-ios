@@ -31,6 +31,7 @@ struct DiscoverCategoryCell: View {
                         .resizable()
                         .tint(isFocused ? Color.pcTextPrimary : Color.pcTextSecondary)
                         .frame(width: Layout.iconSize, height: Layout.iconSize)
+                        .accessibilityHidden(true)
                 }
                 Text(model.name)
                     .font(.headline)

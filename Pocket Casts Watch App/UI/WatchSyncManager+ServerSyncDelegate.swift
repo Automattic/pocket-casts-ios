@@ -78,12 +78,16 @@ extension WatchSyncManager: ServerSyncDelegate {
         false
     }
 
+    func isNewEpisodeNotificationsEnabled() -> Bool {
+        false
+    }
+
     func defaultPodcastGrouping() -> Int32 {
-        Settings.defaultPodcastGrouping().rawValue
+        Settings.defaultPodcastGrouping.rawValue
     }
 
     func defaultShowArchived() -> Bool {
-        Settings.showArchivedDefault()
+        Settings.showArchivedDefault
     }
 
     func uniqueAppId() -> String {

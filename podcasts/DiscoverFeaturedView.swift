@@ -56,8 +56,8 @@ class DiscoverFeaturedView: ThemeableView {
             subscribeButton.offImage = UIImage(named: "discover_add")
             subscribeButton.tintColor = ThemeColor.contrast02()
 
-            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
-            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.follow
+            subscribeButton.onAccessibilityLabel = L10n.unfollow
         }
     }
 
@@ -75,11 +75,15 @@ class DiscoverFeaturedView: ThemeableView {
     }
 
     private func commonInit() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DiscoverFeaturedView, _) in
+            view.updateSize()
+        }
+
         Bundle.main.loadNibNamed("DiscoverFeaturedView", owner: self, options: nil)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
-        backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+        backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor
         setupAlternativeConstraints()
         updateSize()
     }
@@ -135,7 +139,7 @@ class DiscoverFeaturedView: ThemeableView {
         }
         subscribeButton.currentlyOn = false
         if let uuid = discoverPodcast.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 subscribeButton.currentlyOn = true
             }
         }
@@ -208,14 +212,6 @@ class DiscoverFeaturedView: ThemeableView {
                 titleTopConstraint,
                 titleLeadingConstraint
             ])
-        }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSize()
         }
     }
 }

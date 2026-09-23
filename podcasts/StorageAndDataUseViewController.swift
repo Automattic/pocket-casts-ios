@@ -17,7 +17,6 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private let usageSection = 0
-    private let dataUseSection = 1
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 

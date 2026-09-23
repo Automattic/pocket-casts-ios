@@ -30,7 +30,7 @@ struct UserEpisodeManager {
                 episode.hasCustomImage = false
             }
 
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
 
             if SubscriptionHelper.hasActiveSubscription(), Settings.userFilesAutoUpload() {
                 uploadUserEpisode(userEpisode: episode)
@@ -44,11 +44,6 @@ struct UserEpisodeManager {
         }
     #endif
 
-    static func renameUserEpisode(title: String, userEpisode: UserEpisode) {
-        userEpisode.title = title
-        DataManager.sharedManager.save(episode: userEpisode)
-    }
-
     static func uploadUserEpisode(userEpisode: UserEpisode) {
         if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             UploadManager.shared.queueForLaterUpload(episodeUuid: userEpisode.uuid, fireNotification: true)
@@ -58,7 +53,7 @@ struct UserEpisodeManager {
     }
 
     static func updateUserEpisodes() {
-        let episodes = DataManager.sharedManager.unsyncedUserEpisodes()
+        let episodes = DataManager.shared.unsyncedUserEpisodes()
         if !episodes.isEmpty {
             ApiServerHandler.shared.uploadFilesUpdateRequest(episodes: episodes, completion: { _ in })
         }
@@ -76,12 +71,12 @@ struct UserEpisodeManager {
             return
         }
 
-        DataManager.sharedManager.saveEpisode(uploadStatus: .deleteFromCloudPending, episode: episode)
+        DataManager.shared.saveEpisode(uploadStatus: .deleteFromCloudPending, episode: episode)
         NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
 
         ApiServerHandler.shared.uploadFileDelete(episode: episode, completion: { success in
             guard let success, success else { return }
-            DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: episode)
+            DataManager.shared.saveEpisode(uploadStatus: .notUploaded, episode: episode)
             NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
             UserEpisodeManager.updateUserEpisodes()
         })
@@ -100,7 +95,7 @@ struct UserEpisodeManager {
 
         // if this file isn't uploaded, then it can't be redownloaded, so blow it away
         if !userEpisode.uploaded() {
-            DataManager.sharedManager.delete(userEpisodeUuid: userEpisode.uuid)
+            DataManager.shared.delete(userEpisodeUuid: userEpisode.uuid)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.userEpisodeDeleted, object: userEpisode.uuid)
         } else {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: userEpisode.uuid)
@@ -108,7 +103,7 @@ struct UserEpisodeManager {
     }
 
     static func deleteFromEverywhere(userEpisode: UserEpisode, removeFromPlaybackQueue: Bool = true) {
-        DataManager.sharedManager.saveEpisode(uploadStatus: .deleteFromCloudAndLocalPending, episode: userEpisode)
+        DataManager.shared.saveEpisode(uploadStatus: .deleteFromCloudAndLocalPending, episode: userEpisode)
         NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: userEpisode.uuid)
 
         if removeFromPlaybackQueue {
@@ -118,7 +113,7 @@ struct UserEpisodeManager {
         ApiServerHandler.shared.uploadFileDelete(episode: userEpisode, completion: { success in
             guard let success else { return }
             if success {
-                DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: userEpisode)
+                DataManager.shared.saveEpisode(uploadStatus: .notUploaded, episode: userEpisode)
                 UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode, removeFromPlaybackQueue: false)
                 UserEpisodeManager.updateUserEpisodes()
             }
@@ -126,12 +121,12 @@ struct UserEpisodeManager {
     }
 
     static func checkForPendingCloudDeletes() {
-        let allCloudDeletes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.deleteFromCloudPending)
+        let allCloudDeletes = DataManager.shared.findUserEpisodesWithUploadStatus(.deleteFromCloudPending)
         if !allCloudDeletes.isEmpty {
             ApiServerHandler.shared.processPendingCloudDeletes(episodes: allCloudDeletes, deleteCompletedHandler: nil)
         }
 
-        let allLocalAndCloudDeletes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.deleteFromCloudAndLocalPending)
+        let allLocalAndCloudDeletes = DataManager.shared.findUserEpisodesWithUploadStatus(.deleteFromCloudAndLocalPending)
         if !allLocalAndCloudDeletes.isEmpty {
             ApiServerHandler.shared.processPendingCloudDeletes(episodes: allLocalAndCloudDeletes) { episode in
                 UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
@@ -142,7 +137,7 @@ struct UserEpisodeManager {
     static func checkForPendingUploads() {
         // check if any existing episode that have been queued need to be uploaded
         if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-            let queuedEpisodes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.waitingForWifi)
+            let queuedEpisodes = DataManager.shared.findUserEpisodesWithUploadStatus(.waitingForWifi)
             for episode in queuedEpisodes {
                 UploadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true)
             }
@@ -150,13 +145,13 @@ struct UserEpisodeManager {
     }
 
     static func removeOrphanedUserEpisodes() {
-        DataManager.sharedManager.removeOrphanedUserEpisodes()
+        DataManager.shared.removeOrphanedUserEpisodes()
     }
 
     // MARK: - Update User Episode
 
     static func updateUserEpisode(uuid: String, title: String, color: Int) {
-        guard let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid) else {
+        guard let episode = DataManager.shared.findUserEpisode(uuid: uuid) else {
             return
         }
         var episodeSyncRequired = false
@@ -171,7 +166,7 @@ struct UserEpisodeManager {
             episodeSyncRequired = true
         }
 
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.userEpisodeUpdated, object: episode.uuid)
         if episodeSyncRequired {
             ApiServerHandler.shared.uploadSingleFileUpdateRequest(episode: episode, completion: { response in
@@ -182,7 +177,7 @@ struct UserEpisodeManager {
 
     #if !os(watchOS) && !os(tvOS)
         static func updateUserEpisodeImage(uuid: String, artwork: UIImage?, completion: @escaping () -> Void) throws {
-            guard let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid) else {
+            guard let episode = DataManager.shared.findUserEpisode(uuid: uuid) else {
                 return
             }
 
@@ -192,7 +187,7 @@ struct UserEpisodeManager {
                     try FileManager.default.removeItem(at: imageUrl)
                 }
 
-                ImageManager.sharedManager.removeUserEpisodeImage(episode: episode, completionHandler: {
+                ImageManager.shared.removeUserEpisodeImage(episode: episode, completionHandler: {
                     episode.imageUrl = nil
                     if episode.imageColor != 0 {
                         episode.imageColor = 0
@@ -210,7 +205,7 @@ struct UserEpisodeManager {
                         }
                         episode.hasCustomImage = true
                     }
-                    DataManager.sharedManager.save(episode: episode)
+                    DataManager.shared.save(episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.userEpisodeUpdated, object: episode.uuid)
                     if episode.uploaded() {
                         if artwork != nil {
@@ -233,16 +228,16 @@ struct UserEpisodeManager {
     static func cleanupCloudOnlyFiles() {
         UploadManager.shared.stopAllUploads()
 
-        let cloudEpisodes = DataManager.sharedManager.allUserEpisodesUploaded()
+        let cloudEpisodes = DataManager.shared.allUserEpisodesUploaded()
         for episode in cloudEpisodes {
             if episode.downloaded(pathFinder: DownloadManager.shared) {
                 if episode.uploaded() || episode.uploadFailed() {
-                    DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: episode)
+                    DataManager.shared.saveEpisode(uploadStatus: .notUploaded, episode: episode)
                 }
             } else {
                 DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: true)
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
-                DataManager.sharedManager.delete(userEpisodeUuid: episode.uuid)
+                DataManager.shared.delete(userEpisodeUuid: episode.uuid)
             }
         }
         ServerSettings.removeFilesLastModifiedKey()

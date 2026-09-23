@@ -1,3 +1,4 @@
+import UIKit
 
 extension VideoViewController {
     private static let controlHideTime = 3.seconds
@@ -47,7 +48,7 @@ extension VideoViewController {
             hideVideoControls()
         } else {
             showVideoControls()
-            if PlaybackManager.shared.playing() { startHideControlsTimer() }
+            if PlaybackManager.shared.isPlaying { startHideControlsTimer() }
         }
     }
 

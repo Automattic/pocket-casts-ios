@@ -303,6 +303,8 @@
     <string>オンにすると、最後の一時停止から5分以内にエピソードを再生した際にスリープタイマーが自動的に再開されます。</string>
     <key>back</key>
     <string>戻る</string>
+    <key>badge_new</key>
+    <string>新機能</string>
     <key>banner_ads_info_label</key>
     <string>広告</string>
     <key>banner_ads_remove_ads</key>
@@ -337,10 +339,26 @@
     <string>これらのブックマークを削除してもよろしいですか。元に戻すことはできません。</string>
     <key>bookmark_delete_warning_title</key>
     <string>ブックマークを削除しますか ?</string>
+    <key>bookmark_details_title</key>
+    <string>ブックマーク</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>このブックマークにトランスクリプトの一節を選択</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>トランスクリプトを編集</string>
     <key>bookmark_search_no_results_message</key>
     <string>その検索に該当するブックマークは見つかりませんでした。</string>
     <key>bookmark_search_no_results_title</key>
     <string>ブックマークが見つかりません</string>
+    <key>bookmark_suggested_title</key>
+    <string>提案タイトル: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>提案: </string>
+    <key>bookmark_title_label</key>
+    <string>タイトル</string>
+    <key>bookmark_transcript_adding</key>
+    <string>トランスクリプトを追加中…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>トランスクリプトをキャプチャしました</string>
     <key>bookmark_updated_notification</key>
     <string>ブックマーク「%1$@」を更新しました</string>
     <key>bookmarks</key>
@@ -353,6 +371,14 @@
     <string>Pocket Casts %1$@ でこの機能やその他の機能のロックを解除し、お気に入りのエピソードのタイムスタンプを保存します。 %2$@ にご登録の方はまもなくご利用いただけるようになります。</string>
     <key>bookmarks_locked_message</key>
     <string>Pocket Casts %1$@ でこの機能やその他の機能のロックを解除し、お気に入りのエピソードのタイムスタンプを保存します。</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>必要な部分を保存します</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>ブックマークを追加</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>履歴書ではなく人物を見極めてキャスティング。</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>オーディション室</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
@@ -880,8 +906,6 @@ Pocket Casts Plus</string>
     <string>ダウンロード済みファイル</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>これらのダウンロードされたファイルを削除してもよろしいですか ?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>フォローを解除すると、このポッドキャストのダウンロード済みファイルは削除されます。よろしいですか ?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>フォローを解除すると、このポッドキャストのダウンロード済みファイルはすべて削除されます。よろしいですか ?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -947,6 +971,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ログインしていないようです</string>
     <key>edit</key>
     <string>編集する</string>
+    <key>edit_bookmark</key>
+    <string>ブックマークを編集</string>
     <key>edit_clip</key>
     <string>クリップを編集</string>
     <key>enable_it_now</key>
@@ -1514,10 +1540,6 @@ Pocket Casts を最大限に活用しましょう。</string>
 4. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
     <key>import_opml_from_url</key>
     <string>URL を使用して OPML ファイルからポッドキャストをインポートします</string>
-    <key>import_podcasts_description</key>
-    <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストのサブスクリプションを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
-
-注意: 自分宛てに OPML ファイルをメールで送信し、添付ファイルを長押しして Pocket Casts を選択する必要がある場合があります。</string>
     <key>import_podcasts_description_new</key>
     <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
 
@@ -1587,6 +1609,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードがありません</string>
     <key>loading</key>
     <string>読み込み中...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>メールアドレスでサインアップ</string>
     <key>login_landing_subtitle</key>
     <string>ポッドキャストは常に同期されます。 ライブラリを安全に保ち、ウェブとデスクトップで Pocket Casts をお楽しみください。</string>
     <key>login_landing_title</key>
@@ -1695,6 +1719,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1件のエピソードの星を取り消しています</string>
     <key>name</key>
     <string>名前</string>
+    <key>network_fail_to_load</key>
+    <string>このネットワークを読み込めませんでした</string>
     <key>new_email_address_prompt</key>
     <string>新しいメールアドレス</string>
     <key>new_episodes</key>
@@ -1712,7 +1738,9 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>ブックマークを取得</string>
     <key>no_bookmarks_locked_message</key>
-    <string>エピソード中の大切な瞬間のタイムスタンプを保存できます。</string>
+    <string>ワンタップで タイトルとそのときの言葉をそのまま保存します。</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>キープする価値のある部分を保存</string>
     <key>no_bookmarks_message</key>
     <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
     <key>no_bookmarks_title</key>
@@ -2111,6 +2139,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@倍</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>スリープタイマーオン</string>
+    <key>player_action_hide_video</key>
+    <string>動画を非表示</string>
+    <key>player_action_show_video</key>
+    <string>動画を表示</string>
     <key>player_action_subtitle_delete</key>
     <string>カスタムエピソードで削除と表示</string>
     <key>player_action_subtitle_hidden</key>
@@ -2766,8 +2798,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>1件のエピソードをクリア</string>
-    <key>queue_clear_queue</key>
-    <string>待機リストをクリア</string>
     <key>queue_for_later</key>
     <string>待機リストに追加して後で使用</string>
     <key>queue_now_playing_accessibility</key>
@@ -2915,6 +2945,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ブックマークを検索</string>
     <key>search_episodes</key>
     <string>エピソードを検索</string>
+    <key>search_filter_networks</key>
+    <string>ネットワーク</string>
     <key>search_label</key>
     <string>ポッドキャストを検索または RSS の URL を追加</string>
     <key>search_podcasts</key>
@@ -3189,6 +3221,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アーカイブ済みエピソード</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>すべての既存ポッドキャストで、アーカイブ済みエピソードを%1$@に変更しますか ?</string>
+    <key>settings_general_audio_only</key>
+    <string>音声のみ</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>オンにすると、動画エピソードは音声のみとして再生されます。</string>
     <key>settings_general_auto_open_player</key>
     <string>プレーヤーを自動的に開く</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3235,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>デフォルト</string>
     <key>settings_general_episode_groups</key>
     <string>ポッドキャストエピソードのグループ化</string>
+    <key>settings_general_generated_chapters</key>
+    <string>生成されたチャプター</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>自動生成されたチャプターを表示します (利用可能な場合)。</string>
     <key>settings_general_hide</key>
     <string>非表示</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3619,6 +3659,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>タイマーをキャンセル</string>
     <key>sleep_timer_end_of_episode</key>
     <string>エピソード終了時</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>%1$@件のエピソードでスリープ</string>
     <key>sleep_timer_sleeping_after_current_episode</key>
     <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
@@ -3727,12 +3769,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アップロード済み</string>
     <key>stop_download</key>
     <string>ダウンロードを停止</string>
-    <key>subscribe</key>
-    <string>フォロー</string>
     <key>subscribe_all</key>
     <string>すべてをフォロー</string>
-    <key>subscribed</key>
-    <string>フォロー済み</string>
     <key>subscription_cancelled</key>
     <string>サブスクリプションをキャンセル済み</string>
     <key>subscription_cancelled_msg</key>
@@ -3841,6 +3879,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>一番上</string>
     <key>transcript</key>
     <string>トランスクリプト</string>
+    <key>transcript_bookmark_selection</key>
+    <string>ブックマーク</string>
     <key>transcript_error_empty</key>
     <string>申し訳ありません、このトランスクリプトは空のようです</string>
     <key>transcript_error_failed_to_load</key>
@@ -3928,6 +3968,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストにはホームが必要です</string>
     <key>tv_create_account_qr_instruction</key>
     <string>カメラを開き、この QR コードに向けます。</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>求められた場合は、以下のコードを確認</string>
+    <key>tv_create_account_step_create</key>
+    <string>アカウントを作成、またはログイン</string>
+    <key>tv_create_account_step_login</key>
+    <string>アカウントにログイン</string>
+    <key>tv_create_account_step_scan</key>
+    <string>QR コードをスキャン、または %1$@ に移動</string>
     <key>tv_create_account_subtitle</key>
     <string>このコードをスキャンして、スマートフォンで開始できます。わずか1分で完了します。</string>
     <key>tv_create_account_title</key>
@@ -3942,6 +3990,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードを再生</string>
     <key>tv_discover_play_episode</key>
     <string>エピソードを再生</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>読み込みに失敗しました</string>
     <key>tv_episode_archived</key>
     <string>アーカイブしました</string>
     <key>tv_episode_info</key>
@@ -3972,6 +4022,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取履歴なし</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>カテゴリーを表示</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>ホームの読み込みに失敗しました</string>
     <key>tv_home_featured_section_title</key>
     <string>Pocket Casts で特集されました</string>
     <key>tv_home_keep_listening_title</key>
@@ -4106,12 +4158,34 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードを取得中</string>
     <key>tv_search_failed</key>
     <string>検索に失敗: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>おすすめ</string>
     <key>tv_search_prompt</key>
     <string>ポッドキャスト、番組、作成者</string>
+    <key>tv_search_scope_top_results</key>
+    <string>上位の結果</string>
     <key>tv_search_searching</key>
     <string>検索中…</string>
     <key>tv_search_type_something</key>
     <string>入力してください…</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>以下の QR コードをスキャンするか、スマートフォンで URL を開いて、プライバシーポリシーにアクセスしてください。</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>無期限</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>次回の更新</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>このサブスクリプションは別のプラットフォームで登録されました。 サブスクリプションを管理するには、そのプラットフォームを使用してください。</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>プラン</string>
+    <key>tv_settings_subscription_price</key>
+    <string>価格</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>利用不可</string>
+    <key>tv_settings_subscription_title</key>
+    <string>サブスクリプション</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>以下の QR コードをスキャンするか、スマートフォンで URL を開いて、利用規約にアクセスしてください。</string>
     <key>tv_sign_in_enter_code</key>
     <string>または、次のコードを入力</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4156,6 +4230,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ユーザー / パス</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>ログイン中</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>ユーザー名</string>
     <key>tv_welcome_browse_without_account</key>

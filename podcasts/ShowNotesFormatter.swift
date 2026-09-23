@@ -1,5 +1,7 @@
 
 import Foundation
+import PocketCastsUtils
+import UIKit
 
 class ShowNotesFormatter {
     class func format(showNotes: String, tintColor: UIColor, convertTimesToLinks: Bool, bgColor: UIColor?, textColor: UIColor) -> String {
@@ -8,13 +10,7 @@ class ShowNotesFormatter {
         return format(showNotes: showNotes, tintColor: tintColor, textColor: textColor, cssBgColor: cssBgColor, convertTimesToLinks: convertTimesToLinks)
     }
 
-    class func formatInEpisode(customTitle: String, showNotes: String, tintColor: UIColor, convertTimesToLinks: Bool, bgColor: UIColor?, textColor: UIColor) -> String {
-        let cssBgColor = bgColor?.hexString() ?? "transparent"
-
-        return format(customTitle: customTitle, showNotes: showNotes, tintColor: tintColor, textColor: textColor, cssBgColor: cssBgColor, convertTimesToLinks: convertTimesToLinks)
-    }
-
-    private class func format(customTitle: String? = nil, showNotes: String, tintColor: UIColor, textColor: UIColor, cssBgColor: String, convertTimesToLinks: Bool) -> String {
+    private class func format(showNotes: String, tintColor: UIColor, textColor: UIColor, cssBgColor: String, convertTimesToLinks: Bool) -> String {
         var styledShowNotes = "<html><head>" +
             "<meta http-equiv='Content-Type' content='text/html; charset=utf-16le'>" +
             "<meta name='viewport' content='initial-scale=1.0' />" +
@@ -27,17 +23,11 @@ class ShowNotesFormatter {
             "pre { white-space: pre-wrap; } " +
             "a { color:\(tintColor.hexString()); text-decoration:underline; } " +
             "h1,h2,h3,h4,h5,h6 { font-weight: normal; padding: 0; } " +
-            "customTitle { font-size: 1.25rem; font-weight: 500; padding: 0; }" +
             imageTag() +
             "</style>"
 
         let cleanedShowNotes = removeHtml(string: showNotes)
         styledShowNotes = styledShowNotes + "</head><body dir=\"auto\">"
-
-        if let customTitle {
-            styledShowNotes = styledShowNotes + "<p><customTitle>\(customTitle)</customTitle></p>"
-        }
-
         styledShowNotes = styledShowNotes + "\(cleanedShowNotes)</body></html>"
 
         if convertTimesToLinks {

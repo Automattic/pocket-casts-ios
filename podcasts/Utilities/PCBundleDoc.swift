@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
+import UniformTypeIdentifiers
 
 extension UTType {
     static var pcasts = UTType(filenameExtension: "pcasts", conformingTo: .package)!
@@ -49,6 +50,7 @@ struct PCBundleDoc: FileDocument {
             }
         }
 
+        UserDefaults.standard.synchronize()
         exit(0)
     }
 
@@ -73,6 +75,7 @@ struct PCBundleDoc: FileDocument {
         wrapper.addFileWrapper(databaseWALFileWrapper)
 
         if let prefURL = FileManager.preferencesURL {
+            UserDefaults.standard.synchronize()
             let preferencesFileWrapper = try FileWrapper(url: prefURL)
             preferencesFileWrapper.preferredFilename = Constants.preferencesFilename
             wrapper.addFileWrapper(preferencesFileWrapper)

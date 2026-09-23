@@ -2,6 +2,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 import WidgetKit
 
 class WidgetHelper {
@@ -32,7 +33,7 @@ class WidgetHelper {
             if widgets.contains(where: { $0.kind == "Now_Playing_Widget" }) {
                 self.publishAppIcon()
             }
-            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode() == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
+            if widgets.contains(where: { $0.kind == "Up_Next_Widget" }), PlaybackManager.shared.currentEpisode == nil, PlaybackManager.shared.queue.upNextCount() == 0 {
                 self.publishTopFilterInfo()
             }
             WidgetCenter.shared.reloadAllTimelines()
@@ -50,13 +51,6 @@ class WidgetHelper {
         #endif
     }
 
-    func updateUpNextWidgets() {
-        WidgetCenter.shared.getCurrentConfigurations { result in
-            guard case .success = result else { return }
-            WidgetCenter.shared.reloadTimelines(ofKind: "Up_Next_Widget")
-        }
-    }
-
     func updateWidgetAppIcon() {
         WidgetCenter.shared.getCurrentConfigurations { result in
             guard case .success = result, let widgets = try? result.get() else { return }
@@ -68,7 +62,7 @@ class WidgetHelper {
     }
 
     @objc func handleFilterChanged() {
-        guard PlaybackManager.shared.currentEpisode() == nil else {
+        guard PlaybackManager.shared.currentEpisode == nil else {
             return
         }
         updateSharedUpNext()
@@ -79,12 +73,12 @@ class WidgetHelper {
     private func publishUpNextInfo() {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) else { return }
 
-        let allUpNextPlaylistEpisodes = DataManager.sharedManager.allUpNextPlaylistEpisodes()
+        let allUpNextPlaylistEpisodes = DataManager.shared.allUpNextPlaylistEpisodes()
         var upNextItems = [CommonUpNextItem]()
         for (index, playlistEpisode) in allUpNextPlaylistEpisodes.enumerated() {
             if index > WidgetHelper.maxUpNextToPublish { break }
 
-            if let episode = DataManager.sharedManager.findBaseEpisode(uuid: playlistEpisode.episodeUuid), let upNextItem = convertToWidgetItem(episode: episode) {
+            if let episode = DataManager.shared.findBaseEpisode(uuid: playlistEpisode.episodeUuid), let upNextItem = convertToWidgetItem(episode: episode) {
                 upNextItems.append(upNextItem)
             }
         }
@@ -95,10 +89,8 @@ class WidgetHelper {
             sharedDefaults.set(max(allUpNextPlaylistEpisodes.count - 1, 0), forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterItems)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
-            let playingStatus = PlaybackManager.shared.playing()
+            let playingStatus = PlaybackManager.shared.isPlaying
             sharedDefaults.set(playingStatus, forKey: SharedConstants.GroupUserDefaults.isPlaying)
-
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode data for Up Next Widget: \(error.localizedDescription)")
         }
@@ -109,15 +101,15 @@ class WidgetHelper {
 
         var filterItems = [CommonUpNextItem]()
         var filterName: String?
-        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first {
+        if let topFilter = DataManager.shared.allPlaylists(includeDeleted: false).first {
             filterName = topFilter.playlistName
             let query = PlaylistQueryBuilder.queryFor(filter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries(), limit: WidgetHelper.maxFilterToPublish)
 
-            let loadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+            let loadedEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
             for (index, playlistEpisode) in loadedEpisodes.enumerated() {
                 if index >= WidgetHelper.maxFilterToPublish { break }
 
-                if let episode = DataManager.sharedManager.findBaseEpisode(uuid: playlistEpisode.uuid), let item = convertToWidgetItem(episode: episode) {
+                if let episode = DataManager.shared.findBaseEpisode(uuid: playlistEpisode.uuid), let item = convertToWidgetItem(episode: episode) {
                     filterItems.append(item)
                 }
             }
@@ -128,7 +120,6 @@ class WidgetHelper {
             sharedDefaults.set(filterName, forKey: SharedConstants.GroupUserDefaults.topFilterName)
             sharedDefaults.set(false, forKey: SharedConstants.GroupUserDefaults.isPlaying)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.upNextItems)
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode top filter data  Widget: \(error.localizedDescription)")
         }
@@ -140,9 +131,9 @@ class WidgetHelper {
         var isPlaying = false
         let currentTime = PlaybackManager.shared.currentTime()
 
-        if episode.uuid == PlaybackManager.shared.currentEpisode()?.uuid, currentTime.isFinite {
+        if episode.uuid == PlaybackManager.shared.currentEpisode?.uuid, currentTime.isFinite {
             duration = duration - currentTime
-            isPlaying = PlaybackManager.shared.playing()
+            isPlaying = PlaybackManager.shared.isPlaying
         }
         let podcastColor: UIColor = ColorManager.backgroundColorForPodcastUuid(episode.parentIdentifier())
         var imageUrl = ""
@@ -164,7 +155,6 @@ class WidgetHelper {
 
             if currentAppIcon != sharedAppIcon {
                 sharedDefaults.set(currentAppIcon, forKey: SharedConstants.GroupUserDefaults.appIcon)
-                sharedDefaults.synchronize()
             }
         }
     }

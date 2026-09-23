@@ -4,9 +4,10 @@ import Kingfisher
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
 
 class ImageManager {
-    static let sharedManager = ImageManager()
+    static let shared = ImageManager()
 
     // cache for network images
     private var networkImageCache = ImageCache(name: "networkImageCache")
@@ -36,7 +37,7 @@ class ImageManager {
     private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
 
     // Discover Cache
-    private var discoverCache = ImageCache(name: "discoverCache")
+    let discoverCache = ImageCache(name: "discoverCache")
 
     // cache for discover video thumbnails cache
     private var discoverVideoThumbnailCache: ImageCache = {
@@ -127,15 +128,6 @@ class ImageManager {
                     continuation.resume(returning: nil)
                 }
             }
-        }
-    }
-
-    // MARK: - Network Images
-
-    func loadNetworkImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
-        if let url = URL(string: imageUrl) {
-            let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
-            imageView.kf.setImage(with: url, placeholder: image, options: [.targetCache(networkImageCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
 
@@ -233,15 +225,15 @@ class ImageManager {
         return nil
     }
 
-    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
+    func image(for episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
         await withCheckedContinuation { continuation in
-            imageForEpisode(episode, size: size) { image in
+            image(for: episode, size: size) { image in
                 continuation.resume(returning: image)
             }
         }
     }
 
-    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
+    func image(for episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
         if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
         }) {
@@ -316,9 +308,9 @@ class ImageManager {
     func loadUserEpisodeImage(uuid: String, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
 
-        let userEpisode = DataManager.sharedManager.findUserEpisode(uuid: uuid)
+        let userEpisode = DataManager.shared.findUserEpisode(uuid: uuid)
         let imageSize = size == .page ? 960 : 280
-        let url = userEpisode?.urlForImage(size: imageSize) ?? ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: 1, size: imageSize)
+        let url = userEpisode?.urlForImage(size: imageSize) ?? ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme, color: 1, size: imageSize)
         if url.isFileURL {
             let provider = LocalFileImageDataProvider(fileURL: url)
             imageView.kf.setImage(with: provider, placeholder: placeHolderImage(size), options: [.targetCache(userEpisodeCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], completionHandler: { result in
@@ -344,7 +336,7 @@ class ImageManager {
     func imageForUserEpisodeColor(color: Int, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
         let imageSize = size == .page ? 960 : 280
-        let url = ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: color, size: imageSize)
+        let url = ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme, color: color, size: imageSize)
 
         imageView.backgroundColor = AppTheme.userEpisodeColor(number: color)
         imageView.kf.setImage(with: url, placeholder: nil, options: [.targetCache(userEpisodeCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], completionHandler: { result in
@@ -392,7 +384,7 @@ class ImageManager {
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
-        DataManager.sharedManager.setAllPodcastImageVersions(to: 0)
+        DataManager.shared.setAllPodcastImageVersions(to: 0)
         let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh])
         prefetcher.start()
     }
@@ -404,21 +396,12 @@ class ImageManager {
 
     private func allPodcastUrls() -> [URL] {
         var urls = [URL]()
-        for podcast in DataManager.sharedManager.allPodcasts(includeUnsubscribed: false) {
+        for podcast in DataManager.shared.allPodcasts(includeUnsubscribed: false) {
             let urlsForPodcast = allUrlsFor(podcastUuid: podcast.uuid)
             urls.append(contentsOf: urlsForPodcast)
         }
 
         return urls
-    }
-
-    private func radioactiveProcessor() -> ImageProcessor {
-        let processor =
-            BlendImageProcessor(blendMode: .color, alpha: 1, backgroundColor: UIColor(hex: "#808080").withAlphaComponent(0.5)) |>
-            ColorControlsProcessor(brightness: 0.1, contrast: 1.3, saturation: 0, inputEV: 0.5) |>
-            BlendImageProcessor(blendMode: .plusDarker, alpha: 1, backgroundColor: UIColor(hex: "#70E84E"))
-
-        return processor
     }
 
     private func allUrlsFor(podcastUuid: String) -> [URL] {
@@ -443,7 +426,7 @@ class ImageManager {
 
     func clearPodcastCache(recacheWhenDone: Bool) {
         // clear out all the saved colors, since they might change when the images do
-        DataManager.sharedManager.setAllPodcastImageVersions(to: 0)
+        DataManager.shared.setAllPodcastImageVersions(to: 0)
 
         subscribedPodcastsCache.clearMemoryCache()
         subscribedPodcastsCache.clearDiskCache { [weak self] in
@@ -459,7 +442,7 @@ class ImageManager {
 
     func clearCache(podcastUuid: String, recacheWhenDone: Bool) {
         // reset the podcast color version, so it re-downloads that when re-caching the image if required
-        DataManager.sharedManager.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
+        DataManager.shared.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
         NotificationCenter.default.post(name: Constants.Notifications.podcastUpdated, object: podcastUuid)
 
         // list and card are the same image, so card is not in the list below
@@ -538,7 +521,7 @@ class ImageManager {
     private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
 
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
-        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
+        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme)
         if let cached = placeholderImageCache[key] {
             return cached
         }

@@ -32,7 +32,9 @@ final class ListViewModelTests: XCTestCase {
     }
 
     // MARK: - Test Model
-    private struct TestableModel: Hashable {
+    private struct TestableModel: Identifiable, Equatable {
         let title: String
+
+        var id: String { title }
     }
 }

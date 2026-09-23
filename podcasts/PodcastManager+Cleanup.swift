@@ -14,11 +14,11 @@ extension PodcastManager {
         // we don't delete podcasts which have any episodes in a playlist or Up Next
         if dataManager.playlistContainsPodcast(podcastUuid: podcast.uuid) { return }
 
-        let interactedEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id).filter { $0.userHasInteractedWithEpisode() }
+        let interactedEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id).filter { $0.userHasInteractedWithEpisode() }
 
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
         if interactedEpisodes.isEmpty {
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
             await downloadManager.cancelTasks(for: episodes)
 
             // Delete all the episodes for the podcast that we're deleting
@@ -50,7 +50,7 @@ extension PodcastManager {
             deleted_count += 1
         }
 
-        DataManager.sharedManager.deleteGhostsEpisodes(uuids: uuids)
+        DataManager.shared.deleteGhostsEpisodes(uuids: uuids)
         FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
     }
 
@@ -107,7 +107,7 @@ extension PodcastManager {
         if licenseRestrictedPodcasts.isEmpty { return }
 
         for podcast in licenseRestrictedPodcasts {
-            guard let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) else { continue }
+            guard let subscription = SubscriptionHelper.subscription(forPodcastUuid: podcast.uuid) else { continue }
 
             let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
             if expiryDate.timeIntervalSinceNow < 0, !subscription.autoRenewing {

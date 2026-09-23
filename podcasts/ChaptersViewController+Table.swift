@@ -25,7 +25,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             let currentChapters = PlaybackManager.shared.currentChapters()
 
             if chapter.index == currentChapters.index {
-                state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
+                state = PlaybackManager.shared.isPlaying ? .currentlyPlaying : .currentlyPaused
             } else if chapter.index > currentChapters.index {
                 state = .future
             }
@@ -113,7 +113,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             "origin": PlaybackManager.shared.chaptersOriginAnalyticsValue,
             "source": "fullscreen_player",
             "content_type": AnalyticsPlaybackHelper.shared.currentEpisodeIsVideo ? "video" : "audio",
-            "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown",
+            "episode_uuid": PlaybackManager.shared.currentEpisode?.uuid ?? "unknown",
             "podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown"
         ])
     }
@@ -135,7 +135,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     var shouldShowDeselectChaptersHeader: Bool {
-        PlaybackManager.shared.currentEpisode()?.isUserEpisode == false
+        PlaybackManager.shared.currentEpisode?.isUserEpisode == false
     }
 }
 

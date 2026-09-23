@@ -6,7 +6,6 @@ import SwiftUI
 
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
     var filterToEdit: EpisodeFilter!
-    var filterTintColor: UIColor!
 
     var footerView: ThemeableView!
 
@@ -68,13 +67,12 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.estimatedRowHeight = UITableView.automaticDimension
         podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
         podcastTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
-        podcastTable.backgroundColor = AppTheme.viewBackgroundColor()
+        podcastTable.backgroundColor = AppTheme.viewBackgroundColor
         addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
         addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
         podcastTable.sectionHeaderTopPadding = 0
 
         setupNavBar()
-        navigationController?.navigationBar.sizeToFit()
         viewModel = SmartRuleToggleViewModel(
             toggleIsOn: filterToEdit.filterAllPodcasts,
             title: L10n.playlistSmartRulePodcastsHeaderTitle,
@@ -103,7 +101,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func setupNavBar() {
         let backgroundColor: UIColor
-        backgroundColor = AppTheme.viewBackgroundColor()
+        backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
         title = L10n.filterChoosePodcasts.sentenceCased
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -126,7 +124,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func setupSaveButton() {
         footerView = ThemeableView()
-        footerView.backgroundColor = AppTheme.viewBackgroundColor()
+        footerView.backgroundColor = AppTheme.viewBackgroundColor
         saveButton = UIButton(type: .custom)
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
         setupSaveButtonTitle()
@@ -154,8 +152,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
             podcastTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
-
-        view.layoutSubviews()
     }
 
     private func setupSaveButtonTitle() {
@@ -190,7 +186,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         filterToEdit.podcastSmartRuleApplied = true
 
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
@@ -273,7 +269,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)
@@ -343,7 +339,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     override func handleThemeChanged() {
         super.handleThemeChanged()
-        footerView.backgroundColor = AppTheme.viewBackgroundColor()
+        footerView.backgroundColor = AppTheme.viewBackgroundColor
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
         podcastTable.reloadData()
         setupNavBar()

@@ -16,7 +16,7 @@ final class AlternateEnclosureHLSTests: XCTestCase {
     }
 
     func testReturnsHLSUrlWhenPresent() {
-        let enclosures = [enclosure(type: Episode.hlsEnclosureType, uris: ["https://example.com/stream.m3u8"])]
+        let enclosures = [enclosure(type: Episode.advertisedHLSMimeType, uris: ["https://example.com/stream.m3u8"])]
         XCTAssertEqual(enclosures.hlsUrl, "https://example.com/stream.m3u8")
     }
 
@@ -25,16 +25,24 @@ final class AlternateEnclosureHLSTests: XCTestCase {
         XCTAssertEqual(enclosures.hlsUrl, "https://example.com/stream.m3u8")
     }
 
+    /// Feeds advertise HLS under several types.
+    func testMatchesEveryAdvertisedHLSType() {
+        for type in ["application/x-mpegURL", "application/mpegURL", "application/vnd.apple.mpegurl"] {
+            let enclosures = [enclosure(type: type, uris: ["https://example.com/stream.m3u8"])]
+            XCTAssertEqual(enclosures.hlsUrl, "https://example.com/stream.m3u8", "failed for type \(type)")
+        }
+    }
+
     func testPicksHLSAmongOtherEnclosures() {
         let enclosures = [
             enclosure(type: "video/mp4", uris: ["https://example.com/video.mp4"]),
-            enclosure(type: Episode.hlsEnclosureType, uris: ["https://example.com/stream.m3u8"])
+            enclosure(type: Episode.advertisedHLSMimeType, uris: ["https://example.com/stream.m3u8"])
         ]
         XCTAssertEqual(enclosures.hlsUrl, "https://example.com/stream.m3u8")
     }
 
     func testReturnsFirstSourceUri() {
-        let enclosures = [enclosure(type: Episode.hlsEnclosureType, uris: ["https://a.example.com/1.m3u8", "https://b.example.com/2.m3u8"])]
+        let enclosures = [enclosure(type: Episode.advertisedHLSMimeType, uris: ["https://a.example.com/1.m3u8", "https://b.example.com/2.m3u8"])]
         XCTAssertEqual(enclosures.hlsUrl, "https://a.example.com/1.m3u8")
     }
 
@@ -48,7 +56,7 @@ final class AlternateEnclosureHLSTests: XCTestCase {
     }
 
     func testReturnsNilWhenHLSEnclosureHasNoSources() {
-        let enclosures = [enclosure(type: Episode.hlsEnclosureType, uris: [])]
+        let enclosures = [enclosure(type: Episode.advertisedHLSMimeType, uris: [])]
         XCTAssertNil(enclosures.hlsUrl)
     }
 }

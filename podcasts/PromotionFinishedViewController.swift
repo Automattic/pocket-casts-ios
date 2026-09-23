@@ -45,7 +45,7 @@ class PromotionFinishedViewController: UIViewController {
     @IBAction func upgradeTapped(_ sender: Any) {
         dismiss(animated: true) {
             guard let controller = SceneHelper.rootViewController() else { return }
-            NavigationManager.sharedManager.showUpsellView(from: controller, source: .promotionFinished)
+            NavigationManager.shared.showUpsellView(from: controller, source: .promotionFinished)
         }
     }
 

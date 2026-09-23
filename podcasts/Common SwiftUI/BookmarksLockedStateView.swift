@@ -6,7 +6,7 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     @ObservedObject var style: Style
     @StateObject private var upgradeModel: BookmarksUpgradeViewModel
 
-    private var title: String = L10n.noBookmarksTitle
+    private var title: String = L10n.noBookmarksLockedTitle
     private var message: String = L10n.noBookmarksLockedMessage
     private var actionTitle: String = L10n.noBookmarksLockedButtonTitle
 
@@ -37,23 +37,18 @@ class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
         super.init()
     }
 
-    var upgradeLabel: String {
-        guard let offer = product(for: feature.tier)?.offer, offer.type == .freeTrial else {
-            return L10n.upgradeToPlan(feature.tier == .patron ? L10n.patron : L10n.pocketCastsPlusShort)
-        }
-
-        return offer.title
-    }
-
+    @MainActor
     func upgradeTapped() {
         Analytics.track(.bookmarksGetBookmarksButtonTapped, source: bookmarksSource)
         showUpgrade()
     }
 
+    @MainActor
     func showUpgrade() {
         upgradeTapped(with: product(for: feature.tier))
     }
 
+    @MainActor
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 

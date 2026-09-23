@@ -1,8 +1,10 @@
 import Foundation
 import Combine
 import PocketCastsDataModel
+import UIKit
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
+@MainActor
 class BookmarksPlayerTabController: PlayerItemViewController {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
@@ -51,8 +53,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
+            // A bookmark made from a transcript selection is titled by the transcript itself
             .filter { [weak self] event in
-                self?.viewModel.episode?.uuid == event.episode
+                self?.viewModel.episode?.uuid == event.episode && event.source != .transcript
             }
             .map { [weak self] event in
                 (event.isDuplicate, self?.bookmarkManager.bookmark(for: event.uuid))
@@ -72,7 +75,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     // MARK: - Notification Handlers
 
     private func updateCurrentEpisode() {
-        viewModel.episode = playbackManager.currentEpisode()
+        viewModel.episode = playbackManager.currentEpisode
     }
 
     private func handleBookmarkCreated(bookmark: Bookmark, isDuplicate: Bool) {
@@ -87,33 +90,32 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
-            self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, source: viewModel.analyticsSource, onDismiss: { [weak self] outcome in
+            self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, outcome: outcome)
         })
-
-        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }
 
-    func handleEditDismissed(bookmark: Bookmark, isNew: Bool, title: String, canceled: Bool) {
+    func handleEditDismissed(bookmark: Bookmark, isNew: Bool, outcome: BookmarkEditOutcome) {
         guard isNew else { return }
 
-        if canceled {
+        switch outcome {
+        case .cancelled:
             Task {
                 let _ = await bookmarkManager.remove([bookmark])
                 viewModel.reload()
             }
-            return
-        }
-        // If the title is still the default, we'll just show a 'Bookmark Added' message instead of displaying 'Bookmark "Bookmark" Added'.
-        let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
-        let action = Toast.Action(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
-            self?.showBookmarksTab()
-        }
+        case .saved(let title):
+            let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
-        Toast.show(message, actions: [action], theme: .playerTheme)
+            let action = Toast.Action(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
+                self?.showBookmarksTab()
+            }
+
+            Toast.show(message, actions: [action], theme: .playerTheme)
+        }
     }
 
     private func showBookmarksTab() {
@@ -129,6 +131,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 // MARK: - BookmarkListRouter
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
+    /// The player is already showing the episode, so its artwork doesn't open it again
+    var opensBookmarkEpisode: Bool { false }
+
     func bookmarkPlay(_ bookmark: Bookmark) async throws {
         try await playbackManager.playBookmark(bookmark, source: .player)
     }

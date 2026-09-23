@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import WidgetKit
 
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry

@@ -1,4 +1,3 @@
-import Kingfisher
 import PocketCastsServer
 import SwiftUI
 
@@ -32,9 +31,9 @@ struct ColorPreviewFolderView: View {
                     .padding(.top, 10)
                 ThemedDivider()
                 HStack {
-                    FolderPreviewWrapper(model: model, showName: Settings.libraryType() != .list)
+                    FolderPreviewWrapper(model: model, showName: Settings.libraryType != .list)
                         .frame(width: previewTileSize(), height: previewTileSize())
-                    if Settings.libraryType() == .list {
+                    if Settings.libraryType == .list {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(model.name)
                                 .textStyle(PrimaryText())
@@ -67,33 +66,13 @@ struct ColorPreviewFolderView: View {
     }
 
     private func previewTileSize() -> CGFloat {
-        switch Settings.libraryType() {
+        switch Settings.libraryType {
         case .list:
             return 60
         case .fourByFour:
             return 100
         case .threeByThree:
             return 120
-        }
-    }
-}
-
-struct PodcastPreviewImage: View {
-    @State var podcastUuid: String?
-
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 2)
-                .frame(width: 40, height: 40)
-                .foregroundColor(.gray)
-                .opacity(0.5)
-            if let podcastUuid {
-                KFImage(ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 130))
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .aspectRatio(2, contentMode: .fit)
-                    .cornerRadius(1)
-            }
         }
     }
 }

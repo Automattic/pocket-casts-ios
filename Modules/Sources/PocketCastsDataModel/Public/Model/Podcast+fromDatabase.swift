@@ -58,14 +58,9 @@ extension Podcast {
         podcast.isPrivate = rs.bool(forColumn: "isPrivate")
         podcast.fundingURL = rs.string(forColumn: "fundingURL")
         podcast.isExplicit = rs.bool(forColumn: "isExplicit")
+        podcast.networkListId = rs.string(forColumn: "networkListId")
 
         return podcast
-    }
-}
-
-extension DBUtils {
-    static func convertData<T: JSONCodable>(value: Data) throws -> T? {
-        return try JSONDecoder().decode(T.self, from: value)
     }
 }
 

@@ -8,6 +8,7 @@ struct DiscoverVideoEpisodeCell: View {
 
     @Namespace private var ns
     @Environment(FocusStore.self) var focusStore
+    @Environment(MainTabViewModel.self) var mainNavigationRouter: MainTabViewModel
 
     @State private var model: DiscoverVideoEpisodeModel
     @State private var showNotesEpisode: DiscoveryLoadedEpisode?
@@ -15,9 +16,11 @@ struct DiscoverVideoEpisodeCell: View {
     private let listId: String?
     private let source: String
 
-    @FocusState private var isFocused: Bool
+    /// Fires just before playback starts, for screens that reuse the cell outside
+    /// Discover and need to record their own tap (search results, for instance).
+    private let onTap: (() -> Void)?
 
-    @State var showNowPlayingPlayer: Bool = false
+    @FocusState private var isFocused: Bool
 
     enum Layout {
         static let imageSize = CGFloat(72)
@@ -27,20 +30,23 @@ struct DiscoverVideoEpisodeCell: View {
         static let playDelay: TimeInterval = 2
     }
 
-    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
+    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "", onTap: (() -> Void)? = nil) {
         _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration, playDelay: Layout.playDelay))
         self.listId = listId
         self.source = source
+        self.onTap = onTap
     }
 
     var body: some View {
         Button {
             trackEpisodeTapped()
+            onTap?()
             Task {
+                AnalyticsPlaybackHelper.shared.currentSource = AnalyticsSource(rawValue: source)
                 let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                 await MainActor.run {
                     if successPlay {
-                        showNowPlayingPlayer = true
+                        mainNavigationRouter.showFullScreenPlayer = true
                     } else {
                         ToastManager.shared.show(L10n.playbackFailed)
                     }
@@ -99,10 +105,6 @@ struct DiscoverVideoEpisodeCell: View {
         .task {
             await model.load()
         }
-        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
-            NowPlayingView()
-                .ignoresSafeArea()
-        }
         .sheet(item: $showNotesEpisode) { episode in
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
         }
@@ -148,6 +150,7 @@ struct DiscoverVideoEpisodeCell: View {
             }
             Spacer()
         }
+        .accessibilityElement(children: .combine)
     }
 
     var backgroundThumbnail: some View {

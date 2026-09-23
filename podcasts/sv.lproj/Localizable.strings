@@ -303,6 +303,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om automatiskt om du spelar upp ett avsnitt inom 5 minuter efter den senaste pausen.</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>badge_new</key>
+    <string>Ny</string>
     <key>banner_ads_info_label</key>
     <string>Annons</string>
     <key>banner_ads_remove_ads</key>
@@ -337,10 +339,26 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Ta bort bokmärken?</string>
+    <key>bookmark_details_title</key>
+    <string>Bokmärk</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Välj en transkriptionspassage för detta bokmärke</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Redigera transkription</string>
     <key>bookmark_search_no_results_message</key>
     <string>Vi kunde inte hitta några bokmärken för denna sökning.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Inga bokmärken hittades</string>
+    <key>bookmark_suggested_title</key>
+    <string>Föreslagen rubrik: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Förslag: </string>
+    <key>bookmark_title_label</key>
+    <string>Rubrik</string>
+    <key>bookmark_transcript_adding</key>
+    <string>Lägger till transkription…</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transkription genomförd</string>
     <key>bookmark_updated_notification</key>
     <string>Bokmärket "%1$@" har uppdaterats</string>
     <key>bookmarks</key>
@@ -353,6 +371,14 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Lås upp den här och många andra funktioner med Pocket Casts %1$@ och spara tidsstämplar för dina favoritavsnitt. Snart tillgänglig för %2$@-prenumeranter.</string>
     <key>bookmarks_locked_message</key>
     <string>Lås upp denna funktion och många fler med Pocket Casts %1$@ och spara tidsstämplar för dina favoritavsnitt.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behåll den del du ville ha</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Lägg till bokmärke</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Du väljer personen, inte CV:t.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Provspelningsrummet</string>
     <key>bottom</key>
     <string>Längst ner</string>
     <key>bulk_download_max_format</key>
@@ -880,8 +906,6 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Nedladdade filer</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Är du säker på att du vill ta bort dessa nedladdade filer?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Om du säger upp prenumerationen tas alla nedladdade filer för den här podcasten bort. Är du säker?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Om du slutar följa den här podcasten tas alla nedladdade filer för den bort. Är du säker?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -947,6 +971,8 @@ Pocket Casts till fullo.</string>
     <string>Vi har noterat att du inte är inloggad</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>edit_bookmark</key>
+    <string>Redigera bokmärke</string>
     <key>edit_clip</key>
     <string>Redigera klipp</string>
     <key>enable_it_now</key>
@@ -1514,10 +1540,6 @@ Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att 
 4. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
     <key>import_opml_from_url</key>
     <string>Importera dina podcasts från en OPML-fil med hjälp av en URL</string>
-    <key>import_podcasts_description</key>
-    <string>Du kan importera alla dina prenumerationer till Pocket Casts via en OPML-fil som i stor utsträckning stöds av många podcast applikationer. Exportera filen från din andra app och välj Öppna i Pocket Casts.
-
-Observera: Du kan behöva skicka OPML-filen till dig själv via ett mejl, långtryck sedan på bilagan och välja Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Du kan importera dina podcasts till Pocket Casts med hjälp av OPML-formatet, som stöds i stor utsträckning. Exportera filen från den andra appen och välj Öppna i Pocket Casts.
 
@@ -1587,6 +1609,8 @@ podcasts med dig</string>
     <string>Inga avsnitt hittades</string>
     <key>loading</key>
     <string>Läser in...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Registrera dig med e-post</string>
     <key>login_landing_subtitle</key>
     <string>Dina podcasts, alltid synkroniserade. Håll ditt bibliotek säkert och njut av Pocket Casts på webben och via skrivbordet.</string>
     <key>login_landing_title</key>
@@ -1695,6 +1719,8 @@ podcasts med dig</string>
     <string>Tar bort stjärnmärkning för 1 avsnitt</string>
     <key>name</key>
     <string>Namn</string>
+    <key>network_fail_to_load</key>
+    <string>Detta nätverk gick inte att ladda</string>
     <key>new_email_address_prompt</key>
     <string>Ny e-postadress</string>
     <key>new_episodes</key>
@@ -1712,7 +1738,9 @@ podcasts med dig</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Hämta bokmärken</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Du kan spara tidsstämplar för viktiga ögonblick i ett avsnitt.</string>
+    <string>Ett tryck. Den har ett namn, och orden följer med den.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Spara de delar som är värda att behålla</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
     <key>no_bookmarks_title</key>
@@ -2111,6 +2139,10 @@ Det är engagemang!</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Sovtimer på</string>
+    <key>player_action_hide_video</key>
+    <string>Dölj videoklipp</string>
+    <key>player_action_show_video</key>
+    <string>Visa videoklipp</string>
     <key>player_action_subtitle_delete</key>
     <string>Visas som Ta bort för anpassade avsnitt</string>
     <key>player_action_subtitle_hidden</key>
@@ -2766,8 +2798,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Rensa 1 avsnitt</string>
-    <key>queue_clear_queue</key>
-    <string>RENSA KÖ</string>
     <key>queue_for_later</key>
     <string>Lägg till i kön för senare uppspelning</string>
     <key>queue_now_playing_accessibility</key>
@@ -2915,6 +2945,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Sök bokmärken</string>
     <key>search_episodes</key>
     <string>Sök avsnitt</string>
+    <key>search_filter_networks</key>
+    <string>Nätverk</string>
     <key>search_label</key>
     <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
@@ -3189,6 +3221,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Arkiverade avsnitt</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Vill du ändra till %1$@ arkiverade avsnitt för alla dina befintliga podcasts?</string>
+    <key>settings_general_audio_only</key>
+    <string>Endast ljud</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Om detta är aktiverat spelas videoavsnitt endast upp som ljud.</string>
     <key>settings_general_auto_open_player</key>
     <string>Öppna spelaren automatiskt</string>
     <key>settings_general_autoplay</key>
@@ -3199,6 +3235,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>STANDARD</string>
     <key>settings_general_episode_groups</key>
     <string>Podcast Gruppering</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Genererade kapitel</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Visa automatiskt genererade kapitel när de är tillgängliga.</string>
     <key>settings_general_hide</key>
     <string>Dölj</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3731,12 +3771,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Uppladdat</string>
     <key>stop_download</key>
     <string>Stoppa nedladdning</string>
-    <key>subscribe</key>
-    <string>Prenumerera</string>
     <key>subscribe_all</key>
     <string>Prenumerera på alla</string>
-    <key>subscribed</key>
-    <string>Prenumenerad</string>
     <key>subscription_cancelled</key>
     <string>Prenumeration avbruten</string>
     <key>subscription_cancelled_msg</key>
@@ -3845,6 +3881,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Längst upp</string>
     <key>transcript</key>
     <string>Transkription</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Bokmärk</string>
     <key>transcript_error_empty</key>
     <string>Den här transkriptionen verkar vara tom</string>
     <key>transcript_error_failed_to_load</key>
@@ -3932,6 +3970,14 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Dina podcasts förtjänar ett hem</string>
     <key>tv_create_account_qr_instruction</key>
     <string>Öppna kameran och peka på denna QR-kod.</string>
+    <key>tv_create_account_step_confirm_code</key>
+    <string>Om du blir tillfrågad, bekräfta koden nedan</string>
+    <key>tv_create_account_step_create</key>
+    <string>Skapa ditt konto eller logga in</string>
+    <key>tv_create_account_step_login</key>
+    <string>Logga in med ditt konto</string>
+    <key>tv_create_account_step_scan</key>
+    <string>Skanna QR-koden eller gå till %1$@</string>
     <key>tv_create_account_subtitle</key>
     <string>Skanna denna kod för att komma igång på din telefon, det tar bara en minut.</string>
     <key>tv_create_account_title</key>
@@ -3946,6 +3992,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Spela det senaste avsnittet</string>
     <key>tv_discover_play_episode</key>
     <string>Spela upp avsnitt</string>
+    <key>tv_discover_row_failed_to_load_title</key>
+    <string>Hämtningen misslyckades</string>
     <key>tv_episode_archived</key>
     <string>Arkiverad</string>
     <key>tv_episode_info</key>
@@ -3976,6 +4024,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ingen lyssningshistorik</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Bläddra i kategorier</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>Inläsningen av startsidan misslyckades</string>
     <key>tv_home_featured_section_title</key>
     <string>Utvalt på Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4110,12 +4160,34 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Hämtar de senaste avsnitten</string>
     <key>tv_search_failed</key>
     <string>Sökning misslyckades: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Utvalt</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, shower, författare</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Populäraste resultat</string>
     <key>tv_search_searching</key>
     <string>Söker ...</string>
     <key>tv_search_type_something</key>
     <string>Skriv något …</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Skanna QR-koden nedan eller öppna URL:en på din telefon för att komma åt integritetspolicyn.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>Livstid</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Nästa förnyelse</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Denna prenumeration gjordes på en annan plattform. Använd den plattformen för att hantera prenumerationen.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Paket</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Pris</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>Inte tillgängligt</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Prenumeration</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Skanna QR-koden nedan eller öppna URL:en på din telefon för att komma åt användarvillkoren.</string>
     <key>tv_sign_in_enter_code</key>
     <string>eller ange följande kod</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4160,6 +4232,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Användare/pass</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>Loggar in</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Användarnamn</string>
     <key>tv_welcome_browse_without_account</key>

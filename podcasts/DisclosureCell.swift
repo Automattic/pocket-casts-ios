@@ -23,6 +23,11 @@ class DisclosureCell: ThemeableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: DisclosureCell, _) in
+            view.updateSize()
+        }
+
         // Ensure label can expand vertically
         cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -33,14 +38,6 @@ class DisclosureCell: ThemeableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         setImage(imageName: nil)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 
     private func updateSize() {

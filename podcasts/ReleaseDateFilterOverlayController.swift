@@ -150,7 +150,7 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
         super.handleThemeChanged()
 
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor)
     }
 
     override func dismissViewController() {

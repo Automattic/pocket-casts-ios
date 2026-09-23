@@ -40,13 +40,12 @@ public class StoryShareableProvider: UIActivityItemProvider, @unchecked Sendable
     // This method is called when the share sheet appeared
     // So we can go ahead and snapshot the view
     @MainActor
-    public func snapshot(viewModifier: (AnyView) -> some View) {
+    public func snapshot(viewModifier: @MainActor (AnyView) -> some View) {
         guard let view else {
             return
         }
 
-        let snapshot = AnyView(view)
-        .modify(viewModifier)
+        let snapshot = AnyView(viewModifier(view))
         .environment(\.renderForSharing, true)
         .frame(width: 450, height: 800)
         .ignoresSafeArea()

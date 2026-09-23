@@ -1,6 +1,6 @@
-extension PCDBQueue {
+extension GRDBQueue {
 
-    /// Asynchronously perform queries on an `PCDatabase` from a `PCDBQueue`
+    /// Asynchronously perform queries on an `PCDatabase` from a `GRDBQueue`
     /// The `inDatabase` call itself is a synchronous process but makes getting a return result harder due to the completion block. Using async you can retrieve the result in 1 line.
     ///
     /// Usage:

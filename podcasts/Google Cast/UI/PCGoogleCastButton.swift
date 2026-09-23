@@ -6,6 +6,16 @@ class PCGoogleCastButton: UIButton {
     private static let connectedIconName = "nav_cast_on"
     private static let animatedIconNames = ["nav_cast_on0", "nav_cast_on1", "nav_cast_on2"]
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        accessibilityLabel = L10n.chromecastCastTo
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        accessibilityLabel = L10n.chromecastCastTo
+    }
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         guard superview != nil else {
@@ -20,9 +30,6 @@ class PCGoogleCastButton: UIButton {
     }
 
     func setup() {
-        if LiquidGlass.isEnabled {
-            tintColor = .label
-        }
         updateForCurrentState()
         NotificationCenter.default.addObserver(self, selector: #selector(stateDidChange), name: Constants.Notifications.googleCastStatusChanged, object: nil)
     }
@@ -32,14 +39,17 @@ class PCGoogleCastButton: UIButton {
     }
 
     private func updateForCurrentState() {
-        if GoogleCastManager.sharedManager.connected() {
+        if GoogleCastManager.shared.connected() {
             setImageOnAllStates(imageName: PCGoogleCastButton.connectedIconName)
-        } else if GoogleCastManager.sharedManager.connecting() {
+            accessibilityValue = L10n.chromecastConnected
+        } else if GoogleCastManager.shared.connecting() {
             imageView?.animationImages = createAnimationImages()
             imageView?.animationDuration = 1.0
             imageView?.startAnimating()
+            accessibilityValue = nil
         } else {
             setImageOnAllStates(imageName: PCGoogleCastButton.disconnectedIconName)
+            accessibilityValue = nil
         }
     }
 

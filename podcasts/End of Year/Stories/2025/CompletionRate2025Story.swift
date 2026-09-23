@@ -19,8 +19,6 @@ struct CompletionRate2025Story: ShareableStory {
     private let foregroundColor = Color.white
     private let backgroundColor = Color.endOfYear2025Background
 
-    @State private var chartOpacity: Double = 1
-
     var body: some View {
         VStack(alignment: .center) {
             headerView

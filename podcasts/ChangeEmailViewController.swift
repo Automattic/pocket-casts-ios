@@ -117,6 +117,11 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.changeEmail
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ChangeEmailViewController, _) in
+            controller.updateSize()
+        }
+
         currentEmailLabel.text = ServerSettings.syncingEmail()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -315,12 +320,5 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         stackView.alignment = largeSize ? .leading : .fill
         currentEmailLabel.textAlignment = largeSize ? .natural : .right
         emailLabelSizeConstraint.isActive = largeSize ? false : true
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
     }
 }

@@ -1,10 +1,11 @@
+import UIKit
 
 extension VideoViewController: TimeSliderDelegate {
     func sliderDidBeginSliding() {}
     func sliderDidEndSliding() {}
 
     func sliderDidProvisionallySlide(to time: TimeInterval) {
-        if PlaybackManager.shared.playing() { startHideControlsTimer() }
+        if PlaybackManager.shared.isPlaying { startHideControlsTimer() }
 
         updateUpTo(upTo: time, duration: PlaybackManager.shared.duration(), moveSlider: false)
     }

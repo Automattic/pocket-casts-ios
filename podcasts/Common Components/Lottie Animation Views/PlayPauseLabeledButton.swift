@@ -46,7 +46,7 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
         layer.borderWidth = 1.5
         backgroundColor = .clear
 
-        Theme.sharedTheme.$activeTheme
+        Theme.shared.$activeTheme
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.updateTheme()
@@ -66,7 +66,7 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
     }
 
     private func updatePlayingState() {
-        isPlaying = PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID)
+        isPlaying = episodeUUID.map { PlaybackManager.shared.isActivelyPlaying(episodeUuid: $0) } ?? false
     }
 
     override public func layoutSubviews() {

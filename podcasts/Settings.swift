@@ -36,41 +36,43 @@ class Settings: NSObject {
 
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
-    class func setLibraryType(_ type: LibraryType) {
-        UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
-        cachedlibrarySortType = type
-    }
+    static var libraryType: LibraryType {
+        get {
+            if let type = cachedlibrarySortType {
+                return type
+            }
 
-    class func libraryType() -> LibraryType {
-        if let type = cachedlibrarySortType {
-            return type
+            let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
+            if let type = LibraryType(oldValue: storedValue) {
+                cachedlibrarySortType = type
+
+                return type
+            }
+
+            return LibraryType.threeByThree // default value
         }
-
-        let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
-        if let type = LibraryType(oldValue: storedValue) {
+        set(type) {
+            UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
             cachedlibrarySortType = type
-
-            return type
         }
-
-        return LibraryType.threeByThree // default value
     }
 
     // MARK: - Podcast Badge
 
     static let badgeKey = "SJBadgeType"
-    class func podcastBadgeType() -> BadgeType {
-        let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
+    static var podcastBadgeType: BadgeType {
+        get {
+            let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
 
-        if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
-            return type
+            if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
+                return type
+            }
+
+            return .off
         }
-
-        return .off
-    }
-
-    class func setPodcastBadgeType(_ badgeType: BadgeType) {
-        UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
+        set(badgeType) {
+            UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
+        }
     }
 
     // MARK: - Up Next Auto Download
@@ -155,12 +157,6 @@ class Settings: NSObject {
         trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
     }
 
-    class func shouldDeleteWhenPlayed() -> Bool {
-        let finishedAction = UserDefaults.standard.integer(forKey: Constants.UserDefaults.episodeFinishedAction)
-
-        return finishedAction == PodcastFinishedAction.delete.rawValue
-    }
-
     class func setShouldDeleteWhenPlayed(_ shouldDelete: Bool) {
         let finishedAction = shouldDelete ? PodcastFinishedAction.delete : PodcastFinishedAction.doNothing
 
@@ -170,108 +166,114 @@ class Settings: NSObject {
     // MARK: - Default Archive Hiding
 
     static let defaultArchiveBehaviour = "SJDefaultArchive"
-    class func showArchivedDefault() -> Bool {
-        UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
-    }
+    static var showArchivedDefault: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        }
+        set(showArchived) {
+            UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
 
-    class func setShowArchivedDefault(_ showArchived: Bool) {
-        UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
-
-        trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
+            trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
+        }
     }
 
     // MARK: - Primary Row Action
 
     static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
-    class func primaryRowAction() -> PrimaryRowAction {
-        if let action = cachedPrimaryRowAction { return action }
-        let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-        return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
-    }
+    static var primaryRowAction: PrimaryRowAction {
+        get {
+            if let action = cachedPrimaryRowAction { return action }
+            let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
+            let action = PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+            cachedPrimaryRowAction = action
+            return action
+        }
+        set(action) {
+            UserDefaults.standard.set(
+                action.rawValue,
+                forKey: primaryRowActionKey
+            )
+            cachedPrimaryRowAction = action
 
-    class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        UserDefaults.standard.set(
-            action.rawValue,
-            forKey: primaryRowActionKey
-        )
-        cachedPrimaryRowAction = action
-
-        trackValueChanged(.settingsGeneralRowActionChanged, value: action)
+            trackValueChanged(.settingsGeneralRowActionChanged, value: action)
+        }
     }
 
     // MARK: - Podcast Sort Order
 
-    class func homeFolderSortOrder() -> LibrarySort {
-        let sortInt = ServerSettings.homeGridSortOrder()
-        if let librarySort = LibrarySort(oldValue: sortInt) {
-            return librarySort
+    static var homeFolderSortOrder: LibrarySort {
+        get {
+            let sortInt = ServerSettings.homeGridSortOrder()
+            if let librarySort = LibrarySort(oldValue: sortInt) {
+                return librarySort
+            }
+
+            return .dateAddedNewestToOldest
         }
-
-        return .dateAddedNewestToOldest
-    }
-
-    class func setHomeFolderSortOrder(order: LibrarySort) {
-        ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
+        set(order) {
+            ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
+        }
     }
 
     // MARK: - Podcast Grouping Default
 
     static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
     private static var cachedPodcastGrouping: PodcastGrouping?
-    class func defaultPodcastGrouping() -> PodcastGrouping {
-        if let grouping = cachedPodcastGrouping { return grouping }
+    static var defaultPodcastGrouping: PodcastGrouping {
+        get {
+            if let grouping = cachedPodcastGrouping { return grouping }
 
-        let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
-        let defaultGrouping = PodcastGrouping(rawValue: Int32(storedValue)) ?? .none
-        cachedPodcastGrouping = defaultGrouping
+            let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
+            let defaultGrouping = PodcastGrouping(rawValue: Int32(storedValue)) ?? .none
+            cachedPodcastGrouping = defaultGrouping
 
-        return defaultGrouping
-    }
+            return defaultGrouping
+        }
+        set(grouping) {
+            UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
+            cachedPodcastGrouping = grouping
 
-    class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
-        UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
-        cachedPodcastGrouping = grouping
-
-        trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
+            trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
+        }
     }
 
     // MARK: - Primary Up Next Swipe Action
 
     static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
     private static var cachedPrimaryUpNextSwipeAction: PrimaryUpNextSwipeAction? // we cache this because it's used in lists
-    class func primaryUpNextSwipeAction() -> PrimaryUpNextSwipeAction {
-        if let action = cachedPrimaryUpNextSwipeAction { return action }
+    static var primaryUpNextSwipeAction: PrimaryUpNextSwipeAction {
+        get {
+            if let action = cachedPrimaryUpNextSwipeAction { return action }
 
-        let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
-        let primaryAction = PrimaryUpNextSwipeAction(rawValue: Int32(storedValue)) ?? .playNext
-        cachedPrimaryUpNextSwipeAction = primaryAction
+            let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
+            let primaryAction = PrimaryUpNextSwipeAction(rawValue: Int32(storedValue)) ?? .playNext
+            cachedPrimaryUpNextSwipeAction = primaryAction
 
-        return primaryAction
-    }
+            return primaryAction
+        }
+        set(action) {
+            UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
+            cachedPrimaryUpNextSwipeAction = action
 
-    class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
-        UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
-        cachedPrimaryUpNextSwipeAction = action
-
-        trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
+            trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
+        }
     }
 
     // MARK: - Play Up Next On Tap
 
     static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
-    class func playUpNextOnTap() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
-    }
-
-    class func setPlayUpNextOnTap(_ isOn: Bool) {
-        UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
+    static var playUpNextOnTap: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
+        }
+        set(isOn) {
+            UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
+        }
     }
 
     static let upNextShuffleKey = "SJUpNextShuffleKey"
     class func upNextShuffleToggle() {
-        guard FeatureFlag.upNextShuffle.enabled else { return }
-
         let isOn = upNextShuffleEnabled()
         UserDefaults.standard.set(!isOn, forKey: Settings.upNextShuffleKey)
 
@@ -279,7 +281,7 @@ class Settings: NSObject {
     }
 
     class func upNextShuffleEnabled() -> Bool {
-        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             return false
         }
         return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
@@ -314,7 +316,6 @@ class Settings: NSObject {
 
     class func setDiscoverRegion(region: String) {
         UserDefaults.standard.set(region, forKey: chartRegion)
-        UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
 
@@ -508,21 +509,6 @@ class Settings: NSObject {
         trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
 
-    // MARK: - Full Player Chapters Expanded
-
-    private static let playerChaptersExpandedKey = "PlayerChaptersExpanded"
-    class func playerChaptersExpanded() -> Bool {
-        if let expanded = UserDefaults.standard.value(forKey: playerChaptersExpandedKey) as? Bool {
-            return expanded
-        }
-
-        return true
-    }
-
-    class func setPlayerChaptersExpanded(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: playerChaptersExpandedKey)
-    }
-
     // MARK: Subscription Cancelled Acknowledgement
 
     private static let subscriptionCancelledAcknowledgedKey = "SJCancelledAcknowledged"
@@ -626,7 +612,6 @@ class Settings: NSObject {
     class var lastWhatsNewShown: String? {
         set {
             UserDefaults.standard.setValue(newValue, forKey: lastWhatsNewShownKey)
-            UserDefaults.standard.synchronize()
         }
 
         get {
@@ -634,12 +619,13 @@ class Settings: NSObject {
         }
     }
 
-    class func setShouldFollowSystemTheme(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
-    }
-
-    class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+    static var shouldFollowSystemTheme: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
+        set(value) {
+            UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
     }
 
     // MARK: Player Actions
@@ -762,44 +748,47 @@ class Settings: NSObject {
 
     // MARK: - Watch number of episodes to auto sync from the Up Next queue
 
-    class func setWatchAutoDownloadUpNextEnabled(isEnabled: Bool) {
-        UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
+    static var watchAutoDownloadUpNextEnabled: Bool {
+        get {
+            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled) as? Bool else {
+                return false
+            }
 
-        trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
-    }
-
-    class func watchAutoDownloadUpNextEnabled() -> Bool {
-        guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled) as? Bool else {
-            return false
+            return isEnabled
         }
+        set(isEnabled) {
+            UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
 
-        return isEnabled
-    }
-
-    class func setWatchAutoDownloadUpNextCount(numEpisodes: Int) {
-        UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
-        trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
-    }
-
-    class func watchAutoDownloadUpNextCount() -> Int {
-        guard let numEpisodes = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount) as? Int else {
-            return 3
+            trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
         }
-
-        return numEpisodes
     }
 
-    class func setWatchAutoDeleteUpNext(isEnabled: Bool) {
-        UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
-        trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
-    }
+    static var watchAutoDownloadUpNextCount: Int {
+        get {
+            guard let numEpisodes = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount) as? Int else {
+                return 3
+            }
 
-    class func watchAutoDeleteUpNext() -> Bool {
-        guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDeleteUpNext) as? Bool else {
-            return true
+            return numEpisodes
         }
+        set(numEpisodes) {
+            UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
+            trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
+        }
+    }
 
-        return isEnabled
+    static var watchAutoDeleteUpNext: Bool {
+        get {
+            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.watchAutoDeleteUpNext) as? Bool else {
+                return true
+            }
+
+            return isEnabled
+        }
+        set(isEnabled) {
+            UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
+            trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
+        }
     }
 
     // MARK: - App Store Review Requests
@@ -988,6 +977,19 @@ class Settings: NSObject {
         }
         get {
             ServerSettings.disableAiChapters()
+        }
+    }
+
+    // MARK: - What's New
+
+    /// Whether Profile shows a dot when What's New has unread messages. Turning it off leaves the messages
+    /// unread. Backed by `ServerSettings` so it syncs globally with the server.
+    static var showWhatsNewDot: Bool {
+        set {
+            ServerSettings.setShowWhatsNewDot(newValue)
+        }
+        get {
+            ServerSettings.showWhatsNewDot()
         }
     }
 
@@ -1258,6 +1260,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Smart Bookmarks Promo
+
+    static var shouldShowBookmarksPlayerTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.bookmarks.showPlayerTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.bookmarks.showPlayerTip)
+        }
+    }
+
     // MARK: - Playlists
 
     static var shouldShowNewFilterTip: Bool {
@@ -1395,13 +1408,32 @@ class Settings: NSObject {
 
     // MARK: - Encourage Account Creation
 
-    static var hasShownInformationalViewModal: Bool {
+    /// Anchor for the Encourage Account Creation modal cadence; reset when shown. Not reset on
+    /// sign-out (targets any logged-out user); set once on fresh install for a full grace interval.
+    static var encourageAccountCreationReferenceDate: Date? {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate) as? Date
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.encourageAccountCreationReferenceDate)
         }
+    }
+
+    /// How long to wait between showings of the Encourage Account Creation modal (60 days).
+    static let encourageAccountCreationInterval: TimeInterval = 60.days
+
+    /// Whether to show the modal this launch: on the first eligible launch, once the interval elapses,
+    /// or when the anchor is ahead of `now` (a restored future date). Params injectable for tests.
+    static func shouldShowEncourageAccountCreationModal(
+        now: Date = Date(),
+        isEligible: Bool = FeatureFlag.encourageAccountCreation.enabled && !SyncManager.isUserLoggedIn(),
+        referenceDate: Date? = encourageAccountCreationReferenceDate,
+        interval: TimeInterval = encourageAccountCreationInterval
+    ) -> Bool {
+        guard isEligible else { return false }
+        guard let referenceDate else { return true }
+        let elapsed = now.timeIntervalSince(referenceDate)
+        return elapsed >= interval || elapsed < 0 // anchor ahead of now (clock/backup skew)
     }
 
     // MARK: - VoiceBoostN

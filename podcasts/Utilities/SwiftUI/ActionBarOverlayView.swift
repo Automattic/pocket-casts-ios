@@ -1,7 +1,9 @@
 import SwiftUI
 
-/// Displays an overlay view that displays the ActionBarView at the bottom
+/// Displays an overlay view that displays the ActionBarView at the bottom.
 ///
+/// Used on iOS 18 and earlier only. On iOS 26+ (Liquid Glass) the bar is added
+/// directly via `.safeAreaInset` instead of overlaying it here.
 struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
     /// Whether the action bar should appear in the view or not
     var actionBarVisible: Bool
@@ -18,7 +20,9 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
     /// The actions to display in the action bar
     var actions: [ActionBarView<Style>.Action] = []
 
-    // No manual padding; rely on miniPlayerSafeAreaInset()
+    /// Whether to reserve space for the mini player below the bar. Set to false when
+    /// hosted somewhere the mini player never appears, such as the full screen player.
+    var reservesMiniPlayerSpace: Bool = true
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,8 +33,8 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
                     .padding(.bottom)
             }
         }
-        // Automatically add space when the mini player is visible
-        .miniPlayerSafeAreaInset(multiplier: 1.7)
+        // Reserve space for the mini player so the bar floats just above it
+        .miniPlayerSafeAreaInset(multiplier: reservesMiniPlayerSpace ? 1 : 0)
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
     }
@@ -62,7 +66,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 24
 
     var body: some View {
-        HStack {
+        HStack(spacing: ActionBarConstants.buttonSpacing) {
             // Show the title if needed
             title.map {
                 Text($0)
@@ -83,8 +87,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
         // Inner Padding
         .padding(.vertical, ActionBarConstants.barPaddingVertical)
         .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
-        .applyMaterial(tint: style.backgroundTint)
-        .cornerRadius(ActionBarConstants.radius)
+        .actionBarBackground(tint: style.backgroundTint)
         // Outer Padding
         .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
     }
@@ -130,18 +133,29 @@ struct ActionBarView<Style: ActionBarStyle>: View {
 
 private enum ActionBarConstants {
     static let radius = 12.0
+    static let glassRadius = 28.0
     static let barPaddingVertical = 12.0
     static let barPaddingHorizontal = 16.0
-    static let buttonPaddingHorizontal = 12.0
-    static let buttonPaddingVertical = 4.0
+    static let buttonPaddingHorizontal = 16.0
+    static let buttonPaddingVertical = 6.0
+    static let buttonSpacing = 12.0
 }
 
 private extension View {
-    func applyMaterial(tint: Color) -> some View {
-        self
-            .background(.ultraThinMaterial)
-            .background(tint)
-            .environment(\.colorScheme, .dark)
+    /// Applies the action bar's background. Under Liquid Glass this mirrors
+    /// `MultiSelectFooterView`'s glass footer; otherwise it falls back to the
+    /// translucent material used on iOS 18 and earlier.
+    @ViewBuilder
+    func actionBarBackground(tint: Color) -> some View {
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            self.glassEffect(.regular.interactive(), in: .rect(cornerRadius: ActionBarConstants.glassRadius))
+        } else {
+            self
+                .background(.ultraThinMaterial)
+                .background(tint)
+                .environment(\.colorScheme, .dark)
+                .cornerRadius(ActionBarConstants.radius)
+        }
     }
 }
 

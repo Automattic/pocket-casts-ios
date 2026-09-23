@@ -47,7 +47,7 @@ class PodcastDetailViewModel {
     func setSortOrder(_ order: PodcastEpisodeSortOrder) {
         guard order != sortOrder, let podcast else { return }
         podcast.episodeSortOrder = order.old.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         sortOrder = order
         load()
         Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])
@@ -89,7 +89,7 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
+            let allEpisodes = await dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
                 EpisodeRowViewModel(episode: $0, podcast: podcast, isDiscover: isDiscover, source: .podcastScreen)
             }
             await MainActor.run {

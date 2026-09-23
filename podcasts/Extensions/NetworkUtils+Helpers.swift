@@ -18,6 +18,7 @@ extension NetworkUtils {
         allowed?(true)
     }
 #else
+    @MainActor
     func downloadEpisodeRequested(autoDownloadStatus: AutoDownloadStatus, _ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
 
@@ -45,6 +46,7 @@ extension NetworkUtils {
         optionsPicker.present()
     }
 
+    @MainActor
     func streamEpisodeRequested(_ allowed: (() -> Void)?, disallowed: (() -> Void)?) {
         if Settings.mobileDataAllowed() || isConnectedToUnexpensiveConnection() {
             allowed?()
@@ -67,6 +69,7 @@ extension NetworkUtils {
 
     // MARK: - Upload Helpers
 
+    @MainActor
     func uploadEpisodeRequested(_ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
         let mobileDataAllowed = !ServerSettings.userEpisodeOnlyOnWifi()
 

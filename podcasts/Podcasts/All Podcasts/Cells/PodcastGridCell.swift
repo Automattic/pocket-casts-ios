@@ -58,7 +58,7 @@ class PodcastGridCell: UICollectionViewCell {
     @objc private func podcastColorsLoaded(_ notification: Notification) {
         guard let uuidLoaded = notification.object as? String else { return }
 
-        if uuidLoaded == podcastUuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuidLoaded) {
+        if uuidLoaded == podcastUuid, let podcast = DataManager.shared.findPodcast(uuid: uuidLoaded) {
             setColors(podcast: podcast)
         }
     }
@@ -77,7 +77,7 @@ class PodcastGridCell: UICollectionViewCell {
     private func setImage() {
         guard let podcastUuid else { return }
 
-        ImageManager.sharedManager.loadImage(podcastUuid: podcastUuid, imageView: podcastImage, size: .grid, showPlaceHolder: false)
+        ImageManager.shared.loadImage(podcastUuid: podcastUuid, imageView: podcastImage, size: .grid, showPlaceHolder: false)
     }
 
     private func setColors(podcast: Podcast) {

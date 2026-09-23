@@ -3,13 +3,13 @@ import PocketCastsUtils
 
 struct BookmarksProfileListView: View {
     @ObservedObject var viewModel: BookmarkPodcastListViewModel
-    @ObservedObject var style = ThemedBookmarksStyle()
+    @ObservedObject var style = FullScreenBookmarksStyle()
+    @ObservedObject private var searchTheme = BookmarksSearchFieldTheme()
 
     var body: some View {
-        VStack(spacing: BookmarkListConstants.padding) {
+        VStack(spacing: 0) {
             searchField
                 .padding([.horizontal], BookmarkListConstants.headerPadding)
-                .background(style.theme.secondaryUi01)
             bookmarkListView
         }
         .navigationTitle(L10n.bookmarks)
@@ -18,6 +18,10 @@ struct BookmarksProfileListView: View {
             toolbar
         }
         .background(style.background.ignoresSafeArea())
+    }
+
+    private var navBarTint: Color? {
+        ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: style.theme.activeTheme))
     }
 
     @ToolbarContentBuilder
@@ -33,7 +37,7 @@ struct BookmarksProfileListView: View {
                         Text(L10n.selectAll)
                     }
                 }
-                .tint(style.theme.secondaryIcon01)
+                .tint(navBarTint)
             }
         }
 
@@ -54,7 +58,7 @@ struct BookmarksProfileListView: View {
                 }
                 .disabled(!viewModel.feature.isUnlocked)
                 .opacity(viewModel.feature.isUnlocked ? 1 : 0)
-                .tint(style.theme.secondaryIcon01)
+                .tint(navBarTint)
             }
         }
     }
@@ -62,18 +66,21 @@ struct BookmarksProfileListView: View {
     @ViewBuilder
     private var searchField: some View {
         if viewModel.isSearching || !viewModel.bookmarks.isEmpty {
-            SearchField(text: $viewModel.searchText)
+            SearchField(theme: searchTheme, text: $viewModel.searchText)
                 .disabled(viewModel.isMultiSelecting)
         }
     }
 
     private var bookmarkListView: some View {
         BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
-            .padding(.bottom, bottomInset(multiSelectEnabled: viewModel.isMultiSelecting))
+            .padding(.top, BookmarkListConstants.padding)
     }
+}
 
-    func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
-        let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        return min(Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, 40)
-    }
+private final class BookmarksSearchFieldTheme: SearchField.SearchTheme {
+    override var background: Color { theme.primaryField01 }
+    override var placeholder: Color { theme.primaryText02 }
+    override var text: Color { theme.primaryText01 }
+    override var cancel: Color { theme.primaryText01 }
+    override var icon: Color { theme.primaryIcon02 }
 }

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 import PocketCastsServer
+import PocketCastsUtils
 
 extension DiscoverPodcast: @retroactive Identifiable {
     public var id: String {
@@ -20,6 +21,8 @@ class HorizontalCollectionModel: ObservableObject {
     weak var delegate: DiscoverDelegate?
 
     @Published var list: [[DiscoverPodcast]] = []
+
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
 
     var type: String {
         return podcastCollection?.subtitle ?? ""
@@ -49,7 +52,7 @@ class HorizontalCollectionModel: ObservableObject {
 
         self.item = item
         self.category = category
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
+        serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }
 
             DispatchQueue.main.async {

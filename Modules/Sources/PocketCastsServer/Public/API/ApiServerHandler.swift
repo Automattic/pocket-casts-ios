@@ -102,7 +102,7 @@ public class ApiServerHandler {
             deleteOperation.completion = { success in
                 guard success else { return } // failed deletes will remain as pending
 
-                DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: episode)
+                DataManager.shared.saveEpisode(uploadStatus: .notUploaded, episode: episode)
                 deleteCompletedHandler?(episode)
             }
             apiQueue.addOperation(deleteOperation)

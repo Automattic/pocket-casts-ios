@@ -315,7 +315,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
                     ["product": ProductInfo(plan: $0.subscription == .patron ? .patron : .plus, frequency: .yearly)]
                 }
 
-                NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons, context: context)
+                NavigationManager.shared.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons, context: context)
             }
             return
         }

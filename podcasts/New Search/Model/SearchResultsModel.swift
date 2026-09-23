@@ -33,7 +33,7 @@ class SearchResultsModel: ObservableObject {
     let showLocalResults: Bool
 
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown), showLocalResults: Bool = false,
-         dataManager: DataManager = DataManager.sharedManager) {
+         dataManager: DataManager = DataManager.shared) {
         self.analyticsHelper = analyticsHelper
         self.dataMangager = dataManager
         self.showLocalResults = showLocalResults
@@ -41,6 +41,14 @@ class SearchResultsModel: ObservableObject {
 
     var noResults: Bool {
         podcasts.isEmpty && predictive.isEmpty && combinedResults.isEmpty
+    }
+
+    /// The networks among ``combinedResults``, which the Networks filter and its rows are drawn from.
+    var networks: [NetworkSearchResult] {
+        combinedResults.compactMap {
+            guard case .network(let network) = $0 else { return nil }
+            return network
+        }
     }
 
     func clearSearch() {
@@ -192,6 +200,9 @@ class SearchResultsModel: ObservableObject {
 
     private func showCombinedResults(_ results: [CombinedSearchResultType]) {
         isShowingPredictiveSearch = false
-        combinedResults = results
+        combinedResults = results.filter { result in
+            guard case .network = result else { return true }
+            return FeatureFlag.networkDiscovery.enabled
+        }
     }
 }

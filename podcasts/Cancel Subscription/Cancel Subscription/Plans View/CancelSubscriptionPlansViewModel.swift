@@ -78,12 +78,6 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
         }
     }
 
-    func closePlans() {
-        didDismiss(type: .swipe)
-
-        navigationController?.dismiss(animated: true)
-    }
-
     func popViewController() {
         Analytics.track(.winbackAvailablePlansBackButtonTapped)
         didDismiss(type: .swipe)

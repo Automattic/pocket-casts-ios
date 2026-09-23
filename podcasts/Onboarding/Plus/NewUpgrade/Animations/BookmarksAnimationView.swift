@@ -1,103 +1,115 @@
 import Foundation
 import SwiftUI
 
-fileprivate struct BookmarkUpgradeAnimation {
-    let image: String
-    let title: String
-    let time: String
-    let rotationStart: Double
-    let rotationEnd: Double
+private struct BookmarkUpgradeCardStyle {
     let gradientStart: Color
     let gradientEnd: Color
+
+    static let front = BookmarkUpgradeCardStyle(gradientStart: Color(hex: "#0202FE"), gradientEnd: Color(hex: "#27D9E9"))
+    static let middle = BookmarkUpgradeCardStyle(gradientStart: Color(hex: "#EC4034"), gradientEnd: Color(hex: "#FF9D00"))
+    static let back = BookmarkUpgradeCardStyle(gradientStart: Color(hex: "#E8A92C"), gradientEnd: Color(hex: "#E4D820"))
 }
 
-fileprivate struct BookmarkUpgradeRow: View {
+private extension BookmarkUpgradeCardStyle {
+    var gradient: LinearGradient {
+        LinearGradient(
+            stops: [
+                Gradient.Stop(color: gradientStart, location: 0.00),
+                Gradient.Stop(color: gradientEnd, location: 1.00),
+            ],
+            startPoint: UnitPoint(x: 0.0, y: 1.0),
+            endPoint: UnitPoint(x: 1.0, y: 0.0)
+        )
+    }
+}
 
-    let bookmark: BookmarkUpgradeAnimation
-    let index: Int
-
-    @EnvironmentObject var theme: Theme
-
-    @State private var rotation = Angle(degrees: 0.0)
-    @State private var opacity = 0.0
-    @State private var selected = true
-    @State private var scale: CGFloat = 2.0
+/// The bookmark a listener ends up with: a generated title, the words from the transcript, and the timestamp.
+private struct BookmarkUpgradeCard: View {
+    @ScaledMetric(relativeTo: .subheadline) private var artworkSize = 44
 
     var body: some View {
-        VStack(alignment: .center, spacing: 18) {
-            Image(bookmark.image)
+        HStack(spacing: 12) {
+            Image("login-cover-2")
                 .resizable()
-                .frame(width: 78, height: 78)
-                .cornerRadius(8)
-            Text(bookmark.title)
-                .font(size: 16, style: .body, weight: .medium)
-                .kerning(0.36)
-                .foregroundStyle(.white)
-            HStack {
-                Text(bookmark.time)
-                    .font(size: 16, style: .body, weight: .medium)
-                    .foregroundStyle(.black)
-                Image("bookmarks-icon-play")
-                    .renderingMode(.template)
-                    .foregroundStyle(.black)
+                .frame(width: artworkSize, height: artworkSize)
+                .cornerRadius(6)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(L10n.bookmarksUpgradeExampleTitle)
+                    .font(size: 15, style: .subheadline, weight: .semibold)
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                Text(L10n.bookmarksUpgradeExamplePassage)
+                    .font(size: 12, style: .caption, weight: .regular)
+                    .foregroundStyle(.white.opacity(0.8))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background {
-                Capsule(style: .continuous)
-                    .fill(Color.white)
-            }
+
+            Spacer(minLength: 8)
+
+            timestamp
         }
-        .padding(.vertical, 24)
-        .frame(width: 180, height: 180)
-        .background(
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: bookmark.gradientStart, location: 0.00),
-                    Gradient.Stop(color: bookmark.gradientEnd, location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.85, y: 0.94),
-                endPoint: UnitPoint(x: 0.18, y: 0.06)
-            )
-        )
+        .padding(12)
+        .background(BookmarkUpgradeCardStyle.front.gradient)
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 2)
-        .rotationEffect(rotation)
-        .opacity(opacity)
-        .scaleEffect(scale)
-        .onAppear {
-            animate(Double(index))
+    }
+
+    private var timestamp: some View {
+        HStack(spacing: 4) {
+            Text(Constants.timestamp)
+                .font(size: 13, style: .caption, weight: .medium)
+                .foregroundStyle(.black)
+            Image("bookmarks-icon-play")
+                .renderingMode(.template)
+                .foregroundStyle(.black)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background {
+            Capsule(style: .continuous)
+                .fill(Color.white)
         }
     }
 
-    private func animate(_ index: Double) {
-        rotation = Angle(degrees: bookmark.rotationStart)
-        opacity = 0
-        withAnimation(.easeInOut(duration: 0.8).delay(0.1 + (0.9 * index))) {
-            rotation = Angle(degrees: bookmark.rotationEnd)
-            opacity = 1
-            scale = 1
-        }
+    private enum Constants {
+        static let timestamp = "6:45"
     }
 }
 
 struct BookmarksAnimationView: View {
-
-    fileprivate let bookmarks: [BookmarkUpgradeAnimation] = [
-        .init(image: "login-cover-9", title: "Amazing quote!", time: "19:05", rotationStart: 9.5, rotationEnd: -2.5, gradientStart: Color(hex: "#E4D820"), gradientEnd: Color(hex: "#E8A92C")),
-        .init(image: "login-cover-10", title: "This bit cracks me up", time: "23:10", rotationStart: 12, rotationEnd: 7, gradientStart: Color(hex: "#EC4034"), gradientEnd: Color(hex: "#FF9D00")),
-        .init(image: "login-cover-2", title: "Love this part!", time: "6:45", rotationStart: 5, rotationEnd: -5, gradientStart: Color(hex: "#0202FE"), gradientEnd: Color(hex: "#27D9E9")),
-    ]
-
-    @EnvironmentObject var theme: Theme
+    @State private var revealed = false
 
     var body: some View {
-        ZStack {
-            ForEach(Array(zip(bookmarks.indices, bookmarks)), id: \.0) { index, bookmark in
-                BookmarkUpgradeRow(bookmark: bookmark, index: index).zIndex(Double(index) * 0.1)
+        BookmarkUpgradeCard()
+            .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 2)
+            .opacity(revealed ? 1 : 0)
+            .offset(y: revealed ? 0 : 24)
+            .animation(.easeOut(duration: 0.5).delay(0.5), value: revealed)
+            .background(alignment: .top) {
+                stackedCards
             }
+            .padding(.horizontal, 16)
+            .onAppear {
+                revealed = true
+            }
+    }
+
+    private var stackedCards: some View {
+        ZStack(alignment: .top) {
+            card(style: .back, inset: 34, offset: -22)
+                .animation(.easeOut(duration: 0.5).delay(0.1), value: revealed)
+            card(style: .middle, inset: 17, offset: -11)
+                .animation(.easeOut(duration: 0.5).delay(0.3), value: revealed)
         }
-        .padding(.horizontal, 16)
+    }
+
+    private func card(style: BookmarkUpgradeCardStyle, inset: CGFloat, offset: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: 12, style: .continuous)
+            .fill(style.gradient)
+            .padding(.horizontal, inset)
+            .offset(y: revealed ? offset : 0)
+            .opacity(revealed ? 1 : 0)
     }
 }
 

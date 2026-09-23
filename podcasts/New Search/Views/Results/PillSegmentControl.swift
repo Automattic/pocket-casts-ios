@@ -34,11 +34,7 @@ struct PillSegmentControl<Data: RandomAccessCollection, Content: View>: View whe
             }
         }
         .scrollIndicators(.hidden)
-        .modify {
-            if #available(iOS 16.4, *) {
-                $0.scrollBounceBehavior(.basedOnSize, axes: .horizontal)
-            }
-        }
+        .scrollBounceBehavior(.basedOnSize, axes: .horizontal)
     }}
 
 

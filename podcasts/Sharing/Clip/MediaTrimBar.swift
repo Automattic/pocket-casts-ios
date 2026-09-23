@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import CoreMedia
 
 struct MediaTrimBar: View {
     @ObservedObject var clipTime: ClipTime
@@ -30,12 +31,10 @@ struct MediaTrimBar: View {
             TrimPlayButton(isPlaying: $isPlaying)
                 .frame(width: Constants.height)
                 .background(Constants.trimBorderColor)
-                .modify { view in
-                    view.clipShape(.rect(topLeadingRadius: Constants.borderRadius,
-                                         bottomLeadingRadius: Constants.borderRadius,
-                                         bottomTrailingRadius: 0,
-                                         topTrailingRadius: 0))
-                }
+                .clipShape(.rect(topLeadingRadius: Constants.borderRadius,
+                                 bottomLeadingRadius: Constants.borderRadius,
+                                 bottomTrailingRadius: 0,
+                                 topTrailingRadius: 0))
                 .onChange(of: isPlaying) { _, isPlaying in
                     if isPlaying {
                         playbackManager.play(episode: episode, clipTime: _clipTime)

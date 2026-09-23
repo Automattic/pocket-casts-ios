@@ -2,14 +2,14 @@ import Foundation
 import PocketCastsDataModel
 
 public protocol ServerPlaybackDelegate {
-    func playing() -> Bool
+    var isPlaying: Bool { get }
     func inUpNext(episode: BaseEpisode?) -> Bool
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool)
     func removeLastEpisodeFromUpNext()
 
-    func currentEpisode() -> BaseEpisode?
-    func isNowPlayingEpisode(episodeUuid: String?) -> Bool
-    func isActivelyPlaying(episodeUuid: String?) -> Bool
+    var currentEpisode: BaseEpisode? { get }
+    func isCurrentEpisode(uuid: String) -> Bool
+    func isActivelyPlaying(episodeUuid: String) -> Bool
 
     func queuePersistLocalCopyAsReplace()
     func queueRefreshList(checkForAutoDownload: Bool)

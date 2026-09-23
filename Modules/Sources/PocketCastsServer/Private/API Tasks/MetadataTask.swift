@@ -20,7 +20,7 @@ class MetadataTask: Operation, @unchecked Sendable {
     }
 
     private func downloadMetadata() {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid), let downloadUrl = episode.downloadUrl, let url = URL(string: downloadUrl) else { return }
+        guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid), let downloadUrl = episode.downloadUrl, let url = URL(string: downloadUrl) else { return }
 
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
@@ -52,18 +52,18 @@ class MetadataTask: Operation, @unchecked Sendable {
         if let contentType = responseHeaders[ServerConstants.HttpHeaders.contentType] as? String, !contentType.isEmpty {
             // if we don't have a content type, or the server said this is a video, change our file type
             if (episode.fileType ?? "").isEmpty || contentType.hasPrefix("video") {
-                DataManager.sharedManager.saveEpisode(fileType: contentType, episode: episode)
+                DataManager.shared.saveEpisode(fileType: contentType, episode: episode)
                 performedUpdate = true
             }
 
             if episode.contentType != contentType {
-                DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+                DataManager.shared.saveEpisode(contentType: contentType, episode: episode)
                 performedUpdate = true
             }
         }
 
         if let contentLength = responseHeaders["Content-Length"] as? String, let intLength = Int64(contentLength), intLength > MetadataTask.minBytesInFile, episode.sizeInBytes != intLength {
-            DataManager.sharedManager.saveEpisode(fileSize: intLength, episode: episode)
+            DataManager.shared.saveEpisode(fileSize: intLength, episode: episode)
             performedUpdate = true
         }
 

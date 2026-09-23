@@ -46,6 +46,11 @@ class RichExpandableLabel: WKWebView {
     }
 
     private func commonInit() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: RichExpandableLabel, _) in
+            view.reset()
+            view.setRichText(html: view.originalHTML)
+        }
+
         translatesAutoresizingMaskIntoConstraints = false
         let font = UIFont.preferredFont(forTextStyle: .body)
         let estimatedHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
@@ -87,16 +92,6 @@ class RichExpandableLabel: WKWebView {
         previousHTML = styledHTML
         self.loadHTMLString(styledHTML, baseURL: nil)
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            // Check if content size category specifically changed
-            if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-                reset()
-                setRichText(html: originalHTML)
-            }
-        }
 
     private func style(html: String) -> String {
         let  backgroundColor: UIColor = ThemeColor.primaryUi02()

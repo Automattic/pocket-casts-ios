@@ -34,7 +34,7 @@ fileprivate class ABTestProviderMock: ABTestProviding {
 
     private(set) var platform: String = "default"
 
-    func variation(for abTest: podcasts.ABTest) -> Variation {
+    func variation(for abTest: ABTest) -> Variation {
         guard experiments.contains(abTest.rawValue) else {
             return .control
         }

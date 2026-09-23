@@ -278,10 +278,6 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-
-        static let spaceBetweenShareAndStory: CGFloat = 15
-
-        static let storyCornerRadius: CGFloat = 15
     }
 }
 

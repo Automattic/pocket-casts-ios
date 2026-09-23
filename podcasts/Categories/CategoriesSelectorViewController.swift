@@ -11,7 +11,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         @Published public var region: String?
         private(set) var cachedCategories = [DiscoverCategory]()
 
-        private let serverHandler: DiscoverServerHandling
+        var serverHandler: DiscoverServerHandling
 
         lazy var load: (() async -> (categories: [DiscoverCategory], prioritized: [DiscoverCategory])?) = { [weak self] in
             guard let self, let source = self.item?.source else { return ([], []) }
@@ -87,6 +87,11 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
     private weak var delegate: DiscoverDelegate?
 
+    var serverHandler: DiscoverServerHandling {
+        get { observable.serverHandler }
+        set { observable.serverHandler = newValue }
+    }
+
     private var cancellables: Set<AnyCancellable> = []
 
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
@@ -138,3 +143,27 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Categories selector") {
+    let section = CategoriesSelectorViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(categories: DiscoverPreviewData.categories())
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.categoriesSelector, title: "Categories")
+    )
+}
+
+#Preview("Categories selector · popular only") {
+    let section = CategoriesSelectorViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(categories: DiscoverPreviewData.categories())
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.categoriesSelector, title: "Categories", popular: [1, 3, 8, 12])
+    )
+}
+
+#endif

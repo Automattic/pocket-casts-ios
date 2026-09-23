@@ -19,21 +19,23 @@ struct MultiSelectRow<Content: View>: View {
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var multiSelectButtonSize = 24
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var checkSize = 20
 
+    private let selectButtonSpacing = 15.0
+
     private let style = Style()
 
     var body: some View {
-        HStack(spacing: 15) {
-            if showSelectButton {
-                buttonView.buttonize {
-                    onSelectionToggled()
-                } customize: { config in
-                    config.label.applyButtonEffect(isPressed: config.isPressed)
+        content()
+            .offset(x: showSelectButton ? multiSelectButtonSize + selectButtonSpacing : 0)
+            .overlay(alignment: .leading) {
+                if showSelectButton {
+                    buttonView.buttonize {
+                        onSelectionToggled()
+                    } customize: { config in
+                        config.label.applyButtonEffect(isPressed: config.isPressed)
+                    }
+                    .accessibilityTransition(.move(edge: .leading).combined(with: .opacity))
                 }
-                .accessibilityTransition(.move(edge: .leading).combined(with: .opacity))
             }
-
-            content()
-        }
     }
 
     /// Customizes the selection button colors

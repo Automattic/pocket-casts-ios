@@ -36,6 +36,7 @@ private struct NowPlayingRowLabel: View {
             PodcastImage(uuid: uuid, size: .page)
         } else {
             Image(ImageResource.pcLogo)
+                .accessibilityHidden(true)
         }
     }
 
@@ -60,6 +61,7 @@ private struct NowPlayingRowLabel: View {
                     .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                 Spacer()
             }
+            .accessibilityElement(children: .combine)
             Spacer()
         }
         .padding(32)

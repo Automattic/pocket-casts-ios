@@ -1,5 +1,5 @@
 {
-  "originHash" : "2981f43f0683d1d38ce5837633fdba7ac14ed536a966f62359f8c3db9f9e91fb",
+  "originHash" : "a6f61e86ce416d837c660669c06da508eda33c8ac695aa4ffd722843053fdca0",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -223,7 +223,7 @@
       "location" : "https://github.com/Automattic/pocket-casts-ios-fingerprint",
       "state" : {
         "branch" : "trunk",
-        "revision" : "b696bd9a4a495604532b1b7a484ab140c144eccc"
+        "revision" : "88abde829e54002e8d3a9428c7f0acce8fd72304"
       }
     },
     {
@@ -260,15 +260,6 @@
       "state" : {
         "revision" : "e7e799cd1eaa4d0f6d3eab56832e7f4b377f4a4f",
         "version" : "0.10.0"
-      }
-    },
-    {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/swiftlang/swift-syntax.git",
-      "state" : {
-        "revision" : "2bc86522d115234d1f588efe2bcb4ce4be8f8b82",
-        "version" : "510.0.3"
       }
     },
     {

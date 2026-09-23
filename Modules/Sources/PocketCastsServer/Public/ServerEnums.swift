@@ -1,18 +1,7 @@
 import Foundation
 
-public enum SubscriptionStatus: Int {
-    case none = 0, cancelled = 1, paid = 2, legacyPaid = 3, notPaid = 4
-}
-
 public enum SubscriptionPlatform: Int {
     case none = 0, iOS = 1, android = 2, web = 3, gift = 4
-
-    public var isPaidSubscriptionPlatform: Bool {
-        switch self {
-            case .iOS, .android, .web: return true
-            default: return false
-        }
-    }
 }
 
 public enum SubscriptionFrequency: Int {

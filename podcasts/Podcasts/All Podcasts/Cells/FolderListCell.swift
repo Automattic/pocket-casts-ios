@@ -32,6 +32,10 @@ class FolderListCell: ThemeableCollectionCell {
         super.awakeFromNib()
         isAccessibilityElement = true
         updateSize()
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: FolderListCell, _) in
+            view.updateSize()
+        }
     }
 
     func populateFrom(folder: Folder, badgeType: BadgeType) {
@@ -42,7 +46,7 @@ class FolderListCell: ThemeableCollectionCell {
 
         accessibilityLabel = folderPreview.accessibilityLabel
 
-        let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+        let count = DataManager.shared.countOfPodcastsInFolder(folder: folder)
         folderInfo.text = L10n.podcastCount(count)
 
         if badgeType == .allUnplayed {
@@ -82,11 +86,5 @@ class FolderListCell: ThemeableCollectionCell {
                 break
         }
         unplayedBadge.layoutIfNeeded()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
-        updateSize()
     }
 }

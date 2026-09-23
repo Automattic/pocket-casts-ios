@@ -3,9 +3,9 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-class SignOutHelper {
-    class func signout() {
-        let paidPodcasts = DataManager.sharedManager.allPaidPodcasts()
+enum SignOutHelper {
+    static func signout() {
+        let paidPodcasts = DataManager.shared.allPaidPodcasts()
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportName)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportEmail)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)

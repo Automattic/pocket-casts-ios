@@ -51,20 +51,25 @@ class DiscoverVideoEpisodeModel {
     }
 
     func load() async {
-        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+        guard let urlString = episode.videoURL, let videoUrl = URL(string: urlString) else {
+            FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to get a video url for episode \(episode.uuid ?? "unknown")")
             return
         }
 
-        setupPlayer()
+        setupPlayer(for: videoUrl)
 
         do {
-            var videoFrame: UIImage?
-            let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
-            if cachedVideoFrame != nil {
+            let videoFrame: UIImage
+            if let cachedVideoFrame = await ImageManager.shared.retrieveDiscoverVideoThumbnail(imageUrl: urlString) {
                 videoFrame = cachedVideoFrame
             } else {
-                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
-                let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                let image: UIImage
+                if FeatureFlag.captureBestFrame.enabled {
+                    image = try await thumbnailFromBestFrame(url: videoUrl)
+                } else {
+                    image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                }
+                _ = await ImageManager.shared.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
             await MainActor.run { [videoFrame] in
@@ -86,16 +91,17 @@ class DiscoverVideoEpisodeModel {
         return UIImage(cgImage: image)
     }
 
+    private func thumbnailFromBestFrame(url: URL) async throws -> UIImage {
+        try await BestFrameSelector.bestFrame(from: AVURLAsset(url: url), endPercentage: 0.1)
+    }
+
     var podcast: DiscoverPodcast? {
         episode.discoverPodcast
     }
 
     private var isFadePausing: Bool { fadeTimer != nil }
 
-    private func setupPlayer() {
-        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
-            return
-        }
+    private func setupPlayer(for videoUrl: URL) {
         player = AVPlayer(url: videoUrl)
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
@@ -132,7 +138,7 @@ class DiscoverVideoEpisodeModel {
             return
         }
 
-        player.volume = playbackManager.playing() ? 0 : 0.5
+        player.volume = playbackManager.isPlaying ? 0 : 0.5
         player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player.play()
         isPlaying = true

@@ -62,9 +62,10 @@ final class SearchableListViewModelTests: XCTestCase {
     }
 
     // MARK: - Test Model
-    private struct TestableModel: SearchableDataModel {
+    private struct TestableModel: SearchableDataModel, Equatable {
         let title: String
 
+        var id: String { title }
         var searchableContent: String { title }
     }
 }

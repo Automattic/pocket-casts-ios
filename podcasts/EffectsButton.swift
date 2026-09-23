@@ -12,6 +12,7 @@ class EffectsButton: UIButton {
             } else {
                 setImage(UIImage(named: "effects-off"), for: .normal)
             }
+            accessibilityValue = effectsOn ? L10n.on : L10n.off
         }
     }
 
@@ -19,11 +20,18 @@ class EffectsButton: UIButton {
         super.init(coder: aDecoder)
 
         setImage(UIImage(named: "effects-off"), for: .normal)
+        setUpAccessibility()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setImage(UIImage(named: "effects-off"), for: .normal)
+        setUpAccessibility()
+    }
+
+    private func setUpAccessibility() {
+        accessibilityLabel = L10n.playerActionTitleEffects
+        accessibilityValue = effectsOn ? L10n.on : L10n.off
     }
 }

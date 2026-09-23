@@ -26,7 +26,6 @@ struct Constants {
         static let viewWillTransitionToSize = NSNotification.Name(rawValue: "SJViewSizeChange")
         static let googleCastStatusChanged = NSNotification.Name(rawValue: "SJGCStatusChanged")
         static let googleCastMultiZoneStatusChanged = NSNotification.Name(rawValue: "SJGCMultiStatusChanged")
-        static let dimmingViewTapped = NSNotification.Name(rawValue: "SJDimViewTapped")
         static let downloadProgress = NSNotification.Name(rawValue: "SJDwnProg")
         static let podcastImageReCacheRequired = NSNotification.Name(rawValue: "PCPodcastImageReCacheRequired")
 
@@ -39,9 +38,6 @@ struct Constants {
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
-        static let podcastSearchCancelled = NSNotification.Name(rawValue: "PodcastSearchCancelled")
-        static let removeUpcomingFromCell = NSNotification.Name(rawValue: "RemoveUpcomingFromCell")
-        static let sideConstraintUpdated = NSNotification.Name(rawValue: "SJSideConstraintUpdated")
         static let themeChanged = NSNotification.Name(rawValue: "ThemeChanged")
         static let systemThemeMayHaveChanged = NSNotification.Name(rawValue: "SystemThemeChanged")
         static let followSystemThemeTurnedOn = NSNotification.Name(rawValue: "FollowSystemThemeTurnedOn")
@@ -123,7 +119,6 @@ struct Constants {
         static let loadEmbeddedImages = "SJLoadEmbeddedArt"
         static let appBadge = "SJEppBadgeShows"
         static let pushEnabled = "PushEnabled"
-        static let globalEpisodesToKeep = "SJPodcastsToKeep"
         static let openLinksInExternalBrowser = "SJOpenLinksInExternalBrowser"
 
         static let appBadgeFilterUuid = "SJEppBadgeFilterId"
@@ -133,7 +128,6 @@ struct Constants {
         static let cleanupInProgress = "CleanupInProgress"
         static let cleanupPlayed = "CleanupPlayed"
 
-        static let upNextLastModified = "SJUpNextLastModified"
         static let cleanupStarred = "CleanupStarred"
         static let lastFilterShown = "SJLastFilter"
         static let lastTabOpened = "SJLastTabOpened"
@@ -168,7 +162,7 @@ struct Constants {
         static let hasSyncedEpisodesForPlaybackAsPlusUser = "hasSyncedEpisodesForPlayback%dAsPlusUser"
         static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
-        static let shouldShowEncourageAccountCreationModal = "shouldShowEncourageAccountCreationModal"
+        static let encourageAccountCreationReferenceDate = "encourageAccountCreationReferenceDate"
 
         static let autoplay = "autoplay"
 
@@ -210,11 +204,15 @@ struct Constants {
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let profileSort = SettingValue("bookmarks.profileSort", defaultValue: BookmarkSortOption.newestToOldest)
+
+            static let showPlayerTip = "bookmarks.showPlayerTip"
         }
 
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
-            static let tabBarMinimizingEnabled = SettingValue("appearance.tabBarMinimizingEnabled", defaultValue: true)
+            static var tabBarMinimizingEnabled: SettingValue<Bool> {
+                SettingValue("appearance.tabBarMinimizingEnabled", defaultValue: !FeatureFlag.minimizeTabsOptIn.enabled)
+            }
         }
 
         enum kidsProfile {
@@ -253,22 +251,13 @@ struct Constants {
             static let triggerDates = "notifications.triggerDates"
         }
 
-        enum informationalModal {
-            static let hasShownViewModal = "hasShownViewModal"
-        }
-
         static let voiceBoostNEnabled = "VoiceBoostNEnabled"
     }
 
     enum Values {
-        static let maxWidthForCompactView = 1000 as CGFloat
-        static let sideBarWidthCompact = 88 as CGFloat
-        static let sideBarWidthExpanded = 320 as CGFloat
-
         static let miniPlayerOffset = 80 as CGFloat
         static let extraShowNotesVerticalSpacing: CGFloat = 60
         static let defaultPlaylistDownloadLimit = 10 as Int32
-        static let siriArtworkSize = 680
 
         static let minTimeBetweenPodcastImageUpdates = 4.weeks
 
@@ -291,7 +280,6 @@ struct Constants {
     enum Limits {
         static let minTimeBetweenRemoteSkips: TimeInterval = 0.2
         static let maxDownloadConnectionsPerHost = 2
-        static let upNextClearWithoutWarning = 2
 
         static let minSleepTime = 5.minutes
         static let maxSleepTime = 5.hours
@@ -310,8 +298,6 @@ struct Constants {
 
     enum Animation {
         static let defaultAnimationTime = 0.3 as TimeInterval
-        static let bottomCardAnimationTime = 0.2 as TimeInterval
-        static let playerDragLineFadeTime = 0.6 as TimeInterval
         static let multiSelectStatusDelayTime = 0.8 as TimeInterval
 
         static let playerTabSwitch: TimeInterval = 0.2
@@ -436,6 +422,7 @@ enum PlusUpgradeViewSource: String {
     case generatedTranscripts
     case onboarding
     case onboardingRecommendations = "onboarding_recommendations"
+    case encourageAccountCreation = "encourage_account_creation"
     case suggestedFolders = "suggested_folders"
     case bannerAd = "banner_ad"
     case login
@@ -459,25 +446,6 @@ enum PlusUpgradeViewSource: String {
     /// Purchase completed with no record of its originating source (e.g. StoreKit re-delivering a
     /// deferred/pending transaction). Keeps `source` defined and distinct from a real `unknown`.
     case unattributed
-
-    /// Converts the enum into a Firebase promotionId, this matches the values set on Android
-    func promotionId() -> String {
-        return rawValue.uppercased()
-    }
-
-    /// Converts the enum into a Firebase promotion name, this matches the values set on Android
-    func promotionName() -> String {
-        switch self {
-        case .profile, .appearance:
-            return "Upgrade to Plus from \(rawValue)"
-
-        case .unknown:
-            return "Unknown"
-
-        default:
-            return "Upgrade to Plus for \(rawValue)"
-        }
-    }
 
     func isEligibleForExperiment() -> Bool {
         switch self {

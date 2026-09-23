@@ -54,9 +54,9 @@ extension PodcastViewController {
     }
 
     @objc func selectAllTapped() {
-        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+        if currentViewMode == .bookmarks, let viewModel = bookmarkList?.viewModel {
             // Forward select all/deselect all to bookmarks VM
-            vm.toggleSelectAll()
+            viewModel.toggleSelectAll()
             updateSelectAllBtn()
         } else {
             let shouldSelectAll = multiSelectAllBarButton?.title == L10n.selectAll
@@ -74,8 +74,8 @@ extension PodcastViewController {
     }
 
     @objc func cancelTapped() {
-        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
-            vm.toggleMultiSelection()
+        if currentViewMode == .bookmarks, let viewModel = bookmarkList?.viewModel {
+            viewModel.toggleMultiSelection()
         } else {
             isMultiSelectEnabled = false
         }
@@ -83,8 +83,8 @@ extension PodcastViewController {
 
     func updateSelectAllBtn() {
         guard let multiSelectAllBarButton else { return }
-        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
-            multiSelectAllBarButton.title = vm.hasSelectedAll ? L10n.deselectAll : L10n.selectAll
+        if currentViewMode == .bookmarks, let viewModel = bookmarkList?.viewModel {
+            multiSelectAllBarButton.title = viewModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll
         } else {
             let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
             multiSelectAllBarButton.title = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) ? L10n.selectAll : L10n.deselectAll

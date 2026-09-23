@@ -188,6 +188,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.translatesAutoresizingMaskIntoConstraints = false
+        view.maximumContentSizeCategory = .extraExtraLarge
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
         setupButtonsForDynamicType()
@@ -280,7 +281,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         }
 
         let resultSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        let newSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: resultSize.height)
+        let availableWidth = presentingViewController?.view.bounds.width ?? view.frame.size.width
+        let newSize = CGSize(width: min(Constants.Values.maxWidthForPopups, availableWidth), height: resultSize.height)
         preferredContentSize = newSize
     }
 
@@ -308,7 +310,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBAction func settingsTapped(_ sender: Any) {
         Analytics.track(.playerSleepTimerSettingsTapped)
 #if !APPCLIP
-        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsGeneralKey, data: [NavigationManager.settingsGeneralRowKey: GeneralSettingsViewController.TableRow.autoRestartSleepTimer])
+        NavigationManager.shared.navigateTo(NavigationManager.settingsGeneralKey, data: [NavigationManager.settingsGeneralRowKey: GeneralSettingsViewController.TableRow.autoRestartSleepTimer])
 #endif
     }
 
@@ -354,13 +356,12 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
         updateDisplay()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": "end_of_episode", "number_of_episodes": numberOfEpisodes])
+        Analytics.track(.playerSleepTimerExtended, source: AnalyticsSource.player, properties: ["amount": "end_of_episode", "number_of_episodes": numberOfEpisodes])
     }
 
     @IBAction func plusFiveTapped(_ sender: Any) {
-        PlaybackManager.shared.sleepTimeRemaining += 5.minutes
+        PlaybackManager.shared.extendSleepTimer(by: 5.minutes, source: .player)
         updateSleepRemainingTime()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": Int(5.minutes)])
     }
 
     @IBAction func closeTapped(_ sender: Any) {
@@ -381,51 +382,5 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
-    }
-}
-
-/// A UIButton subclass that correctly sizes itself when displaying multi-line titles inside a UIStackView.
-/// Overrides `intrinsicContentSize` to compute the height from the current width and title text, and
-/// invalidates that intrinsic size in `layoutSubviews` so the stack view can update its layout when
-/// the button’s content expands or contracts.
-class MultiLineButton: ThemeableUIButton {
-
-    override var intrinsicContentSize: CGSize {
-        guard let titleLabel else {
-            return super.intrinsicContentSize
-        }
-
-        let imageWidth: CGFloat
-        if let img = imageView?.image {
-            imageWidth = img.size.width + imageEdgeInsets.left + imageEdgeInsets.right
-        } else {
-            imageWidth = 0
-        }
-
-        // Available width for text = button width - image - content insets - title insets
-        let availableWidth = frame.width
-            - contentEdgeInsets.left - contentEdgeInsets.right
-            - titleEdgeInsets.left - titleEdgeInsets.right
-            - imageWidth
-
-        guard availableWidth > 0 else {
-            return super.intrinsicContentSize
-        }
-
-        let textSize = titleLabel.sizeThatFits(
-            CGSize(width: availableWidth, height: .greatestFiniteMagnitude)
-        )
-
-        let totalHeight = textSize.height
-            + contentEdgeInsets.top + contentEdgeInsets.bottom
-            + titleEdgeInsets.top + titleEdgeInsets.bottom
-
-        return CGSize(width: frame.width, height: totalHeight)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // After layout sets the width, recalculate height
-        invalidateIntrinsicContentSize()
     }
 }

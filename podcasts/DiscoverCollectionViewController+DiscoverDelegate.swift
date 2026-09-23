@@ -1,6 +1,7 @@
 import PocketCastsServer
 import PocketCastsDataModel
 import EndOfYear
+import UIKit
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func navigateTo(category: String) {
@@ -109,11 +110,11 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
 
-        if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" {
+        if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" || item.expandedStyle == "network_grid" {
             let collectionListVC = ExpandedCollectionViewController(item: item, podcasts: podcasts)
             collectionListVC.podcastCollection = podcastCollection
             collectionListVC.registerDiscoverDelegate(self)
-            collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptive_list : CollectionCellStyle.grid
+            collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptiveList : CollectionCellStyle.grid
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
             let source = replaceRegionCode(string: item.source ?? "")
@@ -166,7 +167,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         if let uuid = podcast.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 return true
             }
         }

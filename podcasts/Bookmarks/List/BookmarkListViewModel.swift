@@ -1,12 +1,25 @@
 import Combine
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
-class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
+@MainActor
+class BookmarkListViewModel: SearchableListViewModel<Bookmark>, MultiSelectable {
     typealias SortSetting = Binding<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
+
+    @Published var isMultiSelecting = false
+    @Published var selectedIDs: Set<Bookmark.ID> = []
+
+    var selectableItems: [Bookmark] { items }
+
+    override var items: [Bookmark] {
+        didSet {
+            selectableItemsDidChange()
+        }
+    }
 
     let bookmarkManager: BookmarkManager
 
@@ -51,18 +64,50 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     func reload() { }
 
+    /// Outside of the multi selection, a tap opens the bookmark's details
+    func tapped(item: Bookmark) {
+        if isMultiSelecting {
+            toggleSelected(item)
+            return
+        }
+
+        guard FeatureFlag.smartBookmarks.enabled else { return }
+
+        router?.bookmarkDetails(item, source: analyticsSource)
+    }
+
+    /// A tap on the artwork opens the episode the bookmark was made in, anything else,
+    /// such as an uploaded file, falls back to the row's own tap behaviour
+    func episodeTapped(_ episode: BaseEpisode, for bookmark: Bookmark) {
+        guard !isMultiSelecting, router?.opensBookmarkEpisode == true,
+              let episode = episode as? Episode else {
+            tapped(item: bookmark)
+            return
+        }
+
+        router?.bookmarkEpisode(episode)
+    }
+
     func dismiss() {
         router?.dismissBookmarksList()
     }
 
     /// Reload a single item from the list
     func refresh(bookmark: Bookmark) {
-        guard let index = items.firstIndex(of: bookmark) else { return }
+        guard let index = items.firstIndex(where: { $0.id == bookmark.id }) else { return }
 
-        items.replaceSubrange(index...index, with: [bookmark])
+        items[index] = bookmark
     }
 
     func addListeners() {
+        // Bookmarks can also be deleted from outside the list, such as from their details
+        bookmarkManager.onBookmarksDeleted
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }
+            .store(in: &cancellables)
+
         bookmarkManager.onBookmarkChanged
             .filter { [weak self] event in
                 self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
@@ -129,15 +174,29 @@ extension BookmarkListViewModel {
         toggleMultiSelection()
     }
 
+    /// Whether the share swipe action should be shown for this bookmark
+    func canShare(_ bookmark: Bookmark) -> Bool {
+        bookmark.episode is Episode
+    }
+
+    func shareTapped(_ bookmark: Bookmark) {
+        router?.bookmarkShare(bookmark)
+    }
+
+    func deleteTapped(_ bookmark: Bookmark) {
+        confirmDeletion { [weak self] in
+            self?.actuallyDelete([bookmark])
+        }
+    }
+
     func sorted(by option: BookmarkSortOption) {
         sortOption = option
         reload()
     }
 
     func deleteSelectedBookmarks() {
-        guard numberOfSelectedItems > 0 else { return }
-
-        let items = Array(selectedItems)
+        let items = selectedItems
+        guard !items.isEmpty else { return }
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)
@@ -149,7 +208,7 @@ extension BookmarkListViewModel {
         Analytics.track(.bookmarksEmptyGoToHeadphoneSettings, source: analyticsSource)
 
         router?.dismissBookmarksList()
-        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
+        NavigationManager.shared.navigateTo(NavigationManager.settingsHeadphoneKey)
     }
 }
 

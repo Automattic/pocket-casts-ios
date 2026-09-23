@@ -1,6 +1,7 @@
 import UIKit
 
 @available(iOS 26, *)
+@MainActor
 final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let isPresenting: Bool
     let fullPlayer: PlayerContainerViewController
@@ -495,6 +496,7 @@ extension PlayerContainerViewController {
         let verticalSizeClass: UIUserInterfaceSizeClass
         let displayScale: CGFloat
 
+        @MainActor
         init(window: UIWindow) {
             bounds = window.bounds
             userInterfaceIdiom = window.traitCollection.userInterfaceIdiom

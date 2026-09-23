@@ -4,7 +4,9 @@ import PocketCastsServer
 import UIKit
 
 class SingleEpisodeViewController: UIViewController {
-    private let viewModel = DiscoverEpisodeViewModel()
+    var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
+
+    private lazy var viewModel = DiscoverEpisodeViewModel(serverHandler: serverHandler)
     private var cancellables = Set<AnyCancellable>()
     private var category: DiscoverCategory?
 
@@ -45,6 +47,10 @@ class SingleEpisodeViewController: UIViewController {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
         view.translatesAutoresizingMaskIntoConstraints = false
+
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SingleEpisodeViewController, _) in
+            controller.updateSize()
+        }
 
         observeEpisodeChanges()
 
@@ -103,7 +109,7 @@ class SingleEpisodeViewController: UIViewController {
             })
             .store(in: &cancellables)
 
-        Publishers.CombineLatest(Theme.sharedTheme.$activeTheme, viewModel.$discoverCollection)
+        Publishers.CombineLatest(Theme.shared.$activeTheme, viewModel.$discoverCollection)
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _, discoverCollection in
                 self.playButton.colors = discoverCollection?.colors
@@ -127,13 +133,6 @@ class SingleEpisodeViewController: UIViewController {
         playButton.sizeToFit()
         view.sizeToFit()
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateSize()
-        }
-    }
 }
 
 extension SingleEpisodeViewController: DiscoverSummaryProtocol {
@@ -149,3 +148,43 @@ extension SingleEpisodeViewController: DiscoverSummaryProtocol {
         updateSize()
     }
 }
+
+#if DEBUG
+
+import SwiftUI
+
+#Preview("Single episode") {
+    let section = SingleEpisodeViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.episodeCollection(
+            title: "Featured episode",
+            episodeTitle: "The night shift: what your brain does while you sleep",
+            podcastTitle: "Deep Sleep Sounds"
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.singleEpisode, title: "Featured episode")
+    )
+}
+
+#Preview("Single episode · trailer") {
+    let section = SingleEpisodeViewController()
+    section.serverHandler = PreviewDiscoverServerHandler(
+        podcastCollection: DiscoverPreviewData.episodeCollection(
+            title: "New season",
+            episodeTitle: "Season 4 trailer",
+            podcastTitle: "Get Sleepy: Sleep Meditation",
+            podcastUUID: "9478cc80-7c42-0138-edfe-0acc26574db2",
+            duration: 96,
+            isTrailer: true,
+            colors: (light: "#3D5AFE", dark: "#8C9EFF")
+        )
+    )
+    return DiscoverSectionPreview(
+        section: section,
+        item: DiscoverPreviewData.item(.singleEpisode, title: "New season")
+    )
+}
+
+#endif

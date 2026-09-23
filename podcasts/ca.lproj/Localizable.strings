@@ -303,6 +303,8 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Si està activat, el temporitzador de son es reiniciarà automàticament si reprodueixes un episodi als  5 minuts següents a l'última pausa.</string>
     <key>back</key>
     <string>Enrere</string>
+    <key>badge_new</key>
+    <string>Nou</string>
     <key>banner_ads_info_label</key>
     <string>Anunci</string>
     <key>banner_ads_remove_ads</key>
@@ -337,10 +339,26 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Estàs segur que vols eliminar aquests marcadors? Aquesta acció no es pot desfer!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Vols esborrar els marcadors?</string>
+    <key>bookmark_details_title</key>
+    <string>Marcador</string>
+    <key>bookmark_edit_transcript_subtitle</key>
+    <string>Selecciona un fragment de la transcripció per a aquest marcador</string>
+    <key>bookmark_edit_transcript_title</key>
+    <string>Edita la transcripció</string>
     <key>bookmark_search_no_results_message</key>
     <string>No hem pogut trobar cap marcador per a aquesta cerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No s'han trobat marcadors</string>
+    <key>bookmark_suggested_title</key>
+    <string>Títol suggerit: %1$@</string>
+    <key>bookmark_suggestion_prefix</key>
+    <string>Suggeriment: </string>
+    <key>bookmark_title_label</key>
+    <string>Títol</string>
+    <key>bookmark_transcript_adding</key>
+    <string>S'està afegint la transcripció...</string>
+    <key>bookmark_transcript_captured</key>
+    <string>Transcripció capturada</string>
     <key>bookmark_updated_notification</key>
     <string>Marcador "%1$@" actualitzat</string>
     <key>bookmarks</key>
@@ -353,6 +371,14 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.  Prest disponible per a %2$@ subscriptors.</string>
     <key>bookmarks_locked_message</key>
     <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els marcadors dels teus episodis preferits.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Guarda la part que volies</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Afegeix un marcador</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Elegeixes la persona, no el currículum.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>La sala d'audicions</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -880,8 +906,6 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Fitxers descarregats</string>
     <key>downloaded_files_cleanup_confirmation</key>
     <string>Estàs segur que vols eliminar aquests arxius descarregats?</string>
-    <key>downloaded_files_conf_message</key>
-    <string>Si et dones de baixa, s'esborraran tots els fitxers descarregats d'aquest pòdcast. N'estàs segur?</string>
     <key>downloaded_files_conf_message_new</key>
     <string>Si el deixes de seguir, s'esborraran tots els fitxers descarregats d'aquest pòdcast. N'estàs segur?</string>
     <key>downloaded_files_conf_plural_format</key>
@@ -946,6 +970,8 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Hem detectat que no has iniciat sessió</string>
     <key>edit</key>
     <string>Edita</string>
+    <key>edit_bookmark</key>
+    <string>Edita el marcador</string>
     <key>edit_clip</key>
     <string>Edita el clip</string>
     <key>enable_it_now</key>
@@ -1400,7 +1426,7 @@ Ens veiem el 2024!</string>
     <key>funny_time_unit_phone_production</key>
     <string>Durant aquest temps, un determinat venedor de fruites va guanyar $%1$@ 🍏</string>
     <key>funny_time_unit_shed_skin</key>
-    <string>Durant aquest temps, es desprenen s %1$@ cèl·lules de la pell. De debò? 😅</string>
+    <string>Durant aquest temps, se t'han desprès %1$@ cèl·lules de la pell. Fastigós? 😅</string>
     <key>funny_time_unit_tied_shoes</key>
     <string>Durant aquest temps, podries haver-te lligat els cordons de les sabates %1$@ vegades. Pot ser. 👟</string>
     <key>funny_time_unit_tweets</key>
@@ -1509,10 +1535,6 @@ Nota: En cas que hagis eliminat l'aplicació Dreceres, se't demanarà que la tor
 4. Quan obriu el diàleg, cerca la icona de Pocket Casts i ves-hi</string>
     <key>import_opml_from_url</key>
     <string>Importa els teus pòdcasts des d'un arxiu OPML emprant un URL</string>
-    <key>import_podcasts_description</key>
-    <string>Pots importar les subscripcions de pòdcasts a Pocket Casts amb el format OPML, que s'admet en moltes aplicacions. Exporta el fitxer a l'altra aplicació i tria obrir-lo a Pocket Casts.
-
-Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu electrònic, mantingues premut el fitxer adjunt i seleccioneu Pocket Casts.</string>
     <key>import_podcasts_description_new</key>
     <string>Pots importar els teus pòdcasts a Pocket Casts utilitzant el format OPML, que és un format àmpliament suportat. Exporta el fitxer d'una altra aplicació i tria obrir-lo a Pocket Casts.
 
@@ -1581,6 +1603,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>No s'han trobat episodis</string>
     <key>loading</key>
     <string>Carregant...</string>
+    <key>login_landing_sign_up_with_email</key>
+    <string>Registra't amb el correu electrònic</string>
     <key>login_landing_subtitle</key>
     <string>Els teus pòdcasts, sempre sincronitzats. Mantingues la teva biblioteca segura i gaudeix de Pocket Casts a la web i escriptori.</string>
     <key>login_landing_title</key>
@@ -1689,6 +1713,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Eliminant 1 episodi dels destacats</string>
     <key>name</key>
     <string>Nom</string>
+    <key>network_fail_to_load</key>
+    <string>Aquesta no s'ha pogut carregar</string>
     <key>new_email_address_prompt</key>
     <string>Nova adreça de correu electrònic</string>
     <key>new_episodes</key>
@@ -1706,7 +1732,9 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>no_bookmarks_locked_button_title</key>
     <string>Obtén marcadors</string>
     <key>no_bookmarks_locked_message</key>
-    <string>Pots desar les marques de temps de moments importants d'un episodi.</string>
+    <string>Un sol toc. Es posa nom sol i hi queden les paraules.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Desa les parts que val la pena guardar</string>
     <key>no_bookmarks_message</key>
     <string>Per a desar marcadors dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
     <key>no_bookmarks_title</key>
@@ -1830,13 +1858,13 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>on</key>
     <string>Activat</string>
     <key>onboarding_quote_author</key>
-    <string>Usuari de Pocket Casts</string>
+    <string>Un usuari de Pocket Casts</string>
     <key>onboarding_quote_best</key>
     <string>La millor aplicació de pòdcasts. Amb diferència</string>
     <key>onboarding_quote_customization</key>
-    <string>La quantitat de personalització és una bogeria</string>
+    <string>El nivell de personalització que ofereix és una bogeria.</string>
     <key>onboarding_quote_folders</key>
-    <string>Organitzar els meus pòdcasts per carpetes és genial</string>
+    <string>És genial organitzar els meus pòdcasts en carpetes</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Aquí tens alguns programes fantàstics per a començar. Toca per a seguir-los, cercar-ne més o importar-ne des d’altres aplicacions.</string>
     <key>onboarding_recommendations_title</key>
@@ -2105,6 +2133,10 @@ Això sí que és compromís!</string>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
     <string>Temporitzador activat</string>
+    <key>player_action_hide_video</key>
+    <string>Amaga el vídeo</string>
+    <key>player_action_show_video</key>
+    <string>Mostra el vídeo</string>
     <key>player_action_subtitle_delete</key>
     <string>Mostra com Esborrar per episodis personalitzats</string>
     <key>player_action_subtitle_hidden</key>
@@ -2759,8 +2791,6 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <string>Esborra %1$@ episodis</string>
     <key>queue_clear_episode_queue_singular</key>
     <string>Esborra 1 episodi</string>
-    <key>queue_clear_queue</key>
-    <string>ESBORRA LA CUA</string>
     <key>queue_for_later</key>
     <string>Posa a la cua per a més tard</string>
     <key>queue_now_playing_accessibility</key>
@@ -2908,6 +2938,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Cerca marcadors</string>
     <key>search_episodes</key>
     <string>Cerca episodis</string>
+    <key>search_filter_networks</key>
+    <string>Xarxes</string>
     <key>search_label</key>
     <string>Cerca pòdcasts o afegeix una adreça RSS</string>
     <key>search_podcasts</key>
@@ -3182,6 +3214,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Episodis arxivats</string>
     <key>settings_general_archived_episodes_prompt_format</key>
     <string>Vols canviar tots els teus pòdcasts actuals per %1$@ episodis arxivats?</string>
+    <key>settings_general_audio_only</key>
+    <string>Només àudio</string>
+    <key>settings_general_audio_only_subtitle</key>
+    <string>Si s'activa, els episodis amb vídeo es reproduiran només en àudio.</string>
     <key>settings_general_auto_open_player</key>
     <string>Obrir el reproductor automàticament</string>
     <key>settings_general_autoplay</key>
@@ -3192,6 +3228,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>PREDETERMINATS</string>
     <key>settings_general_episode_groups</key>
     <string>Agrupació d'episodis de pòdcast</string>
+    <key>settings_general_generated_chapters</key>
+    <string>Capítols generats</string>
+    <key>settings_general_generated_chapters_subtitle</key>
+    <string>Mostra els capítols generats automàticament quan estiguin disponibles.</string>
     <key>settings_general_hide</key>
     <string>Amaga</string>
     <key>settings_general_keep_screen_awake</key>
@@ -3623,9 +3663,9 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>smart_playlist</key>
     <string>Llista intel·ligent</string>
     <key>smart_playlists_tip_view_creation_description</key>
-    <string>Tria tu els episodis o deixa que Llistes Intel·ligents la completi automàticament en funció de les teves regles intel·ligents.</string>
+    <string>Tria els episodis o deixa que les Llistes Intel·ligents la completin automàticament segons les regles que hagis definit.</string>
     <key>smart_playlists_tip_view_creation_title</key>
-    <string>Crea la teva pròpia llista de reproducció o deixa'ns ajudar</string>
+    <string>Crea la teva pròpia llista de reproducció o deixa'ns ajudar-te</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Ho hem fet per a ajudar-te a començar. S'actualitzen automàticament segons la teva escolta.</string>
     <key>smart_playlists_tip_view_title</key>
@@ -3723,12 +3763,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Pujat</string>
     <key>stop_download</key>
     <string>Atura la descàrrega</string>
-    <key>subscribe</key>
-    <string>Subscriu-me</string>
     <key>subscribe_all</key>
     <string>Subscriu-te a tot</string>
-    <key>subscribed</key>
-    <string>Subscrit</string>
     <key>subscription_cancelled</key>
     <string>Has cancel·lat la teva subscripció</string>
     <key>subscription_cancelled_msg</key>
@@ -3837,6 +3873,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Primer</string>
     <key>transcript</key>
     <string>Transcripció</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Marcador</string>
     <key>transcript_error_empty</key>
     <string>Sembla que aquesta transcripció està buida</string>
     <key>transcript_error_failed_to_load</key>
@@ -3978,6 +4016,8 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Sense historial d'escolta</string>
     <key>tv_home_browse_categories_section_title</key>
     <string>Explora les categories</string>
+    <key>tv_home_failed_to_load_title</key>
+    <string>No s'ha pogut carregar l'inici</string>
     <key>tv_home_featured_section_title</key>
     <string>Destacats a Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
@@ -4112,12 +4152,34 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>S'estan obtenint els darrers episodis</string>
     <key>tv_search_failed</key>
     <string>La cerca ha fallat: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Destacats</string>
     <key>tv_search_prompt</key>
     <string>Pòdcasts, programes, autors</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Millors resultats</string>
     <key>tv_search_searching</key>
     <string>Cercant...</string>
     <key>tv_search_type_something</key>
     <string>Escriu alguna cosa...</string>
+    <key>tv_settings_privacy_policy_qr_message</key>
+    <string>Escaneja el codi QR de baix, o obre l'URL al telèfon per accedir a la política de privadesa.</string>
+    <key>tv_settings_subscription_lifetime</key>
+    <string>De per vida</string>
+    <key>tv_settings_subscription_next_renewal</key>
+    <string>Pròxima renovació</string>
+    <key>tv_settings_subscription_other_platform</key>
+    <string>Aquesta subscripció es va contractar en una altra plataforma. Utilitza aquesta plataforma per gestionar-la.</string>
+    <key>tv_settings_subscription_plan</key>
+    <string>Pla</string>
+    <key>tv_settings_subscription_price</key>
+    <string>Preu</string>
+    <key>tv_settings_subscription_price_unavailable</key>
+    <string>No disponible</string>
+    <key>tv_settings_subscription_title</key>
+    <string>Subscripció</string>
+    <key>tv_settings_terms_of_use_qr_message</key>
+    <string>Escaneja el codi QR de baix, o obre l'URL al telèfon per accedir a les condicions d'ús.</string>
     <key>tv_sign_in_enter_code</key>
     <string>o introdueix el codi següent</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -4162,6 +4224,8 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Usuari/Contrasenya</string>
     <key>tv_user_sign_in_option_qr</key>
     <string>QR</string>
+    <key>tv_user_sign_in_signing_in</key>
+    <string>S'està iniciant la sessió</string>
     <key>tv_user_sign_in_username_placeholder</key>
     <string>Nom d'usuari</string>
     <key>tv_welcome_browse_without_account</key>
@@ -4265,7 +4329,7 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <key>upgrade_experiment_reviews_review_title_3</key>
     <string>Una aplicació fantàstica</string>
     <key>upgrade_experiment_reviews_review_title_4</key>
-    <string>Funciona genial i és fàcil trobar o afegir nous pòdcasts</string>
+    <string>Funciona molt bé i és fàcil trobar-hi o afegir-hi pòdcasts nous</string>
     <key>upgrade_experiment_reviews_review_title_5</key>
     <string>Ves a l'aplicació de Pòdcasts</string>
     <key>upgrade_experiment_reviews_text</key>

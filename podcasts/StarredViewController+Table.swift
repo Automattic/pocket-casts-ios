@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCellID"

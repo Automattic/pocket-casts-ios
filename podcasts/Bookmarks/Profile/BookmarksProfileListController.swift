@@ -2,6 +2,7 @@ import Combine
 import PocketCastsDataModel
 import SwiftUI
 
+@MainActor
 class BookmarksProfileListController: ThemedHostingController<BookmarksProfileListView> {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
@@ -42,8 +43,7 @@ extension BookmarksProfileListController: BookmarkListRouter {
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating)
-        controller.source = viewModel.analyticsSource
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, style: .themed, source: viewModel.analyticsSource)
 
         present(controller, animated: true)
     }

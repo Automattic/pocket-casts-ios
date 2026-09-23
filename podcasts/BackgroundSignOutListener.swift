@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import UIKit
 
 /// Listens for the user sign out notification and if it was not user initiated then we'll show
 /// and alert to the user asking them to sign in again
@@ -12,7 +13,7 @@ class BackgroundSignOutListener {
     private var canShowSignOut = true
 
     init(notificationCenter: NotificationCenter = NotificationCenter.default,
-         navigationManager: NavigationManager = NavigationManager.sharedManager,
+         navigationManager: NavigationManager = NavigationManager.shared,
          presentingViewController: @autoclosure @escaping () -> UIViewController?) {
         self.notificationCenter = notificationCenter
         self.navigationManager = navigationManager

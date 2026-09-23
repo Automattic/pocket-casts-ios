@@ -53,22 +53,4 @@ class SubscriptionStatusTask: ApiBaseTask, @unchecked Sendable {
             completion?(false)
         }
     }
-
-    /* Unused old code, leaving for now */
-    private func processPodcastSubscriptions(status: Api_SubscriptionsStatusResponse) {
-        var podcastSubscriptions = [PodcastSubscription]()
-
-        for subscription in status.subscriptions {
-            if subscription.type == SubscriptionType.supporter.rawValue {
-                for podcastUuids in subscription.podcasts {
-                    let podcastSubscription = PodcastSubscription(uuid: podcastUuids.userPodcastUuid, masterUuid: podcastUuids.masterPodcastUuid, bundleUuid: subscription.bundleUuid, frequency: Int(subscription.frequency), expiryDate: subscription.expiryDate.timeIntervalSince1970, autoRenewing: subscription.autoRenewing, platform: Int(subscription.platform))
-                    podcastSubscriptions.append(podcastSubscription)
-                }
-            }
-        }
-
-        if !podcastSubscriptions.isEmpty {
-            SubscriptionHelper.setSubscriptionPodcasts(podcastSubscriptions)
-        }
-    }
 }

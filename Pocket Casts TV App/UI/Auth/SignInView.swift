@@ -165,6 +165,7 @@ struct SignInView: View {
                         .frame(minWidth: 300)
                 case .waiting:
                     ProgressView()
+                        .accessibilityLabel(L10n.tvUserSignInSigningIn)
                 default:
                     EmptyView()
                 }

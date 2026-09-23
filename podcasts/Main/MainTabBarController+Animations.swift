@@ -120,7 +120,7 @@ extension MainTabBarController {
     @objc func animateEpisodeAddedToUpNext(_ notification: Notification) {
         guard #available(iOS 26.0, *) else { return }
         guard let episodeUuid = notification.object as? String,
-              let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+              let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             // Nothing to animate — just keep the count current.
             DispatchQueue.main.async { [weak self] in self?.refreshUpNextTabBadge() }
             return
@@ -182,7 +182,7 @@ extension MainTabBarController {
         artwork.layer.cornerCurve = .continuous
         artwork.layer.borderWidth = 1
         artwork.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
-        ImageManager.sharedManager.loadImage(episode: episode, imageView: artwork, size: .list)
+        ImageManager.shared.loadImage(episode: episode, imageView: artwork, size: .list)
         container.addSubview(artwork)
 
         // A circled "Play Next" / "Play Last" glyph perched on the top-right
@@ -284,7 +284,7 @@ extension MainTabBarController {
         let frame: CGRect?
         if isTabBarMinimized {
             // The mini player's episode artwork, still on screen in the pill.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return nil }
             frame = artwork.superview?.convert(artwork.frame, to: view)
         } else {
@@ -343,7 +343,7 @@ extension MainTabBarController {
         let targets: [UIView]
         if isTabBarMinimized {
             // The tab is hidden inside the pill; pop the mini player artwork.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return }
             targets = [artwork]
         } else {

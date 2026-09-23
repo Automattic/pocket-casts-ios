@@ -1,13 +1,10 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
-import Combine
 
 class DatabaseExport {
     /// The resulting file name of the zip file
     let exportName: String
-
-    private var cancellables = Set<AnyCancellable>()
 
     init(exportName: String = "Pocket Casts Export") {
         self.exportName = exportName
@@ -65,14 +62,13 @@ class DatabaseExport {
 
             try fileManager.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
 
-            FileLog.shared.forceFlush()
-            let phoneLogFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
+            let phoneLogFile = try await FileLog.shared.logFileForUpload()
             try moveFile(phoneLogFile, exportDirectory: exportDirectory, exportFileName: "ios-logs.txt")
 
             let debugInfoFile = exportDirectory.appendingPathComponent("info.txt")
             fileManager.createFile(atPath: debugInfoFile.path, contents: DebugInfo.string(optOut: UserDefaults.standard.debugOptedOut).data(using: .utf8))
 
-            let watchLogFile = await FileLog.shared.watchLogFileForUpload().awaitFirstValue(in: &cancellables)
+            let watchLogFile = try await FileLog.shared.watchLogFileForUpload()
             if let watchLogFile {
                 try moveFile(watchLogFile, exportDirectory: exportDirectory, exportFileName: "watchos-logs.txt")
             }
