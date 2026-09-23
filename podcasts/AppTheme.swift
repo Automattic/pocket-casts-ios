@@ -6,11 +6,11 @@ import PocketCastsServer
 enum AppTheme {
     private static let tintColor = UIColor(hex: "#F44336")
 
-    static func appTintColor() -> UIColor {
+    static var appTintColor: UIColor {
         AppTheme.tintColor
     }
 
-    static func placeholderTextColor() -> UIColor {
+    static var placeholderTextColor: UIColor {
         Theme.isDarkTheme ? UIColor(hex: "#808892") : UIColor(hex: "#C7C7CD")
     }
 
@@ -26,19 +26,19 @@ enum AppTheme {
         UIColor(hex: "#78D549")
     }
 
-    static func episodeCellPlayedIndicatorColor() -> UIColor {
+    static var episodeCellPlayedIndicatorColor: UIColor {
         Theme.isDarkTheme ? UIColor.white : UIColor.black
     }
 
     // MARK: - Mini Player
 
-    static func waitingForWifiColor() -> UIColor {
+    static var waitingForWifiColor: UIColor {
         Theme.isDarkTheme ? UIColor(hex: "#525466") : UIColor(hex: "#B8C3C9")
     }
 
     // MARK: - Podcast Page
 
-    static func extraContentBorderColor() -> UIColor {
+    static var extraContentBorderColor: UIColor {
         Theme.isDarkTheme ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#E0E6EA")
     }
 
@@ -52,45 +52,45 @@ enum AppTheme {
         (theme?.isDark ?? Theme.isDarkTheme) ? UIColor(hex: "#3A3A3B") : UIColor(hex: "#FBFBFB")
     }
 
-    static func switchDarkThemeDefaultColor() -> UIColor {
+    static var switchDarkThemeDefaultColor: UIColor {
         UIColor(hex: "#CCCCCC")
     }
 
-    static func appearanceShadowColor() -> UIColor {
+    static var appearanceShadowColor: UIColor {
         UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
     }
 
-    static func uploadProgressBackgroundColor() -> UIColor {
-        Theme.isDarkTheme ? viewBackgroundColor() : UIColor(hex: "#F9FAF9")
+    static var uploadProgressBackgroundColor: UIColor {
+        Theme.isDarkTheme ? viewBackgroundColor : UIColor(hex: "#F9FAF9")
     }
 
-    static func userEpisodeNoArtworkColor() -> UIColor {
+    static var userEpisodeNoArtworkColor: UIColor {
         UIColor(hex: "#8F97A4")
     }
 
-    static func embeddedArtworkColor() -> UIColor {
+    static var embeddedArtworkColor: UIColor {
         UIColor.black
     }
 
-    static func defaultPodcastBackgroundColor() -> UIColor {
+    static var defaultPodcastBackgroundColor: UIColor {
         UIColor(hex: "#1E1F1E")
     }
 
     // MARK: - Paid podcast colours
 
-    static func podcastHeartDarkGradientColor() -> UIColor {
+    static var podcastHeartDarkGradientColor: UIColor {
         UIColor(hex: "#A6A6A6")
     }
 
-    static func podcastHeartLightGradientColor() -> UIColor {
+    static var podcastHeartLightGradientColor: UIColor {
         UIColor(hex: "#D5D5D5")
     }
 
-    static func podcastHeartDarkRedGradientColor() -> UIColor {
+    static var podcastHeartDarkRedGradientColor: UIColor {
         UIColor(hex: "#FF1100")
     }
 
-    static func podcastHeartLightRedGradientColor() -> UIColor {
+    static var podcastHeartLightRedGradientColor: UIColor {
         UIColor(hex: "#AD0000")
     }
 
@@ -380,7 +380,7 @@ enum AppTheme {
     }
     #endif
 
-    static func loadingActivityColor() -> UIColor {
+    static var loadingActivityColor: UIColor {
         ThemeColor.primaryIcon01()
     }
 
@@ -403,15 +403,15 @@ enum AppTheme {
         return Theme.isDarkTheme ? .white : .black
     }
 
-    static func tabBarBackgroundColor() -> UIColor {
+    static var tabBarBackgroundColor: UIColor {
         ThemeColor.primaryUi03()
     }
 
-    static func tabBarItemTintColor() -> UIColor {
+    static var tabBarItemTintColor: UIColor {
         ThemeColor.primaryIcon02Selected()
     }
 
-    static func unselectedTabBarItemColor() -> UIColor {
+    static var unselectedTabBarItemColor: UIColor {
         ThemeColor.primaryIcon02()
     }
 
@@ -423,58 +423,58 @@ enum AppTheme {
         ThemeColor.secondaryIcon01(for: themeOverride)
     }
 
-    static func viewBackgroundColor() -> UIColor {
+    static var viewBackgroundColor: UIColor {
         ThemeColor.primaryUi01()
     }
 
     static func userEpisodeColor(number: Int) -> UIColor {
         switch number {
         case 1:
-            return userEpisodeNoArtworkColor()
+            return userEpisodeNoArtworkColor
         case 2:
-            return userEpisodeRedColor()
+            return userEpisodeRedColor
         case 3:
-            return userEpisodeBlueColor()
+            return userEpisodeBlueColor
         case 4:
-            return userEpisodeGreenColor()
+            return userEpisodeGreenColor
         case 5:
-            return userEpisodeYellowColor()
+            return userEpisodeYellowColor
         case 6:
-            return userEpisodeOrangeColor()
+            return userEpisodeOrangeColor
         case 7:
-            return userEpisodePurpleColor()
+            return userEpisodePurpleColor
         case 8:
-            return userEpisodePinkColor()
+            return userEpisodePinkColor
         default:
-            return userEpisodeNoArtworkColor()
+            return userEpisodeNoArtworkColor
         }
     }
 
-    static func userEpisodeRedColor() -> UIColor {
+    static var userEpisodeRedColor: UIColor {
         ThemeColor.filter01(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodeBlueColor() -> UIColor {
+    static var userEpisodeBlueColor: UIColor {
         ThemeColor.filter05(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodeGreenColor() -> UIColor {
+    static var userEpisodeGreenColor: UIColor {
         ThemeColor.filter04(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodeYellowColor() -> UIColor {
+    static var userEpisodeYellowColor: UIColor {
         ThemeColor.filter03(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodeOrangeColor() -> UIColor {
+    static var userEpisodeOrangeColor: UIColor {
         ThemeColor.filter02(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodePurpleColor() -> UIColor {
+    static var userEpisodePurpleColor: UIColor {
         ThemeColor.filter06(for: Theme.isDarkTheme ? .dark : .light)
     }
 
-    static func userEpisodePinkColor() -> UIColor {
+    static var userEpisodePinkColor: UIColor {
         ThemeColor.filter07(for: Theme.isDarkTheme ? .dark : .light)
     }
 

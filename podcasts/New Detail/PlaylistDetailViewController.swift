@@ -266,7 +266,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     }
 
     private func setupContent() {
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         tableView = ThemeableTable(frame: .zero, style: .grouped)
         view.insertSubview(tableView, at: 0)

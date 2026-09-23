@@ -83,7 +83,7 @@ class DiscoverFeaturedView: ThemeableView {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
-        backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+        backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor
         setupAlternativeConstraints()
         updateSize()
     }

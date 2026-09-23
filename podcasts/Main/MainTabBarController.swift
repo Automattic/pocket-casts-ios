@@ -851,18 +851,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - End of Year
 
     private func updateTabBarColor() {
-        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
-        tabBar.tintColor = AppTheme.tabBarItemTintColor()
+        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor
+        tabBar.tintColor = AppTheme.tabBarItemTintColor
 
         // Liquid Glass renders its own translucent material, so skip the opaque
         // background appearance below — but the theme tint above must still apply.
         guard !LiquidGlass.isEnabled else { return }
 
-        self.view.backgroundColor = AppTheme.viewBackgroundColor()
+        self.view.backgroundColor = AppTheme.viewBackgroundColor
 
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
+        appearance.backgroundColor = AppTheme.tabBarBackgroundColor
 
         // Change badge colors
         [appearance.stackedLayoutAppearance,
@@ -1259,7 +1259,7 @@ extension MainTabBarController {
     }
 
     private func updateErrorColor() {
-        errorBanner.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : AppTheme.tabBarBackgroundColor()
+        errorBanner.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : AppTheme.tabBarBackgroundColor
         errorLabel.textColor = AppTheme.mainTextColor()
     }
 }

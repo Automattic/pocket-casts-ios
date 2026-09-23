@@ -68,7 +68,7 @@ struct PlayerColorHelper {
 
     private static func tint(for episode: BaseEpisode?, with theme: Theme.ThemeType) -> UIColor? {
         if let userEpisode = episode as? UserEpisode {
-            return userEpisode.imageColor > 0 ? AppTheme.userEpisodeColor(number: Int(userEpisode.imageColor)) : AppTheme.userEpisodeNoArtworkColor()
+            return userEpisode.imageColor > 0 ? AppTheme.userEpisodeColor(number: Int(userEpisode.imageColor)) : AppTheme.userEpisodeNoArtworkColor
         }
 
         guard let parentPodcast = (episode as? Episode)?.parentPodcast() else {

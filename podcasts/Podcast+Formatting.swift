@@ -77,7 +77,7 @@ extension Podcast {
         }
 
         func switchTintColor() -> UIColor {
-            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTintForPodcast(self, defaultColor: AppTheme.switchDarkThemeDefaultColor()) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTintForPodcast(self, defaultColor: AppTheme.switchDarkThemeDefaultColor) : ColorManager.lightThemeTintForPodcast(self)
 
             return ThemeColor.podcastIcon02(podcastColor: podcastColor)
         }

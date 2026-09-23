@@ -17,7 +17,7 @@ class StatsTopCell: ThemeableCell {
     }
 
     override func handleThemeDidChange() {
-        loadingIndicator.color = AppTheme.loadingActivityColor()
+        loadingIndicator.color = AppTheme.loadingActivityColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
