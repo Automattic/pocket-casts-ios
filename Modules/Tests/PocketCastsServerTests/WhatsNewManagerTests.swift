@@ -316,6 +316,41 @@ final class WhatsNewManagerTests: XCTestCase {
 
     // MARK: - Helpers
 
+    // MARK: - Mock catalog
+
+    /// The mock is for trying the feed out, so it stays off the network and out of the account,
+    /// while reading a message still works as it would for a published one.
+    func testTheMockCatalogIsServedWithoutTheNetworkOrTheAccount() async throws {
+        let account = account()
+        let manager = manager(cache: temporaryCache(), account: account)
+        addTeardownBlock { @MainActor in manager.usesMockCatalog = false }
+
+        manager.usesMockCatalog = true
+        await manager.refresh().value
+
+        XCTAssertEqual(manager.catalog, WhatsNewCatalog.mock)
+        XCTAssertEqual(requestCount, 0)
+
+        let mockMessageID = try XCTUnwrap(WhatsNewCatalog.mock.messages.first?.id)
+        manager.markAsRead([mockMessageID])
+        await manager.syncReadState().value
+
+        XCTAssertEqual(manager.readState.readMessageIDs, [mockMessageID])
+        XCTAssertTrue(account.readMessageIDs.isEmpty)
+    }
+
+    func testTurningTheMockCatalogOffGoesBackToThePublishedOne() async {
+        let manager = manager(cache: temporaryCache())
+        addTeardownBlock { @MainActor in manager.usesMockCatalog = false }
+
+        manager.usesMockCatalog = true
+        await manager.refresh().value
+        manager.usesMockCatalog = false
+        await manager.refresh().value
+
+        XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
+    }
+
     private var requestCount: Int { StubURLProtocol.requestCount }
 
     private func manager(cache: WhatsNewCatalogCache,

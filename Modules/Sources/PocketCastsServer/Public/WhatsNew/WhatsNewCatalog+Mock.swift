@@ -1,5 +1,6 @@
 import Foundation
 
+#if DEBUG
 public extension WhatsNewCatalog {
     /// A catalog shaped like the published contract, for previews and manual testing.
     ///
@@ -243,3 +244,4 @@ public extension WhatsNewCatalog {
         """
     ]
 }
+#endif

@@ -143,6 +143,7 @@ private struct WhatsNewPageIndicator: View {
 
 // MARK: - Previews
 
+#if DEBUG
 private extension WhatsNewMessage {
     /// The mock catalog's message that pages through two screenshots and on to a call to action.
     static var multiPageMock: WhatsNewMessage { mock(titled: "Introducing episode transcripts") }
@@ -191,3 +192,4 @@ struct WhatsNewMessageView_Previews: PreviewProvider {
             .previewWithAllThemes()
     }
 }
+#endif

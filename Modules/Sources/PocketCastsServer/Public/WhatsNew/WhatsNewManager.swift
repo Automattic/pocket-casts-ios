@@ -153,8 +153,30 @@ public final class WhatsNewManager: ObservableObject {
         return syncTask
     }
 
+    #if DEBUG
+    /// Whether the feed shows the mock catalog instead of the published one, for trying it out from
+    /// the developer menu. Read state is kept on the device and never synced for the mock.
+    public var usesMockCatalog: Bool {
+        get { UserDefaults.standard.bool(forKey: Self.usesMockCatalogKey) }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Self.usesMockCatalogKey)
+            catalog = nil
+            refresh()
+        }
+    }
+
+    nonisolated private static let usesMockCatalogKey = "WhatsNewUsesMockCatalog"
+    #endif
+
     private func performRefresh() async {
         await loadReadStateIfNeeded()
+
+        #if DEBUG
+        if usesMockCatalog {
+            catalog = .mock
+            return
+        }
+        #endif
 
         if catalog == nil, let cached = await cachedCatalog() {
             catalog = cached
@@ -180,6 +202,9 @@ public final class WhatsNewManager: ObservableObject {
     /// device.
     private func performReadStateSync() async {
         guard readStateTask.canSync else { return }
+        #if DEBUG
+        guard !usesMockCatalog else { return }
+        #endif
 
         let messageIDs = Set(catalog?.messages.map(\.id) ?? [])
         guard !messageIDs.isEmpty else { return }

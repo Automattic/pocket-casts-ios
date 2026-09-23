@@ -182,6 +182,7 @@ private enum WhatsNewFeedDateFormatter {
 
 // MARK: - Previews
 
+#if DEBUG
 private extension WhatsNewFeedViewModel {
     /// The mock catalog with everything but the two most recent messages already read.
     static var mock: WhatsNewFeedViewModel {
@@ -193,6 +194,7 @@ private extension WhatsNewFeedViewModel {
 #Preview("Feed in a navigation controller") {
     PCNavigationController(rootViewController: WhatsNewFeedViewController(viewModel: .mock))
 }
+#endif
 
 #Preview("Loading") {
     WhatsNewFeedUnavailableView(state: .loading) {}

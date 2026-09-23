@@ -15,6 +15,9 @@ struct DeveloperMenu: View {
     @State var showDeviceApproval = false
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
+    #if DEBUG
+    @State var usesMockWhatsNewCatalog = WhatsNewManager.shared.usesMockCatalog
+    #endif
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -436,6 +439,12 @@ struct DeveloperMenu: View {
                 Text("Up Next")
             }
             Section {
+                #if DEBUG
+                Toggle("Use Mock Catalog", isOn: $usesMockWhatsNewCatalog)
+                    .onChange(of: usesMockWhatsNewCatalog) { _, newValue in
+                        WhatsNewManager.shared.usesMockCatalog = newValue
+                    }
+                #endif
                 Button("Reset Read State (Local Only)") {
                     WhatsNewManager.shared.resetReadState()
                 }
