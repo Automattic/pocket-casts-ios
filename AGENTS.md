@@ -24,8 +24,6 @@ In Claude Code, a hook (`.claude/hooks/swiftlint.sh`) autocorrects each edited S
   - **PocketCastsServer**: the API client, using Protocol Buffers.
   - **PocketCastsUtils**: shared utilities.
   - **PocketCastsAnalytics**: `Analytics`, the Tracks and logging adapters, and the A/B test provider. Add new events to `AnalyticsEvent.swift`.
-  - **EndOfYear**: End of Year stories.
-  - **XcodeSupport**: per-Xcode-target libraries that pull in each app target's package dependencies.
 
 ## Localization
 
