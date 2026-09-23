@@ -489,7 +489,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleUserEpisodeRequest() -> [String: Any] {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
         var episodes: [UserEpisode]
         if SubscriptionHelper.hasActiveSubscription() {
             episodes = DataManager.shared.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)

@@ -34,7 +34,7 @@ extension UserEpisode {
     }
 
     public func shouldArchiveOnCompletion() -> Bool {
-        Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
+        Settings.userEpisodeRemoveFileAfterPlaying || Settings.userEpisodeRemoveFromCloudAfterPlaying()
     }
 
     func urlForImage(size: Int = 280) -> URL {

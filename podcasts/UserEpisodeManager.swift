@@ -36,7 +36,7 @@ struct UserEpisodeManager {
                 uploadUserEpisode(userEpisode: episode)
             }
 
-            if Settings.userEpisodeAutoAddToUpNext() {
+            if Settings.userEpisodeAutoAddToUpNext {
                 PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
             }
 

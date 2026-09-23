@@ -1421,7 +1421,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 } else if let episode = episode as? UserEpisode {
                     // No App Clip episodes should be user episodes
                     #if !APPCLIP
-                    if Settings.userEpisodeRemoveFileAfterPlaying() {
+                    if Settings.userEpisodeRemoveFileAfterPlaying {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
                     }
                     if Settings.userEpisodeRemoveFromCloudAfterPlaying() {

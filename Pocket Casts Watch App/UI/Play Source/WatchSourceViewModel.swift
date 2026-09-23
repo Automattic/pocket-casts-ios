@@ -170,10 +170,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
     var supportsFileSort = true
     var userEpisodeSortOrder: UploadedSort {
         get {
-            UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+            UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
         }
         set {
-            Settings.setUserEpisodeSortBy(newValue.rawValue)
+            Settings.userEpisodeSortBy = newValue.rawValue
         }
     }
 
