@@ -185,7 +185,7 @@ class FoldersCoordinator: NSObject {
         folder.sortOrder = ServerPodcastManager.shared.lowestSortOrderForHomeGrid() - 1
 
         // the sort type for newly created folders defaults to the same thing the home grid is set to
-        folder.sortType = Int32(Settings.homeFolderSortOrder().old.rawValue)
+        folder.sortType = Int32(Settings.homeFolderSortOrder.old.rawValue)
         dataManager.save(folder: folder)
         return folder
     }

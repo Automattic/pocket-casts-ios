@@ -75,7 +75,7 @@ final class LocalSearchViewModel: ObservableObject {
         }
 
         let items = await Task.detached {
-            let sortOrder = Settings.homeFolderSortOrder()
+            let sortOrder = Settings.homeFolderSortOrder
             let items = HomeGridDataHelper.gridItems(orderedBy: sortOrder)
             return items.compactMap { item in
                 if let podcast = item.podcast {
