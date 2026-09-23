@@ -225,7 +225,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                         if let rootVC = SceneHelper.rootViewController(includeTopMost: false),
                            rootVC.presentedViewController != nil {
                             rootVC.dismiss(animated: true) {
-                                NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.shared.navigateTo(
                                     NavigationManager.filterPageKey,
                                     data: [
                                         NavigationManager.filterUuidKey: playlist.uuid
@@ -233,7 +233,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                                 )
                             }
                         } else {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid

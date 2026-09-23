@@ -212,10 +212,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             present(controller, animated: true, completion: nil)
             Analytics.track(.accountDetailsCancelTapped)
         case .privacyPolicy:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
             Analytics.track(.accountDetailsShowPrivacyPolicy)
         case .termsOfUse:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
             Analytics.track(.accountDetailsShowTOS)
         }
         tableView.deselectRow(at: indexPath, animated: false)

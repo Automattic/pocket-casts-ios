@@ -461,7 +461,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 #if !APPCLIP
         guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
-        NavigationManager.sharedManager.navigateTo(
+        NavigationManager.shared.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
@@ -475,13 +475,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     #if !APPCLIP
     private func goToFiles() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.filesPageKey, data: nil)
+        NavigationManager.shared.navigateTo(NavigationManager.filesPageKey, data: nil)
     }
 
     private func goToPodcast() {
         guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
-        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
     }
 
     private func markPlayed() {

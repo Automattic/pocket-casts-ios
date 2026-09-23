@@ -179,7 +179,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {
-                    NavigationManager.sharedManager.showUpsellView(from: self, source: .themes)
+                    NavigationManager.shared.showUpsellView(from: self, source: .themes)
                 }
 
                 return
@@ -266,7 +266,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     @objc private func tabBarMinimizingToggled(_ sender: UISwitch) {
         Settings.tabBarMinimizingEnabled = sender.isOn
-        NavigationManager.sharedManager.miniPlayer?.applyTabBarMinimizingPreference()
+        NavigationManager.shared.miniPlayer?.applyTabBarMinimizingPreference()
         Settings.trackValueToggled(.settingsAppearanceTabBarMinimizingToggled, enabled: sender.isOn)
     }
 

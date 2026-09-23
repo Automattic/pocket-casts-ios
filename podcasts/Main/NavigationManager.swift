@@ -86,7 +86,7 @@ class NavigationManager {
     static let manualPlaylistsChooserRootKey = "manualPlaylistsChooserRootKey"
     static let manualPlaylistsChooserSourceKey = "manualPlaylistsChooserSourceKey"
 
-    static let sharedManager = NavigationManager()
+    static let shared = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
     var dimmingView: UIView?

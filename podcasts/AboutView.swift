@@ -76,7 +76,7 @@ struct AboutView: View {
         if model.shouldShowWhatsNew, let whatsNewInfo = model.whatsNewInfo {
             Section {
                 AboutRow(mainText: model.whatsNewText) {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
+                    NavigationManager.shared.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
                 }
             }
         }

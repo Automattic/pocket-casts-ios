@@ -216,7 +216,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     }
 
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .watch)
+        NavigationManager.shared.showUpsellView(from: self, source: .watch)
     }
 
     // MARK: - Switch Actions

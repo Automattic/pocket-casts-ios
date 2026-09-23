@@ -303,7 +303,7 @@ class ListeningHistoryViewController: PCViewController {
                 actions: [
                     .init(title: L10n.goToDiscover, action: {
                         Analytics.track(.listeningHistoryDiscoverButtonTapped)
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey)
                     })
                 ]
             )

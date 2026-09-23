@@ -463,7 +463,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 }
 

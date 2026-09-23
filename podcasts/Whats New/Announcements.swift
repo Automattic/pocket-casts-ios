@@ -21,7 +21,7 @@ struct Announcements {
             action: {
                 AnnouncementFlow.current = .autoPlay
 
-                NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
+                NavigationManager.shared.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             },
             isEnabled: true
         ),

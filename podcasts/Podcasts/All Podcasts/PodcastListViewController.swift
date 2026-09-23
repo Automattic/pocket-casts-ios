@@ -21,7 +21,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
             addPodcastBtn.buttonTapped = {
                 Analytics.track(.podcastsListDiscoverButtonTapped)
-                NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+                NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey, data: nil)
             }
         }
     }

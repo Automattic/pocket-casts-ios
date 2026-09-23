@@ -317,7 +317,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func showUpgradeRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 
     func userEpisodeDetailClosed() {

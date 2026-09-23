@@ -245,7 +245,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         switch row {
         case .goToPodcast:
             if let podcastUserUuid = bundleSubscription.podcasts.first?.uuid {
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastUserUuid])
+                NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastUserUuid])
             }
         case .cancelSubscription:
             showCancelPrompt()
@@ -254,7 +254,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         case .bundlePodcast:
             reloadRequired = true
             let podcastUserUuid = bundleSubscription.podcasts[indexPath.row].uuid
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastUserUuid])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastUserUuid])
         }
     }
 

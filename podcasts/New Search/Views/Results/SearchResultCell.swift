@@ -65,7 +65,7 @@ struct SearchResultCell: View {
 
     private func performDefaultAction() {
         if let episode = model.episode {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+            NavigationManager.shared.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
             searchHistory.add(episode: episode)
             searchAnalyticsHelper.trackResultTapped(episode)
         } else if let result = model.podcastFolder {

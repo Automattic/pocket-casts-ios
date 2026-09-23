@@ -191,7 +191,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                     self.appDelegate()?.openEpisode(episode.uuid, from: podcast)
                 } else if let podcastUuid = response.notification.request.content.userInfo["podcast_uuid"] as? String, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) {
                     DispatchQueue.main.async {
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                     }
                 }
 

@@ -117,7 +117,7 @@ extension PodcastListViewController {
 
     private func showFolderPicker(for podcast: Podcast) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            NavigationManager.shared.showUpsellView(from: self, source: .folders)
             return
         }
 

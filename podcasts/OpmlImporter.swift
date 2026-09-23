@@ -69,7 +69,7 @@ class OpmlImporter: Operation, XMLParserDelegate, @unchecked Sendable {
 
             DispatchQueue.main.async {
                 if let progressWindow = self.progressWindow {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
+                    NavigationManager.shared.navigateTo(NavigationManager.podcastListPageKey, data: nil)
                     progressWindow.hideAlert(true)
                 }
 

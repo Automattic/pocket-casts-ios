@@ -261,7 +261,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     @objc private func paywallButtonTapped() {
         track(event: .transcriptGeneratedPaywallSubscribeTapped)
         if analyticsSource == .player {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+            NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
         } else {
             let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: .generatedTranscripts, context: [:])
             self.parent?.present(controller, animated: true, completion: nil)

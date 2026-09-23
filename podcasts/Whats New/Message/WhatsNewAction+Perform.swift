@@ -6,7 +6,7 @@ extension WhatsNewAction.Kind {
     func perform() {
         switch self {
         case .createPlaylist:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.filterAddKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.filterAddKey, data: nil)
         case .openLink(let url):
             UIApplication.shared.openSafariVCIfPossible(url)
         }

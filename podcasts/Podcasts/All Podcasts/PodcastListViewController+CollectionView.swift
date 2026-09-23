@@ -39,7 +39,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             actions: [
                 .init(title: L10n.podcastGridDiscoverPodcasts, action: {
                     Analytics.track(.podcastsListDiscoverButtonTapped)
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                    NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey)
                 })
             ],
             style: DefaultEmptyStateStyle.defaultStyle
@@ -118,10 +118,10 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         if let podcast = selectedItem?.podcast {
             Analytics.track(.podcastsListPodcastTapped)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         } else if let folder = selectedItem?.folder {
             Analytics.track(.podcastsListFolderTapped)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+            NavigationManager.shared.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
         }
     }
 

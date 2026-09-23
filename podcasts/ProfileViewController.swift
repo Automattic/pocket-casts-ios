@@ -639,7 +639,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.permittedArrowDirections = .up
             popoverPresentationController.sourceItem = referralsButton
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [NavigationManager.sharedManager.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+            popoverPresentationController.passthroughViews = [NavigationManager.shared.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
         return vc
     }

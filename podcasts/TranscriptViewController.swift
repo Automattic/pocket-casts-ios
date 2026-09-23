@@ -701,7 +701,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func showUpsellView() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+        NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
     }
 
     @objc private func subscriptionStatusDidChange() {

@@ -532,7 +532,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
 
         dismiss(animated: true) {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
     }
 

@@ -72,7 +72,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                         ]
                     )
                     let presentModal: () -> Void = { [weak self] in
-                        NavigationManager.sharedManager.navigateTo(
+                        NavigationManager.shared.navigateTo(
                             NavigationManager.manualPlaylistsChooserKey,
                             data: [
                                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode,

@@ -284,7 +284,7 @@ extension MainTabBarController {
         let frame: CGRect?
         if isTabBarMinimized {
             // The mini player's episode artwork, still on screen in the pill.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return nil }
             frame = artwork.superview?.convert(artwork.frame, to: view)
         } else {
@@ -343,7 +343,7 @@ extension MainTabBarController {
         let targets: [UIView]
         if isTabBarMinimized {
             // The tab is hidden inside the pill; pop the mini player artwork.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return }
             targets = [artwork]
         } else {

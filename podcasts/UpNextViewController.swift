@@ -265,10 +265,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             // In this case we need to dismiss the UpNext to present the paywall
             if let mainTabBar = presentingViewController?.presentingViewController, presentingViewController is PlayerContainerViewController {
                 dismiss(animated: true) {
-                    NavigationManager.sharedManager.showUpsellView(from: mainTabBar, source: .upNextShuffle)
+                    NavigationManager.shared.showUpsellView(from: mainTabBar, source: .upNextShuffle)
                 }
             } else {
-                NavigationManager.sharedManager.showUpsellView(from: self, source: .upNextShuffle)
+                NavigationManager.shared.showUpsellView(from: self, source: .upNextShuffle)
             }
             return
         }

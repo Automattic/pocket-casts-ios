@@ -889,7 +889,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     func folderTapped() {
         Analytics.track(.podcastScreenFolderTapped)
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            NavigationManager.shared.showUpsellView(from: self, source: .folders)
             return
         }
 
@@ -915,7 +915,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func categoryTapped(_ category: String) {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
+        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
         Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
     }
 
@@ -1228,7 +1228,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         optionsPicker.addAction(action: changeFolderAction)
 
         let goToFolderAction = OptionAction(label: L10n.folderGoTo.localizedCapitalized, icon: "folder-goto") {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+            NavigationManager.shared.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
             Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "go_to"])
         }
         optionsPicker.addAction(action: goToFolderAction)

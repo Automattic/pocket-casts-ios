@@ -261,7 +261,7 @@ class NewPlaylistViewController: PCViewController {
                 rootVC.dismiss(animated: true) {
                     Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
                         .init(title: L10n.bookmarkAddedButtonTitle) {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid
@@ -301,7 +301,7 @@ class NewPlaylistViewController: PCViewController {
                 rootVC.dismiss(animated: true) {
                     Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
                         .init(title: L10n.bookmarkAddedButtonTitle) {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid

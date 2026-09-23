@@ -31,7 +31,7 @@ class FoldersCoordinator: NSObject {
         static let intervalAfterStartup: TimeInterval = 10.seconds
     }
 
-    init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .shared) {
+    init(navigationManager: NavigationManager = .shared, dataManager: DataManager = .shared) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
         self.suggestedFoldersModel = SuggestedFoldersModel()

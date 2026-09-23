@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func miniPlayer() -> MiniPlayerViewController? {
-        NavigationManager.sharedManager.miniPlayer
+        NavigationManager.shared.miniPlayer
     }
 
     func openEpisode(_ episodeUuid: String, from podcast: Podcast, timestamp: TimeInterval? = nil) {
@@ -224,7 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else {
                 // for some reason we can't find this episode, so open the podcast instead
                 FileLog.shared.addMessage("Unable to find episode with uuid \(episodeUuid), opening podcast `\(podcast.title ?? "")` instead")
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
 
                 return
             }
@@ -233,7 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 data[NavigationManager.episodeTimestamp] = timestamp
             }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
+            NavigationManager.shared.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
         }
     }
 
