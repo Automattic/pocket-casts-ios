@@ -347,7 +347,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         guard let episode = PlaybackManager.shared.currentEpisode as? Episode, let podcast = episode.parentPodcast() else { return }
 
         podcast.overrideGlobalEffects = false
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         PlaybackManager.shared.effectsChangedExternally()
         updateClearView()
     }

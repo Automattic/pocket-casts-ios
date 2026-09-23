@@ -61,7 +61,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // Copy data from the previous corrupted database (if possible)
         alert = ShiftyLoadingAlert(title: "Corrupted database. Recovering...")
         alert?.showAlert(self, hasProgress: false, completion: nil)
-        DataManager.sharedManager.copyAllData()
+        DataManager.shared.copyAllData()
 
         alert?.hideAlert(true, completion: {
             // Start the full sync
@@ -188,7 +188,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         // if this key was never set lets default to Discovery or Podcast depending of podcasts followed
         if UserDefaults.standard.object(forKey: Constants.UserDefaults.lastTabOpened) == nil {
-            selectedIndex = DataManager.sharedManager.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
+            selectedIndex = DataManager.shared.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
         }
 
         updateDatabaseIndexes()
@@ -215,10 +215,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
 
-            if DataManager.sharedManager.podcastCount() > 100 {
+            if DataManager.shared.podcastCount() > 100 {
                 self.presentLoader()
             }
-            DataManager.sharedManager.cleanUp()
+            DataManager.shared.cleanUp()
             self.dismissLoader()
             Settings.upgradedIndexes = true
         }
@@ -235,10 +235,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.lastAppVersionThatRunVacuum = appVersion
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
-            if DataManager.sharedManager.podcastCount() > 100 {
+            if DataManager.shared.podcastCount() > 100 {
                 presentLoader()
             }
-            DataManager.sharedManager.vacuumDatabase()
+            DataManager.shared.vacuumDatabase()
             dismissLoader()
         }
     }

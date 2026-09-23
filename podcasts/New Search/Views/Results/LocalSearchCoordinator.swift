@@ -21,7 +21,7 @@ final class LocalSearchCoordinator {
 
     init(
         playlist: EpisodeFilter,
-        dataManager: DataManager = DataManager.sharedManager
+        dataManager: DataManager = DataManager.shared
     ) {
         self.playlist = playlist
         self.dataManager = dataManager
@@ -193,7 +193,7 @@ final class LocalSearchCoordinator {
         }
 
         let episodeResults = await Task.detached {
-            let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+            let matchedEpisodes = DataManager.shared.findEpisodes(with: term, podcastUUID: podcastUuid)
             return matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
         }.value
 

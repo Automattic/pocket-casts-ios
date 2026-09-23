@@ -62,13 +62,13 @@ class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
         objc_sync_enter(lock)
         defer { objc_sync_exit(lock) }
 
-        let uploadedEpisodes = DataManager.sharedManager.allUserEpisodesUploaded()
+        let uploadedEpisodes = DataManager.shared.allUserEpisodesUploaded()
         let deletedEpisodes = uploadedEpisodes.filter { uploaded in
             !episodes.contains(where: { $0.uuid == uploaded.uuid })
         }
 
         for deletedEpisode in deletedEpisodes {
-            DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: deletedEpisode)
+            DataManager.shared.saveEpisode(uploadStatus: .notUploaded, episode: deletedEpisode)
             if let fileProtocol = ServerConfig.shared.syncDelegate?.userEpisodeFileProtocol(), !deletedEpisode.downloaded(pathFinder: fileProtocol) {
                 ServerConfig.shared.syncDelegate?.deleteFromDevice(userEpisode: deletedEpisode)
             }
@@ -77,7 +77,7 @@ class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
         var autodownloadEpisodes = [UserEpisode]()
         var updatedNowPlayingTime: TimeInterval = -1
         for episode in episodes {
-            if let localEpisode = DataManager.sharedManager.findUserEpisode(uuid: episode.uuid) {
+            if let localEpisode = DataManager.shared.findUserEpisode(uuid: episode.uuid) {
                 episode.id = localEpisode.id
                 episode.addedDate = localEpisode.addedDate
                 episode.publishedDate = localEpisode.publishedDate
@@ -109,7 +109,7 @@ class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
             }
         }
 
-        DataManager.sharedManager.bulkSave(episodes: episodes)
+        DataManager.shared.bulkSave(episodes: episodes)
 
         // if the currently playing episode was modified, make sure we seek to the correct time for it
         if let playbackDelegate = ServerConfig.shared.playbackDelegate, updatedNowPlayingTime >= 0 {

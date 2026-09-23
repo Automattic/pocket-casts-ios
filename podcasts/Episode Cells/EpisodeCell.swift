@@ -444,7 +444,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func updateCell(episodeUuid: String) {
-        guard let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let newEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { return }
 
         if Thread.isMainThread {
             populateFrom(episode: newEpisode, tintColor: mainTintColor, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
@@ -609,9 +609,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     private func reloadEpisode() -> BaseEpisode? {
         if let episode = episode as? Episode {
-            return DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+            return DataManager.shared.findEpisode(uuid: episode.uuid)
         } else if let episode = episode as? UserEpisode {
-            return DataManager.sharedManager.findUserEpisode(uuid: episode.uuid)
+            return DataManager.shared.findUserEpisode(uuid: episode.uuid)
         }
 
         return nil

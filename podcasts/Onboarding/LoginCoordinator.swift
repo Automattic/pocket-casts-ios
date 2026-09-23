@@ -22,7 +22,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
 
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+        var randomPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: true)
             // Only return items we have a cached image for
             .filter {
                 ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)

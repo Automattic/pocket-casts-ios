@@ -89,7 +89,7 @@ class SmallListCell: ThemeableCollectionCell {
         discoverPodcast = info
         podcastImage.accessibilityLabel = discoverPodcast?.title?.localized
         if let headerUuid = info.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: headerUuid) {
                 subscribeButton.currentlyOn = true
             } else {
                 subscribeButton.currentlyOn = false

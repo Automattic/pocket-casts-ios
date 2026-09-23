@@ -64,7 +64,7 @@ class BundlePodcastCell: ThemeableCell {
                 subscribeButton.isHidden = true
             } else {
                 disclosureImage.isHidden = true
-                if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+                if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                     subscribeButton.currentlyOn = true
                 }
             }
@@ -78,7 +78,7 @@ class BundlePodcastCell: ThemeableCell {
 
     @objc private func podcastWasAdded() {
         if let headerUuid = discoverPodcast?.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: headerUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
             } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }

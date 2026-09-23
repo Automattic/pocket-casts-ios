@@ -96,7 +96,7 @@ extension NetworkNavigator: DiscoverDelegate {
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         guard let uuid = podcast.uuid else { return false }
 
-        return DataManager.sharedManager.findPodcast(uuid: uuid) != nil
+        return DataManager.shared.findPodcast(uuid: uuid) != nil
     }
 
     func subscribe(podcast: DiscoverPodcast) {

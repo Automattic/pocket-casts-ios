@@ -50,7 +50,7 @@ extension PodcastManager {
             deleted_count += 1
         }
 
-        DataManager.sharedManager.deleteGhostsEpisodes(uuids: uuids)
+        DataManager.shared.deleteGhostsEpisodes(uuids: uuids)
         FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
     }
 

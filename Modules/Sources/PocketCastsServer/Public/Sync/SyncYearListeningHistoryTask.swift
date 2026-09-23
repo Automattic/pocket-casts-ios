@@ -73,7 +73,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
         do {
             let response = try Api_YearHistoryResponse(serializedBytes: serverData)
 
-            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: Int(yearToSync))
+            let localNumberOfEpisodes = DataManager.shared.numberOfEpisodes(year: Int(yearToSync))
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
@@ -108,7 +108,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: Int(yearToSync), uuids: uuids)
+        let episodesThatExist = DataManager.shared.episodesThatExist(year: Int(yearToSync), uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
         SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
@@ -123,7 +123,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
 
                 // Blocks a GCD worker thread: this call performs synchronous networking.
                 ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
-                DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                DataManager.shared.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
 
                 // Ensure podcastsToUpdate access is thread-safe to avoid crashes
                 lock.lock()
@@ -152,7 +152,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
 
             DispatchQueue.global(qos: .userInitiated).async {
                 if let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcastUuid) {
-                    DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+                    DataManager.shared.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
                 }
 
                 dispatchGroup.leave()
@@ -180,7 +180,7 @@ class PodcastExistsHelper {
             return true
         }
 
-        let exists = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) != nil
+        let exists = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) != nil
 
         if exists {
             checkedUuidsThatExist.append(uuid)

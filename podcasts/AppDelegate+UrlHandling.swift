@@ -100,7 +100,7 @@ extension AppDelegate {
 
         // open a playlist from a shortcut
         JLRoutes.global().addRoute("/shortcuts/filter/:filterId") { parameters -> Bool in
-            guard let playlistId = parameters["filterId"] as? String, let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistId) else { return false }
+            guard let playlistId = parameters["filterId"] as? String, let playlist = DataManager.shared.findPlaylist(uuid: playlistId) else { return false }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
             AnalyticsHelper.forceTouchTopFilter()
@@ -110,7 +110,7 @@ extension AppDelegate {
 
         // open a podcast from a shortcut
         JLRoutes.global().addRoute("/shortcuts/podcast/:podcastUuid") { parameters -> Bool in
-            guard let podcastUuid = parameters["podcastUuid"] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { return false }
+            guard let podcastUuid = parameters["podcastUuid"] as? String, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) else { return false }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
             AnalyticsHelper.forceTouchPodcast()
@@ -220,7 +220,7 @@ extension AppDelegate {
         JLRoutes.global().addRoute("/widget/*") { [weak self] parameters -> Bool in
             guard let strongSelf = self, let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], let episodeUuid = pathComponents[safe: 0] else { return false }
 
-            guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return true }
+            guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else { return true }
 
             strongSelf.openPlayerWhenReadyFromExternalEvent()
 
@@ -239,7 +239,7 @@ extension AppDelegate {
         JLRoutes.global().addRoute("/widget-episode/*") { [weak self] parameters -> Bool in
             guard let strongSelf = self, let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], let episodeUuid = pathComponents[safe: 0] else { return false }
 
-            guard let baseEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return true }
+            guard let baseEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { return true }
 
             if PlaybackManager.shared.isCurrentEpisode(uuid: baseEpisode.uuid) {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
@@ -559,7 +559,7 @@ extension AppDelegate {
     }
 
     private func loadAndShowEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil) {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             // if we're subscribed to the podcast, we'll likely have this episode, just open it
             if podcast.isSubscribed() {
                 openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
@@ -573,7 +573,7 @@ extension AppDelegate {
         }
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
-            if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+            if success, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 self.openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
             } else {
                 DispatchQueue.main.async {

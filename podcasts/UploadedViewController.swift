@@ -288,7 +288,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @objc func uploadCompletedRefresh(notification: Notification) {
-        guard let episodeUuid = notification.object as? String, let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
+        guard let episodeUuid = notification.object as? String, let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
             return
         }
         UserEpisodeManager.updateUserEpisodes()

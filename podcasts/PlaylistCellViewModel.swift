@@ -77,7 +77,7 @@ class PlaylistCellViewModel: ObservableObject {
     init(
         playlist: EpisodeFilter,
         displayType: DisplayType = .count,
-        dataManager: DataManager = .sharedManager,
+        dataManager: DataManager = .shared,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {

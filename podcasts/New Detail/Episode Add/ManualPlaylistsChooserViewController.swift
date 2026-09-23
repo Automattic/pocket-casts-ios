@@ -18,7 +18,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var searchController: PCSearchBarController?
     private let episodes: [Episode]
     private let analyticsSource: String
-    private let dataManager = DataManager.sharedManager
+    private let dataManager = DataManager.shared
 
     private var tableView: ThemeableTable! {
         didSet {

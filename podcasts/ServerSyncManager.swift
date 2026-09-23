@@ -109,7 +109,7 @@ class ServerSyncManager: ServerSyncDelegate {
         defaults.set(cleanupDate, forKey: Constants.UserDefaults.lastNetworkDataUsageCleanupDate)
 
         Task {
-            let didCleanup = await DataManager.sharedManager.networkDataUsageManager.deleteRecords(
+            let didCleanup = await DataManager.shared.networkDataUsageManager.deleteRecords(
                 olderThan: Date(timeIntervalSinceNow: -Self.networkDataUsageRetentionPeriod)
             )
 

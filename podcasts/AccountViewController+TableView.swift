@@ -222,7 +222,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     private func showSignOutWarning() {
-        let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
+        let numSubscriptionPodcasts = DataManager.shared.allPaidPodcasts().count
         let message: String
         if numSubscriptionPodcasts > 0 {
             message = L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle

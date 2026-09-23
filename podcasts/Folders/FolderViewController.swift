@@ -106,7 +106,7 @@ class FolderViewController: PCViewController {
     }
 
     @objc private func reloadFolder() {
-        guard let updatedFolder = DataManager.sharedManager.findFolder(uuid: folder.uuid) else { return }
+        guard let updatedFolder = DataManager.shared.findFolder(uuid: folder.uuid) else { return }
 
         folder = updatedFolder
         title = folder.name
@@ -218,7 +218,7 @@ class FolderViewController: PCViewController {
     private func changeSortOrder(_ order: LibrarySort.Old) {
         folder.sortType = Int32(order.rawValue)
         folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
-        DataManager.sharedManager.save(folder: folder)
+        DataManager.shared.save(folder: folder)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
 
@@ -233,18 +233,18 @@ class FolderViewController: PCViewController {
 
     // TODO: change this to be diff based and see if we can use the new iOS diffable stuff
     private func reloadPodcasts() {
-        podcasts = DataManager.sharedManager.allPodcastsInFolder(folder: folder)
+        podcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
 
         let badgeType = Settings.podcastBadgeType()
         // load the required badge information if the supplied badge type needs it
         if badgeType == .allUnplayed {
-            let podcastCounts = DataManager.sharedManager.podcastUnfinishedCounts()
+            let podcastCounts = DataManager.shared.podcastUnfinishedCounts()
             for podcast in podcasts {
                 podcast.cachedUnreadCount = Int(podcastCounts[podcast.uuid] ?? 0)
             }
         } else if badgeType == .latestEpisode {
             for podcast in podcasts {
-                if let latestEpisode = DataManager.sharedManager.findLatestEpisode(podcast: podcast) {
+                if let latestEpisode = DataManager.shared.findLatestEpisode(podcast: podcast) {
                     podcast.cachedUnreadCount = latestEpisode.unplayed() && !latestEpisode.archived ? 1 : 0
                 } else {
                     podcast.cachedUnreadCount = 0

@@ -265,7 +265,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             let headerFrame = CGRect(x: 0, y: 0, width: 0, height: 54)
             if let firstPodcastSubscription, !firstPodcastSubscription.isExpired() {
                 let podcastCount = bundleSubscription.podcasts.count.localized()
-                let subscribedPodcastCount = bundleSubscription.podcasts.filter { DataManager.sharedManager.findPodcast(uuid: $0.uuid) != nil }.count.localized()
+                let subscribedPodcastCount = bundleSubscription.podcasts.filter { DataManager.shared.findPodcast(uuid: $0.uuid) != nil }.count.localized()
                 let title = L10n.paidPodcastBundledSubscriptions(subscribedPodcastCount, podcastCount)
                 let rightBtnTitle = subscribedPodcastCount == podcastCount ? L10n.unsubscribeAll.localizedUppercase : L10n.subscribeAll.localizedUppercase
                 let rightBtnStyle: ThemeStyle = subscribedPodcastCount == podcastCount ? .support05 : .primaryInteractive01
@@ -298,7 +298,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     // MARK: - Private helpers
 
     private func showCancelPrompt() {
-        guard let firstPodcastSubscription = bundleSubscription.podcasts.first, let firstPodcast = DataManager.sharedManager.findPodcast(uuid: firstPodcastSubscription.uuid, includeUnsubscribed: true) else { return }
+        guard let firstPodcastSubscription = bundleSubscription.podcasts.first, let firstPodcast = DataManager.shared.findPodcast(uuid: firstPodcastSubscription.uuid, includeUnsubscribed: true) else { return }
         let actionSheet = OptionsPicker(title: nil)
 
         let cancelAction = OptionAction(label: L10n.paidPodcastCancel, icon: nil) { [weak self] in
@@ -335,7 +335,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     }
 
     private func populateHeader() {
-        if isSingleBundleSubscription(), let uuid = bundleSubscription.podcasts.first?.uuid, let singlePodcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+        if isSingleBundleSubscription(), let uuid = bundleSubscription.podcasts.first?.uuid, let singlePodcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             bundleTitleLabel.text = singlePodcast.title
             authorLabel.text = singlePodcast.author
 
@@ -376,7 +376,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             cancelledLabel.isHidden = false
             cancelledOverlay.isHidden = false
 
-            if let firstPodcast = DataManager.sharedManager.findPodcast(uuid: firstPodcastSubscription.uuid, includeUnsubscribed: true) {
+            if let firstPodcast = DataManager.shared.findPodcast(uuid: firstPodcastSubscription.uuid, includeUnsubscribed: true) {
                 expiryLabel.isHidden = false
                 let expiryDate = Date(timeIntervalSince1970: firstPodcastSubscription.expiryDate)
                 expiryLabel.text = firstPodcast.displayableExpiryLanguage(expiryDate: expiryDate)
@@ -408,7 +408,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     }
 
     private func updatePodcastColors(_ uuid: String) {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) else {
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid) else {
             return
         }
         supportHeartView.setPodcastColor(podcast: podcast)
@@ -451,12 +451,12 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     }
 
     private func subscribe(uuid: String) -> Bool {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             return false
         }
         podcast.subscribed = 1
         podcast.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         return true
     }
 
@@ -474,7 +474,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
 
     private func unsubscribeAll() {
         bundleSubscription.podcasts.forEach { bundlePodcast in
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: bundlePodcast.uuid) {
+            if let podcast = DataManager.shared.findPodcast(uuid: bundlePodcast.uuid) {
                 PodcastManager.shared.unsubscribe(podcast: podcast)
             }
         }

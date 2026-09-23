@@ -91,10 +91,10 @@ private extension SearchResultCell {
 
     func subtitle(for result: PodcastFolderSearchResult) -> String {
         if result.kind == .folder {
-            guard let folder = DataManager.sharedManager.findFolder(uuid: result.uuid) else {
+            guard let folder = DataManager.shared.findFolder(uuid: result.uuid) else {
                 return L10n.folder
             }
-            let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+            let count = DataManager.shared.countOfPodcastsInFolder(folder: folder)
             return L10n.podcastCount(count)
         }
 
@@ -259,7 +259,7 @@ extension PodcastFolderSearchResult {
         if let explicit {
             return explicit
         }
-        return DataManager.sharedManager.findPodcast(uuid: uuid)?.isExplicit ?? false
+        return DataManager.shared.findPodcast(uuid: uuid)?.isExplicit ?? false
     }
 }
 

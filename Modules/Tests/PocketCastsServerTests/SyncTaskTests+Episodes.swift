@@ -7,7 +7,7 @@ final class SyncTaskTests_EpisodeImport: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
-        syncTask = SyncTask(dataManager: DataManager.sharedManager)
+        syncTask = SyncTask(dataManager: DataManager.shared)
     }
 
     override func tearDown() {
@@ -15,7 +15,7 @@ final class SyncTaskTests_EpisodeImport: XCTestCase {
     }
 
     func testSyncingEpisodes() throws {
-        let beforeUnsynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+        let beforeUnsynced = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         XCTAssertEqual(beforeUnsynced.count, 0)
 
         let episodeCount = 5
@@ -23,16 +23,16 @@ final class SyncTaskTests_EpisodeImport: XCTestCase {
         (0..<episodeCount).forEach { _ in
             let episode = addEpisode()
             episode.playingStatusModified = 1
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
         }
 
-        let afterUnsynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+        let afterUnsynced = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         XCTAssertEqual(afterUnsynced.count, episodeCount)
 
         let response = Api_SyncUpdateResponse.episodesResponse(episodes: afterUnsynced)
         syncTask.processServerData(response: response)
 
-        let unsyncedEpisodes = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+        let unsyncedEpisodes = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
 
         XCTAssertEqual(unsyncedEpisodes.count, 0)
     }
@@ -50,7 +50,7 @@ private extension SyncTaskTests_EpisodeImport {
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
         episode.uuid = episodeUuid
 
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
         return episode
     }
 }

@@ -17,7 +17,7 @@ class ListeningHistoryViewModel {
     private let dataManager: DataManager
     private var cancellables: Set<AnyCancellable> = []
 
-    init(dataManager: DataManager = DataManager.sharedManager) {
+    init(dataManager: DataManager = DataManager.shared) {
         self.dataManager = dataManager
         observeHistoryChanges()
     }

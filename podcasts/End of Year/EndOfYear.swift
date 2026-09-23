@@ -356,7 +356,7 @@ extension EndOfYear {
         }
 
         private func update() {
-            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories(in: year)
+            isEligible = DataManager.shared.isEligibleForEndOfYearStories(in: year)
 
             // Let others know this changed
             if isEligible {

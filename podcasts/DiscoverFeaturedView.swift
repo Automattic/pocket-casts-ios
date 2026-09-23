@@ -139,7 +139,7 @@ class DiscoverFeaturedView: ThemeableView {
         }
         subscribeButton.currentlyOn = false
         if let uuid = discoverPodcast.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 subscribeButton.currentlyOn = true
             }
         }

@@ -120,7 +120,7 @@ extension MainTabBarController {
     @objc func animateEpisodeAddedToUpNext(_ notification: Notification) {
         guard #available(iOS 26.0, *) else { return }
         guard let episodeUuid = notification.object as? String,
-              let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+              let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             // Nothing to animate — just keep the count current.
             DispatchQueue.main.async { [weak self] in self?.refreshUpNextTabBadge() }
             return

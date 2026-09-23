@@ -37,7 +37,7 @@ class PlaylistDetailsViewModel {
 
     init(playlist: PlaylistItem,
          detail: Bool = false,
-         dataManager: DataManager = DataManager.sharedManager,
+         dataManager: DataManager = DataManager.shared,
          playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playlist = playlist
         self.dataManager = dataManager

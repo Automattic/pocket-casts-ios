@@ -215,7 +215,7 @@ class ListeningHistoryViewController: PCViewController {
         })
         alert.addAction(UIAlertAction(title: L10n.historyClearAll, style: .destructive) { [weak self] _ in
             Analytics.track(.listeningHistoryCleared)
-            DataManager.sharedManager.clearAllEpisodePlayInteractions()
+            DataManager.shared.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self?.refreshEpisodes(animated: true)
         })

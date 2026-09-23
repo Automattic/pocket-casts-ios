@@ -158,7 +158,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }
@@ -172,7 +172,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }

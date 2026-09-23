@@ -5,11 +5,11 @@ import PocketCastsUtils
 
 class HomeGridDataHelper {
     var numberOfPodcasts: Int {
-        DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).count
+        DataManager.shared.allPodcasts(includeUnsubscribed: false).count
     }
 
     var numberOfFolders: Int {
-        DataManager.sharedManager.allFolders().count
+        DataManager.shared.allFolders().count
     }
 
     #if !os(watchOS)
@@ -21,14 +21,14 @@ class HomeGridDataHelper {
             case .recentlyPlayed:
                 allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
             default:
-                allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
             }
 
             let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.sharedTheme.activeTheme) }
 
             // load the required badge information if the supplied badge type needs it
             if badgeType == .allUnplayed {
-                let podcastCounts = DataManager.sharedManager.podcastUnfinishedCounts()
+                let podcastCounts = DataManager.shared.podcastUnfinishedCounts()
                 for gridItem in gridItems {
                     if let podcast = gridItem.podcast {
                         podcast.cachedUnreadCount = Int(podcastCounts[podcast.uuid] ?? 0)
@@ -46,7 +46,7 @@ class HomeGridDataHelper {
             } else if badgeType == .latestEpisode {
                 for gridItem in gridItems {
                     if let podcast = gridItem.podcast {
-                        if let latestEpisode = DataManager.sharedManager.findLatestEpisode(podcast: podcast) {
+                        if let latestEpisode = DataManager.shared.findLatestEpisode(podcast: podcast) {
                             podcast.cachedUnreadCount = latestEpisode.unplayed() && !latestEpisode.archived ? 1 : 0
                         } else {
                             podcast.cachedUnreadCount = 0
@@ -57,7 +57,7 @@ class HomeGridDataHelper {
                         let allPodcastsInFolder = allPodcasts.filter { $0.folderUuid == folder.uuid }
                         var shouldShowUnplayedBadge = false
                         for podcast in allPodcastsInFolder {
-                            if let latestEpisode = DataManager.sharedManager.findLatestEpisode(podcast: podcast), latestEpisode.unplayed(), !latestEpisode.archived {
+                            if let latestEpisode = DataManager.shared.findLatestEpisode(podcast: podcast), latestEpisode.unplayed(), !latestEpisode.archived {
                                 shouldShowUnplayedBadge = true
                                 break
                             }
@@ -80,7 +80,7 @@ class HomeGridDataHelper {
         case .recentlyPlayed:
             allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
         default:
-            allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         }
 
         return gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts)
@@ -90,7 +90,7 @@ class HomeGridDataHelper {
         // When a user doesn't have Pocket Casts Plus, all their podcasts will be loaded into the main grid, regardless of if they are in a folder or not
         var gridItems: [HomeGridItem] = []
         if SubscriptionHelper.hasActiveSubscription() {
-            let allFolders = DataManager.sharedManager.allFolders()
+            let allFolders = DataManager.shared.allFolders()
 
             gridItems += sortedPodcasts.compactMap { podcast in
                 allFolders.contains { $0.uuid == podcast.folderUuid } ? nil : HomeGridItem(podcast: podcast)

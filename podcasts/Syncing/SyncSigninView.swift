@@ -313,7 +313,7 @@ final class SyncSigninViewModel: ObservableObject {
         ServerSettings.saveSyncingPassword(password)
 
         if ServerSettings.lastSyncTime == nil {
-            DataManager.sharedManager.markAllPodcastsUnsynced()
+            DataManager.shared.markAllPodcastsUnsynced()
         }
 
         SyncManager.syncReason = .login

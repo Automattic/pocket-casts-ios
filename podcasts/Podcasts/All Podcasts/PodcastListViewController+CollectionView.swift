@@ -139,8 +139,8 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         let allPodcasts = gridItems.compactMap(\.podcast)
         let allFolders = gridItems.compactMap(\.folder)
 
-        DataManager.sharedManager.saveSortOrders(podcasts: allPodcasts)
-        DataManager.sharedManager.saveSortOrders(folders: allFolders, syncModified: TimeFormatter.currentUTCTimeInMillis())
+        DataManager.shared.saveSortOrders(podcasts: allPodcasts)
+        DataManager.shared.saveSortOrders(folders: allFolders, syncModified: TimeFormatter.currentUTCTimeInMillis())
         Settings.setHomeFolderSortOrder(order: .custom)
     }
 

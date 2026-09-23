@@ -132,7 +132,7 @@ actor PlaylistMetadataLoader {
     }
 
     init(
-        dataManager: DataManager = .sharedManager,
+        dataManager: DataManager = .shared,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {

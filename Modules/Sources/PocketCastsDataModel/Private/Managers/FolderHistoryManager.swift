@@ -88,7 +88,7 @@ public class FolderHistoryHelper {
 
     public func snapshot() {
         if !podcastAndFolderUuids.isEmpty {
-            DataManager.sharedManager.snapshot(podcastsAndFolders: podcastAndFolderUuids)
+            DataManager.shared.snapshot(podcastsAndFolders: podcastAndFolderUuids)
             podcastAndFolderUuids = [:]
         }
     }

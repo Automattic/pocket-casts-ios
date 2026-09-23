@@ -96,7 +96,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         if SyncManager.isFirstSyncInProgress() { return }
 
         FileLog.shared.addMessage("Starting a background refresh")
-        let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let subscribedPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         BackgroundSyncManager.shared.performBackgroundRefreshSafely(subscribedPodcasts: subscribedPodcasts)
     }
 

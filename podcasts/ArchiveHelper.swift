@@ -54,7 +54,7 @@ class ArchiveHelper {
 
         if episodeLimit > 0 {
             let currentlyPlayingUuid = PlaybackManager.shared.isPlaying ? PlaybackManager.shared.currentEpisode?.uuid : nil
-            let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC", arguments: [podcast.id])
+            let episodes = DataManager.shared.findEpisodesWhere(customWhere: "podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC", arguments: [podcast.id])
             for (index, episode) in episodes.enumerated() {
                 if index < episodeLimit { continue }
 
@@ -67,7 +67,7 @@ class ArchiveHelper {
     }
 
     private class func removeEpisodesMatchingQuery(_ query: String, arguments: [Any]) {
-        let removableEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: arguments)
+        let removableEpisodes = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: arguments)
         for episode in removableEpisodes {
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
         }

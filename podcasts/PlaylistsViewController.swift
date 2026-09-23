@@ -102,7 +102,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
-            if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findPlaylist(uuid: lastFilterUuid) {
+            if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.shared.findPlaylist(uuid: lastFilterUuid) {
                 DispatchQueue.main.async {
                     self.showFilter(filter)
                 }
@@ -207,7 +207,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
-            let newData = DataManager.sharedManager.allPlaylists(includeDeleted: false).map { ListPlaylist(playlist: $0) }
+            let newData = DataManager.shared.allPlaylists(includeDeleted: false).map { ListPlaylist(playlist: $0) }
 
             let oldData = self.listPlaylistItems
             let isFirstLoad = self.firstTimeLoading

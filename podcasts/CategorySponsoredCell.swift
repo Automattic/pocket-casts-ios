@@ -62,7 +62,7 @@ class CategorySponsoredCell: ThemeableCell {
         descriptionLabel.sizeToFit()
 
         if let uuid = discoverPromotion.podcast_uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 subscribeButton.currentlyOn = true
             }
             let imageUrl = DiscoverServerHandler.thumbnailUrlString(forPodcast: uuid, size: 140)
@@ -74,7 +74,7 @@ class CategorySponsoredCell: ThemeableCell {
 
     @objc private func podcastWasAdded() {
         if let podcastUuid = discoverPromotion?.podcast_uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: podcastUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
             } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }

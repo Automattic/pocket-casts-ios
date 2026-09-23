@@ -14,7 +14,7 @@ class EpisodeManager: NSObject {
         // we always fire the episode removed notification here. It's a bit dodgy but the boolean applies to the episode meta data update
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
 
-        DataManager.sharedManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         #if !APPCLIP
         if shouldArchiveOnCompletion(episode: episode) {
@@ -73,15 +73,15 @@ class EpisodeManager: NSObject {
         PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
 
         if !episodesToArchive.isEmpty {
-            DataManager.sharedManager.bulkArchive(episodes: episodesToArchive, markAsNotDownloaded: true, markAsPlayed: true, updateSyncFlag: updateSyncFlag)
+            DataManager.shared.bulkArchive(episodes: episodesToArchive, markAsNotDownloaded: true, markAsPlayed: true, updateSyncFlag: updateSyncFlag)
         }
 
         if !episodesToMarkAsPlayed.isEmpty {
-            DataManager.sharedManager.bulkMarkAsPlayed(episodes: episodesToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
+            DataManager.shared.bulkMarkAsPlayed(episodes: episodesToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
         }
 
         if !userEpisodeToMarkAsPlayed.isEmpty {
-            DataManager.sharedManager.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
+            DataManager.shared.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
 
             #if !APPCLIP
             userEpisodeToMarkAsPlayed.forEach { userEpisode in
@@ -110,7 +110,7 @@ class EpisodeManager: NSObject {
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             episode.autoDownloadStatus = AutoDownloadStatus.userDeletedFile.rawValue
             episode.cachedFrameCount = 0
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
         }
 
         if userInitated {
@@ -125,7 +125,7 @@ class EpisodeManager: NSObject {
         // if the episode is currently playing then we should probably kill that
         // we always fire the episode removed notification here. It's a bit dodgy but the boolean applies to the episode meta data update
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, saveCurrentEpisode: false)
-        DataManager.sharedManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: false)
+        DataManager.shared.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: false)
 
         if episode.shouldArchiveOnCompletion(), !episode.archived {
             archiveEpisode(episode: episode, fireNotification: false, removeFromPlayer: false)
@@ -135,10 +135,10 @@ class EpisodeManager: NSObject {
     class func markAsUnplayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         let updateSyncFlag = SyncManager.isUserLoggedIn()
 
-        DataManager.sharedManager.saveEpisode(playingStatus: .notPlayed, episode: episode, updateSyncFlag: updateSyncFlag)
-        DataManager.sharedManager.saveEpisode(playedUpTo: 0, episode: episode, updateSyncFlag: updateSyncFlag)
+        DataManager.shared.saveEpisode(playingStatus: .notPlayed, episode: episode, updateSyncFlag: updateSyncFlag)
+        DataManager.shared.saveEpisode(playedUpTo: 0, episode: episode, updateSyncFlag: updateSyncFlag)
         if let episode = episode as? Episode {
-            DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: updateSyncFlag)
+            DataManager.shared.saveEpisode(archived: false, episode: episode, updateSyncFlag: updateSyncFlag)
         }
 
         if fireNotification {
@@ -151,7 +151,7 @@ class EpisodeManager: NSObject {
     }
 
     class func bulkMarkAsUnPlayed(_ baseEpisodes: [BaseEpisode]) {
-        DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
         analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
@@ -167,9 +167,9 @@ class EpisodeManager: NSObject {
             PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
         }
 
-        DataManager.sharedManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.saveEpisode(archived: true, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
-        if let latestEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) {
+        if let latestEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) {
             deleteDownloadedFiles(episode: latestEpisode, userInitated: false)
         }
 
@@ -186,8 +186,8 @@ class EpisodeManager: NSObject {
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, saveCurrentEpisode: false)
 
-        DataManager.sharedManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: false)
-        if let latestEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) {
+        DataManager.shared.saveEpisode(archived: true, episode: episode, updateSyncFlag: false)
+        if let latestEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) {
             deleteDownloadedFiles(episode: latestEpisode, userInitated: false)
         }
     }
@@ -199,7 +199,7 @@ class EpisodeManager: NSObject {
 
             deleteFilesForEpisode(episode)
         }
-        DataManager.sharedManager.bulkArchive(episodes: episodes, markAsNotDownloaded: true, markAsPlayed: false, updateSyncFlag: updateSyncFlag)
+        DataManager.shared.bulkArchive(episodes: episodes, markAsNotDownloaded: true, markAsPlayed: false, updateSyncFlag: updateSyncFlag)
 
         if removeFromPlayer {
             let uuids = episodes.map(\.uuid)
@@ -211,12 +211,12 @@ class EpisodeManager: NSObject {
     }
 
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
-        DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
         if let parentPodcast = episode.parentPodcast() {
             if parentPodcast.autoArchivePlayedAfter > 0 {
-                DataManager.sharedManager.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
+                DataManager.shared.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
             }
         }
 
@@ -230,7 +230,7 @@ class EpisodeManager: NSObject {
     }
 
     class func bulkUnarchive(episodes: [Episode], trackEvent: Bool = true) {
-        DataManager.sharedManager.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
@@ -241,14 +241,14 @@ class EpisodeManager: NSObject {
 
     class func removeListeningHistory(episodes: [BaseEpisode]) {
         for episode in episodes {
-            DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
+            DataManager.shared.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.listeningHistoryChanged)
         analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
     }
 
     class func deleteAllEpisodesInPodcast(id: Int64) {
-        let episodes = DataManager.sharedManager.allEpisodesForPodcast(id: id)
+        let episodes = DataManager.shared.allEpisodesForPodcast(id: id)
         if episodes.count < 1 { return }
 
         // make sure all the episodes are removed from the playback and download queues, as well as have their files deleted
@@ -260,13 +260,13 @@ class EpisodeManager: NSObject {
         }
 
         // then bulk delete all the episodes
-        DataManager.sharedManager.deleteAllEpisodesInPodcast(podcastId: id)
+        DataManager.shared.deleteAllEpisodesInPodcast(podcastId: id)
     }
 
     @objc class func setStarred(_ starred: Bool, episode: Episode, updateSyncStatus: Bool) {
         if starred == episode.keepEpisode { return } // we've already set this, no need to reset it again
 
-        DataManager.sharedManager.saveEpisode(starred: starred, episode: episode, updateSyncFlag: updateSyncStatus)
+        DataManager.shared.saveEpisode(starred: starred, episode: episode, updateSyncFlag: updateSyncStatus)
 
         // special case if the starred status of the now playing episode is changed, tell the player to update it
         // we do this before sending notifications so that other parts of the app that grab the now playing episode get the one with the right star status
@@ -288,7 +288,7 @@ class EpisodeManager: NSObject {
     }
 
     class func bulkSetStarred(_ starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
-        DataManager.sharedManager.bulkSetStarred(starred: starred, episodes: episodes, updateSyncStatus: updateSyncStatus)
+        DataManager.shared.bulkSetStarred(starred: starred, episodes: episodes, updateSyncStatus: updateSyncStatus)
         if let currentEpisode = PlaybackManager.shared.currentEpisode as? Episode, episodes.contains(currentEpisode) {
             PlaybackManager.shared.nowPlayingStarredChanged()
         }
@@ -517,14 +517,14 @@ class EpisodeManager: NSObject {
 
     class func hasDownloadedEpisodes() -> Bool {
         let query = "episodeStatus == \(DownloadStatus.downloaded.rawValue) LIMIT 1"
-        let list = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        let list = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
         return !list.isEmpty
     }
 
     private class func allDownloadedEpisodes() -> [Episode] {
         let query = "episodeStatus == \(DownloadStatus.downloaded.rawValue)"
 
-        return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
     }
 
     private class func allDownloadEpisodesWithStatus(_ playbackStatus: PlayingStatus, includeStarred: Bool) -> [Episode] {
@@ -533,13 +533,13 @@ class EpisodeManager: NSObject {
             query += " AND keepEpisode == 0"
         }
 
-        return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
     }
 
     private class func allBufferedEpisodes() -> [Episode] {
         let query = "episodeStatus == \(DownloadStatus.downloadedForStreaming.rawValue) ORDER BY lastPlaybackInteractionDate DESC"
 
-        return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
     }
 
     private class func deleteFilesForEpisode(_ episode: BaseEpisode) {
@@ -582,8 +582,8 @@ class EpisodeManager: NSObject {
         }
 
         // If user episodes are only downloaded on this device delete them
-        DataManager.sharedManager.deleteUserEpisodes(userEpisodeUuids: userEpisodeUuidsToDelete)
-        DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
+        DataManager.shared.deleteUserEpisodes(userEpisodeUuids: userEpisodeUuidsToDelete)
+        DataManager.shared.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
         analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)

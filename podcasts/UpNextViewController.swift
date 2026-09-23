@@ -389,7 +389,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             episodeController.themeOverride = themeOverride
             present(episodeController, animated: true, completion: nil)
         } else if let userEpisode = episode as? UserEpisode {
-            if let fullEpisode = DataManager.sharedManager.findUserEpisode(uuid: userEpisode.uuid) {
+            if let fullEpisode = DataManager.shared.findUserEpisode(uuid: userEpisode.uuid) {
                 userEpisodeDetailVC = UserEpisodeDetailViewController(episode: fullEpisode)
                 userEpisodeDetailVC?.delegate = self
                 userEpisodeDetailVC?.themeOverride = themeOverride
@@ -444,7 +444,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func selectAllTapped() {
-        guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
+        guard DataManager.shared.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
         track(.upNextSelectAllButtonTapped, properties: ["select_all": true])

@@ -50,9 +50,9 @@ class ShareProfileViewModel: ObservableObject {
 
     private func loadData() {
         Task {
-            let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-            let episodes = DataManager.sharedManager.episodesWithListenHistory(limit: 10)
-            let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+            let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
+            let episodes = DataManager.shared.episodesWithListenHistory(limit: 10)
+            let filters = DataManager.shared.allPlaylists(includeDeleted: false)
             await MainActor.run {
                 self.followedPodcasts = podcasts
                 self.recentEpisodes = episodes
@@ -71,7 +71,7 @@ class ShareProfileViewModel: ObservableObject {
     }
 
     func podcastName(for episode: Episode) -> String? {
-        DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.title
+        DataManager.shared.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.title
     }
 
     @MainActor

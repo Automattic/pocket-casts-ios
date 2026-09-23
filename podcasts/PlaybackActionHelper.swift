@@ -86,7 +86,7 @@ class PlaybackActionHelper {
             PlaybackManager.shared.play()
         } else {
             if episode.archived, let episode = episode as? Episode {
-                DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+                DataManager.shared.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
             }
 
             if episode is Episode { // only record play stats for Episodes, not UserEpisodes

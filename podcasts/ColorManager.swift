@@ -32,7 +32,7 @@ class ColorManager {
     }
 
     class func backgroundColorForPodcastUuid(_ uuid: String) -> UIColor {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             return ColorManager.sharedManager.defaultBackgroundColor
         }
         return ColorManager.sharedManager.backgroundColorForPodcast(podcast)
@@ -151,13 +151,13 @@ class ColorManager {
                     return
                 }
 
-                if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                     podcast.backgroundColor = backgroundColor
                     podcast.primaryColor = lightThemeTint
                     podcast.secondaryColor = darkThemeTint
                     podcast.colorVersion = strongSelf.currentColorVersion
                     podcast.lastColorDownloadDate = Date()
-                    DataManager.sharedManager.save(podcast: podcast)
+                    DataManager.shared.save(podcast: podcast)
 
                     strongSelf.colorsDidSave(podcastUuid: podcastUuid)
                 }
@@ -175,9 +175,9 @@ class ColorManager {
     }
 
     private func handleDownloadError(podcastUuid: String) {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             podcast.lastColorDownloadDate = Date()
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
         }
 
         removeDownloadingUuid(podcastUuid)

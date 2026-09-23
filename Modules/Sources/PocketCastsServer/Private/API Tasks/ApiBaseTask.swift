@@ -11,7 +11,7 @@ class ApiBaseTask: Operation, @unchecked Sendable {
     private let urlConnection: URLConnection
     private let tokenHelper: TokenHelper
 
-    init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
+    init(dataManager: DataManager = .shared, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.dataManager = dataManager
         self.urlConnection = urlConnection
         self.tokenHelper = TokenHelper(urlConnection: urlConnection)

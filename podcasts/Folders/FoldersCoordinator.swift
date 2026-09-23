@@ -31,7 +31,7 @@ class FoldersCoordinator: NSObject {
         static let intervalAfterStartup: TimeInterval = 10.seconds
     }
 
-    init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
+    init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .shared) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
         self.suggestedFoldersModel = SuggestedFoldersModel()
@@ -154,7 +154,7 @@ class FoldersCoordinator: NSObject {
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
         saveLastUuidsUsed()
-        DataManager.sharedManager.deleteAllFoldersAndMarkSync()
+        DataManager.shared.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.podcastUuids)

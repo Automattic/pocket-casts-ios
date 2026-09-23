@@ -231,7 +231,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.saveSyncingPassword(password)
 
         // we've signed in, set all our existing podcasts to be non synced
-        DataManager.sharedManager.markAllPodcastsUnsynced()
+        DataManager.shared.markAllPodcastsUnsynced()
 
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)

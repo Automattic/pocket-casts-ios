@@ -36,7 +36,7 @@ public class DataManager {
     /// user seeing this means their data was wiped and a full resync is required.
     public let databaseWasCreated: Bool
 
-    public internal(set) static var sharedManager = DataManager()
+    public internal(set) static var shared = DataManager()
 
     public static var logger: ErrorLogger?
 
@@ -1193,19 +1193,19 @@ public class DataManager {
         let pushOnQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1 AND pushEnabled = 1"
         let totalQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1"
 
-        let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
-        let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
+        let pushOnCount = DataManager.shared.count(query: pushOnQuery, values: nil)
+        let totalCount = (DataManager.shared.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
             podcast.pushEnabled = true
         } else {
             podcast.pushEnabled = false
         }
 
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
     }
 
     public func pushEnabledPodcastsCount() -> Int {
-        DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+        DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
     }
 
     // MARK: - Up Next History Manager

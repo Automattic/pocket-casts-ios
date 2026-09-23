@@ -33,7 +33,7 @@ class PodcastSearchCell: ThemeableCell {
     func populateFrom(folder: Folder) {
         podcastName.text = folder.name
 
-        let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+        let count = DataManager.shared.countOfPodcastsInFolder(folder: folder)
         podcastAuthor.text = L10n.podcastCount(count)
 
         folderPreview.populateFromAsync(folder: folder)

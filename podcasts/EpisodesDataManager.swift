@@ -11,11 +11,11 @@ class EpisodesDataManager {
     func episodes(for playlist: AutoplayHelper.Playlist) -> [BaseEpisode] {
         switch playlist {
         case .podcast(uuid: let uuid):
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+            if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
                 return episodes(for: podcast).flatMap { $0.elements.compactMap { ($0 as? ListEpisode)?.episode } }
             }
         case .filter(uuid: let uuid):
-            if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
+            if let filter = DataManager.shared.findPlaylist(uuid: uuid) {
                 return playlistEpisodes(for: filter).map { $0.episode }
             }
         case .downloads:
@@ -201,9 +201,9 @@ class EpisodesDataManager {
         let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
 
         if SubscriptionHelper.hasActiveSubscription() {
-            return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
+            return DataManager.shared.allUserEpisodes(sortedBy: sortBy)
         } else {
-            return DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
+            return DataManager.shared.allUserEpisodesDownloaded(sortedBy: sortBy)
         }
     }
 }

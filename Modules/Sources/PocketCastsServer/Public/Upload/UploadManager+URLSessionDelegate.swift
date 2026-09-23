@@ -10,7 +10,7 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
         let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
         if bytesSent > 0 {
-            DataManager.sharedManager.networkDataUsageManager.add(
+            DataManager.shared.networkDataUsageManager.add(
                 bytesUploaded: bytesSent,
                 operationType: .upload,
                 connectionType: connectionType,
@@ -41,7 +41,7 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
             if let error = error as NSError? {
                 FileLog.shared.addMessage("Upload Manager failed to upload image \(error.localizedDescription)")
             } else {
-                DataManager.sharedManager.markImageUploaded(episode: episode)
+                DataManager.shared.markImageUploaded(episode: episode)
             }
         } else {
             if let error = error as NSError? {
@@ -49,11 +49,11 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
                     if !episode.uploadFailed() {
                         return
                     } else {
-                        DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, uploadTaskId: nil, episode: episode)
+                        DataManager.shared.saveEpisode(uploadStatus: .notUploaded, uploadTaskId: nil, episode: episode)
                     }
                 }
 
-                DataManager.sharedManager.saveEpisode(uploadStatus: .uploadFailed, uploadError: error.localizedDescription, uploadTaskId: nil, episode: episode)
+                DataManager.shared.saveEpisode(uploadStatus: .uploadFailed, uploadError: error.localizedDescription, uploadTaskId: nil, episode: episode)
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -81,14 +81,14 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
             }
         }
 
-        var episode = DataManager.sharedManager.findUserEpisode(uploadTaskId: uploadId)
+        var episode = DataManager.shared.findUserEpisode(uploadTaskId: uploadId)
         if let episode {
             uploadingEpisodesCache[uploadId] = episode
         } else {
             if includeImageTasks {
                 let imageUuid = uploadId.replacingOccurrences(of: imageTaskPrefix, with: "")
 
-                let imageEpisode = DataManager.sharedManager.findUserEpisode(uuid: imageUuid)
+                let imageEpisode = DataManager.shared.findUserEpisode(uuid: imageUuid)
                 if let imageEpisode {
                     episode = imageEpisode
                     uploadingEpisodesCache[uploadId] = episode

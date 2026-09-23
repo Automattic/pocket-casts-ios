@@ -49,7 +49,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     func downloadTapped() {
         guard let episode, !isLoadingEpisode else { return }
 
-        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+        if let existingEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) {
             realEpisode = existingEpisode
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
             return
@@ -95,7 +95,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     /// A search result's episode isn't necessarily in the database yet (the user might not be
     /// subscribed to the podcast), so fetch it from the server when it's missing.
     private func resolveEpisode(_ episode: EpisodeSearchResult) async throws -> BaseEpisode {
-        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+        if let existingEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) {
             return existingEpisode
         }
         guard let addedEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid) else {
@@ -132,7 +132,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     private func reloadRealEpisode() {
         guard let episode else { return }
-        realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid)
+        realEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid)
     }
 
     private func setupObservers() {
@@ -171,7 +171,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
                 else {
                     return
                 }
-                self.realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID)
+                self.realEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUUID)
                 self.refreshTrigger.toggle()
             })
             .store(in: &cancellables)

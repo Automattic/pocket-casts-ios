@@ -19,7 +19,7 @@ struct PodcastPickerRow: View {
                 .shadow(radius: 2, x: 0, y: 1)
                 .accessibilityHidden(true) // without this set, iOS will attempt to describe the image which is amazing, but not needed in this case
             VStack(alignment: .leading, spacing: 2) {
-                if let folderUuid = podcast.folderUuid, pickingForFolderUuid != folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+                if let folderUuid = podcast.folderUuid, pickingForFolderUuid != folderUuid, let folder = DataManager.shared.findFolder(uuid: folderUuid) {
                     HStack {
                         Image("folder-small")
                             .foregroundColor(AppTheme.folderColor(colorInt: folder.color).color)

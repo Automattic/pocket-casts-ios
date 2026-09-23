@@ -308,7 +308,7 @@ class ImageManager {
     func loadUserEpisodeImage(uuid: String, imageView: UIImageView, size: PodcastThumbnailSize, completionHandler: ((Bool) -> Void)?) {
         imageView.image = nil
 
-        let userEpisode = DataManager.sharedManager.findUserEpisode(uuid: uuid)
+        let userEpisode = DataManager.shared.findUserEpisode(uuid: uuid)
         let imageSize = size == .page ? 960 : 280
         let url = userEpisode?.urlForImage(size: imageSize) ?? ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: 1, size: imageSize)
         if url.isFileURL {
@@ -384,7 +384,7 @@ class ImageManager {
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
-        DataManager.sharedManager.setAllPodcastImageVersions(to: 0)
+        DataManager.shared.setAllPodcastImageVersions(to: 0)
         let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh])
         prefetcher.start()
     }
@@ -396,7 +396,7 @@ class ImageManager {
 
     private func allPodcastUrls() -> [URL] {
         var urls = [URL]()
-        for podcast in DataManager.sharedManager.allPodcasts(includeUnsubscribed: false) {
+        for podcast in DataManager.shared.allPodcasts(includeUnsubscribed: false) {
             let urlsForPodcast = allUrlsFor(podcastUuid: podcast.uuid)
             urls.append(contentsOf: urlsForPodcast)
         }
@@ -426,7 +426,7 @@ class ImageManager {
 
     func clearPodcastCache(recacheWhenDone: Bool) {
         // clear out all the saved colors, since they might change when the images do
-        DataManager.sharedManager.setAllPodcastImageVersions(to: 0)
+        DataManager.shared.setAllPodcastImageVersions(to: 0)
 
         subscribedPodcastsCache.clearMemoryCache()
         subscribedPodcastsCache.clearDiskCache { [weak self] in
@@ -442,7 +442,7 @@ class ImageManager {
 
     func clearCache(podcastUuid: String, recacheWhenDone: Bool) {
         // reset the podcast color version, so it re-downloads that when re-caching the image if required
-        DataManager.sharedManager.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
+        DataManager.shared.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
         NotificationCenter.default.post(name: Constants.Notifications.podcastUpdated, object: podcastUuid)
 
         // list and card are the same image, so card is not in the list below

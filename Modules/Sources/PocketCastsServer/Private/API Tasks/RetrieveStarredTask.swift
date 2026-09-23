@@ -63,7 +63,7 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
         }
 
         // we don't have the episode, see if we have the podcast
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: protoEpisode.podcastUuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: protoEpisode.podcastUuid, includeUnsubscribed: true) {
             // we do, so try and refresh it
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] updated in
                 if updated {
@@ -85,11 +85,11 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
 
     @discardableResult
     private func convertLocalEpisode(protoEpisode: Api_StarredEpisode) -> Bool {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: protoEpisode.uuid) else { return false }
+        guard let episode = DataManager.shared.findEpisode(uuid: protoEpisode.uuid) else { return false }
 
         // star this episode in case it's not locally
         if !episode.keepEpisode || episode.starredModified != protoEpisode.starredModified {
-            DataManager.sharedManager.saveEpisode(starred: true, starredModified: protoEpisode.starredModified, episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(starred: true, starredModified: protoEpisode.starredModified, episode: episode, updateSyncFlag: false)
         }
 
         convertedEpisodes.append(episode)

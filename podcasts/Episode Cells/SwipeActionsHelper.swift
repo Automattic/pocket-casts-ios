@@ -67,7 +67,7 @@ enum SwipeActionsHelper {
 
         if PlaybackManager.shared.inUpNext(episode: episode) {
             let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
-                if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
+                if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.removeIfPlayingOrQueued(episode: loadedEpisode, fireNotification: true, userInitiated: true)
                     Self.performAction(.upNextRemove, handler: swipeHandler, willBeRemoved: false)
                 }
@@ -77,7 +77,7 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(removeFromUpNextAction)
         } else {
             let addTopAction = TableSwipeAction(indexPath: indexPath, title: L10n.playNext, removesFromList: false, backgroundColor: ThemeColor.support04(), icon: UIImage(named: "list_playnext"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
-                if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
+                if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
                     Self.performAction(.upNextAddTop, handler: swipeHandler, willBeRemoved: false)
                 }
@@ -86,7 +86,7 @@ enum SwipeActionsHelper {
             })
 
             let addBottomAction = TableSwipeAction(indexPath: indexPath, title: L10n.playLast, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "list_playlast"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
-                if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
+                if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
                     Self.performAction(.upNextAddBottom, handler: swipeHandler, willBeRemoved: false)
                 }
@@ -123,7 +123,7 @@ enum SwipeActionsHelper {
             return tableSwipeActions
         } else if episode.archived {
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: true, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
-                if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
+                if let loadedEpisode = DataManager.shared.findEpisode(uuid: storedUuid) {
                     EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: true)
                     Self.performAction(.unarchive, handler: swipeHandler, willBeRemoved: true)
                 }
@@ -134,7 +134,7 @@ enum SwipeActionsHelper {
         } else {
             let willBeRemoved = swipeHandler.archivingRemovesFromList()
             let archiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.archive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_archive"), tableView: tableView, handler: { _ -> Bool in
-                if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
+                if let loadedEpisode = DataManager.shared.findEpisode(uuid: storedUuid) {
                     EpisodeManager.archiveEpisode(episode: loadedEpisode, fireNotification: true)
                     Self.performAction(.archive, handler: swipeHandler, willBeRemoved: willBeRemoved)
                 }

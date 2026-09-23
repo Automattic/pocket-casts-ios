@@ -1047,7 +1047,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             ])
             if case .unavailable = syncedState { return }
             let status = playbackManager.episodeUUID
-                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DataManager.shared.findBaseEpisode(uuid: $0) }
                 .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
             if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
@@ -1254,7 +1254,7 @@ private extension TranscriptViewController {
     func makeBookmarkAction(for range: NSRange) -> UIAction? {
         guard range.length > 0, PaidFeature.bookmarks.isUnlocked,
               let transcript,
-              let episode = playbackManager.episodeUUID.flatMap({ DataManager.sharedManager.findBaseEpisode(uuid: $0) }),
+              let episode = playbackManager.episodeUUID.flatMap({ DataManager.shared.findBaseEpisode(uuid: $0) }),
               let position = bookmarkPosition(forSelectionStartingAt: range.location, in: transcript) else {
             return nil
         }

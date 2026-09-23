@@ -15,7 +15,7 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
 
         // find changes if there are any
         var changes = [Api_HistoryChange]()
-        let episodesThatNeedSyncing = DataManager.sharedManager.findEpisodesWhere(customWhere: "lastPlaybackInteractionSyncStatus <> \(SyncStatus.synced.rawValue) AND lastPlaybackInteractionDate IS NOT NULL ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000", arguments: nil)
+        let episodesThatNeedSyncing = DataManager.shared.findEpisodesWhere(customWhere: "lastPlaybackInteractionSyncStatus <> \(SyncStatus.synced.rawValue) AND lastPlaybackInteractionDate IS NOT NULL ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000", arguments: nil)
         if !episodesThatNeedSyncing.isEmpty {
             for episode in episodesThatNeedSyncing {
                 if let episodeProto = convertToProto(episode: episode) {
@@ -41,7 +41,7 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
             let data = try dataToSync.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
             if httpStatus == ServerConstants.HttpConstants.notModified {
-                DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
+                DataManager.shared.markAllEpisodePlaybackHistorySynced()
             } else if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
             } else {
@@ -67,10 +67,10 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
             let lastCleared = response.lastCleared
             if lastCleared > 0 {
                 let clearedDate = Date(timeIntervalSince1970: TimeInterval(lastCleared / 1000))
-                DataManager.sharedManager.clearEpisodePlaybackInteractionDatesBefore(date: clearedDate)
+                DataManager.shared.clearEpisodePlaybackInteractionDatesBefore(date: clearedDate)
                 ServerSettings.setLastClearHistoryDate(nil)
             }
-            DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
+            DataManager.shared.markAllEpisodePlaybackHistorySynced()
         } catch {
             print("SyncHistoryTask had issues decoding protobuf \(error.localizedDescription)")
         }
@@ -83,16 +83,16 @@ class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
 
             if change.action == HistoryAction.add.rawValue {
                 let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
-                if let episode = DataManager.sharedManager.findEpisode(uuid: change.episode) {
+                if let episode = DataManager.shared.findEpisode(uuid: change.episode) {
                     if episode.lastPlaybackInteractionDate == nil || interactionDate > episode.lastPlaybackInteractionDate! {
-                        DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: episode.uuid)
+                        DataManager.shared.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: episode.uuid)
                     }
                 } else {
                     ServerPodcastManager.shared.addMissingPodcast(episodeUuid: change.episode, podcastUuid: change.podcast)
-                    DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                    DataManager.shared.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
                 }
             } else if change.action == HistoryAction.delete.rawValue {
-                DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: change.episode)
+                DataManager.shared.clearEpisodePlaybackInteractionDate(episodeUuid: change.episode)
             }
         }
     }

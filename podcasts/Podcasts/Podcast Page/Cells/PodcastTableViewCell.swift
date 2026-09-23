@@ -35,13 +35,13 @@ final class PodcastTableViewCell: ThemeableCell {
     }
 
     func load(podcast: String) async throws -> Podcast {
-        if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast, includeUnsubscribed: true) {
+        if let existingPodcast = DataManager.shared.findPodcast(uuid: podcast, includeUnsubscribed: true) {
             return existingPodcast
         }
 
         return try await withCheckedThrowingContinuation { continuation in
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcast, subscribe: false) { added in
-                if added, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast, includeUnsubscribed: true) {
+                if added, let existingPodcast = DataManager.shared.findPodcast(uuid: podcast, includeUnsubscribed: true) {
                     continuation.resume(returning: existingPodcast)
                 } else {
                     continuation.resume(throwing: ClientError.podcastNotFound)

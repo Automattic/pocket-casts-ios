@@ -22,7 +22,7 @@ extension EpisodeFilter {
 
     #if !os(watchOS) && !APPCLIP && !os(tvOS)
     @MainActor func grid() -> UIImage {
-        let episodes = DataManager.sharedManager.playlistEpisodes(for: self)
+        let episodes = DataManager.shared.playlistEpisodes(for: self)
 
         let items = PlaylistCellViewModel.gridArtworkItems(from: episodes, limit: 4) { $0.podcastUuid }
 

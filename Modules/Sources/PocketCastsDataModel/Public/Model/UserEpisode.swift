@@ -46,7 +46,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     public var wasDeleted = false
 
     public var hasBookmarks: Bool {
-        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        DataManager.shared.bookmarks.bookmarkCount(forEpisode: uuid) > 0
     }
 
     public var isUserEpisode: Bool {

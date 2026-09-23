@@ -93,7 +93,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             return indexPath
         }
 
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
+        if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1) {
             if selectedEpisodesContains(uuid: episode.episodeUuid) {
                 tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
                 return nil
@@ -106,7 +106,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isMultiSelectEnabled, tableData[indexPath.section] == .upNextSection {
             // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
-            if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
+            if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1) {
                 if !multiSelectGestureInProgress {
                     // If the episode is already selected move to the end of the array
                     selectedEpisodesRemove(uuid: episode.episodeUuid)
@@ -152,7 +152,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1), let index = selectedPlayListEpisodes.firstIndex(of: episode) {
+        if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1), let index = selectedPlayListEpisodes.firstIndex(of: episode) {
             selectedPlayListEpisodes.remove(at: index)
             if let cell = upNextTable.cellForRow(at: indexPath) as? PlayerCell? {
                 cell?.showTick = false
@@ -265,7 +265,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
     @objc func upNextChanged() {
         if isMultiSelectEnabled {
-            let upNextUuids = Set(DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid))
+            let upNextUuids = Set(DataManager.shared.allUpNextPlaylistEpisodes().map(\.episodeUuid))
             selectedPlayListEpisodes.removeAll { !upNextUuids.contains($0.episodeUuid) }
 
             if let currentUuid = PlaybackManager.shared.currentEpisode?.uuid {

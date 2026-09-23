@@ -58,7 +58,7 @@ class PodcastGridCell: UICollectionViewCell {
     @objc private func podcastColorsLoaded(_ notification: Notification) {
         guard let uuidLoaded = notification.object as? String else { return }
 
-        if uuidLoaded == podcastUuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuidLoaded) {
+        if uuidLoaded == podcastUuid, let podcast = DataManager.shared.findPodcast(uuid: uuidLoaded) {
             setColors(podcast: podcast)
         }
     }

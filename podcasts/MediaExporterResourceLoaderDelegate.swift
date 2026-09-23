@@ -182,7 +182,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         guard bytesReceived > 0 else { return }
 
-        DataManager.sharedManager.networkDataUsageManager.add(
+        DataManager.shared.networkDataUsageManager.add(
             episodeUuid: episodeUuid,
             podcastUuid: podcastUuid,
             bytesStreamed: bytesReceived,

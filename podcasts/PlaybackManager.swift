@@ -234,11 +234,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         // Played and unplayed episodes should always start from 0
         if episode.played() || episode.unplayed() {
             episode.playedUpTo = 0
-            DataManager.sharedManager.saveEpisode(playedUpTo: 0, episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(playedUpTo: 0, episode: episode, updateSyncFlag: false)
             queue.refreshList(checkForAutoDownload: false)
         }
-        DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
-        DataManager.sharedManager.saveEpisode(playbackError: nil, episode: episode)
+        DataManager.shared.updateEpisodePlaybackInteractionDate(episode: episode)
+        DataManager.shared.saveEpisode(playbackError: nil, episode: episode)
         activeError = nil
 
         if autoPlay {
@@ -554,7 +554,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // if we're seeking an episode, and it's not in progress, it should be
         if !playingEpisode.inProgress() {
-            DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: playingEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
+            DataManager.shared.saveEpisode(playingStatus: .inProgress, episode: playingEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
         }
 
         let currentTime = playingEpisode.playedUpTo
@@ -579,7 +579,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             // the player isn't currently initialised, so just set this time directly on the episode, as long as it's not past the duration
             if time >= 0, time <= playingEpisode.duration, time != playingEpisode.playedUpTo {
-                DataManager.sharedManager.saveEpisode(playedUpTo: time, episode: playingEpisode, updateSyncFlag: syncChanges)
+                DataManager.shared.saveEpisode(playedUpTo: time, episode: playingEpisode, updateSyncFlag: syncChanges)
 
                 seekingTo = PlaybackManager.notSeeking
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: playingEpisode.uuid)
@@ -756,7 +756,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if nextEpisode.played() || nextEpisode.unplayed() {
             nextEpisode.playedUpTo = 0
         }
-        DataManager.sharedManager.saveEpisode(playbackError: nil, episode: nextEpisode)
+        DataManager.shared.saveEpisode(playbackError: nil, episode: nextEpisode)
         activeError = nil
 
         if autoPlay {
@@ -771,7 +771,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func play(playlist: EpisodeFilter) {
         let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
-        let playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+        let playlistEpisodes = DataManager.shared.findPlaylistEpisodesWhere(query: query, arguments: nil)
         if playlist.manual {
             let archivedEpisodes = playlistEpisodes.filter(\.archived)
             EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
@@ -807,7 +807,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// Whether playing `playlistEpisodeIDs` would change the current Up Next queue or the episode being played.
     private func isPlaylistDifferentFromUpNext(playlistEpisodeIDs: [String]) -> Bool {
-        let upNextEpisodeIDs = DataManager.sharedManager
+        let upNextEpisodeIDs = DataManager.shared
             .allUpNextEpisodeUuids()
             .compactMap(\.uuid)
         if playlistEpisodeIDs != upNextEpisodeIDs {
@@ -1035,7 +1035,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
 
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         }
 
@@ -1086,7 +1086,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func overrideEffectsToggled(applyLocalSettings: Bool, for podcast: Podcast) {
         podcast.overrideGlobalEffects = applyLocalSettings
 
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
 
         effectsChangedExternally()
@@ -1160,7 +1160,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return catchUpHelper.adjustStartTimeIfNeeded(for: episode)
             }
         } else {
-            DataManager.sharedManager.saveEpisode(playingStatus: PlayingStatus.inProgress, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+            DataManager.shared.saveEpisode(playingStatus: PlayingStatus.inProgress, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
             let startTime = startFromTimeForCurrentEpisode()
             if startTime > 0 {
@@ -1334,7 +1334,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
             activeError = error
             let message = error.userMessage
-            DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
+            DataManager.shared.saveEpisode(playbackError: message, episode: episode)
 
             if !episode.downloaded(pathFinder: DownloadManager.shared) {
                 cleanupCurrentPlayer(permanent: false)
@@ -1355,7 +1355,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let currentDuration = episode.duration
 
         if currentDuration < 10 || abs(currentDuration - playerDuration) > 10 {
-            DataManager.sharedManager.saveEpisode(duration: playerDuration, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+            DataManager.shared.saveEpisode(duration: playerDuration, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDurationChanged, object: episode.uuid)
         }
 
@@ -1406,7 +1406,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 episode.lastPlaybackInteractionDate = Date()
                 episode.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
             }
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
 
             if SyncManager.isUserLoggedIn() {
@@ -1452,7 +1452,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let currEpisode = currentEpisode else { return }
 
         let upTo = currentTime()
-        DataManager.sharedManager.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.shared.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         cleanupCurrentPlayer(permanent: true)
 
@@ -1704,8 +1704,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         if upTo <= 0 { return }
 
         let isUserLoggedIn = SyncManager.isUserLoggedIn()
-        DataManager.sharedManager.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: isUserLoggedIn)
-        DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: currEpisode)
+        DataManager.shared.saveEpisode(playedUpTo: upTo, episode: currEpisode, updateSyncFlag: isUserLoggedIn)
+        DataManager.shared.updateEpisodePlaybackInteractionDate(episode: currEpisode)
         FileLog.shared.addMessage("saving played up to \(upTo) for episode \(currEpisode.displayableTitle())")
         if sendToServerImmediately, isUserLoggedIn {
             ApiServerHandler.saveUpTo(time: upTo, duration: duration(), episode: currEpisode)
@@ -2423,7 +2423,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             // if we get here then we're either not playing anything, or we're meant to be playing this episode anyway, so connect back up with it
-            if let episodePlaying = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) {
+            if let episodePlaying = DataManager.shared.findBaseEpisode(uuid: episodeUuid) {
                 let shouldPlay = GoogleCastManager.sharedManager.playing()
                 load(episode: episodePlaying, autoPlay: shouldPlay, overrideUpNext: false)
             }
@@ -2469,7 +2469,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if uuid != playingEpisode.uuid { return } // download isn't the episode we're playing
 
         // the episode we have won't be marked as downloaded, so grab a fresh copy from the database
-        if let refreshedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+        if let refreshedEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = isPlaying
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
@@ -2596,7 +2596,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func retryUrlLoad(for episodeUuid: String) -> Bool {
 
         guard lastRetryEpisodeUuid != episodeUuid,
-              let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
+              let episode = DataManager.shared.findEpisode(uuid: episodeUuid),
               let podcast = episode.parentPodcast() else {
             lastRetryEpisodeUuid = episodeUuid
             return false
@@ -2608,7 +2608,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
                 guard let self,
-                      let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode else { return }
+                      let updatedEpisode = wasUpdated ? DataManager.shared.findEpisode(uuid: episodeUuid) : episode else { return }
 
                 FileLog.shared.addMessage("PlaybackManager: Episode\(wasUpdated ? " " : " not") updated, trying to play again.")
 
@@ -2736,7 +2736,7 @@ extension PlaybackManager {
     func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) async throws {
         guard bookmarksEnabled else { return }
 
-        let dataManager = DataManager.sharedManager
+        let dataManager = DataManager.shared
 
         // Get the bookmark's BaseEpisode so we can load it, fetching it from the server if it's missing
         var foundEpisode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid)
@@ -2801,8 +2801,8 @@ extension PlaybackManager {
             pause(userInitiated: false)
             seekTo(time: bookmark.time)
         } else {
-            DataManager.sharedManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
-            DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
             load(episode: episode, autoPlay: false, overrideUpNext: false)
             // Create the player item now (playing would, but we aren't yet) — this is
             // what starts the stream-and-cache download.
@@ -2854,7 +2854,7 @@ extension PlaybackManager {
     @MainActor
     func playEpisodeSearchResult(_ searchEpisode: EpisodeSearchResult) async throws {
         // Get the search result's BaseEpisode so we can load it, fetching it from the server if it's missing
-        var foundEpisode = DataManager.sharedManager.findBaseEpisode(uuid: searchEpisode.uuid)
+        var foundEpisode = DataManager.shared.findBaseEpisode(uuid: searchEpisode.uuid)
 
         if foundEpisode == nil {
             foundEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid)

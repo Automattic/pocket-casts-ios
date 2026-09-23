@@ -203,7 +203,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     }
 
     private func loadPodcast(uuid: String) -> Bool {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             podcasts[uuid] = podcast
             return true
         }

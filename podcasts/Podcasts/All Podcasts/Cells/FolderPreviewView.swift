@@ -41,7 +41,7 @@ class FolderPreviewView: UIView {
 
     func populateFrom(folder: Folder) {
         currentFolder = folder
-        let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
+        let podcastUuids = DataManager.shared.topPodcastsUuidInFolder(folder: folder)
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
         addObservers()
     }
@@ -50,7 +50,7 @@ class FolderPreviewView: UIView {
         currentFolder = folder
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [])
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
+            let podcastUuids = DataManager.shared.topPodcastsUuidInFolder(folder: folder)
             let folderUuid = folder.uuid
             DispatchQueue.main.async { [weak self] in
                 // Check if the preview is still being used to preview the same folder

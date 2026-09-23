@@ -24,7 +24,7 @@ class EpisodeViewModel: ObservableObject {
         }
         alreadyHydrated = true
         if episode.hasOnlyUuid {
-            episode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) ?? episode
+            episode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) ?? episode
         }
         inUpNext = playSourceViewModel.inUpNext(forEpisode: episode)
 
@@ -36,7 +36,7 @@ class EpisodeViewModel: ObservableObject {
             .compactMap { [unowned self] notification in
                 guard let episodeUuid = notification.object as? String, episodeUuid == self.episode.uuid else { return nil }
                 self.downloadProgress = nil
-                return DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid)
+                return DataManager.shared.findBaseEpisode(uuid: episodeUuid)
             }
             .receive(on: RunLoop.main)
             .assign(to: &$episode)
@@ -46,7 +46,7 @@ class EpisodeViewModel: ObservableObject {
             .sink(receiveValue: { [unowned self] notification in
                 guard let episodeUuid = notification.object as? String, episodeUuid == self.episode.uuid else { return }
 
-                if !self.episode.downloading(), let fetchedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: self.episode.uuid) {
+                if !self.episode.downloading(), let fetchedEpisode = DataManager.shared.findBaseEpisode(uuid: self.episode.uuid) {
                     self.episode = fetchedEpisode
                 }
 

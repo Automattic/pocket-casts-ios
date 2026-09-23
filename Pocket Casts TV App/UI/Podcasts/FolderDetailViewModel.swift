@@ -17,7 +17,7 @@ class FolderDetailViewModel {
 
     var state: State = .loading
 
-    init(folder: Folder, dataManager: DataManager = DataManager.sharedManager) {
+    init(folder: Folder, dataManager: DataManager = DataManager.shared) {
         self.folder = folder
         self.dataManager = dataManager
     }

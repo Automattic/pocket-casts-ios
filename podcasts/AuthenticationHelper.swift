@@ -68,7 +68,7 @@ class AuthenticationHelper {
         // we've signed in, set all our existing podcasts to
         // be non synced if the user never logged in before
         if ServerSettings.lastSyncTime == nil {
-            DataManager.sharedManager.markAllPodcastsUnsynced()
+            DataManager.shared.markAllPodcastsUnsynced()
         }
 
         SyncManager.syncReason = .login

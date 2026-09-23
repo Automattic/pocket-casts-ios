@@ -81,7 +81,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     private func startExport() {
         Analytics.track(.settingsImportExportStarted)
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
 
         let uuids = podcasts.map(\.uuid)
 

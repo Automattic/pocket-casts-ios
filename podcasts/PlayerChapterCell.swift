@@ -181,7 +181,7 @@ class PlayerChapterCell: UITableViewCell {
 
             currentEpisode.deselectedChaptersModified = TimeFormatter.currentUTCTimeInMillis()
 
-            DataManager.sharedManager.save(episode: currentEpisode)
+            DataManager.shared.save(episode: currentEpisode)
         }
     }
 

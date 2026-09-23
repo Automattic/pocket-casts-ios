@@ -12,7 +12,7 @@ import AVKit
 class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
-        let manager = DownloadManager(dataManager: DataManager.sharedManager)
+        let manager = DownloadManager(dataManager: DataManager.shared)
         AnalyticsEpisodeHelper.shared.setup()
         return manager
     }()
@@ -377,7 +377,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadingEpisodesCache[downloadTaskUUID] = episode
         episode.downloadTaskId = downloadTaskUUID
         episode.lastDownloadAttemptDate = Date.now
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         let outputURL = URL(fileURLWithPath: tempPathForEpisode(episode), isDirectory: false)
@@ -435,8 +435,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportStatus.error?.localizedDescription, downloadTaskId: nil, episode: episode)
-                DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
+                DataManager.shared.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportStatus.error?.localizedDescription, downloadTaskId: nil, episode: episode)
+                DataManager.shared.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
                 }

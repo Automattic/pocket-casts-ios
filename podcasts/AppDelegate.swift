@@ -221,7 +221,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.main.async {
             self.hideProgressDialog()
 
-            guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else {
+            guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid) else {
                 // for some reason we can't find this episode, so open the podcast instead
                 FileLog.shared.addMessage("Unable to find episode with uuid \(episodeUuid), opening podcast `\(podcast.title ?? "")` instead")
                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
@@ -337,7 +337,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func checkIfRestoreCleanupRequired() {
-        let dataManager = DataManager.sharedManager
+        let dataManager = DataManager.shared
 
         // find the oldest episode in our database listed as being downloaded
         let query = "episodeStatus = \(DownloadStatus.downloaded.rawValue) ORDER BY publishedDate ASC, addedDate ASC LIMIT 1"

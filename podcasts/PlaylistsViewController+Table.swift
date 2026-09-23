@@ -110,7 +110,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
         // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
         for (index, filter) in listPlaylistItems.enumerated() {
-            DataManager.sharedManager.updatePosition(playlist: filter.playlist, newPosition: Int32(index))
+            DataManager.shared.updatePosition(playlist: filter.playlist, newPosition: Int32(index))
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
@@ -307,7 +307,7 @@ extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDeleg
         }
 
         for (index, playlist) in listPlaylistItems.enumerated() {
-            DataManager.sharedManager.updatePosition(playlist: playlist.playlist, newPosition: Int32(index))
+            DataManager.shared.updatePosition(playlist: playlist.playlist, newPosition: Int32(index))
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)

@@ -146,7 +146,7 @@ final class LocalSearchViewModel: ObservableObject {
 
     func podcast(from result: PodcastFolderSearchResult) -> Podcast? {
         guard result.kind == .podcast,
-              let podcast = DataManager.sharedManager.findPodcast(uuid: result.uuid) else {
+              let podcast = DataManager.shared.findPodcast(uuid: result.uuid) else {
             return nil
         }
         return podcast
@@ -167,7 +167,7 @@ final class LocalSearchViewModel: ObservableObject {
 
     func selectFolder(_ folderResult: PodcastFolderSearchResult) {
         guard folderResult.kind == .folder,
-              let folder = DataManager.sharedManager.findFolder(uuid: folderResult.uuid) else {
+              let folder = DataManager.shared.findFolder(uuid: folderResult.uuid) else {
             return
         }
 
@@ -330,7 +330,7 @@ final class LocalSearchViewModel: ObservableObject {
         }
 
         let sorted = await Task.detached {
-            let podcasts = DataManager.sharedManager.allPodcastsInFolder(folder: folder)
+            let podcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
             return podcasts.sorted { lhs, rhs in
                 let lhsTitle = lhs.title ?? ""
                 let rhsTitle = rhs.title ?? ""
@@ -419,7 +419,7 @@ final class LocalSearchViewModel: ObservableObject {
 }
 
 extension EpisodeSearchResult {
-    init(episode: Episode, dataManager: DataManager = DataManager.sharedManager) {
+    init(episode: Episode, dataManager: DataManager = DataManager.shared) {
         let publishedDate = episode.publishedDate ?? episode.addedDate ?? Date()
         let duration = episode.duration > 0 ? episode.duration : nil
         let podcastTitle = episode.parentPodcast(dataManager: dataManager)?.title ?? ""
@@ -428,7 +428,7 @@ extension EpisodeSearchResult {
         self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, state: state, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle, hasVideo: episode.videoPodcast())
     }
 
-    init(listEpisode: ListEpisode, dataManager: DataManager = DataManager.sharedManager) {
+    init(listEpisode: ListEpisode, dataManager: DataManager = DataManager.shared) {
         self.init(episode: listEpisode.episode, dataManager: dataManager)
     }
 }

@@ -11,7 +11,7 @@ class PlaylistDetailFetchOperation: Operation, @unchecked Sendable {
     private let shouldShowArchived: Bool
 
     init(
-        dataManager: DataManager = .sharedManager,
+        dataManager: DataManager = .shared,
         episodesDataManager: EpisodesDataManager = .init(),
         playlist: EpisodeFilter,
         shouldShowArchived: Bool = false,
