@@ -7,7 +7,7 @@ import PocketCastsUtils
 import SJUtils
 
 class ImageManager {
-    static let sharedManager = ImageManager()
+    static let shared = ImageManager()
 
     // cache for network images
     private var networkImageCache = ImageCache(name: "networkImageCache")

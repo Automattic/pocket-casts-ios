@@ -176,7 +176,7 @@ class SiriShortcutsManager: CustomObserver {
         var podcastArtwork: INImage? = INImage(named: "noartwork-page-dark")
 
         // Load the artwork from cache, or default to the no artwork image
-        if let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcastUuid, size: .grid) {
+        if let image = ImageManager.shared.cachedImageFor(podcastUuid: podcastUuid, size: .grid) {
             podcastArtwork = INImage(uiImage: image)
         }
 

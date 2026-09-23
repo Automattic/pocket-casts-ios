@@ -129,7 +129,7 @@ class CastToViewController: PCViewController {
         playPauseBtn.isHidden = false
 
         playingArtwork.isHidden = false
-        ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: playingArtwork, size: .page)
+        ImageManager.shared.loadImage(episode: playingEpisode, imageView: playingArtwork, size: .page)
     }
 
     private func reloadAvailableDevices() {

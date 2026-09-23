@@ -722,7 +722,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         let optionsPicker = OptionsPicker(title: nil)
         let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: "option-download-retry") {
-            ImageManager.sharedManager.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
+            ImageManager.shared.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
         }
         optionsPicker.addAction(action: refreshAction)
 
@@ -1276,7 +1276,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             // so resolve the contrast color off the main thread and apply when ready.
             let uuid = podcastUUID
             Task.detached(priority: .utility) { [refreshControl = controller.refreshControl] in
-                guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
+                guard let image = ImageManager.shared.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
                 let isDark = image.isDark
                 await MainActor.run {
                     refreshControl.customTintColor = isDark ? .white : .black

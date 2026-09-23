@@ -77,7 +77,7 @@ class EpisodeListHeaderView: UIView {
         }
 
         if let headerImage = podcastCollection.headerImage {
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
+            ImageManager.shared.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
         }
 
         Theme.sharedTheme.$activeTheme

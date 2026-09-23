@@ -165,7 +165,7 @@ struct NetworkArtworkView: View {
         if let url {
             KFImage(url)
                 .placeholder { _ in placeholder }
-                .targetCache(ImageManager.sharedManager.discoverCache)
+                .targetCache(ImageManager.shared.discoverCache)
                 .fade(duration: 0.25)
                 .resizable()
                 .scaledToFill()
@@ -176,7 +176,7 @@ struct NetworkArtworkView: View {
 
     @ViewBuilder
     private var placeholder: some View {
-        if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+        if let image = ImageManager.shared.placeHolderImage(.grid) {
             Image(uiImage: image)
                 .resizable()
         }

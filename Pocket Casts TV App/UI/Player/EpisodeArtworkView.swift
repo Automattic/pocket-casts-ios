@@ -17,7 +17,7 @@ class EpisodeArtworkViewModel {
 
     let showEpisodeNotesImage: Bool
 
-    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .sharedManager) {
+    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .shared) {
         self.episode = episode
         self.placeholderResource = placeholder
         self.imageManager = imageManager

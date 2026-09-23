@@ -25,7 +25,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
         var randomPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: true)
             // Only return items we have a cached image for
             .filter {
-                ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)
+                ImageManager.shared.hasCachedImage(for: $0.uuid, size: .grid)
             }
             // Return a random-ish order
             .shuffled()

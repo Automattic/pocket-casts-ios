@@ -39,7 +39,7 @@ class NowPlayingViewModel: Identifiable {
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var currentItemObservation: NSKeyValueObservation?
 
-    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.sharedManager) {
+    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.shared) {
         self.playbackManager = playbackManager
         self.imageManager = imageManager
         observeUpNextChanges()

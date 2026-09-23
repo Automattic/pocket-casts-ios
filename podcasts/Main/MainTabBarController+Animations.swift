@@ -182,7 +182,7 @@ extension MainTabBarController {
         artwork.layer.cornerCurve = .continuous
         artwork.layer.borderWidth = 1
         artwork.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
-        ImageManager.sharedManager.loadImage(episode: episode, imageView: artwork, size: .list)
+        ImageManager.shared.loadImage(episode: episode, imageView: artwork, size: .list)
         container.addSubview(artwork)
 
         // A circled "Play Next" / "Play Last" glyph perched on the top-right

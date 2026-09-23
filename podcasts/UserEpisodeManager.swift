@@ -187,7 +187,7 @@ struct UserEpisodeManager {
                     try FileManager.default.removeItem(at: imageUrl)
                 }
 
-                ImageManager.sharedManager.removeUserEpisodeImage(episode: episode, completionHandler: {
+                ImageManager.shared.removeUserEpisodeImage(episode: episode, completionHandler: {
                     episode.imageUrl = nil
                     if episode.imageColor != 0 {
                         episode.imageColor = 0

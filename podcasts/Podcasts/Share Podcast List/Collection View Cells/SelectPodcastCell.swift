@@ -24,7 +24,7 @@ class SelectPodcastCell: UICollectionViewCell {
     }
 
     func populateFrom(_ podcast: Podcast) {
-        ImageManager.sharedManager.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .grid, showPlaceHolder: true)
+        ImageManager.shared.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .grid, showPlaceHolder: true)
         podcastTitle = podcast.title
         updateAccessibilityLabel()
     }

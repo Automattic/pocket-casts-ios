@@ -99,7 +99,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
             }
 
             let imageUrl = DiscoverServerHandler.thumbnailUrlString(forPodcast: uuid, size: 140)
-            ImageManager.sharedManager.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
+            ImageManager.shared.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
         }
 
         subscribeButton.shouldAnimate = true
@@ -144,7 +144,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        ImageManager.sharedManager.cancelLoad(podcastImage)
+        ImageManager.shared.cancelLoad(podcastImage)
 
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil

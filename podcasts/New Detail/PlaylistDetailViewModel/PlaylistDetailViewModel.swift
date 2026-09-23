@@ -75,7 +75,7 @@ class PlaylistDetailViewModel: ObservableObject {
     init(
         playlist: EpisodeFilter,
         dataManager: DataManager = .shared,
-        imageManager: ImageManager = .sharedManager,
+        imageManager: ImageManager = .shared,
         episodesDataManager: EpisodesDataManager = .init(),
         onChange: @escaping (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void,
         onButtonTapped: @escaping (ButtonTag) -> Void

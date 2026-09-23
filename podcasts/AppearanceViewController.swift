@@ -293,7 +293,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     private func refreshAllPodcastArtwork() {
         DispatchQueue.global(qos: .default).async { () in
-            ImageManager.sharedManager.clearPodcastCache(recacheWhenDone: true)
+            ImageManager.shared.clearPodcastCache(recacheWhenDone: true)
         }
 
         Analytics.track(.settingsAppearanceRefreshAllArtworkTapped)

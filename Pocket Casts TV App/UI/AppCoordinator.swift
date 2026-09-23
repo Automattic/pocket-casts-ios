@@ -78,7 +78,7 @@ class AppCoordinator {
 
             DataManager.shared.deleteAllData()
             DownloadManager.shared.removeAllDownloadedFiles()
-            ImageManager.sharedManager.clearAllImageCaches()
+            ImageManager.shared.clearAllImageCaches()
             clearUserDefaults()
 
             await MainActor.run {

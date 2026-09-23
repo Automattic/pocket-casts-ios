@@ -104,7 +104,7 @@ class FolderPreviewView: UIView {
     private func setImage(in imageView: PodcastImageView, for uuid: String) {
         if forCarPlay {
             // For CarPlay we just want to grab whatever we have in cache
-            imageView.imageView?.image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .list)
+            imageView.imageView?.image = ImageManager.shared.cachedImageFor(podcastUuid: uuid, size: .list)
         } else {
             imageView.setPodcast(uuid: uuid, size: .list)
         }

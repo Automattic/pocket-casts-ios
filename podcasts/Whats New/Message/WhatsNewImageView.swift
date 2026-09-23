@@ -29,7 +29,7 @@ struct WhatsNewImageView: View {
         let size = aspectRatio.map { WhatsNewImageLayout.size(aspectRatio: $0, in: contentSize) }
 
         AsyncImageView(url: image.url,
-                       cache: ImageManager.sharedManager.discoverCache,
+                       cache: ImageManager.shared.discoverCache,
                        aspectRatio: aspectRatio,
                        contentMode: .fit)
             .frame(width: size?.width, height: size?.height)

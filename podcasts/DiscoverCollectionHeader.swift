@@ -121,7 +121,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
         if let avatarUrl = podcastCollection.collectionImage {
             avatarBorderView.isHidden = false
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
+            ImageManager.shared.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
         } else {
             avatarBorderView.isHidden = true
         }
@@ -147,7 +147,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     private func setupCollageImage() {
         guard let mobileCollage = podcastCollection?.collageImages?.filter({ $0.key == "mobile" }), let collageUrl = mobileCollage.first?.image_url else { return }
 
-        ImageManager.sharedManager.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
+        ImageManager.shared.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
             guard let currentCGImage = image?.cgImage else {
                 return
             }

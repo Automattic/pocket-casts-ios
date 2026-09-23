@@ -63,7 +63,7 @@ extension AppDelegate {
         }
 
         performUpdateIfRequired(updateKey: "v7_3Run") {
-            ImageManager.sharedManager.upgradeV2ToV3ArtworkFolder()
+            ImageManager.shared.upgradeV2ToV3ArtworkFolder()
             ServerSettings.setLastRefreshSucceeded(true)
             ServerSettings.setLastSyncSucceeded(true)
         }
