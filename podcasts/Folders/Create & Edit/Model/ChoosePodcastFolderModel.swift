@@ -75,7 +75,7 @@ class ChoosePodcastFolderModel: ObservableObject {
         if currentFolder == folder.uuid { return } // already in this folder
 
         updateLastSync(folderUuid: currentFolder)
-        let sortOrder = ServerPodcastManager.shared.highestSortOrderForFolder(folder) + 1
+        let sortOrder = ServerPodcastManager.shared.highestSortOrder(for: folder) + 1
         DataManager.shared.updatePodcastFolder(podcastUuid: pickingForPodcastUuid, to: folder.uuid, sortOrder: sortOrder)
         updateLastSync(folderUuid: folder.uuid)
 

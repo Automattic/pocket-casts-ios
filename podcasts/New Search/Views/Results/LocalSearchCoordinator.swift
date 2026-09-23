@@ -113,7 +113,7 @@ final class LocalSearchCoordinator {
             let playlistUUIDs = await MainActor.run { self.playlistEpisodeUUIDs }
 
             let episodeResults = await Task.detached { [dataManager] in
-                let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+                let podcastEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
                 let sortedEpisodes = podcastEpisodes.sorted { lhs, rhs in
                     let lhsDate = lhs.publishedDate ?? lhs.addedDate ?? .distantPast
                     let rhsDate = rhs.publishedDate ?? rhs.addedDate ?? .distantPast

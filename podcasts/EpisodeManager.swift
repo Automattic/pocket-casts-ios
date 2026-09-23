@@ -248,7 +248,7 @@ class EpisodeManager: NSObject {
     }
 
     class func deleteAllEpisodesInPodcast(id: Int64) {
-        let episodes = DataManager.shared.allEpisodesForPodcast(id: id)
+        let episodes = DataManager.shared.allEpisodes(forPodcastId: id)
         if episodes.count < 1 { return }
 
         // make sure all the episodes are removed from the playback and download queues, as well as have their files deleted
