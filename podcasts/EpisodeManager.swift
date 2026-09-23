@@ -307,15 +307,15 @@ class EpisodeManager: NSObject {
     class func deleteAllDownloadedFiles(unplayed: Bool, inProgress: Bool, played: Bool, includeStarred: Bool) {
         if unplayed {
             let episodes = allDownloadEpisodesWithStatus(.notPlayed, includeStarred: includeStarred)
-            deleteFiles(for: episodes)
+            deleteDownloadedFiles(for: episodes)
         }
         if inProgress {
             let episodes = allDownloadEpisodesWithStatus(.inProgress, includeStarred: includeStarred)
-            deleteFiles(for: episodes)
+            deleteDownloadedFiles(for: episodes)
         }
         if played {
             let episodes = allDownloadEpisodesWithStatus(.completed, includeStarred: includeStarred)
-            deleteFiles(for: episodes)
+            deleteDownloadedFiles(for: episodes)
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
@@ -509,7 +509,7 @@ class EpisodeManager: NSObject {
         return fileSize
     }
 
-    private class func deleteFiles(for episodes: [Episode]) {
+    private class func deleteDownloadedFiles(for episodes: [Episode]) {
         for episode in episodes {
             deleteDownloadedFiles(episode: episode)
         }
