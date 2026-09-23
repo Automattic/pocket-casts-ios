@@ -16,7 +16,7 @@ extension CarPlaySceneDelegate {
                 podcastItems.append(item)
             } else if let folder = item.folder {
                 let podcastCount = DataManager.shared.countOfPodcastsInFolder(folder: folder)
-                let item = CPListItem(text: folder.name, detailText: L10n.podcastCount(podcastCount), image: CarPlayImageHelper.imageForFolder(folder))
+                let item = CPListItem(text: folder.name, detailText: L10n.podcastCount(podcastCount), image: CarPlayImageHelper.image(for: folder))
 
                 item.accessoryType = .disclosureIndicator
                 item.handler = { [weak self] _, completion in
