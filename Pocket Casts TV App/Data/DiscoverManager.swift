@@ -269,7 +269,7 @@ actor DiscoverManager {
 
     private var podcastListCache: [String: String] = [:]
 
-    func listIdForPodcast(_ uuid: String) -> String? {
+    func listId(forPodcastUuid uuid: String) -> String? {
         return podcastListCache[uuid]
     }
 

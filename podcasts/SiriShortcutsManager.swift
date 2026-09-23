@@ -37,7 +37,7 @@ class SiriShortcutsManager: CustomObserver {
         defaultSuggestions().contains { $0.intent?.suggestedInvocationPhrase == voiceShortcut.shortcut.intent?.suggestedInvocationPhrase }
     }
 
-    func voiceShortcutForPodcast(podcast: Podcast, completion: @escaping ((INVoiceShortcut?) -> Void)) {
+    func voiceShortcut(for podcast: Podcast, completion: @escaping ((INVoiceShortcut?) -> Void)) {
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, _ in
             if let shortcuts = allVoiceShortcuts {
                 for shortcut in shortcuts {
@@ -55,7 +55,7 @@ class SiriShortcutsManager: CustomObserver {
         }
     }
 
-    func voiceShortcutForFilter(filter: EpisodeFilter, completion: @escaping ((INVoiceShortcut?) -> Void)) {
+    func voiceShortcut(for filter: EpisodeFilter, completion: @escaping ((INVoiceShortcut?) -> Void)) {
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, error in
             if let shortcuts = allVoiceShortcuts {
                 for shortcut in shortcuts {

@@ -43,7 +43,7 @@ struct ListeningHeatmapView: View {
                         VStack(spacing: cellSpacing) {
                             ForEach(visibleWeeks[weekIndex]) { day in
                                 RoundedRectangle(cornerRadius: 2)
-                                    .fill(colorForIntensity(day.intensity))
+                                    .fill(color(for: day.intensity))
                                     .frame(width: cellSize, height: cellSize)
                             }
                         }
@@ -118,7 +118,7 @@ struct ListeningHeatmapView: View {
                 .foregroundColor(theme.primaryText02)
             ForEach(HeatmapIntensity.allCases, id: \.self) { level in
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(colorForIntensity(level))
+                    .fill(color(for: level))
                     .frame(width: cellSize, height: cellSize)
             }
             Text(L10n.statsListeningActivityLegendMore)
@@ -129,7 +129,7 @@ struct ListeningHeatmapView: View {
 
     // MARK: - Helpers
 
-    private func colorForIntensity(_ level: HeatmapIntensity) -> Color {
+    private func color(for level: HeatmapIntensity) -> Color {
         switch level {
         case .none: return theme.primaryUi05.opacity(0.3)
         case .minimal: return theme.primaryInteractive01.opacity(0.3)

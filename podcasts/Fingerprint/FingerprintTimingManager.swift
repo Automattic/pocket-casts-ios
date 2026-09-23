@@ -178,7 +178,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         queue.async { [weak self] in
             guard let self else { return }
             self.resetState()
-            self.prepareForEpisode(episode)
+            self.prepare(for: episode)
         }
     }
 
@@ -901,7 +901,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 
     // MARK: - Track Preparation
 
-    private func prepareForEpisode(_ episode: BaseEpisode?) {
+    private func prepare(for episode: BaseEpisode?) {
         updateState(.idle)
 
         guard FeatureFlag.syncedTranscripts.enabled else {
