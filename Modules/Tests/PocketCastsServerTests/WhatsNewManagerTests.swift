@@ -32,8 +32,19 @@ final class WhatsNewManagerTests: XCTestCase {
     }
     """
 
+    private let userDefaultsSuiteName = "PocketCastsServer-WhatsNewManagerTests"
+    private var userDefaults: UserDefaults!
+
+    override func setUp() {
+        super.setUp()
+        UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        userDefaults = UserDefaults(suiteName: userDefaultsSuiteName)
+    }
+
     override func tearDown() {
         StubURLProtocol.reset()
+        UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        userDefaults = nil
         super.tearDown()
     }
 
@@ -323,7 +334,6 @@ final class WhatsNewManagerTests: XCTestCase {
     func testTheMockCatalogIsServedWithoutTheNetworkOrTheAccount() async throws {
         let account = account()
         let manager = manager(cache: temporaryCache(), account: account)
-        addTeardownBlock { @MainActor in manager.usesMockCatalog = false }
 
         manager.usesMockCatalog = true
         await manager.refresh().value
@@ -341,7 +351,6 @@ final class WhatsNewManagerTests: XCTestCase {
 
     func testTurningTheMockCatalogOffGoesBackToThePublishedOne() async {
         let manager = manager(cache: temporaryCache())
-        addTeardownBlock { @MainActor in manager.usesMockCatalog = false }
 
         manager.usesMockCatalog = true
         await manager.refresh().value
@@ -367,6 +376,7 @@ final class WhatsNewManagerTests: XCTestCase {
         return WhatsNewManager(task: task,
                                readStateStore: readStateStore ?? temporaryReadStateStore(),
                                readStateTask: account.task,
+                               userDefaults: userDefaults,
                                refreshInterval: refreshInterval)
     }
 

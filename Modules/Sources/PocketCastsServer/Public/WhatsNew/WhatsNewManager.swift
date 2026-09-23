@@ -35,6 +35,7 @@ public final class WhatsNewManager: ObservableObject {
     nonisolated private let task: WhatsNewCatalogTask
     nonisolated private let readStateStore: WhatsNewReadStateStore
     nonisolated private let readStateTask: WhatsNewReadStateTask
+    nonisolated private let userDefaults: UserDefaults
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
     private var isRefreshForced = false
@@ -45,10 +46,12 @@ public final class WhatsNewManager: ObservableObject {
     nonisolated public init(task: WhatsNewCatalogTask = WhatsNewCatalogTask(),
                             readStateStore: WhatsNewReadStateStore = WhatsNewReadStateStore(),
                             readStateTask: WhatsNewReadStateTask = WhatsNewReadStateTask(),
+                            userDefaults: UserDefaults = .standard,
                             refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) {
         self.task = task
         self.readStateStore = readStateStore
         self.readStateTask = readStateTask
+        self.userDefaults = userDefaults
         self.refreshInterval = refreshInterval
     }
 
@@ -157,9 +160,9 @@ public final class WhatsNewManager: ObservableObject {
     /// Whether the feed shows the mock catalog instead of the published one, for trying it out from
     /// the developer menu. Read state is kept on the device and never synced for the mock.
     public var usesMockCatalog: Bool {
-        get { UserDefaults.standard.bool(forKey: Self.usesMockCatalogKey) }
+        get { userDefaults.bool(forKey: Self.usesMockCatalogKey) }
         set {
-            UserDefaults.standard.set(newValue, forKey: Self.usesMockCatalogKey)
+            userDefaults.set(newValue, forKey: Self.usesMockCatalogKey)
             catalog = nil
             refresh()
         }

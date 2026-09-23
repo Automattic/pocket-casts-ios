@@ -408,10 +408,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
             try? FileManager.default.removeItem(at: directory)
         }
 
+        let userDefaultsSuiteName = "PocketCastsTests-WhatsNewFeedViewModelTests-\(UUID().uuidString)"
+        addTeardownBlock {
+            UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        }
+
         let task = WhatsNewCatalogTask(session: URLSession(configuration: configuration),
                                        cache: WhatsNewCatalogCache(directory: directory))
         return WhatsNewManager(task: task,
                                readStateStore: WhatsNewReadStateStore(directory: directory),
+                               userDefaults: UserDefaults(suiteName: userDefaultsSuiteName)!,
                                refreshInterval: refreshInterval)
     }
 
