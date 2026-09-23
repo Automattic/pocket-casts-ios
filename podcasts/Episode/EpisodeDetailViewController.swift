@@ -422,7 +422,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         podcastName.text = podcast.title
         updateArtwork()
 
-        episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
+        episodeInfo.text = DateFormatHelper.shared.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
         updateStar()
 

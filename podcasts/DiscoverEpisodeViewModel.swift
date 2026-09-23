@@ -70,7 +70,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
                 }
 
                 if let published = episode?.published {
-                    self.publishedDate = DateFormatHelper.sharedHelper.tinyLocalizedFormatter.string(from: published)
+                    self.publishedDate = DateFormatHelper.shared.tinyLocalizedFormatter.string(from: published)
                 } else {
                     self.publishedDate = nil
                 }

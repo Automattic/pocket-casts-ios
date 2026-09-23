@@ -121,7 +121,7 @@ extension BaseEpisode {
                 shortDate = calendar.monthSymbols[publishedMonth - 1]
             }
         } else {
-            shortDate = DateFormatHelper.sharedHelper.monthYearFormatter.string(from: date)
+            shortDate = DateFormatHelper.shared.monthYearFormatter.string(from: date)
         }
 
         return shortDate ?? noDate

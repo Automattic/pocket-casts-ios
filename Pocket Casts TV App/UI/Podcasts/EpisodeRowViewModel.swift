@@ -53,7 +53,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayDate: String {
-        return DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+        return DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
     }
 
     var displayDuration: String {

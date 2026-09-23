@@ -158,7 +158,7 @@ private extension SearchResultCell {
 
             VStack(alignment: .leading, spacing: 2) {
                 if let episode = model.episode {
-                    Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
+                    Text(DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                         .font(style: .footnote, weight: .bold)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                     Text(episode.title)

@@ -119,7 +119,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
     @objc private func updateShowNotes() {
         guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
         self.episode = episode
-        let pubDate = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
+        let pubDate = DateFormatHelper.shared.longLocalizedFormat(episode.publishedDate)
         publishedDate.text = pubDate
         duration.text = TimeFormatter.shared.minutesFormatted(time: episode.duration)
 

@@ -275,7 +275,7 @@ struct ShareProfileView: View {
 
                         VStack(alignment: .leading, spacing: 2) {
                             if let date = episode.publishedDate {
-                                Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                Text(DateFormatHelper.shared.tinyLocalizedFormat(date).localizedUppercase)
                                     .font(style: .caption2, weight: .bold)
                                     .foregroundColor(theme.primaryText02)
                             }
@@ -417,7 +417,7 @@ struct ShareProfileView: View {
 
                         VStack(alignment: .leading, spacing: 2) {
                             if let date = episode.publishedDate {
-                                Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                Text(DateFormatHelper.shared.tinyLocalizedFormat(date).localizedUppercase)
                                     .font(style: .caption2, weight: .bold)
                                     .foregroundColor(theme.primaryText02)
                             }

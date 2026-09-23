@@ -420,7 +420,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         if timeSaved < 60 {
             trimSilenceDescription.text = L10n.playerEffectsTrimSilenceDetails
         } else {
-            let timeFormatted = DateFormatHelper.sharedHelper.longElapsedTime(timeSaved)
+            let timeFormatted = DateFormatHelper.shared.longElapsedTime(timeSaved)
             trimSilenceDescription.text = L10n.playerEffectsTrimSilenceProgress(timeFormatted)
         }
     }

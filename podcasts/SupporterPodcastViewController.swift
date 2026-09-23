@@ -306,7 +306,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         }
         cancelAction.destructive = true
 
-        let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
+        let expiryDateStr = DateFormatHelper.shared.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
         let deleteAfterExpiryMessage = isSingleBundleSubscription() ? L10n.paidPodcastCancelMsgSingular(expiryDateStr) : L10n.paidPodcastCancelMsgPlural(expiryDateStr)
         let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.paidPodcastCancelMsgRetainAccess(expiryDateStr)
         actionSheet.addDescriptiveActions(title: L10n.areYouSure, message: message, icon: "cancelsubscription-large", actions: [cancelAction])
@@ -368,7 +368,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             nextPaymentLabel.isHidden = false
             frequencyLabel.text = SubscriptionHelper.readableSubscriptionFrequency(frequency: firstPodcastSubscription.frequency)
 
-            let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
+            let expiryDateStr = DateFormatHelper.shared.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
             nextPaymentLabel.text = L10n.nextPaymentFormat(expiryDateStr)
         } else {
             nextPaymentLabel.isHidden = true
