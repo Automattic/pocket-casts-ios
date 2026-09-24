@@ -129,6 +129,7 @@ public final class WhatsNewManager: ObservableObject {
     /// Keeps the date already recorded, if there is one.
     public func startFeed(at date: Date = Date()) {
         updateReadState { $0.feedStartDate = $0.feedStartDate ?? date }
+        Task { [weak self] in await self?.loadReadStateIfNeeded() }
     }
 
     /// Records that the user answered a research poll, which keeps it closed from then on.

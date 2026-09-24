@@ -260,6 +260,22 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(relaunched.readState.feedStartDate, startDate)
     }
 
+    /// With the feed switched off nothing ever refreshes, and the date still has to be there once
+    /// it's switched on.
+    func testTheFeedStartDateIsSavedWithoutARefresh() async throws {
+        let store = temporaryReadStateStore()
+        let startDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+
+        manager.startFeed(at: startDate)
+
+        let deadline = Date().addingTimeInterval(5)
+        while store.load().feedStartDate == nil, Date() < deadline {
+            try await Task.sleep(nanoseconds: 10_000_000)
+        }
+        XCTAssertEqual(store.load().feedStartDate, startDate)
+    }
+
     func testStartingTheFeedAgainKeepsTheFirstDate() async {
         let manager = manager(cache: temporaryCache())
         await manager.refreshIfNeeded().value
