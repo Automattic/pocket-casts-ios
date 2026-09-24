@@ -392,6 +392,46 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
     }
 
+    // MARK: - Fresh install
+
+    /// A new user starts out with what was published before they installed already read, and no
+    /// dots pointing at it, while a message published since still shows up as new.
+    func testMessagesPublishedBeforeAFreshInstallStartRead() async throws {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        manager.startFeed(at: try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-08-18T08:00:00Z")))
+        await manager.refreshIfNeeded().value
+
+        XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        manager.markAsRead(["550e8400-e29b-41d4-a716-446655440003"])
+
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
+    }
+
+    func testAFreshInstallShowsOnlyMessagesPublishedSinceAsUnread() async throws {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        manager.startFeed(at: try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-08-18T08:00:00Z")))
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.title), ["Introducing Playlists", "Sort your Up Next"])
+        XCTAssertEqual(viewModel.items.map(\.isUnread), [true, false])
+    }
+
+    /// A user updating into the feed has no start date, so every message is new to them.
+    func testAnUpdateShowsEveryMessageAsUnread() async {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.isUnread), [true, true])
+    }
+
     // MARK: - Helpers
 
     override func tearDown() {

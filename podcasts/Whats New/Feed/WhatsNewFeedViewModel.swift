@@ -46,8 +46,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
     var onSelect: ((WhatsNewMessage) -> Void)?
 
     private var messages: [WhatsNewMessage] = []
-    private var readMessageIDs: Set<String>
-    private var respondedPollIDs: Set<String> = []
+    private var readState: WhatsNewReadState
     private let manager: WhatsNewManager?
     private let targeting: WhatsNewMessageFilter
     private var cancellables = Set<AnyCancellable>()
@@ -57,16 +56,14 @@ final class WhatsNewFeedViewModel: ObservableObject {
     init(manager: WhatsNewManager = .shared, targeting: WhatsNewMessageFilter = .current) {
         self.manager = manager
         self.targeting = targeting
-        readMessageIDs = manager.readState.readMessageIDs
-        respondedPollIDs = manager.readState.respondedPollIDs
+        readState = manager.readState
         state = manager.catalog == nil ? .loading : .loaded
         show(manager.catalog?.messages ?? [])
 
         manager.$readState
             .dropFirst()
             .sink { [weak self] readState in
-                self?.readMessageIDs = readState.readMessageIDs
-                self?.respondedPollIDs = readState.respondedPollIDs
+                self?.readState = readState
                 self?.updateItems()
             }
             .store(in: &cancellables)
@@ -75,7 +72,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
     init(messages: [WhatsNewMessage], readMessageIDs: Set<String> = [], targeting: WhatsNewMessageFilter = .current) {
         manager = nil
         self.targeting = targeting
-        self.readMessageIDs = readMessageIDs
+        readState = WhatsNewReadState(readMessageIDs: readMessageIDs)
         state = .loaded
         show(messages)
     }
@@ -123,7 +120,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
     /// Flips a row between read and unread, for the action its context menu offers.
     func toggleRead(_ item: WhatsNewFeedItem) {
         guard item.isUnread else {
-            readMessageIDs.remove(item.id)
+            readState.readMessageIDs.remove(item.id)
             manager?.markAsUnread([item.id])
             updateItems()
             return
@@ -137,11 +134,11 @@ final class WhatsNewFeedViewModel: ObservableObject {
     /// the message is opened.
     func hasResponded(to message: WhatsNewMessage) -> Bool {
         guard let poll = message.content.research?.poll else { return false }
-        return respondedPollIDs.contains(poll.pollId)
+        return readState.respondedPollIDs.contains(poll.pollId)
     }
 
     func markAsResponded(to poll: WhatsNewPoll) {
-        respondedPollIDs.insert(poll.pollId)
+        readState.respondedPollIDs.insert(poll.pollId)
         manager?.markAsResponded(toPoll: poll.pollId)
     }
 
@@ -153,7 +150,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
     }
 
     private func markAsRead(_ ids: [WhatsNewFeedItem.ID]) {
-        readMessageIDs.formUnion(ids)
+        readState.readMessageIDs.formUnion(ids)
         manager?.markAsRead(ids)
         updateItems()
     }
@@ -175,7 +172,7 @@ final class WhatsNewFeedViewModel: ObservableObject {
     }
 
     private func updateItems() {
-        let items = messages.map { WhatsNewFeedItem(message: $0, isUnread: !readMessageIDs.contains($0.id)) }
+        let items = messages.map { WhatsNewFeedItem(message: $0, isUnread: !readState.isRead($0)) }
         guard items != self.items else { return }
         self.items = items
     }

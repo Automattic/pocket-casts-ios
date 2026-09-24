@@ -124,6 +124,14 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Records that this is a fresh install, so the messages published before now start out read.
+    ///
+    /// Keeps the date already recorded, if there is one.
+    public func startFeed(at date: Date = Date()) {
+        updateReadState { $0.feedStartDate = $0.feedStartDate ?? date }
+        Task { [weak self] in await self?.loadReadStateIfNeeded() }
+    }
+
     /// Records that the user answered a research poll, which keeps it closed from then on.
     public func markAsResponded(toPoll pollID: String) {
         updateReadState { $0.respondedPollIDs.insert(pollID) }
@@ -142,8 +150,8 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
-    /// Forgets every message read, seen or listed and every poll answered, bringing back each
-    /// indicator and reopening each poll.
+    /// Forgets every message read, seen or listed, every poll answered and when the feed started,
+    /// bringing back each indicator and reopening each poll.
     ///
     /// Local only: signed in, the next sync takes the account's read messages back on.
     public func resetReadState() {

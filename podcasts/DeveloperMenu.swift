@@ -448,6 +448,10 @@ struct DeveloperMenu: View {
                 Button("Reset Read State (Local Only)") {
                     WhatsNewManager.shared.resetReadState()
                 }
+                Button("Reset to Fresh Install (Local Only)") {
+                    WhatsNewManager.shared.resetReadState()
+                    WhatsNewManager.shared.startFeed()
+                }
             } header: {
                 Text("What's New Feed")
             }
