@@ -128,15 +128,16 @@ public struct BookmarkDataManager {
                 LIMIT 1
                 """
 
-        let result = await dbQueue.executeUpdate(query, values: values.databaseValues)
-
-        switch result {
-        case .success:
-            return true
-        case .failure(let failure):
-            FileLog.shared.addMessage("BookmarkManager.update failed: \(failure)")
-            return false
+        var success = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(query, values: values.databaseValues)
+                success = true
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.update failed: \(error)")
+            }
         }
+        return success
     }
 
     // MARK: - Retrieving
@@ -207,14 +208,16 @@ public struct BookmarkDataManager {
         SET \(Column.syncStatus) = ?
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced.rawValue])
-        switch result {
-        case .success:
-            return true
-        case .failure(let error):
-            FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
-            return false
+        var success = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(query, values: [SyncStatus.synced.rawValue])
+                success = true
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
+            }
         }
+        return success
     }
 
     // MARK: - Deleting
@@ -231,15 +234,16 @@ public struct BookmarkDataManager {
         LIMIT \(uuids.count)
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [Date(), syncStatus.rawValue])
-
-        switch result {
-        case .success:
-            return true
-        case .failure(let error):
-            FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-            return false
+        var success = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(query, values: [Date(), syncStatus.rawValue])
+                success = true
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
+            }
         }
+        return success
     }
 
     /// Permanently removes the bookmarks from the database
