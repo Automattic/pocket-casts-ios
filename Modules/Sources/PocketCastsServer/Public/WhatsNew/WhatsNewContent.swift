@@ -135,9 +135,6 @@ public struct WhatsNewAction: Decodable, Hashable {
         /// Opens an absolute HTTPS URL, which can be anywhere on the web.
         case openLink(URL)
 
-        /// The actions that take no arguments, which are known by their name alone.
-        static let withoutArguments: [Kind] = [.createPlaylist, .openDiscover, .openPlaylists, .openPodcasts, .openProfile, .openSettings, .openUpNext, .openUpsell]
-
         /// The name the catalog publishes the action under, such as `open_link`.
         public var type: String {
             switch self {
@@ -158,6 +155,22 @@ public struct WhatsNewAction: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         switch type {
+        case "create_playlist":
+            kind = .createPlaylist
+        case "open_discover":
+            kind = .openDiscover
+        case "open_playlists":
+            kind = .openPlaylists
+        case "open_podcasts":
+            kind = .openPodcasts
+        case "open_profile":
+            kind = .openProfile
+        case "open_settings":
+            kind = .openSettings
+        case "open_up_next":
+            kind = .openUpNext
+        case "open_upsell":
+            kind = .openUpsell
         case "open_link":
             let arguments = try container.nestedContainer(keyedBy: ArgumentsCodingKeys.self, forKey: .arguments)
             let string = try arguments.decode(String.self, forKey: .url)
@@ -166,10 +179,7 @@ public struct WhatsNewAction: Decodable, Hashable {
             }
             kind = .openLink(url)
         default:
-            guard let kind = Kind.withoutArguments.first(where: { $0.type == type }) else {
-                throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
-            }
-            self.kind = kind
+            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
         }
         label = try container.decodeNonEmptyString(forKey: .label)
     }
