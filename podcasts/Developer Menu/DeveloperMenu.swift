@@ -2,28 +2,41 @@ import SwiftUI
 import PocketCastsServer
 
 struct DeveloperMenu: View {
+    @State private var searchText = ""
+
     var body: some View {
         List {
-            DeveloperMenuSectionView(section: .buildAndDevice)
+            if searchText.isEmpty {
+                content
+            } else {
+                DeveloperMenuSearchResults(query: searchText)
+            }
+        }
+        .searchable(text: $searchText, prompt: L10n.search)
+        .scrollDismissesKeyboard(.immediately)
+        .miniPlayerSafeAreaInset()
+    }
 
-            Section {
+    @ViewBuilder
+    private var content: some View {
+        DeveloperMenuSectionView(section: .buildAndDevice)
+
+        Section {
+            NavigationLink {
+                BetaMenu()
+                    .navigationTitle("Feature Flags")
+                    .navigationBarTitleDisplayMode(.inline)
+            } label: {
+                Label("Feature Flags", systemImage: "flag")
+            }
+            ForEach(DeveloperMenuPage.all) { page in
                 NavigationLink {
-                    BetaMenu()
-                        .navigationTitle("Feature Flags")
-                        .navigationBarTitleDisplayMode(.inline)
+                    DeveloperMenuPageView(page: page)
                 } label: {
-                    Label("Feature Flags", systemImage: "flag")
-                }
-                ForEach(DeveloperMenuPage.all) { page in
-                    NavigationLink {
-                        DeveloperMenuPageView(page: page)
-                    } label: {
-                        Label(page.title, systemImage: page.systemImage)
-                    }
+                    Label(page.title, systemImage: page.systemImage)
                 }
             }
         }
-        .miniPlayerSafeAreaInset()
     }
 }
 
@@ -33,7 +46,7 @@ extension DeveloperMenuPage {
     }
 }
 
-private extension DeveloperMenuSection {
+extension DeveloperMenuSection {
     static var buildAndDevice: DeveloperMenuSection {
         DeveloperMenuSection(title: "Build & Device", footer: "Tap to copy.", items: [
             .value("Bundle ID", Bundle.main.bundleIdentifier),
