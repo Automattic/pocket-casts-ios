@@ -235,11 +235,75 @@ final class WhatsNewManagerTests: XCTestCase {
         manager.markAsSeen([otherMessageID])
         manager.markAsListed([messageID])
         manager.markAsResponded(toPoll: pollID)
+        manager.startFeed()
 
         manager.resetReadState()
 
         XCTAssertEqual(manager.readState, WhatsNewReadState())
         XCTAssertEqual(store.load(), WhatsNewReadState())
+    }
+
+    // MARK: - Fresh install
+
+    /// The install is recorded at launch, before the first refresh has read the state back, and has
+    /// to survive into the next session.
+    func testTheFeedStartDateOutlivesTheManager() async {
+        let store = temporaryReadStateStore()
+        let startDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let manager = manager(cache: temporaryCache(), readStateStore: store)
+        manager.startFeed(at: startDate)
+        await manager.refreshIfNeeded().value
+
+        let relaunched = self.manager(cache: temporaryCache(), readStateStore: store)
+        await relaunched.refreshIfNeeded().value
+
+        XCTAssertEqual(relaunched.readState.feedStartDate, startDate)
+    }
+
+    func testStartingTheFeedAgainKeepsTheFirstDate() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+        let startDate = Date(timeIntervalSince1970: 1_800_000_000)
+
+        manager.startFeed(at: startDate)
+        manager.startFeed(at: startDate.addingTimeInterval(60))
+
+        XCTAssertEqual(manager.readState.feedStartDate, startDate)
+    }
+
+    func testMessagesPublishedBeforeTheFeedStartedAreRead() async throws {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+        let message = try XCTUnwrap(manager.catalog?.messages.first)
+
+        XCTAssertFalse(WhatsNewReadState(feedStartDate: message.publishedAt).isRead(message))
+        XCTAssertTrue(WhatsNewReadState(feedStartDate: message.publishedAt.addingTimeInterval(1)).isRead(message))
+        XCTAssertFalse(WhatsNewReadState().isRead(message))
+    }
+
+    /// The start date is this device's, so what it counts as read mustn't mark anything read for the
+    /// account, where the user's other devices would lose it.
+    func testMessagesPublishedBeforeTheFeedStartedStayOffTheAccount() async {
+        let account = account()
+        let manager = manager(cache: temporaryCache(), account: account)
+        manager.startFeed(at: .distantFuture)
+
+        await manager.refreshIfNeeded().value
+        await manager.syncReadState().value
+
+        XCTAssertTrue(account.readMessageIDs.isEmpty)
+        XCTAssertTrue(manager.readState.readMessageIDs.isEmpty)
+    }
+
+    /// The install belongs to the device rather than the account, so signing out keeps it.
+    func testSigningOutKeepsTheFeedStartDate() async {
+        let manager = manager(cache: temporaryCache())
+        await manager.refreshIfNeeded().value
+        manager.startFeed(at: .distantFuture)
+
+        await manager.forgetReadMessages().value
+
+        XCTAssertEqual(manager.readState.feedStartDate, .distantFuture)
     }
 
     // MARK: - Read state sync

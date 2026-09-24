@@ -13,13 +13,13 @@ extension WhatsNewManager {
     /// Whether the feed has an unread message that arrived since the user last opened it, which puts
     /// a dot on the What's New button.
     func hasUnlistedMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
-        feedMessages(targeting: targeting).contains { readState.isUnlisted($0.id) }
+        feedMessages(targeting: targeting).contains { readState.isUnlisted($0) }
     }
 
     /// Whether the feed has an unread message the Profile tab hasn't pointed the user at yet, which
     /// puts a dot on the tab.
     func hasUnseenMessages(targeting: WhatsNewMessageFilter = .current) -> Bool {
-        feedMessages(targeting: targeting).contains { readState.isUnseen($0.id) }
+        feedMessages(targeting: targeting).contains { readState.isUnseen($0) }
     }
 
     /// Whether the What's New button shows its dot, which the user can turn off in Settings without
