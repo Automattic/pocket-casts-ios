@@ -128,16 +128,7 @@ public struct BookmarkDataManager {
                 LIMIT 1
                 """
 
-        var success = false
-        dbQueue.write { db in
-            do {
-                try db.executeUpdate(query, values: values.databaseValues)
-                success = true
-            } catch {
-                FileLog.shared.addMessage("BookmarkManager.update failed: \(error)")
-            }
-        }
-        return success
+        return executeUpdate(query, values: values.databaseValues, context: "update")
     }
 
     // MARK: - Retrieving
@@ -208,16 +199,7 @@ public struct BookmarkDataManager {
         SET \(Column.syncStatus) = ?
         """
 
-        var success = false
-        dbQueue.write { db in
-            do {
-                try db.executeUpdate(query, values: [SyncStatus.synced.rawValue])
-                success = true
-            } catch {
-                FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
-            }
-        }
-        return success
+        return executeUpdate(query, values: [SyncStatus.synced.rawValue], context: "markAllBookmarksAsSynced")
     }
 
     // MARK: - Deleting
@@ -234,16 +216,7 @@ public struct BookmarkDataManager {
         LIMIT \(uuids.count)
         """
 
-        var success = false
-        dbQueue.write { db in
-            do {
-                try db.executeUpdate(query, values: [Date(), syncStatus.rawValue])
-                success = true
-            } catch {
-                FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-            }
-        }
-        return success
+        return executeUpdate(query, values: [Date(), syncStatus.rawValue], context: "remove")
     }
 
     /// Permanently removes the bookmarks from the database
@@ -256,13 +229,17 @@ public struct BookmarkDataManager {
         WHERE \(Column.uuid) IN (\(uuids))
         """
 
+        return executeUpdate(query, values: nil, context: "remove")
+    }
+
+    private func executeUpdate(_ query: String, values: [Any]?, context: String) -> Bool {
         var success = false
         dbQueue.write { db in
             do {
-                try db.executeUpdate(query, values: nil)
+                try db.executeUpdate(query, values: values)
                 success = true
             } catch {
-                FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
+                FileLog.shared.addMessage("BookmarkManager.\(context) failed: \(error)")
             }
         }
         return success
