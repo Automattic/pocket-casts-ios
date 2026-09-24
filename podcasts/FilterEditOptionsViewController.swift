@@ -62,7 +62,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             track(.filterNameUpdated)
         }
 
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        filterToEdit.rename(to: filterNameTextField.text)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
@@ -215,7 +215,8 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        filterToEdit.rename(to: filterNameTextField.text)
+        textField.text = filterToEdit.playlistName
         textField.resignFirstResponder()
     }
 

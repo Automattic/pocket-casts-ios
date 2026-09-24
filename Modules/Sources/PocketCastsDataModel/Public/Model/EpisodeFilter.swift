@@ -66,6 +66,10 @@ public class EpisodeFilter: NSObject {
         playlistName = title
     }
 
+    public func rename(to title: String?) {
+        setTitle(title, defaultTitle: playlistName)
+    }
+
     /// Whether an episode's download status decides if it belongs to this playlist.
     public var filtersByDownloadStatus: Bool {
         let allStatuses = filterDownloaded && filterDownloading && filterNotDownloaded
