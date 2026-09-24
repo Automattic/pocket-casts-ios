@@ -461,12 +461,13 @@ class Settings: NSObject {
     // MARK: - User Episode Settings
 
     public static let userEpisodeSortByKey = "UserEpisodeSortBy"
-    class func userEpisodeSortBy() -> Int32 {
-        Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
-    }
-
-    class func setUserEpisodeSortBy(_ value: Int32) {
-        UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
+    static var userEpisodeSortBy: Int32 {
+        get {
+            Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeSortByKey)
+        }
     }
 
     private static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
@@ -480,23 +481,25 @@ class Settings: NSObject {
     }
 
     static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
-    class func userEpisodeAutoAddToUpNext() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
-    }
-
-    class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
-        trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
+    static var userEpisodeAutoAddToUpNext: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeAutoAddToUpNextKey)
+            trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: newValue)
+        }
     }
 
     static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
-    class func userEpisodeRemoveFileAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
-    }
-
-    class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
-        trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
+    static var userEpisodeRemoveFileAfterPlaying: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeRemoveFileAfterPlayingKey)
+            trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: newValue)
+        }
     }
 
     static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"

@@ -21,7 +21,7 @@ class EpisodeManager: NSObject {
             if let episode = episode as? Episode {
                 archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
             } else if let episode = episode as? UserEpisode {
-                if Settings.userEpisodeRemoveFileAfterPlaying() {
+                if Settings.userEpisodeRemoveFileAfterPlaying {
                     UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                 }
                 if Settings.userEpisodeRemoveFromCloudAfterPlaying() {
@@ -86,7 +86,7 @@ class EpisodeManager: NSObject {
             #if !APPCLIP
             userEpisodeToMarkAsPlayed.forEach { userEpisode in
                 // Do this last as it may delete the episode from the database
-                if Settings.userEpisodeRemoveFileAfterPlaying() {
+                if Settings.userEpisodeRemoveFileAfterPlaying {
                     UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode, removeFromPlaybackQueue: false)
                 }
                 if Settings.userEpisodeRemoveFromCloudAfterPlaying() {
@@ -488,7 +488,7 @@ class EpisodeManager: NSObject {
 
             return Settings.autoArchivePlayedAfter() == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
         } else if let _ = episode as? UserEpisode {
-            return Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
+            return Settings.userEpisodeRemoveFileAfterPlaying || Settings.userEpisodeRemoveFromCloudAfterPlaying()
         }
         #endif
 

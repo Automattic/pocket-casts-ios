@@ -64,7 +64,7 @@ extension CarPlaySceneDelegate {
 
     func filesTapped() {
         pushEpisodeList(title: L10n.files, emptyTitle: L10n.fileUploadNoFilesTitle, showArtwork: true, playlist: .files) { () -> [BaseEpisode] in
-            let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+            let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
             return DataManager.shared.allUserEpisodes(sortedBy: sortBy)
         }
     }

@@ -203,7 +203,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
         optionsPicker.addAction(action: MultiSelectAction)
 
-        let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
+        let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy)
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
@@ -273,8 +273,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     private func createSortAction(sort: UploadedSort) -> OptionAction {
-        let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy()) {
-            Settings.setUserEpisodeSortBy(sort.rawValue)
+        let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy) {
+            Settings.userEpisodeSortBy = sort.rawValue
             Analytics.track(.uploadedFilesSortByChanged, properties: ["sort_order": sort])
 
             self.reloadLocalFiles()
