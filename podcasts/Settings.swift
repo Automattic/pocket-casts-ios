@@ -406,7 +406,7 @@ class Settings: NSObject {
         }
         set(time) {
             let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
-            UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
+            UserDefaults.standard.set(adjustedTime, forKey: Settings.customSleepTimeKey)
         }
     }
 
