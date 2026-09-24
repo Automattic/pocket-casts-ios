@@ -5,6 +5,9 @@ Pods/
 .DS_Store
 GoogleService-Info.plist
 
+# Legacy decrypted secrets from before a8c-secrets. Remove in AINFRA-3241.
+.configure-files/
+
 # Ruby tooling
 vendor
 
