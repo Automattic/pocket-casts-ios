@@ -506,8 +506,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: subscriptionCancelledAcknowledgedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledAcknowledgedKey)
         }
     }
 
@@ -527,8 +527,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
         }
     }
 
@@ -539,8 +539,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.plusInfoFilesSettingsClosedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Settings.plusInfoFilesSettingsClosedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoFilesSettingsClosedKey)
         }
     }
 
@@ -549,8 +549,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.plusInfoFilesAddClosedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Settings.plusInfoFilesAddClosedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoFilesAddClosedKey)
         }
     }
 
@@ -559,8 +559,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.plusInfoAppearanceClosedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Settings.plusInfoAppearanceClosedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoAppearanceClosedKey)
         }
     }
 
@@ -569,8 +569,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.plusInfoWatchClosedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Settings.plusInfoWatchClosedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoWatchClosedKey)
         }
     }
 
@@ -579,8 +579,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.plusInfoProfileClosedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: Settings.plusInfoProfileClosedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoProfileClosedKey)
         }
     }
 
@@ -600,8 +600,8 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: whatsNewLastAcknowledgedKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: whatsNewLastAcknowledgedKey)
         }
     }
 
