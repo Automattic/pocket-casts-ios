@@ -700,9 +700,7 @@ private extension ProfileViewController {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
         let showsDot = WhatsNewManager.shared.showsDotOnWhatsNewButton()
-        if #available(iOS 26.0, *) {
-            whatsNewButton.badge = showsDot ? .indicator() : nil
-        } else if showsDot {
+        if showsDot {
             let configuration = UIImage.SymbolConfiguration(paletteColors: [ThemeColor.support05(), AppTheme.navBarIconsColor()])
             whatsNewButton.image = UIImage(systemName: "bell.badge", withConfiguration: configuration)?.withRenderingMode(.alwaysOriginal)
         } else {
