@@ -249,24 +249,23 @@ public struct BookmarkDataManager {
     /// Permanently removes the bookmarks from the database
     @discardableResult
     public func permanentlyDelete(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
+        let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
-            let query = """
-            DELETE FROM \(Self.tableName)
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
+        let query = """
+        DELETE FROM \(Self.tableName)
+        WHERE \(Column.uuid) IN (\(uuids))
+        """
 
-            dbQueue.write { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
+        var success = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(query, values: nil)
+                success = true
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
             }
         }
+        return success
     }
 
     // MARK: - Sortings
