@@ -706,6 +706,7 @@ private extension ProfileViewController {
         } else {
             whatsNewButton.image = UIImage(systemName: "bell")
         }
+        whatsNewButton.tintColor = LiquidGlass.isEnabled ? .label : nil
         whatsNewButton.accessibilityValue = showsDot ? L10n.badgeNew : nil
     }
 }
