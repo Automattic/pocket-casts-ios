@@ -455,8 +455,8 @@ class Settings: NSObject {
         get {
             Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeSortByKey)
         }
     }
 
@@ -475,9 +475,9 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
-            trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeAutoAddToUpNextKey)
+            trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: newValue)
         }
     }
 
@@ -486,9 +486,9 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
         }
-        set(value) {
-            UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
-            trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
+        set {
+            UserDefaults.standard.set(newValue, forKey: userEpisodeRemoveFileAfterPlayingKey)
+            trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: newValue)
         }
     }
 
