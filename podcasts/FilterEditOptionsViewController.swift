@@ -260,7 +260,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private func updateExistingSortcutData() {
-        SiriShortcutsManager.shared.voiceShortcutForFilter(filter: filterToEdit, completion: { voiceShortcut in
+        SiriShortcutsManager.shared.voiceShortcut(for: filterToEdit, completion: { voiceShortcut in
             self.existingShortcut = voiceShortcut
             DispatchQueue.main.async {
                 self.tableView.reloadData()

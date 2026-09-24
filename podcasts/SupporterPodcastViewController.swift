@@ -216,7 +216,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
 
         case .bundlePodcast:
             let cell = tableView.dequeueReusableCell(withIdentifier: SupporterPodcastViewController.podcastCellId, for: indexPath) as! BundlePodcastCell
-            if var discoverPodcast = bundleCollection?.podcasts?[indexPath.row], let masterUuid = discoverPodcast.uuid, let userUuid = userUuidForMasterUuid(masterUuid) {
+            if var discoverPodcast = bundleCollection?.podcasts?[indexPath.row], let masterUuid = discoverPodcast.uuid, let userUuid = userUuid(forMasterUuid: masterUuid) {
                 discoverPodcast.uuid = userUuid
                 cell.populateFrom(discoverPodcast, showDisclosure: firstPodcastSubscription?.isExpired() ?? false)
             }
@@ -481,7 +481,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         tableView.reloadData()
     }
 
-    private func userUuidForMasterUuid(_ masterUuid: String) -> String? {
+    private func userUuid(forMasterUuid masterUuid: String) -> String? {
         guard let podcastPair = bundleSubscription.podcasts.first(where: { $0.masterUuid == masterUuid }) else {
             return nil
         }

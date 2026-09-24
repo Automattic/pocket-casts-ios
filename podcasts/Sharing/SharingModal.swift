@@ -305,7 +305,7 @@ extension SharingModal.Option {
 
 fileprivate extension Podcast {
     var episodeCount: String? {
-        let count = PodcastManager.episodeCountForPodcast(self, excludeArchive: false)
+        let count = PodcastManager.episodeCount(for: self, excludeArchive: false)
         guard count > 0 else {
             return nil
         }

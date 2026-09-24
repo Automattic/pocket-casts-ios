@@ -13,7 +13,7 @@ struct EpisodeView: View {
     var body: some View {
         let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
 
-        Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
+        Link(destination: CommonWidgetHelper.url(forEpisodeUuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
                     .frame(maxWidth: 52, maxHeight: 52)

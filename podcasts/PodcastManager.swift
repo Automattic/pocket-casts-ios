@@ -184,7 +184,7 @@ class PodcastManager: NSObject {
         }
     #endif
 
-    class func episodeCountForPodcast(_ podcast: Podcast, excludeArchive: Bool) -> Int {
+    class func episodeCount(for podcast: Podcast, excludeArchive: Bool) -> Int {
         let archivedFilter = excludeArchive ? " AND archived = 0" : ""
         let query = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ?\(archivedFilter)"
 
