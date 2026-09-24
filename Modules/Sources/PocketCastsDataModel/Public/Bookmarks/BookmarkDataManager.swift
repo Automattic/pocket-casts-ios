@@ -229,7 +229,7 @@ public struct BookmarkDataManager {
         WHERE \(Column.uuid) IN (\(uuids))
         """
 
-        return executeUpdate(query, values: nil, context: "remove")
+        return executeUpdate(query, values: nil, context: "permanentlyDelete")
     }
 
     private func executeUpdate(_ query: String, values: [Any]?, context: String) -> Bool {
