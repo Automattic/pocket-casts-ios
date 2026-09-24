@@ -2,12 +2,20 @@ import SwiftUI
 import PocketCastsServer
 
 struct DeveloperMenu: View {
+    @State private var searchText = ""
+
     var body: some View {
         List {
-            ForEach(Array(DeveloperMenuSection.all.enumerated()), id: \.offset) { _, section in
-                DeveloperMenuSectionView(section: section)
+            if searchText.isEmpty {
+                ForEach(Array(DeveloperMenuSection.all.enumerated()), id: \.offset) { _, section in
+                    DeveloperMenuSectionView(section: section)
+                }
+            } else {
+                DeveloperMenuSearchResults(query: searchText)
             }
         }
+        .searchable(text: $searchText, prompt: L10n.search)
+        .scrollDismissesKeyboard(.immediately)
         .miniPlayerSafeAreaInset()
     }
 }
