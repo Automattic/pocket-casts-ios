@@ -18,6 +18,8 @@
 - Add networks to search: a matching network now shows up in Top Results, and a "Networks" filter appears when the term matches one [#5036](https://github.com/Automattic/pocket-casts-ios/pull/5036)
 - Open a podcast's network from the podcast page, either from the author in the header or from the author row in the details below it [#5040](https://github.com/Automattic/pocket-casts-ios/pull/5040) [#5075](https://github.com/Automattic/pocket-casts-ios/pull/5075)
 - [tvOS] Add networks to search, in Combined Results and in a tab of their own [#5037](https://github.com/Automattic/pocket-casts-ios/pull/5037)
+- Fix a Smart Bookmark's captured passage not syncing when signing in on a new device [#5103](https://github.com/Automattic/pocket-casts-ios/pull/5103)
+- Fix a crash when tapping the link in a Discover collection or network header [#5160](https://github.com/Automattic/pocket-casts-ios/pull/5160)
 
 8.20
 -----

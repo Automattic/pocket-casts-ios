@@ -32,6 +32,7 @@ struct NetworkSearchResultCell: View {
         HStack(spacing: 12) {
             NetworkArtworkView(url: network.collectionImageURL, size: artworkSize)
                 .clipShape(.circle)
+                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(network.title)
