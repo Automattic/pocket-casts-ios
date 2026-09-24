@@ -179,7 +179,7 @@ private struct DeveloperMenuLabel: View {
             if let subtitle {
                 Text(subtitle)
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondary)
             }
         }
     }
