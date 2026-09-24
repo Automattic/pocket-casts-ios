@@ -82,9 +82,9 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
         }
-        set(download) {
-            UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
-            trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.autoDownloadUpNext)
+            trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: newValue)
         }
     }
 
@@ -153,9 +153,9 @@ class Settings: NSObject {
         get {
             AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
         }
-        set(limit) {
-            UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
-            trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Settings.autoDownloadLimitKey)
+            trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: newValue.rawValue)
         }
     }
 
@@ -404,8 +404,8 @@ class Settings: NSObject {
 
             return savedTime
         }
-        set(time) {
-            let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
+        set {
+            let adjustedTime = newValue < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : newValue
             UserDefaults.standard.set(adjustedTime, forKey: Settings.customSleepTimeKey)
         }
     }
@@ -426,12 +426,12 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
         }
-        set(enabled) {
-            UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.mediaSessionActionsKey)
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
 
-            Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: enabled)
+            Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: newValue)
         }
     }
 
@@ -442,9 +442,9 @@ class Settings: NSObject {
         get {
             UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
         }
-        set(enabled) {
-            UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
-            Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.legacyBtSupportKey)
+            Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: newValue)
         }
     }
 
@@ -459,8 +459,8 @@ class Settings: NSObject {
 
             return true
         }
-        set(enabled) {
-            UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.publishChapterTitlesKey)
         }
     }
 
