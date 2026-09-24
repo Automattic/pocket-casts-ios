@@ -6,7 +6,7 @@ public extension WhatsNewCatalog {
     ///
     /// The messages are published relative to now rather than on fixed dates, so the feed keeps
     /// rendering the same spread of relative dates however long after this was written it's read.
-    static let mock = mock(publishedDaysAgo: [0, 8, 27, 36, 62, 90, 118, 150])
+    static let mock = mock(publishedDaysAgo: [1, 8, 27, 36, 62, 90, 118, 150])
 
     /// A catalog whose messages were published the given number of days ago, most recent first.
     ///
