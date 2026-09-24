@@ -227,6 +227,27 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(action.label, "Create playlist")
     }
 
+    func testDecodesEveryActionThatTakesNoArguments() throws {
+        let kinds: [String: WhatsNewAction.Kind] = [
+            "create_playlist": .createPlaylist,
+            "open_discover": .openDiscover,
+            "open_playlists": .openPlaylists,
+            "open_podcasts": .openPodcasts,
+            "open_profile": .openProfile,
+            "open_settings": .openSettings,
+            "open_up_next": .openUpNext,
+            "open_upsell": .openUpsell
+        ]
+
+        for (type, kind) in kinds {
+            let messages = try decodedMessages(pages: page(action: #"{ "type": "\#(type)", "label": "Open it" }"#))
+
+            let action = try XCTUnwrap(messages.first?.content.pages.first?.action, type)
+            XCTAssertEqual(action.kind, kind)
+            XCTAssertEqual(action.kind.type, type)
+        }
+    }
+
     func testDecodesALinkAnywhereOnTheWeb() throws {
         let messages = try decodedMessages(pages: page(action: #"{ "type": "open_link", "arguments": { "url": "https://forms.example.com/survey?id=1" }, "label": "Take the survey" }"#))
 

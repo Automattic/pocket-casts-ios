@@ -438,7 +438,7 @@ enum PlusUpgradeViewSource: String {
     case deselectChapters = "deselect_chapters"
     case headphoneSettings =  "headphone_settings"
     case bookmarksShelfAction = "bookmarks_shelf_action"
-    case whatsNew
+    case whatsNew = "whats_new"
     case sonosLink = "sonos_link"
     case deepLink
     case deviceApproval = "device_approval"

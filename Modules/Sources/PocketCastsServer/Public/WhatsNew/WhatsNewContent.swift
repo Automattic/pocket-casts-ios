@@ -124,14 +124,31 @@ public struct WhatsNewAction: Decodable, Hashable {
 
     public enum Kind: Hashable {
         case createPlaylist
+        case openDiscover
+        case openPlaylists
+        case openPodcasts
+        case openProfile
+        case openSettings
+        case openUpNext
+        case openUpsell
 
         /// Opens an absolute HTTPS URL, which can be anywhere on the web.
         case openLink(URL)
+
+        /// The actions that take no arguments, which are known by their name alone.
+        static let withoutArguments: [Kind] = [.createPlaylist, .openDiscover, .openPlaylists, .openPodcasts, .openProfile, .openSettings, .openUpNext, .openUpsell]
 
         /// The name the catalog publishes the action under, such as `open_link`.
         public var type: String {
             switch self {
             case .createPlaylist: "create_playlist"
+            case .openDiscover: "open_discover"
+            case .openPlaylists: "open_playlists"
+            case .openPodcasts: "open_podcasts"
+            case .openProfile: "open_profile"
+            case .openSettings: "open_settings"
+            case .openUpNext: "open_up_next"
+            case .openUpsell: "open_upsell"
             case .openLink: "open_link"
             }
         }
@@ -141,8 +158,6 @@ public struct WhatsNewAction: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         switch type {
-        case "create_playlist":
-            kind = .createPlaylist
         case "open_link":
             let arguments = try container.nestedContainer(keyedBy: ArgumentsCodingKeys.self, forKey: .arguments)
             let string = try arguments.decode(String.self, forKey: .url)
@@ -151,7 +166,10 @@ public struct WhatsNewAction: Decodable, Hashable {
             }
             kind = .openLink(url)
         default:
-            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
+            guard let kind = Kind.withoutArguments.first(where: { $0.type == type }) else {
+                throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
+            }
+            self.kind = kind
         }
         label = try container.decodeNonEmptyString(forKey: .label)
     }
