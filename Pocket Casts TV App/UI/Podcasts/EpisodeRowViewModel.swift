@@ -66,7 +66,7 @@ class EpisodeRowViewModel: Identifiable {
 
     var currentPodcastTintColor: Color? {
         if let podcast {
-            return Color(ColorManager.darkThemeTintForPodcast(podcast))
+            return Color(ColorManager.darkThemeTint(for: podcast))
         } else if let episode = episode as? UserEpisode, episode.imageColor > 0 {
             return Color(AppTheme.userEpisodeColor(number: Int(episode.imageColor)))
         } else {
