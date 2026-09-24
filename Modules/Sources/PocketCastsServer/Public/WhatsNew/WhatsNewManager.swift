@@ -35,7 +35,7 @@ public final class WhatsNewManager: ObservableObject {
     nonisolated private let task: WhatsNewCatalogTask
     nonisolated private let readStateStore: WhatsNewReadStateStore
     nonisolated private let readStateTask: WhatsNewReadStateTask
-    nonisolated private let userDefaults: UserDefaults
+    nonisolated(unsafe) private let userDefaults: UserDefaults
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
     private var isRefreshForced = false
