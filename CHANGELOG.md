@@ -14,6 +14,7 @@
 - Reduce the memory the app uses for artwork [#5291](https://github.com/Automattic/pocket-casts-ios/pull/5291)
 - Fix Auto Download not downloading episodes added to a manual playlist until the next sync [#5080](https://github.com/Automattic/pocket-casts-ios/pull/5080)
 - Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296)
+- Ask for confirmation before Close and Clear Up Next in the mini player menu clears the queue [#5261](https://github.com/Automattic/pocket-casts-ios/pull/5261)
 
 
 8.21
