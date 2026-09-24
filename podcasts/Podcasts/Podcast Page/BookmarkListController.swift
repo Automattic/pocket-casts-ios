@@ -205,7 +205,7 @@ final class BookmarkListController {
         guard let bookmark = bookmark(at: indexPath) else { return nil }
 
         let actions = makeBookmarkSwipeActions(for: bookmark, edge: edge, viewModel: viewModel, style: style).map { action in
-            let contextualAction = UIContextualAction(style: action.isDestructive ? .destructive : .normal, title: nil) { _, _, completion in
+            let contextualAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
                 action.handler()
                 // The rows are reloaded by the view model, so the table shouldn't remove them itself
                 completion(false)
