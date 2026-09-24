@@ -2216,20 +2216,13 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let skipBackAmount = TimeInterval(Settings.skipBackTime)
         if addTarget {
+            // Note: chapter skipping is deliberately not handled here. These commands back the
+            // on-screen skip buttons (lock screen, Control Center, CarPlay), which render the skip
+            // interval on the button itself, and their events always carry that same interval, so
+            // there's no way to tell them apart from a hardware press. The Headphone Controls
+            // setting is applied in the next/previousTrackCommand handlers instead, which is where
+            // hardware next/previous buttons actually arrive.
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount) { event -> MPRemoteCommandHandlerStatus in
-                let skipChapters = Settings.headphonesPreviousAction == .previousChapter
-
-                // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if skipChapters, let previousChapter = self.chapterManager.previousVisibleChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(Settings.skipBackTime)
-                    if Int(interval) == Settings.skipBackTime {
-                        FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
-                        self.seekTo(time: ceil(previousChapter.startTime.seconds))
-
-                        return .success
-                    }
-                }
-
                 self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
@@ -2246,20 +2239,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let skipFwdAmount = TimeInterval(Settings.skipForwardTime)
         if addTarget {
+            // See the note on skipBackwardCommand above: the Headphone Controls setting is applied
+            // in the next/previousTrackCommand handlers, not here.
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount) { event -> MPRemoteCommandHandlerStatus in
-                let skipChapters = Settings.headphonesNextAction == .nextChapter
-
-                // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if skipChapters, let nextChapter = self.chapterManager.nextVisiblePlayableChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(Settings.skipForwardTime)
-                    if Int(interval) == Settings.skipForwardTime {
-                        FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
-                        self.seekTo(time: ceil(nextChapter.startTime.seconds))
-
-                        return .success
-                    }
-                }
-
                 self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
