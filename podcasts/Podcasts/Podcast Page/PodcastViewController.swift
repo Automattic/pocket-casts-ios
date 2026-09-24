@@ -773,7 +773,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         podcast.syncStatus = SyncStatus.notSynced.rawValue
         podcast.autoDownloadSetting = (FeatureFlag.autoDownloadOnSubscribe.enabled && Settings.autoDownloadEnabled() && Settings.autoDownloadOnFollow() ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
         DataManager.shared.save(podcast: podcast)
-        ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true, autoDownloadLimit: Settings.autoDownloadOnFollow() ? Settings.autoDownloadLimits().rawValue : 0)
+        ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true, autoDownloadLimit: Settings.autoDownloadOnFollow() ? Settings.autoDownloadLimits.rawValue : 0)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
         if featuredPodcast {

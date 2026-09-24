@@ -124,6 +124,13 @@ public struct WhatsNewAction: Decodable, Hashable {
 
     public enum Kind: Hashable {
         case createPlaylist
+        case openDiscover
+        case openPlaylists
+        case openPodcasts
+        case openProfile
+        case openSettings
+        case openUpNext
+        case openUpsell
 
         /// Opens an absolute HTTPS URL, which can be anywhere on the web.
         case openLink(URL)
@@ -132,6 +139,13 @@ public struct WhatsNewAction: Decodable, Hashable {
         public var type: String {
             switch self {
             case .createPlaylist: "create_playlist"
+            case .openDiscover: "open_discover"
+            case .openPlaylists: "open_playlists"
+            case .openPodcasts: "open_podcasts"
+            case .openProfile: "open_profile"
+            case .openSettings: "open_settings"
+            case .openUpNext: "open_up_next"
+            case .openUpsell: "open_upsell"
             case .openLink: "open_link"
             }
         }
@@ -143,6 +157,20 @@ public struct WhatsNewAction: Decodable, Hashable {
         switch type {
         case "create_playlist":
             kind = .createPlaylist
+        case "open_discover":
+            kind = .openDiscover
+        case "open_playlists":
+            kind = .openPlaylists
+        case "open_podcasts":
+            kind = .openPodcasts
+        case "open_profile":
+            kind = .openProfile
+        case "open_settings":
+            kind = .openSettings
+        case "open_up_next":
+            kind = .openUpNext
+        case "open_upsell":
+            kind = .openUpsell
         case "open_link":
             let arguments = try container.nestedContainer(keyedBy: ArgumentsCodingKeys.self, forKey: .arguments)
             let string = try arguments.decode(String.self, forKey: .url)

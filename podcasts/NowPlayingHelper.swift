@@ -52,7 +52,7 @@ enum NowPlayingHelper {
     }
 
     private static func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
-        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled() {
+        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled {
             return currentChapters.title
         }
 
