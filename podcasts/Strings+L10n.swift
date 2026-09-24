@@ -71,6 +71,9 @@ extension L10n {
     /// When localizing  this text should be transitioned to use `L10n.ok`
     static let supportOK = "Ok"
 
+    /* Button on the support request error alert that opens an email to support prefilled with the request. */
+    static let supportSendEmail = "Send Email"
+
     /* Prompt to submit a service request. */
     static let supportSubmit = "Submit"
 
