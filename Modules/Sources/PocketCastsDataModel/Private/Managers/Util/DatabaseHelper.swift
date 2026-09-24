@@ -8,34 +8,36 @@ class DatabaseHelper {
     @discardableResult
     class func setup(queue: GRDBQueue) -> Bool {
         var databaseWasCreated = false
-        queue.write { db in
-            do {
+        do {
+            try queue.dbPool.write { database in
+                let db = GRDBDatabase(database: database)
                 let startingSchemaVersion = db.pragmaUserVersion() ?? 0
                 databaseWasCreated = startingSchemaVersion < 1
 
                 var newSchemaVersion = startingSchemaVersion
-                upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
+                try upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
 
                 if newSchemaVersion != startingSchemaVersion {
                     FileLog.shared.addMessage("Schema update from \(startingSchemaVersion) to \(newSchemaVersion)")
                     try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
                 }
-            } catch {
-                assertionFailure("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
-                FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("Failed to setup database: \(error)")
         }
         return databaseWasCreated
     }
 
-    private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
-        let failedAt = { (statement: Int) in
-            let lastErrorCode = db.lastErrorCode()
-            let lastErrorMessage = db.lastErrorMessage()
-            db.rollback()
-            FileLog.shared.addMessage("Schema update \(statement) failed, code \(lastErrorCode): \(lastErrorMessage)")
-        }
+    private struct MigrationError: Error, CustomStringConvertible {
+        let schemaVersion: Int
+        let underlyingError: Error
 
+        var description: String {
+            "Schema update \(schemaVersion) failed: \(underlyingError)"
+        }
+    }
+
+    private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) throws {
         if schemaVersion < 1 {
             do {
                 try db.executeUpdate("""
@@ -151,8 +153,7 @@ class DatabaseHelper {
 
                 schemaVersion = 1
             } catch {
-                failedAt(1)
-                return
+                throw MigrationError(schemaVersion: 1, underlyingError: error)
             }
         }
         if schemaVersion < 2 {
@@ -163,8 +164,7 @@ class DatabaseHelper {
 
                 schemaVersion = 2
             } catch {
-                failedAt(2)
-                return
+                throw MigrationError(schemaVersion: 2, underlyingError: error)
             }
         }
         if schemaVersion < 3 {
@@ -183,8 +183,7 @@ class DatabaseHelper {
 
                 schemaVersion = 3
             } catch {
-                failedAt(3)
-                return
+                throw MigrationError(schemaVersion: 3, underlyingError: error)
             }
         }
         if schemaVersion < 4 {
@@ -192,8 +191,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN pushEnabled INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 4
             } catch {
-                failedAt(4)
-                return
+                throw MigrationError(schemaVersion: 4, underlyingError: error)
             }
         }
         if schemaVersion < 5 {
@@ -201,8 +199,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeSortOrder INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 5
             } catch {
-                failedAt(5)
-                return
+                throw MigrationError(schemaVersion: 5, underlyingError: error)
             }
         }
         if schemaVersion < 6 {
@@ -211,8 +208,7 @@ class DatabaseHelper {
                 try db.executeUpdate("DELETE FROM SJPlaylistEpisode WHERE upcoming != 1;", values: nil)
                 schemaVersion = 6
             } catch {
-                failedAt(6)
-                return
+                throw MigrationError(schemaVersion: 6, underlyingError: error)
             }
         }
         if schemaVersion < 7 {
@@ -220,8 +216,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN autoAddToUpNext INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 7
             } catch {
-                failedAt(7)
-                return
+                throw MigrationError(schemaVersion: 7, underlyingError: error)
             }
         }
         if schemaVersion < 8 {
@@ -229,8 +224,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN filterHours INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 8
             } catch {
-                failedAt(8)
-                return
+                throw MigrationError(schemaVersion: 8, underlyingError: error)
             }
         }
         if schemaVersion < 9 {
@@ -239,8 +233,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS ep_down_date ON SJEpisode (lastDownloadAttemptDate);", values: nil)
                 schemaVersion = 9
             } catch {
-                failedAt(9)
-                return
+                throw MigrationError(schemaVersion: 9, underlyingError: error)
             }
         }
         if schemaVersion < 10 {
@@ -248,8 +241,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN colorVersion INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 10
             } catch {
-                failedAt(10)
-                return
+                throw MigrationError(schemaVersion: 10, underlyingError: error)
             }
         }
         if schemaVersion < 11 {
@@ -258,8 +250,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN trimSilenceAmount INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 11
             } catch {
-                failedAt(11)
-                return
+                throw MigrationError(schemaVersion: 11, underlyingError: error)
             }
         }
         if schemaVersion < 12 {
@@ -267,8 +258,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN lastColorDownloadDate REAL;", values: nil)
                 schemaVersion = 12
             } catch {
-                failedAt(12)
-                return
+                throw MigrationError(schemaVersion: 12, underlyingError: error)
             }
         }
         if schemaVersion < 13 {
@@ -276,8 +266,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN autoDownloadStatus INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 13
             } catch {
-                failedAt(13)
-                return
+                throw MigrationError(schemaVersion: 13, underlyingError: error)
             }
         }
         if schemaVersion < 14 {
@@ -285,8 +274,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN playbackErrorDetails TEXT;", values: nil)
                 schemaVersion = 14
             } catch {
-                failedAt(14)
-                return
+                throw MigrationError(schemaVersion: 14, underlyingError: error)
             }
         }
         if schemaVersion < 15 {
@@ -294,8 +282,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN cachedFrameCount INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 15
             } catch {
-                failedAt(15)
-                return
+                throw MigrationError(schemaVersion: 15, underlyingError: error)
             }
         }
         if schemaVersion < 16 {
@@ -311,8 +298,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_time_modified ON SJPlaylistEpisode (timeModified);", values: nil)
                 schemaVersion = 16
             } catch {
-                failedAt(16)
-                return
+                throw MigrationError(schemaVersion: 16, underlyingError: error)
             }
         }
         if schemaVersion < 17 {
@@ -321,8 +307,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastPlaybackInteractionDate REAL;", values: nil)
                 schemaVersion = 17
             } catch {
-                failedAt(17)
-                return
+                throw MigrationError(schemaVersion: 17, underlyingError: error)
             }
         }
         if schemaVersion < 18 {
@@ -343,8 +328,7 @@ class DatabaseHelper {
 
                 schemaVersion = 18
             } catch {
-                failedAt(18)
-                return
+                throw MigrationError(schemaVersion: 18, underlyingError: error)
             }
         }
 
@@ -358,8 +342,7 @@ class DatabaseHelper {
 
                 schemaVersion = 20
             } catch {
-                failedAt(20)
-                return
+                throw MigrationError(schemaVersion: 20, underlyingError: error)
             }
         }
         if schemaVersion < 21 {
@@ -369,8 +352,7 @@ class DatabaseHelper {
 
                 schemaVersion = 21
             } catch {
-                failedAt(21)
-                return
+                throw MigrationError(schemaVersion: 21, underlyingError: error)
             }
         }
         if schemaVersion < 22 {
@@ -380,8 +362,7 @@ class DatabaseHelper {
 
                 schemaVersion = 22
             } catch {
-                failedAt(22)
-                return
+                throw MigrationError(schemaVersion: 22, underlyingError: error)
             }
         }
         if schemaVersion < 23 {
@@ -397,8 +378,7 @@ class DatabaseHelper {
 
                 schemaVersion = 23
             } catch {
-                failedAt(23)
-                return
+                throw MigrationError(schemaVersion: 23, underlyingError: error)
             }
         }
         if schemaVersion < 24 {
@@ -407,8 +387,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN lastUpdatedAt TEXT;", values: nil)
                 schemaVersion = 24
             } catch {
-                failedAt(24)
-                return
+                throw MigrationError(schemaVersion: 24, underlyingError: error)
             }
         }
         if schemaVersion < 25 {
@@ -427,8 +406,7 @@ class DatabaseHelper {
 
                 schemaVersion = 25
             } catch {
-                failedAt(25)
-                return
+                throw MigrationError(schemaVersion: 25, underlyingError: error)
             }
         }
         if schemaVersion < 26 {
@@ -436,8 +414,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastArchiveInteractionDate REAL NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 26
             } catch {
-                failedAt(26)
-                return
+                throw MigrationError(schemaVersion: 26, underlyingError: error)
             }
         }
         if schemaVersion < 27 {
@@ -445,8 +422,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN overrideGlobalEffects INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 27
             } catch {
-                failedAt(27)
-                return
+                throw MigrationError(schemaVersion: 27, underlyingError: error)
             }
         }
         if schemaVersion < 28 {
@@ -454,8 +430,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN autoDownloadLimit INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 28
             } catch {
-                failedAt(28)
-                return
+                throw MigrationError(schemaVersion: 28, underlyingError: error)
             }
         }
         if schemaVersion < 29 {
@@ -468,8 +443,7 @@ class DatabaseHelper {
                 try db.executeUpdate("UPDATE SJPodcast SET overrideGlobalArchive = 1 WHERE excludeFromAutoArchive = 1;", values: nil)
                 schemaVersion = 29
             } catch {
-                failedAt(29)
-                return
+                throw MigrationError(schemaVersion: 29, underlyingError: error)
             }
         }
         if schemaVersion < 30 {
@@ -480,8 +454,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN excludeFromEpisodeLimit INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 30
             } catch {
-                failedAt(30)
-                return
+                throw MigrationError(schemaVersion: 30, underlyingError: error)
             }
         }
         if schemaVersion < 31 {
@@ -489,8 +462,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeGrouping INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 31
             } catch {
-                failedAt(31)
-                return
+                throw MigrationError(schemaVersion: 31, underlyingError: error)
             }
         }
         if schemaVersion < 32 {
@@ -533,8 +505,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS user_episode_episodeStatus ON SJUserEpisode (episodeStatus);", values: nil)
                 schemaVersion = 32
             } catch {
-                failedAt(32)
-                return
+                throw MigrationError(schemaVersion: 32, underlyingError: error)
             }
         }
         if schemaVersion < 33 {
@@ -542,8 +513,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN skipLast INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 33
             } catch {
-                failedAt(33)
-                return
+                throw MigrationError(schemaVersion: 33, underlyingError: error)
             }
         }
         if schemaVersion < 34 {
@@ -552,8 +522,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fullSyncLastSyncAt TEXT;", values: nil)
                 schemaVersion = 34
             } catch {
-                failedAt(34)
-                return
+                throw MigrationError(schemaVersion: 34, underlyingError: error)
             }
         }
         if schemaVersion < 35 {
@@ -561,8 +530,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN showArchived INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 35
             } catch {
-                failedAt(35)
-                return
+                throw MigrationError(schemaVersion: 35, underlyingError: error)
             }
         }
         if schemaVersion < 36 {
@@ -572,8 +540,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN shorterThan INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 36
             } catch {
-                failedAt(36)
-                return
+                throw MigrationError(schemaVersion: 36, underlyingError: error)
             }
         }
         if schemaVersion < 37 {
@@ -581,8 +548,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN licensing INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 37
             } catch {
-                failedAt(37)
-                return
+                throw MigrationError(schemaVersion: 37, underlyingError: error)
             }
         }
         if schemaVersion < 38 {
@@ -590,8 +556,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN starredModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 38
             } catch {
-                failedAt(38)
-                return
+                throw MigrationError(schemaVersion: 38, underlyingError: error)
             }
         }
         if schemaVersion < 39 {
@@ -599,8 +564,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN refreshAvailable INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 39
             } catch {
-                failedAt(39)
-                return
+                throw MigrationError(schemaVersion: 39, underlyingError: error)
             }
         }
         if schemaVersion < 40 {
@@ -623,8 +587,7 @@ class DatabaseHelper {
 
                 schemaVersion = 40
             } catch {
-                failedAt(40)
-                return
+                throw MigrationError(schemaVersion: 40, underlyingError: error)
             }
         }
 
@@ -643,7 +606,7 @@ class DatabaseHelper {
 
                 schemaVersion = 41
             } catch {
-                failedAt(41)
+                throw MigrationError(schemaVersion: 41, underlyingError: error)
             }
         }
 
@@ -653,8 +616,7 @@ class DatabaseHelper {
 
                 schemaVersion = 42
             } catch {
-                failedAt(42)
-                return
+                throw MigrationError(schemaVersion: 42, underlyingError: error)
             }
         }
 
@@ -664,8 +626,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN settings TEXT NOT NULL DEFAULT '';", values: nil)
                 schemaVersion = 43
             } catch {
-                failedAt(43)
-                return
+                throw MigrationError(schemaVersion: 43, underlyingError: error)
             }
         }
 
@@ -674,8 +635,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChaptersModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 44
             } catch {
-                failedAt(44)
-                return
+                throw MigrationError(schemaVersion: 44, underlyingError: error)
             }
         }
 
@@ -689,8 +649,7 @@ class DatabaseHelper {
                 """, values: nil)
                 schemaVersion = 45
             } catch {
-                failedAt(45)
-                return
+                throw MigrationError(schemaVersion: 45, underlyingError: error)
             }
         }
 
@@ -700,8 +659,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;", values: nil)
                 schemaVersion = 46
             } catch {
-                failedAt(46)
-                return
+                throw MigrationError(schemaVersion: 46, underlyingError: error)
             }
         }
 
@@ -711,8 +669,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
                 schemaVersion = 47
             } catch {
-                failedAt(47)
-                return
+                throw MigrationError(schemaVersion: 47, underlyingError: error)
             }
         }
 
@@ -753,8 +710,7 @@ class DatabaseHelper {
 
                 schemaVersion = 51
             } catch {
-                failedAt(51)
-                return
+                throw MigrationError(schemaVersion: 51, underlyingError: error)
             }
         }
 
@@ -772,8 +728,7 @@ class DatabaseHelper {
 
                 schemaVersion = 52
             } catch {
-                failedAt(52)
-                return
+                throw MigrationError(schemaVersion: 52, underlyingError: error)
             }
         }
 
@@ -782,8 +737,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN usedCustomEffectsBefore INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 53
             } catch {
-                failedAt(53)
-                return
+                throw MigrationError(schemaVersion: 53, underlyingError: error)
             }
         }
 
@@ -792,8 +746,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN podcastHTMLDescription TEXT;", values: nil)
                 schemaVersion = 54
             } catch {
-                failedAt(54)
-                return
+                throw MigrationError(schemaVersion: 54, underlyingError: error)
             }
         }
 
@@ -802,8 +755,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isPrivate INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 55
             } catch {
-                failedAt(55)
-                return
+                throw MigrationError(schemaVersion: 55, underlyingError: error)
             }
         }
 
@@ -812,8 +764,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fundingURL TEXT;", values: nil)
                 schemaVersion = 56
             } catch {
-                failedAt(56)
-                return
+                throw MigrationError(schemaVersion: 56, underlyingError: error)
             }
         }
 
@@ -825,8 +776,7 @@ class DatabaseHelper {
                 try db.executeUpdate("DELETE FROM SJPodcast WHERE id IS NULL", values: nil)
                 schemaVersion = 57
             } catch {
-                failedAt(57)
-                return
+                throw MigrationError(schemaVersion: 57, underlyingError: error)
             }
         }
 
@@ -835,8 +785,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN rawPlaylistType INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 58
             } catch {
-                failedAt(58)
-                return
+                throw MigrationError(schemaVersion: 58, underlyingError: error)
             }
         }
 
@@ -846,8 +795,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN playlist_uuid TEXT;", values: nil)
                 schemaVersion = 59
             } catch {
-                failedAt(59)
-                return
+                throw MigrationError(schemaVersion: 59, underlyingError: error)
             }
         }
 
@@ -856,8 +804,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN showArchivedEpisodes BOOLEAN DEFAULT FALSE;", values: nil)
                 schemaVersion = 69
             } catch {
-                failedAt(69)
-                return
+                throw MigrationError(schemaVersion: 69, underlyingError: error)
             }
         }
 
@@ -866,8 +813,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN playlistUpdateDate REAL;", values: nil)
                 schemaVersion = 70
             } catch {
-                failedAt(70)
-                return
+                throw MigrationError(schemaVersion: 70, underlyingError: error)
             }
         }
 
@@ -880,8 +826,7 @@ class DatabaseHelper {
 
                 schemaVersion = 71
             } catch {
-                failedAt(71)
-                return
+                throw MigrationError(schemaVersion: 71, underlyingError: error)
             }
         }
 
@@ -891,8 +836,7 @@ class DatabaseHelper {
 
                 schemaVersion = 72
             } catch {
-                failedAt(72)
-                return
+                throw MigrationError(schemaVersion: 72, underlyingError: error)
             }
         }
 
@@ -901,8 +845,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN hasGeneratedTranscript INTEGER;", values: nil)
                 schemaVersion = 73
             } catch {
-                failedAt(73)
-                return
+                throw MigrationError(schemaVersion: 73, underlyingError: error)
             }
         }
 
@@ -911,8 +854,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isExplicit INTEGER DEFAULT 0;", values: nil)
                 schemaVersion = 74
             } catch {
-                failedAt(74)
-                return
+                throw MigrationError(schemaVersion: 74, underlyingError: error)
             }
         }
 
@@ -921,8 +863,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN hlsUrl TEXT;", values: nil)
                 schemaVersion = 75
             } catch {
-                failedAt(75)
-                return
+                throw MigrationError(schemaVersion: 75, underlyingError: error)
             }
         }
 
@@ -935,8 +876,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE Bookmark ADD COLUMN reference_time_modified_date INTEGER;", values: nil)
                 schemaVersion = 76
             } catch {
-                failedAt(76)
-                return
+                throw MigrationError(schemaVersion: 76, underlyingError: error)
             }
         }
 
@@ -945,8 +885,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN networkListId TEXT;", values: nil)
                 schemaVersion = 77
             } catch {
-                failedAt(77)
-                return
+                throw MigrationError(schemaVersion: 77, underlyingError: error)
             }
         }
     }
