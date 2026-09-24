@@ -46,7 +46,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
     private func tableSections() -> [TableSections] {
         var sections: [TableSections] = [.upNext]
-        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnWatch() {
+        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnWatch {
             sections.append(.lockedInfo)
         }
 
@@ -61,7 +61,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             rows[0].append(.numUpNextEpisodes)
             rows[0].append(.autoDeleteUpNext)
         }
-        if !hasSubscription, !Settings.plusInfoDismissedOnWatch() {
+        if !hasSubscription, !Settings.plusInfoDismissedOnWatch {
             rows.append([.lockedInfo])
         }
 
@@ -238,7 +238,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
 extension WatchSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnWatch(true)
+        Settings.plusInfoDismissedOnWatch = true
         settingsTable.reloadData()
     }
 

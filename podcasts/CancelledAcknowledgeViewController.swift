@@ -36,7 +36,7 @@ class CancelledAcknowledgeViewController: UIViewController {
     }
 
     @IBAction func doneTapped(_ sender: Any) {
-        Settings.setSubscriptionCancelledAcknowledged(true)
+        Settings.subscriptionCancelledAcknowledged = true
         dismiss(animated: true, completion: nil)
     }
 

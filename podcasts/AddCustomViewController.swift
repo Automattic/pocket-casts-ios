@@ -302,7 +302,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
                 self.addCustomImageButton.isEnabled = true
                 self.addCustomlock.isHidden = false
-                self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd()
+                self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd
 
                 if self.embeddedImage == nil {
                     self.customiseArtworkView.addGestureRecognizer(self.lockedArtworkTapGesture)
@@ -472,7 +472,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 extension AddCustomViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         lockView.isHidden = true
-        Settings.setPlusInfoDismissedOnFilesAdd(true)
+        Settings.plusInfoDismissedOnFilesAdd = true
     }
 
     var displayingViewController: UIViewController {

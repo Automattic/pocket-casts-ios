@@ -515,12 +515,13 @@ class Settings: NSObject {
     // MARK: Subscription Cancelled Acknowledgement
 
     private static let subscriptionCancelledAcknowledgedKey = "SJCancelledAcknowledged"
-    class func setSubscriptionCancelledAcknowledged(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: subscriptionCancelledAcknowledgedKey)
-    }
-
-    class func subscriptionCancelledAcknowledged() -> Bool {
-        UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
+    static var subscriptionCancelledAcknowledged: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledAcknowledgedKey)
+        }
     }
 
     private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
@@ -535,59 +536,65 @@ class Settings: NSObject {
 
     // MARK: Promotion Finished Acknowledgement
 
-    class func setPromotionFinishedAcknowledged(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
-    }
-
-    class func promotionFinishedAcknowledged() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
+    static var promotionFinishedAcknowledged: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.promotionFinishedAcknowledged)
+        }
     }
 
     // MARK: Plus Info Closed
 
     private static let plusInfoFilesSettingsClosedKey = "PlusInfoClosedFileSettings"
-    class func plusInfoDismissedOnFilesSettings() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.plusInfoFilesSettingsClosedKey)
-    }
-
-    class func setPlusInfoDismissedOnFilesSettings(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Settings.plusInfoFilesSettingsClosedKey)
+    static var plusInfoDismissedOnFilesSettings: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.plusInfoFilesSettingsClosedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoFilesSettingsClosedKey)
+        }
     }
 
     private static let plusInfoFilesAddClosedKey = "PlusInfoClosedFileAdd"
-    class func plusInfoDismissedOnFilesAdd() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.plusInfoFilesAddClosedKey)
-    }
-
-    class func setPlusInfoDismissedOnFilesAdd(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Settings.plusInfoFilesAddClosedKey)
+    static var plusInfoDismissedOnFilesAdd: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.plusInfoFilesAddClosedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoFilesAddClosedKey)
+        }
     }
 
     private static let plusInfoAppearanceClosedKey = "PlusInfoClosedAppearance"
-    class func plusInfoDismissedOnAppearance() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.plusInfoAppearanceClosedKey)
-    }
-
-    class func setPlusInfoDismissedOnAppearance(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Settings.plusInfoAppearanceClosedKey)
+    static var plusInfoDismissedOnAppearance: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.plusInfoAppearanceClosedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoAppearanceClosedKey)
+        }
     }
 
     private static let plusInfoWatchClosedKey = "PlusInfoClosedWatch"
-    class func plusInfoDismissedOnWatch() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.plusInfoWatchClosedKey)
-    }
-
-    class func setPlusInfoDismissedOnWatch(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Settings.plusInfoWatchClosedKey)
+    static var plusInfoDismissedOnWatch: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.plusInfoWatchClosedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoWatchClosedKey)
+        }
     }
 
     private static let plusInfoProfileClosedKey = "PlusInfoClosedProfile"
-    class func plusInfoDismissedOnProfile() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.plusInfoProfileClosedKey)
-    }
-
-    class func setPlusInfoDismissedOnProfile(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: Settings.plusInfoProfileClosedKey)
+    static var plusInfoDismissedOnProfile: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.plusInfoProfileClosedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.plusInfoProfileClosedKey)
+        }
     }
 
     class func uniqueAppId() -> String? {
@@ -602,12 +609,13 @@ class Settings: NSObject {
 
     private static let whatsNewLastAcknowledgedKey = "SJWhatsNewLastAcknowledged"
 
-    class func setWhatsNewLastAcknowledged(_ value: Int) {
-        UserDefaults.standard.set(value, forKey: whatsNewLastAcknowledgedKey)
-    }
-
-    class func whatsNewLastAcknowledged() -> Int {
-        UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
+    static var whatsNewLastAcknowledged: Int {
+        get {
+            UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: whatsNewLastAcknowledgedKey)
+        }
     }
 
 
