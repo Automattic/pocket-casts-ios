@@ -40,7 +40,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        podcasts.isEmpty && predictive.isEmpty && combinedResults.isEmpty
+        podcasts.isEmpty && combinedResults.isEmpty && (!isShowingPredictiveSearch || predictive.isEmpty)
     }
 
     /// The networks among ``combinedResults``, which the Networks filter and its rows are drawn from.
