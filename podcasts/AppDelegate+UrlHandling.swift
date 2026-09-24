@@ -436,9 +436,9 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/upsell") { _ -> Bool in
+        JLRoutes.global().addRoute("/upsell") { parameters -> Bool in
             guard let viewController = SceneHelper.rootViewController() else { return false }
-            let source = PlusUpgradeViewSource(rawValue: ["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
+            let source = PlusUpgradeViewSource(routeParameters: parameters)
             NavigationManager.shared.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, NavigationManager.subscriptionUpgradeVCKey: viewController])
             return true
         }
@@ -608,5 +608,11 @@ extension AppDelegate {
 
             return true
         }
+    }
+}
+
+extension PlusUpgradeViewSource {
+    init(routeParameters parameters: [String: Any]) {
+        self = PlusUpgradeViewSource(rawValue: parameters["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
     }
 }
