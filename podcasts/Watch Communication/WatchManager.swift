@@ -609,7 +609,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         let upNextCount = upNextInfo.count
 
         applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
-        applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
+        applicationDict[WatchConstants.Keys.nowPlayingInfo] = DispatchQueue.main.sync { serializeNowPlaying() }
         applicationDict[WatchConstants.Keys.upNextInfo] = upNextInfo
         applicationDict[WatchConstants.Keys.autoArchivePlayedAfter] = Settings.autoArchivePlayedAfter()
         applicationDict[WatchConstants.Keys.autoArchiveStarredEpisodes] = Settings.archiveStarredEpisodes()
