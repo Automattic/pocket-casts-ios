@@ -15,7 +15,7 @@ public class BackgroundSyncManager: NSObject {
     var pendingWatchBackgroundTasks: [String: WKURLSessionRefreshBackgroundTask] = [:]
     public func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask, identifier: String) {
         pendingWatchBackgroundTasks[identifier] = task
-        _ = createUrlSession(identifier: identifier)
+        _ = backgroundSession(identifier: identifier)
     }
     #endif
 
@@ -31,7 +31,8 @@ public class BackgroundSyncManager: NSObject {
     var lastUpNextActionTime: Int64 = 0
 
     // we retain these so they aren't immediately released on method exit
-    var pendingTasks = [URLSessionDownloadTask]()
+    let pendingTasks = ThreadSafeDictionary<String, [URLSessionDownloadTask]>()
+    let urlSessions = ThreadSafeDictionary<String, URLSession>()
 
     lazy var syncProcessQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -51,7 +52,8 @@ public class BackgroundSyncManager: NSObject {
 
         // we also need to perform all these on the same URLSession as download tasks, so the app can be put to sleep and woken up when they are done later
 
-        let urlSession = createUrlSession(identifier: BackgroundSyncManager.sessionIdPrefix + UUID().uuidString)
+        let identifier = BackgroundSyncManager.sessionIdPrefix + UUID().uuidString
+        let urlSession = backgroundSession(identifier: identifier)
         guard let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey),
               let refreshTask = refreshDownloadTask(subscribedPodcasts: subscribedPodcasts, urlSession: urlSession),
               let upNextTask = upNextDownloadTask(token: token, urlSession: urlSession),
@@ -61,20 +63,18 @@ public class BackgroundSyncManager: NSObject {
             // Tear down the session we just created so we don't leak an un-invalidated
             // background session (these accumulate in the system's background session store).
             urlSession.invalidateAndCancel()
+            urlSessions[identifier] = nil
 
             return
         }
 
         FileLog.shared.addMessage("BackgroundSyncManager calling refresh, sync and up next sync")
+        pendingTasks[identifier] = [refreshTask, upNextTask, syncTask]
+
         // kick off all the tasks, we'll process them in the URLSessionDelegate methods
         refreshTask.resume()
-        pendingTasks.append(refreshTask)
-
         upNextTask.resume()
-        pendingTasks.append(upNextTask)
-
         syncTask.resume()
-        pendingTasks.append(syncTask)
 
         // Advance the throttle timestamp only once the tasks have been created and resumed.
         // If task creation throws (the background URLSession was invalidated out from under us)
@@ -137,9 +137,14 @@ public class BackgroundSyncManager: NSObject {
         return Int64(receivedBytes) == expectedContentLength
     }
 
-    private func createUrlSession(identifier: String) -> URLSession {
+    private func backgroundSession(identifier: String) -> URLSession {
+        if let session = urlSessions[identifier] {
+            return session
+        }
+
         let config = URLSessionConfiguration.background(withIdentifier: identifier)
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+        urlSessions[identifier] = session
 
         return session
     }

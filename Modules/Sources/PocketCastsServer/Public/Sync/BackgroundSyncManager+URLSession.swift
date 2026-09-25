@@ -66,10 +66,13 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error {
             FileLog.shared.addMessage("URLSession didCompleteWithError \(error.localizedDescription)")
-            return
+        } else {
+            FileLog.shared.addMessage("URLSession download finished, status code: \(task.response?.extractStatusCode() ?? 0), task \(task.taskDescription ?? "no description")")
         }
 
-        FileLog.shared.addMessage("URLSession download finished, status code: \(task.response?.extractStatusCode() ?? 0), task \(task.taskDescription ?? "no description")")
+        syncProcessQueue.addOperation {
+            self.removePendingTask(task, session: session)
+        }
     }
 
     public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
@@ -85,8 +88,28 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             #endif
 
             session.invalidateAndCancel()
-            self.pendingTasks.removeAll()
+            if let identifier = session.configuration.identifier {
+                self.urlSessions[identifier] = nil
+                self.pendingTasks[identifier] = nil
+            }
         }
+    }
+
+    // MARK: - Session Cleanup
+
+    private func removePendingTask(_ task: URLSessionTask, session: URLSession) {
+        guard let identifier = session.configuration.identifier, var tasks = pendingTasks[identifier] else { return }
+
+        tasks.removeAll { $0.taskIdentifier == task.taskIdentifier }
+        pendingTasks[identifier] = tasks.isEmpty ? nil : tasks
+        guard tasks.isEmpty else { return }
+
+        #if os(watchOS)
+        guard pendingWatchBackgroundTasks[identifier] == nil else { return }
+        #endif
+
+        urlSessions[identifier] = nil
+        session.finishTasksAndInvalidate()
     }
 
     // MARK: - Private Processing Helpers
