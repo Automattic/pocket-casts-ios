@@ -113,6 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if FeatureFlag.enableLocalizationHeaders.enabled {
                 LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
             }
+
+            #if DEBUG
+            QALaunchHooks.runIfRequested()
+            #endif
         }
 
         badgeHelper.setup()
