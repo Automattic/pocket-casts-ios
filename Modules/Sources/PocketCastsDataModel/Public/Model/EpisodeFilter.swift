@@ -66,6 +66,7 @@ public class EpisodeFilter: NSObject {
         playlistName = title
     }
 
+    /// Renames the playlist, keeping the current name when `title` is empty or whitespace-only.
     public func rename(to title: String?) {
         setTitle(title, defaultTitle: playlistName)
     }
