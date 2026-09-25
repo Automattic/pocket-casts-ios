@@ -17,8 +17,12 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
+    private var contentSizeObserver: NSObjectProtocol?
+
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if let contentSizeObserver {
+            NotificationCenter.default.removeObserver(contentSizeObserver)
+        }
     }
 
     override init(purchaseHandler: IAPHelper = .shared) {
@@ -27,12 +31,13 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         // Load prices on init
         loadPrices()
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(expandViewController),
-            name: UIContentSizeCategory.didChangeNotification,
-            object: nil
-        )
+        contentSizeObserver = NotificationCenter.default.addObserver(
+            forName: UIContentSizeCategory.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.expandViewController()
+        }
     }
 
     @MainActor
@@ -69,7 +74,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: parentController)
     }
 
-    @objc private func expandViewController() {
+    private func expandViewController() {
         let sizeCategory = UIApplication.shared.preferredContentSizeCategory
         let isAccessibility = sizeCategory.isAccessibilityCategory
         if let sheet = parentController?.presentedViewController?.sheetPresentationController {
