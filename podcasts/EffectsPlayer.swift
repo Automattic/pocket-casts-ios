@@ -157,7 +157,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             // Store sample rate for AudioReadTask (useVoiceBoostN already set above)
             strongSelf.audioFileSampleRate = strongSelf.audioFile!.fileFormat.sampleRate
 
-            strongSelf.startReadAndPlayThreads()
+            do {
+                try strongSelf.startReadAndPlayThreads()
+            } catch {
+                strongSelf.playerLock.unlock()
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: error.localizedDescription), fallbackToDefaultPlayer: true)
+                return
+            }
             do {
                 strongSelf.engine?.prepare()
                 try strongSelf.engine?.start()
@@ -348,14 +354,14 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     // MARK: - Helper methods
 
-    private func startReadAndPlayThreads() {
+    private func startReadAndPlayThreads() throws {
         // just in case there are any running
         audioReadTask?.shutdown()
         audioPlayTask?.shutdown()
 
         guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.value ?? false }, sampleRate: audioFileSampleRate)
+        audioReadTask = try AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: { [weak self] in self?.useVoiceBoostN.value ?? false }, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()

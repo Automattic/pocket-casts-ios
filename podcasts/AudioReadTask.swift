@@ -39,7 +39,7 @@ class AudioReadTask {
     private var voiceBoostNSampleRate: Double = 0
     private var hasProcessedFirstBuffer = false
 
-    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: @escaping () -> Bool = { false }, sampleRate: Double = 0) {
+    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: @escaping () -> Bool = { false }, sampleRate: Double = 0) throws {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
         self.outputFormat = outputFormat
@@ -61,13 +61,16 @@ class AudioReadTask {
         updateRemoveSilenceNumbers()
 
         if playPositionHint > 0 {
-            currentFramePosition = framePositionForTime(playPositionHint).framePosition
-            if currentFramePosition < audioFile.length {
-                FileLog.shared.addMessage("Setting framePosition to \(currentFramePosition) for file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = currentFramePosition
-            } else {
-                FileLog.shared.addMessage("Attempted to seek past EOF: \(currentFramePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = max(0, audioFile.length - 1)
+            let framePosition = framePositionForTime(playPositionHint).framePosition
+            currentFramePosition = framePosition
+            try SJCommonUtils.catchException {
+                if framePosition < audioFile.length {
+                    FileLog.shared.addMessage("Setting framePosition to \(framePosition) for file: \(audioFile.url.lastPathComponent)")
+                    audioFile.framePosition = framePosition
+                } else {
+                    FileLog.shared.addMessage("Attempted to seek past EOF: \(framePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
+                    audioFile.framePosition = max(0, audioFile.length - 1)
+                }
             }
         }
     }
