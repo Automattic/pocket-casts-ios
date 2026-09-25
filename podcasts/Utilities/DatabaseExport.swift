@@ -20,9 +20,10 @@ class DatabaseExport {
 
         return await withCheckedContinuation { continutation in
             let coordinator = NSFileCoordinator()
+            var coordinatorError: NSError?
 
             // The file coordinate will zip the export folder for us
-            coordinator.coordinate(readingItemAt: exportFolder, options: .forUploading, error: nil) { zipURL in
+            coordinator.coordinate(readingItemAt: exportFolder, options: .forUploading, error: &coordinatorError) { zipURL in
                 do {
                     // The generated zip file is only available until this block exits
                     // so we need to move it to a more permanent location
@@ -34,6 +35,11 @@ class DatabaseExport {
                     FileLog.shared.addMessage("[Export] Could not generate zip file: \(error)")
                     continutation.resume(returning: nil)
                 }
+            }
+
+            if let coordinatorError {
+                FileLog.shared.addMessage("[Export] Could not coordinate reading the export folder: \(coordinatorError)")
+                continutation.resume(returning: nil)
             }
         }
     }
