@@ -46,6 +46,7 @@ class PairingSession {
             if Task.isCancelled { return }
             do {
                 let authorizeResponse = try await AuthenticationHelper.deviceAuthorizeCode()
+                if Task.isCancelled { return }
                 codes = authorizeResponse.userCode.map({ char in
                     String(char)
                 })
@@ -54,6 +55,7 @@ class PairingSession {
 
                 try await AuthenticationHelper.deviceWaitForApproval(deviceCode: authorizeResponse.deviceCode)
                 state = .finished
+                return
             } catch let error as APIError {
                 if case APIError.EXPIRED_TOKEN = error {
                     tryAgain = true

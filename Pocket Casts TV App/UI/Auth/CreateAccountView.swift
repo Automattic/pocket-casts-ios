@@ -19,11 +19,14 @@ struct CreateAccountView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var pairing = PairingSession()
+    @State private var pairingAttempt = 0
 
     var body: some View {
         layout
             .task {
                 Analytics.track(.createAccountShown)
+            }
+            .task(id: pairingAttempt) {
                 await pairing.start()
             }
             .onChange(of: pairing.state) {
@@ -132,9 +135,7 @@ struct CreateAccountView: View {
             Text(message)
         } actions: {
             Button {
-                Task {
-                    await pairing.start()
-                }
+                pairingAttempt += 1
             } label: {
                 Text(L10n.tryAgain)
                     .frame(minWidth: 300)

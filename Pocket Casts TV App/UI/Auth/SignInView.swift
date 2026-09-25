@@ -21,6 +21,13 @@ struct SignInView: View {
 
     @State private var loginType: LoginType = .qr
 
+    @State private var pairingAttempt = 0
+
+    private struct TaskID: Equatable {
+        let loginType: LoginType
+        let pairingAttempt: Int
+    }
+
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 64) {
@@ -58,7 +65,7 @@ struct SignInView: View {
             }
             .padding(.top, 80)
         }
-        .task(id: loginType) {
+        .task(id: TaskID(loginType: loginType, pairingAttempt: pairingAttempt)) {
             switch loginType {
             case .qr:
                 await model.pairing.start()
@@ -114,9 +121,7 @@ struct SignInView: View {
             Text(message)
         } actions: {
             Button {
-                Task {
-                    await model.pairing.start()
-                }
+                pairingAttempt += 1
             } label: {
                 Text(L10n.tryAgain)
                     .frame(minWidth: 300)
