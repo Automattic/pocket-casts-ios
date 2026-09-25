@@ -5,6 +5,7 @@
 - Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
 - Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
 - Fix episode downloads still using the old file link after the podcast replaced it with a new one, which could make the download fail [#5274](https://github.com/Automattic/pocket-casts-ios/pull/5274)
+- Fix the Apple TV app continuing to check for a sign-in approval after signing in or leaving the sign-in screen [#5289](https://github.com/Automattic/pocket-casts-ios/pull/5289)
 
 
 8.21
