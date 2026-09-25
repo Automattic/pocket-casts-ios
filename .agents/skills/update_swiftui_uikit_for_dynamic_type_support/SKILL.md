@@ -186,30 +186,6 @@ Use a standard SwiftUI `List`, or a `VStack` inside a `ScrollView` for custom la
 
 ---
 
-## SwiftUI + UIKit Integration
-
-The project is in gradual migration from UIKit to SwiftUI. New features can be SwiftUI-first, but they need to interop cleanly with the existing UIKit shell.
-
-### Embedding SwiftUI in UIKit
-
-Use `UIHostingController` or `UIHostingConfiguration` (for cells). Always inject the theme:
-
-```swift
-let hostingController = UIHostingController(rootView:
-    MySwiftUIView()
-        .environmentObject(Theme.shared)
-)
-addChild(hostingController)
-view.addSubview(hostingController.view)
-hostingController.didMove(toParent: self)
-```
-
-### Embedding UIKit in SwiftUI
-
-Use `UIViewControllerRepresentable` or `UIViewRepresentable` when you need to wrap legacy UIKit components.
-
----
-
 ## Quick Reference — Common Patterns
 
 | What you need | UIKit | SwiftUI |
