@@ -38,6 +38,10 @@ struct ClipsWhatsNewView: View {
     }
 }
 
+#Preview {
+    ClipsWhatsNewView()
+}
+
 struct AnimatedLogoImageView: View {
     struct Logo {
         let image: String
