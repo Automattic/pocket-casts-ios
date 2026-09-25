@@ -655,7 +655,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, UInt32(MemoryLayout<AudioStreamBasicDescription>.stride)) == noErr else { return nil }
 
             // Set audio unit render callback
-            let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
+            let inputProcRefCon = Unmanaged.passUnretained(tap)
             var renderCallback = AURenderCallbackStruct(inputProc: referenceToSelf.peakLimiterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
 
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &renderCallback, UInt32(MemoryLayout<AURenderCallbackStruct>.stride)) == noErr else { return nil }
@@ -678,15 +678,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
-            guard
-                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
-                let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor,
-                let ioData
-            else {
+            guard let ioData else {
                 return -1
             }
 
             // The peak limiter is at the end of the chain so just grab the processed audio
+            let tap = Unmanaged<MTAudioProcessingTap>.fromOpaque(inRefCon).takeUnretainedValue()
             return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData, nil, nil, nil)
         }
 
