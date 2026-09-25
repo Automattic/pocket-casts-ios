@@ -215,7 +215,10 @@ class ImageManager {
 
         do {
             let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            guard let image = UIImage(data: data) else { return nil }
+            guard let image = UIImage(data: data) else {
+                try? cache.diskStorage.remove(forKey: key)
+                return nil
+            }
 
             cache.store(image, forKey: key, toDisk: false)
             return image

@@ -35,7 +35,7 @@ final class ImageManagerTests: XCTestCase {
         XCTAssertNotNil(cache.retrieveImageInMemoryCache(forKey: key))
     }
 
-    func testRetrieveImageFromCacheReturnsNilForCorruptDiskData() throws {
+    func testRetrieveImageFromCacheRemovesCorruptDiskData() throws {
         let url = URL(string: "https://example.com/corrupt.png")!
         let key = url.cacheKey
         try cache.diskStorage.store(value: Data("not an image".utf8), forKey: key)
@@ -44,5 +44,6 @@ final class ImageManagerTests: XCTestCase {
 
         XCTAssertNil(retrievedImage)
         XCTAssertNil(cache.retrieveImageInMemoryCache(forKey: key))
+        XCTAssertFalse(cache.diskStorage.isCached(forKey: key))
     }
 }
