@@ -9,9 +9,6 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    // cache for network images
-    private var networkImageCache = ImageCache(name: "networkImageCache")
-
     // search image cache, we limit this to 10MBs
     private var searchImageCache = ImageCache(name: "generalImageCache")
 
@@ -30,6 +27,7 @@ class ImageManager {
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
         #endif
         subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
+        subscribedPodcastsCache.memoryStorage.config.totalCostLimit = 100.megabytes
         return subscribedPodcastsCache
     }()
 
@@ -44,6 +42,7 @@ class ImageManager {
         let cache = ImageCache(name: "discoverVideoThumbnailCache")
         cache.diskStorage.config.expiration = .days(10)
         cache.diskStorage.config.sizeLimit = UInt(50.megabytes)
+        cache.memoryStorage.config.totalCostLimit = 25.megabytes
         return cache
     }()
 
@@ -57,15 +56,18 @@ class ImageManager {
     private var failedEmbeddedLookups = [] as [String]
 
     init() {
-        networkImageCache.diskStorage.config.expiration = .days(56) // 8 weeks
-
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
+        searchImageCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         userEpisodeCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
         userEpisodeCache.diskStorage.config.expiration = .days(365)
+        userEpisodeCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         discoverCache.diskStorage.config.expiration = .days(10)
         discoverCache.diskStorage.config.sizeLimit = UInt(50.megabytes)
+        discoverCache.memoryStorage.config.totalCostLimit = 40.megabytes
+
+        KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 50.megabytes
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastAddedNotification(notification:)), name: Constants.Notifications.podcastAdded, object: nil)
     }
@@ -417,7 +419,7 @@ class ImageManager {
 
     /// Clears every image cache, memory and disk. Used by tvOS logout.
     func clearAllImageCaches() {
-        let caches = [networkImageCache, searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
+        let caches = [searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
         for cache in caches {
             cache.clearMemoryCache()
             cache.clearDiskCache()
