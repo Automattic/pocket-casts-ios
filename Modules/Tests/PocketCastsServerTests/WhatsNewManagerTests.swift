@@ -147,6 +147,23 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
     }
 
+    /// A message taken out of the published catalog has to leave the feed, and stay out of it on the
+    /// next launch.
+    func testMessagesRemovedFromThePublishedCatalogLeaveTheCachedOne() async {
+        let cache = temporaryCache()
+        let manager = manager(cache: cache, refreshInterval: 0)
+        await manager.refreshIfNeeded().value
+
+        StubURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(#"{ "schemaVersion": 1, "messages": [] }"#.utf8))
+        }
+        await manager.refreshIfNeeded().value
+
+        XCTAssertEqual(manager.catalog?.messages, [])
+        XCTAssertEqual(WhatsNewCatalogTask(cache: cache).cachedCatalog()?.messages, [])
+    }
+
     // MARK: - Read state
 
     /// The file on disk is what the feed works from, so everything marked in one session has to be
