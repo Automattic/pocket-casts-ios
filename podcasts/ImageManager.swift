@@ -9,9 +9,6 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    // cache for network images
-    private var networkImageCache = ImageCache(name: "networkImageCache")
-
     // search image cache, we limit this to 10MBs
     private var searchImageCache = ImageCache(name: "generalImageCache")
 
@@ -59,8 +56,6 @@ class ImageManager {
     private var failedEmbeddedLookups = [] as [String]
 
     init() {
-        networkImageCache.diskStorage.config.expiration = .days(56) // 8 weeks
-
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
         searchImageCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
@@ -424,7 +419,7 @@ class ImageManager {
 
     /// Clears every image cache, memory and disk. Used by tvOS logout.
     func clearAllImageCaches() {
-        let caches = [networkImageCache, searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
+        let caches = [searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
         for cache in caches {
             cache.clearMemoryCache()
             cache.clearDiskCache()
