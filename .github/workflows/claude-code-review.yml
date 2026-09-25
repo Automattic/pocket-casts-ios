@@ -86,8 +86,8 @@ jobs:
             - Start a comment with "(nit)" for a trivial suggestion, and
               "(non-blocking)" for something worth knowing that should not hold up
               the merge. An unprefixed comment means it blocks.
-            - At most three "(nit)"/"(non-blocking)" comments between them. Blocking
-              findings are uncapped.
+            - Post a "(nit)" or "(non-blocking)" comment only when it is worth the
+              author's time to act on. Post every blocking finding.
             - Raise a pre-existing issue only if this PR makes it reachable, more
               likely, or harder to fix later - and say which.
             - Never comment to confirm code is correct, restate the diff, or praise it.
@@ -100,7 +100,7 @@ jobs:
             Output:
             - Inline comments for anything anchored to a line.
             - One summary comment:
-              - Two to four sentences of verdict. No preamble, no restating the PR.
+              - A short verdict. No preamble, no restating the PR.
               - Then the findings grouped under `### Blocking`, `### Non-blocking`,
                 `### Nits`. Skip a group that is empty; skip the section entirely if
                 there are no findings, leaving the verdict as the whole summary.
