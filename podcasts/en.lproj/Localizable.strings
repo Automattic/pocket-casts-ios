@@ -4753,6 +4753,21 @@
 /* Message displayed when doing heavy database operations */
 "database_migration" = "We're moving a few bits and bytes so the app runs faster...";
 
+/* Title of the full screen shown on launch when the app's database can't be opened */
+"database_error_title" = "Pocket Casts can't open its database";
+
+/* Explains what happened on the screen shown when the app's database can't be opened */
+"database_error_message" = "Something is wrong with the database that holds your podcasts, so the app can't start. Nothing has been deleted: the database is still on this device, exactly as it was.";
+
+/* Tells the user not to reinstall the app while their database can't be opened */
+"database_error_keep_app_installed" = "Please don't delete or reinstall the app, that would erase the database for good. Get in touch with us and send us a copy of it, and we'll help you get your podcasts back.";
+
+/* Header above the technical details of the error that stopped the database from being opened */
+"database_error_details" = "Error details";
+
+/* Button that opens the support form on the screen shown when the app's database can't be opened */
+"database_error_contact_support" = "Contact Support";
+
 /* The act to restore something */
 "restore" = "Restore";
 
