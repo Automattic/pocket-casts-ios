@@ -53,7 +53,7 @@ class ImageManager {
     private let availablePodcastImageSizes = [130, 210, 280, 340, 400, 420, 680, 960]
 
     // we store failed embed lookups in memory, just to stop us constantly parsing a file with no artwork for artwork
-    private var failedEmbeddedLookups = [] as [String]
+    private var failedEmbeddedLookups = Set<String>()
 
     init() {
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
@@ -285,7 +285,7 @@ class ImageManager {
                 completion?(embeddedImage)
                 return true
             } else {
-                failedEmbeddedLookups.append(episode.uuid)
+                failedEmbeddedLookups.insert(episode.uuid)
                 return false
             }
         }
@@ -299,8 +299,8 @@ class ImageManager {
             case .success(let imageCache):
                 imageView?.image = imageCache.image
                 completion?(imageCache.image)
-            default:
-                break
+            case .failure:
+                completion?(nil)
             }
         }
     }
