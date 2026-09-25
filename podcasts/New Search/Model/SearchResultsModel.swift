@@ -27,6 +27,7 @@ class SearchResultsModel: ObservableObject {
 
     private(set) var currentSearchTerm: String = ""
     private(set) var currentPredictiveSearchTerm: String = ""
+    private var latestSearchID = 0
 
     private let dataMangager: DataManager
 
@@ -67,21 +68,27 @@ class SearchResultsModel: ObservableObject {
     func predictiveSearch(term: String) {
         currentSearchTerm = term
         clearErrors()
+        latestSearchID += 1
 
         guard !term.trim().isEmpty, !isTermAnURL(term) else {
             return
         }
 
+        let searchID = latestSearchID
         Task {
             isSearchingPredictive = true
             do {
                 let results = try await predictiveSearch.search(term: term)
-                show(predictiveResults: results)
-                currentPredictiveSearchTerm = term
+                if searchID == latestSearchID {
+                    show(predictiveResults: results)
+                    currentPredictiveSearchTerm = term
+                }
             } catch {
-                predictiveSearchError = error
-                isShowingPredictiveSearch = true
-                predictive = []
+                if searchID == latestSearchID {
+                    predictiveSearchError = error
+                    isShowingPredictiveSearch = true
+                    predictive = []
+                }
                 analyticsHelper.trackPredictiveFailed(error)
             }
             isSearchingPredictive = false
@@ -101,6 +108,7 @@ class SearchResultsModel: ObservableObject {
 
         currentSearchTerm = term
         clearErrors()
+        latestSearchID += 1
 
         if !isShowingLocalResultsOnly {
             clearSearch()
@@ -126,6 +134,7 @@ class SearchResultsModel: ObservableObject {
     func combinedSearch(term: String) {
         currentSearchTerm = term
         clearErrors()
+        latestSearchID += 1
 
         if !isShowingLocalResultsOnly {
             clearSearch()
