@@ -31,9 +31,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     private var didChangeAutoDownload = false
     private var didChangeEpisodeCount = false
     private var isViewingShortcuts = false
-    private var didChangeName: Bool {
-        filterToEdit.playlistName != filterNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,13 +53,14 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        let didChangeName = filterToEdit.playlistName != filterNameTextField.text
+        let previousName = filterToEdit.playlistName
+        filterToEdit.rename(to: filterNameTextField.text)
+        let didChangeName = filterToEdit.playlistName != previousName
 
         if didChangeName {
             track(.filterNameUpdated)
         }
 
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
@@ -210,12 +208,15 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if didChangeName {
+        let previousName = filterToEdit.playlistName
+        filterToEdit.rename(to: textField.text)
+
+        if filterToEdit.playlistName != previousName {
             track(.filterNameUpdated)
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        textField.text = filterToEdit.playlistName
         textField.resignFirstResponder()
     }
 

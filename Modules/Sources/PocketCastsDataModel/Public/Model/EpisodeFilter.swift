@@ -66,6 +66,11 @@ public class EpisodeFilter: NSObject {
         playlistName = title
     }
 
+    /// Renames the playlist, keeping the current name when `title` is empty or whitespace-only.
+    public func rename(to title: String?) {
+        setTitle(title, defaultTitle: playlistName)
+    }
+
     /// Whether an episode's download status decides if it belongs to this playlist.
     public var filtersByDownloadStatus: Bool {
         let allStatuses = filterDownloaded && filterDownloading && filterNotDownloaded
