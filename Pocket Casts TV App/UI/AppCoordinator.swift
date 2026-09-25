@@ -23,7 +23,7 @@ class AppCoordinator {
 
     func load() async {
         // Ensure database and tables are setup before we go forward
-        let _ = DataManager.sharedManager
+        let _ = DataManager.shared
 
         checkDefaults()
 
@@ -38,7 +38,7 @@ class AppCoordinator {
 
         // Fresh database + still logged in (keychain survived) = the system purged our
         // data; re-fetch everything behind a spinner first.
-        let needsDataLossResync = DataManager.sharedManager.databaseWasCreated && SyncManager.isUserLoggedIn()
+        let needsDataLossResync = DataManager.shared.databaseWasCreated && SyncManager.isUserLoggedIn()
 
         await MainActor.run {
             userState.refresh()
@@ -76,9 +76,9 @@ class AppCoordinator {
                 PlaybackManager.shared.endPlayback(saveCurrentEpisode: false)
             }
 
-            DataManager.sharedManager.deleteAllData()
+            DataManager.shared.deleteAllData()
             DownloadManager.shared.removeAllDownloadedFiles()
-            ImageManager.sharedManager.clearAllImageCaches()
+            ImageManager.shared.clearAllImageCaches()
             clearUserDefaults()
 
             await MainActor.run {
@@ -123,7 +123,6 @@ class AppCoordinator {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
     }
 
@@ -182,7 +181,7 @@ class AppCoordinator {
             FileLog.shared.addMessage("AppCoordinator v1Run")
             // ensure that all previous log in information is wiped and database cleanup
             SyncManager.clearTokensFromKeyChain()
-            DataManager.sharedManager.deleteAllData()
+            DataManager.shared.deleteAllData()
         }
     }
 

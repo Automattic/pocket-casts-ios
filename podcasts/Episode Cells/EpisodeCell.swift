@@ -77,7 +77,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.sharedTheme.activeTheme)
+            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.shared.activeTheme)
         }
     }
 
@@ -330,9 +330,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         else if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
-            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else {
-            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         }
 
         if episode.downloading(), !downloadingIndicator.isAnimating {
@@ -344,7 +344,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if let userEpisode = episode as? UserEpisode {
             uploadProgressIndicator.isHidden = !(userEpisode.uploading() || userEpisode.uploadWaitingForWifi())
             if userEpisode.uploading() {
-                if let progress = UploadManager.shared.progressManager.progressForEpisode(userEpisode.uuid) {
+                if let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: userEpisode.uuid) {
                     uploadProgressIndicator.progress = progress.percentageProgress()
                 } else {
                     uploadProgressIndicator.progress = 0.1
@@ -444,7 +444,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func updateCell(episodeUuid: String) {
-        guard let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let newEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { return }
 
         if Thread.isMainThread {
             populateFrom(episode: newEpisode, tintColor: mainTintColor, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
@@ -510,7 +510,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func downloadProgressDidUpdate() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as downloading, update it from the DB
         if !ourEpisode.downloading() {
@@ -529,7 +529,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func uploadProgressDidUpdateOnMain() {
-        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode as? UserEpisode, let _ = UploadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         // if this episode isn't listed as uploading, update it from the DB
         if !ourEpisode.uploading() {
@@ -609,9 +609,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     private func reloadEpisode() -> BaseEpisode? {
         if let episode = episode as? Episode {
-            return DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+            return DataManager.shared.findEpisode(uuid: episode.uuid)
         } else if let episode = episode as? UserEpisode {
-            return DataManager.sharedManager.findUserEpisode(uuid: episode.uuid)
+            return DataManager.shared.findUserEpisode(uuid: episode.uuid)
         }
 
         return nil
@@ -672,7 +672,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     // Handle theme change
     override func handleThemeDidChange() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
         guard lastAppliedTheme != theme else { return }
         lastAppliedTheme = theme
 

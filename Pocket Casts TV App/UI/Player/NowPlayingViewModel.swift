@@ -3,6 +3,7 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import Combine
+import UIKit
 
 @Observable
 class NowPlayingViewModel: Identifiable {
@@ -38,7 +39,7 @@ class NowPlayingViewModel: Identifiable {
     @ObservationIgnored private var itemStatusObservation: NSKeyValueObservation?
     @ObservationIgnored private var currentItemObservation: NSKeyValueObservation?
 
-    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.sharedManager) {
+    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.shared) {
         self.playbackManager = playbackManager
         self.imageManager = imageManager
         observeUpNextChanges()
@@ -180,30 +181,30 @@ class NowPlayingViewModel: Identifiable {
 
     var playbackSpeed: Double {
         get {
-            playbackManager.effects().playbackSpeed
+            playbackManager.effects.playbackSpeed
         }
         set {
-            playbackManager.effects().playbackSpeed = newValue
+            playbackManager.effects.playbackSpeed = newValue
             playbackManager.applyCurrentEffect()
         }
     }
 
     var volumeBoost: Bool {
         get {
-            playbackManager.effects().volumeBoost
+            playbackManager.effects.volumeBoost
         }
         set {
-            playbackManager.effects().volumeBoost = newValue
+            playbackManager.effects.volumeBoost = newValue
             playbackManager.applyCurrentEffect()
         }
     }
 
     var trimSilence: TrimSilenceAmount {
         get {
-            playbackManager.effects().trimSilence
+            playbackManager.effects.trimSilence
         }
         set {
-            playbackManager.effects().trimSilence = newValue
+            playbackManager.effects.trimSilence = newValue
             playbackManager.applyCurrentEffect()
         }
     }
@@ -218,7 +219,7 @@ class NowPlayingViewModel: Identifiable {
             return image
         }
 
-        return await imageManager.imageForEpisode(episode, size: .page)
+        return await imageManager.image(for: episode, size: .page)
     }
 
     var podcastUuid: String? {

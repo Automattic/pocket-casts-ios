@@ -303,6 +303,8 @@
     <string>如果打开，则如果您在最后一次暂停后的 5 分钟内播放了剧集，睡眠计时器将自动重启。</string>
     <key>back</key>
     <string>返回</string>
+    <key>badge_new</key>
+    <string>新建</string>
     <key>banner_ads_info_label</key>
     <string>广告</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@
     <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。 即将面向 %2$@ 订阅者推出。</string>
     <key>bookmarks_locked_message</key>
     <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>保留您想要的部分</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>添加书签</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>您是在选人，而不是在选简历。</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>试镜室</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ Pocket Casts。</string>
     <string>取消 1 集的星标</string>
     <key>name</key>
     <string>名称</string>
+    <key>network_fail_to_load</key>
+    <string>无法加载此网络</string>
     <key>new_email_address_prompt</key>
     <string>新电子邮箱地址</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ Pocket Casts。</string>
     <string>耳机设置</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>获取书签</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>轻点一下。 名字一经确定，相关词语便随之而来。</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>保留值得保留的部分</string>
     <key>no_bookmarks_message</key>
     <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Pocket Casts。</string>
     <string>搜索书签</string>
     <key>search_episodes</key>
     <string>搜索剧集</string>
+    <key>search_filter_networks</key>
+    <string>网络</string>
     <key>search_label</key>
     <string>搜索播客或添加 RSS URL</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Pocket Casts。</string>
     <string>顶部</string>
     <key>transcript</key>
     <string>文字转录稿</string>
+    <key>transcript_bookmark_selection</key>
+    <string>书签</string>
     <key>transcript_error_empty</key>
     <string>很抱歉，此文字转录稿似乎为空</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Pocket Casts。</string>
     <string>获取最新剧集</string>
     <key>tv_search_failed</key>
     <string>搜索失败：%1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>精选</string>
     <key>tv_search_prompt</key>
     <string>播客、节目、作者</string>
+    <key>tv_search_scope_top_results</key>
+    <string>热门结果</string>
     <key>tv_search_searching</key>
     <string>正在搜索...</string>
     <key>tv_search_type_something</key>

@@ -95,7 +95,8 @@ struct NotificationsPermissionsView: View {
                 .buttonStyle(
                     SelectCircleButtonStyle(selected: .constant(option.isSelected(viewModel)))
                 )
-                .environmentObject(Theme.sharedTheme)
+                .environmentObject(Theme.shared)
+                .accessibilityHidden(true)
                 VStack(alignment: .leading) {
                     Text(option.title)
                         .font(style: .subheadline, weight: .medium)
@@ -108,6 +109,7 @@ struct NotificationsPermissionsView: View {
             }
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(option.isSelected(viewModel) ? .isSelected : [])
     }
 
     var body: some View {

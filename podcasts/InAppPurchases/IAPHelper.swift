@@ -11,7 +11,6 @@ class IAPHelper: NSObject {
         [.monthly, .yearly, .patronMonthly, .patronYearly, .yearlyReferral]
     }
     private var productsArray = [SKProduct]()
-    private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
 
     /// Whether or not the user is eligible for an offer
@@ -306,24 +305,6 @@ extension IAPHelper: SKProductsRequestDelegate {
     }
 }
 
-// MARK: - Pricing String Helpers
-
-extension IAPHelper {
-    /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
-    /// - Parameter product: The product to get the pricing string for
-    /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
-    func pricingStringWithFrequency(for product: IAPProductID) -> String? {
-        let pricing = getPrice(for: product)
-        let frequency = getPaymentFrequency(for: product)
-
-        guard !pricing.isEmpty, !frequency.isEmpty else {
-            return nil
-        }
-
-        return "\(pricing) / \(frequency)"
-    }
-}
-
 // MARK: - Intro Offers: Free Trials
 
 extension IAPHelper {
@@ -409,22 +390,6 @@ extension IAPHelper {
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard let offer = getProduct(for: identifier)?.introductoryPrice,
-            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
-        else {
-            return nil
-        }
-
-        return offer
-    }
-
-    /// Checks if there is a promotional offer for this given product
-    /// - Parameter identifier: The product to check
-    /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
-    func getPromoOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
-        guard
-            let offer = getProduct(for: identifier)?.discounts.first(where: { discount in
-                discount.type != .introductory
-            }),
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -547,7 +512,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
-            let transactionDate = DateFormatHelper.sharedHelper.jsonFormat(transaction.transactionDate)
+            let transactionDate = DateFormatHelper.shared.jsonFormat(transaction.transactionDate)
             FileLog.shared.addMessage("IAPHelper Processing transaction with id \(String(describing: transaction.transactionIdentifier)) \(transactionDate))")
 
             if lowercasedProductIdentifiers.contains(product.lowercased()) {

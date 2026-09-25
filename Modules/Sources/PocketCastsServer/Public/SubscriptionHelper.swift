@@ -22,11 +22,6 @@ open class SubscriptionHelper: NSObject {
         Self.activeTier
     }
 
-    /// Returns the users active subscription type or .none if they don't currently have one
-    public static var activeSubscriptionType: SubscriptionType {
-        hasActiveSubscription() ? subscriptionType() : .none
-    }
-
     /// Returns the users active subscription tier or .none if they don't currently have one
     public static var activeTier: SubscriptionTier {
         guard hasActiveSubscription() else {
@@ -174,15 +169,6 @@ open class SubscriptionHelper: NSObject {
         SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
     }
 
-    public class func setSubscriptionPodcasts(_ value: [PodcastSubscription]) {
-        do {
-            let data = try PropertyListEncoder().encode(value)
-            UserDefaults.standard.set(data, forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
-        } catch {
-            print("failed to encode subscription podcasts")
-        }
-    }
-
     public class func subscriptionPodcasts() -> [PodcastSubscription]? {
         guard let data = UserDefaults.standard.data(forKey: ServerConstants.UserDefaults.subscriptionPodcasts), let subscriptions = try? PropertyListDecoder().decode([PodcastSubscription].self, from: data) else {
             return nil
@@ -190,7 +176,7 @@ open class SubscriptionHelper: NSObject {
         return subscriptions
     }
 
-    public class func subscriptionForPodcast(uuid: String) -> PodcastSubscription? {
+    public class func subscription(forPodcastUuid uuid: String) -> PodcastSubscription? {
         guard let allSubscriptions = subscriptionPodcasts() else { return nil }
 
         return allSubscriptions.first { podcastSubscription -> Bool in
@@ -223,7 +209,7 @@ open class SubscriptionHelper: NSObject {
         return bundles
     }
 
-    public class func bundleSubscriptionForPodcast(podcastUuid: String) -> BundleSubscription? {
+    public class func bundleSubscription(forPodcastUuid podcastUuid: String) -> BundleSubscription? {
         guard let bundles = subscriptionBundles() else {
             return nil
         }

@@ -2,7 +2,9 @@ import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
 import EndOfYear
+import CoreMedia
 
+@MainActor
 enum SharingModal {
 
     /// Share options including which type of content will be shared
@@ -183,10 +185,10 @@ extension SharingModal.Option {
 
     func imageInfo(episodeArtworkUrl: URL? = nil) -> ShareImageInfo {
         let gradient = Gradient(colors: [
-            Color(uiColor: ColorManager.lightThemeTintForPodcast(podcast)),
-            Color(uiColor: UIColor.calculateColor(orgColor: UIColor.black, overlayColor: ColorManager.lightThemeTintForPodcast(podcast).withAlphaComponent(0.8))),
+            Color(uiColor: ColorManager.lightThemeTint(for: podcast)),
+            Color(uiColor: UIColor.calculateColor(orgColor: UIColor.black, overlayColor: ColorManager.lightThemeTint(for: podcast).withAlphaComponent(0.8))),
         ])
-        let artwork = episodeArtworkUrl ?? ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
+        let artwork = episodeArtworkUrl ?? ImageManager.shared.podcastUrl(imageSize: .page, uuid: podcast.uuid)
         let imageInfo = ShareImageInfo(name: name ?? "",
                                        title: title ?? "",
                                        description: description ?? "",
@@ -303,7 +305,7 @@ extension SharingModal.Option {
 
 fileprivate extension Podcast {
     var episodeCount: String? {
-        let count = PodcastManager.episodeCountForPodcast(self, excludeArchive: false)
+        let count = PodcastManager.episodeCount(for: self, excludeArchive: false)
         guard count > 0 else {
             return nil
         }

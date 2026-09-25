@@ -8,7 +8,7 @@ class CastDeviceVolumeView: UIStackView {
     func update() {
         removeAllSubviews()
 
-        devices = GoogleCastManager.sharedManager.allMultiZoneDevices()
+        devices = GoogleCastManager.shared.allMultiZoneDevices()
 
         // there's no point in controlling multi-room audio that only has 1 speaker, so check for that here
         guard let devices, devices.count > 1 else { return }
@@ -60,6 +60,6 @@ class CastDeviceVolumeView: UIStackView {
     @objc private func volumeSliderDidChange(_ sender: UISlider) {
         guard let device = devices?[safe: sender.tag] else { return }
 
-        GoogleCastManager.sharedManager.changeDeviceVolume(device: device, volume: sender.value)
+        GoogleCastManager.shared.changeDeviceVolume(device: device, volume: sender.value)
     }
 }

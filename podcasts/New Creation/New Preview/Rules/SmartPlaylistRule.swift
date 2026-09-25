@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
     case podcast, duration, episode, releaseDate, downloadStatus, mediaType, starred

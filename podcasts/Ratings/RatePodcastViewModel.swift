@@ -53,7 +53,7 @@ class RatePodcastViewModel: ObservableObject {
 
     private var onRate: () -> Void
 
-    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager, onRate: @escaping () -> Void) {
+    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .shared, onRate: @escaping () -> Void) {
         self._presented = presented
         self._dismissAction = dismissAction
         self.podcast = podcast

@@ -9,14 +9,6 @@
             attributedText = attributedString
         }
 
-        func setTextKeepingAttributes(string: String) {
-            if let newAttributedText = attributedText, let mutableAttributedText = newAttributedText.mutableCopy() as? NSMutableAttributedString {
-                mutableAttributedText.mutableString.setString(string)
-
-                attributedText = mutableAttributedText
-            }
-        }
-
         func setLineSpacing(lineSpacing: CGFloat = 0.0, lineHeightMultiple: CGFloat = 0.0) {
             guard let labelText = text else { return }
 

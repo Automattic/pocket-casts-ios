@@ -11,6 +11,11 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         FeatureFlagOverrideStore().resetOverrides()
     }
 
+    override func tearDown() {
+        FeatureFlagOverrideStore().resetOverrides()
+        super.tearDown()
+    }
+
     private func createTestDatabase() throws -> DatabasePool {
         var config = Configuration()
         config.busyMode = .timeout(10)

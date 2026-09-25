@@ -3,7 +3,7 @@ import PocketCastsServer
 import UIKit
 import PocketCastsUtils
 
-extension TrimSilenceAmount: AnalyticsDescribable {
+extension TrimSilenceAmount {
     var description: String {
         switch self {
         case .off:
@@ -19,19 +19,6 @@ extension TrimSilenceAmount: AnalyticsDescribable {
 
     func isEnabled() -> Bool {
         self != .off
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .off:
-            return "off"
-        case .low:
-            return "mild"
-        case .medium:
-            return "medium"
-        case .high:
-            return "mad_max"
-        }
     }
 }
 
@@ -88,17 +75,6 @@ class PlaybackEffects {
         } else if playbackSpeed < 2 {
             playbackSpeed = 2
         }
-    }
-
-    func incrementSpeedBy(_ value: Double) {
-        var currentSpeed = playbackSpeed
-
-        currentSpeed += value
-        if currentSpeed > SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
-            currentSpeed = 1.0
-        }
-
-        playbackSpeed = currentSpeed
     }
 
     private class func convertToTrimSilenceAmount(_ value: Int32) -> TrimSilenceAmount {

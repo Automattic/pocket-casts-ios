@@ -9,15 +9,6 @@ extension View {
     }
 
     /// Wraps the view in a button that performs the action when tapped
-    /// and calls `onPressed` when the buttons pressed state changes
-    func buttonize(_ action: @escaping () -> Void, onPressed: @escaping (Bool) -> Void) -> some View {
-        Button(action: action) {
-            self
-        }
-        .buttonStyle(OnPressedActionButtonStyle(onPressed: onPressed))
-    }
-
-    /// Wraps the view in a button that performs the action when tapped
     /// and calls customize to allow for one-off button style customization without needing to create a ButtonStyle struct
     func buttonize<Content: View>(_ action: @escaping () -> Void, customize: @escaping (ButtonStyle.Configuration) -> Content) -> some View {
         Button(action: action) {
@@ -41,22 +32,5 @@ struct DynamicButtonStyle<Content: View>: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         buttonContent(configuration)
-    }
-}
-
-// MARK: - PressedButtonStyle
-
-/// A `ButtonStyle` that calls the `onPressed` closure when the view is tapped
-///
-/// Use `.buttonize(action:onPressed)`
-struct OnPressedActionButtonStyle: ButtonStyle {
-    let onPressed: (Bool) -> Void
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .contentShape(Rectangle())
-            .onChange(of: configuration.isPressed) { _, newValue in
-                onPressed(newValue)
-            }
     }
 }

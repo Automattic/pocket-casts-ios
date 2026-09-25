@@ -33,7 +33,7 @@ extension BaseEpisode {
 
     func commonDisplayableInfo(includeSize: Bool) -> String {
         if downloading() {
-            if let progress = DownloadManager.shared.progressManager.progressForEpisode(uuid) {
+            if let progress = DownloadManager.shared.progressManager.progress(forEpisodeUuid: uuid) {
                 #if os(watchOS)
                     return "\(progress.percentageProgressAsString())"
                 #else
@@ -121,7 +121,7 @@ extension BaseEpisode {
                 shortDate = calendar.monthSymbols[publishedMonth - 1]
             }
         } else {
-            shortDate = DateFormatHelper.sharedHelper.monthYearFormatter.string(from: date)
+            shortDate = DateFormatHelper.shared.monthYearFormatter.string(from: date)
         }
 
         return shortDate ?? noDate

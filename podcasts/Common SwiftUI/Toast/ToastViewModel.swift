@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 protocol ToastDelegate: AnyObject {
     /// Called after the toast has been visibly dismissed.
     func toastDismissed()
@@ -10,6 +11,7 @@ enum ToastViewDismissPolicy {
     case interval(TimeInterval)
 }
 
+@MainActor
 class ToastViewModel: ObservableObject {
     weak var coordinator: ToastDelegate?
 
@@ -58,7 +60,9 @@ class ToastViewModel: ObservableObject {
             return
         case .interval(let dismissTime):
             autoDismissTimer = Timer.scheduledTimer(withTimeInterval: dismissTime, repeats: false, block: { [weak self] _ in
-                self?.handleAutoDismiss()
+                MainActor.assumeIsolated {
+                    self?.handleAutoDismiss()
+                }
             })
         }
     }

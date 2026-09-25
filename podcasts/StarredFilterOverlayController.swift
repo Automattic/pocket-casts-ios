@@ -5,7 +5,6 @@ import DifferenceKit
 import PocketCastsDataModel
 
 class StarredFilterOverlayController: PCViewController {
-    private static let starredEpisodeCellId = "StarredEpisodeCellId"
     private static let smartRuleHeaderCellId = "SmartRuleHeaderCellId"
     private static let previewCellId = "EpisodePreviewCell"
 
@@ -28,7 +27,7 @@ class StarredFilterOverlayController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
     private var saveButton: UIButton! {
@@ -51,7 +50,7 @@ class StarredFilterOverlayController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         setupViewModel()
         setupNavBar()
@@ -64,7 +63,7 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
@@ -159,7 +158,7 @@ class StarredFilterOverlayController: PCViewController {
 
     @objc private func saveTapped(sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
@@ -188,7 +187,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)

@@ -31,7 +31,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
     private let daysOfHistory = 2 * 365
 
     init(
-        dataManager: DataManager = DataManager.sharedManager,
+        dataManager: DataManager = DataManager.shared,
         calendar: Calendar = .current,
         now: @escaping () -> Date = { Date() }
     ) {

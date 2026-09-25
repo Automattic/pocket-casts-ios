@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import SwiftProtobuf
 
 extension SyncTask {
     func processServerData(response: Api_SyncUpdateResponse) {
@@ -32,10 +33,12 @@ extension SyncTask {
                     totalSkipped: TimeInterval(item.device.timeSkipping.value),
                     savedAutoSkipping: TimeInterval(item.device.timeIntroSkipping.value)
                 )
+            case .whatsNew:
+                break
             }
         }
 
-        DataManager.sharedManager.markAllSynced(episodeIDs: episodesToImport.map({ $0.uuid }))
+        DataManager.shared.markAllSynced(episodeIDs: episodesToImport.map({ $0.uuid }))
 
         totalToImport = podcastsToImport.count
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
@@ -100,7 +103,7 @@ extension SyncTask {
     }
 
     private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
+        let existingPodcast = DataManager.shared.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
         if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
             if let podcast = existingPodcast {
                 podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
@@ -110,11 +113,11 @@ extension SyncTask {
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
                 podcast.settings = PodcastSettings.defaults
 
-                DataManager.sharedManager.save(podcast: podcast)
+                DataManager.shared.save(podcast: podcast)
             }
         } else if let podcast = existingPodcast {
             importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
 
             ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
         } else {
@@ -122,11 +125,11 @@ extension SyncTask {
 
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
                 if success {
-                    if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
+                    if let podcast = DataManager.shared.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
                         podcast.syncStatus = SyncStatus.synced.rawValue
                         self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
 
-                        DataManager.sharedManager.save(podcast: podcast)
+                        DataManager.shared.save(podcast: podcast)
                     }
                 }
 
@@ -167,7 +170,7 @@ extension SyncTask {
     }
 
     private func importEpisode(_ episodeItem: Api_SyncUserEpisode) {
-        var existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeItem.uuid)
+        var existingEpisode = DataManager.shared.findEpisode(uuid: episodeItem.uuid)
 
         if existingEpisode == nil {
             // we don't have this episode so try and find it
@@ -177,13 +180,13 @@ extension SyncTask {
 
         guard let episode = existingEpisode else { return }
 
-        let updateSaved = DataManager.sharedManager.saveIfNotModified(chapters: episodeItem.deselectedChapters, remoteModified: episodeItem.deselectedChaptersModified.value, episodeUuid: episode.uuid)
+        let updateSaved = DataManager.shared.saveIfNotModified(chapters: episodeItem.deselectedChapters, remoteModified: episodeItem.deselectedChaptersModified.value, episodeUuid: episode.uuid)
         if updateSaved {
             ServerConfig.shared.syncDelegate?.deselectedChaptersChanged()
         }
 
         if episodeItem.hasStarred, episode.keepEpisode != episodeItem.starred.value {
-            let updateSaved = DataManager.sharedManager.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
+            let updateSaved = DataManager.shared.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
             if updateSaved {
                 ServerConfig.shared.syncDelegate?.episodeStarredChanged(episode: episode)
             }
@@ -195,12 +198,12 @@ extension SyncTask {
         if episodeItem.hasIsDeleted, episode.archived != episodeItem.isDeleted.value {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the archive status as unsynced because ours is considered more current
-                DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: true)
+                DataManager.shared.saveEpisode(archived: false, episode: episode, updateSyncFlag: true)
             } else {
                 if episodeItem.isDeleted.value {
                     ServerConfig.shared.syncDelegate?.archiveEpisodeExternal(episode: episode)
                 } else {
-                    _ = DataManager.sharedManager.saveIfNotModified(archived: false, episodeUuid: episode.uuid)
+                    _ = DataManager.shared.saveIfNotModified(archived: false, episodeUuid: episode.uuid)
                 }
             }
         }
@@ -208,10 +211,10 @@ extension SyncTask {
         if episodeItem.hasPlayingStatus, episode.playingStatus != episodeItem.playingStatus.value {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the status as unsynced because ours is considered more current
-                DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
+                DataManager.shared.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
             } else {
                 let playingStatus = PlayingStatus(rawValue: episodeItem.playingStatus.value) ?? PlayingStatus.notPlayed
-                let updateSaved = DataManager.sharedManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episode.uuid)
+                let updateSaved = DataManager.shared.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episode.uuid)
                 if updateSaved, playingStatus == .completed {
                     // if an episode has been marked as played on one device, give it the same treatment on this one, including deletions, etc
                     ServerConfig.shared.syncDelegate?.markEpisodeAsPlayedExternal(episode: episode)
@@ -221,7 +224,7 @@ extension SyncTask {
 
         if episodeItem.hasPlayedUpTo, Int64(episode.playedUpTo) != episodeItem.playedUpTo.value {
             let playedUpTo = Double(episodeItem.playedUpTo.value)
-            DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
 
             // if the episode is loaded into the player, and is currently paused seek to the new up to time
             if let delegate = ServerConfig.shared.playbackDelegate, delegate.isCurrentEpisode(uuid: episode.uuid), !delegate.isPlaying {
@@ -234,7 +237,7 @@ extension SyncTask {
 
         // only update the duration if we aren't actively playing this episode
         if episodeItem.hasDuration, Int64(episode.duration) != episodeItem.duration.value, !isPlayerPlaying(episode: episode) {
-            DataManager.sharedManager.saveEpisode(duration: Double(episodeItem.duration.value), episode: episode, updateSyncFlag: false)
+            DataManager.shared.saveEpisode(duration: Double(episodeItem.duration.value), episode: episode, updateSyncFlag: false)
         }
     }
 
@@ -243,12 +246,12 @@ extension SyncTask {
 
         // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
         if folderItem.isDeleted {
-            DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
+            DataManager.shared.delete(folderUuid: folderUuid, markAsDeleted: false)
 
             return
         }
 
-        var existingFolder = DataManager.sharedManager.findFolder(uuid: folderUuid)
+        var existingFolder = DataManager.shared.findFolder(uuid: folderUuid)
         if existingFolder == nil {
             existingFolder = Folder()
             existingFolder?.uuid = folderUuid
@@ -261,17 +264,17 @@ extension SyncTask {
         folder.sortType = Int32(ServerConverter.convertToClientSortType(serverType: folderItem.podcastsSortType))
         folder.addedDate = folderItem.dateAdded.date
 
-        DataManager.sharedManager.save(folder: folder)
+        DataManager.shared.save(folder: folder)
     }
 
     private func importPlaylist(_ playlistItem: Api_SyncUserPlaylist) {
         let playlistUuid = playlistItem.originalUuid // it's important to use this field, not uuid because the server won't change the case on this one
-        var existingPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid)
+        var existingPlaylist = DataManager.shared.findPlaylist(uuid: playlistUuid)
 
         // if the filter exists, and another device has deleted it, then delete it
         if playlistItem.hasIsDeleted, playlistItem.isDeleted.value {
             if let playlist = existingPlaylist {
-                DataManager.sharedManager.delete(playlist: playlist)
+                DataManager.shared.delete(playlist: playlist)
             }
 
             return
@@ -343,19 +346,19 @@ extension SyncTask {
         }
 
         let serverSet = Set(playlistItem.episodeOrder)
-        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+        let matchedEpisodes = DataManager.shared.playlistEpisodes(for: playlist).map { $0.uuid }
         let missingEpisodes = serverSet.subtracting(matchedEpisodes)
         let episodesToDelete = Set(matchedEpisodes).subtracting(serverSet)
 
         let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
             let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
             guard let playlistEpisode else { return nil }
-            let episode = DataManager.sharedManager.findEpisode(uuid: playlistEpisode.episode)
+            let episode = DataManager.shared.findEpisode(uuid: playlistEpisode.episode)
             return episode ?? Episode(playlistEpisode)
         }
 
         addedEpisodes.forEach { episode in
-            if DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil {
+            if DataManager.shared.findEpisode(uuid: episode.uuid) == nil {
                 episode.wasDeleted = true
             }
 
@@ -364,19 +367,19 @@ extension SyncTask {
             }
 
             if episode.podcast_id == 0 {
-                episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+                episode.podcast_id = DataManager.shared.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
             }
 
-            DataManager.sharedManager.save(episode: episode)
+            DataManager.shared.save(episode: episode)
         }
 
         if !episodesToDelete.isEmpty {
-            DataManager.sharedManager.rawDeleteEpisodes(Array(episodesToDelete), from: playlist)
+            DataManager.shared.rawDeleteEpisodes(Array(episodesToDelete), from: playlist)
         }
 
-        let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+        let didAdd = DataManager.shared.add(episodes: addedEpisodes, to: playlist)
         if !didAdd {
-            let playlistCount = DataManager.sharedManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+            let playlistCount = DataManager.shared.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
             if !addedEpisodes.isEmpty {
                 FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
             }
@@ -385,8 +388,9 @@ extension SyncTask {
         updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
 
         playlist.syncStatus = SyncStatus.synced.rawValue
-        DataManager.sharedManager.save(playlist: playlist)
+        DataManager.shared.save(playlist: playlist)
 
+        // Blocks the sync queue: each call performs synchronous networking.
         addedEpisodes.forEach { addedEpisode in
             ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
         }
@@ -403,7 +407,7 @@ extension SyncTask {
         for (index, episodeUuid) in orderedEpisodeUuids.enumerated() {
             guard !episodeUuid.isEmpty, processedUuids.insert(episodeUuid).inserted else { continue }
 
-            DataManager.sharedManager.moveEpisode(episodeUuid, in: playlist, to: index)
+            DataManager.shared.moveEpisode(episodeUuid, in: playlist, to: index)
         }
     }
 
@@ -502,6 +506,30 @@ private extension Api_SyncUserBookmark {
         hasCreatedAt ? createdAt.date : nil
     }
 
+    var logDescription: String {
+        (try? jsonString()) ?? "invalid api bookmark"
+    }
+}
+
+// MARK: - Bookmark Passage Fields
+
+protocol ApiBookmarkPassageFields {
+    var hasPassage: Bool { get }
+    var passage: Google_Protobuf_StringValue { get }
+    var hasPassageLocation: Bool { get }
+    var passageLocation: Google_Protobuf_Int32Value { get }
+    var hasPassageModified: Bool { get }
+    var passageModified: Google_Protobuf_Int64Value { get }
+    var hasReferenceTime: Bool { get }
+    var referenceTime: Google_Protobuf_Int32Value { get }
+    var hasReferenceTimeModified: Bool { get }
+    var referenceTimeModified: Google_Protobuf_Int64Value { get }
+}
+
+extension Api_SyncUserBookmark: ApiBookmarkPassageFields {}
+extension Api_BookmarkResponse: ApiBookmarkPassageFields {}
+
+extension ApiBookmarkPassageFields {
     // The server only emits the passage and reference time groups when their modified timestamp
     // is set, using "" / 0 as placeholders for a null value within an emitted group. Each group
     // is gated on its modified date below, so an absent group leaves the local values untouched.
@@ -527,9 +555,5 @@ private extension Api_SyncUserBookmark {
 
     var referenceTimeModifiedDate: Date? {
         hasReferenceTimeModified ? Date(timeIntervalSince1970: TimeInterval(referenceTimeModified.value) / 1000) : nil
-    }
-
-    var logDescription: String {
-        (try? jsonString()) ?? "invalid api bookmark"
     }
 }

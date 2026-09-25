@@ -4,8 +4,6 @@ import PocketCastsUtils
 import EndOfYear
 
 struct PaidStoryWallView2024: View {
-    @StateObject private var model = PlusPricingInfoModel()
-
     let subscriptionTier: SubscriptionTier
 
     private let words = [
@@ -49,7 +47,7 @@ struct PaidStoryWallView2024: View {
                             return
                         }
 
-                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.shared.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     }
                     .allowsHitTesting(true)
                     .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))

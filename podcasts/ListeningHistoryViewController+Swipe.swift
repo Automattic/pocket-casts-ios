@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
+import UIKit
 
 extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate
@@ -50,7 +51,7 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
     }
 
     func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
-        NavigationManager.sharedManager.navigateTo(
+        NavigationManager.shared.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode

@@ -81,12 +81,6 @@ class ShelfCell: UITableViewCell {
         }
     }
 
-    private func updateBgColor(_ color: UIColor) {
-        contentView.backgroundColor = color
-        backgroundColor = color
-        accessoryView?.backgroundColor = color
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 

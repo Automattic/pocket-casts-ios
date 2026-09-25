@@ -13,13 +13,12 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     private let transcriptDataRetriever: TranscriptsDataRetriever
 
     private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
-    private var requestingRawMetadata: [String: Task<String?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
         podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
         generatedEpisodeMetadataRetriever: GeneratedEpisodeMetadataRetriever = GeneratedEpisodeMetadataRetriever(),
-        dataManager: DataManager = .sharedManager,
+        dataManager: DataManager = .shared,
         transcriptDataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()
     ) {
         self.dataRetriever = dataRetriever

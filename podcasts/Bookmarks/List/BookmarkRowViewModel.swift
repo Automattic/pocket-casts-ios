@@ -46,7 +46,7 @@ final class BookmarkRowViewModel {
 
     @concurrent
     nonisolated private static func loadEpisode(for bookmark: Bookmark) async -> BaseEpisode? {
-        if let episode = DataManager.sharedManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
+        if let episode = DataManager.shared.findBaseEpisode(uuid: bookmark.episodeUuid) {
             return episode
         }
 

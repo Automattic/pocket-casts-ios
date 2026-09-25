@@ -1,14 +1,6 @@
 import SwiftUI
 import EndOfYear
 
-struct StoryShareButton: View {
-    let shareable: Bool
-
-    var body: some View {
-        EmptyView()
-    }
-}
-
 struct EpilogueStory2024: StoryView {
 
     private let foregroundColor = Color.black

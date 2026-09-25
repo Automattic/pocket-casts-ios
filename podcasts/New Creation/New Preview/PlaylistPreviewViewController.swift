@@ -16,7 +16,7 @@ class PlaylistPreviewViewController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
     private var saveButton: UIButton! {
@@ -82,7 +82,7 @@ class PlaylistPreviewViewController: PCViewController {
             playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
             playlistUUID = playlist.uuid
         case .edit:
-            let result = DataManager.sharedManager.findPlaylist(uuid: playlistUUID)
+            let result = DataManager.shared.findPlaylist(uuid: playlistUUID)
             if result == nil {
                 playlist = PlaylistManager.createNewPlaylist()
                 playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
@@ -132,7 +132,7 @@ class PlaylistPreviewViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         let list = SmartPlaylistRulesView(
             viewModel: viewModel
@@ -225,14 +225,14 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     @objc private func saveTapped() {
-        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+        DataManager.shared.bumpSortPositionForAllPlaylists()
 
-        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        let firstSortPosition = max(0, DataManager.shared.firstSortPositionForPlaylist() - 1)
         viewModel.newPlaylist.sortPosition = Int32(firstSortPosition)
         viewModel.newPlaylist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.newPlaylist.isNew = false
         viewModel.removeObserver()
-        DataManager.sharedManager.save(playlist: viewModel.newPlaylist)
+        DataManager.shared.save(playlist: viewModel.newPlaylist)
         UserDefaults.standard.set(viewModel.newPlaylist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)

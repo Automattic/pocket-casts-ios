@@ -9,7 +9,7 @@ class TVDataManager {
     private let serverPodcastManager: ServerPodcastManager
     private let playbackManager: PlaybackManager
 
-    init(dataManager: DataManager = DataManager.sharedManager,
+    init(dataManager: DataManager = DataManager.shared,
          serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
          playbackManager: PlaybackManager = PlaybackManager.shared
     ) {

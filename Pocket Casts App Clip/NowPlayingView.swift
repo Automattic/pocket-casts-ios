@@ -111,9 +111,9 @@ struct NowPlayingView: View {
             loadPodcast(podcastUuid: podcastUUID) { podcast in
                 let episode: Episode?
                 if let episodeUUID {
-                    episode = DataManager.sharedManager.findEpisode(uuid: episodeUUID)
+                    episode = DataManager.shared.findEpisode(uuid: episodeUUID)
                 } else {
-                    episode = DataManager.sharedManager.findLatestEpisode(podcast: podcast)
+                    episode = DataManager.shared.findLatestEpisode(podcast: podcast)
                 }
 
                 guard let episode else {
@@ -136,7 +136,7 @@ struct NowPlayingView: View {
     }
 
     private func loadPodcast(podcastUuid: String, timestamp: TimeInterval? = nil, completion: @escaping (Podcast) -> Void) {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
                 DispatchQueue.main.async {
                     completion(podcast)
@@ -146,7 +146,7 @@ struct NowPlayingView: View {
         }
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
-            if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+            if success, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 DispatchQueue.main.async {
                     completion(podcast)
                 }

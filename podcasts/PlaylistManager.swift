@@ -14,7 +14,7 @@ class PlaylistManager {
     class func createDefaultPlaylists() {
         // new releases
         var existingUuid = DefaultUUIDs.newReleases
-        var existingFilter = DataManager.sharedManager.findPlaylist(uuid: existingUuid)
+        var existingFilter = DataManager.shared.findPlaylist(uuid: existingUuid)
         if existingFilter == nil {
             let newReleases = EpisodeFilter()
             newReleases.filterUnplayed = true
@@ -29,11 +29,11 @@ class PlaylistManager {
             newReleases.uuid = existingUuid
             newReleases.customIcon = PlaylistIcon.redRecent.rawValue
             newReleases.syncStatus = SyncStatus.synced.rawValue
-            DataManager.sharedManager.save(playlist: newReleases)
+            DataManager.shared.save(playlist: newReleases)
         }
 
         // don't create the rest of these if the user already has playlists
-        let playlistsCount = DataManager.sharedManager.playlistsCount(includeDeleted: false)
+        let playlistsCount = DataManager.shared.playlistsCount(includeDeleted: false)
         if playlistsCount > 1 {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
@@ -42,7 +42,7 @@ class PlaylistManager {
 
         // in progress
         existingUuid = DefaultUUIDs.inProgress
-        existingFilter = DataManager.sharedManager.findPlaylist(uuid: existingUuid)
+        existingFilter = DataManager.shared.findPlaylist(uuid: existingUuid)
         if existingFilter == nil {
             let inProgress = EpisodeFilter()
             inProgress.filterAllPodcasts = true
@@ -58,7 +58,7 @@ class PlaylistManager {
             inProgress.uuid = existingUuid
             inProgress.customIcon = PlaylistIcon.purpleUnplayed.rawValue
             inProgress.syncStatus = SyncStatus.synced.rawValue
-            DataManager.sharedManager.save(playlist: inProgress)
+            DataManager.shared.save(playlist: inProgress)
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
@@ -70,9 +70,9 @@ class PlaylistManager {
         if SyncManager.isUserLoggedIn() {
             playlist.wasDeleted = true
             playlist.syncStatus = SyncStatus.notSynced.rawValue
-            DataManager.sharedManager.save(playlist: playlist)
+            DataManager.shared.save(playlist: playlist)
         } else {
-            DataManager.sharedManager.delete(playlist: playlist)
+            DataManager.shared.delete(playlist: playlist)
         }
 
         if fireEvent {
@@ -89,7 +89,7 @@ class PlaylistManager {
     }
 
     class func checkForAutoDownloads() {
-        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let playlists = DataManager.shared.allPlaylists(includeDeleted: false)
 
         if playlists.isEmpty { return }
 
@@ -99,7 +99,7 @@ class PlaylistManager {
             guard playlist.autoDownloadEpisodes else { continue }
 
             let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
-            let episodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+            let episodes = DataManager.shared.findPlaylistEpisodesWhere(query: query, arguments: nil)
 
             for episode in episodes {
                 if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }
@@ -114,7 +114,7 @@ class PlaylistManager {
     }
 
     class func handlePodcastUnsubscribed(podcastUuid: String) {
-        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let playlists = DataManager.shared.allPlaylists(includeDeleted: false)
         if playlists.isEmpty { return }
 
         for playlist in playlists {
@@ -126,12 +126,12 @@ class PlaylistManager {
             podcastUuids.remove(at: indexOfUuid)
             playlist.podcastUuids = podcastUuids.joined(separator: ",")
             if SyncManager.isUserLoggedIn() { playlist.syncStatus = SyncStatus.notSynced.rawValue }
-            DataManager.sharedManager.save(playlist: playlist)
+            DataManager.shared.save(playlist: playlist)
         }
     }
 
     class func autoDownloadPlaylistsCount() -> Int {
-        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let playlists = DataManager.shared.allPlaylists(includeDeleted: false)
 
         return playlists.filter { playlist -> Bool in
             playlist.autoDownloadEpisodes
@@ -139,6 +139,6 @@ class PlaylistManager {
     }
 
     private class func nextSortPosition() -> Int32 {
-        Int32(DataManager.sharedManager.nextSortPositionForPlaylist())
+        Int32(DataManager.shared.nextSortPositionForPlaylist())
     }
 }

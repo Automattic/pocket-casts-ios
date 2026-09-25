@@ -264,11 +264,6 @@ enum DiscoverPreviewData {
         }
     }
 
-    /// A podcast's cover on the live CDN, standing in for artwork a preview has none of.
-    private static func artworkURL(at index: Int) -> String {
-        "https://static.pocketcasts.com/discover/images/420/\(artworkUUIDs[index % artworkUUIDs.count]).jpg"
-    }
-
     // MARK: - JSON plumbing
 
     /// Matches the generation timestamp the server stamps on every list.

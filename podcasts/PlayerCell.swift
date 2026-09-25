@@ -10,7 +10,7 @@ class PlayerCell: ThemeableSwipeCell {
             episodeInfo.themeOverride = themeOverride
             dayName.themeOverride = themeOverride
             dividerView.themeOverride = themeOverride
-            starIndicator?.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
+            starIndicator?.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.shared.activeTheme)
         }
     }
 
@@ -33,7 +33,7 @@ class PlayerCell: ThemeableSwipeCell {
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.sharedTheme.activeTheme)
+            starIndicator.image = PlayerCell.starIndicatorImage(for: themeOverride ?? Theme.shared.activeTheme)
         }
     }
 
@@ -173,10 +173,10 @@ class PlayerCell: ThemeableSwipeCell {
     }
 
     @objc private func updateCellForDownloadProgressChange() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         if !ourEpisode.downloading() {
-            episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+            episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)
         }
 
         updateDownloadStatus()
@@ -187,7 +187,7 @@ class PlayerCell: ThemeableSwipeCell {
         guard let ourEpisode = episode, let uuid = notification.object as? String, ourEpisode.uuid == uuid else { return }
 
         // if it is, reload our episode so we get the latest status for it
-        episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+        episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)
 
         updateDownloadStatus()
     }
@@ -197,7 +197,7 @@ class PlayerCell: ThemeableSwipeCell {
         guard let ourEpisode = episode, let uuid = notification.object as? String, ourEpisode.uuid == uuid else { return }
 
         // reload our episode so we get the latest starred status for it
-        episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+        episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)
 
         updateStarStatus()
     }
@@ -221,14 +221,14 @@ class PlayerCell: ThemeableSwipeCell {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else if episode.downloading() {
             if !downloadingIndicator.isAnimating {
                 downloadingIndicator.startAnimating()
                 downloadingIndicator.isHidden = false
                 downloadedIndicator.isHidden = true
             }
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction == .download)
         } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
@@ -252,12 +252,6 @@ class PlayerCell: ThemeableSwipeCell {
 
         showTick = false
         setSelected(false, animated: false)
-    }
-
-    private func updateBgColor(_ color: UIColor) {
-        contentView.backgroundColor = color
-        backgroundColor = color
-        accessoryView?.backgroundColor = color
     }
 
     func shouldShowSelect(show: Bool, animate: Bool) {
@@ -294,7 +288,7 @@ class PlayerCell: ThemeableSwipeCell {
         selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
         downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         // Update the reorder control color
-        let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let activeTheme = themeOverride ?? Theme.shared.activeTheme
         starIndicator.image = PlayerCell.starIndicatorImage(for: activeTheme)
         overrideUserInterfaceStyle = activeTheme.isDark ? .dark : .light
     }

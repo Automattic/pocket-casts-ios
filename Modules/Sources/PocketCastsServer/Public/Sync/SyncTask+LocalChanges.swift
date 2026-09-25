@@ -5,7 +5,7 @@ import SwiftProtobuf
 
 extension SyncTask {
     func changedPodcasts() -> [Api_Record]? {
-        let podcastsToSync = DataManager.sharedManager.allUnsyncedPodcasts()
+        let podcastsToSync = DataManager.shared.allUnsyncedPodcasts()
 
         if podcastsToSync.isEmpty { return nil }
 
@@ -80,7 +80,7 @@ extension SyncTask {
     }
 
     func changedFolders() -> [Api_Record]? {
-        let foldersToSync = DataManager.sharedManager.allUnsyncedFolders()
+        let foldersToSync = DataManager.shared.allUnsyncedFolders()
 
         if foldersToSync.isEmpty { return nil }
 
@@ -106,7 +106,7 @@ extension SyncTask {
     }
 
     func changedPlaylists() -> [Api_Record]? {
-        let playlistsToSync = DataManager.sharedManager.allUnsyncedPlaylists()
+        let playlistsToSync = DataManager.shared.allUnsyncedPlaylists()
 
         if playlistsToSync.isEmpty { return nil }
 
@@ -148,7 +148,7 @@ extension SyncTask {
         playlistRecord.manual.value = filter.manual
 
         if filter.manual {
-            let episodes = DataManager.sharedManager.playlistEpisodes(for: filter, sortType: .dragAndDrop)
+            let episodes = DataManager.shared.playlistEpisodes(for: filter, sortType: .dragAndDrop)
             playlistRecord.episodes = episodes.map { episode in
                 createSyncEpisode(from: episode)
             }

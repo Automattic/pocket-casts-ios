@@ -579,7 +579,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         let secondaryColor =  showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
         let activityIndicatorViewColor: UIColor = showFromEpisode ? ThemeColor.primaryIcon02() : ThemeColor.playerContrast02()
-        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.sharedTheme.activeTheme.isDark ? .white : .black) : .white
+        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.shared.activeTheme.isDark ? .white : .black) : .white
 
         view.backgroundColor = primaryColor
         transcriptView.backgroundColor =  primaryColor
@@ -701,7 +701,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func showUpsellView() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+        NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
     }
 
     @objc private func subscriptionStatusDidChange() {
@@ -1047,7 +1047,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             ])
             if case .unavailable = syncedState { return }
             let status = playbackManager.episodeUUID
-                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DataManager.shared.findBaseEpisode(uuid: $0) }
                 .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
             if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
@@ -1254,7 +1254,7 @@ private extension TranscriptViewController {
     func makeBookmarkAction(for range: NSRange) -> UIAction? {
         guard range.length > 0, PaidFeature.bookmarks.isUnlocked,
               let transcript,
-              let episode = playbackManager.episodeUUID.flatMap({ DataManager.sharedManager.findBaseEpisode(uuid: $0) }),
+              let episode = playbackManager.episodeUUID.flatMap({ DataManager.shared.findBaseEpisode(uuid: $0) }),
               let position = bookmarkPosition(forSelectionStartingAt: range.location, in: transcript) else {
             return nil
         }

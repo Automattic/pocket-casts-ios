@@ -4,6 +4,7 @@ import Intents
 import JLRoutes
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
@@ -41,7 +42,7 @@ extension AppDelegate {
 
             if path == "/discover" || path.startsWith(string: "/discover/") {
                 if let url = URL(string: "pktc:/\(path)") {
-                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    NavigationManager.shared.dismissPresentedViewController()
                     JLRoutes.routeURL(url)
                 }
                 return
@@ -49,7 +50,7 @@ extension AppDelegate {
 
             if path == "/pair" || path.startsWith(string: "/pair/") {
                 if let url = URL(string: "pktc:/\(path)?\(components.query ?? "")") {
-                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    NavigationManager.shared.dismissPresentedViewController()
                     JLRoutes.routeURL(url)
                 }
                 return
@@ -196,7 +197,7 @@ extension AppDelegate {
         // This may result in incorrectly overriding the existing speed set in the player
         // See https://github.com/Automattic/pocket-casts-ios/issues/41
         if let spokenSpeed = thisIntent.playbackSpeed, spokenSpeed != 1.0, responseCode == .success {
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
             effects.playbackSpeed = spokenSpeed
 
             PlaybackManager.shared.changeEffects(effects)
@@ -222,13 +223,13 @@ extension AppDelegate {
     func handleOpenFilterIntent(intent: INIntent) {
         if intent is SJOpenFilterIntent {
             let filterIntent = intent as! SJOpenFilterIntent
-            guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findPlaylist(uuid: filterId) else { return }
+            guard let filterId = filterIntent.filterUuid, let filter = DataManager.shared.findPlaylist(uuid: filterId) else { return }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
+            NavigationManager.shared.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
         }
     }
 
     func handleReferralsDeepLink(url: URL) {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsRedeemGuestPassKey, data: [NavigationManager.redeemGuestPassURLKey: url])
+        NavigationManager.shared.navigateTo(NavigationManager.settingsRedeemGuestPassKey, data: [NavigationManager.redeemGuestPassURLKey: url])
     }
 }

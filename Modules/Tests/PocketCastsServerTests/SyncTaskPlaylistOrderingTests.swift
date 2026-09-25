@@ -11,15 +11,15 @@ final class SyncTaskPlaylistOrderingTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        originalDataManager = DataManager.sharedManager
+        originalDataManager = DataManager.shared
         dataManager = CapturingDataManager()
-        DataManager.sharedManager = dataManager
+        DataManager.shared = dataManager
 
         syncTask = SyncTask(dataManager: dataManager)
     }
 
     override func tearDownWithError() throws {
-        DataManager.sharedManager = originalDataManager
+        DataManager.shared = originalDataManager
         syncTask = nil
         dataManager = nil
         originalDataManager = nil

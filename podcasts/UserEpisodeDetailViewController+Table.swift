@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import UIKit
 
 extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func registerCells() {

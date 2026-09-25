@@ -74,8 +74,8 @@ class PlaylistDetailViewModel: ObservableObject {
 
     init(
         playlist: EpisodeFilter,
-        dataManager: DataManager = .sharedManager,
-        imageManager: ImageManager = .sharedManager,
+        dataManager: DataManager = .shared,
+        imageManager: ImageManager = .shared,
         episodesDataManager: EpisodesDataManager = .init(),
         onChange: @escaping (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void,
         onButtonTapped: @escaping (ButtonTag) -> Void
@@ -137,7 +137,7 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            if let reloadedPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
+            if let reloadedPlaylist = DataManager.shared.findPlaylist(uuid: playlist.uuid) {
                 playlist = reloadedPlaylist
 
                 DispatchQueue.main.async { [weak self] in

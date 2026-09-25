@@ -33,7 +33,7 @@ class SearchResultsModel: ObservableObject {
     let showLocalResults: Bool
 
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown), showLocalResults: Bool = false,
-         dataManager: DataManager = DataManager.sharedManager) {
+         dataManager: DataManager = DataManager.shared) {
         self.analyticsHelper = analyticsHelper
         self.dataMangager = dataManager
         self.showLocalResults = showLocalResults

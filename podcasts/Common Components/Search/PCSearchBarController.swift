@@ -75,8 +75,6 @@ class PCSearchBarController: UIViewController {
 
     var backgroundColorOverride: UIColor?
 
-    var startWithToolbarHidden = true
-
     weak var searchDelegate: PCSearchBarDelegate?
 
     private var isVisible = false

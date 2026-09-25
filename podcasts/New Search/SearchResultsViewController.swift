@@ -9,7 +9,6 @@ protocol SearchResultsDelegate {
 }
 
 extension SearchResultsDelegate {
-    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {}
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
 }
 

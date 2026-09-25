@@ -3,58 +3,18 @@ import PocketCastsUtils
 import UIKit
 
 class DownloadProgressManager {
-    private var progressItems = [String: DownloadProgress]()
-    private let progressItemsQueue: DispatchQueue
+    private let progressItems = Mutex([String: DownloadProgress]())
 
-    private var finishedItemCount: Double = 0
-
-    init() {
-        progressItemsQueue = DispatchQueue(label: "au.com.pocketcasts.ProgressItemsQueue")
-    }
-
-    func progressForEpisode(_ uuid: String) -> DownloadProgress? {
-        progressItemsQueue.sync {
+    func progress(forEpisodeUuid uuid: String) -> DownloadProgress? {
+        progressItems.withLock { progressItems in
             progressItems[uuid]
         }
     }
 
-    func hasProgressForEpisode(_ uuid: String) -> Bool {
-        progressItemsQueue.sync {
-            progressItems[uuid] != nil
-        }
-    }
-
-    func countOfDownloadingItems() -> Int {
-        progressItemsQueue.sync {
-            progressItems.count
-        }
-    }
-
-    func totalProgressAsPercentage() -> Double {
-        progressItemsQueue.sync {
-            let downloadingCount = Double(progressItems.count)
-            if downloadingCount == 0 { return 0 }
-
-            var totalProgress: Double = 0
-            for progressItem in progressItems {
-                totalProgress += progressItem.value.percentageProgress()
-            }
-            totalProgress += (finishedItemCount * 100)
-
-            return totalProgress / ((downloadingCount + finishedItemCount) * 100)
-        }
-    }
-
-    func updateProgressForEpisode(_ uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
+    func updateProgress(forEpisodeUuid uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
         var update: Bool = false
-        progressItemsQueue.sync {
-            var progressItem: DownloadProgress
-            if let existing = progressItems[uuid] {
-                progressItem = existing
-            } else {
-                progressItem = DownloadProgress()
-                finishedItemCount = 0
-            }
+        progressItems.withLock { progressItems in
+            var progressItem = progressItems[uuid] ?? DownloadProgress()
 
             progressItem.totalToDownload = totalBytesExpected
             progressItem.downloadedSoFar = totalBytesWritten
@@ -72,23 +32,17 @@ class DownloadProgressManager {
         }
     }
 
-    func updateStatusForEpisode(_ uuid: String, status: DownloadStatus) {
-        progressItemsQueue.sync {
-            var progressItem = progressItems[uuid]
-            if progressItem == nil {
-                progressItem = DownloadProgress()
-                finishedItemCount = 0
-            }
-
-            progressItem?.status = status
-            progressItems[uuid] = progressItem!
+    func updateStatus(forEpisodeUuid uuid: String, status: DownloadStatus) {
+        progressItems.withLock { progressItems in
+            var progressItem = progressItems[uuid] ?? DownloadProgress()
+            progressItem.status = status
+            progressItems[uuid] = progressItem
         }
     }
 
-    func removeProgressForEpisode(_ uuid: String) {
-        progressItemsQueue.sync {
-            finishedItemCount += 1
-            progressItems.removeValue(forKey: uuid)
+    func removeProgress(forEpisodeUuid uuid: String) {
+        progressItems.withLock { progressItems in
+            progressItems[uuid] = nil
         }
     }
 }

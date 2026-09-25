@@ -20,7 +20,6 @@ struct BookmarkSwipeAction: Identifiable {
     let imageName: String
     let title: String
     let tint: Color
-    let isDestructive: Bool
     let handler: () -> Void
 
     var id: String { imageName }
@@ -38,13 +37,13 @@ struct BookmarkSwipeAction: Identifiable {
         guard viewModel.canShare(bookmark) else { return [] }
 
         return [
-            .init(imageName: "podcast-share", title: L10n.share, tint: style.shareSwipeTint, isDestructive: false) {
+            .init(imageName: "podcast-share", title: L10n.share, tint: style.shareSwipeTint) {
                 viewModel.shareTapped(bookmark)
             }
         ]
     case .trailing:
         return [
-            .init(imageName: "delete", title: L10n.delete, tint: style.deleteSwipeTint, isDestructive: true) {
+            .init(imageName: "delete", title: L10n.delete, tint: style.deleteSwipeTint) {
                 viewModel.deleteTapped(bookmark)
             }
         ]

@@ -71,6 +71,7 @@ class AnalyticsAdapterPersistenceTests: XCTestCase {
         #endif
     }
 
+    @MainActor
     func testOptOutOptInFlowWithBothAdapters() {
         // Given: Both adapters are registered (simulating app startup)
         let surveyManager = UserSatisfactionSurveyManager.shared

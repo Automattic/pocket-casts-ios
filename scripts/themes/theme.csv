@@ -31,8 +31,8 @@ $primary-interactive-01-hover,,#50D0F1,100%,#50D0F1,100%,#6EE1FF,100%,#03A9F4,10
 $primary-interactive-01-active,,#8AE9FF,100%,#8AE9FF,100%,#A1ECFF,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#94B4D1,100%,#ffc5c4,100%,#404040,100%,#404040,100%
 $primary-interactive-01-disabled,,#03A9F4,25%,#33B8F4,25%,#50D0F1,25%,#F43E37,25%,#FB5146,25%,#3FD2E6,25%,#8395A7,25%,#997272,25%,#F43E37,25%,#FB5146,25%
 $primary-interactive-02,text and icons on top of filled interactive elements on primary bg,#FFFFFF,100%,#17181A,100%,#09090A,100%,#FFFFFF,100%,#17181A,100%,#13171C,100%,#F8FAF2,100%,#fdfaf9,100%,#ffffff,100%,#000000,100%
-$primary-interactive-02-hover,,#03A9F4,5%,#33B8F4,5%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#f4032b,10%,#cccccc,100%,#cccccc,100%
-$primary-interactive-02-active,,#03A9F4,10%,#33B8F4,10%,#50D0F1,10%,#F43E37,10%,#FB5146,10%,#9FE8F2,10%,#94A6B4,20%,#ffffff,80%,#000000,10%,#000000,10%
+$primary-interactive-02-hover,,#03A9F4,5%,#03A9F4,5%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#f4032b,10%,#cccccc,100%,#cccccc,100%
+$primary-interactive-02-active,,#03A9F4,10%,#03A9F4,10%,#50D0F1,10%,#F43E37,10%,#FB5146,10%,#9FE8F2,10%,#94A6B4,20%,#ffffff,80%,#000000,10%,#000000,10%
 $primary-interactive-03,off state of $primary-interactive-01,#D9D9D9,100%,#595959,100%,#595959,100%,#D9D9D9,100%,#595959,100%,#284D5C,100%,#D1D8DE,100%,#E0CED1,100%,#D9D9D9,100%,#595959,100%
 ,,,,,,,,,,,,,,,,,,,,,
 $secondary-ui-01,header backgrounds,#FFFFFF,100%,#292B2E,100%,#000000,100%,#F43E37,100%,#C62828,100%,#212835,100%,#32364F,100%,#FFC2C0,100%,#ffffff,100%,#000000,100%
@@ -44,7 +44,7 @@ $secondary-text-02,placeholders in fields,#8F97A4,100%,#686C74,100%,#686C74,100%
 $secondary-field-01,search bar background,#EFF3F5,100%,#FFFFFF,10%,#FBFBFC,10%,#FFFFFF,20%,#FFFFFF,20%,#3FD2E6,9%,#EFF3F5,15%,#fbf0ef,50%,#f2f2f2,100%,#252525,100%
 $secondary-field-01-active,search bar background on interaction,#E0E6EA,100%,#FBFBFC,15%,#FBFBFC,15%,#FFFFFF,30%,#FFFFFF,30%,#3FD2E6,14%,#FFFFFF,30%,#fbf0ef,100%,#f8f8f8,100%,#1a1a1a,100%
 $secondary-interactive-01,links in headers (mostly text),#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,#FFFFFF,100%,#cf1133,100%,#000000,100%,#ffffff,100%
-$secondary-interactive-01-hover,,#50D0F1,100%,#64C7F4,100%,#6EE1FF,100%,#50D0F1,100%,#50D0F1,100%,#64DDF2,100%,#C9CFDA,100%,#c9cfda,100%,#212121,100%,#212121,100%
+$secondary-interactive-01-hover,,#50D0F1,100%,#50D0F1,100%,#6EE1FF,100%,#50D0F1,100%,#50D0F1,100%,#64DDF2,100%,#C9CFDA,100%,#c9cfda,100%,#212121,100%,#212121,100%
 $secondary-interactive-01-active,,#8AE9FF,100%,#8AE9FF,100%,#A1ECFF,100%,#F99F9B,100%,#E29393,100%,#9FE8F2,100%,#949FB5,100%,#e8415f,100%,#404040,100%,#c0c0c0,100%
 ,,,,,,,,,,,,,,,,,,,,,
 $podcast-ui-01,podcast headers,#FFFFFF,100%,#292B2E,100%,#000000,100%,$podcast,100%,$podcast,100%,#212835,100%,$podcast,podcast 35% on #737B80,$podcast,podcast 10% on #FBE2DD,#ffffff,100%,#000000,100%
@@ -63,7 +63,7 @@ $podcast-interactive-01-active,,$podcast,60%,$podcast,podcast 80% on #FFFFFF,$po
 $podcast-interactive-02,text and icons on top of filled interactive elements on primary bg,#FFFFFF,100%,#292B2E,100%,#000000,100%,#FFFFFF,100%,#1A1B1D,100%,#212835,100%,#FFFFFF,100%,#F8EDED,100%,#ffffff,100%,#ffffff,100%
 $podcast-interactive-03,"text links, borders, filled parts of interactive elements on dark podcast bg (inside player)",$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,#3FD2E6,100%,$podcast,podcast 65% on #807D73,$podcast,podcast 65% on #A66C7F,#FFFFFF,100%,#ffffff,100%
 $podcast-interactive-03-active,,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,#A0E8F2,100%,$podcast,podcast 35% on #807D74,$podcast,podcast 35% on #A66C7F,#ffffff,60%,#ffffff,60%
-$podcast-interactive-04,text and icons on top of interactive elements on dark podcast bg (inside player),#000000,100%,#000000,100%,#000000,100%,#000000,100%,#000000,100%,#212835,100%,#000000,100%,#000000,100%,#000000,100%,#000000,100%
+$podcast-interactive-04,text and icons on top of interactive elements on dark podcast bg (inside player),#000000,100%,#292B2E,100%,#000000,100%,#000000,100%,#000000,100%,#212835,100%,#000000,100%,#000000,100%,#000000,100%,#000000,100%
 $podcast-interactive-05,secondary interactive elements on podcast bg,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,podcast 60% on #FFFFFF,#3FD2E6,100%,$podcast,podcast 45% on #807D74,$podcast,podcast 30% on #4D262C,#FFFFFF,100%,#ffffff,100%
 $podcast-onDark,"mostly intended to hold tintForDarkBg, allows for overriding this in some themes",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%
 $podcast-onLight,"mostly intended to hold tintForLightBg, allows for overriding this in some themes",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%

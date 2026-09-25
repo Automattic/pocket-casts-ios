@@ -35,7 +35,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #endif
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering(), videoRendering: PlaybackManager.shared.shouldRenderVideo()) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects.effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering(), videoRendering: PlaybackManager.shared.shouldRenderVideo()) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -69,7 +69,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         switch action {
         case .effects:
-            let effects = PlaybackManager.shared.effects()
+            let effects = PlaybackManager.shared.effects
 
             let effectsBtn = EffectsButton(frame: CGRect.zero)
             effectsBtn.isPointerInteractionEnabled = true
@@ -461,7 +461,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 #if !APPCLIP
         guard let episode = PlaybackManager.shared.currentEpisode else { return }
 
-        NavigationManager.sharedManager.navigateTo(
+        NavigationManager.shared.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
@@ -475,13 +475,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     #if !APPCLIP
     private func goToFiles() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.filesPageKey, data: nil)
+        NavigationManager.shared.navigateTo(NavigationManager.filesPageKey, data: nil)
     }
 
     private func goToPodcast() {
         guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
-        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
     }
 
     private func markPlayed() {
@@ -561,12 +561,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         } else {
             SharingModal.show(option: .currentPosition(episode, fromTime), from: analyticsSource, in: self)
         }
-    }
-
-    private func sharePodcast(source: UIView, podcast: Podcast?) {
-        guard let _ = source.superview, let podcast else { return }
-
-        SharingModal.show(option: .podcast(podcast), from: analyticsSource, in: self)
     }
     #endif
 

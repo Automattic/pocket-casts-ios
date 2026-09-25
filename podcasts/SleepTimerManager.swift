@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import AVFoundation
 import AVKit
 
 class SleepTimerManager {

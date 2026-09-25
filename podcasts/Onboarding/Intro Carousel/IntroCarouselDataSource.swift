@@ -16,10 +16,6 @@ class IntroCarouselDataSource: StoriesDataSource {
         IntroCarouselStory(item: items[index], theme: theme)
     }
 
-    func storyView(for index: Int) -> AnyView {
-        AnyView(IntroCarouselStory(item: items[index], theme: theme))
-    }
-
     func shareableStory(for index: Int) -> (any ShareableStory)? {
         nil
     }

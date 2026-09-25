@@ -31,12 +31,12 @@ class CancelledAcknowledgeViewController: UIViewController {
         title = L10n.subscriptionCancelled
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile-nothanksclose"), style: .done, target: self, action: #selector(doneTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        let expiryString = DateFormatHelper.sharedHelper.longLocalizedFormat(SubscriptionHelper.subscriptionRenewalDate())
+        let expiryString = DateFormatHelper.shared.longLocalizedFormat(SubscriptionHelper.subscriptionRenewalDate())
         expiryLabel.text = L10n.subscriptionCancelledMsg(expiryString)
     }
 
     @IBAction func doneTapped(_ sender: Any) {
-        Settings.setSubscriptionCancelledAcknowledged(true)
+        Settings.subscriptionCancelledAcknowledged = true
         dismiss(animated: true, completion: nil)
     }
 

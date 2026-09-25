@@ -1,0 +1,122 @@
+import Foundation
+
+public enum MediaFileHandleError: Error, Equatable {
+    case unableToOpenFile
+    case readAfterEndOfFile
+}
+
+/// File handle for local file operations.
+public final class MediaFileHandle {
+    private let filePath: String
+    private lazy var readHandle = FileHandle(forReadingAtPath: filePath)
+    private lazy var writeHandle = FileHandle(forWritingAtPath: filePath)
+
+    private let lock = NSLock()
+
+    // MARK: Init
+
+    public init(filePath: String) {
+        self.filePath = filePath
+
+        if FileManager.default.fileExists(atPath: filePath) {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] already exists. A non empty file can cause unexpected behavior so we are overwriting it.")
+        }
+        FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
+    }
+
+    deinit {
+        guard FileManager.default.fileExists(atPath: filePath) else { return }
+
+        close()
+    }
+}
+
+// MARK: Internal methods
+
+extension MediaFileHandle {
+
+    public func fileSize() throws -> Int {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
+            return (attributes[.size] as? NSNumber)?.intValue ?? 0
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: Failed to read file size of [\(filePath)] error: \(error)")
+            throw error
+        }
+    }
+
+    public var safeFileSize: Int {
+        return (try? fileSize()) ?? 0
+    }
+
+    public func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let readHandle else {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle is nil")
+            throw MediaFileHandleError.unableToOpenFile
+        }
+
+        do {
+            try readHandle.seek(toOffset: UInt64(offset))
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] seek error: \(error)")
+            throw error
+        }
+
+        do {
+            return try readHandle.read(upToCount: length)
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
+            throw error
+        }
+    }
+
+    public func append(data: Data) throws {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let writeHandle else { return }
+
+        try writeHandle.seekToEnd()
+
+        try writeHandle.write(contentsOf: data)
+    }
+
+    func synchronize() {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let writeHandle else { return }
+
+        do {
+            try writeHandle.synchronize()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] synchronize error: \(error)")
+        }
+    }
+
+    public func close() {
+        do {
+            try readHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle closing error: \(error)")
+        }
+        readHandle = nil
+        do {
+            try writeHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] write handle closing error: \(error)")
+        }
+        writeHandle = nil
+    }
+
+    public func deleteFile() {
+        do {
+            try FileManager.default.removeItem(atPath: filePath)
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] deletion error: \(error)")
+        }
+    }
+}

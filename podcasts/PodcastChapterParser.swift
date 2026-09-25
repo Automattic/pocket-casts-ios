@@ -1,8 +1,10 @@
 import AVFoundation
 import Foundation
+import MNAVChapters
 import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
+import SJUtils
 
 class PodcastChapterParser {
     func parseLocalFile(_ path: String, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {

@@ -256,7 +256,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     private func codeRedeemed() {
         SubscriptionHelper.setSubscriptionGiftAcknowledgement(true)
         ApiServerHandler.shared.retrieveSubscriptionStatus()
-        Settings.setPromotionFinishedAcknowledged(false)
+        Settings.promotionFinishedAcknowledged = false
         delegate?.promotionRedeemed(message: serverMessage ?? "")
 
         DispatchQueue.main.async {
@@ -289,13 +289,13 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     @IBAction func upgradeToPlusTapped(_ sender: Any) {
         dismiss(animated: true) {
             guard let controller = SceneHelper.rootViewController() else { return }
-            NavigationManager.sharedManager.showUpsellView(from: controller, source: .promoCode)
+            NavigationManager.shared.showUpsellView(from: controller, source: .promoCode)
         }
     }
 
     @IBAction func signUpNoPromoTapped(_ sender: Any) {
         dismiss(animated: true) {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.promoCode])
+            NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.promoCode])
         }
     }
 

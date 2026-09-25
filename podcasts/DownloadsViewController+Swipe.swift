@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
 import PocketCastsUtils
+import UIKit
 
 extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate
@@ -59,7 +60,7 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
-        NavigationManager.sharedManager.navigateTo(
+        NavigationManager.shared.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
                 NavigationManager.manualPlaylistsChooserEpisodeKey: episode

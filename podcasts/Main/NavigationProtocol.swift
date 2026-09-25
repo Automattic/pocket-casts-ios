@@ -21,7 +21,6 @@ protocol NavigationProtocol: AnyObject {
     func navigateToProfile(row: ProfileViewController.TableRow?, animated: Bool)
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
-    func navigateToEditFilter(_ filter: EpisodeFilter)
     func navigateToAddFilter()
     func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?, source: String)
 
@@ -37,7 +36,6 @@ protocol NavigationProtocol: AnyObject {
     func showSettingsAppearance(showThemeSelection: Bool)
     func showPromotionPage(promoCode: String?)
     func showPromotionFinishedAcknowledge()
-    func showProfilePage()
     func showHeadphoneSettings()
     func showGeneralSettings(row: GeneralSettingsViewController.TableRow?)
     func showRedeemGuestPass(url: URL)

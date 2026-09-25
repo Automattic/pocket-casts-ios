@@ -27,6 +27,6 @@ class PodcastsListViewModel: ObservableObject {
     }
 
     func countOfPodcastsInFolder(_ folder: Folder) -> Int {
-        DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+        DataManager.shared.countOfPodcastsInFolder(folder: folder)
     }
 }

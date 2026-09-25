@@ -283,12 +283,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         removeAllCustomObservers()
     }
 
-    /// Resets the scrolling title marquee to the beginning of its pause-then-scroll
-    /// cycle.
-    func resetScrollingTitleAnimation() {
-        episodeTitleLabel?.restartAnimation()
-    }
-
     /// Aligns this controller's scrolling title with another's, so the
     /// snapshot clone built for the zoom transition picks up the live mini
     /// player's scroll phase. Must be called after the clone is in a window.
@@ -456,14 +450,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func rootViewController() -> MainTabBarController? {
         if let controller = view.window?.rootViewController as? MainTabBarController {
             return controller
-        }
-
-        return nil
-    }
-
-    private func rootNavController() -> UINavigationController? {
-        if let rootNav = rootViewController()?.selectedViewController as? UINavigationController {
-            return rootNav
         }
 
         return nil
@@ -695,8 +681,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     private func currentPodcastTintColor() -> UIColor {
-        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode) {
-            return Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        if let podcast = podcast(for: PlaybackManager.shared.currentEpisode) {
+            return Theme.isDarkTheme ? ColorManager.darkThemeTint(for: podcast) : ColorManager.lightThemeTint(for: podcast)
         } else if let episode = PlaybackManager.shared.currentEpisode as? UserEpisode, episode.imageColor > 0 {
             return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
         } else {
@@ -704,7 +690,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {
+    private func podcast(for episode: BaseEpisode?) -> Podcast? {
         if let episode = PlaybackManager.shared.currentEpisode as? Episode {
             return episode.parentPodcast()
         }

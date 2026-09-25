@@ -38,6 +38,7 @@ final class NetworkNavigator: ObservableObject {
         }
     }
 
+    @MainActor
     private func show(_ collection: PodcastCollection?, listId: String, title: String?) {
         guard let presenter, presenter.viewIfLoaded?.window != nil, let navigationController = presenter.navigationController else { return }
 
@@ -95,7 +96,7 @@ extension NetworkNavigator: DiscoverDelegate {
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         guard let uuid = podcast.uuid else { return false }
 
-        return DataManager.sharedManager.findPodcast(uuid: uuid) != nil
+        return DataManager.shared.findPodcast(uuid: uuid) != nil
     }
 
     func subscribe(podcast: DiscoverPodcast) {

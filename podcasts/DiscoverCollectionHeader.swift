@@ -38,11 +38,8 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     @IBOutlet var avatarBorderView: ThemeableView! {
         didSet {
             avatarBorderView.layer.cornerRadius = 44
-            avatarBorderView.layer.shadowColor = UIColor.black.cgColor
-            avatarBorderView.layer.shadowOffset = CGSize(width: 0, height: 2)
-            avatarBorderView.layer.shadowOpacity = 0.15
-            avatarBorderView.layer.shadowRadius = 4
-            avatarBorderView.layer.shadowPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 88, height: 88)).cgPath
+            avatarBorderView.layer.borderWidth = 1
+            setAvatarBorderColor()
         }
     }
 
@@ -101,6 +98,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
             descriptionLabel.style = .primaryText02
             descriptionLabel.font = .font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             descriptionLabel.adjustsFontForContentSizeCategory = true
+            descriptionLabel.textAlignment = .center
         }
     }
 
@@ -135,7 +133,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
         if let avatarUrl = podcastCollection.collectionImage {
             avatarBorderView.isHidden = false
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
+            ImageManager.shared.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
         } else {
             avatarBorderView.isHidden = true
         }
@@ -150,6 +148,10 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         setSubtitleColor()
     }
 
+    private func setAvatarBorderColor() {
+        avatarBorderView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
+    }
+
     private func setSubtitleColor() {
         subtitleLabel.textColor = podcastCollection?.colors?.activeThemeColor ?? AppTheme.colorForStyle(.support05)
     }
@@ -157,7 +159,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     private func setupCollageImage() {
         guard let mobileCollage = podcastCollection?.collageImages?.filter({ $0.key == "mobile" }), let collageUrl = mobileCollage.first?.image_url else { return }
 
-        ImageManager.sharedManager.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
+        ImageManager.shared.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
             guard let currentCGImage = image?.cgImage else {
                 return
             }
@@ -193,5 +195,6 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     @objc func themeDidChange() {
         setImageTint()
         setSubtitleColor()
+        setAvatarBorderColor()
     }
 }

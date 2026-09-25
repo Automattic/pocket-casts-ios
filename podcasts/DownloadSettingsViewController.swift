@@ -94,7 +94,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.upNext
-            cell.cellSwitch.isOn = Settings.downloadUpNextEpisodes()
+            cell.cellSwitch.isOn = Settings.downloadUpNextEpisodes
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(downloadUpNextToggled(_:)), for: UIControl.Event.valueChanged)
 
@@ -111,7 +111,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .podcastSelection:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
-            let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
             let allWithAutoDownloadOn = allPodcasts.filter { $0.autoDownloadOn() }
 
             cell.cellLabel.text = L10n.selectedPodcastCount(allWithAutoDownloadOn.count)
@@ -131,7 +131,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
             cell.cellLabel.text = L10n.autoDownloadLimitDownloads
-            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits().localizedDescriptionForRow
+            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits.localizedDescriptionForRow
 
             return cell
         case .filterSelection:
@@ -171,15 +171,15 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             podcastChooserController?.analyticsSource = .downloads
             if let podcastSelectController = podcastChooserController {
                 podcastSelectController.delegate = self
-                let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
                 podcastSelectController.selectedUuids = allPodcasts.filter { $0.autoDownloadOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
         case .filterSelection:
             let playlistSelectionViewController = PlaylistSelectionViewController()
             playlistSelectionViewController.navigationTitle = L10n.settingsSelectPlaylistsPlural
-            playlistSelectionViewController.allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-            let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { playlist -> String? in
+            playlistSelectionViewController.allPlaylists = DataManager.shared.allPlaylists(includeDeleted: false)
+            let selectedFilters = DataManager.shared.allPlaylists(includeDeleted: false).compactMap { playlist -> String? in
                 playlist.autoDownloadEpisodes ? playlist.uuid : nil
             }
             playlistSelectionViewController.selectedPlaylists = selectedFilters
@@ -187,13 +187,13 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
                 playlist.autoDownloadEpisodes = true
                 playlist.autoDownloadLimit = playlist.maxAutoDownloadEpisodes()
-                DataManager.sharedManager.save(playlist: playlist)
+                DataManager.shared.save(playlist: playlist)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             }
             playlistSelectionViewController.playlistUnselected = { playlist in
                 Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
                 playlist.autoDownloadEpisodes = false
-                DataManager.sharedManager.save(playlist: playlist)
+                DataManager.shared.save(playlist: playlist)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             }
             playlistSelectionViewController.didChangePlaylist = {
@@ -205,8 +205,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
             let limitOptions = AutoDownloadLimit.allCases
             for limit in limitOptions {
-                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits() == limit) {
-                    Settings.setAutoDownloadLimits(limit)
+                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits == limit) {
+                    Settings.autoDownloadLimits = limit
                     tableView.reloadData()
                 }
                 picker.addAction(action: selectAction)
@@ -221,7 +221,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
     @objc func podcastUpdated(_ notification: Notification) {
         guard let podcastChooserController else { return }
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         podcastChooserController.selectedUuids = allPodcasts.filter { $0.autoDownloadOn() }.map(\.uuid)
         podcastChooserController.selectedUuidsUpdated = true
     }
@@ -230,18 +230,18 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
     func bulkSelectionChange(selected: Bool) {
         let setting: AutoDownloadSetting = selected ? .latest : .off
-        DataManager.sharedManager.setDownloadSettingForAllPodcasts(setting: setting)
-        let allPodcastsChanged = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        DataManager.shared.setDownloadSettingForAllPodcasts(setting: setting)
+        let allPodcastsChanged = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         allPodcastsChanged.forEach { NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: $0.uuid) }
     }
 
     func podcastSelected(podcast: String) {
-        DataManager.sharedManager.savePodcastDownloadSetting(.latest, podcastUuid: podcast)
+        DataManager.shared.savePodcastDownloadSetting(.latest, podcastUuid: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
     func podcastUnselected(podcast: String) {
-        DataManager.sharedManager.savePodcastDownloadSetting(.off, podcastUuid: podcast)
+        DataManager.shared.savePodcastDownloadSetting(.off, podcastUuid: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
@@ -262,7 +262,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     }
 
     @objc private func downloadUpNextToggled(_ slider: UISwitch) {
-        Settings.setDownloadUpNextEpisodes(slider.isOn)
+        Settings.downloadUpNextEpisodes = slider.isOn
 
         settingsTable.reloadData()
     }

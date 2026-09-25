@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let minimumVelocityToHide: CGFloat = 1000

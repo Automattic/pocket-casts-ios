@@ -21,31 +21,27 @@ class ColorManager {
     private let lock = NSObject()
     private var downloadingPodcasts = [String]()
 
-    static let sharedManager = ColorManager()
+    static let shared = ColorManager()
 
     private init() {
         colorDownloadQueue.maxConcurrentOperationCount = 5
     }
 
-    class func podcastHasBackgroundColor(_ podcast: Podcast) -> Bool {
-        ColorManager.sharedManager.podcastHasBackgroundColor(podcast)
+    class func backgroundColor(for podcast: Podcast) -> UIColor {
+        ColorManager.shared.backgroundColor(for: podcast)
     }
 
-    class func backgroundColorForPodcast(_ podcast: Podcast) -> UIColor {
-        ColorManager.sharedManager.backgroundColorForPodcast(podcast)
-    }
-
-    class func backgroundColorForPodcastUuid(_ uuid: String) -> UIColor {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
-            return ColorManager.sharedManager.defaultBackgroundColor
+    class func backgroundColor(forPodcastUuid uuid: String) -> UIColor {
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+            return ColorManager.shared.defaultBackgroundColor
         }
-        return ColorManager.sharedManager.backgroundColorForPodcast(podcast)
+        return ColorManager.shared.backgroundColor(for: podcast)
     }
 
-    class func darkThemeTintColorForPodcastUuid(_ uuid: String, completion: @escaping ((UIColor) -> Void)) {
+    class func darkThemeTintColor(forPodcastUuid uuid: String, completion: @escaping ((UIColor) -> Void)) {
         CacheServerHandler.shared.loadPodcastColors(podcastUuid: uuid, allowCachedVersion: true, completion: { _, _, darkThemeTint in
             guard let darkThemeTint else {
-                completion(ColorManager.sharedManager.defaultDarkTintColor)
+                completion(ColorManager.shared.defaultDarkTintColor)
 
                 return
             }
@@ -54,16 +50,12 @@ class ColorManager {
         })
     }
 
-    class func lightThemeTintForPodcast(_ podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
-        ColorManager.sharedManager.lightThemeTintForPodcast(podcast, defaultColor: defaultColor)
+    class func lightThemeTint(for podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
+        ColorManager.shared.lightThemeTint(for: podcast, defaultColor: defaultColor)
     }
 
-    class func darkThemeTintForPodcast(_ podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
-        ColorManager.sharedManager.darkThemeTintForPodcast(podcast, defaultColor: defaultColor)
-    }
-
-    private func podcastHasBackgroundColor(_ podcast: Podcast) -> Bool {
-        podcast.backgroundColor != nil && podcast.colorVersion == currentColorVersion
+    class func darkThemeTint(for podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
+        ColorManager.shared.darkThemeTint(for: podcast, defaultColor: defaultColor)
     }
 
     func updateColorsIfRequired(_ podcast: Podcast) {
@@ -72,7 +64,7 @@ class ColorManager {
         }
     }
 
-    private func backgroundColorForPodcast(_ podcast: Podcast) -> UIColor {
+    private func backgroundColor(for podcast: Podcast) -> UIColor {
         if let colorStr = podcast.backgroundColor, podcast.colorVersion == currentColorVersion {
             return UIColor(hex: colorStr)
         }
@@ -82,7 +74,7 @@ class ColorManager {
         return defaultBackgroundColor
     }
 
-    private func lightThemeTintForPodcast(_ podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
+    private func lightThemeTint(for podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
         if let colorStr = podcast.primaryColor, podcast.colorVersion == currentColorVersion {
             if colorStr == defaultServerLightTint {
                 return defaultColor ?? defaultLightTintColor
@@ -96,7 +88,7 @@ class ColorManager {
         return defaultColor ?? defaultLightTintColor
     }
 
-    private func darkThemeTintForPodcast(_ podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
+    private func darkThemeTint(for podcast: Podcast, defaultColor: UIColor? = nil) -> UIColor {
         if let colorStr = podcast.secondaryColor, podcast.colorVersion == currentColorVersion {
             if colorStr == defaultServerDarkTint {
                 return defaultColor ?? defaultDarkTintColor
@@ -159,13 +151,13 @@ class ColorManager {
                     return
                 }
 
-                if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                     podcast.backgroundColor = backgroundColor
                     podcast.primaryColor = lightThemeTint
                     podcast.secondaryColor = darkThemeTint
                     podcast.colorVersion = strongSelf.currentColorVersion
                     podcast.lastColorDownloadDate = Date()
-                    DataManager.sharedManager.save(podcast: podcast)
+                    DataManager.shared.save(podcast: podcast)
 
                     strongSelf.colorsDidSave(podcastUuid: podcastUuid)
                 }
@@ -183,9 +175,9 @@ class ColorManager {
     }
 
     private func handleDownloadError(podcastUuid: String) {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             podcast.lastColorDownloadDate = Date()
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
         }
 
         removeDownloadingUuid(podcastUuid)

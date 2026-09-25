@@ -4,6 +4,10 @@ import CoreAudioTypes
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
+#if !os(watchOS)
+    import VoiceBoostN
+#endif
 
 class DefaultPlayer: PlaybackProtocol, Hashable {
     private var audioMix: AVAudioMix?
@@ -92,8 +96,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             cleanupPlayer()
             player = nil
         }
+        audioMix = nil
+        assetTrack = nil
 
-        if let url = EpisodeManager.urlForEpisode(episode) {
+        if let url = EpisodeManager.url(for: episode) {
             isPlayingLocalFile = url.isFileURL
         } else {
             isPlayingLocalFile = false
@@ -295,30 +301,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     func effectsDidChange() {
-        let effects = PlaybackManager.shared.effects()
+        let effects = PlaybackManager.shared.effects
 
         setPlaybackRate(effects.playbackSpeed)
         volumeBoostEnabled = effects.volumeBoost
     }
 
-    func supportsSilenceRemoval() -> Bool {
-        false
-    }
-
-    func supportsVolumeBoost() -> Bool {
-        true
-    }
-
     func supportsGoogleCast() -> Bool {
         false
-    }
-
-    func supportsStreaming() -> Bool {
-        true
-    }
-
-    func supportsAirplay2() -> Bool {
-        true
     }
 
     func shouldBePlaying() -> Bool {
@@ -388,31 +378,32 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
-        if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+        if isWaitingForInitialPlayback, let playerItem = player?.currentItem, playerItem.status == .readyToPlay {
             loadEmbeddedImage()
-
-            for track in tracks {
-                if track.mediaType == AVMediaType.audio {
-                    assetTrack = track
-                    break
-                }
-            }
-
-            #if !os(watchOS)
-                // The volume-boost audio mix uses an MTAudioProcessingTap, which requires a concrete
-                // audio asset track. HLS streams don't expose one (asset.tracks is empty), so attaching
-                // the mix breaks audio playback at non-1x rates — the audio ignores the rate while the
-                // video honors it. Only attach it when we actually found an audio track.
-                if assetTrack != nil {
-                    createAudioMix()
-                    player?.currentItem?.audioMix = audioMix
-                }
-            #endif
+            loadAudioTrack(for: playerItem)
 
             isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
+    }
+
+    private func loadAudioTrack(for playerItem: AVPlayerItem) {
+        switch playerItem.asset.status(of: .tracks) {
+        case .loaded(let tracks):
+            assetTrack = tracks.first { $0.mediaType == .audio }
+        case .failed(let error):
+            FileLog.shared.addMessage("[DefaultPlayer] Failed to load asset tracks: \(error)")
+        default:
+            FileLog.shared.addMessage("[DefaultPlayer] Asset tracks were not loaded when the item became ready to play")
+        }
+
+        #if !os(watchOS)
+            if assetTrack != nil {
+                createAudioMix()
+                playerItem.audioMix = audioMix
+            }
+        #endif
     }
 
     // MARK: - Audio Mix
@@ -795,7 +786,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             // schedule a timer to cancel the background task as soon as bufferring is done or we don't need to play anymore
             // do this on the main thread because timers require run loops
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
                     guard let self else {
                         timer.invalidate()
@@ -884,7 +875,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
                 // the easiest way to repeat this is to play a video at 2x, and press pause once it's in picture in picture mode
-                let requiredSpeed = PlaybackManager.shared.effects().playbackSpeed
+                let requiredSpeed = PlaybackManager.shared.effects.playbackSpeed
                 if requiredSpeed != 1 {
                     self.performSetPlaybackRate()
                 }

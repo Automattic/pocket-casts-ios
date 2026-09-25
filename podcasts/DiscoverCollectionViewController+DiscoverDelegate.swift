@@ -1,6 +1,7 @@
 import PocketCastsServer
 import PocketCastsDataModel
 import EndOfYear
+import UIKit
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func navigateTo(category: String) {
@@ -166,7 +167,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         if let uuid = podcast.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 return true
             }
         }

@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 import PocketCastsDataModel
 
 /// Coordinates playlist cache invalidation in response to episode changes.
@@ -22,7 +23,7 @@ final class PlaylistCacheInvalidationCoordinator {
 
     init(
         playlistMetadataLoader: PlaylistMetadataLoader,
-        dataManager: DataManager = .sharedManager,
+        dataManager: DataManager = .shared,
         debounceDelay: TimeInterval = 0.3
     ) {
         self.playlistMetadataLoader = playlistMetadataLoader

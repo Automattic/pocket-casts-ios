@@ -1,7 +1,8 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
-struct OnboardingFlow: AnalyticsSourceProvider {
+struct OnboardingFlow {
     typealias Context = [String: Any]
 
     static var shared = OnboardingFlow()
@@ -84,7 +85,7 @@ struct OnboardingFlow: AnalyticsSourceProvider {
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
         if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
-            NavigationManager.sharedManager.showNotificationsPermissionsModal()
+            NavigationManager.shared.showNotificationsPermissionsModal()
         }
         source = .unknown
         currentFlow = .none
@@ -192,9 +193,5 @@ struct OnboardingFlow: AnalyticsSourceProvider {
                 false
             }
         }
-    }
-
-    var analyticsSource: AnalyticsSource {
-        .onboarding
     }
 }

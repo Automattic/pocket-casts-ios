@@ -21,7 +21,7 @@ final class LocalSearchCoordinator {
 
     init(
         playlist: EpisodeFilter,
-        dataManager: DataManager = DataManager.sharedManager
+        dataManager: DataManager = DataManager.shared
     ) {
         self.playlist = playlist
         self.dataManager = dataManager
@@ -113,7 +113,7 @@ final class LocalSearchCoordinator {
             let playlistUUIDs = await MainActor.run { self.playlistEpisodeUUIDs }
 
             let episodeResults = await Task.detached { [dataManager] in
-                let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+                let podcastEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
                 let sortedEpisodes = podcastEpisodes.sorted { lhs, rhs in
                     let lhsDate = lhs.publishedDate ?? lhs.addedDate ?? .distantPast
                     let rhsDate = rhs.publishedDate ?? rhs.addedDate ?? .distantPast
@@ -159,7 +159,7 @@ final class LocalSearchCoordinator {
             Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": result.isFull])
 
             guard result.didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                 return
             }
@@ -193,7 +193,7 @@ final class LocalSearchCoordinator {
         }
 
         let episodeResults = await Task.detached {
-            let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+            let matchedEpisodes = DataManager.shared.findEpisodes(with: term, podcastUUID: podcastUuid)
             return matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
         }.value
 

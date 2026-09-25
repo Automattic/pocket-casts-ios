@@ -55,7 +55,7 @@ class PodcastEpisodeListViewModel: ObservableObject {
 
         updatePodcast
             .compactMap { [unowned self] _ in
-                DataManager.sharedManager.findPodcast(uuid: self.podcast.uuid)
+                DataManager.shared.findPodcast(uuid: self.podcast.uuid)
             }
             .receive(on: RunLoop.main)
             .assign(to: &$podcast)
@@ -63,7 +63,7 @@ class PodcastEpisodeListViewModel: ObservableObject {
         $podcast
             .compactMap { podcast in
                 let query = Self.createEpisodesQuery(forPodcast: podcast)
-                return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+                return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)
                     .map { EpisodeRowViewModel(episode: $0) }
             }
             .receive(on: RunLoop.main)
@@ -72,7 +72,7 @@ class PodcastEpisodeListViewModel: ObservableObject {
 
     func didChangeSortOrder(option: PodcastEpisodeSortOrder) {
         podcast.episodeSortOrder = option.old.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
     }
 }

@@ -3,82 +3,72 @@ import GRDB
 @testable import PocketCastsDataModel
 @testable import PocketCastsUtils
 
-/// Tests to ensure the legacy SQL columnNames and GRDB-persisted columns remain in sync.
-/// These tests prevent the issue where GRDB might persist a field that the legacy SQL path ignores
-/// (or vice versa), causing inconsistent behavior when the feature flag is toggled.
 final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
-
-    /// Access columnNames directly from UserEpisodeDataManager (the source of truth for legacy SQL).
-    private var columnNames: Set<String> {
-        Set(UserEpisodeDataManager().columnNames)
-    }
 
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.userEpisodeTableName).map(\.name))
         }
+        let encodedColumns = Set(try UserEpisode().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.userEpisodeTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        // (it may have more due to migrations or legacy columns like contentType)
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "UserEpisode encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            ["contentType"],
+            "Table columns that saving a UserEpisode doesn't write"
         )
     }
 
     // MARK: - Round-Trip Tests
 
     func testSaveAndLoadPreservesAllFields() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let original = self.createFullyPopulatedUserEpisode()
 
-            // Save using the current implementation (respects feature flag)
             dataManager.save(episode: original)
 
             // Load it back
             guard let loaded = dataManager.findUserEpisode(uuid: original.uuid) else {
-                XCTFail("\(implementationName): Should be able to load saved episode")
+                XCTFail("Should be able to load saved episode")
                 return
             }
 
             // Verify all persisted fields match
-            XCTAssertEqual(loaded.uuid, original.uuid, "\(implementationName): uuid should match")
-            XCTAssertEqual(loaded.title, original.title, "\(implementationName): title should match")
-            XCTAssertEqual(loaded.duration, original.duration, "\(implementationName): duration should match")
-            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "\(implementationName): playedUpTo should match")
-            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "\(implementationName): playingStatus should match")
-            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "\(implementationName): episodeStatus should match")
-            XCTAssertEqual(loaded.uploadStatus, original.uploadStatus, "\(implementationName): uploadStatus should match")
-            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "\(implementationName): autoDownloadStatus should match")
-            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "\(implementationName): sizeInBytes should match")
-            XCTAssertEqual(loaded.fileType, original.fileType, "\(implementationName): fileType should match")
-            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "\(implementationName): downloadUrl should match")
-            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "\(implementationName): downloadTaskId should match")
-            XCTAssertEqual(loaded.uploadTaskId, original.uploadTaskId, "\(implementationName): uploadTaskId should match")
-            XCTAssertEqual(loaded.imageUrl, original.imageUrl, "\(implementationName): imageUrl should match")
-            XCTAssertEqual(loaded.imageColor, original.imageColor, "\(implementationName): imageColor should match")
-            XCTAssertEqual(loaded.hasCustomImage, original.hasCustomImage, "\(implementationName): hasCustomImage should match")
-            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "\(implementationName): cachedFrameCount should match")
-            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "\(implementationName): playingStatusModified should match")
-            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "\(implementationName): playedUpToModified should match")
-            XCTAssertEqual(loaded.titleModified, original.titleModified, "\(implementationName): titleModified should match")
-            XCTAssertEqual(loaded.durationModified, original.durationModified, "\(implementationName): durationModified should match")
-            XCTAssertEqual(loaded.imageModified, original.imageModified, "\(implementationName): imageModified should match")
-            XCTAssertEqual(loaded.imageColorModified, original.imageColorModified, "\(implementationName): imageColorModified should match")
-            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "\(implementationName): downloadErrorDetails should match")
-            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "\(implementationName): playbackErrorDetails should match")
+            XCTAssertEqual(loaded.id, original.id, "id should match")
+            XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.addedDate, original.addedDate, "addedDate should match")
+            XCTAssertEqual(loaded.lastDownloadAttemptDate, original.lastDownloadAttemptDate, "lastDownloadAttemptDate should match")
+            XCTAssertEqual(loaded.publishedDate, original.publishedDate, "publishedDate should match")
+            XCTAssertEqual(loaded.title, original.title, "title should match")
+            XCTAssertEqual(loaded.duration, original.duration, "duration should match")
+            XCTAssertEqual(loaded.playedUpTo, original.playedUpTo, "playedUpTo should match")
+            XCTAssertEqual(loaded.playingStatus, original.playingStatus, "playingStatus should match")
+            XCTAssertEqual(loaded.episodeStatus, original.episodeStatus, "episodeStatus should match")
+            XCTAssertEqual(loaded.uploadStatus, original.uploadStatus, "uploadStatus should match")
+            XCTAssertEqual(loaded.autoDownloadStatus, original.autoDownloadStatus, "autoDownloadStatus should match")
+            XCTAssertEqual(loaded.sizeInBytes, original.sizeInBytes, "sizeInBytes should match")
+            XCTAssertEqual(loaded.fileType, original.fileType, "fileType should match")
+            XCTAssertEqual(loaded.downloadUrl, original.downloadUrl, "downloadUrl should match")
+            XCTAssertEqual(loaded.downloadTaskId, original.downloadTaskId, "downloadTaskId should match")
+            XCTAssertEqual(loaded.uploadTaskId, original.uploadTaskId, "uploadTaskId should match")
+            XCTAssertEqual(loaded.imageUrl, original.imageUrl, "imageUrl should match")
+            XCTAssertEqual(loaded.imageColor, original.imageColor, "imageColor should match")
+            XCTAssertEqual(loaded.hasCustomImage, original.hasCustomImage, "hasCustomImage should match")
+            XCTAssertEqual(loaded.cachedFrameCount, original.cachedFrameCount, "cachedFrameCount should match")
+            XCTAssertEqual(loaded.playingStatusModified, original.playingStatusModified, "playingStatusModified should match")
+            XCTAssertEqual(loaded.playedUpToModified, original.playedUpToModified, "playedUpToModified should match")
+            XCTAssertEqual(loaded.titleModified, original.titleModified, "titleModified should match")
+            XCTAssertEqual(loaded.durationModified, original.durationModified, "durationModified should match")
+            XCTAssertEqual(loaded.imageModified, original.imageModified, "imageModified should match")
+            XCTAssertEqual(loaded.imageColorModified, original.imageColorModified, "imageColorModified should match")
+            XCTAssertEqual(loaded.downloadErrorDetails, original.downloadErrorDetails, "downloadErrorDetails should match")
+            XCTAssertEqual(loaded.playbackErrorDetails, original.playbackErrorDetails, "playbackErrorDetails should match")
         }
     }
 
@@ -86,7 +76,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
     /// Verifies that contentType is NOT persisted by save() but IS persisted by saveContentType()
     func testContentTypeNotPersistedBySave() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let episode = UserEpisode()
             episode.uuid = UUID().uuidString
             episode.title = "ContentType Test"
@@ -97,17 +87,17 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
 
             // Load it back - contentType should NOT be saved by save()
             guard let loaded = dataManager.findUserEpisode(uuid: episode.uuid) else {
-                XCTFail("\(implementationName): Should find saved episode")
+                XCTFail("Should find saved episode")
                 return
             }
 
             // contentType should be nil because save() doesn't persist it
-            XCTAssertNil(loaded.contentType, "\(implementationName): contentType should NOT be persisted by save() - use saveContentType() instead")
+            XCTAssertNil(loaded.contentType, "contentType should NOT be persisted by save() - use saveContentType() instead")
         }
     }
 
     func testContentTypePersistedBySaveContentType() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let episode = UserEpisode()
             episode.uuid = UUID().uuidString
             episode.title = "ContentType Test"
@@ -118,12 +108,134 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
             dataManager.saveEpisode(contentType: "audio/mpeg", episode: episode)
 
             guard let loaded = dataManager.findUserEpisode(uuid: episode.uuid) else {
-                XCTFail("\(implementationName): Should find saved episode")
+                XCTFail("Should find saved episode")
                 return
             }
 
-            XCTAssertEqual(loaded.contentType, "audio/mpeg", "\(implementationName): contentType should be persisted by saveContentType()")
+            XCTAssertEqual(loaded.contentType, "audio/mpeg", "contentType should be persisted by saveContentType()")
         }
+    }
+
+    // MARK: - GRDB Record Tests
+
+    /// Dates are stored as Unix timestamps, not GRDB's default Date format.
+    /// The legacy read path reads them back with `rs.double(forColumn:)`, so a change
+    /// here would silently shift every user episode date.
+    func testDatesAreEncodedAsUnixTimestamps() throws {
+        let episode = createFullyPopulatedUserEpisode()
+        let encoded = try episode.databaseDictionary
+
+        let dates: [String: Date?] = [
+            "addedDate": episode.addedDate,
+            "lastDownloadAttemptDate": episode.lastDownloadAttemptDate,
+            "publishedDate": episode.publishedDate
+        ]
+        for (column, date) in dates {
+            XCTAssertEqual(
+                Double.fromDatabaseValue(try XCTUnwrap(encoded[column])),
+                try XCTUnwrap(date).timeIntervalSince1970,
+                "\(column) should encode as a Unix timestamp"
+            )
+        }
+    }
+
+    func testNilPublishedDateIsEncodedAsNull() throws {
+        let encoded = try UserEpisode().databaseDictionary
+
+        XCTAssertEqual(encoded["publishedDate"], .null, "a nil publishedDate should encode as NULL")
+    }
+
+    /// These columns are `NOT NULL`, so a nil date is stored as 0 instead of NULL.
+    /// The legacy read path turns 0 back into nil.
+    func testNilDatesInNotNullColumnsAreEncodedAsZero() throws {
+        let encoded = try UserEpisode().databaseDictionary
+
+        for column in ["addedDate", "lastDownloadAttemptDate"] {
+            XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded[column])), 0, "a nil \(column) should encode as 0")
+        }
+    }
+
+    func testSavesUserEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let episode = self.createFullyPopulatedUserEpisode()
+            episode.addedDate = nil
+
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findUserEpisode(uuid: episode.uuid))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// A row stored with `addedDate` 0 loads with a nil date. Saving that episode
+    /// again has to update the row instead of failing the `NOT NULL` constraint.
+    func testUpdatesUserEpisodeWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let episode = self.createFullyPopulatedUserEpisode()
+            dataManager.save(episode: episode)
+
+            episode.addedDate = nil
+            episode.title = "Renamed"
+            dataManager.save(episode: episode)
+
+            let loaded = try XCTUnwrap(dataManager.findUserEpisode(uuid: episode.uuid))
+            XCTAssertEqual(loaded.title, "Renamed")
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    func testTransientPropertiesAreNotEncoded() throws {
+        let episode = createFullyPopulatedUserEpisode()
+        episode.contentType = "audio/mpeg"
+        episode.hasOnlyUuid = true
+        episode.deselectedChapters = "1,3,5"
+        episode.deselectedChaptersModified = 777
+        episode.archived = true
+        episode.keepEpisode = true
+        episode.wasDeleted = true
+
+        let encoded = try episode.databaseDictionary
+
+        for name in [
+            "contentType", "hasOnlyUuid", "deselectedChapters", "deselectedChaptersModified",
+            "archived", "keepEpisode", "wasDeleted"
+        ] {
+            XCTAssertNil(encoded[name], "\(name) should not be encoded")
+        }
+    }
+
+    func testDecodesRowWrittenByGRDB() throws {
+        let dataManager = DataManager.newTestDataManager()
+        let original = createFullyPopulatedUserEpisode()
+        dataManager.save(episode: original)
+
+        let decoded = try dataManager.dbQueue.dbPool.read { db in
+            try UserEpisode.filter(UserEpisode.Columns.uuid == original.uuid).fetchOne(db)
+        }
+
+        let episode = try XCTUnwrap(decoded, "should decode a UserEpisode from its own row")
+        XCTAssertEqual(try episode.databaseDictionary, try original.databaseDictionary)
+    }
+
+    /// Every property decodes with a fallback, so a row missing columns (an older
+    /// schema, or a projection) yields defaults instead of throwing.
+    func testDecodesRowWithMissingColumnsUsingDefaults() throws {
+        let episode = try UserEpisode(row: ["uuid": "abc"])
+
+        let expected = UserEpisode()
+        expected.uuid = "abc"
+        XCTAssertEqual(try episode.databaseDictionary, try expected.databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
+    }
+
+    func testDecodesRowWithNullColumnsUsingDefaults() throws {
+        let columns = try UserEpisode().databaseDictionary.keys
+        let row = Row(Dictionary(uniqueKeysWithValues: columns.map { ($0, nil as (any DatabaseValueConvertible)?) }))
+
+        let episode = try UserEpisode(row: row)
+
+        XCTAssertEqual(try episode.databaseDictionary, try UserEpisode().databaseDictionary)
+        XCTAssertNil(episode.lastDownloadAttemptDate)
     }
 
     // MARK: - Helpers
@@ -160,8 +272,8 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         let episode = UserEpisode()
         episode.uuid = UUID().uuidString
         episode.title = "Test Episode Title"
-        episode.addedDate = Date()
-        episode.lastDownloadAttemptDate = Date()
+        episode.addedDate = Date(timeIntervalSince1970: 1700000000)
+        episode.lastDownloadAttemptDate = Date(timeIntervalSince1970: 1700000100)
         episode.downloadErrorDetails = "Test error"
         episode.downloadTaskId = "download-task-123"
         episode.downloadUrl = "https://example.com/episode.mp3"
@@ -172,7 +284,7 @@ final class UserEpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.durationModified = 111
         episode.playingStatus = PlayingStatus.inProgress.rawValue
         episode.autoDownloadStatus = AutoDownloadStatus.autoDownloaded.rawValue
-        episode.publishedDate = Date()
+        episode.publishedDate = Date(timeIntervalSince1970: 1690000000)
         episode.sizeInBytes = 1024000
         episode.playingStatusModified = 222
         episode.playedUpToModified = 333

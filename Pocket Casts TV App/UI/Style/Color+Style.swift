@@ -18,14 +18,6 @@ extension Color {
 
     static let pcTextSecondaryActive = Color(uiColor: .appearance(light: "#C8CACE", dark: "#3D4044"))
 
-    static let pcTextTertiary = Color(uiColor: .appearance(light: "#909398", dark: "#7A7D82"))
-
-    static let pcTextTertiaryActive = Color(uiColor: .appearance(light: "#909398", dark: "#7A7D82"))
-
-    static let pcTextDisabled = Color(uiColor: .appearance(light: "#C0C2C6", dark: "#4A4D51"))
-
-    static let pcTextDisabledActive = Color(uiColor: .appearance(light: "#5A5D62", dark: "#B0B3B8"))
-
     // Text drawn over artwork or fixed-color cards (e.g. playlist colors), which stay dark in
     // both appearances. These never flip, so the text stays readable on those surfaces.
     static let pcTextOnColorPrimary = Color(uiColor: UIColor(hex: "#FBFBFC"))
@@ -65,11 +57,6 @@ extension Color {
     static let pcShadowLight = Color(uiColor: .appearance(light: .black.withAlphaComponent(0.1), dark: .black.withAlphaComponent(0.2)))
 
     static let pcShadowStrong = Color(uiColor: .appearance(light: .black.withAlphaComponent(0.18), dark: .black.withAlphaComponent(0.6)))
-
-    // Soft lift under a focused card. Only present in light mode — in dark mode the focus already
-    // pops as a bright card on a dark background, so no shadow is needed (and it would just darken
-    // the dark page).
-    static let pcShadowFocus = Color(uiColor: .appearance(light: .black.withAlphaComponent(0.18), dark: .clear))
 }
 
 extension UIColor {

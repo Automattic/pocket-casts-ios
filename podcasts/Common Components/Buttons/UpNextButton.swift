@@ -43,7 +43,7 @@ class UpNextButton: UIButton {
     // MARK: - Up Next Events
 
     @objc private func episodeAdded(_ notification: Notification) {
-        if let episodeUuid = notification.object as? String, let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) {
+        if let episodeUuid = notification.object as? String, let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) {
             playEpisodeAddedAnimation(episode)
         } else {
             playNumberChangeAnimation()
@@ -146,6 +146,6 @@ class UpNextButton: UIButton {
         if let themeOverride {
             return themeOverride.isDark
         }
-        return Theme.isDarkTheme()
+        return Theme.isDarkTheme
     }
 }

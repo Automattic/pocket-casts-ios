@@ -18,7 +18,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var searchController: PCSearchBarController?
     private let episodes: [Episode]
     private let analyticsSource: String
-    private let dataManager = DataManager.sharedManager
+    private let dataManager = DataManager.shared
 
     private var tableView: ThemeableTable! {
         didSet {
@@ -48,7 +48,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
 
@@ -81,7 +81,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistManualEpisodeAddToPlaylist
@@ -108,7 +108,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         tableView = ThemeableTable()
         view.insertSubview(tableView, at: 0)
@@ -225,7 +225,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                         if let rootVC = SceneHelper.rootViewController(includeTopMost: false),
                            rootVC.presentedViewController != nil {
                             rootVC.dismiss(animated: true) {
-                                NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.shared.navigateTo(
                                     NavigationManager.filterPageKey,
                                     data: [
                                         NavigationManager.filterUuidKey: playlist.uuid
@@ -233,7 +233,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
                                 )
                             }
                         } else {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid

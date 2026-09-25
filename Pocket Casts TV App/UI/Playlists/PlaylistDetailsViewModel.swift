@@ -37,7 +37,7 @@ class PlaylistDetailsViewModel {
 
     init(playlist: PlaylistItem,
          detail: Bool = false,
-         dataManager: DataManager = DataManager.sharedManager,
+         dataManager: DataManager = DataManager.shared,
          playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playlist = playlist
         self.dataManager = dataManager
@@ -199,7 +199,7 @@ class PlaylistDetailsViewModel {
     private func refreshPlaylistColor() {
         if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
-           let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
+           let color = Self.pillColor(from: ColorManager.lightThemeTint(for: podcast)) {
             playlistColor = color
         } else {
             playlistColor = Self.fallbackPillColor(for: playlist.playlist.uuid)

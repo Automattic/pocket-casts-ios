@@ -86,7 +86,7 @@ struct FolderSelectRow: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            if let color = model.colorForFolder(folder: folder) {
+            if let color = model.color(for: folder) {
                 Image("folder-empty")
                     .foregroundColor(color)
             } else {
@@ -94,11 +94,11 @@ struct FolderSelectRow: View {
                     .frame(width: 24)
             }
             VStack(alignment: .leading, spacing: 2) {
-                Text(model.nameForFolder(folder: folder))
+                Text(model.name(for: folder))
                     .textStyle(PrimaryText())
                     .font(.headline)
                     .lineLimit(1)
-                Text(L10n.podcastCount(model.podcastCountForFolder(folder: folder)))
+                Text(L10n.podcastCount(model.podcastCount(for: folder)))
                     .textStyle(SecondaryText())
                     .font(.footnote)
                     .lineLimit(1)

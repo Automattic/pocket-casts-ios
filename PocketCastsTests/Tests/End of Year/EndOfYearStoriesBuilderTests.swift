@@ -133,7 +133,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model)
 
         endOfYearManager.topPodcastsToReturn = []
-        let stories = await builder.build()
+        await builder.build()
 
         XCTAssertFalse(model.stories.contains(.topOnePodcast))
         XCTAssertEqual(model.data.topPodcasts.count, 0)

@@ -3,8 +3,8 @@ import MediaPlayer
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class NowPlayingHelper {
-    class func updateNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+enum NowPlayingHelper {
+    static func updateNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
         guard let currNowPlaying = MPNowPlayingInfoCenter.default().nowPlayingInfo else {
             setAllNowPlayingInfo(for: episode, currentChapters: currentChapters, duration: duration, upTo: upTo, playbackRate: playbackRate)
             return
@@ -23,7 +23,7 @@ class NowPlayingHelper {
         }
     }
 
-    class func setAllNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+    static func setAllNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
         let playingInfo = nowPlayingInfo(for: episode, currentChapters: currentChapters)
         var nowPlayingInfoWithProgress = NowPlayingHelper.addUpToInformationToNowPlaying(playingInfo, duration: duration, upTo: upTo, playbackRate: playbackRate)
 
@@ -35,7 +35,7 @@ class NowPlayingHelper {
         }
 
         let size = ImageManager.sizeFor(imageSize: .page)
-        ImageManager.sharedManager.imageForEpisode(episode, size: .page) { image in
+        ImageManager.shared.image(for: episode, size: .page) { image in
             let imageToUse = image ?? UIImage(named: "noartwork-page")!
 
             let artwork = MPMediaItemArtwork(boundsSize: CGSize(width: size, height: size), requestHandler: { _ -> UIImage in
@@ -47,12 +47,12 @@ class NowPlayingHelper {
         }
     }
 
-    class func clearNowPlayingInfo() {
+    static func clearNowPlayingInfo() {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
 
-    private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
-        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled() {
+    private static func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
+        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled {
             return currentChapters.title
         }
 
@@ -64,7 +64,7 @@ class NowPlayingHelper {
         return episode.displayableTitle()
     }
 
-    private class func nowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters) -> [String: AnyObject] {
+    private static func nowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters) -> [String: AnyObject] {
         var nowPlayingInfo = [String: AnyObject]()
 
         nowPlayingInfo[MPMediaItemPropertyMediaType] = NSNumber(value: MPMediaType.podcast.rawValue)
@@ -95,7 +95,7 @@ class NowPlayingHelper {
 
             // we purposely show the date here instead, but as with the above there's a car stereo bug we need to work around as well where we don't show the word "Wednesday" in the artist field
             // because on some car stereos that have embedded image databases, this comes up with a really grotesque image (more info: https://github.com/shiftyjelly/pocketcasts-ios/issues/3874)
-            let publishedDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).replacingOccurrences(of: "Wednesday", with: "Wed", options: .caseInsensitive)
+            let publishedDate = DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).replacingOccurrences(of: "Wednesday", with: "Wed", options: .caseInsensitive)
             nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = publishedDate as NSString
 
             nowPlayingInfo[MPMediaItemPropertyPodcastTitle] = safeCharacterPodcastTitle as NSString
@@ -115,7 +115,7 @@ class NowPlayingHelper {
         return nowPlayingInfo
     }
 
-    private class func addUpToInformationToNowPlaying(_ nowPlaying: [String: AnyObject], duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) -> [String: AnyObject] {
+    private static func addUpToInformationToNowPlaying(_ nowPlaying: [String: AnyObject], duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) -> [String: AnyObject] {
         var nowPlayingClone = nowPlaying
 
         nowPlayingClone[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: duration)

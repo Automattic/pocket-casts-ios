@@ -31,7 +31,7 @@ class EpisodeFileSizeUpdater {
                 syncChanges = false
             }
 
-            DataManager.sharedManager.saveEpisode(duration: calculatedDuration, episode: episode, updateSyncFlag: syncChanges)
+            DataManager.shared.saveEpisode(duration: calculatedDuration, episode: episode, updateSyncFlag: syncChanges)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDurationChanged, object: episode.uuid)
         }
     }

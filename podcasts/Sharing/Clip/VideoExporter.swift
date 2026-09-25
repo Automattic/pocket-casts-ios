@@ -3,7 +3,7 @@ import AVFoundation
 import UIKit
 import PocketCastsUtils
 
-protocol AnimatableContent: View {
+protocol AnimatableContent: View, SendableMetatype {
     @MainActor
     func update(for progress: Double)
 }
@@ -18,7 +18,6 @@ enum VideoExporter {
         let episodeAsset: AVAsset
         let audioStartTime: CMTime
         let audioDuration: CMTime
-        let additionalLoadingCount: Int64 = 50
         let fileType: AVFileType
     }
 
@@ -99,38 +98,50 @@ enum VideoExporter {
 
     // Part of Step 1
     private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, scale: CGFloat, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
-        let counter = Counter()
-        try await videoWriterInput.unsafeRequestMediaDataWhenReady {
-            while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
-                guard videoWriter.status != .cancelled else {
-                    throw ExportError.taskCancelled
-                }
-
-                let frameProgress = Double(await counter.count) / Double(frameCount)
+        var frame = 0
+        do {
+            while frame <= frameCount {
+                let frameProgress = Double(frame) / Double(frameCount)
                 await view.update(for: frameProgress)
 
-                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
-                let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                if videoWriterInput.isReadyForMoreMediaData {
-                    adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                    progress.completedUnitCount += 1
-
-                    await counter.increment()
+                let buffer = try await pixelBuffer(for: view, size: size, scale: scale)
+                let frameTime = CMTime(seconds: Double(frame) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                try await waitUntilReadyForMoreMediaData(videoWriterInput, of: videoWriter)
+                guard adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime) else {
+                    throw ExportError.exportFailed(videoWriter.error)
                 }
+                progress.completedUnitCount += 1
+                frame += 1
             }
+        } catch {
+            videoWriterInput.markAsFinished()
+            throw error
+        }
 
-            if await counter.count >= frameCount {
-                videoWriterInput.markAsFinished()
-                await videoWriter.finishWriting()
-                return true
+        videoWriterInput.markAsFinished()
+        await videoWriter.finishWriting()
+    }
+
+    // Part of Step 1
+    static func waitUntilReadyForMoreMediaData(_ videoWriterInput: AVAssetWriterInput, of videoWriter: AVAssetWriter) async throws {
+        while true {
+            switch videoWriter.status {
+            case .cancelled:
+                throw ExportError.taskCancelled
+            case .failed:
+                throw ExportError.exportFailed(videoWriter.error)
+            default:
+                break
             }
-
-            return false
+            if videoWriterInput.isReadyForMoreMediaData {
+                return
+            }
+            try await Task.sleep(for: .milliseconds(10))
         }
     }
 
     @MainActor
-    private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
+    private static func pixelBuffer(for view: some AnimatableContent, size: CGSize, scale: CGFloat) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))
     }
 
@@ -192,15 +203,16 @@ enum VideoExporter {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
+        let sessionTransfer = UnsafeTransfer(exportSession)
         let timer = Timer(timeInterval: 0.01, repeats: true) { _ in
-            progress.completedUnitCount = Int64(exportSession.progress * 100)
+            progress.completedUnitCount = Int64(sessionTransfer.wrappedValue.progress * 100)
         }
         RunLoop.main.add(timer, forMode: .common)
 
         await withTaskCancellationHandler {
             await exportSession.export()
         } onCancel: {
-            exportSession.cancelExport()
+            sessionTransfer.wrappedValue.cancelExport()
             progress.cancel()
         }
 
@@ -217,39 +229,5 @@ enum VideoExporter {
             throw ExportError.failedToAddAudioTrack
         }
         try compositionAudioTrack.insertTimeRange(timeRange, of: audioTrack, at: .zero)
-    }
-}
-
-/// Used to safely increment a counter from within an async context
-fileprivate actor Counter {
-    var count: Int = 0
-
-    func run(block: () async throws -> Void) async throws {
-        try await block()
-        await increment()
-    }
-
-    func increment() async {
-        count += 1
-    }
-}
-
-fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
-                _unsafeWait {
-                    do {
-                        let finished = try await block()
-                        if finished {
-                            continuation.resume()
-                        }
-                    } catch {
-                        self.markAsFinished()
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        }
     }
 }

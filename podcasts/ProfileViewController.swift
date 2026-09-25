@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -5,8 +6,6 @@ import UIKit
 import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
-    fileprivate enum StatValueType { case listened, saved }
-
     private var refreshController: FullSyncRefreshController?
 
     @IBOutlet var footerView: UIView!
@@ -72,7 +71,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var plusInfoView: PlusLockedInfoView! {
         didSet {
-            plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
+            plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile || SubscriptionHelper.hasActiveSubscription()
             plusInfoView.delegate = self
         }
     }
@@ -125,12 +124,25 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return view
     }()
 
+    private var cancellables = Set<AnyCancellable>()
+
+    private lazy var whatsNewButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(whatsNewTapped))
+        button.accessibilityLabel = L10n.whatsNew
+        button.accessibilityIdentifier = "What's New"
+        return button
+    }()
+
     // MARK: - View Events
 
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "profile-settings"), style: .plain, target: self, action: #selector(settingsTapped))
         customRightBtn?.accessibilityLabel = L10n.accessibilityProfileSettings
         customRightBtn?.accessibilityIdentifier = "Settings"
+        if FeatureFlag.whatsNewFeed.enabled {
+            extraRightButtons = [whatsNewButton]
+            updateWhatsNewButton()
+        }
 
         super.viewDidLoad()
 
@@ -148,12 +160,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateFooterFrame()
         setupRefreshControl()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
+        observeWhatsNewFeed()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         updateDisplayedData()
+        updateWhatsNewButton()
 
         Analytics.track(.profileShown)
     }
@@ -188,6 +202,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        markWhatsNewFeedAsSeenIfOnScreen()
 
         if FeatureFlag.cancelSubscriptionSurvey.enabled,
            SyncManager.isUserLoggedIn(),
@@ -212,6 +227,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateWhatsNewButton()
     }
 
     private func updateRefreshFooterColors() {
@@ -233,9 +249,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(settingsController, animated: true)
     }
 
-    private func showAccountController() {
-        let accountVC = AccountViewController()
-        navigationController?.pushViewController(accountVC, animated: true)
+    @objc private func whatsNewTapped() {
+        let feedViewController = WhatsNewFeedViewController(viewModel: WhatsNewFeedViewModel())
+        navigationController?.pushViewController(feedViewController, animated: true)
     }
 
     private func refreshTapped() {
@@ -270,7 +286,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         headerViewModel.update()
 
         updateLastRefreshDetails()
-        plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
+        plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
         refreshTableData()
     }
@@ -575,8 +591,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
-        static let giftSize = CGFloat(24)
-        static let giftBadgeSize = CGFloat(16)
         static let defaultTipSize = CGSizeMake(300, 50)
     }
 
@@ -625,7 +639,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.permittedArrowDirections = .up
             popoverPresentationController.sourceItem = referralsButton
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [NavigationManager.sharedManager.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+            popoverPresentationController.passthroughViews = [NavigationManager.shared.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
         return vc
     }
@@ -641,7 +655,7 @@ extension ProfileViewController: UIPopoverPresentationControllerDelegate {
 
 extension ProfileViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnProfile(true)
+        Settings.plusInfoDismissedOnProfile = true
         plusInfoView.isHidden = true
         updateFooterFrame()
     }
@@ -652,6 +666,48 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 
     var displaySource: PlusUpgradeViewSource {
         .profile
+    }
+}
+
+// MARK: - What's New
+
+private extension ProfileViewController {
+    /// Keeps the dot on the What's New button in step with the feed, and the dot on the tab off, while
+    /// Profile is on screen.
+    func observeWhatsNewFeed() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let manager = WhatsNewManager.shared
+        Publishers.Merge3(
+            manager.$catalog.dropFirst().map { _ in },
+            manager.$readState.dropFirst().map { _ in },
+            NotificationCenter.default.publisher(for: ServerNotifications.showWhatsNewDotChanged).map { _ in }
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.updateWhatsNewButton()
+            self?.markWhatsNewFeedAsSeenIfOnScreen()
+        }
+        .store(in: &cancellables)
+    }
+
+    func markWhatsNewFeedAsSeenIfOnScreen() {
+        guard FeatureFlag.whatsNewFeed.enabled, view.window != nil else { return }
+        WhatsNewManager.shared.markFeedAsSeen()
+    }
+
+    func updateWhatsNewButton() {
+        guard FeatureFlag.whatsNewFeed.enabled else { return }
+
+        let showsDot = WhatsNewManager.shared.showsDotOnWhatsNewButton()
+        if showsDot {
+            let configuration = UIImage.SymbolConfiguration(paletteColors: [ThemeColor.support05(), AppTheme.navBarIconsColor()])
+            whatsNewButton.image = UIImage(systemName: "bell.badge", withConfiguration: configuration)?.withRenderingMode(.alwaysOriginal)
+        } else {
+            whatsNewButton.image = UIImage(systemName: "bell")
+        }
+        whatsNewButton.tintColor = LiquidGlass.isEnabled ? .label : nil
+        whatsNewButton.accessibilityValue = showsDot ? L10n.badgeNew : nil
     }
 }
 

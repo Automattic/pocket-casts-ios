@@ -5,7 +5,6 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
-    private let themeSelectorCellId = "ThemeSelectorCell"
     private let iconSelectorCellId = "IconSelectorCell"
     private let plusLockedInfoCellId = "PlusLockedCell"
 
@@ -91,7 +90,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.appearanceMatchDeviceTheme
             cell.cellSwitch.accessibilityIdentifier = "system theme toggle"
-            cell.cellSwitch.isOn = Settings.shouldFollowSystemTheme()
+            cell.cellSwitch.isOn = Settings.shouldFollowSystemTheme
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(shouldFollowSystemThemeToggled(_:)), for: UIControl.Event.valueChanged)
@@ -118,7 +117,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
         case .lightTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
+            cell.cellLabel.text = Settings.shouldFollowSystemTheme ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
             cell.cellSecondaryLabel.text = Theme.preferredLightTheme().description
 
             return cell
@@ -180,7 +179,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {
-                    NavigationManager.sharedManager.showUpsellView(from: self, source: .themes)
+                    NavigationManager.shared.showUpsellView(from: self, source: .themes)
                 }
 
                 return
@@ -191,7 +190,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             self.dismiss(animated: true, completion: nil)
         }, dismissAction: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
-        }, selectedTheme: selectedTheme).environmentObject(Theme.sharedTheme)
+        }, selectedTheme: selectedTheme).environmentObject(Theme.shared)
         let hostingController = PCHostingController(rootView: themeSelector)
 
         present(hostingController, animated: true, completion: nil)
@@ -249,13 +248,13 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     }
 
     @objc private func shouldFollowSystemThemeToggled(_ sender: UISwitch) {
-        Settings.setShouldFollowSystemTheme(sender.isOn)
+        Settings.shouldFollowSystemTheme = sender.isOn
         updateTableAndData()
 
         if sender.isOn {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.followSystemThemeTurnedOn)
-        } else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
-            Theme.sharedTheme.activeTheme = Theme.preferredLightTheme()
+        } else if Theme.shared.activeTheme != Theme.preferredLightTheme() {
+            Theme.shared.activeTheme = Theme.preferredLightTheme()
         }
 
         Settings.trackValueToggled(.settingsAppearanceFollowSystemThemeToggled, enabled: sender.isOn)
@@ -267,13 +266,13 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     @objc private func tabBarMinimizingToggled(_ sender: UISwitch) {
         Settings.tabBarMinimizingEnabled = sender.isOn
-        NavigationManager.sharedManager.miniPlayer?.applyTabBarMinimizingPreference()
+        NavigationManager.shared.miniPlayer?.applyTabBarMinimizingPreference()
         Settings.trackValueToggled(.settingsAppearanceTabBarMinimizingToggled, enabled: sender.isOn)
     }
 
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
-        if Settings.shouldFollowSystemTheme() {
+        if Settings.shouldFollowSystemTheme {
             newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         } else {
             newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
@@ -284,7 +283,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             newTableData.append([.tabBarMinimizing])
         }
 
-        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {
+        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance {
             newTableData.append([.plusCallout])
         }
 
@@ -294,7 +293,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     private func refreshAllPodcastArtwork() {
         DispatchQueue.global(qos: .default).async { () in
-            ImageManager.sharedManager.clearPodcastCache(recacheWhenDone: true)
+            ImageManager.shared.clearPodcastCache(recacheWhenDone: true)
         }
 
         Analytics.track(.settingsAppearanceRefreshAllArtworkTapped)
@@ -325,7 +324,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
 extension AppearanceViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnAppearance(true)
+        Settings.plusInfoDismissedOnAppearance = true
         updateTableAndData()
     }
 

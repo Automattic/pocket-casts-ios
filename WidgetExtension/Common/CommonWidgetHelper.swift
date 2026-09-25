@@ -2,31 +2,18 @@ import Foundation
 import PocketCastsUtils
 import UIKit
 
-class CommonWidgetHelper {
+enum CommonWidgetHelper {
     static let appGroupId = "group.au.com.shiftyjelly.pocketcasts"
     static let iconSize: CGFloat = 28
 
-    class func loadAppIconName() -> String {
+    static func loadAppIconName() -> String {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let appIcon = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.appIcon) as? String else {
             return "AppIcon-Default"
         }
         return appIcon
     }
 
-    class func loadNowPlayingInfo() -> [CommonUpNextItem]? {
-        guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data else {
-            return nil
-        }
-
-        do {
-            let episodes = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
-            return episodes
-        } catch {
-            return nil
-        }
-    }
-
-    class func loadNowPlayingEpisode() -> WidgetEpisode? {
+    static func loadNowPlayingEpisode() -> WidgetEpisode? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId),
               let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data,
               let firstEpisode = try? JSONDecoder().decode([CommonUpNextItem].self, from: upNextData).first
@@ -37,7 +24,7 @@ class CommonWidgetHelper {
         return WidgetEpisode(commonItem: firstEpisode)
     }
 
-    class func loadNowPlayingEpisodes() -> [WidgetEpisode]? {
+    static func loadNowPlayingEpisodes() -> [WidgetEpisode]? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data else {
             return nil
         }
@@ -50,7 +37,7 @@ class CommonWidgetHelper {
         }
     }
 
-    class func loadUpNextEpisodesCount() -> Int? {
+    static func loadUpNextEpisodesCount() -> Int? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let upNextCount = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItemsCount) as? Int else {
             return nil
         }
@@ -58,7 +45,7 @@ class CommonWidgetHelper {
         return upNextCount
     }
 
-    class func loadTopFilterItems() -> [CommonUpNextItem]? {
+    static func loadTopFilterItems() -> [CommonUpNextItem]? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let filterData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.topFilterItems) as? Data else {
             return nil
         }
@@ -71,13 +58,13 @@ class CommonWidgetHelper {
         }
     }
 
-    class func loadTopFilterEpisodes() -> [WidgetEpisode]? {
+    static func loadTopFilterEpisodes() -> [WidgetEpisode]? {
         guard let filterEpisodes = loadTopFilterItems() else { return nil }
 
         return topWidgetEpisodesFrom(filterEpisodes)
     }
 
-    class func topWidgetEpisodesFrom(_ commonItems: [CommonUpNextItem]) -> [WidgetEpisode]? {
+    static func topWidgetEpisodesFrom(_ commonItems: [CommonUpNextItem]) -> [WidgetEpisode]? {
         guard !commonItems.isEmpty else { return nil }
 
         let widgetEpisodes = commonItems.map { WidgetEpisode(commonItem: $0) }
@@ -85,7 +72,7 @@ class CommonWidgetHelper {
         return Array(widgetEpisodes.prefix(5))
     }
 
-    class func loadTopFilterName() -> String? {
+    static func loadTopFilterName() -> String? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let filterName = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.topFilterName) as? String else {
             return nil
         }
@@ -93,7 +80,7 @@ class CommonWidgetHelper {
         return filterName
     }
 
-    class func loadPlayingStatus() -> Bool {
+    static func loadPlayingStatus() -> Bool {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let playingStatus = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.isPlaying) as? Bool else {
             return false
         }
@@ -101,7 +88,7 @@ class CommonWidgetHelper {
         return playingStatus
     }
 
-    class func urlForEpisodeUuid(uuid: String) -> URL? {
+    static func url(forEpisodeUuid uuid: String) -> URL? {
         guard let url = URL(string: "pktc://widget-episode/\(uuid)") else {
             return nil
         }
@@ -109,7 +96,7 @@ class CommonWidgetHelper {
         return url
     }
 
-    class func durationString(duration: TimeInterval) -> String {
+    static func durationString(duration: TimeInterval) -> String {
         TimeFormatter.shared.multipleUnitFormattedShortTime(time: duration)
     }
 }

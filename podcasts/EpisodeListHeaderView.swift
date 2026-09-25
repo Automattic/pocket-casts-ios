@@ -77,10 +77,10 @@ class EpisodeListHeaderView: UIView {
         }
 
         if let headerImage = podcastCollection.headerImage {
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
+            ImageManager.shared.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
         }
 
-        Theme.sharedTheme.$activeTheme
+        Theme.shared.$activeTheme
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.updateTheme()

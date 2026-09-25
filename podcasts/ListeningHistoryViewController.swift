@@ -215,7 +215,7 @@ class ListeningHistoryViewController: PCViewController {
         })
         alert.addAction(UIAlertAction(title: L10n.historyClearAll, style: .destructive) { [weak self] _ in
             Analytics.track(.listeningHistoryCleared)
-            DataManager.sharedManager.clearAllEpisodePlayInteractions()
+            DataManager.shared.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self?.refreshEpisodes(animated: true)
         })
@@ -259,7 +259,7 @@ class ListeningHistoryViewController: PCViewController {
         if listeningHistoryTable.tableHeaderView != nil {
             return
         }
-        listeningHistoryTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: listeningHistoryTable.bounds.width, height: 138)) {
+        listeningHistoryTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: listeningHistoryTable.bounds.width, height: 138)) { [weak self] in
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.listeningHistoryTable.tableHeaderView = nil
             }
@@ -303,7 +303,7 @@ class ListeningHistoryViewController: PCViewController {
                 actions: [
                     .init(title: L10n.goToDiscover, action: {
                         Analytics.track(.listeningHistoryDiscoverButtonTapped)
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey)
                     })
                 ]
             )

@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import UIKit
 
 enum SocialLoginError: Error {
     case canceled

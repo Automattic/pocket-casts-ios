@@ -1713,6 +1713,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Eliminant 1 episodi dels destacats</string>
     <key>name</key>
     <string>Nom</string>
+    <key>network_fail_to_load</key>
+    <string>Aquesta no s'ha pogut carregar</string>
     <key>new_email_address_prompt</key>
     <string>Nova adreça de correu electrònic</string>
     <key>new_episodes</key>
@@ -2936,6 +2938,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Cerca marcadors</string>
     <key>search_episodes</key>
     <string>Cerca episodis</string>
+    <key>search_filter_networks</key>
+    <string>Xarxes</string>
     <key>search_label</key>
     <string>Cerca pòdcasts o afegeix una adreça RSS</string>
     <key>search_podcasts</key>

@@ -5,7 +5,6 @@ protocol StoriesDataSource {
     var numberOfStories: Int { get }
 
     func story(for: Int) -> any StoryView
-    func storyView(for: Int) -> AnyView
 
     /// Returns a story that supports being shared, or nil if it doesn't
     func shareableStory(for: Int) -> (any ShareableStory)?
@@ -53,12 +52,6 @@ protocol StoriesDataSource {
 }
 
 extension StoriesDataSource {
-    func storyView(for storyNumber: Int) -> AnyView {
-        let story = story(for: storyNumber)
-        story.onAppear()
-        return AnyView(story)
-    }
-
     func isInteractiveView(for: Int) -> Bool {
         return false
     }

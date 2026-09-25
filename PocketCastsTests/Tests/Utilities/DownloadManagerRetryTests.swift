@@ -138,7 +138,7 @@ extension DownloadManager {
         await performDownload(episode: episode, url: downloadUrl, previousDownloadFailed: true, fireNotification: true, autoDownloadStatus: autoDownloadStatus, retryWithoutUserAgent: true)
     }
 
-    func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
+    func episode(for task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
         guard let taskDescription = task.taskDescription else { return nil }
 
         if !forceReload {
@@ -175,11 +175,6 @@ extension DownloadManager {
     }
 
     func clearEpisodeCache() {
-        // Clear downloadingEpisodesCache based on its type
-        if let cache = downloadingEpisodesCache as? ThreadSafeDictionary<String, BaseEpisode> {
-            cache.removeAll()
-        } else if var cache = downloadingEpisodesCache as? Dictionary<String, BaseEpisode> {
-            cache.removeAll()
-        }
+        downloadingEpisodesCache.removeAll()
     }
 }

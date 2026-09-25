@@ -275,7 +275,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             sleepTimerActiveView.isHidden = true
             activeSleepAnimation.sleepTimerOn = false
 
-            customTimeStepper.currentValue = Settings.customSleepTime()
+            customTimeStepper.currentValue = Settings.customSleepTime
             updateCustomSleepTime()
             sleepTimerOffView.sizeToFit()
         }
@@ -287,7 +287,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     private func updateCustomSleepTime() {
-        let title = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
+        let title = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime)
         customTimeBtn.setTitle(title, for: .normal)
     }
 
@@ -310,7 +310,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBAction func settingsTapped(_ sender: Any) {
         Analytics.track(.playerSleepTimerSettingsTapped)
 #if !APPCLIP
-        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsGeneralKey, data: [NavigationManager.settingsGeneralRowKey: GeneralSettingsViewController.TableRow.autoRestartSleepTimer])
+        NavigationManager.shared.navigateTo(NavigationManager.settingsGeneralKey, data: [NavigationManager.settingsGeneralRowKey: GeneralSettingsViewController.TableRow.autoRestartSleepTimer])
 #endif
     }
 
@@ -342,7 +342,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func customTapped(_ sender: Any) {
-        PlaybackManager.shared.setSleepTimerInterval(Settings.customSleepTime())
+        PlaybackManager.shared.setSleepTimerInterval(Settings.customSleepTime)
         dismiss(animated: true, completion: nil)
     }
 
@@ -369,7 +369,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func customTimeDidChange() {
-        Settings.setCustomSleepTime(customTimeStepper.currentValue)
+        Settings.customSleepTime = customTimeStepper.currentValue
         updateCustomSleepTime()
     }
 

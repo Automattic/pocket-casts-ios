@@ -27,7 +27,7 @@ extension Episode {
         !downloaded(pathFinder: DownloadManager.shared) &&
         !inProgress() &&
         !PlaybackManager.shared.inUpNext(episode: self) &&
-        !DataManager.sharedManager.playlistContainsEpisode(episodeUuid: uuid)
+        !DataManager.shared.playlistContainsEpisode(episodeUuid: uuid)
     }
 
     public func subTitle() -> String {

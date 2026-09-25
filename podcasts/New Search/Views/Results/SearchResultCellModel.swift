@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
@@ -48,7 +49,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     func downloadTapped() {
         guard let episode, !isLoadingEpisode else { return }
 
-        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+        if let existingEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) {
             realEpisode = existingEpisode
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
             return
@@ -94,7 +95,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     /// A search result's episode isn't necessarily in the database yet (the user might not be
     /// subscribed to the podcast), so fetch it from the server when it's missing.
     private func resolveEpisode(_ episode: EpisodeSearchResult) async throws -> BaseEpisode {
-        if let existingEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) {
+        if let existingEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) {
             return existingEpisode
         }
         guard let addedEpisode = try await ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episode.uuid, podcastUuid: episode.podcastUuid) else {
@@ -131,7 +132,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     private func reloadRealEpisode() {
         guard let episode else { return }
-        realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid)
+        realEpisode = DataManager.shared.findBaseEpisode(uuid: episode.uuid)
     }
 
     private func setupObservers() {
@@ -170,7 +171,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
                 else {
                     return
                 }
-                self.realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID)
+                self.realEpisode = DataManager.shared.findBaseEpisode(uuid: episodeUUID)
                 self.refreshTrigger.toggle()
             })
             .store(in: &cancellables)
@@ -182,7 +183,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             .sink(receiveValue: { [weak self] notification in
                 guard let self,
                       notification.object as? String == episode.uuid,
-                      DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) != nil else { return }
+                      DownloadManager.shared.progressManager.progress(forEpisodeUuid: episode.uuid) != nil else { return }
                 // Only hit the DB when our cached episode doesn't yet reflect the download; live
                 // progress is read straight from the DownloadManager when the button repopulates.
                 if self.realEpisode?.downloading() != true {

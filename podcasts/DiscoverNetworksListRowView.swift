@@ -9,14 +9,12 @@ struct DiscoverNetworksListRowView: View {
 
     @EnvironmentObject var theme: Theme
 
-    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(351)
+    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(337)
 
     @ScaledMetric(relativeTo: .largeTitle) var scaledCardSize = CGFloat(168)
 
-    @State var currentPage: Int? = 0
-
     var adjustedHeight: CGFloat {
-        max(351, scaledHeight)
+        max(337, scaledHeight)
     }
 
     var adjustedCardSize: CGFloat {
@@ -28,14 +26,13 @@ struct DiscoverNetworksListRowView: View {
             header
             ScrollView(.horizontal) {
                 LazyHStack(alignment: .top, spacing: 16) {
-                    ForEach(Array(model.networks.enumerated()), id: \.offset) { index, network in
+                    ForEach(Array(model.visibleNetworks.enumerated()), id: \.offset) { _, network in
                         Button {
                             model.show(network: network)
                         } label: {
                             DiscoverNetworkCard(network: network, size: adjustedCardSize)
                         }
                         .buttonStyle(.plain)
-                        .id(index)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -43,13 +40,6 @@ struct DiscoverNetworksListRowView: View {
             }
             .scrollIndicators(.hidden)
             .scrollTargetBehavior(.viewAligned)
-            .scrollPosition(id: $currentPage, anchor: .leading)
-            .onChange(of: currentPage) { _, page in
-                guard let page else { return }
-
-                model.pageDidChange(to: page + 1, totalPages: model.networks.count)
-            }
-            DiscoveryPageIndicatorView(numberOfItems: model.networks.count, currentPage: $currentPage)
             Rectangle()
                 .foregroundColor(theme.primaryUi05)
                 .frame(height: 1)
@@ -96,7 +86,9 @@ struct DiscoverNetworkCard: View {
     var body: some View {
         VStack(spacing: 10) {
             artwork
-                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                .overlay {
+                    Circle().strokeBorder(theme.primaryUi05, lineWidth: 1)
+                }
             text
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
@@ -173,7 +165,7 @@ struct NetworkArtworkView: View {
         if let url {
             KFImage(url)
                 .placeholder { _ in placeholder }
-                .targetCache(ImageManager.sharedManager.discoverCache)
+                .targetCache(ImageManager.shared.discoverCache)
                 .fade(duration: 0.25)
                 .resizable()
                 .scaledToFill()
@@ -184,7 +176,7 @@ struct NetworkArtworkView: View {
 
     @ViewBuilder
     private var placeholder: some View {
-        if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+        if let image = ImageManager.shared.placeHolderImage(.grid) {
             Image(uiImage: image)
                 .resizable()
         }
@@ -214,8 +206,8 @@ extension NetworkListSummary {
         DiscoverNetworksListRowView(model: model)
         Spacer(minLength: 0)
     }
-    .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
-    .environmentObject(Theme.sharedTheme)
+    .background(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
+    .environmentObject(Theme.shared)
 }
 
 #endif

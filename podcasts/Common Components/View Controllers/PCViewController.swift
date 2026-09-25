@@ -32,12 +32,6 @@ class PCViewController: SimpleNotificationsViewController {
         refreshRightButtons(animated: animated)
     }
 
-    /// Replaces `extraRightButtons`, optionally cross-fading the change via the navigation bar.
-    func setExtraRightButtons(_ buttons: [UIBarButtonItem], animated: Bool) {
-        _extraRightButtons = buttons
-        refreshRightButtons(animated: animated)
-    }
-
     var useTransparentNavigationBarAppearance = false {
         didSet {
             setupNavBar(animated: false)

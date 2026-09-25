@@ -35,7 +35,7 @@ class PodcastFeedViewModel {
     }
 
     func checkIfNewEpisodesAreAvailable(from source: PodcastFeedReloadSource) async -> Bool {
-        guard let uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+        guard let uuid, let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             return false
         }
 

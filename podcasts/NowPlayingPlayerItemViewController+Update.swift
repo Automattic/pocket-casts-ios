@@ -89,7 +89,7 @@ extension NowPlayingPlayerItemViewController {
             updateError()
         }
         if !showingCustomImage {
-            ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+            ImageManager.shared.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
         }
     }
 
@@ -124,10 +124,6 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfoWithChapters(PlaybackManager.shared.currentChapters())
     }
 
-    private func updateChapterInfoForTime(_ time: TimeInterval) {
-        updateChapterInfoWithChapters(PlaybackManager.shared.chaptersForTime(time: time))
-    }
-
     private func updateChapterInfoWithChapters(_ chapters: Chapters) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
         if let visibleChapter = chapters.visibleChapter, PlaybackManager.shared.chapterCount() != 0 {
@@ -146,7 +142,7 @@ extension NowPlayingPlayerItemViewController {
                 artworkImageView.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
             } else if showingCustomImage {
                 showingCustomImage = false
-                ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
+                ImageManager.shared.loadImage(episode: playingEpisode, imageView: artworkImageView, size: .page)
                 artworkImageView.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
             chapterLink.isHidden = chapters.url == nil

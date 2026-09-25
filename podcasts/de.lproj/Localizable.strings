@@ -303,6 +303,8 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Wenn die Schlummerfunktion aktiviert ist, wird sie automatisch neu gestartet, wenn du innerhalb von fünf Minuten nach der letzten Pause eine Folge abspielst.</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>badge_new</key>
+    <string>Neu</string>
     <key>banner_ads_info_label</key>
     <string>WERBUNG</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen. Bald für %2$@-Abonnenten verfügbar.</string>
     <key>bookmarks_locked_message</key>
     <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behalte den gewünschten Teil</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Lesezeichen hinzufügen</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Du wählst die Person aus, nicht den Lebenslauf.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Der Casting-Raum</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ Podcasts mit</string>
     <string>Stern für 1 Folge wird entfernt</string>
     <key>name</key>
     <string>Name</string>
+    <key>network_fail_to_load</key>
+    <string>Fehler beim Laden des Netzwerks</string>
     <key>new_email_address_prompt</key>
     <string>Neue E-Mail-Adresse</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ Podcasts mit</string>
     <string>Kopfhörereinstellungen</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Lesezeichen erhalten</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Einmal tippen. Und es wird nach dem gesprochenen Text benannt.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Wichtige Teile aufbewahren</string>
     <key>no_bookmarks_message</key>
     <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Lesezeichen suchen</string>
     <key>search_episodes</key>
     <string>Folgen suchen</string>
+    <key>search_filter_networks</key>
+    <string>Netzwerke</string>
     <key>search_label</key>
     <string>Podcasts suchen oder RSS-URL hinzufügen</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Anfang</string>
     <key>transcript</key>
     <string>Transkript</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Lesezeichen erstellen</string>
     <key>transcript_error_empty</key>
     <string>Dieses Transkript scheint leer zu sein</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Neueste Folgen werden abgerufen</string>
     <key>tv_search_failed</key>
     <string>Suche fehlgeschlagen: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Vorgestellt</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, Shows, Autoren</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Top-Ergebnisse</string>
     <key>tv_search_searching</key>
     <string>Suchen …</string>
     <key>tv_search_type_something</key>

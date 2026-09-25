@@ -4,7 +4,6 @@ import PocketCastsServer
 import PocketCastsUtils
 
 struct Announcements {
-    private static let bookmarksViewModel = BookmarkAnnouncementViewModel()
     private static let chaptersViewModel = DeselectChaptersAnnouncementViewModel()
     private static let transcriptsViewModel = TranscriptAnnouncementViewModel()
 
@@ -22,7 +21,7 @@ struct Announcements {
             action: {
                 AnnouncementFlow.current = .autoPlay
 
-                NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
+                NavigationManager.shared.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             },
             isEnabled: true
         ),

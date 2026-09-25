@@ -65,7 +65,7 @@ class SearchHistoryModel: ObservableObject {
         // A folder was changed, update all folders inside the search history
         entries = entries.compactMap { entry in
             if entry.podcast?.kind == .folder, let uuid = entry.podcast?.uuid {
-                return DataManager.sharedManager.findFolder(uuid: uuid).map {
+                return DataManager.shared.findFolder(uuid: uuid).map {
                     SearchHistoryEntry(podcast: PodcastFolderSearchResult(from: $0))
                 }
             }

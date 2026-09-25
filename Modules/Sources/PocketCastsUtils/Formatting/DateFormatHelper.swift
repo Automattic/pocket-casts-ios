@@ -1,7 +1,7 @@
 import UIKit
 
 public class DateFormatHelper: NSObject {
-    public static let sharedHelper = DateFormatHelper()
+    public static let shared = DateFormatHelper()
 
     private lazy var shortLocalizedFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -91,16 +91,6 @@ public class DateFormatHelper: NSObject {
         guard let date else { return "" }
 
         return shortLocalizedFormatter.string(from: date)
-    }
-
-    public func aboutPageFormat(_ date: Date?) -> String {
-        guard let date else { return "" }
-
-        if !date.isCurrentYear() {
-            return fullDateFormatter.string(from: date)
-        }
-
-        return monthDayFormatter.string(from: date)
     }
 
     // MARK: - Tiny dd MMM

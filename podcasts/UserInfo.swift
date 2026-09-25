@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct UserInfo {
     struct Profile {
@@ -60,7 +61,7 @@ struct UserInfo {
         let savedTime: Stat
 
         init() {
-            podcastCount = DataManager.sharedManager.podcastCount()
+            podcastCount = DataManager.shared.podcastCount()
             listeningTime = .init(seconds: StatsManager.shared.totalListeningTimeInclusive())
             savedTime = .init(seconds: StatsManager.shared.totalSavedTime())
         }

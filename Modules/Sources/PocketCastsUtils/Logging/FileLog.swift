@@ -3,7 +3,6 @@ import os
 
 public final class FileLog {
     public enum LogError: Error {
-        case logCanceled
         case logGenerationFailed
     }
 
@@ -116,7 +115,7 @@ public final class FileLog {
 final class LogBuffer: @unchecked Sendable {
     private let bufferThreshold: UInt
 
-    private let entries = OSAllocatedUnfairLock(initialState: [LogEntry]())
+    private let entries = Mutex([LogEntry]())
 
     private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue")
 

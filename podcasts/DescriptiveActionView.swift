@@ -175,28 +175,6 @@ class DescriptiveActionView: UIView {
         return actionButton
     }
 
-    private func makeShiftyButton(for action: OptionAction) -> UIView {
-        let actionButton = ShiftyRoundButton()
-        actionButton.fontSize = 18
-        actionButton.buttonTitle = action.label
-        actionButton.isAccessibilityElement = true
-        actionButton.accessibilityLabel = action.label
-        actionButton.accessibilityTraits = [.button]
-        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
-        actionButton.textColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
-        actionButton.fillColor = actionColor
-        actionButton.strokeColor = actionColor
-        actionButton.isOn = !action.outline
-        actionButton.setup()
-        actionButton.buttonTapped = { [weak self] in
-            // Dismiss the sheet before running the action so an action that
-            // presents another screen doesn't hit "already presenting".
-            self?.delegate?.animateOut(optionChosen: true)
-            action.action()
-        }
-        return actionButton
-    }
-
     private func updateSize() {
         let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
         let iconSize = max(39, iconMetric.scaledValue(for: 39))

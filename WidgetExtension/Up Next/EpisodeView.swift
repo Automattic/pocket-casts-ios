@@ -7,14 +7,13 @@ struct EpisodeView: View {
     @State var isPlaying: Bool = false
     @State var isFirstEpisode: Bool = false
 
-    @Environment(\.dynamicTypeSize) var typeSize
     @Environment(\.widgetColorScheme) var colorScheme
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     var body: some View {
         let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
 
-        Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
+        Link(destination: CommonWidgetHelper.url(forEpisodeUuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
                     .frame(maxWidth: 52, maxHeight: 52)

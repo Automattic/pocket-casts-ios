@@ -1,9 +1,6 @@
 import Foundation
 import SwiftUI
 
-let darkBackgroundColor = Color(UIColor.tertiarySystemFill)
-let lightBackgroundColor = Color(.clear)
-
 struct LightBackgroundShadow: ViewModifier {
     func body(content: Content) -> some View {
         content

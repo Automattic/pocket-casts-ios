@@ -91,7 +91,7 @@ extension BookmarkManager {
     func suggestTitle(from snippet: String, for bookmark: Bookmark, episode: BaseEpisode,
                       trigger: BookmarkEnrichmentTrigger,
                       source: BookmarkAnalyticsSource) async -> BookmarkTitleAttempt? {
-        let podcastTitle = bookmark.podcastUuid.flatMap { DataManager.sharedManager.findPodcast(uuid: $0)?.title }
+        let podcastTitle = bookmark.podcastUuid.flatMap { DataManager.shared.findPodcast(uuid: $0)?.title }
         let started = Date()
         do {
             let generation = try await generateTitle(transcriptSnippet: snippet, podcastTitle: podcastTitle, episodeTitle: episode.title)

@@ -11,7 +11,6 @@ import PocketCastsServer
 @MainActor
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
-    var lastChapterIndexRendered = -1
 
     /// Low-res artwork handed over from the mini player when opening the full
     /// screen player.
@@ -103,6 +102,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
             floatingVideoView.addGestureRecognizer(tapGesture)
+
+            floatingVideoView.onFullScreenTapped = { [weak self] in
+                self?.videoTapped()
+            }
         }
     }
 
@@ -111,12 +114,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var chapterSkipBackBtn: UIButton! {
         didSet {
             chapterSkipBackBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipBackBtn.accessibilityLabel = L10n.siriShortcutPreviousChapter
         }
     }
 
     @IBOutlet var chapterSkipFwdBtn: UIButton! {
         didSet {
             chapterSkipFwdBtn.tintColor = ThemeColor.playerContrast01()
+            chapterSkipFwdBtn.accessibilityLabel = L10n.siriShortcutNextChapter
         }
     }
 
@@ -605,13 +610,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard PlaybackManager.shared.currentEpisode != nil else { return }
+        guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
-            videoViewController?.modalTransitionStyle = .crossDissolve
             videoViewController?.modalPresentationStyle = .fullScreen
+            if #available(iOS 18.0, *) {
+                videoViewController?.preferredTransition = .zoom { [weak self] _ in
+                    self?.floatingVideoView
+                }
+            } else {
+                videoViewController?.modalTransitionStyle = .crossDissolve
+            }
             videoViewController?.willAttachPlayer = { [weak self] in
                 self?.floatingVideoView.player = nil
             }
@@ -658,7 +669,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @objc func googleCastTapped() {
         shelfButtonTapped(.chromecast)
 
-        let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
+        let themeOverride = Theme.shared.activeTheme.isDark ? Theme.shared.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)
         navController.modalPresentationStyle = .fullScreen
@@ -738,7 +749,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.shared)).padding(16)
         let hostingController = PCHostingController(rootView: AnyView(adView))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false

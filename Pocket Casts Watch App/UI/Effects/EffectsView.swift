@@ -54,6 +54,7 @@ private extension Toggle {
 }
 
 private extension Button {
+    @MainActor
     func roundIcon() -> some View {
         buttonStyle(.plain)
             .clipShape(Circle())

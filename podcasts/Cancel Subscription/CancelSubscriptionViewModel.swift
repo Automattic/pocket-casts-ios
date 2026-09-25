@@ -126,10 +126,6 @@ extension CancelSubscriptionViewModel {
         purchaseOffer()
     }
 
-    func canClaimOffer() -> Bool {
-        return winbackOffer != nil
-    }
-
     private func purchaseOffer() {
         guard let productID = translateToProduct(), let discountInfo = makeDiscountInfo() else {
             return

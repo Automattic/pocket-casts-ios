@@ -126,7 +126,7 @@ class BookmarkDetailsViewModel: ObservableObject {
 
         isLoadingPodcastTitle = true
 
-        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { podcastInfo, _ in
+        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, _ in
             let title = (podcastInfo?["podcast"] as? [String: Any])?["title"] as? String
 
             Task { @MainActor [weak self] in
@@ -138,7 +138,7 @@ class BookmarkDetailsViewModel: ObservableObject {
 
     private static func localPodcastTitle(for bookmark: Bookmark, episode: BaseEpisode?) -> String? {
         podcastUuid(for: bookmark, episode: episode)
-            .flatMap { DataManager.sharedManager.findPodcast(uuid: $0, includeUnsubscribed: true)?.title }
+            .flatMap { DataManager.shared.findPodcast(uuid: $0, includeUnsubscribed: true)?.title }
     }
 
     private static func podcastUuid(for bookmark: Bookmark, episode: BaseEpisode?) -> String? {

@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import UIKit
 
 extension MiniPlayerViewController {
     /// - parameter isTransient: If enabled, hiding temporarily with an intention to

@@ -3,7 +3,7 @@ import Foundation
 import XCTest
 
 final class CombinedSearchNetworkTests: XCTestCase {
-    /// A payload shaped like the one `search/combined` returns for a term matching a network.
+    /// A payload shaped like the one `v2/search/combined` returns for a term matching a network.
     private let json = """
     {
       "results": [

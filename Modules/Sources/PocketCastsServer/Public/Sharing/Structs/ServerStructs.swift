@@ -591,11 +591,6 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
     }
 }
 
-public struct DiscoverSource: Decodable, Equatable {
-    public var source: String?
-    public var authenticated: Bool?
-}
-
 public struct DiscoverCategoryDetails: Decodable {
     public var title: String?
     public var description: String?

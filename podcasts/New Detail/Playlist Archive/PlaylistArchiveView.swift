@@ -39,6 +39,6 @@ struct PlaylistArchiveView: View {
 
 #Preview {
     PlaylistArchiveView(episodesCount: 4)
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
         .frame(height: 44)
 }

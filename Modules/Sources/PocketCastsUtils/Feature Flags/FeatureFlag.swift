@@ -29,15 +29,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
-    /// Enable the Referrals feature
-    case referrals
-
-    /// Enables the referrals Send Flow
-    case referralsSend
-
-    /// Enables the referrals Claim Flow
-    case referralsClaim
-
     /// Run a vacuum process on the database in order to optimize data fetch
     case runVacuumOnVersionUpdate
 
@@ -52,9 +43,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
-
-    /// Enable/Disable the use of a thread safe ongoing downloads cache
-    case downloadsThreadSafeCache
 
     /// Enable Disable the use of suggested folders
     case suggestedFolders
@@ -115,9 +103,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Show a satisfaction survey before prompting to rate
     case userSatisfactionSurvey
-
-    /// Whether to use database concurrent reads or not
-    case concurrentDatabaseReads
 
     /// Limit playback position changes when switching episodes
     case limitPlaybackPositionChanges
@@ -181,9 +166,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable VoiceBoostN with updated description copy (TestFlight only)
     case voiceBoostN
-
-    /// Use GRDB QueryInterface for database queries instead of raw SQL
-    case grdbQueryInterface
 
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
@@ -268,6 +250,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the What's New feed
     case whatsNewFeed
 
+    /// Show the What's New feed's research messages, which ask the user to answer a poll
+    case whatsNewPolls
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -300,12 +285,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .upgradeExperiment:
             false
-        case .referrals:
-            true
-        case .referralsClaim:
-            true
-        case .referralsSend:
-            true
         case .runVacuumOnVersionUpdate:
             false
         case .endOfYear2024:
@@ -315,8 +294,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .winback:
             true
         case .podcastFeedUpdate:
-            true
-        case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
             true
@@ -357,8 +334,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
-            true
-        case .concurrentDatabaseReads:
             true
         case .limitPlaybackPositionChanges:
             true
@@ -402,8 +377,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .voiceBoostN:
             false
-        case .grdbQueryInterface:
-            true
         case .playlistCacheInvalidation:
             true
         case .watchLogFileTransfer:
@@ -451,11 +424,13 @@ public enum FeatureFlag: String, CaseIterable {
         case .sleepTimerLiveActivity:
             true
         case .networkDiscovery:
-            BuildEnvironment.current == .debug
+            true
         case .newEpisodeNotificationsPushOptOut:
             true
         case .whatsNewFeed:
-            BuildEnvironment.current == .debug
+            true
+        case .whatsNewPolls:
+            false
         }
     }
 
@@ -483,6 +458,4 @@ extension FeatureFlag: OverrideableFlag {
     public var canOverride: Bool {
         true
     }
-
-    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 }

@@ -58,7 +58,7 @@ public class CombinedSearchTask {
     }
 
     public func search(term: String) async throws -> [CombinedSearchResultType] {
-        let components = URLComponents(string: ServerConstants.Urls.cache() + "search/combined")
+        let components = URLComponents(string: ServerConstants.Urls.cache() + "v2/search/combined")
         guard let searchURL = components?.url,
               let request = ServerHelper.createJsonRequest(url: searchURL, params: ["term": term], timeout: 10, cachePolicy: .reloadIgnoringCacheData)
         else {

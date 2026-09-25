@@ -33,15 +33,11 @@ class SiriShortcutsManager: CustomObserver {
         INVoiceShortcutCenter.shared.setShortcutSuggestions(defaultSuggestions())
     }
 
-    func removeAllSuggestions() {
-        INVoiceShortcutCenter.shared.setShortcutSuggestions([])
-    }
-
     func isDefaultSuggestion(voiceShortcut: INVoiceShortcut) -> Bool {
         defaultSuggestions().contains { $0.intent?.suggestedInvocationPhrase == voiceShortcut.shortcut.intent?.suggestedInvocationPhrase }
     }
 
-    func voiceShortcutForPodcast(podcast: Podcast, completion: @escaping ((INVoiceShortcut?) -> Void)) {
+    func voiceShortcut(for podcast: Podcast, completion: @escaping ((INVoiceShortcut?) -> Void)) {
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, _ in
             if let shortcuts = allVoiceShortcuts {
                 for shortcut in shortcuts {
@@ -59,7 +55,7 @@ class SiriShortcutsManager: CustomObserver {
         }
     }
 
-    func voiceShortcutForFilter(filter: EpisodeFilter, completion: @escaping ((INVoiceShortcut?) -> Void)) {
+    func voiceShortcut(for filter: EpisodeFilter, completion: @escaping ((INVoiceShortcut?) -> Void)) {
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, error in
             if let shortcuts = allVoiceShortcuts {
                 for shortcut in shortcuts {
@@ -180,7 +176,7 @@ class SiriShortcutsManager: CustomObserver {
         var podcastArtwork: INImage? = INImage(named: "noartwork-page-dark")
 
         // Load the artwork from cache, or default to the no artwork image
-        if let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcastUuid, size: .grid) {
+        if let image = ImageManager.shared.cachedImageFor(podcastUuid: podcastUuid, size: .grid) {
             podcastArtwork = INImage(uiImage: image)
         }
 
@@ -316,8 +312,8 @@ class SiriShortcutsManager: CustomObserver {
 
     func setSleepTimerIntent() -> INIntent {
         let intent = SJSleepTimerIntent()
-        intent.minutes = Settings.customSleepTime() as NSNumber
-        let formattedTime = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
+        intent.minutes = Settings.customSleepTime as NSNumber
+        let formattedTime = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime)
         intent.suggestedInvocationPhrase = L10n.siriShortcutExtendSleepTimer(formattedTime)
         return intent
     }
@@ -332,7 +328,7 @@ class SiriShortcutsManager: CustomObserver {
     // MARK: - Donate Actions to siri
 
     func donatePodcastPlayed(podcastUuid: String) {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { return }
+        guard let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) else { return }
 
         let intent = playPodcastIntent(podcast: podcast)
         let interaction = INInteraction(intent: intent, response: nil)
@@ -340,7 +336,7 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func donatePlaylistPlayed(playlistUuid: String) {
-        guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid) else { return }
+        guard let playlist = DataManager.shared.findPlaylist(uuid: playlistUuid) else { return }
 
         let intent = playPlaylistIntent(playlist: playlist)
         let interaction = INInteraction(intent: intent, response: nil)
@@ -393,12 +389,12 @@ class SiriShortcutsManager: CustomObserver {
             return INPlayMediaIntentResponseCode.failureRequiringAppLaunch
         }
 
-        if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid) {
+        if let episode = DataManager.shared.findEpisode(uuid: episodeInfo.uuid) {
             AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         } else {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: episodeInfo.podcastUuid, subscribe: false, completion: { [weak self] success in
-                if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid), success {
+                if let episode = DataManager.shared.findEpisode(uuid: episodeInfo.uuid), success {
                     AnalyticsPlaybackHelper.shared.currentSource = self?.analyticsSource
                     PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
                 }
@@ -419,9 +415,6 @@ class SiriShortcutsManager: CustomObserver {
 
         PlaybackManager.shared.skipToPreviousChapter(startPlaybackAfterSkip: true)
         return INPlayMediaIntentResponseCode.success
-    }
-
-    func skipToNextEpisode() { // ? in podcast or playlist
     }
 
     func setSleepTimer(duration: TimeInterval) -> Bool {
@@ -447,12 +440,12 @@ class SiriShortcutsManager: CustomObserver {
 
     func playFilter(uuid: String) -> INPlayMediaIntentResponseCode {
         AnalyticsHelper.siriPlayTopFilter()
-        guard let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) else {
+        guard let filter = DataManager.shared.findPlaylist(uuid: uuid) else {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
         let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: 1)
-        if let topEpisode = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil).first {
+        if let topEpisode = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil).first {
             AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
             PlaybackManager.shared.load(episode: topEpisode, autoPlay: true, overrideUpNext: false)
             return INPlayMediaIntentResponseCode.success
@@ -462,7 +455,7 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func playAllFilter(uuid: String) -> INPlayMediaIntentResponseCode {
-        guard let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) else {
+        guard let filter = DataManager.shared.findPlaylist(uuid: uuid) else {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
@@ -472,7 +465,7 @@ class SiriShortcutsManager: CustomObserver {
 
     func playPodcast(uuid: String) -> INPlayMediaIntentResponseCode {
         AnalyticsHelper.siriPlayPodcast()
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) else {
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid) else {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
@@ -480,7 +473,7 @@ class SiriShortcutsManager: CustomObserver {
 
         let sortStr = PodcastEpisodeSortOrder.newestToOldest == episodeSortOrder ? "DESC" : "ASC"
         let query = "podcast_id = \(podcast.id) AND playingStatus <> \(PlayingStatus.completed.rawValue) AND archived = 0 ORDER BY publishedDate \(sortStr), addedDate \(sortStr) LIMIT 1"
-        if let topEpisode = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil).first {
+        if let topEpisode = DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil).first {
             AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
             PlaybackManager.shared.load(episode: topEpisode, autoPlay: true, overrideUpNext: false)
             return INPlayMediaIntentResponseCode.success
@@ -491,7 +484,7 @@ class SiriShortcutsManager: CustomObserver {
 
     @objc func publishSubscribedPodcasts() {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) else { return }
-        let podcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
+        let podcasts = DataManager.shared.allPodcastsOrderedByTitle()
 
         var searchPodcasts = [SiriPodcastItem]()
         for podcast in podcasts {
@@ -503,7 +496,6 @@ class SiriShortcutsManager: CustomObserver {
         do {
             let serializedItems = try JSONEncoder().encode(searchPodcasts)
             sharedDefaults.set(serializedItems, forKey: SharedConstants.GroupUserDefaults.siriSearchItems)
-            sharedDefaults.synchronize()
         } catch {
             FileLog.shared.addMessage("Unable to encode data for Siri Podcast Search: \(error.localizedDescription)")
         }

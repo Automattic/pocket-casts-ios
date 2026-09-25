@@ -2,11 +2,12 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 extension AppDelegate {
     func checkDefaults() {
         let defaults = UserDefaults.standard
-        let dataManager = DataManager.sharedManager
+        let dataManager = DataManager.shared
 
         // Check if protected data is available before running migrations that touch keychain
         // This prevents the v5Run migration from incorrectly clearing tokens when the app
@@ -26,7 +27,7 @@ extension AppDelegate {
             ServerSettings.setSkipForwardTime(45, syncChange: false)
 
             Settings.setShouldDeleteWhenPlayed(true)
-            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            Settings.homeFolderSortOrder = .dateAddedNewestToOldest
             Settings.setMobileDataAllowed(true)
             Settings.shouldShowInitialOnboardingFlow = true
             Settings.autoplay = true
@@ -62,7 +63,7 @@ extension AppDelegate {
         }
 
         performUpdateIfRequired(updateKey: "v7_3Run") {
-            ImageManager.sharedManager.upgradeV2ToV3ArtworkFolder()
+            ImageManager.shared.upgradeV2ToV3ArtworkFolder()
             ServerSettings.setLastRefreshSucceeded(true)
             ServerSettings.setLastSyncSucceeded(true)
         }
@@ -155,7 +156,7 @@ extension AppDelegate {
 
     private func setWhatsNewAcknowledgeToLatest() {
         if let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo() {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 }

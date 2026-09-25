@@ -9,18 +9,14 @@ public class FolderHistoryManager {
 
     /// Saves a list of podcast UUID and folders UUID so it can be
     /// restored later
-    func snapshot(podcastsAndFolders: [String: String], dbQueue: PCDBQueue) {
+    func snapshot(podcastsAndFolders: [String: String], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
-                db.beginTransaction()
-
                 let date = Date()
                 try podcastsAndFolders.forEach {
                     try db.executeUpdate("INSERT INTO PodcastFoldersHistory VALUES (?, ?, ?)", values: [$0.key, $0.value, date])
                 }
                 try db.executeUpdate("DELETE FROM PodcastFoldersHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
-
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("FolderHistoryManager.snapshot error: \(error)")
             }
@@ -28,7 +24,7 @@ public class FolderHistoryManager {
     }
 
     /// Return all the available Up Next entries
-    func entries(dbQueue: PCDBQueue) -> [PodcastFoldersHistoryEntry] {
+    func entries(dbQueue: GRDBQueue) -> [PodcastFoldersHistoryEntry] {
         var entries: [PodcastFoldersHistoryEntry] = []
         dbQueue.read { db in
             do {
@@ -47,7 +43,7 @@ public class FolderHistoryManager {
         return entries
     }
 
-    func podcastsAndFolders(entry: Date, dbQueue: PCDBQueue) -> [String: String] {
+    func podcastsAndFolders(entry: Date, dbQueue: GRDBQueue) -> [String: String] {
         var podcastsAndFolders: [String: String] = [:]
         dbQueue.read { db in
             do {
@@ -88,7 +84,7 @@ public class FolderHistoryHelper {
 
     public func snapshot() {
         if !podcastAndFolderUuids.isEmpty {
-            DataManager.sharedManager.snapshot(podcastsAndFolders: podcastAndFolderUuids)
+            DataManager.shared.snapshot(podcastsAndFolders: podcastAndFolderUuids)
             podcastAndFolderUuids = [:]
         }
     }

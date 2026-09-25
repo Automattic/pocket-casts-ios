@@ -303,6 +303,8 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Quando ativado, o temporizador será reiniciado automaticamente se você reproduzir um episódio dentro de cinco minutos após a última pausa.</string>
     <key>back</key>
     <string>Voltar</string>
+    <key>badge_new</key>
+    <string>Novidade</string>
     <key>banner_ads_info_label</key>
     <string>ANÚNCIO</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos. Disponível para assinantes %2$@ em breve.</string>
     <key>bookmarks_locked_message</key>
     <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Guarde a parte que você quiser</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Adicionar favorito</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Você está escolhendo a pessoa, não o currículo.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Sala de audições</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ podcasts com você</string>
     <string>Removendo 1 episódio dos favoritos.</string>
     <key>name</key>
     <string>Nome</string>
+    <key>network_fail_to_load</key>
+    <string>Não foi possível carregar esta rede</string>
     <key>new_email_address_prompt</key>
     <string>Novo endereço de e-mail</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ podcasts com você</string>
     <string>Configurações do headset</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Buscar favoritos</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Basta um toque para dar um nome a ele, e as palavras faladas vêm junto.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Salve as partes que valem a pena guardar</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Pesquisar favoritos</string>
     <key>search_episodes</key>
     <string>Pesquisar episódios</string>
+    <key>search_filter_networks</key>
+    <string>Redes</string>
     <key>search_label</key>
     <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Topo da lista</string>
     <key>transcript</key>
     <string>Transcrição</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Marcar como favorito</string>
     <key>transcript_error_empty</key>
     <string>Esta transcrição parece estar vazia</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Buscando episódios mais recentes</string>
     <key>tv_search_failed</key>
     <string>Falha na pesquisa: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Em destaque</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, programas e autores</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Principais resultados</string>
     <key>tv_search_searching</key>
     <string>Pesquisando...</string>
     <key>tv_search_type_something</key>

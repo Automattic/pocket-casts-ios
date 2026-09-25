@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     static var shared = AnalyticsEpisodeHelper()
@@ -42,6 +43,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     // MARK: - Download
 
     func downloadCancelled(episodeUUID: String) {
+        episodeDownloadQueue.remove(episodeUUID)
         clearDownloadSource(for: episodeUUID)
         episodeEvent(.episodeDownloadCancelled, uuid: episodeUUID)
     }
@@ -64,6 +66,9 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     func downloadFailed(episodeUUID: String,
                         podcastUUID: String,
                         extraProperties: [String: Any]) {
+        DispatchQueue.main.async {
+            self.episodeDownloadQueue.remove(episodeUUID)
+        }
         let source = consumeDownloadSource(for: episodeUUID)
         if let source {
             currentSource = source
@@ -137,6 +142,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     }
 
     func episodeUploadCancelled(episodeUUID: String) {
+        episodeUploadQueue.remove(episodeUUID)
         episodeEvent(.episodeUploadCancelled, uuid: episodeUUID)
     }
 
@@ -219,7 +225,7 @@ private extension AnalyticsEpisodeHelper {
 
                 // Verify that the file has finished downloading
                 guard
-                    let episode = DataManager.sharedManager.findEpisode(uuid: uuid),
+                    let episode = DataManager.shared.findEpisode(uuid: uuid),
                     let status = DownloadStatus(rawValue: episode.episodeStatus),
                     status == .downloaded
                 else {
@@ -238,7 +244,7 @@ private extension AnalyticsEpisodeHelper {
 
                 // Verify that the file has finished uploading
                 guard
-                    let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
+                    let episode = DataManager.shared.findUserEpisode(uuid: uuid),
                     let status = UploadStatus(rawValue: episode.uploadStatus)
                 else {
                     return
@@ -249,6 +255,7 @@ private extension AnalyticsEpisodeHelper {
                     self.episodeUploadQueue.remove(uuid)
                     self.episodeUploadFinished(episodeUUID: uuid)
                 case .uploadFailed:
+                    self.episodeUploadQueue.remove(uuid)
                     self.episodeUploadFailed(episodeUUID: uuid)
                 default:
                     break

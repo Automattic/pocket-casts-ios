@@ -9,7 +9,7 @@ class WhatsNew {
         let title: String
         let message: String
         let buttonTitle: String
-        let action: () -> Void
+        let action: @MainActor () -> Void
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
         let fullModal: Bool
@@ -24,7 +24,7 @@ class WhatsNew {
              header: @autoclosure @escaping () -> AnyView,
              title: String, message: String,
              buttonTitle: String,
-             action: @escaping () -> Void,
+             action: @escaping @MainActor () -> Void,
              displayTier: SubscriptionTier = .none,
              isEnabled: @autoclosure @escaping () -> Bool,
              fullModal: Bool = false,
@@ -130,12 +130,6 @@ extension UIViewController {
         }
 
         return self
-    }
-}
-
-extension WhatsNew {
-    static var slumberAnnouncement: Announcement? {
-        WhatsNew().announcements.first(where: { $0.version == "7.57" })
     }
 }
 

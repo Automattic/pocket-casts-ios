@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 extension Podcast {
     func displayableFrequency() -> String? {
@@ -24,7 +25,7 @@ extension Podcast {
     }
 
     func displayableExpiryLanguage(expiryDate: Date) -> String {
-        let dateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
+        let dateStr = DateFormatHelper.shared.longLocalizedFormat(expiryDate)
 
         if licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue {
             return expiryDate.timeIntervalSinceNow < 0 ? L10n.podcastAccessEnded(dateStr) : L10n.podcastAccessEnds(dateStr)
@@ -53,42 +54,42 @@ extension Podcast {
         } else if expectedDate < now, expectedDate >= now.addingTimeInterval(-7.days) {
             return L10n.podcastSoon
         } else if expectedDate < now.addingTimeInterval(6.days) {
-            let dateFormatter = DateFormatHelper.sharedHelper.justDayFormatter
+            let dateFormatter = DateFormatHelper.shared.justDayFormatter
             return dateFormatter.string(from: expectedDate).localizedCapitalized
         } else {
-            return DateFormatHelper.sharedHelper.tinyLocalizedFormat(expectedDate)
+            return DateFormatHelper.shared.tinyLocalizedFormat(expectedDate)
         }
     }
 
     #if !os(watchOS)
         func iconTintColor(for theme: Theme.ThemeType? = nil) -> UIColor {
-            let theme = theme ?? Theme.sharedTheme.activeTheme
-            let podcastColor = theme.isDark ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let theme = theme ?? Theme.shared.activeTheme
+            let podcastColor = theme.isDark ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon02(podcastColor: podcastColor, for: theme)
         }
 
         func navigationBarTintColor(for theme: Theme.ThemeType? = nil) -> UIColor {
-            let theme = theme ?? Theme.sharedTheme.activeTheme
-            let podcastColor = theme.isDark ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let theme = theme ?? Theme.shared.activeTheme
+            let podcastColor = theme.isDark ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastUi01(podcastColor: podcastColor, for: theme)
         }
 
         func switchTintColor() -> UIColor {
-            let podcastColor = Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(self, defaultColor: AppTheme.switchDarkThemeDefaultColor()) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTint(for: self, defaultColor: AppTheme.switchDarkThemeDefaultColor) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon02(podcastColor: podcastColor)
         }
 
         func navIconTintColor() -> UIColor {
-            let podcastColor = Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(self) : ColorManager.lightThemeTintForPodcast(self)
+            let podcastColor = Theme.isDarkTheme ? ColorManager.darkThemeTint(for: self) : ColorManager.lightThemeTint(for: self)
 
             return ThemeColor.podcastIcon01(podcastColor: podcastColor)
         }
 
         func bgColor() -> UIColor {
-            ColorManager.backgroundColorForPodcast(self)
+            ColorManager.backgroundColor(for: self)
         }
     #endif
 

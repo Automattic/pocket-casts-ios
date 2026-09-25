@@ -141,5 +141,5 @@ struct CancelSubscriptionPlansView: View {
 
 #Preview {
     CancelSubscriptionPlansView(viewModel: CancelSubscriptionPlansViewModel(navigationController: UINavigationController()))
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

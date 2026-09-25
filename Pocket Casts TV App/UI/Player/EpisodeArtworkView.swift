@@ -17,7 +17,7 @@ class EpisodeArtworkViewModel {
 
     let showEpisodeNotesImage: Bool
 
-    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .sharedManager) {
+    init(episode: BaseEpisode, placeholder: ImageResource = .pcLogo, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool = true, imageManager: ImageManager = .shared) {
         self.episode = episode
         self.placeholderResource = placeholder
         self.imageManager = imageManager
@@ -29,7 +29,7 @@ class EpisodeArtworkViewModel {
     func load() async {
         self.image = UIImage(resource: placeholderResource)
 
-        if let podcastImage = await imageManager.imageForEpisode(episode, size: size) {
+        if let podcastImage = await imageManager.image(for: episode, size: size) {
             image = podcastImage
         }
 

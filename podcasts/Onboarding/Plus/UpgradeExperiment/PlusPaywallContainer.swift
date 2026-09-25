@@ -40,12 +40,12 @@ struct PlusPaywallContainer: View {
                     return
                 }
 
-                viewModel.loadPrices { [weak viewModel] in
-                    switch viewModel?.priceAvailability {
+                viewModel.loadPrices {
+                    switch viewModel.priceAvailability {
                     case .available:
                         presentSubscriptionView.toggle()
                     case .failed:
-                        viewModel?.showError()
+                        viewModel.showError()
                     default:
                         break
                     }

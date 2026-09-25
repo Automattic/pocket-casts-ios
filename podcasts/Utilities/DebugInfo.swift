@@ -21,8 +21,8 @@ struct DebugInfo {
         }
 
         let now = Date()
-        let localTime = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter.string(from: now)
-        let gmtTime = DateFormatHelper.sharedHelper.jsonFormat(now)
+        let localTime = DateFormatHelper.shared.localTimeJsonDateFormatter.string(from: now)
+        let gmtTime = DateFormatHelper.shared.jsonFormat(now)
 
         var debugString = """
         App Version: \(Settings.appVersion())
@@ -42,7 +42,7 @@ struct DebugInfo {
         Auto Download On: \(Settings.autoDownloadEnabled() ? "yes" : "no")
         Auto Download Only on Wifi: \(Settings.autoDownloadMobileDataAllowed() ? "no" : "yes")
         Warn Before Using Data: \(Settings.mobileDataAllowed() ? "no" : "yes")
-        Auto Download Up Next:  \(Settings.downloadUpNextEpisodes() ? "yes" : "no")
+        Auto Download Up Next:  \(Settings.downloadUpNextEpisodes ? "yes" : "no")
         Auto Archive Played Episodes after: \(ArchiveHelper.archiveTimeToText(Settings.autoArchivePlayedAfter()))
         Auto Archive Inactive Episodes after: \(ArchiveHelper.archiveTimeToText(Settings.autoArchiveInactiveAfter()))
         Auto Archive Starred Episodes: \(Settings.archiveStarredEpisodes())

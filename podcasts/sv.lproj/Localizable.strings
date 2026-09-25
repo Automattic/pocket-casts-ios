@@ -303,6 +303,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om automatiskt om du spelar upp ett avsnitt inom 5 minuter efter den senaste pausen.</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>badge_new</key>
+    <string>Ny</string>
     <key>banner_ads_info_label</key>
     <string>Annons</string>
     <key>banner_ads_remove_ads</key>
@@ -369,6 +371,14 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Lås upp den här och många andra funktioner med Pocket Casts %1$@ och spara tidsstämplar för dina favoritavsnitt. Snart tillgänglig för %2$@-prenumeranter.</string>
     <key>bookmarks_locked_message</key>
     <string>Lås upp denna funktion och många fler med Pocket Casts %1$@ och spara tidsstämplar för dina favoritavsnitt.</string>
+    <key>bookmarks_player_tip_message</key>
+    <string>Behåll den del du ville ha</string>
+    <key>bookmarks_player_tip_title</key>
+    <string>Lägg till bokmärke</string>
+    <key>bookmarks_upgrade_example_passage</key>
+    <string>Du väljer personen, inte CV:t.</string>
+    <key>bookmarks_upgrade_example_title</key>
+    <string>Provspelningsrummet</string>
     <key>bottom</key>
     <string>Längst ner</string>
     <key>bulk_download_max_format</key>
@@ -1709,6 +1719,8 @@ podcasts med dig</string>
     <string>Tar bort stjärnmärkning för 1 avsnitt</string>
     <key>name</key>
     <string>Namn</string>
+    <key>network_fail_to_load</key>
+    <string>Detta nätverk gick inte att ladda</string>
     <key>new_email_address_prompt</key>
     <string>Ny e-postadress</string>
     <key>new_episodes</key>
@@ -1725,6 +1737,10 @@ podcasts med dig</string>
     <string>Hörlursinställningar</string>
     <key>no_bookmarks_locked_button_title</key>
     <string>Hämta bokmärken</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Ett tryck. Den har ett namn, och orden följer med den.</string>
+    <key>no_bookmarks_locked_title</key>
+    <string>Spara de delar som är värda att behålla</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
     <key>no_bookmarks_title</key>
@@ -2929,6 +2945,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Sök bokmärken</string>
     <key>search_episodes</key>
     <string>Sök avsnitt</string>
+    <key>search_filter_networks</key>
+    <string>Nätverk</string>
     <key>search_label</key>
     <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
@@ -3863,6 +3881,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Längst upp</string>
     <key>transcript</key>
     <string>Transkription</string>
+    <key>transcript_bookmark_selection</key>
+    <string>Bokmärk</string>
     <key>transcript_error_empty</key>
     <string>Den här transkriptionen verkar vara tom</string>
     <key>transcript_error_failed_to_load</key>
@@ -4140,8 +4160,12 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Hämtar de senaste avsnitten</string>
     <key>tv_search_failed</key>
     <string>Sökning misslyckades: %1$@</string>
+    <key>tv_search_featured_section_title</key>
+    <string>Utvalt</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, shower, författare</string>
+    <key>tv_search_scope_top_results</key>
+    <string>Populäraste resultat</string>
     <key>tv_search_searching</key>
     <string>Söker ...</string>
     <key>tv_search_type_something</key>

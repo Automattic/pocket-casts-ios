@@ -49,7 +49,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
 
         guard let bundleUuid = bundleSubscriptions?[indexPath.row].bundleUuid, let bundle = bundleInfo[bundleUuid] else {
             cell.isLoading = true
-            cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+            cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
             return cell
         }
@@ -57,7 +57,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         if bundle.podcasts?.count == 1 {
             guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, !subscription.uuid.isEmpty else {
                 cell.isLoading = true
-                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
                 return cell
             }
@@ -67,7 +67,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
 
             guard let podcast = podcasts[uuid] else {
                 cell.isLoading = true
-                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
+                cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor, dark: AppTheme.podcastHeartDarkRedGradientColor)
 
                 return cell
             }
@@ -97,7 +97,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         // podcast subscription in the bundle
         var frequencyText = ""
         var isCancelled = false
-        if let firstPodcastUuid = bundleSubscriptions?[indexPath.row].podcasts.first?.uuid, let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: firstPodcastUuid) {
+        if let firstPodcastUuid = bundleSubscriptions?[indexPath.row].podcasts.first?.uuid, let subscription = SubscriptionHelper.subscription(forPodcastUuid: firstPodcastUuid) {
             let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
 
             if subscription.autoRenewing {
@@ -106,7 +106,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
                 frequencyText = SubscriptionHelper.readableSubscriptionFrequency(frequency: frequency).localizedUppercase
             } else {
                 isCancelled = true
-                let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate).localizedUppercase
+                let expiryDateStr = DateFormatHelper.shared.longLocalizedFormat(expiryDate).localizedUppercase
                 if expiryDate.timeIntervalSinceNow < 0 {
                     frequencyText = L10n.paidPodcastSubscriptionEnded(expiryDateStr)
                 } else {
@@ -203,7 +203,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     }
 
     private func loadPodcast(uuid: String) -> Bool {
-        if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+        if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             podcasts[uuid] = podcast
             return true
         }
@@ -213,6 +213,4 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     @objc private func podcastColorsLoaded(_ notification: Notification) {
         loadPodcasts()
     }
-
-    private func loadBundle(uuid: String) {}
 }

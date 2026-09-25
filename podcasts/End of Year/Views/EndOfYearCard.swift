@@ -14,10 +14,6 @@ struct EndOfYearCard: View {
         let backgroundColor: Color?
     }
 
-    private var imageScale: Double {
-        A11y.isDisplayZoomed ? 0.75 : 1.0
-    }
-
     var body: some View {
         ZStack {
             HStack {

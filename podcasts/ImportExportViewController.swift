@@ -1,3 +1,4 @@
+import AEXML
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -46,7 +47,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     @IBOutlet var importImage: UIImageView! {
         didSet {
-            importImage.image = Theme.isDarkTheme() ? UIImage(named: "settings_importillustration_dark") : UIImage(named: "settings_importillustration")
+            importImage.image = Theme.isDarkTheme ? UIImage(named: "settings_importillustration_dark") : UIImage(named: "settings_importillustration")
         }
     }
 
@@ -80,11 +81,11 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     private func startExport() {
         Analytics.track(.settingsImportExportStarted)
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
 
         let uuids = podcasts.map(\.uuid)
 
-        MainServerHandler.shared.exportPodcasts(uuids: uuids) { exportResponse in
+        MainServerHandler.shared.exportPodcasts(uuids: uuids) { [weak self] exportResponse in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.loadingAlert?.hideAlert(false)

@@ -15,9 +15,9 @@ struct PodcastImage: View {
     }
 
     var body: some View {
-        KFImage(ImageManager.sharedManager.podcastUrl(imageSize: size, uuid: uuid))
+        KFImage(ImageManager.shared.podcastUrl(imageSize: size, uuid: uuid))
             .placeholder { _ in
-                if let placeholder = ImageManager.sharedManager.placeHolderImage(size) {
+                if let placeholder = ImageManager.shared.placeHolderImage(size) {
                     Image(uiImage: placeholder)
                         .resizable()
                 }

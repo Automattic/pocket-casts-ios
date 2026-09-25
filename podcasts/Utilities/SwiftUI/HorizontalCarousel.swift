@@ -26,8 +26,6 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     /// Internal tracking of the visible index used to calculate the offset
     @State private var visibleIndex = 0
 
-    @State private var maxItemHeight: CGFloat? = nil
-
     init(currentIndex: Binding<Int>? = .constant(0), items: [T], @ViewBuilder content: @escaping (T) -> Content) {
         self._index = currentIndex ?? .constant(0)
         self.items = items
@@ -159,11 +157,6 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                 visibleIndex = newValue
             }
         }
-        // Update the height if we're using equal sizes
-        .onPreferenceChange(CarouselEqualHeightsKey.self) { sizes in
-            maxItemHeight = sizes.max()
-        }
-        .frame(height: maxItemHeight)
     }
 
     /// Calculate the current index based on the given translation and item widths
@@ -247,43 +240,6 @@ private struct LazyLoadingView<Content: View>: View {
             )
     }
 }
-
-// MARK: - CarouselEqualHeightsView
-
-/// Calculate the height of each of the container views, and set the preference value
-/// When this is used within the HorizontalCarousel the carousel will update its height to the tallest item
-///
-struct CarouselEqualHeightsView<Content: View>: View {
-    let content: () -> Content
-
-    @State private var contentSize: CGSize = .zero
-    @State private var calculatedHeight: CGFloat = 0
-
-    var body: some View {
-        ContentSizeReader(contentSize: $contentSize) {
-            content()
-        }
-        .onChange(of: contentSize) { _, newValue in
-            // Don't send changes for small increments
-            guard Int(newValue.height) != Int(calculatedHeight) else {
-                return
-            }
-
-            calculatedHeight = newValue.height
-        }
-        .preference(key: CarouselEqualHeightsKey.self, value: [calculatedHeight])
-    }
-}
-
-private struct CarouselEqualHeightsKey: PreferenceKey {
-    typealias Value = [CGFloat]
-
-    static var defaultValue: [CGFloat] = []
-    static func reduce(value: inout [CGFloat], nextValue: () -> [CGFloat]) {
-        value.append(contentsOf: nextValue())
-    }
-}
-
 
 // MARK: - Preview
 

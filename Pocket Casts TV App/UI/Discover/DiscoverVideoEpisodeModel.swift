@@ -60,7 +60,7 @@ class DiscoverVideoEpisodeModel {
 
         do {
             let videoFrame: UIImage
-            if let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString) {
+            if let cachedVideoFrame = await ImageManager.shared.retrieveDiscoverVideoThumbnail(imageUrl: urlString) {
                 videoFrame = cachedVideoFrame
             } else {
                 let image: UIImage
@@ -69,7 +69,7 @@ class DiscoverVideoEpisodeModel {
                 } else {
                     image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
                 }
-                _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                _ = await ImageManager.shared.storeDiscoverVideoThumbnail(for: urlString, image: image)
                 videoFrame = image
             }
             await MainActor.run { [videoFrame] in

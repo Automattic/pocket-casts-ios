@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsServer
 
 enum DiscoverType: String, CaseIterable {
@@ -177,17 +178,6 @@ actor DiscoverManager {
         for position in Array(sponsoredPodcasts.keys).sorted() {
             if let podcast = sponsoredPodcasts[position] {
                 listOfPodcasts.insert(podcast, at: position)
-                if let uuid = podcast.uuid {
-                    sponsoredPodcastsCache[uuid] = listId
-                }
-            }
-        }
-
-        if sourceItem.isSponsored == true {
-            for podcast in listOfPodcasts {
-                if let uuid = podcast.uuid {
-                    sponsoredPodcastsCache[uuid] = listId
-                }
             }
         }
 
@@ -267,9 +257,6 @@ actor DiscoverManager {
                 sponsoredUuids = sponsoredUuids.union(Set(podcasts.compactMap({$0.uuid})))
             }
         }
-        for podcastUuid in sponsoredUuids {
-            sponsoredPodcastsCache[podcastUuid] = listId
-        }
         if let podcasts = details.podcasts {
             for podcast in podcasts {
                 if let podcastUuid = podcast.uuid {
@@ -280,15 +267,10 @@ actor DiscoverManager {
         return DiscoverCategorySection(categoryDetails: details, sponsoredPodcastsIDs: sponsoredUuids, listId: listId, region: regionCode)
     }
 
-    private var sponsoredPodcastsCache: [String: String] = [:]
     private var podcastListCache: [String: String] = [:]
 
-    func listIdForPodcast(_ uuid: String) -> String? {
+    func listId(forPodcastUuid uuid: String) -> String? {
         return podcastListCache[uuid]
-    }
-
-    func listIdForSponsoredPodcast(_ uuid: String) -> String? {
-        return sponsoredPodcastsCache[uuid]
     }
 
     func loadSponsoredPodcasts(item: DiscoverItem) async -> [Int: DiscoverPodcast] {

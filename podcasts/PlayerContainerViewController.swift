@@ -197,7 +197,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // we implement this here to lock all views (except presented modal VCs to portrait)
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        .portrait
+        // We're presented with a custom presentation, so UIKit asks us rather than the video player
+        if let videoViewController = presentedViewController as? VideoViewController {
+            return videoViewController.supportedInterfaceOrientations
+        }
+
+        return .portrait
     }
 
     // MARK: - PlayerItemContainerDelegate
@@ -228,7 +233,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if APPCLIP
         //TODO: Show install banner
         #else
-        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         #endif
     }
 

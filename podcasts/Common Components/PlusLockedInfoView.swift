@@ -102,12 +102,12 @@ class PlusLockedInfoView: ThemeableView {
 
     @IBAction func learnMoreTapped(_ sender: Any) {
         guard let displayingVC = delegate?.displayingViewController else {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
+            NavigationManager.shared.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
             return
         }
 
         let source: PlusUpgradeViewSource = delegate?.displaySource ?? .unknown
-        NavigationManager.sharedManager.showUpsellView(from: displayingVC, source: source)
+        NavigationManager.shared.showUpsellView(from: displayingVC, source: source)
     }
 
     private func setInfoLabelText() {

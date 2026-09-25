@@ -42,7 +42,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 
     private func tableSections() -> [TableSections] {
         var sections: [TableSections] = [.autoAddToUpNext, .afterPlaying, .autoSync, .onlyOnWifi]
-        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnFilesSettings() {
+        if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnFilesSettings {
             sections.append(.lockedInfo)
         }
 
@@ -56,7 +56,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         if hasSubscription {
             rows[1].append(.removeFromCloudAfterPlaying)
         }
-        if !hasSubscription, !Settings.plusInfoDismissedOnFilesSettings() {
+        if !hasSubscription, !Settings.plusInfoDismissedOnFilesSettings {
             rows.append([.lockedInfo])
         }
 
@@ -101,12 +101,12 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         case .autoAddToUpNext:
             cell.cellLabel?.text = L10n.settingsAutoAdd
             cell.setImage(imageName: "settings_upnext")
-            cell.cellSwitch.isOn = Settings.userEpisodeAutoAddToUpNext()
+            cell.cellSwitch.isOn = Settings.userEpisodeAutoAddToUpNext
             cell.cellSwitch.addTarget(self, action: #selector(autoAddToUpNextToggled(_:)), for: .valueChanged)
         case .removeFileAfterPlaying:
             cell.cellLabel?.text = L10n.settingsFilesDeleteLocalFile
             cell.setImage(imageName: "delete")
-            cell.cellSwitch.isOn = Settings.userEpisodeRemoveFileAfterPlaying()
+            cell.cellSwitch.isOn = Settings.userEpisodeRemoveFileAfterPlaying
             cell.cellSwitch.addTarget(self, action: #selector(removeFileAfterPlayingToggled(_:)), for: .valueChanged)
         case .removeFromCloudAfterPlaying:
             cell.cellLabel?.text = L10n.settingsFilesDeleteCloudFile
@@ -205,7 +205,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     }
 
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 
     // MARK: - Switch Actions
@@ -222,11 +222,11 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     }
 
     @objc private func autoAddToUpNextToggled(_ sender: UISwitch) {
-        Settings.setUserEpisodeAutoAddToUpNext(sender.isOn)
+        Settings.userEpisodeAutoAddToUpNext = sender.isOn
     }
 
     @objc private func removeFileAfterPlayingToggled(_ sender: UISwitch) {
-        Settings.setUserEpisodeRemoveFileAfterPlaying(sender.isOn)
+        Settings.userEpisodeRemoveFileAfterPlaying = sender.isOn
     }
 
     @objc private func removeFromCloudAfterPlayingToggled(_ sender: UISwitch) {
@@ -243,7 +243,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 
 extension UploadedSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
-        Settings.setPlusInfoDismissedOnFilesSettings(true)
+        Settings.plusInfoDismissedOnFilesSettings = true
         settingsTable.reloadData()
     }
 

@@ -134,7 +134,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     }
 
     private func loadPodcasts() {
-        let loadedPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
+        let loadedPodcasts = DataManager.shared.allPodcastsOrderedByTitle()
         for podcast in loadedPodcasts {
             if podcast.isPrivate { continue } // Hide all private podcasts
             podcasts.append(podcast)

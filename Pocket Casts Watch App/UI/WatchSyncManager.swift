@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SJUtils
 import WatchKit
 
 class WatchSyncManager {
@@ -33,7 +34,6 @@ class WatchSyncManager {
         if uniqueId?.count ?? 0 < 1 {
             let uuid = UUID().uuidString
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
-            defaults.synchronize()
         }
 
         ServerConfig.shared.syncDelegate = self
@@ -104,7 +104,7 @@ class WatchSyncManager {
                 comparisonResult: compareUpNextLists(),
                 isFirstSyncInProgress: SyncManager.isFirstSyncInProgress()
             ) {
-               let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+               let subscribedPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
                BackgroundSyncManager.shared.performBackgroundRefreshSafely(subscribedPodcasts: subscribedPodcasts)
             } else {
                 loginAndRefreshIfRequired()
@@ -249,7 +249,7 @@ class WatchSyncManager {
         guard let podcastSettings = data[WatchConstants.Keys.podcastSettings] as? [[String: Any]] else { return }
 
         for podcastSetting in podcastSettings {
-            guard let podcastUuid = podcastSetting[WatchConstants.Keys.podcastUuid] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { continue }
+            guard let podcastUuid = podcastSetting[WatchConstants.Keys.podcastUuid] as? String, let podcast = DataManager.shared.findPodcast(uuid: podcastUuid) else { continue }
 
             if let overrideGlobalArchive = podcastSetting[WatchConstants.Keys.podcastOverrideGlobalArchive] as? Bool {
                 podcast.overrideGlobalArchive = overrideGlobalArchive
@@ -258,7 +258,7 @@ class WatchSyncManager {
             if let autoArchivePlayedAfter = podcastSetting[WatchConstants.Keys.podcastAutoArchivePlayedAfter] as? TimeInterval {
                 podcast.autoArchivePlayedAfter = autoArchivePlayedAfter
             }
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
         }
     }
 

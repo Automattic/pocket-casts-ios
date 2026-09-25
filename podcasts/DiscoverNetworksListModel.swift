@@ -25,6 +25,14 @@ class DiscoverNetworksListModel: ObservableObject {
         item?.expandedStyle != nil
     }
 
+    /// The networks the row shows before "Show all", when the layout doesn't ask for a number.
+    private let defaultVisibleNetworkCount = 10
+
+    /// The networks the row shows, with the rest of them behind "Show all".
+    var visibleNetworks: [NetworkListSummary] {
+        Array(networks.prefix(max(0, item?.summaryItemCount ?? defaultVisibleNetworkCount)))
+    }
+
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
     }
@@ -73,14 +81,6 @@ class DiscoverNetworksListModel: ObservableObject {
                 delegate.showExpanded(item: self.discoverItem(for: network), podcasts: collection.podcasts ?? [], podcastCollection: collection, datetime: collection.datetime)
             }
         }
-    }
-
-    func pageDidChange(to currentPage: Int, totalPages: Int) {
-        guard let item else { return }
-
-        Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
-                                                                    "total_pages": totalPages,
-                                                                    "list_id": item.inferredListId])
     }
 
     /// The list the network points at, as the `DiscoverItem` the expanded screens expect.

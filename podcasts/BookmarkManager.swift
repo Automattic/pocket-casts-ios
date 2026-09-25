@@ -39,8 +39,8 @@ class BookmarkManager {
     /// Called when a value of the bookmark changes
     let onBookmarkChanged = PassthroughSubject<Event.Changed, Never>()
 
-    init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks,
-         generalManager: DataManager = .sharedManager,
+    init(dataManager: BookmarkDataManager = DataManager.shared.bookmarks,
+         generalManager: DataManager = .shared,
          playbackManager: PlaybackManager = .shared,
          cacheServerHandler: CacheServerHandler = .shared) {
         self.dataManager = dataManager
@@ -320,7 +320,7 @@ private extension BookmarkSortOption {
 
 extension Array where Element == Bookmark {
 
-    func includePodcasts(using dataManager: DataManager = .sharedManager) -> [Element] {
+    func includePodcasts(using dataManager: DataManager = .shared) -> [Element] {
         guard !isEmpty else { return [] }
 
         let podcasts = uniquePodcasts(using: dataManager)
@@ -336,7 +336,7 @@ extension Array where Element == Bookmark {
 
     /// Updates an array of Bookmarks and sets the `episode` property to the `BaseEpisode` from the `episodeUuid`
     /// This tries to be efficient by only fetching the unique episodes from the database
-    func includeEpisodes(using dataManager: DataManager = .sharedManager) -> [Element] {
+    func includeEpisodes(using dataManager: DataManager = .shared) -> [Element] {
         guard !isEmpty else { return [] }
 
         let episodes = uniqueEpisodes(using: dataManager)
@@ -350,13 +350,13 @@ extension Array where Element == Bookmark {
 
     /// Gets the unique episodeUuid's from the bookmarks, then converts them to `BaseEpisode`'s
     /// which are then mapped to a dictionary where the key is the episodeUuid and the value is the episode
-    private func uniqueEpisodes(using dataManager: DataManager = .sharedManager) -> [String: BaseEpisode] {
+    private func uniqueEpisodes(using dataManager: DataManager = .shared) -> [String: BaseEpisode] {
         Dictionary(uniqueKeysWithValues: Set(map(\.episodeUuid)).compactMap {
             dataManager.findBaseEpisode(uuid: $0)
         }.map { ($0.uuid, $0) })
     }
 
-    private func uniquePodcasts(using dataManager: DataManager = .sharedManager) -> [String: Podcast] {
+    private func uniquePodcasts(using dataManager: DataManager = .shared) -> [String: Podcast] {
         Dictionary(uniqueKeysWithValues: Set(compactMap(\.podcastUuid)).compactMap {
             dataManager.findPodcast(uuid: $0)
         }.map { ($0.uuid, $0) })
