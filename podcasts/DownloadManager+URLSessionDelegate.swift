@@ -119,10 +119,8 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         case NSURLErrorTimedOut:
             FileLog.shared.addMessage("DownloadManager: Download timed out for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription)")
-            taskFailure[episode.uuid] = .connectionTimeout
         case NSURLErrorCannotConnectToHost:
             FileLog.shared.addMessage("DownloadManager: Cannot connect to host for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription)")
-            taskFailure[episode.uuid] = .unknownHost
         case NSURLErrorNotConnectedToInternet:
             FileLog.shared.addMessage("DownloadManager: Not connected to internet for episode \(episode.displayableTitle()), session: \(sessionType)")
         default:
@@ -130,6 +128,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+        downloadingEpisodesCache[episode.downloadTaskId ?? episode.uuid] = nil
 
         dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
 
@@ -256,7 +255,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
         }
 
-        if let failure = taskFailure[episode.uuid] {
+        if let failure = taskFailure[episode.uuid] ?? failureReason(for: task.error) {
             logDownload(episode, failure: failure, metrics: metrics, session: session)
             taskFailure.removeValue(forKey: episode.uuid)
         }
@@ -330,6 +329,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         taskFailure[episode.uuid] = reason
+    }
+
+    private func failureReason(for error: Error?) -> FailureReason? {
+        switch (error as NSError?)?.code {
+        case NSURLErrorTimedOut:
+            return .connectionTimeout
+        case NSURLErrorCannotConnectToHost:
+            return .unknownHost
+        default:
+            return nil
+        }
     }
 
     private func shouldRetryWithoutUserAgent(task: URLSessionDownloadTask) -> Bool {

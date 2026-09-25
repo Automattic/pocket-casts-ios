@@ -62,4 +62,20 @@ final class DownloadManagerTests: DBTestCase {
         try? fileManager.removeItem(atPath: destinationPath)
         dataManager.delete(episodeUuid: testEpisode.uuid)
     }
+
+    func testDownloadFailedWithNetworkErrorLeavesNoBookkeepingBehind() throws {
+        episode.downloadTaskId = episode.uuid
+        episode.episodeStatus = DownloadStatus.downloading.rawValue
+        dataManager.save(episode: episode)
+
+        let url = try XCTUnwrap(URL(string: "https://example.com/episode.mp3"))
+        let task = URLSession.shared.downloadTask(with: url)
+        task.taskDescription = episode.uuid
+
+        downloadManager.urlSession(.shared, task: task, didCompleteWithError: NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut))
+
+        XCTAssertEqual(dataManager.findEpisode(uuid: episode.uuid)?.episodeStatus, DownloadStatus.downloadFailed.rawValue)
+        XCTAssertNil(downloadManager.downloadingEpisodesCache[episode.uuid])
+        XCTAssertNil(downloadManager.taskFailure[episode.uuid])
+    }
 }

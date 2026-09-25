@@ -43,6 +43,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     // MARK: - Download
 
     func downloadCancelled(episodeUUID: String) {
+        episodeDownloadQueue.remove(episodeUUID)
         clearDownloadSource(for: episodeUUID)
         episodeEvent(.episodeDownloadCancelled, uuid: episodeUUID)
     }
@@ -65,6 +66,9 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     func downloadFailed(episodeUUID: String,
                         podcastUUID: String,
                         extraProperties: [String: Any]) {
+        DispatchQueue.main.async {
+            self.episodeDownloadQueue.remove(episodeUUID)
+        }
         let source = consumeDownloadSource(for: episodeUUID)
         if let source {
             currentSource = source
@@ -138,6 +142,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     }
 
     func episodeUploadCancelled(episodeUUID: String) {
+        episodeUploadQueue.remove(episodeUUID)
         episodeEvent(.episodeUploadCancelled, uuid: episodeUUID)
     }
 
@@ -250,6 +255,7 @@ private extension AnalyticsEpisodeHelper {
                     self.episodeUploadQueue.remove(uuid)
                     self.episodeUploadFinished(episodeUUID: uuid)
                 case .uploadFailed:
+                    self.episodeUploadQueue.remove(uuid)
                     self.episodeUploadFailed(episodeUUID: uuid)
                 default:
                     break
