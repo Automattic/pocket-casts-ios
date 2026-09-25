@@ -35,6 +35,7 @@
 - Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296)
 - Ask for confirmation before Close and Clear Up Next in the mini player menu clears the queue [#5261](https://github.com/Automattic/pocket-casts-ios/pull/5261)
 - Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296) [#5280](https://github.com/Automattic/pocket-casts-ios/pull/5280)
+- Fix a crash on iOS 26 when pressing play or pause on the lock screen, headphones or a car stereo [#5281](https://github.com/Automattic/pocket-casts-ios/pull/5281)
 
 8.21
 -----
