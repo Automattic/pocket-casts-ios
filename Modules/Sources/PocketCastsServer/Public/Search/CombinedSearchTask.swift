@@ -68,9 +68,10 @@ public class CombinedSearchTask {
         let (data, _) = try await session.data(for: request)
 
         let envelope = try Self.decoder.decode(CombinedSearchEnvelope.self, from: data)
-        return envelope.results.compactMap { result in
-            return result.resolvedResultType
-        }
+        var seen = Set<CombinedSearchResultType>()
+        return envelope.results
+            .compactMap(\.resolvedResultType)
+            .filter { seen.insert($0).inserted }
     }
 
     static let decoder: JSONDecoder = {
