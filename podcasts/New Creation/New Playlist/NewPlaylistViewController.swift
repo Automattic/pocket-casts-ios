@@ -245,6 +245,8 @@ class NewPlaylistViewController: PCViewController {
                 return
             }
 
+            PlaylistManager.checkForAutoDownloads(in: playlist)
+
             Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
@@ -284,6 +286,8 @@ class NewPlaylistViewController: PCViewController {
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
+
+            PlaylistManager.checkForAutoDownloads(in: playlist)
 
             Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
 
