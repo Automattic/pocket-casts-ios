@@ -141,8 +141,8 @@ class StoriesModel: ObservableObject {
     }
 
     func start() {
-        cancellable = publisher.autoconnect().sink(receiveValue: { _ in
-            guard self.currentStory != nil, self.numberOfStories > 0 else {
+        cancellable = publisher.autoconnect().sink(receiveValue: { [weak self] _ in
+            guard let self, self.currentStory != nil, self.numberOfStories > 0 else {
                 return
             }
 
@@ -376,21 +376,18 @@ private extension StoriesModel {
     }
 
     func subscribeToNotifications() {
-        StoriesController.Notifications.allCases.forEach { [weak self] controller in
-            switch controller {
-            case .replay:
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    DispatchQueue.main.async {
+        StoriesController.Notifications.allCases.forEach { controller in
+            NSNotification.Name(rawValue: controller.rawValue).publisher()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    switch controller {
+                    case .replay:
                         self?.replay()
-                    }
-                }
-            case .share:
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    DispatchQueue.main.async {
+                    case .share:
                         self?.share()
                     }
                 }
-            }
+                .store(in: &cancellables)
         }
 
         UIApplication.userDidTakeScreenshotNotification.publisher()

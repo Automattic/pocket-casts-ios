@@ -51,6 +51,7 @@ struct IntroStory2024: StoryView {
 struct InfiniteScrollingView<Content: View>: View {
     @State private var offset = CGFloat.zero
     @State private var contentHeight: CGFloat = 0
+    @State private var timer: Timer?
 
     let spacing: CGFloat
     let content: () -> Content
@@ -69,6 +70,9 @@ struct InfiniteScrollingView<Content: View>: View {
                     contentHeight = geometry.size.height
                     startScrolling()
                 }
+                .onDisappear {
+                    timer?.invalidate()
+                }
             }
             .frame(height: contentHeight)
         }
@@ -77,7 +81,7 @@ struct InfiniteScrollingView<Content: View>: View {
     private func startScrolling() {
         let speed: CGFloat = 0.2
 
-        Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
             offset -= speed
         }
     }

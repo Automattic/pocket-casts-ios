@@ -29,6 +29,9 @@ struct StoriesView: View {
             .onAppear {
                 model.start()
             }
+            .onDisappear {
+                model.pause()
+            }
         } else if model.failed {
             failed
         } else {

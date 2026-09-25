@@ -206,7 +206,10 @@ struct EndOfYear {
         let presenter = SceneHelper.rootViewController()
 
         let fakeViewController = FakeViewController()
-        fakeViewController.onDismiss = onDismiss
+        fakeViewController.onDismiss = {
+            StoryShareableProvider.shared.generatedItem = nil
+            onDismiss?()
+        }
         fakeViewController.modalPresentationStyle = .overFullScreen
 
         let activityViewController = UIActivityViewController(activityItems: assets, applicationActivities: nil)

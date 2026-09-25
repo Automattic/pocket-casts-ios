@@ -20,6 +20,7 @@ class StepCounter: ObservableObject {
     }
 
     func start() {
+        self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             guard let self else { return }
             counter = counter + 1

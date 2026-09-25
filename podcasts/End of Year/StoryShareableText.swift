@@ -110,9 +110,11 @@ class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource, @
             return
         }
 
-        let task = URLSession(configuration: .default, delegate: self, delegateQueue: nil).dataTask(with: url) { _, _, _ in }
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+        let task = session.dataTask(with: url) { _, _, _ in }
 
         task.resume()
+        session.finishTasksAndInvalidate()
     }
 
     private func createList(from podcasts: [Podcast]) {

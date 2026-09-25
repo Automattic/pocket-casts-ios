@@ -10,6 +10,7 @@ public struct MarqueeTextView: View {
     @State private var offset = CGFloat.zero
     @State private var screenWidth: CGFloat = 0
     @State private var contentWidth: CGFloat = 0
+    @State private var timer: Timer?
 
     var font: UIFont {
         return UIFont(name: "Humane-Medium", size: 227) ?? UIFont.systemFont(ofSize: 227)
@@ -52,6 +53,9 @@ public struct MarqueeTextView: View {
                 .onAppear {
                     startScrolling()
                 }
+                .onDisappear {
+                    timer?.invalidate()
+                }
             }
             .disabled(true)
             .allowsHitTesting(false)
@@ -68,7 +72,7 @@ public struct MarqueeTextView: View {
     private func startScrolling() {
         let speed: CGFloat = 0.1
 
-        Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
             switch direction {
             case .leading:
                 offset -= speed
