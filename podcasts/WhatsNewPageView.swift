@@ -2,7 +2,7 @@
 import UIKit
 
 class WhatsNewPageView: ThemeableView {
-    var whatsNewLinkDelegate: WhatsNewLinkDelegate?
+    weak var whatsNewLinkDelegate: WhatsNewLinkDelegate?
     @IBOutlet var contentView: ThemeableView!
 
     @IBOutlet var topPaddingView: ThemeableView!
