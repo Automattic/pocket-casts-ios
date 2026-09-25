@@ -7,6 +7,8 @@ struct WhatsNewFeedView: View {
     @EnvironmentObject private var theme: Theme
     @ObservedObject var viewModel: WhatsNewFeedViewModel
 
+    @State private var hasLoaded = false
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
@@ -46,7 +48,11 @@ struct WhatsNewFeedView: View {
             }
         }
         .background(theme.primaryUi02.ignoresSafeArea())
-        .task { await viewModel.load() }
+        .task {
+            guard !hasLoaded else { return }
+            await viewModel.load()
+            hasLoaded = !Task.isCancelled
+        }
     }
 }
 

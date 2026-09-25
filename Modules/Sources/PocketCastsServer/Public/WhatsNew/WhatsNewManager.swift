@@ -195,7 +195,28 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Whether each refresh of the mock catalog publishes a new message dated now, for trying out
+    /// how the feed and its dots take in messages as they arrive. Turning it off takes the messages
+    /// it published back out.
+    public var publishesMockMessageOnRefresh: Bool {
+        get { userDefaults.bool(forKey: Self.publishesMockMessageOnRefreshKey) }
+        set {
+            userDefaults.set(newValue, forKey: Self.publishesMockMessageOnRefreshKey)
+            if !newValue {
+                mockMessagePublishDates = []
+            }
+            refresh()
+        }
+    }
+
+    private var mockMessagePublishDates: [Date] {
+        get { userDefaults.array(forKey: Self.mockMessagePublishDatesKey) as? [Date] ?? [] }
+        set { userDefaults.set(newValue, forKey: Self.mockMessagePublishDatesKey) }
+    }
+
     nonisolated private static let usesMockCatalogKey = "WhatsNewUsesMockCatalog"
+    nonisolated private static let publishesMockMessageOnRefreshKey = "WhatsNewPublishesMockMessageOnRefresh"
+    nonisolated private static let mockMessagePublishDatesKey = "WhatsNewMockMessagePublishDates"
     #endif
 
     private func performRefresh() async {
@@ -203,7 +224,10 @@ public final class WhatsNewManager: ObservableObject {
 
         #if DEBUG
         if usesMockCatalog {
-            catalog = .mock
+            if publishesMockMessageOnRefresh {
+                mockMessagePublishDates.append(Date())
+            }
+            catalog = .mock(addingMessagesPublishedAt: mockMessagePublishDates)
             return
         }
         #endif
