@@ -114,6 +114,7 @@ extension TranscriptContainerViewController: UIAdaptivePresentationControllerDel
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         if generatedTranscriptsPremiumOverlay.view.superview != nil {
             generatedTranscriptsPremiumOverlay.didDisappear()
+            transcriptsItem.willBeRemovedFromPlayer()
         } else {
             hideTranscript()
         }
