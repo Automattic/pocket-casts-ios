@@ -128,15 +128,7 @@ public struct BookmarkDataManager {
                 LIMIT 1
                 """
 
-        let result = await dbQueue.executeUpdate(query, values: values.databaseValues)
-
-        switch result {
-        case .success:
-            return true
-        case .failure(let failure):
-            FileLog.shared.addMessage("BookmarkManager.update failed: \(failure)")
-            return false
-        }
+        return executeUpdate(query, values: values.databaseValues, context: "update")
     }
 
     // MARK: - Retrieving
@@ -207,14 +199,7 @@ public struct BookmarkDataManager {
         SET \(Column.syncStatus) = ?
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced.rawValue])
-        switch result {
-        case .success:
-            return true
-        case .failure(let error):
-            FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
-            return false
-        }
+        return executeUpdate(query, values: [SyncStatus.synced.rawValue], context: "markAllBookmarksAsSynced")
     }
 
     // MARK: - Deleting
@@ -231,38 +216,33 @@ public struct BookmarkDataManager {
         LIMIT \(uuids.count)
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [Date(), syncStatus.rawValue])
-
-        switch result {
-        case .success:
-            return true
-        case .failure(let error):
-            FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-            return false
-        }
+        return executeUpdate(query, values: [Date(), syncStatus.rawValue], context: "remove")
     }
 
     /// Permanently removes the bookmarks from the database
     @discardableResult
     public func permanentlyDelete(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
+        let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
-            let query = """
-            DELETE FROM \(Self.tableName)
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
+        let query = """
+        DELETE FROM \(Self.tableName)
+        WHERE \(Column.uuid) IN (\(uuids))
+        """
 
-            dbQueue.write { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
+        return executeUpdate(query, values: nil, context: "permanentlyDelete")
+    }
+
+    private func executeUpdate(_ query: String, values: [Any]?, context: String) -> Bool {
+        var success = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(query, values: values)
+                success = true
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.\(context) failed: \(error)")
             }
         }
+        return success
     }
 
     // MARK: - Sortings
