@@ -54,9 +54,7 @@ public class RefreshManager {
         podcast.forceRefreshEpisodeFrom = episodeUuid
         await withCheckedContinuation { continuation in
             refresh(podcasts: [podcast]) {
-                if SyncManager.isUserLoggedIn() {
-                    guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
-
+                if SyncManager.isUserLoggedIn(), let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) {
                     DataManager.shared.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
                     podcast.forceRefreshEpisodeFrom = nil
                 }
@@ -156,9 +154,7 @@ public class RefreshManager {
             return
         }
 
-        if let result = response.result {
-            let refreshOperation = RefreshOperation(result: result, completionHandler: completion)
-            refreshQueue.addOperation(refreshOperation)
-        }
+        let refreshOperation = RefreshOperation(result: response.result ?? RefreshResult(), completionHandler: completion)
+        refreshQueue.addOperation(refreshOperation)
     }
 }
