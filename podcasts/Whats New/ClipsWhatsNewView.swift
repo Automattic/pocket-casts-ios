@@ -72,19 +72,19 @@ struct AnimatedLogoImageView: View {
             .offset(x: animatedOut ? logo.offset.x : 0, y: animatedOut ? logo.offset.y : 0)
             .opacity(animatedOut ? 1 : 0)
             .animation(.interpolatingSpring(duration: 0.3, bounce: 0.55).delay(delay + (Double(index) * Constants.logoDelay)), value: animatedOut)
-            .onAppear {
-                startLoopingAnimation()
+            .task {
+                await loopAnimation()
             }
     }
 
-    private func startLoopingAnimation() {
-        withAnimation {
-            animatedOut.toggle()
-        }
+    private func loopAnimation() async {
+        while !Task.isCancelled {
+            withAnimation {
+                animatedOut.toggle()
+            }
 
-        // Loop the animation with a delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.loopDelay) {
-            startLoopingAnimation()
+            // Loop the animation with a delay
+            try? await Task.sleep(for: .seconds(Constants.loopDelay))
         }
     }
 }
