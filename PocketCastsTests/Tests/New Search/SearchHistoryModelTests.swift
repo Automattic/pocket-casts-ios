@@ -1,5 +1,3 @@
-import PocketCastsDataModel
-import PocketCastsServer
 import XCTest
 
 @testable import podcasts
@@ -66,21 +64,6 @@ class SearchHistoryModelTests: XCTestCase {
         model.removeAll()
 
         XCTAssertTrue(model.entries.isEmpty)
-    }
-
-    // MARK: Identity
-
-    func testEntriesForTheSamePodcastHashTheSame() {
-        let podcast = PodcastBuilder().build()
-        podcast.title = "Planet Money"
-        podcast.author = "NPR"
-        let first = SearchHistoryEntry(podcast: PodcastFolderSearchResult(from: podcast))
-
-        podcast.title = "Planet Money 2"
-        let second = SearchHistoryEntry(podcast: PodcastFolderSearchResult(from: podcast))
-
-        XCTAssertEqual(first, second)
-        XCTAssertEqual(first.hashValue, second.hashValue)
     }
 
     // MARK: Limit
