@@ -13,6 +13,9 @@ class PlusPricingInfoModel: ObservableObject {
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
 
+    private var productObservers: [NSObjectProtocol] = []
+    private var pendingPriceCompletions: [() -> Void] = []
+
     class var availableProductIds: [IAPProductID] {
         return [.yearly, .monthly, .patronYearly, .patronMonthly]
     }
@@ -21,6 +24,10 @@ class PlusPricingInfoModel: ObservableObject {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
         self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
+    }
+
+    deinit {
+        productObservers.forEach { NotificationCenter.default.removeObserver($0) }
     }
 
     private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
@@ -160,29 +167,45 @@ extension PlusPricingInfoModel {
 
         priceAvailability = .loading
 
+        if let completion {
+            pendingPriceCompletions.append(completion)
+        }
+        observeProductsIfNeeded()
+
+        purchaseHandler.requestProductInfo()
+    }
+
+    private func observeProductsIfNeeded() {
+        guard productObservers.isEmpty else { return }
+
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+        productObservers.append(notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
+            let completions = takePendingPriceCompletions()
             if FeatureFlag.newOfferEligibilityCheck.enabled {
                 purchaseHandler.updateTrialEligibility() { [weak self] in
                     guard let self else { return }
                     priceAvailability = .available
                     pricingInfo = Self.getPricingInfo(from: purchaseHandler)
-                    completion?()
+                    completions.forEach { $0() }
                 }
             } else {
                 priceAvailability = .available
                 pricingInfo = Self.getPricingInfo(from: purchaseHandler)
-                completion?()
+                completions.forEach { $0() }
             }
-        }
+        })
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
-            self.priceAvailability = .failed
-            completion?()
-        }
+        productObservers.append(notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            priceAvailability = .failed
+            takePendingPriceCompletions().forEach { $0() }
+        })
+    }
 
-        purchaseHandler.requestProductInfo()
+    private func takePendingPriceCompletions() -> [() -> Void] {
+        defer { pendingPriceCompletions.removeAll() }
+        return pendingPriceCompletions
     }
 }

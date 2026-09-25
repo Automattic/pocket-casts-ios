@@ -66,6 +66,11 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
             reloadActions()
         }
     }
+    var transcriptObservers: [NSObjectProtocol] = []
+
+    deinit {
+        removeTranscriptObservers()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
