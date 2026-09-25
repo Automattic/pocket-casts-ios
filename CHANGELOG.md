@@ -1,5 +1,6 @@
 8.22
 -----
+- Fix the Apple Watch app using more memory after each background sync [#5290](https://github.com/Automattic/pocket-casts-ios/pull/5290)
 - Fix a bookmark disappearing from the list before the deletion confirmation appears when you swipe to delete it [#5273](https://github.com/Automattic/pocket-casts-ios/pull/5273)
 - Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
 - Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
