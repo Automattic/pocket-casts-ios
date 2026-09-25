@@ -15,6 +15,14 @@ class SonosLinkController: PCViewController {
 
     var callbackUri = ""
 
+    private var userLoginObserver: NSObjectProtocol?
+
+    deinit {
+        if let userLoginObserver {
+            NotificationCenter.default.removeObserver(userLoginObserver)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,8 +37,8 @@ class SonosLinkController: PCViewController {
 
         connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
 
-        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
-            self.updateConnectButton()
+        userLoginObserver = NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
+            self?.updateConnectButton()
         }
     }
 

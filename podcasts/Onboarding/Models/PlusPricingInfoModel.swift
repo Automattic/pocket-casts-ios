@@ -161,8 +161,14 @@ extension PlusPricingInfoModel {
         priceAvailability = .loading
 
         let notificationCenter = NotificationCenter.default
+        var observers: [NSObjectProtocol] = []
+        let removeObservers = {
+            observers.forEach { notificationCenter.removeObserver($0) }
+            observers.removeAll()
+        }
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+        observers.append(notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+            removeObservers()
             guard let self else { return }
             if FeatureFlag.newOfferEligibilityCheck.enabled {
                 purchaseHandler.updateTrialEligibility() { [weak self] in
@@ -176,12 +182,14 @@ extension PlusPricingInfoModel {
                 pricingInfo = Self.getPricingInfo(from: purchaseHandler)
                 completion?()
             }
-        }
+        })
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
-            self.priceAvailability = .failed
+        observers.append(notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { [weak self] _ in
+            removeObservers()
+            guard let self else { return }
+            priceAvailability = .failed
             completion?()
-        }
+        })
 
         purchaseHandler.requestProductInfo()
     }

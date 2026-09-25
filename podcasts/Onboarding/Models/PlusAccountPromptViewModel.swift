@@ -28,12 +28,11 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         loadPrices()
 
         NotificationCenter.default.addObserver(
-            forName: UIContentSizeCategory.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.expandViewController()
-        }
+            self,
+            selector: #selector(expandViewController),
+            name: UIContentSizeCategory.didChangeNotification,
+            object: nil
+        )
     }
 
     @MainActor
@@ -70,7 +69,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: parentController)
     }
 
-    private func expandViewController() {
+    @objc private func expandViewController() {
         let sizeCategory = UIApplication.shared.preferredContentSizeCategory
         let isAccessibility = sizeCategory.isAccessibilityCategory
         if let sheet = parentController?.presentedViewController?.sheetPresentationController {

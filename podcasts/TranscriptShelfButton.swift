@@ -8,6 +8,7 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
             imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast04()
         }
     }
+    var transcriptObservers: [NSObjectProtocol] = []
 
     override init(frame: CGRect) {
         isTranscriptEnabled = false
@@ -20,6 +21,10 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        removeTranscriptObservers()
+    }
+
     func addObservers() {
         addTranscriptObservers()
     }
@@ -28,14 +33,16 @@ class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
 protocol CheckTranscriptAvailability: AnyObject {
     var isTranscriptEnabled: Bool { get set }
     var hasGeneratedTranscripts: Bool { get set }
+    var transcriptObservers: [NSObjectProtocol] { get set }
 
     func addTranscriptObservers()
+    func removeTranscriptObservers()
     func checkTranscriptAvailability()
 }
 
 extension CheckTranscriptAvailability {
     func addTranscriptObservers() {
-        NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil, queue: .main) { [weak self] notification in
+        transcriptObservers.append(NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil, queue: .main) { [weak self] notification in
             guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
                   let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
                   let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool,
@@ -45,11 +52,16 @@ extension CheckTranscriptAvailability {
 
             self?.isTranscriptEnabled = isAvailable
             self?.hasGeneratedTranscripts = hasGeneratedTranscripts
-        }
+        })
 
-        NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] _ in
+        transcriptObservers.append(NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] _ in
             self?.checkTranscriptAvailability()
-        }
+        })
+    }
+
+    func removeTranscriptObservers() {
+        transcriptObservers.forEach { NotificationCenter.default.removeObserver($0) }
+        transcriptObservers.removeAll()
     }
 
     func checkTranscriptAvailability() {

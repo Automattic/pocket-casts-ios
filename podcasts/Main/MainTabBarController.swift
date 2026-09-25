@@ -812,17 +812,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { _ in
-            self.endOfYear.resetStateIfNeeded()
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { [weak self] _ in
+            self?.endOfYear.resetStateIfNeeded()
         }
 
         // When the What's New is dismissed, check to see if we should also show the end of year prompt
-        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { _ in
+        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
             self.isShowingWhatsNew = false
             self.showEndOfYearPromptIfNeeded()
         }
 
-        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { _ in
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
             self.endOfYear.showPromptBasedOnState(in: self)
 
             self.displayEndOfYearBadgeIfNeeded()
