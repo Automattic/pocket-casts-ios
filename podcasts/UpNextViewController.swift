@@ -244,13 +244,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func clearQueueTapped() {
-        let queueCount = PlaybackManager.shared.queue.upNextCount()
-
-        let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-        alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { [weak self] _ in
+        let alert = Self.clearQueueAlert(queueCount: PlaybackManager.shared.queue.upNextCount()) { [weak self] in
             self?.performClearAll()
-        })
+        }
         present(alert, animated: true)
 
         selectedPlayListEpisodes.removeAll()
@@ -364,7 +360,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         shuffleButton.isSelected = Settings.upNextShuffleEnabled()
     }
 
-    private func actionLabelText(_ queueCount: Int) -> String {
+    static func clearQueueAlert(queueCount: Int, onClear: @escaping () -> Void) -> UIAlertController {
+        let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { _ in
+            onClear()
+        })
+        return alert
+    }
+
+    private static func actionLabelText(_ queueCount: Int) -> String {
         if queueCount == 1 {
             return L10n.queueClearEpisodeQueueSingular
         }
