@@ -105,11 +105,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.timeStepper.maximumValue = 40.minutes
             cell.configureAccessibilityLabel(text: cellLabelText, time: jumpFwdAmount)
 
-            cell.onValueChanged = { [weak self] value in
+            cell.onValueChanged = { [weak self, weak cell] value in
                 let newValue = Int(value)
                 Settings.skipForwardTime = newValue
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
-                cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
+                cell?.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
+                cell?.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 
@@ -133,11 +133,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.timeStepper.maximumValue = 40.minutes
             cell.configureAccessibilityLabel(text: cellLabelText, time: skipBackAmount)
 
-            cell.onValueChanged = { [weak self] value in
+            cell.onValueChanged = { [weak self, weak cell] value in
                 let newValue = Int(value)
                 Settings.skipBackTime = newValue
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
-                cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
+                cell?.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
+                cell?.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 

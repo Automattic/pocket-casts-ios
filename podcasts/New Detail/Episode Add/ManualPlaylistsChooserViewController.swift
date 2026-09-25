@@ -270,7 +270,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
         default:
             let playlist = manualPlaylists[indexPath.row]
             let episodeIsInPlaylist = initialSelectedPlaylists.contains(playlist.uuid)
-            let onToggleChange: (Bool) -> Void = { [weak self] selected in
+            let onToggleChange: (Bool) -> Void = { [weak self, weak tableView] selected in
                 guard let self else { return }
 
                 if selected {
@@ -283,7 +283,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 } else {
                     self.newSelectedPlaylists.remove(playlist.uuid)
                 }
-                tableView.reloadRows(at: [indexPath], with: .none)
+                tableView?.reloadRows(at: [indexPath], with: .none)
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in

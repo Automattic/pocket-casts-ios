@@ -41,12 +41,12 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             let title = L10n.fileUploadNoFilesTitle
             let message = L10n.fileUploadNoFilesDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("profile_files") }, actions: [
-                .init(title: L10n.fileUploadAddFile) {
-                    self.addFile()
+                .init(title: L10n.fileUploadAddFile) { [weak self] in
+                    self?.addFile()
                 },
                 .init(id: L10n.fileUploadNoFilesHelper) {
-                    Button(action: {
-                        self.howTo()
+                    Button(action: { [weak self] in
+                        self?.howTo()
                     }, label: {
                         Text(L10n.fileUploadNoFilesHelper)
                             .font(.body)
