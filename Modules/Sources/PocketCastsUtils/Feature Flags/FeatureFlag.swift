@@ -428,7 +428,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newEpisodeNotificationsPushOptOut:
             true
         case .whatsNewFeed:
-            BuildEnvironment.current == .debug
+            true
         case .whatsNewPolls:
             false
         }
