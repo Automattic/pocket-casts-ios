@@ -128,19 +128,30 @@ public class DataManager {
         vacuumDatabase()
     }
 
-    public func vacuumDatabase() {
+    /// Rebuilds the database to reclaim free pages, skipping it when less than
+    /// `minimumFreePageRatio` of the file is free, since it rewrites the whole file.
+    public func vacuumDatabase(minimumFreePageRatio: Double = 0.2) {
+        do {
+            let freePageRatio = try dbQueue.freePageRatio()
+            guard freePageRatio >= minimumFreePageRatio else {
+                FileLog.shared.addMessage("VACUUM -> Skipped, free page ratio: \(freePageRatio)")
+                return
+            }
+        } catch {
+            FileLog.shared.addMessage("VACUUM -> error: \(error)")
+            return
+        }
+
         if let sizeString = databaseSize {
             FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
         }
 
         FileLog.shared.addMessage("VACUUM -> Start")
-        let duration =  DBUtils.measureTime {
-            dbQueue.write { db in
-                do {
-                    try db.executeUpdate("VACUUM;", values: nil)
-                } catch {
-                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
-                }
+        let duration = DBUtils.measureTime {
+            do {
+                try dbQueue.vacuum()
+            } catch {
+                FileLog.shared.addMessage("VACUUM -> error: \(error)")
             }
         }
         FileLog.shared.addMessage("VACUUM -> End")
