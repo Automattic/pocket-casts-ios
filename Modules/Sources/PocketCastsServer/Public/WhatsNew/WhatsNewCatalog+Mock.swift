@@ -33,6 +33,24 @@ public extension WhatsNewCatalog {
         }
     }
 
+    /// The mock catalog with a message on top for each of the given dates, as if the server had
+    /// published one at each of them.
+    ///
+    /// The added messages take turns copying the mock's, each with an ID and a numbered title of its
+    /// own, so every one of them is a message the feed hasn't seen.
+    static func mock(addingMessagesPublishedAt dates: [Date]) -> WhatsNewCatalog {
+        var catalog = mock
+        let templates = mock.messages
+        let added = dates.enumerated().map { index, date in
+            WhatsNewMessage(copying: templates[index % templates.count],
+                            id: "mock-published-\(index + 1)",
+                            title: "#\(index + 1) \(templates[index % templates.count].title)",
+                            publishedAt: date)
+        }
+        catalog.messages = added.reversed() + catalog.messages
+        return catalog
+    }
+
     private static func iso8601(daysAgo: Int) -> String {
         let date = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
         return ISO8601DateFormatter().string(from: date)
@@ -243,5 +261,17 @@ public extension WhatsNewCatalog {
         }
         """
     ]
+}
+
+private extension WhatsNewMessage {
+    init(copying message: WhatsNewMessage, id: String, title: String, publishedAt: Date) {
+        self.id = id
+        type = message.type
+        self.publishedAt = publishedAt
+        expiresAt = message.expiresAt
+        targeting = message.targeting
+        self.title = title
+        content = message.content
+    }
 }
 #endif

@@ -455,6 +455,27 @@ final class WhatsNewManagerTests: XCTestCase {
         XCTAssertEqual(manager.catalog?.messages.map(\.title), ["Sort your Up Next"])
     }
 
+    func testTheMockCatalogPublishesAMessageDatedNowOnEachRefresh() async throws {
+        let manager = manager(cache: temporaryCache())
+        manager.usesMockCatalog = true
+        let start = Date()
+
+        manager.publishesMockMessageOnRefresh = true
+        await manager.refresh().value
+        await manager.refreshIfNeeded().value
+
+        let messages = try XCTUnwrap(manager.catalog?.messages)
+        XCTAssertEqual(messages.count, WhatsNewCatalog.mock.messages.count + 2)
+        XCTAssertEqual(messages.prefix(2).map(\.id), ["mock-published-2", "mock-published-1"])
+        XCTAssertTrue(messages.prefix(2).allSatisfy { $0.publishedAt >= start && $0.publishedAt <= Date() })
+        XCTAssertEqual(requestCount, 0)
+
+        manager.publishesMockMessageOnRefresh = false
+        await manager.refresh().value
+
+        XCTAssertEqual(manager.catalog, WhatsNewCatalog.mock)
+    }
+
     private var requestCount: Int { StubURLProtocol.requestCount }
 
     private func manager(cache: WhatsNewCatalogCache,

@@ -77,6 +77,11 @@ extension DeveloperMenuSection {
         }, set: { isOn in
             WhatsNewManager.shared.usesMockCatalog = isOn
         }))
+        items.append(.toggle("Publish a Message on Each Refresh", subtitle: "Mock catalog only", isOn: {
+            WhatsNewManager.shared.publishesMockMessageOnRefresh
+        }, set: { isOn in
+            WhatsNewManager.shared.publishesMockMessageOnRefresh = isOn
+        }))
         #endif
         items += [
             .action("Reset Read State", subtitle: "Local only") {
