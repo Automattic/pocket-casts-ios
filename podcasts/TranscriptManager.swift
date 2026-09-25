@@ -40,10 +40,13 @@ class TranscriptManager {
     private(set) var hasGeneratedTranscripts: Bool = false
     private(set) var isDisplayingGeneratedTranscript: Bool = false
 
-    init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
+    private let dataRetriever: TranscriptsDataRetriever
+
+    init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared, dataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()) {
         self.episodeUUID = episodeUUID
         self.podcastUUID = podcastUUID
         self.showCoordinator = showCoordinator
+        self.dataRetriever = dataRetriever
     }
 
     public func loadTranscript() async throws -> TranscriptModel {
@@ -59,7 +62,7 @@ class TranscriptManager {
             do {
                 let model = try await loadTranscript(transcript)
                 return model
-            } catch TranscriptError.empty, TranscriptError.failedToParse {
+            } catch TranscriptError.empty, TranscriptError.failedToParse, TranscriptError.failedToLoad {
                 transcriptsAvailable.removeAll { other in
                     other.transcriptFormat == transcript.transcriptFormat
                 }
@@ -101,8 +104,4 @@ class TranscriptManager {
 
         return model
     }
-
-    private lazy var dataRetriever: TranscriptsDataRetriever = {
-        return TranscriptsDataRetriever()
-    }()
 }
