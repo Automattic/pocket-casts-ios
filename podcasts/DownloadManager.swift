@@ -268,7 +268,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         // try to make sure the download URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later
         if let episode = episode as? Episode, let podcast = episode.parentPodcast(dataManager: dataManager) {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
-                guard let strongSelf = self, let updatedEpisode = wasUpdated ? strongSelf.dataManager.findEpisode(uuid: episodeUuid) : episode, let url = episode.downloadUrl else { return }
+                guard let strongSelf = self, let updatedEpisode = wasUpdated ? strongSelf.dataManager.findEpisode(uuid: episodeUuid) : episode, let url = updatedEpisode.downloadUrl else { return }
 
                 Task {
                     await strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
