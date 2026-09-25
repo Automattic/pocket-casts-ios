@@ -44,16 +44,16 @@ class ZendeskSupportService {
         self.config = config
     }
 
-    func submitSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool = false) -> AnyPublisher<String, Error> {
+    func submitSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool = false, isAnonymous: Bool = false) -> AnyPublisher<String, Error> {
         let request: URLRequest
         do {
-            request = try generateSupportRequest(supportRequest, isRetrying: isRetrying)
+            request = try generateSupportRequest(supportRequest, isRetrying: isRetrying, isAnonymous: isAnonymous)
         } catch {
-            FileLog.shared.addMessage("ZendeskSupportService: failed to build request (isRetrying: \(isRetrying)): \(error)")
+            FileLog.shared.addMessage("ZendeskSupportService: failed to build request (isRetrying: \(isRetrying), isAnonymous: \(isAnonymous)): \(error)")
             return Fail(error: error).eraseToAnyPublisher()
         }
 
-        let urlLabel = isRetrying ? "newBaseURL" : "baseURL"
+        let urlLabel = (isRetrying ? "newBaseURL" : "baseURL") + (isAnonymous ? ", anonymous" : "")
         let requestURL = request.url?.absoluteString ?? "<nil>"
         FileLog.shared.addMessage("ZendeskSupportService: POST \(requestURL) (\(urlLabel))")
 
@@ -136,16 +136,21 @@ class ZendeskSupportService {
         return String(singleLine.prefix(responseExcerptCharacterLimit))
     }
 
-    private func generateSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool = false) throws -> URLRequest {
-        guard let url = config.url(for: .requests, newURL: isRetrying),
-              let authToken = config.authToken(forEmail: supportRequest.requester.email)
-        else { throw SupportRequestError.badRequest }
+    private func generateSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool, isAnonymous: Bool) throws -> URLRequest {
+        guard let url = config.url(for: .requests, newURL: isRetrying) else {
+            throw SupportRequestError.badRequest
+        }
 
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.setValue("Basic \(authToken)", forHTTPHeaderField: "Authorization")
+        if !isAnonymous {
+            guard let authToken = config.authToken(forEmail: supportRequest.requester.email) else {
+                throw SupportRequestError.badRequest
+            }
+            request.setValue("Basic \(authToken)", forHTTPHeaderField: "Authorization")
+        }
 
         request.httpBody = try JSONEncoder().encode(ZDSupportRequestWrapper(request: supportRequest))
 

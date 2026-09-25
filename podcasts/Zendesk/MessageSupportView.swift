@@ -6,6 +6,7 @@ struct MessageSupportView: View {
     let dismiss: (() -> Void)?
     @ObservedObject private var viewModel: MessageSupportViewModel
     @EnvironmentObject var theme: Theme
+    @Environment(\.openURL) private var openURL
 
     init(viewModel: MessageSupportViewModel, dismiss: (() -> Void)? = nil) {
         self.viewModel = viewModel
@@ -80,6 +81,9 @@ struct MessageSupportView: View {
                 case MessageSupportViewModel.MessageSupportFailure.watchLogMissing:
                     return Alert(title: Text(L10n.supportWatchHelpTitle), message: Text(L10n.supportWatchHelpMessage), primaryButton: .default(Text(L10n.supportWatchHelpOpenedApp)) { viewModel.submitRequest() }, secondaryButton: .default(Text(L10n.supportWatchHelpSendWithoutLog)) { viewModel.submitRequest(ignoreUnavailableWatchLogs: true) })
                 default:
+                    if let supportEmailURL = viewModel.supportEmailURL {
+                        return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), primaryButton: .default(Text(L10n.supportSendEmail)) { openURL(supportEmailURL) }, secondaryButton: .cancel(Text(L10n.supportOK)))
+                    }
                     return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), dismissButton: .default(Text(L10n.supportOK), action: {
                         viewModel.completion = nil
                     }))

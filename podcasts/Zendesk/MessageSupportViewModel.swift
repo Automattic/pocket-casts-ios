@@ -45,9 +45,8 @@ class MessageSupportViewModel: ObservableObject {
     let config: ZDConfig
     let isUserSignedIn: Bool
 
-    // MARK: Retry
-
-    private var isRetrying = false
+    /// A `mailto:` link with the failed request, offered when the submission fails.
+    private(set) var supportEmailURL: URL?
 
     // MARK: Private vars
 
@@ -135,7 +134,7 @@ class MessageSupportViewModel: ObservableObject {
     open func submitRequest(ignoreUnavailableWatchLogs: Bool = false) {
         isWorking.toggle()
 
-        FileLog.shared.addMessage("MessageSupportViewModel: submitRequest — isRetrying: \(isRetrying), ignoreUnavailableWatchLogs: \(ignoreUnavailableWatchLogs)")
+        FileLog.shared.addMessage("MessageSupportViewModel: submitRequest — ignoreUnavailableWatchLogs: \(ignoreUnavailableWatchLogs)")
 
         config.customFields(forDisplay: false, optOut: UserDefaults.standard.debugOptedOut)
             .flatMap { [unowned self] customFields -> AnyPublisher<String, Error> in
@@ -158,8 +157,9 @@ class MessageSupportViewModel: ObservableObject {
                                                          comment: self.comment + extraText,
                                                          customFields: customFields,
                                                          tags: self.config.tags)
+                    self.supportEmailURL = Self.supportEmailURL(for: requestObject)
 
-                    return self.supportService.submitSupportRequest(requestObject, isRetrying: isRetrying)
+                    return self.submitWithFallbacks(requestObject)
                 }
             }
             .receive(on: DispatchQueue.main)
@@ -169,22 +169,51 @@ class MessageSupportViewModel: ObservableObject {
                 case let .failure(error):
                     if case MessageSupportFailure.watchLogMissing = error {
                         FileLog.shared.addMessage("MessageSupportViewModel: preflight failed — no support request sent: \(error)")
-                        self.isRetrying = false
-                        self.completion = .failure(error: error)
-                    } else if self.isRetrying {
-                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed after retry — surfacing error: \(error)")
-                        self.isRetrying = false
-                        self.completion = .failure(error: error)
                     } else {
-                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via newBaseURL. Error: \(error)")
-                        self.isRetrying = true
-                        self.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
+                        FileLog.shared.addMessage("MessageSupportViewModel: submit failed — surfacing error: \(error)")
                     }
+                    self.completion = .failure(error: error)
                 case .finished:
                     self.completion = .success
-                    self.isRetrying = false
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)
+    }
+
+    private func submitWithFallbacks(_ request: ZDSupportRequest) -> AnyPublisher<String, Error> {
+        supportService.submitSupportRequest(request)
+            .catch { [supportService] error -> AnyPublisher<String, Error> in
+                switch error {
+                case ZendeskSupportService.SupportRequestError.serverError(statusCode: 401, _),
+                     ZendeskSupportService.SupportRequestError.serverError(statusCode: 403, _):
+                    FileLog.shared.addMessage("MessageSupportViewModel: submit was rejected as unauthenticated — retrying anonymously. Error: \(error)")
+                    return supportService.submitSupportRequest(request, isAnonymous: true)
+                case ZendeskSupportService.SupportRequestError.serverError(let statusCode, _) where statusCode != 429 && statusCode < 500:
+                    return Fail(error: error).eraseToAnyPublisher()
+                default:
+                    FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via newBaseURL. Error: \(error)")
+                    return supportService.submitSupportRequest(request, isRetrying: true)
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private static func supportEmailURL(for request: ZDSupportRequest) -> URL? {
+        let fields = request.customFields
+            .filter { $0.id != SupportCustomField.allPodcasts.rawValue }
+            .map { field in
+                let title = SupportCustomField(rawValue: field.id)?.dispalyTitle ?? "\(field.id):"
+                return "\(title) \(field.value)"
+            }
+        let body = ([request.comment.body, ""] + fields).joined(separator: "\n")
+
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = "support@pocketcasts.com"
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: request.subject),
+            URLQueryItem(name: "body", value: body)
+        ]
+        return components.url
     }
 }
