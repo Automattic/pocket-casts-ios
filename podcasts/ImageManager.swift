@@ -199,7 +199,7 @@ class ImageManager {
         return retrieveImageFromCache(url: url, cache: userEpisodeCache, fetchIfMissing: true)
     }
 
-    private func retrieveImageFromCache(url: URL, cache: ImageCache, fetchIfMissing: Bool) -> UIImage? {
+    func retrieveImageFromCache(url: URL, cache: ImageCache, fetchIfMissing: Bool) -> UIImage? {
         let key = url.cacheKey
 
         if let image = cache.retrieveImageInMemoryCache(forKey: key) { return image }
@@ -215,8 +215,9 @@ class ImageManager {
 
         do {
             let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            let image = UIImage(data: data)
+            guard let image = UIImage(data: data) else { return nil }
 
+            cache.store(image, forKey: key, toDisk: false)
             return image
         } catch {
             FileLog.shared.addMessage("retrieveImageFromCache, exception caught while loading cached image from disk")
