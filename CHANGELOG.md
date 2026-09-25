@@ -9,6 +9,7 @@
 - Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
 - Fix episode downloads still using the old file link after the podcast replaced it with a new one, which could make the download fail [#5274](https://github.com/Automattic/pocket-casts-ios/pull/5274)
 - Add a What's New feed with announcements from the Pocket Casts team, opened from the Profile tab [#5077](https://github.com/Automattic/pocket-casts-ios/pull/5077) [#5294](https://github.com/Automattic/pocket-casts-ios/pull/5294)
+- Fix memory leaks when leaving empty playlists, empty folders, the Files screen and the Add to Playlist sheet [#5284](https://github.com/Automattic/pocket-casts-ios/pull/5284)
 - Reduce the memory the app uses for artwork [#5291](https://github.com/Automattic/pocket-casts-ios/pull/5291)
 
 

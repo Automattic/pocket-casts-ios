@@ -258,9 +258,10 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     private var avFileUtil: AVFileUtil?
     private func setupFileDetails() {
-        avFileUtil = AVFileUtil(fileURL: destinationUrl, durationHandler: { duration in
-            self.duration = duration
-        }, titleHandler: { embeddedName in
+        avFileUtil = AVFileUtil(fileURL: destinationUrl, durationHandler: { [weak self] duration in
+            self?.duration = duration
+        }, titleHandler: { [weak self] embeddedName in
+            guard let self else { return }
             if let embeddedName {
                 self.name = embeddedName
             }
@@ -268,8 +269,9 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.nameTextfield.text = self.name
                 self.nameLabel.text = self.name
             }
-        }, artworkHandler: { image in
+        }, artworkHandler: { [weak self] image in
             DispatchQueue.main.async {
+                guard let self else { return }
                 self.embeddedImage = image
                 self.artwork = image
                 self.selectedColorIndex = 0

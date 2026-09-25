@@ -265,7 +265,8 @@ class FolderViewController: PCViewController {
             let title = L10n.folderEmptyTitle
             let message = L10n.folderEmptyDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("folder-empty") }, actions: [
-                .init(title: L10n.folderEmptyButtonTitle, action: {
+                .init(title: L10n.folderEmptyButtonTitle, action: { [weak self] in
+                    guard let self else { return }
                     self.addPodcastsTapped(self)
                 })
             ])
