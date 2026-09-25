@@ -5,7 +5,7 @@ class WhatsNewThemeableImageView: ThemeableImageView {
     required init(imageName: String) {
         originalName = imageName
         super.init(frame: CGRect.zero)
-        imageNameFunc = themedImageName
+        imageNameFunc = { [unowned self] in themedImageName() }
     }
 
     @available(*, unavailable)

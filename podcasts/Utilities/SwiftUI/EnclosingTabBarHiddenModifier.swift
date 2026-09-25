@@ -13,13 +13,13 @@ extension View {
 
 private struct EnclosingTabBarHiddenModifier: ViewModifier {
     let hidden: Bool
-    @State private var host: UIViewController?
+    @State private var host = WeakHost()
 
     func body(content: Content) -> some View {
         content
             .background(
                 HostControllerResolver { resolved in
-                    host = resolved
+                    host.controller = resolved
                     if hidden {
                         resolved.setEnclosingTabBarHidden(true, animated: false)
                     }
@@ -28,15 +28,19 @@ private struct EnclosingTabBarHiddenModifier: ViewModifier {
                 .accessibilityHidden(true)
             )
             .onChange(of: hidden) {
-                host?.setEnclosingTabBarHidden(hidden, animated: true)
+                host.controller?.setEnclosingTabBarHidden(hidden, animated: true)
             }
             .onAppear {
                 if hidden {
-                    host?.setEnclosingTabBarHidden(true, animated: false)
+                    host.controller?.setEnclosingTabBarHidden(true, animated: false)
                 }
             }
             .onDisappear {
-                host?.setEnclosingTabBarHidden(false, animated: true)
+                host.controller?.setEnclosingTabBarHidden(false, animated: true)
             }
     }
+}
+
+private final class WeakHost {
+    weak var controller: UIViewController?
 }
