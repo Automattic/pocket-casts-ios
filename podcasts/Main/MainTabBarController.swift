@@ -180,6 +180,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var systemAppearanceObservation: Any?
 
+    private var endOfYearObservers: [NSObjectProtocol] = []
+
+    deinit {
+        endOfYearObservers.forEach { NotificationCenter.default.removeObserver($0) }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -812,27 +818,27 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { [weak self] _ in
+        endOfYearObservers.append(NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { [weak self] _ in
             self?.endOfYear.resetStateIfNeeded()
-        }
+        })
 
         // When the What's New is dismissed, check to see if we should also show the end of year prompt
-        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { [weak self] _ in
+        endOfYearObservers.append(NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
             self.isShowingWhatsNew = false
             self.showEndOfYearPromptIfNeeded()
-        }
+        })
 
-        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
+        endOfYearObservers.append(NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
             self.endOfYear.showPromptBasedOnState(in: self)
 
             self.displayEndOfYearBadgeIfNeeded()
-        }
+        })
 
         // If the requirement for EOY changes and registration is not required anymore
         // Show the modal
-        NotificationCenter.default.addObserver(forName: .eoyRegistrationNotRequired, object: nil, queue: .main) { [weak self] _ in
+        endOfYearObservers.append(NotificationCenter.default.addObserver(forName: .eoyRegistrationNotRequired, object: nil, queue: .main) { [weak self] _ in
             guard let self else {
                 return
             }
@@ -840,7 +846,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             if self.presentedViewController == nil {
                 self.endOfYear.showPrompt(in: self)
             }
-        }
+        })
     }
 
     // MARK: - Orientation
