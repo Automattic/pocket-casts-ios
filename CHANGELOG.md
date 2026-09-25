@@ -4,6 +4,7 @@
 - Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
 - Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
 - Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
+- Fix swiping down the Playback stories on iPad sometimes closing another screen a few seconds later [#5286](https://github.com/Automattic/pocket-casts-ios/pull/5286)
 - Fix episode downloads still using the old file link after the podcast replaced it with a new one, which could make the download fail [#5274](https://github.com/Automattic/pocket-casts-ios/pull/5274)
 - Add a What's New feed with announcements from the Pocket Casts team, opened from the Profile tab [#5077](https://github.com/Automattic/pocket-casts-ios/pull/5077) [#5294](https://github.com/Automattic/pocket-casts-ios/pull/5294)
 - Reduce the memory the app uses for artwork [#5291](https://github.com/Automattic/pocket-casts-ios/pull/5291)
