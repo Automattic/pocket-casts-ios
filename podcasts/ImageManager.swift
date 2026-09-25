@@ -199,7 +199,7 @@ class ImageManager {
         return retrieveImageFromCache(url: url, cache: userEpisodeCache, fetchIfMissing: true)
     }
 
-    func retrieveImageFromCache(url: URL, cache: ImageCache, fetchIfMissing: Bool) -> UIImage? {
+    private func retrieveImageFromCache(url: URL, cache: ImageCache, fetchIfMissing: Bool) -> UIImage? {
         let key = url.cacheKey
 
         if let image = cache.retrieveImageInMemoryCache(forKey: key) { return image }
