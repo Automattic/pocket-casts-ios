@@ -209,8 +209,7 @@ class SearchViewModel: SearchableViewModel {
                     case .term(let word):
                         suggestions.append(word)
                     case .podcast:
-                        if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
-                            uuids.insert(podcastResult.uuid)
+                        if let podcastResult = PodcastFolderSearchResult(from: searchResult), uuids.insert(podcastResult.uuid).inserted {
                             combinedPodcastsResults.append(CombinedSearchResultType.podcast(podcastResult))
                         }
                     default:
