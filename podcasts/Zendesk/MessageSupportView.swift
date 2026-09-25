@@ -81,17 +81,12 @@ struct MessageSupportView: View {
                 case MessageSupportViewModel.MessageSupportFailure.watchLogMissing:
                     return Alert(title: Text(L10n.supportWatchHelpTitle), message: Text(L10n.supportWatchHelpMessage), primaryButton: .default(Text(L10n.supportWatchHelpOpenedApp)) { viewModel.submitRequest() }, secondaryButton: .default(Text(L10n.supportWatchHelpSendWithoutLog)) { viewModel.submitRequest(ignoreUnavailableWatchLogs: true) })
                 default:
-                    guard let supportEmailURL = viewModel.supportEmailURL else {
-                        return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), dismissButton: .default(Text(L10n.supportOK), action: {
-                            viewModel.completion = nil
-                        }))
+                    if let supportEmailURL = viewModel.supportEmailURL {
+                        return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), primaryButton: .default(Text(L10n.supportSendEmail)) { openURL(supportEmailURL) }, secondaryButton: .cancel(Text(L10n.supportOK)))
                     }
-                    return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), primaryButton: .default(Text(L10n.supportSendEmail)) {
+                    return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), dismissButton: .default(Text(L10n.supportOK), action: {
                         viewModel.completion = nil
-                        openURL(supportEmailURL)
-                    }, secondaryButton: .cancel(Text(L10n.supportOK)) {
-                        viewModel.completion = nil
-                    })
+                    }))
                 }
             }
         }

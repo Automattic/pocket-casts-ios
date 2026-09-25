@@ -8,20 +8,6 @@ class ZendeskSupportService {
         case badRequest
         case noInternetConnection
         case invalidResponse
-
-        var isAuthenticationFailure: Bool {
-            if case let .serverError(statusCode, _) = self {
-                return statusCode == 401 || statusCode == 403
-            }
-            return false
-        }
-
-        var isRetryable: Bool {
-            if case let .serverError(statusCode, _) = self {
-                return statusCode == 429 || statusCode >= 500
-            }
-            return true
-        }
     }
 
     private let session: URLSession
