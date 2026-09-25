@@ -5,7 +5,7 @@
 - Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
 - Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
 - Fix episode downloads still using the old file link after the podcast replaced it with a new one, which could make the download fail [#5274](https://github.com/Automattic/pocket-casts-ios/pull/5274)
-- Add a What's New feed with announcements from the Pocket Casts team, opened from a button on the Profile tab. Unread messages show a dot on the Profile tab, which you can turn off in Profile → Settings → General, and read messages sync across your devices when you're signed in [#5077](https://github.com/Automattic/pocket-casts-ios/pull/5077) [#5078](https://github.com/Automattic/pocket-casts-ios/pull/5078) [#5090](https://github.com/Automattic/pocket-casts-ios/pull/5090) [#5096](https://github.com/Automattic/pocket-casts-ios/pull/5096) [#5105](https://github.com/Automattic/pocket-casts-ios/pull/5105) [#5223](https://github.com/Automattic/pocket-casts-ios/pull/5223) [#5294](https://github.com/Automattic/pocket-casts-ios/pull/5294)
+- Add a What's New feed with announcements from the Pocket Casts team, opened from the Profile tab [#5077](https://github.com/Automattic/pocket-casts-ios/pull/5077) [#5294](https://github.com/Automattic/pocket-casts-ios/pull/5294)
 
 
 8.21
