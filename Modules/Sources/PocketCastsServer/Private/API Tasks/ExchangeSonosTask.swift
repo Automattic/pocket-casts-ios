@@ -19,6 +19,10 @@ class ExchangeSonosTask: ApiBaseTask, @unchecked Sendable {
 
         completion?(data?.accessToken)
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
 }
 
 private struct ExchangeResponse: Codable {
