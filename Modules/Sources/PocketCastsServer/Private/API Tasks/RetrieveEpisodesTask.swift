@@ -51,6 +51,10 @@ class RetrieveEpisodesTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
+
     private func convertFromProto(_ protoEpisode: Api_EpisodeSyncResponse) -> EpisodeSyncInfo {
         var episode = EpisodeSyncInfo()
         episode.uuid = protoEpisode.uuid

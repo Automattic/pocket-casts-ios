@@ -49,6 +49,10 @@ class RetrievePlaylistsTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
+
     private func convertFromProto(_ protoFilter: Api_PlaylistSyncResponse) -> EpisodeFilter {
         let converted = EpisodeFilter()
         converted.customIcon = protoFilter.iconID.value
