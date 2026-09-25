@@ -209,7 +209,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         let previousName = filterToEdit.playlistName
-        filterToEdit.rename(to: filterNameTextField.text)
+        filterToEdit.rename(to: textField.text)
 
         if filterToEdit.playlistName != previousName {
             track(.filterNameUpdated)
