@@ -89,28 +89,43 @@ class PlaylistManager {
     }
 
     class func checkForAutoDownloads() {
-        let playlists = DataManager.shared.allPlaylists(includeDeleted: false)
+        for playlist in DataManager.shared.allPlaylists(includeDeleted: false) {
+            queueAutoDownloads(for: playlist)
+        }
+    }
 
-        if playlists.isEmpty { return }
+    /// Call when episodes are added to a playlist or auto download is turned on for it outside of a sync.
+    class func checkForAutoDownloads(in playlist: EpisodeFilter) {
+        guard playlist.autoDownloadEpisodes else { return }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            if queueAutoDownloads(for: playlist) {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+            }
+        }
+    }
+
+    @discardableResult
+    private class func queueAutoDownloads(for playlist: EpisodeFilter) -> Bool {
+        guard playlist.autoDownloadEpisodes else { return false }
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
+        let episodes = DataManager.shared.findPlaylistEpisodesWhere(query: query, arguments: nil)
 
         let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
         let mobileDataAllowed = Settings.autoDownloadMobileDataAllowed()
-        for playlist in playlists {
-            guard playlist.autoDownloadEpisodes else { continue }
+        var didQueue = false
+        for episode in episodes {
+            if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }
 
-            let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
-            let episodes = DataManager.shared.findPlaylistEpisodesWhere(query: query, arguments: nil)
-
-            for episode in episodes {
-                if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }
-
-                if !onWifi, !mobileDataAllowed {
-                    DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-                } else {
-                    DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-                }
+            if !onWifi, !mobileDataAllowed {
+                DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
+            } else {
+                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
             }
+            didQueue = true
         }
+        return didQueue
     }
 
     class func handlePodcastUnsubscribed(podcastUuid: String) {
