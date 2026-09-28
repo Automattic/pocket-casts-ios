@@ -61,7 +61,7 @@ public extension WhatsNewCatalog {
     /// Between them they cover every message type, a single page and a pager, a page whose text is
     /// longer than the screen, pages with and without an action, every action type, and the poll a
     /// research message is built around. The last message's action has a type no client
-    /// implements, so it's dropped from the catalog and never shows.
+    /// implements, so the message shows without it.
     ///
     /// The images point at artwork that's actually there, so previews render something rather than
     /// a hole the size of the image.

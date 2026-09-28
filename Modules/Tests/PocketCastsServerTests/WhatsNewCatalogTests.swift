@@ -256,12 +256,21 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(action.kind.type, "open_link")
     }
 
-    /// An action is optional, but one that's published has to be one this version can perform in
-    /// full. Anything less drops the whole message rather than leaving a page with a dead button.
-    func testAnActionThisVersionCannotPerformDropsTheMessage() throws {
+    func testDecodesAnActionPublishedAsAnEvent() throws {
+        let messages = try decodedMessages(pages: page(action: #"{ "event": "open_discover", "label": "Explore Discover" }"#))
+
+        let action = try XCTUnwrap(messages.first?.content.pages.first?.action)
+        XCTAssertEqual(action.kind, .openDiscover)
+        XCTAssertEqual(action.label, "Explore Discover")
+    }
+
+    /// An action is optional, and one this version can't perform in full is left off its page
+    /// rather than drawn as a dead button or taking the rest of the message down with it.
+    func testAnActionThisVersionCannotPerformLeavesThePageWithoutIt() throws {
         let actions = [
             #"{ "type": "open_something_from_a_later_release", "label": "Open it" }"#,
-            #"{ "event": "open_podcasts", "label": "Try transcripts" }"#,
+            #"{ "event": "open_something_from_a_later_release", "label": "Open it" }"#,
+            #"{ "label": "Open it" }"#,
             #"{ "type": "create_playlist", "label": "  " }"#,
             #"{ "type": "create_playlist" }"#,
             #"{ "type": "open_link", "label": "Learn more" }"#,
@@ -273,7 +282,9 @@ final class WhatsNewCatalogTests: XCTestCase {
         ]
 
         for action in actions {
-            XCTAssertTrue(try decodedMessages(pages: page(action: action)).isEmpty, "\(action) should drop the message")
+            let decodedPage = try XCTUnwrap(decodedMessages(pages: page(action: action)).first?.content.pages.first, "\(action) should keep the message")
+            XCTAssertEqual(decodedPage.heading, "Try it")
+            XCTAssertNil(decodedPage.action, "\(action) should be left off the page")
         }
     }
 
