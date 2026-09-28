@@ -1179,12 +1179,6 @@ waar je naar hebt geluisterd was
     <string>Shuffle je wachtrij</string>
     <key>feature_marketing_watch_playback</key>
     <string>Apps voor Wear OS en Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Einde rondleiding</string>
-    <key>feature_tour_new</key>
-    <string>Nieuw</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ van %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Standaard mail-app openen</string>
     <key>feedback_mail_not_configured_msg</key>

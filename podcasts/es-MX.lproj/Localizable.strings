@@ -1181,12 +1181,6 @@ que has escuchado dura
     <string>Reproducir la cola aleatoriamente</string>
     <key>feature_marketing_watch_playback</key>
     <string>Aplicaciones para Wear OS y Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Finalizar recorrido</string>
-    <key>feature_tour_new</key>
-    <string>NUEVO</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ de %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Abrir la aplicación de correo predeterminada</string>
     <key>feedback_mail_not_configured_msg</key>
