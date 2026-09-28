@@ -17,8 +17,12 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
+    private var contentSizeObserver: NSObjectProtocol?
+
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if let contentSizeObserver {
+            NotificationCenter.default.removeObserver(contentSizeObserver)
+        }
     }
 
     override init(purchaseHandler: IAPHelper = .shared) {
@@ -27,7 +31,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         // Load prices on init
         loadPrices()
 
-        NotificationCenter.default.addObserver(
+        contentSizeObserver = NotificationCenter.default.addObserver(
             forName: UIContentSizeCategory.didChangeNotification,
             object: nil,
             queue: .main
