@@ -18,7 +18,6 @@
 - Ask for confirmation before Close and Clear Up Next in the mini player menu clears the queue [#5261](https://github.com/Automattic/pocket-casts-ios/pull/5261)
 - Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296) [#5280](https://github.com/Automattic/pocket-casts-ios/pull/5280)
 
-
 8.21
 -----
 - Fix New Episodes push notifications still arriving after turning off Profile → Settings → Notifications → New Episodes [#5039](https://github.com/Automattic/pocket-casts-ios/pull/5039)
