@@ -1181,12 +1181,6 @@ Pocket Casts Plus</string>
     <string>隨機播放佇列</string>
     <key>feature_marketing_watch_playback</key>
     <string>Wear OS 和 Apple Watch 版應用程式</string>
-    <key>feature_tour_end_tour</key>
-    <string>結束導覽</string>
-    <key>feature_tour_new</key>
-    <string>新功能</string>
-    <key>feature_tour_step_format</key>
-    <string>第 %1$@ 個，共 %2$@ 個</string>
     <key>feedback_continue_with_mail</key>
     <string>開啟預設的郵件應用程式</string>
     <key>feedback_mail_not_configured_msg</key>

@@ -1177,12 +1177,6 @@ Ens veiem el 2024!</string>
     <string>Posa en mode aleatori la teva cua</string>
     <key>feature_marketing_watch_playback</key>
     <string>Apps per a Wear OS i Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Acaba la guia</string>
-    <key>feature_tour_new</key>
-    <string>NOU</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ de %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Obre l'aplicació de correu predeterminat</string>
     <key>feedback_mail_not_configured_msg</key>

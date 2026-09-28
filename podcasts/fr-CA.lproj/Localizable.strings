@@ -1181,12 +1181,6 @@ que vous avez écouté était
     <string>Lisez votre file d’attente en mode aléatoire</string>
     <key>feature_marketing_watch_playback</key>
     <string>Applications pour Wear OS et Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Terminer la visite</string>
-    <key>feature_tour_new</key>
-    <string>NOUVEAU</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ de %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Ouvrir l’application de courriel par défaut</string>
     <key>feedback_mail_not_configured_msg</key>
