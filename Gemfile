@@ -6,7 +6,7 @@ gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.4'
 gem 'fastlane', '~> 2.238'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 1.0'
-gem 'fastlane-plugin-sentry', '~> 2.6'
+gem 'fastlane-plugin-sentry', '~> 2.8'
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 15.0.0'
 # To avoid errors like:
 #
@@ -19,5 +19,5 @@ gem 'openssl', '~> 4.0'
 # doesn't use Rake directly, so, to ensure the dependencies can resolve, let's
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
-gem 'rubocop', '~> 1.90'
+gem 'rubocop', '~> 1.91'
 gem 'watchbuild'
