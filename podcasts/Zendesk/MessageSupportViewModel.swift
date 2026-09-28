@@ -45,9 +45,6 @@ class MessageSupportViewModel: ObservableObject {
     let config: ZDConfig
     let isUserSignedIn: Bool
 
-    /// A `mailto:` link with the failed request, offered when the submission fails.
-    private(set) var supportEmailURL: URL?
-
     // MARK: Private vars
 
     private var cancellables = Set<AnyCancellable>()
@@ -157,7 +154,6 @@ class MessageSupportViewModel: ObservableObject {
                                                          comment: self.comment + extraText,
                                                          customFields: customFields,
                                                          tags: self.config.tags)
-                    self.supportEmailURL = Self.supportEmailURL(for: requestObject)
 
                     return self.submitWithFallbacks(requestObject)
                 }
@@ -188,32 +184,11 @@ class MessageSupportViewModel: ObservableObject {
                      ZendeskSupportService.SupportRequestError.serverError(statusCode: 403, _):
                     FileLog.shared.addMessage("MessageSupportViewModel: submit was rejected as unauthenticated — retrying anonymously. Error: \(error)")
                     return supportService.submitSupportRequest(request, isAnonymous: true)
-                case ZendeskSupportService.SupportRequestError.serverError(let statusCode, _) where statusCode != 429 && statusCode < 500:
-                    return Fail(error: error).eraseToAnyPublisher()
                 default:
-                    FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via newBaseURL. Error: \(error)")
+                    FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via fallbackBaseURL. Error: \(error)")
                     return supportService.submitSupportRequest(request, isRetrying: true)
                 }
             }
             .eraseToAnyPublisher()
-    }
-
-    private static func supportEmailURL(for request: ZDSupportRequest) -> URL? {
-        let fields = request.customFields
-            .filter { $0.id != SupportCustomField.allPodcasts.rawValue }
-            .map { field in
-                let title = SupportCustomField(rawValue: field.id)?.dispalyTitle ?? "\(field.id):"
-                return "\(title) \(field.value)"
-            }
-        let body = ([request.comment.body, ""] + fields).joined(separator: "\n")
-
-        var components = URLComponents()
-        components.scheme = "mailto"
-        components.path = "support@pocketcasts.com"
-        components.queryItems = [
-            URLQueryItem(name: "subject", value: request.subject),
-            URLQueryItem(name: "body", value: body)
-        ]
-        return components.url
     }
 }

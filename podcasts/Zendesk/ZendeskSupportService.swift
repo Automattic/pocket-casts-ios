@@ -53,7 +53,7 @@ class ZendeskSupportService {
             return Fail(error: error).eraseToAnyPublisher()
         }
 
-        let urlLabel = (isRetrying ? "newBaseURL" : "baseURL") + (isAnonymous ? ", anonymous" : "")
+        let urlLabel = (isRetrying ? "fallbackBaseURL" : "baseURL") + (isAnonymous ? ", anonymous" : "")
         let requestURL = request.url?.absoluteString ?? "<nil>"
         FileLog.shared.addMessage("ZendeskSupportService: POST \(requestURL) (\(urlLabel))")
 
@@ -137,18 +137,15 @@ class ZendeskSupportService {
     }
 
     private func generateSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool, isAnonymous: Bool) throws -> URLRequest {
-        guard let url = config.url(for: .requests, newURL: isRetrying) else {
-            throw SupportRequestError.badRequest
-        }
+        guard let url = config.url(for: .requests, isFallback: isRetrying),
+              let authToken = config.authToken(forEmail: supportRequest.requester.email)
+        else { throw SupportRequestError.badRequest }
 
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         if !isAnonymous {
-            guard let authToken = config.authToken(forEmail: supportRequest.requester.email) else {
-                throw SupportRequestError.badRequest
-            }
             request.setValue("Basic \(authToken)", forHTTPHeaderField: "Authorization")
         }
 
