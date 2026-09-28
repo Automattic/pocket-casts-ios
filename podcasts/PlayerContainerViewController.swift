@@ -396,6 +396,11 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         transcriptsItem.didDisappear()
     }
 
+    func tearDownTranscript() {
+        guard nowPlayingItem.displayTranscript else { return }
+        transcriptsItem.willBeRemovedFromPlayer()
+    }
+
     private func configureTranscriptView() {
         transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
         transcriptContainerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
