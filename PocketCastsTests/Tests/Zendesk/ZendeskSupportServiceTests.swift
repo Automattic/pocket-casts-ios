@@ -98,6 +98,38 @@ final class ZendeskSupportServiceTests: XCTestCase {
         XCTAssertEqual(bodyExcerpt, "<non-JSON response omitted>")
     }
 
+    func testServerErrorIncludesObjectShapedError() {
+        let body = #"{"error":{"title":"Forbidden","message":"Contact user@example.com"}}"#
+        ZendeskURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 404, httpVersion: nil, headerFields: nil)!
+            return (response, Data(body.utf8))
+        }
+
+        let receivedError = submitRequestAndWait()
+
+        guard case let .serverError(_, bodyExcerpt) = receivedError else {
+            XCTFail("Expected a server error")
+            return
+        }
+        XCTAssertEqual(bodyExcerpt, "error: Forbidden: Contact <redacted-email>")
+    }
+
+    func testServerErrorListsKeysOfUnrecognizedJSON() {
+        let body = #"{"message":"private user text","code":7}"#
+        ZendeskURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 404, httpVersion: nil, headerFields: nil)!
+            return (response, Data(body.utf8))
+        }
+
+        let receivedError = submitRequestAndWait()
+
+        guard case let .serverError(_, bodyExcerpt) = receivedError else {
+            XCTFail("Expected a server error")
+            return
+        }
+        XCTAssertEqual(bodyExcerpt, "<unrecognized JSON response omitted, keys: code, message>")
+    }
+
     func testOfflineErrorMapsToNoInternetConnection() {
         ZendeskURLProtocol.requestHandler = { _ in
             throw URLError(.notConnectedToInternet)
@@ -204,7 +236,7 @@ final class MessageSupportViewModelTests: XCTestCase {
 private struct ZendeskTestConfig: ZDConfig {
     let apiKey = "api-key"
     let baseURL = "https://example.com"
-    let newBaseURL = "https://retry.example.com"
+    let fallbackBaseURL = "https://retry.example.com"
     let subject = "Support"
     let type = ZDType.support
 }
@@ -212,7 +244,7 @@ private struct ZendeskTestConfig: ZDConfig {
 private struct WatchLogMissingConfig: ZDConfig {
     let apiKey = "api-key"
     let baseURL = "https://example.com"
-    let newBaseURL = "https://retry.example.com"
+    let fallbackBaseURL = "https://retry.example.com"
     let subject = "Support"
     let type = ZDType.support
 

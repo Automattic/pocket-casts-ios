@@ -28,7 +28,13 @@ class ZendeskSupportService {
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            error = try? container.decode(String.self, forKey: .error)
+            if let error = try? container.decode(String.self, forKey: .error) {
+                self.error = error
+            } else if let error = try? container.decode(ZendeskErrorObject.self, forKey: .error) {
+                self.error = [error.title, error.message].compactMap { $0 }.joined(separator: ": ")
+            } else {
+                self.error = nil
+            }
             description = try? container.decode(String.self, forKey: .description)
             details = try? container.decode([String: [ZendeskErrorDetail]].self, forKey: .details)
         }
@@ -37,6 +43,11 @@ class ZendeskSupportService {
     private struct ZendeskErrorDetail: Codable {
         let type: String?
         let description: String?
+    }
+
+    private struct ZendeskErrorObject: Decodable {
+        let title: String?
+        let message: String?
     }
 
     init(config: ZDConfig, session: URLSession = URLSession.shared) {
@@ -55,23 +66,25 @@ class ZendeskSupportService {
 
         let urlLabel = (isRetrying ? "fallbackBaseURL" : "baseURL") + (isAnonymous ? ", anonymous" : "")
         let requestURL = request.url?.absoluteString ?? "<nil>"
-        FileLog.shared.addMessage("ZendeskSupportService: POST \(requestURL) (\(urlLabel))")
+        FileLog.shared.addMessage("ZendeskSupportService: POST \(requestURL) (\(urlLabel)), body: \(request.httpBody?.count ?? 0) bytes")
 
+        let startDate = Date()
         return session.dataTaskPublisher(for: request)
             .tryMap { data, response in
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — non-HTTP response")
+                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — non-HTTP response after \(Self.elapsedTime(since: startDate))")
                     throw SupportRequestError.invalidResponse
                 }
 
                 let status = httpResponse.statusCode
+                let responseSummary = Self.responseSummary(httpResponse, requestURL: request.url, startDate: startDate)
                 guard 200 ..< 300 ~= status else {
                     let bodyExcerpt = Self.responseBodyExcerpt(from: data)
-                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — HTTP \(status), body: \(bodyExcerpt ?? "<empty>")")
+                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — \(responseSummary), body: \(bodyExcerpt ?? "<empty>")")
                     throw SupportRequestError.serverError(statusCode: status, bodyExcerpt: bodyExcerpt)
                 }
 
-                FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit succeeded — HTTP \(status)")
+                FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit succeeded — \(responseSummary)")
                 return ""
             }
             .mapError { error -> Error in
@@ -79,16 +92,31 @@ class ZendeskSupportService {
                     return supportError
                 }
                 if let urlError = error as? URLError {
-                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — URLError \(urlError.code.rawValue) \(urlError.localizedDescription)")
+                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — URLError \(urlError.code.rawValue) \(urlError.localizedDescription) after \(Self.elapsedTime(since: startDate))")
                     if urlError.code == .notConnectedToInternet {
                         return SupportRequestError.noInternetConnection
                     }
                 } else {
-                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — \(error)")
+                    FileLog.shared.addMessage("ZendeskSupportService: \(urlLabel) submit failed — \(error) after \(Self.elapsedTime(since: startDate))")
                 }
                 return error
             }
             .eraseToAnyPublisher()
+    }
+
+    private static func responseSummary(_ response: HTTPURLResponse, requestURL: URL?, startDate: Date) -> String {
+        var fields = ["HTTP \(response.statusCode) after \(elapsedTime(since: startDate))"]
+        if let requestID = response.value(forHTTPHeaderField: "x-request-id") {
+            fields.append("request ID: \(requestID)")
+        }
+        if let responseURL = response.url, responseURL != requestURL {
+            fields.append("redirected to: \(responseURL.host ?? "<nil>")\(responseURL.path)")
+        }
+        return fields.joined(separator: ", ")
+    }
+
+    private static func elapsedTime(since startDate: Date) -> String {
+        String(format: "%.2fs", Date().timeIntervalSince(startDate))
     }
 
     private static func responseBodyExcerpt(from data: Data) -> String? {
@@ -117,7 +145,8 @@ class ZendeskSupportService {
         }
 
         guard !fields.isEmpty else {
-            return "<unrecognized JSON response omitted>"
+            let keys = ((try? JSONSerialization.jsonObject(with: data)) as? [String: Any])?.keys.sorted() ?? []
+            return sanitizedExcerpt("<unrecognized JSON response omitted, keys: \(keys.joined(separator: ", "))>")
         }
 
         return sanitizedExcerpt(fields.joined(separator: ", "))

@@ -67,7 +67,7 @@ struct ZDSupportRequest: Codable {
     let subject: String
     let comment: ZDComment
     let customFields: [ZDCustomField]
-    let tags: [String]
+    var tags: [String]
 
     init(subject: String, name: String, email: String, comment: String, customFields: [ZDCustomField] = [], tags: [String] = []) {
         requester = ZDRequester(name: name, email: email)

@@ -179,16 +179,26 @@ class MessageSupportViewModel: ObservableObject {
     private func submitWithFallbacks(_ request: ZDSupportRequest) -> AnyPublisher<String, Error> {
         supportService.submitSupportRequest(request)
             .catch { [supportService] error -> AnyPublisher<String, Error> in
+                var retryRequest = request
                 switch error {
                 case ZendeskSupportService.SupportRequestError.serverError(statusCode: 401, _),
                      ZendeskSupportService.SupportRequestError.serverError(statusCode: 403, _):
                     FileLog.shared.addMessage("MessageSupportViewModel: submit was rejected as unauthenticated — retrying anonymously. Error: \(error)")
-                    return supportService.submitSupportRequest(request, isAnonymous: true)
+                    retryRequest.tags.append(Self.retryTag("anonymous", for: error))
+                    return supportService.submitSupportRequest(retryRequest, isAnonymous: true)
                 default:
                     FileLog.shared.addMessage("MessageSupportViewModel: submit failed on first attempt — retrying via fallbackBaseURL. Error: \(error)")
-                    return supportService.submitSupportRequest(request, isRetrying: true)
+                    retryRequest.tags.append(Self.retryTag("fallback", for: error))
+                    return supportService.submitSupportRequest(retryRequest, isRetrying: true)
                 }
             }
             .eraseToAnyPublisher()
+    }
+
+    private static func retryTag(_ kind: String, for error: Error) -> String {
+        guard case let ZendeskSupportService.SupportRequestError.serverError(statusCode, _) = error else {
+            return "support_form_\(kind)_retry"
+        }
+        return "support_form_\(kind)_retry_\(statusCode)"
     }
 }
