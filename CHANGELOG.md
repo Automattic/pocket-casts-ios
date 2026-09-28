@@ -1,6 +1,7 @@
 8.22
 -----
 - Make it easier to watch a video full screen: a button over the video in the player zooms it into the full screen player, rotating to landscape for landscape videos on iPhone, and a matching button brings it back [#4988](https://github.com/Automattic/pocket-casts-ios/pull/4988)
+- Fix the in-app support form failing with "Oops something went wrong" for some customers [#5266](https://github.com/Automattic/pocket-casts-ios/pull/5266)
 - Fix a bookmark disappearing from the list before the deletion confirmation appears when you swipe to delete it [#5273](https://github.com/Automattic/pocket-casts-ios/pull/5273)
 - Fix the app never compacting its database, so storage freed by removing podcasts and episodes is now reclaimed [#5233](https://github.com/Automattic/pocket-casts-ios/pull/5233)
 - The network header artwork now extends under the navigation bar on iOS 26 [#5066](https://github.com/Automattic/pocket-casts-ios/pull/5066)
@@ -15,6 +16,7 @@
 - Fix Auto Download not downloading episodes added to a manual playlist until the next sync [#5080](https://github.com/Automattic/pocket-casts-ios/pull/5080)
 - Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296)
 - Ask for confirmation before Close and Clear Up Next in the mini player menu clears the queue [#5261](https://github.com/Automattic/pocket-casts-ios/pull/5261)
+- Fix a possible crash with Voice Boost on when switching episodes [#5296](https://github.com/Automattic/pocket-casts-ios/pull/5296) [#5280](https://github.com/Automattic/pocket-casts-ios/pull/5280)
 
 
 8.21
