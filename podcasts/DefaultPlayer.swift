@@ -417,7 +417,28 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         deinit {
+            disposeResources()
             FileLog.shared.console("[AudioProcessingTapProxy] Deinit proxy")
+        }
+
+        func disposeResources() {
+            if let voiceBoostNState {
+                VBN_Destroy(voiceBoostNState)
+                self.voiceBoostNState = nil
+                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN state destroyed")
+            }
+
+            if let peakLimiter {
+                AudioUnitUninitialize(peakLimiter)
+                AudioComponentInstanceDispose(peakLimiter)
+                self.peakLimiter = nil
+            }
+
+            if let highPassFilter {
+                AudioUnitUninitialize(highPassFilter)
+                AudioComponentInstanceDispose(highPassFilter)
+                self.highPassFilter = nil
+            }
         }
     }
 
@@ -511,25 +532,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let tapUnprepare: MTAudioProcessingTapUnprepareCallback = { tap in
-            let proxy = DefaultPlayer.tapProxy(for: tap)
-
-            if let vbnState = proxy.voiceBoostNState {
-                VBN_Destroy(vbnState)
-                proxy.voiceBoostNState = nil
-                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN state destroyed")
-            }
-
-            if let peakLimiter = proxy.peakLimiter {
-                AudioUnitUninitialize(peakLimiter)
-                AudioComponentInstanceDispose(peakLimiter)
-                proxy.peakLimiter = nil
-            }
-
-            if let highPassFilter = proxy.highPassFilter {
-                AudioUnitUninitialize(highPassFilter)
-                AudioComponentInstanceDispose(highPassFilter)
-                proxy.highPassFilter = nil
-            }
+            DefaultPlayer.tapProxy(for: tap).disposeResources()
         }
 
         let tapProcess: MTAudioProcessingTapProcessCallback = { tap, numberFrames, _, bufferListInOut, numberFramesOut, flagsOut in
