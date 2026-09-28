@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// What a message carries beneath its shared title.
 ///
@@ -45,7 +46,8 @@ public struct WhatsNewPage: Decodable, Hashable {
     public let heading: String
     public let description: String
 
-    /// The one call to action the page can carry, which the client decides where to put.
+    /// The one call to action the page can carry, which the client decides where to put, or `nil`
+    /// where the page has none this version can perform.
     public let action: WhatsNewAction?
 
     public init(from decoder: any Decoder) throws {
@@ -53,7 +55,12 @@ public struct WhatsNewPage: Decodable, Hashable {
         image = try container.decodeIfPresent(WhatsNewImage.self, forKey: .image)
         heading = try container.decodeNonEmptyString(forKey: .heading)
         description = try container.decodeNonEmptyString(forKey: .description)
-        action = try container.decodeIfPresent(WhatsNewAction.self, forKey: .action)
+        do {
+            action = try container.decodeIfPresent(WhatsNewAction.self, forKey: .action)
+        } catch {
+            FileLog.shared.addMessage("What's New: dropping an action this version can't perform: \(error)")
+            action = nil
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -116,8 +123,8 @@ public struct WhatsNewImage: Decodable, Hashable {
 /// A page's call to action: one of a closed set of behaviours, and the label its button shows.
 ///
 /// The type and its arguments are the same in every locale; only the label is translated. A type
-/// this version doesn't know, or arguments that don't satisfy it, fail to decode, which drops the
-/// whole message rather than leaving a page with a button that does nothing.
+/// this version doesn't know, or arguments that don't satisfy it, fail to decode, which leaves the
+/// page without a button rather than with one that does nothing.
 public struct WhatsNewAction: Decodable, Hashable {
     public let kind: Kind
     public let label: String
@@ -153,7 +160,7 @@ public struct WhatsNewAction: Decodable, Hashable {
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(String.self, forKey: .type)
+        let type = try container.decodeIfPresent(String.self, forKey: .type) ?? container.decode(String.self, forKey: .event)
         switch type {
         case "create_playlist":
             kind = .createPlaylist
@@ -186,6 +193,7 @@ public struct WhatsNewAction: Decodable, Hashable {
 
     private enum CodingKeys: String, CodingKey {
         case type
+        case event
         case arguments
         case label
     }
