@@ -26,9 +26,11 @@ extension FileLog: @retroactive EventLoggingDelegate {
             let eventLogging = EventLogging(dataSource: dataProvider, delegate: self)
             try eventLogging.enqueueLogForUpload(log: logFile)
         } catch {
+            addMessage("FileLog: failed to queue \(logFilePath.lastPathComponent) for upload: \(error)")
             throw LogError.logGenerationFailed
         }
 
+        addMessage("FileLog: queued \(logFilePath.lastPathComponent) for upload as \(logFile.uuid)")
         return logFile.uuid
     }
 
@@ -36,6 +38,7 @@ extension FileLog: @retroactive EventLoggingDelegate {
         do {
             return try queueFileUpload(try await logFileForUpload())
         } catch {
+            addMessage("FileLog: failed to generate the log for upload: \(error)")
             return FileLog.genericErrorMessage
         }
     }
@@ -70,6 +73,7 @@ extension FileLog: @retroactive EventLoggingDelegate {
 
             return try queueFileUpload(filePath)
         } catch {
+            addMessage("FileLog: failed to generate the watch log for upload: \(error)")
             return FileLog.genericErrorMessage
         }
     }
@@ -81,14 +85,18 @@ extension FileLog: @retroactive EventLoggingDelegate {
     }
 
     public func didFinishUploadingLog(_ log: LogFile) {
+        addMessage("FileLog: uploaded log \(log.uuid)")
         let filePath = log.url.absoluteString
         try? FileManager.default.removeItem(atPath: filePath)
     }
 
     public func uploadFailed(_ log: LogFile) {
+        addMessage("FileLog: failed to upload log \(log.uuid)")
         let filePath = log.url.absoluteString
         try? FileManager.default.removeItem(atPath: filePath)
     }
 
-    public func logError(_ error: Error, userInfo: [String: Any]?) {}
+    public func logError(_ error: Error, userInfo: [String: Any]?) {
+        addMessage("FileLog: log upload error: \(error)")
+    }
 }
