@@ -1268,7 +1268,7 @@
 "mark_unplayed_short" = "Mark Unplayed";
 
 /* Prompt to close the mini player and clear the queue. */
-"mini_player_close" = "Close And Clear Up Next";
+"mini_player_close" = "Close and Clear Up Next";
 
 /* Basic string used in formats like 'price / month' */
 "month" = "month";
