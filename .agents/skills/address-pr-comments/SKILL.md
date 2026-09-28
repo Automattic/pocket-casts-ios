@@ -71,7 +71,7 @@ that have a non-empty `body` as actionable. Skip reviews with `state: APPROVED` 
 ### 4. Address each comment (one commit per comment)
 
 Process each actionable comment one at a time. For each comment: fix, commit, push.
-Do NOT reply to comments during this phase — all replies happen at the end.
+Hold replies until step 5, when every fix is pushed and has a commit hash to cite.
 
 1. **Read the relevant code**: Use the file path and line number from inline comments.
    If `line` is null (outdated comment), fall back to `original_line` and use the
@@ -91,8 +91,6 @@ Do NOT reply to comments during this phase — all replies happen at the end.
     git add <changed-files>
     git commit -m "$(cat <<'EOF'
     Address review: <short description of what was fixed>
-
-    Co-Authored-By: Claude <noreply@anthropic.com>
     EOF
     )"
     git push
