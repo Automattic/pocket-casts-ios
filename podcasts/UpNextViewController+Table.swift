@@ -144,7 +144,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
             if playOnTap {
                 AnalyticsPlaybackHelper.shared.currentSource = .upNext
-                PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+                PlaybackActionHelper.play(episode: episode)
             } else {
                 showEpisodeDetailViewController(for: episode)
             }
