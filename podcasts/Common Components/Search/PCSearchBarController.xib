@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -90,15 +91,16 @@
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Q2d-Sa-Gd1"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="iXt-pK-0hH" secondAttribute="trailing" constant="16" id="3fD-b3-0XO"/>
+                <constraint firstItem="Q2d-Sa-Gd1" firstAttribute="trailing" secondItem="iXt-pK-0hH" secondAttribute="trailing" constant="16" id="3fD-b3-0XO"/>
                 <constraint firstItem="Cpm-2R-PJM" firstAttribute="leading" secondItem="iXt-pK-0hH" secondAttribute="trailing" constant="8" id="BZL-hf-0a7"/>
                 <constraint firstAttribute="bottom" secondItem="Cpm-2R-PJM" secondAttribute="bottom" constant="16" priority="999" id="S29-sS-5Ao"/>
                 <constraint firstItem="iXt-pK-0hH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="pTp-PI-l01"/>
                 <constraint firstItem="iXt-pK-0hH" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.66666666666666666" priority="999" id="pPh-PI-l02"/>
-                <constraint firstItem="iXt-pK-0hH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="bqj-xC-Ccd"/>
-                <constraint firstAttribute="trailing" secondItem="Cpm-2R-PJM" secondAttribute="trailing" constant="10" id="fku-Ku-xaI"/>
+                <constraint firstItem="iXt-pK-0hH" firstAttribute="leading" secondItem="Q2d-Sa-Gd1" secondAttribute="leading" constant="16" id="bqj-xC-Ccd"/>
+                <constraint firstItem="Q2d-Sa-Gd1" firstAttribute="trailing" secondItem="Cpm-2R-PJM" secondAttribute="trailing" constant="10" id="fku-Ku-xaI"/>
                 <constraint firstItem="Cpm-2R-PJM" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="y39-ab-DF6"/>
             </constraints>
             <nil key="simulatedBottomBarMetrics"/>
