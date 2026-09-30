@@ -752,11 +752,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         presentedViewController?.dismiss(animated: true, completion: completion)
     }
 
-    func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?, source: PlusUpgradeViewSource?) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
 
-            let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: .onboarding)
+            let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: source ?? .onboarding)
             guard let presentedViewController = self.presentedViewController else {
                 self.present(controller, animated: true)
                 return

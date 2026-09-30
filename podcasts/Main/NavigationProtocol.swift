@@ -55,6 +55,6 @@ protocol NavigationProtocol: AnyObject {
 
     func showEndOfYearStories()
     func dismissPresentedViewController(completion: (() -> Void)?)
-    func showOnboardingFlow(flow: OnboardingFlow.Flow?)
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?, source: PlusUpgradeViewSource?)
     func showNotificationsPermissions()
 }

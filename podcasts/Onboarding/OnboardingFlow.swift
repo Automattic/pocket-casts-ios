@@ -10,6 +10,9 @@ struct OnboardingFlow {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
+    /// Where the flow started, tracked as `flow_source`. Unlike `source`, `updateAnalyticsSource` doesn't change it.
+    private(set) var flowSource: PlusUpgradeViewSource? = nil
+
     /// Gates the notifications prompt for non-onboarding flows (e.g. EAC): shown only after account
     /// creation, not on "Not Now". Cleared on `begin()` and `reset()`.
     private(set) var didCreateAccount = false
@@ -23,6 +26,7 @@ struct OnboardingFlow {
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
+        self.flowSource = source
         self.accountCreated = accountCreated
         // Also cleared here (not just `reset()`, which is only reached conditionally) to keep the
         // flag scoped to one flow. Account creation always happens after `begin()`, so nothing is lost.
@@ -88,6 +92,7 @@ struct OnboardingFlow {
             NavigationManager.shared.showNotificationsPermissionsModal()
         }
         source = .unknown
+        flowSource = nil
         currentFlow = .none
         didCreateAccount = false
 
@@ -112,6 +117,10 @@ struct OnboardingFlow {
         // Append the source, only if it's set because not every event needs a source
         if let source {
             defaultProperties["source"] = source.rawValue
+        }
+
+        if let flowSource {
+            defaultProperties["flow_source"] = flowSource.rawValue
         }
 
         let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
