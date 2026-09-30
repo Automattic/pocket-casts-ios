@@ -55,6 +55,7 @@ class CastToViewController: PCViewController {
         super.viewDidLoad()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelTapped))
+        isVerticalBarDisabled = true
 
         let connected = GoogleCastManager.shared.connectedOrConnectingToDevice()
         if connected {

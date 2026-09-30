@@ -22,6 +22,7 @@ struct EditFolderPodcastsView: View {
                         .accessibilityLabel(L10n.close)
                     }
                 }
+                .verticalBarDisabled()
                 .applyDefaultThemeOptions()
         }
         .navigationViewStyle(StackNavigationViewStyle())

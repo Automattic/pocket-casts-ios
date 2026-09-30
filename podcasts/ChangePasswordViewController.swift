@@ -128,6 +128,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         title = L10n.changePassword
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
+        isVerticalBarDisabled = true
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         updateButtonState()

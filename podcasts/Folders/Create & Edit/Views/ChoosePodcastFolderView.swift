@@ -58,6 +58,7 @@ struct ChoosePodcastFolderView: View {
                     .accessibilityLabel(L10n.close)
                 }
             }
+            .verticalBarDisabled()
             .applyDefaultThemeOptions()
             .onAppear {
                 model.loadFolders()

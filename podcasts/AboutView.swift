@@ -57,6 +57,7 @@ struct AboutView: View {
                     }
                 }
             }
+            .verticalBarDisabled()
         }
     }
 

@@ -82,6 +82,7 @@ struct EditFolderView: View {
                     .accessibilityLabel(L10n.close)
                 }
             }
+            .verticalBarDisabled()
             .onAppear {
                 Analytics.track(.folderEditShown)
             }

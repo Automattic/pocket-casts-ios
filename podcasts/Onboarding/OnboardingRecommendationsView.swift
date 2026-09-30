@@ -252,6 +252,7 @@ struct OnboardingRecommendationsView: View {
                             .foregroundColor(theme.primaryInteractive01)
                         }
                     }
+                    .verticalBarDisabled()
                     .onAppear {
                         OnboardingFlow.shared.track(.onboardingImportShown)
                     }

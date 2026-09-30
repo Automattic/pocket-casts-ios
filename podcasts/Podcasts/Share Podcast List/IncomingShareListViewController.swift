@@ -32,6 +32,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(IncomingShareListViewController.doneTapped))
+        isVerticalBarDisabled = true
         super.viewDidLoad()
 
         title = L10n.sharedList

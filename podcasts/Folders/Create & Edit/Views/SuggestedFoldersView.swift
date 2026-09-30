@@ -54,6 +54,7 @@ struct SuggestedFoldersView: View {
                                 .accessibilityLabel(L10n.close)
                             }
                         }
+                        .verticalBarDisabled()
                 }
                 .navigationViewStyle(.stack)
                 .tint(navBarTint)
