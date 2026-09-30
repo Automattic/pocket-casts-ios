@@ -1,5 +1,5 @@
-import Foundation
 import PocketCastsServer
+import SwiftUI
 
 extension DeveloperMenuSection {
     static var tipsAndPrompts: DeveloperMenuSection {
@@ -69,29 +69,35 @@ extension DeveloperMenuSection {
         ])
     }
 
+    @MainActor
     static var whatsNew: DeveloperMenuSection {
         var items: [DeveloperMenuItem] = []
         #if DEBUG
+        let manager = WhatsNewManager.shared
         items.append(.toggle("Use Mock Catalog", isOn: {
-            WhatsNewManager.shared.usesMockCatalog
+            manager.usesMockCatalog
         }, set: { isOn in
-            WhatsNewManager.shared.usesMockCatalog = isOn
+            manager.usesMockCatalog = isOn
         }))
-        items.append(.toggle("Publish a Message on Each Refresh", subtitle: "Mock catalog only", isOn: {
-            WhatsNewManager.shared.publishesMockMessageOnRefresh
-        }, set: { isOn in
-            WhatsNewManager.shared.publishesMockMessageOnRefresh = isOn
-        }))
+        if manager.usesMockCatalog {
+            items.append(.toggle("Auto-Publish", subtitle: "A new message on each refresh", isOn: {
+                manager.publishesMockMessageOnRefresh
+            }, set: { isOn in
+                manager.publishesMockMessageOnRefresh = isOn
+            }))
+        }
+        items.append(.action("Reset", subtitle: "Mock catalog and read state") {
+            manager.resetMockCatalog()
+        }.disabled(!manager.usesMockCatalog))
         #endif
-        items += [
-            .action("Reset Read State", subtitle: "Local only") {
-                WhatsNewManager.shared.resetReadState()
-            },
-            .action("Reset to Fresh Install", subtitle: "Local only") {
-                WhatsNewManager.shared.resetReadState()
-                WhatsNewManager.shared.startFeed()
+        items.append(.link("Actions") {
+            List(WhatsNewAction.Kind.all, id: \.type) { kind in
+                Button(kind.type) {
+                    kind.perform()
+                }
             }
-        ]
+            .listStyle(.plain)
+        })
         return DeveloperMenuSection(title: "What's New", items: items)
     }
 
@@ -104,4 +110,20 @@ extension DeveloperMenuSection {
             })
         ])
     }
+}
+
+private extension WhatsNewAction.Kind {
+    /// Every action a message can carry.
+    static let all: [Self] = [
+        .createPlaylist,
+        .openDiscover,
+        .openNetworks,
+        .openPlaylists,
+        .openPodcasts,
+        .openProfile,
+        .openSettings,
+        .openUpNext,
+        .openUpsell,
+        .openLink(URL(string: "https://pocketcasts.com/")!)
+    ]
 }

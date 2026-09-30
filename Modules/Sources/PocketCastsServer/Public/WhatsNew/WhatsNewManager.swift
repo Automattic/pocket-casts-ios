@@ -209,6 +209,15 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Takes the messages published on refresh back out of the mock catalog and forgets everything
+    /// read, as `resetReadState()` does, so the mock feed is back where it started.
+    public func resetMockCatalog() {
+        guard usesMockCatalog else { return }
+        mockMessagePublishDates = []
+        resetReadState()
+        catalog = .mock
+    }
+
     private var mockMessagePublishDates: [Date] {
         get { userDefaults.array(forKey: Self.mockMessagePublishDatesKey) as? [Date] ?? [] }
         set { userDefaults.set(newValue, forKey: Self.mockMessagePublishDatesKey) }

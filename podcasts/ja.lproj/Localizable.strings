@@ -1181,12 +1181,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>キューをシャッフル</string>
     <key>feature_marketing_watch_playback</key>
     <string>Wear OS と Apple Watch 向けアプリ</string>
-    <key>feature_tour_end_tour</key>
-    <string>ツアーを終了</string>
-    <key>feature_tour_new</key>
-    <string>新規</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ / %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>デフォルトのメールアプリを開く</string>
     <key>feedback_mail_not_configured_msg</key>

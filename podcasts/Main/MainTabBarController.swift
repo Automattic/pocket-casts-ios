@@ -473,6 +473,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func navigateToDiscoverNetworks(_ animated: Bool) {
+        switchToTab(.discover)
+        if let index = pcTabs.firstIndex(of: .discover),
+           let navController = viewControllers?[safe: index] as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            if let discoverController = navController.topViewController as? DiscoverCollectionViewController {
+                discoverController.navigateToNetworks()
+            }
+        }
+    }
+
     func navigateToUpNext(_ animated: Bool) {
         switchToTab(.upNext)
     }

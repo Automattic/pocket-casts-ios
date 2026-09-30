@@ -4,6 +4,12 @@ import PocketCastsServer
 struct DeveloperMenu: View {
     @State private var searchText = ""
 
+    #if DEBUG
+    /// Rebuilds the menu when What's New switches catalogs, which shows the rows that only apply
+    /// to the mock.
+    @ObservedObject private var whatsNew = WhatsNewManager.shared
+    #endif
+
     var body: some View {
         List {
             if searchText.isEmpty {
@@ -21,6 +27,7 @@ struct DeveloperMenu: View {
 }
 
 extension DeveloperMenuSection {
+    @MainActor
     static var all: [DeveloperMenuSection] {
         [.data, .dangerZone, .subscription, .screens, .tipsAndPrompts, .notifications, .whatsNew, .playlists, .buildAndDevice]
     }
