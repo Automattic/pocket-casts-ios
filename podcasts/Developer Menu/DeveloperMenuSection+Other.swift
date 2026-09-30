@@ -13,9 +13,6 @@ extension DeveloperMenuSection {
                 Settings.suggestedFoldersUpsellCount = 0
                 Settings.suggestedFoldersLastUpsellDate = nil
             },
-            .action("Referrals Tip") {
-                Settings.shouldShowReferralsTip = true
-            },
             .action("Up Next Sort Tip") {
                 Settings.shouldShowUpNextSortDurationTip = true
             },

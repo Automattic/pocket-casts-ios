@@ -220,7 +220,6 @@ struct Constants {
         }
 
         enum referrals {
-            static let showTip = "referrals.showtip"
             static let claimURL = "referrals.claimURL"
         }
 
