@@ -132,6 +132,7 @@ public struct WhatsNewAction: Decodable, Hashable {
     public enum Kind: Hashable {
         case createPlaylist
         case openDiscover
+        case openNetworks
         case openPlaylists
         case openPodcasts
         case openProfile
@@ -147,6 +148,7 @@ public struct WhatsNewAction: Decodable, Hashable {
             switch self {
             case .createPlaylist: "create_playlist"
             case .openDiscover: "open_discover"
+            case .openNetworks: "open_networks"
             case .openPlaylists: "open_playlists"
             case .openPodcasts: "open_podcasts"
             case .openProfile: "open_profile"
@@ -166,6 +168,8 @@ public struct WhatsNewAction: Decodable, Hashable {
             kind = .createPlaylist
         case "open_discover":
             kind = .openDiscover
+        case "open_networks":
+            kind = .openNetworks
         case "open_playlists":
             kind = .openPlaylists
         case "open_podcasts":
