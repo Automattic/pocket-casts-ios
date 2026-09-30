@@ -11,7 +11,10 @@ actor TranscriptsDataRetriever {
 
     private let cache: URLCache
 
-    public init() {
+    private let urlSession: URLSession
+
+    public init(urlSession: URLSession = URLSession(configuration: .ephemeral)) {
+        self.urlSession = urlSession
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 100.megabytes, diskPath: "transcripts")
     }
 
@@ -49,6 +52,11 @@ actor TranscriptsDataRetriever {
                     dataRequestMap[url] = nil
                 }
 
+                guard response.extractStatusCode() < 400 else {
+                    FileLog.shared.addMessage("Transcripts Data Retriever: request failed for transcript url \(url) with status code \(response.extractStatusCode()).")
+                    throw URLError(.badServerResponse)
+                }
+
                 guard response.extractStatusCode() == 200 else {
                     FileLog.shared.addMessage("Transcripts Data Retriever: request failed for transcript url \(url).")
                     return data
@@ -69,8 +77,4 @@ actor TranscriptsDataRetriever {
 
         return try await String(data: task.value, encoding: .utf8)
     }
-
-    private lazy var urlSession: URLSession = {
-        return URLSession(configuration: .ephemeral)
-    }()
 }
