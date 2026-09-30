@@ -91,13 +91,12 @@ extension DeveloperMenuSection {
         }.disabled(!manager.usesMockCatalog))
         #endif
         items.append(.link("Actions") {
-            List {
-                DeveloperMenuSectionView(section: DeveloperMenuSection(footer: "Performs each action the way a message's button does.", items: WhatsNewAction.Kind.all.map { kind in
-                    .action(kind.title, subtitle: kind.type) {
-                        kind.perform()
-                    }
-                }))
+            List(WhatsNewAction.Kind.all, id: \.type) { kind in
+                Button(kind.type) {
+                    kind.perform()
+                }
             }
+            .listStyle(.plain)
         })
         return DeveloperMenuSection(title: "What's New", items: items)
     }
@@ -118,6 +117,7 @@ private extension WhatsNewAction.Kind {
     static let all: [Self] = [
         .createPlaylist,
         .openDiscover,
+        .openNetworks,
         .openPlaylists,
         .openPodcasts,
         .openProfile,
@@ -126,9 +126,4 @@ private extension WhatsNewAction.Kind {
         .openUpsell,
         .openLink(URL(string: "https://pocketcasts.com/")!)
     ]
-
-    /// The action's type in words, such as "Open Up Next" for `open_up_next`.
-    var title: String {
-        type.split(separator: "_").map(\.capitalized).joined(separator: " ")
-    }
 }

@@ -26,6 +26,29 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         }
     }
 
+    /// Opens every network, as "Show all" on the networks row does.
+    func navigateToNetworks() {
+        if isViewLoaded {
+            showNetworks()
+        } else {
+            loadViewIfNeeded()
+            reloadData { [weak self] in
+                self?.showNetworks()
+            }
+        }
+    }
+
+    private func showNetworks() {
+        guard let discoverLayout, let items = discoverLayout.layout else { return }
+
+        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+        guard let item = items.first(where: { $0.type == "lists_list" && $0.regions.contains(currentRegion) && $0.cellType() == .networksList }) else { return }
+
+        let model = DiscoverNetworksListModel()
+        model.registerDiscoverDelegate(self)
+        model.showAll(item: item)
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         let context = UICollectionViewLayoutInvalidationContext()
         let item = dataSource.snapshot().itemIdentifiers.first(where: {
