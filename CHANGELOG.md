@@ -1,5 +1,6 @@
 8.23
 -----
+- Open a landscape video full screen by turning the iPhone to landscape in the player, and close it by turning the iPhone back upright [#5309](https://github.com/Automattic/pocket-casts-ios/pull/5309)
 
 
 8.22
