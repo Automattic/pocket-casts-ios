@@ -22,13 +22,16 @@ public final class GRDBQueue {
         }
     }
 
-    func write(_ block: (any PCDatabase) -> Void) {
+    /// Runs `block` in a transaction. If it throws, the transaction rolls back and
+    /// the error is logged.
+    func write(function: String = #function, _ block: (any PCDatabase) throws -> Void) {
         do {
             try dbPool.write { db in
                 let dbWrapper = GRDBDatabase(database: db)
-                block(dbWrapper)
+                try block(dbWrapper)
             }
         } catch {
+            FileLog.shared.addMessage("\(function) error: \(error)")
             logger?.log(error: error, context: [:])
         }
     }
