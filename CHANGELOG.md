@@ -1,6 +1,6 @@
 8.23
 -----
-
+- Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
 
 8.22
 -----
