@@ -52,27 +52,27 @@ final class OnboardingFlowTests: XCTestCase {
         XCTAssertFalse(flow.didCreateAccount, "begin() must scope didCreateAccount to a single flow")
     }
 
-    // MARK: - flowSource
+    // MARK: - originSource
 
-    func testFlowSourceSurvivesAnalyticsSourceUpdates() {
+    func testOriginSourceSurvivesAnalyticsSourceUpdates() {
         var flow = OnboardingFlow()
         _ = flow.begin(flow: .loggedOut, source: .encourageAccountCreation)
         flow.updateAnalyticsSource(.accountCreated)
         XCTAssertEqual(flow.source, .accountCreated)
-        XCTAssertEqual(flow.flowSource, .encourageAccountCreation, "The funnel origin must persist past the post-signup source change")
+        XCTAssertEqual(flow.originSource, .encourageAccountCreation, "The funnel origin must persist past the post-signup source change")
     }
 
-    func testBeginReplacesFlowSource() {
+    func testBeginReplacesOriginSource() {
         var flow = OnboardingFlow()
         _ = flow.begin(flow: .loggedOut, source: .encourageAccountCreation)
         _ = flow.begin(flow: .loggedOut, source: .onboarding)
-        XCTAssertEqual(flow.flowSource, .onboarding)
+        XCTAssertEqual(flow.originSource, .onboarding)
     }
 
-    func testResetClearsFlowSource() {
+    func testResetClearsOriginSource() {
         var flow = OnboardingFlow()
         _ = flow.begin(flow: .loggedOut, source: .encourageAccountCreation)
         flow.reset()
-        XCTAssertNil(flow.flowSource)
+        XCTAssertNil(flow.originSource)
     }
 }
