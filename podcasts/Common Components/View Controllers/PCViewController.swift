@@ -82,7 +82,6 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     deinit {
-        navigationController?.delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -121,8 +120,6 @@ class PCViewController: SimpleNotificationsViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
-        navigationController?.delegate = nil
 
         if supportsGoogleCast {
             NotificationCenter.default.removeObserver(self, name: Constants.Notifications.googleCastStatusChanged, object: nil)

@@ -137,7 +137,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         displayEndOfYearBadgeIfNeeded()
 
-        viewControllers = vcsInTab.map { SJUIUtils.navController(for: $0) }
+        let navControllers = vcsInTab.map { SJUIUtils.navController(for: $0) }
+        navControllers.forEach { $0.delegate = self }
+        viewControllers = navControllers
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
 
         // Track the initial tab opened event
@@ -1102,6 +1104,21 @@ private extension MainTabBarController {
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension MainTabBarController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        expandTabBarIfMinimized()
+    }
+
+    private func expandTabBarIfMinimized() {
+        guard #available(iOS 26.0, *), isTabBarMinimized else { return }
+        let behavior = tabBarMinimizeBehavior
+        tabBarMinimizeBehavior = .never
+        tabBarMinimizeBehavior = behavior
     }
 }
 
