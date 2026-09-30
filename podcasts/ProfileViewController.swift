@@ -210,19 +210,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
            !Settings.subscriptionCancelledSurveyShown {
             let controller = CancelSubscriptionSurveyViewModel.make()
             present(controller, animated: true)
-        } else {
-            showReferralsHintIfNeeded()
         }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hideReferralsHint(dontShowAgain: false)
     }
 
     override func handleThemeChanged() {
@@ -565,7 +558,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Referrals
     @objc func refreshReferrals() {
-        showReferralsHintIfNeeded()
         updateDisplayedData()
     }
 
@@ -578,7 +570,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         guard let referralsOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
             return
         }
-        hideReferralsHint(dontShowAgain: true)
         let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
             self?.dismiss(animated: true)
@@ -591,66 +582,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
-        static let defaultTipSize = CGSizeMake(300, 50)
-    }
-
-    private var referralsTipVC: UIViewController?
-
-    private func showReferralsHintIfNeeded() {
-        guard ReferralsCoordinator.shared.areReferralsAvailableToSend,
-              Settings.shouldShowReferralsTip,
-              let vc = makeReferralsHint()
-        else {
-            return
-        }
-
-        Analytics.track(.referralTooltipShow)
-        present(vc, animated: true, completion: nil)
-        self.referralsTipVC = vc
-    }
-
-    private func hideReferralsHint(dontShowAgain: Bool) {
-        if dontShowAgain {
-            Settings.shouldShowReferralsTip = false
-        }
-        self.referralsTipVC?.dismiss(animated: true)
-    }
-
-    private func makeReferralsHint() -> UIViewController? {
-        guard let referralOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
-            return nil
-        }
-        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipView(title: L10n.referralsTipMessage(referralOfferInfo.localizedOfferDurationNoun.lowercased()),
-                              message: nil,
-                              sizeChanged: { size in
-            vc.preferredContentSize = size
-        }, onTap: { [weak self] in
-            Analytics.track(.referralTooltipTapped)
-            self?.hideReferralsHint(dontShowAgain: true)
-        }).setupDefaultEnvironment()
-        vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
-        vc.view.clipsToBounds = false
-        vc.modalPresentationStyle = .popover
-        vc.preferredContentSize = ReferralsConstants.defaultTipSize
-        if let popoverPresentationController = vc.popoverPresentationController {
-            popoverPresentationController.delegate = self
-            popoverPresentationController.permittedArrowDirections = .up
-            popoverPresentationController.sourceItem = referralsButton
-            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [NavigationManager.shared.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
-        }
-        return vc
     }
 }
 
-extension ProfileViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        // Return no adaptive presentation style, use default presentation behaviour
-        return .none
-    }
-}
 // MARK: - PlusLockedInfoDelegate
 
 extension ProfileViewController: PlusLockedInfoDelegate {

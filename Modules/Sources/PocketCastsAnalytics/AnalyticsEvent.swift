@@ -965,8 +965,6 @@ public enum AnalyticsEvent: String {
 
     // MARK: - Referrals
 
-    case referralTooltipShow
-    case referralTooltipTapped
     case referralShareScreenShown
     case referralShareScreenDismissed
     case referralPassShared
