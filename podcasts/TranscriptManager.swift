@@ -59,7 +59,7 @@ class TranscriptManager {
             do {
                 let model = try await loadTranscript(transcript)
                 return model
-            } catch TranscriptError.empty, TranscriptError.failedToParse {
+            } catch TranscriptError.empty, TranscriptError.failedToParse, TranscriptError.failedToLoad {
                 transcriptsAvailable.removeAll { other in
                     other.transcriptFormat == transcript.transcriptFormat
                 }
