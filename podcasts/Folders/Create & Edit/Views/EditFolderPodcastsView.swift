@@ -4,6 +4,7 @@ struct EditFolderPodcastsView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var model: FolderModel
     @ObservedObject private var pickerModel = PodcastPickerModel()
+    @State private var numberOfPodcastsChanged = 0
 
     var dismissAction: () -> Void
 
@@ -21,6 +22,16 @@ struct EditFolderPodcastsView: View {
                         }
                         .accessibilityLabel(L10n.close)
                     }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            numberOfPodcastsChanged = pickerModel.selectedPodcastUuids.count - model.selectedPodcastUuids.count
+                            model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
+                            dismissAction()
+                        } label: {
+                            Text(L10n.done)
+                        }
+                        .foregroundColor(ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme)))
+                    }
                 }
                 .applyDefaultThemeOptions()
         }
@@ -32,9 +43,7 @@ struct EditFolderPodcastsView: View {
             Analytics.track(.folderChoosePodcastsShown)
         }
         .onDisappear {
-            let numberOfPodcastsChanged = pickerModel.selectedPodcastUuids.count - model.selectedPodcastUuids.count
             Analytics.track(.folderChoosePodcastsDismissed, properties: ["changed_podcasts": numberOfPodcastsChanged])
-            model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
         }
     }
 }

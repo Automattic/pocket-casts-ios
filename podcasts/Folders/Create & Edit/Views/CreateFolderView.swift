@@ -17,10 +17,16 @@ struct CreateFolderView: View {
     }
 
     var addButtonTitle: String {
-        let selectedCount = pickerModel.selectedPodcastUuids.count
-        if selectedCount == 1 {
+        Self.addButtonTitle(selectedCount: pickerModel.selectedPodcastUuids.count)
+    }
+
+    static func addButtonTitle(selectedCount: Int) -> String {
+        switch selectedCount {
+        case 0:
+            return L10n.folderCreateSkip
+        case 1:
             return L10n.folderAddPodcastsSingular
-        } else {
+        default:
             return L10n.folderAddPodcastsPluralFormat(selectedCount)
         }
     }
