@@ -15,6 +15,8 @@
 - Fix timestamps in an episode's show notes not being tappable on the episode details screen [#5337](https://github.com/Automattic/pocket-casts-ios/pull/5337)
 - Fix playback pausing itself and another app taking over Now Playing when connecting to CarPlay [#5338](https://github.com/Automattic/pocket-casts-ios/pull/5338)
 - Fix the Profile tab reading "Last refresh: in 0 seconds" right after refreshing. It now reads "now" [#5362](https://github.com/Automattic/pocket-casts-ios/pull/5362)
+- Open a landscape video full screen by turning the iPhone to landscape in the player, and close it by turning the iPhone back upright [#5309](https://github.com/Automattic/pocket-casts-ios/pull/5309)
+
 
 8.22
 -----
