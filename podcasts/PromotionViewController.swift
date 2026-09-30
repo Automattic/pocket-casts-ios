@@ -295,7 +295,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
 
     @IBAction func signUpNoPromoTapped(_ sender: Any) {
         dismiss(animated: true) {
-            NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.promoCode])
+            NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.promoCode, "source": PlusUpgradeViewSource.promoCode])
         }
     }
 

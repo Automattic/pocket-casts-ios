@@ -242,7 +242,8 @@ class NavigationManager {
             mainController?.showEndOfYearStories()
         } else if place == NavigationManager.onboardingFlow {
             let flow: OnboardingFlow.Flow? = data?["flow"] as? OnboardingFlow.Flow
-            mainController?.showOnboardingFlow(flow: flow)
+            let source = data?["source"] as? PlusUpgradeViewSource
+            mainController?.showOnboardingFlow(flow: flow, source: source)
         } else if place == NavigationManager.settingsGeneralKey {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
         } else if place == NavigationManager.upNextPageKey {

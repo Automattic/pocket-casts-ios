@@ -52,7 +52,8 @@ class InformationalBannerViewCoordinator {
 
     func presentLoginFlow() {
         NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow,
-                                                   data: ["flow": OnboardingFlow.Flow.loggedOut])
+                                                   data: ["flow": OnboardingFlow.Flow.loggedOut,
+                                                          "source": PlusUpgradeViewSource.encourageAccountCreation])
         Analytics.track(.informationalBannerViewCreateAccountTap, properties: ["source": viewModel.bannerType.rawValue.lowerSnakeCased()])
     }
 
