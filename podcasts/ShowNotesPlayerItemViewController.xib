@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -135,12 +136,13 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="Xv8-s5-lQi"/>
                 </scrollView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Sns-Sa-Gd1"/>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="y9m-b5-ldX" secondAttribute="trailing" id="7tF-3o-Clt"/>
+                <constraint firstItem="Sns-Sa-Gd1" firstAttribute="trailing" secondItem="y9m-b5-ldX" secondAttribute="trailing" id="7tF-3o-Clt"/>
                 <constraint firstItem="y9m-b5-ldX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JMp-Ll-rlq"/>
                 <constraint firstAttribute="bottom" secondItem="y9m-b5-ldX" secondAttribute="bottom" id="ZsQ-Dc-h4F"/>
-                <constraint firstItem="y9m-b5-ldX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="blO-lF-bkx"/>
+                <constraint firstItem="y9m-b5-ldX" firstAttribute="leading" secondItem="Sns-Sa-Gd1" secondAttribute="leading" id="blO-lF-bkx"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-672.46376811594212" y="4.3526785714285712"/>
