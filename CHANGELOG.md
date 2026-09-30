@@ -1,6 +1,7 @@
 8.23
 -----
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
+- Fix the tab bar staying minimized after opening or leaving a screen with Minimize on Scroll on, which put the mini player's Skip Forward button where the Profile tab was [#5314](https://github.com/Automattic/pocket-casts-ios/pull/5314)
 
 8.22
 -----
