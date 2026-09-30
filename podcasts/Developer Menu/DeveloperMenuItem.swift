@@ -21,8 +21,15 @@ struct DeveloperMenuItem: Identifiable {
     let title: String
     var subtitle: String?
     let kind: Kind
+    var isDisabled = false
 
     var id: String { [title, subtitle].compactMap { $0 }.joined(separator: "\n") }
+
+    func disabled(_ isDisabled: Bool) -> Self {
+        var item = self
+        item.isDisabled = isDisabled
+        return item
+    }
 
     static func action(_ title: String, subtitle: String? = nil, perform: @escaping @MainActor () -> Void) -> Self {
         Self(title: title, subtitle: subtitle, kind: .action(perform))
@@ -89,6 +96,7 @@ struct DeveloperMenuRow: View {
 
     var body: some View {
         content
+            .disabled(item.isDisabled)
             .sheet(item: $presented) { item in
                 if case .sheet(let content) = item.kind {
                     content { presented = nil }

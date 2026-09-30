@@ -1,8 +1,15 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsUtils
 
 struct DeveloperMenuSearchResults: View {
     let query: String
+
+    #if DEBUG
+    /// Rebuilds the results when What's New switches catalogs, which shows the rows that only apply
+    /// to the mock.
+    @ObservedObject private var whatsNew = WhatsNewManager.shared
+    #endif
 
     var body: some View {
         let sections = DeveloperMenuSection.searchable.compactMap { $0.filtered(by: query) }
@@ -18,6 +25,7 @@ struct DeveloperMenuSearchResults: View {
 }
 
 private extension DeveloperMenuSection {
+    @MainActor
     static var searchable: [DeveloperMenuSection] {
         all + [.featureFlags]
     }
