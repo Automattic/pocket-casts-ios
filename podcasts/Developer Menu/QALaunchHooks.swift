@@ -176,7 +176,6 @@ enum QALaunchHooks {
 
     private static func noTips() {
         InformationalBannerType.allCases.forEach(Settings.dismissBanner(for:))
-        Settings.shouldShowReferralsTip = false
         Settings.suggestedFoldersLastUpsellDate = Date()
         Settings.shouldShowPodcastFeeReloadTip = false
         Settings.shouldShowPodcastViewChangesTip = false
