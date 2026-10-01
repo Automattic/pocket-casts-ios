@@ -85,9 +85,8 @@ private struct SectionHost: UIViewControllerRepresentable {
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiViewController: UIViewController, context: Context) -> CGSize? {
-        guard height == nil else { return nil }
+        guard height == nil, let width = proposal.width else { return nil }
 
-        let width = proposal.width ?? UIScreen.main.bounds.width
         // Several sections derive their height from their own width, so give them one to measure
         // against before asking — the collection view cell they normally live in has already been
         // laid out by the time it asks for a fitting size.

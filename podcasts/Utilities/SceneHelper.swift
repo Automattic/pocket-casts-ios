@@ -9,14 +9,6 @@ enum SceneHelper {
         }.first
     }
 
-    static func newMainScreenWindow() -> UIWindow {
-        if let scene = connectedScene() {
-            return UIWindow(windowScene: scene)
-        }
-
-        return UIWindow(frame: UIScreen.main.bounds)
-    }
-
     static func rootViewController(includeTopMost: Bool = true) -> UIViewController? {
         #if os(tvOS)
             return nil

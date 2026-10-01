@@ -124,9 +124,9 @@ extension MiniPlayerViewController: UIContextMenuInteractionDelegate {
 
         return UIContextMenuConfiguration(
             identifier: nil,
-            previewProvider: {
-                guard let episode = PlaybackManager.shared.currentEpisode else { return nil }
-                return MiniPlayerLongPressPreviewViewController(episode: episode)
+            previewProvider: { [weak self] in
+                guard let episode = PlaybackManager.shared.currentEpisode, let window = self?.view.window else { return nil }
+                return MiniPlayerLongPressPreviewViewController(episode: episode, availableWidth: window.bounds.width)
             },
             actionProvider: { [weak self] _ in
                 UIMenu(children: actions.map { action in
