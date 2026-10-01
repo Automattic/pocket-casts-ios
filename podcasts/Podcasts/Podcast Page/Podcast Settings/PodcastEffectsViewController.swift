@@ -71,7 +71,7 @@ class PodcastEffectsViewController: PCViewController {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        UIStatusBarStyle.lightContent
+        AppTheme.defaultStatusBarStyle()
     }
 }
 
