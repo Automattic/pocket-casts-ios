@@ -115,7 +115,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = tableSections()[section]
         if section == .upNext {
-            let footerHeight: CGFloat = UIScreen.main.bounds.width > 350 ? 130 : 170
+            let footerHeight: CGFloat = tableView.bounds.width > 350 ? 130 : 170
             let footer = UIView(frame: CGRect(x: 0, y: 0, width: settingsTable.bounds.width, height: footerHeight))
             let infoLabel = ThemeableLabel()
             infoLabel.style = .primaryText02

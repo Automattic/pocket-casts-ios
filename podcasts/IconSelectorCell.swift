@@ -244,7 +244,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     } // Design: width = 124 height = 148
     var peekWidth = 30 as CGFloat
     var cellWidth: CGFloat {
-        let widthAvailable = UIScreen.main.bounds.width // view.bounds.width
+        let widthAvailable = collectionView.bounds.width
         let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
         let calculatedWidth = min(maxWidth, (widthAvailable - peekWidth - (itemSpacing * (numVisibleColoumns + 1))) / numVisibleColoumns)
         return calculatedWidth

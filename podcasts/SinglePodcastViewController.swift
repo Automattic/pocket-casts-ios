@@ -130,7 +130,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             typeBadgeLabel.style = .support02
         }
 
-        let fontSize: CGFloat = UIScreen.main.bounds.width >= 360 ? 15 : 14
+        let fontSize: CGFloat = view.bounds.width >= 360 ? 15 : 14
         podcastDescription.font = .font(ofSize: fontSize, weight: .regular, scalingWith: .callout)
 
         updateSize()

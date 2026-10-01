@@ -8,9 +8,11 @@ import PocketCastsDataModel
 /// trailing side.
 final class MiniPlayerLongPressPreviewViewController: UIViewController {
     private let episode: BaseEpisode
+    private let availableWidth: CGFloat
 
-    init(episode: BaseEpisode) {
+    init(episode: BaseEpisode, availableWidth: CGFloat) {
         self.episode = episode
+        self.availableWidth = availableWidth
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -78,7 +80,7 @@ final class MiniPlayerLongPressPreviewViewController: UIViewController {
             mainStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
         ])
 
-        let preferredWidth = min(360, UIScreen.main.bounds.width - 40)
+        let preferredWidth = min(360, availableWidth - 40)
         preferredContentSize = view.systemLayoutSizeFitting(
             CGSize(width: preferredWidth, height: 0),
             withHorizontalFittingPriority: .required,

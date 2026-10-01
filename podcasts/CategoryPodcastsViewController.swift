@@ -118,7 +118,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if showPromotion(), indexPath.row == CategoryPodcastsViewController.promotionRow {
-            return UIScreen.main.bounds.width > 360 ? 130 : 150
+            return tableView.bounds.width > 360 ? 130 : 150
         }
         return 65
     }
