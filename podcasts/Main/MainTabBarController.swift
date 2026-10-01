@@ -111,6 +111,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             controller.fixTarBarTraitCollectionOnIpadForiOS18()
             controller.fireSystemThemeMayHaveChanged()
         }
+        registerForTraitChanges([UITraitUserInterfaceIdiom.self]) { (controller: MainTabBarController, _) in
+            controller.fixTarBarTraitCollectionOnIpadForiOS18()
+        }
 
         fixTarBarTraitCollectionOnIpadForiOS18()
 
@@ -275,7 +278,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func fixTarBarTraitCollectionOnIpadForiOS18() {
         if #available(iOS 18.0, *),
-           UIDevice.current.userInterfaceIdiom == .pad {
+           traitCollection.userInterfaceIdiom == .pad {
             traitOverrides.horizontalSizeClass = .compact
             if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
                 tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass

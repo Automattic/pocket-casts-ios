@@ -93,14 +93,8 @@ class NavigationManager {
     var dimmingView: UIView?
     var miniPlayer: MiniPlayerViewController?
 
-    var isPhone = false
-
     private var lastNavKey = ""
     private var lastNavData: NSDictionary?
-
-    init() {
-        isPhone = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
-    }
 
     // MARK: - Navigation
 
