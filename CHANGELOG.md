@@ -1,6 +1,5 @@
 8.23
 -----
-- Match the mini player's skip and play buttons to the tab bar icon color on iOS 26, with a play button that blends into the glass [#5318](https://github.com/Automattic/pocket-casts-ios/pull/5318)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
 
 8.22
