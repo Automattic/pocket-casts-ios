@@ -3818,6 +3818,9 @@
 /* A common string used throughout the app. Informs the user how many podcasts are being added. '%1$@' is a placeholder for the number of podcasts, this will be more than one. */
 "folder_add_podcasts_plural_format" = "Add %1$@ Podcasts";
 
+/* Label for the button to continue creating a folder without adding any podcasts to it. */
+"folder_create_skip" = "Skip";
+
 /* Title for the folder name page*/
 "folder_name_title" = "Name your folder";
 
