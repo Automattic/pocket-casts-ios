@@ -25,7 +25,7 @@ class RoundedBorderView: UIView {
 
         setupBorder()
         registerForTraitChanges([UITraitDisplayScale.self]) { (view: RoundedBorderView, _) in
-            view.layer.borderWidth = 1.0 / view.traitCollection.displayScale
+            view.layer.borderWidth = view.hairlineWidth
         }
     }
 
@@ -34,7 +34,7 @@ class RoundedBorderView: UIView {
 
         setupBorder()
         registerForTraitChanges([UITraitDisplayScale.self]) { (view: RoundedBorderView, _) in
-            view.layer.borderWidth = 1.0 / view.traitCollection.displayScale
+            view.layer.borderWidth = view.hairlineWidth
         }
     }
 
@@ -46,7 +46,7 @@ class RoundedBorderView: UIView {
         clipsToBounds = true
 
         updateColors()
-        layer.borderWidth = 1.0 / traitCollection.displayScale
+        layer.borderWidth = hairlineWidth
         layer.cornerRadius = cornerRadius
 
         NotificationCenter.default.addObserver(self, selector: #selector(themeChanged), name: Constants.Notifications.themeChanged, object: nil)

@@ -53,7 +53,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var smallPagedCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / traitCollection.displayScale)
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
     }
 
@@ -62,9 +62,6 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: SmallPagedListSummaryViewController, _) in
             controller.updateSize()
-        }
-        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: SmallPagedListSummaryViewController, _) in
-            controller.dividerHeightConstraint.constant = (1 / controller.traitCollection.displayScale)
         }
 
         (view as? ThemeableView)?.style = .primaryUi02

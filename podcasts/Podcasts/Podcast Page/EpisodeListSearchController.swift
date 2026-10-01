@@ -132,13 +132,13 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UITextFiel
 
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = 1 / traitCollection.displayScale
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
     }
 
     @IBOutlet var middleDividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            middleDividerHeightConstraint.constant = 1 / traitCollection.displayScale
+            applyHairlineWidth(to: middleDividerHeightConstraint)
         }
     }
 
@@ -146,12 +146,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UITextFiel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: EpisodeListSearchController, _) in
-            let displayScale = controller.traitCollection.displayScale
-            controller.dividerHeightConstraint.constant = 1 / displayScale
-            controller.middleDividerHeightConstraint.constant = 1 / displayScale
-        }
 
         actionButton.titleLabel?.textAlignment = .center
         actionButton.titleLabel?.heightAnchor.constraint(equalTo: actionButton.heightAnchor).isActive = true

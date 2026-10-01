@@ -21,7 +21,7 @@ class DateHeadingView: UIView {
         if LiquidGlass.isEnabled {
             label = UILabel()
         } else {
-            let dividerHeight = 1 / traitCollection.displayScale
+            let dividerHeight = hairlineWidth
             let topDivider = ThemeDividerView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: dividerHeight))
             topDivider.translatesAutoresizingMaskIntoConstraints = false
             addSubview(topDivider)
@@ -33,9 +33,7 @@ class DateHeadingView: UIView {
                 topDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
                 topDivider.topAnchor.constraint(equalTo: topAnchor)
             ])
-            registerForTraitChanges([UITraitDisplayScale.self]) { (view: DateHeadingView, _) in
-                dividerHeightConstraint.constant = 1 / view.traitCollection.displayScale
-            }
+            applyHairlineWidth(to: dividerHeightConstraint)
 
             label = ThemeableLabel()
         }
