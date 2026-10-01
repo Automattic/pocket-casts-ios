@@ -7,12 +7,11 @@ class PlayPauseButton: BasePlayPauseButton {
     // Used to animate given LottieAnimationView doesn't animate with UIView.animate
     private var snapshot: UIView?
 
-    private var circleSizeConstraints: [NSLayoutConstraint] = []
+    private var symbolImageView: UIImageView?
+    private var symbolImageIsPlaying: Bool?
 
-    /// When set, pins the visible circle (and its Lottie animation) to this size,
-    /// decoupling the visual size from the button's tap target.
-    var visualSize: CGFloat? {
-        didSet { updateCircleSizeConstraints() }
+    override var isPlaying: Bool {
+        didSet { updateSymbolImage(animated: true) }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +27,44 @@ class PlayPauseButton: BasePlayPauseButton {
     var circleColor = UIColor.white {
         didSet {
             circleView.backgroundColor = circleColor
+            symbolImageView?.tintColor = circleColor
         }
+    }
+
+    /// Replaces the Lottie glyph on a solid circle with a tinted
+    /// `play.circle.fill`/`pause.circle.fill` symbol. The glyph is a true
+    /// cutout, and Liquid Glass renders the symbol like other tinted icons.
+    func useSymbolImage(pointSize: CGFloat) {
+        guard symbolImageView == nil else { return }
+
+        circleView.isHidden = true
+        animationView.isHidden = true
+
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = false
+        imageView.contentMode = .center
+        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: pointSize)
+        imageView.tintColor = circleColor
+        addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+        symbolImageView = imageView
+        updateSymbolImage(animated: false)
+    }
+
+    private func updateSymbolImage(animated: Bool) {
+        guard let symbolImageView, symbolImageIsPlaying != isPlaying,
+              let image = UIImage(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill") else { return }
+
+        if animated, symbolImageIsPlaying != nil, UIApplication.shared.applicationState == .active {
+            symbolImageView.setSymbolImage(image, contentTransition: .replace)
+        } else {
+            symbolImageView.image = image
+        }
+        symbolImageIsPlaying = isPlaying
     }
 
     override public func layoutSubviews() {
@@ -41,10 +77,11 @@ class PlayPauseButton: BasePlayPauseButton {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(circleView)
         NSLayoutConstraint.activate([
+            circleView.widthAnchor.constraint(equalTo: widthAnchor),
+            circleView.heightAnchor.constraint(equalTo: heightAnchor),
             circleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             circleView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
-        updateCircleSizeConstraints()
 
         animation.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animation)
@@ -54,23 +91,6 @@ class PlayPauseButton: BasePlayPauseButton {
             animation.widthAnchor.constraint(equalTo: circleView.widthAnchor, multiplier: 0.48),
             animation.heightAnchor.constraint(equalTo: circleView.heightAnchor, multiplier: 0.48)
         ])
-    }
-
-    private func updateCircleSizeConstraints() {
-        guard circleView.superview != nil else { return }
-        NSLayoutConstraint.deactivate(circleSizeConstraints)
-        if let visualSize {
-            circleSizeConstraints = [
-                circleView.widthAnchor.constraint(equalToConstant: visualSize),
-                circleView.heightAnchor.constraint(equalToConstant: visualSize)
-            ]
-        } else {
-            circleSizeConstraints = [
-                circleView.widthAnchor.constraint(equalTo: widthAnchor),
-                circleView.heightAnchor.constraint(equalTo: heightAnchor)
-            ]
-        }
-        NSLayoutConstraint.activate(circleSizeConstraints)
     }
 
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
