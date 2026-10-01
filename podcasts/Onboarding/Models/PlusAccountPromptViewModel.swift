@@ -55,7 +55,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         guard let parentController, let product else { return }
 
         let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source, context: context, traitCollection: parentController.traitCollection)
         let sizeCategory = UIApplication.shared.preferredContentSizeCategory
         let isAccessibility = sizeCategory.isAccessibilityCategory
 

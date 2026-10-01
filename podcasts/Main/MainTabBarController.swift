@@ -587,7 +587,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        let controller = OnboardingFlow.shared.begin(flow: flow, source: source, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: flow, source: source, context: context, traitCollection: traitCollection)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -776,7 +776,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
 
-            let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: source ?? .onboarding)
+            let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: source ?? .onboarding, traitCollection: self.traitCollection)
             guard let presentedViewController = self.presentedViewController else {
                 self.present(controller, animated: true)
                 return

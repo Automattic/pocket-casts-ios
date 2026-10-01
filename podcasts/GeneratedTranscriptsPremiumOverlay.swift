@@ -263,7 +263,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         if analyticsSource == .player {
             NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
         } else {
-            let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: .generatedTranscripts, context: [:])
+            let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: .generatedTranscripts, context: [:], traitCollection: traitCollection)
             self.parent?.present(controller, animated: true, completion: nil)
         }
     }

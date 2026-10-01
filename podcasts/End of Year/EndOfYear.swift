@@ -95,12 +95,12 @@ struct EndOfYear {
         }
     }
 
-    var presentationMode: UIModalPresentationStyle {
-        UIDevice.current.isiPad() ? .formSheet : .fullScreen
+    func presentationMode(for traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular ? .formSheet : .fullScreen
     }
 
-    var storiesPadding: EdgeInsets {
-        .init(top: 0, leading: 0, bottom: UIDevice.current.isiPad() ? 5 : 0, trailing: 0)
+    func storiesPadding(for presentationMode: UIModalPresentationStyle) -> EdgeInsets {
+        .init(top: 0, leading: 0, bottom: presentationMode == .formSheet ? 5 : 0, trailing: 0)
     }
 
     init() {
@@ -178,7 +178,7 @@ struct EndOfYear {
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
 
-            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear)
+            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear, traitCollection: viewController.traitCollection)
             viewController.present(onboardingController, animated: true)
             return
         }
@@ -187,13 +187,14 @@ struct EndOfYear {
         Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
 
         let model = storyModelType.init()
+        let modalPresentationStyle = presentationMode(for: viewController.traitCollection)
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model), configuration: configuration).padding(storiesPadding))
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model), configuration: configuration).padding(storiesPadding(for: modalPresentationStyle)))
         storiesViewController.view.backgroundColor = .black
-        storiesViewController.modalPresentationStyle = presentationMode
+        storiesViewController.modalPresentationStyle = modalPresentationStyle
 
         // Define the size of the stories view for iPad
-        if UIDevice.current.isiPad() {
+        if modalPresentationStyle == .formSheet {
             storiesViewController.preferredContentSize = .init(width: 370, height: 693)
         }
 
