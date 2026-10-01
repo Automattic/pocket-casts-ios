@@ -141,7 +141,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         podcastArtwork.layer.cornerRadius = 6
         podcastArtwork.layer.masksToBounds = true
 
-        playPauseBtn.visualSize = 32
+        playPauseBtn.useSymbolImage(pointSize: 30)
 
         // The skip glyphs read a touch heavy next to the smaller glass
         // play/pause button, so scale the (template) assets down slightly.
@@ -664,20 +664,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @available(iOS 26.0, *)
     private func updateColorsLiquidGlass() {
-        let actionColor = currentPodcastTintColor()
-        let bgColor = ThemeColor.primaryUi02()
-
         // System color so the vibrancy wrapper can modulate it.
         episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
-        playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = actionColor
+        playPauseBtn.circleColor = .label
 
-        skipBackBtn.tintColor = actionColor
-        skipFwdBtn.tintColor = actionColor
+        skipBackBtn.tintColor = .label
+        skipFwdBtn.tintColor = .label
 
-        glassProgressView?.tintColorOverride = actionColor
+        glassProgressView?.tintColorOverride = currentPodcastTintColor()
     }
 
     private func currentPodcastTintColor() -> UIColor {
