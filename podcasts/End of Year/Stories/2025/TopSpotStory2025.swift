@@ -13,7 +13,6 @@ struct TopSpotStory2025: ShareableStory {
 
     private let foregroundColor = Color.white
     private let backgroundColor = Color(hex: "#17423B")
-    private var scaleFactor: Double = UIScreen.isSmallScreen ? 0.57 : 0.72
     private var scaleAnimation: Animation = .timingCurve(0.33, 0.00, 0.00, 1.00, duration: 1)
 
     @State private var backgroundAnimationScale = 1.3
@@ -31,7 +30,7 @@ struct TopSpotStory2025: ShareableStory {
                 VStack(alignment: .center, spacing: 0) {
                     StoryHeader2025(title: L10n.playback2025TopSpotTitle, description: L10n.playback2025TopSpotSubtitle)
                     Spacer()
-                    background(size: proxy.size)
+                    background(size: proxy.size, isSmallScreen: proxy.size.height <= 667)
                     Spacer()
                     VStack {
                         let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
@@ -79,7 +78,8 @@ struct TopSpotStory2025: ShareableStory {
         ]
     }
 
-    @ViewBuilder func background(size: CGSize) -> some View {
+    @ViewBuilder func background(size: CGSize, isSmallScreen: Bool) -> some View {
+        let scaleFactor = isSmallScreen ? 0.57 : 0.72
         VStack(alignment: .center, spacing: 0) {
             Spacer()
             ZStack {
@@ -92,7 +92,7 @@ struct TopSpotStory2025: ShareableStory {
                         })
                         .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
                         .frame(width: size.width, height: size.width)
-                        .scaleEffect(UIScreen.isSmallScreen ? 1.0 : 1.25)
+                        .scaleEffect(isSmallScreen ? 1.0 : 1.25)
                         .scaledToFill()
                 }
                 .scaleEffect(backgroundAnimationScale)

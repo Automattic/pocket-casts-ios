@@ -30,12 +30,9 @@ struct PatronAppIconUnlock: View {
         SubscriptionHelper.hasActiveSubscription()
     }
 
-    private var isSmallScreen: Bool {
-        UIScreen.main.bounds.height <= 667
-    }
-
     var body: some View {
         GeometryReader { proxy in
+            let isSmallScreen = proxy.size.height <= 667
             ZStack {
                 if !isUnlocked {
                     WelcomeConfetti(type: .normal)
@@ -55,11 +52,11 @@ struct PatronAppIconUnlock: View {
                             Spacer()
                         } else {
                             if isSmallScreen {
-                                iconsView
+                                iconsView(isSmallScreen: isSmallScreen)
                                     .scaleEffect(0.8)
                                     .padding(.bottom, -30)
                             } else {
-                                iconsView
+                                iconsView(isSmallScreen: isSmallScreen)
                             }
                         }
                         continueButton
@@ -164,7 +161,7 @@ struct PatronAppIconUnlock: View {
     }
 
     // Displays the app icons view
-    @ViewBuilder private var iconsView: some View {
+    @ViewBuilder private func iconsView(isSmallScreen: Bool) -> some View {
         if !isSmallScreen {
             Spacer()
         }
