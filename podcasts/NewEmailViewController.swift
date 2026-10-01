@@ -79,7 +79,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet var nextButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet var activityIndicator: UIActivityIndicatorView! {
         didSet {
             activityIndicator.hidesWhenStopped = true
@@ -106,9 +105,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        originalButtonConstant = nextButtonBottomConstraint.constant
+        view.keyboardLayoutGuide.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 16).isActive = true
 
         updateButtonState()
 
@@ -126,8 +123,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         emailField?.delegate = nil
         passwordField?.removeTarget(self, action: #selector(passwordFieldDidChange), for: .editingChanged)
         passwordField?.delegate = nil
-
-        NotificationCenter.default.removeObserver(self)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -301,33 +296,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
             return password.count >= 3
         }
         return false
-    }
-
-    private var originalButtonConstant: CGFloat = 16
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            nextButtonBottomConstraint.constant = view.safeAreaInsets.bottom == 0 ? originalButtonConstant + keyboardSize.height : keyboardSize.height
-
-            var animationDuration = 0.3
-            if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-                animationDuration = keyboardDuration
-            }
-
-            UIView.animate(withDuration: animationDuration, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        nextButtonBottomConstraint.constant = originalButtonConstant
-        var animationDuration = 0.3
-        if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-            animationDuration = keyboardDuration
-        }
-        UIView.animate(withDuration: animationDuration, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
 
     // MARK: - Orientation

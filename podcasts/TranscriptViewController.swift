@@ -95,6 +95,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        view.keyboardLayoutGuide.usesBottomSafeArea = false
         if FeatureFlag.generatedTranscripts.enabled {
             addGeneratedTranscriptsObservers()
         }
@@ -749,6 +750,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTextMargins()
+        updateKeyboardInsets()
     }
 
     private func updateTextMargins() {
@@ -873,8 +875,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if !showFromEpisode {
             addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
             addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
@@ -1117,40 +1117,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     // MARK: - Keyboard
 
-    @objc func keyboardWillShow(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: true)
-    }
+    private func updateKeyboardInsets() {
+        let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
+        guard transcriptView.contentInset.bottom != keyboardHeight else { return }
 
-    @objc func keyboardWillHide(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: false)
-    }
-
-    func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
-            return
-        }
-
-        let keyboardHeight = keyboardFrame.height
-        let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
         let previousContentOffset = transcriptView.contentOffset
-        UIView.animate(withDuration: animationDuration, animations: { [weak self] in
-            guard let self else { return }
-
-            if isSearching {
-                transcriptView.setContentOffset(previousContentOffset, animated: false)
-            }
-
-            transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
-            transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
-        }, completion: { [weak self] _ in
-            guard let self else { return }
-
-            if isSearching {
-                transcriptView.setContentOffset(previousContentOffset, animated: false)
-            }
-        })
+        transcriptView.contentInset.bottom = keyboardHeight
+        transcriptView.verticalScrollIndicatorInsets.bottom = keyboardHeight > 0 ? keyboardHeight : bottomContainerInset
+        if isSearching {
+            transcriptView.setContentOffset(previousContentOffset, animated: false)
+        }
     }
 
     // MARK: - Tracks
