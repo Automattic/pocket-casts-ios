@@ -26,7 +26,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
 
     @IBOutlet var bottomDividerHeight: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeight.constant = 1.0 / UIScreen.main.scale
+            applyHairlineWidth(to: bottomDividerHeight)
         }
     }
 

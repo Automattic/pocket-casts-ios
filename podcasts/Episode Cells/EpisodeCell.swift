@@ -40,7 +40,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var bottomDivider: ThemeDividerView!
     @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+            applyHairlineWidth(to: bottomDividerHeightConstraint)
         }
     }
 
@@ -56,12 +56,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 let divider = ThemeDividerView()
                 divider.translatesAutoresizingMaskIntoConstraints = false
                 contentView.addSubview(divider)
+                let heightConstraint = divider.heightAnchor.constraint(equalToConstant: hairlineWidth)
                 NSLayoutConstraint.activate([
-                    divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale),
+                    heightConstraint,
                     divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                     divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                     divider.topAnchor.constraint(equalTo: contentView.topAnchor)
                 ])
+                applyHairlineWidth(to: heightConstraint)
                 topDivider = divider
             }
             topDivider?.isHidden = !showsTopDivider

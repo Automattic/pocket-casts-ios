@@ -76,7 +76,7 @@ class PlayerCell: ThemeableSwipeCell {
 
     @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+            applyHairlineWidth(to: bottomDividerHeightConstraint)
         }
     }
 

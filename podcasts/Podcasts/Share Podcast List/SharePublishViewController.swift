@@ -25,13 +25,13 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     @IBOutlet var nameDividerHeight: NSLayoutConstraint! {
         didSet {
-            nameDividerHeight.constant = 1 / UIScreen.main.scale
+            applyHairlineWidth(to: nameDividerHeight)
         }
     }
 
     @IBOutlet var descriptionDividerHeight: NSLayoutConstraint! {
         didSet {
-            descriptionDividerHeight.constant = 1 / UIScreen.main.scale
+            applyHairlineWidth(to: descriptionDividerHeight)
         }
     }
 

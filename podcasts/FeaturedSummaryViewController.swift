@@ -34,7 +34,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / UIScreen.main.scale)
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
     }
 

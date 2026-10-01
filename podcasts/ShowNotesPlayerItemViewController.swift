@@ -34,7 +34,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     @IBOutlet var dividerHeight: NSLayoutConstraint! {
         didSet {
-            dividerHeight.constant = 1.0 / UIScreen.main.scale
+            applyHairlineWidth(to: dividerHeight)
         }
     }
 

@@ -53,7 +53,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var smallPagedCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / UIScreen.main.scale)
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
     }
 

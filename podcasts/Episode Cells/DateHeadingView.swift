@@ -21,17 +21,19 @@ class DateHeadingView: UIView {
         if LiquidGlass.isEnabled {
             label = UILabel()
         } else {
-            let dividerHeight = 1 / UIScreen.main.scale
+            let dividerHeight = hairlineWidth
             let topDivider = ThemeDividerView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: dividerHeight))
             topDivider.translatesAutoresizingMaskIntoConstraints = false
             addSubview(topDivider)
 
+            let dividerHeightConstraint = topDivider.heightAnchor.constraint(equalToConstant: dividerHeight)
             NSLayoutConstraint.activate([
-                topDivider.heightAnchor.constraint(equalToConstant: dividerHeight),
+                dividerHeightConstraint,
                 topDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
                 topDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
                 topDivider.topAnchor.constraint(equalTo: topAnchor)
             ])
+            applyHairlineWidth(to: dividerHeightConstraint)
 
             label = ThemeableLabel()
         }
