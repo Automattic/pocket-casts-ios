@@ -311,11 +311,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
         }
 
-        let isSmallScreen = view.bounds.height <= 667
-        if let tabViewModel, tabViewModel.isSmallScreen != isSmallScreen {
-            tabViewModel.isSmallScreen = isSmallScreen
-        }
-
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
             // make the play button smaller on tiny phones and iPad split screen tiny view

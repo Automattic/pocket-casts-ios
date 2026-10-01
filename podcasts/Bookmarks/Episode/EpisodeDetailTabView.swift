@@ -4,7 +4,6 @@ import SwiftUI
 
 class EpisodeTabsViewModel: ObservableObject {
     @Published var selectedTab: Tab
-    @Published var isSmallScreen = false
     let tabs: [Tab]
 
     var selectedIndex: Int {
@@ -52,9 +51,7 @@ struct EpisodeDetailTabView: View {
                         } customize: { config in
                             config.label
                                 .fixedSize()
-                                .applyStyle(theme: theme,
-                                            highlighted: viewModel.selectedTab == tab,
-                                            isSmallScreen: viewModel.isSmallScreen)
+                                .applyStyle(theme: theme, highlighted: viewModel.selectedTab == tab)
                                 .applyButtonEffect(isPressed: config.isPressed)
                         }
                 }
@@ -64,7 +61,7 @@ struct EpisodeDetailTabView: View {
             .font(.subheadline.weight(.medium))
             .environment(\.dynamicTypeSize, .large)
         }
-        .padding(.leading, viewModel.isSmallScreen ? 0 : 10)
+        .padding(.leading, 10)
     }
 
     @ViewBuilder
@@ -80,11 +77,11 @@ struct EpisodeDetailTabView: View {
 // MARK: - View Extension
 
 private extension View {
-    func applyStyle(theme: Theme, highlighted: Bool = false, isSmallScreen: Bool) -> some View {
+    func applyStyle(theme: Theme, highlighted: Bool = false) -> some View {
         self
             .contentShape(Rectangle())
             .padding(.vertical, 8)
-            .padding(.horizontal, isSmallScreen ? 6 : 12)
+            .padding(.horizontal, 12)
             .foregroundColor(highlighted ? theme.primaryUi01 : theme.primaryText02)
             .background(tabBackground(theme: theme, highlighted: highlighted))
             .animation(.linear(duration: 0.1), value: highlighted)
