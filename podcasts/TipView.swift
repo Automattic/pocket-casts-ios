@@ -105,7 +105,7 @@ extension UIViewController {
             .frame(maxWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
         let hostingController = UIHostingController(rootView: tipView)
-        hostingController.view.backgroundColor = .clear
+        hostingController.view.backgroundColor = ThemeColor.primaryUi01()
         hostingController.view.clipsToBounds = false
         hostingController.modalPresentationStyle = .popover
         hostingController.sizingOptions = [.preferredContentSize]

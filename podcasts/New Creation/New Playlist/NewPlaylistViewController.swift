@@ -389,7 +389,7 @@ class NewPlaylistViewController: PCViewController {
             .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
         vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
+        vc.view.backgroundColor = ThemeColor.primaryUi01()
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
         vc.sizingOptions = [.preferredContentSize]
@@ -397,7 +397,7 @@ class NewPlaylistViewController: PCViewController {
             return nil
         }
         popoverPresentationController.delegate = self
-        popoverPresentationController.permittedArrowDirections = [.up]
+        popoverPresentationController.permittedArrowDirections = [.down]
         popoverPresentationController.sourceView = sourceView
         popoverPresentationController.sourceRect = sourceRect
         popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()

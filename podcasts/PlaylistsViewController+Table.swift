@@ -189,6 +189,7 @@ extension PlaylistsViewController {
 
         if Settings.firstTimePlaylistCreated,
            Settings.shouldShowDragAndDropTip,
+           hasPremadePlaylists(),
            !presentingPlaylistDetail,
            newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
@@ -258,7 +259,7 @@ extension PlaylistsViewController {
             .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
         vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
+        vc.view.backgroundColor = ThemeColor.primaryUi01()
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
         vc.sizingOptions = [.preferredContentSize]
