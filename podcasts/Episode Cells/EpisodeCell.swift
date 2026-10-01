@@ -40,7 +40,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var bottomDivider: ThemeDividerView!
     @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+            bottomDividerHeightConstraint.constant = 1.0 / traitCollection.displayScale
         }
     }
 
@@ -56,12 +56,16 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 let divider = ThemeDividerView()
                 divider.translatesAutoresizingMaskIntoConstraints = false
                 contentView.addSubview(divider)
+                let heightConstraint = divider.heightAnchor.constraint(equalToConstant: 1 / traitCollection.displayScale)
                 NSLayoutConstraint.activate([
-                    divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale),
+                    heightConstraint,
                     divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                     divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                     divider.topAnchor.constraint(equalTo: contentView.topAnchor)
                 ])
+                registerForTraitChanges([UITraitDisplayScale.self]) { (view: EpisodeCell, _) in
+                    heightConstraint.constant = 1 / view.traitCollection.displayScale
+                }
                 topDivider = divider
             }
             topDivider?.isHidden = !showsTopDivider
@@ -151,6 +155,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodeCell, _) in
             view.updateSize()
+        }
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: EpisodeCell, _) in
+            view.bottomDividerHeightConstraint.constant = 1.0 / view.traitCollection.displayScale
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackStarted, object: nil)

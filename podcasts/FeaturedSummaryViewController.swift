@@ -34,7 +34,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / UIScreen.main.scale)
+            dividerHeightConstraint.constant = (1 / traitCollection.displayScale)
         }
     }
 
@@ -45,6 +45,9 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: FeaturedSummaryViewController, _) in
             controller.updateSize()
+        }
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: FeaturedSummaryViewController, _) in
+            controller.dividerHeightConstraint.constant = (1 / controller.traitCollection.displayScale)
         }
 
         (view as? ThemeableView)?.style = .primaryUi02

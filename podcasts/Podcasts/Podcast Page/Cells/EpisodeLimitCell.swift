@@ -5,13 +5,17 @@ class EpisodeLimitCell: ThemeableCell {
 
     @IBOutlet var bottomDividerHeight: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeight.constant = 1.0 / UIScreen.main.scale
+            bottomDividerHeight.constant = 1.0 / traitCollection.displayScale
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         style = .primaryUi04
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: EpisodeLimitCell, _) in
+            view.bottomDividerHeight.constant = 1.0 / view.traitCollection.displayScale
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}

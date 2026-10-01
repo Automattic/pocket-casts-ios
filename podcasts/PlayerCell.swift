@@ -76,7 +76,7 @@ class PlayerCell: ThemeableSwipeCell {
 
     @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+            bottomDividerHeightConstraint.constant = 1.0 / traitCollection.displayScale
         }
     }
 
@@ -102,6 +102,9 @@ class PlayerCell: ThemeableSwipeCell {
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: PlayerCell, _) in
             view.updateSize()
+        }
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: PlayerCell, _) in
+            view.bottomDividerHeightConstraint.constant = 1.0 / view.traitCollection.displayScale
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)

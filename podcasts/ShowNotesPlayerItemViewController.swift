@@ -34,7 +34,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     @IBOutlet var dividerHeight: NSLayoutConstraint! {
         didSet {
-            dividerHeight.constant = 1.0 / UIScreen.main.scale
+            dividerHeight.constant = 1.0 / traitCollection.displayScale
         }
     }
 
@@ -63,6 +63,9 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ShowNotesPlayerItemViewController, _) in
             controller.updateSize()
+        }
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: ShowNotesPlayerItemViewController, _) in
+            controller.dividerHeight.constant = 1.0 / controller.traitCollection.displayScale
         }
 
         setupWebView()

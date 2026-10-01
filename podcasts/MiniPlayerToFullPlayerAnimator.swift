@@ -320,7 +320,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 extension CALayer {
     func drawTopBorder() {
         let border = CALayer()
-        border.frame = CGRect(x: 0, y: 0, width: frame.width, height: 1.0 / UIScreen.main.scale)
+        border.frame = CGRect(x: 0, y: 0, width: frame.width, height: 1.0 / contentsScale)
         border.backgroundColor = UITabBarAppearance().shadowColor?.cgColor
         addSublayer(border)
     }

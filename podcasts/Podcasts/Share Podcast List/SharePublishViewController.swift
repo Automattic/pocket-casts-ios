@@ -25,13 +25,13 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     @IBOutlet var nameDividerHeight: NSLayoutConstraint! {
         didSet {
-            nameDividerHeight.constant = 1 / UIScreen.main.scale
+            nameDividerHeight.constant = 1 / traitCollection.displayScale
         }
     }
 
     @IBOutlet var descriptionDividerHeight: NSLayoutConstraint! {
         didSet {
-            descriptionDividerHeight.constant = 1 / UIScreen.main.scale
+            descriptionDividerHeight.constant = 1 / traitCollection.displayScale
         }
     }
 
@@ -90,6 +90,12 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
 
         title = L10n.sharePodcastsCreateList
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: SharePublishViewController, _) in
+            let displayScale = controller.traitCollection.displayScale
+            controller.nameDividerHeight.constant = 1 / displayScale
+            controller.descriptionDividerHeight.constant = 1 / displayScale
+        }
 
         navigationItem.rightBarButtonItem = shareBtn
     }

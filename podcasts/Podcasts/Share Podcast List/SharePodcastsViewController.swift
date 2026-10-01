@@ -26,7 +26,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
 
     @IBOutlet var bottomDividerHeight: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeight.constant = 1.0 / UIScreen.main.scale
+            bottomDividerHeight.constant = 1.0 / traitCollection.displayScale
         }
     }
 
@@ -41,6 +41,10 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
         super.viewDidLoad()
         title = L10n.shareSelectPodcasts
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: SharePodcastsViewController, _) in
+            controller.bottomDividerHeight.constant = 1.0 / controller.traitCollection.displayScale
+        }
 
         loadPodcasts()
         updateSelectButton()
