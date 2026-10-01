@@ -133,22 +133,25 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         footerView.addSubview(saveButton)
         footerView.translatesAutoresizingMaskIntoConstraints = false
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
-            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16)
-        ])
 
         podcastTableBottomConstraint.isActive = false
 
         view.addSubview(footerView)
         view.bringSubviewToFront(footerView)
+        let saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        saveButtonBottomConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             footerView.heightAnchor.constraint(equalToConstant: 110),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+
+            saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            saveButton.heightAnchor.constraint(equalToConstant: 60),
+            saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor),
+            saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16),
+            saveButtonBottomConstraint,
 
             podcastTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
