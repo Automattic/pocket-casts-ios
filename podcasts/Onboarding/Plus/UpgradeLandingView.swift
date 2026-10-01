@@ -31,11 +31,6 @@ struct UpgradeLandingView: View {
         }
     }
 
-    /// If this device has a small screen
-    private var isSmallScreen: Bool {
-        UIScreen.main.bounds.height <= 667
-    }
-
     /// If this device has a bottom safe area
     private var hasBottomSafeArea: Bool {
         !UIDevice.current.isiPad() && safeAreaBottomHeight > 0
@@ -58,6 +53,7 @@ struct UpgradeLandingView: View {
                     topBar
 
                     GeometryReader { reader in
+                        let isSmallScreen = reader.size.height <= 667
                         ScrollView {
                             VStack(spacing: 0) {
                                 Spacer()

@@ -61,7 +61,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
-            sheetPresentationController.detents = isAccessibility ? [.large()] : UIScreen.isSmallScreen ? [.large()] : [.medium()]
+            sheetPresentationController.detents = isAccessibility ? [.large()] : parentController.view.bounds.height <= 667 ? [.large()] : [.medium()]
         }
         parentController.presentFromRootController(controller, animated: true)
     }
