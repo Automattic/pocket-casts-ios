@@ -23,14 +23,11 @@ struct EditFolderPodcastsView: View {
                         .accessibilityLabel(L10n.close)
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
+                        Button.make(role: .confirm) {
                             numberOfPodcastsChanged = pickerModel.selectedPodcastUuids.count - model.selectedPodcastUuids.count
                             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
                             dismissAction()
-                        } label: {
-                            Text(L10n.done)
                         }
-                        .foregroundColor(ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme)))
                     }
                 }
                 .applyDefaultThemeOptions()
