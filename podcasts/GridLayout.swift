@@ -192,8 +192,8 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         if scrollDirection == .vertical, let oldWidth = collectionView?.bounds.width {
             return oldWidth != newBounds.width
-        } else if scrollDirection == .horizontal, let oldHeight = collectionView?.bounds.height {
-            return oldHeight != newBounds.height
+        } else if scrollDirection == .horizontal, let oldSize = collectionView?.bounds.size {
+            return oldSize != newBounds.size
         }
 
         return false
