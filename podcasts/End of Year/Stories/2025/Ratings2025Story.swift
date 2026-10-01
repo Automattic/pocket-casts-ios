@@ -31,7 +31,7 @@ struct Ratings2025Story: ShareableStory {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(foregroundColor)
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .background(
             Rectangle()
                 .fill(backgroundColor)

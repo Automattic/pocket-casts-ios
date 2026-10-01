@@ -42,7 +42,7 @@ struct LongestEpisode2025Story: ShareableStory {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {

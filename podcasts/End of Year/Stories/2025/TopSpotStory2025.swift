@@ -44,7 +44,7 @@ struct TopSpotStory2025: ShareableStory {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {

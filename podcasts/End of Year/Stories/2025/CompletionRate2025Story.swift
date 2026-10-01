@@ -53,7 +53,7 @@ struct CompletionRate2025Story: ShareableStory {
                 }
             }
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .background(backgroundColor)
         .foregroundStyle(foregroundColor)
     }

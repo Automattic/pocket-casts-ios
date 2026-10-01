@@ -38,7 +38,7 @@ class PodcastHeaderCell: UITableViewCell {
             ContentSizeGeometryReader { _ in
                 PodcastHeaderView(viewModel: viewModel)
                     .setupDefaultEnvironment()
-                    .ignoresSafeArea()//Needs to be done in order to allow expansion of the view to navigation area when scrolling up
+                    .ignoresSafeArea(edges: .top)//Needs to be done in order to allow expansion of the view to navigation area when scrolling up
             } contentSizeUpdated: { [weak self] size in
                 guard let self, let viewController = self.viewController else { return }
                 calculatedHeight = size.height

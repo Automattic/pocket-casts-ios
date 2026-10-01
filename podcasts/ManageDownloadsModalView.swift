@@ -44,7 +44,7 @@ struct ManageDownloadsModalView: View {
             Spacer().frame(height: 16)
         }
         .padding()
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .background(theme.primaryUi01)
     }
 }

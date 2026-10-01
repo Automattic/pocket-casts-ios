@@ -51,7 +51,7 @@ struct Top5Podcasts2024Story: ShareableStory {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .vertical)
         .foregroundStyle(foregroundColor)
         .background(
             Rectangle()
