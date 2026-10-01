@@ -180,6 +180,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var systemAppearanceObservation: Any?
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        updateErrorBannerSafeAreaInsets()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -1179,8 +1185,8 @@ extension MainTabBarController {
             errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             // Error label
-            errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: errorBanner.leadingAnchor, constant: 16),
-            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
+            errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
             errorLabel.topAnchor.constraint(equalTo: errorBanner.topAnchor, constant: 0),
             errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
@@ -1223,11 +1229,8 @@ extension MainTabBarController {
                        options: .curveEaseInOut) { [weak self] in
             guard let self else { return }
             self.errorBanner.alpha = 1
-            let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
             // Push child content up so it doesn't hide behind the shifted tab bar
-            self.additionalSafeAreaInsets = UIEdgeInsets(
-                top: 0, left: 0, bottom: self.errorBannerHeight - baseBottom, right: 0
-            )
+            self.updateErrorBannerSafeAreaInsets()
             self.view.layoutIfNeeded()
         }
 
@@ -1236,6 +1239,16 @@ extension MainTabBarController {
             let item = DispatchWorkItem { [weak self] in self?.hideError() }
             dismissErrorWorkItem = item
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
+        }
+    }
+
+    private func updateErrorBannerSafeAreaInsets() {
+        guard errorBottomSpacing?.priority == .required else { return }
+
+        let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
+        let insets = UIEdgeInsets(top: 0, left: 0, bottom: errorBannerHeight - baseBottom, right: 0)
+        if additionalSafeAreaInsets != insets {
+            additionalSafeAreaInsets = insets
         }
     }
 
