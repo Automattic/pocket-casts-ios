@@ -36,13 +36,19 @@ class ThemeableCollectionView: UICollectionView, AutoScrollCollectionViewDelegat
    // MARK: - Auto scroll handling
     var timer: Timer?
 
+    private var isAutoScrollAllowed: Bool {
+        !UIAccessibility.isReduceMotionEnabled && !UIAccessibility.isVoiceOverRunning
+    }
+
     func initializeAutoScrollTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrolltoNextItem), userInfo: nil, repeats: true)
     }
 
     @objc func scrolltoNextItem() {
-        let nextIndex = (indexPathsForVisibleItems.last?.item ?? 0) + 1
+        guard isAutoScrollAllowed, bounds.width > 0 else { return }
+
+        let nextIndex = Int(round(contentOffset.x / bounds.width)) + 1
         let indexPath = IndexPath(item: nextIndex, section: 0)
         if nextIndex < numberOfItems(inSection: 0) {
             scrollToItem(at: indexPath, at: .left, animated: true)
