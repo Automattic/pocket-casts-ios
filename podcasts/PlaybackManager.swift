@@ -201,6 +201,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // A new episode shouldn't inherit the previous one's "watch downloaded video" choice.
         if episodeIsChanging {
             streamingVideoForDownloadedEpisode.value = false
+            videoRenderingEnabled.value = true
         }
 
         if let uuid = currentEpisode?.uuid, uuid != episode.uuid {
@@ -878,23 +879,43 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// `urlForEpisode` when resolving the playback source.
     func shouldStreamVideoDespiteDownload(_ episode: BaseEpisode) -> Bool {
         streamingVideoForDownloadedEpisode.value
+            && !isAudioOnlyForced
             && episode.uuid == currentEpisode?.uuid
             && EpisodeManager.hasHLSStream(episode)
     }
 
-    /// Toggles the video for the current episode. When streaming HLS the video is already being decoded,
-    /// so this just shows/hides the video surface (a display-only switch). When the episode is downloaded
-    /// its local file is audio-only, so we flip the streaming preference and reload playback in place to
-    /// switch between the downloaded audio file and the streamed HLS video.
+    func prefersAudioOverHLS(_ episode: BaseEpisode) -> Bool {
+        if isAudioOnlyForced { return true }
+        return episode.uuid == currentEpisode?.uuid
+            && !videoRenderingEnabled.value
+            && !streamingVideoForDownloadedEpisode.value
+    }
+
+    func audioOnlySettingChanged() {
+        guard let episode = currentEpisode, EpisodeManager.hasHLSStream(episode) else { return }
+        guard !hasDownloadedFile(episode) || streamingVideoForDownloadedEpisode.value else { return }
+        reloadCurrentEpisodeSource()
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
+    }
+
+    /// Toggles the video for the current episode. When streaming, turning video off switches to the episode's
+    /// audio enclosure (when it has one) and turning it on switches back to the HLS stream. When the episode is
+    /// downloaded its local file is audio-only, so we flip the streaming preference and reload playback in
+    /// place to switch between the downloaded audio file and the streamed HLS video.
     func toggleVideoRendering() {
         guard canToggleVideoRendering(), let episode = currentEpisode else { return }
 
         let switchedToVideo: Bool
         if hasDownloadedFile(episode) {
             switchedToVideo = streamingVideoForDownloadedEpisode.withLock { $0.toggle(); return $0 }
+            if switchedToVideo { videoRenderingEnabled.value = true }
             reloadCurrentEpisodeSource()
         } else {
+            let wasPlayingViaHLS = EpisodeManager.willPlayViaHLS(episode)
             switchedToVideo = videoRenderingEnabled.withLock { $0.toggle(); return $0 }
+            if wasPlayingViaHLS != EpisodeManager.willPlayViaHLS(episode) {
+                reloadCurrentEpisodeSource()
+            }
         }
         analyticsPlaybackHelper.videoRenderingToggled(switchedToVideo: switchedToVideo, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoRenderingToggled)
@@ -1570,7 +1591,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         haveCalledPlayerLoad = false
         hasReportedSourceResolved.value = false
         currentStreamContainsVideo.value = false
-        videoRenderingEnabled.value = true
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
         player?.endPlayback(permanent: permanent)

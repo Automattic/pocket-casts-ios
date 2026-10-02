@@ -439,13 +439,24 @@ class EpisodeManager: NSObject {
     /// the HLS stream in `urlForEpisode`, so a downloaded episode plays its local (progressive) file and
     /// is not treated as HLS — this distinguishes that case from `hasHLSStream`.
     class func willPlayViaHLS(_ episode: BaseEpisode) -> Bool {
-        guard hasHLSStream(episode) else { return false }
+        guard hasHLSStream(episode), !prefersAudioEnclosure(episode) else { return false }
         // The user can choose to watch a downloaded episode's video, which streams the HLS source instead
         // of its local (audio-only) file, so this takes precedence over the downloaded-copy checks below.
         if PlaybackManager.shared.shouldStreamVideoDespiteDownload(episode) { return true }
         if episode.downloaded(pathFinder: DownloadManager.shared) { return false }
         if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) { return false }
         return true
+    }
+
+    class func prefersAudioEnclosure(_ episode: BaseEpisode) -> Bool {
+        guard hasHLSStream(episode),
+              let downloadUrl = (episode as? Episode)?.downloadUrl,
+              URL(string: downloadUrl) != nil,
+              !downloadUrl.isEmpty
+        else {
+            return false
+        }
+        return PlaybackManager.shared.prefersAudioOverHLS(episode)
     }
 
     class func url(for episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
@@ -464,7 +475,7 @@ class EpisodeManager: NSObject {
         if let episode = episode as? Episode {
             // When available, default to the HLS stream over the progressive file.
             // If the HLS url is malformed, fall through to the progressive url rather than failing.
-            if hasHLSStream(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
+            if hasHLSStream(episode), !prefersAudioEnclosure(episode), let hlsUrl = episode.hlsUrl, let url = URL(string: hlsUrl) {
                 return url
             }
             if let url = episode.downloadUrl {
