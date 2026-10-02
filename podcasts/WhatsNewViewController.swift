@@ -51,6 +51,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
+        isVerticalBarDisabled = true
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         scrollView.isPagingEnabled = true

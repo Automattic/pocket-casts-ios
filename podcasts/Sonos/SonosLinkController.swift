@@ -20,6 +20,7 @@ class SonosLinkController: PCViewController {
 
         title = L10n.sonosConnectPrompt
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
+        isVerticalBarDisabled = true
 
         titleLabel.style = .primaryText01
         titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)

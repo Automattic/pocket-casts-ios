@@ -38,6 +38,26 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
+    /// Keeps the bar button items in the horizontal navigation bar instead of moving them to
+    /// the vertical bar on iPhone Duo. Use it for sheets with a single button, such as Close.
+    var isVerticalBarDisabled = false {
+        didSet {
+            #if canImport(UIKit, _version: 9127.0.85)
+            if #available(iOS 27.1, *) {
+                setNeedsUpdateOfVerticalBarConfiguration()
+            }
+            #endif
+        }
+    }
+
+    // The iOS 27.1 SDK
+    #if canImport(UIKit, _version: 9127.0.85)
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior {
+        isVerticalBarDisabled ? .disabled : super.preferredVerticalBarBehavior
+    }
+    #endif
+
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?

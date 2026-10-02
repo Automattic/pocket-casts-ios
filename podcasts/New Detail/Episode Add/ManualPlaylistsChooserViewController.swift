@@ -165,6 +165,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         closeButton.target = self
         closeButton.action = #selector(closeTapped)
         navigationItem.leftBarButtonItem = closeButton
+        isVerticalBarDisabled = true
     }
 
     @objc private func closeTapped(_ sender: Any) {

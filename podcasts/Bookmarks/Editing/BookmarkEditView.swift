@@ -70,6 +70,7 @@ struct BookmarkEditView: View {
                     .foregroundStyle(theme.title)
             }
         }
+        .verticalBarDisabled()
         .onAppear {
             guard !hasFocusedTitle else { return }
 

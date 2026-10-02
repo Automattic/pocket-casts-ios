@@ -30,6 +30,7 @@ struct EditFolderPodcastsView: View {
                         }
                     }
                 }
+                .verticalBarDisabled()
                 .applyDefaultThemeOptions()
         }
         .navigationViewStyle(StackNavigationViewStyle())
