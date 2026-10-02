@@ -259,7 +259,7 @@ extension PlaylistsViewController {
             .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
         vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = ThemeColor.primaryUi01()
+        vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
         vc.sizingOptions = [.preferredContentSize]
@@ -270,7 +270,9 @@ extension PlaylistsViewController {
         popoverPresentationController.permittedArrowDirections = [.up]
         popoverPresentationController.sourceView = sourceView
         popoverPresentationController.sourceRect = sourceRect
-        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        if !LiquidGlass.isEnabled {
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
         return vc
     }
 }

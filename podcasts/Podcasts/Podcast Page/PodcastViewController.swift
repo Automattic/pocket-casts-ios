@@ -1384,7 +1384,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             popoverPresentationController.permittedArrowDirections = [.down]
             popoverPresentationController.sourceView = button
             popoverPresentationController.sourceRect = button.bounds
-            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            if !LiquidGlass.isEnabled {
+                popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            }
         }
         return vc
     }
@@ -1444,7 +1446,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             popoverPresentationController.permittedArrowDirections = [.down]
             popoverPresentationController.sourceView = sourceView
             popoverPresentationController.sourceRect = sourceRect
-            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            if !LiquidGlass.isEnabled {
+                popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            }
         }
         present(vc, animated: true)
         return vc
