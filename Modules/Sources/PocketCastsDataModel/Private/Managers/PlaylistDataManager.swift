@@ -197,25 +197,21 @@ class PlaylistDataManager {
     func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter, dbQueue: GRDBQueue) {
         guard !episodeUuids.isEmpty else { return }
         dbQueue.write { db in
-            do {
-                let inClause = DataHelper.convertArrayToInString(episodeUuids)
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid IN (\(inClause))", values: [playlist.uuid])
-                let removedCount = db.changes
-                if removedCount == 0 { return }
+            let inClause = DataHelper.convertArrayToInString(episodeUuids)
+            try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid IN (\(inClause))", values: [playlist.uuid])
+            let removedCount = db.changes
+            if removedCount == 0 { return }
 
-                // Reindex remaining
-                let rs = try db.executeQuery("SELECT id FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC", values: [playlist.uuid])
-                var ids = [Int64]()
-                while rs.next() { ids.append(rs.longLongInt(forColumn: "id")) }
-                for (index, id) in ids.enumerated() {
-                    try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, id])
-                }
-
-                playlist.syncStatus = SyncStatus.notSynced.rawValue
-                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.syncStatus, Date.now, playlist.uuid])
-            } catch {
-                FileLog.shared.addMessage("PlaylistDataManager.deleteEpisodes error: \(error)")
+            // Reindex remaining
+            let rs = try db.executeQuery("SELECT id FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC", values: [playlist.uuid])
+            var ids = [Int64]()
+            while rs.next() { ids.append(rs.longLongInt(forColumn: "id")) }
+            for (index, id) in ids.enumerated() {
+                try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, id])
             }
+
+            playlist.syncStatus = SyncStatus.notSynced.rawValue
+            try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.syncStatus, Date.now, playlist.uuid])
         }
     }
 
