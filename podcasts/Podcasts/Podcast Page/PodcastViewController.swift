@@ -23,6 +23,21 @@ enum PodcastFeedReloadSource {
     }
 }
 
+/// Where the podcast screen was opened from, sent as the `source` property of `podcast_screen_shown`.
+/// The raw values match the ones the Android app sends, so the event can be compared across platforms.
+enum PodcastScreenSource: String {
+    case podcastList = "podcast_list"
+    case search
+    case episodeDetails = "episode_details"
+    case discover
+    case player
+    case bottomShelf = "bottom_shelf"
+    case podcastScreen = "podcast_screen"
+    case shareList = "share_list"
+    case notification
+    case unknown
+}
+
 protocol PodcastActionsDelegate: AnyObject {
     var currentViewModePublisher: AnyPublisher<PodcastViewController.ViewMode, Never> { get }
     func isSummaryExpanded() -> Bool
@@ -58,6 +73,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     var uuidsThatMatchSearch = [String]()
     var featuredPodcast = false
     var listUuid: String?
+    var screenSource: PodcastScreenSource = .unknown
     var summaryExpanded = false
     var currentViewMode: ViewMode = .episodes
     var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
@@ -465,7 +481,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        var properties = ["uuid": podcastUUID]
+        var properties = ["uuid": podcastUUID, "source": screenSource.rawValue]
         if let listUuid {
             properties["list_id"] = listUuid
         }

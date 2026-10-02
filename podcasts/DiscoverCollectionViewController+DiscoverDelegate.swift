@@ -82,6 +82,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
         podcastController.listUuid = listUuid
+        podcastController.screenSource = .discover
 
         navigationController?.pushViewController(podcastController, animated: true)
     }
@@ -94,6 +95,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func show(podcast: Podcast) {
         let podcastController = PodcastViewController(podcast: podcast)
+        podcastController.screenSource = .discover
         navigationController?.pushViewController(podcastController, animated: true)
     }
 

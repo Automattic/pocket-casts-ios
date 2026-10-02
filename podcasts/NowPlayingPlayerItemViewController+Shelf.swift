@@ -481,7 +481,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func goToPodcast() {
         guard let episode = PlaybackManager.shared.currentEpisode as? Episode else { return }
 
-        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: episode.podcastUuid, NavigationManager.podcastSourceKey: PodcastScreenSource.bottomShelf])
     }
 
     private func markPlayed() {

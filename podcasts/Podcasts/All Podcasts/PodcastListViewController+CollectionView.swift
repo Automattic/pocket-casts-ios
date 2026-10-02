@@ -118,7 +118,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         if let podcast = selectedItem?.podcast {
             Analytics.track(.podcastsListPodcastTapped)
-            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast, NavigationManager.podcastSourceKey: PodcastScreenSource.podcastList])
         } else if let folder = selectedItem?.folder {
             Analytics.track(.podcastsListFolderTapped)
             NavigationManager.shared.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
