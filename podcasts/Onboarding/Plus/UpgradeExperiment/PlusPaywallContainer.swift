@@ -11,14 +11,6 @@ struct PlusPaywallContainer: View {
     private let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
     private let tier = UpgradeTier.plus
 
-    private var hasBottomSafeArea: Bool {
-        !UIDevice.current.isiPad() && safeAreaBottomHeight > 0
-    }
-
-    private var safeAreaBottomHeight: CGFloat {
-        (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0)
-    }
-
     private var topBar: some View {
         HStack(spacing: 0) {
             Spacer()
@@ -94,7 +86,7 @@ struct PlusPaywallContainer: View {
                 Spacer()
                 footer
             }
-            .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
+            .padding(.bottom, Constants.bottomPadding)
         }
         .background(Constants.backgroundColor)
         .sheet(isPresented: $presentSubscriptionView) {
