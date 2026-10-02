@@ -314,9 +314,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     private func adjustHeaderConstraintIfNeeded() {
-        guard view.window != nil else { return }
+        guard let window = view.window else { return }
 
-        let requiredHeight = 50 + view.safeAreaInsets.top
+        let requiredHeight = 50 + window.safeAreaInsets.top
 
         if headerHeightConstraint.constant != requiredHeight {
             headerHeightConstraint.constant = requiredHeight
