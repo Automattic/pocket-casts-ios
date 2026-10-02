@@ -116,6 +116,57 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         XCTAssertEqual(syncedPlaylist.episodes.map(\.episode), [older.uuid, newer.uuid])
     }
 
+    func testChangedPlaylistsIncludesArchivedManualPlaylistEpisodes() {
+        let archived = makeEpisode(uuid: "archived-1", archived: true)
+        let active = makeEpisode(uuid: "active-1")
+        let playlist = makeManualPlaylist(uuid: "manual-archived", episodes: [archived, active])
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        dataManager.save(playlist: playlist)
+
+        let records = syncTask.changedPlaylists()
+        let playlistRecords = records?.compactMap { $0.record }.compactMap { record -> Api_SyncUserPlaylist? in
+            if case let .playlist(p) = record { return p }
+            return nil
+        }
+
+        let syncedPlaylist = try! XCTUnwrap(playlistRecords?.first)
+        XCTAssertEqual(syncedPlaylist.episodeOrder, [archived.uuid, active.uuid])
+        XCTAssertEqual(syncedPlaylist.episodes.map(\.episode), [archived.uuid, active.uuid])
+    }
+
+    func testProcessServerDataRemovesArchivedEpisodeMissingFromServerPlaylist() {
+        FailingURLProtocol.requestCount = 0
+        URLProtocol.registerClass(FailingURLProtocol.self)
+        defer { URLProtocol.unregisterClass(FailingURLProtocol.self) }
+
+        let archived = makeEpisode(uuid: "archived-2", archived: true)
+        let active = makeEpisode(uuid: "active-2")
+        let playlist = makeManualPlaylist(uuid: "manual-server-removed", episodes: [archived, active])
+
+        let response = makeServerResponse(playlistUuid: playlist.uuid, episodes: [active])
+        syncTask.processServerData(response: response)
+
+        let episodes = dataManager.playlistEpisodes(for: playlist, sortType: .dragAndDrop, includeArchived: true)
+        XCTAssertEqual(episodes.map(\.uuid), [active.uuid])
+    }
+
+    func testProcessServerDataKeepsArchivedEpisodeWithoutRefetchingIt() {
+        FailingURLProtocol.requestCount = 0
+        URLProtocol.registerClass(FailingURLProtocol.self)
+        defer { URLProtocol.unregisterClass(FailingURLProtocol.self) }
+
+        let archived = makeEpisode(uuid: "archived-3", archived: true)
+        let active = makeEpisode(uuid: "active-3")
+        let playlist = makeManualPlaylist(uuid: "manual-server-unchanged", episodes: [archived, active])
+
+        let response = makeServerResponse(playlistUuid: playlist.uuid, episodes: [archived, active])
+        syncTask.processServerData(response: response)
+
+        let episodes = dataManager.playlistEpisodes(for: playlist, sortType: .dragAndDrop, includeArchived: true)
+        XCTAssertEqual(episodes.map(\.uuid), [archived.uuid, active.uuid])
+        XCTAssertEqual(FailingURLProtocol.requestCount, 0)
+    }
+
     func testEpisodeFromServerPlaylistEpisodeCreatesEpisode() {
         // Prepare a proto playlist episode
         var proto = Api_SyncPlaylistEpisode()
@@ -196,6 +247,55 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         XCTAssertFalse(persistedExisting?.wasDeleted ?? true)
 
         XCTAssertGreaterThanOrEqual(FailingURLProtocol.requestCount, 1)
+    }
+
+    // MARK: - Helpers
+
+    private func makeEpisode(uuid: String, archived: Bool = false) -> Episode {
+        let episode = Episode()
+        episode.uuid = uuid
+        episode.podcastUuid = "pod-\(uuid)"
+        episode.podcast_id = 1
+        episode.title = "Episode \(uuid)"
+        episode.downloadUrl = "http://example.com/\(uuid).mp3"
+        episode.addedDate = Date(timeIntervalSince1970: 100)
+        episode.archived = archived
+        dataManager.save(episode: episode)
+        return episode
+    }
+
+    private func makeManualPlaylist(uuid: String, episodes: [Episode]) -> EpisodeFilter {
+        let playlist = EpisodeFilter()
+        playlist.uuid = uuid
+        playlist.playlistName = "Manual \(uuid)"
+        playlist.manual = true
+        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
+        playlist.syncStatus = SyncStatus.synced.rawValue
+        dataManager.save(playlist: playlist)
+        dataManager.add(episodes: episodes, to: playlist)
+        return playlist
+    }
+
+    private func makeServerResponse(playlistUuid: String, episodes: [Episode]) -> Api_SyncUpdateResponse {
+        var playlist = Api_SyncUserPlaylist()
+        playlist.originalUuid = playlistUuid
+        playlist.uuid = playlistUuid
+        playlist.title.value = "Server PL"
+        playlist.manual = true
+        playlist.episodeOrder = episodes.map(\.uuid)
+        playlist.episodes = episodes.map { episode in
+            var playlistEpisode = Api_SyncPlaylistEpisode()
+            playlistEpisode.episode = episode.uuid
+            playlistEpisode.podcast = episode.podcastUuid
+            return playlistEpisode
+        }
+
+        var record = Api_Record()
+        record.playlist = playlist
+
+        var response = Api_SyncUpdateResponse()
+        response.records = [record]
+        return response
     }
 }
 
