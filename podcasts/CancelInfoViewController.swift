@@ -36,7 +36,7 @@ class CancelInfoViewController: UIViewController, SFSafariViewControllerDelegate
         super.viewDidLoad()
         title = L10n.cancelSubscription
 
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped(_:)))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(doneTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
 

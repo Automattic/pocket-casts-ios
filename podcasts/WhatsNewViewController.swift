@@ -48,7 +48,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.whatsNew
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
