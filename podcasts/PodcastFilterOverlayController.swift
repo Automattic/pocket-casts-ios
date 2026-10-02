@@ -141,7 +141,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            footerView.heightAnchor.constraint(equalToConstant: 110),
+            footerView.topAnchor.constraint(equalTo: saveButton.topAnchor, constant: -16),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
             saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -359,7 +359,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         super.viewDidLayoutSubviews()
 
         let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
-        let keyBoardHeight = isSearching ? max(0, keyboardHeight - 110) : 0
+        let keyBoardHeight = isSearching ? max(0, keyboardHeight - footerView.bounds.height) : 0
         podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
         podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
     }
