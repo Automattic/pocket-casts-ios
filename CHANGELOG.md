@@ -6,6 +6,7 @@
 - Fix the Discover featured carousel sometimes skipping a page, and stop it auto-advancing when Reduce Motion or VoiceOver is on [#5313](https://github.com/Automattic/pocket-casts-ios/pull/5313)
 - Fix the podcast Playback Effects screen showing a white status bar on light themes [#5330](https://github.com/Automattic/pocket-casts-ios/pull/5330)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
+- Fix timestamps in an episode's show notes not being tappable on the episode details screen [#5337](https://github.com/Automattic/pocket-casts-ios/pull/5337)
 
 8.22
 -----

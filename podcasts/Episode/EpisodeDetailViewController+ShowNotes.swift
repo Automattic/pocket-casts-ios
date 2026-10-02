@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import SafariServices
@@ -104,6 +105,14 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
+            if let url = navigationAction.request.url, url.host == "localhost" {
+                if let time = ShowNotesFormatter.jumpTime(from: url, duration: episode.duration) {
+                    playEpisode(from: time)
+                }
+                decisionHandler(.cancel)
+                return
+            }
+
             if Settings.openLinks, let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
@@ -132,6 +141,18 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         safariViewController = nil
     }
 
+    private func playEpisode(from time: TimeInterval) {
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
+            PlaybackManager.shared.seekTo(time: time, startPlaybackAfterSeek: true)
+        } else {
+            episode.playingStatus = PlayingStatus.inProgress.rawValue
+            episode.playedUpTo = time
+            DataManager.shared.save(episode: episode)
+            updateProgress()
+            PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
+        }
+    }
+
     private func showNotesDidLoad(showNotes: String) {
         rawShowNotes = showNotes
         DispatchQueue.main.async { [weak self] in
@@ -149,7 +170,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         } else {
             let currentTheme = themeOverride ?? Theme.shared.activeTheme
             lastThemeRenderedNotesIn = currentTheme
-            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: true, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
         }
     }
