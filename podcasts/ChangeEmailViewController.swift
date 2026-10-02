@@ -123,7 +123,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         }
 
         currentEmailLabel.text = ServerSettings.syncingEmail()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         updateButtonState()
