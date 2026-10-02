@@ -189,6 +189,7 @@ extension PlaylistsViewController {
 
         if Settings.firstTimePlaylistCreated,
            Settings.shouldShowDragAndDropTip,
+           hasPremadePlaylists(),
            !presentingPlaylistDetail,
            newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
@@ -269,7 +270,9 @@ extension PlaylistsViewController {
         popoverPresentationController.permittedArrowDirections = [.up]
         popoverPresentationController.sourceView = sourceView
         popoverPresentationController.sourceRect = sourceRect
-        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        if !LiquidGlass.isEnabled {
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
         return vc
     }
 }

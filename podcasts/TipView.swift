@@ -118,7 +118,9 @@ extension UIViewController {
 
         popover.delegate = delegate
         popover.permittedArrowDirections = arrow
-        popover.backgroundColor = ThemeColor.primaryUi01()
+        if !LiquidGlass.isEnabled {
+            popover.backgroundColor = ThemeColor.primaryUi01()
+        }
         if let passthroughViews {
             popover.passthroughViews = passthroughViews
         }
