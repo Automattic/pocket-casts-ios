@@ -2,17 +2,13 @@ import Foundation
 
 public enum PodcastSorter {
     /**
-     A case insensitive string comparison that ignores the word "The" at the start of the title.
+     A case and accent insensitive string comparison that ignores the word "The" at the start of the title.
      - Parameter title1 String
      - Parameter title2 String
      - Returns true when title1 is alphabetically before title2, false otherwise
      */
     public static func titleSort(title1: String, title2: String) -> Bool {
-
-        let convertedTitle1 = title1.trimmingThePrefix().convertToPinyinIfNeeded()
-        let convertedTitle2 = title2.trimmingThePrefix().convertToPinyinIfNeeded()
-
-        return convertedTitle1.localizedLowercase.compare(convertedTitle2.localizedLowercase) == .orderedAscending
+        return compareTitles(title1, title2) == .orderedAscending
     }
 
     /**
@@ -25,16 +21,17 @@ public enum PodcastSorter {
         guard let title1 = item1.itemTitle, let title2 = item2.itemTitle else {
             return false
         }
-        let convertedTitle1 = title1.trimmingThePrefix().convertToPinyinIfNeeded()
-        let convertedTitle2 = title2.trimmingThePrefix().convertToPinyinIfNeeded()
-
-        let result = convertedTitle1.localizedLowercase.compare(convertedTitle2.localizedLowercase)
+        let result = compareTitles(title1, title2)
         switch result {
         case .orderedSame:
             return item1.itemUUID.compare(item2.itemUUID) == .orderedAscending
         default:
             return result == .orderedAscending
         }
+    }
+
+    private static func compareTitles(_ title1: String, _ title2: String) -> ComparisonResult {
+        return title1.cleanedForTitleSort().compare(title2.cleanedForTitleSort())
     }
 
     /**
@@ -59,6 +56,17 @@ public enum PodcastSorter {
 }
 
 private extension String {
+    /// The form of a title used for sorting: without a leading "The", lowercased and with accents removed,
+    /// so that "Área" sorts with the As instead of after Z. This matches how the Android app sorts titles.
+    func cleanedForTitleSort() -> String {
+        return trimmingThePrefix()
+            .convertToPinyinIfNeeded()
+            .localizedLowercase
+            .folding(options: .diacriticInsensitive, locale: nil)
+            // "ł" has no accent to remove, so it needs replacing by hand
+            .replacingOccurrences(of: "ł", with: "l")
+    }
+
     func trimmingThePrefix() -> String {
         guard let range = range(of: "^the ", options: [.regularExpression, .caseInsensitive]) else {
             return self
