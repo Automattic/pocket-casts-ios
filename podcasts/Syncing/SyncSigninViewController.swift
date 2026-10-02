@@ -96,7 +96,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         mainButton.accessibilityLabel = L10n.signIn
         updateButtonState()
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .plain, target: self, action: #selector(closeTapped))
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 

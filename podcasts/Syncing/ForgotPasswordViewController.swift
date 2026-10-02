@@ -64,7 +64,7 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
 
         title = L10n.profileResetPassword
         resetPasswordBtn.isEnabled = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .plain, target: self, action: #selector(closeTapped))
         Analytics.track(.forgotPasswordShown)
     }
 
