@@ -4,6 +4,9 @@ import SwiftUI
 struct HolographicEffect<Content>: View where Content: View {
     @StateObject var motion = MotionManager(options: .attitude)
 
+    // TODO: Modernization - UIScreen.main assumes one display. Have callers pass parentSize from the window
+    // they render in, such as from a GeometryReader at the screen's root, since SwiftUI has no environment
+    // value for the window size.
     var parentSize: CGSize = UIScreen.main.bounds.size
     var mode: Mode = .background
     let content: () -> Content
