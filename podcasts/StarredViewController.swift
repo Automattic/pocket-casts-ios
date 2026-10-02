@@ -30,7 +30,7 @@ class StarredViewController: PCViewController {
     var isMultiSelectEnabled: Bool = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             starredTable.beginUpdates()
             starredTable.setEditing(isMultiSelectEnabled, animated: true)
             starredTable.endUpdates()
