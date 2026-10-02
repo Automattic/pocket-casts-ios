@@ -45,9 +45,6 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="thS-Nu-zie" firstAttribute="top" secondItem="bHv-VU-Jd9" secondAttribute="top" constant="15" id="1Ue-c9-qdg"/>
-                        <constraint firstAttribute="trailing" secondItem="thS-Nu-zie" secondAttribute="trailing" constant="15" id="FRP-Gs-sEc"/>
-                        <constraint firstAttribute="bottom" secondItem="thS-Nu-zie" secondAttribute="bottom" constant="34" id="ZjL-Ar-154"/>
-                        <constraint firstItem="thS-Nu-zie" firstAttribute="leading" secondItem="bHv-VU-Jd9" secondAttribute="leading" constant="15" id="iPL-Cm-7Cq"/>
                     </constraints>
                 </view>
             </subviews>
@@ -61,6 +58,11 @@
                 <constraint firstItem="bHv-VU-Jd9" firstAttribute="top" secondItem="CfR-Nz-oqv" secondAttribute="bottom" id="KTl-7a-e3Q"/>
                 <constraint firstItem="CfR-Nz-oqv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="hRk-N7-gA1"/>
                 <constraint firstItem="bHv-VU-Jd9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iEL-36-8Vd"/>
+                <constraint firstItem="thS-Nu-zie" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="pux-1H-LTO"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="thS-Nu-zie" secondAttribute="trailing" constant="15" id="z5Y-0h-Mjm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="thS-Nu-zie" secondAttribute="bottom" id="WUe-Ri-c5l"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="thS-Nu-zie" secondAttribute="bottom" constant="16" id="Dyn-vm-K4r"/>
+                <constraint firstAttribute="bottom" secondItem="thS-Nu-zie" secondAttribute="bottom" priority="250" id="q0z-Z6-Wnu"/>
             </constraints>
             <point key="canvasLocation" x="-222" y="136"/>
         </view>
