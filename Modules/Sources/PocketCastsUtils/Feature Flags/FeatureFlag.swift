@@ -137,9 +137,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
-    /// Ignores play remote commands when another app is playing non-mixable audio
-    case ignorePlayWithOtherAudio
-
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
 
@@ -356,8 +353,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .effectsPlayerQOSUpgrade:
             true
         case .playlistDataCacheBeforeQuery:
-            true
-        case .ignorePlayWithOtherAudio:
             true
         case .useCellularNetworkApis:
             true
