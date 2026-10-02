@@ -19,7 +19,6 @@
                 <outlet property="keyImage" destination="1jE-Af-DzQ" id="2EH-6G-SFE"/>
                 <outlet property="mailImage" destination="Ovr-WK-A2i" id="wB5-6M-0yd"/>
                 <outlet property="nextButton" destination="JWw-XQ-9qm" id="LbG-Yf-YgS"/>
-                <outlet property="nextButtonBottomConstraint" destination="Q6G-8W-wnr" id="2Ls-mP-YeE"/>
                 <outlet property="passwordBorderView" destination="kUO-eE-vAQ" id="rRw-yr-5Tw"/>
                 <outlet property="passwordField" destination="mHh-0p-6aT" id="Zp1-HI-1OS"/>
                 <outlet property="scrollView" destination="7qq-WE-eTq" id="QDh-M6-kCo"/>
@@ -180,7 +179,7 @@
             <constraints>
                 <constraint firstItem="JWw-XQ-9qm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="37q-aS-OFZ"/>
                 <constraint firstItem="7qq-WE-eTq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="9zr-8M-t03"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="JWw-XQ-9qm" secondAttribute="bottom" constant="16" id="Q6G-8W-wnr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="JWw-XQ-9qm" secondAttribute="bottom" constant="16" placeholder="YES" id="Q6G-8W-wnr"/>
                 <constraint firstItem="JWw-XQ-9qm" firstAttribute="centerX" secondItem="Yh7-Hy-eo6" secondAttribute="centerX" id="UVw-RW-dV3"/>
                 <constraint firstItem="7qq-WE-eTq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xpa-2D-p4g"/>
                 <constraint firstAttribute="trailing" secondItem="7qq-WE-eTq" secondAttribute="trailing" id="Zlf-fK-Rue"/>
