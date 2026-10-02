@@ -356,7 +356,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         super.viewDidLayoutSubviews()
 
         let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
-        let keyBoardHeight = isSearching ? keyboardHeight - 110 : 0
+        let keyBoardHeight = isSearching ? max(0, keyboardHeight - 110) : 0
         podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
         podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
     }
