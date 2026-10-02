@@ -753,6 +753,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func updateTextMargins() {
         let readableFrame = view.readableContentGuide.layoutFrame
+        guard !readableFrame.isEmpty else { return }
         let leftMargin = readableFrame.minX + Sizes.textMargin
         let rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
         var topInset = 0.75 * Sizes.topGradientHeight
