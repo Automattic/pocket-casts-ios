@@ -2313,9 +2313,15 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
-            player?.routeDidChange(shouldPause: false)
+            if !FeatureFlag.ignoreRouteChangeWhilePlayRequestPending.enabled || !Self.isPlayRequestPending(isAboutToPlay: aboutToPlay.value, playerShouldBePlaying: player?.shouldBePlaying() ?? false) {
+                player?.routeDidChange(shouldPause: false)
+            }
             updateAllNowPlayingData()
         }
+    }
+
+    static func isPlayRequestPending(isAboutToPlay: Bool, playerShouldBePlaying: Bool) -> Bool {
+        isAboutToPlay && !playerShouldBePlaying
     }
 
     private func logRouteChange(userInfo: [AnyHashable: Any]) {
