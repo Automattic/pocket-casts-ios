@@ -5,6 +5,7 @@
 - Fix the podcast page sometimes freezing and no longer scrolling after expanding a long description [#5319](https://github.com/Automattic/pocket-casts-ios/pull/5319)
 - Fix the Discover featured carousel sometimes skipping a page, and stop it auto-advancing when Reduce Motion or VoiceOver is on [#5313](https://github.com/Automattic/pocket-casts-ios/pull/5313)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
+- Fix streaming video episodes with Audio only or Hide Video turned on still playing the video version instead of the episode's audio file [#5336](https://github.com/Automattic/pocket-casts-ios/pull/5336)
 
 8.22
 -----
