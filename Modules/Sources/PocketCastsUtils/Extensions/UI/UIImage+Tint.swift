@@ -30,6 +30,8 @@ public extension UIImage {
     /// Resize the image using the aspect ration to the given size
     /// Specify the displayScale to set the UIImage.scale factor of the image
     func resizeProportionally(to newSize: CGSize, displayScale: CGFloat = 0) -> UIImage {
+        guard size.width > 0, size.height > 0 else { return self }
+
         let widthRatio = newSize.width / size.width
         let heightRatio = newSize.height / size.height
 
@@ -48,6 +50,8 @@ public extension UIImage {
     }
 
     func resized(to newSize: CGSize, displayScale: CGFloat = 0) -> UIImage? {
+        guard newSize.width.isFinite, newSize.height.isFinite, newSize.width > 0, newSize.height > 0 else { return nil }
+
         UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
         defer { UIGraphicsEndImageContext() }
 
