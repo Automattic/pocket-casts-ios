@@ -6,6 +6,7 @@
 - Fix the Discover featured carousel sometimes skipping a page, and stop it auto-advancing when Reduce Motion or VoiceOver is on [#5313](https://github.com/Automattic/pocket-casts-ios/pull/5313)
 - Fix the podcast Playback Effects screen showing a white status bar on light themes [#5330](https://github.com/Automattic/pocket-casts-ios/pull/5330)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
+- Fix a crash in CarPlay when a podcast's artwork has no size [#5339](https://github.com/Automattic/pocket-casts-ios/pull/5339)
 
 8.22
 -----
