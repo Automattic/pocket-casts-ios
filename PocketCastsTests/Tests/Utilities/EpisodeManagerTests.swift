@@ -210,6 +210,7 @@ final class EpisodeManagerTests: DBTestCase {
 
     override func tearDown() {
         FeatureFlagOverrideStore().resetOverrides()
+        Settings.audioOnly = false
         super.tearDown()
     }
 
@@ -282,6 +283,58 @@ final class EpisodeManagerTests: DBTestCase {
         let url = EpisodeManager.url(for: episode)
 
         XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Should use the progressive file when there is no HLS url")
+    }
+
+    func testUrlForEpisodeUsesAudioEnclosureWhenAudioOnlyEnabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        Settings.audioOnly = true
+
+        let url = EpisodeManager.url(for: makeStreamingHLSEpisode())
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3", "Audio only should stream the audio enclosure instead of the HLS url")
+    }
+
+    func testUrlForEpisodeUsesAudioEnclosureWhenAudioOnlyEnabledAndStreamingOnly() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        Settings.audioOnly = true
+
+        let url = EpisodeManager.url(for: makeStreamingHLSEpisode(), streamingOnly: true)
+
+        XCTAssertEqual(url?.absoluteString, "https://example.com/episode.mp3")
+    }
+
+    func testUrlForEpisodeFallsBackToHLSWhenAudioOnlyEnabledWithoutAudioEnclosure() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        Settings.audioOnly = true
+
+        let episode = makeStreamingHLSEpisode()
+        episode.downloadUrl = nil
+
+        XCTAssertEqual(EpisodeManager.url(for: episode)?.absoluteString, "https://example.com/stream.m3u8")
+        XCTAssertTrue(EpisodeManager.willPlayViaHLS(episode))
+
+        episode.downloadUrl = ""
+        XCTAssertEqual(EpisodeManager.url(for: episode)?.absoluteString, "https://example.com/stream.m3u8")
+        XCTAssertTrue(EpisodeManager.willPlayViaHLS(episode))
+    }
+
+    func testWillPlayViaHLSIsFalseWhenAudioOnlyEnabledWithAudioEnclosure() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        let episode = makeStreamingHLSEpisode()
+
+        XCTAssertTrue(EpisodeManager.willPlayViaHLS(episode))
+
+        Settings.audioOnly = true
+
+        XCTAssertFalse(EpisodeManager.willPlayViaHLS(episode))
+        XCTAssertFalse(EpisodeManager.isVideo(episode))
+    }
+
+    func testUrlForEpisodeStillStreamsHLSWhenAudioOnlyDisabled() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.hls, withValue: true)
+        Settings.audioOnly = false
+
+        XCTAssertEqual(EpisodeManager.url(for: makeStreamingHLSEpisode())?.absoluteString, "https://example.com/stream.m3u8")
     }
 
     // MARK: - isVideo
