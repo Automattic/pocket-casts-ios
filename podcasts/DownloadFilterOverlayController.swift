@@ -25,7 +25,6 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         addTableViewHeader()
         title = SmartPlaylistRule.downloadStatus.title
         setupLargeTitle()
-        tableView.contentInsetAdjustmentBehavior = .never
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
