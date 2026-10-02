@@ -279,6 +279,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.shouldShowInitialOnboardingFlow = false
     }
 
+    // TODO: This workaround is planned to be replaced later.
     private func fixTarBarTraitCollectionOnIpadForiOS18() {
         if #available(iOS 18.0, *),
            UIDevice.current.userInterfaceIdiom == .pad {
