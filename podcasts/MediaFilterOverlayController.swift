@@ -36,7 +36,6 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
         title = SmartPlaylistRule.mediaType.title
         setupLargeTitle()
-        tableView.contentInsetAdjustmentBehavior = .never
         selectedIndex = Int(filterToEdit.filterAudioVideoType)
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         addTableViewHeader()

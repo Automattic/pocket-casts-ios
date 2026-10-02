@@ -71,8 +71,6 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
 
         title = SmartPlaylistRule.releaseDate.title
 
-        tableView.contentInsetAdjustmentBehavior = .never
-
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationItem.largeTitleDisplayMode = .always
         addTableViewHeader()
