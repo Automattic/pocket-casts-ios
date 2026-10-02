@@ -200,7 +200,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
 
         let readableContentGuideMargin = 12.0
         let topMargin = showFromEpisode ? 24.0 : 0.0
-        let paywallButtonBottomMargin: CGFloat = showFromEpisode && view.safeAreaInsets.bottom == 0 ? -readableContentGuideMargin : 0.0
+        let paywallButtonBottomMargin: CGFloat = showFromEpisode ? -readableContentGuideMargin : 0.0
 
         NSLayoutConstraint.activate(
             [

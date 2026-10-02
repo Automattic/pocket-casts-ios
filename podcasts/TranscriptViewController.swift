@@ -753,16 +753,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func updateTextMargins() {
-        let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
+        let readableFrame = view.readableContentGuide.layoutFrame
+        guard !readableFrame.isEmpty else { return }
+        let leftMargin = readableFrame.minX + Sizes.textMargin
+        let rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
         var topInset = 0.75 * Sizes.topGradientHeight
         if FeatureFlag.generatedTranscripts.enabled,
            transcriptManager?.hasGeneratedTranscripts == true {
-            let newMargin = margin + 5.0
-            bannerLabelLeadingConstraint?.constant = newMargin
-            bannerLabelTrailingConstraint?.constant = -newMargin
+            let isRightToLeft = view.effectiveUserInterfaceLayoutDirection == .rightToLeft
+            bannerLabelLeadingConstraint?.constant = (isRightToLeft ? rightMargin : leftMargin) + 5.0
+            bannerLabelTrailingConstraint?.constant = -((isRightToLeft ? leftMargin : rightMargin) + 5.0)
             topInset += 5.0
         }
-        transcriptView.textContainerInset = .init(top: topInset, left: margin, bottom: bottomContainerInset, right: margin)
+        transcriptView.textContainerInset = .init(top: topInset, left: leftMargin, bottom: bottomContainerInset, right: rightMargin)
     }
 
     @MainActor
