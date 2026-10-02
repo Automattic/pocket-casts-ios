@@ -106,6 +106,7 @@ private final class LegacyFakeNavigationBar: UIView {
         set { titleLabel.text = newValue }
     }
 
+    /// The height below the top safe area. The background extends up to the top edge.
     var height: CGFloat {
         get { heightConstraint.constant }
         set {
@@ -135,7 +136,7 @@ private final class LegacyFakeNavigationBar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         layer.shadowOffset = CGSize(width: 0, height: 2)
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: 65)
+        heightConstraint = bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 65)
         heightConstraint.isActive = true
 
         backButton.isPointerInteractionEnabled = true
@@ -146,7 +147,7 @@ private final class LegacyFakeNavigationBar: UIView {
         addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         let buttonSize: CGFloat = 44
-        backButtonLeadingConstraint = backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6)
+        backButtonLeadingConstraint = backButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 6)
         NSLayoutConstraint.activate([
             backButton.widthAnchor.constraint(equalToConstant: buttonSize),
             backButton.heightAnchor.constraint(equalToConstant: buttonSize),
@@ -188,7 +189,7 @@ private final class LegacyFakeNavigationBar: UIView {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: buttonSize),
                 button.heightAnchor.constraint(equalToConstant: buttonSize),
-                trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
+                safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
                 button.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         } else {
