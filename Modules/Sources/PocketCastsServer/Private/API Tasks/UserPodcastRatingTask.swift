@@ -43,6 +43,10 @@ class UserPodcastRatingAddTask: ApiBaseTask, @unchecked Sendable {
             completion?(false)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(false)
+    }
 }
 
 class UserPodcastRatingGetTask: ApiBaseTask, @unchecked Sendable {
@@ -87,5 +91,9 @@ class UserPodcastRatingGetTask: ApiBaseTask, @unchecked Sendable {
             FileLog.shared.addMessage("Failed to serialize Api_PodcastRatingShowRequest \(error.localizedDescription) for podcast \(uuid)")
             completion?(false, nil)
         }
+    }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(false, nil)
     }
 }

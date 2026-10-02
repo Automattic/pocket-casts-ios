@@ -59,4 +59,8 @@ class PurchaseReceiptTask: ApiBaseTask, @unchecked Sendable {
             completion?(false)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(false)
+    }
 }
