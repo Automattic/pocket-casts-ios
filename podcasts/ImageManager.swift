@@ -569,6 +569,10 @@ class ImageManager {
         // but that's about 8x slower, which sucks because this gets called a lot in table views, oh well
     }
 
+    // TODO: Modernization - These sizes read UIScreen.main, which assumes one display. The URLs they pick are
+    // also the cache keys that cacheAllPodcastImages() and clearCache(podcastUuid:recacheWhenDone:) rebuild with
+    // no view in scope, so sizing from each caller's traitCollection.displayScale and width would split the
+    // offline cache. Decide how cached sizes are keyed first, then take the trait collection from the caller.
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
         switch imageSize {
         case .list:

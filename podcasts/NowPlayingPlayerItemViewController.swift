@@ -21,7 +21,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // Detect Display Zoom (zoomed display makes UI elements appear larger).
     // Scale controls down slightly when zoomed to avoid oversized buttons.
     private var isZoomed: Bool {
-        A11y.isDisplayZoomed
+        view.window?.windowScene?.screen.isDisplayZoomed ?? false
     }
 
     var videoViewController: VideoViewController?
@@ -249,6 +249,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var bannerAdHostingController: PCHostingController<AnyView>?
     private var bannerAdHeightConstraint: NSLayoutConstraint?
+    #if !APPCLIP
+    private var bannerAdModel: BannerAdModel?
+    #endif
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
@@ -296,6 +299,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadBannerAd()
+    }
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        // Layout and the banner can run before the view has a window to read Display Zoom from.
+        resizeControls()
+        #if !APPCLIP
+        updateBannerAdDisplayZoom()
+        #endif
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -749,8 +762,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.shared)).padding(16)
-        let hostingController = PCHostingController(rootView: AnyView(adView))
+        let hostingController = PCHostingController(rootView: bannerAdView(model: model))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         hostingController.view.backgroundColor = .clear
@@ -775,6 +787,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         hostingController.didMove(toParent: self)
         bannerAdHostingController = hostingController
         bannerAdHeightConstraint = heightConstraint
+        bannerAdModel = model
 
         view.layoutIfNeeded()
 
@@ -803,6 +816,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         hostingController.removeFromParent()
         bannerAdHostingController = nil
         bannerAdHeightConstraint = nil
+        bannerAdModel = nil
+    }
+
+    private func bannerAdView(model: BannerAdModel) -> AnyView {
+        AnyView(BannerAdView(model: model, colors: .playerColors(Theme.shared), isDisplayZoomed: isZoomed).padding(16))
+    }
+
+    private func updateBannerAdDisplayZoom() {
+        guard let hostingController = bannerAdHostingController, let bannerAdModel else { return }
+
+        hostingController.rootView = .init(content: bannerAdView(model: bannerAdModel), modifier: hostingController.rootView.modifier)
+        updateBannerAdHeight()
     }
 
     private func updateBannerAdHeight() {
