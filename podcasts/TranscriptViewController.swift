@@ -95,7 +95,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        view.keyboardLayoutGuide.usesBottomSafeArea = false
         if FeatureFlag.generatedTranscripts.enabled {
             addGeneratedTranscriptsObservers()
         }
@@ -207,12 +206,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
 
         view.addSubview(transcriptView)
+        view.keyboardLayoutGuide.usesBottomSafeArea = showFromEpisode
         let transcriptViewTopConstraint = transcriptView.topAnchor.constraint(equalTo: view.topAnchor)
         self.transcriptViewTopConstraint = transcriptViewTopConstraint
         NSLayoutConstraint.activate(
             [
                 transcriptViewTopConstraint,
-                transcriptView.bottomAnchor.constraint(equalTo: showFromEpisode ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor),
+                transcriptView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
                 transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
@@ -750,7 +750,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTextMargins()
-        updateKeyboardInsets()
     }
 
     private func updateTextMargins() {
@@ -1113,20 +1112,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
         transcriptView.scrollToRange(firstResultRange)
-    }
-
-    // MARK: - Keyboard
-
-    private func updateKeyboardInsets() {
-        let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
-        guard transcriptView.contentInset.bottom != keyboardHeight else { return }
-
-        let previousContentOffset = transcriptView.contentOffset
-        transcriptView.contentInset.bottom = keyboardHeight
-        transcriptView.verticalScrollIndicatorInsets.bottom = keyboardHeight > 0 ? keyboardHeight : bottomContainerInset
-        if isSearching {
-            transcriptView.setContentOffset(previousContentOffset, animated: false)
-        }
     }
 
     // MARK: - Tracks
