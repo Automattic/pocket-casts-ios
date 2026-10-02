@@ -126,7 +126,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            footerView.heightAnchor.constraint(equalToConstant: 110),
+            footerView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -16),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
             doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
