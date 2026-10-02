@@ -154,6 +154,7 @@ class PlaylistPreviewViewController: PCViewController {
             footerView.addSubview(saveButton)
             let saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             saveButtonBottomConstraint.priority = .defaultLow
+            list.setContentHuggingPriority(.defaultLow - 1, for: .vertical)
             NSLayoutConstraint.activate([
                 footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
                 footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
