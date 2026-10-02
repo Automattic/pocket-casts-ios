@@ -2313,7 +2313,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
-            if !Self.isPlayRequestPending(isAboutToPlay: aboutToPlay.value, playerShouldBePlaying: player?.shouldBePlaying() ?? false) {
+            if !FeatureFlag.ignoreRouteChangeWhilePlayRequestPending.enabled || !Self.isPlayRequestPending(isAboutToPlay: aboutToPlay.value, playerShouldBePlaying: player?.shouldBePlaying() ?? false) {
                 player?.routeDidChange(shouldPause: false)
             }
             updateAllNowPlayingData()
