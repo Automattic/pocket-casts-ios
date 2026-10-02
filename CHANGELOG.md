@@ -15,6 +15,7 @@
 - Fix timestamps in an episode's show notes not being tappable on the episode details screen [#5337](https://github.com/Automattic/pocket-casts-ios/pull/5337)
 - Fix playback pausing itself and another app taking over Now Playing when connecting to CarPlay [#5338](https://github.com/Automattic/pocket-casts-ios/pull/5338)
 - Fix the Profile tab reading "Last refresh: in 0 seconds" right after refreshing. It now reads "now" [#5362](https://github.com/Automattic/pocket-casts-ios/pull/5362)
+- Fix streaming video episodes with Audio only or Hide Video turned on still playing the video version instead of the episode's audio file [#5336](https://github.com/Automattic/pocket-casts-ios/pull/5336)
 
 8.22
 -----
