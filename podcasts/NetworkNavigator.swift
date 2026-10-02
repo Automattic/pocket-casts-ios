@@ -79,6 +79,7 @@ extension NetworkNavigator: DiscoverDelegate {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
         podcastController.listUuid = listUuid
+        podcastController.screenSource = .discover
 
         navController()?.pushViewController(podcastController, animated: true)
     }
@@ -90,7 +91,9 @@ extension NetworkNavigator: DiscoverDelegate {
     }
 
     func show(podcast: Podcast) {
-        navController()?.pushViewController(PodcastViewController(podcast: podcast), animated: true)
+        let podcastController = PodcastViewController(podcast: podcast)
+        podcastController.screenSource = .discover
+        navController()?.pushViewController(podcastController, animated: true)
     }
 
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {

@@ -7,7 +7,7 @@ extension PodcastFolderSearchResult {
         case .folder:
             NavigationManager.shared.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: DataManager.shared.findFolder(uuid: uuid) as Any])
         case .podcast:
-            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: self])
+            NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: self, NavigationManager.podcastSourceKey: PodcastScreenSource.search])
         }
     }
 }

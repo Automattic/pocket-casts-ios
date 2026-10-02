@@ -234,7 +234,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if APPCLIP
         //TODO: Show install banner
         #else
-        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast, NavigationManager.podcastSourceKey: PodcastScreenSource.player])
         #endif
     }
 

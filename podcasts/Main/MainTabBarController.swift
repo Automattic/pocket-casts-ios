@@ -381,7 +381,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         podcastListController.showSuggestedFolders()
     }
 
-    func navigateToPodcast(_ podcast: Podcast) {
+    func navigateToPodcast(_ podcast: Podcast, source: PodcastScreenSource) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
 
             guard let strongSelf = self else { return }
@@ -396,12 +396,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                 }
 
                 let podcastController = PodcastViewController(podcast: podcast)
+                podcastController.screenSource = source
                 navController.pushViewController(podcastController, animated: true)
             }
         })
     }
 
-    func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
+    func navigateToPodcastInfo(_ podcastInfo: PodcastInfo, source: PodcastScreenSource) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
             guard let navController = self?.selectedViewController as? UINavigationController else {
                 return
@@ -409,13 +410,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
+            podcastController.screenSource = source
             navController.pushViewController(podcastController, animated: true)
         })
     }
 
-    func navigateTo(podcast searchResult: PodcastFolderSearchResult) {
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult, source: PodcastScreenSource) {
         if let navController = selectedViewController as? UINavigationController {
             let podcastController = PodcastViewController(podcastInfo: PodcastInfo(from: searchResult), existingImage: nil)
+            podcastController.screenSource = source
             navController.pushViewController(podcastController, animated: true)
         }
     }
