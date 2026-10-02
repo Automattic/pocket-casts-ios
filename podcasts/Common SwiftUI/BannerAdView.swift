@@ -70,17 +70,19 @@ struct BannerAdView: View {
 
     @ObservedObject var model: BannerAdModel
     private let colors: Colors
+    private let isDisplayZoomed: Bool
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) private var sizeCategory
 
     // Keep banner text small only when Display Zoom is enabled.
     var maxSizeCategory: UIContentSizeCategory {
-        A11y.isDisplayZoomed ? .small : .accessibilityMedium
+        isDisplayZoomed ? .small : .accessibilityMedium
     }
 
-    init(model: BannerAdModel, colors: Colors) {
+    init(model: BannerAdModel, colors: Colors, isDisplayZoomed: Bool) {
         self.model = model
         self.colors = colors
+        self.isDisplayZoomed = isDisplayZoomed
     }
 
     var body: some View {
@@ -179,7 +181,8 @@ struct BannerAdView: View {
             adID: "test-ad-id",
             location: "test"
         ),
-        colors: .podcastList(Theme(previewTheme: .light))
+        colors: .podcastList(Theme(previewTheme: .light)),
+        isDisplayZoomed: false
     )
     .environmentObject(Theme(previewTheme: .light))
     .padding(16)
@@ -195,7 +198,8 @@ struct BannerAdView: View {
             adID: "test-ad-id",
             location: "test"
         ),
-        colors: .podcastList(Theme(previewTheme: .light))
+        colors: .podcastList(Theme(previewTheme: .light)),
+        isDisplayZoomed: false
     )
     .environmentObject(Theme(previewTheme: .dark))
     .padding(16)
