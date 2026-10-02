@@ -65,13 +65,8 @@ struct ManageDownloadsBannerView: View {
             Spacer()
         }
         .padding()
-        .background(theme.primaryUi01)
+        .background(theme.primaryUi02Active)
         .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .inset(by: 0.25)
-                .stroke(theme.primaryText02, lineWidth: 0.5)
-        )
         .overlay(alignment: .topTrailing) {
             Button() {
                 dataModel.onNotNowTap?()
