@@ -59,12 +59,12 @@ private extension String {
     /// The form of a title used for sorting: without a leading "The", lowercased and with accents removed,
     /// so that "Área" sorts with the As instead of after Z. This matches how the Android app sorts titles.
     func cleanedForTitleSort() -> String {
-        return trimmingThePrefix()
+        let lowercasedTitle = trimmingThePrefix()
             .convertToPinyinIfNeeded()
             .localizedLowercase
-            .folding(options: .diacriticInsensitive, locale: nil)
-            // "ł" has no accent to remove, so it needs replacing by hand
-            .replacingOccurrences(of: "ł", with: "l")
+
+        // Latin-ASCII covers both combining accents and letters like "ł", "ø" and "ß", which have none to strip
+        return lowercasedTitle.applyingTransform(StringTransform("Latin-ASCII"), reverse: false) ?? lowercasedTitle
     }
 
     func trimmingThePrefix() -> String {
