@@ -42,8 +42,9 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
     }
 
     private func pushOnboarding() {
-        let controller = OnboardingFlow.shared.begin(flow: .loggedOut, in: navigationController, source: .encourageAccountCreation)
-        navigationController?.pushViewController(controller, animated: true)
+        guard let navigationController else { return }
+        let controller = OnboardingFlow.shared.begin(flow: .loggedOut, in: navigationController, source: .encourageAccountCreation, traitCollection: navigationController.traitCollection)
+        navigationController.pushViewController(controller, animated: true)
     }
 
     private func cardName(from index: Int) -> String? {
@@ -59,15 +60,16 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
         }
     }
 
-    static func makeController() -> UINavigationController {
+    static func makeController(traitCollection: UITraitCollection) -> UINavigationController {
         let viewModel = InformationalModalViewModel()
+        let modalPresentationStyle: UIModalPresentationStyle = traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular ? .formSheet : .fullScreen
 
-        let view = InformationalModalView(viewModel: viewModel)
+        let view = InformationalModalView(viewModel: viewModel, isFormSheet: modalPresentationStyle == .formSheet)
         let controller = InformationalModalHostingController(rootView: view.setupDefaultEnvironment())
         controller.viewModel = viewModel
 
         let navController = UINavigationController(rootViewController: controller)
-        navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
+        navController.modalPresentationStyle = modalPresentationStyle
         viewModel.navigationController = navController
 
         return  navController

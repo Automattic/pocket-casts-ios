@@ -17,8 +17,9 @@ class PlusAccountPromptTableCell: ThemeableCell {
 
         let view = UpgradeBannerView(viewModel: UpgradeAccountViewModel(upgradeTier: .plus, selectedProduct: .yearly, viewSource: .profile, flowSource: .accountScreen), onSubscribeTap: {
             Analytics.track(.plusPromotionBannerButtonTapped, properties: ["source": PlusUpgradeViewSource.profile.rawValue, "flow": OnboardingFlow.Flow.plusAccountUpgrade.rawValue])
-            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: .profile, context: nil)
-            model.parentController?.present(controller, animated: true)
+            guard let parentController = model.parentController else { return }
+            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: .profile, context: nil, traitCollection: parentController.traitCollection)
+            parentController.present(controller, animated: true)
         }).themedUIView
         view.backgroundColor = .clear
 

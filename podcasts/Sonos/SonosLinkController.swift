@@ -70,7 +70,7 @@ private extension SonosLinkController {
     }
 
     func signIntoPocketCasts() {
-        let controller = OnboardingFlow.shared.begin(flow: .sonosLink, source: .sonosLink)
+        let controller = OnboardingFlow.shared.begin(flow: .sonosLink, source: .sonosLink, traitCollection: traitCollection)
         navigationController?.present(controller, animated: true)
     }
 

@@ -266,7 +266,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false, traitCollection: UITraitCollection) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
         coordinator.isOnboarding = isOnboarding
@@ -286,7 +286,7 @@ extension LoginCoordinator {
         }
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
-        navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
+        navController.modalPresentationStyle = traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular ? .formSheet : .fullScreen
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller

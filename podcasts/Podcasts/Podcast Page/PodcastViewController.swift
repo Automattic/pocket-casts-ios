@@ -387,7 +387,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func showLogin(message: String?) {
-        let loginViewController = LoginCoordinator.make()
+        let loginViewController = LoginCoordinator.make(traitCollection: traitCollection)
         present(loginViewController, animated: true)
         if let message {
             Toast.show(message)
