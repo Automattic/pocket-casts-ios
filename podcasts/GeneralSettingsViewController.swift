@@ -618,6 +618,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     @objc private func audioOnlyToggled(_ sender: UISwitch) {
         Settings.audioOnly = sender.isOn
         ServerSettings.syncSettings()
+        PlaybackManager.shared.audioOnlySettingChanged()
 
         Settings.trackValueToggled(.settingsGeneralAudioOnlyToggled, enabled: sender.isOn)
     }
