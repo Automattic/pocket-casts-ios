@@ -31,7 +31,11 @@ public enum PodcastSorter {
     }
 
     private static func compareTitles(_ title1: String, _ title2: String) -> ComparisonResult {
-        return title1.cleanedForTitleSort().compare(title2.cleanedForTitleSort())
+        let convertedTitle1 = title1.trimmingThePrefix().convertToPinyinIfNeeded()
+        let convertedTitle2 = title2.trimmingThePrefix().convertToPinyinIfNeeded()
+
+        // Ignoring accents keeps a title like "Área" with the As instead of after Z
+        return convertedTitle1.compare(convertedTitle2, options: [.caseInsensitive, .diacriticInsensitive])
     }
 
     /**
@@ -56,17 +60,6 @@ public enum PodcastSorter {
 }
 
 private extension String {
-    /// The form of a title used for sorting: without a leading "The", lowercased and with accents removed,
-    /// so that "Área" sorts with the As instead of after Z. This matches how the Android app sorts titles.
-    func cleanedForTitleSort() -> String {
-        let lowercasedTitle = trimmingThePrefix()
-            .convertToPinyinIfNeeded()
-            .localizedLowercase
-
-        // Latin-ASCII covers both combining accents and letters like "ł", "ø" and "ß", which have none to strip
-        return lowercasedTitle.applyingTransform(StringTransform("Latin-ASCII"), reverse: false) ?? lowercasedTitle
-    }
-
     func trimmingThePrefix() -> String {
         guard let range = range(of: "^the ", options: [.regularExpression, .caseInsensitive]) else {
             return self

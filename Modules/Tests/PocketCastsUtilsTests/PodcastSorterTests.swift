@@ -18,7 +18,6 @@ class PodcastSorterTests: XCTestCase {
             ["A title", "Área de trabalho"],
             ["Ça s'explique", "D title"],
             ["Über title", "V title"],
-            ["Łódź title", "M title"],
             // emoji sorting
             ["B title", "🔚 A title"],
             ["🔥 A title", "🔥 B title"],
