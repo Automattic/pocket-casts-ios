@@ -29,6 +29,7 @@ public class EpisodeFilter: NSObject {
     @objc public var manual: Bool = false
     @objc public var showArchivedEpisodes: Bool = false
     @objc public var playlistUpdateDate: Date?
+    @objc public var filterEpisodeTitle: String = ""
 
     // Internal tracking
     public var isNew: Bool = false
@@ -37,8 +38,13 @@ public class EpisodeFilter: NSObject {
     public var releaseDateSmartRuleApplied: Bool = false
     public var mediaTypeSmartRuleApplied: Bool = false
     public var downloadStatusSmartRuleApplied: Bool = false
+    public var titleSmartRuleApplied: Bool = false
 
     override public init() {}
+
+    public func recalculateSmartRuleFlags() {
+        titleSmartRuleApplied = !filterEpisodeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
 
     /// A new filter pre-populated with the default "match everything" rules used when creating a playlist.
     /// Callers set the name, sort position, and any distinguishing fields (e.g. `manual`, `sortType`).
@@ -145,6 +151,7 @@ public class EpisodeFilter: NSObject {
         case manual
         case showArchivedEpisodes
         case playlistUpdateDate
+        case filterEpisodeTitle
     }
 
     public required init(from decoder: Decoder) throws {
@@ -176,6 +183,7 @@ public class EpisodeFilter: NSObject {
         manual = try container.decodeIfPresent(Bool.self, forKey: .manual) ?? false
         showArchivedEpisodes = try container.decodeIfPresent(Bool.self, forKey: .showArchivedEpisodes) ?? false
         playlistUpdateDate = try container.decodeIfPresent(Date.self, forKey: .playlistUpdateDate)
+        filterEpisodeTitle = try container.decodeIfPresent(String.self, forKey: .filterEpisodeTitle) ?? ""
     }
 
     public func encode(to container: inout PersistenceContainer) {
@@ -205,6 +213,7 @@ public class EpisodeFilter: NSObject {
         container["manual"] = manual
         container["showArchivedEpisodes"] = showArchivedEpisodes
         container["playlistUpdateDate"] = playlistUpdateDate?.timeIntervalSince1970
+        container["filterEpisodeTitle"] = filterEpisodeTitle
     }
 
     public enum Columns {
@@ -234,6 +243,7 @@ public class EpisodeFilter: NSObject {
         public static let manual = Column(CodingKeys.manual)
         public static let showArchivedEpisodes = Column(CodingKeys.showArchivedEpisodes)
         public static let playlistUpdateDate = Column(CodingKeys.playlistUpdateDate)
+        public static let filterEpisodeTitle = Column(CodingKeys.filterEpisodeTitle)
     }
 }
 
