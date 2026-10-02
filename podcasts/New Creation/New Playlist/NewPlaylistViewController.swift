@@ -374,25 +374,16 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func tip(
-        idealSize: CGSize = CGSizeMake(290, 100),
+        width: CGFloat = 290,
         title: String,
         message: String,
         sourceView: UIView?,
         sourceRect: CGRect
-    ) -> UIHostingController<AnyView>? {
-        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipViewStatic(title: title,
-                                    message: message,
-                              onTap: { [weak self] in
+    ) -> UIViewController? {
+        let vc = SmartPlaylistTipViewController(title: title, message: message, width: width) { [weak self] in
             self?.dismissTipView()
-        })
-            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
-            .setupDefaultEnvironment()
-        vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
-        vc.view.clipsToBounds = false
+        }
         vc.modalPresentationStyle = .popover
-        vc.sizingOptions = [.preferredContentSize]
         guard let popoverPresentationController = vc.popoverPresentationController else {
             return nil
         }
@@ -400,7 +391,9 @@ class NewPlaylistViewController: PCViewController {
         popoverPresentationController.permittedArrowDirections = [.up]
         popoverPresentationController.sourceView = sourceView
         popoverPresentationController.sourceRect = sourceRect
-        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        if !LiquidGlass.isEnabled {
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
         return vc
     }
 }
@@ -420,5 +413,67 @@ extension NewPlaylistViewController: UIPopoverPresentationControllerDelegate {
 
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         dismissTipView()
+    }
+}
+
+private final class SmartPlaylistTipViewController: UIViewController {
+    private let tipTitle: String
+    private let message: String
+    private let width: CGFloat
+    private let onTap: () -> Void
+
+    init(title: String, message: String, width: CGFloat, onTap: @escaping () -> Void) {
+        self.tipTitle = title
+        self.message = message
+        self.width = width
+        self.onTap = onTap
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let titleLabel = UILabel()
+        titleLabel.text = tipTitle
+        titleLabel.font = .font(ofSize: 15, weight: .bold, scalingWith: .body)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.textColor = ThemeColor.primaryText01()
+        titleLabel.numberOfLines = 2
+
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = .font(ofSize: 14, scalingWith: .body)
+        messageLabel.adjustsFontForContentSizeCategory = true
+        messageLabel.textColor = ThemeColor.primaryText02()
+        messageLabel.numberOfLines = 4
+
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, messageLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16)
+        ])
+
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+
+        preferredContentSize = view.systemLayoutSizeFitting(
+            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+    }
+
+    @objc private func didTap() {
+        onTap()
     }
 }

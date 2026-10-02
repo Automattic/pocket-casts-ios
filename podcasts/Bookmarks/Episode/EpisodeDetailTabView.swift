@@ -41,10 +41,6 @@ struct EpisodeDetailTabView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: EpisodeTabsViewModel
 
-    private var isSmallScreen: Bool {
-        UIScreen.main.bounds.height <= 667
-    }
-
     var body: some View {
         wrapperView {
             HStack(spacing: 12) {
@@ -55,9 +51,7 @@ struct EpisodeDetailTabView: View {
                         } customize: { config in
                             config.label
                                 .fixedSize()
-                                .applyStyle(theme: theme,
-                                            highlighted: viewModel.selectedTab == tab,
-                                            isSmallScreen: isSmallScreen)
+                                .applyStyle(theme: theme, highlighted: viewModel.selectedTab == tab)
                                 .applyButtonEffect(isPressed: config.isPressed)
                         }
                 }
@@ -67,7 +61,7 @@ struct EpisodeDetailTabView: View {
             .font(.subheadline.weight(.medium))
             .environment(\.dynamicTypeSize, .large)
         }
-        .padding(.leading, isSmallScreen ? 0 : 10)
+        .padding(.leading, 10)
     }
 
     @ViewBuilder
@@ -83,11 +77,11 @@ struct EpisodeDetailTabView: View {
 // MARK: - View Extension
 
 private extension View {
-    func applyStyle(theme: Theme, highlighted: Bool = false, isSmallScreen: Bool) -> some View {
+    func applyStyle(theme: Theme, highlighted: Bool = false) -> some View {
         self
             .contentShape(Rectangle())
             .padding(.vertical, 8)
-            .padding(.horizontal, isSmallScreen ? 6 : 12)
+            .padding(.horizontal, 12)
             .foregroundColor(highlighted ? theme.primaryUi01 : theme.primaryText02)
             .background(tabBackground(theme: theme, highlighted: highlighted))
             .animation(.linear(duration: 0.1), value: highlighted)

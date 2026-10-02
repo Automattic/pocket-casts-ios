@@ -234,7 +234,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if APPCLIP
         //TODO: Show install banner
         #else
-        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast, NavigationManager.podcastSourceKey: PodcastScreenSource.player])
         #endif
     }
 
@@ -316,7 +316,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     private func adjustHeaderConstraintIfNeeded() {
         guard let window = view.window else { return }
 
-        let requiredHeight = 50 + UIUtil.statusBarHeight(in: window)
+        let requiredHeight = 50 + window.safeAreaInsets.top
 
         if headerHeightConstraint.constant != requiredHeight {
             headerHeightConstraint.constant = requiredHeight

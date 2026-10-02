@@ -5,6 +5,8 @@ import EndOfYear
 struct StoryHeader2025: View {
     @Environment(\.renderForSharing) var renderForSharing: Bool
 
+    @State private var isSmallScreen = false
+
     let title: String?
     let description: String?
     let subscriptionTier: SubscriptionTier?
@@ -38,13 +40,18 @@ struct StoryHeader2025: View {
         }
         .padding(.horizontal, 24)
         .padding(.top, topPadding ?? defaultTopPadding)
+        .background {
+            Color.clear
+                .containerRelativeFrame(.vertical)
+                .onGeometryChange(for: Bool.self) { $0.size.height <= 667 } action: { isSmallScreen = $0 }
+        }
     }
 
     var defaultTopPadding: CGFloat {
         if renderForSharing {
             StoryLogoView.Constants.paddingBottom + 30
         }
-        else if UIScreen.isSmallScreen {
+        else if isSmallScreen {
             70
         }
         else {

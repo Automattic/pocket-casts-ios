@@ -145,11 +145,12 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     private func signup() {
-        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode, source: .referral) { [weak self] accountCreated in
+        guard let presentationController else { return }
+        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode, source: .referral, traitCollection: presentationController.traitCollection) { [weak self] accountCreated in
             self?.accountCreated = accountCreated
         }
 
-        presentationController?.present(onboardVC, animated: true)
+        presentationController.present(onboardVC, animated: true)
     }
 
     private func purchase(offer: ReferralValidate) {

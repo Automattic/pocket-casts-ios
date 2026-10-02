@@ -6,6 +6,8 @@ import PocketCastsUtils
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
     static let podcastKey = "podcast"
+    /// Optional `PodcastScreenSource` saying where the podcast page is being opened from
+    static let podcastSourceKey = "podcastSource"
 
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
@@ -93,14 +95,8 @@ class NavigationManager {
     var dimmingView: UIView?
     var miniPlayer: MiniPlayerViewController?
 
-    var isPhone = false
-
     private var lastNavKey = ""
     private var lastNavData: NSDictionary?
-
-    init() {
-        isPhone = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
-    }
 
     // MARK: - Navigation
 
@@ -123,15 +119,17 @@ class NavigationManager {
         if place == NavigationManager.podcastPageKey {
             guard let data else { return }
 
+            let source = data[NavigationManager.podcastSourceKey] as? PodcastScreenSource ?? .unknown
+
             if let podcast = data[NavigationManager.podcastKey] as? Podcast {
-                mainController?.navigateToPodcast(podcast)
+                mainController?.navigateToPodcast(podcast, source: source)
             }
             if let podcastUuid = data[NavigationManager.podcastKey] as? String {
                 if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    mainController?.navigateToPodcast(podcast)
+                    mainController?.navigateToPodcast(podcast, source: source)
                 }
             } else if let podcastInfo = data[NavigationManager.podcastKey] as? PodcastInfo {
-                mainController?.navigateToPodcastInfo(podcastInfo)
+                mainController?.navigateToPodcastInfo(podcastInfo, source: source)
             } else if let podcastHeader = data[NavigationManager.podcastKey] as? PodcastHeader {
                 // legacy PodcastHeader support
                 var podcastInfo = PodcastInfo()
@@ -141,9 +139,9 @@ class NavigationManager {
                 podcastInfo.author = podcastHeader.author
                 podcastInfo.iTunesId = podcastHeader.itunesId?.intValue
 
-                mainController?.navigateToPodcastInfo(podcastInfo)
+                mainController?.navigateToPodcastInfo(podcastInfo, source: source)
             } else if let searchResult = data[NavigationManager.podcastKey] as? PodcastFolderSearchResult {
-                mainController?.navigateTo(podcast: searchResult)
+                mainController?.navigateTo(podcast: searchResult, source: source)
             }
         } else if place == NavigationManager.folderPageKey {
             guard let data else { return }

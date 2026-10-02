@@ -1070,7 +1070,6 @@
 		F5516DBE2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */; };
 		F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D22123EAD600BFBB03 /* EffectsButton.swift */; };
 		F553A1602CECF95B006581A1 /* SleepTimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D42123F0AF00BFBB03 /* SleepTimerButton.swift */; };
-		F553A1612CECF979006581A1 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		F553A1622CECF985006581A1 /* SleepTimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4022A4BF236BA15800900734 /* SleepTimerViewController.xib */; };
 		F553A1632CECF98F006581A1 /* SleepTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4022A4BE236BA15800900734 /* SleepTimerViewController.swift */; };
 		F553A1642CECF997006581A1 /* EffectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE292E223680D6100A4EEAE /* EffectsViewController.swift */; };
@@ -1346,7 +1345,6 @@
 		FF8FFE6F2FAA8F3E0086A867 /* DownloadManager+URLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */; };
 		FF8FFE702FAA8F490086A867 /* EpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */; };
 		FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */; };
-		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF9B6B752D0732D40057A504 /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B742D0732CF0057A504 /* LogsViewController.swift */; };
 		FF9B6B772D0733670057A504 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B762D0733650057A504 /* LogsView.swift */; };
 		FF9BCB342EA659C900A25F12 /* playback_2025_listened.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */; };
@@ -2669,7 +2667,6 @@
 		FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptModel.swift; sourceTree = "<group>"; };
 		FF8FFE552FAA5FEC0086A867 /* BackgroundShakeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundShakeObserver.swift; sourceTree = "<group>"; };
 		FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontaCollectionModel.swift; sourceTree = "<group>"; };
-		FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Sizes.swift"; sourceTree = "<group>"; };
 		FF9B6B742D0732CF0057A504 /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
 		FF9B6B762D0733650057A504 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
 		FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback_2025_listened.json; sourceTree = "<group>"; };
@@ -4894,7 +4891,6 @@
 		BDF9DDDC1B8AE9B900E77B35 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */,
 				463538AA26E814B300BA9D35 /* DataModel+Strings.swift */,
 				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 				F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */,
@@ -7026,7 +7022,6 @@
 				BD69EBBC1CD1D383007F273B /* SocialsHelper.swift in Sources */,
 				BDEDCF7124627F02005910C1 /* CustomSegmentedControl.swift in Sources */,
 				408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */,
-				FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */,
 				FF1EC6862CECBC7D006FBF9B /* ManageDownloadsCoordinator.swift in Sources */,
 				4047E1782419B2F800B79177 /* ServerSyncManager.swift in Sources */,
 				BD9FF6241B8EF81A009F075E /* CategoryCell.swift in Sources */,
@@ -7466,7 +7461,6 @@
 				F5F5091B2CEBEC6F007D6E39 /* DownloadManager.swift in Sources */,
 				F5D5F7C72CEBE85D001F492D /* SimpleNotificationsViewController.swift in Sources */,
 				F5F5092B2CEBEF2C007D6E39 /* DownloadManager+URLSessionDelegate.swift in Sources */,
-				F553A1612CECF979006581A1 /* UIScreen+Sizes.swift in Sources */,
 				F5F5090E2CEBEBAA007D6E39 /* PlaybackQueue.swift in Sources */,
 				F5F509672CEBF7AF007D6E39 /* UserEpisode+Formatting.swift in Sources */,
 				F5F508F02CEBE94F007D6E39 /* Strings+Generated.swift in Sources */,
