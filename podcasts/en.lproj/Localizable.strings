@@ -5909,11 +5909,14 @@
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
 
+/* Manual Playlist: empty state subtitle when no episodes are added. Shown above the "Add episodes" button, which lets people pick episodes from the podcasts they follow */
+"playlist_manual_empty_state_subtitle" = "Pick episodes from the podcasts you follow. Or swipe left on any episode to add it as you go.";
+
 /* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
 
-/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
-"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts. Shown above the "Browse podcasts" button, which opens Discover */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Find a podcast you like, then swipe left on any episode to add it.";
 
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_browse_shows_title" = "Browse podcasts";
