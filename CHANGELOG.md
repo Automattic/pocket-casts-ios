@@ -7,6 +7,7 @@
 - Fix podcasts whose titles start with an accented letter being listed after Z when sorting by name [#5334](https://github.com/Automattic/pocket-casts-ios/pull/5334)
 - Fix the podcast Playback Effects screen showing a white status bar on light themes [#5330](https://github.com/Automattic/pocket-casts-ios/pull/5330)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
+- The "Enjoying Pocket Casts?" prompt now waits for a quiet moment instead of appearing as soon as you open the app or while you are tapping [#5346](https://github.com/Automattic/pocket-casts-ios/pull/5346)
 
 8.22
 -----
