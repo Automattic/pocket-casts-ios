@@ -22,6 +22,13 @@ public class UserSatisfactionSurveyManager: NSObject {
 
     private var deferredSurveyEvents: [SurveyTriggerEvent: [Date]] = [:]
 
+    /// A survey that is ready to be shown, and is waiting for a moment when it won't interrupt
+    private var pendingSurvey: PendingSurvey?
+    private var pendingSurveyTask: Task<Void, Never>?
+
+    /// When the app was last opened. `nil` until the first `applicationOpened` event arrives.
+    private var appOpenedDate: Date?
+
     // MARK: - Survey Entry Points
 
     /// Checks if the survey should be shown based on the event and user context
@@ -160,6 +167,12 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
 
 extension UserSatisfactionSurveyManager: AnalyticsAdapter {
     public func track(name: String, properties: [String: Sendable]) async {
+        if name == AnalyticsEvent.applicationOpened.eventName {
+            appOpenedDate = Date()
+            // Pick up a survey that was triggered while the app was in the background
+            showPendingSurveyWhenCalm()
+        }
+
         let handled = handleDeferredSurveyReleaseIfNeeded(for: name, properties: properties)
 
         guard handled == false else {
@@ -213,13 +226,76 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
 
         switch result {
         case .canShow:
-            guard let topViewController = SceneHelper.rootViewController() else { return }
-            presentSurvey(from: topViewController, event: event, skipEligibility: !allowDeferral)
+            FileLog.shared.addMessage("UserSatisfactionSurveyManager: Survey for \(event.rawValue) will be shown at the next calm moment")
+            pendingSurvey = PendingSurvey(event: event, skipEligibility: !allowDeferral)
+            showPendingSurveyWhenCalm()
         case .deferredEvent:
             deferSurveyTrigger(event)
         default:
             break
         }
+    }
+
+    /// Shows the pending survey once it won't interrupt, and checks again later if it would.
+    ///
+    /// It follows the Android app's rules: the app has been open for a few seconds, nothing is presented over
+    /// the main screens, and the screen hasn't just been touched. Unlike Android, it doesn't require being on
+    /// the first screen of a tab.
+    private func showPendingSurveyWhenCalm() {
+        pendingSurveyTask?.cancel()
+        pendingSurveyTask = nil
+
+        guard let pendingSurvey else { return }
+
+        // Nothing can be shown in the background. This is called again when the app is opened.
+        guard UIApplication.shared.applicationState != .background else { return }
+
+        let timeUntilAppHasSettled = remainingDelayAfterAppOpened()
+        guard timeUntilAppHasSettled <= 0 else {
+            checkPendingSurvey(after: timeUntilAppHasSettled)
+            return
+        }
+
+        guard canShowSurveyWithoutInterrupting(), let topViewController = SceneHelper.rootViewController() else {
+            checkPendingSurvey(after: PresentationTiming.retryInterval)
+            return
+        }
+
+        self.pendingSurvey = nil
+        presentSurvey(from: topViewController, event: pendingSurvey.event, skipEligibility: pendingSurvey.skipEligibility)
+    }
+
+    private func checkPendingSurvey(after delay: TimeInterval) {
+        pendingSurveyTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(delay))
+            guard !Task.isCancelled else { return }
+            self?.showPendingSurveyWhenCalm()
+        }
+    }
+
+    /// How much longer to wait before the app has been open long enough to show the survey
+    private func remainingDelayAfterAppOpened() -> TimeInterval {
+        guard let appOpenedDate else { return 0 }
+        return PresentationTiming.delayAfterAppOpened - Date().timeIntervalSince(appOpenedDate)
+    }
+
+    private func canShowSurveyWithoutInterrupting() -> Bool {
+        guard UIApplication.shared.applicationState == .active,
+              let mainController = SceneHelper.rootViewController(includeTopMost: false),
+              let window = mainController.view.window else {
+            return false
+        }
+
+        // The full screen player, Up Next, episode cards, sheets and alerts are all presented from the main controller
+        if mainController.presentedViewController != nil {
+            return false
+        }
+
+        if let window = window as? MainWindow, window.wasTouched(inLast: PresentationTiming.quietPeriodAfterTouch) {
+            return false
+        }
+
+        return true
     }
 
     private func deferSurveyTrigger(_ event: SurveyTriggerEvent, ) {
@@ -281,6 +357,25 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
 
         return nil
     }
+}
+
+// MARK: - Presentation Timing
+
+private struct PendingSurvey {
+    let event: SurveyTriggerEvent
+    let skipEligibility: Bool
+}
+
+/// The same values the Android app uses
+private enum PresentationTiming {
+    /// How long the app has to be open before the survey can be shown
+    static let delayAfterAppOpened: TimeInterval = 3
+
+    /// How long the screen has to go untouched before the survey can be shown
+    static let quietPeriodAfterTouch: TimeInterval = 2
+
+    /// How long to wait before checking again when the survey would have interrupted
+    static let retryInterval: TimeInterval = 5
 }
 
 // MARK: - Survey Check Result
