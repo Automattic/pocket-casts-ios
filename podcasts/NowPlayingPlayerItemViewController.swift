@@ -267,6 +267,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             controller.updateSize()
         }
 
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: NowPlayingPlayerItemViewController, _) in
+            controller.resizeControls()
+            #if !APPCLIP
+            controller.updateBannerAdDisplayZoom()
+            #endif
+        }
+
         setUpArtworkImageView()
 
         #if !APPCLIP
