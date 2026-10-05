@@ -102,7 +102,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         title = L10n.createAccount
         activityIndicator.isHidden = true
         let backImage = UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(textStyle: UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedBody"), scale: .default))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .done, target: self, action: #selector(backTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         view.keyboardLayoutGuide.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 16).isActive = true

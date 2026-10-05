@@ -101,7 +101,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             }
         }
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         userLoginNotification = NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
