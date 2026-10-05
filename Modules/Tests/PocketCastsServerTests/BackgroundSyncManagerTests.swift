@@ -48,4 +48,20 @@ final class BackgroundSyncManagerTests: XCTestCase {
             "More bytes than expected should be considered incomplete/corrupt"
         )
     }
+
+    // MARK: - Up Next response processing
+
+    func testUpNextResponseIsProcessedOnOK() {
+        XCTAssertTrue(BackgroundSyncManager.shouldProcessUpNextResponse(httpStatus: 200))
+    }
+
+    func testUpNextResponseIsNotProcessedOnNotModified() {
+        XCTAssertFalse(BackgroundSyncManager.shouldProcessUpNextResponse(httpStatus: 304))
+    }
+
+    func testUpNextResponseIsNotProcessedOnFailure() {
+        for status in [0, 401, 500, 504] {
+            XCTAssertFalse(BackgroundSyncManager.shouldProcessUpNextResponse(httpStatus: status), "status \(status)")
+        }
+    }
 }

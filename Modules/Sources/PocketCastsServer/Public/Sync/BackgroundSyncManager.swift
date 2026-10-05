@@ -137,6 +137,10 @@ public class BackgroundSyncManager: NSObject {
         return Int64(receivedBytes) == expectedContentLength
     }
 
+    static func shouldProcessUpNextResponse(httpStatus: Int) -> Bool {
+        httpStatus == ServerConstants.HttpConstants.ok
+    }
+
     private func createUrlSession(identifier: String) -> URLSession {
         let config = URLSessionConfiguration.background(withIdentifier: identifier)
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)

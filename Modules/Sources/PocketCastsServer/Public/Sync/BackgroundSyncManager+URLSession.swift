@@ -41,6 +41,14 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             }
         }
 
+        if downloadTask.taskDescription == upNextSyncTaskId {
+            let httpStatus = downloadTask.response?.extractStatusCode() ?? 0
+            if !BackgroundSyncManager.shouldProcessUpNextResponse(httpStatus: httpStatus) {
+                FileLog.shared.addMessage("Background Up Next sync returned status \(httpStatus), not processing the response")
+                data = nil
+            }
+        }
+
         if downloadTask.taskDescription == refreshTaskId {
             processRefreshResponse(data: data)
             haveProcessedRefresh = true
