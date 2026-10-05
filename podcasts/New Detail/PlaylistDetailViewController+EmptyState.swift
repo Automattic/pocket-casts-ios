@@ -11,7 +11,7 @@ extension PlaylistDetailViewController {
 
     private var emptyStateDescription: String? {
         if viewModel.isManualPlaylist {
-            return viewModel.hasSubscribedPodcasts ? nil : L10n.playlistManualEmptyStateSubtitleNoPodcasts
+            return viewModel.hasSubscribedPodcasts ? L10n.playlistManualEmptyStateSubtitle : L10n.playlistManualEmptyStateSubtitleNoPodcasts
         }
         return L10n.playlistSmartNoEpisodesMsg
     }

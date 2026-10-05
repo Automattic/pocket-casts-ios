@@ -4,9 +4,11 @@
 - Fix closing a folder's Add or Remove Podcasts sheet saving the selection. The sheet now has a Done button, and creating a folder with no podcasts selected shows "Skip" instead of "Add 0 Podcasts" [#5312](https://github.com/Automattic/pocket-casts-ios/pull/5312)
 - Fix the podcast page sometimes freezing and no longer scrolling after expanding a long description [#5319](https://github.com/Automattic/pocket-casts-ios/pull/5319)
 - Fix the Discover featured carousel sometimes skipping a page, and stop it auto-advancing when Reduce Motion or VoiceOver is on [#5313](https://github.com/Automattic/pocket-casts-ios/pull/5313)
+- Fix podcasts whose titles start with an accented letter being listed after Z when sorting by name [#5334](https://github.com/Automattic/pocket-casts-ios/pull/5334)
 - Fix the podcast Playback Effects screen showing a white status bar on light themes [#5330](https://github.com/Automattic/pocket-casts-ios/pull/5330)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
 - Fix a crash in CarPlay when a podcast's artwork has no size [#5339](https://github.com/Automattic/pocket-casts-ios/pull/5339)
+- Fix timestamps in an episode's show notes not being tappable on the episode details screen [#5337](https://github.com/Automattic/pocket-casts-ios/pull/5337)
 
 8.22
 -----
