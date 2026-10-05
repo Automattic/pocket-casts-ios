@@ -40,10 +40,11 @@ struct ManageDownloadsModalView: View {
                 Text(L10n.maybeLater)
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .foregroundColor(theme.primaryText01)
-            }.frame(idealHeight: 56)
-            Spacer().frame(height: 16)
+            }
+            .frame(minHeight: 44)
         }
-        .padding()
+        .padding([.horizontal, .top])
+        .padding(.bottom, 8)
         .background(theme.primaryUi01.ignoresSafeArea())
     }
 }
