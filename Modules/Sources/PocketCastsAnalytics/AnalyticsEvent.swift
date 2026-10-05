@@ -550,6 +550,7 @@ public enum AnalyticsEvent: String {
 
     case episodeDetailShown
     case episodeDetailShowNotesLinkTapped
+    case episodeDetailShowNotesTimestampTapped
     case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
     case episodeDetailTabChanged
