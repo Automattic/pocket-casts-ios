@@ -81,6 +81,7 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             if let message {
                 Text(message)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .font(.subheadline)
                     .foregroundStyle(style.message)
             }
