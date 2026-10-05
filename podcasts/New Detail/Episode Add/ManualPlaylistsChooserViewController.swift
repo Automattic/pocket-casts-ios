@@ -121,16 +121,20 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         setupSearchController()
 
+        let doneButtonBottomConstraint = doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        doneButtonBottomConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            footerView.heightAnchor.constraint(equalToConstant: 110),
+            footerView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -16),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
-            doneButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-            doneButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-            doneButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
-            doneButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
+            doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            doneButton.heightAnchor.constraint(equalToConstant: 60),
+            doneButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor),
+            doneButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16),
+            doneButtonBottomConstraint,
 
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),

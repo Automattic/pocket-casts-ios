@@ -388,7 +388,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private var isLandscapeVideoOnPhone: Bool {
-        isLandscapeVideo && UIDevice.current.userInterfaceIdiom == .phone
+        isLandscapeVideo && traitCollection.userInterfaceIdiom == .phone
     }
 
     /// Asked for before we're presented, while the player is still attached to the video in the player.

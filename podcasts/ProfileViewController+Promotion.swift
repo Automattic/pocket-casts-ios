@@ -12,7 +12,7 @@ extension ProfileViewController: PromotionRedeemedDelegate {
         let promoAcknowledgementVC = PromotionAcknowledgementViewController(serverMessage: promoRedeemedMessage)
 
         if let bottomSheet = promoAcknowledgementVC.sheetPresentationController {
-            bottomSheet.detents = [.medium()]
+            bottomSheet.detents = [promoAcknowledgementVC.contentDetent]
             bottomSheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
             // The Promo Acknowledgement VC implements its own grabber UI.
             bottomSheet.prefersGrabberVisible = false

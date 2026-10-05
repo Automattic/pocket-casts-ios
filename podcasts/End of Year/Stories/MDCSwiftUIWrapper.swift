@@ -56,7 +56,6 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
 
         let hostingController = UIHostingController(
             rootView: content
-                .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.shared)
         )
         hostingController.sizingOptions = [.intrinsicContentSize]
@@ -78,7 +77,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
         stackView.layoutIfNeeded()
 
         let fittingSize = stackView.systemLayoutSizeFitting(
-            CGSize(width: UIScreen.main.bounds.width, height: UIView.layoutFittingExpandedSize.height),
+            CGSize(width: view.bounds.width, height: UIView.layoutFittingExpandedSize.height),
             withHorizontalFittingPriority: .fittingSizeLevel,
             verticalFittingPriority: .fittingSizeLevel
         )

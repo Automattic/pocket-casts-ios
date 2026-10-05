@@ -103,7 +103,6 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
-    var keyBoardHeight: CGFloat = .zero
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
@@ -166,6 +165,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
 
         super.viewDidLoad()
 
+        view.keyboardLayoutGuide.usesBottomSafeArea = false
         setupContent()
         setupNavigation()
         setupRefreshControl()
@@ -204,7 +204,8 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         super.viewDidLayoutSubviews()
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let keyBoardHeight = viewModel.isSearching ? keyBoardHeight : 0
+        let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
+        let keyBoardHeight = viewModel.isSearching ? keyboardHeight : 0
         tableView.contentInset.bottom = Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset + keyBoardHeight
         tableView.verticalScrollIndicatorInsets.bottom = tableView.contentInset.bottom
     }

@@ -277,12 +277,12 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     }
 
     @IBAction func createAccountTapped(_ sender: Any) {
-        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController, source: .promoCode)
+        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController, source: .promoCode, traitCollection: traitCollection)
         navigationController?.pushViewController(controller, animated: true)
     }
 
     @IBAction func signInWithValidPromoTapped(_ sender: Any) {
-        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController, source: .promoCode)
+        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController, source: .promoCode, traitCollection: traitCollection)
         navigationController?.pushViewController(controller, animated: true)
     }
 

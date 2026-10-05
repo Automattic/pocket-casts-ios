@@ -27,10 +27,10 @@ class DeviceApproveViewModel: ObservableObject {
     }
 
     func presentAccountFlow() {
-        let controller = OnboardingFlow.shared.begin(flow: .deviceApproval, source: .deviceApproval, accountCreated: { created in
+        let baseVC = presentingViewController.presentedViewController ?? presentingViewController
+        let controller = OnboardingFlow.shared.begin(flow: .deviceApproval, source: .deviceApproval, traitCollection: baseVC.traitCollection, accountCreated: { created in
             FileLog.shared.addMessage("Account created:\(created)")
         })
-        let baseVC = presentingViewController.presentedViewController ?? presentingViewController
         baseVC.present(controller, animated: true)
     }
 

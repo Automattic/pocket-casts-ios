@@ -20,7 +20,6 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case discoverEpisodeList = "discover_episode_list"
     case discoverRankedList = "discover_ranked_list"
     case downloads
-    case downloadStatus = "download_status"
     case episodeDetail = "episode_detail"
     case episodeStatus = "episode_status"
     case episodeTranscript = "episode_transcript"
@@ -31,7 +30,6 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case incomingShareList = "incoming_share_list"
     case listeningHistory = "listening_history"
     case liveActivity = "live_activity"
-    case mediaType = "media_type"
     case miniplayer
     case noFiles = "no_files"
     case noFilters = "no_filters"
@@ -47,7 +45,6 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case podcastSettings = "podcast_settings"
     case podcastsList = "podcasts_list"
     case profile
-    case releaseDate = "release_date"
     case siri
     case starred
     case sync

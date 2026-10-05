@@ -74,7 +74,8 @@ extension EpisodeDetailViewController {
         playPauseEpisode(isPlaying: isNowPlaying)
     }
 
-    func playPauseEpisode(isPlaying: Bool) {
+    func playPauseEpisode(isPlaying: Bool, from time: TimeInterval? = nil) {
+        let timestamp = time ?? timestamp
         if isPlaying {
             if let timestamp {
                 DataManager.shared.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)

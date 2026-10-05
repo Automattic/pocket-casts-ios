@@ -23,7 +23,7 @@ struct OnboardingFlow {
         didCreateAccount = true
     }
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, traitCollection: UITraitCollection, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
         self.originSource = source
@@ -63,15 +63,15 @@ struct OnboardingFlow {
                                                           )
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly), traitCollection: traitCollection)
 
         case .encourageAccountCreation:
-            flowController = InformationalModalViewModel.makeController()
+            flowController = InformationalModalViewModel.makeController(traitCollection: traitCollection)
 
         case .initialOnboarding:
-            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: true)
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: true, traitCollection: traitCollection)
         default:
-            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: false)
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: false, traitCollection: traitCollection)
         }
 
         return flowController

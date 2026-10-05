@@ -2,16 +2,13 @@ import SwiftUI
 
 struct HorizontalCarouselCard: View {
     let item: any HorizontalCarouselItemRepresentable
-
-    private var isiPad: Bool {
-        UIDevice.current.isiPad()
-    }
+    let isFormSheet: Bool
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10.0)
                 .fill(item.backgroundColor)
-            VStack(alignment: isiPad ? .center : .leading, spacing: 0) {
+            VStack(alignment: isFormSheet ? .center : .leading, spacing: 0) {
                 HStack {
                     Spacer()
                     Image(item.image)
@@ -20,23 +17,23 @@ struct HorizontalCarouselCard: View {
                         .frame(maxWidth: 243.0, minHeight: 152.0, maxHeight: 217.0)
                     Spacer()
                 }
-                .padding(.top, isiPad ? 20.0 : 40.0)
-                .padding(.bottom, isiPad ? 16.0 : 24.0)
+                .padding(.top, isFormSheet ? 20.0 : 40.0)
+                .padding(.bottom, isFormSheet ? 16.0 : 24.0)
                 Spacer()
                 text(item.title,
                      size: item.titleSize,
                      weight: .semibold,
                      lineLimit: 2,
                      color: item.titleColor)
-                .padding(.horizontal, isiPad ? 65 : 24.0)
+                .padding(.horizontal, isFormSheet ? 65 : 24.0)
                 text(item.text,
                      size: item.textSize,
                      weight: .regular,
                      lineLimit: 3,
                      color: item.textColor)
-                .padding(.horizontal, isiPad ? 76 : 24.0)
+                .padding(.horizontal, isFormSheet ? 76 : 24.0)
                 .padding(.top, 4.0)
-                .padding(.bottom, isiPad ? 20.0 : 24.0)
+                .padding(.bottom, isFormSheet ? 20.0 : 24.0)
             }
         }
     }
@@ -46,7 +43,7 @@ struct HorizontalCarouselCard: View {
         Text(text)
             .font(size: size, style: .body, weight: weight)
             .foregroundStyle(color)
-            .multilineTextAlignment(isiPad ? .center : .leading)
+            .multilineTextAlignment(isFormSheet ? .center : .leading)
             .lineLimit(lineLimit)
     }
 }
@@ -88,6 +85,6 @@ fileprivate enum MockItem: String, CaseIterable, Identifiable, HorizontalCarouse
 }
 
 #Preview {
-    HorizontalCarouselCard(item: MockItem.test)
+    HorizontalCarouselCard(item: MockItem.test, isFormSheet: false)
         .frame(width: 313, height: 370)
 }
