@@ -40,6 +40,7 @@ struct DiscoverNetworksListRowView: View {
             }
             .scrollIndicators(.hidden)
             .scrollTargetBehavior(.viewAligned)
+            .scrollClipDisabled()
             Rectangle()
                 .foregroundColor(theme.primaryUi05)
                 .frame(height: 1)
