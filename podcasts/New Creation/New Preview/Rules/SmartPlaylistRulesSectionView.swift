@@ -206,7 +206,7 @@ struct SmartPlaylistRulesSectionView: View {
             set: { newValue in
                 viewModel.newPlaylist.filterAudioVideoType = newValue.rawValue
                 viewModel.newPlaylist.mediaTypeSmartRuleApplied = true
-                viewModel.saveFilter(analyticsGroup: "media_type")
+                viewModel.saveFilter(analyticsGroup: "audio_video")
             }
         )) {
             ForEach(options, id: \.self) { option in
