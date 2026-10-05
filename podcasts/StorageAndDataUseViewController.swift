@@ -25,13 +25,22 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
 
         title = L10n.settingsStorage
         Analytics.track(.settingsStorageShown)
-        ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "storage_and_data_usage")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         settingsTable.reloadData()
+    }
+
+    private var firstAppear = true
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstAppear {
+            firstAppear = false
+            ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "storage_and_data_usage")
+        }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
