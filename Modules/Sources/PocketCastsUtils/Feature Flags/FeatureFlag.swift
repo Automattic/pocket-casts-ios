@@ -253,6 +253,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the What's New feed's research messages, which ask the user to answer a poll
     case whatsNewPolls
 
+    /// Don't pause on a route change while a play request is activating the audio session
+    case ignoreRouteChangeWhilePlayRequestPending
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -431,6 +434,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .whatsNewPolls:
             false
+        case .ignoreRouteChangeWhilePlayRequestPending:
+            true
         }
     }
 
