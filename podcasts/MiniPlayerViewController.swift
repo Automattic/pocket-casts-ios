@@ -52,6 +52,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     var heightConstraint: NSLayoutConstraint?
 
+    weak var hostTabBarController: UITabBarController?
+
     var upNextViewController: UpNextViewController?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
