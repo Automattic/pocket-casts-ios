@@ -226,7 +226,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         let additionalPadding: CGFloat = Settings.libraryType == .list ? 16 : 0
 
-        let isDisplayZoomed = view.window?.windowScene?.screen.isDisplayZoomed ?? false
+        let isDisplayZoomed = (view.window?.windowScene?.screen ?? UIScreen.main).isDisplayZoomed
 
         return BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.shared), isDisplayZoomed: isDisplayZoomed)
             .padding(.top, !isSameColor ? 16 : 0)
