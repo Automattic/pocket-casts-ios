@@ -63,6 +63,28 @@ final class PlaylistEpisodeManipulationTests: DataManagerTestCase {
         }
     }
 
+    func testDeleteEpisodesKeepsEpisodesWhenMarkingPlaylistDirtyFails() throws {
+        try runWithDataManager { dataManager in
+            let playlist = makeManualPlaylist(uuid: "pl-rollback", name: "Manual")
+            dataManager.save(playlist: playlist)
+
+            let e1 = makeEpisode(uuid: "r1")
+            let e2 = makeEpisode(uuid: "r2")
+            XCTAssertTrue(dataManager.add(episodes: [e1, e2], to: playlist), "should add episodes")
+
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: """
+                    CREATE TRIGGER fail_playlist_update BEFORE UPDATE ON \(DataManager.playlistsTableName)
+                    BEGIN SELECT RAISE(ABORT, 'forced failure'); END
+                    """)
+            }
+
+            dataManager.deleteEpisodes([e1.uuid], from: playlist)
+
+            try assertPlaylistOrder(dataManager: dataManager, playlistUuid: playlist.uuid, expected: ["r1", "r2"])
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeEpisode(uuid: String) -> Episode {
