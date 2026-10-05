@@ -285,6 +285,7 @@ class PlaylistPreviewViewController: PCViewController {
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
         case .releaseDate, .downloadStatus, .mediaType, .starred:
+            assertionFailure("\(rule) renders as an inline picker and has no screen to push")
             return
         }
         navigationController?.pushViewController(viewController, animated: true)
