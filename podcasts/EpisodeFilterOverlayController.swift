@@ -26,7 +26,6 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         addTableViewHeader()
         title = SmartPlaylistRule.episode.title
         setupLargeTitle()
-        tableView.contentInsetAdjustmentBehavior = .never
 
         setCurrentStatus()
 
