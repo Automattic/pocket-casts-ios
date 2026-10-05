@@ -137,8 +137,10 @@ public class BackgroundSyncManager: NSObject {
         return Int64(receivedBytes) == expectedContentLength
     }
 
-    static func shouldProcessUpNextResponse(httpStatus: Int) -> Bool {
-        httpStatus == ServerConstants.HttpConstants.ok
+    static func shouldProcessUpNextResponse(httpStatus: Int, data: Data?) -> Bool {
+        guard httpStatus == ServerConstants.HttpConstants.ok, let data else { return false }
+
+        return !data.isEmpty
     }
 
     private func createUrlSession(identifier: String) -> URLSession {
