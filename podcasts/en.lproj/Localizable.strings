@@ -1411,8 +1411,8 @@
 /* Title of the alert shown when the user opens a .pcasts export file in the app. */
 "pcasts_import_title" = "Import Podcasts and Settings";
 
-/* Message of the alert shown when the user opens a .pcasts export file in the app. Importing replaces the current podcasts and settings. */
-"pcasts_import_message" = "Do you want to reset your podcasts and settings to this file?";
+/* Message of the alert shown when the user opens a .pcasts export file in the app. Importing replaces the current podcasts and settings, and closes the app. */
+"pcasts_import_message" = "This will replace your podcasts and settings with the contents of this file, and Pocket Casts will close.";
 
 /* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_message" = "Unable to import podcasts from the OPML file you specified. Please check that it's valid";
