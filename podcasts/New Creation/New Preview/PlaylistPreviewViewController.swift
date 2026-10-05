@@ -277,22 +277,6 @@ class PlaylistPreviewViewController: PCViewController {
             filterSettingsVC.analyticsSource = .filters
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
-        case .downloadStatus:
-            let filterSettingsVC = DownloadFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .releaseDate:
-            let filterSettingsVC = ReleaseDateFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .mediaType:
-            let filterSettingsVC = MediaFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .starred:
-            let filterSettingsVC = StarredFilterOverlayController()
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
         case .duration:
             let durationController = FilterDurationViewController(filter: viewModel.newPlaylist)
             viewController = durationController
@@ -300,6 +284,8 @@ class PlaylistPreviewViewController: PCViewController {
             let filterSettingsVC = EpisodeFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
+        case .releaseDate, .downloadStatus, .mediaType, .starred:
+            return
         }
         navigationController?.pushViewController(viewController, animated: true)
     }
