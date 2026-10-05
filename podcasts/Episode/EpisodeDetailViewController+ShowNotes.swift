@@ -140,11 +140,12 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
     }
 
     private func playEpisode(from time: TimeInterval) {
+        Analytics.track(.episodeDetailShowNotesTimestampTapped, properties: ["episode_uuid": episode.uuid, "source": viewSource])
+
         if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.seekTo(time: time, startPlaybackAfterSeek: true)
         } else {
-            timestamp = time
-            playPauseEpisode(isPlaying: false)
+            playPauseEpisode(isPlaying: false, from: time)
         }
     }
 
