@@ -491,7 +491,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 extension PlayerContainerViewController {
     private struct ScreenCornerRadiusCacheKey: Equatable {
         let bounds: CGRect
-        let userInterfaceIdiom: UIUserInterfaceIdiom
         let horizontalSizeClass: UIUserInterfaceSizeClass
         let verticalSizeClass: UIUserInterfaceSizeClass
         let displayScale: CGFloat
@@ -499,7 +498,6 @@ extension PlayerContainerViewController {
         @MainActor
         init(window: UIWindow) {
             bounds = window.bounds
-            userInterfaceIdiom = window.traitCollection.userInterfaceIdiom
             horizontalSizeClass = window.traitCollection.horizontalSizeClass
             verticalSizeClass = window.traitCollection.verticalSizeClass
             displayScale = window.traitCollection.displayScale
