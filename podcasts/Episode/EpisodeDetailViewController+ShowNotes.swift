@@ -105,10 +105,8 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
-            if let url = navigationAction.request.url, url.host == "localhost" {
-                if let time = ShowNotesFormatter.jumpTime(from: url, duration: episode.duration) {
-                    playEpisode(from: time)
-                }
+            if let url = navigationAction.request.url, let time = ShowNotesFormatter.jumpTime(from: url) {
+                playEpisode(from: time)
                 decisionHandler(.cancel)
                 return
             }
@@ -145,11 +143,8 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
             PlaybackManager.shared.seekTo(time: time, startPlaybackAfterSeek: true)
         } else {
-            episode.playingStatus = PlayingStatus.inProgress.rawValue
-            episode.playedUpTo = time
-            DataManager.shared.save(episode: episode)
-            updateProgress()
-            PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
+            timestamp = time
+            playPauseEpisode(isPlaying: false)
         }
     }
 

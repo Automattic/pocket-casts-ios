@@ -38,14 +38,14 @@ class ShowNotesFormatter {
         return styledShowNotes
     }
 
-    class func jumpTime(from url: URL, duration: TimeInterval) -> TimeInterval? {
+    class func jumpTime(from url: URL) -> TimeInterval? {
         guard url.host == "localhost", let fragment = url.fragment else { return nil }
 
         let components = fragment.components(separatedBy: "=")
         guard components.count == 2, components[0] == "playerJumpTo" else { return nil }
 
         let time = SJCommonUtils.colonFormattedString(toTime: components[1])
-        guard time >= 0, duration <= 0 || time <= duration else { return nil }
+        guard time >= 0 else { return nil }
         return time
     }
 

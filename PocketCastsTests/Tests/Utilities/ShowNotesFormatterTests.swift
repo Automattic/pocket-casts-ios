@@ -33,30 +33,18 @@ final class ShowNotesFormatterTests: XCTestCase {
     func testJumpTimeParsesHoursMinutesSeconds() {
         let url = URL(string: "http://localhost/#playerJumpTo=01:20:31")!
 
-        XCTAssertEqual(ShowNotesFormatter.jumpTime(from: url, duration: 3 * 3600), 4831)
+        XCTAssertEqual(ShowNotesFormatter.jumpTime(from: url), 4831)
     }
 
     func testJumpTimeParsesMinutesSeconds() {
         let url = URL(string: "http://localhost/#playerJumpTo=6:20")!
 
-        XCTAssertEqual(ShowNotesFormatter.jumpTime(from: url, duration: 3600), 380)
-    }
-
-    func testJumpTimeBeyondDurationIsRejected() {
-        let url = URL(string: "http://localhost/#playerJumpTo=04:01:57")!
-
-        XCTAssertNil(ShowNotesFormatter.jumpTime(from: url, duration: 3600))
-    }
-
-    func testJumpTimeIsAllowedWhenDurationIsUnknown() {
-        let url = URL(string: "http://localhost/#playerJumpTo=04:01:57")!
-
-        XCTAssertEqual(ShowNotesFormatter.jumpTime(from: url, duration: 0), 14517)
+        XCTAssertEqual(ShowNotesFormatter.jumpTime(from: url), 380)
     }
 
     func testJumpTimeIgnoresNonJumpLinks() {
-        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "https://example.com/#playerJumpTo=00:10:00")!, duration: 3600))
-        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "http://localhost/#other=00:10:00")!, duration: 3600))
-        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "http://localhost/")!, duration: 3600))
+        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "https://example.com/#playerJumpTo=00:10:00")!))
+        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "http://localhost/#other=00:10:00")!))
+        XCTAssertNil(ShowNotesFormatter.jumpTime(from: URL(string: "http://localhost/")!))
     }
 }
