@@ -64,6 +64,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
             XCTAssertEqual(loaded.manual, original.manual, "manual should match")
             XCTAssertEqual(loaded.showArchivedEpisodes, original.showArchivedEpisodes, "showArchivedEpisodes should match")
+            XCTAssertEqual(loaded.filterEpisodeTitle, original.filterEpisodeTitle, "filterEpisodeTitle should match")
             XCTAssertEqual(loaded.id, original.id, "id should match")
             XCTAssertEqual(
                 try XCTUnwrap(loaded.playlistUpdateDate).timeIntervalSince1970,
@@ -109,6 +110,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             filter.releaseDateSmartRuleApplied = true
             filter.mediaTypeSmartRuleApplied = true
             filter.downloadStatusSmartRuleApplied = true
+            filter.titleSmartRuleApplied = true
 
             dataManager.save(playlist: filter)
 
@@ -125,6 +127,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertFalse(loaded.releaseDateSmartRuleApplied, "releaseDateSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.mediaTypeSmartRuleApplied, "mediaTypeSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.downloadStatusSmartRuleApplied, "downloadStatusSmartRuleApplied should NOT be persisted")
+            XCTAssertFalse(loaded.titleSmartRuleApplied, "titleSmartRuleApplied should NOT be persisted")
         }
     }
 
@@ -147,6 +150,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
         XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["filterStarred"])), true)
         XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["filterUnplayed"])), false)
         XCTAssertEqual(Bool.fromDatabaseValue(try XCTUnwrap(encoded["showArchivedEpisodes"])), true)
+        XCTAssertEqual(String.fromDatabaseValue(try XCTUnwrap(encoded["filterEpisodeTitle"])), "bonus")
     }
 
     /// playlistUpdateDate is stored as a Unix timestamp, not GRDB's default Date format.
@@ -181,12 +185,14 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
         filter.releaseDateSmartRuleApplied = true
         filter.mediaTypeSmartRuleApplied = true
         filter.downloadStatusSmartRuleApplied = true
+        filter.titleSmartRuleApplied = true
 
         let encoded = try filter.databaseDictionary
 
         for name in [
             "filterDownloading", "isNew", "podcastSmartRuleApplied", "episodesSmartRuleApplied",
-            "releaseDateSmartRuleApplied", "mediaTypeSmartRuleApplied", "downloadStatusSmartRuleApplied"
+            "releaseDateSmartRuleApplied", "mediaTypeSmartRuleApplied", "downloadStatusSmartRuleApplied",
+            "titleSmartRuleApplied"
         ] {
             XCTAssertNil(encoded[name], "\(name) is transient and should not be encoded")
         }
@@ -221,6 +227,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
         filter.manual = false
         filter.showArchivedEpisodes = true
         filter.playlistUpdateDate = Date()
+        filter.filterEpisodeTitle = "bonus"
         return filter
     }
 }
