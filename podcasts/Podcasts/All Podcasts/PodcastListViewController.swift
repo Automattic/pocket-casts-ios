@@ -94,7 +94,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         super.viewDidLoad()
 
-        registerForTraitChanges([UITraitUserInterfaceIdiom.self]) { (controller: PodcastListViewController, _) in
+        registerForTraitChanges([UITraitHorizontalSizeClass.self]) { (controller: PodcastListViewController, _) in
             controller.updateCustomBottomFade()
         }
 
@@ -280,8 +280,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     }
 
     /// Re-evaluates whether the custom bottom fade should be active for the current traits
-    /// and toggles it. Called on load and on trait changes so the fade follows the idiom
-    /// (e.g. an iPhone app resized on iPad / Mac).
+    /// and toggles it. Called on load and on trait changes so the fade follows the horizontal
+    /// size class (e.g. an iPhone app resized on iPad / Mac).
     ///
     /// Scoped to iOS 26 only — a stopgap until iOS 27 is expected to render the system
     /// scroll edge effect acceptably over the grid.
@@ -289,7 +289,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         guard isViewLoaded else { return }
         if #available(iOS 26, *) { // Only on iOS 26 for now
             if #unavailable(iOS 27) {
-                setCustomBottomFadeEnabled(LiquidGlass.isEnabled && traitCollection.userInterfaceIdiom == .phone)
+                setCustomBottomFadeEnabled(LiquidGlass.isEnabled && traitCollection.horizontalSizeClass == .compact)
             }
         }
     }
