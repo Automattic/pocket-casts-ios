@@ -7,7 +7,7 @@ extension MiniPlayerViewController {
     /// quickly show it again later.
     func hideMiniPlayer(_ animated: Bool, isTransient: Bool = false) {
         if LiquidGlass.isEnabled, #available(iOS 26, *) {
-            guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
+            guard let tabBarController = hostTabBarController, tabBarController.bottomAccessory != nil else { return }
             tabBarController.setBottomAccessory(nil, animated: animated)
             if !isTransient {
                 tabBarController.tabBarMinimizeBehavior = .never
@@ -38,7 +38,7 @@ extension MiniPlayerViewController {
         if PlaybackManager.shared.currentEpisode == nil { return }
 
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
-            guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
+            guard let tabBarController = hostTabBarController, tabBarController.bottomAccessory == nil else { return }
             let accessory = UITabAccessory(contentView: view)
             tabBarController.tabBarMinimizeBehavior = Settings.tabBarMinimizingEnabled ? .onScrollDown : .never
             tabBarController.setBottomAccessory(accessory, animated: true)
@@ -129,7 +129,7 @@ extension MiniPlayerViewController {
     /// so a toggle flip in Appearance takes effect right away while the mini player is showing.
     func applyTabBarMinimizingPreference() {
         guard LiquidGlass.isEnabled, #available(iOS 26.0, *) else { return }
-        guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
+        guard let tabBarController = hostTabBarController, tabBarController.bottomAccessory != nil else { return }
         tabBarController.tabBarMinimizeBehavior = Settings.tabBarMinimizingEnabled ? .onScrollDown : .never
     }
 
