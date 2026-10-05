@@ -129,7 +129,6 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="6fg-N7-SIa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GPT-Sc-fsw" secondAttribute="bottom" constant="12" id="2I8-g9-AUh"/>
-                        <constraint firstAttribute="trailing" secondItem="0Wl-Qr-Alh" secondAttribute="trailing" constant="13" id="9He-fw-EUV"/>
                         <constraint firstItem="Wat-Pf-EXJ" firstAttribute="top" secondItem="LW5-CL-eLg" secondAttribute="top" constant="10" id="ATB-D4-uQT"/>
                         <constraint firstAttribute="trailing" secondItem="elY-fZ-CTE" secondAttribute="trailing" id="DRe-tp-FxM"/>
                         <constraint firstAttribute="bottom" secondItem="elY-fZ-CTE" secondAttribute="bottom" id="Fto-Fg-wVh"/>
@@ -137,14 +136,12 @@
                         <constraint firstAttribute="trailing" secondItem="GPT-Sc-fsw" secondAttribute="trailing" id="IPM-XG-F0U"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="centerY" secondItem="Wat-Pf-EXJ" secondAttribute="centerY" id="LXI-wZ-NP6"/>
                         <constraint firstItem="elY-fZ-CTE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6fg-N7-SIa" secondAttribute="bottom" constant="12" id="TPr-w7-jrT"/>
-                        <constraint firstItem="Wat-Pf-EXJ" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" constant="16" id="TWh-ZP-zKq"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="leading" secondItem="Wat-Pf-EXJ" secondAttribute="trailing" constant="12" id="ZW4-wp-Ue9"/>
                         <constraint firstItem="6fg-N7-SIa" firstAttribute="leading" secondItem="wNf-rq-iBx" secondAttribute="trailing" constant="8" id="mwl-h5-3g9"/>
                         <constraint firstItem="GPT-Sc-fsw" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" id="oWm-Lf-zFh"/>
                         <constraint firstItem="wNf-rq-iBx" firstAttribute="top" secondItem="GPT-Sc-fsw" secondAttribute="bottom" constant="12" id="r3d-gL-yaz"/>
                         <constraint firstItem="elY-fZ-CTE" firstAttribute="top" secondItem="wNf-rq-iBx" secondAttribute="bottom" constant="12" id="ti7-7q-Qit"/>
                         <constraint firstItem="GPT-Sc-fsw" firstAttribute="top" secondItem="Wat-Pf-EXJ" secondAttribute="bottom" constant="10" id="wP4-yr-nmc"/>
-                        <constraint firstItem="wNf-rq-iBx" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" constant="16" id="wmw-hB-zBV"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="trailing" secondItem="6fg-N7-SIa" secondAttribute="trailing" id="wxO-CR-jZR"/>
                     </constraints>
                 </view>
@@ -152,6 +149,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <constraints>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="2at-TJ-6wI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0Wl-Qr-Alh" secondAttribute="trailing" constant="13" id="9He-fw-EUV"/>
+                <constraint firstItem="Wat-Pf-EXJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="TWh-ZP-zKq"/>
+                <constraint firstItem="wNf-rq-iBx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="wmw-hB-zBV"/>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XsT-xW-B8h"/>
                 <constraint firstItem="6fg-N7-SIa" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.35" id="gWu-ry-EhR"/>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ljk-0j-SOI"/>
