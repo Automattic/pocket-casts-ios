@@ -35,6 +35,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     // Serial queue for WCSession operations to ensure thread safety
     private let sessionQueue = DispatchQueue(label: "com.pocketcasts.watchmanager.session", qos: .userInitiated)
     private var isSettingUp = false
+    private var lastStateTimestamp: TimeInterval = 0
 
     var isWatchAppInstalled: Bool {
         return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
@@ -596,6 +597,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         let timestamp = Date().timeIntervalSince1970
+        lastStateTimestamp = timestamp
 
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Messages.messageType] = WatchConstants.Messages.StateUpdate.type
@@ -632,28 +634,29 @@ class WatchManager: NSObject, WCSessionDelegate {
                 FileLog.shared.addMessage("WatchManager sendStateToWatch via sendMessage failed \(error.localizedDescription)")
                 if self.isPayloadTooLargeError(error) {
                     self.logPayloadTooLargeError(method: "sendMessage", upNextCount: upNextCount)
-                    // Retry with reduced Up Next queue if we haven't already
-                    if upNextLimit == nil {
-                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
-                        self.sessionQueue.async {
-                            self.sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
-                        }
-                    }
+                }
+                self.sessionQueue.async {
+                    guard self.lastStateTimestamp == timestamp else { return }
+                    self.updateApplicationContext(applicationDict, upNextCount: upNextCount, upNextLimit: upNextLimit)
                 }
             }
         } else {
-            // When not reachable or feature flag disabled, use updateApplicationContext for eventual delivery
-            do {
-                try session.updateApplicationContext(applicationDict)
-            } catch {
-                FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
-                if isPayloadTooLargeError(error) {
-                    logPayloadTooLargeError(method: "updateApplicationContext", upNextCount: upNextCount)
-                    // Retry with reduced Up Next queue if we haven't already
-                    if upNextLimit == nil {
-                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
-                        sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
-                    }
+            updateApplicationContext(applicationDict, upNextCount: upNextCount, upNextLimit: upNextLimit)
+        }
+    }
+
+    private func updateApplicationContext(_ applicationDict: [String: Any], upNextCount: Int, upNextLimit: Int?) {
+        dispatchPrecondition(condition: .onQueue(sessionQueue))
+
+        do {
+            try WCSession.default.updateApplicationContext(applicationDict)
+        } catch {
+            FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
+            if isPayloadTooLargeError(error) {
+                logPayloadTooLargeError(method: "updateApplicationContext", upNextCount: upNextCount)
+                if upNextLimit == nil {
+                    FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
+                    sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
                 }
             }
         }
