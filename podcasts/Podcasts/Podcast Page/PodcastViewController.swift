@@ -641,7 +641,8 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func loadLocalEpisodes(podcast: Podcast, animated: Bool) {
-        let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: searchUuidsToFilter) { [weak self] newData in
+        let uuidsToFilter = searchUuidsToFilter
+        let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: uuidsToFilter) { [weak self] newData in
             guard let self else { return }
 
             self.navTitleLabel.text = podcast.title
@@ -717,7 +718,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
                 self.episodeInfo = finalData
                 reloadData()
             }
-            self.updateSearchHeader()
+            self.updateSearchHeader(uuidsToFilter: uuidsToFilter)
             if self.isMultiSelectEnabled {
                 self.updateSelectAllBtn()
             }

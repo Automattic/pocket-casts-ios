@@ -16,11 +16,10 @@ extension PodcastViewController {
     }
 
     /// Updates the episode count and the archived button of the search header
-    func updateSearchHeader() {
+    func updateSearchHeader(uuidsToFilter: [String]? = nil) {
         guard let searchController, let podcast else { return }
 
         let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive)
-        let uuidsToFilter = searchUuidsToFilter
         let count = episodeCount(uuidsToFilter: uuidsToFilter)
 
         let infoText = (count == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(count.localized())) + " • "
@@ -51,13 +50,12 @@ extension PodcastViewController {
 
         guard let podcast, let result else { return }
 
-        uuidsThatMatchSearch.removeAll()
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
 
-        for episode in result.episodes {
-            uuidsThatMatchSearch.append(episode.uuid)
+            self.uuidsThatMatchSearch = result.episodes.map(\.uuid)
+            self.loadLocalEpisodes(podcast: podcast, animated: true)
         }
-
-        loadLocalEpisodes(podcast: podcast, animated: true)
     }
 }
 
