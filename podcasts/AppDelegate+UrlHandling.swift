@@ -34,8 +34,8 @@ extension AppDelegate {
             }
 
             if let fileExtension = UTType.pcasts.preferredFilenameExtension, type.conforms(to: UTType(filenameExtension: fileExtension)!) {
-                let alert = UIAlertController(title: "Import Podcasts and Settings", message: "Do you want to reset your podcasts and settings to this file?", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
+                let alert = UIAlertController(title: L10n.pcastsImportTitle, message: L10n.pcastsImportMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.import, style: .destructive) { _ in
                     Task {
                         do {
                             let fileWrapper = try FileWrapper(url: url)
@@ -45,7 +45,7 @@ extension AppDelegate {
                         }
                     }
                 })
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
                 rootViewController.present(alert, animated: true)
             }
 
