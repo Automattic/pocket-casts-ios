@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -39,8 +39,9 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Jnq-9k-xV2"/>
             <constraints>
-                <constraint firstItem="Ux1-AI-rdb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0Ch-GV-tXt"/>
+                <constraint firstItem="Ux1-AI-rdb" firstAttribute="centerX" secondItem="Jnq-9k-xV2" secondAttribute="centerX" id="0Ch-GV-tXt"/>
                 <constraint firstItem="KmW-Fw-G4b" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1vk-w5-nqB"/>
                 <constraint firstAttribute="trailing" secondItem="KmW-Fw-G4b" secondAttribute="trailing" id="RAU-St-G3Q"/>
                 <constraint firstItem="Ux1-AI-rdb" firstAttribute="top" secondItem="KmW-Fw-G4b" secondAttribute="bottom" constant="4" id="WsI-O7-bFz"/>

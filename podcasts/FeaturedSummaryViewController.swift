@@ -50,6 +50,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         (view as? ThemeableView)?.style = .primaryUi02
 
         featuredCollectionView.register(UINib(nibName: "FeaturedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: FeaturedSummaryViewController.cellId)
+        featuredCollectionView.contentInsetAdjustmentBehavior = .never
 
         let gridLayout = featuredCollectionView.collectionViewLayout as! GridLayout
 
@@ -74,6 +75,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
             updatePageCount()
         }
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        featuredCollectionView.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +114,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedSummaryViewController.cellId, for: indexPath) as! FeaturedCollectionViewCell
+
+        cell.featuredView.contentInsets = UIEdgeInsets(top: 0, left: view.safeAreaInsets.left, bottom: 0, right: view.safeAreaInsets.right)
 
         let podcast = podcasts[indexPath.row]
         if let delegate {
