@@ -181,8 +181,8 @@
                 <constraint firstItem="7qq-WE-eTq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="9zr-8M-t03"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="JWw-XQ-9qm" secondAttribute="bottom" constant="16" placeholder="YES" id="Q6G-8W-wnr"/>
                 <constraint firstItem="JWw-XQ-9qm" firstAttribute="centerX" secondItem="Yh7-Hy-eo6" secondAttribute="centerX" id="UVw-RW-dV3"/>
-                <constraint firstItem="7qq-WE-eTq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xpa-2D-p4g"/>
-                <constraint firstAttribute="trailing" secondItem="7qq-WE-eTq" secondAttribute="trailing" id="Zlf-fK-Rue"/>
+                <constraint firstItem="7qq-WE-eTq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Xpa-2D-p4g"/>
+                <constraint firstItem="7qq-WE-eTq" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Zlf-fK-Rue"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="JWw-XQ-9qm" secondAttribute="trailing" constant="16" id="hBK-Zj-dEl"/>
                 <constraint firstItem="JWw-XQ-9qm" firstAttribute="centerY" secondItem="Yh7-Hy-eo6" secondAttribute="centerY" id="u3m-Qa-19c"/>
                 <constraint firstItem="JWw-XQ-9qm" firstAttribute="top" secondItem="7qq-WE-eTq" secondAttribute="bottom" id="yiC-X0-cgq"/>
