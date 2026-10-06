@@ -256,6 +256,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Don't pause on a route change while a play request is activating the audio session
     case ignoreRouteChangeWhilePlayRequestPending
 
+    /// Ignore non-200 responses (such as 304 Not Modified) to the background Up Next sync instead of treating them as an empty queue
+    case ignoreUnsuccessfulBackgroundUpNextSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -435,6 +438,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .whatsNewPolls:
             false
         case .ignoreRouteChangeWhilePlayRequestPending:
+            true
+        case .ignoreUnsuccessfulBackgroundUpNextSync:
             true
         }
     }
