@@ -72,10 +72,10 @@
                         <constraint firstAttribute="bottom" secondItem="ReJ-sq-mag" secondAttribute="bottom" constant="16" id="7Cv-ee-gK0"/>
                         <constraint firstItem="ReJ-sq-mag" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="16" id="Phm-2g-RiH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="Rch-bC-tUP"/>
-                        <constraint firstItem="ReJ-sq-mag" firstAttribute="leading" secondItem="kRe-hz-06d" secondAttribute="leading" constant="20" id="c3L-kF-bIk"/>
+                        <constraint firstItem="ReJ-sq-mag" firstAttribute="leading" secondItem="XkF-yR-sA1" secondAttribute="leading" constant="20" id="c3L-kF-bIk"/>
                         <constraint firstAttribute="centerY" secondItem="ReJ-sq-mag" secondAttribute="centerY" id="e5y-WK-qoH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="8" id="mMP-BI-Eut"/>
-                        <constraint firstAttribute="trailing" secondItem="cKZ-Dw-VOH" secondAttribute="trailing" constant="20" id="q1u-Nq-yeJ"/>
+                        <constraint firstItem="XkF-yR-sA1" firstAttribute="trailing" secondItem="cKZ-Dw-VOH" secondAttribute="trailing" constant="20" id="q1u-Nq-yeJ"/>
                         <constraint firstItem="cKZ-Dw-VOH" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="uLs-vs-n1s"/>
                         <constraint firstItem="pi8-u0-lvv" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="zGs-cC-qdI"/>
                     </constraints>
@@ -84,6 +84,7 @@
                             <exclude reference="e5y-WK-qoH"/>
                         </mask>
                     </variation>
+                    <viewLayoutGuide key="safeArea" id="XkF-yR-sA1"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="default" rowHeight="72" estimatedRowHeight="72" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6tw-OJ-5M6">
                     <rect key="frame" x="0.0" y="68" width="412" height="402"/>
