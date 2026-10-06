@@ -21,6 +21,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var tableData = [sections]()
 
+    var displayedUpNextCount = 0
+
     var themeOverride: Theme.ThemeType? = nil
 
     lazy var contentInseter = {

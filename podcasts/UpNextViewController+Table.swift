@@ -260,10 +260,11 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
     @objc func reloadTable() {
         refreshSections()
+        displayedUpNextCount = PlaybackManager.shared.queue.upNextCount()
         upNextTable.reloadData()
     }
 
-    @objc func upNextChanged() {
+    @objc func upNextChanged(_ notification: Notification? = nil) {
         if isMultiSelectEnabled {
             let upNextUuids = Set(DataManager.shared.allUpNextPlaylistEpisodes().map(\.episodeUuid))
             selectedPlayListEpisodes.removeAll { !upNextUuids.contains($0.episodeUuid) }
@@ -277,10 +278,20 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // this method is sometimes called during a re-arrange animation. For whatever weird reason doing this as part of that operation causes the table to flash.
         // This is only when the Lottie animation in the the now playing cell is running, so before removing this call, test that case
+        let isRowRemoval = notification?.name == Constants.Notifications.upNextEpisodeRemoved
         DispatchQueue.main.async {
             self.updateNavBarButtons()
-            self.reloadTable()
+            if isRowRemoval, self.isTableInSyncWithQueue {
+                self.updateTimeRemainingLabel()
+            } else {
+                self.reloadTable()
+            }
         }
+    }
+
+    private var isTableInSyncWithQueue: Bool {
+        let queueCount = PlaybackManager.shared.queue.upNextCount()
+        return queueCount > 0 && displayedUpNextCount == queueCount
     }
 
     @objc func appDidBecomeActive() {
