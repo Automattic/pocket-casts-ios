@@ -35,6 +35,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     // Serial queue for WCSession operations to ensure thread safety
     private let sessionQueue = DispatchQueue(label: "com.pocketcasts.watchmanager.session", qos: .userInitiated)
     private var isSettingUp = false
+    private var lastStateTimestamp: TimeInterval = 0
 
     var isWatchAppInstalled: Bool {
         return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
@@ -596,6 +597,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         let timestamp = Date().timeIntervalSince1970
+        lastStateTimestamp = timestamp
 
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Messages.messageType] = WatchConstants.Messages.StateUpdate.type
@@ -634,6 +636,7 @@ class WatchManager: NSObject, WCSessionDelegate {
                     self.logPayloadTooLargeError(method: "sendMessage", upNextCount: upNextCount)
                 }
                 self.sessionQueue.async {
+                    guard self.lastStateTimestamp == timestamp else { return }
                     self.updateApplicationContext(applicationDict, upNextCount: upNextCount, upNextLimit: upNextLimit)
                 }
             }
