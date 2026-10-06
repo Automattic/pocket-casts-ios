@@ -7,6 +7,7 @@
 - Fix the close and back buttons in Change Password, Change Email, What's New, and several account and subscription screens using the wrong tint [#5335](https://github.com/Automattic/pocket-casts-ios/pull/5335)
 - Fix podcasts whose titles start with an accented letter being listed after Z when sorting by name [#5334](https://github.com/Automattic/pocket-casts-ios/pull/5334)
 - Fix the animation when swiping to remove an episode from Up Next [#5360](https://github.com/Automattic/pocket-casts-ios/pull/5360)
+- Fix the Apple Watch Up Next queue sometimes being cleared after a background sync [#5359](https://github.com/Automattic/pocket-casts-ios/pull/5359)
 - Fix the podcast Playback Effects screen showing a white status bar on light themes [#5330](https://github.com/Automattic/pocket-casts-ios/pull/5330)
 - Fix the empty playlist screen's message being truncated or misaligned [#5356](https://github.com/Automattic/pocket-casts-ios/pull/5356)
 - Fix tips losing their background and shadow on iOS 27, and stop showing the reorder tip when only the default playlists remain [#5329](https://github.com/Automattic/pocket-casts-ios/pull/5329)
