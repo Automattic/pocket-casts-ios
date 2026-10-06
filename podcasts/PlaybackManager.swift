@@ -2046,13 +2046,6 @@ class PlaybackManager: ServerPlaybackDelegate {
                     FileLog.shared.addMessage("Remote control: playCommand, treating as play because playing over AirPlay")
                     if !strongSelf.isPlaying { strongSelf.play() }
                 } else {
-                    if FeatureFlag.ignorePlayWithOtherAudio.enabled {
-                        let audioSession = AVAudioSession.sharedInstance()
-                        if audioSession.secondaryAudioShouldBeSilencedHint {
-                            FileLog.shared.addMessage("Remote control: playCommand, ignored because secondary audio should be silenced (isOtherAudioPlaying: \(audioSession.isOtherAudioPlaying))")
-                            return .commandFailed
-                        }
-                    }
                     // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
                     FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
                     strongSelf.playPause()
