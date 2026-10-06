@@ -168,6 +168,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         super.viewSafeAreaInsetsDidChange()
 
         visibleHeader?.collageTopBleed = headerCollageBleed
+        updateFlowLayoutSize()
     }
 
     override func viewWillLayoutSubviews() {
