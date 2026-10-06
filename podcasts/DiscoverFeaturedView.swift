@@ -67,7 +67,10 @@ class DiscoverFeaturedView: ThemeableView {
     /// The horizontal insets of the content, which the background runs under.
     var contentInsets: UIEdgeInsets {
         get { contentView.layoutMargins }
-        set { contentView.layoutMargins = newValue }
+        set {
+            guard newValue != contentView.layoutMargins else { return }
+            contentView.layoutMargins = newValue
+        }
     }
 
     override init(frame: CGRect) {

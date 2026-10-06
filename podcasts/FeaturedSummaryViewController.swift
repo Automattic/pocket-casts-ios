@@ -38,6 +38,10 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
     }
 
+    private var horizontalSafeAreaInsets: UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: view.safeAreaInsets.left, bottom: 0, right: view.safeAreaInsets.right)
+    }
+
     // MARK: - View Methods
 
     override func viewDidLoad() {
@@ -77,10 +81,13 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
     }
 
+    /// The safe area also changes vertically as the row scrolls under the bars, so the visible cells follow the horizontal insets without a reload.
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
 
-        featuredCollectionView.reloadData()
+        for case let cell as FeaturedCollectionViewCell in featuredCollectionView.visibleCells {
+            cell.featuredView.contentInsets = horizontalSafeAreaInsets
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -115,7 +122,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedSummaryViewController.cellId, for: indexPath) as! FeaturedCollectionViewCell
 
-        cell.featuredView.contentInsets = UIEdgeInsets(top: 0, left: view.safeAreaInsets.left, bottom: 0, right: view.safeAreaInsets.right)
+        cell.featuredView.contentInsets = horizontalSafeAreaInsets
 
         let podcast = podcasts[indexPath.row]
         if let delegate {
