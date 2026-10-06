@@ -29,6 +29,16 @@ Next you'll need to install all the dependencies needed for [_fastlane_](https:/
 
 `make install_dependencies`
 
+### Secrets
+
+Internal contributors need to install and set up [`a8c-secrets`](https://github.com/Automattic/a8c-secrets), then decrypt the project secrets before building:
+
+`a8c-secrets decrypt`
+
+Re-run it whenever the secrets are rotated; the build does not decrypt them for you.
+
+External contributors don't need the secrets; see [below](#external-contributors).
+
 ## External contributors
 
 If you're an external contributor run `make external_contributor`. After that you should be able to build and run the project.
