@@ -20,14 +20,15 @@ extension PodcastViewController {
         guard let searchController, let podcast else { return }
 
         let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive)
-        let count = episodeCount()
+        let uuidsToFilter = searchUuidsToFilter
+        let count = episodeCount(uuidsToFilter: uuidsToFilter)
 
         let infoText = (count == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(count.localized())) + " • "
         let info = NSMutableAttributedString(string: infoText, attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)])
         if hasEpisodeLimit {
             info.append(NSAttributedString(string: L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimit.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.support08)]))
         } else {
-            info.append(NSAttributedString(string: L10n.podcastArchivedCountFormat(archivedEpisodeCount().localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)]))
+            info.append(NSAttributedString(string: L10n.podcastArchivedCountFormat(archivedEpisodeCount(uuidsToFilter: uuidsToFilter).localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)]))
         }
 
         searchController.info = info

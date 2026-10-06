@@ -137,6 +137,27 @@ class EpisodesDataManager {
         return "\(whereStr) \(sortStr)"
     }
 
+    func episodeCount(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> Int {
+        count(for: podcast, archivedOnly: false, uuidsToFilter: uuidsToFilter)
+    }
+
+    func archivedEpisodeCount(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> Int {
+        count(for: podcast, archivedOnly: true, uuidsToFilter: uuidsToFilter)
+    }
+
+    private func count(for podcast: Podcast, archivedOnly: Bool, uuidsToFilter: [String]?) -> Int {
+        var query = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?"
+        var values: [Any] = [podcast.id]
+        if archivedOnly {
+            query += " AND archived = 1"
+        }
+        if let uuids = uuidsToFilter {
+            query += " AND uuid IN (\(uuids.map { _ in "?" }.joined(separator: ",")))"
+            values.append(contentsOf: uuids)
+        }
+        return DataManager.shared.count(query: query, values: values)
+    }
+
     // MARK: - Playlists
 
     func playlistEpisodes(

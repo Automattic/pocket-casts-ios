@@ -641,8 +641,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func loadLocalEpisodes(podcast: Podcast, animated: Bool) {
-        let uuidsToFilter = isSearching ? uuidsThatMatchSearch : nil
-        let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: uuidsToFilter) { [weak self] newData in
+        let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: searchUuidsToFilter) { [weak self] newData in
             guard let self else { return }
 
             self.navTitleLabel.text = podcast.title
@@ -863,16 +862,20 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         podcast
     }
 
-    func episodeCount() -> Int {
-        guard let podcast else { return 0 }
-
-        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcast.id])
+    var searchUuidsToFilter: [String]? {
+        isSearching ? uuidsThatMatchSearch : nil
     }
 
-    func archivedEpisodeCount() -> Int {
+    func episodeCount(uuidsToFilter: [String]? = nil) -> Int {
         guard let podcast else { return 0 }
 
-        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ? AND archived = 1", values: [podcast.id])
+        return EpisodesDataManager().episodeCount(for: podcast, uuidsToFilter: uuidsToFilter)
+    }
+
+    func archivedEpisodeCount(uuidsToFilter: [String]? = nil) -> Int {
+        guard let podcast else { return 0 }
+
+        return EpisodesDataManager().archivedEpisodeCount(for: podcast, uuidsToFilter: uuidsToFilter)
     }
 
     func settingsTapped() {
