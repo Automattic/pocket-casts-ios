@@ -15,6 +15,7 @@
 - Fix timestamps in an episode's show notes not being tappable on the episode details screen [#5337](https://github.com/Automattic/pocket-casts-ios/pull/5337)
 - Fix playback pausing itself and another app taking over Now Playing when connecting to CarPlay [#5338](https://github.com/Automattic/pocket-casts-ios/pull/5338)
 - Fix the Profile tab reading "Last refresh: in 0 seconds" right after refreshing. It now reads "now" [#5362](https://github.com/Automattic/pocket-casts-ios/pull/5362)
+- Fix the tab bar and mini player staying hidden after leaving a multi-select screen without cancelling it, such as when tapping View in the "added to playlist" toast. Add to Playlist now also exits multi-select when you tap Done [#5081](https://github.com/Automattic/pocket-casts-ios/pull/5081)
 - Fix the podcast page episode count not updating while searching episodes [#5363](https://github.com/Automattic/pocket-casts-ios/pull/5363)
 
 8.22
