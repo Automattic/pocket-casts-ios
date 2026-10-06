@@ -119,7 +119,11 @@ public class TimeFormatter {
         return appleFormatterMinutes.string(from: time) ?? ""
     }
 
-    private lazy var relativeFormatter = RelativeDateTimeFormatter()
+    private lazy var relativeFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.dateTimeStyle = .named
+        return formatter
+    }()
 
     public func appleStyleElapsedString(date: Date) -> String {
         relativeFormatter.localizedString(for: date, relativeTo: Date())
