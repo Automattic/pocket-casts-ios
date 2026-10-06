@@ -206,6 +206,18 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return .portrait
     }
 
+    @objc private func deviceOrientationDidChange() {
+        guard UIDevice.current.userInterfaceIdiom == .phone,
+              UIDevice.current.orientation.isLandscape,
+              viewIfLoaded?.window != nil,
+              presentedViewController == nil,
+              tabsView.tabs[safe: tabsView.currentTab] == .nowPlaying,
+              !nowPlayingItem.displayTranscript,
+              VideoViewController.isPlayingLandscapeVideo else { return }
+
+        nowPlayingItem.showFullScreenVideo()
+    }
+
     // MARK: - PlayerItemContainerDelegate
 
     func scrollToCurrentChapter() {
@@ -254,6 +266,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeDidChange))
+        addCustomObserver(UIDevice.orientationDidChangeNotification, selector: #selector(deviceOrientationDidChange))
     }
 
     private func setupGestures() {

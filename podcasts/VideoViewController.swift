@@ -171,6 +171,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        wasHeldInLandscape = UIDevice.current.orientation.isLandscape
         addUiNotificationObservers()
         if PlaybackManager.shared.isPlaying {
             startHideControlsTimer()
@@ -300,6 +301,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackFinished))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(trackChanged))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
+        addCustomObserver(UIDevice.orientationDidChangeNotification, selector: #selector(deviceOrientationDidChange))
     }
 
     @objc private func playbackFinished() {
@@ -438,6 +440,22 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         self.isLandscapeVideo = isLandscapeVideo
         setNeedsUpdateOfSupportedInterfaceOrientations()
         presentingViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+    }
+
+    static var isPlayingLandscapeVideo: Bool {
+        isLandscape(PlaybackManager.shared.internalPlayerForVideoPlayback()?.currentItem?.presentationSize) ?? false
+    }
+
+    private var wasHeldInLandscape = false
+
+    @objc private func deviceOrientationDidChange() {
+        let orientation = UIDevice.current.orientation
+
+        if orientation.isLandscape {
+            wasHeldInLandscape = true
+        } else if orientation == .portrait, wasHeldInLandscape, isLandscapeVideoOnPhone, pipController?.isPictureInPictureActive != true {
+            dismiss(animated: true)
+        }
     }
 
     private static func isLandscape(_ videoSize: CGSize?) -> Bool? {
