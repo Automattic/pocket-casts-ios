@@ -20,7 +20,9 @@ enum PlaybackActionHelper {
         if !episode.downloaded(pathFinder: DownloadManager.shared) {
             NetworkUtils.shared.streamEpisodeRequested({
                 performPlay(episode: episode, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
-            }, disallowed: nil)
+            }, disallowed: {
+                AnalyticsPlaybackHelper.shared.currentSource = nil
+            })
         } else {
             performPlay(episode: episode, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
         }
