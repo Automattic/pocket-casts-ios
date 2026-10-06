@@ -304,8 +304,8 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
             topAnchor,
 
-            multiSelectFooter.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            multiSelectFooter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
+            multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
+            multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0),
             multiSelectFooterBottomConstraint,
             multiSelectFooter.heightAnchor.constraint(equalToConstant: 64),
         ])
