@@ -36,10 +36,8 @@ struct ManageDownloadsBannerView: View {
 
     @ObservedObject var dataModel: ManageDownloadsModel
 
-    /// The borderless style needs a fill that stands out from the Downloads list behind it. That list is only
-    /// `primaryUi02` when Liquid Glass is enabled (see `DownloadsViewController`). On earlier iOS versions it is
-    /// `primaryUi04`, which is the same color as the borderless fill in several themes, so the banner keeps its
-    /// original fill and border there.
+    /// Borderless only with Liquid Glass, where the Downloads list is `primaryUi02`.
+    /// On earlier iOS it is `primaryUi04`, which matches the new fill in some themes.
     private var usesBorderlessStyle: Bool {
         LiquidGlass.isEnabled
     }
