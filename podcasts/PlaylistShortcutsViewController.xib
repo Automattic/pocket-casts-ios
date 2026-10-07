@@ -67,8 +67,8 @@
                 <constraint firstItem="r9C-Jc-RZi" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Go5-7L-8GF"/>
                 <constraint firstItem="r9C-Jc-RZi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ofu-p8-bEW"/>
                 <constraint firstItem="KYO-Ms-nzL" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="SR0-RR-WU0"/>
-                <constraint firstItem="2JC-9l-vjf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZvC-FC-ZvD"/>
-                <constraint firstItem="2JC-9l-vjf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ae4-Xm-ceJ"/>
+                <constraint firstItem="2JC-9l-vjf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZvC-FC-ZvD"/>
+                <constraint firstItem="2JC-9l-vjf" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="ae4-Xm-ceJ"/>
                 <constraint firstItem="KYO-Ms-nzL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="h6Q-YI-xIs"/>
                 <constraint firstItem="2JC-9l-vjf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="r0Y-NL-BRk"/>
             </constraints>
