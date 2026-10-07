@@ -106,8 +106,9 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         return max(1, columns)
     }
 
-    private var pageStride: CGFloat {
-        (cellWidth + cellSpacing) * numVisibleColumns
+    /// Swiping scrolls a single column, regardless of how many are visible.
+    override var pageStride: CGFloat {
+        cellWidth + cellSpacing
     }
 
     private var displayedPodcastCount: Int {
@@ -116,7 +117,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
 
     private var numberOfPages: Int {
         let columns = Int(ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows)))
-        return Int(ceil(CGFloat(columns) / numVisibleColumns))
+        return max(columns - Int(numVisibleColumns) + 1, 1)
     }
 
     private func updateTrailingInset() {

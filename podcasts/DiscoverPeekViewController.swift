@@ -26,6 +26,11 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         return min(maxWidth, (widthAvailable - peekWidth - (cellSpacing * (numVisibleColumns + 1))) / numVisibleColumns)
     }
 
+    /// The distance a single swipe scrolls the content.
+    var pageStride: CGFloat {
+        (cellWidth + cellSpacing) * numVisibleColumns
+    }
+
     // this is a sensible default for all the current places in the app, though children can override this value if they choose to
     // setting it to 0 = off
     var maxCellWidth = 200 as CGFloat
@@ -44,10 +49,10 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         let target = targetContentOffset.pointee
         let currentScrollDistance = target.x - currentScrollOffset.x
         let coefficent = Int(max(-1, min(currentScrollDistance / scrollThreshold, 1)))
-        let currentIndex = Int(round(currentScrollOffset.x / ((cellWidth + cellSpacing) * numVisibleColumns)))
+        let currentIndex = Int(round(currentScrollOffset.x / pageStride))
         let adjacentItemIndex = currentIndex + coefficent
         let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
-        let adjacentItemOffsetX = adjacentItemIndexFloat * (cellWidth + cellSpacing) * numVisibleColumns
+        let adjacentItemOffsetX = adjacentItemIndexFloat * pageStride
         targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
     }
 
