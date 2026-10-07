@@ -86,7 +86,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
                     tableView.selectIndexPath(selectedIndexPath)
                     longPressMultiSelectIndexPath = nil
                 }
-                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                multiSelectFooterBottomConstraint.constant = LiquidGlass.isEnabled ? 17 : Constants.effectiveFooterViewPadding
             } else {
                 track(.filterMultiSelectExited)
                 multiSelectFooter.isHidden = true
@@ -285,7 +285,8 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
-        multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+        let multiSelectFooterBottomAnchor = LiquidGlass.isEnabled ? view.bottomAnchor : view.safeAreaLayoutGuide.bottomAnchor
+        multiSelectFooterBottomConstraint = multiSelectFooterBottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
