@@ -670,7 +670,7 @@ private extension EpisodeDetailViewController {
 
         fakeNavView.addSubview(tabContainerView)
 
-        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: fakeNavView.trailingAnchor)
+        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: fakeNavView.safeAreaLayoutGuide.trailingAnchor)
         NSLayoutConstraint.activate([
             tabContainerView.leadingAnchor.constraint(equalTo: backBtn.trailingAnchor),
             trailingAnchor,
@@ -768,7 +768,7 @@ private extension EpisodeDetailViewController {
 
         tabContainerTrailingAnchor.isActive = false
 
-        let anchor = rightActionButtons.last?.leadingAnchor ?? fakeNavView.trailingAnchor
+        let anchor = rightActionButtons.last?.leadingAnchor ?? fakeNavView.safeAreaLayoutGuide.trailingAnchor
         let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: anchor)
 
         trailingAnchor.isActive = true

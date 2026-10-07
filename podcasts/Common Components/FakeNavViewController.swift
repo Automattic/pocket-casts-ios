@@ -146,7 +146,7 @@ private final class LegacyFakeNavigationBar: UIView {
         addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         let buttonSize: CGFloat = 44
-        backButtonLeadingConstraint = backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6)
+        backButtonLeadingConstraint = backButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 6)
         NSLayoutConstraint.activate([
             backButton.widthAnchor.constraint(equalToConstant: buttonSize),
             backButton.heightAnchor.constraint(equalToConstant: buttonSize),
@@ -188,7 +188,7 @@ private final class LegacyFakeNavigationBar: UIView {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: buttonSize),
                 button.heightAnchor.constraint(equalToConstant: buttonSize),
-                trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
+                safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
                 button.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         } else {
