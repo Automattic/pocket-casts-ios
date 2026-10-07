@@ -13,7 +13,7 @@ protocol ToastTheme: ObservableObject {
 
 /// A default theme for use in the full screen player
 class ToastPlayerTheme: ThemeObserver, ToastTheme {
-    var background: Color { theme.playerContrast01 }
+    var background: Color { LiquidGlass.isEnabled ? theme.playerBackground01 : theme.playerContrast01 }
     var title: Color { LiquidGlass.isEnabled ? theme.playerContrast01 : theme.playerBackground01 }
     var iconName: String? { nil }
     var iconColor: Color? { nil }
@@ -38,7 +38,7 @@ extension ToastTheme where Self == ToastPlayerTheme {
 
 /// A default theme for use in the general app
 class ToastDefaultTheme: ThemeObserver, ToastTheme {
-    var background: Color { theme.playerContrast01 }
+    var background: Color { LiquidGlass.isEnabled ? theme.primaryUi01 : theme.playerContrast01 }
     var title: Color { LiquidGlass.isEnabled ? theme.primaryText01 : theme.playerBackground01 }
     var iconColor: Color? { nil }
     var iconName: String? { nil }
@@ -63,7 +63,7 @@ extension ToastTheme where Self == ToastDefaultTheme {
 
 /// A default theme for use in the general app
 class ToastIconTheme: ThemeObserver, ToastTheme {
-    var background: Color { theme.playerContrast01 }
+    var background: Color { LiquidGlass.isEnabled ? theme.primaryUi01 : theme.playerContrast01 }
     var title: Color { LiquidGlass.isEnabled ? theme.primaryText01 : theme.playerBackground01 }
     var button: Color { LiquidGlass.isEnabled ? theme.primaryInteractive01 : theme.primaryText02Selected }
     let iconName: String?
