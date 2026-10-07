@@ -42,8 +42,8 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lik-kf-6rP" secondAttribute="trailing" id="BHO-6k-fKT"/>
-                <constraint firstItem="lik-kf-6rP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Kko-ho-6Tw"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="trailing" secondItem="lik-kf-6rP" secondAttribute="trailing" id="BHO-6k-fKT"/>
+                <constraint firstItem="lik-kf-6rP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Kko-ho-6Tw"/>
                 <constraint firstItem="VqG-ZR-Alm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="R3w-t7-lz2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="VqG-ZR-Alm" secondAttribute="bottom" constant="16" id="i5Q-Q3-dx3"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="VqG-ZR-Alm" secondAttribute="trailing" constant="8" id="iJf-Sm-VdB"/>

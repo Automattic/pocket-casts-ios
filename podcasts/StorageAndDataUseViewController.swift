@@ -64,7 +64,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard section == usageSection else { return nil }
 
-        let footer = UIView()
+        let footer = UITableViewHeaderFooterView()
         let label = ThemeableLabel()
         label.style = .primaryText02
         label.text = L10n.settingsStorageUsageFooter
@@ -72,12 +72,12 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         label.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
-        footer.addSubview(label)
+        footer.contentView.addSubview(label)
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: footer.topAnchor, constant: 12),
-            label.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -16),
-            label.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: -12)
+            label.topAnchor.constraint(equalTo: footer.contentView.topAnchor, constant: 12),
+            label.leadingAnchor.constraint(equalTo: footer.contentView.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: footer.contentView.trailingAnchor, constant: -16),
+            label.bottomAnchor.constraint(equalTo: footer.contentView.bottomAnchor, constant: -12)
         ])
         return footer
     }

@@ -153,7 +153,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()
@@ -641,7 +641,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     }
 
     func loadLocalEpisodes(podcast: Podcast, animated: Bool) {
-        let uuidsToFilter = isSearching ? uuidsThatMatchSearch : nil
+        let uuidsToFilter = searchUuidsToFilter
         let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: uuidsToFilter) { [weak self] newData in
             guard let self else { return }
 
@@ -718,7 +718,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
                 self.episodeInfo = finalData
                 reloadData()
             }
-            self.updateSearchHeader()
+            self.updateSearchHeader(uuidsToFilter: uuidsToFilter)
             if self.isMultiSelectEnabled {
                 self.updateSelectAllBtn()
             }
@@ -863,16 +863,20 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         podcast
     }
 
-    func episodeCount() -> Int {
-        guard let podcast else { return 0 }
-
-        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcast.id])
+    var searchUuidsToFilter: [String]? {
+        isSearching ? uuidsThatMatchSearch : nil
     }
 
-    func archivedEpisodeCount() -> Int {
+    func episodeCount(uuidsToFilter: [String]? = nil) -> Int {
         guard let podcast else { return 0 }
 
-        return DataManager.shared.count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ? AND archived = 1", values: [podcast.id])
+        return EpisodesDataManager().episodeCount(for: podcast, uuidsToFilter: uuidsToFilter)
+    }
+
+    func archivedEpisodeCount(uuidsToFilter: [String]? = nil) -> Int {
+        guard let podcast else { return 0 }
+
+        return EpisodesDataManager().archivedEpisodeCount(for: podcast, uuidsToFilter: uuidsToFilter)
     }
 
     func settingsTapped() {

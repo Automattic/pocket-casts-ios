@@ -42,7 +42,7 @@ extension FolderViewController {
 
         mainGrid.dragInteractionEnabled = true
         mainGrid.allowsSelection = false
-        setEnclosingTabBarHidden(true, animated: true)
+        setHidesEnclosingTabBar(true, animated: true)
 
         for cell in mainGrid.visibleCells {
             applyEditingTreatment(to: cell)
@@ -52,7 +52,7 @@ extension FolderViewController {
     private func exitEditMode() {
         mainGrid.dragInteractionEnabled = false
         mainGrid.allowsSelection = true
-        setEnclosingTabBarHidden(false, animated: true)
+        setHidesEnclosingTabBar(false, animated: true)
 
         setCustomRightBtn(savedRightBarButtonItem, animated: true)
         savedRightBarButtonItem = nil

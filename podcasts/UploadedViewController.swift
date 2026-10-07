@@ -26,7 +26,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     var uploadedEpisodes = [UserEpisode]() {
         didSet {
-            refreshContentUnavailable()
+            setNeedsUpdateContentUnavailableConfiguration()
         }
     }
     let headerView = UploadedStorageHeaderView()
@@ -34,7 +34,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private var tableRefreshController: UploadedFilesRefreshController?
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
 
-    private func refreshContentUnavailable() {
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         var config: UIContentConfiguration?
 
         if uploadedEpisodes.isEmpty {
@@ -62,7 +62,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             uploadsTable.beginUpdates()
             uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled

@@ -80,7 +80,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         updateTimeRemainingLabel()
         headerView.addSubview(remainingLabel)
         NSLayoutConstraint.activate([
-            remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
+            remainingLabel.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
             remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
         ])
@@ -90,7 +90,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             sortButton.translatesAutoresizingMaskIntoConstraints = false
             sortButton.setContentCompressionResistancePriority(.required, for: .horizontal)
             NSLayoutConstraint.activate([
-                sortButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+                sortButton.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
                 sortButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
                 sortButton.widthAnchor.constraint(equalToConstant: 24),
                 sortButton.heightAnchor.constraint(equalToConstant: 24)
@@ -98,7 +98,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         // When the sort button is shown, the shuffle button sits to its left.
-        let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.trailingAnchor
+        let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.safeAreaLayoutGuide.trailingAnchor
         let trailingButtonConstant: CGFloat = FeatureFlag.upNextSort.enabled ? -16 : -20
 
         headerView.addSubview(shuffleButton)

@@ -36,7 +36,7 @@ class DownloadsViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             downloadsTable.beginUpdates()
             downloadsTable.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
