@@ -3,7 +3,7 @@ import SwiftUI
 struct ColorSelectCircle: View {
     @EnvironmentObject var theme: Theme
 
-    @State var folderColorId: Int
+    let folderColorId: Int
     @ObservedObject var model: FolderModel
 
     var body: some View {
