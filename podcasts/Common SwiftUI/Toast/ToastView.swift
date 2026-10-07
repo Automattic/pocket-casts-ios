@@ -114,10 +114,8 @@ struct ToastView<Style: ToastTheme>: View {
         }
         // Allow the child views to expand to the full height of the stack
         .fixedSize(horizontal: false, vertical: true)
-        .background(style.background)
-        .cornerRadius(ToastConstants.cornerRadius)
+        .toastBackground(style.background)
         .padding()
-        .shadow(color: .black.opacity(0.3), radius: 10)
 
         // Animates the toast in from the bottom of the screen
         .miniPlayerSafeAreaInset(multiplier: viewModel.aboveMiniPlayer ? 1.5 : 0)
@@ -187,12 +185,26 @@ struct ToastView<Style: ToastTheme>: View {
     }
 }
 
+private extension View {
+    @ViewBuilder
+    func toastBackground(_ color: Color) -> some View {
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            glassEffect(.regular, in: .rect(cornerRadius: ToastConstants.glassCornerRadius))
+        } else {
+            self.background(color)
+                .cornerRadius(ToastConstants.cornerRadius)
+                .shadow(color: .black.opacity(0.3), radius: 10)
+        }
+    }
+}
+
 private enum DismissDirection {
     case none, down, up
 }
 
 private enum ToastConstants {
     static let cornerRadius = 4.0
+    static let glassCornerRadius = 24.0
     static let padding = 16.0
     static let dismissPercent = 0.3
     static let animation: Animation = .interpolatingSpring(stiffness: 350, damping: 50, initialVelocity: 10)
