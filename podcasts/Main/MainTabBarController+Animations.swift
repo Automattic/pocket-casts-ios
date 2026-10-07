@@ -382,23 +382,26 @@ extension MainTabBarController {
     /// The iOS 26 liquid-glass tab bar uses private `_UITabButton` views nested
     /// well below `UITabBar`, and renders each tab more than once (a content
     /// copy plus the glass-lens copy). We walk the whole subtree, cluster the
-    /// buttons into per-tab slots by horizontal position, and return every
+    /// buttons into per-tab slots by position along the bar, and return every
     /// button in the Up Next slot so the overlapping copies animate together.
     private func upNextTabButtonViews() -> [UIView] {
         guard let index = pcTabs.firstIndex(of: .upNext) else { return [] }
 
         var buttons: [UIView] = []
-        var stack = Array(tabBar.subviews)
-        while let view = stack.popLast() {
-            if String(describing: type(of: view)).contains("TabButton") {
-                buttons.append(view)
+        var stack = [view.layer]
+        while let layer = stack.popLast() {
+            if let button = layer.delegate as? UIView, String(describing: type(of: button)).contains("TabButton") {
+                buttons.append(button)
             }
-            stack.append(contentsOf: view.subviews)
+            stack.append(contentsOf: layer.sublayers ?? [])
         }
         guard !buttons.isEmpty else { return [] }
 
-        let positioned = buttons
-            .map { ($0, $0.convert($0.bounds, to: tabBar).midX) }
+        let frames = buttons.map { $0.convert($0.bounds, to: view) }
+        let isVertical = (frames.map(\.midY).max() ?? 0) - (frames.map(\.midY).min() ?? 0)
+            > (frames.map(\.midX).max() ?? 0) - (frames.map(\.midX).min() ?? 0)
+        let positioned = zip(buttons, frames)
+            .map { ($0, isVertical ? $1.midY : $1.midX) }
             .sorted { $0.1 < $1.1 }
 
         var slots: [(x: CGFloat, views: [UIView])] = []
@@ -416,7 +419,8 @@ extension MainTabBarController {
 
         // Slot count doesn't line up with the tab list (e.g. a "More" tab):
         // animate whichever slot sits nearest the expected Up Next position.
-        guard let expected = upNextTabButtonFrame(in: tabBar) else { return [] }
-        return slots.min { abs($0.x - expected.midX) < abs($1.x - expected.midX) }?.views ?? []
+        guard let expected = upNextTabButtonFrame(in: view) else { return [] }
+        let expectedPosition = isVertical ? expected.midY : expected.midX
+        return slots.min { abs($0.x - expectedPosition) < abs($1.x - expectedPosition) }?.views ?? []
     }
 }
