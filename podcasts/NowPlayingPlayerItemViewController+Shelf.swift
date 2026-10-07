@@ -346,7 +346,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             // ensure that all of the shelf content is visible in the sheet. We offer a large detent
             // as a fallback so that the user can pull the sheet up if any content is ever cut off.
             let maxWidth = sheetController.containerView?.bounds.width ?? .greatestFiniteMagnitude
-            let sheetDetentHeight = sheetController.presentedViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
+            let contentViewController = (viewController as? UINavigationController)?.topViewController ?? viewController
+            let sheetDetentHeight = contentViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
             sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
 
             // The Shelf Actions VC implements its own grabber UI.
@@ -361,7 +362,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
 
-        presentUsingSheet(shelfController, forceLarge: true)
+        let navigationController = UINavigationController(rootViewController: shelfController)
+        navigationController.isNavigationBarHidden = true
+
+        presentUsingSheet(navigationController, forceLarge: true)
         #endif
     }
 

@@ -11,13 +11,9 @@
             <connections>
                 <outlet property="actionButton" destination="cKZ-Dw-VOH" id="YNd-SZ-KOu"/>
                 <outlet property="actionsTable" destination="6tw-OJ-5M6" id="hJv-NQ-6cB"/>
-                <outlet property="doneButtonVerticalConstraint" destination="e5y-WK-qoH" id="4on-L0-dot"/>
                 <outlet property="dragHandle" destination="u7u-d7-LCB" id="siQ-EJ-snB"/>
-                <outlet property="editButtonVerticalConstraint" destination="uLs-vs-n1s" id="bMU-wq-rjw"/>
                 <outlet property="headingLabel" destination="ReJ-sq-mag" id="LRC-D2-cT7"/>
                 <outlet property="headingView" destination="kRe-hz-06d" id="6I3-nx-wuu"/>
-                <outlet property="headingViewHeightConstraint" destination="5Lc-Gk-ogu" id="sj2-kT-LZz"/>
-                <outlet property="rearrangeHeader" destination="pi8-u0-lvv" id="bM2-yP-RyB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,12 +29,6 @@
                             <rect key="frame" x="20" y="16" width="99" height="36"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rearrange Actions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pi8-u0-lvv" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="133" y="23.5" width="146.5" height="21"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7u-d7-LCB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
@@ -61,29 +51,21 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
-                                <action selector="doneTapped:" destination="-1" eventType="touchUpInside" id="krK-tW-Gz3"/>
+                                <action selector="editTapped:" destination="-1" eventType="touchUpInside" id="krK-tW-Gz3"/>
                             </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.27818405629999998" green="0.16882148390000001" blue="0.043081961570000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstItem="pi8-u0-lvv" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="58X-ye-TXQ"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="5Lc-Gk-ogu"/>
                         <constraint firstAttribute="bottom" secondItem="ReJ-sq-mag" secondAttribute="bottom" constant="16" id="7Cv-ee-gK0"/>
                         <constraint firstItem="ReJ-sq-mag" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="16" id="Phm-2g-RiH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="Rch-bC-tUP"/>
                         <constraint firstItem="ReJ-sq-mag" firstAttribute="leading" secondItem="XkF-yR-sA1" secondAttribute="leading" constant="20" id="c3L-kF-bIk"/>
-                        <constraint firstAttribute="centerY" secondItem="ReJ-sq-mag" secondAttribute="centerY" id="e5y-WK-qoH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="8" id="mMP-BI-Eut"/>
                         <constraint firstItem="XkF-yR-sA1" firstAttribute="trailing" secondItem="cKZ-Dw-VOH" secondAttribute="trailing" constant="20" id="q1u-Nq-yeJ"/>
                         <constraint firstItem="cKZ-Dw-VOH" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="uLs-vs-n1s"/>
-                        <constraint firstItem="pi8-u0-lvv" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="zGs-cC-qdI"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="e5y-WK-qoH"/>
-                        </mask>
-                    </variation>
                     <viewLayoutGuide key="safeArea" id="XkF-yR-sA1"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="default" rowHeight="72" estimatedRowHeight="72" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6tw-OJ-5M6">
