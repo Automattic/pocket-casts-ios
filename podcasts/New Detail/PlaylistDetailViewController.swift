@@ -107,6 +107,8 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
     var preSearchContentOffset: CGPoint?
+    var isSwiping = false
+    var reloadAnimationEndsAt: CFTimeInterval = 0
 
     var multiSelectFooter: MultiSelectFooterView! {
         didSet {
@@ -338,6 +340,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
+            reloadAnimationEndsAt = CACurrentMediaTime() + 0.5
             do {
                 try SJCommonUtils.catchException {
                     tableView.reload(using: data, with: .fade) { newData in
