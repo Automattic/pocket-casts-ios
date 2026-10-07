@@ -16,6 +16,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
     }
 
     @IBOutlet var headingView: UIView!
+    @IBOutlet var headingViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var headingLabel: ThemeableLabel! {
         didSet {
             headingLabel.style = .playerContrast02
@@ -31,6 +32,15 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         }
     }
 
+    @IBOutlet var rearrangeHeader: ThemeableLabel! {
+        didSet {
+            rearrangeHeader.style = .playerContrast01
+            rearrangeHeader.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeHeader.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            rearrangeHeader.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var actionButton: ThemeableUIButton! {
         didSet {
             actionButton.style = .playerContrast01
@@ -38,6 +48,9 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
             actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
+
+    @IBOutlet var editButtonVerticalConstraint: NSLayoutConstraint!
+    @IBOutlet var doneButtonVerticalConstraint: NSLayoutConstraint!
 
     var allActions = Settings.playerActions()
     var extraActions = Settings.playerActions()
@@ -85,12 +98,25 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         actionsTable.reloadData()
     }
 
-    @IBAction func editTapped(_ sender: UIButton) {
+    @IBAction func doneTapped(_ sender: UIButton) {
+        if actionsTable.isEditing {
+            Analytics.track(.playerShelfOverflowMenuRearrangeFinished)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
+            dismiss(animated: true, completion: nil)
+            return
+        }
+
         actionsTable.isEditing = true
         actionsTable.reloadData()
         actionsTable.isScrollEnabled = true
 
-        showRearrangeNavigationBar()
+        sender.setTitle(L10n.done, for: .normal)
+
+        rearrangeHeader.isHidden = false
+        dragHandle.isHidden = true
+        headingLabel.isHidden = true
+
+        headingViewHeightConstraint.constant = 56
         setPreferredSize(animated: true)
 
         if let sheetController = sheetPresentationController {
@@ -105,37 +131,6 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         }
 
         Analytics.track(.playerShelfOverflowMenuRearrangeStarted)
-    }
-
-    private func doneRearranging() {
-        Analytics.track(.playerShelfOverflowMenuRearrangeFinished)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
-        dismiss(animated: true, completion: nil)
-    }
-
-    /// Replaces the custom heading with a standard navigation bar showing the title and a Done action.
-    private func showRearrangeNavigationBar() {
-        headingView.removeFromSuperview()
-        actionsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-
-        navigationItem.title = L10n.playerActionsRearrangeTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction { [weak self] _ in
-            self?.doneRearranging()
-        })
-        updateNavigationBarColors()
-        navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
-    private func updateNavigationBarColors() {
-        guard let navigationBar = navigationController?.navigationBar else { return }
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = PlayerColorHelper.playerBackgroundColor02()
-        appearance.titleTextAttributes = [.foregroundColor: AppTheme.colorForStyle(.playerContrast01)]
-        navigationBar.standardAppearance = appearance
-        navigationBar.scrollEdgeAppearance = appearance
-        navigationBar.tintColor = AppTheme.navBarIconsColor()
     }
 
     private func setPreferredSize(animated: Bool) {
@@ -168,7 +163,6 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         actionsTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         headingView.backgroundColor = PlayerColorHelper.playerBackgroundColor02()
-        updateNavigationBarColors()
         actionsTable.reloadData()
     }
 
