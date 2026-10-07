@@ -19,7 +19,6 @@
 - Fix the tab bar and mini player staying hidden after leaving a multi-select screen without cancelling it, such as when tapping View in the "added to playlist" toast. Add to Playlist now also exits multi-select when you tap Done [#5081](https://github.com/Automattic/pocket-casts-ios/pull/5081)
 - Fix the podcast page episode count not updating while searching episodes [#5363](https://github.com/Automattic/pocket-casts-ios/pull/5363)
 - Remove the bouncing animation from the mini player play/pause button [#5379](https://github.com/Automattic/pocket-casts-ios/pull/5379)
-- Remove the bounce from the animation when showing and hiding the transcript in the full player [#5382](https://github.com/Automattic/pocket-casts-ios/pull/5382)
 
 8.22
 -----
