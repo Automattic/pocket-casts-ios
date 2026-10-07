@@ -48,7 +48,11 @@ struct ToastView<Style: ToastTheme>: View {
                 }
                 titleView
 
-                Spacer(minLength: 10)
+                if LiquidGlass.isEnabled {
+                    Spacer().frame(width: ToastConstants.glassSpacing)
+                } else {
+                    Spacer(minLength: 10)
+                }
 
                 ForEach(viewModel.actions) { action in
                     actionButton(action)
@@ -85,6 +89,7 @@ struct ToastView<Style: ToastTheme>: View {
         Text(viewModel.title)
             .padding(.vertical, ToastConstants.padding)
             .padding(.leading, ToastConstants.padding)
+            .padding(.trailing, LiquidGlass.isEnabled && viewModel.actions.isEmpty ? ToastConstants.padding : 0)
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxHeight: .infinity)
             .foregroundStyle(style.title)
@@ -100,7 +105,7 @@ struct ToastView<Style: ToastTheme>: View {
 
                 content()
                     // For larger devices restrict the toast width to a max of 50% of the view
-                    .frame(width: sizeClass == .regular ? proxy.size.width * 0.5 : nil)
+                    .frame(width: sizeClass == .regular && !LiquidGlass.isEnabled ? proxy.size.width * 0.5 : nil)
                     .padding(.bottom, max(0, viewModel.bottomInset - proxy.safeAreaInsets.bottom))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -190,7 +195,7 @@ private extension View {
     @ViewBuilder
     func toastBackground(_ color: Color) -> some View {
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
-            glassEffect(.regular.tint(color.opacity(ToastConstants.glassTintOpacity)), in: .rect(cornerRadius: ToastConstants.glassCornerRadius))
+            glassEffect(.regular.tint(color.opacity(ToastConstants.glassTintOpacity)), in: .capsule)
         } else {
             self.background(color)
                 .cornerRadius(ToastConstants.cornerRadius)
@@ -205,7 +210,7 @@ private enum DismissDirection {
 
 private enum ToastConstants {
     static let cornerRadius = 4.0
-    static let glassCornerRadius = 24.0
+    static let glassSpacing = 8.0
     static let glassHorizontalPadding = 32.0
     static let glassTintOpacity = 0.85
     static let padding = 16.0
