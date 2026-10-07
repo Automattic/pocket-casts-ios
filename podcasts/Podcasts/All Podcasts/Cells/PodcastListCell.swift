@@ -47,7 +47,7 @@ class PodcastListCell: ThemeableCollectionCell {
             unplayedHeight.constant = 28
 
             unplayedBadge.showsNumber = true
-            unplayedBadge.unplayedCount = podcast.cachedUnreadCount > 99 ? 99 : podcast.cachedUnreadCount
+            unplayedBadge.unplayedCount = podcast.cachedUnreadCount
             unplayedBadge.isHidden = podcast.cachedUnreadCount == 0
         } else if badgeType == .latestEpisode {
             unplayedHeight.constant = 12

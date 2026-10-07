@@ -3,8 +3,12 @@ import UIKit
 class UnplayedBadge: UIView {
     var unplayedCount = 0 {
         didSet {
-            unplayedLabel.text = "\(unplayedCount)"
+            unplayedLabel.text = Self.text(forCount: unplayedCount)
         }
+    }
+
+    static func text(forCount count: Int) -> String {
+        count > 99 ? "99+" : "\(count)"
     }
 
     var showsNumber = true {
@@ -24,9 +28,11 @@ class UnplayedBadge: UIView {
 
         unplayedLabel = UILabel(frame: bounds)
         addSubview(unplayedLabel)
-        unplayedLabel.anchorToAllSidesOf(view: self)
+        unplayedLabel.anchorToAllSidesOf(view: self, padding: 4)
         unplayedLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
         unplayedLabel.adjustsFontForContentSizeCategory = true
+        unplayedLabel.adjustsFontSizeToFitWidth = true
+        unplayedLabel.minimumScaleFactor = 0.7
         unplayedLabel.textAlignment = .center
 
         updateColors()

@@ -55,7 +55,7 @@ class FolderListCell: ThemeableCollectionCell {
             unplayedBadge.layoutIfNeeded()
 
             unplayedBadge.showsNumber = true
-            unplayedBadge.unplayedCount = folder.cachedUnreadCount > 99 ? 99 : folder.cachedUnreadCount
+            unplayedBadge.unplayedCount = folder.cachedUnreadCount
             unplayedBadge.isHidden = folder.cachedUnreadCount == 0
         } else if badgeType == .latestEpisode {
             let metric = UIFontMetrics(forTextStyle: .largeTitle)
