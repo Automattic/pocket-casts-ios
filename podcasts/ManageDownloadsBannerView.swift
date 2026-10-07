@@ -36,6 +36,22 @@ struct ManageDownloadsBannerView: View {
 
     @ObservedObject var dataModel: ManageDownloadsModel
 
+    /// The borderless style needs a fill that stands out from the Downloads list behind it. That list is only
+    /// `primaryUi02` when Liquid Glass is enabled (see `DownloadsViewController`). On earlier iOS versions it is
+    /// `primaryUi04`, which is the same color as the borderless fill in several themes, so the banner keeps its
+    /// original fill and border there.
+    private var usesBorderlessStyle: Bool {
+        LiquidGlass.isEnabled
+    }
+
+    private var fillColor: Color {
+        guard usesBorderlessStyle else {
+            return theme.primaryUi01
+        }
+
+        return theme.activeTheme == .indigo ? theme.primaryUi01 : theme.primaryUi02Active
+    }
+
     var body: some View {
         HStack(alignment: .top) {
             Image("cleanup")
@@ -65,13 +81,15 @@ struct ManageDownloadsBannerView: View {
             Spacer()
         }
         .padding()
-        .background(theme.primaryUi01)
+        .background(fillColor)
         .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .inset(by: 0.25)
-                .stroke(theme.primaryText02, lineWidth: 0.5)
-        )
+        .overlay {
+            if !usesBorderlessStyle {
+                RoundedRectangle(cornerRadius: 8)
+                    .inset(by: 0.25)
+                    .stroke(theme.primaryText02, lineWidth: 0.5)
+            }
+        }
         .overlay(alignment: .topTrailing) {
             Button() {
                 dataModel.onNotNowTap?()
