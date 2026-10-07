@@ -55,13 +55,13 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             if showsTopDivider, topDivider == nil {
                 let divider = ThemeDividerView()
                 divider.translatesAutoresizingMaskIntoConstraints = false
-                contentView.addSubview(divider)
+                addSubview(divider)
                 let heightConstraint = divider.heightAnchor.constraint(equalToConstant: hairlineWidth)
                 NSLayoutConstraint.activate([
                     heightConstraint,
-                    divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                    divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                    divider.topAnchor.constraint(equalTo: contentView.topAnchor)
+                    divider.leadingAnchor.constraint(equalTo: leadingAnchor),
+                    divider.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    divider.topAnchor.constraint(equalTo: topAnchor)
                 ])
                 applyHairlineWidth(to: heightConstraint)
                 topDivider = divider
@@ -150,6 +150,15 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        bottomDivider.removeFromSuperview()
+        addSubview(bottomDivider)
+        NSLayoutConstraint.activate([
+            bottomDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomDivider.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomDividerHeightConstraint
+        ])
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (view: EpisodeCell, _) in
             view.updateSize()
