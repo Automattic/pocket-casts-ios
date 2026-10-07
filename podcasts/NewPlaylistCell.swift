@@ -30,6 +30,11 @@ class NewPlaylistCell: ThemeableCell {
     private var playlistID: String = ""
     private var cancellables = Set<AnyCancellable>()
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        updateAccessoryLayoutMargins()
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -43,8 +48,7 @@ class NewPlaylistCell: ThemeableCell {
         separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
 
         separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
-        layoutMargins = .zero
-        preservesSuperviewLayoutMargins = false
+        updateAccessoryLayoutMargins()
 
         self.contentConfiguration = UIHostingConfiguration {
             NewPlaylistCellView(viewModel: viewModel)

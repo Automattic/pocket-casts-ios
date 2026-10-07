@@ -68,7 +68,13 @@ class InformationalBannerViewCoordinator {
             edgeInsets: bannerViewEdgeInsets
         ).themedUIView
         headerView.addSubview(bannerView)
-        bannerView.anchorToAllSidesOf(view: headerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            bannerView.topAnchor.constraint(equalTo: headerView.topAnchor),
+            bannerView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
+            bannerView.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor),
+            bannerView.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor)
+        ])
         return headerView
     }
 
