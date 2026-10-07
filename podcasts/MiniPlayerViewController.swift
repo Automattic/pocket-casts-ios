@@ -187,7 +187,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         textStack.alignment = .leading
         textStack.spacing = 2
 
-        addPlayButtonBounce()
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
@@ -221,33 +220,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.registerForTraitChanges([UITraitTabAccessoryEnvironment.self]) { (view: UIView, _) in
             view.setNeedsUpdateConstraints()
-        }
-    }
-
-    /// Adds a springy scale-up-and-settle-back response to the play/pause
-    /// button so the translucent accent circle feels tactile on tap.
-    private func addPlayButtonBounce() {
-        playPauseBtn.addTarget(self, action: #selector(playButtonTouchedDown), for: .touchDown)
-        playPauseBtn.addTarget(self, action: #selector(playButtonReleased), for: [.touchUpInside, .touchUpOutside, .touchCancel])
-    }
-
-    @objc private func playButtonTouchedDown() {
-        guard !UIAccessibility.isReduceMotionEnabled else { return }
-        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: [.allowUserInteraction, .beginFromCurrentState]) {
-            self.playPauseBtn.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            self.playPauseBtn.alpha = 0.75
-        }
-    }
-
-    @objc private func playButtonReleased() {
-        guard !UIAccessibility.isReduceMotionEnabled else {
-            playPauseBtn.transform = .identity
-            playPauseBtn.alpha = 1
-            return
-        }
-        UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.7, options: [.allowUserInteraction, .beginFromCurrentState]) {
-            self.playPauseBtn.transform = .identity
-            self.playPauseBtn.alpha = 1
         }
     }
 
