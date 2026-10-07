@@ -22,6 +22,7 @@
 - Remove the bouncing animation from the mini player play/pause button [#5379](https://github.com/Automattic/pocket-casts-ios/pull/5379)
 - Fix the Cast button sitting against the edge of the top bar buttons on the podcast page on iOS 26 [#5383](https://github.com/Automattic/pocket-casts-ios/pull/5383)
 - Fix the animation when adding an episode to Up Next not reaching the Up Next tab when the tab bar is vertical on iPhone Duo [#5381](https://github.com/Automattic/pocket-casts-ios/pull/5381)
+- Remove the border from the "Need to free up space?" banner in Downloads on iOS 26 and later [#5387](https://github.com/Automattic/pocket-casts-ios/pull/5387)
 
 8.22
 -----
