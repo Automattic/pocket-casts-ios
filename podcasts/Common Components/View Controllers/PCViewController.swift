@@ -66,6 +66,11 @@ class PCViewController: SimpleNotificationsViewController {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
             if LiquidGlass.isEnabled {
+                castButton.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    castButton.widthAnchor.constraint(equalToConstant: 38),
+                    castButton.heightAnchor.constraint(equalToConstant: 36)
+                ])
                 castButton.tintColor = .label
             } else if useTransparentNavigationBarAppearance {
                 FakeNavBarButton.applyStyle(to: castButton)
