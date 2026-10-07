@@ -120,6 +120,7 @@ struct ToastView<Style: ToastTheme>: View {
         // Allow the child views to expand to the full height of the stack
         .fixedSize(horizontal: false, vertical: true)
         .toastBackground(style.background)
+        .onTapGesture { autoDismiss() }
         .padding(.horizontal, LiquidGlass.isEnabled ? ToastConstants.glassHorizontalPadding : ToastConstants.padding)
         .padding(.vertical, ToastConstants.padding)
 

@@ -19,7 +19,8 @@ class ToastPlayerTheme: ThemeObserver, ToastTheme {
     var iconColor: Color? { nil }
     var button: Color {
         if LiquidGlass.isEnabled {
-            return theme.playerHighlight01
+            // The glass is tinted with the player background, so fall back to the title color when the podcast tint is too dark to read on it
+            return theme.playerHighlight01.contrast(with: background) > 2 ? theme.playerHighlight01 : theme.playerContrast01
         }
 
         // If the contrast between the background and highlight color is too low, then we'll default to the player background color
