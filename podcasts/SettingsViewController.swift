@@ -98,6 +98,14 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
     private let settingsCellId = "SettingsCell"
 
+    private var selectedRow: TableRow?
+
+    fileprivate weak var listDetailViewController: SettingsListDetailViewController?
+
+    private var isShowingPageSideBySide: Bool {
+        listDetailViewController?.isShowingDetail == true
+    }
+
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
@@ -122,6 +130,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         reloadTable()
     }
 
+
     // MARK: - UITableView Methods
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -141,6 +150,12 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         cell.settingsLabel.accessibilityIdentifier = tableRow.rawValue
         cell.settingsImage.image = tableRow.display.image
 
+        let showsDisclosureIndicator = !isShowingPageSideBySide
+        if cell.showsDisclosureIndicator != showsDisclosureIndicator {
+            cell.showsDisclosureIndicator = showsDisclosureIndicator
+            cell.updateColor()
+        }
+
         switch tableRow {
         case .appearance, .customFiles, .watch:
             cell.plusIndicator.isHidden = SubscriptionHelper.hasActiveSubscription()
@@ -151,34 +166,39 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath == tableView.indexPathForSelectedRow {
+            cell.setSelected(true, animated: false)
+        }
+    }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRow = tableData[indexPath.section][indexPath.row]
         selectRow(tableRow)
+        updateTableSelection(animated: true)
     }
 
     func selectRow(_ tableRow: TableRow) {
         switch tableRow {
         case .general:
-            navigationController?.pushViewController(GeneralSettingsViewController(), animated: true)
+            show(GeneralSettingsViewController(), for: tableRow)
         case .notifications:
-            navigationController?.pushViewController(NotificationsViewController(), animated: true)
+            show(NotificationsViewController(), for: tableRow)
         case .appearance:
-            navigationController?.pushViewController(AppearanceViewController(), animated: true)
+            show(AppearanceViewController(), for: tableRow)
         case .storageAndDataUse:
-            navigationController?.pushViewController(StorageAndDataUseViewController(), animated: true)
+            show(StorageAndDataUseViewController(), for: tableRow)
         case .autoAddToUpNext:
-            navigationController?.pushViewController(AutoAddToUpNextViewController(), animated: true)
+            show(AutoAddToUpNextViewController(), for: tableRow)
         case .autoArchive:
-            navigationController?.pushViewController(AutoArchiveViewController(), animated: true)
+            show(AutoArchiveViewController(), for: tableRow)
         case .autoDownload:
-            navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
+            show(DownloadSettingsViewController(), for: tableRow)
         case .importSteps:
             let controller = ImportViewModel.make(source: "settings", showSubtitle: false)
             navigationController?.present(controller, animated: true)
         case .opml:
-            navigationController?.pushViewController(ImportExportViewController(), animated: true)
+            show(ImportExportViewController(), for: tableRow)
         case .about:
             Analytics.track(.settingsAboutShown)
 
@@ -188,31 +208,31 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
             navigationController?.present(hostingController, animated: true, completion: nil)
         case .siriShortcuts:
-            navigationController?.pushViewController(SiriSettingsViewController(), animated: true)
+            show(SiriSettingsViewController(), for: tableRow)
         case .customFiles:
-            navigationController?.pushViewController(UploadedSettingsViewController(), animated: true)
+            show(UploadedSettingsViewController(), for: tableRow)
         case .watch:
-            navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
+            show(WatchSettingsViewController(), for: tableRow)
         case .pocketCastsPlus:
                 navigationController?.present(OnboardingFlow.shared.begin(flow: .plusUpsell, source: .settings, traitCollection: traitCollection), animated: true)
         case .privacy:
-            navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
+            show(PrivacySettingsViewController(), for: tableRow)
         case .developer:
             let hostingController = UIHostingController(rootView: DeveloperMenu().setupDefaultEnvironment())
             hostingController.title = "Developer"
-            navigationController?.pushViewController(hostingController, animated: true)
+            show(hostingController, for: tableRow)
         case .beta:
             let hostingController = UIHostingController(rootView: BetaMenu().setupDefaultEnvironment())
             hostingController.title = "Beta Features"
-            navigationController?.pushViewController(hostingController, animated: true)
+            show(hostingController, for: tableRow)
         case .headphoneControls:
-            navigationController?.pushViewController(HeadphoneSettingsViewController(), animated: true)
+            show(HeadphoneSettingsViewController(), for: tableRow)
         case .upNextHistory:
             let upNextHistory = UpNextHistoryViewController()
-            navigationController?.pushViewController(upNextHistory, animated: true)
+            show(upNextHistory, for: tableRow)
         case .foldersHistory:
             let foldersHistoryViewController = FolderHistoryViewController()
-            navigationController?.pushViewController(foldersHistoryViewController, animated: true)
+            show(foldersHistoryViewController, for: tableRow)
         }
     }
 
@@ -220,11 +240,223 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         1
     }
 
-    private func reloadTable() {
+    fileprivate func reloadTable() {
         tableData = allSections.compactMap {
             $0.filter(\.visible).nilIfEmpty()
         }
 
         settingsTable.reloadData()
+        updateTableSelection(animated: false)
+    }
+
+    private func updateTableSelection(animated: Bool) {
+        if isShowingPageSideBySide, let selectedRow, let indexPath = indexPath(for: selectedRow) {
+            settingsTable.selectRow(at: indexPath, animated: animated, scrollPosition: .none)
+        } else if let indexPath = settingsTable.indexPathForSelectedRow {
+            settingsTable.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+
+    private func indexPath(for tableRow: TableRow) -> IndexPath? {
+        for (section, rows) in tableData.enumerated() {
+            if let row = rows.firstIndex(of: tableRow) {
+                return IndexPath(row: row, section: section)
+            }
+        }
+        return nil
+    }
+
+    // MARK: - List and Detail
+
+    /// Shows a settings page next to the list when they're side by side, otherwise pushes it.
+    func show(_ viewController: UIViewController, for tableRow: TableRow, animated: Bool = true) {
+        selectedRow = tableRow
+
+        guard let listDetailViewController, listDetailViewController.isShowingDetail else {
+            navigationController?.pushViewController(viewController, animated: animated)
+            return
+        }
+        listDetailViewController.showDetail(viewController)
+        if isViewLoaded {
+            updateTableSelection(animated: false)
+        }
+    }
+
+    /// Opens Settings from `navigationController`. On regular width, presents the list and the selected page
+    /// side by side full screen; otherwise pushes the list.
+    static func open(from navigationController: UINavigationController, animated: Bool, completion: ((SettingsViewController) -> Void)? = nil) {
+        let settingsViewController = SettingsViewController()
+
+        guard navigationController.view.window?.windowScene?.traitCollection.horizontalSizeClass == .regular else {
+            navigationController.pushViewController(settingsViewController, animated: animated)
+            completion?(settingsViewController)
+            return
+        }
+
+        settingsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: settingsViewController, action: #selector(closeTapped))
+        let listDetailViewController = SettingsListDetailViewController(settingsViewController: settingsViewController)
+
+        let present = {
+            navigationController.present(listDetailViewController, animated: animated) {
+                completion?(settingsViewController)
+            }
+        }
+
+        guard let presentedViewController = navigationController.presentedViewController else {
+            present()
+            return
+        }
+        if presentedViewController.isBeingDismissed, let transitionCoordinator = presentedViewController.transitionCoordinator {
+            transitionCoordinator.animate(alongsideTransition: nil) { _ in present() }
+        } else {
+            navigationController.dismiss(animated: false, completion: present)
+        }
+    }
+
+    fileprivate func makeDefaultPage() -> UIViewController {
+        selectedRow = .general
+        return GeneralSettingsViewController()
+    }
+
+    @objc private func closeTapped() {
+        dismiss(animated: true)
+    }
+}
+
+/// Shows the Settings list and the selected page side by side, and collapses them into the list's navigation
+/// stack when the window becomes compact.
+///
+/// Not a `UISplitViewController`: on iPadOS 26 and later its secondary column extends under the sidebar,
+/// which misplaces the system section footers of the settings pages. The size class comes from the window
+/// scene because, on iPad, `MainTabBarController` gives its tabs, and what they present, a compact one.
+private final class SettingsListDetailViewController: UIViewController {
+    private let settingsViewController: SettingsViewController
+    private let listNavigationController: UINavigationController
+    private var detailNavigationController: UINavigationController?
+    private let columnDivider = ThemeDividerView()
+    private var sideBySideConstraints: [NSLayoutConstraint] = []
+    private var fullWidthConstraints: [NSLayoutConstraint] = []
+
+    var isShowingDetail: Bool {
+        detailNavigationController != nil
+    }
+
+    init(settingsViewController: SettingsViewController) {
+        self.settingsViewController = settingsViewController
+        listNavigationController = SJUIUtils.navController(for: settingsViewController)
+        detailNavigationController = SJUIUtils.navController(for: settingsViewController.makeDefaultPage())
+        super.init(nibName: nil, bundle: nil)
+
+        modalPresentationStyle = .fullScreen
+        settingsViewController.listDetailViewController = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addChild(listNavigationController)
+        let listView: UIView = listNavigationController.view
+        listView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(listView)
+        listNavigationController.didMove(toParent: self)
+
+        columnDivider.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(columnDivider)
+
+        NSLayoutConstraint.activate([
+            listView.topAnchor.constraint(equalTo: view.topAnchor),
+            listView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            columnDivider.topAnchor.constraint(equalTo: view.topAnchor),
+            columnDivider.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            columnDivider.leadingAnchor.constraint(equalTo: listView.trailingAnchor),
+            columnDivider.widthAnchor.constraint(equalToConstant: 1)
+        ])
+        fullWidthConstraints = [listView.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
+        sideBySideConstraints = [listView.widthAnchor.constraint(equalToConstant: 320)]
+
+        if let detailNavigationController {
+            installDetail(detailNavigationController)
+        } else {
+            NSLayoutConstraint.activate(fullWidthConstraints)
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        switch view.window?.windowScene?.traitCollection.horizontalSizeClass {
+        case .regular where !isShowingDetail:
+            expand()
+        case .compact where isShowingDetail:
+            collapse()
+        default:
+            break
+        }
+    }
+
+    override var childForStatusBarStyle: UIViewController? {
+        listNavigationController
+    }
+
+    func showDetail(_ viewController: UIViewController) {
+        detailNavigationController?.setViewControllers([viewController], animated: false)
+    }
+
+    private func installDetail(_ detailNavigationController: UINavigationController) {
+        self.detailNavigationController = detailNavigationController
+        addChild(detailNavigationController)
+        let detailView: UIView = detailNavigationController.view
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(detailView)
+        NSLayoutConstraint.deactivate(fullWidthConstraints)
+        NSLayoutConstraint.activate(sideBySideConstraints + [
+            detailView.topAnchor.constraint(equalTo: view.topAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            detailView.leadingAnchor.constraint(equalTo: columnDivider.trailingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        detailNavigationController.didMove(toParent: self)
+        columnDivider.isHidden = false
+    }
+
+    private func expand() {
+        let viewControllers = listNavigationController.viewControllers
+        var detailViewControllers = Array(viewControllers.dropFirst())
+        if detailViewControllers.isEmpty {
+            detailViewControllers = [settingsViewController.makeDefaultPage()]
+        } else {
+            listNavigationController.setViewControllers([settingsViewController], animated: false)
+        }
+        let detailNavigationController = SJUIUtils.navController(for: detailViewControllers[0])
+        detailNavigationController.setViewControllers(detailViewControllers, animated: false)
+        installDetail(detailNavigationController)
+        if settingsViewController.isViewLoaded {
+            settingsViewController.reloadTable()
+        }
+    }
+
+    private func collapse() {
+        guard let detailNavigationController else { return }
+
+        let detailViewControllers = detailNavigationController.viewControllers
+        detailNavigationController.willMove(toParent: nil)
+        detailNavigationController.view.removeFromSuperview()
+        detailNavigationController.removeFromParent()
+        detailNavigationController.setViewControllers([], animated: false)
+        self.detailNavigationController = nil
+
+        NSLayoutConstraint.deactivate(sideBySideConstraints)
+        NSLayoutConstraint.activate(fullWidthConstraints)
+        columnDivider.isHidden = true
+
+        listNavigationController.setViewControllers([settingsViewController] + detailViewControllers, animated: false)
+        if settingsViewController.isViewLoaded {
+            settingsViewController.reloadTable()
+        }
     }
 }
