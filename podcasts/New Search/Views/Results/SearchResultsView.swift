@@ -169,7 +169,7 @@ struct SearchResultsView: View {
 
     @ViewBuilder var combinedList: some View {
         ForEach(filteredResults, id: \.self) { result in
-            VStack(spacing: 0) {
+            Group {
                 switch result {
                     case .podcast(let podcast):
                         SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
