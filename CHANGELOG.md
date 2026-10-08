@@ -1,5 +1,6 @@
 8.23
 -----
+- Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
 - Fix closing a folder's Add or Remove Podcasts sheet saving the selection. The sheet now has a Done button, and creating a folder with no podcasts selected shows "Skip" instead of "Add 0 Podcasts" [#5312](https://github.com/Automattic/pocket-casts-ios/pull/5312)
