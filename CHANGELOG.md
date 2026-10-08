@@ -9,6 +9,7 @@
 8.23
 -----
 - Add initial support for iPhone Duo
+- Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
 - Rotate the full screen video only when tapping the full screen button [#5454](https://github.com/Automattic/pocket-casts-ios/pull/5454)
