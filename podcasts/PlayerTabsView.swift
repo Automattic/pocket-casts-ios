@@ -130,10 +130,8 @@ class PlayerTabsView: UIScrollView {
     private func updateTabs() {
         tabsStackView.removeAllSubviews()
 
-        let isCompact = shouldUseCompactTabs
-
         for (index, tab) in tabs.enumerated() {
-            let button = PlayerTabButton(title: tab.description, isCompact: isCompact)
+            let button = PlayerTabButton(title: tab.description)
             button.isSelected = index == currentTab
             button.tag = index
             button.isPointerInteractionEnabled = true
@@ -147,18 +145,6 @@ class PlayerTabsView: UIScrollView {
         tabsStackView.addArrangedSubview(UIView())
 
         layoutIfNeeded()
-    }
-
-    private var shouldUseCompactTabs: Bool {
-        guard bounds.width > 0 else { return false }
-        return requiredTabsWidth(isCompact: false) > bounds.width && requiredTabsWidth(isCompact: true) <= bounds.width
-    }
-
-    private func requiredTabsWidth(isCompact: Bool) -> CGFloat {
-        tabs.reduce(0) { width, tab in
-            let button = PlayerTabButton(title: tab.description, isCompact: isCompact)
-            return width + button.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width
-        }
     }
 
     @objc private func buttonTapped(_ sender: UIButton) {
@@ -190,7 +176,6 @@ class PlayerTabsView: UIScrollView {
 
 private enum TabConstants {
     static let titleFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
-    static let compactTitleFont = UIFont.systemFont(ofSize: 13, weight: .semibold)
     static let spacing: CGFloat = 0
 
     static let lineHeight: CGFloat = 2
@@ -300,11 +285,9 @@ private extension PlayerTabsView {
 /// A button subclass that applies the tab button style
 private class PlayerTabButton: UIButton {
     let title: String
-    let isCompact: Bool
 
-    init(title: String, isCompact: Bool) {
+    init(title: String) {
         self.title = title
-        self.isCompact = isCompact
         super.init(frame: .zero)
 
         configuration = .plain()
@@ -336,12 +319,11 @@ private class PlayerTabButton: UIButton {
             text = ThemeColor.playerContrast02()
         }
 
-        let horizontalInset: CGFloat = isCompact ? 8 : 12
-        config.contentInsets = .init(top: 8, leading: horizontalInset, bottom: 8, trailing: horizontalInset)
+        config.contentInsets = .init(top: 8, leading: 12, bottom: 8, trailing: 12)
 
         config.attributedTitle = {
             var attributedTitle = AttributedString(title)
-            attributedTitle.font = isCompact ? TabConstants.compactTitleFont : TabConstants.titleFont
+            attributedTitle.font = TabConstants.titleFont
             attributedTitle.foregroundColor = text
             return attributedTitle
         }()
