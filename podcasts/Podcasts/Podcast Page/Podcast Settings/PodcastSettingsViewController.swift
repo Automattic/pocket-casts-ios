@@ -6,6 +6,7 @@ import UIKit
 class PodcastSettingsViewController: PCViewController {
     var podcast: Podcast
     var episodes = [ArraySection<String, ListItem>]()
+    var onUnsubscribe: (() -> Void)?
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
@@ -37,6 +38,10 @@ class PodcastSettingsViewController: PCViewController {
         settingsTable.rowHeight = UITableView.automaticDimension
         settingsTable.estimatedRowHeight = UITableView.automaticDimension
 
+        if navigationController?.viewControllers.first === self {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
+            insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
+        }
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
@@ -120,8 +125,16 @@ class PodcastSettingsViewController: PCViewController {
 
     private func performUnsubscribe() {
         PodcastManager.shared.unsubscribe(podcast: podcast)
-        navigationController?.popToRootViewController(animated: true)
+        if let onUnsubscribe {
+            onUnsubscribe()
+        } else {
+            navigationController?.popToRootViewController(animated: true)
+        }
         Analytics.track(.podcastUnsubscribed, properties: ["source": analyticsSource, "uuid": podcast.uuid])
+    }
+
+    @objc private func closeTapped() {
+        dismiss(animated: true)
     }
 
     @objc func podcastUpdated(_ notification: Notification) {
