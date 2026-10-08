@@ -72,34 +72,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         })
     }
 
-    private let errorBanner: UIView = {
-        let view = UIView()
-        view.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : ThemeColor.primaryUi03()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
-        view.alpha = 0
-        return view
-    }()
-
-    private var errorBottomSpacing: NSLayoutConstraint?
+    private var isShowingErrorToast = false
     private var dismissErrorWorkItem: DispatchWorkItem?
 
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppTheme.mainTextColor()
-        label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = false
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
-        return label
-    }()
-
     // MARK: - State
-
-    private let errorBannerHeight: CGFloat = LiquidGlass.isEnabled ? 60 : 48
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,7 +147,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         addBookmarkCreatedToastHandler()
         addBookmarkEnrichmentHandler()
         if FeatureFlag.displayErrorsOnPlayer.enabled {
-            setupErrorBanner()
             setupErrorObservers()
         }
     }
@@ -179,12 +154,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private var cancellables = Set<AnyCancellable>()
 
     private var systemAppearanceObservation: Any?
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        updateErrorBannerSafeAreaInsets()
-    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -297,7 +266,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc func themeDidChange() {
         updateTabBarColor()
-        updateErrorColor()
         setNeedsStatusBarAppearanceUpdate()
         refreshUpNextTabBadge()
     }
@@ -1168,34 +1136,6 @@ extension MainTabBarController {
 
 extension MainTabBarController {
 
-    private func setupErrorBanner() {
-        view.addSubview(errorBanner)
-        errorBanner.addSubview(errorLabel)
-
-        let bottomSpacing = errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        bottomSpacing.priority = .defaultLow
-        self.errorBottomSpacing = bottomSpacing
-
-        errorBanner.isUserInteractionEnabled = true
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
-        errorBanner.addGestureRecognizer(tapRecognizer)
-
-        NSLayoutConstraint.activate([
-            // Pin banner to the very bottom of the view (below tab bar)
-            errorBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            errorBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomSpacing,
-            errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
-            // Error label
-            errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
-            errorLabel.topAnchor.constraint(equalTo: errorBanner.topAnchor, constant: 0),
-            errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
-        ])
-    }
-
     private func setupErrorObservers() {
         let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
 
@@ -1211,83 +1151,59 @@ extension MainTabBarController {
                 self?.hideError()
                 return
             }
-            if self?.errorBanner.isHidden == true {
+            if self?.isShowingErrorToast == false {
                 self?.showError(error, autoDismissAfter: 5)
             }
         }
     }
 
-    private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
-        if !(presentedViewController is PlayerContainerViewController) {
-            // do not track this if the full screen player is visible
-            AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .miniPlayer)
-        }
-        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: AppTheme.mainTextColor(), interactiveColor: ThemeColor.primaryInteractive01())
-        errorBanner.isUserInteractionEnabled = error.userAction != nil
-        errorBanner.layoutIfNeeded()
-        errorBanner.isHidden = false
-        errorBottomSpacing?.priority = .required
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       options: .curveEaseInOut) { [weak self] in
-            guard let self else { return }
-            self.errorBanner.alpha = 1
-            // Push child content up so it doesn't hide behind the shifted tab bar
-            self.updateErrorBannerSafeAreaInsets()
-            self.view.layoutIfNeeded()
-        }
+    private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval) {
+        // the full screen player shows the error itself
+        guard !(presentedViewController is PlayerContainerViewController) else { return }
+        AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .miniPlayer)
 
+        var actions: [Toast.Action]?
+        if let url = error.userAction {
+            actions = [Toast.Action(title: String(L10n.learnMore).sentenceCased) { [weak self] in
+                self?.openErrorHelp(url)
+            }]
+        }
+        Toast.show(error.shortUserMessage, actions: actions, dismissAfter: .interval(seconds), bottomInset: toastBottomInset)
+
+        isShowingErrorToast = true
         dismissErrorWorkItem?.cancel()
-        if let seconds {
-            let item = DispatchWorkItem { [weak self] in self?.hideError() }
-            dismissErrorWorkItem = item
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
-        }
+        let item = DispatchWorkItem { [weak self] in self?.isShowingErrorToast = false }
+        dismissErrorWorkItem = item
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
     }
 
-    private func updateErrorBannerSafeAreaInsets() {
-        guard errorBottomSpacing?.priority == .required else { return }
-
-        let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
-        let insets = UIEdgeInsets(top: 0, left: 0, bottom: errorBannerHeight - baseBottom, right: 0)
-        if additionalSafeAreaInsets != insets {
-            additionalSafeAreaInsets = insets
+    /// The distance from the bottom of the window to the top of the tab bar or the mini player, whichever is higher.
+    private var toastBottomInset: CGFloat {
+        guard let window = view.window else { return 0 }
+        var top = tabBar.convert(tabBar.bounds, to: nil).minY
+        if let miniPlayerView = NavigationManager.shared.miniPlayer?.view, miniPlayerView.window != nil, !miniPlayerView.isHidden {
+            let frame = miniPlayerView.convert(miniPlayerView.bounds, to: nil)
+            if frame.height > 0 {
+                top = min(top, frame.minY)
+            }
         }
+        return max(0, window.bounds.height - top)
     }
 
-    @objc private func hideError() {
-        errorBottomSpacing?.priority = .defaultLow
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       options: .curveEaseInOut) { [weak self] in
-            guard let self else { return }
-            self.errorBanner.alpha = 0
-
-            // Reset content insets
-            self.additionalSafeAreaInsets = .zero
-            self.view.layoutIfNeeded()
-        } completion: { [weak self] _ in
-            self?.errorBanner.isHidden = true
-        }
+    private func hideError() {
+        guard isShowingErrorToast else { return }
+        isShowingErrorToast = false
+        dismissErrorWorkItem?.cancel()
+        Toast.dismiss()
     }
 
-    @objc private func errorTapped() {
-        guard let error = PlaybackManager.shared.activeError,
-              let url = error.userAction
-        else {
-            return
-        }
+    private func openErrorHelp(_ url: URL) {
         AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .miniPlayer)
         #if !APPCLIP
         let safariViewController = SFSafariViewController(with: url)
         safariViewController.modalPresentationStyle = .formSheet
         self.present(safariViewController, animated: true, completion: nil)
         #endif
-    }
-
-    private func updateErrorColor() {
-        errorBanner.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : AppTheme.tabBarBackgroundColor
-        errorLabel.textColor = AppTheme.mainTextColor()
     }
 }
 
