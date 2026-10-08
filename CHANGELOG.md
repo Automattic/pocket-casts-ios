@@ -23,6 +23,7 @@
 - Fix the Cast button sitting against the edge of the top bar buttons on the podcast page on iOS 26 [#5383](https://github.com/Automattic/pocket-casts-ios/pull/5383)
 - Fix the animation when adding an episode to Up Next not reaching the Up Next tab when the tab bar is vertical on iPhone Duo [#5381](https://github.com/Automattic/pocket-casts-ios/pull/5381)
 - Remove the border from the "Need to free up space?" banner in Downloads on iOS 26 and later [#5387](https://github.com/Automattic/pocket-casts-ios/pull/5387)
+- Fix the trim bar and Next button being invisible when creating a clip from a podcast with dark artwork [#5388](https://github.com/Automattic/pocket-casts-ios/pull/5388)
 
 8.22
 -----

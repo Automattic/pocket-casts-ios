@@ -40,7 +40,7 @@ struct SharingFooterView: View {
                     withAnimation {
                         option = .clipShare(episode, clipTime, style)
                     }
-                }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
+                }).buttonStyle(BasicButtonStyle(textColor: color.luminance() < 0.5 ? .white : .black, backgroundColor: color))
             }
             .padding(.horizontal, 16)
             .onAppear {
@@ -74,7 +74,8 @@ struct SharingFooterView: View {
     var color: Color {
         switch option {
         case .clip(let episode, _), .clipShare(let episode, _, _):
-            PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
+            // The highlight color stays visible on the dark player background this screen uses.
+            PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
         default:
             PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
         }
