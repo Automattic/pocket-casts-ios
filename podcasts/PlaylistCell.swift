@@ -15,6 +15,11 @@ class PlaylistCell: ThemeableCell {
         return view
     }()
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        updateAccessoryLayoutMargins()
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -26,8 +31,7 @@ class PlaylistCell: ThemeableCell {
         updateColor()
 
         separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
-        layoutMargins = .zero
-        preservesSuperviewLayoutMargins = false
+        updateAccessoryLayoutMargins()
 
         addSubview(separatorView)
         NSLayoutConstraint.activate([

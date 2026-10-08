@@ -145,8 +145,8 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             footer.addSubview(infoLabel)
             NSLayoutConstraint.activate([
                 infoLabel.topAnchor.constraint(equalTo: footer.topAnchor, constant: 8),
-                infoLabel.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: 16),
-                infoLabel.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -16),
+                infoLabel.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: 16 + tableView.safeAreaInsets.left),
+                infoLabel.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -16 - tableView.safeAreaInsets.right),
                 infoLabel.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: 8)
             ])
 

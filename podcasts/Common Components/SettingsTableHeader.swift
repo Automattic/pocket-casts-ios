@@ -43,10 +43,10 @@ class SettingsTableHeader: ThemeableView {
 
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        let titleTrailing = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+        let titleTrailing = titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
         titleTrailing.priority = .defaultHigh
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight),
@@ -59,7 +59,7 @@ class SettingsTableHeader: ThemeableView {
             lockImage.contentMode = .scaleAspectFit
             lockImage.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                trailingAnchor.constraint(equalTo: lockImage.trailingAnchor, constant: 16),
+                safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: lockImage.trailingAnchor, constant: 16),
                 lockImage.heightAnchor.constraint(equalToConstant: 24),
                 lockImage.widthAnchor.constraint(equalToConstant: 24),
                 lockImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0)
@@ -79,7 +79,7 @@ class SettingsTableHeader: ThemeableView {
             rightBtn.addTarget(rightBtnTarget, action: rightBtnSelector, for: .touchUpInside)
             addSubview(rightBtn)
             NSLayoutConstraint.activate([
-                rightBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+                rightBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 rightBtn.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 4),
                 rightBtn.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor, constant: 0)
             ])
@@ -105,7 +105,7 @@ class SettingsTableHeader: ThemeableView {
             infoButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             infoButton.widthAnchor.constraint(equalToConstant: iconSize),
             infoButton.heightAnchor.constraint(equalToConstant: iconSize),
-            trailingAnchor.constraint(greaterThanOrEqualTo: infoButton.trailingAnchor, constant: 16)
+            safeAreaLayoutGuide.trailingAnchor.constraint(greaterThanOrEqualTo: infoButton.trailingAnchor, constant: 16)
         ])
     }
 
