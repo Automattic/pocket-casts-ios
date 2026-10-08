@@ -179,6 +179,7 @@ struct SearchResultsView: View {
                         NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
                 }
             }
+            .listRowInsets(EdgeInsets())
             .listRowBackground(theme.searchBackground)
             .alignmentGuide(.listRowSeparatorLeading) { _ in
                 return 0
