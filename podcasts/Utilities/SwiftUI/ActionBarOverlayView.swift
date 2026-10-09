@@ -89,7 +89,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
         .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
         .actionBarBackground(tint: style.backgroundTint)
         // Outer Padding
-        .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
+        .padding(.horizontal, LiquidGlass.isEnabled ? ActionBarConstants.glassBarMarginHorizontal : ActionBarConstants.barPaddingHorizontal)
     }
 
     // MARK: - Action! 🎬
@@ -134,6 +134,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
 private enum ActionBarConstants {
     static let radius = 12.0
     static let glassRadius = 28.0
+    static let glassBarMarginHorizontal = 21.0
     static let barPaddingVertical = 12.0
     static let barPaddingHorizontal = 16.0
     static let buttonPaddingHorizontal = 16.0
