@@ -100,10 +100,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
     private var selectedRow: TableRow?
 
-    fileprivate weak var listDetailViewController: SettingsListDetailViewController?
-
     private var isShowingPageSideBySide: Bool {
-        listDetailViewController?.isShowingDetail == true
+        splitViewController?.isCollapsed == false
     }
 
     @IBOutlet var settingsTable: UITableView! {
@@ -240,7 +238,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         1
     }
 
-    fileprivate func reloadTable() {
+    private func reloadTable() {
         tableData = allSections.compactMap {
             $0.filter(\.visible).nilIfEmpty()
         }
@@ -266,38 +264,49 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         return nil
     }
 
-    // MARK: - List and Detail
+    // MARK: - Split View
 
-    /// Shows a settings page next to the list when they're side by side, otherwise pushes it.
+    /// Shows a settings page next to the list when Settings is in a split view, otherwise pushes it.
     func show(_ viewController: UIViewController, for tableRow: TableRow, animated: Bool = true) {
         selectedRow = tableRow
 
-        guard let listDetailViewController, listDetailViewController.isShowingDetail else {
+        guard let splitViewController else {
             navigationController?.pushViewController(viewController, animated: animated)
             return
         }
-        listDetailViewController.showDetail(viewController)
+        splitViewController.showDetailViewController(SJUIUtils.navController(for: viewController), sender: self)
         if isViewLoaded {
             updateTableSelection(animated: false)
         }
     }
 
-    /// Opens Settings from `navigationController`. On regular width, presents the list and the selected page
-    /// side by side full screen; otherwise pushes the list.
+    /// Opens Settings from `navigationController`. On large screens, presents the list and the selected page
+    /// side by side in a sheet; otherwise pushes the list.
     static func open(from navigationController: UINavigationController, animated: Bool, completion: ((SettingsViewController) -> Void)? = nil) {
         let settingsViewController = SettingsViewController()
 
-        guard navigationController.view.window?.windowScene?.traitCollection.horizontalSizeClass == .regular else {
+        // Check the window's traits: MainTabBarController can leave its children with a compact horizontal size class on iPad
+        guard let windowTraits = navigationController.view.window?.traitCollection,
+              windowTraits.horizontalSizeClass == .regular, windowTraits.verticalSizeClass == .regular else {
             navigationController.pushViewController(settingsViewController, animated: animated)
             completion?(settingsViewController)
             return
         }
 
         settingsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: settingsViewController, action: #selector(closeTapped))
-        let listDetailViewController = SettingsListDetailViewController(settingsViewController: settingsViewController)
+        settingsViewController.selectedRow = .general
+
+        let splitViewController = UISplitViewController(style: .doubleColumn)
+        splitViewController.preferredDisplayMode = .oneBesideSecondary
+        splitViewController.preferredSplitBehavior = .tile
+        splitViewController.presentsWithGesture = false
+        splitViewController.modalPresentationStyle = .formSheet
+        splitViewController.delegate = settingsViewController
+        splitViewController.setViewController(SJUIUtils.navController(for: settingsViewController), for: .primary)
+        splitViewController.setViewController(SJUIUtils.navController(for: GeneralSettingsViewController()), for: .secondary)
 
         let present = {
-            navigationController.present(listDetailViewController, animated: animated) {
+            navigationController.present(splitViewController, animated: animated) {
                 completion?(settingsViewController)
             }
         }
@@ -313,150 +322,21 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         }
     }
 
-    fileprivate func makeDefaultPage() -> UIViewController {
-        selectedRow = .general
-        return GeneralSettingsViewController()
-    }
-
     @objc private func closeTapped() {
         dismiss(animated: true)
     }
 }
 
-/// Shows the Settings list and the selected page side by side, and collapses them into the list's navigation
-/// stack when the window becomes compact.
-///
-/// Not a `UISplitViewController`: on iPadOS 26 and later its secondary column extends under the sidebar,
-/// which misplaces the system section footers of the settings pages. The size class comes from the window
-/// scene because, on iPad, `MainTabBarController` gives its tabs, and what they present, a compact one.
-private final class SettingsListDetailViewController: UIViewController {
-    private let settingsViewController: SettingsViewController
-    private let listNavigationController: UINavigationController
-    private var detailNavigationController: UINavigationController?
-    private let columnDivider = ThemeDividerView()
-    private var sideBySideConstraints: [NSLayoutConstraint] = []
-    private var fullWidthConstraints: [NSLayoutConstraint] = []
-
-    var isShowingDetail: Bool {
-        detailNavigationController != nil
-    }
-
-    init(settingsViewController: SettingsViewController) {
-        self.settingsViewController = settingsViewController
-        listNavigationController = SJUIUtils.navController(for: settingsViewController)
-        detailNavigationController = SJUIUtils.navController(for: settingsViewController.makeDefaultPage())
-        super.init(nibName: nil, bundle: nil)
-
-        modalPresentationStyle = .fullScreen
-        settingsViewController.listDetailViewController = self
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addChild(listNavigationController)
-        let listView: UIView = listNavigationController.view
-        listView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(listView)
-        listNavigationController.didMove(toParent: self)
-
-        columnDivider.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(columnDivider)
-
-        NSLayoutConstraint.activate([
-            listView.topAnchor.constraint(equalTo: view.topAnchor),
-            listView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            listView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            columnDivider.topAnchor.constraint(equalTo: view.topAnchor),
-            columnDivider.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            columnDivider.leadingAnchor.constraint(equalTo: listView.trailingAnchor),
-            columnDivider.widthAnchor.constraint(equalToConstant: 1)
-        ])
-        fullWidthConstraints = [listView.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
-        sideBySideConstraints = [listView.widthAnchor.constraint(equalToConstant: 320)]
-
-        if let detailNavigationController {
-            installDetail(detailNavigationController)
-        } else {
-            NSLayoutConstraint.activate(fullWidthConstraints)
+extension SettingsViewController: UISplitViewControllerDelegate {
+    func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
+        if isViewLoaded {
+            reloadTable()
         }
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        switch view.window?.windowScene?.traitCollection.horizontalSizeClass {
-        case .regular where !isShowingDetail:
-            expand()
-        case .compact where isShowingDetail:
-            collapse()
-        default:
-            break
-        }
-    }
-
-    override var childForStatusBarStyle: UIViewController? {
-        listNavigationController
-    }
-
-    func showDetail(_ viewController: UIViewController) {
-        detailNavigationController?.setViewControllers([viewController], animated: false)
-    }
-
-    private func installDetail(_ detailNavigationController: UINavigationController) {
-        self.detailNavigationController = detailNavigationController
-        addChild(detailNavigationController)
-        let detailView: UIView = detailNavigationController.view
-        detailView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(detailView)
-        NSLayoutConstraint.deactivate(fullWidthConstraints)
-        NSLayoutConstraint.activate(sideBySideConstraints + [
-            detailView.topAnchor.constraint(equalTo: view.topAnchor),
-            detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            detailView.leadingAnchor.constraint(equalTo: columnDivider.trailingAnchor),
-            detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        detailNavigationController.didMove(toParent: self)
-        columnDivider.isHidden = false
-    }
-
-    private func expand() {
-        let viewControllers = listNavigationController.viewControllers
-        var detailViewControllers = Array(viewControllers.dropFirst())
-        if detailViewControllers.isEmpty {
-            detailViewControllers = [settingsViewController.makeDefaultPage()]
-        } else {
-            listNavigationController.setViewControllers([settingsViewController], animated: false)
-        }
-        let detailNavigationController = SJUIUtils.navController(for: detailViewControllers[0])
-        detailNavigationController.setViewControllers(detailViewControllers, animated: false)
-        installDetail(detailNavigationController)
-        if settingsViewController.isViewLoaded {
-            settingsViewController.reloadTable()
-        }
-    }
-
-    private func collapse() {
-        guard let detailNavigationController else { return }
-
-        let detailViewControllers = detailNavigationController.viewControllers
-        detailNavigationController.willMove(toParent: nil)
-        detailNavigationController.view.removeFromSuperview()
-        detailNavigationController.removeFromParent()
-        detailNavigationController.setViewControllers([], animated: false)
-        self.detailNavigationController = nil
-
-        NSLayoutConstraint.deactivate(sideBySideConstraints)
-        NSLayoutConstraint.activate(fullWidthConstraints)
-        columnDivider.isHidden = true
-
-        listNavigationController.setViewControllers([settingsViewController] + detailViewControllers, animated: false)
-        if settingsViewController.isViewLoaded {
-            settingsViewController.reloadTable()
+    func splitViewControllerDidExpand(_ svc: UISplitViewController) {
+        if isViewLoaded {
+            reloadTable()
         }
     }
 }

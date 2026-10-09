@@ -12,6 +12,7 @@
 -----
 - Add initial support for iPhone Duo
 - Show Settings with the category list and the selected page side by side on iPad [#5396](https://github.com/Automattic/pocket-casts-ios/pull/5396)
+- Open Settings in a sheet on iPad, with the category list and the selected page side by side [#5396](https://github.com/Automattic/pocket-casts-ios/pull/5396)
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
 - Rotate the full screen video only when tapping the full screen button [#5454](https://github.com/Automattic/pocket-casts-ios/pull/5454)
