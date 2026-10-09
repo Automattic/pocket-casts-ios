@@ -226,6 +226,14 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2)
+        ])
+
         selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "AppIcon-Default")
 
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
@@ -244,7 +252,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     } // Design: width = 124 height = 148
     var peekWidth = 30 as CGFloat
     var cellWidth: CGFloat {
-        let widthAvailable = collectionView.bounds.width
+        let widthAvailable = collectionView.safeAreaLayoutGuide.layoutFrame.width
         let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
         let calculatedWidth = min(maxWidth, (widthAvailable - peekWidth - (itemSpacing * (numVisibleColoumns + 1))) / numVisibleColoumns)
         return calculatedWidth
