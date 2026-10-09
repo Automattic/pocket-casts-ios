@@ -36,6 +36,12 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         updateTableAndData()
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
+        if #available(iOS 27.1, *) {
+            registerForTraitChanges(UITraitCollection.systemTraitsAffectingVerticalBarEdge) { (controller: AppearanceViewController, previousTraitCollection: UITraitCollection) in
+                guard controller.traitCollection.verticalBarEdge != previousTraitCollection.verticalBarEdge else { return }
+                controller.updateTableAndData()
+            }
+        }
         Analytics.track(.settingsAppearanceShown)
     }
 
@@ -279,7 +285,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         }
 
         // The tab bar's minimize-on-scroll behavior only exists on iOS 26's Liquid Glass tab bar.
-        if LiquidGlass.isEnabled {
+        if LiquidGlass.isEnabled, !isTabBarVertical {
             newTableData.append([.tabBarMinimizing])
         }
 
@@ -289,6 +295,11 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
         tableData = newTableData
         settingsTable.reloadData()
+    }
+
+    private var isTabBarVertical: Bool {
+        guard #available(iOS 27.1, *) else { return false }
+        return traitCollection.verticalBarEdge != .unspecified
     }
 
     private func refreshAllPodcastArtwork() {
