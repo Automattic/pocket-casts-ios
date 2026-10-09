@@ -82,16 +82,17 @@
                             </connections>
                         </button>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="q8K-sA-f3T"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Yaf-dY-BPh" firstAttribute="leading" secondItem="Fuo-QJ-XlN" secondAttribute="leading" id="5GI-tW-OAQ"/>
                         <constraint firstAttribute="trailing" secondItem="Yaf-dY-BPh" secondAttribute="trailing" id="BmB-SH-Rh8"/>
                         <constraint firstItem="pfV-VE-YSp" firstAttribute="top" secondItem="Fuo-QJ-XlN" secondAttribute="top" constant="6" id="De7-j7-zEJ"/>
                         <constraint firstItem="lKa-vx-yey" firstAttribute="centerY" secondItem="pfV-VE-YSp" secondAttribute="centerY" id="GGN-eN-xPq"/>
-                        <constraint firstAttribute="trailing" secondItem="pfV-VE-YSp" secondAttribute="trailing" constant="16" id="Gyd-FF-58r"/>
+                        <constraint firstItem="q8K-sA-f3T" firstAttribute="trailing" secondItem="pfV-VE-YSp" secondAttribute="trailing" constant="16" id="Gyd-FF-58r"/>
                         <constraint firstItem="Yaf-dY-BPh" firstAttribute="top" secondItem="Fuo-QJ-XlN" secondAttribute="top" id="NNh-Ag-Tvd"/>
                         <constraint firstItem="lKa-vx-yey" firstAttribute="centerX" secondItem="pfV-VE-YSp" secondAttribute="centerX" id="Yfy-Jx-5ab"/>
-                        <constraint firstItem="xxH-oR-Aio" firstAttribute="leading" secondItem="Fuo-QJ-XlN" secondAttribute="leading" constant="16" id="nfv-q7-gR6"/>
+                        <constraint firstItem="xxH-oR-Aio" firstAttribute="leading" secondItem="q8K-sA-f3T" secondAttribute="leading" constant="16" id="nfv-q7-gR6"/>
                         <constraint firstItem="xxH-oR-Aio" firstAttribute="top" secondItem="Fuo-QJ-XlN" secondAttribute="top" constant="19" id="tfI-ST-yvY"/>
                     </constraints>
                 </view>
