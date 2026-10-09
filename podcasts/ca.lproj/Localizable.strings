@@ -2173,8 +2173,12 @@ Això sí que és compromís!</string>
     <string>Aquest episodi no es pot reproduir.</string>
     <key>player_error_internet_connection</key>
     <string>Comprova la teva connexió a Internet i torna-ho a intentar.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>El dispositiu no té espai d'emmagatzematge. Allibera espai i torna-ho a provar.</string>
     <key>player_error_short_no_connection</key>
     <string>Estàs desconectat</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>L'emmagatzematge del dispositiu és ple</string>
     <key>player_error_short_playback_error</key>
     <string>La reproducció ha fallat. Torna-ho a provar</string>
     <key>player_increment_time</key>
@@ -2203,6 +2207,10 @@ Això sí que és compromís!</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Surt de la pantalla completa</string>
+    <key>player_video_full_screen</key>
+    <string>Pantalla completa</string>
     <key>playlist_add_to_title</key>
     <string>Afegeix a "%@"</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3282,6 +3290,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Utilitza l'eina d'apujar el volum actualitzat amb nivells de veu més consistents.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Marca els missatges nous amb un punt</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Mostra un punt a Perfil quan hi hagi missatges nous a «Novetats».</string>
     <key>settings_global_settings</key>
     <string>Configuració general</string>
     <key>settings_headphone_controls</key>
@@ -4432,6 +4444,24 @@ Sincerament, totes dues són bones decisions. 🙂</string>
     <string>Novetats</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Per a tenir més informació sobre aquesta actualització, consulta el nostre blog</string>
+    <key>whats_new_category_announcement</key>
+    <string>Anunci</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Problema conegut</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Funció nova</string>
+    <key>whats_new_category_research</key>
+    <string>Recerca d'usuaris</string>
+    <key>whats_new_category_tip</key>
+    <string>Consells i trucs</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Aquí apareixeran les funcions noves, els consells i els anuncis.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Encara no hi ha missatges</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Marca-ho tot com a llegit</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>No s'ha pogut carregar «Novetats»</string>
     <key>whats_new_in_version</key>
     <string>Què hi ha de nou a %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4446,6 +4476,8 @@ Gràcies al teu suport, la teva pantalla d'inici té un aspecte fantàstic!</str
 Amb aquesta funció, la feina que has fet per a organitzar la teva pàgina de pòdcasts se sincronitza amb el teu compte, així que et pots relaxar.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Sincronització de la pantalla d'inici</string>
+    <key>whats_new_poll_answered</key>
+    <string>Gràcies per respondre.</string>
     <key>widgets_app_icon_description</key>
     <string>Inicia ràpidament Pocket Casts</string>
     <key>widgets_app_icon_name</key>
