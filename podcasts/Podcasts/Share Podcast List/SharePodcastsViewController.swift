@@ -21,6 +21,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     @IBOutlet var podcastCollectionView: UICollectionView! {
         didSet {
             podcastCollectionView.register(UINib(nibName: "SelectPodcastCell", bundle: nil), forCellWithReuseIdentifier: podcastCellId)
+            (podcastCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInsetReference = .fromSafeArea
         }
     }
 
@@ -46,6 +47,11 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
         updateSelectButton()
 
         Analytics.track(.sharePodcastsShown)
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        podcastCollectionView.collectionViewLayout.invalidateLayout()
     }
 
     // MARK: - Main Actions
@@ -109,7 +115,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let availableWidth = collectionView.bounds.width
+        let availableWidth = collectionView.safeAreaLayoutGuide.layoutFrame.width
 
         let size = (availableWidth - (sidePadding * 2) - ((podcastsPerRow - 1) * interCellPadding)) / podcastsPerRow
         let alteredSize = min(100, size)

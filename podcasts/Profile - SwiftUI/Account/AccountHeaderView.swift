@@ -7,6 +7,7 @@ struct AccountHeaderView: View {
     @ObservedObject var viewModel: AccountHeaderViewModel
 
     @State private var showingChampion = false
+    @State private var championSheetHeight: CGFloat?
 
     var body: some View {
         container { _ in
@@ -39,12 +40,17 @@ struct AccountHeaderView: View {
                     .foregroundColor(theme.primaryText01)
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .sheet(isPresented: $showingChampion) {
-                        ZStack {
-                            theme.primaryUi01.ignoresSafeArea()
-
+                        ScrollView {
                             ChampionView()
-                                .presentationDetents([.medium])
+                                .onGeometryChange(for: CGFloat.self) { proxy in
+                                    proxy.size.height
+                                } action: { height in
+                                    championSheetHeight = height
+                                }
                         }
+                        .scrollBounceBehavior(.basedOnSize)
+                        .background(theme.primaryUi01.ignoresSafeArea())
+                        .presentationDetents([championSheetHeight.map { .height($0) } ?? .medium])
                     }
                 }
             }

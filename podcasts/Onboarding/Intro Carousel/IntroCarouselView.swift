@@ -77,6 +77,9 @@ struct IntroCarouselView: View {
         CarouselItem(
             contentView: {
                 Image("intro-carousel-effects")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 386)
                     .mask(
                         LinearGradient(
                             stops: [

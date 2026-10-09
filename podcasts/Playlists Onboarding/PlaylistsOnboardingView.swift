@@ -25,6 +25,7 @@ struct PlaylistsOnboardingView: View {
                     .scrollIndicators(.hidden)
                     .scrollTargetBehavior(.viewAligned)
                     .scrollPosition(id: $currentIndex, anchor: .leading)
+                    .clipped()
                 }
                 .scrollIndicators(.hidden)
                 PageIndicatorView(numberOfItems: cards.count, currentPage: currentIndex ?? 0)

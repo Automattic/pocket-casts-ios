@@ -84,7 +84,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
             cnstraintsToActivate.append(newPage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0))
             cnstraintsToActivate.append(newPage.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor, constant: 0))
             cnstraintsToActivate.append(newPage.leadingAnchor.constraint(equalTo: leadingConstraint, constant: 0))
-            cnstraintsToActivate.append(newPage.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0))
+            cnstraintsToActivate.append(newPage.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: 0))
             leadingConstraint = newPage.trailingAnchor
         }
 
@@ -100,7 +100,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.width * CGFloat(pages.count), height: scrollView.bounds.height)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(pages.count), height: scrollView.bounds.height)
         pageDidChange(pageControl.currentPage)
     }
 
