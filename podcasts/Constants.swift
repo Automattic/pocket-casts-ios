@@ -19,6 +19,7 @@ struct Constants {
         static let playbackTrackChanged = NSNotification.Name(rawValue: "SJTrackChanged")
         static let podcastChaptersDidUpdate = NSNotification.Name(rawValue: "SJChaptersChanged")
         static let podcastChapterChanged = NSNotification.Name(rawValue: "SJChapterChanged")
+        static let chapterSelectionChanged = NSNotification.Name(rawValue: "SJChapterSelectionChanged")
         static let podcastColorsDownloaded = NSNotification.Name(rawValue: "SJPodcastColorsReady")
         static let playbackEnded = NSNotification.Name(rawValue: "SJPlaybackEnd")
         static let playbackFailed = NSNotification.Name(rawValue: "playbackFailed")

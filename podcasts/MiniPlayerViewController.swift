@@ -402,6 +402,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(playbackProgressDidChange))
+        addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(playbackProgressDidChange))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.statusBarHeightChanged, selector: #selector(statusBarHeightDidChange))
 
@@ -586,7 +587,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         if let timeLeftModel {
-            let remaining = max(0, duration - currentTime)
+            let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
             let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
             if timeLeftModel.text != newText {
                 let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled

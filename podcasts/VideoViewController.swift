@@ -294,6 +294,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
     private func addUiNotificationObservers() {
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(progressUpdated))
+        addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update))
         addCustomObserver(Constants.Notifications.videoPlaybackEngineSwitched, selector: #selector(videoPlaybackEngineSwitched))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update))
@@ -347,7 +348,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {
-        let remaining = max(0, duration - upTo)
+        let remaining = max(0, duration - upTo - PlaybackManager.shared.deselectedChapterDuration(after: upTo))
         updateTimeLabels(upTo: upTo, remaining: remaining)
 
         if moveSlider {
