@@ -29,6 +29,7 @@
 - Fix the Account button and stats on the Profile tab wrapping mid-word when iPhone Duo is unfolded in portrait. The header now stacks vertically when it's too narrow for one row [#5414](https://github.com/Automattic/pocket-casts-ios/pull/5414)
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
 - Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
+- Hide the Minimize on Scroll setting on iPhone Duo, where the tab bar is a side bar and the setting has no effect [#5426](https://github.com/Automattic/pocket-casts-ios/pull/5426)
 
 8.22
 -----
