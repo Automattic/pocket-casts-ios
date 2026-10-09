@@ -28,6 +28,7 @@
 - Fix the "You're offline" and playback error messages being hard to read at the bottom of the screen on iOS 27. They now appear as a toast [#5372](https://github.com/Automattic/pocket-casts-ios/pull/5372)
 - Fix the Account button and stats on the Profile tab wrapping mid-word when iPhone Duo is unfolded in portrait. The header now stacks vertically when it's too narrow for one row [#5414](https://github.com/Automattic/pocket-casts-ios/pull/5414)
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
+- Fix a network page sometimes showing its name in the navigation bar, dark on the dark header, before you scroll, and showing an empty link row for networks without a website [#5422](https://github.com/Automattic/pocket-casts-ios/pull/5422)
 - Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
 
 8.22
