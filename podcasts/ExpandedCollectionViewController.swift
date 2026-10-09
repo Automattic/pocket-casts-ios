@@ -138,7 +138,9 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
         updateStatusBarStyle()
 
-        let shouldShow = headerBottom(of: visibleHeader?.titleLabel) < view.safeAreaInsets.top
+        guard let titleLabel = visibleHeader?.titleLabel else { return }
+
+        let shouldShow = headerBottom(of: titleLabel) < view.safeAreaInsets.top
         guard shouldShow != isShowingNavTitle else { return }
 
         isShowingNavTitle = shouldShow

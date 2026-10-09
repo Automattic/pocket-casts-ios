@@ -139,7 +139,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
         setupCollageImage()
 
-        if let linkTitle = podcastCollection.webTitle, podcastCollection.webUrl != nil {
+        if let linkTitle = podcastCollection.webLinkTitle {
             linkView.isHidden = false
             linkLabel.text = linkTitle
         } else {
