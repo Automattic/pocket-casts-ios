@@ -43,11 +43,11 @@
             <viewLayoutGuide key="safeArea" id="9D4-c4-uHy"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Iys-DQ-1tX" firstAttribute="leading" secondItem="5W5-5i-nVt" secondAttribute="leading" constant="8" id="L26-ZW-SNP"/>
+                <constraint firstItem="Iys-DQ-1tX" firstAttribute="leading" secondItem="9D4-c4-uHy" secondAttribute="leading" constant="8" id="L26-ZW-SNP"/>
                 <constraint firstAttribute="bottom" secondItem="5W5-5i-nVt" secondAttribute="bottom" id="W8T-Eb-nNQ"/>
                 <constraint firstItem="5W5-5i-nVt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fdb-mX-3vg"/>
                 <constraint firstItem="5W5-5i-nVt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iUx-It-szI"/>
-                <constraint firstItem="Iys-DQ-1tX" firstAttribute="trailing" secondItem="5W5-5i-nVt" secondAttribute="trailing" constant="-8" id="ilf-fW-fSq"/>
+                <constraint firstItem="9D4-c4-uHy" firstAttribute="trailing" secondItem="Iys-DQ-1tX" secondAttribute="trailing" constant="8" id="ilf-fW-fSq"/>
                 <constraint firstAttribute="trailing" secondItem="5W5-5i-nVt" secondAttribute="trailing" id="pOC-0a-GkD"/>
                 <constraint firstItem="9D4-c4-uHy" firstAttribute="bottom" secondItem="Iys-DQ-1tX" secondAttribute="bottom" id="wfz-i2-BaG"/>
             </constraints>

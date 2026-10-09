@@ -46,9 +46,9 @@
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4F5-oG-IJr"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="QnB-mS-nOl" secondAttribute="bottom" id="5vw-fO-ZlE"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="6xF-nj-xUx"/>
-                <constraint firstItem="QnB-mS-nOl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="uQa-1R-jHE"/>
+                <constraint firstItem="QnB-mS-nOl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="uQa-1R-jHE"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="z7n-3L-B2X"/>
-                <constraint firstAttribute="trailing" secondItem="QnB-mS-nOl" secondAttribute="trailing" constant="8" id="zdH-Yp-qq2"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="QnB-mS-nOl" secondAttribute="trailing" constant="8" id="zdH-Yp-qq2"/>
             </constraints>
             <point key="canvasLocation" x="24.800000000000001" y="50.824587706146929"/>
         </view>
