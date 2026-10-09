@@ -47,11 +47,16 @@ class PCViewController: SimpleNotificationsViewController {
     private var hidesEnclosingTabBar = false
 
     /// Hides the tab bar and the mini player, e.g. during multi-select. Both are shared with
-    /// other screens, so they're only kept hidden while this screen is on screen.
+    /// other screens, so they're only kept hidden while this screen is on screen. While they're
+    /// hidden, the navigation bar doesn't minimize on scroll, so its buttons (e.g. Select All
+    /// and Cancel) stay reachable.
     func setHidesEnclosingTabBar(_ hides: Bool, animated: Bool) {
         guard hides != hidesEnclosingTabBar else { return }
         hidesEnclosingTabBar = hides
         setEnclosingTabBarHidden(hides, animated: animated)
+        if #available(iOS 27, *) {
+            navigationItem.navigationBarMinimization.minimizationBehavior = hides ? .never : .automatic
+        }
     }
 
     override func viewDidLoad() {
