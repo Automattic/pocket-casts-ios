@@ -36,9 +36,8 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
         vc.sizingOptions = [.preferredContentSize]
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
-            let contentFrame = view.safeAreaLayoutGuide.layoutFrame
-            if let buttonFrame = button.frame(in: view), buttonFrame.minX >= contentFrame.maxX || buttonFrame.maxX <= contentFrame.minX {
-                popoverPresentationController.permittedArrowDirections = [.left, .right]
+            if let buttonFrame = button.frame(in: view), buttonFrame.minX >= view.safeAreaLayoutGuide.layoutFrame.maxX {
+                popoverPresentationController.permittedArrowDirections = [.right]
                 popoverPresentationController.sourceView = view
                 popoverPresentationController.sourceRect = buttonFrame
             } else {
