@@ -140,8 +140,9 @@ struct DiscoverNetworkCard: View {
     }
 }
 
-/// A network's artwork, falling back to the grid placeholder while it loads or when there is none.
+/// A network's artwork over a plain background while it loads, falling back to the grid placeholder when there is none.
 struct NetworkArtworkView: View {
+    @EnvironmentObject var theme: Theme
 
     /// The network's collection image, or `nil` to draw the placeholder in its place.
     let url: URL?
@@ -164,7 +165,7 @@ struct NetworkArtworkView: View {
     private var artwork: some View {
         if let url {
             KFImage(url)
-                .placeholder { _ in placeholder }
+                .placeholder { _ in theme.primaryField01 }
                 .targetCache(ImageManager.shared.discoverCache)
                 .fade(duration: 0.25)
                 .resizable()

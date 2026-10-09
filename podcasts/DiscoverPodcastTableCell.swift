@@ -99,7 +99,8 @@ class DiscoverPodcastTableCell: ThemeableCell {
             }
 
             let imageUrl = DiscoverServerHandler.thumbnailUrlString(forPodcast: uuid, size: 140)
-            ImageManager.shared.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
+            podcastImage.backgroundColor = ThemeColor.primaryField01()
+            ImageManager.shared.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage)
         }
 
         subscribeButton.shouldAnimate = true

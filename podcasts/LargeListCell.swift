@@ -5,7 +5,11 @@ import UIKit
 
 class LargeListCell: ThemeableCollectionCell {
 
-    @IBOutlet var podcastImage: PodcastImageView!
+    @IBOutlet var podcastImage: PodcastImageView! {
+        didSet {
+            podcastImage.placeholder = .background
+        }
+    }
 
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {

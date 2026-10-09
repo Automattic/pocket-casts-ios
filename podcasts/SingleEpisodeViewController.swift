@@ -26,7 +26,11 @@ class SingleEpisodeViewController: UIViewController {
     }
 
     @IBOutlet var playButton: PlayPauseLabeledButton!
-    @IBOutlet var podcastImage: PodcastImageView!
+    @IBOutlet var podcastImage: PodcastImageView! {
+        didSet {
+            podcastImage.placeholder = .background
+        }
+    }
     @IBOutlet var typeBadgeLabel: UILabel! {
         didSet {
             typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)

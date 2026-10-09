@@ -92,14 +92,7 @@ struct HorizontalCollectionListRowView: View {
     private var posterCard: some View {
         ZStack(alignment: .bottom) {
             KFImage(model.posterImage)
-                .placeholder { _ in
-                    if let image = ImageManager.shared.placeHolderImage(.grid) {
-                        Image(uiImage: image)
-                            .resizable()
-                    } else {
-                        Color.gray
-                    }
-                }
+                .placeholder { _ in theme.primaryField01 }
                 .resizable()
                 .scaledToFill()
                 .frame(width: adjustedRowWidth, height: adjustedRowHeight)
@@ -140,7 +133,7 @@ struct HorizontalCollectionListRowView: View {
 
     private func row(for podcast: DiscoverPodcast) -> some View {
         HStack(alignment: .center, spacing: 0) {
-            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
+            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid, placeholder: .background)
                 .frame(width: podcastHeight, height: podcastHeight)
             Spacer().frame(width: 10)
             VStack(alignment: .leading, spacing: 0) {

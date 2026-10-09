@@ -133,7 +133,8 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
         if let avatarUrl = podcastCollection.collectionImage {
             avatarBorderView.isHidden = false
-            ImageManager.shared.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
+            avatarImageView.backgroundColor = ThemeColor.primaryField01()
+            ImageManager.shared.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView)
         } else {
             avatarBorderView.isHidden = true
         }

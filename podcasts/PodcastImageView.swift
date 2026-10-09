@@ -4,8 +4,18 @@ import UIKit
 import Kingfisher
 
 class PodcastImageView: UIView {
+    enum Placeholder {
+        /// The "no artwork" image.
+        case noArtwork
+        /// A plain background color.
+        case background
+    }
+
     private var shadowView: UIView?
     var imageView: UIImageView?
+
+    /// What shows until the podcast artwork loads.
+    var placeholder: Placeholder = .noArtwork
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,7 +31,10 @@ class PodcastImageView: UIView {
 
     func setPodcast(uuid: String, size: PodcastThumbnailSize) {
         guard let imageView else { return }
-        ImageManager.shared.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
+        if placeholder == .background {
+            imageView.backgroundColor = ThemeColor.primaryField01()
+        }
+        ImageManager.shared.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: placeholder == .noArtwork)
         adjustForSize(size)
     }
 
@@ -128,7 +141,7 @@ class PodcastImageView: UIView {
     }
 
     func clearArtwork() {
-        imageView?.image = ImageManager.shared.placeHolderImage(.list)
+        imageView?.image = placeholder == .noArtwork ? ImageManager.shared.placeHolderImage(.list) : nil
     }
 
     private func setupView() {

@@ -13,7 +13,11 @@ class EpisodeListTableViewCell: UITableViewCell {
     @IBOutlet var podcastTilte: UILabel!
 
     @IBOutlet var playButton: PlayPauseButton!
-    @IBOutlet var podcastImage: PodcastImageView!
+    @IBOutlet var podcastImage: PodcastImageView! {
+        didSet {
+            podcastImage.placeholder = .background
+        }
+    }
     @IBOutlet var duration: UILabel! {
         didSet {
             duration.text = L10n.unknownDuration

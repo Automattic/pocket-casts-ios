@@ -12,6 +12,7 @@ class LargeListSummaryCellHeaderView: UIView {
 
     private let imageView: PodcastImageView = {
         let imageView = PodcastImageView()
+        imageView.placeholder = .background
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

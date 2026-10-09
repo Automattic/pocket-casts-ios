@@ -10,7 +10,11 @@ class SmallListCell: ThemeableCollectionCell {
         return max(52, metric.scaledValue(for: 52))
     }
 
-    @IBOutlet var podcastImage: PodcastImageView!
+    @IBOutlet var podcastImage: PodcastImageView! {
+        didSet {
+            podcastImage.placeholder = .background
+        }
+    }
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())

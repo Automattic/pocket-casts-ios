@@ -78,11 +78,10 @@ class ImageManager {
 
     // MARK: - Discover Images
 
-    func loadDiscoverImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
+    func loadDiscoverImage(imageUrl: String, imageView: UIImageView) {
         if let url = URL(string: imageUrl) {
-            let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
             let processor = DefaultImageProcessor.default
-            imageView.kf.setImage(with: url, placeholder: image, options: [.processor(processor), .targetCache(discoverCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
+            imageView.kf.setImage(with: url, options: [.processor(processor), .targetCache(discoverCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
 
