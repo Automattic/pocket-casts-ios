@@ -26,7 +26,6 @@
 - Fix the trim bar and Next button being invisible when creating a clip from a podcast with dark artwork [#5388](https://github.com/Automattic/pocket-casts-ios/pull/5388)
 - Fix the "You're offline" and playback error messages being hard to read at the bottom of the screen on iOS 27. They now appear as a toast [#5372](https://github.com/Automattic/pocket-casts-ios/pull/5372)
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
-- Fix the chapter count and generated-chapters notice in the player's Chapters tab touching the left edge of the screen on iPhone Duo [#5410](https://github.com/Automattic/pocket-casts-ios/pull/5410)
 
 8.22
 -----
