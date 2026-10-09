@@ -183,8 +183,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         progressView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         progressView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        timeLeftVibrancy.setContentCompressionResistancePriority(.required, for: .horizontal)
-        timeLeftVibrancy.setContentHuggingPriority(.required, for: .horizontal)
+        timeLeftHost.view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        timeLeftHost.view.setContentHuggingPriority(.required, for: .horizontal)
 
         let textStack = UIStackView(arrangedSubviews: [titleVibrancy, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
