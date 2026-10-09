@@ -9,6 +9,8 @@ struct UpgradeProductsView: View {
 
     @ScaledMetric(relativeTo: .body) private var badgeOffset: CGFloat = 8
 
+    var showsTermsAndConditions = true
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(model.products, id: \.self.id) { product in
@@ -18,10 +20,12 @@ struct UpgradeProductsView: View {
                 Spacer().frame(height: 6)
                 actionButton
                 Spacer().frame(height: 12)
-                HStack {
-                    Spacer()
-                    termsAndConditions
-                    Spacer()
+                if showsTermsAndConditions {
+                    HStack {
+                        Spacer()
+                        UpgradeTermsAndConditionsView(model: model)
+                        Spacer()
+                    }
                 }
                 Spacer().frame(height: 4)
             }
@@ -95,9 +99,15 @@ struct UpgradeProductsView: View {
             model.purchaseTapped()
         }
     }
+}
 
-    @ViewBuilder
-    var termsAndConditions: some View {
+struct UpgradeTermsAndConditionsView: View {
+
+    @EnvironmentObject var theme: Theme
+
+    let model: UpgradeAccountViewModel
+
+    var body: some View {
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 

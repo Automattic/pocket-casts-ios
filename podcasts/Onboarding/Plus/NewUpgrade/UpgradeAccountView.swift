@@ -13,6 +13,8 @@ struct UpgradeAccountView: View {
 
     @State private var flash: Bool = false
 
+    @State private var showsTermsInScrollableContent = false
+
     enum ScrollPosition: String {
         case firstPage
         case secondPage
@@ -33,10 +35,11 @@ struct UpgradeAccountView: View {
                 .overlay(alignment: .bottom) {
                     gradient(height: Constants.gradientHeight, up: false)
                 }
-            UpgradeProductsView(model: model)
+            UpgradeProductsView(model: model, showsTermsAndConditions: !showsTermsInScrollableContent)
                 .padding(.horizontal, 16)
         }
         .padding(.top, 16)
+        .onGeometryChange(for: Bool.self) { $0.size.height < 700 } action: { showsTermsInScrollableContent = $0 }
         .background(theme.primaryUi01)
         .onAppear() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
@@ -155,6 +158,11 @@ struct UpgradeAccountView: View {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
                                 .frame(height: 8)
+                        }
+                        if showsTermsInScrollableContent {
+                            UpgradeTermsAndConditionsView(model: model)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 8)
                         }
                     }
                     .padding(.vertical, Constants.gradientHeight - 8)
