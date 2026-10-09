@@ -191,14 +191,17 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     }
 
     private func expiredResponse(for request: URLRequest, authenticated: Bool?) -> CachedURLResponse? {
-        guard let cachedResponse = discoveryCache.cachedResponse(for: request) else { return nil }
-        guard authenticated == true else { return cachedResponse }
-        guard let userID = ServerSettings.userId,
-              cachedResponse.userInfo?[Self.userIDKey] as? String == userID,
-              (cachedResponse.response as? HTTPURLResponse)?.statusCode == 200 else {
+        guard let cachedResponse = discoveryCache.cachedResponse(for: request),
+              authenticated != true || belongsToCurrentAccount(cachedResponse) else {
             return nil
         }
         return cachedResponse
+    }
+
+    private func belongsToCurrentAccount(_ cachedResponse: CachedURLResponse) -> Bool {
+        guard let userID = ServerSettings.userId else { return false }
+        return cachedResponse.userInfo?[Self.userIDKey] as? String == userID
+            && (cachedResponse.response as? HTTPURLResponse)?.statusCode == 200
     }
 
     public func cachedResponse(for path: String) -> CachedURLResponse? {
@@ -221,7 +224,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         var request = URLRequest(url: url)
         request.addLocalizationHeaders()
 
-        if let cachedResponse = cachedResponse(for: path) {
+        if let cachedResponse = cachedResponse(for: path), authenticated != true || belongsToCurrentAccount(cachedResponse) {
             completion(cachedResponse.data, cachedResponse.response, nil, true)
             return
         }
