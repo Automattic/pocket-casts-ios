@@ -40,7 +40,6 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
             .scrollPosition(id: $currentIndex)
             .scrollIndicators(.hidden)
             .frame(maxHeight: cardSize.height)
-            .clipped()
 
             if showPagination {
                 PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex ?? 0)
