@@ -2179,8 +2179,12 @@ Pocket Casts。</string>
     <string>无法播放此剧集。</string>
     <key>player_error_internet_connection</key>
     <string>检查互联网连接并重试。</string>
+    <key>player_error_not_enough_storage</key>
+    <string>您的设备存储空间已满。 请释放一些空间，然后重试。</string>
     <key>player_error_short_no_connection</key>
     <string>您处于离线状态</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>设备存储空间已满</string>
     <key>player_error_short_playback_error</key>
     <string>播放失败，请重试</string>
     <key>player_increment_time</key>
@@ -2209,6 +2213,10 @@ Pocket Casts。</string>
     <string>播放错误</string>
     <key>player_user_episode_upload_error</key>
     <string>上传错误</string>
+    <key>player_video_exit_full_screen</key>
+    <string>退出全屏</string>
+    <key>player_video_full_screen</key>
+    <string>全屏</string>
     <key>playlist_add_to_title</key>
     <string>添加至“%@”</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3289,6 +3297,10 @@ Pocket Casts。</string>
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>使用新版音量增强功能，享受更稳定的音量水平。</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>显示未读标记</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>当有新的“最新动态”消息时，在个人资料上显示未读标记。</string>
     <key>settings_global_settings</key>
     <string>全局设置</string>
     <key>settings_headphone_controls</key>
@@ -4440,6 +4452,24 @@ Pocket Casts。</string>
     <string>新内容</string>
     <key>whats_new_blog_more_link_text</key>
     <string>阅读我们的博客上，了解有关此更新的更多信息</string>
+    <key>whats_new_category_announcement</key>
+    <string>公告</string>
+    <key>whats_new_category_known_issue</key>
+    <string>已知问题</string>
+    <key>whats_new_category_new_feature</key>
+    <string>新功能</string>
+    <key>whats_new_category_research</key>
+    <string>用户研究</string>
+    <key>whats_new_category_tip</key>
+    <string>提示和技巧</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>新功能、提示和公告将在此处发布。</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>尚无消息</string>
+    <key>whats_new_feed_read_all</key>
+    <string>全部已读</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>无法加载“最新动态”消息</string>
     <key>whats_new_in_version</key>
     <string>%1$@ 中的新内容</string>
     <key>whats_new_page_one_7_20</key>
@@ -4454,6 +4484,8 @@ Pocket Casts。</string>
 如果知道自己为安排播客页面所做的努力都在同步到账户，您便可以更加放心。</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>主网格同步</string>
+    <key>whats_new_poll_answered</key>
+    <string>感谢您的回答。</string>
     <key>widgets_app_icon_description</key>
     <string>快速启动 Pocket Casts</string>
     <key>widgets_app_icon_name</key>

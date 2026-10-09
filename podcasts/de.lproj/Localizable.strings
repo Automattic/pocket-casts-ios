@@ -2179,8 +2179,12 @@ Das ist Hingabe!</string>
     <string>Diese Folge kann nicht abgespielt werden.</string>
     <key>player_error_internet_connection</key>
     <string>Überprüfe deine Internetverbindung und versuche es erneut.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Dein Gerät hat keinen Speicherplatz mehr. Gib Speicherplatz frei und versuche es erneut.</string>
     <key>player_error_short_no_connection</key>
     <string>Du bist offline.</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Gerätespeicher ist voll</string>
     <key>player_error_short_playback_error</key>
     <string>Wiedergabe fehlgeschlagen, bitte versuche es erneut</string>
     <key>player_increment_time</key>
@@ -2209,6 +2213,10 @@ Das ist Hingabe!</string>
     <string>Wiedergabefehler</string>
     <key>player_user_episode_upload_error</key>
     <string>Fehler beim Upload</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Vollbild verlassen</string>
+    <key>player_video_full_screen</key>
+    <string>Vollbild</string>
     <key>playlist_add_to_title</key>
     <string>Zu „%@“ hinzufügen</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3289,6 +3297,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Verwende den aktualisierten Lautstärke-Booster mit einheitlicheren Stimmpegeln.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>„Ungelesen“-Punkt anzeigen</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Einen „Ungelesen“-Punkt im Profil anzeigen, wenn es neue Nachrichten zu Neuigkeiten gibt.</string>
     <key>settings_global_settings</key>
     <string>Allgemeine Einstellungen</string>
     <key>settings_headphone_controls</key>
@@ -4440,6 +4452,24 @@ Beides klingt gut. 🙂</string>
     <string>Neues</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Weitere Informationen zu diesem Update findest du in unserem Blog</string>
+    <key>whats_new_category_announcement</key>
+    <string>Ankündigung</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Bekanntes Problem</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Neue Funktion</string>
+    <key>whats_new_category_research</key>
+    <string>Benutzerforschung</string>
+    <key>whats_new_category_tip</key>
+    <string>Tipps und Tricks</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Neue Funktionen, Tipps und Ankündigungen werden hier angezeigt.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Noch keine Nachrichten</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Alle gelesen</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Neuigkeiten können nicht geladen werden</string>
     <key>whats_new_in_version</key>
     <string>Was ist neu in Version %1$@?</string>
     <key>whats_new_page_one_7_20</key>
@@ -4454,6 +4484,8 @@ Dein Startbildschirm sieht perfekt aus. Vielen Dank für die Unterstützung!</st
 D. h., deine Podcasts-Seite mit allen Anordnungen, die du vorgenommen hast, wird mit deinem Konto synchronisiert. Du kannst dich also ganz entspannt zurücklehnen.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Synchronisierung des Startbildschirms</string>
+    <key>whats_new_poll_answered</key>
+    <string>Vielen Dank für deine Antwort.</string>
     <key>widgets_app_icon_description</key>
     <string>Starte Pocket Casts schnell</string>
     <key>widgets_app_icon_name</key>
