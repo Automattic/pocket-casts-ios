@@ -14,7 +14,7 @@ struct HorizontalCarouselCard: View {
                     Image(item.image)
                         .resizable()
                         .scaledToFit()
-                        .frame(maxWidth: 243.0, minHeight: 152.0, maxHeight: 217.0)
+                        .frame(maxWidth: 243.0, maxHeight: 217.0)
                     Spacer()
                 }
                 .padding(.top, isFormSheet ? 20.0 : 40.0)
