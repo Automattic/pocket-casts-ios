@@ -30,6 +30,7 @@
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
 - Fix a network page sometimes showing its name in the navigation bar, dark on the dark header, before you scroll, and showing an empty link row for networks without a website [#5422](https://github.com/Automattic/pocket-casts-ios/pull/5422)
 - Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
+- Fix the seek bar in the full screen video player being too short to use when watching in portrait, and line up the player's controls [#5403](https://github.com/Automattic/pocket-casts-ios/pull/5403)
 
 8.22
 -----
