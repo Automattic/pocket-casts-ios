@@ -24,10 +24,6 @@ struct LocalSearchView: View {
     var body: some View {
         navigationContent
             .background(backgroundColor.ignoresSafeArea())
-            .safeAreaInset(edge: .top) {
-                searchBar
-                    .background(theme.secondaryUi01)
-            }
             .onAppear {
                 Analytics.track(.filterAddEpisodesShown)
                 viewModel.onAppear(searchResultsModel: searchResults)
@@ -35,28 +31,6 @@ struct LocalSearchView: View {
             }
             .onDisappear { viewModel.onDisappear() }
             .scrollDismissesKeyboard(.immediately)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    if navigationPath.isEmpty {
-                        closeButton
-                    } else {
-                        backButton
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    doneButton
-                }
-            }
-            .navigationTitle(viewModel.navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .modify({ view in
-                if #available(iOS 17.1, *) {
-                    view
-                        .toolbarRole(.navigationStack)
-                } else {
-                    view
-                }
-            })
             .onChange(of: navigationPath) { _, newValue in
                 UIApplication.shared.endEditing(true) // Dismiss the keyboard and end editing any time we navigate between sections.
                 handleNavigationPathChange(newValue, previousPath: previousNavigationPath)
@@ -66,9 +40,9 @@ struct LocalSearchView: View {
 
     private var navigationContent: some View {
         NavigationStack(path: $navigationPath) {
-            podcastsView
+            withNavigationChrome(podcastsView)
                 .navigationDestination(for: LocalSearchRoute.self) { route in
-                    destinationView(for: route)
+                    withNavigationChrome(destinationView(for: route))
                 }
         }
     }
@@ -135,9 +109,6 @@ private extension LocalSearchView {
             disableLibraryAnimation: viewModel.disableLibraryAnimation,
             isLoading: viewModel.isPodcastListLoading
         )
-        .background(backgroundColor.ignoresSafeArea())
-        .navigationTitle(viewModel.navigationTitle)
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var searchPromptString: String {
@@ -168,35 +139,30 @@ private extension LocalSearchView {
         .padding(.vertical, 8)
     }
 
-    private var closeButton: some View {
-        Button {
-            closeModal()
-        } label: {
-            Image("close")
-                .renderingMode(.template)
-                .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
-        }
-        .accessibilityLabel(L10n.close)
-    }
-
-    private var backButton: some View {
-        Button {
-            popNavigation()
-        } label: {
-            Image(systemName: "chevron.backward")
-        }
-        .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
-        .accessibilityLabel(L10n.back)
-    }
-
-    private var doneButton: some View {
-        Button {
-            closeModal()
-        } label: {
-            Text(L10n.done)
-        }
-        .fontWeight(.semibold)
-        .foregroundColor(AppTheme.color(for: .secondaryIcon01, theme: theme))
+    private func withNavigationChrome(_ content: some View) -> some View {
+        content
+            .background(backgroundColor.ignoresSafeArea())
+            .safeAreaInset(edge: .top) {
+                searchBar
+                    .background(theme.secondaryUi01)
+            }
+            .navigationTitle(viewModel.navigationTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button.make(role: .confirm) {
+                        closeModal()
+                    }
+                }
+            }
+            .modify({ view in
+                if #available(iOS 17.1, *) {
+                    view
+                        .toolbarRole(.navigationStack)
+                } else {
+                    view
+                }
+            })
     }
 
     @ViewBuilder
@@ -215,9 +181,6 @@ private extension LocalSearchView {
                 disableLibraryAnimation: viewModel.disableLibraryAnimation,
                 isLoading: viewModel.isPodcastListLoading
             )
-            .background(backgroundColor.ignoresSafeArea())
-            .navigationTitle(viewModel.navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
         case .podcast:
             LocalSearchEpisodeResultsView(
                 isLoading: viewModel.isEpisodeSearchInFlight,
@@ -234,9 +197,6 @@ private extension LocalSearchView {
                     }
                 }
             )
-            .background(backgroundColor.ignoresSafeArea())
-            .navigationTitle(viewModel.navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 
@@ -259,13 +219,6 @@ private extension LocalSearchView {
         let newFolderCount = newPath.filter(\.isFolder).count
         if newFolderCount < previousFolderCount {
             viewModel.clearSelectedFolder()
-        }
-    }
-
-    func popNavigation() {
-        guard !navigationPath.isEmpty else { return }
-        withAnimation(navigationAnimation) {
-            _ = navigationPath.removeLast()
         }
     }
 }

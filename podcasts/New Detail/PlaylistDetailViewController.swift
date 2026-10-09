@@ -454,8 +454,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         // Disable drag-to-dismiss gesture to ensure viewModel reload is called
         vc.isModalInPresentation = true
 
-        let navVC = SJUIUtils.navController(for: vc)
-        present(navVC, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
 
     // MARK: - Scroll handling
