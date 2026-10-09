@@ -244,6 +244,11 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         }
     }
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+
     private var numVisibleColoumns = 3 as CGFloat
     private var itemSpacing = 0 as CGFloat
     private var maxCellWidth = 124 as CGFloat
