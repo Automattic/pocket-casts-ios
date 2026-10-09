@@ -70,6 +70,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         maxCellWidth = view.bounds.width
 
         collectionView.register(UINib(nibName: "SmallListCell", bundle: nil), forCellWithReuseIdentifier: SmallPagedListSummaryViewController.cellId)
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         cellSpacing = 16 as CGFloat
         isPeekEnabled = true
@@ -120,17 +121,22 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         return max(columns - Int(numVisibleColumns) + 1, 1)
     }
 
-    private func updateTrailingInset() {
+    private func offset(forPage page: Int) -> CGFloat {
+        CGFloat(page) * pageStride - collectionView.contentInset.left
+    }
+
+    private func updateInsets() {
+        collectionView.contentInset.left = cellSpacing + view.safeAreaInsets.left
         let columns = ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows))
         let contentWidth = columns * (cellWidth + cellSpacing) + cellSpacing
-        let lastPageOffset = CGFloat(max(numberOfPages - 1, 0)) * pageStride
+        let lastPageOffset = offset(forPage: max(numberOfPages - 1, 0))
         let visibleWidth = collectionView.bounds.width
         collectionView.contentInset.right = max(0, lastPageOffset + visibleWidth - contentWidth)
     }
 
     private func restore(page: Int) {
         let target = min(page, max(numberOfPages - 1, 0))
-        collectionView.setContentOffset(CGPoint(x: CGFloat(target) * pageStride, y: 0), animated: false)
+        collectionView.setContentOffset(CGPoint(x: offset(forPage: target), y: 0), animated: false)
         updateCurrentPage()
     }
 
@@ -250,21 +256,20 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     // MARK: - TinyPageControl delegate
 
     func pageDidChange(_ newPage: Int) {
-        let offset = CGFloat(newPage) * pageStride
-        collectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+        collectionView.setContentOffset(CGPoint(x: offset(forPage: newPage), y: 0), animated: true)
     }
 
     private func updatePageCount() {
         if numberOfPages == 0 { return }
 
         pageControl.numberOfPages = numberOfPages
-        updateTrailingInset()
+        updateInsets()
         updateCurrentPage()
     }
 
     private func updateCurrentPage() {
         guard pageStride > 0 else { return }
-        let currentPage = Int(round(collectionView.contentOffset.x / pageStride))
+        let currentPage = Int(round((collectionView.contentOffset.x + collectionView.contentInset.left) / pageStride))
 
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage

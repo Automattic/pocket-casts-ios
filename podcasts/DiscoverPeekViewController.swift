@@ -47,12 +47,13 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
 
         guard let currentScrollOffset else { return }
         let target = targetContentOffset.pointee
+        let leadingInset = scrollView.contentInset.left
         let currentScrollDistance = target.x - currentScrollOffset.x
         let coefficent = Int(max(-1, min(currentScrollDistance / scrollThreshold, 1)))
-        let currentIndex = Int(round(currentScrollOffset.x / pageStride))
+        let currentIndex = Int(round((currentScrollOffset.x + leadingInset) / pageStride))
         let adjacentItemIndex = currentIndex + coefficent
         let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
-        let adjacentItemOffsetX = adjacentItemIndexFloat * pageStride
+        let adjacentItemOffsetX = adjacentItemIndexFloat * pageStride - leadingInset
         targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
     }
 

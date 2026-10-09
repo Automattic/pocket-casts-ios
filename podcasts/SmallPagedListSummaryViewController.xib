@@ -54,7 +54,7 @@
                     </connections>
                 </button>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HyA-mC-KQs" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="16" y="78.5" width="350" height="169"/>
+                    <rect key="frame" x="0.0" y="78.5" width="370" height="169"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="999" constant="169" id="kCW-dW-QNU"/>
@@ -79,9 +79,9 @@
                 <constraint firstAttribute="bottom" secondItem="aT8-ld-aMR" secondAttribute="bottom" constant="8.5" id="ZwE-4K-xfE"/>
                 <constraint firstItem="52h-LV-3YU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="I1o-ff-wHf" secondAttribute="trailing" constant="4" id="ag5-44-Npe"/>
                 <constraint firstItem="I1o-ff-wHf" firstAttribute="leading" secondItem="Hym-Oi-hNC" secondAttribute="leading" constant="16" id="k4R-aV-5oA"/>
-                <constraint firstAttribute="trailing" secondItem="HyA-mC-KQs" secondAttribute="trailing" constant="4" id="lWp-KA-FeE"/>
+                <constraint firstAttribute="trailing" secondItem="HyA-mC-KQs" secondAttribute="trailing" id="lWp-KA-FeE"/>
                 <constraint firstItem="qIl-yO-gLs" firstAttribute="leading" secondItem="Hym-Oi-hNC" secondAttribute="leading" constant="16" id="tdr-xW-zcS"/>
-                <constraint firstItem="HyA-mC-KQs" firstAttribute="leading" secondItem="Hym-Oi-hNC" secondAttribute="leading" constant="16" id="vnz-Y1-UeW"/>
+                <constraint firstItem="HyA-mC-KQs" firstAttribute="leading" secondItem="Hym-Oi-hNC" secondAttribute="leading" id="vnz-Y1-UeW"/>
                 <constraint firstAttribute="trailing" secondItem="qIl-yO-gLs" secondAttribute="trailing" constant="16" id="wVo-7I-D83"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
