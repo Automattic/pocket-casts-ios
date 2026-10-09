@@ -36,8 +36,15 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
         vc.sizingOptions = [.preferredContentSize]
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
-            popoverPresentationController.permittedArrowDirections = [.up]
-            popoverPresentationController.sourceItem = button
+            let contentFrame = view.safeAreaLayoutGuide.layoutFrame
+            if let buttonFrame = button.frame(in: view), buttonFrame.minX >= contentFrame.maxX || buttonFrame.maxX <= contentFrame.minX {
+                popoverPresentationController.permittedArrowDirections = [.left, .right]
+                popoverPresentationController.sourceView = view
+                popoverPresentationController.sourceRect = buttonFrame
+            } else {
+                popoverPresentationController.permittedArrowDirections = [.up]
+                popoverPresentationController.sourceItem = button
+            }
             if !LiquidGlass.isEnabled {
                 popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
             }
