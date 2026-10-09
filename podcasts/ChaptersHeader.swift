@@ -9,6 +9,7 @@ class ChaptersHeader: UIView {
     private lazy var container: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
+        container.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         return container
     }()
 
