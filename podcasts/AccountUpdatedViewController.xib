@@ -119,11 +119,11 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="M9l-MS-mVv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="1FR-Kn-fyb"/>
-                <constraint firstItem="ahq-wO-NAO" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1km-wS-eZF"/>
-                <constraint firstItem="qGy-na-X09" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="2UT-4m-Fi6"/>
+                <constraint firstItem="ahq-wO-NAO" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="1km-wS-eZF"/>
+                <constraint firstItem="qGy-na-X09" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="2UT-4m-Fi6"/>
                 <constraint firstItem="3EG-gt-CG2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="-16" id="E8p-hq-Icu"/>
                 <constraint firstItem="qGy-na-X09" firstAttribute="top" secondItem="ahq-wO-NAO" secondAttribute="bottom" constant="24" id="FFi-jz-Sw6"/>
-                <constraint firstItem="YOO-bc-S3t" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="L0K-zm-LbE"/>
+                <constraint firstItem="YOO-bc-S3t" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="L0K-zm-LbE"/>
                 <constraint firstItem="YOO-bc-S3t" firstAttribute="top" secondItem="qGy-na-X09" secondAttribute="bottom" constant="6" id="SDk-vP-iuE"/>
                 <constraint firstItem="3EG-gt-CG2" firstAttribute="top" secondItem="M9l-MS-mVv" secondAttribute="bottom" id="TR1-ud-7eo"/>
                 <constraint firstItem="3EG-gt-CG2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="aSa-qk-YU4"/>

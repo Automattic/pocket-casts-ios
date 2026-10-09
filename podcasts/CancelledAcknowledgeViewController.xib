@@ -177,13 +177,13 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="mEv-z0-2AE" firstAttribute="top" secondItem="9zt-BW-eps" secondAttribute="bottom" id="1MZ-ao-4fO"/>
-                <constraint firstItem="9zt-BW-eps" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="1lc-hQ-kwJ"/>
+                <constraint firstItem="9zt-BW-eps" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="1lc-hQ-kwJ"/>
                 <constraint firstItem="9zt-BW-eps" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="45b-aw-xCs"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mEv-z0-2AE" secondAttribute="trailing" id="OEd-Zw-WgM"/>
                 <constraint firstItem="mEv-z0-2AE" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="cnG-lE-fWF"/>
-                <constraint firstItem="9zt-BW-eps" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="e2R-8X-ImY"/>
+                <constraint firstItem="9zt-BW-eps" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="e2R-8X-ImY"/>
                 <constraint firstItem="mEv-z0-2AE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hnK-b5-DJx"/>
-                <constraint firstItem="9zt-BW-eps" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zbf-ZA-aBM"/>
+                <constraint firstItem="9zt-BW-eps" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zbf-ZA-aBM"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="81.696428571428569"/>
