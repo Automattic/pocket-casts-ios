@@ -41,6 +41,11 @@ class TranscriptContainerViewController: UIViewController {
         presentationController?.delegate = self
     }
 
+    override var modalPresentationCapturesStatusBarAppearance: Bool {
+        get { super.modalPresentationCapturesStatusBarAppearance || isSheetUnderStatusBar }
+        set { super.modalPresentationCapturesStatusBarAppearance = newValue }
+    }
+
     func showTranscript() {
         generatedTranscriptsPremiumOverlayShown = false
 

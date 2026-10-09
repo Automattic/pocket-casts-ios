@@ -127,7 +127,7 @@ enum SharingModal {
         }
         .background(Color(PlayerColorHelper.playerBackgroundColor01()))
 
-        let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
+        let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight), statusBarStyle: .lightContent)
         viewController.present(hostingController, animated: true)
     }
 }

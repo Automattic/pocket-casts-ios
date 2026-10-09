@@ -278,6 +278,11 @@ class PCViewController: SimpleNotificationsViewController {
         AppTheme.defaultStatusBarStyle()
     }
 
+    override var modalPresentationCapturesStatusBarAppearance: Bool {
+        get { super.modalPresentationCapturesStatusBarAppearance || isSheetUnderStatusBar }
+        set { super.modalPresentationCapturesStatusBarAppearance = newValue }
+    }
+
     @objc private func appWasBackgrounded() {
         handleAppDidEnterBackground()
     }

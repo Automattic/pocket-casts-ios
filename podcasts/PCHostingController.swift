@@ -36,10 +36,21 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
 class ThemedHostingController<Content>: ModifedHostingController<Content, ThemedEnvironment> where Content: View {
 
     private var background: KeyPath<Theme, Color>?
+    private let statusBarStyle: UIStatusBarStyle?
 
-    init(rootView: Content, theme: Theme = Theme.shared, background: KeyPath<Theme, Color>? = nil) {
+    init(rootView: Content, theme: Theme = Theme.shared, background: KeyPath<Theme, Color>? = nil, statusBarStyle: UIStatusBarStyle? = nil) {
         self.background = background
+        self.statusBarStyle = statusBarStyle
         super.init(rootView: rootView, modifier: ThemedEnvironment(theme: theme))
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        statusBarStyle ?? super.preferredStatusBarStyle
+    }
+
+    override var modalPresentationCapturesStatusBarAppearance: Bool {
+        get { super.modalPresentationCapturesStatusBarAppearance || isSheetUnderStatusBar }
+        set { super.modalPresentationCapturesStatusBarAppearance = newValue }
     }
 
     override func viewDidLoad() {

@@ -80,7 +80,7 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
         return .lightContent
         #else
         // it's a little dodgy, but if the full screen player is open, always use a light tab bar
-        if appDelegate()?.miniPlayer()?.playerOpenState == .open {
+        if presentingViewController == nil, appDelegate()?.miniPlayer()?.playerOpenState == .open {
             return .lightContent
 
         // when using a navigationlink the hosting controller might be generated automatically and will apply the default status bar style
@@ -90,6 +90,11 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
             return topViewController?.preferredStatusBarStyle ?? AppTheme.defaultStatusBarStyle()
         }
         #endif
+    }
+
+    override var modalPresentationCapturesStatusBarAppearance: Bool {
+        get { super.modalPresentationCapturesStatusBarAppearance || isSheetUnderStatusBar }
+        set { super.modalPresentationCapturesStatusBarAppearance = newValue }
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

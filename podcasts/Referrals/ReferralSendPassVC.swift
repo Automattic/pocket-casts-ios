@@ -12,7 +12,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
     init(viewModel: ReferralSendPassModel) {
         self.viewModel = viewModel
         let screen = ReferralSendPassView(viewModel: viewModel)
-        super.init(rootView: screen)
+        super.init(rootView: screen, statusBarStyle: .lightContent)
     }
 
     @MainActor dynamic required init?(coder aDecoder: NSCoder) {

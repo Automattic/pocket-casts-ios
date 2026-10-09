@@ -892,6 +892,7 @@
 		BDD3018E1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD3018F1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */; };
+		1087A0022FB4C0D000F00001 /* UIViewController+StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1087A0012FB4C0D000F00001 /* UIViewController+StatusBar.swift */; };
 		BDD40A1A1FA1AF7900A53AE1 /* TintableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40A191FA1AF7900A53AE1 /* TintableImageView.swift */; };
 		BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD525372047782600AAD211 /* SJUIUtils.swift */; };
 		BDD5CA002303E8FA005E133C /* ThemeableUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD5C9FF2303E8FA005E133C /* ThemeableUIButton.swift */; };
@@ -1161,6 +1162,7 @@
 		F5F509412CEBF280007D6E39 /* PlayerContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD92323023629E1900C1E118 /* PlayerContainerViewController.xib */; };
 		F5F509422CEBF28F007D6E39 /* SJUIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD525372047782600AAD211 /* SJUIUtils.swift */; };
 		F5F509432CEBF298007D6E39 /* PCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */; };
+		1087A0032FB4C0D000F00001 /* UIViewController+StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1087A0012FB4C0D000F00001 /* UIViewController+StatusBar.swift */; };
 		F5F509442CEBF2D6007D6E39 /* NowPlayingPlayerItemViewController+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F3BAA2366C96E00416633 /* NowPlayingPlayerItemViewController+Update.swift */; };
 		F5F509452CEBF2E2007D6E39 /* ShelfLoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A5B27239A0368006C8777 /* ShelfLoadState.swift */; };
 		F5F509462CEBF2F8007D6E39 /* BasePlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF09F031E669E16009E9845 /* BasePlayPauseButton.swift */; };
@@ -2464,6 +2466,7 @@
 		BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Casts Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDD3018D1EFB9574004A9972 /* WatchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConstants.swift; sourceTree = "<group>"; };
 		BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCNavigationController.swift; sourceTree = "<group>"; };
+		1087A0012FB4C0D000F00001 /* UIViewController+StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+StatusBar.swift"; sourceTree = "<group>"; };
 		BDD40A191FA1AF7900A53AE1 /* TintableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintableImageView.swift; sourceTree = "<group>"; };
 		BDD525372047782600AAD211 /* SJUIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJUIUtils.swift; sourceTree = "<group>"; };
 		BDD5C9FF2303E8FA005E133C /* ThemeableUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableUIButton.swift; sourceTree = "<group>"; };
@@ -4445,6 +4448,7 @@
 				BDD62980200EEA6700168DF7 /* SimpleNotificationsViewController.swift */,
 				BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */,
 				BD6B432B27561EA8005E4017 /* PCHostingController.swift */,
+				1087A0012FB4C0D000F00001 /* UIViewController+StatusBar.swift */,
 			);
 			name = "VIew Controllers";
 			sourceTree = "<group>";
@@ -6944,6 +6948,7 @@
 				F26CC6322FACD5D400C1F8F7 /* ShareProfileView.swift in Sources */,
 				F26CC6332FACD5D400C1F8F7 /* ShareProfileViewModel.swift in Sources */,
 				BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */,
+				1087A0022FB4C0D000F00001 /* UIViewController+StatusBar.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
@@ -7423,6 +7428,7 @@
 				F5F509282CEBEF01007D6E39 /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				F5F5090C2CEBEB6B007D6E39 /* PlayerContainerViewController+Update.swift in Sources */,
 				F5F509432CEBF298007D6E39 /* PCNavigationController.swift in Sources */,
+				1087A0032FB4C0D000F00001 /* UIViewController+StatusBar.swift in Sources */,
 				F5F509112CEBEBCC007D6E39 /* PlaybackCatchUpHelper.swift in Sources */,
 				F5F509082CEBEAEF007D6E39 /* PlaybackProtocol.swift in Sources */,
 				F57ABBFB2CECEBCD00CC50AF /* PodcastManager.swift in Sources */,

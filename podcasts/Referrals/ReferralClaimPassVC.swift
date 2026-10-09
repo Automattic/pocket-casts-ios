@@ -7,7 +7,7 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
     init(viewModel: ReferralClaimPassModel) {
         self.viewModel = viewModel
         let screen = ReferralClaimPassView(viewModel: viewModel)
-        super.init(rootView: screen)
+        super.init(rootView: screen, statusBarStyle: .lightContent)
         viewModel.presentationController = self
     }
 
