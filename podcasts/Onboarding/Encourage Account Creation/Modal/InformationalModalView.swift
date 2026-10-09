@@ -36,7 +36,6 @@ struct InformationalModalView: View {
                     isFormSheet: isFormSheet
                 )
             }
-            .ignoresSafeArea(.container, edges: .horizontal)
             .frame(maxHeight: cardHeight + 24.0)
             buttons
                 .padding(.top, isFormSheet ? 12.0 : 33.0)
