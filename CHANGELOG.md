@@ -27,6 +27,7 @@
 - Fix the Now Playing widget play button sometimes not starting playback on the first tap [#5391](https://github.com/Automattic/pocket-casts-ios/pull/5391)
 - Fix the "You're offline" and playback error messages being hard to read at the bottom of the screen on iOS 27. They now appear as a toast [#5372](https://github.com/Automattic/pocket-casts-ios/pull/5372)
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
+- Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
 
 8.22
 -----
