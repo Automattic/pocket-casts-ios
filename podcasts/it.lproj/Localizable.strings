@@ -2179,8 +2179,12 @@ Questa sì che è dedizione!</string>
     <string>Questo episodio non può essere riprodotto.</string>
     <key>player_error_internet_connection</key>
     <string>Controlla la tua connessione a Internet e riprova.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Lo spazio di archiviazione del tuo dispositivo è esaurito. Libera spazio e riprova.</string>
     <key>player_error_short_no_connection</key>
     <string>Sei offline</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Spazio di archiviazione del dispositivo esaurito</string>
     <key>player_error_short_playback_error</key>
     <string>Riproduzione non riuscita, riprova</string>
     <key>player_increment_time</key>
@@ -2209,6 +2213,10 @@ Questa sì che è dedizione!</string>
     <string>Errore di riproduzione</string>
     <key>player_user_episode_upload_error</key>
     <string>Errore di caricamento</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Esci da modalità schermo interno</string>
+    <key>player_video_full_screen</key>
+    <string>Schermo intero</string>
     <key>playlist_add_to_title</key>
     <string>Aggiungi a "%@"</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3289,6 +3297,10 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>VoceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Usa Aumenta il volume aggiornato con livelli vocali più coerenti.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Mostra puntino "non letto"</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Mostra un puntino "non letto" su Profilo quando ci sono nuovi messaggi in Novità.</string>
     <key>settings_global_settings</key>
     <string>Impostazioni globali</string>
     <key>settings_headphone_controls</key>
@@ -4052,6 +4064,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Media</string>
     <key>tv_player_trim_silence_mild</key>
     <string>Moderato</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Disattivato</string>
     <key>tv_player_trim_silence_set</key>
     <string>Elimina i silenzi: %1$@</string>
     <key>tv_player_volume_boost</key>
@@ -4369,7 +4383,7 @@ Questa app soddisfa le esigenze di ogni utente, Che si cerchi un approccio plug 
     <key>wait_for_wifi</key>
     <string>In attesa del WiFi</string>
     <key>watch</key>
-    <string>Guarda</string>
+    <string>Orologio</string>
     <key>watch_buffering</key>
     <string>Buffering in corso...</string>
     <key>watch_chapter_next</key>
@@ -4438,6 +4452,24 @@ In ogni caso, avrai fatto la scelta giusta. 🙂</string>
     <string>Novità</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Leggi di più su questo aggiornamento sul nostro blog</string>
+    <key>whats_new_category_announcement</key>
+    <string>Annuncio</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Problema noto</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Nuova funzionalità</string>
+    <key>whats_new_category_research</key>
+    <string>Ricerca degli utenti</string>
+    <key>whats_new_category_tip</key>
+    <string>Trucchi e suggerimenti</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Qui verranno mostrate nuove funzionalità, suggerimenti e annunci.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Ancora nessun messaggio</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Leggi tutto</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Impossibile caricare le novità</string>
     <key>whats_new_in_version</key>
     <string>Novità in %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4452,6 +4484,8 @@ Grazie per il supporto, la tua schermata Home non è mai apparsa più bella.</st
 Ciò significa che puoi stare più tranquillo sapendo che il duro lavoro che hai dedicato alla sistemazione della pagina dei tuoi podcast viene sincronizzato con il tuo account.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Sincronizzazione della griglia della home</string>
+    <key>whats_new_poll_answered</key>
+    <string>Grazie per la risposta.</string>
     <key>widgets_app_icon_description</key>
     <string>Avvio rapido di Pocket Casts</string>
     <key>widgets_app_icon_name</key>
