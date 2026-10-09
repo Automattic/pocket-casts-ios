@@ -495,6 +495,14 @@ public struct PodcastCollection: Decodable {
         case shortDescription = "short_description"
         case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime, lists
     }
+
+    /// The label of the collection's web link, when it has both a label to show and a URL to open.
+    /// Lists without a link send empty strings for both rather than leaving them out.
+    public var webLinkTitle: String? {
+        guard let webTitle, !webTitle.isEmpty, let webUrl, !webUrl.isEmpty else { return nil }
+
+        return webTitle
+    }
 }
 
 /// An entry of a `lists_list` collection: one of the podcast lists that make up a network.

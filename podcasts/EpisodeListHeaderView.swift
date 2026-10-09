@@ -69,7 +69,7 @@ class EpisodeListHeaderView: UIView {
         listTitle.text = podcastCollection.title
         listDescription.text = podcastCollection.description
 
-        if let linkTitle = collection.webTitle, collection.webUrl != nil {
+        if let linkTitle = collection.webLinkTitle {
             linkView.isHidden = false
             linkLabel.text = linkTitle
         } else {
