@@ -139,16 +139,6 @@ private extension LocalSearchView {
         .padding(.vertical, 8)
     }
 
-    private var doneButton: some View {
-        Button {
-            closeModal()
-        } label: {
-            Text(L10n.done)
-        }
-        .fontWeight(.semibold)
-        .foregroundColor(AppTheme.color(for: .secondaryIcon01, theme: theme))
-    }
-
     private func withNavigationChrome(_ content: some View) -> some View {
         content
             .background(backgroundColor.ignoresSafeArea())
@@ -160,7 +150,9 @@ private extension LocalSearchView {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    doneButton
+                    Button.make(role: .confirm) {
+                        closeModal()
+                    }
                 }
             }
             .modify({ view in
