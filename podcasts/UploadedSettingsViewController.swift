@@ -160,8 +160,8 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
             fadedFooter.addSubview(syncLabel)
             NSLayoutConstraint.activate([
                 syncLabel.topAnchor.constraint(equalTo: fadedFooter.topAnchor, constant: 12),
-                syncLabel.leadingAnchor.constraint(equalTo: fadedFooter.leadingAnchor, constant: 16),
-                syncLabel.trailingAnchor.constraint(equalTo: fadedFooter.trailingAnchor, constant: -16),
+                syncLabel.leadingAnchor.constraint(equalTo: fadedFooter.leadingAnchor, constant: 16 + tableView.safeAreaInsets.left),
+                syncLabel.trailingAnchor.constraint(equalTo: fadedFooter.trailingAnchor, constant: -16 - tableView.safeAreaInsets.right),
                 syncLabel.bottomAnchor.constraint(equalTo: fadedFooter.bottomAnchor)
             ])
 

@@ -34,8 +34,8 @@
             <constraints>
                 <constraint firstItem="6zO-v4-qaS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7dc-bg-gWW"/>
                 <constraint firstItem="6zO-v4-qaS" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="cfk-s2-6KR"/>
-                <constraint firstItem="6zO-v4-qaS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="s7h-zm-YZI"/>
-                <constraint firstItem="6zO-v4-qaS" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="tpz-OA-mgq"/>
+                <constraint firstItem="6zO-v4-qaS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="s7h-zm-YZI"/>
+                <constraint firstItem="6zO-v4-qaS" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="tpz-OA-mgq"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="-372" y="10"/>

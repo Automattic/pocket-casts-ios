@@ -101,6 +101,7 @@ struct ToastView<Style: ToastTheme>: View {
                 content()
                     // For larger devices restrict the toast width to a max of 50% of the view
                     .frame(width: sizeClass == .regular ? proxy.size.width * 0.5 : nil)
+                    .padding(.bottom, max(0, viewModel.bottomInset - proxy.safeAreaInsets.bottom))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }

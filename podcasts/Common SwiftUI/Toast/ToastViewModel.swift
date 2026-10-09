@@ -22,6 +22,8 @@ class ToastViewModel: ObservableObject {
     let actions: [Toast.Action]
     let dismissPolicy: ToastViewDismissPolicy
     let aboveMiniPlayer: Bool
+    /// Distance from the bottom of the window that the toast should stay clear of
+    let bottomInset: CGFloat
 
     deinit {
         autoDismissTimer?.invalidate()
@@ -31,12 +33,13 @@ class ToastViewModel: ObservableObject {
     /// When this is true the view should animate out and call `didDismiss`
     @Published var didAutoDismiss = false
 
-    init(coordinator: ToastDelegate, title: String, actions: [Toast.Action]?, dismissPolicy: ToastViewDismissPolicy, aboveMiniPlayer: Bool = false) {
+    init(coordinator: ToastDelegate, title: String, actions: [Toast.Action]?, dismissPolicy: ToastViewDismissPolicy, aboveMiniPlayer: Bool = false, bottomInset: CGFloat = 0) {
         self.coordinator = coordinator
         self.title = title
         self.actions = actions ?? []
         self.dismissPolicy = dismissPolicy
         self.aboveMiniPlayer = aboveMiniPlayer
+        self.bottomInset = bottomInset
     }
 
     // MARK: - Window Methods
