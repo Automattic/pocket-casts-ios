@@ -181,6 +181,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         bottomRow.alignment = .center
         bottomRow.spacing = 6
 
+        progressView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        progressView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        timeLeftVibrancy.setContentCompressionResistancePriority(.required, for: .horizontal)
+        timeLeftVibrancy.setContentHuggingPriority(.required, for: .horizontal)
+
         let textStack = UIStackView(arrangedSubviews: [titleVibrancy, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
@@ -232,7 +237,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
-                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52),
+                {
+                    let constraint = glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52)
+                    constraint.priority = UILayoutPriority(750)
+                    return constraint
+                }(),
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
