@@ -62,6 +62,8 @@ struct WhatsNewFullView: View {
                 .padding(.horizontal, 24)
             }
         }
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .clipped()
         .overlay(alignment: .topTrailing) {
             closeButton
         }
