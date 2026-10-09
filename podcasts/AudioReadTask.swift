@@ -64,12 +64,12 @@ class AudioReadTask {
             let framePosition = framePositionForTime(playPositionHint).framePosition
             currentFramePosition = framePosition
             try SJCommonUtils.catchException {
-                if framePosition < audioFile.length {
+                if framePosition < frameCount {
                     FileLog.shared.addMessage("Setting framePosition to \(framePosition) for file: \(audioFile.url.lastPathComponent)")
                     audioFile.framePosition = framePosition
                 } else {
-                    FileLog.shared.addMessage("Attempted to seek past EOF: \(framePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
-                    audioFile.framePosition = max(0, audioFile.length - 1)
+                    FileLog.shared.addMessage("Attempted to seek past EOF: \(framePosition) >= \(frameCount), file: \(audioFile.url.lastPathComponent)")
+                    audioFile.framePosition = max(0, frameCount - 1)
                 }
             }
         }

@@ -29,6 +29,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     @IBOutlet var podcastsCollectionView: UICollectionView! {
         didSet {
             registerCells()
+            podcastsCollectionView.contentInsetAdjustmentBehavior = .always
 
             if let layout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 layout.sectionHeadersPinToVisibleBounds = false
@@ -268,7 +269,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     private func updateInsets() {
         let currentInsets = podcastsCollectionView.contentInset
         let bottom = LiquidGlass.isEnabled ? Self.bottomContentPadding : currentInsets.bottom
-        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin + view.safeAreaInsets.left, bottom: bottom, right: horizontalMargin + view.safeAreaInsets.right)
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: bottom, right: horizontalMargin)
     }
 
     private func adjustSettingsForGridType() {
@@ -367,7 +368,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
-        updateInsets()
         updateFlowLayoutSize()
         updateBottomSpacing()
     }

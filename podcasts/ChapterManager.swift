@@ -217,6 +217,30 @@ class ChapterManager {
         Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time })
     }
 
+    /// How much of the episode after `time` falls in deselected chapters, which playback skips.
+    func deselectedDuration(after time: TimeInterval) -> TimeInterval {
+        #if APPCLIP
+        // The App Clip treats every chapter as unplayable, so it has nothing to subtract.
+        return 0
+        #else
+        let ranges = visibleChapters
+            .filter { !$0.isPlayable() }
+            .map { (start: max(time, $0.startTime.seconds), end: $0.startTime.seconds + $0.duration) }
+            .filter { $0.end > $0.start }
+            .sorted { $0.start < $1.start }
+
+        // Chapters can overlap, so count time shared by deselected chapters once.
+        var total: TimeInterval = 0
+        var coveredUntil = time
+        for range in ranges where range.end > max(range.start, coveredUntil) {
+            total += range.end - max(range.start, coveredUntil)
+            coveredUntil = range.end
+        }
+
+        return total
+        #endif
+    }
+
     var chaptersAnalyticsProperties: [String: Any] {
         return ["origin": chaptersOrigin.analyticsDescription]
     }

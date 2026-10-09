@@ -24,8 +24,10 @@
 - Fix the animation when adding an episode to Up Next not reaching the Up Next tab when the tab bar is vertical on iPhone Duo [#5381](https://github.com/Automattic/pocket-casts-ios/pull/5381)
 - Remove the border from the "Need to free up space?" banner in Downloads on iOS 26 and later [#5387](https://github.com/Automattic/pocket-casts-ios/pull/5387)
 - Fix the trim bar and Next button being invisible when creating a clip from a podcast with dark artwork [#5388](https://github.com/Automattic/pocket-casts-ios/pull/5388)
+- Fix the Now Playing widget play button sometimes not starting playback on the first tap [#5391](https://github.com/Automattic/pocket-casts-ios/pull/5391)
 - Fix the "You're offline" and playback error messages being hard to read at the bottom of the screen on iOS 27. They now appear as a toast [#5372](https://github.com/Automattic/pocket-casts-ios/pull/5372)
 - Fix the Account button and stats on the Profile tab wrapping mid-word when iPhone Duo is unfolded in portrait. The header now stacks vertically when it's too narrow for one row [#5414](https://github.com/Automattic/pocket-casts-ios/pull/5414)
+- Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
 
 8.22
 -----

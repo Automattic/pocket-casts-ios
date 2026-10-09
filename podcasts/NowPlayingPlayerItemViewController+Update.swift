@@ -8,6 +8,7 @@ extension NowPlayingPlayerItemViewController {
     func addObservers() {
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.episodeDurationChanged, selector: #selector(progressUpdated))
+        addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackChanged))
@@ -181,7 +182,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {
-        let remaining = max(0, duration - upTo)
+        let remaining = max(0, duration - upTo - PlaybackManager.shared.deselectedChapterDuration(after: upTo))
         updateTimeLabels(upTo: upTo, remaining: remaining)
         updateChapterInfoWithChapters(PlaybackManager.shared.chaptersForTime(time: upTo))
 

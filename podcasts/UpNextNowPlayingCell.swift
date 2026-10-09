@@ -66,6 +66,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.chapterSelectionChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
@@ -116,7 +117,7 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         guard duration > 0, currentTime.isFinite else { return }
 
-        let remaining = duration - currentTime
+        let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
         timeRemainingLabel.text = L10n.queueTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining))
 
         let percentageLapsed = CGFloat(currentTime / duration)

@@ -188,6 +188,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimeRemainingLabel), name: Constants.Notifications.playbackProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTimeRemainingLabel), name: Constants.Notifications.chapterSelectionChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidBegin), name: .tableViewReorderWillBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidEnd), name: .tableViewReorderDidEnd, object: nil)
@@ -408,7 +409,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func updateTimeRemainingLabel() {
         var totalDuration = PlaybackManager.shared.queue.upNextTotalDuration(includePlayingEpisode: false)
         if let episode = PlaybackManager.shared.currentEpisode {
-            totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
+            let currentTime = PlaybackManager.shared.currentTime()
+            totalDuration += episode.duration.seconds - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime)
         }
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
         let count = PlaybackManager.shared.queue.upNextCount()
