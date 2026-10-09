@@ -8,6 +8,7 @@ extension NowPlayingPlayerItemViewController {
     func addObservers() {
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.episodeDurationChanged, selector: #selector(progressUpdated))
+        addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackChanged))

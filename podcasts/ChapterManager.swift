@@ -223,12 +223,21 @@ class ChapterManager {
         // The App Clip treats every chapter as unplayable, so it has nothing to subtract.
         return 0
         #else
-        return visibleChapters
+        let ranges = visibleChapters
             .filter { !$0.isPlayable() }
-            .reduce(0) { total, chapter in
-                let chapterEnd = chapter.startTime.seconds + chapter.duration
-                return total + max(0, chapterEnd - max(time, chapter.startTime.seconds))
-            }
+            .map { (start: max(time, $0.startTime.seconds), end: $0.startTime.seconds + $0.duration) }
+            .filter { $0.end > $0.start }
+            .sorted { $0.start < $1.start }
+
+        // Chapters can overlap, so count time shared by deselected chapters once.
+        var total: TimeInterval = 0
+        var coveredUntil = time
+        for range in ranges where range.end > max(range.start, coveredUntil) {
+            total += range.end - max(range.start, coveredUntil)
+            coveredUntil = range.end
+        }
+
+        return total
         #endif
     }
 
