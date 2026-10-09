@@ -18,6 +18,7 @@
 - Fix the Profile tab reading "Last refresh: in 0 seconds" right after refreshing. It now reads "now" [#5362](https://github.com/Automattic/pocket-casts-ios/pull/5362)
 - Fix the unplayed episode badge showing "99" instead of "99+" for podcasts and folders with more than 99 unplayed episodes [#5364](https://github.com/Automattic/pocket-casts-ios/pull/5364)
 - Fix the tab bar and mini player staying hidden after leaving a multi-select screen without cancelling it, such as when tapping View in the "added to playlist" toast. Add to Playlist now also exits multi-select when you tap Done [#5081](https://github.com/Automattic/pocket-casts-ios/pull/5081)
+- Update toasts to use a rounded Liquid Glass background on iOS 26 and later [#5385](https://github.com/Automattic/pocket-casts-ios/pull/5385)
 - Fix the podcast page episode count not updating while searching episodes [#5363](https://github.com/Automattic/pocket-casts-ios/pull/5363)
 - Remove the bouncing animation from the mini player play/pause button [#5379](https://github.com/Automattic/pocket-casts-ios/pull/5379)
 - Fix the Cast button sitting against the edge of the top bar buttons on the podcast page on iOS 26 [#5383](https://github.com/Automattic/pocket-casts-ios/pull/5383)

@@ -75,6 +75,7 @@ private class ToastWindow: UIWindow {
         rootViewController = controller
         windowLevel = .alert
         backgroundColor = .clear
+        applyInterfaceStyleForActiveTheme()
     }
 
     // MARK: - Overridden
