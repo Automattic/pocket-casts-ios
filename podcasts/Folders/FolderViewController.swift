@@ -254,14 +254,13 @@ class FolderViewController: PCViewController {
 
         mainGrid.reloadData()
 
-        let shouldShowEmpty = podcasts.isEmpty
-        refreshContentUnavailable(shouldShow: shouldShowEmpty)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
 
-    private func refreshContentUnavailable(shouldShow: Bool) {
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         var config: UIContentConfiguration?
 
-        if shouldShow {
+        if podcasts.isEmpty {
             let title = L10n.folderEmptyTitle
             let message = L10n.folderEmptyDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("folder-empty") }, actions: [
