@@ -55,6 +55,26 @@ final class DiscoverServerHandlerCacheTests: XCTestCase {
         XCTAssertEqual(cachedTitle(), "Fresh")
     }
 
+    func testAnExpiredSignedInListCountsOnlyForTheAccountThatLoadedIt() {
+        let previousUserID = ServerSettings.userId
+        defer { ServerSettings.userId = previousUserID }
+
+        storeList(title: "Cached", fetched: Date(timeIntervalSinceNow: -2 * 60 * 60), userID: "account-a")
+        let item = DiscoverItem(source: path, regions: ["us"], authenticated: true)
+
+        ServerSettings.userId = "account-a"
+        XCTAssertTrue(handler.hasCachedContent(for: item))
+
+        ServerSettings.userId = "account-b"
+        XCTAssertFalse(handler.hasCachedContent(for: item), "Another account's recommendations are never shown")
+    }
+
+    func testAnExpiredListCountsForEveryAccount() {
+        storeList(title: "Cached", fetched: Date(timeIntervalSinceNow: -2 * 60 * 60))
+
+        XCTAssertTrue(handler.hasCachedContent(for: DiscoverItem(source: path, regions: ["us"])))
+    }
+
     // MARK: - Helpers
 
     private func listJSON(title: String) -> Data {
@@ -70,9 +90,11 @@ final class DiscoverServerHandlerCacheTests: XCTestCase {
         return HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: headers)!
     }
 
-    private func storeList(title: String, fetched: Date) {
+    private func storeList(title: String, fetched: Date, userID: String? = nil) {
         let url = ServerHelper.asUrl(path)
-        cache.storeCachedResponse(CachedURLResponse(response: response(url: url, date: fetched), data: listJSON(title: title)), for: URLRequest(url: url))
+        let userInfo = userID.map { [DiscoverServerHandler.userIDKey: $0] }
+        let cachedResponse = CachedURLResponse(response: response(url: url, date: fetched), data: listJSON(title: title), userInfo: userInfo, storagePolicy: .allowed)
+        cache.storeCachedResponse(cachedResponse, for: URLRequest(url: url))
     }
 
     private func respond(withListTitled title: String) {

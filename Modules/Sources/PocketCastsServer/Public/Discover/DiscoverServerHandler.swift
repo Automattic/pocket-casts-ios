@@ -35,6 +35,8 @@ public class DiscoverServerHandler: DiscoverServerHandling {
 
     private let urlSession: URLSession
 
+    static let userIDKey = "userID"
+
     init(urlSession: URLSession = .shared, discoveryCache: URLCache? = nil) {
         self.urlSession = urlSession
         if let discoveryCache {
@@ -181,6 +183,24 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
+    /// Whether `item` has a cached response to show, even an expired one.
+    /// A signed-in item's response only counts for the account that loaded it.
+    public func hasCachedContent(for item: DiscoverItem) -> Bool {
+        guard let source = item.source else { return false }
+        return expiredResponse(for: URLRequest(url: ServerHelper.asUrl(source)), authenticated: item.authenticated) != nil
+    }
+
+    private func expiredResponse(for request: URLRequest, authenticated: Bool?) -> CachedURLResponse? {
+        guard let cachedResponse = discoveryCache.cachedResponse(for: request) else { return nil }
+        guard authenticated == true else { return cachedResponse }
+        guard let userID = ServerSettings.userId,
+              cachedResponse.userInfo?[Self.userIDKey] as? String == userID,
+              (cachedResponse.response as? HTTPURLResponse)?.statusCode == 200 else {
+            return nil
+        }
+        return cachedResponse
+    }
+
     public func cachedResponse(for path: String) -> CachedURLResponse? {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
@@ -221,6 +241,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         data: Data,
         response: URLResponse,
         cacheRequest: URLRequest,
+        authenticated: Bool?,
         useCache: Bool,
         type: T.Type
     ) -> T? where T: Decodable {
@@ -231,7 +252,8 @@ public class DiscoverServerHandler: DiscoverServerHandling {
             return nil
         }
         if useCache {
-            let responseToCache = CachedURLResponse(response: response, data: data)
+            let userInfo = authenticated == true ? [Self.userIDKey: ServerSettings.userId ?? ""] : nil
+            let responseToCache = CachedURLResponse(response: response, data: data, userInfo: userInfo, storagePolicy: .allowed)
             discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
         }
         return decoded
@@ -252,12 +274,11 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
-        if authenticated != true,
-           cachedResponse(for: path) == nil,
-           let expiredResponse = discoveryCache.cachedResponse(for: request),
+        if cachedResponse(for: path) == nil,
+           let expiredResponse = expiredResponse(for: request, authenticated: authenticated),
            let decoded = decode(type, from: expiredResponse.data) {
             completion(decoded, true)
-            refresh(path: path, request: request, type: type)
+            refresh(path: path, request: request, authenticated: authenticated, type: type)
             return
         }
 
@@ -276,6 +297,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 data: data,
                 response: response,
                 cacheRequest: request,
+                authenticated: authenticated,
                 useCache: true,
                 type: type
             )
@@ -283,10 +305,10 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
-    private func refresh<T>(path: String, request: URLRequest, type: T.Type) where T: Decodable {
-        performDiscoverRequest(path: path, authenticated: nil) { [weak self] data, response, error, _ in
+    private func refresh<T>(path: String, request: URLRequest, authenticated: Bool?, type: T.Type) where T: Decodable {
+        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, _ in
             guard let self, let data, let response, error == nil else { return }
-            _ = self.decodeDiscoverResponse(data: data, response: response, cacheRequest: request, useCache: true, type: type)
+            _ = self.decodeDiscoverResponse(data: data, response: response, cacheRequest: request, authenticated: authenticated, useCache: true, type: type)
         }
     }
 }
