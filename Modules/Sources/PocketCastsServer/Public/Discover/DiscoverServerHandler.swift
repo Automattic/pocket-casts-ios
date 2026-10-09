@@ -33,6 +33,15 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         return cache
     }()
 
+    private let urlSession: URLSession
+
+    init(urlSession: URLSession = .shared, discoveryCache: URLCache? = nil) {
+        self.urlSession = urlSession
+        if let discoveryCache {
+            self.discoveryCache = discoveryCache
+        }
+    }
+
     /// Valid image sizes: 130,140,200,210,280,340,400,420,680,960
     public class func thumbnailUrlString(forPodcast podcast: String, size: Int) -> String {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
@@ -202,7 +211,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 completion(data, response, error, false)
             }
         } else {
-            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            urlSession.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error, false)
             }).resume()
         }
@@ -215,22 +224,23 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         useCache: Bool,
         type: T.Type
     ) -> T? where T: Decodable {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-
-        do {
-            let decoded = try decoder.decode(type, from: data)
-            if useCache {
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
-            }
-            return decoded
-        } catch {
+        guard let decoded = decode(type, from: data) else {
             if useCache {
                 discoveryCache.removeCachedResponse(for: cacheRequest)
             }
             return nil
         }
+        if useCache {
+            let responseToCache = CachedURLResponse(response: response, data: data)
+            discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
+        }
+        return decoded
+    }
+
+    private func decode<T>(_ type: T.Type, from data: Data) -> T? where T: Decodable {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try? decoder.decode(type, from: data)
     }
 
     func discoverRequest<T>(
@@ -241,6 +251,15 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     ) where T: Decodable {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
+
+        if authenticated != true,
+           cachedResponse(for: path) == nil,
+           let expiredResponse = discoveryCache.cachedResponse(for: request),
+           let decoded = decode(type, from: expiredResponse.data) {
+            completion(decoded, true)
+            refresh(path: path, request: request, type: type)
+            return
+        }
 
         performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, useCache in
             guard
@@ -261,6 +280,13 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 type: type
             )
             completion(decoded, useCache)
+        }
+    }
+
+    private func refresh<T>(path: String, request: URLRequest, type: T.Type) where T: Decodable {
+        performDiscoverRequest(path: path, authenticated: nil) { [weak self] data, response, error, _ in
+            guard let self, let data, let response, error == nil else { return }
+            _ = self.decodeDiscoverResponse(data: data, response: response, cacheRequest: request, useCache: true, type: type)
         }
     }
 }
