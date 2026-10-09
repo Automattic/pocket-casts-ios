@@ -199,6 +199,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
 
         self.category = category
+        lists = []
 
         let dispatchGroup = DispatchGroup()
 

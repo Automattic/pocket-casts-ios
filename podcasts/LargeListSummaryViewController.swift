@@ -174,8 +174,10 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     // MARK: - Populate From Data
 
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
-        podcasts = []
-        collectionView.reloadData()
+        if item != self.item {
+            podcasts = []
+            collectionView.reloadData()
+        }
 
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
@@ -201,7 +203,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
                 guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
-                strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.setPodcasts(discoverPodcast, item: item)
                 strongSelf.datetime = podcastCollection?.datetime
 
                 DispatchQueue.main.async {
@@ -215,7 +217,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
                 guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-                strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.setPodcasts(discoverPodcast, item: item)
                 strongSelf.datetime = podcastList?.datetime
 
                 DispatchQueue.main.async {
@@ -226,7 +228,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         }
     }
 
-    private func appendPodcasts(_ discoverPodcast: [DiscoverPodcast], item: DiscoverItem) {
+    private func setPodcasts(_ discoverPodcast: [DiscoverPodcast], item: DiscoverItem) {
         let podcasts: [DiscoverPodcast]
         if let itemCount = item.summaryItemCount {
             podcasts = Array(discoverPodcast[0..<itemCount])
@@ -234,9 +236,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             podcasts = discoverPodcast
         }
 
-        for podcast in podcasts {
-            self.podcasts.append(podcast)
-        }
+        self.podcasts = podcasts
     }
 
     // MARK: - IBActions

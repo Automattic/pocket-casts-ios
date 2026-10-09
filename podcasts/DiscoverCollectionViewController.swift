@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsServer
 import SwiftUI
 import PocketCastsUtils
@@ -25,6 +26,7 @@ class DiscoverCollectionViewController: PCViewController {
     private(set) var discoverLayout: DiscoverLayout?
     fileprivate var selectedCategory: DiscoverCategory?
     private var loadingTasks: [String: Task<Void, Never>] = [:]
+    private var layoutRefreshObservation: AnyCancellable?
 
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
@@ -57,6 +59,7 @@ class DiscoverCollectionViewController: PCViewController {
 
         setupMiniPlayerObservers()
         setupLoginObserver()
+        setupLayoutRefreshObserver()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -129,7 +132,7 @@ class DiscoverCollectionViewController: PCViewController {
                 let selectedCategory = item.cellType() != .categoriesSelector ? selectedCategory : nil
 
                 if itemFilter(item) && item.regions.contains(currentRegion) {
-                    if item.authenticated == true, let uuid = item.uuid {
+                    if item.authenticated == true, let uuid = item.uuid, !DiscoverServerHandler.shared.hasCachedContent(for: item) {
                         snapshot.appendItems([.loading(uuid)])
                         loadingTasks[uuid] = Task { [weak self] in
                             guard let self, !Task.isCancelled else { return }
@@ -344,6 +347,28 @@ extension DiscoverCollectionViewController {
         let miniPlayerOffset = Constants.effectiveMiniPlayerOffset
         collectionView.contentInset = UIEdgeInsets(top: PCSearchBarController.defaultHeight, left: 0, bottom: miniPlayerOffset, right: 0)
         collectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
+    }
+}
+
+// MARK: - Layout Refresh
+extension DiscoverCollectionViewController {
+    /// The cached layout is shown while it refreshes. Once the new one arrives, show it if it differs.
+    fileprivate func setupLayoutRefreshObserver() {
+        let handler = DiscoverServerHandler.shared
+        var lastRefreshed = handler.refreshStatus(ofPage: .discover).lastRefreshed
+
+        layoutRefreshObservation = handler.refreshChanges.sink { [weak self] in
+            let status = handler.refreshStatus(ofPage: .discover)
+            guard !status.isRefreshing, status.lastRefreshed != lastRefreshed else { return }
+            lastRefreshed = status.lastRefreshed
+
+            handler.discoverPage { discoverLayout, _ in
+                DispatchQueue.main.async {
+                    guard let self, let discoverLayout, discoverLayout.layout != self.discoverLayout?.layout else { return }
+                    self.populateFrom(discoverLayout: discoverLayout)
+                }
+            }
+        }
     }
 }
 

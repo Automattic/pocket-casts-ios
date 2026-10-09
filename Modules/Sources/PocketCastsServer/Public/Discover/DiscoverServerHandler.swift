@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import os
 import PocketCastsUtils
 
 /// The Discover network calls, behind a protocol so callers can be handed canned data.
@@ -32,6 +33,25 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         let cache = URLCache(memoryCapacity: 1024 * 1024, diskCapacity: 5 * 1024 * 1024, diskPath: "discovery")
         return cache
     }()
+
+    private let urlSession: URLSession
+
+    struct RefreshState {
+        var refreshing: Set<URL> = []
+        var refreshed: [URL: Date] = [:]
+    }
+
+    let refreshState = OSAllocatedUnfairLock(initialState: RefreshState())
+    let refreshChangesSubject = PassthroughSubject<Void, Never>()
+
+    static let userIDKey = "userID"
+
+    init(urlSession: URLSession = .shared, discoveryCache: URLCache? = nil) {
+        self.urlSession = urlSession
+        if let discoveryCache {
+            self.discoveryCache = discoveryCache
+        }
+    }
 
     /// Valid image sizes: 130,140,200,210,280,340,400,420,680,960
     public class func thumbnailUrlString(forPodcast podcast: String, size: Int) -> String {
@@ -172,12 +192,33 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
+    /// Whether `item` has a cached response to show, even an expired one.
+    /// A signed-in item's response only counts for the account that loaded it.
+    public func hasCachedContent(for item: DiscoverItem) -> Bool {
+        guard let source = item.source else { return false }
+        return expiredResponse(for: URLRequest(url: ServerHelper.asUrl(source)), authenticated: item.authenticated) != nil
+    }
+
+    private func expiredResponse(for request: URLRequest, authenticated: Bool?) -> CachedURLResponse? {
+        guard let cachedResponse = discoveryCache.cachedResponse(for: request),
+              authenticated != true || belongsToCurrentAccount(cachedResponse) else {
+            return nil
+        }
+        return cachedResponse
+    }
+
+    private func belongsToCurrentAccount(_ cachedResponse: CachedURLResponse) -> Bool {
+        guard let userID = ServerSettings.userId else { return false }
+        return cachedResponse.userInfo?[Self.userIDKey] as? String == userID
+            && (cachedResponse.response as? HTTPURLResponse)?.statusCode == 200
+    }
+
     public func cachedResponse(for path: String) -> CachedURLResponse? {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
         if let cachedResponse = discoveryCache.cachedResponse(for: request),
            let expiryDate = cachedResponse.response.cacheExpiryDate(),
-           expiryDate.timeIntervalSinceNow > 0 {
+           expiryDate.timeIntervalSinceNow > 0 || refreshedRecently(url) {
             return cachedResponse
         }
         return nil
@@ -192,7 +233,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         var request = URLRequest(url: url)
         request.addLocalizationHeaders()
 
-        if let cachedResponse = cachedResponse(for: path) {
+        if let cachedResponse = cachedResponse(for: path), authenticated != true || belongsToCurrentAccount(cachedResponse) {
             completion(cachedResponse.data, cachedResponse.response, nil, true)
             return
         }
@@ -202,7 +243,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 completion(data, response, error, false)
             }
         } else {
-            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            urlSession.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error, false)
             }).resume()
         }
@@ -212,25 +253,28 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         data: Data,
         response: URLResponse,
         cacheRequest: URLRequest,
+        authenticated: Bool?,
         useCache: Bool,
         type: T.Type
     ) -> T? where T: Decodable {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-
-        do {
-            let decoded = try decoder.decode(type, from: data)
-            if useCache {
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
-            }
-            return decoded
-        } catch {
+        guard let decoded = decode(type, from: data) else {
             if useCache {
                 discoveryCache.removeCachedResponse(for: cacheRequest)
             }
             return nil
         }
+        if useCache {
+            let userInfo = authenticated == true ? [Self.userIDKey: ServerSettings.userId ?? ""] : nil
+            let responseToCache = CachedURLResponse(response: response, data: data, userInfo: userInfo, storagePolicy: .allowed)
+            discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
+        }
+        return decoded
+    }
+
+    private func decode<T>(_ type: T.Type, from data: Data) -> T? where T: Decodable {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try? decoder.decode(type, from: data)
     }
 
     func discoverRequest<T>(
@@ -241,6 +285,14 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     ) where T: Decodable {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
+
+        if cachedResponse(for: path) == nil,
+           let expiredResponse = expiredResponse(for: request, authenticated: authenticated),
+           let decoded = decode(type, from: expiredResponse.data) {
+            completion(decoded, true)
+            refresh(path: path, request: request, authenticated: authenticated, type: type)
+            return
+        }
 
         performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, useCache in
             guard
@@ -257,10 +309,83 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 data: data,
                 response: response,
                 cacheRequest: request,
+                authenticated: authenticated,
                 useCache: true,
                 type: type
             )
             completion(decoded, useCache)
         }
+    }
+
+    private func refresh<T>(path: String, request: URLRequest, authenticated: Bool?, type: T.Type) where T: Decodable {
+        guard let url = request.url, beginRefresh(of: url) else { return }
+
+        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, _ in
+            guard let self else { return }
+            var updated = false
+            if let data, let response, error == nil {
+                updated = self.decodeDiscoverResponse(data: data, response: response, cacheRequest: request, authenticated: authenticated, useCache: true, type: type) != nil
+            }
+            self.endRefresh(of: url, updated: updated)
+        }
+    }
+}
+
+// MARK: - Background refresh
+
+public extension DiscoverServerHandler {
+    /// Whether a source is being refreshed in the background, and when one of them last finished refreshing.
+    struct RefreshStatus: Equatable {
+        public var isRefreshing: Bool
+        public var lastRefreshed: Date?
+    }
+}
+
+extension DiscoverServerHandler {
+    /// How long a list that was just refreshed counts as fresh, even if its response says it has already expired.
+    private static let recentRefreshInterval: TimeInterval = 60
+
+    /// Sends after a source starts or finishes a background refresh. Delivered on the main queue.
+    public var refreshChanges: AnyPublisher<Void, Never> {
+        refreshChangesSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
+    }
+
+    /// The combined refresh state of `sources`, as the paths the lists were requested with.
+    public func refreshStatus(of sources: [String]) -> RefreshStatus {
+        let urls = sources.compactMap { URL(string: $0) }
+        return refreshState.withLock { state in
+            RefreshStatus(
+                isRefreshing: urls.contains { state.refreshing.contains($0) },
+                lastRefreshed: urls.compactMap { state.refreshed[$0] }.max()
+            )
+        }
+    }
+
+    /// The refresh state of the Discover page layout.
+    public func refreshStatus(ofPage type: DiscoverType = .discover) -> RefreshStatus {
+        refreshStatus(of: [ServerConstants.Urls.discover() + type.path])
+    }
+
+    private func beginRefresh(of url: URL) -> Bool {
+        let started = refreshState.withLock { $0.refreshing.insert(url).inserted }
+        if started {
+            refreshChangesSubject.send()
+        }
+        return started
+    }
+
+    private func endRefresh(of url: URL, updated: Bool) {
+        refreshState.withLock { state in
+            state.refreshing.remove(url)
+            if updated {
+                state.refreshed[url] = Date()
+            }
+        }
+        refreshChangesSubject.send()
+    }
+
+    private func refreshedRecently(_ url: URL) -> Bool {
+        guard let refreshed = refreshState.withLock({ $0.refreshed[url] }) else { return false }
+        return -refreshed.timeIntervalSinceNow < Self.recentRefreshInterval
     }
 }

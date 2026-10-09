@@ -103,8 +103,8 @@ enum DiscoverCellType: CaseIterable {
         }
     }
 
-    func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
-        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, _, item in
+    func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<DiscoverCell, ItemType> {
+        return UICollectionView.CellRegistration<DiscoverCell, ItemType> { cell, _, item in
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 
@@ -119,6 +119,11 @@ enum DiscoverCellType: CaseIterable {
             }
 
             vc.registerDiscoverDelegate(delegate)
+
+            let sources = item.refreshableSources(replacingRegionCode: delegate.replaceRegionCode)
+            cell.observeRefresh(of: sources) { [weak vc] in
+                vc?.populateFrom(item: item.model.item, region: item.model.region, category: item.model.selectedCategory)
+            }
         }
     }
 }
