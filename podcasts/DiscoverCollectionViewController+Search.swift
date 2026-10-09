@@ -23,17 +23,9 @@ extension DiscoverCollectionViewController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = dataSource.itemIdentifier(for: indexPath)
-
-        switch item {
-        case .item(let item):
-            let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? DiscoverSummaryProtocol & UIViewController
-            viewController?.populateFrom(item: item.model.item, region: item.model.region, category: item.model.selectedCategory)
-            viewController?.beginAppearanceTransition(true, animated: false)
-            viewController?.endAppearanceTransition()
-        default:
-            ()
-        }
+        let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController
+        viewController?.beginAppearanceTransition(true, animated: false)
+        viewController?.endAppearanceTransition()
     }
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

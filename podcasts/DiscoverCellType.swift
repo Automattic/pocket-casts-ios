@@ -119,6 +119,7 @@ enum DiscoverCellType: CaseIterable {
             }
 
             vc.registerDiscoverDelegate(delegate)
+            vc.populateFrom(item: item.model.item, region: item.model.region, category: item.model.selectedCategory)
         }
     }
 }
