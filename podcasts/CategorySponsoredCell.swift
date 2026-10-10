@@ -57,6 +57,7 @@ class CategorySponsoredCell: ThemeableCell {
         self.discoverPromotion = discoverPromotion
 
         podcastTitle.text = discoverPromotion.title
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPromotion.title)
         descriptionLabel.text = discoverPromotion.description
         descriptionLabel.setLineSpacing(lineSpacing: 1, lineHeightMultiple: 1.2)
         descriptionLabel.sizeToFit()

@@ -122,6 +122,7 @@ class DiscoverFeaturedView: ThemeableView {
                 podcastTitle.accessibilityLabel = nil
             }
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
 
         if let author = discoverPodcast.author {
             podcastAuthor.text = author
@@ -142,6 +143,7 @@ class DiscoverFeaturedView: ThemeableView {
         if let title = discoverPodcast.title?.localized {
             podcastTitle.text = title
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
 
         if let author = discoverPodcast.author {
             podcastAuthor.text = author

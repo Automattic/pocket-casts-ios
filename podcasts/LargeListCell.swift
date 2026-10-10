@@ -111,6 +111,7 @@ class LargeListCell: ThemeableCollectionCell {
         if let uuid = discoverPodcast.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .grid)
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
         subscribeButton.currentlyOn = isSubscribed
         subscribeButton.tintColor = ThemeColor.contrast01()
         subscribeButton.backgroundColor = ThemeColor.veil()

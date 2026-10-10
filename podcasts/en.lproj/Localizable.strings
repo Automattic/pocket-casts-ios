@@ -13,6 +13,12 @@
 /* A common string used throughout the app. Accessibility hint to inform that the control dismisses the current window. */
 "accessibility_dismiss" = "Dismiss";
 
+/* Accessibility label for the button that follows a podcast, used in lists where several podcasts each have a Follow button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_follow_podcast" = "Follow %1$@";
+
+/* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_unfollow_podcast" = "Unfollow %1$@";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 

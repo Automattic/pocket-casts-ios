@@ -83,6 +83,8 @@ class DiscoverPodcastTableCell: ThemeableCell {
             podcastTitle.accessibilityLabel = nil
         }
 
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: title)
+
         podcastAuthor.text = discoverPodcast.author
         itemNumber.text = (number > 0) ? String(number) : nil
         itemNumber.textColor = ThemeColor.primaryIcon01()
