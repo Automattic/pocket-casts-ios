@@ -290,14 +290,15 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let destArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
-        // The full-player artwork only lives on the Now Playing tab — on the
+        // The full-player artwork only lives on the Now Playing tab (unless
+        // the tabs are next to it on a large screen) — on the
         // other tabs `nowPlayingItem` is scrolled horizontally off-screen
         // inside `mainScrollView`, so morphing an artwork view back to the
         // mini player would slide it across the screen from nowhere visible.
         // Skip the morph entirely in that case and let the mini snapshot's
         // own artwork appear in place instead. Video podcasts also skip the
         // morph because `episodeImage` is hidden behind the floating video.
-        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoShown
+        let shouldMorphArtwork = fromVC.isNowPlayingVisible && !isVideoShown
         let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
@@ -584,12 +585,16 @@ extension PlayerContainerViewController {
     /// header's frame.
     fileprivate func setPlayerHeaderHidden(_ hidden: Bool, animated: Bool, delay: TimeInterval = 0) {
         let target: CGFloat = hidden ? 0 : 1
+        var headerViews: [UIView] = [headerView]
+        if #available(iOS 27.1, *) {
+            headerViews += largeScreenHeaderViews
+        }
         guard animated else {
-            headerView.alpha = target
+            headerViews.forEach { $0.alpha = target }
             return
         }
         UIView.animate(withDuration: 0.25, delay: delay, options: [.curveEaseInOut]) {
-            self.headerView.alpha = target
+            headerViews.forEach { $0.alpha = target }
         }
     }
 }

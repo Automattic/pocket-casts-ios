@@ -275,6 +275,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
 
         setUpArtworkImageView()
+        letTitleInfoGrow()
+        limitShelfWidth()
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -340,6 +342,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    /// Selects the transcript tab when it's next to Now Playing, and covers Now Playing with
+    /// the transcript otherwise.
+    func openTranscript() {
+        if playerContainer?.showTranscriptTab() == true {
+            return
+        }
+        displayTranscript = true
+    }
+
     private func loadBannerAd() {
 #if !APPCLIP
         if SubscriptionHelper.shouldDisplayPlayerBannerAd {
@@ -361,8 +372,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #endif
     }
 
+    /// The parent, or, in the large screen layout, the parent of the pane it's shown in.
     private var playerContainer: PlayerContainerViewController? {
-        parent as? PlayerContainerViewController
+        var ancestor = parent
+        while let controller = ancestor {
+            if let playerContainer = controller as? PlayerContainerViewController {
+                return playerContainer
+            }
+            ancestor = controller.parent
+        }
+        return nil
     }
 
     override func viewDidLayoutSubviews() {
@@ -372,6 +391,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             // Render the shelf as a proper pill instead of the default rounded rectangle.
             shelfBg.layer.cornerRadius = shelfBg.bounds.height / 2
         }
+
+        updateShelfSpacing()
 
         // there's some expensive operations in resizeControls,
         // so only do them if the bounds has actually changed
@@ -411,6 +432,61 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
+    }
+
+    /// Lets the episode title and podcast name in the large screen player take the room they need
+    /// at large text sizes, with some space around them, instead of overflowing their fixed height
+    /// into the artwork and the scrubber.
+    private func letTitleInfoGrow() {
+        guard usesLargeScreenStyle,
+              let titleInfoView = episodeInfoView.superview,
+              let titleView = episodeInfoView.subviews.first,
+              let fixedHeight = titleInfoView.constraints.first(where: { $0.firstItem === titleInfoView && $0.firstAttribute == .height && $0.secondItem == nil }) else { return }
+
+        let preferredHeight = titleInfoView.heightAnchor.constraint(equalToConstant: fixedHeight.constant)
+        preferredHeight.priority = .defaultHigh - 1
+        fixedHeight.isActive = false
+        NSLayoutConstraint.activate([
+            preferredHeight,
+            titleInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: fixedHeight.constant),
+            titleView.topAnchor.constraint(greaterThanOrEqualTo: episodeInfoView.topAnchor, constant: 12)
+        ])
+    }
+
+    /// Keeps the shelf in the large screen player from stretching across a wide Now Playing, as
+    /// on iPad, by letting it be narrower than the edges it's pinned to. It stays centered.
+    private func limitShelfWidth() {
+        guard usesLargeScreenStyle,
+              let shelfStackView = shelfBg.superview,
+              let leading = shelfStackView.constraints.first(where: { $0.firstItem === shelfBg && $0.firstAttribute == .leading && $0.secondAttribute == .leadingMargin }),
+              let trailing = shelfStackView.constraints.first(where: { $0.secondItem === shelfBg && $0.secondAttribute == .trailing && $0.firstAttribute == .trailingMargin }) else { return }
+
+        let preferredWidth = shelfBg.widthAnchor.constraint(equalToConstant: 440)
+        preferredWidth.priority = .defaultHigh
+        NSLayoutConstraint.deactivate([leading, trailing])
+        NSLayoutConstraint.activate([
+            shelfBg.leadingAnchor.constraint(greaterThanOrEqualTo: shelfStackView.layoutMarginsGuide.leadingAnchor, constant: leading.constant),
+            shelfStackView.layoutMarginsGuide.trailingAnchor.constraint(greaterThanOrEqualTo: shelfBg.trailingAnchor, constant: trailing.constant),
+            preferredWidth
+        ])
+    }
+
+    /// Gives each shelf button the same space on both sides in the large screen player, where the
+    /// shelf is wide, instead of pushing the first and last ones to its edges.
+    private func updateShelfSpacing() {
+        guard usesLargeScreenStyle else { return }
+
+        let buttons = playerControlsStackView.arrangedSubviews.filter { !$0.isHidden }
+        guard !buttons.isEmpty, shelfBg.bounds.width > 0 else { return }
+
+        let buttonsWidth = CGFloat(buttons.count) * shelfIconSize
+        let shelfInset = (shelfBg.bounds.width - playerControlsStackView.bounds.width) / 2
+        let buttonInset = (shelfBg.bounds.width - buttonsWidth) / CGFloat(2 * buttons.count)
+        let margin = max(0, buttonInset - shelfInset)
+        guard playerControlsStackView.directionalLayoutMargins.leading != margin else { return }
+
+        playerControlsStackView.isLayoutMarginsRelativeArrangement = true
+        playerControlsStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: margin, bottom: 0, trailing: margin)
     }
 
     private var artworkCornerRadius: CGFloat {
@@ -700,8 +776,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func toggleTranscript() {
         let isShowing = displayTranscript
 
-        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        let transitionBackground = usesLargeScreenStyle ? PlayerColorHelper.playerBackgroundColor01() : view.backgroundColor
+        skipBackBtn.prepareForAnimateTransition(withBackground: transitionBackground)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: transitionBackground)
         playPauseBtn.prepareForAnimateTransition()
 
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1

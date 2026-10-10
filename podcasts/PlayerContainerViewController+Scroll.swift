@@ -10,6 +10,11 @@ extension PlayerContainerViewController: UIScrollViewDelegate {
             let currentTab = Int(round(xOffset / scrollView.bounds.width))
             if currentTab == tabsView.currentTab { return }
             tabsView.currentTab = currentTab
+            #if !APPCLIP
+            if #available(iOS 27.1, *) {
+                rememberLargeScreenTab()
+            }
+            #endif
 
             adjustPlayerNoSlidingRegion()
         } else {

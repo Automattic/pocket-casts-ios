@@ -36,6 +36,10 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     override func willBeAddedToPlayer() {
+        if usesLargeScreenStyle {
+            additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        }
+        header.usesLargeScreenStyle = usesLargeScreenStyle
         updateColors()
         header.update()
         addObservers()
@@ -90,9 +94,22 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        let backgroundColor = usesLargeScreenStyle ? .clear : PlayerColorHelper.playerBackgroundColor01()
+        view.backgroundColor = backgroundColor
+        chaptersTable.backgroundColor = backgroundColor
+        updateHeaderColor()
+    }
+
+    /// The header sticks to the top, so it's filled to hide the chapters under it. Over the large
+    /// screen player background, it's only filled once there are chapters to hide.
+    func updateHeaderColor() {
+        let color = PlayerColorHelper.playerBackgroundColor01()
+        guard usesLargeScreenStyle else {
+            header.backgroundColor = color
+            return
+        }
+        let scrolledDistance = chaptersTable.contentOffset.y + chaptersTable.adjustedContentInset.top
+        header.backgroundColor = color.withAlphaComponent(min(1, max(0, scrolledDistance / 16)))
     }
 
     func updateSize() {
