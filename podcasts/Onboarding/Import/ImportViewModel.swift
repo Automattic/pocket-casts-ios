@@ -3,7 +3,7 @@ import SwiftUI
 import PocketCastsUtils
 
 class ImportViewModel: OnboardingModel {
-    var navigationController: UINavigationController?
+    weak var navigationController: UINavigationController?
     let availableSources: [ImportSource]
 
     var showSubtitle: Bool = true

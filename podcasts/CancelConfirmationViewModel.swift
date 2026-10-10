@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class CancelConfirmationViewModel: OnboardingModel {
-    let navigationController: UINavigationController
+    weak var navigationController: UINavigationController?
     let expirationDate: String?
     let subscriptionViewModel: CancelSubscriptionViewModel?
 
@@ -27,7 +27,7 @@ class CancelConfirmationViewModel: OnboardingModel {
         } else {
             Analytics.track(.cancelConfirmationStayButtonTapped)
         }
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 
     func cancelTapped() {
@@ -43,7 +43,7 @@ class CancelConfirmationViewModel: OnboardingModel {
             Analytics.track(.cancelConfirmationCancelButtonTapped)
 
             let controller = CancelInfoViewController()
-            navigationController.pushViewController(controller, animated: true)
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
