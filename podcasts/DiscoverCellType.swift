@@ -93,16 +93,6 @@ enum DiscoverCellType: CaseIterable {
         }
     }
 
-    /// The rows whose horizontally scrolling content runs under the horizontal safe area, and which inset the rest of their content themselves.
-    var extendsBeyondHorizontalSafeArea: Bool {
-        switch self {
-        case .categoriesSelector, .featuredSummary, .collectionSummary, .networksList:
-            true
-        default:
-            false
-        }
-    }
-
     func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
         return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, _, item in
 
@@ -111,11 +101,7 @@ enum DiscoverCellType: CaseIterable {
             let vc = existingViewController ?? item.cellType.makeViewController(in: item.model.region)
 
             if existingViewController == nil {
-                cell.contentConfiguration = UIViewControllerContentConfiguration(
-                    parentViewController: parentViewController,
-                    viewController: vc,
-                    extendsBeyondHorizontalSafeArea: item.cellType.extendsBeyondHorizontalSafeArea
-                )
+                cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)
             }
 
             vc.registerDiscoverDelegate(delegate)

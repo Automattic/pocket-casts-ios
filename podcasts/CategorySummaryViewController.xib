@@ -51,14 +51,14 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="WrQ-EP-Fr9" secondAttribute="bottom" id="7hu-Su-2cR"/>
-                <constraint firstItem="WrQ-EP-Fr9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="CwY-3W-85W"/>
+                <constraint firstItem="WrQ-EP-Fr9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="16" id="CwY-3W-85W"/>
                 <constraint firstItem="1pZ-Wk-nlb" firstAttribute="bottom" secondItem="e21-iv-89V" secondAttribute="top" id="CzK-1H-tBG"/>
-                <constraint firstItem="1pZ-Wk-nlb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="gjd-Zc-Dz6"/>
+                <constraint firstItem="1pZ-Wk-nlb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="15" id="gjd-Zc-Dz6"/>
                 <constraint firstItem="e21-iv-89V" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hAf-Gu-otJ"/>
                 <constraint firstItem="1pZ-Wk-nlb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="ndt-XR-CvC"/>
                 <constraint firstAttribute="bottom" secondItem="e21-iv-89V" secondAttribute="bottom" constant="2" id="u2p-G0-Exp"/>
                 <constraint firstAttribute="trailing" secondItem="e21-iv-89V" secondAttribute="trailing" id="uHl-FL-wZP"/>
-                <constraint firstAttribute="trailing" secondItem="WrQ-EP-Fr9" secondAttribute="trailing" constant="16" id="ufW-X2-aVh"/>
+                <constraint firstAttribute="trailingMargin" secondItem="WrQ-EP-Fr9" secondAttribute="trailing" constant="16" id="ufW-X2-aVh"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

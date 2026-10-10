@@ -108,9 +108,9 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="XLj-4B-d8V" firstAttribute="leading" secondItem="Yf6-rN-8KF" secondAttribute="leading" id="IHR-NN-t14"/>
+                <constraint firstItem="XLj-4B-d8V" firstAttribute="leading" secondItem="Yf6-rN-8KF" secondAttribute="leadingMargin" id="IHR-NN-t14"/>
                 <constraint firstItem="XLj-4B-d8V" firstAttribute="top" secondItem="Yf6-rN-8KF" secondAttribute="top" id="WnU-UC-7z1"/>
-                <constraint firstAttribute="trailing" secondItem="XLj-4B-d8V" secondAttribute="trailing" id="raH-Rp-1Jg"/>
+                <constraint firstAttribute="trailingMargin" secondItem="XLj-4B-d8V" secondAttribute="trailing" id="raH-Rp-1Jg"/>
                 <constraint firstAttribute="bottom" secondItem="XLj-4B-d8V" secondAttribute="bottom" id="wMS-JU-hJo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
