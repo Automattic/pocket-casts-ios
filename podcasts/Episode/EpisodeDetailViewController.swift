@@ -235,6 +235,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             self.didDismiss()
         }
 
+        modalPresentationCapturesStatusBarAppearance = true
         presentationController?.delegate = self
 
         // Hide the scroll title if the tabs are visible
@@ -318,6 +319,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 view.layoutIfNeeded()
             }
         }
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
     }
 
     // MARK: - Event Based Updates
