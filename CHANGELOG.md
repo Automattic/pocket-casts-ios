@@ -41,6 +41,7 @@
 - The network header artwork now extends under the navigation bar on iOS 26 [#5066](https://github.com/Automattic/pocket-casts-ios/pull/5066)
 - Fix a crash when resuming some downloaded episodes partway through [#5279](https://github.com/Automattic/pocket-casts-ios/pull/5279)
 - Fix the message on the empty Podcasts tab being cut off after one line [#5176](https://github.com/Automattic/pocket-casts-ios/pull/5176)
+- Fix screens such as Rate Podcast and Cancel Subscription loading forever when the app can't refresh your sign-in [#5288](https://github.com/Automattic/pocket-casts-ios/pull/5288)
 - Fix long episode titles running past the edges of the Now Playing row on the Apple Watch [#5139](https://github.com/Automattic/pocket-casts-ios/pull/5139)
 - Fix VoiceOver reading image names instead of labels for the podcast Follow button, the Cast button, the player's chapter and Effects buttons, the Profile banner's close button, and the notifications permission checkbox [#5178](https://github.com/Automattic/pocket-casts-ios/pull/5178)
 - Fix episode downloads still using the old file link after the podcast replaced it with a new one, which could make the download fail [#5274](https://github.com/Automattic/pocket-casts-ios/pull/5274)
