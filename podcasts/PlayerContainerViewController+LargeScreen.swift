@@ -337,6 +337,7 @@ extension PlayerContainerViewController {
               let transcriptTab = layout.transcriptTab, let transcriptView = transcriptTab.view else { return }
 
         let paywall = GeneratedTranscriptsPremiumOverlay(playbackManager: PlaybackManager.shared)
+        paywall.largeScreenBackground = layout.background
         paywall.view.translatesAutoresizingMaskIntoConstraints = false
         paywall.dismissTranscript = { [weak self] in
             guard let self, let index = self.tabsView.tabs.firstIndex(of: .transcript), index + 1 < self.tabsView.tabs.count else { return }

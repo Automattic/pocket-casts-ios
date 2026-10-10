@@ -8,6 +8,7 @@ final class PlayerArtworkBackgroundView: UIView {
     private let artworkView = UIImageView()
     private let tintView = UIView()
     private var artworkEpisodeUuid: String?
+    private let copies = NSHashTable<PlayerArtworkBackgroundView>.weakObjects()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,18 +37,30 @@ final class PlayerArtworkBackgroundView: UIView {
     }
 
     func update(episode: BaseEpisode?, tintColor: UIColor) {
-        backgroundColor = tintColor
-        tintView.backgroundColor = tintColor.withAlphaComponent(0.7)
+        for view in [self] + copies.allObjects {
+            view.backgroundColor = tintColor
+            view.tintView.backgroundColor = tintColor.withAlphaComponent(0.7)
+        }
 
         if episode?.uuid != artworkEpisodeUuid {
             reloadArtwork(for: episode)
         }
     }
 
+    /// Makes another background show the same artwork and colors as this one from now on.
+    func addCopy(_ copy: PlayerArtworkBackgroundView) {
+        copies.add(copy)
+        copy.backgroundColor = backgroundColor
+        copy.tintView.backgroundColor = tintView.backgroundColor
+        copy.artworkView.image = artworkView.image
+    }
+
     func reloadArtwork(for episode: BaseEpisode?) {
         artworkEpisodeUuid = episode?.uuid
         guard let episode else {
-            artworkView.image = nil
+            for view in [self] + copies.allObjects {
+                view.artworkView.image = nil
+            }
             return
         }
 
@@ -60,8 +73,10 @@ final class PlayerArtworkBackgroundView: UIView {
                 DispatchQueue.main.async {
                     guard let self, self.artworkEpisodeUuid == episodeUuid else { return }
 
-                    UIView.transition(with: self.artworkView, duration: 0.3, options: .transitionCrossDissolve) {
-                        self.artworkView.image = blurredImage
+                    for view in [self] + self.copies.allObjects {
+                        UIView.transition(with: view.artworkView, duration: 0.3, options: .transitionCrossDissolve) {
+                            view.artworkView.image = blurredImage
+                        }
                     }
                 }
             }

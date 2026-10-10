@@ -9,6 +9,19 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     private let playbackManager: TranscriptPlaybackManaging
     let analyticsSource: AnalyticsSource
 
+    /// The large screen player background (`FeatureFlag.largeScreenNowPlaying`). When it's set
+    /// before the view loads, the overlay covers the top of the transcript with a copy of it
+    /// instead of a solid color, so it blends in with the rest of the player.
+    weak var largeScreenBackground: PlayerArtworkBackgroundView?
+
+    private lazy var largeScreenBackgroundCopy = PlayerArtworkBackgroundView()
+
+    private lazy var largeScreenBackgroundMask: CAGradientLayer = {
+        let mask = CAGradientLayer()
+        mask.colors = [UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+        return mask
+    }()
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -169,7 +182,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     }
 
     private func setupView() {
-        view.backgroundColor = showFromEpisode ? .clear : backgroundColor
+        view.backgroundColor = showFromEpisode || largeScreenBackground != nil ? .clear : backgroundColor
 
         view.addSubview(blurEffectView)
         view.addSubview(topGradient)
@@ -178,6 +191,16 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         topSolidView.backgroundColor = showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         topSolidView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(topSolidView)
+
+        if let largeScreenBackground {
+            topSolidView.isHidden = true
+            topGradient.isHidden = true
+            view.clipsToBounds = true
+            largeScreenBackground.addCopy(largeScreenBackgroundCopy)
+            largeScreenBackgroundCopy.layer.mask = largeScreenBackgroundMask
+            view.addSubview(largeScreenBackgroundCopy)
+            scrollView.delegate = self
+        }
 
         if showFromEpisode {
             let overlay = UIView()
@@ -252,6 +275,30 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         let spacing: CGFloat = 10 // padding above + below button
         scrollView.contentInset.bottom = buttonHeight + spacing
         scrollView.verticalScrollIndicatorInsets.bottom = buttonHeight + spacing
+
+        updateLargeScreenBackgroundCopy()
+    }
+
+    /// Lines the copy up with the background it copies, and fades it out under the description
+    /// like the solid color and its gradient do.
+    private func updateLargeScreenBackgroundCopy() {
+        guard let largeScreenBackground else { return }
+
+        scrollView.layoutIfNeeded()
+        let frame = view.convert(largeScreenBackground.bounds, from: largeScreenBackground)
+        let descriptionFrame = view.convert(descriptionLabel.bounds, from: descriptionLabel)
+        guard frame.height > 0 else { return }
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        largeScreenBackgroundCopy.frame = frame
+        largeScreenBackgroundMask.frame = largeScreenBackgroundCopy.bounds
+        largeScreenBackgroundMask.locations = [
+            0,
+            NSNumber(value: (descriptionFrame.minY - frame.minY) / frame.height),
+            NSNumber(value: (descriptionFrame.maxY + 50 - frame.minY) / frame.height)
+        ]
+        CATransaction.commit()
     }
 
     @objc private func closeTapped() {
@@ -282,5 +329,11 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
             return
         }
         Analytics.track(event, properties: ["episode_uuid": episodeUUID, "podcast_uuid": podcastUUID, "source": analyticsSource.rawValue])
+    }
+}
+
+extension GeneratedTranscriptsPremiumOverlay: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateLargeScreenBackgroundCopy()
     }
 }
