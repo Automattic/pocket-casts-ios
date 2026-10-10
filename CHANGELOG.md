@@ -1,5 +1,6 @@
 8.23
 -----
+- Improve VoiceOver in Discover, Up Next, Select Theme and the mini player: Follow buttons name their podcast, explicit badges and the selected category are announced, and the shuffle, back and theme buttons have proper labels [#5438](https://github.com/Automattic/pocket-casts-ios/pull/5438)
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
