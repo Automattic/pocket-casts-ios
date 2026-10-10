@@ -117,13 +117,14 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.changeEmail
+        scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor).isActive = true
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ChangeEmailViewController, _) in
             controller.updateSize()
         }
 
         currentEmailLabel.text = ServerSettings.syncingEmail()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         updateButtonState()
@@ -139,14 +140,11 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         emailField.becomeFirstResponder()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
     }
@@ -277,33 +275,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         if errorView.isHidden { return }
 
         errorView.isHidden = true
-    }
-
-    // MARK: Keyboard management
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            var animationDuration = 0.3
-            if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-                animationDuration = keyboardDuration
-            }
-
-            UIView.animate(withDuration: animationDuration, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsets.zero
-        var animationDuration = 0.3
-        if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-            animationDuration = keyboardDuration
-        }
-        UIView.animate(withDuration: animationDuration, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
 
     // MARK: - Orientation

@@ -21,7 +21,7 @@ struct ContentSizeGeometryReader<Content: View>: View {
 
     var body: some View {
         GeometryReader { proxy in
-            ContentSizeReader(contentSize: $contentSize) {
+            ContentSizeReader(contentSize: contentSizeIgnoringRoundingErrors) {
                 content(proxy)
             }
         }
@@ -29,6 +29,16 @@ struct ContentSizeGeometryReader<Content: View>: View {
         .frame(maxHeight: contentSize != .zero ? contentSize.height : nil)
         .onChange(of: contentSize) { _, newValue in
             contentSizeUpdated?(newValue)
+        }
+    }
+
+    private var contentSizeIgnoringRoundingErrors: Binding<CGSize> {
+        Binding {
+            contentSize
+        } set: { newSize in
+            if abs(newSize.width - contentSize.width) > 0.01 || abs(newSize.height - contentSize.height) > 0.01 {
+                contentSize = newSize
+            }
         }
     }
 }

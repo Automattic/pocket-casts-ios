@@ -5,7 +5,7 @@ class EpisodeLimitCell: ThemeableCell {
 
     @IBOutlet var bottomDividerHeight: NSLayoutConstraint! {
         didSet {
-            bottomDividerHeight.constant = 1.0 / UIScreen.main.scale
+            applyHairlineWidth(to: bottomDividerHeight)
         }
     }
 

@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// The What's New feed published to the CDN for a single platform and locale.
 public struct WhatsNewCatalog: Decodable, Hashable {
@@ -34,9 +35,10 @@ public struct WhatsNewCatalog: Decodable, Hashable {
 /// A single item in the What's New feed.
 ///
 /// A message is all or nothing: a `type` this version doesn't know, or content its type doesn't
-/// allow, fails to decode and is dropped by the catalog's `LossyDecodedArray`. The feed is left
-/// with the messages around it rather than a half-drawn one, and the schema can gain new types
-/// without an iOS release.
+/// allow, fails to decode and is dropped by the catalog's `LossyDecodedArray`. The feed is left with
+/// the messages around it rather than a half-drawn one, and the schema can gain new types without an
+/// iOS release. The one exception is an action this version can't perform, which only its page
+/// goes without.
 public struct WhatsNewMessage: Decodable, Hashable, Identifiable {
     public let id: String
     public let type: WhatsNewMessageType
@@ -58,7 +60,12 @@ public struct WhatsNewMessage: Decodable, Hashable, Identifiable {
         expiresAt = try container.decodeIfPresent(Date.self, forKey: .expiresAt)
         targeting = try container.decode(WhatsNewTargeting.self, forKey: .targeting)
         title = try container.decodeNonEmptyString(forKey: .title)
-        content = try WhatsNewContent(from: decoder, type: type)
+        do {
+            content = try WhatsNewContent(from: decoder, type: type)
+        } catch {
+            FileLog.shared.addMessage("What's New: dropping message \(id) whose content this version can't show: \(error)")
+            throw error
+        }
     }
 
     private enum CodingKeys: String, CodingKey {

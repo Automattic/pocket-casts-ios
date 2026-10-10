@@ -19,6 +19,7 @@ struct Constants {
         static let playbackTrackChanged = NSNotification.Name(rawValue: "SJTrackChanged")
         static let podcastChaptersDidUpdate = NSNotification.Name(rawValue: "SJChaptersChanged")
         static let podcastChapterChanged = NSNotification.Name(rawValue: "SJChapterChanged")
+        static let chapterSelectionChanged = NSNotification.Name(rawValue: "SJChapterSelectionChanged")
         static let podcastColorsDownloaded = NSNotification.Name(rawValue: "SJPodcastColorsReady")
         static let playbackEnded = NSNotification.Name(rawValue: "SJPlaybackEnd")
         static let playbackFailed = NSNotification.Name(rawValue: "playbackFailed")
@@ -220,7 +221,6 @@ struct Constants {
         }
 
         enum referrals {
-            static let showTip = "referrals.showtip"
             static let claimURL = "referrals.claimURL"
         }
 
@@ -438,7 +438,7 @@ enum PlusUpgradeViewSource: String {
     case deselectChapters = "deselect_chapters"
     case headphoneSettings =  "headphone_settings"
     case bookmarksShelfAction = "bookmarks_shelf_action"
-    case whatsNew
+    case whatsNew = "whats_new"
     case sonosLink = "sonos_link"
     case deepLink
     case deviceApproval = "device_approval"

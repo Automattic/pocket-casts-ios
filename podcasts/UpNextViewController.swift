@@ -21,6 +21,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var tableData = [sections]()
 
+    var displayedUpNextCount = 0
+
     var themeOverride: Theme.ThemeType? = nil
 
     lazy var contentInseter = {
@@ -78,7 +80,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         updateTimeRemainingLabel()
         headerView.addSubview(remainingLabel)
         NSLayoutConstraint.activate([
-            remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
+            remainingLabel.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
             remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
         ])
@@ -88,7 +90,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             sortButton.translatesAutoresizingMaskIntoConstraints = false
             sortButton.setContentCompressionResistancePriority(.required, for: .horizontal)
             NSLayoutConstraint.activate([
-                sortButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+                sortButton.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
                 sortButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
                 sortButton.widthAnchor.constraint(equalToConstant: 24),
                 sortButton.heightAnchor.constraint(equalToConstant: 24)
@@ -96,7 +98,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         // When the sort button is shown, the shuffle button sits to its left.
-        let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.trailingAnchor
+        let trailingButtonAnchor = FeatureFlag.upNextSort.enabled ? sortButton.leadingAnchor : headerView.safeAreaLayoutGuide.trailingAnchor
         let trailingButtonConstant: CGFloat = FeatureFlag.upNextSort.enabled ? -16 : -20
 
         headerView.addSubview(shuffleButton)
@@ -186,6 +188,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimeRemainingLabel), name: Constants.Notifications.playbackProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTimeRemainingLabel), name: Constants.Notifications.chapterSelectionChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidBegin), name: .tableViewReorderWillBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidEnd), name: .tableViewReorderDidEnd, object: nil)
@@ -244,13 +247,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func clearQueueTapped() {
-        let queueCount = PlaybackManager.shared.queue.upNextCount()
-
-        let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-        alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { [weak self] _ in
+        let alert = Self.clearQueueAlert(queueCount: PlaybackManager.shared.queue.upNextCount()) { [weak self] in
             self?.performClearAll()
-        })
+        }
         present(alert, animated: true)
 
         selectedPlayListEpisodes.removeAll()
@@ -265,10 +264,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             // In this case we need to dismiss the UpNext to present the paywall
             if let mainTabBar = presentingViewController?.presentingViewController, presentingViewController is PlayerContainerViewController {
                 dismiss(animated: true) {
-                    NavigationManager.sharedManager.showUpsellView(from: mainTabBar, source: .upNextShuffle)
+                    NavigationManager.shared.showUpsellView(from: mainTabBar, source: .upNextShuffle)
                 }
             } else {
-                NavigationManager.sharedManager.showUpsellView(from: self, source: .upNextShuffle)
+                NavigationManager.shared.showUpsellView(from: self, source: .upNextShuffle)
             }
             return
         }
@@ -364,7 +363,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         shuffleButton.isSelected = Settings.upNextShuffleEnabled()
     }
 
-    private func actionLabelText(_ queueCount: Int) -> String {
+    static func clearQueueAlert(queueCount: Int, onClear: @escaping () -> Void) -> UIAlertController {
+        let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { _ in
+            onClear()
+        })
+        return alert
+    }
+
+    private static func actionLabelText(_ queueCount: Int) -> String {
         if queueCount == 1 {
             return L10n.queueClearEpisodeQueueSingular
         }
@@ -389,7 +397,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             episodeController.themeOverride = themeOverride
             present(episodeController, animated: true, completion: nil)
         } else if let userEpisode = episode as? UserEpisode {
-            if let fullEpisode = DataManager.sharedManager.findUserEpisode(uuid: userEpisode.uuid) {
+            if let fullEpisode = DataManager.shared.findUserEpisode(uuid: userEpisode.uuid) {
                 userEpisodeDetailVC = UserEpisodeDetailViewController(episode: fullEpisode)
                 userEpisodeDetailVC?.delegate = self
                 userEpisodeDetailVC?.themeOverride = themeOverride
@@ -401,7 +409,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func updateTimeRemainingLabel() {
         var totalDuration = PlaybackManager.shared.queue.upNextTotalDuration(includePlayingEpisode: false)
         if let episode = PlaybackManager.shared.currentEpisode {
-            totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
+            let currentTime = PlaybackManager.shared.currentTime()
+            totalDuration += episode.duration.seconds - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime)
         }
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
         let count = PlaybackManager.shared.queue.upNextCount()
@@ -444,7 +453,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func selectAllTapped() {
-        guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
+        guard DataManager.shared.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
         track(.upNextSelectAllButtonTapped, properties: ["select_all": true])

@@ -7,7 +7,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
                 shadowView.layer.shadowRadius = 0
             } else {
                 shadowView.layer.masksToBounds = false
-                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor().cgColor
+                shadowView.layer.shadowColor = AppTheme.appearanceShadowColor.cgColor
                 shadowView.layer.shadowOffset = CGSize(width: 0, height: -2)
                 shadowView.layer.shadowOpacity = 0.15
                 shadowView.layer.shadowRadius = 2
@@ -48,7 +48,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.whatsNew
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -56,7 +56,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         scrollView.isPagingEnabled = true
         scrollView.isDirectionalLockEnabled = true
 
-        if !LiquidGlass.isEnabled, Settings.whatsNewLastAcknowledged() == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
+        if !LiquidGlass.isEnabled, Settings.whatsNewLastAcknowledged == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
             shadowViewBottomConstraint.constant = shadowViewBottomConstraint.constant - Constants.Values.miniPlayerOffset
         }
 
@@ -66,8 +66,8 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if Settings.whatsNewLastAcknowledged() != whatsNewInfo.versionCode {
-            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+        if Settings.whatsNewLastAcknowledged != whatsNewInfo.versionCode {
+            Settings.whatsNewLastAcknowledged = whatsNewInfo.versionCode
         }
     }
 
@@ -84,7 +84,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
             cnstraintsToActivate.append(newPage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0))
             cnstraintsToActivate.append(newPage.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor, constant: 0))
             cnstraintsToActivate.append(newPage.leadingAnchor.constraint(equalTo: leadingConstraint, constant: 0))
-            cnstraintsToActivate.append(newPage.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0))
+            cnstraintsToActivate.append(newPage.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: 0))
             leadingConstraint = newPage.trailingAnchor
         }
 
@@ -100,7 +100,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.width * CGFloat(pages.count), height: scrollView.bounds.height)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(pages.count), height: scrollView.bounds.height)
         pageDidChange(pageControl.currentPage)
     }
 

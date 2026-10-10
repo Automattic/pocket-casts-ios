@@ -165,7 +165,7 @@ struct NetworkArtworkView: View {
         if let url {
             KFImage(url)
                 .placeholder { _ in placeholder }
-                .targetCache(ImageManager.sharedManager.discoverCache)
+                .targetCache(ImageManager.shared.discoverCache)
                 .fade(duration: 0.25)
                 .resizable()
                 .scaledToFill()
@@ -176,7 +176,7 @@ struct NetworkArtworkView: View {
 
     @ViewBuilder
     private var placeholder: some View {
-        if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+        if let image = ImageManager.shared.placeHolderImage(.grid) {
             Image(uiImage: image)
                 .resizable()
         }
@@ -206,8 +206,8 @@ extension NetworkListSummary {
         DiscoverNetworksListRowView(model: model)
         Spacer(minLength: 0)
     }
-    .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
-    .environmentObject(Theme.sharedTheme)
+    .background(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
+    .environmentObject(Theme.shared)
 }
 
 #endif

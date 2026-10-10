@@ -42,7 +42,7 @@ struct MigratedSleepTimerIntent: AudioPlaybackIntent, CustomIntentMigratedAppInt
     func perform() async throws -> some IntentResult {
         let duration = SleepTimerIntentDuration.migratedValue(
             minutes,
-            defaultDuration: Settings.customSleepTime()
+            defaultDuration: Settings.customSleepTime
         )
         _ = SiriShortcutsManager.shared.setSleepTimer(duration: duration)
 

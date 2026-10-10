@@ -79,6 +79,7 @@ extension NetworkNavigator: DiscoverDelegate {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
         podcastController.listUuid = listUuid
+        podcastController.screenSource = .discover
 
         navController()?.pushViewController(podcastController, animated: true)
     }
@@ -90,13 +91,15 @@ extension NetworkNavigator: DiscoverDelegate {
     }
 
     func show(podcast: Podcast) {
-        navController()?.pushViewController(PodcastViewController(podcast: podcast), animated: true)
+        let podcastController = PodcastViewController(podcast: podcast)
+        podcastController.screenSource = .discover
+        navController()?.pushViewController(podcastController, animated: true)
     }
 
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         guard let uuid = podcast.uuid else { return false }
 
-        return DataManager.sharedManager.findPodcast(uuid: uuid) != nil
+        return DataManager.shared.findPodcast(uuid: uuid) != nil
     }
 
     func subscribe(podcast: DiscoverPodcast) {
@@ -121,7 +124,6 @@ extension NetworkNavigator: DiscoverDelegate {
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {}
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {}
     func failedToLoadEpisode() {}
-    func invalidate(item: DiscoverItem) {}
     func navigateTo(category: String) {}
     func navigateTo(listID: String) {}
 }

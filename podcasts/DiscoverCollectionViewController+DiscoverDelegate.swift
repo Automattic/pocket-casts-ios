@@ -26,21 +26,27 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         }
     }
 
-    func invalidate(item: PocketCastsServer.DiscoverItem) {
-        let context = UICollectionViewLayoutInvalidationContext()
-        let item = dataSource.snapshot().itemIdentifiers.first(where: {
-            if case .item(let item) = $0 {
-                item == item
-            } else {
-                false
+    /// Opens every network, as "Show all" on the networks row does.
+    func navigateToNetworks() {
+        if isViewLoaded {
+            showNetworks()
+        } else {
+            loadViewIfNeeded()
+            reloadData { [weak self] in
+                self?.showNetworks()
             }
-        })
-        guard let item,
-              let indexPath = dataSource?.indexPath(for: item) else {
-            return
         }
-        context.invalidateItems(at: [indexPath])
-        collectionView.collectionViewLayout.invalidateLayout(with: context)
+    }
+
+    private func showNetworks() {
+        guard let discoverLayout, let items = discoverLayout.layout else { return }
+
+        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+        guard let item = items.first(where: { $0.type == "lists_list" && $0.regions.contains(currentRegion) && $0.cellType() == .networksList }) else { return }
+
+        let model = DiscoverNetworksListModel()
+        model.registerDiscoverDelegate(self)
+        model.showAll(item: item)
     }
 
     func showExpanded(item: PocketCastsServer.DiscoverItem, category: PocketCastsServer.DiscoverCategory?) {
@@ -59,6 +65,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
         podcastController.listUuid = listUuid
+        podcastController.screenSource = .discover
 
         navigationController?.pushViewController(podcastController, animated: true)
     }
@@ -71,6 +78,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func show(podcast: Podcast) {
         let podcastController = PodcastViewController(podcast: podcast)
+        podcastController.screenSource = .discover
         navigationController?.pushViewController(podcastController, animated: true)
     }
 
@@ -167,7 +175,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         if let uuid = podcast.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                 return true
             }
         }

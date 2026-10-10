@@ -74,7 +74,7 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
             if success {
                 Toast.show(
                     L10n.cancelSubscriptionSurveyToastSuccess,
-                    theme: ToastIconTheme(iconName: "cs-tick", iconColor: Theme.sharedTheme.primaryIcon01)
+                    theme: ToastIconTheme(iconName: "cs-tick", iconColor: Theme.shared.primaryIcon01)
                 )
                 dismiss()
             } else {
@@ -85,7 +85,7 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
                             self?.sendFeedback()
                         }
                     ],
-                    theme: ToastIconTheme(iconName: "cs-yield", iconColor: Theme.sharedTheme.support05)
+                    theme: ToastIconTheme(iconName: "cs-yield", iconColor: Theme.shared.support05)
                 )
             }
         }

@@ -53,7 +53,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayDate: String {
-        return DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+        return DateFormatHelper.shared.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
     }
 
     var displayDuration: String {
@@ -66,7 +66,7 @@ class EpisodeRowViewModel: Identifiable {
 
     var currentPodcastTintColor: Color? {
         if let podcast {
-            return Color(ColorManager.darkThemeTintForPodcast(podcast))
+            return Color(ColorManager.darkThemeTint(for: podcast))
         } else if let episode = episode as? UserEpisode, episode.imageColor > 0 {
             return Color(AppTheme.userEpisodeColor(number: Int(episode.imageColor)))
         } else {
@@ -158,7 +158,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }
@@ -172,7 +172,7 @@ class EpisodeRowViewModel: Identifiable {
                 return
             }
             if let uuid = notification.object as? String, uuid == episode.uuid {
-                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                if let newEpisode = DataManager.shared.findBaseEpisode(uuid: uuid) {
                     episode = newEpisode
                 }
             }

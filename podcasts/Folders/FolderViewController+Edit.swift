@@ -20,7 +20,7 @@ extension FolderViewController {
     }
 
     func applyEditingTreatment(to cell: UICollectionViewCell) {
-        if Settings.libraryType() == .list {
+        if Settings.libraryType == .list {
             addReorderHandle(to: cell)
         } else {
             cell.startEditingWiggle()
@@ -42,7 +42,7 @@ extension FolderViewController {
 
         mainGrid.dragInteractionEnabled = true
         mainGrid.allowsSelection = false
-        setEnclosingTabBarHidden(true, animated: true)
+        setHidesEnclosingTabBar(true, animated: true)
 
         for cell in mainGrid.visibleCells {
             applyEditingTreatment(to: cell)
@@ -52,7 +52,7 @@ extension FolderViewController {
     private func exitEditMode() {
         mainGrid.dragInteractionEnabled = false
         mainGrid.allowsSelection = true
-        setEnclosingTabBarHidden(false, animated: true)
+        setHidesEnclosingTabBar(false, animated: true)
 
         setCustomRightBtn(savedRightBarButtonItem, animated: true)
         savedRightBarButtonItem = nil
@@ -69,11 +69,11 @@ extension FolderViewController {
             podcast.sortOrder = Int32(index)
         }
 
-        DataManager.sharedManager.saveSortOrders(podcasts: podcasts)
+        DataManager.shared.saveSortOrders(podcasts: podcasts)
 
         folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
         folder.sortType = Int32(LibrarySort.Old.custom.rawValue)
-        DataManager.sharedManager.save(folder: folder)
+        DataManager.shared.save(folder: folder)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
     }
 

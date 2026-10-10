@@ -84,14 +84,10 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                                 <constraint firstItem="aIY-53-1To" firstAttribute="top" secondItem="1tG-32-6jZ" secondAttribute="top" id="Gp0-wE-5j0"/>
                                 <constraint firstAttribute="bottom" secondItem="VAe-wK-dSl" secondAttribute="bottom" constant="10" id="acP-bs-wm6"/>
                                 <constraint firstAttribute="trailing" secondItem="VhA-c6-7IE" secondAttribute="trailing" id="ad9-bf-iKT"/>
-                                <constraint firstItem="gVT-sF-RW1" firstAttribute="centerX" secondItem="1tG-32-6jZ" secondAttribute="centerX" id="aeU-qQ-QAN"/>
-                                <constraint firstItem="VAe-wK-dSl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1tG-32-6jZ" secondAttribute="leading" constant="20" id="bNd-mL-e8t"/>
                                 <constraint firstItem="VAe-wK-dSl" firstAttribute="top" secondItem="gVT-sF-RW1" secondAttribute="bottom" constant="10" id="cul-FF-WeP"/>
-                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VAe-wK-dSl" secondAttribute="trailing" constant="20" id="hmJ-R5-6f1"/>
                                 <constraint firstAttribute="bottom" secondItem="VhA-c6-7IE" secondAttribute="bottom" id="jX0-Eo-E2e"/>
                                 <constraint firstItem="gVT-sF-RW1" firstAttribute="top" secondItem="1tG-32-6jZ" secondAttribute="top" constant="23" id="rO3-hE-Vi2"/>
                                 <constraint firstItem="VhA-c6-7IE" firstAttribute="leading" secondItem="1tG-32-6jZ" secondAttribute="leading" id="wKy-7b-3KL"/>
-                                <constraint firstItem="VAe-wK-dSl" firstAttribute="centerX" secondItem="1tG-32-6jZ" secondAttribute="centerX" id="wkL-1W-ZBd"/>
                                 <constraint firstAttribute="trailing" secondItem="aIY-53-1To" secondAttribute="trailing" id="zLD-09-TEf"/>
                             </constraints>
                         </view>
@@ -156,7 +152,6 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                     </subviews>
                     <constraints>
                         <constraint firstItem="npD-RJ-l4K" firstAttribute="top" secondItem="sPK-s3-NB2" secondAttribute="bottom" constant="8" id="46l-oX-EnS"/>
-                        <constraint firstItem="v7X-bw-cpJ" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" constant="20" id="4gA-ty-yvJ"/>
                         <constraint firstItem="npD-RJ-l4K" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" id="5Ci-8s-ITF"/>
                         <constraint firstItem="1tG-32-6jZ" firstAttribute="centerX" secondItem="qjC-Ws-uBv" secondAttribute="centerX" id="65s-Vr-fIL"/>
                         <constraint firstItem="sPK-s3-NB2" firstAttribute="leading" secondItem="v7X-bw-cpJ" secondAttribute="leading" id="A39-f2-5TW"/>
@@ -164,11 +159,9 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                         <constraint firstItem="v7X-bw-cpJ" firstAttribute="top" secondItem="qjC-Ws-uBv" secondAttribute="top" constant="23" id="Fs5-rK-2fb"/>
                         <constraint firstItem="1tG-32-6jZ" firstAttribute="top" secondItem="v7X-bw-cpJ" secondAttribute="bottom" constant="12" id="QMK-dP-dHN"/>
                         <constraint firstItem="sPK-s3-NB2" firstAttribute="top" secondItem="1tG-32-6jZ" secondAttribute="bottom" constant="24" id="RhK-rc-z8D"/>
-                        <constraint firstAttribute="trailing" secondItem="F6H-wz-5MK" secondAttribute="trailing" constant="20" id="RjA-Jz-XzT"/>
                         <constraint firstItem="CMv-5c-rbA" firstAttribute="leading" secondItem="sPK-s3-NB2" secondAttribute="leading" id="Sr0-6V-KPx"/>
                         <constraint firstItem="F6H-wz-5MK" firstAttribute="leading" secondItem="sPK-s3-NB2" secondAttribute="leading" id="UjZ-cp-mkZ"/>
                         <constraint firstAttribute="trailing" secondItem="1tG-32-6jZ" secondAttribute="trailing" id="XLT-lF-2zq"/>
-                        <constraint firstAttribute="trailing" secondItem="v7X-bw-cpJ" secondAttribute="trailing" constant="20" id="atA-Lc-ZXO"/>
                         <constraint firstItem="1tG-32-6jZ" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" id="eLa-iH-WSu"/>
                         <constraint firstAttribute="bottom" secondItem="F6H-wz-5MK" secondAttribute="bottom" constant="20" id="o46-hu-AsO"/>
                         <constraint firstAttribute="trailing" secondItem="npD-RJ-l4K" secondAttribute="trailing" id="psL-B2-e4n"/>
@@ -178,6 +171,13 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
             <viewLayoutGuide key="safeArea" id="qJZ-Qf-pVi"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="qjC-Ws-uBv" secondAttribute="bottom" id="58e-Fa-iOj"/>
+                <constraint firstItem="v7X-bw-cpJ" firstAttribute="leading" secondItem="qJZ-Qf-pVi" secondAttribute="leading" constant="20" id="4gA-ty-yvJ"/>
+                <constraint firstItem="qJZ-Qf-pVi" firstAttribute="trailing" secondItem="v7X-bw-cpJ" secondAttribute="trailing" constant="20" id="atA-Lc-ZXO"/>
+                <constraint firstItem="qJZ-Qf-pVi" firstAttribute="trailing" secondItem="F6H-wz-5MK" secondAttribute="trailing" constant="20" id="RjA-Jz-XzT"/>
+                <constraint firstItem="VAe-wK-dSl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qJZ-Qf-pVi" secondAttribute="leading" constant="20" id="bNd-mL-e8t"/>
+                <constraint firstItem="qJZ-Qf-pVi" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VAe-wK-dSl" secondAttribute="trailing" constant="20" id="hmJ-R5-6f1"/>
+                <constraint firstItem="gVT-sF-RW1" firstAttribute="centerX" secondItem="qJZ-Qf-pVi" secondAttribute="centerX" id="aeU-qQ-QAN"/>
+                <constraint firstItem="VAe-wK-dSl" firstAttribute="centerX" secondItem="qJZ-Qf-pVi" secondAttribute="centerX" id="wkL-1W-ZBd"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="U3y-q9-jK0"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="duf-CA-ucX"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="g3n-dr-TpZ"/>

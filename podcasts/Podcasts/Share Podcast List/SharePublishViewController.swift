@@ -25,13 +25,13 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     @IBOutlet var nameDividerHeight: NSLayoutConstraint! {
         didSet {
-            nameDividerHeight.constant = 1 / UIScreen.main.scale
+            applyHairlineWidth(to: nameDividerHeight)
         }
     }
 
     @IBOutlet var descriptionDividerHeight: NSLayoutConstraint! {
         didSet {
-            descriptionDividerHeight.constant = 1 / UIScreen.main.scale
+            applyHairlineWidth(to: descriptionDividerHeight)
         }
     }
 
@@ -40,7 +40,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     @IBOutlet var descriptionPlaceholder: UILabel! {
         didSet {
-            descriptionPlaceholder.textColor = AppTheme.placeholderTextColor()
+            descriptionPlaceholder.textColor = AppTheme.placeholderTextColor
             descriptionPlaceholder.text = L10n.podcastShareListDescription
         }
     }
@@ -55,6 +55,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
     @IBOutlet var podcastCollectionView: UICollectionView! {
         didSet {
             podcastCollectionView.register(UINib(nibName: "SelectedPodcastCell", bundle: nil), forCellWithReuseIdentifier: podcastCellId)
+            (podcastCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInsetReference = .fromSafeArea
         }
     }
 
@@ -92,6 +93,11 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         title = L10n.sharePodcastsCreateList
 
         navigationItem.rightBarButtonItem = shareBtn
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        podcastCollectionView.collectionViewLayout.invalidateLayout()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -145,7 +151,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let availableWidth = collectionView.bounds.width
+        let availableWidth = collectionView.safeAreaLayoutGuide.layoutFrame.width
 
         let size = (availableWidth - (sidePadding * 2) - ((podcastsPerRow - 1) * interCellPadding)) / podcastsPerRow
         let alteredSize = min(100, size)
@@ -183,7 +189,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
             self.creatingListProgress.setProgress(0.95, animated: true)
         })
 
-        let centerX = (view.bounds.width / 2.0)
+        let centerX = creatingView.frame.midX
         let centerY = creatingView.frame.origin.y + (creatingView.bounds.height / 2.0) // (self.view.bounds.height / 2.0)
 
         CATransaction.begin()

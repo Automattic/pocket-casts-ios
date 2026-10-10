@@ -22,10 +22,10 @@ class LoginCoordinator: NSObject, OnboardingModel {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
 
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+        var randomPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: true)
             // Only return items we have a cached image for
             .filter {
-                ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)
+                ImageManager.shared.hasCachedImage(for: $0.uuid, size: .grid)
             }
             // Return a random-ish order
             .shuffled()
@@ -56,7 +56,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func loginTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
-        let vc = OnboardingHostingViewController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
+        let vc = OnboardingHostingViewController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.shared))
         vc.viewModel = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -213,7 +213,11 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
-        Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider ?? "password", "flow": OnboardingFlow.shared.currentFlow])
+        var properties: [String: Any] = ["source": socialAuthProvider ?? "password", "flow": OnboardingFlow.shared.currentFlow]
+        if let originSource = OnboardingFlow.shared.originSource {
+            properties["flow_source"] = originSource.rawValue
+        }
+        Analytics.track(.userAccountCreated, properties: properties)
         OnboardingFlow.shared.markAccountCreated()
         OnboardingFlow.shared.accountCreated?(true)
         if OnboardingFlow.shared.currentFlow.shouldDismiss {
@@ -262,7 +266,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false, traitCollection: UITraitCollection) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
         coordinator.isOnboarding = isOnboarding
@@ -282,7 +286,7 @@ extension LoginCoordinator {
         }
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
-        navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
+        navController.modalPresentationStyle = traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular ? .formSheet : .fullScreen
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller

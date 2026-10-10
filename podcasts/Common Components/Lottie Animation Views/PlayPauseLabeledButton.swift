@@ -46,7 +46,7 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
         layer.borderWidth = 1.5
         backgroundColor = .clear
 
-        Theme.sharedTheme.$activeTheme
+        Theme.shared.$activeTheme
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.updateTheme()

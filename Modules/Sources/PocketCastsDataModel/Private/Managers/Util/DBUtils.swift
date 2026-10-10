@@ -1,18 +1,18 @@
 import Foundation
-class DBUtils {
-    class func convertDate(value: TimeInterval?) -> Date? {
+enum DBUtils {
+    static func convertDate(value: TimeInterval?) -> Date? {
         guard let value, value > 0 else { return nil }
 
         return Date(timeIntervalSince1970: value)
     }
 
-    class func nullIfNil(value: Any?) -> Any {
+    static func nullIfNil(value: Any?) -> Any {
         guard let value else { return NSNull() }
 
         return value
     }
 
-    class func valuesQuestionMarks(amount: Int) -> String {
+    static func valuesQuestionMarks(amount: Int) -> String {
         if amount == 0 { return "" }
         if amount == 1 { return "(?)" }
 
@@ -21,7 +21,7 @@ class DBUtils {
         return "(?\(questionMarks))"
     }
 
-    class func nonNilStringFromColumn(resultSet rs: PCDBResultSet, columnName: String) -> String {
+    static func nonNilStringFromColumn(resultSet rs: PCDBResultSet, columnName: String) -> String {
         if let value = rs.string(forColumn: columnName) {
             return value
         }
@@ -29,15 +29,15 @@ class DBUtils {
         return ""
     }
 
-    class func replaceNilWithNull(value: Any?) -> Any {
+    static func replaceNilWithNull(value: Any?) -> Any {
         value == nil ? NSNull() : value!
     }
 
-    class func currentUTCTimeInMillis() -> Int64 {
+    static func currentUTCTimeInMillis() -> Int64 {
         Int64(Date().timeIntervalSince1970 * 1000)
     }
 
-    class func generateUniqueId() -> Int64 {
+    static func generateUniqueId() -> Int64 {
         var urandom: UInt64 = 0
         if SecRandomCopyBytes(kSecRandomDefault, MemoryLayout<UInt64>.size, &urandom) != 0 {
             arc4random_stir()
@@ -49,7 +49,7 @@ class DBUtils {
         return random
     }
 
-    class func measureTime(_ action: () -> ()) -> TimeInterval {
+    static func measureTime(_ action: () -> ()) -> TimeInterval {
         let startDate = Date()
         action()
         let endDate = Date()

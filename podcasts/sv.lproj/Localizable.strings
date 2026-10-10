@@ -1181,12 +1181,6 @@ du lyssnade på var
     <string>Blanda din kö</string>
     <key>feature_marketing_watch_playback</key>
     <string>Appar för Wear OS och Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Avsluta rundtur</string>
-    <key>feature_tour_new</key>
-    <string>NYTT</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ av %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Öppna standardappen för e-post</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ Det är engagemang!</string>
     <string>Det här avsnittet kan inte spelas upp.</string>
     <key>player_error_internet_connection</key>
     <string>Kontrollera din Internetanslutning och försök igen.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Din enhet har slut på lagringsutrymme. Frigör lite utrymme och försök igen.</string>
     <key>player_error_short_no_connection</key>
     <string>Du är offline</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Enhetslagringen är full</string>
     <key>player_error_short_playback_error</key>
     <string>Uppspelningen misslyckades, försök igen</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ Det är engagemang!</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Avsluta fullskärmsläge</string>
+    <key>player_video_full_screen</key>
+    <string>Fullskärm</string>
     <key>playlist_add_to_title</key>
     <string>Lägg till i ”%@”</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Använd uppdaterad Volume Boost med mer konsekventa röstnivåer.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Visa oläst punkt</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Visa en oläst punkt på Profil när det finns nya ”Vad är nytt”-meddelanden.</string>
     <key>settings_global_settings</key>
     <string>Globala inställningar</string>
     <key>settings_headphone_controls</key>
@@ -4446,6 +4452,24 @@ Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <string>Nyheter</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Läs mer om denna uppdatering på vår blogg</string>
+    <key>whats_new_category_announcement</key>
+    <string>Tillkännagivande</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Känt fel</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Ny funktion</string>
+    <key>whats_new_category_research</key>
+    <string>Användarundersökning</string>
+    <key>whats_new_category_tip</key>
+    <string>Tips och råd</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Nya funktioner, tips och tillkännagivanden visas här.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Inga meddelanden ännu</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Läs alla</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Det gick inte att hämta "Vad är nytt"</string>
     <key>whats_new_in_version</key>
     <string>Vad som är nytt i %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4460,6 +4484,8 @@ Tack för ditt stöd. Din startskärm har aldrig sett bättre ut.</string>
 Detta innebär att du kan koppla av med vetskapen om att allt det hårda arbete du har lagt ner på att arrangera din podcastsida synkroniseras till ditt konto.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Synkronisering av startsidesrutnät</string>
+    <key>whats_new_poll_answered</key>
+    <string>Tack för att du svarade.</string>
     <key>widgets_app_icon_description</key>
     <string>Starta Pocket Casts snabbt</string>
     <key>widgets_app_icon_name</key>

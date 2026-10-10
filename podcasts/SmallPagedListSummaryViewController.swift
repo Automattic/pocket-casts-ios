@@ -40,7 +40,9 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     }
 
     private let numberOfRows = 4
+    private let targetColumnPitch = 420 as CGFloat
     private var lastLayedOutWidth = 0 as CGFloat
+    private var lastLayedOutInsets = UIEdgeInsets.zero
 
     private let maxFeaturedItems = 20
 
@@ -53,7 +55,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var smallPagedCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / UIScreen.main.scale)
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
     }
 
@@ -69,6 +71,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         maxCellWidth = view.bounds.width
 
         collectionView.register(UINib(nibName: "SmallListCell", bundle: nil), forCellWithReuseIdentifier: SmallPagedListSummaryViewController.cellId)
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         cellSpacing = 16 as CGFloat
         isPeekEnabled = true
@@ -86,14 +89,57 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if lastLayedOutWidth != view.bounds.width {
+        if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
+            let page = max(pageControl.currentPage, 0)
             lastLayedOutWidth = view.bounds.width
-            maxCellWidth = view.bounds.width
+            lastLayedOutInsets = horizontalInsets
+            maxCellWidth = insetWidth
+            numVisibleColumns = visibleColumnCount(forWidth: insetWidth)
             smallPagedCollectionViewHeight.constant = (cellHeight + cellSpacing) * CGFloat(numberOfRows)
             updatePageCount()
             collectionView.layoutIfNeeded()
             collectionView.reloadData()
+            restore(page: page)
         }
+    }
+
+    private func visibleColumnCount(forWidth width: CGFloat) -> CGFloat {
+        if traitCollection.preferredContentSizeCategory.isAccessibilityCategory { return 1 }
+        let columns = ((width - 24) / targetColumnPitch).rounded()
+        return max(1, columns)
+    }
+
+    /// Swiping scrolls a single column, regardless of how many are visible.
+    override var pageStride: CGFloat {
+        cellWidth + cellSpacing
+    }
+
+    private var displayedPodcastCount: Int {
+        min(podcasts.count, maxFeaturedItems)
+    }
+
+    private var numberOfPages: Int {
+        let columns = Int(ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows)))
+        return max(columns - Int(numVisibleColumns) + 1, 1)
+    }
+
+    private func offset(forPage page: Int) -> CGFloat {
+        CGFloat(page) * pageStride - collectionView.contentInset.left
+    }
+
+    private func updateInsets() {
+        collectionView.contentInset.left = cellSpacing + horizontalInsets.left
+        let columns = ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows))
+        let contentWidth = columns * (cellWidth + cellSpacing) + cellSpacing
+        let lastPageOffset = offset(forPage: max(numberOfPages - 1, 0))
+        let visibleWidth = collectionView.bounds.width
+        collectionView.contentInset.right = max(0, lastPageOffset + visibleWidth - contentWidth)
+    }
+
+    private func restore(page: Int) {
+        let target = min(page, max(numberOfPages - 1, 0))
+        collectionView.setContentOffset(CGPoint(x: offset(forPage: target), y: 0), animated: false)
+        updateCurrentPage()
     }
 
     @objc private func podcastStatusChanged(notification: Notification) {
@@ -212,21 +258,20 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     // MARK: - TinyPageControl delegate
 
     func pageDidChange(_ newPage: Int) {
-        let offset = CGFloat(newPage) * (cellWidth + cellSpacing)
-        collectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+        collectionView.setContentOffset(CGPoint(x: offset(forPage: newPage), y: 0), animated: true)
     }
 
     private func updatePageCount() {
-        let displayedPodcastCount = podcasts.count > maxFeaturedItems ? maxFeaturedItems : podcasts.count
-        let numberOfPages = CGFloat(displayedPodcastCount / numberOfRows)
         if numberOfPages == 0 { return }
 
-        pageControl.numberOfPages = Int(ceil(numberOfPages))
+        pageControl.numberOfPages = numberOfPages
+        updateInsets()
         updateCurrentPage()
     }
 
     private func updateCurrentPage() {
-        let currentPage = Int(round(collectionView.contentOffset.x / collectionView.frame.width))
+        guard pageStride > 0 else { return }
+        let currentPage = Int(round((collectionView.contentOffset.x + collectionView.contentInset.left) / pageStride))
 
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage

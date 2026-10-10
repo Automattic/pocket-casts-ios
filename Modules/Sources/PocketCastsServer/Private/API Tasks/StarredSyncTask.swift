@@ -24,7 +24,7 @@ class StarredSyncTask: ApiBaseTask, @unchecked Sendable {
             let (_, httpStatus) = postToServer(url: url, token: token, data: data)
 
             if httpStatus == ServerConstants.HttpConstants.ok {
-                DataManager.sharedManager.clearKeepEpisodeModified(episode: episode)
+                DataManager.shared.clearKeepEpisodeModified(episode: episode)
             } else {
                 FileLog.shared.addMessage("Save star failed \(httpStatus)")
             }

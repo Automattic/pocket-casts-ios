@@ -22,7 +22,7 @@ class ProgressLine: UIView {
     }
 
     func updateColors() {
-        let theme = Theme.sharedTheme.activeTheme
+        let theme = Theme.shared.activeTheme
         backgroundColor = PlayerColorHelper.playerHighlightColor07(for: theme)
         progressLayer().bufferingColor = PlayerColorHelper.playerHighlightColor07(for: theme).cgColor
         progressLayer().progressColor = PlayerColorHelper.playerHighlightColor01(for: theme).cgColor

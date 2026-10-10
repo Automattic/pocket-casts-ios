@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -402,6 +403,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Nps-Sa-Gd1"/>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" label="Full Size Player">
                 <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -410,14 +412,14 @@
             <constraints>
                 <constraint firstItem="sam-0S-73x" firstAttribute="trailing" secondItem="dXr-Zd-0wP" secondAttribute="trailing" constant="-10" id="2fE-dE-Tel"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
-                <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
+                <constraint firstItem="Nps-Sa-Gd1" firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
                 <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" constant="-48" id="ckZ-tn-s0v"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
-                <constraint firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
-                <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
-                <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
+                <constraint firstItem="Nps-Sa-Gd1" firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
+                <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Nps-Sa-Gd1" secondAttribute="leading" id="ktT-yI-jhC"/>
+                <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Nps-Sa-Gd1" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
             </constraints>

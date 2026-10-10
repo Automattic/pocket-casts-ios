@@ -13,7 +13,7 @@ class EndOfYearStoriesBuilder {
 
     private let sync: ((Int) -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, model: StoryModel, sync: ((Int) -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
+    init(dataManager: DataManager = DataManager.shared, model: StoryModel, sync: ((Int) -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
         self.dataManager = dataManager
         self.model = model
         self.sync = sync

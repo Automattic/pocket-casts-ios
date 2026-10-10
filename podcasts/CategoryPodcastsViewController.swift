@@ -22,8 +22,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
 
-    fileprivate var item: DiscoverItem?
-
     fileprivate var category: DiscoverCategory? {
         didSet {
             title = category?.name?.localized
@@ -118,7 +116,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if showPromotion(), indexPath.row == CategoryPodcastsViewController.promotionRow {
-            return UIScreen.main.bounds.width > 360 ? 130 : 150
+            return tableView.bounds.width > 360 ? 130 : 150
         }
         return 65
     }
@@ -142,10 +140,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 strongSelf.podcasts = Array(podcasts.dropFirst(strongSelf.skipCount))
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
-
-                if let item = strongSelf.item {
-                    strongSelf.delegate?.invalidate(item: item)
-                }
 
                 if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
                     let categoryId = strongSelf.category?.id.map(String.init)
@@ -181,7 +175,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
 extension CategoryPodcastsViewController: DiscoverSummaryProtocol {
     func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?, category: PocketCastsServer.DiscoverCategory?) {
-        self.item = item
         if let category {
             self.category = category
         }

@@ -34,9 +34,9 @@
             <color key="backgroundColor" red="0.87843137250000003" green="0.90588235289999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="BRV-dL-hXc"/>
-                <constraint firstItem="4" firstAttribute="trailing" secondItem="Za3-hf-MlM" secondAttribute="trailing" id="HYO-vk-n3Y"/>
+                <constraint firstItem="4" firstAttribute="trailing" secondItem="1" secondAttribute="trailing" id="HYO-vk-n3Y"/>
                 <constraint firstAttribute="top" secondItem="4" secondAttribute="top" id="a8I-6o-y0B"/>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="Za3-hf-MlM" secondAttribute="leading" id="nkF-pm-2rk"/>
+                <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="nkF-pm-2rk"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

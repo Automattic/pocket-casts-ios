@@ -110,7 +110,6 @@ final class PreviewDiscoverDelegate: DiscoverDelegate {
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime: String?) {}
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {}
     func failedToLoadEpisode() {}
-    func invalidate(item: DiscoverItem) {}
     func navigateTo(category: String) {}
     func navigateTo(listID: String) {}
 }

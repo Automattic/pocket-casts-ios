@@ -12,7 +12,7 @@ class AudioReadTask {
     private var minGapSizeInFrames = 3
     private var amountOfSilentFramesToReInsert = 1
 
-    private let cancelled = AtomicBool()
+    private let cancelled = Mutex(false)
 
     private let readQueue: DispatchQueue
     private let lock = NSObject()
@@ -35,11 +35,11 @@ class AudioReadTask {
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
     private var voiceBoostNState: OpaquePointer?
-    private var useVoiceBoostN: AtomicBool?
+    private let useVoiceBoostN: () -> Bool
     private var voiceBoostNSampleRate: Double = 0
     private var hasProcessedFirstBuffer = false
 
-    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: AtomicBool? = nil, sampleRate: Double = 0) {
+    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: @escaping () -> Bool = { false }, sampleRate: Double = 0) throws {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
         self.outputFormat = outputFormat
@@ -61,13 +61,16 @@ class AudioReadTask {
         updateRemoveSilenceNumbers()
 
         if playPositionHint > 0 {
-            currentFramePosition = framePositionForTime(playPositionHint).framePosition
-            if currentFramePosition < audioFile.length {
-                FileLog.shared.addMessage("Setting framePosition to \(currentFramePosition) for file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = currentFramePosition
-            } else {
-                FileLog.shared.addMessage("Attempted to seek past EOF: \(currentFramePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = max(0, audioFile.length - 1)
+            let framePosition = framePositionForTime(playPositionHint).framePosition
+            currentFramePosition = framePosition
+            try SJCommonUtils.catchException {
+                if framePosition < frameCount {
+                    FileLog.shared.addMessage("Setting framePosition to \(framePosition) for file: \(audioFile.url.lastPathComponent)")
+                    audioFile.framePosition = framePosition
+                } else {
+                    FileLog.shared.addMessage("Attempted to seek past EOF: \(framePosition) >= \(frameCount), file: \(audioFile.url.lastPathComponent)")
+                    audioFile.framePosition = max(0, frameCount - 1)
+                }
             }
         }
     }
@@ -220,7 +223,7 @@ class AudioReadTask {
         }
 
         // Handle dynamic VoiceBoostN state creation/destruction
-        let shouldUseVoiceBoostN = useVoiceBoostN?.value == true
+        let shouldUseVoiceBoostN = useVoiceBoostN()
         if shouldUseVoiceBoostN && voiceBoostNState == nil {
             voiceBoostNState = VBN_Create(voiceBoostNSampleRate)
             if hasProcessedFirstBuffer {

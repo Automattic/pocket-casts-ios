@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import SafariServices
@@ -104,6 +105,12 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
+            if let url = navigationAction.request.url, let time = ShowNotesFormatter.jumpTime(from: url) {
+                playEpisode(from: time)
+                decisionHandler(.cancel)
+                return
+            }
+
             if Settings.openLinks, let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
@@ -132,6 +139,16 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         safariViewController = nil
     }
 
+    private func playEpisode(from time: TimeInterval) {
+        Analytics.track(.episodeDetailShowNotesTimestampTapped, properties: ["episode_uuid": episode.uuid, "source": viewSource])
+
+        if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
+            PlaybackManager.shared.seekTo(time: time, startPlaybackAfterSeek: true)
+        } else {
+            playPauseEpisode(isPlaying: false, from: time)
+        }
+    }
+
     private func showNotesDidLoad(showNotes: String) {
         rawShowNotes = showNotes
         DispatchQueue.main.async { [weak self] in
@@ -147,15 +164,15 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             failedToLoadLabel.text = showNotes
             hideErrorMessage(hide: false)
         } else {
-            let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+            let currentTheme = themeOverride ?? Theme.shared.activeTheme
             lastThemeRenderedNotesIn = currentTheme
-            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: true, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
         }
     }
 
     private func linkTintColor() -> UIColor {
-        let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let currentTheme = themeOverride ?? Theme.shared.activeTheme
 
         return ThemeColor.primaryInteractive01(for: currentTheme)
     }

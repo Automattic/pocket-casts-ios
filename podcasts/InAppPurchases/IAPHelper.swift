@@ -512,7 +512,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
-            let transactionDate = DateFormatHelper.sharedHelper.jsonFormat(transaction.transactionDate)
+            let transactionDate = DateFormatHelper.shared.jsonFormat(transaction.transactionDate)
             FileLog.shared.addMessage("IAPHelper Processing transaction with id \(String(describing: transaction.transactionIdentifier)) \(transactionDate))")
 
             if lowercasedProductIdentifiers.contains(product.lowercased()) {

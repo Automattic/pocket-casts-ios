@@ -1,7 +1,7 @@
 import UIKit
 
 public class DateFormatHelper: NSObject {
-    public static let sharedHelper = DateFormatHelper()
+    public static let shared = DateFormatHelper()
 
     private lazy var shortLocalizedFormatter: DateFormatter = {
         let formatter = DateFormatter()

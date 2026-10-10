@@ -226,7 +226,7 @@ final class FingerprintPreparationTests: XCTestCase {
 
         // A pass that decoded instead would keep committing anchors of its own
         // after this point, and it would have had to pass through `.preparing`.
-        try await Task.sleep(nanoseconds: 1_500_000_000)
+        await waitForPass(manager)
         XCTAssertEqual(manager.state.analyticsName, "active")
         XCTAssertEqual(manager.debugMappingSnapshot().count, cached.count)
     }
@@ -249,7 +249,7 @@ final class FingerprintPreparationTests: XCTestCase {
 
         // The pass was cancelled rather than left running: nothing it commits after
         // this point can reach the mapping.
-        try await Task.sleep(nanoseconds: 1_500_000_000)
+        await waitForPass(manager)
         XCTAssertTrue(manager.debugMappingSnapshot().isEmpty)
         XCTAssertEqual(manager.state.analyticsName, "idle")
     }

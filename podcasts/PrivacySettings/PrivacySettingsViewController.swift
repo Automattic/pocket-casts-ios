@@ -38,7 +38,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
         if !isProfileSharingSection {
             let analyticsRow = indexPath.row
             if analyticsRow == 3 {
-                NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+                NavigationManager.shared.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
             }
         }
     }

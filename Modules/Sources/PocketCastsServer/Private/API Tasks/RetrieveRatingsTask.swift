@@ -33,7 +33,7 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
                 UserPodcastRating(podcastRating: rating.podcastRating, podcastUuid: rating.podcastUuid, modifiedAt: rating.modifiedAt.date)
             }
 
-            DataManager.sharedManager.ratings.ratings = convertedRatings
+            DataManager.shared.ratings.ratings = convertedRatings
 
             success = true
 

@@ -96,7 +96,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
             featuredCell.populateFrom(podcast, listName: labelTitle ?? L10n.top)
             featuredCell.showRanking()
             if let uuid = podcast.uuid {
-                ColorManager.darkThemeTintColorForPodcastUuid(uuid, completion: { (color: UIColor) in
+                ColorManager.darkThemeTintColor(forPodcastUuid: uuid, completion: { (color: UIColor) in
                     DispatchQueue.main.async {
                         featuredCell.setPodcastColor(color)
                     }

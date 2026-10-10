@@ -51,8 +51,9 @@ class InformationalBannerViewCoordinator {
     }
 
     func presentLoginFlow() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow,
-                                                   data: ["flow": OnboardingFlow.Flow.loggedOut])
+        NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow,
+                                                   data: ["flow": OnboardingFlow.Flow.loggedOut,
+                                                          "source": PlusUpgradeViewSource.encourageAccountCreation])
         Analytics.track(.informationalBannerViewCreateAccountTap, properties: ["source": viewModel.bannerType.rawValue.lowerSnakeCased()])
     }
 
@@ -67,7 +68,13 @@ class InformationalBannerViewCoordinator {
             edgeInsets: bannerViewEdgeInsets
         ).themedUIView
         headerView.addSubview(bannerView)
-        bannerView.anchorToAllSidesOf(view: headerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            bannerView.topAnchor.constraint(equalTo: headerView.topAnchor),
+            bannerView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
+            bannerView.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor),
+            bannerView.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor)
+        ])
         return headerView
     }
 

@@ -21,7 +21,7 @@ class PodcastImageView: UIView {
 
     func setPodcast(uuid: String, size: PodcastThumbnailSize) {
         guard let imageView else { return }
-        ImageManager.sharedManager.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
+        ImageManager.shared.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
         adjustForSize(size)
     }
 
@@ -34,14 +34,14 @@ class PodcastImageView: UIView {
     func setUserEpisode(uuid: String, size: PodcastThumbnailSize) {
         guard let imageView else { return }
 
-        ImageManager.sharedManager.loadUserEpisodeImage(uuid: uuid, imageView: imageView, size: size, completionHandler: nil)
+        ImageManager.shared.loadUserEpisodeImage(uuid: uuid, imageView: imageView, size: size, completionHandler: nil)
         adjustForSize(size)
     }
 
     func setBaseEpisode(episode: BaseEpisode, size: PodcastThumbnailSize) {
         guard let imageView else { return }
 
-        ImageManager.sharedManager.loadImage(episode: episode, imageView: imageView, size: size)
+        ImageManager.shared.loadImage(episode: episode, imageView: imageView, size: size)
         adjustForSize(size)
     }
 
@@ -57,7 +57,7 @@ class PodcastImageView: UIView {
 
     func setPlaceholder(size: PodcastThumbnailSize) {
         imageView?.kf.cancelDownloadTask()
-        imageView?.image = ImageManager.sharedManager.placeHolderImage(size)
+        imageView?.image = ImageManager.shared.placeHolderImage(size)
         adjustForSize(size)
     }
 
@@ -128,7 +128,7 @@ class PodcastImageView: UIView {
     }
 
     func clearArtwork() {
-        imageView?.image = ImageManager.sharedManager.placeHolderImage(.list)
+        imageView?.image = ImageManager.shared.placeHolderImage(.list)
     }
 
     private func setupView() {

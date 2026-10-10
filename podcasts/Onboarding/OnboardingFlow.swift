@@ -10,6 +10,9 @@ struct OnboardingFlow {
     private(set) var currentFlow: Flow = .none
     private(set) var source: PlusUpgradeViewSource? = nil
 
+    /// Where the flow started, tracked as `flow_source`. Unlike `source`, `updateAnalyticsSource` doesn't change it.
+    private(set) var originSource: PlusUpgradeViewSource? = nil
+
     /// Gates the notifications prompt for non-onboarding flows (e.g. EAC): shown only after account
     /// creation, not on "Not Now". Cleared on `begin()` and `reset()`.
     private(set) var didCreateAccount = false
@@ -20,9 +23,10 @@ struct OnboardingFlow {
         didCreateAccount = true
     }
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, traitCollection: UITraitCollection, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
+        self.originSource = source
         self.accountCreated = accountCreated
         // Also cleared here (not just `reset()`, which is only reached conditionally) to keep the
         // flag scoped to one flow. Account creation always happens after `begin()`, so nothing is lost.
@@ -59,15 +63,15 @@ struct OnboardingFlow {
                                                           )
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly), traitCollection: traitCollection)
 
         case .encourageAccountCreation:
-            flowController = InformationalModalViewModel.makeController()
+            flowController = InformationalModalViewModel.makeController(traitCollection: traitCollection)
 
         case .initialOnboarding:
-            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: true)
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: true, traitCollection: traitCollection)
         default:
-            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: false)
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: false, traitCollection: traitCollection)
         }
 
         return flowController
@@ -85,9 +89,10 @@ struct OnboardingFlow {
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
         if Self.shouldShowNotificationsPermissions(didCreateAccount: didCreateAccount, flow: currentFlow) {
-            NavigationManager.sharedManager.showNotificationsPermissionsModal()
+            NavigationManager.shared.showNotificationsPermissionsModal()
         }
         source = .unknown
+        originSource = nil
         currentFlow = .none
         didCreateAccount = false
 
@@ -112,6 +117,10 @@ struct OnboardingFlow {
         // Append the source, only if it's set because not every event needs a source
         if let source {
             defaultProperties["source"] = source.rawValue
+        }
+
+        if let originSource {
+            defaultProperties["flow_source"] = originSource.rawValue
         }
 
         let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }

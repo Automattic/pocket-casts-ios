@@ -200,7 +200,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
 
         let readableContentGuideMargin = 12.0
         let topMargin = showFromEpisode ? 24.0 : 0.0
-        let paywallButtonBottomMargin: CGFloat = showFromEpisode && view.safeAreaInsets.bottom == 0 ? -readableContentGuideMargin : 0.0
+        let paywallButtonBottomMargin: CGFloat = showFromEpisode ? -readableContentGuideMargin : 0.0
 
         NSLayoutConstraint.activate(
             [
@@ -217,7 +217,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                badge.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                badge.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
                 badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 56),
                 titleLabel.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 24),
                 titleLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor, constant: readableContentGuideMargin),
@@ -261,9 +261,9 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     @objc private func paywallButtonTapped() {
         track(event: .transcriptGeneratedPaywallSubscribeTapped)
         if analyticsSource == .player {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+            NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
         } else {
-            let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: .generatedTranscripts, context: [:])
+            let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: .generatedTranscripts, context: [:], traitCollection: traitCollection)
             self.parent?.present(controller, animated: true, completion: nil)
         }
     }

@@ -1,3 +1,4 @@
+import UIKit
 import XCTest
 
 @testable import podcasts
@@ -35,7 +36,7 @@ final class OnboardingFlowTests: XCTestCase {
 
     func testResetClearsAccountCreatedFlag() {
         var flow = OnboardingFlow()
-        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        _ = flow.begin(flow: .loggedOut, source: .unknown, traitCollection: UITraitCollection())
         flow.markAccountCreated()
         XCTAssertTrue(flow.didCreateAccount)
         flow.reset()
@@ -44,11 +45,11 @@ final class OnboardingFlowTests: XCTestCase {
 
     func testBeginClearsStaleAccountCreatedFlag() {
         var flow = OnboardingFlow()
-        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        _ = flow.begin(flow: .loggedOut, source: .unknown, traitCollection: UITraitCollection())
         flow.markAccountCreated()
         XCTAssertTrue(flow.didCreateAccount)
         // A new flow that never reached reset() must not inherit the previous flow's flag.
-        _ = flow.begin(flow: .loggedOut, source: .unknown)
+        _ = flow.begin(flow: .loggedOut, source: .unknown, traitCollection: UITraitCollection())
         XCTAssertFalse(flow.didCreateAccount, "begin() must scope didCreateAccount to a single flow")
     }
 }

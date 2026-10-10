@@ -24,8 +24,8 @@ fi
 
 ## Validate Secrets!
 ##
-if [ ! -f $CREDENTIALS_JSON_PATH ]; then
-    echo "error: $CREDENTIALS_JSON_PATH not found! Please run \`bundle exec fastlane run configure_apply\`."
+if [ ! -f "$CREDENTIALS_JSON_PATH" ]; then
+    echo "error: $CREDENTIALS_JSON_PATH not found! Install a8c-secrets from https://github.com/Automattic/a8c-secrets and follow the set up instructions. If already installed, try a8c-secrets decrypt."
     exit 1
 else
     echo ">> Loading Secrets from ${CREDENTIALS_JSON_PATH}"

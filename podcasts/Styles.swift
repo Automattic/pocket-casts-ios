@@ -71,7 +71,7 @@ struct RequiredFieldStyle: TextFieldStyle {
 
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
-            .colorScheme(Theme.isDarkTheme() ? .dark : .light)
+            .colorScheme(Theme.isDarkTheme ? .dark : .light)
             .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
             .padding(6)
             .required(hasErrored)

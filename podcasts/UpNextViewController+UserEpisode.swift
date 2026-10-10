@@ -12,7 +12,7 @@ extension UpNextViewController: UserEpisodeDetailProtocol {
     }
 
     func showUpgradeRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .unknown)
+        NavigationManager.shared.showUpsellView(from: self, source: .unknown)
     }
 
     func userEpisodeDetailClosed() {

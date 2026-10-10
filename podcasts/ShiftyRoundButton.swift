@@ -97,7 +97,7 @@ class ShiftyRoundButton: UIView {
         textLayer.string = buttonTitle
         textLayer.foregroundColor = textColor.cgColor
         textLayer.fontSize = uiFont.pointSize
-        textLayer.contentsScale = UIScreen.main.scale
+        textLayer.contentsScale = traitCollection.displayScale
         textLayer.font = CGFont(uiFont.fontName as CFString)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
     }
@@ -108,6 +108,10 @@ class ShiftyRoundButton: UIView {
             view.updateTextLayerFont()
             view.setNeedsLayout()
         }
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: ShiftyRoundButton, _) in
+            view.shapeLayer.contentsScale = view.traitCollection.displayScale
+            view.textLayer.contentsScale = view.traitCollection.displayScale
+        }
 
         clipsToBounds = true
         isUserInteractionEnabled = true
@@ -115,7 +119,7 @@ class ShiftyRoundButton: UIView {
         shapeLayer.fillColor = fillColorForButton()
         shapeLayer.strokeColor = strokeColor.cgColor
         shapeLayer.lineCap = CAShapeLayerLineCap.round
-        shapeLayer.contentsScale = UIScreen.main.scale
+        shapeLayer.contentsScale = traitCollection.displayScale
         shapeLayer.lineWidth = 2.0
         layer.insertSublayer(shapeLayer, at: 0)
 

@@ -39,10 +39,10 @@ class PCGoogleCastButton: UIButton {
     }
 
     private func updateForCurrentState() {
-        if GoogleCastManager.sharedManager.connected() {
+        if GoogleCastManager.shared.connected() {
             setImageOnAllStates(imageName: PCGoogleCastButton.connectedIconName)
             accessibilityValue = L10n.chromecastConnected
-        } else if GoogleCastManager.sharedManager.connecting() {
+        } else if GoogleCastManager.shared.connecting() {
             imageView?.animationImages = createAnimationImages()
             imageView?.animationDuration = 1.0
             imageView?.startAnimating()

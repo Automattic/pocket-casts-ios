@@ -41,6 +41,23 @@ class ThemeableTable: UITableView {
         updateColor()
     }
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        guard safeAreaInsets.left > 0 || safeAreaInsets.right > 0 else { return }
+        let margin: CGFloat
+        if safeAreaInsets.left == 0 {
+            margin = layoutMargins.left
+        } else if safeAreaInsets.right == 0 {
+            margin = layoutMargins.right
+        } else {
+            margin = 20
+        }
+        let margins = NSDirectionalEdgeInsets(top: 0, leading: margin, bottom: 0, trailing: margin)
+        if directionalLayoutMargins != margins {
+            directionalLayoutMargins = margins
+        }
+    }
+
     class func setHeaderFooterTextColor(on headerFooter: UIView) {
         // we do this instead of using UIAppearance because UIKit overwrites this colour sometimes
         // mentioned here (https://developer.apple.com/forums/thread/60735) and reproducible if you set your phone to dark and our app to light

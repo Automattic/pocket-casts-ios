@@ -13,7 +13,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     let podcastsSmartRuleHeaderCellId = "PodcastsSmartRuleHeaderCellId"
     var saveButton: UIButton!
 
-    private var keyBoardHeight: CGFloat = .zero
     private var tempPodcasts: [Podcast] = []
     private var isSearching = false
     private var searchController: PCSearchBarController?
@@ -67,9 +66,8 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.estimatedRowHeight = UITableView.automaticDimension
         podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
         podcastTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
-        podcastTable.backgroundColor = AppTheme.viewBackgroundColor()
-        addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
-        addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
+        podcastTable.backgroundColor = AppTheme.viewBackgroundColor
+        view.keyboardLayoutGuide.usesBottomSafeArea = false
         podcastTable.sectionHeaderTopPadding = 0
 
         setupNavBar()
@@ -101,7 +99,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func setupNavBar() {
         let backgroundColor: UIColor
-        backgroundColor = AppTheme.viewBackgroundColor()
+        backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
         title = L10n.filterChoosePodcasts.sentenceCased
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -124,7 +122,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func setupSaveButton() {
         footerView = ThemeableView()
-        footerView.backgroundColor = AppTheme.viewBackgroundColor()
+        footerView.backgroundColor = AppTheme.viewBackgroundColor
         saveButton = UIButton(type: .custom)
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
         setupSaveButtonTitle()
@@ -133,22 +131,25 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         footerView.addSubview(saveButton)
         footerView.translatesAutoresizingMaskIntoConstraints = false
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
-            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16)
-        ])
 
         podcastTableBottomConstraint.isActive = false
 
         view.addSubview(footerView)
         view.bringSubviewToFront(footerView)
+        let saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        saveButtonBottomConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            footerView.heightAnchor.constraint(equalToConstant: 110),
+            footerView.topAnchor.constraint(equalTo: saveButton.topAnchor, constant: -16),
             footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+
+            saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            saveButton.heightAnchor.constraint(equalToConstant: 60),
+            saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor),
+            saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16),
+            saveButtonBottomConstraint,
 
             podcastTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
@@ -186,7 +187,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         filterToEdit.podcastSmartRuleApplied = true
 
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
@@ -269,7 +270,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)
@@ -339,7 +340,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     override func handleThemeChanged() {
         super.handleThemeChanged()
-        footerView.backgroundColor = AppTheme.viewBackgroundColor()
+        footerView.backgroundColor = AppTheme.viewBackgroundColor
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
         podcastTable.reloadData()
         setupNavBar()
@@ -357,30 +358,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let keyBoardHeight = isSearching ? keyBoardHeight - 110 : 0
+        let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
+        let keyBoardHeight = isSearching ? max(0, keyboardHeight - footerView.bounds.height) : 0
         podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
         podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
-    }
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: true)
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: false)
-    }
-
-    private func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-
-        let keyboardHeight = keyboardFrame.height
-        keyBoardHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
-
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
     }
 }
 

@@ -55,6 +55,7 @@ struct PaidStoryWallView2025: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
+            let isSmallScreen = geometry.size.height <= 667
             VStack(spacing: 0) {
                 Spacer()
                     .frame(width: geometry.size.width)
@@ -70,7 +71,7 @@ struct PaidStoryWallView2025: StoryView {
                             }
                         }
                     }
-                    .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
+                    .padding(.top, isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
                 StoryFooter2025(title: tier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
                                 description: tier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(tier.displayNameShort),
@@ -81,7 +82,7 @@ struct PaidStoryWallView2025: StoryView {
                             return
                         }
                         Analytics.track(.endOfYearUpsellShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
-                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.shared.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
                         Analytics.track(.endOfYearPlusContinued, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         advanceToNextStory()

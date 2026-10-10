@@ -35,7 +35,7 @@ final class FingerprintEpisodeFixture {
         // container `AVAudioFile` writes the fixture audio into.
         episode.contentType = "audio/wav"
 
-        audioURL = URL(fileURLWithPath: DownloadManager.shared.pathForEpisode(episode))
+        audioURL = URL(fileURLWithPath: DownloadManager.shared.path(for: episode))
         referenceURL = URL(
             fileURLWithPath: (audioURL.path as NSString).deletingPathExtension + ".ref.fp.json"
         )
@@ -88,16 +88,16 @@ final class CurrentEpisodeOverride {
     private let previousDataManager: DataManager
 
     init(episode: BaseEpisode) {
-        previousDataManager = DataManager.sharedManager
+        previousDataManager = DataManager.shared
 
         let stub = NowPlayingStubDataManager(dbQueue: previousDataManager.dbQueue)
         stub.nowPlaying = episode
-        DataManager.sharedManager = stub
+        DataManager.shared = stub
         PlaybackManager.shared.queue.loadPersistedQueue()
     }
 
     func restore() {
-        DataManager.sharedManager = previousDataManager
+        DataManager.shared = previousDataManager
         PlaybackManager.shared.queue.loadPersistedQueue()
     }
 }
@@ -133,39 +133,23 @@ extension XCTestCase {
         }
     }
 
-    /// Waits for a fingerprint pass to run itself out.
+    /// Waits for a fingerprint pass to run itself out, along with everything else
+    /// already submitted to the manager.
     ///
     /// The manager reports no completion — `.active` lands as soon as the first
-    /// couple of anchors commit, with most of the file still to decode. So a pass
-    /// is finished once it has left `.preparing` and its committed mapping has
-    /// stopped growing for `quiet`.
+    /// couple of anchors commit, with most of the file still to decode — so this
+    /// waits for its queues to drain instead.
     @MainActor
     func waitForPass(
         _ manager: FingerprintTimingManager,
-        quiet: TimeInterval = 1,
         timeout: TimeInterval = 120,
         file: StaticString = #filePath,
         line: UInt = #line
     ) async {
-        await waitUntil("the pass to start", timeout: timeout, file: file, line: line) {
-            manager.state.analyticsName != "idle"
+        let expectation = XCTestExpectation(description: "the fingerprint pass to finish")
+        manager.debugNotifyWhenPendingWorkFinishes { expectation.fulfill() }
+        if await XCTWaiter().fulfillment(of: [expectation], timeout: timeout) != .completed {
+            XCTFail("Timed out waiting for the fingerprint pass to finish", file: file, line: line)
         }
-
-        let deadline = Date().addingTimeInterval(timeout)
-        var lastCoverage = -1
-        var unchangedSince = Date()
-        while Date() < deadline {
-            let coverage = manager.debugMappingSnapshot().count
-            if coverage != lastCoverage {
-                lastCoverage = coverage
-                unchangedSince = Date()
-            }
-            if manager.state.analyticsName != "preparing",
-               Date().timeIntervalSince(unchangedSince) >= quiet {
-                return
-            }
-            try? await Task.sleep(nanoseconds: 50_000_000)
-        }
-        XCTFail("Timed out waiting for the fingerprint pass to finish", file: file, line: line)
     }
 }

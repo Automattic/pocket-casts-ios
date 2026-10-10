@@ -11,7 +11,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
         let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
         if bytesReceived > 0 || bytesSent > 0 {
-            DataManager.sharedManager.networkDataUsageManager.add(
+            DataManager.shared.networkDataUsageManager.add(
                 bytesDownloaded: bytesReceived,
                 bytesUploaded: bytesSent,
                 operationType: .sync,
@@ -37,6 +37,14 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             let expectedLength = downloadTask.response?.expectedContentLength ?? BackgroundSyncManager.unknownContentLength
             if let receivedData = data, !BackgroundSyncManager.isDownloadComplete(receivedBytes: receivedData.count, expectedContentLength: expectedLength) {
                 FileLog.shared.addMessage("Background sync data truncated for task \(downloadTask.taskDescription ?? "unknown"): received \(receivedData.count) bytes, expected \(expectedLength)")
+                data = nil
+            }
+        }
+
+        if FeatureFlag.ignoreUnsuccessfulBackgroundUpNextSync.enabled, downloadTask.taskDescription == upNextSyncTaskId {
+            let httpStatus = downloadTask.response?.extractStatusCode() ?? 0
+            if !BackgroundSyncManager.shouldProcessUpNextResponse(httpStatus: httpStatus, data: data) {
+                FileLog.shared.addMessage("Background Up Next sync returned status \(httpStatus) with \(data?.count ?? 0) bytes, not processing the response")
                 data = nil
             }
         }
@@ -133,7 +141,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             // this is slightly problematic because this might not return the list that was originally synced, but also we can't store that in memory because the app can be killed between start and finish
             // if this turns out to be an issue we could perhaps persist the UUIDs to UserDefaults, or come up with some other solution to this
             let episodesSynced: [Episode]
-            episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+            episodesSynced = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
             _ = syncTask.processSyncData(data, httpStatus: httpCode, episodesToSync: episodesSynced)
         }
     }

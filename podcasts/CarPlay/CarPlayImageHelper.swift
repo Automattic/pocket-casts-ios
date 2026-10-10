@@ -2,26 +2,31 @@ import CarPlay
 import Foundation
 import Kingfisher
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class CarPlayImageHelper {
-    static var imageCache = ImageCache(name: "carplay_cache")
+    static var imageCache: ImageCache = {
+        let cache = ImageCache(name: "carplay_cache")
+        cache.memoryStorage.config.totalCostLimit = 20.megabytes
+        return cache
+    }()
     static var carTraitCollection: UITraitCollection?
 
-    class func imageForPodcast(_ podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+    class func image(for podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
         let cacheKey = podcast.uuid
 
         if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {
             return cachedImage
         }
 
-        let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
+        let image = ImageManager.shared.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
 
         let adjustedImage = adjustImageIfRequired(image: image)
         cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
         return adjustedImage
     }
 
-    class func imageForFolder(_ folder: Folder) -> UIImage {
+    class func image(for folder: Folder) -> UIImage {
         /// sj_snapshotImage is failing to generate the preview (artworks won't appear)
         /// A workaround is to wrap the view in a UIStackView. This prevents the folder
         /// image from being rendered without the artworks.
@@ -38,7 +43,7 @@ class CarPlayImageHelper {
         return adjustImageIfRequired(image: image)
     }
 
-    class func imageForEpisode(_ episode: BaseEpisode, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+    class func image(for episode: BaseEpisode, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
         let cacheKey = episode.cacheKey
 
         if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {
@@ -47,9 +52,9 @@ class CarPlayImageHelper {
 
         var image: UIImage?
         if let episode = episode as? Episode {
-            image = ImageManager.sharedManager.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
+            image = ImageManager.shared.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
         } else if let userEpisode = episode as? UserEpisode {
-            image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
+            image = ImageManager.shared.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
 
         if let image {

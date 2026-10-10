@@ -3,25 +3,27 @@ import Foundation
 import PocketCastsUtils
 
 class SynchronizedAudioStack {
-    private var itemQueue = Queue<BufferedAudio>()
-    private var itemQueueCount = 0
-    private var samplesStored = 0 as AVAudioFrameCount
+    private struct State {
+        var itemQueue = Queue<BufferedAudio>()
+        var itemQueueCount = 0
+        var samplesStored = 0 as AVAudioFrameCount
+    }
 
-    private let singleQueue = DispatchQueue(label: "au.com.pocketcasts.SynchronizedAudioStackQueue")
+    private let state = Mutex(State())
 
     func push(_ item: BufferedAudio) {
-        singleQueue.sync {
-            itemQueue.enqueue(item)
-            itemQueueCount += 1
-            samplesStored += item.audioBuffer.frameLength
+        state.withLock { state in
+            state.itemQueue.enqueue(item)
+            state.itemQueueCount += 1
+            state.samplesStored += item.audioBuffer.frameLength
         }
     }
 
     func pop() -> BufferedAudio? {
-        singleQueue.sync {
-            if let item = itemQueue.dequeue() {
-                itemQueueCount -= 1
-                samplesStored -= item.audioBuffer.frameLength
+        state.withLock { state in
+            if let item = state.itemQueue.dequeue() {
+                state.itemQueueCount -= 1
+                state.samplesStored -= item.audioBuffer.frameLength
 
                 return item
             }
@@ -31,30 +33,30 @@ class SynchronizedAudioStack {
     }
 
     func removeAll() {
-        singleQueue.sync {
-            itemQueue.removeAll()
-            itemQueueCount = 0
-            samplesStored = 0
+        state.withLock { state in
+            state.itemQueue.removeAll()
+            state.itemQueueCount = 0
+            state.samplesStored = 0
         }
     }
 
     func canPop() -> Bool {
-        singleQueue.sync {
-            !itemQueue.isEmpty
+        state.withLock { state in
+            !state.itemQueue.isEmpty
         }
     }
 
     func count() -> Int {
-        singleQueue.sync {
-            itemQueueCount
+        state.withLock { state in
+            state.itemQueueCount
         }
     }
 
     func averageSampleCount() -> AVAudioFrameCount {
-        singleQueue.sync {
-            if itemQueueCount == 0 || samplesStored == 0 { return 0 }
+        state.withLock { state in
+            if state.itemQueueCount == 0 || state.samplesStored == 0 { return 0 }
 
-            return samplesStored / UInt32(itemQueueCount)
+            return state.samplesStored / UInt32(state.itemQueueCount)
         }
     }
 }

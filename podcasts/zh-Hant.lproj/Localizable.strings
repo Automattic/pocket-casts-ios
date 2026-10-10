@@ -1181,12 +1181,6 @@ Pocket Casts Plus</string>
     <string>隨機播放佇列</string>
     <key>feature_marketing_watch_playback</key>
     <string>Wear OS 和 Apple Watch 版應用程式</string>
-    <key>feature_tour_end_tour</key>
-    <string>結束導覽</string>
-    <key>feature_tour_new</key>
-    <string>新功能</string>
-    <key>feature_tour_step_format</key>
-    <string>第 %1$@ 個，共 %2$@ 個</string>
     <key>feedback_continue_with_mail</key>
     <string>開啟預設的郵件應用程式</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ Pocket Casts Plus</string>
     <string>本集無法播放。</string>
     <key>player_error_internet_connection</key>
     <string>請檢查你的網際網路連線並再試一次。</string>
+    <key>player_error_not_enough_storage</key>
+    <string>裝置儲存空間不足。 請釋出一些空間後再試一次。</string>
     <key>player_error_short_no_connection</key>
     <string>你目前為離線狀態</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>裝置儲存空間已滿</string>
     <key>player_error_short_playback_error</key>
     <string>播放失敗，請再試一次</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ Pocket Casts Plus</string>
     <string>播放錯誤</string>
     <key>player_user_episode_upload_error</key>
     <string>上傳錯誤</string>
+    <key>player_video_exit_full_screen</key>
+    <string>結束全螢幕</string>
+    <key>player_video_full_screen</key>
+    <string>全螢幕</string>
     <key>playlist_add_to_title</key>
     <string>新增至「%@」</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Pocket Casts Plus</string>
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>使用經過更新的音量增強功能，取得更一致的音量。</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>顯示未讀圓點</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>如果有新的「最新內容」訊息，個人檔案上會顯示未讀圓點。</string>
     <key>settings_global_settings</key>
     <string>全域設定</string>
     <key>settings_headphone_controls</key>
@@ -4446,6 +4452,24 @@ Pocket Casts Plus</string>
     <string>新功能</string>
     <key>whats_new_blog_more_link_text</key>
     <string>在我們的網誌深入瞭解此更新</string>
+    <key>whats_new_category_announcement</key>
+    <string>公告</string>
+    <key>whats_new_category_known_issue</key>
+    <string>已知問題</string>
+    <key>whats_new_category_new_feature</key>
+    <string>新功能</string>
+    <key>whats_new_category_research</key>
+    <string>使用者研究</string>
+    <key>whats_new_category_tip</key>
+    <string>秘訣與技巧</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>新功能、秘訣和公告會於此處顯示。</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>尚無訊息</string>
+    <key>whats_new_feed_read_all</key>
+    <string>全部已讀</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>無法載入最新內容</string>
     <key>whats_new_in_version</key>
     <string>%1$@ 最新內容</string>
     <key>whats_new_page_one_7_20</key>
@@ -4460,6 +4484,8 @@ Pocket Casts Plus</string>
 這表示你對排版 Podcast 頁面所付出的努力工作，都會同步至你的帳戶，因此你可以高枕無憂。</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>主畫面網格同步</string>
+    <key>whats_new_poll_answered</key>
+    <string>感謝回覆。</string>
     <key>widgets_app_icon_description</key>
     <string>快速推出 Pocket Casts</string>
     <key>widgets_app_icon_name</key>

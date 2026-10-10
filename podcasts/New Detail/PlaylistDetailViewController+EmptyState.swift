@@ -11,7 +11,7 @@ extension PlaylistDetailViewController {
 
     private var emptyStateDescription: String? {
         if viewModel.isManualPlaylist {
-            return viewModel.hasSubscribedPodcasts ? nil : L10n.playlistManualEmptyStateSubtitleNoPodcasts
+            return viewModel.hasSubscribedPodcasts ? L10n.playlistManualEmptyStateSubtitle : L10n.playlistManualEmptyStateSubtitleNoPodcasts
         }
         return L10n.playlistSmartNoEpisodesMsg
     }
@@ -40,11 +40,12 @@ extension PlaylistDetailViewController {
 
         if viewModel.shouldShowEmptyPlaceholder {
             // Empty State when playlists is empty
+            let icon = emptyStateIcon
             config = ContentUnavailableConfiguration.emptyState(
                 title: emptyStateTitle,
                 message: emptyStateDescription,
                 icon: {
-                    self.emptyStateIcon
+                    icon
                 },
                 actions: [
                 .init(
@@ -74,6 +75,6 @@ extension PlaylistDetailViewController {
             return
         }
         track(.filterBrowseShowsCtaEmptyTapped)
-        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey)
     }
 }

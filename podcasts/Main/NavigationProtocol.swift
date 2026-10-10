@@ -5,9 +5,9 @@ import UIKit
 
 protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
-    func navigateToPodcast(_ podcast: Podcast)
-    func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
-    func navigateTo(podcast searchResult: PodcastFolderSearchResult)
+    func navigateToPodcast(_ podcast: Podcast, source: PodcastScreenSource)
+    func navigateToPodcastInfo(_ podcastInfo: PodcastInfo, source: PodcastScreenSource)
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult, source: PodcastScreenSource)
 
     func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
     func navigateToSuggestedFolders()
@@ -17,6 +17,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToDiscover(_ animated: Bool)
     func navigateToDiscover(category: String, animated: Bool)
     func navigateToDiscover(listID: String, animated: Bool)
+    func navigateToDiscoverNetworks(_ animated: Bool)
 
     func navigateToProfile(row: ProfileViewController.TableRow?, animated: Bool)
 
@@ -55,6 +56,6 @@ protocol NavigationProtocol: AnyObject {
 
     func showEndOfYearStories()
     func dismissPresentedViewController(completion: (() -> Void)?)
-    func showOnboardingFlow(flow: OnboardingFlow.Flow?)
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?, source: PlusUpgradeViewSource?)
     func showNotificationsPermissions()
 }

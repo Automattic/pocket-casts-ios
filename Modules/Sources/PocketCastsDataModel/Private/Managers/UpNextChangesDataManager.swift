@@ -11,7 +11,7 @@ class UpNextChangesDataManager {
 
     // MARK: - Query
 
-    func findReplaceAction(dbQueue: PCDBQueue) -> UpNextChanges? {
+    func findReplaceAction(dbQueue: GRDBQueue) -> UpNextChanges? {
         var replaceAction: UpNextChanges?
         dbQueue.read { db in
             do {
@@ -28,7 +28,7 @@ class UpNextChangesDataManager {
         return replaceAction
     }
 
-    func findUpdateActions(dbQueue: PCDBQueue) -> [UpNextChanges] {
+    func findUpdateActions(dbQueue: GRDBQueue) -> [UpNextChanges] {
         var allUpdateActions = [UpNextChanges]()
         dbQueue.read { db in
             do {
@@ -48,23 +48,23 @@ class UpNextChangesDataManager {
 
     // MARK: - Update
 
-    func saveUpNextRemove(episodeUuid: String, dbQueue: PCDBQueue) {
+    func saveUpNextRemove(episodeUuid: String, dbQueue: GRDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.remove, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddToTop(episodeUuid: String, dbQueue: PCDBQueue) {
+    func saveUpNextAddToTop(episodeUuid: String, dbQueue: GRDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNext, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddToBottom(episodeUuid: String, dbQueue: PCDBQueue) {
+    func saveUpNextAddToBottom(episodeUuid: String, dbQueue: GRDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playLast, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddNowPlaying(episodeUuid: String, dbQueue: PCDBQueue) {
+    func saveUpNextAddNowPlaying(episodeUuid: String, dbQueue: GRDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNow, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveReplace(episodeList: [String], dbQueue: PCDBQueue) {
+    func saveReplace(episodeList: [String], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 // a replace literally replaces everything that came before it, so empty the table out
@@ -82,7 +82,7 @@ class UpNextChangesDataManager {
         }
     }
 
-    private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: PCDBQueue) {
+    private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 // an update replaces any other update that is for the same episode, so delete any that might exist
@@ -102,7 +102,7 @@ class UpNextChangesDataManager {
 
     // MARK: - Delete
 
-    func deleteChangesOlderThan(utcTime: Int64, dbQueue: PCDBQueue) {
+    func deleteChangesOlderThan(utcTime: Int64, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) where utcTime <= ?", values: [utcTime])

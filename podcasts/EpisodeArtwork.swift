@@ -13,7 +13,7 @@ final class EpisodeArtwork {
     /// Track in-progress artwork load tasks by episode UUID to prevent redundant requests and allow cancellation
     private var inProgressArtworkLoads: [String: Task<Void, Never>] = [:]
 
-    init(imageManager: ImageManager = .sharedManager) {
+    init(imageManager: ImageManager = .shared) {
         self.imageManager = imageManager
     }
 

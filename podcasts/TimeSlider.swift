@@ -77,7 +77,7 @@ class TimeSlider: UIView {
 
     override func awakeFromNib() {
         let tLayer = timeLayer()
-        tLayer.contentsScale = UIScreen.main.scale
+        tLayer.contentsScale = traitCollection.displayScale
         tLayer.leftColor = leftColor.cgColor
         tLayer.rightColor = rightColor.cgColor
         tLayer.animationColor = animationColor.cgColor
@@ -90,6 +90,10 @@ class TimeSlider: UIView {
 
         backgroundColor = UIColor.clear
         tLayer.backgroundColor = UIColor.clear.cgColor
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: TimeSlider, _) in
+            view.timeLayer().contentsScale = view.traitCollection.displayScale
+        }
     }
 
     override func layoutSubviews() {

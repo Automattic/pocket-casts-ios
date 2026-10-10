@@ -79,5 +79,5 @@ struct CancelSubscriptionOfferSuccessView: View {
 
 #Preview {
     CancelSubscriptionOfferSuccessView(viewModel: CancelSubscriptionViewModel(navigationController: UINavigationController()))
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

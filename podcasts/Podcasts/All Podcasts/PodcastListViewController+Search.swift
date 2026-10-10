@@ -33,12 +33,12 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     func makeSortOrderOptionsPicker() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        let sortOption = Settings.homeFolderSortOrder()
+        let sortOption = Settings.homeFolderSortOrder
 
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             guard let strongSelf = self else { return }
 
-            Settings.setHomeFolderSortOrder(order: .titleAtoZ)
+            Settings.homeFolderSortOrder = .titleAtoZ
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.titleAtoZ])
         }
@@ -46,7 +46,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         let releaseDateAction = OptionAction(label: LibrarySort.episodeDateNewestToOldest.description, selected: sortOption == .episodeDateNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
 
-            Settings.setHomeFolderSortOrder(order: .episodeDateNewestToOldest)
+            Settings.homeFolderSortOrder = .episodeDateNewestToOldest
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.episodeDateNewestToOldest])
         }
@@ -54,7 +54,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         let subscribedOrder = OptionAction(label: LibrarySort.dateAddedNewestToOldest.description, selected: sortOption == .dateAddedNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
 
-            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            Settings.homeFolderSortOrder = .dateAddedNewestToOldest
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest])
         }
@@ -62,7 +62,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         let dragAndDropAction = OptionAction(label: LibrarySort.custom.description, selected: sortOption == .custom) { [weak self] in
             guard let strongSelf = self else { return }
 
-            Settings.setHomeFolderSortOrder(order: .custom)
+            Settings.homeFolderSortOrder = .custom
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom])
         }
@@ -70,7 +70,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         let recentlyPlayedOrder = OptionAction(label: LibrarySort.recentlyPlayed.description, selected: sortOption == .recentlyPlayed) { [weak self] in
             guard let strongSelf = self else { return }
 
-            Settings.setHomeFolderSortOrder(order: .recentlyPlayed)
+            Settings.homeFolderSortOrder = .recentlyPlayed
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.recentlyPlayed])
         }

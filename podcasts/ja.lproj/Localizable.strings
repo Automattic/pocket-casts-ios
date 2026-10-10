@@ -1181,12 +1181,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>キューをシャッフル</string>
     <key>feature_marketing_watch_playback</key>
     <string>Wear OS と Apple Watch 向けアプリ</string>
-    <key>feature_tour_end_tour</key>
-    <string>ツアーを終了</string>
-    <key>feature_tour_new</key>
-    <string>新規</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ / %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>デフォルトのメールアプリを開く</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>このエピソードは再生できません。</string>
     <key>player_error_internet_connection</key>
     <string>インターネット接続を確認して、もう一度お試しください。</string>
+    <key>player_error_not_enough_storage</key>
+    <string>端末のストレージが不足しています。 空き容量を確保してから、もう一度お試しください。</string>
     <key>player_error_short_no_connection</key>
     <string>オフラインになっています</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>端末のストレージがいっぱいです</string>
     <key>player_error_short_playback_error</key>
     <string>再生できませんでした。もう一度お試しください</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エラー</string>
     <key>player_user_episode_upload_error</key>
     <string>アップロードエラー</string>
+    <key>player_video_exit_full_screen</key>
+    <string>フルスクリーン表示を終了</string>
+    <key>player_video_full_screen</key>
+    <string>フルスクリーン表示</string>
     <key>playlist_add_to_title</key>
     <string>「%@」に追加</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>より安定した音声レベルで更新されたボリュームブーストを使用します。</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>未読のドットを表示</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>新しい新着情報メッセージがある場合、プロフィールに未読のドットが表示されます。</string>
     <key>settings_global_settings</key>
     <string>グローバル設定</string>
     <key>settings_headphone_controls</key>
@@ -3659,6 +3665,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>タイマーをキャンセル</string>
     <key>sleep_timer_end_of_episode</key>
     <string>エピソード終了時</string>
+    <key>sleep_timer_episode_count</key>
+    <string>あと%1$@エピソード</string>
     <key>sleep_timer_sleeping_after</key>
     <string>%1$@件のエピソードでスリープ</string>
     <key>sleep_timer_sleeping_after_current_episode</key>
@@ -4444,6 +4452,24 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>新着情報</string>
     <key>whats_new_blog_more_link_text</key>
     <string>今回の更新の詳細については、ブログをご覧ください</string>
+    <key>whats_new_category_announcement</key>
+    <string>お知らせ</string>
+    <key>whats_new_category_known_issue</key>
+    <string>既知の問題</string>
+    <key>whats_new_category_new_feature</key>
+    <string>新機能</string>
+    <key>whats_new_category_research</key>
+    <string>ユーザー調査</string>
+    <key>whats_new_category_tip</key>
+    <string>アドバイスとヒント</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>新機能、ヒント、お知らせがこちらに表示されます。</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>まだメッセージがありません</string>
+    <key>whats_new_feed_read_all</key>
+    <string>すべて読む</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>新着情報を読み込めません</string>
     <key>whats_new_in_version</key>
     <string>%1$@ の新機能</string>
     <key>whats_new_page_one_7_20</key>
@@ -4458,6 +4484,8 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
 これにより、ポッドキャストページを配置し、アカウントに同期するために費やす手間がなくなるので安心です。</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>ホームグリッドの同期</string>
+    <key>whats_new_poll_answered</key>
+    <string>ご回答ありがとうございました。</string>
     <key>widgets_app_icon_description</key>
     <string>Pocket Casts をクイック起動</string>
     <key>widgets_app_icon_name</key>

@@ -55,11 +55,30 @@ class PromotionAcknowledgementViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        let resultSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-        let width = view.superview?.bounds.width ?? view.bounds.width
+        let availableWidth = view.superview?.bounds.width ?? view.bounds.width
+        let width = min(Constants.Values.maxWidthForPopups, availableWidth)
+        preferredContentSize = CGSize(width: width, height: contentHeight(width: width))
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        sheetPresentationController?.invalidateDetents()
+    }
+
+    /// A sheet detent that fits the content, so the text isn't clipped on short screens.
+    var contentDetent: UISheetPresentationController.Detent {
+        .custom(identifier: .init("promotionAcknowledgementContent")) { [weak self] context in
+            guard let self else { return nil }
+            let width = min(Constants.Values.maxWidthForPopups, self.view.bounds.width)
+            return min(self.contentHeight(width: width), context.maximumDetentValue)
+        }
+    }
+
+    private func contentHeight(width: CGFloat) -> CGFloat {
+        let fittingSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        let fittingHeight = view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel).height
         let minHeight: CGFloat = width < 350 ? 490 : 450
-        let newSize = CGSize(width: min(Constants.Values.maxWidthForPopups, width), height: max(minHeight, resultSize.height))
-        preferredContentSize = newSize
+        return max(minHeight, fittingHeight)
     }
 
     // MARK: - Orientation

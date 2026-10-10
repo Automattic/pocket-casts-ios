@@ -13,83 +13,19 @@ extension Podcast: Sortable {
 }
 
 class PodcastDataManager {
-    private var cachedPodcasts = [String: Podcast]()
-    private lazy var cachedPodcastsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
+    private let cachedPodcasts = Mutex([String: Podcast]())
 
-        return queue
-    }()
-
-    /// Legacy column names for non-GRDB code path.
-    let columnNames = [
-        "id",
-        "addedDate",
-        "autoDownloadSetting",
-        "autoAddToUpNext",
-        "episodeKeepSetting",
-        "backgroundColor",
-        "detailColor",
-        "primaryColor",
-        "secondaryColor",
-        "lastColorDownloadDate",
-        "imageURL",
-        "latestEpisodeUuid",
-        "latestEpisodeDate",
-        "mediaType",
-        "lastThumbnailDownloadDate",
-        "thumbnailStatus",
-        "podcastUrl",
-        "author",
-        "playbackSpeed",
-        "boostVolume",
-        "trimSilenceAmount",
-        "podcastCategory",
-        "podcastDescription",
-        "podcastHTMLDescription",
-        "sortOrder",
-        "startFrom",
-        "skipLast",
-        "subscribed",
-        "title",
-        "uuid",
-        "syncStatus",
-        "colorVersion",
-        "pushEnabled",
-        "episodeSortOrder",
-        "showType",
-        "estimatedNextEpisode",
-        "episodeFrequency",
-        "lastUpdatedAt",
-        "excludeFromAutoArchive",
-        "overrideGlobalEffects",
-        "overrideGlobalArchive",
-        "autoArchivePlayedAfter",
-        "autoArchiveInactiveAfter",
-        "episodeGrouping",
-        "isPaid",
-        "licensing",
-        "fullSyncLastSyncAt",
-        "showArchived",
-        "refreshAvailable",
-        "folderUuid",
-        "usedCustomEffectsBefore",
-        "isPrivate",
-        "fundingURL",
-        "isExplicit",
-        "networkListId"
-    ]
-
-    func setup(dbQueue: PCDBQueue) {
+    func setup(dbQueue: GRDBQueue) {
         cachePodcasts(dbQueue: dbQueue)
     }
 
     // MARK: - Queries
 
-    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed(), !includeUnsubscribed { continue }
                 allPodcasts.append(podcast)
@@ -99,11 +35,11 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
@@ -116,11 +52,11 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
@@ -133,7 +69,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
@@ -160,7 +96,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
@@ -189,7 +125,7 @@ class PodcastDataManager {
 
     /// Returns 5 random podcasts from the DB
     /// This is here for development purposes.
-    func randomPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
+    func randomPodcasts(dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.read { db in
             do {
@@ -208,9 +144,9 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allUnsubscribedPodcastUuids(dbQueue: PCDBQueue) -> [String] {
+    func allUnsubscribedPodcastUuids(dbQueue: GRDBQueue) -> [String] {
         var allUnsubscribed = [String]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed() { continue }
 
@@ -221,9 +157,9 @@ class PodcastDataManager {
         return allUnsubscribed
     }
 
-    func allUnsubscribedPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
+    func allUnsubscribedPodcasts(dbQueue: GRDBQueue) -> [Podcast] {
         var allUnsubscribed = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed() { continue }
 
@@ -234,7 +170,7 @@ class PodcastDataManager {
         return allUnsubscribed
     }
 
-    func allPodcastsInFolder(folder: Folder, dbQueue: PCDBQueue) -> [Podcast] {
+    func allPodcastsInFolder(folder: Folder, dbQueue: GRDBQueue) -> [Podcast] {
         let sortOrder = folder.folderSort()
 
         // newest episode release date is a special case we handle at the database level
@@ -249,7 +185,7 @@ class PodcastDataManager {
 
         // the other 3 cases we do in memory
         var allPodcastsInFolder: [Podcast] = []
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             allPodcastsInFolder = cachedPodcasts.values.filter { $0.isSubscribed() && $0.folderUuid == folder.uuid }
         }
 
@@ -266,15 +202,15 @@ class PodcastDataManager {
         return allPodcastsInFolder
     }
 
-    func countOfPodcastsInFolder(folder: Folder?, dbQueue: PCDBQueue) -> Int {
-        cachedPodcastsQueue.sync {
+    func countOfPodcastsInFolder(folder: Folder?, dbQueue: GRDBQueue) -> Int {
+        cachedPodcasts.withLock { cachedPodcasts in
             cachedPodcasts.values.filter { $0.isSubscribed() && $0.folderUuid == folder?.uuid }.count
         }
     }
 
-    func allPaidPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
+    func allPaidPodcasts(dbQueue: GRDBQueue) -> [Podcast] {
         var allPaid = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if !podcast.isPaid { continue }
 
@@ -285,9 +221,9 @@ class PodcastDataManager {
         return allPaid
     }
 
-    func allUnsynced(dbQueue: PCDBQueue) -> [Podcast] {
+    func allUnsynced(dbQueue: GRDBQueue) -> [Podcast] {
         var unsyncedPodcasts = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if podcast.syncStatus == SyncStatus.notSynced.rawValue {
                     unsyncedPodcasts.append(podcast)
@@ -298,9 +234,9 @@ class PodcastDataManager {
         return unsyncedPodcasts
     }
 
-    func allOverrideGlobalArchivePodcasts(dbQueue: PCDBQueue) -> [Podcast] {
+    func allOverrideGlobalArchivePodcasts(dbQueue: GRDBQueue) -> [Podcast] {
         var podcastsOverrideArchive = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed(), podcast.overrideGlobalArchive {
                     podcastsOverrideArchive.append(podcast)
@@ -311,8 +247,8 @@ class PodcastDataManager {
         return podcastsOverrideArchive
     }
 
-    func find(uuid: String, includeUnsubscribed: Bool, dbQueue: PCDBQueue) -> Podcast? {
-        cachedPodcastsQueue.sync {
+    func find(uuid: String, includeUnsubscribed: Bool, dbQueue: GRDBQueue) -> Podcast? {
+        cachedPodcasts.withLock { cachedPodcasts in
             guard let podcast = cachedPodcasts[uuid] else { return nil }
 
             if !includeUnsubscribed, !podcast.isSubscribed() { return nil }
@@ -321,7 +257,7 @@ class PodcastDataManager {
         }
     }
 
-    func searchPodcasts(term: String, dbQueue: PCDBQueue) -> [Podcast] {
+    func searchPodcasts(term: String, dbQueue: GRDBQueue) -> [Podcast] {
         let trimmedTerm = term.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedTerm.isEmpty else { return [] }
 
@@ -329,7 +265,7 @@ class PodcastDataManager {
         let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
 
         var matchingPodcasts = [Podcast]()
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 guard podcast.isSubscribed() else { continue }
 
@@ -349,9 +285,9 @@ class PodcastDataManager {
         })
     }
 
-    func count(dbQueue: PCDBQueue) -> Int {
+    func count(dbQueue: GRDBQueue) -> Int {
         var count = 0
-        cachedPodcastsQueue.sync {
+        cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
@@ -362,7 +298,7 @@ class PodcastDataManager {
         return count
     }
 
-    func unfinishedCounts(dbQueue: PCDBQueue) -> [String: Int32] {
+    func unfinishedCounts(dbQueue: GRDBQueue) -> [String: Int32] {
         var counts = [String: Int32]()
         dbQueue.read { db in
             do {
@@ -385,40 +321,22 @@ class PodcastDataManager {
 
     // MARK: - Updates
 
-    func save(podcast: Podcast, dbQueue: PCDBQueue) {
-        let isInsert = podcast.id == 0
-        if isInsert {
+    func save(podcast: Podcast, dbQueue: GRDBQueue) {
+        if podcast.id == 0 {
             podcast.id = DBUtils.generateUniqueId()
         }
 
-        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
-            // GRDB path using PersistableRecord
-            do {
-                try grdbQueue.dbPool.write { db in
-                    try podcast.save(db)
-                }
-            } catch {
-                FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
+        do {
+            try dbQueue.dbPool.write { db in
+                try podcast.save(db)
             }
-        } else {
-            // Legacy path
-            dbQueue.write { db in
-                do {
-                    if isInsert {
-                        try db.executeUpdate("INSERT INTO \(DataManager.podcastTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(podcast: podcast))
-                    } else {
-                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-                    }
-                } catch {
-                    FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
-                }
-            }
+        } catch {
+            FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
         }
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: PCDBQueue) {
+    func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 // clear out any that shouldn't be in this folder
@@ -435,68 +353,68 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: PCDBQueue) {
+    func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: PCDBQueue) {
+    func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: GRDBQueue) {
         podcast.pushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
-    func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: PCDBQueue) {
+    func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: GRDBQueue) {
         saveSingleValue(name: "pushEnabled", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
+    func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: GRDBQueue) {
         saveSingleValue(name: "autoAddToUpNext", value: autoAddToUpNext, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func setPodcastImageVersion(podcastUuid: String, version: Int, dbQueue: PCDBQueue) {
+    func setPodcastImageVersion(podcastUuid: String, version: Int, dbQueue: GRDBQueue) {
         saveSingleValue(name: "lastColorDownloadDate", value: NSNull(), podcastUuid: podcastUuid, dbQueue: dbQueue)
         saveSingleValue(name: "colorVersion", value: version, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func savePodcastDownloadSetting(_ setting: AutoDownloadSetting, podcastUuid: String, dbQueue: PCDBQueue) {
+    func savePodcastDownloadSetting(_ setting: AutoDownloadSetting, podcastUuid: String, dbQueue: GRDBQueue) {
         saveSingleValue(name: "autoDownloadSetting", value: setting.rawValue, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: PCDBQueue) {
+    func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: GRDBQueue) {
         podcast.autoArchiveEpisodeLimit = limit
         podcast.settings.autoArchiveEpisodeLimit = limit
         saveSingleValue(name: "episodeKeepSetting", value: limit, podcastUuid: podcast.uuid, dbQueue: dbQueue)
     }
 
-    func delete(podcast: Podcast, dbQueue: PCDBQueue) {
+    func delete(podcast: Podcast, dbQueue: GRDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.podcastTableName) WHERE uuid = ?", values: [podcast.uuid], methodName: "PodcastDataManager.delete", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func markAllSynced(dbQueue: PCDBQueue) {
+    func markAllSynced(dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: SyncStatus.synced.rawValue, propertyName: "syncStatus", subscribedOnly: false, dbQueue: dbQueue)
     }
 
-    func markAllUnsynced(dbQueue: PCDBQueue) {
+    func markAllUnsynced(dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: SyncStatus.notSynced.rawValue, propertyName: "syncStatus", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: PCDBQueue) {
+    func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: GRDBQueue) {
         let query = "UPDATE \(DataManager.podcastTableName) SET syncStatus = \(SyncStatus.notSynced.rawValue) WHERE subscribed = 1 AND fullSyncLastSyncAt <> ?"
         DataHelper.run(query: query, values: [lastSyncAt], methodName: "PodcastDataManager.markAllUnsyncedWhereLastSyncAtNot", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: PCDBQueue) {
+    func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: pushEnabled, propertyName: "pushEnabled", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
+    func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: PCDBQueue) {
+    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 let uuids = podcasts.map { $0.uuid }
@@ -515,11 +433,11 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: PCDBQueue) {
+    func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
+    func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 var query = "UPDATE \(DataManager.podcastTableName) SET \(propertyName) = ?"
@@ -535,7 +453,7 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func saveSortOrders(podcasts: [Podcast], dbQueue: PCDBQueue) {
+    func saveSortOrders(podcasts: [Podcast], dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
                 for podcast in podcasts {
@@ -549,36 +467,36 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: PCDBQueue) {
+    func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid], methodName: "PodcastDataManager.removeAllPodcastsFromFolder", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func removeAllPodcastsFromAllFolders(dbQueue: PCDBQueue) {
+    func removeAllPodcastsFromAllFolders(dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL", values: nil, methodName: "PodcastDataManager.removeAllPodcastsFromAllFolders", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: PCDBQueue) {
+    func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: grouping.rawValue, propertyName: "episodeGrouping", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func updateAllShowArchived(to showArchived: Bool, dbQueue: PCDBQueue) {
+    func updateAllShowArchived(to showArchived: Bool, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: showArchived, propertyName: "showArchived", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func setAllPodcastImageVersions(to version: Int, dbQueue: PCDBQueue) {
+    func setAllPodcastImageVersions(to version: Int, dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: NSNull(), propertyName: "lastColorDownloadDate", subscribedOnly: true, dbQueue: dbQueue)
         setOnAllPodcasts(value: version, propertyName: "colorVersion", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func clearLastUpdatedAtForAllPodcasts(dbQueue: PCDBQueue) {
+    func clearLastUpdatedAtForAllPodcasts(dbQueue: GRDBQueue) {
         setOnAllPodcasts(value: NSNull(), propertyName: "lastUpdatedAt", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: PCDBQueue) {
+    private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
@@ -586,7 +504,7 @@ class PodcastDataManager {
 
     // MARK: - Caching
 
-    private func cachePodcasts(dbQueue: PCDBQueue) {
+    private func cachePodcasts(dbQueue: GRDBQueue) {
         let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_PODCAST_CACHE")
         defer { TraceManager.shared.endTracing(trace: trace) }
 
@@ -599,7 +517,7 @@ class PodcastDataManager {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
                     newPodcasts[podcast.uuid] = podcast
                 }
-                cachedPodcastsQueue.sync {
+                cachedPodcasts.withLock { cachedPodcasts in
                     cachedPodcasts = newPodcasts
                 }
             } catch {
@@ -612,71 +530,6 @@ class PodcastDataManager {
 
     private func createPodcastFrom(resultSet rs: PCDBResultSet) -> Podcast {
         Podcast.from(resultSet: rs)
-    }
-
-    private func createValuesFrom(podcast: Podcast, includeIdForWhere: Bool = false) -> [Any] {
-        var values = [Any]()
-        values.append(podcast.id)
-        values.append(DBUtils.nullIfNil(value: podcast.addedDate))
-        values.append(podcast.autoDownloadSetting)
-        values.append(podcast.autoAddToUpNext)
-        values.append(podcast.autoArchiveEpisodeLimit)
-        values.append(DBUtils.nullIfNil(value: podcast.backgroundColor))
-        values.append(DBUtils.nullIfNil(value: podcast.detailColor))
-        values.append(DBUtils.nullIfNil(value: podcast.primaryColor))
-        values.append(DBUtils.nullIfNil(value: podcast.secondaryColor))
-        values.append(DBUtils.nullIfNil(value: podcast.lastColorDownloadDate))
-        values.append(DBUtils.nullIfNil(value: podcast.imageURL))
-        values.append(DBUtils.nullIfNil(value: podcast.latestEpisodeUuid))
-        values.append(DBUtils.nullIfNil(value: podcast.latestEpisodeDate))
-        values.append(DBUtils.nullIfNil(value: podcast.mediaType))
-        values.append(DBUtils.nullIfNil(value: podcast.lastThumbnailDownloadDate))
-        values.append(podcast.thumbnailStatus)
-        values.append(DBUtils.nullIfNil(value: podcast.podcastUrl))
-        values.append(DBUtils.nullIfNil(value: podcast.author))
-        values.append(podcast.playbackSpeed)
-        values.append(podcast.boostVolume)
-        values.append(podcast.trimSilenceAmount)
-        values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
-        values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
-        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
-        values.append(podcast.sortOrder)
-        values.append(podcast.startFrom)
-        values.append(podcast.skipLast)
-        values.append(podcast.subscribed)
-        values.append(DBUtils.nullIfNil(value: podcast.title))
-        values.append(podcast.uuid)
-        values.append(podcast.syncStatus)
-        values.append(podcast.colorVersion)
-        values.append(podcast.pushEnabled)
-        values.append(podcast.episodeSortOrder)
-        values.append(DBUtils.nullIfNil(value: podcast.showType))
-        values.append(DBUtils.nullIfNil(value: podcast.estimatedNextEpisode))
-        values.append(DBUtils.nullIfNil(value: podcast.episodeFrequency))
-        values.append(DBUtils.nullIfNil(value: podcast.lastUpdatedAt))
-        values.append(podcast.excludeFromAutoArchive)
-        values.append(podcast.overrideGlobalEffects)
-        values.append(podcast.overrideGlobalArchive)
-        values.append(podcast.autoArchivePlayedAfter)
-        values.append(podcast.autoArchiveInactiveAfter)
-        values.append(podcast.episodeGrouping)
-        values.append(podcast.isPaid)
-        values.append(podcast.licensing)
-        values.append(DBUtils.nullIfNil(value: podcast.fullSyncLastSyncAt))
-        values.append(podcast.showArchived)
-        values.append(podcast.refreshAvailable)
-        values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
-        values.append(podcast.usedCustomEffectsBefore)
-        values.append(podcast.isPrivate)
-        values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
-        values.append(podcast.isExplicit)
-        values.append(DBUtils.nullIfNil(value: podcast.networkListId))
-
-        if includeIdForWhere {
-            values.append(podcast.id)
-        }
-
-        return values
     }
 
     private func addedDateSort(p1: Podcast, p2: Podcast) -> Bool {

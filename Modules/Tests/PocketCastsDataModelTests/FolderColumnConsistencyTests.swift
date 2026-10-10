@@ -5,68 +5,52 @@ import GRDB
 
 final class FolderColumnConsistencyTests: DataManagerTestCase {
 
-    private let columnNames: Set<String> = [
-        "uuid",
-        "name",
-        "color",
-        "addedDate",
-        "sortOrder",
-        "sortType",
-        "wasDeleted",
-        "syncModified"
-    ]
-
     // MARK: - Database Schema Tests
 
     func testDatabaseTableHasExpectedColumns() throws {
-        let dataManager = DataManager.newTestDataManager()
-
-        // Get actual database columns using GRDB introspection
-        guard let grdbQueue = dataManager.dbQueue as? GRDBQueue else {
-            XCTFail("Expected GRDBQueue for database introspection")
-            return
+        let tableColumns = try DataManager.newTestDataManager().dbQueue.dbPool.read { db in
+            Set(try db.columns(in: DataManager.folderTableName).map(\.name))
         }
+        let encodedColumns = Set(try Folder().databaseDictionary.keys)
 
-        let tableColumns = try grdbQueue.dbPool.read { db -> Set<String> in
-            let columns = try db.columns(in: DataManager.folderTableName)
-            return Set(columns.map { $0.name })
-        }
-
-        // The database should have at least all the columns from columnNames
-        let missingColumns = columnNames.subtracting(tableColumns)
-        XCTAssertTrue(
-            missingColumns.isEmpty,
-            "Database table is missing columns from columnNames: \(missingColumns)"
+        XCTAssertEqual(
+            encodedColumns.subtracting(tableColumns),
+            [],
+            "Folder encodes columns the table doesn't have"
+        )
+        XCTAssertEqual(
+            tableColumns.subtracting(encodedColumns),
+            [],
+            "Table columns that saving a Folder doesn't write"
         )
     }
 
     // MARK: - Round-Trip Tests
 
     func testSaveAndLoadPreservesAllFields() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let original = self.createFullyPopulatedFolder()
 
-            // Save using the current implementation (respects feature flag)
             dataManager.save(folder: original)
 
             // Load it back
             guard let loaded = dataManager.findFolder(uuid: original.uuid) else {
-                XCTFail("\(implementationName): Should be able to load saved folder")
+                XCTFail("Should be able to load saved folder")
                 return
             }
 
             // Verify all persisted fields match
-            XCTAssertEqual(loaded.uuid, original.uuid, "\(implementationName): uuid should match")
-            XCTAssertEqual(loaded.name, original.name, "\(implementationName): name should match")
-            XCTAssertEqual(loaded.color, original.color, "\(implementationName): color should match")
-            XCTAssertEqual(loaded.sortOrder, original.sortOrder, "\(implementationName): sortOrder should match")
-            XCTAssertEqual(loaded.sortType, original.sortType, "\(implementationName): sortType should match")
-            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
-            XCTAssertEqual(loaded.syncModified, original.syncModified, "\(implementationName): syncModified should match")
+            XCTAssertEqual(loaded.uuid, original.uuid, "uuid should match")
+            XCTAssertEqual(loaded.name, original.name, "name should match")
+            XCTAssertEqual(loaded.color, original.color, "color should match")
+            XCTAssertEqual(loaded.sortOrder, original.sortOrder, "sortOrder should match")
+            XCTAssertEqual(loaded.sortType, original.sortType, "sortType should match")
+            XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "wasDeleted should match")
+            XCTAssertEqual(loaded.syncModified, original.syncModified, "syncModified should match")
             XCTAssertEqual(
                 loaded.addedDate?.timeIntervalSince1970,
                 original.addedDate?.timeIntervalSince1970,
-                "\(implementationName): addedDate should match"
+                "addedDate should match"
             )
         }
     }
@@ -75,7 +59,7 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
 
     /// Verifies that cachedUnreadCount is NOT persisted
     func testCachedUnreadCountNotPersisted() throws {
-        try runWithBothImplementations { dataManager, implementationName in
+        try runWithDataManager { dataManager in
             let folder = Folder()
             folder.uuid = UUID().uuidString.lowercased()
             folder.name = "Test Folder"
@@ -86,41 +70,16 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
 
             // Load it back - cachedUnreadCount should be default (0)
             guard let loaded = dataManager.findFolder(uuid: folder.uuid) else {
-                XCTFail("\(implementationName): Should find saved folder")
+                XCTFail("Should find saved folder")
                 return
             }
 
             // cachedUnreadCount should be 0 because it's not persisted
-            XCTAssertEqual(loaded.cachedUnreadCount, 0, "\(implementationName): cachedUnreadCount should NOT be persisted")
+            XCTAssertEqual(loaded.cachedUnreadCount, 0, "cachedUnreadCount should NOT be persisted")
         }
     }
 
     // MARK: - GRDB Record Tests
-
-    func testEncodedColumnsMatchLegacyColumnNames() throws {
-        let encoded = try createFullyPopulatedFolder().databaseDictionary
-
-        XCTAssertEqual(
-            Set(encoded.keys),
-            columnNames,
-            "GRDB should encode exactly the columns the legacy SQL path writes"
-        )
-    }
-
-    func testEncodedColumnsExistInDatabaseSchema() throws {
-        let dataManager = DataManager.newTestDataManager()
-        let tableColumns = try dataManager.testDbQueue.dbPool.read { db -> Set<String> in
-            Set(try db.columns(in: DataManager.folderTableName).map(\.name))
-        }
-
-        let encoded = try createFullyPopulatedFolder().databaseDictionary
-        let unknownColumns = Set(encoded.keys).subtracting(tableColumns)
-
-        XCTAssertTrue(
-            unknownColumns.isEmpty,
-            "GRDB encodes columns that do not exist in the table: \(unknownColumns)"
-        )
-    }
 
     /// addedDate is stored as a Unix timestamp, not GRDB's default Date format.
     /// The legacy read path reads it back with `rs.double(forColumn:)`, so a change
@@ -137,13 +96,46 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
         )
     }
 
-    func testNilAddedDateIsEncodedAsNull() throws {
+    /// `addedDate` is `INTEGER NOT NULL`, so a nil date is stored as 0, which the
+    /// legacy read path turns back into nil.
+    func testNilAddedDateIsEncodedAsZero() throws {
         let folder = createFullyPopulatedFolder()
         folder.addedDate = nil
 
         let encoded = try folder.databaseDictionary
 
-        XCTAssertEqual(encoded["addedDate"], .null, "a nil addedDate should encode as NULL")
+        XCTAssertEqual(Double.fromDatabaseValue(try XCTUnwrap(encoded["addedDate"])), 0)
+    }
+
+    func testSavesFolderWithNilAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let folder = self.createFullyPopulatedFolder()
+            folder.addedDate = nil
+
+            dataManager.save(folder: folder)
+
+            let loaded = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertNil(loaded.addedDate)
+        }
+    }
+
+    /// Sync stores a missing server `dateAdded` as 0, which loads as a nil date.
+    /// Renaming that folder has to update the row instead of failing the `NOT NULL` constraint.
+    func testRenamesFolderStoredWithZeroAddedDate() throws {
+        try runWithDataManager { dataManager in
+            let folder = self.createFullyPopulatedFolder()
+            folder.addedDate = Date(timeIntervalSince1970: 0)
+            dataManager.save(folder: folder)
+
+            let loaded = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertNil(loaded.addedDate)
+            loaded.name = "Renamed"
+            dataManager.save(folder: loaded)
+
+            let renamed = try XCTUnwrap(dataManager.findFolder(uuid: folder.uuid))
+            XCTAssertEqual(renamed.name, "Renamed")
+            XCTAssertNil(renamed.addedDate)
+        }
     }
 
     func testCachedUnreadCountIsNotEncoded() throws {
@@ -160,7 +152,7 @@ final class FolderColumnConsistencyTests: DataManagerTestCase {
         let original = createFullyPopulatedFolder()
         dataManager.save(folder: original)
 
-        let decoded = try dataManager.testDbQueue.dbPool.read { db in
+        let decoded = try dataManager.dbQueue.dbPool.read { db in
             try Folder.fetchOne(
                 db,
                 sql: "SELECT * FROM \(DataManager.folderTableName) WHERE uuid = ?",

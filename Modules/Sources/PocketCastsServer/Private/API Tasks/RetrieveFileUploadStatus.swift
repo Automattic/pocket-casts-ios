@@ -27,7 +27,7 @@ class RetrieveFileUploadStatusTask: ApiBaseTask, @unchecked Sendable {
             guard let responseData = data, httpResponse?.statusCode == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("RetrieveFileUploadStatusTask  - server returned \(httpResponse?.statusCode ?? -1), upload marked as failed")
 
-                DataManager.sharedManager.saveEpisode(uploadStatus: .uploadFailed, episode: episode)
+                DataManager.shared.saveEpisode(uploadStatus: .uploadFailed, episode: episode)
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
                 return
             }
@@ -36,9 +36,9 @@ class RetrieveFileUploadStatusTask: ApiBaseTask, @unchecked Sendable {
                 let serverResponse = try Files_SuccessResponse(serializedBytes: responseData)
                 FileLog.shared.addMessage("RetrieveFileUploadStatusTask  - server returned upload success =\(serverResponse.self)")
                 if serverResponse.success {
-                    DataManager.sharedManager.saveEpisode(uploadStatus: .uploaded, episode: episode)
+                    DataManager.shared.saveEpisode(uploadStatus: .uploaded, episode: episode)
                 } else {
-                    DataManager.sharedManager.saveEpisode(uploadStatus: .uploadFailed, episode: episode)
+                    DataManager.shared.saveEpisode(uploadStatus: .uploadFailed, episode: episode)
                 }
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
             } catch {

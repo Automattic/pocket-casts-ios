@@ -12,7 +12,7 @@ class CancelConfirmationViewModel: OnboardingModel {
 
         // Update the expiration date for the view
         let expiriation = SubscriptionHelper.subscriptionRenewalDate()
-        self.expirationDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiriation)
+        self.expirationDate = DateFormatHelper.shared.longLocalizedFormat(expiriation)
         self.subscriptionViewModel = subscriptionViewModel
     }
 

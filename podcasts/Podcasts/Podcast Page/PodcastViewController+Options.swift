@@ -37,7 +37,7 @@ extension PodcastViewController {
         optionPicker.addAction(action: downloadAllAction)
 
         let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0"
-        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id])
+        let unarchivedCount = DataManager.shared.count(query: unarchivedQuery, values: [podcast.id])
         if unarchivedCount > 0 {
             let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") {}
             archiveAllAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: unarchivedCount, playedOnly: false) }
@@ -51,7 +51,7 @@ extension PodcastViewController {
         }
 
         let playedNotArchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND playingStatus = \(PlayingStatus.completed.rawValue)"
-        let playedNotArchivedCount = DataManager.sharedManager.count(query: playedNotArchivedQuery, values: [podcast.id])
+        let playedNotArchivedCount = DataManager.shared.count(query: playedNotArchivedQuery, values: [podcast.id])
         if playedNotArchivedCount > 0 {
             let archiveAllPlayedAction = OptionAction(label: L10n.podcastArchiveAllPlayed, icon: "podcast-archiveall") {}
             archiveAllPlayedAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: playedNotArchivedCount, playedOnly: true) }
@@ -155,7 +155,7 @@ extension PodcastViewController {
         guard let podcast else { return }
 
         podcast.episodeSortOrder = setting.old.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
     }
@@ -164,7 +164,7 @@ extension PodcastViewController {
         guard let podcast else { return }
 
         podcast.episodeGrouping = setting.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
     }

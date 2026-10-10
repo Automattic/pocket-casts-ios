@@ -33,7 +33,7 @@ extension PodcastViewController {
     }
 
     private func processPodcastAdded(added: Bool, uuid: String?) {
-        guard let uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+        guard let uuid, let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             loadingEnded(successfully: false)
 
             return
@@ -47,7 +47,7 @@ extension PodcastViewController {
         if SyncManager.isUserLoggedIn() {
             guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: uuid) else { return }
 
-            DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+            DataManager.shared.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
         }
         loadLocalEpisodes(podcast: podcast, animated: false)
 

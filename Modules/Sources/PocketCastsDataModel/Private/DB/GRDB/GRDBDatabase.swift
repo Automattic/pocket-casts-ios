@@ -39,18 +39,6 @@ class GRDBDatabase: PCDatabase {
         try database.execute(sql: sql, arguments: StatementArguments(filteredValues != nil ? filteredValues! : [])!)
     }
 
-    func commit() -> Bool {
-        // Every operation in GRDB uses a write
-        // The only usage of commit in our code doesn't need to execute commit
-        // in GRDB.
-        return true
-    }
-
-    func beginTransaction() -> Bool {
-        // Every operation in GRDB uses a write which already starts a transaction
-        return true
-    }
-
     func insert(into: String, columns: [String], values: [Any?]) throws {
         try database.insert(into: into, columns: columns, values: values)
     }

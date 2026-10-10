@@ -14,7 +14,7 @@ struct LogEntry {
     // MARK: - Private Properties
 
     private var formatter: DateFormatter {
-        DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
+        DateFormatHelper.shared.localTimeJsonDateFormatter
     }
 
     // MARK: - Initializers

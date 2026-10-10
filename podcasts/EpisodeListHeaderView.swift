@@ -69,7 +69,7 @@ class EpisodeListHeaderView: UIView {
         listTitle.text = podcastCollection.title
         listDescription.text = podcastCollection.description
 
-        if let linkTitle = collection.webTitle, collection.webUrl != nil {
+        if let linkTitle = collection.webLinkTitle {
             linkView.isHidden = false
             linkLabel.text = linkTitle
         } else {
@@ -77,10 +77,10 @@ class EpisodeListHeaderView: UIView {
         }
 
         if let headerImage = podcastCollection.headerImage {
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
+            ImageManager.shared.loadDiscoverImage(imageUrl: headerImage, imageView: headerImageView)
         }
 
-        Theme.sharedTheme.$activeTheme
+        Theme.shared.$activeTheme
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.updateTheme()

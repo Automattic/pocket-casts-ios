@@ -67,7 +67,7 @@ final class AVFileUtilTests: XCTestCase {
             wait(for: expectations.values.filter { !$0.isInverted }, timeout: 10)
             let unexpected = expectations.values.filter(\.isInverted)
             if !unexpected.isEmpty {
-                wait(for: unexpected, timeout: 1)
+                wait(for: unexpected, timeout: 0.2)
             }
         }
         return result

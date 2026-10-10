@@ -32,6 +32,7 @@ struct NetworkSearchResultCell: View {
         HStack(spacing: 12) {
             NetworkArtworkView(url: network.collectionImageURL, size: artworkSize)
                 .clipShape(.circle)
+                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(network.title)
@@ -93,7 +94,7 @@ enum NetworkSearchPreviewData {
 #Preview("Network rows") {
     List(NetworkSearchPreviewData.networks, id: \.self) { network in
         NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi02))
-            .listRowBackground(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
+            .listRowBackground(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
     }
     .listStyle(.plain)
     .setupDefaultEnvironment()

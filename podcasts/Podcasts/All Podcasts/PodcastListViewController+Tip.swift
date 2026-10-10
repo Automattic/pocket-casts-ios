@@ -38,7 +38,9 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.up]
             popoverPresentationController.sourceItem = button
-            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            if !LiquidGlass.isEnabled {
+                popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            }
         }
         return vc
     }

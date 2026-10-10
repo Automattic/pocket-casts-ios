@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// What a message carries beneath its shared title.
 ///
@@ -45,7 +46,8 @@ public struct WhatsNewPage: Decodable, Hashable {
     public let heading: String
     public let description: String
 
-    /// The one call to action the page can carry, which the client decides where to put.
+    /// The one call to action the page can carry, which the client decides where to put, or `nil`
+    /// where the page has none this version can perform.
     public let action: WhatsNewAction?
 
     public init(from decoder: any Decoder) throws {
@@ -53,7 +55,12 @@ public struct WhatsNewPage: Decodable, Hashable {
         image = try container.decodeIfPresent(WhatsNewImage.self, forKey: .image)
         heading = try container.decodeNonEmptyString(forKey: .heading)
         description = try container.decodeNonEmptyString(forKey: .description)
-        action = try container.decodeIfPresent(WhatsNewAction.self, forKey: .action)
+        do {
+            action = try container.decodeIfPresent(WhatsNewAction.self, forKey: .action)
+        } catch {
+            FileLog.shared.addMessage("What's New: dropping an action this version can't perform: \(error)")
+            action = nil
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -113,24 +120,90 @@ public struct WhatsNewImage: Decodable, Hashable {
     }
 }
 
-/// A page's call to action, which names a behaviour rather than pointing anywhere.
+/// A page's call to action: one of a closed set of behaviours, and the label its button shows.
 ///
-/// The catalog is public, declarative content rather than a format the app executes, so an action
-/// carries an event name every client maps to behaviour of its own. An event this version doesn't
-/// implement costs the page its button and nothing else.
+/// The type and its arguments are the same in every locale; only the label is translated. A type
+/// this version doesn't know, or arguments that don't satisfy it, fail to decode, which leaves the
+/// page without a button rather than with one that does nothing.
 public struct WhatsNewAction: Decodable, Hashable {
-    public let event: String
+    public let kind: Kind
     public let label: String
+
+    public enum Kind: Hashable {
+        case createPlaylist
+        case openDiscover
+        case openNetworks
+        case openPlaylists
+        case openPodcasts
+        case openProfile
+        case openSettings
+        case openUpNext
+        case openUpsell
+
+        /// Opens an absolute HTTPS URL, which can be anywhere on the web.
+        case openLink(URL)
+
+        /// The name the catalog publishes the action under, such as `open_link`.
+        public var type: String {
+            switch self {
+            case .createPlaylist: "create_playlist"
+            case .openDiscover: "open_discover"
+            case .openNetworks: "open_networks"
+            case .openPlaylists: "open_playlists"
+            case .openPodcasts: "open_podcasts"
+            case .openProfile: "open_profile"
+            case .openSettings: "open_settings"
+            case .openUpNext: "open_up_next"
+            case .openUpsell: "open_upsell"
+            case .openLink: "open_link"
+            }
+        }
+    }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        event = try container.decodeNonEmptyString(forKey: .event)
+        let type = try container.decodeIfPresent(String.self, forKey: .type) ?? container.decode(String.self, forKey: .event)
+        switch type {
+        case "create_playlist":
+            kind = .createPlaylist
+        case "open_discover":
+            kind = .openDiscover
+        case "open_networks":
+            kind = .openNetworks
+        case "open_playlists":
+            kind = .openPlaylists
+        case "open_podcasts":
+            kind = .openPodcasts
+        case "open_profile":
+            kind = .openProfile
+        case "open_settings":
+            kind = .openSettings
+        case "open_up_next":
+            kind = .openUpNext
+        case "open_upsell":
+            kind = .openUpsell
+        case "open_link":
+            let arguments = try container.nestedContainer(keyedBy: ArgumentsCodingKeys.self, forKey: .arguments)
+            let string = try arguments.decode(String.self, forKey: .url)
+            guard let url = URL(string: string), url.scheme?.lowercased() == "https", url.host?.isEmpty == false else {
+                throw DecodingError.dataCorruptedError(forKey: .url, in: arguments, debugDescription: "Not an absolute HTTPS URL: \(string)")
+            }
+            kind = .openLink(url)
+        default:
+            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "An action type this version doesn't implement: \(type)")
+        }
         label = try container.decodeNonEmptyString(forKey: .label)
     }
 
     private enum CodingKeys: String, CodingKey {
+        case type
         case event
+        case arguments
         case label
+    }
+
+    private enum ArgumentsCodingKeys: String, CodingKey {
+        case url
     }
 }
 

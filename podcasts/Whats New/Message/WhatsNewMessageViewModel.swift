@@ -4,8 +4,7 @@ import PocketCastsServer
 /// One What's New message, reduced to what the detail screen draws.
 ///
 /// The catalog publishes a small set of curated layouts rather than free-form content, so there's
-/// nothing here to decide beyond which of them the message asked for and whether this build knows
-/// what its actions mean.
+/// nothing here to decide beyond which of them the message asked for.
 @MainActor
 final class WhatsNewMessageViewModel: ObservableObject {
     /// The one title the message is known by, the same one its feed row shows.
@@ -32,14 +31,8 @@ final class WhatsNewMessageViewModel: ObservableObject {
         let heading: String
         let description: String
 
-        /// What the page offers to do next, left out when its event is one this build doesn't
-        /// implement: a button that goes nowhere is worse than no button.
-        let action: Action?
-    }
-
-    struct Action {
-        let label: String
-        let event: WhatsNewActionEvent
+        /// What the page offers to do next.
+        let action: WhatsNewAction?
     }
 
     /// The option the reader has picked, which isn't sent until they continue, or the one they
@@ -80,7 +73,7 @@ final class WhatsNewMessageViewModel: ObservableObject {
                      image: page.image,
                      heading: page.heading,
                      description: page.description,
-                     action: page.action.flatMap(Action.init(action:)))
+                     action: page.action)
             })
         case .research(let research):
             content = .research(research)
@@ -92,9 +85,9 @@ final class WhatsNewMessageViewModel: ObservableObject {
     }
 
     /// Does what a page's call to action asks, reporting the tap first.
-    func perform(_ action: Action) {
-        Analytics.track(.whatsNewActionTapped, properties: analyticsProperties.merging(["action": action.event.rawValue]) { $1 })
-        action.event.perform()
+    func perform(_ action: WhatsNewAction) {
+        Analytics.track(.whatsNewActionTapped, properties: analyticsProperties.merging(["action": action.kind.type]) { $1 })
+        action.kind.perform()
     }
 
     /// Picks an answer, which nothing is told about until the reader continues.
@@ -135,12 +128,5 @@ final class WhatsNewMessageViewModel: ObservableObject {
     private var selectedOption: WhatsNewPoll.Option? {
         guard case .research(let research) = content else { return nil }
         return research.poll.options.first { $0.id == selectedOptionID }
-    }
-}
-
-private extension WhatsNewMessageViewModel.Action {
-    init?(action: WhatsNewAction) {
-        guard let event = WhatsNewActionEvent(action: action) else { return nil }
-        self.init(label: action.label, event: event)
     }
 }

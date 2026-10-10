@@ -8,15 +8,15 @@ extension CarPlaySceneDelegate {
     var podcastTabSections: [CPListSection] {
         var podcastItems = [CPListTemplateItem]()
 
-        let gridItems = HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder())
+        let gridItems = HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder)
 
         for item in gridItems {
             if let podcast = item.podcast {
                 let item = convertPodcastToListItem(podcast)
                 podcastItems.append(item)
             } else if let folder = item.folder {
-                let podcastCount = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
-                let item = CPListItem(text: folder.name, detailText: L10n.podcastCount(podcastCount), image: CarPlayImageHelper.imageForFolder(folder))
+                let podcastCount = DataManager.shared.countOfPodcastsInFolder(folder: folder)
+                let item = CPListItem(text: folder.name, detailText: L10n.podcastCount(podcastCount), image: CarPlayImageHelper.image(for: folder))
 
                 item.accessoryType = .disclosureIndicator
                 item.handler = { [weak self] _, completion in
@@ -54,7 +54,7 @@ extension CarPlaySceneDelegate {
 extension CarPlaySceneDelegate {
     private var filterTabSections: [CPListSection] {
         var filterItems = [CPListItem]()
-        for filter in DataManager.sharedManager.allPlaylists(includeDeleted: false) {
+        for filter in DataManager.shared.allPlaylists(includeDeleted: false) {
             var detail: String? = nil
             if filter.manual == false {
                 detail = L10n.smartPlaylist
@@ -86,7 +86,7 @@ extension CarPlaySceneDelegate {
 
 extension CarPlaySceneDelegate {
     private var downloadTabSections: [CPListSection] {
-        let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxCarplayItems)", arguments: nil)
+        let downloadedEpisodes = DataManager.shared.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxCarplayItems)", arguments: nil)
         let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true, playlist: .downloads)
 
         return [CPListSection(items: items)]

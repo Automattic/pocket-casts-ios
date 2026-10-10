@@ -3,7 +3,7 @@ import Foundation
 import GRDB
 
 public struct NetworkDataUsageManager {
-    static let tableName = "NetworkDataUsage"
+    static let tableName = NetworkDataUsageRecord.databaseTableName
     private let dbQueue: GRDBQueue
 
     init(dbQueue: GRDBQueue) {

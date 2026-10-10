@@ -80,12 +80,12 @@
                 <constraint firstItem="Ecb-EP-Q01" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="DDL-2q-35j"/>
                 <constraint firstItem="2TN-Qi-kba" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Dwj-Ix-ZOu"/>
                 <constraint firstItem="Yvg-p2-keL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JfU-Zt-E32"/>
-                <constraint firstItem="2TN-Qi-kba" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Xtc-ff-EU7"/>
+                <constraint firstItem="2TN-Qi-kba" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerXWithinMargins" id="Xtc-ff-EU7"/>
                 <constraint firstAttribute="bottom" secondItem="Yvg-p2-keL" secondAttribute="bottom" id="i0R-tU-02e"/>
                 <constraint firstAttribute="trailing" secondItem="Yvg-p2-keL" secondAttribute="trailing" id="kJY-8L-z2b"/>
                 <constraint firstItem="Yvg-p2-keL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oID-Bp-vxl"/>
-                <constraint firstItem="Ecb-EP-Q01" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="unD-jO-4Fc"/>
-                <constraint firstAttribute="trailing" secondItem="Ecb-EP-Q01" secondAttribute="trailing" id="vxK-KE-8dl"/>
+                <constraint firstItem="Ecb-EP-Q01" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="unD-jO-4Fc"/>
+                <constraint firstAttribute="trailingMargin" secondItem="Ecb-EP-Q01" secondAttribute="trailing" id="vxK-KE-8dl"/>
             </constraints>
             <point key="canvasLocation" x="140" y="19"/>
         </view>

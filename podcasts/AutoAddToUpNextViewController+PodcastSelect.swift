@@ -5,7 +5,7 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
     func bulkSelectionChange(selected: Bool) {
         var setting = Int32()
 
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
 
         if selected {
             // Checks for existing AutoAddToUpNextSetting value before assigning a default value
@@ -13,10 +13,10 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
                 $0.isSubscribed() && $0.autoAddToUpNextSetting() == AutoAddToUpNextSetting.off
             }
 
-            DataManager.sharedManager.updateAutoAddToUpNext(to: .addLast, for: podcasts)
+            DataManager.shared.updateAutoAddToUpNext(to: .addLast, for: podcasts)
         } else {
             setting = AutoAddToUpNextSetting.off.rawValue
-            DataManager.sharedManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: setting)
+            DataManager.shared.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: setting)
         }
 
         allPodcasts.forEach { NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: $0.uuid) }
@@ -26,7 +26,7 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
     }
 
     func podcastSelected(podcast: String) {
-        DataManager.sharedManager.saveAutoAddToUpNext(podcastUuid: podcast, autoAddToUpNext: AutoAddToUpNextSetting.addLast.rawValue)
+        DataManager.shared.saveAutoAddToUpNext(podcastUuid: podcast, autoAddToUpNext: AutoAddToUpNextSetting.addLast.rawValue)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
 
         reloadDownloadedPodcasts()
@@ -34,7 +34,7 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
     }
 
     func podcastUnselected(podcast: String) {
-        DataManager.sharedManager.saveAutoAddToUpNext(podcastUuid: podcast, autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue)
+        DataManager.shared.saveAutoAddToUpNext(podcastUuid: podcast, autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
 
         reloadDownloadedPodcasts()

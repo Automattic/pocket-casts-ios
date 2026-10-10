@@ -8,7 +8,7 @@ extension PodcastManager {
         let savedFolderUuid = podcast.folderUuid
 
         if SyncManager.isUserLoggedIn() {
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
             for episode in episodes {
                 EpisodeManager.deleteDownloadedFiles(episode: episode)
             }

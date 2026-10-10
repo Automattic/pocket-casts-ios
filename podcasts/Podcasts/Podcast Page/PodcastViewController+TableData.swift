@@ -351,6 +351,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 Analytics.track(.podcastScreenPodrollPodcastTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
+                podcastController.screenSource = .podcastScreen
                 navigationController?.pushViewController(podcastController, animated: true)
             case .podcasts:
                 guard let selectedPodcast = recommendations?.podcasts?[indexPath.row] else { return }
@@ -364,6 +365,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 Analytics.track(.podcastScreenYouMightLikeTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
+                podcastController.screenSource = .podcastScreen
                 navigationController?.pushViewController(podcastController, animated: true)
             }
         }
@@ -400,7 +402,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 BottomSheetSwiftUIWrapper.present(
                     PodrollInformationModalView(onDismiss: { [weak self] in
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)
-                    }).environmentObject(Theme.sharedTheme),
+                    }).environmentObject(Theme.shared),
                     autoSize: true,
                     in: self
                 )

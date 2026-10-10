@@ -10,7 +10,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
     /// The mock messages are targeted, so the tests fix the audience and the build rather than
     /// letting whatever the test host is signed in as decide which of them reach the feed.
-    private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"))
+    private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: true)
 
     func testItemsAreMostRecentlyPublishedFirst() {
         let viewModel = WhatsNewFeedViewModel(messages: messages.shuffled(), targeting: targeting)
@@ -26,6 +26,15 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         let research = try XCTUnwrap(viewModel.items.first { $0.type == .research })
         XCTAssertEqual(research.label, L10n.whatsNewCategoryResearch)
         XCTAssertEqual(research.title, "Help shape the player")
+    }
+
+    /// With polls turned off, research messages don't reach the feed.
+    func testResearchMessagesAreHiddenWithoutPolls() {
+        let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: false)
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+
+        XCTAssertFalse(viewModel.items.isEmpty)
+        XCTAssertFalse(viewModel.items.contains { $0.type == .research })
     }
 
     /// The detail screen needs the whole message, not just what the row happened to show.
@@ -50,6 +59,17 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         viewModel.select(item)
 
         XCTAssertEqual(viewModel.items.first?.isUnread, false)
+    }
+
+    func testTheContextMenuFlipsARowBothWays() throws {
+        let viewModel = WhatsNewFeedViewModel(messages: messages, targeting: targeting)
+        let item = try XCTUnwrap(viewModel.items.first)
+
+        viewModel.toggleRead(item)
+        XCTAssertEqual(viewModel.items.first?.isUnread, false)
+
+        viewModel.toggleRead(try XCTUnwrap(viewModel.items.first))
+        XCTAssertEqual(viewModel.items.first?.isUnread, true)
     }
 
     func testReadMessagesStartRead() {
@@ -252,7 +272,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.hasUnreadItems)
     }
 
-    /// Profile builds a new feed each time the row is tapped, so an answer has to outlast the feed it
+    /// Profile builds a new feed each time the button is tapped, so an answer has to outlast the feed it
     /// was given in.
     func testAPollAnsweredInAnEarlierFeedStaysAnswered() throws {
         let manager = manager()
@@ -277,7 +297,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
     }
 
-    /// The dot on the What's New row points at the feed, not at what's unread in it.
+    /// The dot on the What's New button points at the feed, not at what's unread in it.
     func testOpeningTheFeedTakesBothDotsOffWithoutReadingAnything() async {
         let manager = manager(publishing: Self.catalogJSON)
         await manager.refreshIfNeeded().value
@@ -288,6 +308,19 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
         XCTAssertTrue(viewModel.hasUnreadItems)
+    }
+
+    /// What the dots have pointed at stays on the device, so a reinstall has listed nothing: without
+    /// this the messages the user read on another device would all come back as new.
+    func testMessagesReadElsewhereLeaveBothProfileDotsOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        manager.markAsRead(manager.feedMessages(targeting: targeting).map(\.id))
+
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
     }
 
     func testANewMessagePutsTheDotBackOnTheProfileTab() async {
@@ -302,7 +335,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// The feed can open before the catalog is in, so what it goes on to list counts as well.
-    func testANewMessagePutsTheDotBackOnTheWhatsNewRow() async {
+    func testANewMessagePutsTheDotBackOnTheWhatsNewButton() async {
         let manager = manager(publishing: Self.catalogJSON, refreshInterval: 0)
         await WhatsNewFeedViewModel(manager: manager, targeting: targeting).load()
         XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
@@ -311,6 +344,31 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         await manager.refreshIfNeeded().value
 
         XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+    }
+
+    /// Turning the dot off in Settings takes it off Profile without reading anything, so the feed
+    /// still shows what's unread.
+    func testTurningTheDotOffTakesOnlyTheProfileDotsOff() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+
+        XCTAssertFalse(manager.showsDotOnWhatsNewButton(targeting: targeting, isDotEnabled: false))
+        XCTAssertFalse(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: false))
+        XCTAssertTrue(manager.showsDotOnWhatsNewButton(targeting: targeting, isDotEnabled: true))
+        XCTAssertTrue(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: true))
+        XCTAssertTrue(manager.readState.readMessageIDs.isEmpty)
+        XCTAssertTrue(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
+    }
+
+    /// Tapping the Profile tab while the dot is off doesn't count as seeing it, so turning the dot
+    /// back on shows it again.
+    func testTappingTheProfileTabWithTheDotOffKeepsTheDotForLater() async {
+        let manager = manager(publishing: Self.catalogJSON)
+        await manager.refreshIfNeeded().value
+
+        manager.markFeedAsSeen(targeting: targeting, isDotEnabled: false)
+
+        XCTAssertTrue(manager.showsDotOnProfileTab(targeting: targeting, isDotEnabled: true))
     }
 
     /// A dot on Profile has to lead to a row in the feed.
@@ -334,6 +392,46 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
         XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
     }
 
+    // MARK: - Fresh install
+
+    /// A new user starts out with what was published before they installed already read, and no
+    /// dots pointing at it, while a message published since still shows up as new.
+    func testMessagesPublishedBeforeAFreshInstallStartRead() async throws {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        manager.startFeed(at: try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-08-18T08:00:00Z")))
+        await manager.refreshIfNeeded().value
+
+        XCTAssertTrue(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertTrue(manager.hasUnlistedMessages(targeting: targeting))
+
+        manager.markAsRead(["550e8400-e29b-41d4-a716-446655440003"])
+
+        XCTAssertFalse(manager.hasUnseenMessages(targeting: targeting))
+        XCTAssertFalse(manager.hasUnlistedMessages(targeting: targeting))
+        XCTAssertFalse(WhatsNewFeedViewModel(manager: manager, targeting: targeting).hasUnreadItems)
+    }
+
+    func testAFreshInstallShowsOnlyMessagesPublishedSinceAsUnread() async throws {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        manager.startFeed(at: try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-08-18T08:00:00Z")))
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.title), ["Introducing Playlists", "Sort your Up Next"])
+        XCTAssertEqual(viewModel.items.map(\.isUnread), [true, false])
+    }
+
+    /// A user updating into the feed has no start date, so every message is new to them.
+    func testAnUpdateShowsEveryMessageAsUnread() async {
+        let manager = manager(publishing: Self.catalogWithNewMessageJSON)
+        let viewModel = WhatsNewFeedViewModel(manager: manager, targeting: targeting)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.isUnread), [true, true])
+    }
+
     // MARK: - Helpers
 
     override func tearDown() {
@@ -349,8 +447,15 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     }
 
     /// A manager whose catalog answers with `json`, or fails every request until something is published.
+    ///
+    /// Signed out for the test: only the catalog is stubbed, so a manager left signed in would
+    /// reconcile its read state against whatever account the test host happens to be signed in as.
     private func manager(publishing json: String? = nil,
                          refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) -> WhatsNewManager {
+        let email = ServerSettings.syncingEmail()
+        ServerSettings.setSyncingEmail(email: nil)
+        addTeardownBlock { ServerSettings.setSyncingEmail(email: email) }
+
         if let json {
             publish(json)
         }
@@ -363,10 +468,16 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
             try? FileManager.default.removeItem(at: directory)
         }
 
+        let userDefaultsSuiteName = "PocketCastsTests-WhatsNewFeedViewModelTests-\(UUID().uuidString)"
+        addTeardownBlock {
+            UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        }
+
         let task = WhatsNewCatalogTask(session: URLSession(configuration: configuration),
                                        cache: WhatsNewCatalogCache(directory: directory))
         return WhatsNewManager(task: task,
                                readStateStore: WhatsNewReadStateStore(directory: directory),
+                               userDefaults: UserDefaults(suiteName: userDefaultsSuiteName)!,
                                refreshInterval: refreshInterval)
     }
 

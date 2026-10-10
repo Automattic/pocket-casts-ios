@@ -7,6 +7,6 @@ extension PodcastCollectionColors {
         guard let darkColor = onDarkBackground, let lightColor = onLightBackground else {
             return nil
         }
-        return UIColor.from(hex: Theme.isDarkTheme() ? darkColor : lightColor)
+        return UIColor.from(hex: Theme.isDarkTheme ? darkColor : lightColor)
     }
 }

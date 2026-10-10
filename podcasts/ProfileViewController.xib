@@ -39,8 +39,8 @@
             <constraints>
                 <constraint firstItem="O6Y-M5-xeo" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="4rA-N2-3HO"/>
                 <constraint firstItem="O6Y-M5-xeo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GCr-QO-46Y"/>
-                <constraint firstItem="O6Y-M5-xeo" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="PlA-1A-FZa"/>
-                <constraint firstItem="O6Y-M5-xeo" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ftE-yJ-kHz"/>
+                <constraint firstItem="O6Y-M5-xeo" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="PlA-1A-FZa"/>
+                <constraint firstItem="O6Y-M5-xeo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ftE-yJ-kHz"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="-409.5" y="-6.5"/>
@@ -99,11 +99,12 @@
                     </constraints>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Eq3-Fo-7sK"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="OOU-Ue-K5o" secondAttribute="bottom" id="Oi6-d3-WVs"/>
-                <constraint firstAttribute="trailing" secondItem="OOU-Ue-K5o" secondAttribute="trailing" id="asT-x3-Cal"/>
+                <constraint firstItem="Eq3-Fo-7sK" firstAttribute="trailing" secondItem="OOU-Ue-K5o" secondAttribute="trailing" id="asT-x3-Cal"/>
                 <constraint firstItem="OOU-Ue-K5o" firstAttribute="top" secondItem="tbb-Ov-mq8" secondAttribute="top" id="sMm-J0-KPC"/>
-                <constraint firstItem="OOU-Ue-K5o" firstAttribute="leading" secondItem="tbb-Ov-mq8" secondAttribute="leading" id="xKS-OA-VoL"/>
+                <constraint firstItem="OOU-Ue-K5o" firstAttribute="leading" secondItem="Eq3-Fo-7sK" secondAttribute="leading" id="xKS-OA-VoL"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

@@ -4,7 +4,7 @@ import PocketCastsServer
 import UIKit
 
 class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManagerListener, GCKCastDeviceStatusListener {
-    static let sharedManager = GoogleCastManager()
+    static let shared = GoogleCastManager()
 
     let deviceManager = CastDevicesManager()
 
@@ -217,7 +217,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
 
         // custom data that things like the iOS and Android app know to look for
         let episodeInfo = [episodeUuidKey: episode.uuid]
-        let downloadUrl = EpisodeManager.urlForEpisode(episode, streamingOnly: true)
+        let downloadUrl = EpisodeManager.url(for: episode, streamingOnly: true)
         // When streaming HLS, the content URL is an .m3u8 manifest, not the progressive file.
         // The receiver needs the HLS content type to load it — the episode's file type describes
         // the progressive enclosure and would make the receiver try to play the manifest directly.
@@ -234,7 +234,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         pausing = false
         let loadOptions = GCKMediaLoadOptions()
 
-        let adjustedSpeed = min(googleCastMaxPlaybackRate, Float(PlaybackManager.shared.effects().playbackSpeed))
+        let adjustedSpeed = min(googleCastMaxPlaybackRate, Float(PlaybackManager.shared.effects.playbackSpeed))
         loadOptions.autoplay = true
         loadOptions.playPosition = PlaybackManager.shared.requiredStartingPosition()
         loadOptions.playbackRate = adjustedSpeed

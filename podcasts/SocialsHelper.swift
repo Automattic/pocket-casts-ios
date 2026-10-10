@@ -2,26 +2,26 @@
 import Foundation
 import UIKit
 
-class SocialsHelper {
-    class func openTwitter() {
+enum SocialsHelper {
+    static func openTwitter() {
         let urls = ["tweetbot:///user_profile/pocketcasts", "twitterrific:///profile?screen_name=pocketcasts", "twitter://user?screen_name=pocketcasts", "https://x.com/pocketcasts"]
 
         openUrls(urls: urls)
     }
 
-    class func openInstagram() {
+    static func openInstagram() {
         let urls = ["instagram://user?username=pocketcasts", "https://www.instagram.com/pocketcasts/", ""]
 
         openUrls(urls: urls)
     }
 
-    class func openBluesky() {
+    static func openBluesky() {
         let urls = ["bluesky://profile/pocketcasts.com", "https://bsky.app/profile/pocketcasts.com"]
 
         openUrls(urls: urls)
     }
 
-    private class func openUrls(urls: [String]) {
+    private static func openUrls(urls: [String]) {
         let application = UIApplication.shared
         for urlString in urls {
             if let url = URL(string: urlString) {

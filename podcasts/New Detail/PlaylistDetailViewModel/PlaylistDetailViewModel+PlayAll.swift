@@ -22,7 +22,7 @@ extension PlaylistDetailViewModel {
                         created > 1 ? L10n.playlistPlayAllUpNextSavedPlural : L10n.playlistPlayAllUpNextSaved,
                         actions: [
                             .init(title: L10n.bookmarkAddedButtonTitle) {
-                                NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.shared.navigateTo(
                                     NavigationManager.filterPageKey
                                 )
                             }

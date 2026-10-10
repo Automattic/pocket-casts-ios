@@ -51,9 +51,9 @@ public class UploadManager: NSObject {
     }
 
     public func queueForLaterUpload(episodeUuid: String, fireNotification: Bool) {
-        guard let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid), !episode.uploaded() else { return }
+        guard let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid), !episode.uploaded() else { return }
 
-        DataManager.sharedManager.saveEpisode(uploadStatus: .waitingForWifi, episode: episode)
+        DataManager.shared.saveEpisode(uploadStatus: .waitingForWifi, episode: episode)
 
         if fireNotification {
             NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
@@ -68,14 +68,14 @@ public class UploadManager: NSObject {
         // if this episode is already uploading, ignore it
         if !shouldAddUpload(episodeUuid) { return }
 
-        guard let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid) else { return }
 
         let previousUploadFailed = episode.uploadFailed()
         episode.uploadStatus = UploadStatus.queued.rawValue
         episode.uploadTaskId = episode.uuid
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
 
-        progressManager.updateStatusForEpisode(episode.uuid, status: .queued)
+        progressManager.updateStatus(forEpisodeUuid: episode.uuid, status: .queued)
 
         if fireNotification { NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid) }
 
@@ -92,7 +92,7 @@ public class UploadManager: NSObject {
     }
 
     public func removeFromQueue(episodeUuid: String, fireNotification: Bool) {
-        guard let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid) else { return }
 
         removeFromQueue(episode: episode, fireNotification: fireNotification)
     }
@@ -116,16 +116,16 @@ public class UploadManager: NSObject {
             episode.uploadStatus = UploadStatus.notUploaded.rawValue
         }
 
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
 
         if fireNotification { NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid) }
     }
 
     private func shouldAddUpload(_ episodeUuid: String) -> Bool {
-        guard let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid), let fileProtocol = ServerConfig.shared.syncDelegate?.userEpisodeFileProtocol, FileManager.default.fileExists(atPath: episode.pathToDownloadedFile(pathFinder: fileProtocol())) else { return false }
+        guard let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid), let fileProtocol = ServerConfig.shared.syncDelegate?.userEpisodeFileProtocol, FileManager.default.fileExists(atPath: episode.pathToDownloadedFile(pathFinder: fileProtocol())) else { return false }
 
         if episode.uploadStatus == UploadStatus.notUploaded.rawValue || episode.uploadStatus == UploadStatus.uploadFailed.rawValue {
-            DataManager.sharedManager.clearUploadTaskId(episode: episode)
+            DataManager.shared.clearUploadTaskId(episode: episode)
         }
 
         return (episode.uploadTaskId == nil)
@@ -161,7 +161,7 @@ public class UploadManager: NSObject {
         guard let episode = uploadingEpisodesCache[taskId] else { return }
 
         if !isImageUpload(taskId: taskId) {
-            progressManager.removeProgressForEpisode(episode.uuid)
+            progressManager.removeProgress(forEpisodeUuid: episode.uuid)
         }
         uploadingEpisodesCache.removeValue(forKey: taskId)
     }
@@ -192,7 +192,7 @@ public class UploadManager: NSObject {
         ApiServerHandler.shared.uploadFileRequest(episode: episode, completion: { uploadURL in
 
             guard let url = uploadURL, let fileProtocol = ServerConfig.shared.syncDelegate?.userEpisodeFileProtocol else {
-                DataManager.sharedManager.saveEpisode(uploadStatus: UploadStatus.uploadFailed, episode: episode)
+                DataManager.shared.saveEpisode(uploadStatus: UploadStatus.uploadFailed, episode: episode)
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
                 return
             }
@@ -206,7 +206,7 @@ public class UploadManager: NSObject {
             request.timeoutInterval = 30.seconds
 
             let uploadTask = session.uploadTask(with: request, fromFile: URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: fileProtocol())))
-            DataManager.sharedManager.saveEpisode(uploadStatus: UploadStatus.uploading, episode: episode)
+            DataManager.shared.saveEpisode(uploadStatus: UploadStatus.uploading, episode: episode)
 
             uploadTask.taskDescription = taskId
             if let taskId {

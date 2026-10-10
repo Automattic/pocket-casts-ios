@@ -8,7 +8,7 @@ struct EpisodeImage: View {
 
     @State private var episodeImage: UIImage? = nil
 
-    init(episode: BaseEpisode, placeholder: UIImage? = nil, imageManager: ImageManager = .sharedManager) {
+    init(episode: BaseEpisode, placeholder: UIImage? = nil, imageManager: ImageManager = .shared) {
         self.episode = episode
 
         let placeholderImage = placeholder ?? imageManager.placeHolderImage(.list)
@@ -32,7 +32,7 @@ struct EpisodeImage: View {
     }
 
     private func loadImage() {
-        imageManager.imageForEpisode(episode, size: .list) { image in
+        imageManager.image(for: episode, size: .list) { image in
             guard let image else { return }
 
             self.episodeImage = image

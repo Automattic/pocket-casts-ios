@@ -62,7 +62,7 @@ class AccountUpdatedViewController: UIViewController {
         if let imageNameFunc = imageName {
             imageView.image = UIImage(named: imageNameFunc())
         }
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         newsletterView.isHidden = hideNewsletter

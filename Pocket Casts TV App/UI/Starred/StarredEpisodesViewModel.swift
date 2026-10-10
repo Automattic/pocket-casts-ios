@@ -19,7 +19,7 @@ class StarredEpisodesViewModel {
     private let apiHandler: ApiServerHandler
     private var cancellables: Set<AnyCancellable> = []
 
-    init(dataManager: DataManager = DataManager.sharedManager, apiHandler: ApiServerHandler = .shared) {
+    init(dataManager: DataManager = DataManager.shared, apiHandler: ApiServerHandler = .shared) {
         self.dataManager = dataManager
         self.apiHandler = apiHandler
         observeStarredChanges()

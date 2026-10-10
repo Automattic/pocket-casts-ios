@@ -66,6 +66,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.chapterSelectionChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
@@ -80,7 +81,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     func populateFrom(episode: BaseEpisode) {
-        self.episode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) // this is a bit hacky, but we're likely to be passed the cached version here from the player, so reload it from the database to get the latest version with the correct download stats
+        self.episode = DataManager.shared.findBaseEpisode(uuid: episode.uuid) // this is a bit hacky, but we're likely to be passed the cached version here from the player, so reload it from the database to get the latest version with the correct download stats
 
         episodeTitle.text = episode.displayableTitle()
 
@@ -116,7 +117,7 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         guard duration > 0, currentTime.isFinite else { return }
 
-        let remaining = duration - currentTime
+        let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
         timeRemainingLabel.text = L10n.queueTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining))
 
         let percentageLapsed = CGFloat(currentTime / duration)
@@ -145,7 +146,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     override func handleThemeDidChange() {
         super.handleThemeDidChange()
 
-        let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let activeTheme = themeOverride ?? Theme.shared.activeTheme
 
         // Rounded background
         if activeTheme.isDark {
@@ -218,10 +219,10 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     @objc private func updateCellForDownloadProgressChange() {
-        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
+        guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progress(forEpisodeUuid: ourEpisode.uuid) else { return }
 
         if !ourEpisode.downloading() {
-            episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+            episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)
         }
 
         updateDownloadStatus()
@@ -232,7 +233,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         guard let ourEpisode = episode, let uuid = notification.object as? String, ourEpisode.uuid == uuid else { return }
 
         // if it is, reload our episode so we get the latest status for it
-        episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
+        episode = DataManager.shared.findBaseEpisode(uuid: ourEpisode.uuid)
 
         updateDownloadStatus()
     }

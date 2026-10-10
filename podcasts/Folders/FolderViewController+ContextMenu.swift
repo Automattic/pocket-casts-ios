@@ -81,9 +81,9 @@ extension FolderViewController {
         podcast.sortOrder = ServerPodcastManager.shared.highestSortOrderForHomeGrid() + 1
         podcast.folderUuid = nil
         podcast.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
-        DataManager.sharedManager.updateFolderSyncModified(folderUuid: folder.uuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
+        DataManager.shared.updateFolderSyncModified(folderUuid: folder.uuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
 

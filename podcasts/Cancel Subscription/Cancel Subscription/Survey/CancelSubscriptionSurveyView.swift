@@ -147,5 +147,5 @@ struct CancelSubscriptionSurveyView: View {
 
 #Preview {
     CancelSubscriptionSurveyView(viewModel: CancelSubscriptionSurveyViewModel(navigationController: nil))
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

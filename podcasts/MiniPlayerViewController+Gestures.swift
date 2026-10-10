@@ -93,14 +93,26 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
             guard let self else { return }
             Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "close_and_clear_up_next"])
             FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
-            self.removeAllCustomObservers()
-            self.hideMiniPlayer(true)
-            PlaybackManager.shared.endPlayback()
-            self.addUINotificationObservers()
+            let queueCount = PlaybackManager.shared.queue.upNextCount()
+            guard queueCount > 0 else {
+                self.closeAndClearUpNext()
+                return
+            }
+            let alert = UpNextViewController.clearQueueAlert(queueCount: queueCount) { [weak self] in
+                self?.closeAndClearUpNext()
+            }
+            self.present(alert, animated: true)
         }
         close.destructive = true
 
         return [markAsPlayed, close]
+    }
+
+    private func closeAndClearUpNext() {
+        removeAllCustomObservers()
+        hideMiniPlayer(true)
+        PlaybackManager.shared.endPlayback()
+        addUINotificationObservers()
     }
 }
 
@@ -112,9 +124,9 @@ extension MiniPlayerViewController: UIContextMenuInteractionDelegate {
 
         return UIContextMenuConfiguration(
             identifier: nil,
-            previewProvider: {
-                guard let episode = PlaybackManager.shared.currentEpisode else { return nil }
-                return MiniPlayerLongPressPreviewViewController(episode: episode)
+            previewProvider: { [weak self] in
+                guard let episode = PlaybackManager.shared.currentEpisode, let window = self?.view.window else { return nil }
+                return MiniPlayerLongPressPreviewViewController(episode: episode, availableWidth: window.bounds.width)
             },
             actionProvider: { [weak self] _ in
                 UIMenu(children: actions.map { action in

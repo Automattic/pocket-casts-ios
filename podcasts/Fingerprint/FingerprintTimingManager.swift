@@ -4,7 +4,6 @@ import Foundation
 @preconcurrency import Fingerprint
 @preconcurrency import PocketCastsDataModel
 import PocketCastsUtils
-import os
 
 final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 
@@ -179,7 +178,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         queue.async { [weak self] in
             guard let self else { return }
             self.resetState()
-            self.prepareForEpisode(episode)
+            self.prepare(for: episode)
         }
     }
 
@@ -835,6 +834,25 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         dispatchPrecondition(condition: .notOnQueue(queue))
         return queue.sync { main.rejections }
     }
+
+    /// Calls `completion` on the main queue once the work already submitted to the
+    /// manager has finished: a reference fetch, the pass it starts (or one already
+    /// running), what that pass hands back to `queue`, the mapping cache write that
+    /// follows it, and the state updates on main.
+    func debugNotifyWhenPendingWorkFinishes(_ completion: @escaping @Sendable () -> Void) {
+        queue.async { [weak self, queue, generationQueue] in
+            let fetchTask = self?.fetchTask
+            Task {
+                await fetchTask?.value
+                for serialQueue in [queue, generationQueue, queue, generationQueue] {
+                    await withCheckedContinuation { continuation in
+                        serialQueue.async { continuation.resume() }
+                    }
+                }
+                DispatchQueue.main.async(execute: completion)
+            }
+        }
+    }
     #endif
 
     // MARK: - State Management
@@ -883,7 +901,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 
     // MARK: - Track Preparation
 
-    private func prepareForEpisode(_ episode: BaseEpisode?) {
+    private func prepare(for episode: BaseEpisode?) {
         updateState(.idle)
 
         guard FeatureFlag.syncedTranscripts.enabled else {
@@ -1927,7 +1945,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
     }
 
     private func referencePath(for episode: BaseEpisode) -> String {
-        let audioPath = DownloadManager.shared.pathForEpisode(episode)
+        let audioPath = DownloadManager.shared.path(for: episode)
         return (audioPath as NSString).deletingPathExtension + ".ref.fp.json"
     }
 
@@ -1953,7 +1971,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
     }
 
     private func resolveAudioSource(for episode: BaseEpisode) -> AudioSource {
-        let downloadPath = DownloadManager.shared.pathForEpisode(episode)
+        let downloadPath = DownloadManager.shared.path(for: episode)
         if FileManager.default.fileExists(atPath: downloadPath) {
             return .downloaded(URL(fileURLWithPath: downloadPath))
         }
@@ -1962,7 +1980,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         // fingerprint path instead of the grow-loop — same path trunk took.
         if let episode = episode as? Episode,
            episode.streamDownloaded(pathFinder: DownloadManager.shared) {
-            let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+            let streamingPath = DownloadManager.shared.streamingBufferPath(for: episode)
             if FileManager.default.fileExists(atPath: streamingPath) {
                 return .downloaded(URL(fileURLWithPath: streamingPath))
             }
@@ -1972,8 +1990,8 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
         // writes to `tempPathForEpisode`, while the legacy URLSession path writes
         // to `streamingBufferPathForEpisode`. Prefer whichever file already
         // exists; otherwise pick the one the active feature flag selects.
-        let tempPath = DownloadManager.shared.tempPathForEpisode(episode)
-        let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+        let tempPath = DownloadManager.shared.tempPath(for: episode)
+        let streamingPath = DownloadManager.shared.streamingBufferPath(for: episode)
         if FileManager.default.fileExists(atPath: tempPath) {
             return .streaming(URL(fileURLWithPath: tempPath))
         }
@@ -1988,7 +2006,7 @@ final class FingerprintTimingManager: NSObject, @unchecked Sendable {
 // MARK: - Cancellation
 
 private final class CancellationFlag: Sendable {
-    private let cancelled = OSAllocatedUnfairLock(initialState: false)
+    private let cancelled = Mutex(false)
 
     var isCancelled: Bool {
         cancelled.withLock { $0 }

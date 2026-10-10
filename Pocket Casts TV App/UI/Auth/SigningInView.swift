@@ -193,7 +193,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     }
 
     private func imageURL(for podcast: Podcast) -> URL {
-        ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
+        ImageManager.shared.podcastUrl(imageSize: .page, uuid: podcast.uuid)
     }
 
     var podcastGrid: some View {
@@ -220,7 +220,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     private func coverImage(for cover: StackedCover) -> some View {
         KFImage(imageURL(for: cover.podcast))
             .placeholder { _ in
-                if let placeholder = ImageManager.sharedManager.placeHolderImage(.page) {
+                if let placeholder = ImageManager.shared.placeHolderImage(.page) {
                     Image(uiImage: placeholder)
                         .resizable()
                 }

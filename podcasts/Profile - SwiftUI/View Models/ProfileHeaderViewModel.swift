@@ -17,8 +17,9 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
 
         guard profile.isLoggedIn else {
             // Show the login flow
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow,
-                                                       data: ["flow": OnboardingFlow.Flow.loggedOut])
+            NavigationManager.shared.navigateTo(NavigationManager.onboardingFlow,
+                                                       data: ["flow": OnboardingFlow.Flow.loggedOut,
+                                                              "source": PlusUpgradeViewSource.profile])
             return
         }
 

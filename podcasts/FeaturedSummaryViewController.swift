@@ -34,8 +34,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dividerHeightConstraint.constant = (1 / UIScreen.main.scale)
+            applyHairlineWidth(to: dividerHeightConstraint)
         }
+    }
+
+    private var horizontalSafeAreaInsets: UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: view.safeAreaInsets.left, bottom: 0, right: view.safeAreaInsets.right)
     }
 
     // MARK: - View Methods
@@ -50,6 +54,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         (view as? ThemeableView)?.style = .primaryUi02
 
         featuredCollectionView.register(UINib(nibName: "FeaturedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: FeaturedSummaryViewController.cellId)
+        featuredCollectionView.contentInsetAdjustmentBehavior = .never
 
         let gridLayout = featuredCollectionView.collectionViewLayout as! GridLayout
 
@@ -73,6 +78,15 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             featuredCollectionView.reloadData()
 
             updatePageCount()
+        }
+    }
+
+    /// The safe area also changes vertically as the row scrolls under the bars, so the visible cells follow the horizontal insets without a reload.
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        for case let cell as FeaturedCollectionViewCell in featuredCollectionView.visibleCells {
+            cell.featuredView.contentInsets = horizontalSafeAreaInsets
         }
     }
 
@@ -108,6 +122,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedSummaryViewController.cellId, for: indexPath) as! FeaturedCollectionViewCell
 
+        cell.featuredView.contentInsets = horizontalSafeAreaInsets
+
         let podcast = podcasts[indexPath.row]
         if let delegate {
             cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
@@ -120,7 +136,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
 
         if let uuid = podcast.uuid {
-            ColorManager.darkThemeTintColorForPodcastUuid(uuid, completion: { (color: UIColor) in
+            ColorManager.darkThemeTintColor(forPodcastUuid: uuid, completion: { (color: UIColor) in
                 DispatchQueue.main.async {
                     cell.setPodcastColor(color)
                 }

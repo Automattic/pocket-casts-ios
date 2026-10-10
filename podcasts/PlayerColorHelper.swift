@@ -3,28 +3,28 @@ import PocketCastsDataModel
 import UIKit
 
 struct PlayerColorHelper {
-    static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.shared.activeTheme,
                                         episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastBackgroundColor = backgroundColor(for: episode) else { return UIColor.black }
 
         return ThemeColor.playerBackground01(podcastColor: podcastBackgroundColor, for: theme)
     }
 
-    static func playerBackgroundColor02(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerBackgroundColor02(for theme: Theme.ThemeType = Theme.shared.activeTheme,
                                         episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastBackgroundColor = backgroundColor(for: episode) else { return UIColor.black }
 
         return ThemeColor.playerBackground02(podcastColor: podcastBackgroundColor, for: theme)
     }
 
-    static func playerHighlightColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerHighlightColor01(for theme: Theme.ThemeType = Theme.shared.activeTheme,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
         return ThemeColor.playerHighlight01(podcastColor: podcastColor)
     }
 
-    static func playerHighlightColor02(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
+    static func playerHighlightColor02(for theme: Theme.ThemeType = Theme.shared.activeTheme,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
@@ -68,14 +68,14 @@ struct PlayerColorHelper {
 
     private static func tint(for episode: BaseEpisode?, with theme: Theme.ThemeType) -> UIColor? {
         if let userEpisode = episode as? UserEpisode {
-            return userEpisode.imageColor > 0 ? AppTheme.userEpisodeColor(number: Int(userEpisode.imageColor)) : AppTheme.userEpisodeNoArtworkColor()
+            return userEpisode.imageColor > 0 ? AppTheme.userEpisodeColor(number: Int(userEpisode.imageColor)) : AppTheme.userEpisodeNoArtworkColor
         }
 
         guard let parentPodcast = (episode as? Episode)?.parentPodcast() else {
             return nil
         }
 
-        return theme.isDark ? ColorManager.darkThemeTintForPodcast(parentPodcast) : ColorManager.lightThemeTintForPodcast(parentPodcast)
+        return theme.isDark ? ColorManager.darkThemeTint(for: parentPodcast) : ColorManager.lightThemeTint(for: parentPodcast)
     }
 
     static func backgroundColor(for episode: BaseEpisode?) -> UIColor? {
@@ -83,6 +83,6 @@ struct PlayerColorHelper {
             return nil
         }
 
-        return ColorManager.backgroundColorForPodcast(parentPodcast)
+        return ColorManager.backgroundColor(for: parentPodcast)
     }
 }

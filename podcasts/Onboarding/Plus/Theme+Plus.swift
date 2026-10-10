@@ -15,7 +15,7 @@ extension Theme {
 
 extension AppTheme {
     static var patronTextColor: UIColor {
-        let hex = Theme.isDarkTheme() ? ThemeConstants.patronHexDarkTheme : ThemeConstants.patronHexLightTheme
+        let hex = Theme.isDarkTheme ? ThemeConstants.patronHexDarkTheme : ThemeConstants.patronHexLightTheme
 
         return UIColor(hex: hex)
     }

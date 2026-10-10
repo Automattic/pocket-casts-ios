@@ -36,7 +36,7 @@ class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSourc
 
     func saveFilter() {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(playlist: filterToEdit)
+        DataManager.shared.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
 
         if !filterToEdit.isNew {

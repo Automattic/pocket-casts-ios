@@ -12,7 +12,7 @@
     <!-- Badge: "platform: ios|watchos" -->
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
     <!-- Badge: "Xcode: {version}+" -->
-    <img src="https://img.shields.io/badge/Xcode-v27.0%2B-informational" />
+    <img src="https://img.shields.io/badge/Xcode-v27.1%2B-informational" />
 </p>
 
 <p align="center">
@@ -28,6 +28,16 @@ If you don't already have it, you need to install Bundler:
 Next you'll need to install all the dependencies needed for [_fastlane_](https://docs.fastlane.tools/) using this script:
 
 `make install_dependencies`
+
+### Secrets
+
+Internal contributors need to install and set up [`a8c-secrets`](https://github.com/Automattic/a8c-secrets), then decrypt the project secrets before building:
+
+`a8c-secrets decrypt`
+
+Re-run it whenever the secrets are rotated; the build does not decrypt them for you.
+
+External contributors don't need the secrets; see [below](#external-contributors).
 
 ## External contributors
 

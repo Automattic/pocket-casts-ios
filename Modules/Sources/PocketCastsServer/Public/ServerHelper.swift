@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-public class ServerHelper: NSObject {
+public enum ServerHelper {
     // MARK: Url Helpers
 
     public static func asUrl(_ url: String) -> URL {
@@ -37,7 +37,7 @@ public class ServerHelper: NSObject {
         "\(ServerConstants.Urls.lists())\(listId).json"
     }
 
-    class func decodeRefreshResponse(from data: Data) -> PodcastRefreshResponse {
+    static func decodeRefreshResponse(from data: Data) -> PodcastRefreshResponse {
         do {
             let jsonDecoder = JSONDecoder()
             jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -48,7 +48,7 @@ public class ServerHelper: NSObject {
         }
     }
 
-    class func createJsonRequest(url: URL, data: Data, timeout: TimeInterval, cachePolicy: URLRequest.CachePolicy) -> URLRequest {
+    static func createJsonRequest(url: URL, data: Data, timeout: TimeInterval, cachePolicy: URLRequest.CachePolicy) -> URLRequest {
         var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
@@ -60,7 +60,7 @@ public class ServerHelper: NSObject {
         return request
     }
 
-    class func createJsonRequest<T: Encodable>(url: URL, params: T, timeout: TimeInterval, cachePolicy: URLRequest.CachePolicy) -> URLRequest? {
+    static func createJsonRequest<T: Encodable>(url: URL, params: T, timeout: TimeInterval, cachePolicy: URLRequest.CachePolicy) -> URLRequest? {
         var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
@@ -79,14 +79,14 @@ public class ServerHelper: NSObject {
         return request
     }
 
-    class func createProtoRequest(url: URL, data: Data) -> URLRequest? {
+    static func createProtoRequest(url: URL, data: Data) -> URLRequest? {
         var request = createEmptyProtoRequest(url: url)
         request?.httpBody = data
 
         return request
     }
 
-    class func createEmptyProtoRequest(url: URL, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
+    static func createEmptyProtoRequest(url: URL, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
         var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
         request.httpMethod = "POST"
         request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)

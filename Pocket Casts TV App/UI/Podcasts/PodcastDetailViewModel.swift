@@ -47,7 +47,7 @@ class PodcastDetailViewModel {
     func setSortOrder(_ order: PodcastEpisodeSortOrder) {
         guard order != sortOrder, let podcast else { return }
         podcast.episodeSortOrder = order.old.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
         sortOrder = order
         load()
         Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])

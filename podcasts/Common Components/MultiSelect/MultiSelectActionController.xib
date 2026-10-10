@@ -68,13 +68,13 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="MYe-Oq-X4a" secondAttribute="trailing" constant="16" id="70k-90-7qa"/>
+                        <constraint firstItem="Hq4-sA-7Lm" firstAttribute="trailing" secondItem="MYe-Oq-X4a" secondAttribute="trailing" constant="16" id="70k-90-7qa"/>
                         <constraint firstItem="MYe-Oq-X4a" firstAttribute="centerY" secondItem="0yR-Cs-bLb" secondAttribute="centerY" id="Blp-dT-zq9"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="CWK-zE-FlD"/>
                         <constraint firstItem="MpN-e9-ihY" firstAttribute="centerX" secondItem="mXO-da-lme" secondAttribute="centerX" id="DHf-C5-7Kc"/>
-                        <constraint firstAttribute="trailing" secondItem="0yR-Cs-bLb" secondAttribute="trailing" constant="16" id="Fns-B9-PXH"/>
+                        <constraint firstItem="Hq4-sA-7Lm" firstAttribute="trailing" secondItem="0yR-Cs-bLb" secondAttribute="trailing" constant="16" id="Fns-B9-PXH"/>
                         <constraint firstAttribute="bottom" secondItem="MpN-e9-ihY" secondAttribute="bottom" id="JlB-7d-pAP"/>
-                        <constraint firstItem="APE-a7-aCx" firstAttribute="leading" secondItem="mXO-da-lme" secondAttribute="leading" constant="16" id="QAb-BQ-IE8"/>
+                        <constraint firstItem="APE-a7-aCx" firstAttribute="leading" secondItem="Hq4-sA-7Lm" secondAttribute="leading" constant="16" id="QAb-BQ-IE8"/>
                         <constraint firstItem="APE-a7-aCx" firstAttribute="top" secondItem="mXO-da-lme" secondAttribute="top" constant="34" id="RGu-3i-2t3"/>
                         <constraint firstItem="APE-a7-aCx" firstAttribute="centerY" secondItem="MYe-Oq-X4a" secondAttribute="centerY" id="dwt-Su-SAT"/>
                         <constraint firstItem="MpN-e9-ihY" firstAttribute="centerY" secondItem="0yR-Cs-bLb" secondAttribute="centerY" id="fBS-K4-XzB"/>
@@ -83,6 +83,7 @@
                         <constraint firstItem="nXY-CB-ywr" firstAttribute="top" secondItem="mXO-da-lme" secondAttribute="top" constant="8" id="paQ-Pr-KKl"/>
                         <constraint firstItem="MpN-e9-ihY" firstAttribute="top" secondItem="nXY-CB-ywr" secondAttribute="bottom" id="rf6-gj-1Pa"/>
                     </constraints>
+                    <viewLayoutGuide key="safeArea" id="Hq4-sA-7Lm"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="AQE-HZ-cRg" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="72" width="414" height="824"/>

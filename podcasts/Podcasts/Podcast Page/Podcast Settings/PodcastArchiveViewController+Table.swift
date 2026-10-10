@@ -139,7 +139,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             podcast.autoArchiveInactiveAfter = Settings.autoArchiveInactiveAfter()
         }
 
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.shared.save(podcast: podcast)
 
         archiveTable.reloadData()
         archiveSettingsChanged = true
@@ -153,8 +153,8 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             guard let self else { return }
 
             self.podcast.autoArchiveEpisodeLimit = limit
-            DataManager.sharedManager.saveAutoArchiveLimit(podcast: self.podcast, limit: limit)
-            DataManager.sharedManager.save(podcast: self.podcast)
+            DataManager.shared.saveAutoArchiveLimit(podcast: self.podcast, limit: limit)
+            DataManager.shared.save(podcast: self.podcast)
 
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true
@@ -170,7 +170,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             guard let self else { return }
 
             self.podcast.autoArchivePlayedAfter = time
-            DataManager.sharedManager.save(podcast: self.podcast)
+            DataManager.shared.save(podcast: self.podcast)
 
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true
@@ -188,7 +188,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             guard let self else { return }
 
             self.podcast.autoArchiveInactiveAfter = time
-            DataManager.sharedManager.save(podcast: self.podcast)
+            DataManager.shared.save(podcast: self.podcast)
 
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true

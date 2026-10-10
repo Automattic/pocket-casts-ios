@@ -52,6 +52,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     var heightConstraint: NSLayoutConstraint?
 
+    weak var hostTabBarController: UITabBarController?
+
     var upNextViewController: UpNextViewController?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
@@ -141,7 +143,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         podcastArtwork.layer.cornerRadius = 6
         podcastArtwork.layer.masksToBounds = true
 
-        playPauseBtn.visualSize = 32
+        playPauseBtn.useSymbolImage(pointSize: 30)
 
         // The skip glyphs read a touch heavy next to the smaller glass
         // play/pause button, so scale the (template) assets down slightly.
@@ -179,13 +181,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         bottomRow.alignment = .center
         bottomRow.spacing = 6
 
+        progressView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        progressView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        timeLeftHost.view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        timeLeftHost.view.setContentHuggingPriority(.required, for: .horizontal)
+
         let textStack = UIStackView(arrangedSubviews: [titleVibrancy, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
         textStack.spacing = 2
 
-        addPlayButtonBounce()
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
@@ -222,33 +228,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    /// Adds a springy scale-up-and-settle-back response to the play/pause
-    /// button so the translucent accent circle feels tactile on tap.
-    private func addPlayButtonBounce() {
-        playPauseBtn.addTarget(self, action: #selector(playButtonTouchedDown), for: .touchDown)
-        playPauseBtn.addTarget(self, action: #selector(playButtonReleased), for: [.touchUpInside, .touchUpOutside, .touchCancel])
-    }
-
-    @objc private func playButtonTouchedDown() {
-        guard !UIAccessibility.isReduceMotionEnabled else { return }
-        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: [.allowUserInteraction, .beginFromCurrentState]) {
-            self.playPauseBtn.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            self.playPauseBtn.alpha = 0.75
-        }
-    }
-
-    @objc private func playButtonReleased() {
-        guard !UIAccessibility.isReduceMotionEnabled else {
-            playPauseBtn.transform = .identity
-            playPauseBtn.alpha = 1
-            return
-        }
-        UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.7, options: [.allowUserInteraction, .beginFromCurrentState]) {
-            self.playPauseBtn.transform = .identity
-            self.playPauseBtn.alpha = 1
-        }
-    }
-
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
             let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
@@ -258,7 +237,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
-                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52),
+                {
+                    let constraint = glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52)
+                    constraint.priority = UILayoutPriority(750)
+                    return constraint
+                }(),
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
@@ -428,6 +411,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(playbackProgressDidChange))
+        addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(playbackProgressDidChange))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.statusBarHeightChanged, selector: #selector(statusBarHeightDidChange))
 
@@ -612,7 +596,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         if let timeLeftModel {
-            let remaining = max(0, duration - currentTime)
+            let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
             let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
             if timeLeftModel.text != newText {
                 let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled
@@ -664,25 +648,21 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @available(iOS 26.0, *)
     private func updateColorsLiquidGlass() {
-        let actionColor = currentPodcastTintColor()
-        let bgColor = ThemeColor.primaryUi02()
-
         // System color so the vibrancy wrapper can modulate it.
         episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
-        playPauseBtn.playButtonColor = bgColor
-        playPauseBtn.circleColor = actionColor
+        playPauseBtn.circleColor = .label
 
-        skipBackBtn.tintColor = actionColor
-        skipFwdBtn.tintColor = actionColor
+        skipBackBtn.tintColor = .label
+        skipFwdBtn.tintColor = .label
 
-        glassProgressView?.tintColorOverride = actionColor
+        glassProgressView?.tintColorOverride = currentPodcastTintColor()
     }
 
     private func currentPodcastTintColor() -> UIColor {
-        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode) {
-            return Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        if let podcast = podcast(for: PlaybackManager.shared.currentEpisode) {
+            return Theme.isDarkTheme ? ColorManager.darkThemeTint(for: podcast) : ColorManager.lightThemeTint(for: podcast)
         } else if let episode = PlaybackManager.shared.currentEpisode as? UserEpisode, episode.imageColor > 0 {
             return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
         } else {
@@ -690,7 +670,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {
+    private func podcast(for episode: BaseEpisode?) -> Podcast? {
         if let episode = PlaybackManager.shared.currentEpisode as? Episode {
             return episode.parentPodcast()
         }

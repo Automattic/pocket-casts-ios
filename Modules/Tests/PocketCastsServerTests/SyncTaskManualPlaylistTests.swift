@@ -14,7 +14,7 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         syncTask = SyncTask(dataManager: dataManager)
 
         // Ensure any static usage reads from this DB
-        DataManager.sharedManager = dataManager
+        DataManager.shared = dataManager
     }
 
     override func tearDown() {

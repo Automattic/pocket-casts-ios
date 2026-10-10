@@ -1181,12 +1181,6 @@ que has escuchado dura
     <string>Reproducir la cola aleatoriamente</string>
     <key>feature_marketing_watch_playback</key>
     <string>Aplicaciones para Wear OS y Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Finalizar recorrido</string>
-    <key>feature_tour_new</key>
-    <string>NUEVO</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ de %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Abrir la aplicación de correo predeterminada</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ ACTUALIZACIONES</string>
     <string>No se puede reproducir este episodio.</string>
     <key>player_error_internet_connection</key>
     <string>Comprueba tu conexión a Internet y vuelve a intentarlo.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Tu dispositivo no tiene espacio de almacenamiento. Libera espacio e inténtalo de nuevo.</string>
     <key>player_error_short_no_connection</key>
     <string>No tienes conexión a Internet</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Almacenamiento del dispositivo completo</string>
     <key>player_error_short_playback_error</key>
     <string>La reproducción ha fallado, inténtalo de nuevo</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ ACTUALIZACIONES</string>
     <string>Error de reproducción</string>
     <key>player_user_episode_upload_error</key>
     <string>Error de carga</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Salir de la pantalla completa</string>
+    <key>player_video_full_screen</key>
+    <string>Pantalla completa</string>
     <key>playlist_add_to_title</key>
     <string>Añadir a "%@"</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Utiliza la actualización de Volume Boost con niveles de voz más consistentes.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Mostrar punto de mensaje sin leer</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Muestra un punto de mensaje sin leer en el perfil cuando haya nuevos mensajes de novedades.</string>
     <key>settings_global_settings</key>
     <string>Configuración general</string>
     <key>settings_headphone_controls</key>
@@ -4446,6 +4452,24 @@ Las dos cosas están genial. 🙂</string>
     <string>Novedades</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Para obtener más información sobre esta actualización, consulta nuestro blog.</string>
+    <key>whats_new_category_announcement</key>
+    <string>Anuncio</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Problema conocido</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Función nueva</string>
+    <key>whats_new_category_research</key>
+    <string>Investigación de usuarios</string>
+    <key>whats_new_category_tip</key>
+    <string>Consejos y trucos</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Aquí aparecerán nuevas funciones, consejos y anuncios.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Aún no hay mensajes</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Leer todo</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>No se han podido cargar las novedades</string>
     <key>whats_new_in_version</key>
     <string>Novedades en %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4460,6 +4484,8 @@ Gracias a tu apoyo, ¡tu pantalla de inicio tiene un aspecto fantástico!</strin
 Con esta función, el trabajo que has hecho para organizar tu página de podcasts se sincroniza con tu cuenta, así que puedes relajarte.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Sincronización de la red doméstica</string>
+    <key>whats_new_poll_answered</key>
+    <string>Gracias por contestar.</string>
     <key>widgets_app_icon_description</key>
     <string>Iniciar rápidamente Pocket Casts</string>
     <key>widgets_app_icon_name</key>

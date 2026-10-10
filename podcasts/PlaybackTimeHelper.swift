@@ -4,7 +4,7 @@ import PocketCastsDataModel
 struct PlaybackTimeHelper {
     let dataManager: DataManager
 
-    init(dataManager: DataManager = DataManager.sharedManager) {
+    init(dataManager: DataManager = DataManager.shared) {
         self.dataManager = dataManager
     }
 

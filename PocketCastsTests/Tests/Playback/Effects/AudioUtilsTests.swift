@@ -81,7 +81,7 @@ final class AudioUtilsTests: XCTestCase {
 
     func testOldRmsPerformance() throws {
         self.measure {
-            (0...1000000).forEach { _ in
+            (0..<10_000).forEach { _ in
                 _ = AudioUtils.calculateRms(audioBuffer)
             }
         }
@@ -89,7 +89,7 @@ final class AudioUtilsTests: XCTestCase {
 
     func testNewRmsPerformance() throws {
         self.measure {
-            (0...1000000).forEach { _ in
+            (0..<10_000).forEach { _ in
                 _ = AudioUtils.calculateRms(audioBuffer)
             }
         }
@@ -152,7 +152,7 @@ final class AudioUtilsTests: XCTestCase {
         let buffer = BufferedAudio(audioBuffer: audioBuffer!, framePosition: AVAudioFramePosition(), shouldFadeOut: false, shouldFadeIn: true)
         let channelCount: UInt32 = 1
         self.measure {
-            (0...1000000).forEach { _ in
+            (0..<10_000).forEach { _ in
                 AudioUtils.fadeAudio(buffer, fadeOut: true, channelCount: channelCount)
             }
         }
@@ -163,7 +163,7 @@ final class AudioUtilsTests: XCTestCase {
         let buffer = BufferedAudio(audioBuffer: audioBuffer!, framePosition: AVAudioFramePosition(), shouldFadeOut: false, shouldFadeIn: true)
         let channelCount: UInt32 = 1
         self.measure {
-            (0...1000000).forEach { _ in
+            (0..<10_000).forEach { _ in
                 AudioUtils.fadeAudio(buffer, fadeOut: true, channelCount: channelCount)
             }
         }

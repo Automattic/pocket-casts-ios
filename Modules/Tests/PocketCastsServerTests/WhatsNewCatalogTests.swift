@@ -39,7 +39,7 @@ final class WhatsNewCatalogTests: XCTestCase {
               },
               "heading": "Try it in any supported episode",
               "description": "Open an episode with a transcript and choose the transcript view.",
-              "action": { "event": "open_podcasts", "label": "Try transcripts" }
+              "action": { "type": "open_link", "arguments": { "url": "https://blog.pocketcasts.com/transcripts" }, "label": "Try transcripts" }
             }
           ]
         },
@@ -109,7 +109,7 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertEqual(pages[0].description, "Search a transcript and follow the conversation.")
         XCTAssertNil(pages[0].action, "A page without an action carries none")
 
-        XCTAssertEqual(pages[1].action?.event, "open_podcasts")
+        XCTAssertEqual(pages[1].action?.kind, .openLink(URL(string: "https://blog.pocketcasts.com/transcripts")!))
         XCTAssertEqual(pages[1].action?.label, "Try transcripts")
     }
 
@@ -218,38 +218,75 @@ final class WhatsNewCatalogTests: XCTestCase {
         XCTAssertTrue(messages.isEmpty)
     }
 
-    /// An action is optional, but one that's published has to be complete: an event that names
-    /// nothing is a button with nowhere to go.
-    func testAnIncompleteActionDropsTheMessage() throws {
-        let messages = try decodedMessages(pages: """
-        [
-          {
-            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
-            "heading": "Try transcripts",
-            "description": "…",
-            "action": { "event": "", "label": "Try transcripts" }
-          }
-        ]
-        """)
+    func testDecodesAnActionThatTakesNoArguments() throws {
+        let messages = try decodedMessages(pages: page(action: #"{ "type": "create_playlist", "label": "Create playlist" }"#))
 
-        XCTAssertTrue(messages.isEmpty)
+        let action = try XCTUnwrap(messages.first?.content.pages.first?.action)
+        XCTAssertEqual(action.kind, .createPlaylist)
+        XCTAssertEqual(action.kind.type, "create_playlist")
+        XCTAssertEqual(action.label, "Create playlist")
     }
 
-    /// The event is free text every client maps for itself, so an unrecognised one decodes fine and
-    /// is dropped where the app knows what it does and doesn't implement.
-    func testAnActionNamingAnUnknownEventStillDecodes() throws {
-        let messages = try decodedMessages(pages: """
-        [
-          {
-            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
-            "heading": "Try transcripts",
-            "description": "…",
-            "action": { "event": "open_something_from_a_later_release", "label": "Try transcripts" }
-          }
+    func testDecodesEveryActionThatTakesNoArguments() throws {
+        let kinds: [String: WhatsNewAction.Kind] = [
+            "create_playlist": .createPlaylist,
+            "open_discover": .openDiscover,
+            "open_networks": .openNetworks,
+            "open_playlists": .openPlaylists,
+            "open_podcasts": .openPodcasts,
+            "open_profile": .openProfile,
+            "open_settings": .openSettings,
+            "open_up_next": .openUpNext,
+            "open_upsell": .openUpsell
         ]
-        """)
 
-        XCTAssertEqual(messages.first?.content.pages.first?.action?.event, "open_something_from_a_later_release")
+        for (type, kind) in kinds {
+            let messages = try decodedMessages(pages: page(action: #"{ "type": "\#(type)", "label": "Open it" }"#))
+
+            let action = try XCTUnwrap(messages.first?.content.pages.first?.action, type)
+            XCTAssertEqual(action.kind, kind)
+            XCTAssertEqual(action.kind.type, type)
+        }
+    }
+
+    func testDecodesALinkAnywhereOnTheWeb() throws {
+        let messages = try decodedMessages(pages: page(action: #"{ "type": "open_link", "arguments": { "url": "https://forms.example.com/survey?id=1" }, "label": "Take the survey" }"#))
+
+        let action = try XCTUnwrap(messages.first?.content.pages.first?.action)
+        XCTAssertEqual(action.kind, .openLink(URL(string: "https://forms.example.com/survey?id=1")!))
+        XCTAssertEqual(action.kind.type, "open_link")
+    }
+
+    func testDecodesAnActionPublishedAsAnEvent() throws {
+        let messages = try decodedMessages(pages: page(action: #"{ "event": "open_discover", "label": "Explore Discover" }"#))
+
+        let action = try XCTUnwrap(messages.first?.content.pages.first?.action)
+        XCTAssertEqual(action.kind, .openDiscover)
+        XCTAssertEqual(action.label, "Explore Discover")
+    }
+
+    /// An action is optional, and one this version can't perform in full is left off its page
+    /// rather than drawn as a dead button or taking the rest of the message down with it.
+    func testAnActionThisVersionCannotPerformLeavesThePageWithoutIt() throws {
+        let actions = [
+            #"{ "type": "open_something_from_a_later_release", "label": "Open it" }"#,
+            #"{ "event": "open_something_from_a_later_release", "label": "Open it" }"#,
+            #"{ "label": "Open it" }"#,
+            #"{ "type": "create_playlist", "label": "  " }"#,
+            #"{ "type": "create_playlist" }"#,
+            #"{ "type": "open_link", "label": "Learn more" }"#,
+            #"{ "type": "open_link", "arguments": {}, "label": "Learn more" }"#,
+            #"{ "type": "open_link", "arguments": { "url": "http://blog.pocketcasts.com" }, "label": "Learn more" }"#,
+            #"{ "type": "open_link", "arguments": { "url": "pocketcasts://podcasts" }, "label": "Learn more" }"#,
+            #"{ "type": "open_link", "arguments": { "url": "/transcripts" }, "label": "Learn more" }"#,
+            #"{ "type": "open_link", "arguments": { "url": "https://" }, "label": "Learn more" }"#
+        ]
+
+        for action in actions {
+            let decodedPage = try XCTUnwrap(decodedMessages(pages: page(action: action)).first?.content.pages.first, "\(action) should keep the message")
+            XCTAssertEqual(decodedPage.heading, "Try it")
+            XCTAssertNil(decodedPage.action, "\(action) should be left off the page")
+        }
     }
 
     func testAResearchMessageWithNothingToAnswerIsDropped() throws {
@@ -416,7 +453,7 @@ final class WhatsNewCatalogTests: XCTestCase {
                   "video": { "url": "https://static.pocketcasts.com/a.mp4" },
                   "heading": "Read along while you listen",
                   "description": "…",
-                  "action": { "event": "open_podcasts", "label": "Try transcripts", "style": "secondary" }
+                  "action": { "type": "create_playlist", "label": "Try transcripts", "style": "secondary" }
                 }
               ]
             },
@@ -447,7 +484,7 @@ final class WhatsNewCatalogTests: XCTestCase {
         let page = try XCTUnwrap(catalog.messages.first?.content.pages.first)
         XCTAssertEqual(page.image?.url, URL(string: "https://static.pocketcasts.com/a.webp"))
         XCTAssertEqual(page.heading, "Read along while you listen")
-        XCTAssertEqual(page.action?.event, "open_podcasts")
+        XCTAssertEqual(page.action?.kind, .createPlaylist)
 
         let poll = try XCTUnwrap(catalog.messages.last?.content.research?.poll)
         XCTAssertEqual(poll.question, "What should we improve next?")
@@ -617,6 +654,19 @@ final class WhatsNewCatalogTests: XCTestCase {
     }
 
     /// A catalog with one standard message whose pages are whatever the test is about.
+    private func page(action: String) -> String {
+        """
+        [
+          {
+            "image": { "url": "https://static.pocketcasts.com/a.webp", "width": 1200, "height": 750, "alt": "…" },
+            "heading": "Try it",
+            "description": "…",
+            "action": \(action)
+          }
+        ]
+        """
+    }
+
     private func decodedMessages(pages: String) throws -> [WhatsNewMessage] {
         let json = """
         {

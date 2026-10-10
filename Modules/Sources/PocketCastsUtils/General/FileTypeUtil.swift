@@ -1,8 +1,8 @@
 import Foundation
 import UniformTypeIdentifiers
 
-public class FileTypeUtil {
-    public class func fileExtension(forType type: String?) -> String {
+public enum FileTypeUtil {
+    public static func fileExtension(forType type: String?) -> String {
         guard let type else { return ".mp3" }
 
         if type.contains("video/3gpp") { return ".3gp" }
@@ -41,7 +41,7 @@ public class FileTypeUtil {
         return ".mp3"
     }
 
-    public class func typeForFileExtension(forExtension fileExtension: String?) -> String {
+    public static func typeForFileExtension(forExtension fileExtension: String?) -> String {
         guard let fileExtension = fileExtension?.lowercased() else { return "audio/mp3" }
 
         if fileExtension.contains(".3gp") { return "video/3gpp" }
@@ -62,7 +62,7 @@ public class FileTypeUtil {
         return "audio/mp3"
     }
 
-    public class func isSupportedUserFileType(fileName: String?) -> Bool {
+    public static func isSupportedUserFileType(fileName: String?) -> Bool {
         guard let fileName = fileName?.lowercased() else { return false }
         if fileName.contains(".3gp") { return true }
         else if fileName.contains(".3g2") { return true }
@@ -79,7 +79,7 @@ public class FileTypeUtil {
         return false
     }
 
-    public class var supportedUserFileTypes: [UTType] {
+    public static var supportedUserFileTypes: [UTType] {
         return [
             .gpp3,
             .gpp3v2,

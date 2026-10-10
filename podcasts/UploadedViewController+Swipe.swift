@@ -41,7 +41,7 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func deleteRequested(uuid: String) {
-        if let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid) {
+        if let episode = DataManager.shared.findUserEpisode(uuid: uuid) {
             showDeleteConfirmation(userEpisode: episode)
         }
     }

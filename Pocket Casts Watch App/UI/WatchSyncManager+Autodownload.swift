@@ -19,7 +19,7 @@ extension WatchSyncManager {
 
         let autoDownloadCandidates = allQueued[0 ... maxDownloads]
 
-        let downloadedEpisodes = DataManager.sharedManager.findDownloadedEpisodes()
+        let downloadedEpisodes = DataManager.shared.findDownloadedEpisodes()
 
         let deleteCandidates = downloadedEpisodes.filter { $0.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue }
 

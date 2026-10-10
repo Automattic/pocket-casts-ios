@@ -1181,12 +1181,6 @@ Pocket Casts на полную мощность.</string>
     <string>Прослушивайте подкасты в случайном порядке</string>
     <key>feature_marketing_watch_playback</key>
     <string>Приложения для Wear OS и Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Завершить ознакомительный тур</string>
-    <key>feature_tour_new</key>
-    <string>Новый</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ из %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Открыть приложение Mail по умолчанию</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ Pocket Casts на полную мощность.</string>
     <string>Невозможно воспроизвести выпуск.</string>
     <key>player_error_internet_connection</key>
     <string>Проверьте подключение к Интернету и повторите попытку.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>На вашем устройстве закончилось свободное место. Освободите место и повторите попытку.</string>
     <key>player_error_short_no_connection</key>
     <string>Отсутствует подключение к Интернету</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Память устройства заполнена</string>
     <key>player_error_short_playback_error</key>
     <string>Не удалось воспроизвести, повторите попытку</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка воспроизведения</string>
     <key>player_user_episode_upload_error</key>
     <string>Ошибка загрузки</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Выйти из полноэкранного режима</string>
+    <key>player_video_full_screen</key>
+    <string>Полноэкранный режим</string>
     <key>playlist_add_to_title</key>
     <string>Добавить в плейлист «%@»</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Pocket Casts на полную мощность.</string>
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Пользуйтесь обновлённой функцией усиления громкости с более стабильными уровнями громкости голоса.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Показывать индикатор непрочитанного</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Показывать индикатор непрочитанного в профиле при появлении новых сообщений в разделе «Что нового».</string>
     <key>settings_global_settings</key>
     <string>Глобальные настройки</string>
     <key>settings_headphone_controls</key>
@@ -4446,6 +4452,24 @@ Pocket Casts на полную мощность.</string>
     <string>Что нового</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Узнайте больше об этом обновлении в нашем блоге</string>
+    <key>whats_new_category_announcement</key>
+    <string>Объявление</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Известная проблема</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Новая функция</string>
+    <key>whats_new_category_research</key>
+    <string>Исследования пользователей</string>
+    <key>whats_new_category_tip</key>
+    <string>Советы и хитрости</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Здесь будут появляться описания новых функций, советы и объявления.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Сообщений пока нет</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Отметить все как прочитанные</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Не удалось загрузить раздел «Что нового»</string>
     <key>whats_new_in_version</key>
     <string>Новые возможности %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4460,6 +4484,8 @@ Pocket Casts на полную мощность.</string>
 Это означает, что все ваши усилия по упорядочению страницы с подкастами не прошли зря и соответствующие данные синхронизированы с учётной записью.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Синхронизация структуры домашней страницы</string>
+    <key>whats_new_poll_answered</key>
+    <string>Спасибо за ответ!</string>
     <key>widgets_app_icon_description</key>
     <string>Быстрый запуск Pocket Casts</string>
     <key>widgets_app_icon_name</key>

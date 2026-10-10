@@ -183,7 +183,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     private func swipeActions(for bookmark: Bookmark, edge: HorizontalEdge) -> some View {
         ForEach(makeBookmarkSwipeActions(for: bookmark, edge: edge, viewModel: viewModel, style: style)) { action in
-            Button(role: action.isDestructive ? .destructive : nil) {
+            Button {
                 action.handler()
             } label: {
                 Image(action.imageName)

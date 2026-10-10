@@ -160,7 +160,6 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="Qpn-kM-EXb" firstAttribute="bottom" secondItem="g9i-cH-zil" secondAttribute="bottom" constant="-34" id="8wN-hL-KqB"/>
                         <constraint firstAttribute="trailing" secondItem="Qpn-kM-EXb" secondAttribute="trailing" constant="15" id="Ra9-I7-igH"/>
                         <constraint firstItem="Qpn-kM-EXb" firstAttribute="top" secondItem="g9i-cH-zil" secondAttribute="top" constant="15" id="bNM-pB-guF"/>
                         <constraint firstItem="Qpn-kM-EXb" firstAttribute="leading" secondItem="g9i-cH-zil" secondAttribute="leading" constant="15" id="uQc-Su-Wym"/>
@@ -178,6 +177,9 @@
                 <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="uMf-pA-lLQ"/>
                 <constraint firstItem="g9i-cH-zil" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="wwo-dz-gJc"/>
                 <constraint firstAttribute="bottom" secondItem="g9i-cH-zil" secondAttribute="bottom" id="z1N-Pm-dwB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Qpn-kM-EXb" secondAttribute="bottom" id="b3o-ZJ-pVq"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Qpn-kM-EXb" secondAttribute="bottom" constant="16" id="ECl-xy-GS0"/>
+                <constraint firstAttribute="bottom" secondItem="Qpn-kM-EXb" secondAttribute="bottom" priority="250" id="UdC-yL-PFh"/>
             </constraints>
             <point key="canvasLocation" x="-291" y="13"/>
         </view>

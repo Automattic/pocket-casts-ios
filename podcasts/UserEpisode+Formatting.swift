@@ -8,7 +8,7 @@ extension UserEpisode {
 
     func displayableInfo(includeSize: Bool = true) -> String {
         if uploading() {
-            let progress = UploadManager.shared.progressManager.progressForEpisode(uuid)?.percentageProgressAsString() ?? ""
+            let progress = UploadManager.shared.progressManager.progress(forEpisodeUuid: uuid)?.percentageProgressAsString() ?? ""
             return L10n.podcastUploading(progress).trimmingCharacters(in: .whitespaces)
         } else if uploadWaitingForWifi() {
             return L10n.podcastWaitingUpload
@@ -34,13 +34,13 @@ extension UserEpisode {
     }
 
     public func shouldArchiveOnCompletion() -> Bool {
-        Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
+        Settings.userEpisodeRemoveFileAfterPlaying || Settings.userEpisodeRemoveFromCloudAfterPlaying()
     }
 
     func urlForImage(size: Int = 280) -> URL {
         if imageColor > 0 {
             #if !os(watchOS)
-                return ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme(), color: Int(imageColor), size: size)
+                return ServerHelper.userEpisodeDefaultImageUrl(isDark: Theme.isDarkTheme, color: Int(imageColor), size: size)
             #else
                 return ServerHelper.userEpisodeDefaultImageUrl(isDark: true, color: Int(imageColor), size: size)
             #endif

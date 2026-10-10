@@ -34,7 +34,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
     }
 
     func setup(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle, colors: Colors? = nil) {
-        let colors = colors ?? Colors(theme: themeOverride ?? Theme.sharedTheme.activeTheme)
+        let colors = colors ?? Colors(theme: themeOverride ?? Theme.shared.activeTheme)
 
         view.clipsToBounds = true
         self.themeOverride = themeOverride

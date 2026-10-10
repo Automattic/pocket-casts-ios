@@ -98,6 +98,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         podcastInfo.populateFrom(discoverPodcast: podcast)
         let podcastViewController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastViewController.featuredPodcast = isFeatured
+        podcastViewController.screenSource = .shareList
         navigationController?.pushViewController(podcastViewController, animated: true)
     }
 

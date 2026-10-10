@@ -162,7 +162,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     }
 
     @IBAction func learnMoreTapped(_ sender: Any) {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
+        NavigationManager.shared.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
     }
 
     @objc func themeDidChange() {

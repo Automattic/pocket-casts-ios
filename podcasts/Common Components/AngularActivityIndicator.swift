@@ -1,6 +1,6 @@
 import UIKit
 
-class AngularActivityIndicator: UIView, CAAnimationDelegate {
+class AngularActivityIndicator: UIView {
     var color = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5) {
         didSet {
             shapeLayer.strokeColor = color.cgColor
@@ -66,7 +66,6 @@ class AngularActivityIndicator: UIView, CAAnimationDelegate {
         groupAnimation.animations = [inAnimation, outAnimation]
         groupAnimation.duration = cfDuration + outAnimation.beginTime
         groupAnimation.repeatCount = Float.infinity
-        groupAnimation.delegate = self
 
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.fromValue = 0

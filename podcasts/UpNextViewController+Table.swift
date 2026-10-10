@@ -68,7 +68,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
                 actions: [
                     .init(title: L10n.goToDiscover) {
                         Analytics.track(.upNextDiscoverButtonTapped)
-                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                        NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey)
                     }
                 ])
             return emptyCell
@@ -93,7 +93,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             return indexPath
         }
 
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
+        if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1) {
             if selectedEpisodesContains(uuid: episode.episodeUuid) {
                 tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
                 return nil
@@ -106,7 +106,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isMultiSelectEnabled, tableData[indexPath.section] == .upNextSection {
             // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
-            if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
+            if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1) {
                 if !multiSelectGestureInProgress {
                     // If the episode is already selected move to the end of the array
                     selectedEpisodesRemove(uuid: episode.episodeUuid)
@@ -138,7 +138,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
             guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
-            let playOnTap = Settings.playUpNextOnTap()
+            let playOnTap = Settings.playUpNextOnTap
 
             track(.upNextQueueEpisodeTapped, properties: ["will_play": playOnTap])
 
@@ -152,7 +152,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1), let index = selectedPlayListEpisodes.firstIndex(of: episode) {
+        if let episode = DataManager.shared.playlistEpisodeAt(index: indexPath.row + 1), let index = selectedPlayListEpisodes.firstIndex(of: episode) {
             selectedPlayListEpisodes.remove(at: index)
             if let cell = upNextTable.cellForRow(at: indexPath) as? PlayerCell? {
                 cell?.showTick = false
@@ -253,19 +253,20 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             sections.insert(.nowPlayingSection, at: 0)
             upNextTable.themeStyle = .primaryUi04
         } else {
-            upNextTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
+            upNextTable.backgroundColor = UIColor(Theme.shared.primaryUi02)
         }
         tableData = sections
     }
 
     @objc func reloadTable() {
         refreshSections()
+        displayedUpNextCount = PlaybackManager.shared.queue.upNextCount()
         upNextTable.reloadData()
     }
 
-    @objc func upNextChanged() {
+    @objc func upNextChanged(_ notification: Notification? = nil) {
         if isMultiSelectEnabled {
-            let upNextUuids = Set(DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid))
+            let upNextUuids = Set(DataManager.shared.allUpNextPlaylistEpisodes().map(\.episodeUuid))
             selectedPlayListEpisodes.removeAll { !upNextUuids.contains($0.episodeUuid) }
 
             if let currentUuid = PlaybackManager.shared.currentEpisode?.uuid {
@@ -277,10 +278,20 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // this method is sometimes called during a re-arrange animation. For whatever weird reason doing this as part of that operation causes the table to flash.
         // This is only when the Lottie animation in the the now playing cell is running, so before removing this call, test that case
+        let isRowRemoval = notification?.name == Constants.Notifications.upNextEpisodeRemoved
         DispatchQueue.main.async {
             self.updateNavBarButtons()
-            self.reloadTable()
+            if isRowRemoval, self.isTableInSyncWithQueue {
+                self.updateTimeRemainingLabel()
+            } else {
+                self.reloadTable()
+            }
         }
+    }
+
+    private var isTableInSyncWithQueue: Bool {
+        let queueCount = PlaybackManager.shared.queue.upNextCount()
+        return queueCount > 0 && displayedUpNextCount == queueCount
     }
 
     @objc func appDidBecomeActive() {
@@ -296,7 +307,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         if sender.state == .began {
             if isMultiSelectEnabled {
                 showLongPressSelectOptions(indexPath: indexPath)
-            } else if !Settings.playUpNextOnTap() {
+            } else if !Settings.playUpNextOnTap {
                 AnalyticsPlaybackHelper.shared.currentSource = .upNext
                 PlaybackActionHelper.play(episode: episode)
                 track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])

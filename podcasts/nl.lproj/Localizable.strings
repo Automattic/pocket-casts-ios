@@ -1179,12 +1179,6 @@ waar je naar hebt geluisterd was
     <string>Shuffle je wachtrij</string>
     <key>feature_marketing_watch_playback</key>
     <string>Apps voor Wear OS en Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Einde rondleiding</string>
-    <key>feature_tour_new</key>
-    <string>Nieuw</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ van %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Standaard mail-app openen</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2183,8 +2177,12 @@ Dat is waar we voor staan!</string>
     <string>Deze aflevering kan niet worden afgespeeld.</string>
     <key>player_error_internet_connection</key>
     <string>Controleer je netwerkverbinding en probeer het nogmaals.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Je apparaat heeft geen opslag meer. Maak ruimte vrij en probeer het opnieuw.</string>
     <key>player_error_short_no_connection</key>
     <string>Je bent offline</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Apparaatopslag is vol</string>
     <key>player_error_short_playback_error</key>
     <string>Afspelen mislukt, probeer het nog eens</string>
     <key>player_increment_time</key>
@@ -2213,6 +2211,10 @@ Dat is waar we voor staan!</string>
     <string>Afspeelfout</string>
     <key>player_user_episode_upload_error</key>
     <string>Uploadfout</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Volledig scherm afsluiten</string>
+    <key>player_video_full_screen</key>
+    <string>Volledig scherm</string>
     <key>playlist_add_to_title</key>
     <string>Toevoegen aan "%@"</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3289,6 +3291,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Gebruik de bijgewerkte volumeboost met consistentere spraakniveaus.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Ongelezen stip weergeven</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Toon een ongelezen punt op Profiel wanneer er nieuwe Wat is er nieuw berichten.</string>
     <key>settings_global_settings</key>
     <string>Algemene instellingen</string>
     <key>settings_headphone_controls</key>
@@ -4440,6 +4446,24 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Wat is nieuw</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Lees meer over deze update op onze blog</string>
+    <key>whats_new_category_announcement</key>
+    <string>Aankondiging</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Bekend probleem</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Nieuwe functie</string>
+    <key>whats_new_category_research</key>
+    <string>Gebruikersonderzoek</string>
+    <key>whats_new_category_tip</key>
+    <string>Tips &amp; tricks</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Nieuwe functies, tips en aankondigingen worden hier weergegeven.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Nog geen berichten</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Alles lezen</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Kan What's New niet laden</string>
     <key>whats_new_in_version</key>
     <string>Nieuw in %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4454,6 +4478,8 @@ Dankzij jouw ondersteuning ziet je Startscherm er beter uit dan ooit!</string>
 Je kan nu dus met een gerust hart de lay-out van de pagina podcasts gaan aanpassen, want alle aangebrachte veranderingen worden met je account gesynchroniseerd.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Startraster synchroniseren</string>
+    <key>whats_new_poll_answered</key>
+    <string>Bedankt voor het antwoord.</string>
     <key>widgets_app_icon_description</key>
     <string>Pocket Casts snel lanceren</string>
     <key>widgets_app_icon_name</key>

@@ -13,6 +13,11 @@ class PodcastSorterTests: XCTestCase {
             // case-insensitive
             ["a title", "B TITLE"],
             ["A TITLE", "b title"],
+            // accents are ignored, so accented titles sort with their base letter
+            ["Área de trabalho", "B title"],
+            ["A title", "Área de trabalho"],
+            ["Ça s'explique", "D title"],
+            ["Über title", "V title"],
             // emoji sorting
             ["B title", "🔚 A title"],
             ["🔥 A title", "🔥 B title"],

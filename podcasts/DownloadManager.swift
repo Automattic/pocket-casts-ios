@@ -12,7 +12,7 @@ import AVKit
 class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
-        let manager = DownloadManager(dataManager: DataManager.sharedManager)
+        let manager = DownloadManager(dataManager: DataManager.shared)
         AnalyticsEpisodeHelper.shared.setup()
         return manager
     }()
@@ -261,14 +261,14 @@ class DownloadManager: NSObject, FilePathProtocol {
         episode.lastDownloadAttemptDate = Date()
         dataManager.save(episode: episode)
 
-        if !downloadingToStream { progressManager.updateStatusForEpisode(episode.uuid, status: .queued) }
+        if !downloadingToStream { progressManager.updateStatus(forEpisodeUuid: episode.uuid, status: .queued) }
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
 
         // try to make sure the download URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later
         if let episode = episode as? Episode, let podcast = episode.parentPodcast(dataManager: dataManager) {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
-                guard let strongSelf = self, let updatedEpisode = wasUpdated ? strongSelf.dataManager.findEpisode(uuid: episodeUuid) : episode, let url = episode.downloadUrl else { return }
+                guard let strongSelf = self, let updatedEpisode = wasUpdated ? strongSelf.dataManager.findEpisode(uuid: episodeUuid) : episode, let url = updatedEpisode.downloadUrl else { return }
 
                 Task {
                     await strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
@@ -290,8 +290,8 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func moveBufferedEpisodeCacheToEpisodeFile(episode: BaseEpisode) {
-        let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
-        let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
+        let sourceUrl = URL(fileURLWithPath: streamingBufferPath(for: episode))
+        let destinationUrl = URL(fileURLWithPath: path(for: episode))
         do {
             try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
             let fileSize = FileManager.default.fileSize(of: destinationUrl) ?? 0
@@ -366,7 +366,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
             episode.autoDownloadStatus = previousStatus
         } else {
-            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
         }
 
         let downloadTaskUUID = episode.uuid
@@ -377,10 +377,10 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadingEpisodesCache[downloadTaskUUID] = episode
         episode.downloadTaskId = downloadTaskUUID
         episode.lastDownloadAttemptDate = Date.now
-        DataManager.sharedManager.save(episode: episode)
+        DataManager.shared.save(episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
-        let outputURL = URL(fileURLWithPath: tempPathForEpisode(episode), isDirectory: false)
+        let outputURL = URL(fileURLWithPath: tempPath(for: episode), isDirectory: false)
         FileLog.shared.addMessage("DownloadManager stream and download: start downloading \(episode.uuid)")
         let exportPath = outputURL.pathComponents.joined(separator: "/")
         let exportStatus =  ExportStatus()
@@ -435,8 +435,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportStatus.error?.localizedDescription, downloadTaskId: nil, episode: episode)
-                DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
+                DataManager.shared.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportStatus.error?.localizedDescription, downloadTaskId: nil, episode: episode)
+                DataManager.shared.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
                 }
@@ -509,7 +509,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         request.timeoutInterval = 30.seconds
 
-        let tempFilePath = tempPathForEpisode(episode)
+        let tempFilePath = tempPath(for: episode)
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
         let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToUnexpensiveConnection() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
@@ -627,14 +627,14 @@ class DownloadManager: NSObject, FilePathProtocol {
         })
     }
 
-    func tempPathForEpisode(_ episode: BaseEpisode) -> String {
+    func tempPath(for episode: BaseEpisode) -> String {
         let fileName = episode.uuid + episode.fileExtension()
         let path = (tempDownloadFolder as NSString).appendingPathComponent(fileName)
 
         return path
     }
 
-    func pathForEpisode(_ episode: BaseEpisode) -> String {
+    func path(for episode: BaseEpisode) -> String {
         let fileName = episode.uuid + episode.fileExtension()
         let path = (podcastsDirectory as NSString).appendingPathComponent(fileName)
 
@@ -649,7 +649,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         return path
     }
 
-    func streamingBufferPathForEpisode(_ episode: BaseEpisode) -> String {
+    func streamingBufferPath(for episode: BaseEpisode) -> String {
         let fileExtension = episode.fileExtension()
         let fileName = episode.uuid + fileExtension
         let path = (streamingBufferDirectory as NSString).appendingPathComponent(fileName)
@@ -674,7 +674,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private func cancelTask(_ task: URLSessionDownloadTask, for episode: BaseEpisode) {
         task.cancel { [weak self] data in
-            if let data, !data.isEmpty, let tempFilePath = self?.tempPathForEpisode(episode) {
+            if let data, !data.isEmpty, let tempFilePath = self?.tempPath(for: episode) {
                 do {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
                 } catch {
@@ -685,7 +685,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
-        progressManager.removeProgressForEpisode(episode.uuid)
+        progressManager.removeProgress(forEpisodeUuid: episode.uuid)
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {

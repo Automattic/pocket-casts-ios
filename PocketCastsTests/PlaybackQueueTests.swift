@@ -12,7 +12,7 @@ final class PlaybackQueueTests: XCTestCase {
 
         let playbackQueue = PlaybackQueue()
         let mockDataManager = MockDataManager()
-        DataManager.sharedManager = mockDataManager
+        DataManager.shared = mockDataManager
 
         let staleEpisode = PlaylistEpisode()
         staleEpisode.episodeUuid = "stale-uuid"
@@ -37,7 +37,7 @@ final class PlaybackQueueTests: XCTestCase {
     func testReorderUpNextPersistsNewOrderAndKeepsMissingEntriesAtBottom() {
         let playbackQueue = PlaybackQueue()
         let mockDataManager = MockDataManager()
-        DataManager.sharedManager = mockDataManager
+        DataManager.shared = mockDataManager
 
         // Position 0 is the now playing episode, which stays pinned and isn't reordered.
         mockDataManager.upNextEpisodes = [
@@ -62,7 +62,7 @@ final class PlaybackQueueTests: XCTestCase {
     func testReorderUpNextDoesNothingWithFewerThanTwoSortedEpisodes() {
         let playbackQueue = PlaybackQueue()
         let mockDataManager = MockDataManager()
-        DataManager.sharedManager = mockDataManager
+        DataManager.shared = mockDataManager
 
         mockDataManager.upNextEpisodes = [
             playlistEpisode(uuid: "now-playing", position: 0),

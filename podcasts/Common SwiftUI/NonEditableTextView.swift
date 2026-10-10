@@ -29,7 +29,7 @@ struct NonEditableTextView: UIViewRepresentable {
             DispatchQueue.main.async {
                 let bottomOffset = CGPoint(
                     x: 0,
-                    y: max(0, uiView.contentSize.height - uiView.bounds.height + uiView.contentInset.bottom)
+                    y: max(0, uiView.contentSize.height - uiView.bounds.height + uiView.adjustedContentInset.bottom)
                 )
                 uiView.setContentOffset(bottomOffset, animated: false)
             }

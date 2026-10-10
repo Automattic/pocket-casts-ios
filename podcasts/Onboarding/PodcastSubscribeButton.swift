@@ -70,7 +70,7 @@ struct PodcastSubscribeButton: View {
     private func unsubscribe() {
         guard let uuid = podcast.uuid else { return }
 
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) else { return }
+        guard let podcast = DataManager.shared.findPodcast(uuid: uuid) else { return }
 
         isSubscribed = false
 

@@ -830,7 +830,7 @@ public class PlaylistQueryBuilder {
         queryString: inout String,
         haveStartedWhere: inout Bool
     ) {
-        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+        let unsubscribedUuids = DataManager.shared.allUnsubscribedPodcastUuids()
         if !unsubscribedUuids.isEmpty {
             if haveStartedWhere { queryString += "AND " }
 
@@ -960,7 +960,7 @@ public class PlaylistQueryBuilder {
         }
 
         // filter out unsubscribed podcasts
-        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+        let unsubscribedUuids = DataManager.shared.allUnsubscribedPodcastUuids()
         if !unsubscribedUuids.isEmpty {
             if haveStartedWhere { queryString += "AND " }
 

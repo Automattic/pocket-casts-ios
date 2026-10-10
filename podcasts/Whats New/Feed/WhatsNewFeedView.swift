@@ -7,6 +7,8 @@ struct WhatsNewFeedView: View {
     @EnvironmentObject private var theme: Theme
     @ObservedObject var viewModel: WhatsNewFeedViewModel
 
+    @State private var hasLoaded = false
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
@@ -17,6 +19,16 @@ struct WhatsNewFeedView: View {
                         WhatsNewFeedRow(item: item)
                     }
                     .buttonStyle(WhatsNewFeedRowButtonStyle())
+                    #if DEBUG
+                    .contextMenu {
+                        Button {
+                            viewModel.toggleRead(item)
+                        } label: {
+                            Label(item.isUnread ? "Mark as Read" : "Mark as Unread",
+                                  systemImage: item.isUnread ? "envelope.open" : "envelope.badge")
+                        }
+                    }
+                    #endif
 
                     if item.id != viewModel.items.last?.id {
                         Rectangle()
@@ -36,7 +48,11 @@ struct WhatsNewFeedView: View {
             }
         }
         .background(theme.primaryUi02.ignoresSafeArea())
-        .task { await viewModel.load() }
+        .task {
+            guard !hasLoaded else { return }
+            await viewModel.load()
+            hasLoaded = !Task.isCancelled
+        }
     }
 }
 
@@ -130,15 +146,21 @@ private struct WhatsNewFeedRow: View {
 
 /// The icon the message's type picks, which the client owns: authors choose a type, not a thumbnail.
 private struct WhatsNewFeedIconView: View {
+    @EnvironmentObject private var theme: Theme
+    @ScaledMetric(relativeTo: .largeTitle) private var glyphSize: CGFloat = 24
+
     let type: WhatsNewMessageType
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: type.iconGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+            type.iconGradient(theme: theme)
 
-            Image(systemName: type.iconSymbolName)
-                .font(.system(size: 22, weight: .semibold))
+            type.icon
+                .resizable()
+                .scaledToFit()
+                .frame(width: glyphSize, height: glyphSize)
                 .foregroundStyle(.white)
+                .opacity(0.8)
         }
         .clipShape(RoundedRectangle(cornerRadius: 4))
     }
@@ -176,6 +198,7 @@ private enum WhatsNewFeedDateFormatter {
 
 // MARK: - Previews
 
+#if DEBUG
 private extension WhatsNewFeedViewModel {
     /// The mock catalog with everything but the two most recent messages already read.
     static var mock: WhatsNewFeedViewModel {
@@ -187,6 +210,7 @@ private extension WhatsNewFeedViewModel {
 #Preview("Feed in a navigation controller") {
     PCNavigationController(rootViewController: WhatsNewFeedViewController(viewModel: .mock))
 }
+#endif
 
 #Preview("Loading") {
     WhatsNewFeedUnavailableView(state: .loading) {}

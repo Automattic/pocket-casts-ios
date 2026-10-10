@@ -18,7 +18,7 @@ class FilterNameCell: ThemeableCell {
     }
 
     private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
     }

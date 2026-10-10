@@ -13,7 +13,7 @@ class ThemeLoadingIndicator: UIActivityIndicatorView {
     }
 
     private func setThemeColor() {
-        color = AppTheme.loadingActivityColor()
+        color = AppTheme.loadingActivityColor
     }
 
     deinit {

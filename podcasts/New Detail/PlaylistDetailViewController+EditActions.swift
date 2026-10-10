@@ -102,7 +102,7 @@ extension PlaylistDetailViewController {
         let playlist = self.viewModel.playlist
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.update(playlist: playlist)
-        DataManager.sharedManager.save(playlist: viewModel.playlist)
+        DataManager.shared.save(playlist: viewModel.playlist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
     }
 

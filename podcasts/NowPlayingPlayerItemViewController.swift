@@ -21,7 +21,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // Detect Display Zoom (zoomed display makes UI elements appear larger).
     // Scale controls down slightly when zoomed to avoid oversized buttons.
     private var isZoomed: Bool {
-        A11y.isDisplayZoomed
+        view.window?.windowScene?.screen.isDisplayZoomed ?? false
     }
 
     var videoViewController: VideoViewController?
@@ -102,6 +102,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
             floatingVideoView.addGestureRecognizer(tapGesture)
+
+            floatingVideoView.onFullScreenTapped = { [weak self] in
+                self?.videoTapped()
+            }
         }
     }
 
@@ -245,6 +249,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var bannerAdHostingController: PCHostingController<AnyView>?
     private var bannerAdHeightConstraint: NSLayoutConstraint?
+    #if !APPCLIP
+    private var bannerAdModel: BannerAdModel?
+    #endif
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
@@ -258,6 +265,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             }
             #endif
             controller.updateSize()
+        }
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (controller: NowPlayingPlayerItemViewController, _) in
+            controller.resizeControls()
+            #if !APPCLIP
+            controller.updateBannerAdDisplayZoom()
+            #endif
         }
 
         setUpArtworkImageView()
@@ -292,6 +306,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadBannerAd()
+    }
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        // Layout and the banner can run before the view has a window to read Display Zoom from.
+        resizeControls()
+        #if !APPCLIP
+        updateBannerAdDisplayZoom()
+        #endif
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -606,13 +630,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
-        guard PlaybackManager.shared.currentEpisode != nil else { return }
+        guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
             videoViewController = videoController
-            videoViewController?.modalTransitionStyle = .crossDissolve
             videoViewController?.modalPresentationStyle = .fullScreen
+            if #available(iOS 18.0, *) {
+                videoViewController?.preferredTransition = .zoom { [weak self] _ in
+                    self?.floatingVideoView
+                }
+            } else {
+                videoViewController?.modalTransitionStyle = .crossDissolve
+            }
             videoViewController?.willAttachPlayer = { [weak self] in
                 self?.floatingVideoView.player = nil
             }
@@ -659,7 +689,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @objc func googleCastTapped() {
         shelfButtonTapped(.chromecast)
 
-        let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
+        let themeOverride = Theme.shared.activeTheme.isDark ? Theme.shared.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)
         navController.modalPresentationStyle = .fullScreen
@@ -682,7 +712,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             playerContainer?.showTranscript()
         }
 
-        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
+        UIView.animate(springDuration: 0.35, bounce: 0, animations: { [weak self] in
             guard let self else { return }
 
             // Hide/show shelf
@@ -739,8 +769,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)
-        let hostingController = PCHostingController(rootView: AnyView(adView))
+        let hostingController = PCHostingController(rootView: bannerAdView(model: model))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         hostingController.view.backgroundColor = .clear
@@ -765,6 +794,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         hostingController.didMove(toParent: self)
         bannerAdHostingController = hostingController
         bannerAdHeightConstraint = heightConstraint
+        bannerAdModel = model
 
         view.layoutIfNeeded()
 
@@ -793,6 +823,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         hostingController.removeFromParent()
         bannerAdHostingController = nil
         bannerAdHeightConstraint = nil
+        bannerAdModel = nil
+    }
+
+    private func bannerAdView(model: BannerAdModel) -> AnyView {
+        AnyView(BannerAdView(model: model, colors: .playerColors(Theme.shared), isDisplayZoomed: isZoomed).padding(16))
+    }
+
+    private func updateBannerAdDisplayZoom() {
+        guard let hostingController = bannerAdHostingController, let bannerAdModel else { return }
+
+        hostingController.rootView = .init(content: bannerAdView(model: bannerAdModel), modifier: hostingController.rootView.modifier)
+        updateBannerAdHeight()
     }
 
     private func updateBannerAdHeight() {

@@ -45,7 +45,7 @@ class GridBadgeView: UIView {
         case .allUnplayed:
             simpleBadge.isHidden = true
             badgeLabel.isHidden = false
-            badgeLabel.text = count < 99 ? "\(count)" : "99"
+            badgeLabel.text = UnplayedBadge.text(forCount: count)
         case .off:
             simpleBadge.isHidden = true
             badgeLabel.isHidden = true
@@ -110,7 +110,9 @@ class GridBadgeView: UIView {
         let metrics = UIFontMetrics(forTextStyle: .largeTitle)
         simpleBadge.updateSizeConstraints(to: max(15, metrics.scaledValue(for: 15)))
 
-        if let text = badgeLabel.text, text.count > 1 {
+        if let text = badgeLabel.text, text.count > 2 {
+            labelWidthConstraint.constant = max(40, metrics.scaledValue(for: 40))
+        } else if let text = badgeLabel.text, text.count > 1 {
             labelWidthConstraint.constant = max(34, metrics.scaledValue(for: 34))
         } else {
             labelWidthConstraint.constant = max(25, metrics.scaledValue(for: 25))

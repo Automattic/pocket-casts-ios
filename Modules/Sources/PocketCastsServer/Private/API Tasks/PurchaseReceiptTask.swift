@@ -34,7 +34,7 @@ class PurchaseReceiptTask: ApiBaseTask, @unchecked Sendable {
                 completion?(false)
                 if let purchaseDate = ServerSettings.iapUnverifiedPurchaseReceiptDate(), purchaseDate.timeIntervalSinceNow > 7.days {
                     ServerSettings.setIapUnverifiedPurchaseReceiptDate(nil)
-                    let dateString = DateFormatHelper.sharedHelper.jsonFormat(ServerSettings.iapUnverifiedPurchaseReceiptDate())
+                    let dateString = DateFormatHelper.shared.jsonFormat(ServerSettings.iapUnverifiedPurchaseReceiptDate())
                     FileLog.shared.addMessage("Purchase Receipt Send has been failing for 7 days, allow user to be downgraded (last receipt date is \(dateString)")
                 }
                 return

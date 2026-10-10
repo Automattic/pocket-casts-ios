@@ -13,7 +13,7 @@ struct EmptyStateAction: Identifiable {
 
     init<Style: ButtonStyle>(
         title: String,
-        style: Style = RoundedButtonStyle(theme: .sharedTheme),
+        style: Style = RoundedButtonStyle(theme: .shared),
         action: @escaping () -> Void
     ) {
         self.id = title
@@ -81,6 +81,7 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             if let message {
                 Text(message)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .font(.subheadline)
                     .foregroundStyle(style.message)
             }

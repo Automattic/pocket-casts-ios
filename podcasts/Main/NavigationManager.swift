@@ -6,6 +6,8 @@ import PocketCastsUtils
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
     static let podcastKey = "podcast"
+    /// Optional `PodcastScreenSource` saying where the podcast page is being opened from
+    static let podcastSourceKey = "podcastSource"
 
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
@@ -19,6 +21,7 @@ class NavigationManager {
     static let discoverPageKey = "discoverPage"
     static let discoverCategoryKey = "discoverCategory"
     static let discoverListKey = "discoverList"
+    static let discoverNetworksPageKey = "discoverNetworksPage"
 
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
@@ -86,20 +89,14 @@ class NavigationManager {
     static let manualPlaylistsChooserRootKey = "manualPlaylistsChooserRootKey"
     static let manualPlaylistsChooserSourceKey = "manualPlaylistsChooserSourceKey"
 
-    static let sharedManager = NavigationManager()
+    static let shared = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
     var dimmingView: UIView?
     var miniPlayer: MiniPlayerViewController?
 
-    var isPhone = false
-
     private var lastNavKey = ""
     private var lastNavData: NSDictionary?
-
-    init() {
-        isPhone = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
-    }
 
     // MARK: - Navigation
 
@@ -122,15 +119,17 @@ class NavigationManager {
         if place == NavigationManager.podcastPageKey {
             guard let data else { return }
 
+            let source = data[NavigationManager.podcastSourceKey] as? PodcastScreenSource ?? .unknown
+
             if let podcast = data[NavigationManager.podcastKey] as? Podcast {
-                mainController?.navigateToPodcast(podcast)
+                mainController?.navigateToPodcast(podcast, source: source)
             }
             if let podcastUuid = data[NavigationManager.podcastKey] as? String {
-                if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    mainController?.navigateToPodcast(podcast)
+                if let podcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                    mainController?.navigateToPodcast(podcast, source: source)
                 }
             } else if let podcastInfo = data[NavigationManager.podcastKey] as? PodcastInfo {
-                mainController?.navigateToPodcastInfo(podcastInfo)
+                mainController?.navigateToPodcastInfo(podcastInfo, source: source)
             } else if let podcastHeader = data[NavigationManager.podcastKey] as? PodcastHeader {
                 // legacy PodcastHeader support
                 var podcastInfo = PodcastInfo()
@@ -140,9 +139,9 @@ class NavigationManager {
                 podcastInfo.author = podcastHeader.author
                 podcastInfo.iTunesId = podcastHeader.itunesId?.intValue
 
-                mainController?.navigateToPodcastInfo(podcastInfo)
+                mainController?.navigateToPodcastInfo(podcastInfo, source: source)
             } else if let searchResult = data[NavigationManager.podcastKey] as? PodcastFolderSearchResult {
-                mainController?.navigateTo(podcast: searchResult)
+                mainController?.navigateTo(podcast: searchResult, source: source)
             }
         } else if place == NavigationManager.folderPageKey {
             guard let data else { return }
@@ -158,8 +157,10 @@ class NavigationManager {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
             navigateToDiscover(data: data, animated: animated)
+        } else if place == NavigationManager.discoverNetworksPageKey {
+            mainController?.navigateToDiscoverNetworks(animated)
         } else if place == NavigationManager.filterPageKey {
-            if let data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) {
+            if let data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.shared.findPlaylist(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
             } else {
                 mainController?.navigateToFilter(nil, animated: animated)
@@ -239,7 +240,8 @@ class NavigationManager {
             mainController?.showEndOfYearStories()
         } else if place == NavigationManager.onboardingFlow {
             let flow: OnboardingFlow.Flow? = data?["flow"] as? OnboardingFlow.Flow
-            mainController?.showOnboardingFlow(flow: flow)
+            let source = data?["source"] as? PlusUpgradeViewSource
+            mainController?.showOnboardingFlow(flow: flow, source: source)
         } else if place == NavigationManager.settingsGeneralKey {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
         } else if place == NavigationManager.upNextPageKey {

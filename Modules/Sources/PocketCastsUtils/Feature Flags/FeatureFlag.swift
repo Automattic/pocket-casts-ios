@@ -104,9 +104,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show a satisfaction survey before prompting to rate
     case userSatisfactionSurvey
 
-    /// Whether to use database concurrent reads or not
-    case concurrentDatabaseReads
-
     /// Limit playback position changes when switching episodes
     case limitPlaybackPositionChanges
 
@@ -140,9 +137,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
-    /// Ignores play remote commands when another app is playing non-mixable audio
-    case ignorePlayWithOtherAudio
-
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
 
@@ -169,9 +163,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable VoiceBoostN with updated description copy (TestFlight only)
     case voiceBoostN
-
-    /// Use GRDB QueryInterface for database queries instead of raw SQL
-    case grdbQueryInterface
 
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
@@ -256,6 +247,15 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the What's New feed
     case whatsNewFeed
 
+    /// Show the What's New feed's research messages, which ask the user to answer a poll
+    case whatsNewPolls
+
+    /// Don't pause on a route change while a play request is activating the audio session
+    case ignoreRouteChangeWhilePlayRequestPending
+
+    /// Ignore non-200 responses (such as 304 Not Modified) to the background Up Next sync instead of treating them as an empty queue
+    case ignoreUnsuccessfulBackgroundUpNextSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -338,8 +338,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .userSatisfactionSurvey:
             true
-        case .concurrentDatabaseReads:
-            true
         case .limitPlaybackPositionChanges:
             true
         case .shareTranscripts:
@@ -362,8 +360,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .playlistDataCacheBeforeQuery:
             true
-        case .ignorePlayWithOtherAudio:
-            true
         case .useCellularNetworkApis:
             true
         case .optimizeManualPlaylistQueries:
@@ -382,8 +378,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .voiceBoostN:
             false
-        case .grdbQueryInterface:
-            true
         case .playlistCacheInvalidation:
             true
         case .watchLogFileTransfer:
@@ -435,7 +429,13 @@ public enum FeatureFlag: String, CaseIterable {
         case .newEpisodeNotificationsPushOptOut:
             true
         case .whatsNewFeed:
-            BuildEnvironment.current == .debug
+            true
+        case .whatsNewPolls:
+            false
+        case .ignoreRouteChangeWhilePlayRequestPending:
+            true
+        case .ignoreUnsuccessfulBackgroundUpNextSync:
+            true
         }
     }
 

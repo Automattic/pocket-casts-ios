@@ -3,8 +3,8 @@ import PocketCastsUtils
 
 /// What the user has done with the What's New messages and the polls they ask.
 ///
-/// Outside of a reset no set ever shrinks — nothing marks a message unread or a poll unanswered
-/// again — so two copies of the state combine by keeping everything either one has.
+/// Apart from a reset, and a message the user marks unread again, no set ever shrinks, so two
+/// copies of the state combine by keeping everything either one has, and the earlier start date.
 public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// Messages the user opened or cleared with "Read all".
     public var readMessageIDs: Set<String>
@@ -13,21 +13,30 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
     /// dot on the tab has already pointed them at.
     public var seenMessageIDs: Set<String>
 
-    /// Messages the feed listed when the user opened it, which the dot on the What's New row has
+    /// Messages the feed listed when the user opened it, which the dot on the What's New button has
     /// already pointed them at.
     public var listedMessageIDs: Set<String>
 
     /// Research polls the user answered, which stay closed from then on.
     public var respondedPollIDs: Set<String>
 
+    /// When a fresh install started following the feed. Messages published before then count as
+    /// read, so a new user doesn't start out on a backlog of them.
+    ///
+    /// Only this device goes by it: nothing it marks read reaches the account. A user who updated
+    /// into the feed has none, and gets every message unread.
+    public var feedStartDate: Date?
+
     public init(readMessageIDs: Set<String> = [],
                 seenMessageIDs: Set<String> = [],
                 listedMessageIDs: Set<String> = [],
-                respondedPollIDs: Set<String> = []) {
+                respondedPollIDs: Set<String> = [],
+                feedStartDate: Date? = nil) {
         self.readMessageIDs = readMessageIDs
         self.seenMessageIDs = seenMessageIDs
         self.listedMessageIDs = listedMessageIDs
         self.respondedPollIDs = respondedPollIDs
+        self.feedStartDate = feedStartDate
     }
 
     public init(from decoder: any Decoder) throws {
@@ -36,34 +45,43 @@ public struct WhatsNewReadState: Codable, Hashable, Sendable {
         seenMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .seenMessageIDs) ?? []
         listedMessageIDs = try container.decodeIfPresent(Set<String>.self, forKey: .listedMessageIDs) ?? []
         respondedPollIDs = try container.decodeIfPresent(Set<String>.self, forKey: .respondedPollIDs) ?? []
+        feedStartDate = try container.decodeIfPresent(Date.self, forKey: .feedStartDate)
     }
 
-    public func isRead(_ messageID: String) -> Bool {
-        readMessageIDs.contains(messageID)
+    /// Whether the user read the message, or it was published before this install started following
+    /// the feed.
+    public func isRead(_ message: WhatsNewMessage) -> Bool {
+        if readMessageIDs.contains(message.id) {
+            return true
+        }
+        guard let feedStartDate else { return false }
+        return message.publishedAt < feedStartDate
     }
 
     /// Whether the message is unread and the Profile tab hasn't pointed the user at it yet.
-    public func isUnseen(_ messageID: String) -> Bool {
-        !isRead(messageID) && !seenMessageIDs.contains(messageID)
+    public func isUnseen(_ message: WhatsNewMessage) -> Bool {
+        !isRead(message) && !seenMessageIDs.contains(message.id)
     }
 
-    /// Whether the feed has listed the message, read or not.
-    public func isListed(_ messageID: String) -> Bool {
-        listedMessageIDs.contains(messageID)
+    /// Whether the message is unread and the feed hasn't listed it yet.
+    public func isUnlisted(_ message: WhatsNewMessage) -> Bool {
+        !isRead(message) && !listedMessageIDs.contains(message.id)
     }
 
     func merging(_ other: WhatsNewReadState) -> WhatsNewReadState {
         WhatsNewReadState(readMessageIDs: readMessageIDs.union(other.readMessageIDs),
                           seenMessageIDs: seenMessageIDs.union(other.seenMessageIDs),
                           listedMessageIDs: listedMessageIDs.union(other.listedMessageIDs),
-                          respondedPollIDs: respondedPollIDs.union(other.respondedPollIDs))
+                          respondedPollIDs: respondedPollIDs.union(other.respondedPollIDs),
+                          feedStartDate: [feedStartDate, other.feedStartDate].compactMap { $0 }.min())
     }
 }
 
 /// Keeps the What's New read state in a file.
 ///
-/// Read state is meant to sync across the user's devices through the server; until it does, this
-/// file is the only copy.
+/// Which messages are read also syncs with the user's account, but this file is what the feed works
+/// from: it's there before the first request, it's all a signed-out user has, and it holds what the
+/// server doesn't keep — what the dots have pointed at and which polls were answered.
 public struct WhatsNewReadStateStore: Sendable {
     private let fileURL: URL
 

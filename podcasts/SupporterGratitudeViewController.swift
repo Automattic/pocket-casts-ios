@@ -33,7 +33,7 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
         title = L10n.signIn
 
         (view as? ThemeableView)?.style = .primaryUi01
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         podcastArtwork.transform = CGAffineTransform(rotationAngle: CGFloat(-14).degreesToRadians)
@@ -69,10 +69,10 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
     func signingProcessCompleted() {
         dismiss(animated: true, completion: {
             var uuid: String? = self.bundleUuid
-            if self.bundleUuid == nil, let podcastUuid = self.podcastInfo?.uuid, let containerBundle = SubscriptionHelper.bundleSubscriptionForPodcast(podcastUuid: podcastUuid) {
+            if self.bundleUuid == nil, let podcastUuid = self.podcastInfo?.uuid, let containerBundle = SubscriptionHelper.bundleSubscription(forPodcastUuid: podcastUuid) {
                 uuid = containerBundle.bundleUuid
             }
-            NavigationManager.sharedManager.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: uuid as Any])
+            NavigationManager.shared.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: uuid as Any])
         })
     }
 

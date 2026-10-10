@@ -234,7 +234,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
                 BottomSheetSwiftUIWrapper.present(
-                    view.environmentObject(Theme.sharedTheme),
+                    view.environmentObject(Theme.shared),
                     autoSize: true,
                     showingGrabber: true,
                     in: self

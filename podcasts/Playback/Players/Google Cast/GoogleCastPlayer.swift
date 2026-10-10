@@ -3,7 +3,7 @@ import Foundation
 import PocketCastsDataModel
 
 class GoogleCastPlayer: PlaybackProtocol {
-    private lazy var castManager: GoogleCastManager = .sharedManager
+    private lazy var castManager: GoogleCastManager = .shared
 
     private var shouldKeepPlaying = false
 
@@ -86,7 +86,7 @@ class GoogleCastPlayer: PlaybackProtocol {
     }
 
     func effectsDidChange() {
-        let speed = Float(PlaybackManager.shared.effects().playbackSpeed)
+        let speed = Float(PlaybackManager.shared.effects.playbackSpeed)
         castManager.changePlaybackSpeed(speed)
     }
 

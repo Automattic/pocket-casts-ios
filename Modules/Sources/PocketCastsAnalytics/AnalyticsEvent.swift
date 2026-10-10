@@ -550,6 +550,7 @@ public enum AnalyticsEvent: String {
 
     case episodeDetailShown
     case episodeDetailShowNotesLinkTapped
+    case episodeDetailShowNotesTimestampTapped
     case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
     case episodeDetailTabChanged
@@ -628,6 +629,7 @@ public enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
     case settingsGeneralGeneratedChaptersToggled
+    case settingsGeneralWhatsNewUnreadDotToggled
     case settingsGeneralAutoplayToggled
     case settingsGeneralAutoSleepTimerRestartToggled
     case settingsGeneralShakeToResetSleepTimerToggled
@@ -964,8 +966,6 @@ public enum AnalyticsEvent: String {
 
     // MARK: - Referrals
 
-    case referralTooltipShow
-    case referralTooltipTapped
     case referralShareScreenShown
     case referralShareScreenDismissed
     case referralPassShared

@@ -51,14 +51,14 @@ extension AppDelegate {
     }
 
     func logStaleDownloads() {
-        let failedDownloadCount = DataManager.sharedManager.failedDownloadedEpisodesCount()
+        let failedDownloadCount = DataManager.shared.failedDownloadedEpisodesCount()
 
         guard failedDownloadCount > 0 else {
             return
         }
 
-        let oldestFailedDownload = DataManager.sharedManager.oldestFailedEpisodeDownload()
-        let newestFailedDownload = DataManager.sharedManager.newestFailedEpisodeDownload()
+        let oldestFailedDownload = DataManager.shared.oldestFailedEpisodeDownload()
+        let newestFailedDownload = DataManager.shared.newestFailedEpisodeDownload()
 
         let properties: [String: Any?] =  ["failed_download_count": failedDownloadCount,
                                            "oldest_failed_download": oldestFailedDownload?.formatted(.iso8601),

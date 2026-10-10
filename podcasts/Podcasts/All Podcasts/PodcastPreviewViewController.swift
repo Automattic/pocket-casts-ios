@@ -31,6 +31,6 @@ final class PodcastPreviewViewController: UIViewController {
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        ImageManager.sharedManager.loadImage(podcastUuid: podcastUUID, imageView: imageView, size: .page, showPlaceHolder: true)
+        ImageManager.shared.loadImage(podcastUuid: podcastUUID, imageView: imageView, size: .page, showPlaceHolder: true)
     }
 }

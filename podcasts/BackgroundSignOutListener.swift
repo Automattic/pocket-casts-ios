@@ -13,7 +13,7 @@ class BackgroundSignOutListener {
     private var canShowSignOut = true
 
     init(notificationCenter: NotificationCenter = NotificationCenter.default,
-         navigationManager: NavigationManager = NavigationManager.sharedManager,
+         navigationManager: NavigationManager = NavigationManager.shared,
          presentingViewController: @autoclosure @escaping () -> UIViewController?) {
         self.notificationCenter = notificationCenter
         self.navigationManager = navigationManager

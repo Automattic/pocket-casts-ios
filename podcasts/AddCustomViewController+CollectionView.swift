@@ -11,11 +11,11 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
     }
 
     func colorBackgrounds() -> [UIColor] {
-        var colorBackgrounds = [AppTheme.userEpisodeNoArtworkColor(), AppTheme.userEpisodeRedColor(), AppTheme.userEpisodeBlueColor(), AppTheme.userEpisodeGreenColor(),
-                                AppTheme.userEpisodeYellowColor(), AppTheme.userEpisodeOrangeColor(), AppTheme.userEpisodePurpleColor(), AppTheme.userEpisodePinkColor()]
+        var colorBackgrounds = [AppTheme.userEpisodeNoArtworkColor, AppTheme.userEpisodeRedColor, AppTheme.userEpisodeBlueColor, AppTheme.userEpisodeGreenColor,
+                                AppTheme.userEpisodeYellowColor, AppTheme.userEpisodeOrangeColor, AppTheme.userEpisodePurpleColor, AppTheme.userEpisodePinkColor]
 
         if artwork != nil {
-            colorBackgrounds.insert(AppTheme.embeddedArtworkColor(), at: 0)
+            colorBackgrounds.insert(AppTheme.embeddedArtworkColor, at: 0)
             artworkIndexPath = IndexPath(item: 0, section: 0)
             greyIndexPath = IndexPath(item: 1, section: 0)
         } else {

@@ -206,12 +206,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
 
         view.addSubview(transcriptView)
+        view.keyboardLayoutGuide.usesBottomSafeArea = showFromEpisode
         let transcriptViewTopConstraint = transcriptView.topAnchor.constraint(equalTo: view.topAnchor)
         self.transcriptViewTopConstraint = transcriptViewTopConstraint
         NSLayoutConstraint.activate(
             [
                 transcriptViewTopConstraint,
-                transcriptView.bottomAnchor.constraint(equalTo: showFromEpisode ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor),
+                transcriptView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
                 transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
@@ -579,7 +580,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         let secondaryColor =  showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
         let activityIndicatorViewColor: UIColor = showFromEpisode ? ThemeColor.primaryIcon02() : ThemeColor.playerContrast02()
-        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.sharedTheme.activeTheme.isDark ? .white : .black) : .white
+        let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.shared.activeTheme.isDark ? .white : .black) : .white
 
         view.backgroundColor = primaryColor
         transcriptView.backgroundColor =  primaryColor
@@ -701,7 +702,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func showUpsellView() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+        NavigationManager.shared.showUpsellView(from: self, source: .generatedTranscripts)
     }
 
     @objc private func subscriptionStatusDidChange() {
@@ -752,16 +753,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func updateTextMargins() {
-        let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
+        let readableFrame = view.readableContentGuide.layoutFrame
+        guard !readableFrame.isEmpty else { return }
+        let leftMargin = readableFrame.minX + Sizes.textMargin
+        let rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
         var topInset = 0.75 * Sizes.topGradientHeight
         if FeatureFlag.generatedTranscripts.enabled,
            transcriptManager?.hasGeneratedTranscripts == true {
-            let newMargin = margin + 5.0
-            bannerLabelLeadingConstraint?.constant = newMargin
-            bannerLabelTrailingConstraint?.constant = -newMargin
+            let isRightToLeft = view.effectiveUserInterfaceLayoutDirection == .rightToLeft
+            bannerLabelLeadingConstraint?.constant = (isRightToLeft ? rightMargin : leftMargin) + 5.0
+            bannerLabelTrailingConstraint?.constant = -((isRightToLeft ? leftMargin : rightMargin) + 5.0)
             topInset += 5.0
         }
-        transcriptView.textContainerInset = .init(top: topInset, left: margin, bottom: bottomContainerInset, right: margin)
+        transcriptView.textContainerInset = .init(top: topInset, left: leftMargin, bottom: bottomContainerInset, right: rightMargin)
     }
 
     @MainActor
@@ -873,8 +877,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if !showFromEpisode {
             addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
             addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
@@ -1047,7 +1049,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             ])
             if case .unavailable = syncedState { return }
             let status = playbackManager.episodeUUID
-                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DataManager.shared.findBaseEpisode(uuid: $0) }
                 .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
             if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
@@ -1113,44 +1115,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
         transcriptView.scrollToRange(firstResultRange)
-    }
-
-    // MARK: - Keyboard
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: true)
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        adjustTextViewForKeyboard(notification: notification, show: false)
-    }
-
-    func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
-            return
-        }
-
-        let keyboardHeight = keyboardFrame.height
-        let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
-        let previousContentOffset = transcriptView.contentOffset
-        UIView.animate(withDuration: animationDuration, animations: { [weak self] in
-            guard let self else { return }
-
-            if isSearching {
-                transcriptView.setContentOffset(previousContentOffset, animated: false)
-            }
-
-            transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
-            transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
-        }, completion: { [weak self] _ in
-            guard let self else { return }
-
-            if isSearching {
-                transcriptView.setContentOffset(previousContentOffset, animated: false)
-            }
-        })
     }
 
     // MARK: - Tracks
@@ -1254,7 +1218,7 @@ private extension TranscriptViewController {
     func makeBookmarkAction(for range: NSRange) -> UIAction? {
         guard range.length > 0, PaidFeature.bookmarks.isUnlocked,
               let transcript,
-              let episode = playbackManager.episodeUUID.flatMap({ DataManager.sharedManager.findBaseEpisode(uuid: $0) }),
+              let episode = playbackManager.episodeUUID.flatMap({ DataManager.shared.findBaseEpisode(uuid: $0) }),
               let position = bookmarkPosition(forSelectionStartingAt: range.location, in: transcript) else {
             return nil
         }

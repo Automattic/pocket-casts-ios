@@ -40,7 +40,7 @@ struct SetSleepTimerIntent: AudioPlaybackIntent {
     func perform() async throws -> some IntentResult {
         let duration = SleepTimerIntentDuration.resolvedValue(
             duration,
-            defaultDuration: Settings.customSleepTime()
+            defaultDuration: Settings.customSleepTime
         )
         _ = SiriShortcutsManager.shared.setSleepTimer(duration: duration)
 

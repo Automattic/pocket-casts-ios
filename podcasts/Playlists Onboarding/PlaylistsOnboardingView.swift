@@ -25,6 +25,7 @@ struct PlaylistsOnboardingView: View {
                     .scrollIndicators(.hidden)
                     .scrollTargetBehavior(.viewAligned)
                     .scrollPosition(id: $currentIndex, anchor: .leading)
+                    .clipped()
                 }
                 .scrollIndicators(.hidden)
                 PageIndicatorView(numberOfItems: cards.count, currentPage: currentIndex ?? 0)
@@ -52,5 +53,5 @@ struct PlaylistsOnboardingView: View {
 
 #Preview {
     PlaylistsOnboardingView(onClose: {})
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme.shared)
 }

@@ -26,7 +26,7 @@ class HomeGridListItem: ListItem {
         super.init()
     }
 
-    static let empty = HomeGridListItem(gridItem: nil, badgeType: .off, theme: Theme.sharedTheme.activeTheme)
+    static let empty = HomeGridListItem(gridItem: nil, badgeType: .off, theme: Theme.shared.activeTheme)
 
     override var differenceIdentifier: String {
         if let podcast {

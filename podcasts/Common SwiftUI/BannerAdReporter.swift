@@ -44,7 +44,7 @@ struct BannerAdReporter {
         let reportOptions = OptionsPicker(title: nil)
 
         let removeAction = OptionAction(label: L10n.bannerAdsRemoveAds, icon: "unsubscribe") {
-            NavigationManager.sharedManager.showUpsellView(from: SceneHelper.rootViewController()!, source: .bannerAd)
+            NavigationManager.shared.showUpsellView(from: SceneHelper.rootViewController()!, source: .bannerAd)
         }
         reportOptions.addAction(action: removeAction)
 

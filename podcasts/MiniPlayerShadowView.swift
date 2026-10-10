@@ -55,6 +55,9 @@ class MiniPlayerShadowView: UIView {
         clipsToBounds = false
 
         updateView()
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: MiniPlayerShadowView, _) in
+            view.updateView()
+        }
     }
 
     private func updateView() {
@@ -66,6 +69,6 @@ class MiniPlayerShadowView: UIView {
         layer.shadowOpacity = shadowOpacity
         layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
+        layer.rasterizationScale = traitCollection.displayScale
     }
 }

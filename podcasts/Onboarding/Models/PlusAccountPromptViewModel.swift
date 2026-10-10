@@ -55,13 +55,13 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         guard let parentController, let product else { return }
 
         let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source, context: context, traitCollection: parentController.traitCollection)
         let sizeCategory = UIApplication.shared.preferredContentSizeCategory
         let isAccessibility = sizeCategory.isAccessibilityCategory
 
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
-            sheetPresentationController.detents = isAccessibility ? [.large()] : UIScreen.isSmallScreen ? [.large()] : [.medium()]
+            sheetPresentationController.detents = isAccessibility ? [.large()] : parentController.view.bounds.height <= 667 ? [.large()] : [.medium()]
         }
         parentController.presentFromRootController(controller, animated: true)
     }

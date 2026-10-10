@@ -12,7 +12,7 @@ class EmailHelper: NSObject {
             let supportView = MessageSupportView(viewModel: viewModel) {
                 source.dismiss(animated: true, completion: nil)
             }
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
 
             let hostingController = PCHostingController(rootView: supportView)
             hostingController.isModalInPresentation = true

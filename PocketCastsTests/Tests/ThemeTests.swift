@@ -20,7 +20,7 @@ class ThemeTests: XCTestCase {
     func testFollowSystemIfNoThemeWasSelected() {
         _ = Theme()
 
-        XCTAssertTrue(Settings.shouldFollowSystemTheme())
+        XCTAssertTrue(Settings.shouldFollowSystemTheme)
     }
 
     // If the user has a previously selected theme
@@ -28,25 +28,25 @@ class ThemeTests: XCTestCase {
     func testFollowSystemIfThemeWasSelected() {
         UserDefaults.standard.set(1, forKey: Constants.UserDefaults.themeKey)
         _ = Theme()
-        XCTAssertFalse(Settings.shouldFollowSystemTheme())
+        XCTAssertFalse(Settings.shouldFollowSystemTheme)
     }
 
     // If the user previously opted-out for following the system
     // Don't follow the system light/dark mode
     func testDontFollowSystemIfOptionWasSetBefore() {
-        Settings.setShouldFollowSystemTheme(false)
+        Settings.shouldFollowSystemTheme = false
         _ = Theme()
-        XCTAssertFalse(Settings.shouldFollowSystemTheme())
+        XCTAssertFalse(Settings.shouldFollowSystemTheme)
     }
 
     // If the user previously opted-in for following the system
     // But never choose a theme, follow the system
     func testFollowSystemIfOptionWasSetBeforeButThemeWasntChosen() {
-        Settings.setShouldFollowSystemTheme(true)
+        Settings.shouldFollowSystemTheme = true
 
         _ = Theme()
 
-        XCTAssertTrue(Settings.shouldFollowSystemTheme())
+        XCTAssertTrue(Settings.shouldFollowSystemTheme)
     }
 
     // If the user doesn't have a previously selected theme
@@ -55,13 +55,13 @@ class ThemeTests: XCTestCase {
     func testFollowSystemIfThemeIsSelected() {
         _ = Theme()
 
-        XCTAssertTrue(Settings.shouldFollowSystemTheme())
+        XCTAssertTrue(Settings.shouldFollowSystemTheme)
 
         // User changes the theme
         UserDefaults.standard.set(1, forKey: Constants.UserDefaults.themeKey)
 
         _ = Theme()
 
-        XCTAssertTrue(Settings.shouldFollowSystemTheme())
+        XCTAssertTrue(Settings.shouldFollowSystemTheme)
     }
 }

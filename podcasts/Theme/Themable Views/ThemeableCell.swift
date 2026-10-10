@@ -73,3 +73,11 @@ class ThemeableCell: UITableViewCell, ReusableTableCell {
         accessoryView?.backgroundColor = color
     }
 }
+
+extension UITableViewCell {
+    func updateAccessoryLayoutMargins() {
+        insetsLayoutMarginsFromSafeArea = false
+        preservesSuperviewLayoutMargins = false
+        layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: safeAreaInsets.right > 0 ? safeAreaInsets.right + 20 : 0)
+    }
+}

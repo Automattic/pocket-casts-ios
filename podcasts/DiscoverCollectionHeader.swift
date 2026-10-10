@@ -18,6 +18,17 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
     }
 
+    @IBOutlet var collageTopConstraint: NSLayoutConstraint!
+
+    /// How far the collage runs above the header, so that it fills the space behind the
+    /// navigation bar. Its bottom is pinned to the header, so the avatar and everything
+    /// below it stay put however far it bleeds.
+    var collageTopBleed: CGFloat = 0 {
+        didSet {
+            collageTopConstraint.constant = -collageTopBleed
+        }
+    }
+
     @IBOutlet var avatarImageView: UIImageView! {
         didSet {
             avatarImageView.layer.cornerRadius = 40
@@ -87,6 +98,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
             descriptionLabel.style = .primaryText02
             descriptionLabel.font = .font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             descriptionLabel.adjustsFontForContentSizeCategory = true
+            descriptionLabel.textAlignment = .center
         }
     }
 
@@ -121,13 +133,13 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         }
         if let avatarUrl = podcastCollection.collectionImage {
             avatarBorderView.isHidden = false
-            ImageManager.sharedManager.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
+            ImageManager.shared.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
         } else {
             avatarBorderView.isHidden = true
         }
         setupCollageImage()
 
-        if let linkTitle = podcastCollection.webTitle, podcastCollection.webUrl != nil {
+        if let linkTitle = podcastCollection.webLinkTitle {
             linkView.isHidden = false
             linkLabel.text = linkTitle
         } else {
@@ -147,7 +159,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     private func setupCollageImage() {
         guard let mobileCollage = podcastCollection?.collageImages?.filter({ $0.key == "mobile" }), let collageUrl = mobileCollage.first?.image_url else { return }
 
-        ImageManager.sharedManager.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
+        ImageManager.shared.retrieveDiscoverImage(imageUrl: collageUrl, completionHandler: { image in
             guard let currentCGImage = image?.cgImage else {
                 return
             }

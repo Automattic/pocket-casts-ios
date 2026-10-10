@@ -119,7 +119,7 @@ class SearchViewModel: SearchableViewModel {
     private var predictiveSearchTask = PredictiveSearchTask()
     private var fullSearchTask = CombinedSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+    init(dataManager: DataManager = DataManager.shared, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.dataManager = dataManager
         self.tvDataManager = tvDataManager
         self.searchModel = searchModel
@@ -209,8 +209,7 @@ class SearchViewModel: SearchableViewModel {
                     case .term(let word):
                         suggestions.append(word)
                     case .podcast:
-                        if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
-                            uuids.insert(podcastResult.uuid)
+                        if let podcastResult = PodcastFolderSearchResult(from: searchResult), uuids.insert(podcastResult.uuid).inserted {
                             combinedPodcastsResults.append(CombinedSearchResultType.podcast(podcastResult))
                         }
                     default:

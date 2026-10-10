@@ -13,9 +13,10 @@ import PocketCastsUtils
 /// against a file that changes a few times a month, and refreshing only at launch would leave a
 /// user who never quits the app on whatever was published the day they installed it.
 ///
-/// Read state is kept in a file until it syncs with the server, and is read back before the first
-/// catalog is published, so a message read in an earlier session never shows up unread, even for a
-/// moment.
+/// Read state is kept in a file, and is read back before the first catalog is published, so a
+/// message read in an earlier session never shows up unread, even for a moment. Signed in, that
+/// file and the account are reconciled on every refresh and whenever a message is read, so the feed
+/// works from what the user has read on any of their devices.
 @MainActor
 public final class WhatsNewManager: ObservableObject {
     nonisolated public static let shared = WhatsNewManager()
@@ -33,16 +34,24 @@ public final class WhatsNewManager: ObservableObject {
 
     nonisolated private let task: WhatsNewCatalogTask
     nonisolated private let readStateStore: WhatsNewReadStateStore
+    nonisolated private let readStateTask: WhatsNewReadStateTask
+    nonisolated(unsafe) private let userDefaults: UserDefaults
     private let refreshInterval: TimeInterval
     private var refreshTask: Task<Void, Never>?
     private var isRefreshForced = false
     private var hasLoadedReadState = false
+    private var syncTask: Task<Void, Never>?
+    private var isSyncPending = false
 
     nonisolated public init(task: WhatsNewCatalogTask = WhatsNewCatalogTask(),
                             readStateStore: WhatsNewReadStateStore = WhatsNewReadStateStore(),
+                            readStateTask: WhatsNewReadStateTask = WhatsNewReadStateTask(),
+                            userDefaults: UserDefaults = .standard,
                             refreshInterval: TimeInterval = WhatsNewManager.refreshInterval) {
         self.task = task
         self.readStateStore = readStateStore
+        self.readStateTask = readStateTask
+        self.userDefaults = userDefaults
         self.refreshInterval = refreshInterval
     }
 
@@ -75,7 +84,28 @@ public final class WhatsNewManager: ObservableObject {
 
     /// Marks messages read, whether the user opened one or cleared the feed with "Read all".
     public func markAsRead(_ messageIDs: some Sequence<String>) {
-        updateReadState { $0.readMessageIDs.formUnion(messageIDs) }
+        if updateReadState({ $0.readMessageIDs.formUnion(messageIDs) }) {
+            syncReadState()
+        }
+    }
+
+    /// Marks messages unread again, here and for the account, so the user can come back to one.
+    ///
+    /// What the dots have pointed at is left alone: the user asked for the message back in the feed,
+    /// not for Profile to start pointing at it again.
+    @discardableResult
+    public func markAsUnread(_ messageIDs: some Sequence<String>) -> Task<Void, Never> {
+        let messageIDs = Set(messageIDs)
+        guard updateReadState({ $0.readMessageIDs.subtract(messageIDs) }) else { return Task {} }
+
+        return Task { [readStateTask] in
+            guard readStateTask.canSync else { return }
+            do {
+                try await readStateTask.markAsUnread(messageIDs)
+            } catch {
+                FileLog.shared.addMessage("What's New: failed to mark messages unread: \(error.localizedDescription)")
+            }
+        }
     }
 
     /// Records that the Profile tab has pointed the user at the messages, so its dot stays off until
@@ -84,7 +114,7 @@ public final class WhatsNewManager: ObservableObject {
         updateReadState { $0.seenMessageIDs.formUnion(messageIDs) }
     }
 
-    /// Records that the feed has listed the messages, so the dot on the What's New row stays off
+    /// Records that the feed has listed the messages, so the dot on the What's New button stays off
     /// until a message arrives that it hasn't. The Profile tab has nothing left to point at either.
     public func markAsListed(_ messageIDs: some Sequence<String>) {
         let messageIDs = Set(messageIDs)
@@ -94,47 +124,185 @@ public final class WhatsNewManager: ObservableObject {
         }
     }
 
+    /// Records that this is a fresh install, so the messages published before now start out read.
+    ///
+    /// Keeps the date already recorded, if there is one.
+    public func startFeed(at date: Date = Date()) {
+        updateReadState { $0.feedStartDate = $0.feedStartDate ?? date }
+        Task { [weak self] in await self?.loadReadStateIfNeeded() }
+    }
+
     /// Records that the user answered a research poll, which keeps it closed from then on.
     public func markAsResponded(toPoll pollID: String) {
         updateReadState { $0.respondedPollIDs.insert(pollID) }
     }
 
-    /// Forgets every message read, seen or listed and every poll answered, bringing back each
-    /// indicator and reopening each poll.
+    /// Forgets which messages were read, for when the account signs out: what one user read isn't
+    /// the next user's, and leaving it here would push it onto whichever account signs in next.
+    ///
+    /// What the dots have pointed at stays, since it belongs to the device rather than the account,
+    /// and the messages that come back unread don't light either dot up again.
+    @discardableResult
+    public func forgetReadMessages() -> Task<Void, Never> {
+        Task { [weak self] in
+            await self?.loadReadStateIfNeeded()
+            self?.updateReadState { $0.readMessageIDs = [] }
+        }
+    }
+
+    /// Forgets every message read, seen or listed, every poll answered and when the feed started,
+    /// bringing back each indicator and reopening each poll.
+    ///
+    /// Local only: signed in, the next sync takes the account's read messages back on.
     public func resetReadState() {
         hasLoadedReadState = true
         readState = WhatsNewReadState()
         readStateStore.save(readState)
     }
 
+    /// Tells the account what this device has read and takes on what the user read elsewhere.
+    ///
+    /// Overlapping calls share one run, and anything read while that run is in flight starts another
+    /// as soon as it finishes, so a message read mid-sync isn't left behind.
+    @discardableResult
+    public func syncReadState() -> Task<Void, Never> {
+        if let syncTask {
+            isSyncPending = true
+            return syncTask
+        }
+
+        let syncTask = Task { [weak self] in
+            while let self {
+                self.isSyncPending = false
+                await self.performReadStateSync()
+                guard self.isSyncPending else { break }
+            }
+            self?.syncTask = nil
+        }
+        self.syncTask = syncTask
+        return syncTask
+    }
+
+    #if DEBUG
+    /// Whether the feed shows the mock catalog instead of the published one, for trying it out from
+    /// the developer menu. Read state is kept on the device and never synced for the mock.
+    public var usesMockCatalog: Bool {
+        get { userDefaults.bool(forKey: Self.usesMockCatalogKey) }
+        set {
+            userDefaults.set(newValue, forKey: Self.usesMockCatalogKey)
+            catalog = nil
+            refresh()
+        }
+    }
+
+    /// Whether each refresh of the mock catalog publishes a new message dated now, for trying out
+    /// how the feed and its dots take in messages as they arrive. Turning it off takes the messages
+    /// it published back out.
+    public var publishesMockMessageOnRefresh: Bool {
+        get { userDefaults.bool(forKey: Self.publishesMockMessageOnRefreshKey) }
+        set {
+            userDefaults.set(newValue, forKey: Self.publishesMockMessageOnRefreshKey)
+            if !newValue {
+                mockMessagePublishDates = []
+            }
+            refresh()
+        }
+    }
+
+    /// Takes the messages published on refresh back out of the mock catalog and forgets everything
+    /// read, as `resetReadState()` does, so the mock feed is back where it started.
+    public func resetMockCatalog() {
+        guard usesMockCatalog else { return }
+        mockMessagePublishDates = []
+        resetReadState()
+        catalog = .mock
+    }
+
+    private var mockMessagePublishDates: [Date] {
+        get { userDefaults.array(forKey: Self.mockMessagePublishDatesKey) as? [Date] ?? [] }
+        set { userDefaults.set(newValue, forKey: Self.mockMessagePublishDatesKey) }
+    }
+
+    nonisolated private static let usesMockCatalogKey = "WhatsNewUsesMockCatalog"
+    nonisolated private static let publishesMockMessageOnRefreshKey = "WhatsNewPublishesMockMessageOnRefresh"
+    nonisolated private static let mockMessagePublishDatesKey = "WhatsNewMockMessagePublishDates"
+    #endif
+
     private func performRefresh() async {
         await loadReadStateIfNeeded()
+
+        #if DEBUG
+        if usesMockCatalog {
+            if publishesMockMessageOnRefresh {
+                mockMessagePublishDates.append(Date())
+            }
+            catalog = .mock(addingMessagesPublishedAt: mockMessagePublishDates)
+            return
+        }
+        #endif
 
         if catalog == nil, let cached = await cachedCatalog() {
             catalog = cached
         }
 
         let isStale = DateUtil.hasEnoughTimePassed(since: await cachedCatalogDate(), time: refreshInterval)
-        guard catalog == nil || isStale || isRefreshForced else { return }
+        if catalog == nil || isStale || isRefreshForced {
+            do {
+                catalog = try await task.refresh()
+            } catch {
+                FileLog.shared.addMessage("What's New: failed to refresh the catalog: \(error.localizedDescription)")
+            }
+        }
+
+        syncReadState()
+    }
+
+    /// Reconciles the read state with the account: what this device has read that the account
+    /// hasn't, then what the account has read that this device hasn't.
+    ///
+    /// Only the messages in the catalog are reconciled, and only `read` is: nothing else the state
+    /// holds — what the dots have pointed at, which polls were answered — means anything off this
+    /// device.
+    private func performReadStateSync() async {
+        guard readStateTask.canSync else { return }
+        #if DEBUG
+        guard !usesMockCatalog else { return }
+        #endif
+
+        let messageIDs = Set(catalog?.messages.map(\.id) ?? [])
+        guard !messageIDs.isEmpty else { return }
+        let read = readState.readMessageIDs.intersection(messageIDs)
 
         do {
-            catalog = try await task.refresh()
+            let remotelyRead = try await readStateTask.readMessageIDs(among: messageIDs)
+
+            let unsynced = read.subtracting(remotelyRead)
+            if !unsynced.isEmpty {
+                try await readStateTask.markAsRead(unsynced)
+            }
+
+            guard !remotelyRead.isEmpty else { return }
+            updateReadState { $0.readMessageIDs.formUnion(remotelyRead) }
         } catch {
-            FileLog.shared.addMessage("What's New: failed to refresh the catalog: \(error.localizedDescription)")
+            FileLog.shared.addMessage("What's New: failed to sync the read state: \(error.localizedDescription)")
         }
     }
 
     /// Saves a change to the read state once the copy on disk has been read back, since saving
     /// before then would overwrite it. The load saves the two merged instead.
-    private func updateReadState(_ update: (inout WhatsNewReadState) -> Void) {
+    ///
+    /// Returns whether the change left the state any different.
+    @discardableResult
+    private func updateReadState(_ update: (inout WhatsNewReadState) -> Void) -> Bool {
         var readState = self.readState
         update(&readState)
-        guard readState != self.readState else { return }
+        guard readState != self.readState else { return false }
 
         self.readState = readState
         if hasLoadedReadState {
             readStateStore.save(readState)
         }
+        return true
     }
 
     /// Reads back the state saved in an earlier session, keeping anything marked since launch.

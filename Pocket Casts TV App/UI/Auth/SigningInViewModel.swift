@@ -40,7 +40,7 @@ class SigningInViewModel: SigningInViewModelProtocol {
     private let dataManager: DataManager
     private let refreshManager: RefreshManager
 
-    init(dataManager: DataManager = DataManager.sharedManager, refreshManager: RefreshManager = RefreshManager.shared ) {
+    init(dataManager: DataManager = DataManager.shared, refreshManager: RefreshManager = RefreshManager.shared ) {
         self.dataManager = dataManager
         self.refreshManager = refreshManager
     }

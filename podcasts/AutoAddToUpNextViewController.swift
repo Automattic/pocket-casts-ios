@@ -96,7 +96,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
                 let podcastSelectViewController = PodcastChooserViewController()
                 podcastSelectViewController.analyticsSource = .autoAdd
                 podcastSelectViewController.delegate = self
-                let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                let allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
                 podcastSelectViewController.selectedUuids = allPodcasts.filter { $0.autoAddToUpNextOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectViewController, animated: true)
             }
@@ -136,13 +136,13 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     func reloadDownloadedPodcasts() {
-        autoDownloadPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).filter { $0.autoAddToUpNextOn() }
+        autoDownloadPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false).filter { $0.autoAddToUpNextOn() }
     }
 
     private func addActionForPodcast(podcast: Podcast, setting: AutoAddToUpNextSetting, label: String, to: OptionsPicker) {
         let action = OptionAction(label: label, selected: podcast.autoAddToUpNextSetting() == setting) { [weak self] in
             podcast.setAutoAddToUpNext(setting: setting)
-            DataManager.sharedManager.save(podcast: podcast)
+            DataManager.shared.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
             self?.mainTable.reloadData()
             Settings.trackValueChanged(.settingsAutoAddUpNextPodcastPositionOptionChanged, value: setting)

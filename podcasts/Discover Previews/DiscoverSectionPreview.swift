@@ -40,8 +40,8 @@ struct DiscoverSectionPreview: View {
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppTheme.color(for: .primaryUi02, theme: Theme.sharedTheme))
-        .environmentObject(Theme.sharedTheme)
+        .background(AppTheme.color(for: .primaryUi02, theme: Theme.shared))
+        .environmentObject(Theme.shared)
         .task {
             try? await Task.sleep(for: .milliseconds(250))
             settleCount += 1
@@ -65,14 +65,14 @@ private struct SectionHost: UIViewControllerRepresentable {
 
         section.registerDiscoverDelegate(delegate)
 
-        parent.addChild(section)
-        parent.view.addSubview(section.view)
-        section.view.translatesAutoresizingMaskIntoConstraints = false
+        let content = UIViewControllerContentConfiguration(parentViewController: parent, viewController: section).makeContentView()
+        parent.view.addSubview(content)
+        content.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            section.view.topAnchor.constraint(equalTo: parent.view.topAnchor),
-            section.view.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
-            section.view.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
-            section.view.bottomAnchor.constraint(equalTo: parent.view.bottomAnchor)
+            content.topAnchor.constraint(equalTo: parent.view.topAnchor),
+            content.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
+            content.bottomAnchor.constraint(equalTo: parent.view.bottomAnchor)
         ])
         section.didMove(toParent: parent)
 
@@ -85,9 +85,8 @@ private struct SectionHost: UIViewControllerRepresentable {
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiViewController: UIViewController, context: Context) -> CGSize? {
-        guard height == nil else { return nil }
+        guard height == nil, let width = proposal.width else { return nil }
 
-        let width = proposal.width ?? UIScreen.main.bounds.width
         // Several sections derive their height from their own width, so give them one to measure
         // against before asking — the collection view cell they normally live in has already been
         // laid out by the time it asks for a fitting size.

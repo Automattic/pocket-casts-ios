@@ -80,7 +80,7 @@ public struct WhatsNewCatalogTask: Sendable {
 
     private func fetchData(forLocale locale: String) async throws -> Data {
         let url = try URL(throwing: ServerConstants.Urls.whatsNew() + "\(locale).json")
-        var request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30.seconds)
+        var request = URLRequest(url: url, timeoutInterval: 30.seconds)
         request.addLocalizationHeaders()
 
         let (data, response) = try await session.data(for: request)

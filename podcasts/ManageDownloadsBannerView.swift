@@ -36,6 +36,20 @@ struct ManageDownloadsBannerView: View {
 
     @ObservedObject var dataModel: ManageDownloadsModel
 
+    /// Borderless only with Liquid Glass, where the Downloads list is `primaryUi02`.
+    /// On earlier iOS it is `primaryUi04`, which matches the new fill in some themes.
+    private var usesBorderlessStyle: Bool {
+        LiquidGlass.isEnabled
+    }
+
+    private var fillColor: Color {
+        guard usesBorderlessStyle else {
+            return theme.primaryUi01
+        }
+
+        return theme.activeTheme == .indigo ? theme.primaryUi01 : theme.primaryUi02Active
+    }
+
     var body: some View {
         HStack(alignment: .top) {
             Image("cleanup")
@@ -65,13 +79,15 @@ struct ManageDownloadsBannerView: View {
             Spacer()
         }
         .padding()
-        .background(theme.primaryUi01)
+        .background(fillColor)
         .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .inset(by: 0.25)
-                .stroke(theme.primaryText02, lineWidth: 0.5)
-        )
+        .overlay {
+            if !usesBorderlessStyle {
+                RoundedRectangle(cornerRadius: 8)
+                    .inset(by: 0.25)
+                    .stroke(theme.primaryText02, lineWidth: 0.5)
+            }
+        }
         .overlay(alignment: .topTrailing) {
             Button() {
                 dataModel.onNotNowTap?()

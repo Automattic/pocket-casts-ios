@@ -7,10 +7,11 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
     private let hPadding: CGFloat
     private let showPagination: Bool
     private let paginationColor: Color
+    private let isFormSheet: Bool
 
     @Binding private var currentIndex: Int?
 
-    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false, paginationColor: Color) {
+    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false, paginationColor: Color, isFormSheet: Bool = false) {
         self.spacing = spacing
         self.items = items
         self._currentIndex = currentIndex
@@ -18,6 +19,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
         self.hPadding = hPadding
         self.showPagination = showPagination
         self.paginationColor = paginationColor
+        self.isFormSheet = isFormSheet
     }
 
     var body: some View {
@@ -25,7 +27,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
             ScrollView(.horizontal) {
                 LazyHStack(spacing: spacing) {
                     ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
-                        HorizontalCarouselCard(item: item)
+                        HorizontalCarouselCard(item: item, isFormSheet: isFormSheet)
                             .frame(width: cardSize.width)
                             .frame(maxHeight: cardSize.height)
                             .id(i)

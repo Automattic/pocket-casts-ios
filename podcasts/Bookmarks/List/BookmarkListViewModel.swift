@@ -208,7 +208,7 @@ extension BookmarkListViewModel {
         Analytics.track(.bookmarksEmptyGoToHeadphoneSettings, source: analyticsSource)
 
         router?.dismissBookmarksList()
-        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
+        NavigationManager.shared.navigateTo(NavigationManager.settingsHeadphoneKey)
     }
 }
 

@@ -26,7 +26,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     var uploadedEpisodes = [UserEpisode]() {
         didSet {
-            refreshContentUnavailable()
+            setNeedsUpdateContentUnavailableConfiguration()
         }
     }
     let headerView = UploadedStorageHeaderView()
@@ -34,23 +34,23 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private var tableRefreshController: UploadedFilesRefreshController?
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
 
-    private func refreshContentUnavailable() {
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         var config: UIContentConfiguration?
 
         if uploadedEpisodes.isEmpty {
             let title = L10n.fileUploadNoFilesTitle
             let message = L10n.fileUploadNoFilesDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("profile_files") }, actions: [
-                .init(title: L10n.fileUploadAddFile) {
-                    self.addFile()
+                .init(title: L10n.fileUploadAddFile) { [weak self] in
+                    self?.addFile()
                 },
                 .init(id: L10n.fileUploadNoFilesHelper) {
-                    Button(action: {
-                        self.howTo()
+                    Button(action: { [weak self] in
+                        self?.howTo()
                     }, label: {
                         Text(L10n.fileUploadNoFilesHelper)
                             .font(.body)
-                    }).buttonStyle(SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01))
+                    }).buttonStyle(SimpleTextButtonStyle(theme: .shared, textColor: .primaryInteractive01))
                 }
             ])
         }
@@ -62,7 +62,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     var isMultiSelectEnabled = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             uploadsTable.beginUpdates()
             uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
             insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -203,7 +203,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
         optionsPicker.addAction(action: MultiSelectAction)
 
-        let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
+        let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy)
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
@@ -247,7 +247,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     func howTo() {
         Analytics.track(.uploadedFilesHelpButtonTapped)
 
-        let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.sharedTheme)
+        let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.shared)
         let navController = SJUIUtils.navController(for: UIHostingController(rootView: howToView))
         present(navController, animated: true, completion: nil)
     }
@@ -273,8 +273,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     private func createSortAction(sort: UploadedSort) -> OptionAction {
-        let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy()) {
-            Settings.setUserEpisodeSortBy(sort.rawValue)
+        let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy) {
+            Settings.userEpisodeSortBy = sort.rawValue
             Analytics.track(.uploadedFilesSortByChanged, properties: ["sort_order": sort])
 
             self.reloadLocalFiles()
@@ -288,7 +288,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @objc func uploadCompletedRefresh(notification: Notification) {
-        guard let episodeUuid = notification.object as? String, let episode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
+        guard let episodeUuid = notification.object as? String, let episode = DataManager.shared.findUserEpisode(uuid: episodeUuid), episode.uploaded() else {
             return
         }
         UserEpisodeManager.updateUserEpisodes()
@@ -317,7 +317,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func showUpgradeRequired() {
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
+        NavigationManager.shared.showUpsellView(from: self, source: .files)
     }
 
     func userEpisodeDetailClosed() {

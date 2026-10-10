@@ -44,7 +44,7 @@ class PlaylistEpisodePreviewCell: ThemeableCell {
     }
 
     private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        let theme = themeOverride ?? Theme.shared.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
     }
@@ -59,7 +59,7 @@ class PlaylistEpisodePreviewCell: ThemeableCell {
                 episode: episode,
                 hideSeparator: true
             )
-            .environmentObject(Theme.sharedTheme)
+            .environmentObject(Theme.shared)
             .frame(maxWidth: .infinity, minHeight: 80.0, alignment: .leading)
             .padding(.leading, 16.0)
             .padding(.vertical, 5.0)

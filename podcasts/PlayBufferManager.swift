@@ -9,9 +9,9 @@ class PlayBufferManager {
     let highBufferPoint = 3000 // this equates to roughly a minute of audio
     let bufferSemaphore = DispatchSemaphore(value: 0)
 
-    var readToEOFSuccessfully = AtomicBool()
-    var readErrorOccurred = AtomicBool()
-    var haveNotifiedPlayer = AtomicBool()
+    let readToEOFSuccessfully = Mutex(false)
+    let readErrorOccurred = Mutex(false)
+    let haveNotifiedPlayer = Mutex(false)
 
     func aboutToSeek() {
         let itemThatWouldHavePlayedNext = playBuffer.pop()

@@ -886,15 +886,6 @@
 /* Title for the section that provides information on how to export podcasts from Pocket Casts */
 "export_podcasts_title" = "EXPORT";
 
-/* Indicator during the new feature tour serves as a prompt to end the tour. */
-"feature_tour_end_tour" = "End Tour";
-
-/* Indicator during the new feature tour. Used as a navigation indicator when the tour is on the first step. This is replaced with 'position of total' as the user progresses. */
-"feature_tour_new" = "NEW";
-
-/* Indicator during the new feature tour. Used as a navigation indicator as the user progresses through the tour. '%1$@' is a placeholder for the current position. '%2$@' is a placeholder for the total number of steps. */
-"feature_tour_step_format" = "%1$@ of %2$@";
-
 /* Option to continue with a Third-Party Mail app when the default Apple mail app isn't available. */
 "feedback_continue_with_mail" = "Open Default Mail App";
 
@@ -1277,7 +1268,7 @@
 "mark_unplayed_short" = "Mark Unplayed";
 
 /* Prompt to close the mini player and clear the queue. */
-"mini_player_close" = "Close And Clear Up Next";
+"mini_player_close" = "Close and Clear Up Next";
 
 /* Basic string used in formats like 'price / month' */
 "month" = "month";
@@ -1416,6 +1407,12 @@
 
 /* Import button text */
 "import" = "Import";
+
+/* Title of the alert shown when the user opens a .pcasts export file in the app. */
+"pcasts_import_title" = "Import Podcasts and Settings";
+
+/* Message of the alert shown when the user opens a .pcasts export file in the app. Importing replaces the current podcasts and settings, and closes the app. */
+"pcasts_import_message" = "This will replace your podcasts and settings with the contents of this file, and Pocket Casts will close.";
 
 /* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_message" = "Unable to import podcasts from the OPML file you specified. Please check that it's valid";
@@ -1623,6 +1620,12 @@
 
 /* Error title when there is an upload error. */
 "player_user_episode_upload_error" = "Upload Error";
+
+/* Accessibility label for the button shown in the full screen video player that returns the video to the player. */
+"player_video_exit_full_screen" = "Exit Full Screen";
+
+/* Accessibility label for the button shown over a playing video in the player that opens the video full screen. */
+"player_video_full_screen" = "Full Screen";
 
 /* Used in the player to describe effects you can use to change audio playback. Things like speed, volume, etc. */
 "playback_effects" = "Playback effects";
@@ -2679,6 +2682,12 @@
 
 /* Subtitle explaining the toggle to show automatically generated chapters. */
 "settings_general_generated_chapters_subtitle" = "Show automatically generated chapters when available.";
+
+/* Setting toggle to show a dot on Profile when there are unread What's New messages. */
+"settings_general_whats_new_unread_dot" = "Show unread dot";
+
+/* Subtitle explaining the toggle to show a dot on Profile when there are unread What's New messages. */
+"settings_general_whats_new_unread_dot_subtitle" = "Show an unread dot on Profile when there are new What's New messages.";
 
 /* Setting toggle to change the behavior of the skip button on external devices. */
 "settings_general_remote_skips_chapters" = "Remote Skips Chapters";
@@ -3814,6 +3823,9 @@
 
 /* A common string used throughout the app. Informs the user how many podcasts are being added. '%1$@' is a placeholder for the number of podcasts, this will be more than one. */
 "folder_add_podcasts_plural_format" = "Add %1$@ Podcasts";
+
+/* Label for the button to continue creating a folder without adding any podcasts to it. */
+"folder_create_skip" = "Skip";
 
 /* Title for the folder name page*/
 "folder_name_title" = "Name your folder";
@@ -5834,15 +5846,6 @@
 /* Header subtitle for smart rule podcasts when select all is off */
 "playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
-/* Header title for smart rule starred  */
-"playlist_smart_rule_starred_header_title" = "Starred episodes";
-
-/* Header subtitle for smart rule starred when the toggle is on */
-"playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
-
-/* Header subtitle for smart rule starred when the toggle is off */
-"playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
-
 /* Title for the button used during the Playlist creation */
 "playlist_creation_create_playlist_button" = "Create playlist";
 
@@ -5903,11 +5906,14 @@
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
 
+/* Manual Playlist: empty state subtitle when no episodes are added. Shown above the "Add episodes" button, which lets people pick episodes from the podcasts they follow */
+"playlist_manual_empty_state_subtitle" = "Pick episodes from the podcasts you follow. Or swipe left on any episode to add it as you go.";
+
 /* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
 
-/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
-"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts. Shown above the "Browse podcasts" button, which opens Discover */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Find a podcast you like, then swipe left on any episode to add it.";
 
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_browse_shows_title" = "Browse podcasts";
@@ -5967,7 +5973,7 @@
 "playlist_play_all_sheet_title" = "Replace your Up Next?";
 
 /* Play all sheet description */
-"playlist_play_all_sheet_description" = "Playing this will replace your current Up Next.";
+"playlist_play_all_sheet_description" = "Playing this will replace your current Up Next. Save it as a playlist to keep it.";
 
 /* Play all sheet toggle description */
 "playlist_play_all_sheet_toggle" = "Save your current Up Next queue as a playlist.";

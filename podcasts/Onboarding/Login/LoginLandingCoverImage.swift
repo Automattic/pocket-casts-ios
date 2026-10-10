@@ -16,7 +16,7 @@ struct LoginLandingCoverImage: View {
         self.podcastUuid = podcastUuid
         self.viewBackgroundStyle = viewBackgroundStyle
 
-        let cachedImage = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcastUuid, size: .grid)
+        let cachedImage = ImageManager.shared.cachedImageFor(podcastUuid: podcastUuid, size: .grid)
 
         if let cachedImage {
             self.image = cachedImage

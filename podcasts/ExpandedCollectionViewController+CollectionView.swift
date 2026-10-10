@@ -55,7 +55,8 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         let headerView: DiscoverCollectionHeader = DiscoverCollectionHeader.fromNib()
         headerView.populate(podcastCollection: podcastCollection)
 
-        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
+        let width = collectionView.frame.width - horizontalSafeAreaInset
+        return headerView.systemLayoutSizeFitting(CGSize(width: width, height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required, // Width is fixed
                                                   verticalFittingPriority: .fittingSizeLevel) // Height can be as large as needed
     }
@@ -63,13 +64,14 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ExpandedCollectionViewController.headerId, for: indexPath) as! DiscoverCollectionHeader
         header.populate(podcastCollection: podcastCollection)
+        header.collageTopBleed = headerCollageBleed
         header.linkDelegate = self
         return header
     }
 
     // Sizing functions
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let viewWidth = collectionView.bounds.width - (2 * inset)
+        let viewWidth = collectionView.bounds.width - horizontalSafeAreaInset - (2 * inset)
         let isBigDevice = viewWidth >= bigDevicePortraitWidth
 
         switch cellStyle {
@@ -89,7 +91,8 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let topInset = (podcastCollection == nil && cellStyle != .descriptiveList) ? inset : 0
-        return UIEdgeInsets(top: topInset, left: inset, bottom: 0, right: inset)
+        let safeAreaInsets = collectionView.safeAreaInsets
+        return UIEdgeInsets(top: topInset, left: inset + safeAreaInsets.left, bottom: 0, right: inset + safeAreaInsets.right)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -99,6 +102,10 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         case .grid:
             return inset
         }
+    }
+
+    var horizontalSafeAreaInset: CGFloat {
+        collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right
     }
 
     func updateFlowLayoutSize() {

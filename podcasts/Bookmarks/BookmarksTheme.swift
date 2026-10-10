@@ -29,7 +29,7 @@ protocol BookmarksStyle: ObservableObject {
 // MARK: - ThemeObserver
 
 class ThemeObserver: ObservableObject {
-    let theme: Theme = .sharedTheme
+    let theme: Theme = .shared
     private var cancellables = Set<AnyCancellable>()
 
     init() {

@@ -1181,12 +1181,6 @@ que vous avez écouté était
     <string>Lisez votre file d’attente en mode aléatoire</string>
     <key>feature_marketing_watch_playback</key>
     <string>Applications pour Wear OS et Apple Watch</string>
-    <key>feature_tour_end_tour</key>
-    <string>Terminer la visite</string>
-    <key>feature_tour_new</key>
-    <string>NOUVEAU</string>
-    <key>feature_tour_step_format</key>
-    <string>%1$@ de %2$@</string>
     <key>feedback_continue_with_mail</key>
     <string>Ouvrir l’application de courriel par défaut</string>
     <key>feedback_mail_not_configured_msg</key>
@@ -2185,8 +2179,12 @@ MISES À JOUR</string>
     <string>Impossible de lire cet épisode.</string>
     <key>player_error_internet_connection</key>
     <string>Vérifiez votre connexion Internet et réessayez.</string>
+    <key>player_error_not_enough_storage</key>
+    <string>Votre appareil n’a plus d’espace de stockage. Faites de la place, puis réessayez.</string>
     <key>player_error_short_no_connection</key>
     <string>Vous êtes hors ligne</string>
+    <key>player_error_short_not_enough_storage</key>
+    <string>Espace de stockage insuffisant sur l’appareil</string>
     <key>player_error_short_playback_error</key>
     <string>Échec de la lecture, veuillez réessayer</string>
     <key>player_increment_time</key>
@@ -2215,6 +2213,10 @@ MISES À JOUR</string>
     <string>Erreur lors de la lecture</string>
     <key>player_user_episode_upload_error</key>
     <string>Erreur lors du téléversement</string>
+    <key>player_video_exit_full_screen</key>
+    <string>Quitter le mode plein écran</string>
+    <key>player_video_full_screen</key>
+    <string>Plein écran</string>
     <key>playlist_add_to_title</key>
     <string>Ajouter à « %@ »</string>
     <key>playlist_create_no_episodes_description</key>
@@ -3295,6 +3297,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Utilisez la fonctionnalité d’augmentation du volume mise à jour, avec des niveaux de voix plus cohérents.</string>
+    <key>settings_general_whats_new_unread_dot</key>
+    <string>Afficher le point d’état non lu</string>
+    <key>settings_general_whats_new_unread_dot_subtitle</key>
+    <string>Affichez un point d’état non lu sur le profil lorsque des messages de nouveautés sont disponibles.</string>
     <key>settings_global_settings</key>
     <string>Paramètres généraux</string>
     <key>settings_headphone_controls</key>
@@ -4446,6 +4452,24 @@ Impossible de se tromper. 🙂</string>
     <string>Nouveautés</string>
     <key>whats_new_blog_more_link_text</key>
     <string>Lire la suite sur cette mise à jour sur notre blog</string>
+    <key>whats_new_category_announcement</key>
+    <string>Annonce</string>
+    <key>whats_new_category_known_issue</key>
+    <string>Problème connu</string>
+    <key>whats_new_category_new_feature</key>
+    <string>Nouvelle fonctionnalité</string>
+    <key>whats_new_category_research</key>
+    <string>Étude auprès des utilisateurs</string>
+    <key>whats_new_category_tip</key>
+    <string>Trucs et astuces</string>
+    <key>whats_new_feed_empty_description</key>
+    <string>Les nouvelles fonctionnalités, les conseils et les annonces apparaîtront ici.</string>
+    <key>whats_new_feed_empty_title</key>
+    <string>Aucun message pour l’instant</string>
+    <key>whats_new_feed_read_all</key>
+    <string>Tout marquer comme lu</string>
+    <key>whats_new_feed_unable_to_load</key>
+    <string>Impossible de charger les nouveautés</string>
     <key>whats_new_in_version</key>
     <string>Les nouveautés de la version %1$@</string>
     <key>whats_new_page_one_7_20</key>
@@ -4460,6 +4484,8 @@ Merci de votre soutien, votre écran d’accueil n’a jamais été aussi impecc
 Vous pouvez donc avoir l’esprit tranquille, sachant que le dur labeur consacré à l’agencement de votre page de podcasts est synchronisé sur votre compte.</string>
     <key>whats_new_page_two_title_7_20</key>
     <string>Synchronisation de la grille d’accueil</string>
+    <key>whats_new_poll_answered</key>
+    <string>Merci de votre retour.</string>
     <key>widgets_app_icon_description</key>
     <string>Lancement rapide de Pocket Casts</string>
     <key>widgets_app_icon_name</key>

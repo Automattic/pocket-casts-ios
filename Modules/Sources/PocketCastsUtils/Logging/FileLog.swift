@@ -115,7 +115,7 @@ public final class FileLog {
 final class LogBuffer: @unchecked Sendable {
     private let bufferThreshold: UInt
 
-    private let entries = OSAllocatedUnfairLock(initialState: [LogEntry]())
+    private let entries = Mutex([LogEntry]())
 
     private let flushQueue = DispatchQueue(label: "au.com.pocketcasts.FileLogQueue")
 

@@ -11,11 +11,11 @@ class EpisodesDataManager {
     func episodes(for playlist: AutoplayHelper.Playlist) -> [BaseEpisode] {
         switch playlist {
         case .podcast(uuid: let uuid):
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+            if let podcast = DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) {
                 return episodes(for: podcast).flatMap { $0.elements.compactMap { ($0 as? ListEpisode)?.episode } }
             }
         case .filter(uuid: let uuid):
-            if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
+            if let filter = DataManager.shared.findPlaylist(uuid: uuid) {
                 return playlistEpisodes(for: filter).map { $0.episode }
             }
         case .downloads:
@@ -137,6 +137,27 @@ class EpisodesDataManager {
         return "\(whereStr) \(sortStr)"
     }
 
+    func episodeCount(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> Int {
+        count(for: podcast, archivedOnly: false, uuidsToFilter: uuidsToFilter)
+    }
+
+    func archivedEpisodeCount(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> Int {
+        count(for: podcast, archivedOnly: true, uuidsToFilter: uuidsToFilter)
+    }
+
+    private func count(for podcast: Podcast, archivedOnly: Bool, uuidsToFilter: [String]?) -> Int {
+        var query = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?"
+        var values: [Any] = [podcast.id]
+        if archivedOnly {
+            query += " AND archived = 1"
+        }
+        if let uuids = uuidsToFilter {
+            query += " AND uuid IN (\(uuids.map { _ in "?" }.joined(separator: ",")))"
+            values.append(contentsOf: uuids)
+        }
+        return DataManager.shared.count(query: query, values: values)
+    }
+
     // MARK: - Playlists
 
     func playlistEpisodes(
@@ -198,12 +219,12 @@ class EpisodesDataManager {
     // MARK: - Uploaded Files
 
     func uploadedEpisodes() -> [UserEpisode] {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy) ?? UploadedSort.newestToOldest
 
         if SubscriptionHelper.hasActiveSubscription() {
-            return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
+            return DataManager.shared.allUserEpisodes(sortedBy: sortBy)
         } else {
-            return DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
+            return DataManager.shared.allUserEpisodesDownloaded(sortedBy: sortBy)
         }
     }
 }

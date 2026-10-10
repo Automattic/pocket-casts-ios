@@ -141,7 +141,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
             cell.contentConfiguration = UIHostingConfiguration {
                 ListeningHeatmapView(viewModel: heatmapViewModel)
-                    .environmentObject(Theme.sharedTheme)
+                    .environmentObject(Theme.shared)
                     .dynamicTypeSize(DynamicTypeSize.medium...DynamicTypeSize.accessibility2)
             }
             .margins(.all, 0)
@@ -257,7 +257,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             actionTitle: L10n.gotIt
         )
         BottomSheetSwiftUIWrapper.present(
-            view.environmentObject(Theme.sharedTheme),
+            view.environmentObject(Theme.shared),
             autoSize: true,
             showingGrabber: true,
             in: self

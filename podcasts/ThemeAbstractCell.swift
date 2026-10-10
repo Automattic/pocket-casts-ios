@@ -23,7 +23,7 @@ class ThemeAbstractCell: UICollectionViewCell {
     @IBOutlet var shadowView: ThemeableView! {
         didSet {
             shadowView.clipsToBounds = false
-            shadowView.layer.shadowColor = AppTheme.appearanceShadowColor().cgColor
+            shadowView.layer.shadowColor = AppTheme.appearanceShadowColor.cgColor
             shadowView.layer.shadowOpacity = 1
             shadowView.layer.shadowRadius = 5
             shadowView.layer.cornerRadius = 10

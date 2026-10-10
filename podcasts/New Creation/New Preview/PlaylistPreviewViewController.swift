@@ -16,7 +16,7 @@ class PlaylistPreviewViewController: PCViewController {
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
-            footerView.backgroundColor = AppTheme.viewBackgroundColor()
+            footerView.backgroundColor = AppTheme.viewBackgroundColor
         }
     }
     private var saveButton: UIButton! {
@@ -82,7 +82,7 @@ class PlaylistPreviewViewController: PCViewController {
             playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
             playlistUUID = playlist.uuid
         case .edit:
-            let result = DataManager.sharedManager.findPlaylist(uuid: playlistUUID)
+            let result = DataManager.shared.findPlaylist(uuid: playlistUUID)
             if result == nil {
                 playlist = PlaylistManager.createNewPlaylist()
                 playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
@@ -132,7 +132,7 @@ class PlaylistPreviewViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         let list = SmartPlaylistRulesView(
             viewModel: viewModel
@@ -152,15 +152,21 @@ class PlaylistPreviewViewController: PCViewController {
 
             saveButton = UIButton(type: .custom)
             footerView.addSubview(saveButton)
+            let saveButtonBottomConstraint = saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            saveButtonBottomConstraint.priority = .defaultLow
+            list.setContentHuggingPriority(.defaultLow - 1, for: .vertical)
             NSLayoutConstraint.activate([
                 footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
                 footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-                footerView.heightAnchor.constraint(equalTo: saveButton.heightAnchor, constant: 32),
                 footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
-                saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-                saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
+                saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
+                saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
+                saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor),
+                saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16),
+                saveButtonBottomConstraint,
 
                 list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -225,14 +231,14 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     @objc private func saveTapped() {
-        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+        DataManager.shared.bumpSortPositionForAllPlaylists()
 
-        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        let firstSortPosition = max(0, DataManager.shared.firstSortPositionForPlaylist() - 1)
         viewModel.newPlaylist.sortPosition = Int32(firstSortPosition)
         viewModel.newPlaylist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.newPlaylist.isNew = false
         viewModel.removeObserver()
-        DataManager.sharedManager.save(playlist: viewModel.newPlaylist)
+        DataManager.shared.save(playlist: viewModel.newPlaylist)
         UserDefaults.standard.set(viewModel.newPlaylist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)
@@ -271,22 +277,6 @@ class PlaylistPreviewViewController: PCViewController {
             filterSettingsVC.analyticsSource = .filters
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
-        case .downloadStatus:
-            let filterSettingsVC = DownloadFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .releaseDate:
-            let filterSettingsVC = ReleaseDateFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .mediaType:
-            let filterSettingsVC = MediaFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
-        case .starred:
-            let filterSettingsVC = StarredFilterOverlayController()
-            filterSettingsVC.filterToEdit = viewModel.newPlaylist
-            viewController = filterSettingsVC
         case .duration:
             let durationController = FilterDurationViewController(filter: viewModel.newPlaylist)
             viewController = durationController
@@ -294,6 +284,9 @@ class PlaylistPreviewViewController: PCViewController {
             let filterSettingsVC = EpisodeFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
+        case .releaseDate, .downloadStatus, .mediaType, .starred:
+            assertionFailure("\(rule) renders as an inline picker and has no screen to push")
+            return
         }
         navigationController?.pushViewController(viewController, animated: true)
     }

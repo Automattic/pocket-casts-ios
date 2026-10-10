@@ -21,7 +21,7 @@ extension BaseEpisode {
             return .white
         }
 
-        return Color(ColorManager.darkThemeTintForPodcast(podcast))
+        return Color(ColorManager.darkThemeTint(for: podcast))
     }
 
     var displayDate: String {

@@ -4,7 +4,7 @@ import PocketCastsUtils
 
 class FolderHelper {
     class func addFolderToDatabase(_ folder: FolderSyncInfo) {
-        if let _ = DataManager.sharedManager.findFolder(uuid: folder.uuid) {
+        if let _ = DataManager.shared.findFolder(uuid: folder.uuid) {
             FileLog.shared.addMessage("addFolderToDatabase: skipping, folder \(folder.name) (\(folder.uuid)) it already exists")
             return
         }
@@ -18,6 +18,6 @@ class FolderHelper {
         localFolder.color = folder.color
         localFolder.addedDate = folder.addedDate
 
-        DataManager.sharedManager.save(folder: localFolder)
+        DataManager.shared.save(folder: localFolder)
     }
 }

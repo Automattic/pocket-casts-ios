@@ -124,7 +124,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistsDefaultNewPlaylist
@@ -141,7 +141,7 @@ class NewPlaylistViewController: PCViewController {
 
     private func configureLegacyOpaqueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.viewBackgroundColor()
+        appearance.backgroundColor = AppTheme.viewBackgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
@@ -155,7 +155,7 @@ class NewPlaylistViewController: PCViewController {
     private func setupContent() {
         isModalInPresentation = true
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         textFieldBorderView = ThemeableSelectionView()
         view.addSubview(textFieldBorderView)
@@ -221,26 +221,26 @@ class NewPlaylistViewController: PCViewController {
     @objc private func createManualPlaylist() {
         delegate?.presentingPlaylistDetail = true
 
-        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+        DataManager.shared.bumpSortPositionForAllPlaylists()
 
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
-        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        let firstSortPosition = max(0, DataManager.shared.firstSortPositionForPlaylist() - 1)
         playlist.sortPosition = Int32(firstSortPosition)
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
         playlist.sortType = PlaylistSort.dragAndDrop.rawValue
-        DataManager.sharedManager.save(playlist: playlist)
+        DataManager.shared.save(playlist: playlist)
         if creationType == .default {
             UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
             delegate?.filterCreated(newFilter: playlist)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
-            let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            let didAdd = DataManager.shared.add(episodes: [episode], to: playlist)
             guard didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
@@ -261,7 +261,7 @@ class NewPlaylistViewController: PCViewController {
                 rootVC.dismiss(animated: true) {
                     Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
                         .init(title: L10n.bookmarkAddedButtonTitle) {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid
@@ -278,9 +278,9 @@ class NewPlaylistViewController: PCViewController {
                 Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
                 return
             }
-            let didAdd = DataManager.sharedManager.add(episodes: episodes, to: playlist)
+            let didAdd = DataManager.shared.add(episodes: episodes, to: playlist)
             guard didAdd else {
-                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.shared.primaryIcon01)
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
@@ -301,7 +301,7 @@ class NewPlaylistViewController: PCViewController {
                 rootVC.dismiss(animated: true) {
                     Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
                         .init(title: L10n.bookmarkAddedButtonTitle) {
-                            NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.shared.navigateTo(
                                 NavigationManager.filterPageKey,
                                 data: [
                                     NavigationManager.filterUuidKey: playlist.uuid
@@ -374,25 +374,16 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func tip(
-        idealSize: CGSize = CGSizeMake(290, 100),
+        width: CGFloat = 290,
         title: String,
         message: String,
         sourceView: UIView?,
         sourceRect: CGRect
-    ) -> UIHostingController<AnyView>? {
-        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipViewStatic(title: title,
-                                    message: message,
-                              onTap: { [weak self] in
+    ) -> UIViewController? {
+        let vc = SmartPlaylistTipViewController(title: title, message: message, width: width) { [weak self] in
             self?.dismissTipView()
-        })
-            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
-            .setupDefaultEnvironment()
-        vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
-        vc.view.clipsToBounds = false
+        }
         vc.modalPresentationStyle = .popover
-        vc.sizingOptions = [.preferredContentSize]
         guard let popoverPresentationController = vc.popoverPresentationController else {
             return nil
         }
@@ -400,7 +391,9 @@ class NewPlaylistViewController: PCViewController {
         popoverPresentationController.permittedArrowDirections = [.up]
         popoverPresentationController.sourceView = sourceView
         popoverPresentationController.sourceRect = sourceRect
-        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        if !LiquidGlass.isEnabled {
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
         return vc
     }
 }
@@ -420,5 +413,67 @@ extension NewPlaylistViewController: UIPopoverPresentationControllerDelegate {
 
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         dismissTipView()
+    }
+}
+
+private final class SmartPlaylistTipViewController: UIViewController {
+    private let tipTitle: String
+    private let message: String
+    private let width: CGFloat
+    private let onTap: () -> Void
+
+    init(title: String, message: String, width: CGFloat, onTap: @escaping () -> Void) {
+        self.tipTitle = title
+        self.message = message
+        self.width = width
+        self.onTap = onTap
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let titleLabel = UILabel()
+        titleLabel.text = tipTitle
+        titleLabel.font = .font(ofSize: 15, weight: .bold, scalingWith: .body)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.textColor = ThemeColor.primaryText01()
+        titleLabel.numberOfLines = 2
+
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = .font(ofSize: 14, scalingWith: .body)
+        messageLabel.adjustsFontForContentSizeCategory = true
+        messageLabel.textColor = ThemeColor.primaryText02()
+        messageLabel.numberOfLines = 4
+
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, messageLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -16)
+        ])
+
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+
+        preferredContentSize = view.systemLayoutSizeFitting(
+            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+    }
+
+    @objc private func didTap() {
+        onTap()
     }
 }

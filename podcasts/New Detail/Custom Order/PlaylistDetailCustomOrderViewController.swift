@@ -34,7 +34,7 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = AppTheme.viewBackgroundColor()
+        view.backgroundColor = AppTheme.viewBackgroundColor
 
         setupNavBar()
         setupContent()
@@ -47,7 +47,7 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
+        let backgroundColor = AppTheme.viewBackgroundColor
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistManualEpisodesOrderOption

@@ -75,7 +75,7 @@ extension DownloadManager {
         if episodeUuids.isEmpty { return }
 
         for episodeUuid in episodeUuids {
-            guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }
+            guard let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else { continue }
 
             let downloadStatus: DownloadStatus = episode.downloaded(pathFinder: self) ? .downloaded : .notDownloaded
             dataManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: nil, episode: episode)

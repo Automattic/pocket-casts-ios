@@ -74,7 +74,7 @@ class ThemeableButton: UIView {
         shapeLayer.fillColor = fillColorForButton()
         shapeLayer.strokeColor = fillColorForButton()
         shapeLayer.lineCap = CAShapeLayerLineCap.round
-        shapeLayer.contentsScale = UIScreen.main.scale
+        shapeLayer.contentsScale = traitCollection.displayScale
         shapeLayer.lineWidth = 2.0
         layer.insertSublayer(shapeLayer, at: 0)
 
@@ -82,10 +82,15 @@ class ThemeableButton: UIView {
         textLayer.string = buttonTitle
         textLayer.foregroundColor = AppTheme.colorForStyle(textStyle).cgColor
         textLayer.fontSize = 15
-        textLayer.contentsScale = UIScreen.main.scale
+        textLayer.contentsScale = traitCollection.displayScale
         textLayer.font = CGFont(uiFont.fontName as CFString)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         shapeLayer.addSublayer(textLayer)
+
+        registerForTraitChanges([UITraitDisplayScale.self]) { (view: ThemeableButton, _) in
+            view.shapeLayer.contentsScale = view.traitCollection.displayScale
+            view.textLayer.contentsScale = view.traitCollection.displayScale
+        }
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tapRecognizer)

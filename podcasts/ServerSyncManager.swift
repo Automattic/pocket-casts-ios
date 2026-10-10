@@ -87,7 +87,7 @@ class ServerSyncManager: ServerSyncDelegate {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             #if !os(tvOS)
-            Theme.sharedTheme.toggleTheme()
+            Theme.shared.toggleTheme()
             #endif
             #if !APPCLIP && !os(tvOS)
             NotificationsHelper.shared.register(checkToken: true)
@@ -109,7 +109,7 @@ class ServerSyncManager: ServerSyncDelegate {
         defaults.set(cleanupDate, forKey: Constants.UserDefaults.lastNetworkDataUsageCleanupDate)
 
         Task {
-            let didCleanup = await DataManager.sharedManager.networkDataUsageManager.deleteRecords(
+            let didCleanup = await DataManager.shared.networkDataUsageManager.deleteRecords(
                 olderThan: Date(timeIntervalSinceNow: -Self.networkDataUsageRetentionPeriod)
             )
 
@@ -161,11 +161,11 @@ class ServerSyncManager: ServerSyncDelegate {
     }
 
     func defaultPodcastGrouping() -> Int32 {
-        Settings.defaultPodcastGrouping().rawValue
+        Settings.defaultPodcastGrouping.rawValue
     }
 
     func defaultShowArchived() -> Bool {
-        Settings.showArchivedDefault()
+        Settings.showArchivedDefault
     }
 
     func uniqueAppId() -> String {

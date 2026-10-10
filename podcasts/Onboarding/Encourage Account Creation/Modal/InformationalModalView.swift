@@ -6,13 +6,11 @@ struct InformationalModalView: View {
     @State var currentIndex: Int? = 0
 
     let viewModel: InformationalModalViewModel
+    let isFormSheet: Bool
 
     private let items = InformationalFeatureCardItem.allCases
-    private var isiPad: Bool {
-        UIDevice.current.isiPad()
-    }
     private var cardHeight: CGFloat {
-        isiPad ? 274 : 370
+        isFormSheet ? 274 : 370
     }
 
     var body: some View {
@@ -20,30 +18,31 @@ struct InformationalModalView: View {
             labels
             Spacer()
                 .frame(
-                    minHeight: isiPad ? 24.0 : 15.0,
-                    maxHeight: isiPad ? 24.0 : 37.0
+                    minHeight: isFormSheet ? 24.0 : 15.0,
+                    maxHeight: isFormSheet ? 24.0 : 37.0
                 )
             GeometryReader { proxy in
                 HorizontalCarouselCardViewContainer(
-                    spacing: isiPad ? 18.0 : 16.0,
+                    spacing: isFormSheet ? 18.0 : 16.0,
                     items: items,
                     currentIndex: $currentIndex,
                     cardSize: CGSize(
-                        width: isiPad ? 400 : proxy.size.width - 48.0,
+                        width: isFormSheet ? 400 : proxy.size.width - 48.0,
                         height: cardHeight
                     ),
-                    hPadding: isiPad ? (proxy.size.width - 400) * 0.5 : 24.0,
+                    hPadding: isFormSheet ? (proxy.size.width - 400) * 0.5 : 24.0,
                     showPagination: true,
-                    paginationColor: theme.primaryText01
+                    paginationColor: theme.primaryText01,
+                    isFormSheet: isFormSheet
                 )
             }
             .frame(maxHeight: cardHeight + 24.0)
             buttons
-                .padding(.top, isiPad ? 12.0 : 33.0)
-                .if(!isiPad) {
+                .padding(.top, isFormSheet ? 12.0 : 33.0)
+                .if(!isFormSheet) {
                     $0.padding(.horizontal, 24.0)
                 }
-                .if(isiPad) {
+                .if(isFormSheet) {
                     $0.frame(maxWidth: 400)
                 }
         }
@@ -59,7 +58,7 @@ struct InformationalModalView: View {
                 .font(size: 22, style: .body, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .multilineTextAlignment(.center)
-                .padding(.top, isiPad ? 0 : 20.0)
+                .padding(.top, isFormSheet ? 0 : 20.0)
                 .padding(.bottom, 12.0)
             Text(L10n.eacInformationalViewModalDescription)
                 .font(size: 15, style: .body, weight: .medium)
@@ -86,6 +85,6 @@ struct InformationalModalView: View {
 }
 
 #Preview {
-    InformationalModalView(viewModel: InformationalModalViewModel())
+    InformationalModalView(viewModel: InformationalModalViewModel(), isFormSheet: false)
         .environmentObject(Theme(previewTheme: .light))
 }

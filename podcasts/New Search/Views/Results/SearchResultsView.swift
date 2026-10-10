@@ -17,24 +17,24 @@ struct SearchResultsView: View {
                         message: L10n.discoverSearchFailedMsg,
                         icon: { Image("no-connection-grey").renderingMode(.template) },
                         actions: [
-                            .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
+                            .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .shared, textColor: .primaryInteractive01)) {
                                 searchResults.search(term: searchResults.currentSearchTerm)
                             }
                         ]
                     )
                 }
                 .frame(maxHeight: .infinity)
-                .background(Theme.sharedTheme.searchBackground)
+                .background(Theme.shared.searchBackground)
             } else if searchResults.isSearchingForPodcasts || (searchResults.isSearchingPredictive && searchResults.predictive.isEmpty) {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .tint(AppTheme.loadingActivityColor().color)
+                    .tint(AppTheme.loadingActivityColor.color)
             } else if searchResults.noResults {
                 if searchResults.isShowingPredictiveSearch {
                     VStack {
                         Spacer()
                     }
-                    .background(Theme.sharedTheme.searchBackground)
+                    .background(Theme.shared.searchBackground)
                 } else {
                     HStack(alignment: .center) {
                         EmptyStateView(title: L10n.searchResultsEmptyTitle,
@@ -44,7 +44,7 @@ struct SearchResultsView: View {
                         )
                     }
                     .frame(maxHeight: .infinity)
-                    .background(Theme.sharedTheme.searchBackground)
+                    .background(Theme.shared.searchBackground)
                 }
             } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
                 List {

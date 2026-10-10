@@ -31,7 +31,7 @@ struct MessageSupportView: View {
                 fieldGroup(label: L10n.supportCommentIndicator) {
                     TextEditor(text: $viewModel.comment)
                         .scrollContentBackground(.hidden)
-                        .colorScheme(Theme.isDarkTheme() ? .dark : .light)
+                        .colorScheme(Theme.isDarkTheme ? .dark : .light)
                         .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
                         .padding(6)
                         .background(ThemeColor.primaryUi02(for: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
@@ -132,7 +132,7 @@ struct MessageSupportView_Previews: PreviewProvider {
     struct PreviewConfig: ZDConfig {
         let apiKey = "1234567"
         let baseURL = "https://example.com"
-        let newBaseURL = "https://example.com"
+        let fallbackBaseURL = "https://example.com"
         let subject = "For Previews"
         let type: ZDType = .feedback
     }

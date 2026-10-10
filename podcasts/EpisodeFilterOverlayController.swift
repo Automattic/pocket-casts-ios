@@ -26,7 +26,6 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         addTableViewHeader()
         title = SmartPlaylistRule.episode.title
         setupLargeTitle()
-        tableView.contentInsetAdjustmentBehavior = .never
 
         setCurrentStatus()
 
@@ -138,7 +137,7 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         super.handleThemeChanged()
 
         saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor)
     }
 
     override func dismissViewController() {

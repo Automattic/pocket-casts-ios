@@ -7,7 +7,7 @@ extension URLResponse {
     }
 
     var expiresDate: Date? {
-        DateFormatHelper.sharedHelper.httpDate(expires)
+        DateFormatHelper.shared.httpDate(expires)
     }
 
     var cacheControl: String? {
@@ -42,7 +42,7 @@ extension URLResponse {
             return nil
         }
         let dateString = httpResponse.allHeaderFields[ServerConstants.HttpHeaders.date] as? String
-        return DateFormatHelper.sharedHelper.httpDate(dateString)
+        return DateFormatHelper.shared.httpDate(dateString)
     }
 
     var etag: String? {

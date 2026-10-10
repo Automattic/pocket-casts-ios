@@ -70,7 +70,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
                 }
 
                 if let published = episode?.published {
-                    self.publishedDate = DateFormatHelper.sharedHelper.tinyLocalizedFormatter.string(from: published)
+                    self.publishedDate = DateFormatHelper.shared.tinyLocalizedFormatter.string(from: published)
                 } else {
                     self.publishedDate = nil
                 }
@@ -112,7 +112,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
                 if self.playbackManager.isActivelyPlaying(episodeUuid: episodeUuid) {
                     PlaybackActionHelper.pause()
-                } else if let baseEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                } else if let baseEpisode = DataManager.shared.findEpisode(uuid: episodeUuid) {
                     if let listId {
                         AnalyticsHelper.podcastEpisodePlayedFromList(listId: listId, podcastUuid: podcastUuid)
                     }
@@ -147,13 +147,13 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
     static func loadPodcast(_ podcastUUID: String, episodeUuid: String) -> AnyPublisher<Podcast?, Never> {
         Future<Podcast?, ClientError> { promise in
-            if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
+            if let existingPodcast = DataManager.shared.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
                 Self.ensureEpisodeExists(podcast: existingPodcast, episodeUuid: episodeUuid, promise: promise)
                 return
             }
 
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUUID, subscribe: false) { added in
-                if added, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
+                if added, let existingPodcast = DataManager.shared.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
                     Self.ensureEpisodeExists(podcast: existingPodcast, episodeUuid: episodeUuid, promise: promise)
                     return
                 } else {
@@ -169,13 +169,13 @@ class DiscoverEpisodeViewModel: ObservableObject {
      Checks if a specific episode of a podcast exists, if not refreshes the episode list and notifies if the episode was successfully found or not.
      */
     private static func ensureEpisodeExists(podcast: Podcast, episodeUuid: String, promise: @escaping (Result<Podcast?, ClientError>) -> Void) {
-        guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) == nil else {
+        guard DataManager.shared.findEpisode(uuid: episodeUuid) == nil else {
             promise(.success(podcast))
             return
         }
 
         ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-            guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) != nil else {
+            guard DataManager.shared.findEpisode(uuid: episodeUuid) != nil else {
                 promise(.failure(.episodeNotFound))
                 return
             }

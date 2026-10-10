@@ -4,7 +4,7 @@ import PocketCastsUtils
 import XCTest
 
 final class WhatsNewMessageFilterTests: XCTestCase {
-    private let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"))
+    private let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true)
     private let now = Date(timeIntervalSince1970: 1_787_000_000)
 
     // MARK: - Audience
@@ -25,7 +25,7 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         let message = try message(targeting: "{}")
 
         for audience in [WhatsNewAudience.free, .plus, .patron] {
-            let filter = WhatsNewMessageFilter(audience: audience, appVersion: Version("8.10"))
+            let filter = WhatsNewMessageFilter(audience: audience, appVersion: Version("8.10"), includesPolls: true)
             XCTAssertTrue(filter.includes(message, at: now), "\(audience) should see a message aimed at nobody in particular")
         }
     }
@@ -73,7 +73,7 @@ final class WhatsNewMessageFilterTests: XCTestCase {
     }
 
     func testAMessageGatedOnAVersionIsHiddenWhenTheAppVersionIsUnknown() throws {
-        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: nil)
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: nil, includesPolls: true)
         let gated = try message(targeting: #"{ "minimumAppVersion": "8.9" }"#)
         let ungated = try message(targeting: "{}")
 
@@ -114,7 +114,44 @@ final class WhatsNewMessageFilterTests: XCTestCase {
         XCTAssertTrue(filter.includes(message, at: now.addingTimeInterval(365.days)))
     }
 
+    // MARK: - Polls
+
+    func testAResearchMessageIsHiddenWhenPollsAreNotIncluded() throws {
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: false)
+
+        XCTAssertFalse(filter.includes(try researchMessage(), at: now))
+        XCTAssertTrue(filter.includes(try message(), at: now), "Only research messages depend on polls")
+    }
+
+    func testAResearchMessageIsShownWhenPollsAreIncluded() throws {
+        let filter = WhatsNewMessageFilter(audience: .plus, appVersion: Version("8.10"), includesPolls: true)
+
+        XCTAssertTrue(filter.includes(try researchMessage(), at: now))
+    }
+
     // MARK: - Helpers
+
+    private func researchMessage() throws -> WhatsNewMessage {
+        let json = """
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440003",
+          "type": "research",
+          "publishedAt": "\(iso8601(from: now.addingTimeInterval(-1.day)))",
+          "targeting": {},
+          "title": "Help shape the player",
+          "poll": {
+            "pollId": "550e8400-e29b-41d4-a716-446655440101",
+            "pollKey": "player_improvements_2026",
+            "question": "What should we improve next?",
+            "options": [
+              { "id": "550e8400-e29b-41d4-a716-446655440201", "pollOptionKey": "up_next_controls", "label": "Up Next controls" },
+              { "id": "550e8400-e29b-41d4-a716-446655440202", "pollOptionKey": "podcast_discovery", "label": "Podcast discovery" }
+            ]
+          }
+        }
+        """
+        return try WhatsNewCatalog.decoder.decode(WhatsNewMessage.self, from: Data(json.utf8))
+    }
 
     private func message(targeting: String = "{}",
                          publishedAt: Date? = nil,

@@ -148,7 +148,7 @@ class StreamingCellularTracker {
 
         FileLog.shared.addMessage("StreamingCellularTracker: Reporting \(bytes) bytes of \(connectionType.displayName) streaming for episode: \(episodeUuid ?? "unknown")")
 
-        DataManager.sharedManager.networkDataUsageManager.add(
+        DataManager.shared.networkDataUsageManager.add(
             episodeUuid: episodeUuid,
             podcastUuid: podcastUuid,
             bytesStreamed: bytes,

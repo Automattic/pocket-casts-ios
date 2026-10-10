@@ -30,7 +30,7 @@ class StarredViewController: PCViewController {
     var isMultiSelectEnabled: Bool = false {
         didSet {
             setupNavBar()
-            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            setHidesEnclosingTabBar(isMultiSelectEnabled, animated: false)
             starredTable.beginUpdates()
             starredTable.setEditing(isMultiSelectEnabled, animated: true)
             starredTable.endUpdates()
@@ -99,7 +99,7 @@ class StarredViewController: PCViewController {
                 let oldData = self.episodes
                 var newData = [ListEpisode]()
                 for episode in episodes {
-                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor()))
+                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor))
                 }
 
                 DispatchQueue.main.sync { [weak self] in

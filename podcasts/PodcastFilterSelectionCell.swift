@@ -66,7 +66,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
         podcastAuthor.text = podcast.author
         podcastAuthor.setLetterSpacing(-0.2)
 
-        ImageManager.sharedManager.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .list, showPlaceHolder: true)
+        ImageManager.shared.loadImage(podcastUuid: podcast.uuid, imageView: podcastImage, size: .list, showPlaceHolder: true)
     }
 
     func setTintColor(color: UIColor) {
@@ -76,7 +76,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        ImageManager.sharedManager.cancelLoad(podcastImage)
+        ImageManager.shared.cancelLoad(podcastImage)
         setSelected(false, animated: false)
     }
 

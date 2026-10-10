@@ -97,11 +97,16 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public static func ==(lhs: PodcastFolderSearchResult, rhs: PodcastFolderSearchResult) -> Bool {
         lhs.kind == rhs.kind && lhs.uuid == rhs.uuid
     }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(kind)
+        hasher.combine(uuid)
+    }
 }
 
 extension PodcastFolderSearchResult: Identifiable {
     public var id: String {
-        uuid
+        "\(kind)-\(uuid)"
     }
 }
 
@@ -132,7 +137,8 @@ public class PodcastSearchTask {
         if let podcast = envelope?.result.podcast {
             return [podcast]
         } else {
-            return envelope?.result.searchResults ?? []
+            var seen = Set<PodcastFolderSearchResult>()
+            return (envelope?.result.searchResults ?? []).filter { seen.insert($0).inserted }
         }
     }
 

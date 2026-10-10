@@ -28,6 +28,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
             // view under RTL and the index-based paging math (offset == index * width)
             // opens the last tab (Bookmarks) instead of Now Playing. See #1952.
             mainScrollView.semanticContentAttribute = .forceLeftToRight
+            mainScrollView.contentInsetAdjustmentBehavior = .never
 
             // We don't need to handle the scroll view because it is not dismissable in App Clip
             #if !APPCLIP
@@ -197,7 +198,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // we implement this here to lock all views (except presented modal VCs to portrait)
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        .portrait
+        // We're presented with a custom presentation, so UIKit asks us rather than the video player
+        if let videoViewController = presentedViewController as? VideoViewController {
+            return videoViewController.supportedInterfaceOrientations
+        }
+
+        return .portrait
     }
 
     // MARK: - PlayerItemContainerDelegate
@@ -228,7 +234,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if APPCLIP
         //TODO: Show install banner
         #else
-        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+        NavigationManager.shared.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast, NavigationManager.podcastSourceKey: PodcastScreenSource.player])
         #endif
     }
 
@@ -310,7 +316,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     private func adjustHeaderConstraintIfNeeded() {
         guard let window = view.window else { return }
 
-        let requiredHeight = 50 + UIUtil.statusBarHeight(in: window)
+        let requiredHeight = 50 + window.safeAreaInsets.top
 
         if headerHeightConstraint.constant != requiredHeight {
             headerHeightConstraint.constant = requiredHeight

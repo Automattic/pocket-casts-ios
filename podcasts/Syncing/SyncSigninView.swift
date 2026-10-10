@@ -292,7 +292,7 @@ final class SyncSigninViewModel: ObservableObject {
                 self.handleSuccessfulSignIn(username: username, password: password, userId: userId)
 
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-                Settings.setPromotionFinishedAcknowledged(true)
+                Settings.promotionFinishedAcknowledged = true
                 Settings.setLoginDetailsUpdated()
 
                 NotificationCenter.postOnMainThread(notification: .userSignedIn)
@@ -313,7 +313,7 @@ final class SyncSigninViewModel: ObservableObject {
         ServerSettings.saveSyncingPassword(password)
 
         if ServerSettings.lastSyncTime == nil {
-            DataManager.sharedManager.markAllPodcastsUnsynced()
+            DataManager.shared.markAllPodcastsUnsynced()
         }
 
         SyncManager.syncReason = .login

@@ -120,7 +120,7 @@ extension MainTabBarController {
     @objc func animateEpisodeAddedToUpNext(_ notification: Notification) {
         guard #available(iOS 26.0, *) else { return }
         guard let episodeUuid = notification.object as? String,
-              let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+              let episode = DataManager.shared.findBaseEpisode(uuid: episodeUuid) else {
             // Nothing to animate — just keep the count current.
             DispatchQueue.main.async { [weak self] in self?.refreshUpNextTabBadge() }
             return
@@ -182,7 +182,7 @@ extension MainTabBarController {
         artwork.layer.cornerCurve = .continuous
         artwork.layer.borderWidth = 1
         artwork.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
-        ImageManager.sharedManager.loadImage(episode: episode, imageView: artwork, size: .list)
+        ImageManager.shared.loadImage(episode: episode, imageView: artwork, size: .list)
         container.addSubview(artwork)
 
         // A circled "Play Next" / "Play Last" glyph perched on the top-right
@@ -284,7 +284,7 @@ extension MainTabBarController {
         let frame: CGRect?
         if isTabBarMinimized {
             // The mini player's episode artwork, still on screen in the pill.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return nil }
             frame = artwork.superview?.convert(artwork.frame, to: view)
         } else {
@@ -343,7 +343,7 @@ extension MainTabBarController {
         let targets: [UIView]
         if isTabBarMinimized {
             // The tab is hidden inside the pill; pop the mini player artwork.
-            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+            guard let artwork = NavigationManager.shared.miniPlayer?.podcastArtwork,
                   artwork.window != nil else { return }
             targets = [artwork]
         } else {
@@ -382,23 +382,26 @@ extension MainTabBarController {
     /// The iOS 26 liquid-glass tab bar uses private `_UITabButton` views nested
     /// well below `UITabBar`, and renders each tab more than once (a content
     /// copy plus the glass-lens copy). We walk the whole subtree, cluster the
-    /// buttons into per-tab slots by horizontal position, and return every
+    /// buttons into per-tab slots by position along the bar, and return every
     /// button in the Up Next slot so the overlapping copies animate together.
     private func upNextTabButtonViews() -> [UIView] {
         guard let index = pcTabs.firstIndex(of: .upNext) else { return [] }
 
         var buttons: [UIView] = []
-        var stack = Array(tabBar.subviews)
-        while let view = stack.popLast() {
-            if String(describing: type(of: view)).contains("TabButton") {
-                buttons.append(view)
+        var stack = [view.layer]
+        while let layer = stack.popLast() {
+            if let button = layer.delegate as? UIView, String(describing: type(of: button)).contains("TabButton") {
+                buttons.append(button)
             }
-            stack.append(contentsOf: view.subviews)
+            stack.append(contentsOf: layer.sublayers ?? [])
         }
         guard !buttons.isEmpty else { return [] }
 
-        let positioned = buttons
-            .map { ($0, $0.convert($0.bounds, to: tabBar).midX) }
+        let frames = buttons.map { $0.convert($0.bounds, to: view) }
+        let isVertical = (frames.map(\.midY).max() ?? 0) - (frames.map(\.midY).min() ?? 0)
+            > (frames.map(\.midX).max() ?? 0) - (frames.map(\.midX).min() ?? 0)
+        let positioned = zip(buttons, frames)
+            .map { ($0, isVertical ? $1.midY : $1.midX) }
             .sorted { $0.1 < $1.1 }
 
         var slots: [(x: CGFloat, views: [UIView])] = []
@@ -416,7 +419,8 @@ extension MainTabBarController {
 
         // Slot count doesn't line up with the tab list (e.g. a "More" tab):
         // animate whichever slot sits nearest the expected Up Next position.
-        guard let expected = upNextTabButtonFrame(in: tabBar) else { return [] }
-        return slots.min { abs($0.x - expected.midX) < abs($1.x - expected.midX) }?.views ?? []
+        guard let expected = upNextTabButtonFrame(in: view) else { return [] }
+        let expectedPosition = isVertical ? expected.midY : expected.midX
+        return slots.min { abs($0.x - expectedPosition) < abs($1.x - expectedPosition) }?.views ?? []
     }
 }

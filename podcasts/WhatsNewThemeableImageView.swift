@@ -14,7 +14,7 @@ class WhatsNewThemeableImageView: ThemeableImageView {
     }
 
     func themedImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+        switch Theme.shared.activeTheme {
         case .dark, .extraDark:
             return originalName + "_dark"
         case .light, .classic:

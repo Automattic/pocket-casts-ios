@@ -77,12 +77,12 @@ class CustomRefreshControl: UIRefreshControl {
         addSubview(refreshOuterImage)
 
         NSLayoutConstraint.activate([
-            refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            refreshLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            refreshLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.iconToLabelSpacing),
-            refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshInnerImage.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshOuterImage.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
         ])
 

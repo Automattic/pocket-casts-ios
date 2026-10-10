@@ -24,7 +24,7 @@ struct OrphanedEpisodesListView: View {
     private var groups: [PodcastGroup] {
         Dictionary(grouping: episodes, by: \.podcastUuid)
             .map { podcastUuid, episodes in
-                let title = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)?.title ?? podcastUuid
+                let title = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)?.title ?? podcastUuid
                 let sortedEpisodes = episodes.sorted { ($0.publishedDate ?? .distantPast) > ($1.publishedDate ?? .distantPast) }
                 return PodcastGroup(id: podcastUuid, title: title, episodes: sortedEpisodes)
             }

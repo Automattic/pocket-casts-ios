@@ -64,13 +64,13 @@ class BundlePodcastCell: ThemeableCell {
                 subscribeButton.isHidden = true
             } else {
                 disclosureImage.isHidden = true
-                if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
+                if let _ = DataManager.shared.findPodcast(uuid: uuid) {
                     subscribeButton.currentlyOn = true
                 }
             }
 
             let imageUrl = DiscoverServerHandler.thumbnailUrlString(forPodcast: uuid, size: 140)
-            ImageManager.sharedManager.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
+            ImageManager.shared.loadSearchImage(imageUrl: imageUrl, imageView: podcastImage, placeholderSize: .list)
         }
 
         subscribeButton.shouldAnimate = true
@@ -78,7 +78,7 @@ class BundlePodcastCell: ThemeableCell {
 
     @objc private func podcastWasAdded() {
         if let headerUuid = discoverPodcast?.uuid {
-            if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
+            if let _ = DataManager.shared.findPodcast(uuid: headerUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
             } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }
@@ -105,7 +105,7 @@ class BundlePodcastCell: ThemeableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        ImageManager.sharedManager.cancelLoad(podcastImage)
+        ImageManager.shared.cancelLoad(podcastImage)
 
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil

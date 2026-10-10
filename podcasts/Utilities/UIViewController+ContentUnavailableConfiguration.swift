@@ -20,10 +20,9 @@ extension UIViewController {
         view.addSubview(configView)
 
         NSLayoutConstraint.activate([
-            configView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             configView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            configView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
-            configView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+            configView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            configView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
 
         pc_contentUnavailableView = configView

@@ -17,7 +17,7 @@ class WidgetEpisode: ObservableObject, Hashable {
         duration = commonItem.duration
         podcastName = commonItem.podcastName
         podcastColor = commonItem.podcastColor
-        imageUrl = urlForItem(commonItem)
+        imageUrl = url(for: commonItem)
     }
 
     // in a widget, you can't load images asynchronously, since the UI is rendered and later displayed, so as weird as it looks, this is how we cache the image data
@@ -35,7 +35,7 @@ class WidgetEpisode: ObservableObject, Hashable {
         hasher.combine(episodeUuid)
     }
 
-    private func urlForItem(_ commonItem: CommonUpNextItem) -> URL? {
+    private func url(for commonItem: CommonUpNextItem) -> URL? {
         if commonItem.imageUrl.hasPrefix("http") {
             return URL(string: commonItem.imageUrl)
         } else {

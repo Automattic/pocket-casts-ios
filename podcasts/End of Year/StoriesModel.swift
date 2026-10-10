@@ -316,7 +316,7 @@ class StoriesModel: ObservableObject {
 
     func stopAndDismiss() {
         pause()
-        NavigationManager.sharedManager.dismissPresentedViewController()
+        NavigationManager.shared.dismissPresentedViewController()
     }
 
     func shouldShowUpsell() -> Bool {
