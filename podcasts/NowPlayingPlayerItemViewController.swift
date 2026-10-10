@@ -275,6 +275,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
 
         setUpArtworkImageView()
+        letTitleInfoGrow()
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -430,6 +431,25 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
+    }
+
+    /// Lets the episode title and podcast name in the large screen player take the room they need
+    /// at large text sizes, with some space around them, instead of overflowing their fixed height
+    /// into the artwork and the scrubber.
+    private func letTitleInfoGrow() {
+        guard usesLargeScreenStyle,
+              let titleInfoView = episodeInfoView.superview,
+              let titleView = episodeInfoView.subviews.first,
+              let fixedHeight = titleInfoView.constraints.first(where: { $0.firstItem === titleInfoView && $0.firstAttribute == .height && $0.secondItem == nil }) else { return }
+
+        let preferredHeight = titleInfoView.heightAnchor.constraint(equalToConstant: fixedHeight.constant)
+        preferredHeight.priority = .defaultHigh - 1
+        fixedHeight.isActive = false
+        NSLayoutConstraint.activate([
+            preferredHeight,
+            titleInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: fixedHeight.constant),
+            titleView.topAnchor.constraint(greaterThanOrEqualTo: episodeInfoView.topAnchor, constant: 12)
+        ])
     }
 
     /// Gives each shelf button the same space on both sides in the large screen player, where the
