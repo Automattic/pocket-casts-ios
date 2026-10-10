@@ -78,12 +78,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?
     var playButtonTapped: ((Bool) -> Void)?
 
-    /// Hidden when the transcript is a tab of the large screen player, which has nothing to close.
-    var showsCloseButton = true {
-        didSet {
-            closeButton.isHidden = !showsCloseButton
-        }
-    }
+    /// Set before the view loads when the transcript is a tab of the large screen player, which
+    /// has nothing to close. Its buttons float over the bottom of the transcript instead.
+    var isPlayerTab = false
 
     private var showFromEpisode: Bool {
         analyticsSource == .episode
@@ -175,8 +172,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let topMargin = showFromEpisode ? 8.0 : 0.0
 
         if FeatureFlag.generatedTranscripts.enabled, value {
-            transcriptViewTopConstraint?.constant = 80.0 + topMargin
-            topGradientTopConstraint?.constant = 100.0 + topMargin
+            // A tab has no row of buttons above the banner.
+            let bannerTop = isPlayerTab ? -44.0 : 0.0
+            transcriptViewTopConstraint?.constant = 80.0 + topMargin + bannerTop
+            topGradientTopConstraint?.constant = 100.0 + topMargin + bannerTop
             topGradientHeightConstraint?.constant = 30.0
         } else {
             transcriptViewTopConstraint?.constant = 0.0 + topMargin
@@ -291,8 +290,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         debugOverlay = overlay
         #endif
 
-        stackView.addArrangedSubview(closeButton)
-        stackView.addArrangedSubview(UIView())
+        if !isPlayerTab {
+            stackView.addArrangedSubview(closeButton)
+            stackView.addArrangedSubview(UIView())
+        }
 
         shareButton.isHidden = !FeatureFlag.shareTranscripts.enabled
         stackView.addArrangedSubview(shareButton)
@@ -305,11 +306,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let topMargin = showFromEpisode ? 8.0 : 0.0
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-        ])
+        if isPlayerTab {
+            NSLayoutConstraint.activate([
+                stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.floatingButtonsMargin),
+                stackView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -Sizes.textMargin)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
+                stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+                stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            ])
+        }
 
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -323,7 +331,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             bannerView.isHidden = true
             NSLayoutConstraint.activate(
                 [
-                    bannerView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
+                    isPlayerTab
+                        ? bannerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin)
+                        : bannerView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
                     bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                     bannerView.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
@@ -543,7 +553,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }()
 
     var bottomContainerInset: CGFloat {
-        0.7 * Sizes.bottomGradientHeight
+        // A tab's transcript ends above the buttons floating over it.
+        let floatingButtonsHeight = isPlayerTab ? stackView.bounds.height + Sizes.floatingButtonsMargin : 0
+        return floatingButtonsHeight + 0.7 * Sizes.bottomGradientHeight
     }
 
     override func willBeAddedToPlayer() {
@@ -613,7 +625,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private lazy var textFadeMask: CAGradientLayer = {
         let mask = CAGradientLayer()
-        mask.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+        mask.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor, UIColor.clear.cgColor]
         return mask
     }()
 
@@ -624,7 +636,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         guard usesLargeScreenStyle, height > 0 else { return }
 
         let topFade = max(0, topGradient.frame.maxY - transcriptView.frame.minY)
-        let bottomFade = max(0, transcriptView.frame.maxY - bottomGradient.frame.minY)
+        // A tab's transcript fades out above the buttons floating over it.
+        let bottomFadeEnd = (isPlayerTab ? stackView.frame.minY : bottomGradient.frame.maxY) - transcriptView.frame.minY
+        let bottomFadeStart = bottomFadeEnd - bottomGradient.frame.height
 
         CATransaction.begin()
         CATransaction.setDisableActions(true)
@@ -632,7 +646,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         textFadeMask.locations = [
             0,
             NSNumber(value: min(topFade / height, 0.5)),
-            NSNumber(value: max(1 - bottomFade / height, 0.5)),
+            NSNumber(value: min(max(bottomFadeStart / height, 0.5), 1)),
+            NSNumber(value: min(max(bottomFadeEnd / height, 0.5), 1)),
             1
         ]
         CATransaction.commit()
@@ -810,6 +825,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             topInset += 5.0
         }
         transcriptView.textContainerInset = .init(top: topInset, left: leftMargin, bottom: bottomContainerInset, right: rightMargin)
+        if isPlayerTab {
+            transcriptView.verticalScrollIndicatorInsets.bottom = bottomContainerInset
+        }
     }
 
     @MainActor
@@ -1184,6 +1202,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         static let bottomGradientHeight: CGFloat = 60
         static let activityIndicatorSize: CGFloat = 30
         static let textMargin: CGFloat = 8
+        static let floatingButtonsMargin: CGFloat = 16
     }
 
     private enum Colors {

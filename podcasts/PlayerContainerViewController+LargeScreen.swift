@@ -283,7 +283,7 @@ extension PlayerContainerViewController {
 
         let transcriptTab = TranscriptViewController(playbackManager: PlaybackManager.shared)
         transcriptTab.usesLargeScreenStyle = true
-        transcriptTab.showsCloseButton = false
+        transcriptTab.isPlayerTab = true
         transcriptTab.scrollViewHandler = self
         transcriptTab.containerDelegate = self
         transcriptTab.view.translatesAutoresizingMaskIntoConstraints = false
