@@ -57,6 +57,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #endif
     }
 
+    /// The largest text size of the transcript and the chapters in the large screen layout.
+    static let largeScreenMaximumContentSizeCategory = UIContentSizeCategory.accessibilityExtraLarge
+
     #if !APPCLIP
     /// The `PlayerLargeScreenLayout` when `usesLargeScreenLayout` is on.
     var largeScreenLayoutStorage: AnyObject?
@@ -86,6 +89,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         item.scrollViewHandler = self
         item.containerDelegate = self
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        if usesLargeScreenLayout {
+            item.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
+        }
 
         return item
     }()
@@ -106,6 +112,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         let item = TranscriptViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        if usesLargeScreenLayout {
+            item.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
+        }
         item.scrollViewHandler = self
         item.containerDelegate = self
         return item

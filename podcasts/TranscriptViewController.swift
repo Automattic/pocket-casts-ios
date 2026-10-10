@@ -867,10 +867,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = alignment
 
-        var standardFont = UIFont.preferredFont(forTextStyle: .body)
+        // The large screen player limits the text size with the view's maximum content size category.
+        let traits = view.maximumContentSizeCategory == nil ? nil : transcriptView.traitCollection
+        var standardFont = UIFont.preferredFont(forTextStyle: .body, compatibleWith: traits)
 
         if let descriptor = UIFontDescriptor.preferredFontDescriptor(
-          withTextStyle: .body)
+          withTextStyle: .body, compatibleWith: traits)
           .withDesign(.serif) {
             standardFont =  UIFont(descriptor: descriptor, size: 0)
         }
@@ -898,7 +900,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
-        let speakerFont = UIFont.font(ofSize: 12, scalingWith: .footnote)
+        let speakerFont = UIFont.font(ofSize: 12, scalingWith: .footnote, maxSizeCategory: view.maximumContentSizeCategory ?? .accessibilityExtraExtraExtraLarge)
         formattedText.enumerateAttribute(.transcriptSpeaker, in: fullLength, options: [.reverse, .longestEffectiveRangeNotRequired]) { value, range, _ in
             if value == nil {
                 return

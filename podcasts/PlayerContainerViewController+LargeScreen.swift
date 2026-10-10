@@ -299,6 +299,7 @@ extension PlayerContainerViewController {
         transcriptTab.scrollViewHandler = self
         transcriptTab.containerDelegate = self
         transcriptTab.view.translatesAutoresizingMaskIntoConstraints = false
+        transcriptTab.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
         transcriptTab.showGeneratedTranscriptsPremiumOverlay = { [weak self] in
             self?.showLargeScreenTranscriptPaywall()
         }
