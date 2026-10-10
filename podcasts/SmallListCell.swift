@@ -113,8 +113,10 @@ class SmallListCell: ThemeableCollectionCell {
         let isExplicit = discoverPodcast.isExplicit ?? false
         if isExplicit {
             podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+            podcastTitle.accessibilityLabel = ExplicitBadgeHelper.accessibilityTitle(title)
         } else {
             podcastTitle.text = title
+            podcastTitle.accessibilityLabel = nil
         }
     }
 
