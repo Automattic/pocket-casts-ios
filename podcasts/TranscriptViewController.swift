@@ -70,9 +70,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var bannerLabelLeadingConstraint: NSLayoutConstraint?
     private var bannerLabelTrailingConstraint: NSLayoutConstraint?
 
-    private var shouldShowPremiumView: Bool {
+    /// Whether generated transcripts show the Plus paywall instead of their text.
+    static var generatedTranscriptsRequirePlus: Bool {
         return FeatureFlag.generatedTranscripts.enabled &&
         (!SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn())
+    }
+
+    private var shouldShowPremiumView: Bool {
+        Self.generatedTranscriptsRequirePlus
     }
 
     var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?

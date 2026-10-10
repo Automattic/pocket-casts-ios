@@ -25,7 +25,7 @@ final class PlayerLargeScreenLayout {
     var transcriptTab: TranscriptViewController?
     var transcriptPaywall: GeneratedTranscriptsPremiumOverlay?
     var showingTranscript = false
-    var transcriptAvailability: (episodeUuid: String, isAvailable: Bool)?
+    var transcriptAvailability: (episodeUuid: String, isAvailable: Bool, hasGeneratedTranscripts: Bool)?
 
     /// The tab picked for an episode, selected again when the tabs are rebuilt, for example
     /// after rotating to the paged layout and back.
@@ -279,13 +279,18 @@ extension PlayerContainerViewController {
         keepLargeScreenTabInView()
     }
 
-    /// The tab to select after rebuilding the tabs: the one picked for the episode when it's next
-    /// to Now Playing, and the first one otherwise.
+    /// The tab to select after rebuilding the tabs. Next to Now Playing, it's the one picked for
+    /// the episode, or else the transcript when it can be read without Plus, or else Details.
+    /// Paged with Now Playing, it's always Now Playing.
     private func largeScreenTabIndex(for episode: BaseEpisode) -> Int {
-        guard let layout = largeScreenLayout, layout.isSplit,
-              let selectedTab = layout.selectedTab, selectedTab.episodeUuid == episode.uuid,
-              let index = tabsView.tabs.firstIndex(of: selectedTab.tab) else { return 0 }
-        return index
+        guard let layout = largeScreenLayout, layout.isSplit else { return 0 }
+
+        if let selectedTab = layout.selectedTab, selectedTab.episodeUuid == episode.uuid,
+           let index = tabsView.tabs.firstIndex(of: selectedTab.tab) {
+            return index
+        }
+        let defaultTab: PlayerTabs = canReadLargeScreenTranscript(of: episode) ? .transcript : .showNotes
+        return tabsView.tabs.firstIndex(of: defaultTab) ?? 0
     }
 
     /// Remembers the tab picked for the playing episode, so rebuilding the tabs keeps it.
@@ -354,9 +359,16 @@ extension PlayerContainerViewController {
         if let availability = layout.transcriptAvailability, availability.episodeUuid == episode.uuid {
             return availability.isAvailable
         }
-        layout.transcriptAvailability = (episode.uuid, false)
+        layout.transcriptAvailability = (episode.uuid, false, false)
         episode.checkTranscriptAvailability()
         return false
+    }
+
+    /// Whether the episode has a transcript that isn't behind the Plus paywall.
+    private func canReadLargeScreenTranscript(of episode: BaseEpisode) -> Bool {
+        guard let availability = largeScreenLayout?.transcriptAvailability,
+              availability.episodeUuid == episode.uuid, availability.isAvailable else { return false }
+        return !(availability.hasGeneratedTranscripts && TranscriptViewController.generatedTranscriptsRequirePlus)
     }
 
     @objc private func largeScreenTranscriptAvailabilityDidChange(_ notification: Notification) {
@@ -365,7 +377,8 @@ extension PlayerContainerViewController {
               let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
               episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else { return }
 
-        layout.transcriptAvailability = (episodeUuid, isAvailable)
+        let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool ?? false
+        layout.transcriptAvailability = (episodeUuid, isAvailable, hasGeneratedTranscripts)
         updateLargeScreenTabs(force: false)
     }
 
