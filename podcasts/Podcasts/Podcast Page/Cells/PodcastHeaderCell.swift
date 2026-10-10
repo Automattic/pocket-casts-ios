@@ -16,10 +16,10 @@ class PodcastHeaderCell: UITableViewCell {
     weak var viewController: PodcastViewController?
     let viewModel: PodcastHeaderViewModel
     var firstTime = true
-    init(podcast: Podcast, vc: PodcastViewController) {
-        self.podcast = podcast
+    init(viewModel: PodcastHeaderViewModel, vc: PodcastViewController) {
+        self.podcast = viewModel.podcast
         self.viewController = vc
-        self.viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
+        self.viewModel = viewModel
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
         commonSetup()
     }

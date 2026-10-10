@@ -14,6 +14,13 @@ class ThemeableTable: UITableView {
         }
     }
 
+    /// Lets the views behind the table show through its background
+    var isTransparent = false {
+        didSet {
+            updateColor()
+        }
+    }
+
     override init(frame: CGRect = .zero, style: UITableView.Style = .plain) {
         super.init(frame: frame, style: style)
         commonInit()
@@ -67,7 +74,7 @@ class ThemeableTable: UITableView {
     }
 
     private func updateColor() {
-        backgroundColor = AppTheme.colorForStyle(themeStyle, themeOverride: themeOverride)
+        backgroundColor = isTransparent ? .clear : AppTheme.colorForStyle(themeStyle, themeOverride: themeOverride)
         separatorColor = AppTheme.tableDividerColor(for: themeOverride)
         indicatorStyle = AppTheme.indicatorStyle()
     }

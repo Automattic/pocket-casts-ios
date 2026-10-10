@@ -4,6 +4,10 @@ struct PlaylistHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
+    /// Whether the header is a column next to the episodes (`LargeScreenDetailsLayout`) rather
+    /// than their first row. The column stacks its buttons when they don't fit side by side.
+    var isColumn = false
+
     @ScaledMetric(relativeTo: .largeTitle) private var iconSize = CGFloat(18)
 
     var description: String {
@@ -52,35 +56,61 @@ struct PlaylistHeaderView: View {
                 .padding(.top, 15.0)
                 .padding(.bottom, 16.0)
 
-                HStack(spacing: 8.0) {
-                    Spacer()
-                    actionButton(
-                        type: viewModel.isManualPlaylist ? .addEpisodes : .smartRules,
-                        color: theme.primaryText01,
-                        image: Image(viewModel.isManualPlaylist ? "filter_new_episode" : "cs-sparkle-black"),
-                        title: viewModel.isManualPlaylist ? L10n.playlistManualAddEpisodes : L10n.playlistSmartRulesTitle,
-                        background: .clear,
-                        stroke: theme.primaryUi05) { type in
-                            viewModel.onButtonTapped(type)
-                    }
-                    actionButton(
-                        type: .playAll,
-                        color: viewModel.isSearching ? theme.primaryText01 : theme.primaryUi02,
-                        image: Image("filter_play"),
-                        title: L10n.playlistsPlayAll,
-                        background: viewModel.isSearching ? .clear : theme.primaryText01,
-                        stroke: viewModel.isSearching ? theme.primaryUi05 : nil) { type in
-                            viewModel.onButtonTapped(type)
-                    }
-                    Spacer()
-                }
-                .padding(.bottom, 10.0)
-                .animation(.easeInOut(duration: 0.2), value: viewModel.isSearching)
+                buttons
+                    .padding(.bottom, 10.0)
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.isSearching)
 
                 Spacer()
             }
         }
         .background(.clear)
+    }
+
+    @ViewBuilder
+    private var buttons: some View {
+        if isColumn {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8.0) {
+                    smartRulesButton
+                    playAllButton
+                }
+                VStack(spacing: 8.0) {
+                    smartRulesButton
+                    playAllButton
+                }
+            }
+        } else {
+            HStack(spacing: 8.0) {
+                Spacer()
+                smartRulesButton
+                playAllButton
+                Spacer()
+            }
+        }
+    }
+
+    private var smartRulesButton: some View {
+        actionButton(
+            type: viewModel.isManualPlaylist ? .addEpisodes : .smartRules,
+            color: theme.primaryText01,
+            image: Image(viewModel.isManualPlaylist ? "filter_new_episode" : "cs-sparkle-black"),
+            title: viewModel.isManualPlaylist ? L10n.playlistManualAddEpisodes : L10n.playlistSmartRulesTitle,
+            background: .clear,
+            stroke: theme.primaryUi05) { type in
+                viewModel.onButtonTapped(type)
+        }
+    }
+
+    private var playAllButton: some View {
+        actionButton(
+            type: .playAll,
+            color: viewModel.isSearching ? theme.primaryText01 : theme.primaryUi02,
+            image: Image("filter_play"),
+            title: L10n.playlistsPlayAll,
+            background: viewModel.isSearching ? .clear : theme.primaryText01,
+            stroke: viewModel.isSearching ? theme.primaryUi05 : nil) { type in
+                viewModel.onButtonTapped(type)
+        }
     }
 
     private func actionButton(

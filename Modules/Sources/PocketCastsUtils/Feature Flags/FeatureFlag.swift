@@ -263,6 +263,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
+    /// Show the podcast and playlist pages' headers next to their episode lists on large screens (iOS 27.1+)
+    case largeScreenPodcastDetails
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -446,6 +449,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .largeScreenNowPlaying:
             true
         case .transcriptDebugOverlay:
+            false
+        case .largeScreenPodcastDetails:
             false
         }
     }

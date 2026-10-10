@@ -45,7 +45,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
-    private lazy var blurHeaderView: UIView = {
+    private(set) lazy var blurHeaderView: UIView = {
         let headerView = PlaylistBlurHeaderView(viewModel: self.viewModel).themedUIView
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
@@ -133,6 +133,17 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
 
     private weak var delegate: FilterCreatedDelegate?
 
+    /// The `LargeScreenDetailsLayout` when `FeatureFlag.largeScreenPodcastDetails` is on (iOS 27.1+)
+    var largeScreenLayoutStorage: AnyObject?
+
+    /// Whether the header is in a column next to the episodes, which then start with the search field
+    var isShowingLargeScreenSplit: Bool {
+        if #available(iOS 27.1, *) {
+            return largeScreenLayout?.isSplit == true
+        }
+        return false
+    }
+
     lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
         self?.reload(with: $0)
     }
@@ -203,6 +214,9 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        if #available(iOS 27.1, *) {
+            updateLargeScreenLayoutIfNeeded()
+        }
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
         let keyboardHeight = max(0, view.bounds.maxY - view.keyboardLayoutGuide.layoutFrame.minY)
         let keyBoardHeight = viewModel.isSearching ? keyboardHeight : 0
@@ -309,13 +323,19 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             multiSelectFooterBottomConstraint,
             multiSelectFooter.heightAnchor.constraint(equalToConstant: 64),
         ])
+
+        if #available(iOS 27.1, *), LargeScreenDetailsLayout.isEnabled {
+            setUpLargeScreenLayout()
+        }
     }
 
-    private func updateColors() {
+    func updateColors() {
+        // The header column has the same background as the episodes next to it
+        view.backgroundColor = isShowingLargeScreenSplit ? ThemeColor.primaryUi02() : AppTheme.viewBackgroundColor
         tableView.reloadData()
         navTitleLabel.textColor = ThemeColor.primaryText01()
         searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
-        searchHeaderView.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
+        searchHeaderView.backgroundColor = isShowingLargeScreenSplit ? .clear : AppTheme.colorForStyle(.primaryUi02)
     }
 
     private func setupRefreshControl() {
@@ -362,7 +382,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             }
             tableView.reloadData()
         }
-        blurHeaderView.isHidden = viewModel.episodes.isEmpty
+        blurHeaderView.isHidden = viewModel.episodes.isEmpty || isShowingLargeScreenSplit
         reloadEmptyState()
         refreshMultiSelectEpisodes()
 
@@ -491,8 +511,9 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     }
 
     /// Empty state has no scrolling, so force the title to show regardless of scroll position.
+    /// The header column always shows the title.
     func updateNavTitleVisibility(animated: Bool) {
-        let shouldShow = isScrolledPastHeader || viewModel.shouldShowEmptyPlaceholder
+        let shouldShow = !isShowingLargeScreenSplit && (isScrolledPastHeader || viewModel.shouldShowEmptyPlaceholder)
         let targetAlpha: CGFloat = shouldShow ? 1 : 0
         if animated {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {

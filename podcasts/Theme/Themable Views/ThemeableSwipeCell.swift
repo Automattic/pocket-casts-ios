@@ -16,6 +16,21 @@ class ThemeableSwipeCell: SwipeTableViewCell {
         }
     }
 
+    /// Lets the table show through the row background while the cell isn't highlighted
+    var isTransparent = false {
+        didSet {
+            guard isTransparent != oldValue else { return }
+            setHighlightedState(isHighlighted || isSelected)
+        }
+    }
+
+    private var restingBackgroundColor: UIColor {
+        if isTransparent, style == .primaryUi02 {
+            return .clear
+        }
+        return AppTheme.colorForStyle(style, themeOverride: themeOverride)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -42,7 +57,7 @@ class ThemeableSwipeCell: SwipeTableViewCell {
     func handleThemeDidChange() {}
 
     func updateColor() {
-        updateBgColor(AppTheme.colorForStyle(style, themeOverride: themeOverride))
+        updateBgColor(restingBackgroundColor)
         accessoryView?.tintColor = AppTheme.colorForStyle(iconStyle, themeOverride: themeOverride)
         tintColor = AppTheme.colorForStyle(iconStyle, themeOverride: themeOverride)
 
@@ -53,7 +68,7 @@ class ThemeableSwipeCell: SwipeTableViewCell {
         if highlighted {
             updateBgColor(AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride))
         } else {
-            updateBgColor(AppTheme.colorForStyle(style, themeOverride: themeOverride))
+            updateBgColor(restingBackgroundColor)
         }
     }
 
