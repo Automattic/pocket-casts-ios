@@ -57,7 +57,11 @@ extension PlayerContainerViewController {
         let arrangementController = layout.arrangementController
         arrangementController.setViewController(layout.playerPane, for: .primary)
         arrangementController.setViewController(layout.tabsPane, for: .secondary)
-        arrangementController.updateArrangement(UISplitArrangement().axes(.horizontal))
+        var arrangement = UISplitArrangement().axes(.horizontal)
+        var playerProperties = arrangement.defaultViewProperties
+        playerProperties.width.preferred = .fractional(0.45)
+        arrangement.setViewProperties(playerProperties, for: .primary)
+        arrangementController.updateArrangement(arrangement)
         addChild(arrangementController)
         arrangementController.view.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(arrangementController.view, aboveSubview: layout.background)
