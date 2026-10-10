@@ -34,6 +34,7 @@
 - Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
 - Fix the lock screen and Control Center skip buttons skipping to the next chapter instead of by seconds when Headphone Controls is set to Next Chapter [#5207](https://github.com/Automattic/pocket-casts-ios/pull/5207)
 - Show Now Playing and its Transcript, Details, Chapters, and Bookmarks tabs side by side on iPad and unfolded iPhone Duo on iOS 27.1 and later [#5432](https://github.com/Automattic/pocket-casts-ios/pull/5432)
+- Fix the sign-up link and the "Your shows, on any device!" notification showing the create-account screen when you're already signed in. They now open the Profile tab [#5435](https://github.com/Automattic/pocket-casts-ios/pull/5435)
 
 8.22
 -----
