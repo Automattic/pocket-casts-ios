@@ -4,6 +4,7 @@ import GoogleSignIn
 
 enum GoogleSocialLoginError: Error {
     case emptyIdToken
+    case missingClientID
 }
 
 class GoogleSocialLogin: SocialLogin {
@@ -25,12 +26,12 @@ class GoogleSocialLogin: SocialLogin {
 
     @MainActor
     private func idToken(from viewController: UIViewController) async throws -> String {
-        try await withUnsafeThrowingContinuation { continuation in
-            GIDSignIn.sharedInstance.configuration = GIDConfiguration(
-                clientID: ApiCredentials.googleSignInSecret,
-                serverClientID: ApiCredentials.googleSignInServerClientId
-            )
+        GIDSignIn.sharedInstance.configuration = try Self.makeConfiguration(
+            clientID: ApiCredentials.googleSignInSecret,
+            serverClientID: ApiCredentials.googleSignInServerClientId
+        )
 
+        return try await withUnsafeThrowingContinuation { continuation in
             GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { signInResult, error in
                 if let error {
 
@@ -51,5 +52,12 @@ class GoogleSocialLogin: SocialLogin {
                 continuation.resume(returning: idToken)
             }
         }
+    }
+
+    static func makeConfiguration(clientID: String, serverClientID: String) throws -> GIDConfiguration {
+        guard !clientID.isEmpty else {
+            throw GoogleSocialLoginError.missingClientID
+        }
+        return GIDConfiguration(clientID: clientID, serverClientID: serverClientID)
     }
 }
