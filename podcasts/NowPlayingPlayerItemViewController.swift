@@ -276,6 +276,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         setUpArtworkImageView()
         letTitleInfoGrow()
+        limitShelfWidth()
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -449,6 +450,24 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             preferredHeight,
             titleInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: fixedHeight.constant),
             titleView.topAnchor.constraint(greaterThanOrEqualTo: episodeInfoView.topAnchor, constant: 12)
+        ])
+    }
+
+    /// Keeps the shelf in the large screen player from stretching across a wide Now Playing, as
+    /// on iPad, by letting it be narrower than the edges it's pinned to. It stays centered.
+    private func limitShelfWidth() {
+        guard usesLargeScreenStyle,
+              let shelfStackView = shelfBg.superview,
+              let leading = shelfStackView.constraints.first(where: { $0.firstItem === shelfBg && $0.firstAttribute == .leading && $0.secondAttribute == .leadingMargin }),
+              let trailing = shelfStackView.constraints.first(where: { $0.secondItem === shelfBg && $0.secondAttribute == .trailing && $0.firstAttribute == .trailingMargin }) else { return }
+
+        let preferredWidth = shelfBg.widthAnchor.constraint(equalToConstant: 440)
+        preferredWidth.priority = .defaultHigh
+        NSLayoutConstraint.deactivate([leading, trailing])
+        NSLayoutConstraint.activate([
+            shelfBg.leadingAnchor.constraint(greaterThanOrEqualTo: shelfStackView.layoutMarginsGuide.leadingAnchor, constant: leading.constant),
+            shelfStackView.layoutMarginsGuide.trailingAnchor.constraint(greaterThanOrEqualTo: shelfBg.trailingAnchor, constant: trailing.constant),
+            preferredWidth
         ])
     }
 
