@@ -135,12 +135,12 @@
                         <constraint firstItem="Bqa-eT-t3r" firstAttribute="leading" secondItem="AxG-ti-suk" secondAttribute="leading" constant="8" id="1bY-32-Orr"/>
                         <constraint firstItem="aWD-bx-vF2" firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="3o7-NK-mt2"/>
                         <constraint firstItem="aWD-bx-vF2" firstAttribute="trailing" secondItem="rTj-uk-yNW" secondAttribute="trailing" id="7jR-Np-bxm"/>
-                        <constraint firstItem="CjL-4C-tuh" firstAttribute="leading" secondItem="92g-6h-Yd9" secondAttribute="trailing" constant="14" id="Hpx-DY-ja8"/>
+                        <constraint firstItem="CjL-4C-tuh" firstAttribute="left" secondItem="92g-6h-Yd9" secondAttribute="right" constant="14" id="Hpx-DY-ja8"/>
                         <constraint firstItem="Bqa-eT-t3r" firstAttribute="centerY" secondItem="rTj-uk-yNW" secondAttribute="centerY" constant="-1" id="Lbg-0F-tuy"/>
                         <constraint firstItem="CjL-4C-tuh" firstAttribute="centerX" secondItem="AxG-ti-suk" secondAttribute="centerX" id="QrQ-7f-Rhl"/>
                         <constraint firstItem="92g-6h-Yd9" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="ROp-c6-jc0"/>
                         <constraint firstItem="AxG-ti-suk" firstAttribute="trailing" secondItem="nTH-nm-IG6" secondAttribute="trailing" constant="4" id="Rz8-a5-0NK"/>
-                        <constraint firstItem="JHq-wc-GDV" firstAttribute="leading" secondItem="CjL-4C-tuh" secondAttribute="trailing" constant="14" id="VlI-G2-BRC"/>
+                        <constraint firstItem="JHq-wc-GDV" firstAttribute="left" secondItem="CjL-4C-tuh" secondAttribute="right" constant="14" id="VlI-G2-BRC"/>
                         <constraint firstItem="JHq-wc-GDV" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="Wjy-z8-CWj"/>
                         <constraint firstItem="nTH-nm-IG6" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="f40-dR-nqk"/>
                         <constraint firstItem="CjL-4C-tuh" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="hcs-EK-GcX"/>
