@@ -444,7 +444,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreUnsuccessfulBackgroundUpNextSync:
             true
         case .largeScreenNowPlaying:
-            false
+            true
         case .transcriptDebugOverlay:
             false
         }
