@@ -60,7 +60,12 @@ extension PlaylistDetailViewController {
     }
 
     func set(configuration: UIContentConfiguration?) {
-        self.setContentUnavailableConfiguration(configuration)
+        // Next to the header column, the empty state only covers the episodes
+        var container: UIViewController = self
+        if #available(iOS 27.1, *), let layout = largeScreenLayout, layout.isSplit {
+            container = layout.listPane
+        }
+        container.setContentUnavailableConfiguration(configuration)
     }
 
     private func emptyStateAction() {

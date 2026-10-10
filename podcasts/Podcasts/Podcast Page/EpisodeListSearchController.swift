@@ -65,6 +65,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UITextFiel
         }
     }
 
+    /// Lets the views behind the header show through its background
+    var isTransparent = false {
+        didSet {
+            guard isViewLoaded else { return }
+            themeChanged()
+        }
+    }
+
     var isOverflowButtonEnabled = true {
         didSet {
             overflowButton?.isEnabled = isOverflowButtonEnabled
@@ -178,7 +186,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UITextFiel
     // MARK: - Appearance
 
     @objc private func themeChanged() {
-        view.backgroundColor = ThemeColor.primaryUi02()
+        view.backgroundColor = isTransparent ? .clear : ThemeColor.primaryUi02()
 
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.textColor = ThemeColor.primaryText02()
