@@ -315,7 +315,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let topMargin = showFromEpisode ? 8.0 : 0.0
         if isPlayerTab {
             NSLayoutConstraint.activate([
-                stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.floatingButtonsMargin),
+                stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.floatingButtonsBottomMargin),
                 stackView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -Sizes.textMargin)
             ])
         } else {
@@ -562,7 +562,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     var bottomContainerInset: CGFloat {
         // A tab's transcript ends above the buttons floating over it.
         if isPlayerTab {
-            return view.safeAreaInsets.bottom + stackView.bounds.height + 2 * Sizes.floatingButtonsMargin
+            return view.safeAreaInsets.bottom + Sizes.floatingButtonsBottomMargin + stackView.bounds.height + Sizes.floatingButtonsMargin
         }
         return 0.7 * Sizes.bottomGradientHeight
     }
@@ -1221,6 +1221,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         static let activityIndicatorSize: CGFloat = 30
         static let textMargin: CGFloat = 8
         static let floatingButtonsMargin: CGFloat = 16
+        static let floatingButtonsBottomMargin: CGFloat = 4
     }
 
     private enum Colors {
