@@ -124,7 +124,6 @@ extension NetworkNavigator: DiscoverDelegate {
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {}
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {}
     func failedToLoadEpisode() {}
-    func invalidate(item: DiscoverItem) {}
     func navigateTo(category: String) {}
     func navigateTo(listID: String) {}
 }

@@ -212,6 +212,7 @@ extension DiscoverCollectionViewController {
     private func setupCollectionView() {
         let layout = createCompositionalLayout()
         collectionView.collectionViewLayout = layout
+        collectionView.selfSizingInvalidation = .enabledIncludingConstraints
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([

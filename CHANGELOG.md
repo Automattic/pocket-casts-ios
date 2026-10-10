@@ -1,6 +1,7 @@
 8.23
 -----
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
+- Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
 - Fix closing a folder's Add or Remove Podcasts sheet saving the selection. The sheet now has a Done button, and creating a folder with no podcasts selected shows "Skip" instead of "Add 0 Podcasts" [#5312](https://github.com/Automattic/pocket-casts-ios/pull/5312)
 - Fix the podcast page sometimes freezing and no longer scrolling after expanding a long description [#5319](https://github.com/Automattic/pocket-casts-ios/pull/5319)
