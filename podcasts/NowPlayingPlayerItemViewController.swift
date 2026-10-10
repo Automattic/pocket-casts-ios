@@ -390,6 +390,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfBg.layer.cornerRadius = shelfBg.bounds.height / 2
         }
 
+        updateShelfSpacing()
+
         // there's some expensive operations in resizeControls,
         // so only do them if the bounds has actually changed
         if lastBoundsAdjustedFor == view.bounds { return }
@@ -428,6 +430,24 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
+    }
+
+    /// Gives each shelf button the same space on both sides in the large screen player, where the
+    /// shelf is wide, instead of pushing the first and last ones to its edges.
+    private func updateShelfSpacing() {
+        guard usesLargeScreenStyle else { return }
+
+        let buttons = playerControlsStackView.arrangedSubviews.filter { !$0.isHidden }
+        guard !buttons.isEmpty, shelfBg.bounds.width > 0 else { return }
+
+        let buttonsWidth = CGFloat(buttons.count) * shelfIconSize
+        let shelfInset = (shelfBg.bounds.width - playerControlsStackView.bounds.width) / 2
+        let buttonInset = (shelfBg.bounds.width - buttonsWidth) / CGFloat(2 * buttons.count)
+        let margin = max(0, buttonInset - shelfInset)
+        guard playerControlsStackView.directionalLayoutMargins.leading != margin else { return }
+
+        playerControlsStackView.isLayoutMarginsRelativeArrangement = true
+        playerControlsStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: margin, bottom: 0, trailing: margin)
     }
 
     private var artworkCornerRadius: CGFloat {
