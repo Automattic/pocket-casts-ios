@@ -167,6 +167,7 @@ struct CloseButton: View {
                 .imageScale(.small)
         })
         .buttonStyle(CategoryButtonStyle(cornerStyle: .circle))
+        .accessibilityLabel(L10n.discoverClearCategory)
     }
 }
 
@@ -199,6 +200,7 @@ struct CategoryButton: View {
             Text(category.name ?? "")
         })
         .buttonStyle(CategoryButtonStyle(isSelected: isSelected))
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

@@ -574,6 +574,9 @@
 /* Prompt to allow the user to manually change the regional information for the Discover tab. '%1$@' is a placeholder for the current region. */
 "discover_change_region" = "Change Region, currently %1$@";
 
+/* Accessibility label for the X button next to the selected category pill on Discover. Clears the selected category so all categories are shown again. */
+"discover_clear_category" = "Clear Category";
+
 /* Badge used to mark featured podcasts. */
 "discover_featured" = "Featured";
 
