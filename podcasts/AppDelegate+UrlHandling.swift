@@ -414,7 +414,11 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/signup") {[weak self] _ -> Bool in
             guard self != nil else { return false }
-            NavigationManager.shared.navigateTo(NavigationManager.signUpPageKey)
+            if SyncManager.isUserLoggedIn() {
+                NavigationManager.shared.navigateTo(NavigationManager.settingsProfileKey)
+            } else {
+                NavigationManager.shared.navigateTo(NavigationManager.signUpPageKey)
+            }
             return true
         }
 
