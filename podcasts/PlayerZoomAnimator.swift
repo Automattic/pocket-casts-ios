@@ -586,8 +586,8 @@ extension PlayerContainerViewController {
     fileprivate func setPlayerHeaderHidden(_ hidden: Bool, animated: Bool, delay: TimeInterval = 0) {
         let target: CGFloat = hidden ? 0 : 1
         var headerViews: [UIView] = [headerView]
-        if #available(iOS 27.1, *), let grabber = largeScreenGrabber {
-            headerViews.append(grabber)
+        if #available(iOS 27.1, *) {
+            headerViews += largeScreenHeaderViews
         }
         guard animated else {
             headerViews.forEach { $0.alpha = target }
