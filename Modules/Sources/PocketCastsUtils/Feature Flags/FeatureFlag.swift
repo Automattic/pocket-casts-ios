@@ -260,6 +260,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// over a blurred artwork background
     case largeScreenNowPlaying
 
+    /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
+    case transcriptDebugOverlay
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -441,6 +444,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreUnsuccessfulBackgroundUpNextSync:
             true
         case .largeScreenNowPlaying:
+            false
+        case .transcriptDebugOverlay:
             false
         }
     }

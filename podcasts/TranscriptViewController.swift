@@ -278,16 +278,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         view.addSubview(hiddenTextView)
 
         #if DEBUG
-        let overlay = FingerprintDebugOverlay()
-        overlay.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(overlay)
-        NSLayoutConstraint.activate([
-            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            overlay.heightAnchor.constraint(equalToConstant: 16)
-        ])
-        debugOverlay = overlay
+        if FeatureFlag.transcriptDebugOverlay.enabled {
+            let overlay = FingerprintDebugOverlay()
+            overlay.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(overlay)
+            NSLayoutConstraint.activate([
+                overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+                overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+                overlay.heightAnchor.constraint(equalToConstant: 16)
+            ])
+            debugOverlay = overlay
+        }
         #endif
 
         if !isPlayerTab {
@@ -564,13 +566,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         addObservers()
         transcriptView.delegate = self
 #if DEBUG
-        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated {
-                self?.debugOverlay?.update()
+        if FeatureFlag.transcriptDebugOverlay.enabled {
+            let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    self?.debugOverlay?.update()
+                }
             }
+            RunLoop.main.add(timer, forMode: .common)
+            debugTimer = timer
         }
-        RunLoop.main.add(timer, forMode: .common)
-        debugTimer = timer
 #endif
     }
 
