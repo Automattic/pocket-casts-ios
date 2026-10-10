@@ -44,6 +44,11 @@ final class BookmarkListController {
     /// The search header, kept in its own cell so reloading the list doesn't take the keyboard
     /// focus away from the field
     private let searchController = EpisodeListSearchController()
+
+    /// The search field in the list, a child of the page
+    var searchHeaderController: UIViewController {
+        searchController
+    }
     private let searchCell = UITableViewCell()
 
     private var rows: [Row] = []

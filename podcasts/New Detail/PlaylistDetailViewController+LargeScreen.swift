@@ -12,39 +12,34 @@ extension PlaylistDetailViewController {
         background.backgroundColor = .clear
         let layout = LargeScreenDetailsLayout(background: background)
         largeScreenLayoutStorage = layout
-
-        // Re-add the episodes and their multi-select footer, which drops their constraints, to
-        // follow the list pane.
-        let tableIndex = view.subviews.firstIndex(of: tableView) ?? 0
-        tableView.removeFromSuperview()
-        multiSelectFooter.removeFromSuperview()
-        view.insertSubview(tableView, at: tableIndex)
-        view.addSubview(multiSelectFooter)
         layout.install(in: self, below: tableView)
+        moveEpisodesToLargeScreenHost()
+    }
 
-        let listGuide = layout.listGuide
-        let safeArea = view.safeAreaLayoutGuide
-        let footerBottomAnchor = LiquidGlass.isEnabled ? view.bottomAnchor : safeArea.bottomAnchor
-        let footerBottom = footerBottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor, constant: multiSelectFooterBottomConstraint.constant)
-        let footerLeading = multiSelectFooter.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor, constant: 8)
-        footerLeading.priority = .defaultHigh
-        let footerTrailing = listGuide.trailingAnchor.constraint(equalTo: multiSelectFooter.trailingAnchor, constant: 8)
-        footerTrailing.priority = .defaultHigh
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: listGuide.trailingAnchor),
-            blurHeaderView.heightAnchor.constraint(equalTo: listGuide.widthAnchor, constant: 40),
-            blurHeaderView.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor, constant: -20),
-            blurHeaderView.trailingAnchor.constraint(equalTo: listGuide.trailingAnchor, constant: 20),
-            footerLeading,
-            footerTrailing,
-            multiSelectFooter.leadingAnchor.constraint(greaterThanOrEqualTo: safeArea.leadingAnchor, constant: 8),
-            safeArea.trailingAnchor.constraint(greaterThanOrEqualTo: multiSelectFooter.trailingAnchor, constant: 8),
-            footerBottom
-        ])
-        multiSelectFooterBottomConstraint = footerBottom
+    /// Moves the episodes and their multi-select footer to the view controller that shows them,
+    /// with the search field in them
+    private func moveEpisodesToLargeScreenHost() {
+        guard let layout = largeScreenLayout else { return }
+
+        let footerBottomConstant = multiSelectFooterBottomConstraint.constant
+        layout.moveList([tableView, multiSelectFooter], children: [searchController]) { hostView in
+            let safeArea = hostView.safeAreaLayoutGuide
+            let footerBottomAnchor = LiquidGlass.isEnabled ? hostView.bottomAnchor : safeArea.bottomAnchor
+            let footerBottom = footerBottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor, constant: footerBottomConstant)
+            multiSelectFooterBottomConstraint = footerBottom
+            return [
+                tableView.topAnchor.constraint(equalTo: hostView.topAnchor),
+                tableView.leadingAnchor.constraint(equalTo: hostView.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: hostView.trailingAnchor),
+                tableView.bottomAnchor.constraint(equalTo: hostView.bottomAnchor),
+                blurHeaderView.heightAnchor.constraint(equalTo: hostView.widthAnchor, constant: 40),
+                blurHeaderView.leadingAnchor.constraint(equalTo: hostView.leadingAnchor, constant: -20),
+                blurHeaderView.trailingAnchor.constraint(equalTo: hostView.trailingAnchor, constant: 20),
+                multiSelectFooter.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
+                safeArea.trailingAnchor.constraint(equalTo: multiSelectFooter.trailingAnchor, constant: 8),
+                footerBottom
+            ]
+        }
     }
 
     /// Moves the header between its column and the first row of the episodes, which start with
@@ -52,6 +47,7 @@ extension PlaylistDetailViewController {
     func updateLargeScreenLayoutIfNeeded() {
         guard let layout = largeScreenLayout, layout.update() else { return }
 
+        moveEpisodesToLargeScreenHost()
         if layout.isSplit {
             let header = PlaylistHeaderColumnView(viewModel: viewModel) { [weak layout] offset in
                 layout?.headerScrollOffset = offset

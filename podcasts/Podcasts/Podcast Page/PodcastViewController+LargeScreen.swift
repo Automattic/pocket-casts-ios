@@ -12,41 +12,11 @@ extension PodcastViewController {
         background.backgroundColor = .clear
         let layout = LargeScreenDetailsLayout(background: background)
         largeScreenLayoutStorage = layout
-
-        // Re-add the episodes and their multi-select footer, which drops their constraints, to
-        // follow the list pane.
-        let tableIndex = view.subviews.firstIndex(of: episodesTable) ?? 0
-        episodesTable.removeFromSuperview()
-        multiSelectFooter.removeFromSuperview()
-        view.insertSubview(episodesTable, at: tableIndex)
-        view.addSubview(multiSelectFooter)
         layout.install(in: self, below: episodesTable)
         // The empty loading container of the XIB is always behind the episodes, but it would
         // cover the header column
         loadingBgView.superview?.isHidden = true
-
-        let listGuide = layout.listGuide
-        let safeArea = view.safeAreaLayoutGuide
-        let footerBottom = safeArea.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor, constant: multiSelectFooterBottomConstraint.constant)
-        let footerLeading = multiSelectFooter.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor, constant: 8)
-        footerLeading.priority = .defaultHigh
-        let footerTrailing = listGuide.trailingAnchor.constraint(equalTo: multiSelectFooter.trailingAnchor, constant: 8)
-        footerTrailing.priority = .defaultHigh
-        NSLayoutConstraint.activate([
-            episodesTable.topAnchor.constraint(equalTo: view.topAnchor),
-            episodesTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            episodesTable.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor),
-            episodesTable.trailingAnchor.constraint(equalTo: listGuide.trailingAnchor),
-            blurHeaderView.heightAnchor.constraint(equalTo: listGuide.widthAnchor, constant: 40),
-            blurHeaderView.leadingAnchor.constraint(equalTo: listGuide.leadingAnchor, constant: -20),
-            blurHeaderView.trailingAnchor.constraint(equalTo: listGuide.trailingAnchor, constant: 20),
-            footerLeading,
-            footerTrailing,
-            multiSelectFooter.leadingAnchor.constraint(greaterThanOrEqualTo: safeArea.leadingAnchor, constant: 8),
-            safeArea.trailingAnchor.constraint(greaterThanOrEqualTo: multiSelectFooter.trailingAnchor, constant: 8),
-            footerBottom
-        ])
-        multiSelectFooterBottomConstraint = footerBottom
+        moveEpisodesToLargeScreenHost()
     }
 
     /// Moves the header between its column and the first row of the episodes, which start with
@@ -54,6 +24,7 @@ extension PodcastViewController {
     func updateLargeScreenLayoutIfNeeded() {
         guard let layout = largeScreenLayout, layout.update() else { return }
 
+        moveEpisodesToLargeScreenHost()
         // The episodes are transparent next to the header column, so its glow continues behind them
         blurHeaderView.isHidden = layout.isSplit
         episodesTable.isTransparent = layout.isSplit
@@ -62,6 +33,41 @@ extension PodcastViewController {
         updateLargeScreenHeader()
         scrollViewDidScroll(episodesTable)
         updateColors()
+    }
+
+    /// Gives the pane that shows the episodes the view controllers they host, such as the bookmark
+    /// list's search field, created after the episodes moved
+    func adoptLargeScreenListChildren() {
+        largeScreenLayout?.adoptListChildren(largeScreenListChildren)
+    }
+
+    /// The view controllers in the episodes, which move with them
+    private var largeScreenListChildren: [UIViewController] {
+        [searchController, bookmarkList?.searchHeaderController, createdPodcastHeaderCell?.hostingController].compactMap { $0 }
+    }
+
+    /// Moves the episodes and their multi-select footer to the view controller that shows them
+    private func moveEpisodesToLargeScreenHost() {
+        guard let layout = largeScreenLayout else { return }
+
+        let footerBottomConstant = multiSelectFooterBottomConstraint.constant
+        layout.moveList([episodesTable, multiSelectFooter], children: largeScreenListChildren) { hostView in
+            let safeArea = hostView.safeAreaLayoutGuide
+            let footerBottom = safeArea.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor, constant: footerBottomConstant)
+            multiSelectFooterBottomConstraint = footerBottom
+            return [
+                episodesTable.topAnchor.constraint(equalTo: hostView.topAnchor),
+                episodesTable.leadingAnchor.constraint(equalTo: hostView.leadingAnchor),
+                episodesTable.trailingAnchor.constraint(equalTo: hostView.trailingAnchor),
+                episodesTable.bottomAnchor.constraint(equalTo: hostView.bottomAnchor),
+                blurHeaderView.heightAnchor.constraint(equalTo: hostView.widthAnchor, constant: 40),
+                blurHeaderView.leadingAnchor.constraint(equalTo: hostView.leadingAnchor, constant: -20),
+                blurHeaderView.trailingAnchor.constraint(equalTo: hostView.trailingAnchor, constant: 20),
+                multiSelectFooter.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
+                safeArea.trailingAnchor.constraint(equalTo: multiSelectFooter.trailingAnchor, constant: 8),
+                footerBottom
+            ]
+        }
     }
 
     /// Shows the header in its column once the podcast has loaded

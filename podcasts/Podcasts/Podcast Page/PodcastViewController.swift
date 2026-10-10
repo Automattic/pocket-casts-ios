@@ -466,8 +466,13 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     lazy var podcastHeaderViewModel = PodcastHeaderViewModel(podcast: podcast!, delegate: self)
 
     lazy var podcastHeaderCell: PodcastHeaderCell = {
-        return PodcastHeaderCell(viewModel: podcastHeaderViewModel, vc: self)
+        let cell = PodcastHeaderCell(viewModel: podcastHeaderViewModel, vc: self)
+        createdPodcastHeaderCell = cell
+        return cell
     }()
+
+    /// `podcastHeaderCell` once it's created
+    private(set) var createdPodcastHeaderCell: PodcastHeaderCell?
 
     /// The first row in place of the header when the header has its own column
     lazy var podcastTabsCell: UITableViewCell = {

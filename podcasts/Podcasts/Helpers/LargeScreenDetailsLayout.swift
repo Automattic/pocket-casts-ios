@@ -5,19 +5,16 @@ import UIKit
 ///
 /// A `UIArrangementViewController` shows the page's header as its primary view and the episode
 /// list as its secondary one. When the arrangement has room, the header sits in a column next to
-/// the list. Otherwise it only shows the primary view, and the list covers it with the header as
-/// its first row, like on iPhone.
+/// the list, which the page moves into the list pane. Otherwise it only shows the primary view,
+/// and the page shows the list itself with the header as its first row, like on iPhone.
 ///
-/// The list stays in the page's own view, because its cells and section headers host view
-/// controllers that are children of the page. It follows the list pane through `listGuide`.
+/// The list's cells and section headers host view controllers, such as search fields, which move
+/// with it, because UIKit requires a child's view to be in its parent's view.
 @available(iOS 27.1, *)
 final class LargeScreenDetailsLayout {
     let arrangementController = UIArrangementViewController()
     let headerPane = LargeScreenDetailsPaneViewController()
     let listPane = LargeScreenDetailsPaneViewController()
-
-    /// The frame of the list: the list pane when it's next to the header, otherwise the whole page
-    let listGuide = UILayoutGuide()
 
     /// The page's blurred artwork, behind the top of the header column
     let background: UIView
@@ -39,9 +36,7 @@ final class LargeScreenDetailsLayout {
     private weak var parent: UIViewController?
     private let backgroundMask = CAGradientLayer()
     private var headerController: UIViewController?
-    private var horizontalSizeClass: UIUserInterfaceSizeClass?
-    private var listLeftConstraint: NSLayoutConstraint?
-    private var listRightConstraint: NSLayoutConstraint?
+    private var listConstraints: [NSLayoutConstraint] = []
 
     static var isEnabled: Bool {
         FeatureFlag.largeScreenPodcastDetails.enabled
@@ -59,6 +54,14 @@ final class LargeScreenDetailsLayout {
         arrangementController.setViewController(headerPane, for: .primary)
         arrangementController.setViewController(listPane, for: .secondary)
         arrangementController.updateArrangement(arrangement)
+
+        // The arrangement can lay out its panes without the page laying out, for example after
+        // a trait change, so the page reads the arrangement again whenever a pane changes
+        for pane in [headerPane, listPane] {
+            pane.onLayoutChange = { [weak self] in
+                self?.parent?.view.setNeedsLayout()
+            }
+        }
     }
 
     /// Adds the arrangement to the page right behind its list
@@ -76,45 +79,80 @@ final class LargeScreenDetailsLayout {
         view.insertSubview(arrangementController.view, belowSubview: listView)
         arrangementController.view.anchorToAllSidesOf(view: view)
         arrangementController.didMove(toParent: parent)
-
-        view.addLayoutGuide(listGuide)
-        let listLeftConstraint = listGuide.leftAnchor.constraint(equalTo: view.leftAnchor)
-        let listRightConstraint = view.rightAnchor.constraint(equalTo: listGuide.rightAnchor)
-        NSLayoutConstraint.activate([
-            listGuide.topAnchor.constraint(equalTo: view.topAnchor),
-            listGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            listLeftConstraint,
-            listRightConstraint
-        ])
-        self.listLeftConstraint = listLeftConstraint
-        self.listRightConstraint = listRightConstraint
     }
 
-    /// Reads whether the arrangement shows the list next to the header and moves `listGuide` to
-    /// the list pane. Returns `true` when the header moved between its column and the list.
-    func update() -> Bool {
-        guard let view = parent?.view, let windowScene = view.window?.windowScene, let listPaneView = listPane.view else { return false }
+    /// The view controller that shows the list: the list pane next to the header column,
+    /// otherwise the page
+    var listHost: UIViewController? {
+        isSplit ? listPane : parent
+    }
 
-        // `MainTabBarController` forces a compact size class on iPad, which its tabs don't always
-        // undo after launch, so pass the scene's own size class to the arrangement.
-        let horizontalSizeClass = windowScene.traitCollection.horizontalSizeClass
-        if self.horizontalSizeClass != horizontalSizeClass {
-            self.horizontalSizeClass = horizontalSizeClass
-            arrangementController.traitOverrides.horizontalSizeClass = horizontalSizeClass
+    /// Moves the list into `listHost`, along with the view controllers the list hosts.
+    ///
+    /// - parameter views: The list, then the views above it, such as its footer.
+    /// - parameter makeConstraints: The constraints of the views in the host's view.
+    func moveList(_ views: [UIView], children: [UIViewController], makeConstraints: (_ hostView: UIView) -> [NSLayoutConstraint]) {
+        guard let parent, let host = listHost, let hostView = host.view else { return }
+
+        NSLayoutConstraint.deactivate(listConstraints)
+        views.forEach { $0.removeFromSuperview() }
+        let movedChildren = adopt(children, in: host)
+        if host === parent {
+            // The list covers the header pane, right above the arrangement
+            var viewBelow: UIView = arrangementController.view
+            for view in views {
+                hostView.insertSubview(view, aboveSubview: viewBelow)
+                viewBelow = view
+            }
+        } else {
+            views.forEach { hostView.addSubview($0) }
+        }
+        movedChildren.forEach { $0.didMove(toParent: host) }
+        listConstraints = makeConstraints(hostView)
+        NSLayoutConstraint.activate(listConstraints)
+    }
+
+    /// Moves view controllers the list hosts to `listHost`, such as one created after the list moved
+    func adoptListChildren(_ children: [UIViewController]) {
+        guard let host = listHost else { return }
+
+        adopt(children, in: host).forEach { $0.didMove(toParent: host) }
+    }
+
+    private func adopt(_ children: [UIViewController], in host: UIViewController) -> [UIViewController] {
+        let movingChildren = children.filter { $0.parent !== host }
+        for child in movingChildren {
+            child.willMove(toParent: nil)
+            child.removeFromParent()
+            host.addChild(child)
+        }
+        return movingChildren
+    }
+
+    /// Reads whether the arrangement shows the list pane next to the header. Returns `true` when
+    /// that changed, and the page then moves the list with `moveList`.
+    func update() -> Bool {
+        guard let parent, let windowScene = parent.view.window?.windowScene, let listPaneView = listPane.view else { return false }
+
+        // `MainTabBarController` forces a compact size class on its tabs on iPad, which they don't
+        // always undo after launch. Only then does the arrangement get the scene's size class;
+        // otherwise it follows its own traits as the window resizes, such as when the Duo folds.
+        let sceneSizeClass = windowScene.traitCollection.horizontalSizeClass
+        let overrides = arrangementController.traitOverrides
+        if parent.traitCollection.horizontalSizeClass == sceneSizeClass {
+            if overrides.contains(UITraitHorizontalSizeClass.self) {
+                arrangementController.traitOverrides.remove(UITraitHorizontalSizeClass.self)
+            }
+        } else if !overrides.contains(UITraitHorizontalSizeClass.self) || overrides.horizontalSizeClass != sceneSizeClass {
+            arrangementController.traitOverrides.horizontalSizeClass = sceneSizeClass
         }
 
+        // The arrangement decides on the current traits before the page reads its state
+        arrangementController.updateTraitsIfNeeded()
         arrangementController.view.layoutIfNeeded()
         let isSplit = arrangementController.state(for: .secondary)?.isHidden == false
             && listPaneView.window != nil
             && !listPaneView.bounds.isEmpty
-
-        let listFrame = isSplit ? listPaneView.convert(listPaneView.bounds, to: view) : view.bounds
-        if listLeftConstraint?.constant != listFrame.minX {
-            listLeftConstraint?.constant = listFrame.minX
-        }
-        if listRightConstraint?.constant != view.bounds.maxX - listFrame.maxX {
-            listRightConstraint?.constant = view.bounds.maxX - listFrame.maxX
-        }
 
         let didChange = isSplit != self.isSplit
         if didChange {
@@ -209,8 +247,29 @@ extension UITableViewCell {
 
 /// A pane of `LargeScreenDetailsLayout`; the page lays out its content.
 final class LargeScreenDetailsPaneViewController: UIViewController {
+    /// Called when the arrangement moves, resizes or removes the pane
+    var onLayoutChange: (() -> Void)?
+
+    private var reportedFrame: CGRect?
+
     override func loadView() {
         view = UIView()
         view.backgroundColor = .clear
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let frame = view.convert(view.bounds, to: nil)
+        guard frame != reportedFrame else { return }
+        reportedFrame = frame
+        onLayoutChange?()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        reportedFrame = nil
+        onLayoutChange?()
     }
 }
