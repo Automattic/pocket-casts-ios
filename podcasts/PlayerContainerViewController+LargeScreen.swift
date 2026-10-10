@@ -91,6 +91,9 @@ extension PlayerContainerViewController {
         }
         layout.divider.translatesAutoresizingMaskIntoConstraints = false
         layout.divider.isUserInteractionEnabled = false
+        view.addInteraction(UIHingeInteraction { [weak layout] _, update in
+            layout?.divider.isHidden = update.hinge?.status == .partiallyOpen
+        })
 
         addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(largeScreenArtworkDidLoad))
         addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(largeScreenTranscriptAvailabilityDidChange(_:)))
