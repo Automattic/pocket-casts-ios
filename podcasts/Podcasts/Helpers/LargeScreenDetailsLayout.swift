@@ -193,11 +193,17 @@ final class LargeScreenDetailsLayout {
 }
 
 extension UITableViewCell {
-    /// Lets the table show through the row background of a themed cell, for a list next to the
-    /// header column of `LargeScreenDetailsLayout`
+    /// Lets the table show through the cell's background, with no selection background, for a list
+    /// next to the header column of `LargeScreenDetailsLayout`. Other cells set their selection
+    /// style again when they're configured.
     func setRowBackgroundTransparent(_ isTransparent: Bool) {
-        (self as? ThemeableCell)?.isTransparent = isTransparent
-        (self as? ThemeableSwipeCell)?.isTransparent = isTransparent
+        if let cell = self as? ThemeableCell {
+            cell.isTransparent = isTransparent
+        } else if let cell = self as? ThemeableSwipeCell {
+            cell.isTransparent = isTransparent
+        } else if isTransparent {
+            selectionStyle = .none
+        }
     }
 }
 

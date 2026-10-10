@@ -49,6 +49,15 @@ final class BookmarkListController {
     private var rows: [Row] = []
     private let style = TransparentBookmarksStyle()
 
+    /// Lets the table show through the search header, with no background on highlighted and
+    /// selected rows, for the list next to the large screen header column
+    var isTransparent = false {
+        didSet {
+            searchController.isTransparent = isTransparent
+            style.hidesRowSelection = isTransparent
+        }
+    }
+
     private var actionBarHost: UIHostingController<AnyView>?
     private var actionBarBottomConstraint: NSLayoutConstraint?
 
@@ -357,7 +366,12 @@ extension BookmarkPodcastListViewModel: EpisodeListSearchControllerDelegate {
 
 /// A bookmarks style that lets the podcast page background show through
 class TransparentBookmarksStyle: ThemedBookmarksStyle {
+    /// Turns off the background of highlighted and selected rows
+    @Published var hidesRowSelection = false
+
     override var background: Color { Color.clear }
+    override var rowHighlight: Color { hidesRowSelection ? .clear : super.rowHighlight }
+    override var rowSelected: Color { hidesRowSelection ? .clear : super.rowSelected }
 }
 
 /// Displayed instead of the list when there's nothing to show

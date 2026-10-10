@@ -58,6 +58,7 @@ extension PodcastViewController {
         blurHeaderView.isHidden = layout.isSplit
         episodesTable.isTransparent = layout.isSplit
         searchController?.isTransparent = layout.isSplit
+        bookmarkList?.isTransparent = layout.isSplit
         updateLargeScreenHeader()
         scrollViewDidScroll(episodesTable)
         updateColors()

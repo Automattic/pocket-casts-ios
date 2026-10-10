@@ -16,7 +16,8 @@ class ThemeableSwipeCell: SwipeTableViewCell {
         }
     }
 
-    /// Lets the table show through the row background while the cell isn't highlighted
+    /// Lets the table show through the row background, which then doesn't change when the cell is
+    /// highlighted or selected
     var isTransparent = false {
         didSet {
             guard isTransparent != oldValue else { return }
@@ -25,7 +26,7 @@ class ThemeableSwipeCell: SwipeTableViewCell {
     }
 
     private var restingBackgroundColor: UIColor {
-        if isTransparent, style == .primaryUi02 {
+        if isTransparent, style == .primaryUi02 || style == .primaryUi02Selected {
             return .clear
         }
         return AppTheme.colorForStyle(style, themeOverride: themeOverride)
@@ -65,7 +66,7 @@ class ThemeableSwipeCell: SwipeTableViewCell {
     }
 
     func setHighlightedState(_ highlighted: Bool) {
-        if highlighted {
+        if highlighted, !isTransparent {
             updateBgColor(AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride))
         } else {
             updateBgColor(restingBackgroundColor)
