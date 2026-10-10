@@ -113,7 +113,7 @@ extension NowPlayingPlayerItemViewController {
         timeSlider.popupTextColor = ThemeColor.playerContrast01()
 
         #if !APPCLIP
-        chromecastBtn.activeTintColor = highlightColor
+        chromecastBtn.activeTintColor = activeShelfButtonTintColor
         #endif
     }
 
