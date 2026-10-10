@@ -13,6 +13,7 @@ final class PlayerLargeScreenLayout {
     let tabsPane = PlayerArrangementPaneViewController()
     let background = PlayerArtworkBackgroundView()
     let grabber = PlayerGrabberView()
+    let divider = UIView()
 
     /// Whether the tabs are next to Now Playing rather than paged after it.
     var isSplit = false
@@ -82,6 +83,8 @@ extension PlayerContainerViewController {
         layout.grabber.onTap = { [weak self] in
             self?.closeNowPlaying()
         }
+        layout.divider.translatesAutoresizingMaskIntoConstraints = false
+        layout.divider.isUserInteractionEnabled = false
 
         addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(largeScreenArtworkDidLoad))
         addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(largeScreenTranscriptAvailabilityDidChange(_:)))
@@ -132,7 +135,7 @@ extension PlayerContainerViewController {
         NSLayoutConstraint.deactivate(layout.constraints)
         // The tab pages leave before their scroll view can move to the other pane.
         removeLargeScreenTabPages()
-        for movingView: UIView in [headerView, mainScrollView, transcriptContainerView, closeBtn, layout.grabber, nowPlayingView] {
+        for movingView: UIView in [headerView, mainScrollView, transcriptContainerView, closeBtn, layout.grabber, layout.divider, nowPlayingView] {
             movingView.removeFromSuperview()
         }
 
@@ -154,6 +157,7 @@ extension PlayerContainerViewController {
         if isSplit {
             playerPaneView.addSubview(nowPlayingView)
             playerPaneView.addSubview(layout.grabber)
+            tabsHostView.addSubview(layout.divider)
             constraints += [
                 // Line Now Playing up with the pages under the header on the other side.
                 nowPlayingView.topAnchor.constraint(equalTo: playerSafeArea.topAnchor, constant: Self.largeScreenHeaderHeight),
@@ -162,6 +166,10 @@ extension PlayerContainerViewController {
                 nowPlayingView.bottomAnchor.constraint(equalTo: playerPaneView.bottomAnchor),
                 layout.grabber.centerXAnchor.constraint(equalTo: playerSafeArea.centerXAnchor),
                 layout.grabber.centerYAnchor.constraint(equalTo: playerSafeArea.topAnchor, constant: Self.largeScreenHeaderHeight / 2),
+                layout.divider.topAnchor.constraint(equalTo: tabsHostView.topAnchor),
+                layout.divider.bottomAnchor.constraint(equalTo: tabsHostView.bottomAnchor),
+                layout.divider.leadingAnchor.constraint(equalTo: tabsHostView.leadingAnchor),
+                layout.divider.widthAnchor.constraint(equalToConstant: 1),
                 tabsView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16)
             ]
         } else {
@@ -389,6 +397,7 @@ extension PlayerContainerViewController {
 
         layout.background.update(episode: PlaybackManager.shared.currentEpisode, tintColor: PlayerColorHelper.playerBackgroundColor01())
         layout.grabber.updateColors()
+        layout.divider.backgroundColor = ThemeColor.playerContrast05()
     }
 
     @objc private func largeScreenArtworkDidLoad() {
