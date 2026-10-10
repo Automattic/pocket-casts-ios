@@ -41,20 +41,41 @@ class ThemeableTable: UITableView {
         updateColor()
     }
 
+    private var separatorInsetWithoutLeftSafeArea: UIEdgeInsets?
+
     override func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
-        guard safeAreaInsets.left > 0 || safeAreaInsets.right > 0 else { return }
+        guard safeAreaInsets.left > 0 || safeAreaInsets.right > 0 else {
+            updateSeparatorInset(margin: 0)
+            return
+        }
+        let minimumMargin: CGFloat = traitCollection.horizontalSizeClass == .regular ? 20 : 16
         let margin: CGFloat
         if safeAreaInsets.left == 0 {
-            margin = layoutMargins.left
+            margin = max(layoutMargins.left, minimumMargin)
         } else if safeAreaInsets.right == 0 {
-            margin = layoutMargins.right
+            margin = max(layoutMargins.right, minimumMargin)
         } else {
             margin = 20
         }
         let margins = NSDirectionalEdgeInsets(top: 0, leading: margin, bottom: 0, trailing: margin)
         if directionalLayoutMargins != margins {
             directionalLayoutMargins = margins
+        }
+        updateSeparatorInset(margin: margin)
+    }
+
+    /// System section footers start at the left separator inset rather than the margins, so with a left safe area,
+    /// e.g. in the secondary column of a split view, they need it to line up with the rows.
+    private func updateSeparatorInset(margin: CGFloat) {
+        if safeAreaInsets.left > 0 {
+            if separatorInsetWithoutLeftSafeArea == nil {
+                separatorInsetWithoutLeftSafeArea = separatorInset
+            }
+            separatorInset.left = safeAreaInsets.left + margin
+        } else if let separatorInsetWithoutLeftSafeArea {
+            separatorInset = separatorInsetWithoutLeftSafeArea
+            self.separatorInsetWithoutLeftSafeArea = nil
         }
     }
 
