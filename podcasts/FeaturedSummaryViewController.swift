@@ -208,11 +208,10 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         dispatchGroup.enter()
         serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { podcastList in
+            defer { dispatchGroup.leave() }
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             podcastsToShow = discoverPodcast
-
-            dispatchGroup.leave()
         })
 
         if let sponsoredPodcasts = item.sponsoredPodcasts {
@@ -220,13 +219,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
                     serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+                        defer { dispatchGroup.leave() }
                         guard let podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast
 
                         self?.lists.append(podcastList)
-
-                        dispatchGroup.leave()
                     })
                 }
             }
