@@ -451,7 +451,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .transcriptDebugOverlay:
             false
         case .largeScreenPodcastDetails:
-            false
+            true
         }
     }
 
