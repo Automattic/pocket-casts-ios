@@ -21,9 +21,19 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
     var numVisibleColumns = 1 as CGFloat
     var peekWidth = 8 as CGFloat
     var cellWidth: CGFloat {
-        let widthAvailable = view.bounds.width
+        let widthAvailable = insetWidth
         let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
         return min(maxWidth, (widthAvailable - peekWidth - (cellSpacing * (numVisibleColumns + 1))) / numVisibleColumns)
+    }
+
+    /// The horizontal safe area the row scrolls under, which the Discover cell hands the view as its layout margins.
+    var horizontalInsets: UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: view.layoutMargins.left, bottom: 0, right: view.layoutMargins.right)
+    }
+
+    /// The width inside the horizontal insets, which the cells are sized to.
+    var insetWidth: CGFloat {
+        view.bounds.inset(by: horizontalInsets).width
     }
 
     /// The distance a single swipe scrolls the content.

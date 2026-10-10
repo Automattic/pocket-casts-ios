@@ -4,13 +4,9 @@ struct UIViewControllerContentConfiguration: UIContentConfiguration {
     let viewController: UIViewController
     let parentViewController: UIViewController
 
-    /// Whether the view controller's view runs under the horizontal safe area and insets its content itself, rather than being inset by it.
-    let extendsBeyondHorizontalSafeArea: Bool
-
-    init(parentViewController: UIViewController, viewController: UIViewController, extendsBeyondHorizontalSafeArea: Bool = false) {
+    init(parentViewController: UIViewController, viewController: UIViewController) {
         self.parentViewController = parentViewController
         self.viewController = viewController
-        self.extendsBeyondHorizontalSafeArea = extendsBeyondHorizontalSafeArea
     }
 
     func makeContentView() -> UIView & UIContentView {
@@ -55,26 +51,45 @@ final class ViewControllerContainerContentView: UIView, UIContentView {
         let viewController = _configuration.viewController
         addSubview(viewController.view)
         viewController.view.translatesAutoresizingMaskIntoConstraints = false
-
-        let leading = _configuration.extendsBeyondHorizontalSafeArea ? leadingAnchor : safeAreaLayoutGuide.leadingAnchor
-        let trailing = _configuration.extendsBeyondHorizontalSafeArea ? trailingAnchor : safeAreaLayoutGuide.trailingAnchor
+        viewController.viewRespectsSystemMinimumLayoutMargins = false
+        viewController.view.insetsLayoutMarginsFromSafeArea = false
+        updateLayoutMargins()
 
         NSLayoutConstraint.activate([
             viewController.view.topAnchor.constraint(equalTo: topAnchor),
-            viewController.view.leadingAnchor.constraint(equalTo: leading),
-            viewController.view.trailingAnchor.constraint(equalTo: trailing),
+            viewController.view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            viewController.view.trailingAnchor.constraint(equalTo: trailingAnchor),
             viewController.view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         _configuration.parentViewController.addChild(viewController)
     }
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+
+        if updateLayoutMargins() {
+            invalidateIntrinsicContentSize()
+        }
+    }
+
+    /// Hands the view controller's view the horizontal safe area it runs under as its layout margins.
+    @discardableResult
+    private func updateLayoutMargins() -> Bool {
+        let view = _configuration.viewController.view!
+        let margins = UIEdgeInsets(top: 0, left: safeAreaInsets.left, bottom: 0, right: safeAreaInsets.right)
+        guard view.layoutMargins != margins else { return false }
+        view.layoutMargins = margins
+        return true
+    }
+
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         let vc = _configuration.viewController
 
-        vc.view.layoutSubviews()
+        updateLayoutMargins()
+        vc.view.setNeedsLayout()
+        vc.view.layoutIfNeeded()
 
-        let safeAreaInsets = _configuration.extendsBeyondHorizontalSafeArea ? .zero : _configuration.parentViewController.view.safeAreaInsets
-        let fittingSize = CGSize(width: targetSize.width - safeAreaInsets.left - safeAreaInsets.right, height: UIView.layoutFittingCompressedSize.height)
+        let fittingSize = CGSize(width: targetSize.width, height: UIView.layoutFittingCompressedSize.height)
         var size = vc.view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
 
         if size.height == CGFloat.greatestFiniteMagnitude || size.width == CGFloat.greatestFiniteMagnitude {

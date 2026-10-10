@@ -42,6 +42,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     private let numberOfRows = 4
     private let targetColumnPitch = 420 as CGFloat
     private var lastLayedOutWidth = 0 as CGFloat
+    private var lastLayedOutInsets = UIEdgeInsets.zero
 
     private let maxFeaturedItems = 20
 
@@ -88,11 +89,12 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if lastLayedOutWidth != view.bounds.width {
+        if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
             let page = max(pageControl.currentPage, 0)
             lastLayedOutWidth = view.bounds.width
-            maxCellWidth = view.bounds.width
-            numVisibleColumns = visibleColumnCount(forWidth: view.bounds.width)
+            lastLayedOutInsets = horizontalInsets
+            maxCellWidth = insetWidth
+            numVisibleColumns = visibleColumnCount(forWidth: insetWidth)
             smallPagedCollectionViewHeight.constant = (cellHeight + cellSpacing) * CGFloat(numberOfRows)
             updatePageCount()
             collectionView.layoutIfNeeded()
@@ -126,7 +128,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     }
 
     private func updateInsets() {
-        collectionView.contentInset.left = cellSpacing + view.safeAreaInsets.left
+        collectionView.contentInset.left = cellSpacing + horizontalInsets.left
         let columns = ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows))
         let contentWidth = columns * (cellWidth + cellSpacing) + cellSpacing
         let lastPageOffset = offset(forPage: max(numberOfPages - 1, 0))
