@@ -499,6 +499,11 @@ private extension PlayerContainerViewController {
         if tabsView.currentTab != index {
             tabsView.currentTab = index
         }
+        #if !APPCLIP
+        if #available(iOS 27.1, *) {
+            rememberLargeScreenTab()
+        }
+        #endif
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 

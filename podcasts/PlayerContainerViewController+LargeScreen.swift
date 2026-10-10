@@ -26,6 +26,10 @@ final class PlayerLargeScreenLayout {
     var transcriptPaywall: GeneratedTranscriptsPremiumOverlay?
     var showingTranscript = false
     var transcriptAvailability: (episodeUuid: String, isAvailable: Bool)?
+
+    /// The tab picked for an episode, selected again when the tabs are rebuilt, for example
+    /// after rotating to the paged layout and back.
+    var selectedTab: (episodeUuid: String, tab: PlayerTabs)?
 }
 
 @available(iOS 27.1, *)
@@ -118,6 +122,7 @@ extension PlayerContainerViewController {
         if isSplit != layout.isSplit {
             applyLargeScreenLayout(isSplit: isSplit)
         }
+        keepLargeScreenTabInView()
     }
 
     private func applyLargeScreenLayout(isSplit: Bool) {
@@ -214,8 +219,6 @@ extension PlayerContainerViewController {
             return
         }
 
-        mainScrollView.setContentOffset(.zero, animated: false)
-        tabsView.currentTab = 0
         removeLargeScreenTabPages()
 
         layout.showingTranscript = shouldShowTranscript
@@ -236,7 +239,8 @@ extension PlayerContainerViewController {
         tabs.append((.bookmarks, bookmarksItem))
 
         tabsView.tabs = (layout.isSplit ? [] : [.nowPlaying]) + tabs.map(\.0)
-        // Selecting the first tab scrolls it into view, but the panes have no size until the
+        tabsView.currentTab = largeScreenTabIndex(for: playingEpisode)
+        // Selecting a tab scrolls it into view, but the panes have no size until the
         // arrangement lays them out in a window, so start the tabs from the first one here.
         tabsView.setContentOffset(.zero, animated: false)
 
@@ -266,6 +270,38 @@ extension PlayerContainerViewController {
             let finalConstraint = previousPage.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor)
             finalConstraint.isActive = true
             finalScrollViewConstraint = finalConstraint
+        }
+
+        host.view.layoutIfNeeded()
+        keepLargeScreenTabInView()
+    }
+
+    /// The tab to select after rebuilding the tabs: the one picked for the episode when it's next
+    /// to Now Playing, and the first one otherwise.
+    private func largeScreenTabIndex(for episode: BaseEpisode) -> Int {
+        guard let layout = largeScreenLayout, layout.isSplit,
+              let selectedTab = layout.selectedTab, selectedTab.episodeUuid == episode.uuid,
+              let index = tabsView.tabs.firstIndex(of: selectedTab.tab) else { return 0 }
+        return index
+    }
+
+    /// Remembers the tab picked for the playing episode, so rebuilding the tabs keeps it.
+    func rememberLargeScreenTab() {
+        guard let layout = largeScreenLayout, let episodeUuid = PlaybackManager.shared.currentEpisode?.uuid,
+              let tab = tabsView.tabs[safe: tabsView.currentTab] else { return }
+
+        layout.selectedTab = tab == .nowPlaying ? nil : (episodeUuid, tab)
+    }
+
+    /// Scrolls the pages to the selected tab when they change size, as they do when the tabs are
+    /// rebuilt in the other pane.
+    private func keepLargeScreenTabInView() {
+        let pageWidth = mainScrollView.bounds.width
+        guard pageWidth > 0, !mainScrollView.isTracking, !mainScrollView.isDecelerating else { return }
+
+        let offset = CGPoint(x: CGFloat(tabsView.currentTab) * pageWidth, y: 0)
+        if mainScrollView.contentOffset != offset {
+            mainScrollView.setContentOffset(offset, animated: false)
         }
     }
 
