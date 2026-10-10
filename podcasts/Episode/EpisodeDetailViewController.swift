@@ -1,4 +1,5 @@
 import Combine
+import Kingfisher
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -160,6 +161,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     private var episodeArtworkURL: URL?
     private var didResolveEpisodeArtwork = false
+    private var didLoadBaseEpisodeArtwork = false
 
     var rawShowNotes: String?
     var lastThemeRenderedNotesIn: Theme.ThemeType?
@@ -258,6 +260,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        didLoadBaseEpisodeArtwork = false
         updateDisplayedData()
         updateColors()
 
@@ -282,6 +285,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         addCustomObserver(Constants.Notifications.downloadProgress, selector: #selector(updateDownloadProgress))
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(episodeDownloadedEvent))
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(episodeEmbeddedArtworkLoaded))
 
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(specificEpisodeEventDidFire(_:)))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(specificEpisodeEventDidFire(_:)))
@@ -339,8 +343,16 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     @objc private func episodeDownloadedEvent() {
+        didLoadBaseEpisodeArtwork = false
         updateDisplayedData()
         updateColors()
+    }
+
+    @objc private func episodeEmbeddedArtworkLoaded() {
+        guard episodeArtworkURL == nil else { return }
+
+        didLoadBaseEpisodeArtwork = false
+        updateArtwork()
     }
 
     @objc private func generalEpisodeEventDidFire() {
@@ -428,14 +440,22 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     private func updateArtwork() {
-        // While episode artwork is enabled but not yet resolved, show a placeholder. Once resolved,
-        // show the episode's own artwork, falling back to the podcast artwork when there is none.
-        if Settings.loadEmbeddedImages, !didResolveEpisodeArtwork {
-            podcastImage.setPlaceholder(size: .page)
-        } else if let episodeArtworkURL {
+        guard Settings.loadEmbeddedImages else {
+            didLoadBaseEpisodeArtwork = false
+            podcastImage.setPodcast(uuid: podcast.uuid, size: .page)
+            return
+        }
+
+        if let episodeArtworkURL {
             podcastImage.setEpisodeArtwork(url: episodeArtworkURL, size: .page)
-        } else if let uuid = episode.parentPodcast()?.uuid {
-            podcastImage.setPodcast(uuid: uuid, size: .page)
+        } else if !didResolveEpisodeArtwork, !EpisodeArtwork().isCached(episodeUuid: episode.uuid) {
+            podcastImage.setPlaceholder(size: .page)
+        } else if !didLoadBaseEpisodeArtwork {
+            // Reading embedded artwork from a downloaded file is expensive. Only retry when
+            // artwork becomes available, a download finishes, or the screen is revisited.
+            didLoadBaseEpisodeArtwork = true
+            podcastImage.imageView?.kf.cancelDownloadTask()
+            podcastImage.setBaseEpisode(episode: episode, size: .page)
         }
     }
 
