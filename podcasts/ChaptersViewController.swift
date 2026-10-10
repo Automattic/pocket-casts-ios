@@ -39,6 +39,7 @@ class ChaptersViewController: PlayerItemViewController {
         if usesLargeScreenStyle {
             additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         }
+        header.usesLargeScreenStyle = usesLargeScreenStyle
         updateColors()
         header.update()
         addObservers()

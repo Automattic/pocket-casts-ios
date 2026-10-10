@@ -6,6 +6,30 @@ class ChaptersHeader: UIView {
 
     var isTogglingChapters = false
 
+    /// Set in the large screen player, where the chapters are inset from the edges: the divider
+    /// lines up with the chapter separators and has room above and below it.
+    var usesLargeScreenStyle = false {
+        didSet {
+            guard usesLargeScreenStyle != oldValue else { return }
+            NSLayoutConstraint.deactivate(usesLargeScreenStyle ? dividerConstraints : largeScreenDividerConstraints)
+            NSLayoutConstraint.activate(usesLargeScreenStyle ? largeScreenDividerConstraints : dividerConstraints)
+        }
+    }
+
+    private lazy var dividerConstraints = [
+        divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+        divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+        divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -2.0),
+        generatedWarningLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4)
+    ]
+
+    private lazy var largeScreenDividerConstraints = [
+        divider.leadingAnchor.constraint(equalTo: container.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+        divider.trailingAnchor.constraint(equalTo: container.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+        divider.topAnchor.constraint(equalTo: generatedWarningLabel.bottomAnchor, constant: 12),
+        divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8)
+    ]
+
     private lazy var container: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -125,9 +149,6 @@ class ChaptersHeader: UIView {
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             divider.heightAnchor.constraint(equalToConstant: 1),
-            divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -2.0),
 
             chaptersLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
             chaptersLabel.topAnchor.constraint(equalTo: container.layoutMarginsGuide.topAnchor),
@@ -141,11 +162,10 @@ class ChaptersHeader: UIView {
 
             generatedWarningLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
             generatedWarningLabel.topAnchor.constraint(equalTo: chaptersLabel.bottomAnchor, constant: 2),
-            generatedWarningLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
             generatedWarningLabel.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
 
             container.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
-        ])
+        ] + dividerConstraints)
         chaptersLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         toggleButton.setContentHuggingPriority(.defaultLow, for: .vertical)
 
