@@ -11,6 +11,8 @@ enum PlayerTabs: Int {
     case showNotes
     case chapters
     case bookmarks
+    /// Only next to Now Playing in the large screen player (`FeatureFlag.largeScreenNowPlaying`)
+    case transcript
 
     var description: String {
         switch self {
@@ -22,6 +24,8 @@ enum PlayerTabs: Int {
             return L10n.chapters
         case .bookmarks:
             return L10n.bookmarks
+        case .transcript:
+            return L10n.transcript
         }
     }
 }
@@ -52,13 +56,28 @@ class PlayerTabsView: UIScrollView {
             case .chapters:
                 AnalyticsHelper.chaptersOpened()
                 trackChaptersShown()
-            case .bookmarks:
+            case .bookmarks, .transcript:
                 break
             }
         }
     }
 
     weak var tabDelegate: PlayerTabDelegate?
+
+    /// Fades the scrolled-off tabs by masking them instead of covering them with the player
+    /// background color, for backgrounds that aren't a solid color.
+    var fadesEdgesWithMask = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
+    private lazy var fadeMask: CAGradientLayer = {
+        let mask = CAGradientLayer()
+        mask.startPoint = CGPoint(x: 0, y: 0.5)
+        mask.endPoint = CGPoint(x: 1, y: 0.5)
+        return mask
+    }()
 
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -187,6 +206,11 @@ private enum TabConstants {
 
 private extension PlayerTabsView {
     private func updateFadeLayers() {
+        if fadesEdgesWithMask {
+            updateFadeMask()
+            return
+        }
+
         let offset = contentOffset.x
         let size = CGSize(width: TabConstants.fadeSize, height: bounds.height)
 
@@ -198,6 +222,31 @@ private extension PlayerTabsView {
 
         fadeLeading.opacity = contentOffset.x > 0 ? 1 : 0
         fadeTrailing.opacity = (contentOffset.x + bounds.width) < contentSize.width ? 1 : 0
+    }
+
+    private func updateFadeMask() {
+        fadeLeading.opacity = 0
+        fadeTrailing.opacity = 0
+
+        let fadesLeading = contentOffset.x > 0
+        let fadesTrailing = (contentOffset.x + bounds.width) < contentSize.width
+        let fadeFraction = bounds.width > 0 ? min(TabConstants.fadeSize / bounds.width, 0.5) : 0
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        fadeMask.frame = bounds
+        fadeMask.colors = [
+            fadesLeading ? UIColor.clear.cgColor : UIColor.black.cgColor,
+            UIColor.black.cgColor,
+            UIColor.black.cgColor,
+            fadesTrailing ? UIColor.clear.cgColor : UIColor.black.cgColor
+        ]
+        fadeMask.locations = [0, NSNumber(value: fadeFraction), NSNumber(value: 1 - fadeFraction), 1]
+        CATransaction.commit()
+
+        if layer.mask !== fadeMask {
+            layer.mask = fadeMask
+        }
     }
 
     private class FadeOutLayer: CAGradientLayer {
@@ -262,6 +311,8 @@ private extension PlayerTabsView {
             tabName = "chapters"
         case .bookmarks:
             tabName = "bookmarks"
+        case .transcript:
+            tabName = "transcript"
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])

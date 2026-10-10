@@ -41,9 +41,31 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet weak var transcriptContainerView: UIView!
 
+    /// Whether the player uses the large screen layout: Now Playing and the tabs side by side
+    /// in a `UIArrangementViewController` when there's room, over a blurred artwork background.
+    let usesLargeScreenLayout = PlayerContainerViewController.isLargeScreenLayoutAvailable
+
+    static var isLargeScreenLayoutAvailable: Bool {
+        #if APPCLIP
+        return false
+        #else
+        guard FeatureFlag.largeScreenNowPlaying.enabled else { return false }
+        if #available(iOS 27.1, *) {
+            return true
+        }
+        return false
+        #endif
+    }
+
+    #if !APPCLIP
+    /// The `PlayerLargeScreenLayout` when `usesLargeScreenLayout` is on.
+    var largeScreenLayoutStorage: AnyObject?
+    #endif
+
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
         item.containerDelegate = self
+        item.usesLargeScreenStyle = usesLargeScreenLayout
         item.view.translatesAutoresizingMaskIntoConstraints = false
 
         return item
@@ -163,6 +185,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
             transcriptsItem.didDisappear()
             generatedTranscriptsPremiumOverlay.didDisappear()
         }
+        if #available(iOS 27.1, *) {
+            largeScreenViewDidDisappear()
+        }
         #endif
     }
 
@@ -170,6 +195,11 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         super.viewDidLayoutSubviews()
 
         adjustHeaderConstraintIfNeeded()
+        #if !APPCLIP
+        if #available(iOS 27.1, *) {
+            updateLargeScreenLayoutIfNeeded()
+        }
+        #endif
         adjustPlayerNoSlidingRegion()
     }
 
@@ -242,6 +272,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         nowPlayingItem.displayTranscript = false
     }
 
+    /// Selects the transcript tab, which only exists next to Now Playing in the large screen
+    /// layout. Returns `false` when there's no such tab.
+    func showTranscriptTab() -> Bool {
+        guard let index = tabsView.tabs.firstIndex(of: .transcript) else { return false }
+        didSwitchToTab(index: index)
+        return true
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {
@@ -295,6 +333,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     private func setupPlayer() {
+        #if !APPCLIP
+        if #available(iOS 27.1, *), usesLargeScreenLayout {
+            setUpLargeScreenLayout()
+            return
+        }
+        #endif
+
         nowPlayingItem.willBeAddedToPlayer()
         mainScrollView.addSubview(nowPlayingItem.view)
         addChild(nowPlayingItem)
@@ -323,8 +368,19 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         }
     }
 
+    /// Whether the Now Playing page is on screen: always next to the tabs in the large screen
+    /// split, otherwise only while its tab is selected.
+    var isNowPlayingVisible: Bool {
+        #if !APPCLIP
+        if #available(iOS 27.1, *), isShowingLargeScreenSplit {
+            return true
+        }
+        #endif
+        return tabsView.currentTab == 0
+    }
+
     func adjustPlayerNoSlidingRegion() {
-        if tabsView.currentTab == 0 {
+        if tabsView.tabs[safe: tabsView.currentTab] == .nowPlaying {
             let sliderRegion = mainScrollView.convert(nowPlayingItem.timeSlider.frame, from: nowPlayingItem.timeSlider.superview)
             // the slider has a large region for the popup that you get when interacting with it, which we don't need to block off (hence the 30pt top offset), and since fingers are imprecise we go 20pt lower too
             let adjustedRegion = sliderRegion.inset(by: UIEdgeInsets(top: 30, left: -10, bottom: -20, right: -10))
@@ -347,6 +403,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     // MARK: - Hide/Show tabs
 
     func scrollView(isEnabled: Bool) {
+        var isEnabled = isEnabled
+        #if !APPCLIP
+        if #available(iOS 27.1, *), isShowingLargeScreenSplit {
+            // The transcript only covers Now Playing, so the tabs next to it keep paging.
+            isEnabled = true
+        }
+        #endif
         mainScrollView.isScrollEnabled = isEnabled
         view.layoutIfNeeded()
     }
@@ -355,10 +418,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     #if !APPCLIP
     func showTranscript() {
-        addChild(transcriptsItem)
+        var transcriptParent: UIViewController = self
+        if #available(iOS 27.1, *), let largeScreenTranscriptParent {
+            transcriptParent = largeScreenTranscriptParent
+        }
+        transcriptParent.addChild(transcriptsItem)
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
-        transcriptsItem.didMove(toParent: self)
+        transcriptsItem.didMove(toParent: transcriptParent)
         transcriptsItem.willBeAddedToPlayer()
         transcriptsItem.themeDidChange()
         transcriptsItem.showGeneratedTranscriptsPremiumOverlay = { [weak self] in

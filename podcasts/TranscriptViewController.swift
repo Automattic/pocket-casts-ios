@@ -78,6 +78,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?
     var playButtonTapped: ((Bool) -> Void)?
 
+    /// Hidden when the transcript is a tab of the large screen player, which has nothing to close.
+    var showsCloseButton = true {
+        didSet {
+            closeButton.isHidden = !showsCloseButton
+        }
+    }
+
     private var showFromEpisode: Bool {
         analyticsSource == .episode
     }
@@ -582,14 +589,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let activityIndicatorViewColor: UIColor = showFromEpisode ? ThemeColor.primaryIcon02() : ThemeColor.playerContrast02()
         let activityIndicatorViewStyle: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.shared.activeTheme.isDark ? .white : .black) : .white
 
-        view.backgroundColor = primaryColor
-        transcriptView.backgroundColor =  primaryColor
+        let backgroundColor = usesLargeScreenStyle ? .clear : primaryColor
+        view.backgroundColor = backgroundColor
+        transcriptView.backgroundColor = backgroundColor
         transcriptView.textColor = secondaryColor
         transcriptView.indicatorStyle = activityIndicatorViewStyle
         activityIndicatorView.color = activityIndicatorViewColor
         updateGradientColors()
         if FeatureFlag.generatedTranscripts.enabled {
-            bannerView.backgroundColor = primaryColor
+            bannerView.backgroundColor = backgroundColor
         }
     }
 
@@ -597,6 +605,41 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let gradientColor = showFromEpisode ? ThemeColor.primaryUi01() : Colors.gradientColor
         topGradient.updateColors(firstColor: gradientColor, secondColor: gradientColor.withAlphaComponent(0))
         bottomGradient.updateColors(firstColor: gradientColor.withAlphaComponent(0), secondColor: gradientColor)
+        if usesLargeScreenStyle {
+            topGradient.isHidden = true
+            bottomGradient.isHidden = true
+        }
+    }
+
+    private lazy var textFadeMask: CAGradientLayer = {
+        let mask = CAGradientLayer()
+        mask.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+        return mask
+    }()
+
+    /// Over the large screen player background, the text fades out where the (hidden) gradients
+    /// are with a mask instead, so it doesn't need a solid background.
+    private func updateTextFadeMask() {
+        let height = transcriptView.bounds.height
+        guard usesLargeScreenStyle, height > 0 else { return }
+
+        let topFade = max(0, topGradient.frame.maxY - transcriptView.frame.minY)
+        let bottomFade = max(0, transcriptView.frame.maxY - bottomGradient.frame.minY)
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        textFadeMask.frame = transcriptView.bounds
+        textFadeMask.locations = [
+            0,
+            NSNumber(value: min(topFade / height, 0.5)),
+            NSNumber(value: max(1 - bottomFade / height, 0.5)),
+            1
+        ]
+        CATransaction.commit()
+
+        if transcriptView.layer.mask !== textFadeMask {
+            transcriptView.layer.mask = textFadeMask
+        }
     }
 
     @objc private func update() {
@@ -750,6 +793,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTextMargins()
+        updateTextFadeMask()
     }
 
     private func updateTextMargins() {
@@ -1156,6 +1200,7 @@ extension TranscriptViewController: UIScrollViewDelegate {
         if canScrollToDismiss {
             scrollViewHandler?.scrollViewDidScroll?(scrollView)
         }
+        updateTextFadeMask()
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

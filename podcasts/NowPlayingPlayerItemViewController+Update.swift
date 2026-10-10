@@ -96,7 +96,7 @@ extension NowPlayingPlayerItemViewController {
 
     private func updateColors() {
         let backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        view.backgroundColor = backgroundColor
+        view.backgroundColor = usesLargeScreenStyle ? .clear : backgroundColor
         playPauseBtn.playButtonColor = backgroundColor
 
         let buttonColor = ThemeColor.playerContrast01()

@@ -340,6 +340,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    /// Selects the transcript tab when it's next to Now Playing, and covers Now Playing with
+    /// the transcript otherwise.
+    func openTranscript() {
+        if playerContainer?.showTranscriptTab() == true {
+            return
+        }
+        displayTranscript = true
+    }
+
     private func loadBannerAd() {
 #if !APPCLIP
         if SubscriptionHelper.shouldDisplayPlayerBannerAd {
@@ -361,8 +370,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #endif
     }
 
+    /// The parent, or, in the large screen layout, the parent of the pane it's shown in.
     private var playerContainer: PlayerContainerViewController? {
-        parent as? PlayerContainerViewController
+        var ancestor = parent
+        while let controller = ancestor {
+            if let playerContainer = controller as? PlayerContainerViewController {
+                return playerContainer
+            }
+            ancestor = controller.parent
+        }
+        return nil
     }
 
     override func viewDidLayoutSubviews() {
@@ -700,8 +717,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func toggleTranscript() {
         let isShowing = displayTranscript
 
-        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        let transitionBackground = usesLargeScreenStyle ? PlayerColorHelper.playerBackgroundColor01() : view.backgroundColor
+        skipBackBtn.prepareForAnimateTransition(withBackground: transitionBackground)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: transitionBackground)
         playPauseBtn.prepareForAnimateTransition()
 
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1

@@ -294,7 +294,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func transcriptTapped() {
         #if !APPCLIP
-        displayTranscript = true
+        openTranscript()
         #endif
     }
 
@@ -426,7 +426,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
         shelfButtonTapped(.transcript)
 
-        displayTranscript = true
+        openTranscript()
         #endif
     }
 

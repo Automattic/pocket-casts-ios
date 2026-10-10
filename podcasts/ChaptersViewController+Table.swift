@@ -11,6 +11,9 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewHandler?.scrollViewDidScroll?(scrollView)
+        if usesLargeScreenStyle {
+            updateHeaderColor()
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
