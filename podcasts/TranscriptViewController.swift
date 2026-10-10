@@ -556,8 +556,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     var bottomContainerInset: CGFloat {
         // A tab's transcript ends above the buttons floating over it.
-        let floatingButtonsHeight = isPlayerTab ? stackView.bounds.height + Sizes.floatingButtonsMargin : 0
-        return floatingButtonsHeight + 0.7 * Sizes.bottomGradientHeight
+        if isPlayerTab {
+            return view.safeAreaInsets.bottom + stackView.bounds.height + 2 * Sizes.floatingButtonsMargin
+        }
+        return 0.7 * Sizes.bottomGradientHeight
     }
 
     override func willBeAddedToPlayer() {
@@ -640,9 +642,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         guard usesLargeScreenStyle, height > 0 else { return }
 
         let topFade = max(0, topGradient.frame.maxY - transcriptView.frame.minY)
-        // A tab's transcript fades out above the buttons floating over it.
-        let bottomFadeEnd = (isPlayerTab ? stackView.frame.minY : bottomGradient.frame.maxY) - transcriptView.frame.minY
-        let bottomFadeStart = bottomFadeEnd - bottomGradient.frame.height
+        // A tab's transcript fades out under the buttons floating over it.
+        let bottomFadeEnd = (isPlayerTab ? stackView.frame.maxY : bottomGradient.frame.maxY) - transcriptView.frame.minY
+        let bottomFadeStart = isPlayerTab
+            ? stackView.frame.minY - Sizes.floatingButtonsMargin - transcriptView.frame.minY
+            : bottomFadeEnd - bottomGradient.frame.height
 
         CATransaction.begin()
         CATransaction.setDisableActions(true)
