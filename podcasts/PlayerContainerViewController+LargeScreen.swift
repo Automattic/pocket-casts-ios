@@ -45,7 +45,7 @@ extension PlayerContainerViewController {
     /// The views above Now Playing when the tabs are next to it, which fade with the header.
     var largeScreenHeaderViews: [UIView] {
         guard let layout = largeScreenLayout else { return [] }
-        return [layout.grabber, closeBtn]
+        return [layout.grabber]
     }
 
     /// The pane that shows the transcript, which has to be its parent.
@@ -84,6 +84,8 @@ extension PlayerContainerViewController {
         closeBtn.removeFromSuperview()
         tabsView.fadesEdgesWithMask = true
 
+        layout.grabber.accessibilityLabel = closeBtn.accessibilityLabel
+        layout.grabber.accessibilityIdentifier = closeBtn.accessibilityIdentifier
         layout.grabber.onTap = { [weak self] in
             self?.closeNowPlaying()
         }
@@ -162,7 +164,6 @@ extension PlayerContainerViewController {
         if isSplit {
             playerPaneView.addSubview(nowPlayingView)
             playerPaneView.addSubview(layout.grabber)
-            playerPaneView.addSubview(closeBtn)
             tabsHostView.addSubview(layout.divider)
             constraints += [
                 // Line Now Playing up with the pages under the header on the other side.
@@ -172,8 +173,6 @@ extension PlayerContainerViewController {
                 nowPlayingView.bottomAnchor.constraint(equalTo: playerPaneView.bottomAnchor),
                 layout.grabber.centerXAnchor.constraint(equalTo: playerSafeArea.centerXAnchor),
                 layout.grabber.centerYAnchor.constraint(equalTo: playerSafeArea.topAnchor, constant: Self.largeScreenHeaderHeight / 2),
-                closeBtn.leadingAnchor.constraint(equalTo: playerSafeArea.leadingAnchor, constant: 14),
-                closeBtn.bottomAnchor.constraint(equalTo: playerSafeArea.topAnchor, constant: Self.largeScreenHeaderHeight),
                 layout.divider.topAnchor.constraint(equalTo: tabsHostView.topAnchor),
                 layout.divider.bottomAnchor.constraint(equalTo: tabsHostView.bottomAnchor),
                 layout.divider.leadingAnchor.constraint(equalTo: tabsHostView.leadingAnchor),
@@ -473,8 +472,7 @@ final class PlayerArrangementPaneViewController: UIViewController {
 }
 
 /// The handle above Now Playing when the tabs are next to it. Tapping it closes the player. It's
-/// not a `UIControl`, so the player's dismiss pan can still start on it. VoiceOver uses the close
-/// button next to it instead.
+/// not a `UIControl`, so the player's dismiss pan can still start on it.
 final class PlayerGrabberView: UIView {
     var onTap: (() -> Void)?
 
@@ -498,6 +496,8 @@ final class PlayerGrabberView: UIView {
             handle.heightAnchor.constraint(equalToConstant: 5)
         ])
 
+        isAccessibilityElement = true
+        accessibilityTraits = .button
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
 
         updateColors()
@@ -509,6 +509,11 @@ final class PlayerGrabberView: UIView {
 
     func updateColors() {
         handle.backgroundColor = ThemeColor.playerContrast03()
+    }
+
+    override func accessibilityActivate() -> Bool {
+        onTap?()
+        return true
     }
 
     @objc private func handleTap() {
