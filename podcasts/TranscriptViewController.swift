@@ -742,6 +742,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                             self.stackView.alpha = 0
                             self.showGeneratedTranscriptsPremiumOverlay?()
                         } else {
+                            if self.isPlayerTab {
+                                self.stackView.alpha = 1
+                            }
                             self.appearDate = Date()
                             let syncedState = FingerprintTimingManager.shared.state
                             self.track(.transcriptShown, properties: [
