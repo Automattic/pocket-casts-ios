@@ -23,7 +23,8 @@ public extension UIImage {
         let coloredImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        return coloredImage
+        guard let coloredImage, let coloredCGImage = coloredImage.cgImage else { return coloredImage }
+        return UIImage(cgImage: coloredCGImage, scale: coloredImage.scale, orientation: imageOrientation)
     }
 
 

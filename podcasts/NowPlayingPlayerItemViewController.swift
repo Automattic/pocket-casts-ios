@@ -29,12 +29,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
+            skipBackBtn.semanticContentAttribute = .playback
         }
     }
 
     @IBOutlet var skipFwdBtn: SkipButton! {
         didSet {
             skipFwdBtn.skipBack = false
+            skipFwdBtn.semanticContentAttribute = .playback
             skipFwdBtn.longPressed = { [weak self] in
                 self?.skipForwardLongPressed()
             }
@@ -42,6 +44,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBOutlet var playPauseBtn: PlayPauseButton!
+
+    @IBOutlet var playSkipStackView: UIStackView! {
+        didSet {
+            playSkipStackView.semanticContentAttribute = .playback
+        }
+    }
 
     @IBOutlet var episodeImage: UIImageView! {
         didSet {
@@ -174,7 +182,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playerControlsStackView: UIStackView!
 
-    @IBOutlet var timeSliderHolderView: UIView!
+    @IBOutlet var timeSliderHolderView: UIView! {
+        didSet {
+            timeSliderHolderView.semanticContentAttribute = .playback
+        }
+    }
 
     @IBOutlet var timeElapsed: ThemeableLabel! {
         didSet {
