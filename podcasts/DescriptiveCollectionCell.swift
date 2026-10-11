@@ -70,6 +70,7 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
         if let description = discoverPodcast.shortDescription {
             podcastDescription.text = description
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
         subscribeButton.currentlyOn = isSubscribed
 
         subscribeButton.shouldAnimate = true

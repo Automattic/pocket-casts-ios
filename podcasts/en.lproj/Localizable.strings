@@ -13,6 +13,12 @@
 /* A common string used throughout the app. Accessibility hint to inform that the control dismisses the current window. */
 "accessibility_dismiss" = "Dismiss";
 
+/* Accessibility label for the button that follows a podcast, used in lists where several podcasts each have a Follow button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_follow_podcast" = "Follow %1$@";
+
+/* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_unfollow_podcast" = "Unfollow %1$@";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 
@@ -573,6 +579,9 @@
 
 /* Prompt to allow the user to manually change the regional information for the Discover tab. '%1$@' is a placeholder for the current region. */
 "discover_change_region" = "Change Region, currently %1$@";
+
+/* Accessibility label for the X button next to the selected category pill on Discover. Clears the selected category so all categories are shown again. */
+"discover_clear_category" = "Clear Category";
 
 /* Badge used to mark featured podcasts. */
 "discover_featured" = "Featured";
@@ -5194,6 +5203,9 @@
 
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
+
+/* Accessibility label for the Up Next Shuffle button, which plays the queued episodes in random order */
+"up_next_shuffle_button" = "Shuffle";
 
 /* Title shown at the top of the Up Next sort options picker */
 "up_next_sort_title" = "Sort Up Next";

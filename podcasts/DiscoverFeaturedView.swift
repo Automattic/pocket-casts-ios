@@ -116,10 +116,13 @@ class DiscoverFeaturedView: ThemeableView {
         if let title = discoverPodcast.title?.localized {
             if isExplicit {
                 podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+                podcastTitle.accessibilityLabel = ExplicitBadgeHelper.accessibilityTitle(title)
             } else {
                 podcastTitle.text = title
+                podcastTitle.accessibilityLabel = nil
             }
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
 
         if let author = discoverPodcast.author {
             podcastAuthor.text = author
@@ -140,6 +143,7 @@ class DiscoverFeaturedView: ThemeableView {
         if let title = discoverPodcast.title?.localized {
             podcastTitle.text = title
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
 
         if let author = discoverPodcast.author {
             podcastAuthor.text = author

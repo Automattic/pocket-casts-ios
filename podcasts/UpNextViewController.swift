@@ -289,13 +289,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             shuffleButton.setImage(UIImage(named: "shuffle-plus"), for: .normal)
             shuffleButton.isSelected = false
+            shuffleButton.accessibilityHint = L10n.accessibilityPlusOnly
         } else {
             let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
             let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
             shuffleButton.setImage(unselected, for: .normal)
             shuffleButton.setImage(selected, for: .selected)
+            shuffleButton.accessibilityHint = nil
             updateShuffleButtonState()
         }
+        shuffleButton.accessibilityLabel = L10n.upNextShuffleButton
         shuffleButton.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         shuffleButton.imageView?.contentMode = .scaleAspectFit
         shuffleButton.imageView?.translatesAutoresizingMaskIntoConstraints = false

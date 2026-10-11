@@ -48,6 +48,7 @@ class LargeListCell: ThemeableCollectionCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .center
         imageView.isHidden = true
+        imageView.accessibilityElementsHidden = true
         return imageView
     }()
 
@@ -99,6 +100,7 @@ class LargeListCell: ThemeableCollectionCell {
             podcastTitle.text = title
             let isExplicit = FeatureFlag.showExplicitBadges.enabled && (discoverPodcast.isExplicit ?? false)
             explicitBadgeView.isHidden = !isExplicit
+            podcastTitle.accessibilityLabel = isExplicit ? ExplicitBadgeHelper.accessibilityTitle(title) : nil
             if isExplicit {
                 explicitBadgeView.image = ExplicitBadgeHelper.badgeImage()
             }
@@ -109,6 +111,7 @@ class LargeListCell: ThemeableCollectionCell {
         if let uuid = discoverPodcast.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .grid)
         }
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: discoverPodcast.title?.localized)
         subscribeButton.currentlyOn = isSubscribed
         subscribeButton.tintColor = ThemeColor.contrast01()
         subscribeButton.backgroundColor = ThemeColor.veil()

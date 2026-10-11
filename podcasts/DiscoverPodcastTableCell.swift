@@ -77,9 +77,13 @@ class DiscoverPodcastTableCell: ThemeableCell {
         let isExplicit = discoverPodcast.isExplicit ?? false
         if isExplicit {
             podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+            podcastTitle.accessibilityLabel = ExplicitBadgeHelper.accessibilityTitle(title)
         } else {
             podcastTitle.text = title
+            podcastTitle.accessibilityLabel = nil
         }
+
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: title)
 
         podcastAuthor.text = discoverPodcast.author
         itemNumber.text = (number > 0) ? String(number) : nil

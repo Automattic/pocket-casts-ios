@@ -74,4 +74,14 @@ class BouncyButton: UIButton {
             accessibilityLabel = offLabel
         }
     }
+
+    func setFollowAccessibilityLabels(podcastTitle: String?) {
+        guard let podcastTitle, !podcastTitle.isEmpty else {
+            offAccessibilityLabel = L10n.follow
+            onAccessibilityLabel = L10n.unfollow
+            return
+        }
+        offAccessibilityLabel = L10n.accessibilityFollowPodcast(podcastTitle)
+        onAccessibilityLabel = L10n.accessibilityUnfollowPodcast(podcastTitle)
+    }
 }

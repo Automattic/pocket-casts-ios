@@ -65,6 +65,7 @@ final class MiniPlayerScrollingTitleView: UIView {
             label.adjustsFontForContentSizeCategory = true
             scrollContainer.addSubview(label)
         }
+        trailingLabel.accessibilityElementsHidden = true
 
         gradientMask.startPoint = CGPoint(x: 0, y: 0.5)
         gradientMask.endPoint = CGPoint(x: 1, y: 0.5)
