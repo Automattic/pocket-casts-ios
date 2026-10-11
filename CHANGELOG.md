@@ -1,6 +1,5 @@
 8.23
 -----
-- Improve VoiceOver in Discover, Up Next, Select Theme and the mini player: Follow buttons name their podcast, explicit badges and the selected category are announced, and the shuffle, back and theme buttons have proper labels [#5438](https://github.com/Automattic/pocket-casts-ios/pull/5438)
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
@@ -36,6 +35,7 @@
 - Fix the lock screen and Control Center skip buttons skipping to the next chapter instead of by seconds when Headphone Controls is set to Next Chapter [#5207](https://github.com/Automattic/pocket-casts-ios/pull/5207)
 - Show Now Playing and its Transcript, Details, Chapters, and Bookmarks tabs side by side on iPad and unfolded iPhone Duo on iOS 27.1 and later [#5432](https://github.com/Automattic/pocket-casts-ios/pull/5432)
 - Fix the player scrubber, its time labels, and the skip buttons being out of order in right-to-left languages. They now stay left to right in the full and mini player, and row chevrons in Profile and Settings point the right way [#5437](https://github.com/Automattic/pocket-casts-ios/pull/5437)
+- Improve VoiceOver in Discover, Up Next, Select Theme and the mini player: Follow buttons name their podcast, explicit badges and the selected category are announced, and the shuffle, back and theme buttons have proper labels [#5438](https://github.com/Automattic/pocket-casts-ios/pull/5438)
 
 8.22
 -----
