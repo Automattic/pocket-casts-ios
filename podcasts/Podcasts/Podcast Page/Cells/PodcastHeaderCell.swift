@@ -16,15 +16,18 @@ class PodcastHeaderCell: UITableViewCell {
     weak var viewController: PodcastViewController?
     let viewModel: PodcastHeaderViewModel
     var firstTime = true
-    init(podcast: Podcast, vc: PodcastViewController) {
-        self.podcast = podcast
+    init(viewModel: PodcastHeaderViewModel, vc: PodcastViewController) {
+        self.podcast = viewModel.podcast
         self.viewController = vc
-        self.viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
+        self.viewModel = viewModel
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
         commonSetup()
     }
 
     var calculatedHeight: CGFloat?
+
+    /// Hosts the header and is a child of the page
+    private(set) var hostingController: UIViewController?
 
     var rowHeight: CGFloat {
         return calculatedHeight ?? UITableView.automaticDimension
@@ -56,6 +59,7 @@ class PodcastHeaderCell: UITableViewCell {
 
     func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
         let swiftUICellViewController = UIHostingController(rootView: rootView())
+        hostingController = swiftUICellViewController
         swiftUICellViewController.view.backgroundColor = .clear
         cell.backgroundColor = .clear
         cell.contentView.backgroundColor = .clear

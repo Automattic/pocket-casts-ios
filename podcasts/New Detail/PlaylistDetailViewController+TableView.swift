@@ -61,6 +61,10 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
         switch sectionModel(at: indexPath.section) {
         case .header:
+            if isShowingLargeScreenSplit {
+                // The header has its own column
+                return tableView.dequeueReusableCell(withIdentifier: DummyEmptyCell.reuseIdentifier, for: indexPath) as! DummyEmptyCell
+            }
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistHeaderViewCell.reuseIdentifier, for: indexPath) as! PlaylistHeaderViewCell
             cell.configure(viewModel: viewModel)
             return cell
@@ -156,9 +160,16 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 }
 
 extension PlaylistDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.setRowBackgroundTransparent(isShowingLargeScreenSplit)
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if sectionModel(at: indexPath.section) == .archive {
             return viewModel.archivedEpisodesCount == 0 ? 1 : 49.0
+        }
+        if sectionModel(at: indexPath.section) == .header, isShowingLargeScreenSplit {
+            return 8
         }
         return UITableView.automaticDimension
     }

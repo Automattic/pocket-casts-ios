@@ -5,6 +5,10 @@ extension PodcastViewController {
         guard let podcast, bookmarkList == nil else { return }
 
         bookmarkList = BookmarkListController(podcast: podcast, tableView: episodesTable, delegate: self)
+        bookmarkList?.isTransparent = isShowingLargeScreenSplit
+        if #available(iOS 27.1, *) {
+            adoptLargeScreenListChildren()
+        }
     }
 }
 

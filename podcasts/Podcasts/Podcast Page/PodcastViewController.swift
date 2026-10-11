@@ -96,6 +96,17 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     /// The bookmarks tab, created the first time it's displayed
     var bookmarkList: BookmarkListController?
 
+    /// The `LargeScreenDetailsLayout` when `FeatureFlag.largeScreenPodcastDetails` is on (iOS 27.1+)
+    var largeScreenLayoutStorage: AnyObject?
+
+    /// Whether the header is in a column next to the episodes, which then start with the tabs
+    var isShowingLargeScreenSplit: Bool {
+        if #available(iOS 27.1, *) {
+            return largeScreenLayout?.isSplit == true
+        }
+        return false
+    }
+
     enum ViewMode {
         case episodes
         case bookmarks
@@ -351,6 +362,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         setupLogin()
 
         setupRefreshControl()
+
+        if #available(iOS 27.1, *), LargeScreenDetailsLayout.isEnabled {
+            setUpLargeScreenLayout()
+        }
     }
 
     private var isScrolledPastHeader = false
@@ -358,7 +373,8 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
-        let scrolled = offset > PodcastHeaderView.Constants.smallImageSize + view.safeAreaInsets.top
+        // The title is always on screen in the header column
+        let scrolled = !isShowingLargeScreenSplit && offset > PodcastHeaderView.Constants.smallImageSize + view.safeAreaInsets.top
         if scrolled != isScrolledPastHeader {
             isScrolledPastHeader = scrolled
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
@@ -446,9 +462,37 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize / 2
     }
 
+    /// Shared by the header row and the large screen header column
+    lazy var podcastHeaderViewModel = PodcastHeaderViewModel(podcast: podcast!, delegate: self)
+
     lazy var podcastHeaderCell: PodcastHeaderCell = {
-        return PodcastHeaderCell(podcast: self.podcast!, vc: self)
+        let cell = PodcastHeaderCell(viewModel: podcastHeaderViewModel, vc: self)
+        createdPodcastHeaderCell = cell
+        return cell
     }()
+
+    /// `podcastHeaderCell` once it's created
+    private(set) var createdPodcastHeaderCell: PodcastHeaderCell?
+
+    /// The first row in place of the header when the header has its own column
+    lazy var podcastTabsCell: UITableViewCell = {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
+        cell.contentConfiguration = UIHostingConfiguration {
+            PodcastDetailsTabView(delegate: self)
+                .setupDefaultEnvironment()
+        }
+        .margins(.horizontal, 16)
+        .margins(.top, 8)
+        .margins(.bottom, 0)
+        .background(.clear)
+        return cell
+    }()
+
+    var headerRowCell: UITableViewCell {
+        isShowingLargeScreenSplit ? podcastTabsCell : podcastHeaderCell
+    }
 
     private var hasAppearedAlready = false
     override func viewDidAppear(_ animated: Bool) {
@@ -522,6 +566,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        if #available(iOS 27.1, *) {
+            updateLargeScreenLayoutIfNeeded()
+        }
         episodesTable.contentInset.bottom = Constants.effectiveMiniPlayerOffset + (isMultiSelectEnabled ? 80 : 0)
         episodesTable.verticalScrollIndicatorInsets.bottom = episodesTable.contentInset.bottom
     }
@@ -567,8 +614,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         episodesTable.reloadData()
     }
 
-    private func updateColors() {
-        view.backgroundColor = ThemeColor.primaryUi01()
+    func updateColors() {
+        // The header column has the same background as the episodes next to it
+        view.backgroundColor = isShowingLargeScreenSplit ? ThemeColor.primaryUi02() : ThemeColor.primaryUi01()
         reloadData()
         navTitleLabel.textColor = ThemeColor.primaryText01()
     }
@@ -721,6 +769,9 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
             self.updateSearchHeader(uuidsToFilter: uuidsToFilter)
             if self.isMultiSelectEnabled {
                 self.updateSelectAllBtn()
+            }
+            if #available(iOS 27.1, *) {
+                self.updateLargeScreenHeader()
             }
         }
 
@@ -1415,8 +1466,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
     private var dimmingView: UIView?
 
     func showViewChangesTipIfNeeded() {
+        // The tip is about collapsing the header, which its column doesn't do
         guard Settings.shouldShowPodcastViewChangesTip,
               self.podcast != nil,
+              !isShowingLargeScreenSplit,
               viewChangesTipVC == nil
         else {
             return
@@ -1592,7 +1645,7 @@ extension PodcastViewController: AnalyticsSourceProvider {
     }
 }
 
-private extension PodcastViewController {
+extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
     }

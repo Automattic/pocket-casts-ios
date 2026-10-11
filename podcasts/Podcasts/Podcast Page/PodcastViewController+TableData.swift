@@ -127,8 +127,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         switch currentViewMode {
         case .episodes:
             if indexPath.section == PodcastViewController.headerSection {
-                let cell = podcastHeaderCell
-                return cell
+                return headerRowCell
             }
 
             guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
@@ -191,8 +190,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .bookmarks:
             if indexPath.section == PodcastViewController.headerSection {
-                let cell = podcastHeaderCell
-                return cell
+                return headerRowCell
             }
 
             return bookmarkList?.cell(tableView, for: indexPath) ?? UITableViewCell()
@@ -200,8 +198,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
-                let cell = podcastHeaderCell
-                return cell
+                return headerRowCell
             case .loading:
                 let cell = tableView.dequeueReusableCell(withIdentifier: LoadingCell.reuseIdentifier, for: indexPath) as! LoadingCell
                 return cell
@@ -248,11 +245,12 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cellHeights[indexPath] = cell.frame.size.height
+        cell.setRowBackgroundTransparent(isShowingLargeScreenSplit)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == PodcastViewController.headerSection {
-            return podcastHeaderCell.rowHeight
+            return isShowingLargeScreenSplit ? UITableView.automaticDimension : podcastHeaderCell.rowHeight
         }
 
         return UITableView.automaticDimension

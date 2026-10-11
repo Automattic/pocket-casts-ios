@@ -30,16 +30,25 @@ struct PodcastHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastHeaderViewModel
 
+    /// Whether the header is a column next to the episodes (`LargeScreenDetailsLayout`) rather
+    /// than their first row. The column is always expanded and leaves the tabs to the episodes.
+    var isColumn = false
+
     @State private var contentHeight: CGFloat = RichExpandableLabel.estimateHeightFor(maxLines: 3, lineHeightMultiple: 1.4, font: UIFont.preferredFont(forTextStyle: .body))
+
+    private var isExpanded: Bool {
+        isColumn || viewModel.isExpanded
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer().frame(height: titleBottomMargin)
+            Spacer().frame(height: isColumn ? itemMargin : titleBottomMargin)
             HStack(alignment: .top) {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .detail)
-                    .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
+                    .frame(width: isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
                     .onTapGesture {
+                        guard !isColumn else { return }
                         withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
                             viewModel.toggleExpanded()
                         }
@@ -53,8 +62,8 @@ struct PodcastHeaderView: View {
                 Spacer().frame(height: itemMargin)
                 podcastCategory
             }
-                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
-                .opacity(viewModel.isExpanded ? 1 : 0)
+                .frame(maxHeight: isExpanded ? .infinity : 0)
+                .opacity(isExpanded ? 1 : 0)
                 .clipped()
             Spacer().frame(height: topMarginForTitle)
             podcastTitle
@@ -72,12 +81,14 @@ struct PodcastHeaderView: View {
                 podcastDetails
                 Spacer().frame(height: itemMargin)
             }
-                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
-                .opacity(viewModel.isExpanded ? 1 : 0)
+                .frame(maxHeight: isExpanded ? .infinity : 0)
+                .opacity(isExpanded ? 1 : 0)
                 .clipped()
-            PodcastDetailsTabView(delegate: viewModel.delegate)
+            if !isColumn {
+                PodcastDetailsTabView(delegate: viewModel.delegate)
+            }
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, isColumn ? 24 : 16)
     }
 
     func makeText() -> Text {
@@ -117,7 +128,7 @@ struct PodcastHeaderView: View {
     var topMarginForTitle: CGFloat {
         let font = UIFont.preferredFont(forTextStyle: .title2)
         let adjustment =  font.lineHeight - font.capHeight + font.descender
-        return (viewModel.isExpanded ? 18 : 26) - adjustment
+        return (isExpanded ? 18 : 26) - adjustment
     }
 
     var bottomMarginAdjustmentForTitle: CGFloat {
@@ -135,17 +146,20 @@ struct PodcastHeaderView: View {
             Text(viewModel.podcast.title ?? "")
                 .font(.title2).bold()
                 .fixedSize(horizontal: false, vertical: true)
-            Image("chevron-small-down")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: itemMargin, height: itemMargin)
-                .padding(.horizontal, 4)
-                .rotationEffect(.degrees(viewModel.isExpanded ? 180 : 0))
-                .contentShape(Rectangle())
+            if !isColumn {
+                Image("chevron-small-down")
+                    .resizable()
+                    .renderingMode(.template)
+                    .frame(width: itemMargin, height: itemMargin)
+                    .padding(.horizontal, 4)
+                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                    .contentShape(Rectangle())
+            }
         }
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
         .onTapGesture {
+            guard !isColumn else { return }
             withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
                 viewModel.toggleExpanded()
             }
