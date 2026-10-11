@@ -33,9 +33,12 @@ final class ViewControllerContainerContentView: UIView, UIContentView {
         didSet {
             guard oldValue.viewController !== _configuration.viewController else { return }
             subviews.first?.removeFromSuperview()
+            appliedMargins = nil
             setupConstraints()
         }
     }
+
+    private var appliedMargins: UIEdgeInsets?
 
     init(configuration: UIViewControllerContentConfiguration) {
         self._configuration = configuration
@@ -77,7 +80,9 @@ final class ViewControllerContainerContentView: UIView, UIContentView {
     private func updateLayoutMargins() -> Bool {
         let view = _configuration.viewController.view!
         let margins = UIEdgeInsets(top: 0, left: safeAreaInsets.left, bottom: 0, right: safeAreaInsets.right)
-        guard view.layoutMargins != margins else { return false }
+        guard appliedMargins != margins else { return false }
+        appliedMargins = margins
+        view.layoutMargins = UIEdgeInsets(top: 0, left: margins.left + 1, bottom: 0, right: margins.right + 1)
         view.layoutMargins = margins
         return true
     }
