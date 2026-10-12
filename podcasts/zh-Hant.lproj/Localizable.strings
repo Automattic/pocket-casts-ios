@@ -2319,12 +2319,6 @@ Pocket Casts Plus</string>
     <string>所有追蹤的 Podcast</string>
     <key>playlist_smart_rule_save_button</key>
     <string>儲存智慧規則</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>如果標星號的單集符合其他規則，仍會顯示出來。</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>只包含符合其他規則的標星號單集。</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>標星號的單集</string>
     <key>playlist_smart_rules_title</key>
     <string>智慧規則</string>
     <key>playlists</key>

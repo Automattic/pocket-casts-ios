@@ -2319,12 +2319,6 @@ Pocket Casts。</string>
     <string>所有已关注播客</string>
     <key>playlist_smart_rule_save_button</key>
     <string>保存智能规则</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>如果符合您的其他规则，星标剧集仍会显示。</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>仅包括符合您的其他规则的星标剧集。</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>星标剧集</string>
     <key>playlist_smart_rules_title</key>
     <string>智能规则</string>
     <key>playlists</key>

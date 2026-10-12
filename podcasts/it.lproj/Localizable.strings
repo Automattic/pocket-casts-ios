@@ -2319,12 +2319,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Tutti i podcast che segui</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Salva regola intelligente</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Gli episodi preferiti possono comunque apparire se corrispondono alle altre regole che hai impostato.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Includi solo gli episodi preferiti che corrispondono alle altre regole che hai impostato.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Episodi preferiti</string>
     <key>playlist_smart_rules_title</key>
     <string>Regole intelligenti</string>
     <key>playlists</key>
