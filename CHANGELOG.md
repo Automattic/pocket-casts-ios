@@ -1,3 +1,7 @@
+8.24
+-----
+
+
 8.23
 -----
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)

@@ -17,6 +17,12 @@
 /* A common string used throughout the app. Accessibility hint to inform that the control dismisses the current window. */
 "accessibility_dismiss" = "Dismiss";
 
+/* Accessibility label for the button that follows a podcast, used in lists where several podcasts each have a Follow button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_follow_podcast" = "Follow %1$@";
+
+/* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_unfollow_podcast" = "Unfollow %1$@";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 
@@ -577,6 +583,9 @@
 
 /* Prompt to allow the user to manually change the regional information for the Discover tab. '%1$@' is a placeholder for the current region. */
 "discover_change_region" = "Change Region, currently %1$@";
+
+/* Accessibility label for the X button next to the selected category pill on Discover. Clears the selected category so all categories are shown again. */
+"discover_clear_category" = "Clear Category";
 
 /* Badge used to mark featured podcasts. */
 "discover_featured" = "Featured";
@@ -1411,6 +1420,12 @@
 
 /* Import button text */
 "import" = "Import";
+
+/* Title of the alert shown when the user opens a .pcasts export file in the app. */
+"pcasts_import_title" = "Import Podcasts and Settings";
+
+/* Message of the alert shown when the user opens a .pcasts export file in the app. Importing replaces the current podcasts and settings, and closes the app. */
+"pcasts_import_message" = "This will replace your podcasts and settings with the contents of this file, and Pocket Casts will close.";
 
 /* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_message" = "Unable to import podcasts from the OPML file you specified. Please check that it's valid";
@@ -3822,6 +3837,9 @@
 /* A common string used throughout the app. Informs the user how many podcasts are being added. '%1$@' is a placeholder for the number of podcasts, this will be more than one. */
 "folder_add_podcasts_plural_format" = "Add %1$@ Podcasts";
 
+/* Label for the button to continue creating a folder without adding any podcasts to it. */
+"folder_create_skip" = "Skip";
+
 /* Title for the folder name page*/
 "folder_name_title" = "Name your folder";
 
@@ -5190,6 +5208,9 @@
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
 
+/* Accessibility label for the Up Next Shuffle button, which plays the queued episodes in random order */
+"up_next_shuffle_button" = "Shuffle";
+
 /* Title shown at the top of the Up Next sort options picker */
 "up_next_sort_title" = "Sort Up Next";
 
@@ -5841,15 +5862,6 @@
 /* Header subtitle for smart rule podcasts when select all is off */
 "playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
-/* Header title for smart rule starred  */
-"playlist_smart_rule_starred_header_title" = "Starred episodes";
-
-/* Header subtitle for smart rule starred when the toggle is on */
-"playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
-
-/* Header subtitle for smart rule starred when the toggle is off */
-"playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
-
 /* Title for the button used during the Playlist creation */
 "playlist_creation_create_playlist_button" = "Create playlist";
 
@@ -5910,11 +5922,14 @@
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
 
+/* Manual Playlist: empty state subtitle when no episodes are added. Shown above the "Add episodes" button, which lets people pick episodes from the podcasts they follow */
+"playlist_manual_empty_state_subtitle" = "Pick episodes from the podcasts you follow. Or swipe left on any episode to add it as you go.";
+
 /* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
 
-/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
-"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts. Shown above the "Browse podcasts" button, which opens Discover */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Find a podcast you like, then swipe left on any episode to add it.";
 
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_browse_shows_title" = "Browse podcasts";
@@ -5974,7 +5989,7 @@
 "playlist_play_all_sheet_title" = "Replace your Up Next?";
 
 /* Play all sheet description */
-"playlist_play_all_sheet_description" = "Playing this will replace your current Up Next.";
+"playlist_play_all_sheet_description" = "Playing this will replace your current Up Next. Save it as a playlist to keep it.";
 
 /* Play all sheet toggle description */
 "playlist_play_all_sheet_toggle" = "Save your current Up Next queue as a playlist.";
