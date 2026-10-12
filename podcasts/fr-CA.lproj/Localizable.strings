@@ -2319,12 +2319,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Tous les podcasts auxquels vous êtes abonné(e)</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Enregistrer la règle intelligente</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Les épisodes marqués d’une étoile peuvent toujours apparaître s’ils correspondent à vos autres règles.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Incluez uniquement les épisodes marqués d’une étoile qui correspondent à vos autres règles.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Épisodes marqués d’une étoile</string>
     <key>playlist_smart_rules_title</key>
     <string>Règles intelligentes</string>
     <key>playlists</key>

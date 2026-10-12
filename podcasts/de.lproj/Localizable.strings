@@ -2319,12 +2319,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Alle abonnierten Podcasts</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Intelligente Regel speichern</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Mit Stern markierte Folgen können immer noch angezeigt werden, wenn sie deinen anderen Regeln entsprechen.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Füge nur mit Stern markierte Folgen hinzu, die deinen anderen Regeln entsprechen.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Mit Stern markierte Folgen</string>
     <key>playlist_smart_rules_title</key>
     <string>Intelligente Regeln</string>
     <key>playlists</key>

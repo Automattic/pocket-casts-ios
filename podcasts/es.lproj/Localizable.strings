@@ -2319,12 +2319,6 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Todos los podcasts seguidos</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Guardar regla inteligente</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Los episodios destacados pueden seguir apareciendo si coinciden con tus otras reglas.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Solo incluye episodios destacados que coincidan con tus otras reglas.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Episodios destacados</string>
     <key>playlist_smart_rules_title</key>
     <string>Reglas inteligentes</string>
     <key>playlists</key>

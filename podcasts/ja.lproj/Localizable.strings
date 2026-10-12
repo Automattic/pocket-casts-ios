@@ -2319,12 +2319,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フォロー中のすべてのポッドキャスト</string>
     <key>playlist_smart_rule_save_button</key>
     <string>スマートルールを保存</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>星付きエピソードは、他のルールと一致する場合にも引き続き表示できます。</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>他のルールに一致する星付きエピソードのみを含めます。</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>星付きエピソード</string>
     <key>playlist_smart_rules_title</key>
     <string>スマートルール</string>
     <key>playlists</key>

@@ -2313,12 +2313,6 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Tots els pòdcasts que segueixes</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Desa la regla intel·ligent</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Els episodis destacats poden seguir apareixent si coincideixen amb altres regles.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Només inclou episodis destacats que coincideixin amb les teves altres regles.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Episodis destacats</string>
     <key>playlist_smart_rules_title</key>
     <string>Regles intel·ligents</string>
     <key>playlists</key>

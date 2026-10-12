@@ -2319,12 +2319,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Alla följda podcasts</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Spara smart regel</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Stjärnmärkta avsnitt kan fortfarande visas om de matchar dina andra regler.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Inkludera endast stjärnmärkta avsnitt som matchar dina andra regler.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Stjärnmärkta avsnitt</string>
     <key>playlist_smart_rules_title</key>
     <string>Smarta regler</string>
     <key>playlists</key>
