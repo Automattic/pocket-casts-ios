@@ -30,4 +30,8 @@ class DeleteAccountTask: ApiBaseTask, @unchecked Sendable {
             completion?(false, nil)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(false, nil)
+    }
 }
