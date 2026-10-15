@@ -884,7 +884,18 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         let settingsController = PodcastSettingsViewController(podcast: podcast)
         settingsController.episodes = episodeInfo
-        navigationController?.pushViewController(settingsController, animated: true)
+        // Check the window's traits: MainTabBarController can leave its children with a compact horizontal size class on iPad
+        if let windowTraits = view.window?.traitCollection, windowTraits.horizontalSizeClass == .regular, windowTraits.verticalSizeClass == .regular {
+            settingsController.onUnsubscribe = { [weak self] in
+                self?.dismiss(animated: true)
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+            let navController = SJUIUtils.navController(for: settingsController)
+            navController.modalPresentationStyle = .formSheet
+            present(navController, animated: true)
+        } else {
+            navigationController?.pushViewController(settingsController, animated: true)
+        }
         Analytics.track(.podcastScreenSettingsTapped)
     }
 
