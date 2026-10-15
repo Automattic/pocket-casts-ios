@@ -238,8 +238,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @objc private func settingsTapped() {
         Analytics.track(.profileSettingsButtonTapped)
 
-        let settingsController = SettingsViewController()
-        navigationController?.pushViewController(settingsController, animated: true)
+        guard let navigationController else { return }
+        SettingsViewController.open(from: navigationController, animated: true)
     }
 
     @objc private func whatsNewTapped() {
