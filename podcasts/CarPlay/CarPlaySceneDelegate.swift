@@ -19,10 +19,21 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         interfaceController.delegate = self
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
-        interfaceController.setRootTemplate(tabTemplate)
+        setupNowPlaying()
+
+        interfaceController.setRootTemplate(tabTemplate, animated: true) { [weak interfaceController] _, error in
+            if let error {
+                FileLog.shared.addMessage("[CarPlay] Could not set the root template to \(tabTemplate.debugTitle). Error: \(error)")
+                return
+            }
+
+            // Open on the loaded episode, playing or paused, with the tabs behind it.
+            if PlaybackManager.shared.currentEpisode != nil {
+                interfaceController?.showNowPlaying()
+            }
+        }
 
         self.visibleTemplate = tabTemplate.selectedTemplate
-        setupNowPlaying()
     }
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
