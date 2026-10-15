@@ -13,6 +13,49 @@ fileprivate extension URL {
 
 class TokenHelperTests: XCTestCase {
 
+    override func tearDown() {
+        super.tearDown()
+        SyncManager.clearTokensFromKeyChain()
+        ServerSettings.setSyncingEmail(email: nil)
+        ServerSettings.userId = nil
+    }
+
+    func testTokenCleanUpSilentlyRemovesStaleCredentials() {
+        // Simulate stale keychain state: email exists but no password or refresh token.
+        // This can happen with old installs where the keychain data survives but the
+        // account no longer exists on the server.
+        ServerSettings.setSyncingEmail(email: "stale@example.com")
+        XCTAssertTrue(SyncManager.isUserLoggedIn())
+
+        var signOutNotificationPosted = false
+        let observer = NotificationCenter.default.addObserver(
+            forName: .serverUserWillBeSignedOut,
+            object: nil,
+            queue: nil
+        ) { _ in
+            signOutNotificationPosted = true
+        }
+        defer { NotificationCenter.default.removeObserver(observer) }
+
+        let tokenHelper = TokenHelper(urlConnection: URLConnection { _ in
+            throw NSError(domain: "test", code: -1)
+        })
+
+        // acquireToken() must run off the main thread because it internally
+        // dispatches to main to check application state and waits on a semaphore.
+        let expectation = XCTestExpectation(description: "acquireToken completes")
+        var token: String?
+        DispatchQueue.global().async {
+            token = tokenHelper.acquireToken()
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10)
+
+        XCTAssertNil(token, "Should not acquire a token with stale credentials")
+        XCTAssertFalse(signOutNotificationPosted, "Should not show sign-out alert for stale credentials")
+        XCTAssertFalse(SyncManager.isUserLoggedIn(), "Stale login state should be cleared")
+    }
+
     /// Tests the acquirePasswordToken function
     func testAcquirePasswordToken() {
         ServerSettings.setSyncingEmail(email: "test@test.com")
