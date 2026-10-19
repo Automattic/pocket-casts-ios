@@ -87,8 +87,13 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentInsetAdjustmentBehavior = .never
         return view
     }()
+
+    private static let badgeTopMargin: CGFloat = 56
+
+    private var badgeTopConstraint: NSLayoutConstraint?
 
     private lazy var paywallButton: UIButton = {
         var config = UIButton.Configuration.filled()
@@ -238,6 +243,9 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         let topMargin = showFromEpisode ? 24.0 : 0.0
         let paywallButtonBottomMargin: CGFloat = showFromEpisode ? -readableContentGuideMargin : 0.0
 
+        let badgeTopConstraint = badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: Self.badgeTopMargin + view.safeAreaInsets.top)
+        self.badgeTopConstraint = badgeTopConstraint
+
         NSLayoutConstraint.activate(
             [
                 blurEffectView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -254,7 +262,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 badge.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-                badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 56),
+                badgeTopConstraint,
                 titleLabel.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 24),
                 titleLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor, constant: readableContentGuideMargin),
                 titleLabel.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -readableContentGuideMargin),
@@ -280,14 +288,20 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         )
     }
 
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        badgeTopConstraint?.constant = Self.badgeTopMargin + view.safeAreaInsets.top
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         // Inset bottom of scroll content by button height + spacing
         let buttonHeight = paywallButton.frame.height
         let spacing: CGFloat = 10 // padding above + below button
-        scrollView.contentInset.bottom = buttonHeight + spacing
-        scrollView.verticalScrollIndicatorInsets.bottom = buttonHeight + spacing
+        let bottomInset = buttonHeight + spacing + view.safeAreaInsets.bottom
+        scrollView.contentInset.bottom = bottomInset
+        scrollView.verticalScrollIndicatorInsets.bottom = bottomInset
 
         updateLargeScreenBackgroundCopy()
     }
