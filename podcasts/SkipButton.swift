@@ -37,6 +37,7 @@ class SkipButton: UIButton {
     private let skipLabel: UILabel
 
     private var currentSize: Size = .large
+    private var replacementSnapshot: UIView?
 
     private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
     private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
@@ -126,26 +127,51 @@ class SkipButton: UIButton {
         guard let lottieView = subviews.first as? LottieAnimationView,
               let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
 
+        snapshot.backgroundColor = withBackground
+        subviews.first?.addSubview(snapshot)
+        constrain(snapshot, to: lottieView)
+
+        animationView.clipsToBounds = true
+    }
+
+    /// For a background that isn't a solid color, which the snapshot can't use to cover the
+    /// animation view. The snapshot takes the animation view's place instead.
+    func prepareForAnimateTransitionReplacingAnimation() {
+        guard let lottieView = subviews.first as? LottieAnimationView,
+              let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
+
+        snapshot.transform = lottieView.transform
+        addSubview(snapshot)
+        constrain(snapshot, to: lottieView)
+        // So it doesn't animate in from a zero frame.
+        layoutIfNeeded()
+        lottieView.alpha = 0
+        replacementSnapshot = snapshot
+    }
+
+    private func constrain(_ snapshot: UIView, to lottieView: UIView) {
         let multiplier = currentSize == .large ? Size.large.sizes.width / Size.large.sizes.height : Size.large.sizes.height / Size.large.sizes.width
 
         snapshot.translatesAutoresizingMaskIntoConstraints = false
-        snapshot.backgroundColor = withBackground
-        subviews.first?.addSubview(snapshot)
         NSLayoutConstraint.activate([
             snapshot.widthAnchor.constraint(equalTo: lottieView.widthAnchor, multiplier: multiplier),
             snapshot.heightAnchor.constraint(equalTo: lottieView.heightAnchor),
             snapshot.centerXAnchor.constraint(equalTo: lottieView.centerXAnchor),
             snapshot.centerYAnchor.constraint(equalTo: lottieView.centerYAnchor)
         ])
-
-        animationView.clipsToBounds = true
     }
 
     func finishedTransition() {
         guard let lottieView = subviews.first else { return }
 
         animationView.clipsToBounds = false
-        lottieView.subviews.first?.removeFromSuperview()
+        if let replacementSnapshot {
+            replacementSnapshot.removeFromSuperview()
+            self.replacementSnapshot = nil
+            lottieView.alpha = 1
+        } else {
+            lottieView.subviews.first?.removeFromSuperview()
+        }
     }
 
     enum Size {
