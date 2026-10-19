@@ -105,7 +105,7 @@ class CarPlayImageHelper {
     private static func cacheImage(_ image: UIImage, for key: String, maxSize: CGSize) {
         let cacheKey = "\(key)_\(maxSize.width)"
 
-        imageCache.store(image, forKey: cacheKey, cacheSerializer: PNGCacheSerializer.shared)
+        ImageManager.shared.store(image, forKey: cacheKey, in: imageCache)
     }
 
     private enum Constants {
