@@ -9,6 +9,12 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
+    private static let originalDataSerializer: DefaultCacheSerializer = {
+        var serializer = DefaultCacheSerializer()
+        serializer.preferCacheOriginalData = true
+        return serializer
+    }()
+
     // search image cache, we limit this to 10MBs
     private var searchImageCache = ImageCache(name: "generalImageCache")
 
@@ -108,13 +114,8 @@ class ImageManager {
 
     func storeDiscoverVideoThumbnail(for imageUrl: String, image: UIImage) async -> Bool {
         await withCheckedContinuation { continuation in
-            self.discoverVideoThumbnailCache.store(image, forKey: imageUrl) { result in
-                switch result.diskCacheResult {
-                case .success:
-                    continuation.resume(returning: true)
-                case .failure:
-                    continuation.resume(returning: false)
-                }
+            self.store(image, forKey: imageUrl, in: self.discoverVideoThumbnailCache) { didStoreToDisk in
+                continuation.resume(returning: didStoreToDisk)
             }
         }
     }
@@ -265,9 +266,21 @@ class ImageManager {
         }
     }
 
-    func save(_ image: UIImage, for episodeUuid: String) {
-        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+    func save(_ image: UIImage, original: Data? = nil, for episodeUuid: String) {
+        store(image, original: original, forKey: episodeUuid, in: subscribedPodcastsCache) { _ in
             NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
+        }
+    }
+
+    func store(_ image: UIImage, original: Data? = nil, forKey key: String, in cache: ImageCache, completion: ((Bool) -> Void)? = nil) {
+        guard let data = original ?? image.dataForImageCache else {
+            cache.store(image, forKey: key, toDisk: false)
+            completion?(false)
+            return
+        }
+
+        cache.store(image, original: data, forKey: key, cacheSerializer: Self.originalDataSerializer) { result in
+            completion?((try? result.diskCacheResult.get()) != nil)
         }
     }
 
@@ -585,6 +598,17 @@ class ImageManager {
             return Int(round(shortestSide * UIScreen.main.scale / 3.0))
         case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
+        }
+    }
+}
+
+private extension UIImage {
+    var dataForImageCache: Data? {
+        switch cgImage?.alphaInfo {
+        case .some(.none), .some(.noneSkipFirst), .some(.noneSkipLast):
+            return jpegData(compressionQuality: 0.9)
+        default:
+            return pngData()
         }
     }
 }
