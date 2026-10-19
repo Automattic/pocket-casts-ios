@@ -6,6 +6,18 @@ import PocketCastsServer
 import PocketCastsUtils
 import SJUtils
 
+struct PNGCacheSerializer: CacheSerializer {
+    static let shared = PNGCacheSerializer()
+
+    func data(with image: KFCrossPlatformImage, original: Data?) -> Data? {
+        image.pngData()
+    }
+
+    func image(with data: Data, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
+        DefaultCacheSerializer.default.image(with: data, options: options)
+    }
+}
+
 class ImageManager {
     static let shared = ImageManager()
 
@@ -108,7 +120,7 @@ class ImageManager {
 
     func storeDiscoverVideoThumbnail(for imageUrl: String, image: UIImage) async -> Bool {
         await withCheckedContinuation { continuation in
-            self.discoverVideoThumbnailCache.store(image, forKey: imageUrl) { result in
+            self.discoverVideoThumbnailCache.store(image, forKey: imageUrl, cacheSerializer: PNGCacheSerializer.shared) { result in
                 switch result.diskCacheResult {
                 case .success:
                     continuation.resume(returning: true)
@@ -266,7 +278,7 @@ class ImageManager {
     }
 
     func save(_ image: UIImage, for episodeUuid: String) {
-        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+        subscribedPodcastsCache.store(image, forKey: episodeUuid, cacheSerializer: PNGCacheSerializer.shared) { _ in
             NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
