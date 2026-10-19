@@ -14,6 +14,9 @@ final class PlayerLargeScreenLayout {
     let background = PlayerArtworkBackgroundView()
     let grabber = PlayerGrabberView()
     let divider = UIView()
+    /// A copy of the background under the transcript that covers Now Playing.
+    let transcriptBackground = PlayerArtworkBackgroundView()
+    var transcriptBackgroundConstraints: [NSLayoutConstraint] = []
 
     /// Whether the tabs are next to Now Playing rather than paged after it.
     var isSplit = false
@@ -105,6 +108,25 @@ extension PlayerContainerViewController {
         nowPlayingItem.didMove(toParent: layout.playerPane)
     }
 
+    /// Lines the transcript's copy of the player background up with the original, once the
+    /// transcript is on screen and they share a view hierarchy.
+    func updateLargeScreenTranscriptBackground() {
+        guard let layout = largeScreenLayout,
+              layout.transcriptBackgroundConstraints.isEmpty,
+              transcriptContainerView.window != nil,
+              layout.transcriptBackground.superview != nil else { return }
+
+        let background = layout.background
+        let copy = layout.transcriptBackground
+        layout.transcriptBackgroundConstraints = [
+            copy.leadingAnchor.constraint(equalTo: background.leadingAnchor),
+            copy.topAnchor.constraint(equalTo: background.topAnchor),
+            copy.widthAnchor.constraint(equalTo: background.widthAnchor),
+            copy.heightAnchor.constraint(equalTo: background.heightAnchor)
+        ]
+        NSLayoutConstraint.activate(layout.transcriptBackgroundConstraints)
+    }
+
     /// Splits Now Playing and the tabs when the arrangement shows both views, and pages them otherwise.
     func updateLargeScreenLayoutIfNeeded() {
         guard let layout = largeScreenLayout, let windowScene = view.window?.windowScene else { return }
@@ -127,6 +149,7 @@ extension PlayerContainerViewController {
         if isSplit != layout.isSplit {
             applyLargeScreenLayout(isSplit: isSplit)
         }
+        updateLargeScreenTranscriptBackground()
         keepLargeScreenTabInView()
     }
 
@@ -202,6 +225,15 @@ extension PlayerContainerViewController {
             transcriptContainerView.trailingAnchor.constraint(equalTo: playerSafeArea.trailingAnchor),
             transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor)
         ]
+
+        // The transcript covers Now Playing with a copy of the player background, not a solid color.
+        NSLayoutConstraint.deactivate(layout.transcriptBackgroundConstraints)
+        layout.transcriptBackgroundConstraints = []
+        layout.transcriptBackground.translatesAutoresizingMaskIntoConstraints = false
+        transcriptContainerView.clipsToBounds = true
+        transcriptContainerView.backgroundColor = .clear
+        transcriptContainerView.insertSubview(layout.transcriptBackground, at: 0)
+        layout.background.addCopy(layout.transcriptBackground)
 
         NSLayoutConstraint.activate(constraints)
         layout.constraints = constraints
