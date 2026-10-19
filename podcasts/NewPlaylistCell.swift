@@ -55,6 +55,7 @@ class NewPlaylistCell: ThemeableCell {
                 .environmentObject(Theme.shared)
         }
         .margins(.vertical, 12)
+        .margins(.leading, 16)
 
         addSubview(artworkImageSource)
         addSubview(separatorView)
