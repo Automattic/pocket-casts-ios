@@ -289,6 +289,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         setUpArtworkImageView()
         letTitleInfoGrow()
         limitShelfWidth()
+        if usesLargeScreenStyle {
+            playPauseBtn.useSymbolImage(pointSize: 120, scalesToFit: true)
+        }
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
