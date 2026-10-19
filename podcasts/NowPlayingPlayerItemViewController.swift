@@ -112,7 +112,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             floatingVideoView.addGestureRecognizer(tapGesture)
 
             floatingVideoView.onFullScreenTapped = { [weak self] in
-                self?.videoTapped()
+                self?.showVideo(rotatesToLandscape: true)
             }
         }
     }
@@ -725,10 +725,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
+        showVideo(rotatesToLandscape: false)
+    }
+
+    private func showVideo(rotatesToLandscape: Bool) {
         guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
         if PlaybackManager.shared.shouldRenderVideo() {
             let videoController = VideoViewController()
+            videoController.rotatesToLandscape = rotatesToLandscape
+            videoController.orientationAtPresentation = view.window?.windowScene?.interfaceOrientation ?? .portrait
             videoViewController = videoController
             videoViewController?.modalPresentationStyle = .fullScreen
             if #available(iOS 18.0, *) {
