@@ -37,9 +37,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
-        // The chevron asset has a lot of built-in transparent padding, so a negative spacing is
-        // needed to bring the visible glyph to within ~4pt of the text.
-        stack.spacing = -8
+        stack.spacing = 0
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()

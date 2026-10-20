@@ -65,9 +65,7 @@ struct HorizontalCollectionListRowView: View {
             Button {
                 model.showCollection()
             } label: {
-                // The chevron asset has a lot of built-in transparent padding, so a negative
-                // spacing is needed to bring the visible glyph to within ~4pt of the text.
-                HStack(spacing: -8) {
+                HStack(spacing: 0) {
                     Text(model.type)
                         .foregroundStyle(theme.primaryText01)
                         .font(size: 22, style: .title, weight: .bold)
