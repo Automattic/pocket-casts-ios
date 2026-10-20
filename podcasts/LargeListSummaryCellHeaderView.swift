@@ -45,7 +45,7 @@ class LargeListSummaryCellHeaderView: UIView {
     private let chevronImageView: ThemeableImageView = {
         let imageView = ThemeableImageView(frame: .zero)
         imageView.image = UIImage(named: "chevron-small-right")
-        imageView.imageStyle = .primaryIcon02
+        imageView.imageStyle = .primaryIcon03
         imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         imageView.setContentHuggingPriority(.required, for: .horizontal)
@@ -138,7 +138,9 @@ class LargeListSummaryCellHeaderView: UIView {
             horizontalStack.topAnchor.constraint(equalTo: topAnchor),
             horizontalStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageWidthAnchor,
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            chevronImageView.widthAnchor.constraint(equalToConstant: 32),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 32)
         ])
 
         titleRow.addArrangedSubview(bottomLabel)
