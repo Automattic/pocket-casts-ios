@@ -67,9 +67,7 @@ class LargeListSummaryCellHeaderView: UIView {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
-        // The chevron asset has a lot of built-in transparent padding, so a negative spacing is
-        // needed to bring the visible glyph to within ~4pt of the text.
-        stack.spacing = -8
+        stack.spacing = 0
         return stack
     }()
 
