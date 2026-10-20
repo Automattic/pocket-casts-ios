@@ -28,6 +28,9 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
         super.viewDidLoad()
 
         playlistSelectionTable.reloadData()
+        if navigationController?.presentingViewController != nil {
+            insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
+        }
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: playlistSelectionTable)
     }
 
