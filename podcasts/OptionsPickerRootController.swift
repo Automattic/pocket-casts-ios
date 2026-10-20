@@ -24,6 +24,11 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
     private let layoutHorizontalMargin = CGFloat(20)
     private var actionsAdded = 0
 
+    private var pickerTitle: String?
+    private var explicitColors: Colors?
+    private var contentBuilders: [() -> Void] = []
+    private var isConfiguredForSheetPresentation = false
+
     private var themeOverride: Theme.ThemeType?
     private var iconTintStyle: ThemeStyle = .primaryIcon01
     // this is not a weak var on purpose, nothing retains an OptionsPicker so we will until it dismisses
@@ -34,11 +39,31 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
     }
 
     func setup(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle, colors: Colors? = nil) {
-        let colors = colors ?? Colors(theme: themeOverride ?? Theme.shared.activeTheme)
-
-        view.clipsToBounds = true
+        pickerTitle = title
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
+        explicitColors = colors
+
+        buildContainer()
+
+        // make actions a bit smaller on tiny phones
+        if view.bounds.height < 600 {
+            actionHeight = 64
+        }
+
+        if themeOverride == nil, colors == nil {
+            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    private func buildContainer() {
+        let colors = explicitColors ?? Colors(theme: themeOverride ?? Theme.shared.activeTheme)
+
+        view.clipsToBounds = true
 
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,17 +102,43 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        if let title {
-            addTitle(title, titleColor: colors.title)
-        }
-
-        // make actions a bit smaller on tiny phones
-        if view.bounds.height < 600 {
-            actionHeight = 64
+        if let pickerTitle {
+            addTitle(pickerTitle, titleColor: colors.title)
         }
     }
 
+    @objc private func themeDidChange() {
+        scrollView.removeFromSuperview()
+        actionsAdded = 0
+        buildContainer()
+        contentBuilders.forEach { $0() }
+        if isConfiguredForSheetPresentation {
+            configureForSheetPresentation()
+        }
+    }
+
+    private func recordContent(_ builder: @escaping () -> Void) {
+        contentBuilders.append(builder)
+        builder()
+    }
+
     func addAction(action: OptionAction) {
+        recordContent { [weak self] in self?.insertAction(action) }
+    }
+
+    func addDescriptiveActions(title: String, message: String?, icon: String, actions: [OptionAction]) {
+        recordContent { [weak self] in self?.insertDescriptiveActions(title: title, message: message, icon: icon, actions: actions) }
+    }
+
+    func addAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
+        recordContent { [weak self] in self?.insertAttributedDescriptiveActions(title: title, message: message, icon: icon, actions: actions) }
+    }
+
+    func addSegmentedAction(name: String, icon: String?, actions: [OptionAction]) {
+        recordContent { [weak self] in self?.insertSegmentedAction(name: name, icon: icon, actions: actions) }
+    }
+
+    private func insertAction(_ action: OptionAction) {
         if actionsAdded > 0 { addDivider() }
 
         let actionView = SimpleActionView(frame: .zero, action: action, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
@@ -104,7 +155,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
         actionsAdded += 1
     }
 
-    func addDescriptiveActions(title: String, message: String?, icon: String, actions: [OptionAction]) {
+    private func insertDescriptiveActions(title: String, message: String?, icon: String, actions: [OptionAction]) {
         let actionView = DescriptiveActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), title: title, message: message, icon: icon, actions: actions, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
         stackView.addArrangedSubview(actionView)
         NSLayoutConstraint.activate([
@@ -116,7 +167,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
         actionsAdded += 1
     }
 
-    func addAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
+    private func insertAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
         let actionView = DescriptiveActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), title: title, message: message, icon: icon, actions: actions, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle) { [weak self] in
             self?.animateOut(optionChosen: false)
         }
@@ -130,7 +181,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
         actionsAdded += 1
     }
 
-    func addSegmentedAction(name: String, icon: String?, actions: [OptionAction]) {
+    private func insertSegmentedAction(name: String, icon: String?, actions: [OptionAction]) {
         if actionsAdded > 0 { addDivider() }
 
         let actionView = MultipleActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), name: name, icon: icon, actions: actions, themeOverride: themeOverride)
@@ -152,6 +203,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
     /// Applies the styling and per-action layout needed before the options are
     /// shown in a natively-presented sheet.
     func configureForSheetPresentation() {
+        isConfiguredForSheetPresentation = true
         if LiquidGlass.isEnabled {
             view.backgroundColor = scrollView.backgroundColor?.withAlphaComponent(0.85)
             scrollView.backgroundColor = .clear

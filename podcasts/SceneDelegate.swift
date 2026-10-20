@@ -15,6 +15,9 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
         // Capture the system style before applying any window-level override so the
         // initial value reflects the actual system, not our override.
         Theme.systemIsDark = (windowScene.traitCollection.userInterfaceStyle == .dark)
+        if Settings.shouldFollowSystemTheme {
+            Theme.shared.toggleTheme()
+        }
         window.applyInterfaceStyleForActiveTheme()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
 
