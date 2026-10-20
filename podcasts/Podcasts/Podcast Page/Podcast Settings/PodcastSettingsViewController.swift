@@ -39,7 +39,7 @@ class PodcastSettingsViewController: PCViewController {
         settingsTable.estimatedRowHeight = UITableView.automaticDimension
 
         if navigationController?.viewControllers.first === self {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTapped))
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTapped))
             insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
         }
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
