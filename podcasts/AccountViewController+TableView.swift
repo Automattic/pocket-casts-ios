@@ -192,10 +192,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
             changeEmailVC.delegate = self
-            present(SJUIUtils.popupNavController(for: changeEmailVC), animated: true, completion: nil)
+            present(SJUIUtils.formSheetNavController(for: changeEmailVC, presentedFrom: self), animated: true, completion: nil)
         case .changePassword:
             let changePasswordVC = ChangePasswordViewController()
-            present(SJUIUtils.popupNavController(for: changePasswordVC), animated: true, completion: nil)
+            present(SJUIUtils.formSheetNavController(for: changePasswordVC, presentedFrom: self), animated: true, completion: nil)
         case .newsletter:
             break
         case .logout:
