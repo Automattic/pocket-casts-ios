@@ -133,9 +133,28 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         Analytics.track(.playerShelfOverflowMenuRearrangeStarted)
     }
 
+    /// Whether the controller is shown in an actual popover rather than adapted to a sheet.
+    private var isShownInPopover: Bool {
+        popoverPresentationController != nil && sheetPresentationController == nil
+    }
+
+    func presentAsPopover(from sourceView: UIView, in presenter: UIViewController) {
+        modalPresentationStyle = .popover
+        if let popover = popoverPresentationController {
+            popover.sourceView = sourceView
+            popover.sourceRect = sourceView.bounds
+            popover.permittedArrowDirections = [.up, .down]
+            popover.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+            popover.delegate = self
+        }
+        presenter.present(self, animated: true)
+    }
+
     private func setPreferredSize(animated: Bool) {
         let newSize: CGSize
-        if actionsTable.isEditing {
+        if isShownInPopover {
+            newSize = popoverContentSize()
+        } else if actionsTable.isEditing {
             newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
         } else {
             let baseSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -150,6 +169,20 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         } else {
             preferredContentSize = newSize
         }
+    }
+
+    private func popoverContentSize() -> CGSize {
+        let width: CGFloat = 400
+        dragHandle.isHidden = true
+        view.frame.size.width = width
+        view.layoutIfNeeded()
+        actionsTable.layoutIfNeeded()
+        actionsTable.contentInsetAdjustmentBehavior = .never
+        let lastSection = actionsTable.numberOfSections - 1
+        let lastRow = actionsTable.numberOfRows(inSection: lastSection) - 1
+        let contentHeight = lastRow >= 0 ? actionsTable.rectForRow(at: IndexPath(row: lastRow, section: lastSection)).maxY : actionsTable.contentSize.height
+        let height = headingView.bounds.height + contentHeight
+        return CGSize(width: width, height: height)
     }
 
     private func reloadActions() {
@@ -204,6 +237,19 @@ private extension ShelfActionsViewController {
         }
 
         actionsTable.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .middle)
+    }
+}
+
+extension ShelfActionsViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        .pageSheet
+    }
+
+    func presentationController(_ presentationController: UIPresentationController, prepare adaptivePresentationController: UIPresentationController) {
+        guard let sheet = adaptivePresentationController as? UISheetPresentationController else { return }
+        let height = view.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude)).height
+        sheet.detents = [.custom(resolver: { _ in height })]
+        sheet.prefersGrabberVisible = false
     }
 }
 

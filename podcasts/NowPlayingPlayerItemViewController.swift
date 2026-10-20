@@ -257,6 +257,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     /// The shelf button the Smart Bookmarks tip points at: the bookmark button when it's on the shelf, the overflow button otherwise.
     weak var smartBookmarksTipAnchor: UIView?
+    weak var overflowButton: UIView?
     var smartBookmarksTip: UIViewController?
 
     private var bannerAdHostingController: PCHostingController<AnyView>?

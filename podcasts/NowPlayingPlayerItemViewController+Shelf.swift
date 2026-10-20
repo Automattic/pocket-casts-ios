@@ -58,6 +58,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         if Constants.Limits.maxShelfActions == currentActionCount {
             // add the overflow action
             let overflowButton = UIButton(frame: CGRect.zero)
+            self.overflowButton = overflowButton
             overflowButton.isPointerInteractionEnabled = true
             overflowButton.setImage(UIImage(named: "more"), for: .normal)
             overflowButton.imageView?.tintColor = ThemeColor.playerContrast02()
@@ -367,7 +368,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
 
-        presentUsingSheet(shelfController, forceLarge: true)
+        if UIDevice.current.userInterfaceIdiom == .pad, let sourceView = overflowButton {
+            shelfController.presentAsPopover(from: sourceView, in: self)
+        } else {
+            presentUsingSheet(shelfController, forceLarge: true)
+        }
         #endif
     }
 
