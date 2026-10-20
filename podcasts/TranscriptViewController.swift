@@ -179,8 +179,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.generatedTranscripts.enabled, value {
             // A tab has no row of buttons above the banner.
             let bannerTop = isPlayerTab ? -44.0 : 0.0
-            transcriptViewTopConstraint?.constant = 80.0 + topMargin + bannerTop
-            topGradientTopConstraint?.constant = 100.0 + topMargin + bannerTop
+            transcriptViewTopConstraint?.constant = 104.0 + topMargin + bannerTop
+            topGradientTopConstraint?.constant = 124.0 + topMargin + bannerTop
             topGradientHeightConstraint?.constant = 30.0
         } else {
             transcriptViewTopConstraint?.constant = 0.0 + topMargin

@@ -54,7 +54,7 @@ class DiscoverNetworksGridViewController: ThemedHostingController<DiscoverNetwor
         super.viewDidLoad()
 
         if item.source != nil && item.isAuthenticated == false {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare(_:)))
         }
     }
 
@@ -62,11 +62,13 @@ class DiscoverNetworksGridViewController: ThemedHostingController<DiscoverNetwor
         AppTheme.defaultStatusBarStyle()
     }
 
-    @objc private func handleShare() {
+    @objc private func handleShare(_ sender: UIBarButtonItem) {
         guard let source = item.source, let url = URL(string: source)?.deletingPathExtension() else { return }
 
         Analytics.track(.discoverListShareTapped)
-        present(UIActivityViewController(activityItems: [url], applicationActivities: nil), animated: true)
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = sender
+        present(activityViewController, animated: true)
     }
 }
 

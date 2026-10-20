@@ -22,6 +22,10 @@ class StarredViewController: PCViewController {
     var episodes = [ListEpisode]() {
         didSet {
             refreshContentUnavailable()
+            if !isMultiSelectEnabled {
+                // Show the Select button only when there's something to select
+                setupNavBar()
+            }
         }
     }
     private let refreshQueue = OperationQueue()
@@ -157,8 +161,16 @@ class StarredViewController: PCViewController {
     }
 
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.select
+        if isMultiSelectEnabled {
+            super.customRightBtn = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
+            super.customRightBtn?.accessibilityLabel = L10n.accessibilityCancelMultiselect
+        } else if episodes.isEmpty {
+            // Nothing to select on the empty state, so don't offer multi-select
+            super.customRightBtn = nil
+        } else {
+            super.customRightBtn = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
+            super.customRightBtn?.accessibilityLabel = L10n.select
+        }
 
         navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
