@@ -7,6 +7,7 @@ extension PlayerContainerViewController {
     func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         #if !APPCLIP
+        updateArtworkBackground()
         if #available(iOS 27.1, *) {
             updateLargeScreenColors()
         }

@@ -9,7 +9,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     private let playbackManager: TranscriptPlaybackManaging
     let analyticsSource: AnalyticsSource
 
-    /// The large screen player background (`FeatureFlag.largeScreenNowPlaying`). When it's set
+    /// The player background. When it's set
     /// before the view loads, the overlay covers the top of the transcript with a copy of it
     /// instead of a solid color, so it blends in with the rest of the player.
     weak var largeScreenBackground: PlayerArtworkBackgroundView?

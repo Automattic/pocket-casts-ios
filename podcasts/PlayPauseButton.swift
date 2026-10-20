@@ -66,7 +66,7 @@ class PlayPauseButton: BasePlayPauseButton {
         guard let symbolImageView, symbolImageIsPlaying != isPlaying,
               let image = UIImage(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill") else { return }
 
-        if animated, symbolImageIsPlaying != nil, UIApplication.shared.applicationState == .active {
+        if animated, symbolImageIsPlaying != nil, window != nil, !bounds.isEmpty, UIApplication.shared.applicationState == .active {
             symbolImageView.setSymbolImage(image, contentTransition: .replace)
         } else {
             symbolImageView.image = image
