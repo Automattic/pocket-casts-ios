@@ -19,8 +19,8 @@ class PlayerItemViewController: SimpleNotificationsViewController {
     weak var scrollViewHandler: UIScrollViewDelegate?
     weak var containerDelegate: PlayerItemContainerDelegate?
 
-    /// Set by the container when it paints the player background itself
-    /// (`FeatureFlag.largeScreenNowPlaying`), so the item keeps a transparent background.
+    /// Set by the container when it paints the player background itself, so the item keeps a
+    /// transparent background.
     var usesLargeScreenStyle = false
 
     // MARK: - Present
