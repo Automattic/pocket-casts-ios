@@ -72,7 +72,10 @@ struct HorizontalCollectionListRowView: View {
                         .lineLimit(2)
                     Image("chevron-small-right")
                         .renderingMode(.template)
-                        .foregroundStyle(theme.primaryIcon02)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                        .foregroundStyle(theme.primaryIcon03)
                 }
             }
             .buttonStyle(.plain)

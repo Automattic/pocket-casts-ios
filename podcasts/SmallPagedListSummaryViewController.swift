@@ -16,7 +16,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     private let chevronImageView: ThemeableImageView = {
         let imageView = ThemeableImageView(frame: .zero)
         imageView.image = UIImage(named: "chevron-small-right")
-        imageView.imageStyle = .primaryIcon02
+        imageView.imageStyle = .primaryIcon03
         imageView.contentMode = .scaleAspectFit
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -121,7 +121,9 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
             titleRow.leadingAnchor.constraint(equalTo: titleLabelSuperview.layoutMarginsGuide.leadingAnchor, constant: 16),
             titleRow.trailingAnchor.constraint(lessThanOrEqualTo: titleLabelSuperview.layoutMarginsGuide.trailingAnchor, constant: -16),
             titleRow.topAnchor.constraint(equalTo: titleLabelSuperview.topAnchor, constant: 30),
-            collectionView.topAnchor.constraint(equalTo: titleRow.bottomAnchor, constant: 16)
+            collectionView.topAnchor.constraint(equalTo: titleRow.bottomAnchor, constant: 16),
+            chevronImageView.widthAnchor.constraint(equalToConstant: 32),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
 
