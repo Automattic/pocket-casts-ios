@@ -18,6 +18,8 @@ class HorizontalCollectionModel: ObservableObject {
 
     @Published var podcastCollection: PodcastCollection?
 
+    @Published var isHidden = false
+
     weak var delegate: DiscoverDelegate?
 
     @Published var list: [[DiscoverPodcast]] = []
@@ -43,6 +45,11 @@ class HorizontalCollectionModel: ObservableObject {
         return URL(string: posterURL)
     }
 
+    static func isRenderable(_ collection: PodcastCollection) -> Bool {
+        guard let subtitle = collection.subtitle else { return false }
+        return !subtitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
         self.delegate = delegate
     }
@@ -56,6 +63,12 @@ class HorizontalCollectionModel: ObservableObject {
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }
 
             DispatchQueue.main.async {
+                if let podcastCollection, !HorizontalCollectionModel.isRenderable(podcastCollection) {
+                    FileLog.shared.addMessage("Hiding Discover collection without a subtitle: \(item.uuid ?? source)")
+                    self?.isHidden = true
+                    return
+                }
+                self?.isHidden = false
                 self?.podcastCollection = podcastCollection
                 guard let podcastCollection, let podcasts = podcastCollection.podcasts else {
                     self?.list = []

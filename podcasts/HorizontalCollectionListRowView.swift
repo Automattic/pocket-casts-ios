@@ -32,8 +32,16 @@ struct HorizontalCollectionListRowView: View {
     }
 
     var body: some View {
+        if model.isHidden {
+            Color.clear.frame(height: 0)
+        } else {
+            content
+        }
+    }
+
+    private var content: some View {
         let pairs = model.list
-        VStack(spacing: 8) {
+        return VStack(spacing: 8) {
             header
             GeometryReader { geometry in
                 ScrollView([.horizontal]) {
