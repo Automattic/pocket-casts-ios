@@ -50,6 +50,8 @@ class LargeListSummaryCellHeaderView: UIView {
         imageView.isHidden = true
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        // Nudges the glyph to look optically centered against the text's cap height/line height.
+        imageView.transform = CGAffineTransform(translationX: 0, y: 2)
         return imageView
     }()
 
@@ -65,7 +67,9 @@ class LargeListSummaryCellHeaderView: UIView {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
-        stack.spacing = 4
+        // The chevron asset has a lot of built-in transparent padding, so a negative spacing is
+        // needed to bring the visible glyph to within ~4pt of the text.
+        stack.spacing = -8
         return stack
     }()
 

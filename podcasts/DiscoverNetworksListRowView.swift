@@ -55,7 +55,9 @@ struct DiscoverNetworksListRowView: View {
                 Button {
                     model.showAll()
                 } label: {
-                    HStack(spacing: 4) {
+                    // The chevron asset has a lot of built-in transparent padding, so a negative
+                    // spacing is needed to bring the visible glyph to within ~4pt of the text.
+                    HStack(spacing: -8) {
                         title
                         Image("chevron-small-right")
                             .renderingMode(.template)
@@ -63,6 +65,8 @@ struct DiscoverNetworksListRowView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 32, height: 32)
                             .foregroundStyle(theme.primaryIcon03)
+                            // Nudges the glyph to look optically centered against the text's cap height/line height.
+                            .offset(y: 2)
                     }
                 }
                 .buttonStyle(.plain)
