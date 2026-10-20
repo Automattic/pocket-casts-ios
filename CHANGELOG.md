@@ -1,5 +1,6 @@
 8.24
 -----
+- Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
 
