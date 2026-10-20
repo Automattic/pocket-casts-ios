@@ -85,7 +85,22 @@ class PCViewController: SimpleNotificationsViewController {
         }
         setupNavBar(animated: false)
 
+        if useTransparentNavigationBarAppearance {
+            addStatusBarScrim()
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
+    private func addStatusBarScrim() {
+        let scrim = StatusBarScrimView()
+        scrim.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrim)
+        NSLayoutConstraint.activate([
+            scrim.topAnchor.constraint(equalTo: view.topAnchor),
+            scrim.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrim.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
     @objc func castButtonTapped() {
