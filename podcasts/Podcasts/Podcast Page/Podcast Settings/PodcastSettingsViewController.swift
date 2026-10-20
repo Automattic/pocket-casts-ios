@@ -39,7 +39,7 @@ class PodcastSettingsViewController: PCViewController {
         settingsTable.estimatedRowHeight = UITableView.automaticDimension
 
         if navigationController?.viewControllers.first === self {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTapped))
             insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
         }
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
@@ -133,7 +133,7 @@ class PodcastSettingsViewController: PCViewController {
         Analytics.track(.podcastUnsubscribed, properties: ["source": analyticsSource, "uuid": podcast.uuid])
     }
 
-    @objc private func closeTapped() {
+    @objc private func doneTapped() {
         dismiss(animated: true)
     }
 
