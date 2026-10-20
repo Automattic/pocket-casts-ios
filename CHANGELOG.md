@@ -8,6 +8,7 @@
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
+- Outline the player sheets on iPad and add the missing space below the Next button and the Share clip buttons [#5473](https://github.com/Automattic/pocket-casts-ios/pull/5473)
 
 
 8.23
