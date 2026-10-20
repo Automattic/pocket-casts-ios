@@ -180,7 +180,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
         panel.addSubview(toView)
 
-        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline)
+        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline, isLarge: miniVC.isLargeLayoutApplied)
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
@@ -333,6 +333,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
             isInline: isMiniInline,
+            isLarge: miniVC.isLargeLayoutApplied,
             artworkImage: shouldMorphArtwork ? nil : miniArtwork.imageView?.image
         )
         miniSnapshot.alpha = 0
@@ -440,7 +441,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     /// When `artworkImage` is non-nil the clone displays it directly; otherwise
     /// the clone's artwork slot is hidden because a floating artwork view
     /// occupies that space during the morph.
-    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, artworkImage: UIImage? = nil) -> UIView {
+    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, isLarge: Bool, artworkImage: UIImage? = nil) -> UIView {
         let clone = MiniPlayerViewController()
         clone.loadViewIfNeeded()
         guard let cloneView = clone.viewIfLoaded else {
@@ -453,6 +454,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // `tabAccessoryEnvironment` trait stays at the default — force the
         // layout flavor that matches the live mini player.
         clone.setForcedInlineLayout(isInline)
+        clone.setForcedLargeLayout(isLarge)
         if let artworkImage, let artworkImageView = clone.podcastArtwork?.imageView {
             artworkImageView.image = artworkImage
         } else {

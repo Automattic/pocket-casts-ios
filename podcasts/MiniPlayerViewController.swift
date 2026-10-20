@@ -68,6 +68,27 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var accessoryWidthConstraint: NSLayoutConstraint?
     private var accessoryWindowWidth: CGFloat = 0
 
+    private var compactTextStack: UIStackView?
+    private var compactBottomRow: UIStackView?
+    private var titleVibrancy: UIVisualEffectView?
+    private var timeLeftVibrancy: UIVisualEffectView?
+    private var largeRow: UIStackView?
+    private var largeInfoStack: UIStackView?
+    private var subtitleLabel: UILabel?
+    private var elapsedLabel: UILabel?
+    private var remainingLabel: UILabel?
+    private var transcriptButton: UIButton?
+    private var compactConstraints: [NSLayoutConstraint] = []
+    private var largeConstraints: [NSLayoutConstraint] = []
+    private var isTranscriptAvailable = false
+
+    /// True while the large screen layout (title and podcast, elapsed and remaining
+    /// time around the progress bar, transcript and bookmark buttons) is installed.
+    private(set) var isLargeLayoutApplied = false
+
+    /// Same as `forcedInlineLayout`, for the large screen layout.
+    private var forcedLargeLayout: Bool?
+
     /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
     private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
         let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .systemChromeMaterial), style: style)
@@ -110,6 +131,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             setupCorners()
         }
         addUINotificationObservers()
+        playbackTrackDidChange()
         playbackStateDidChange()
         themeChanged()
     }
@@ -201,13 +223,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         buttonStack.semanticContentAttribute = .playback
         glassButtonStack = buttonStack
 
-        view.addSubview(podcastArtwork)
-        view.addSubview(textStack)
-        view.addSubview(buttonStack)
-
         timeLeftHost.didMove(toParent: self)
 
-        NSLayoutConstraint.activate([
+        compactTextStack = textStack
+        compactBottomRow = bottomRow
+        self.titleVibrancy = titleVibrancy
+        self.timeLeftVibrancy = timeLeftVibrancy
+
+        compactConstraints = [
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
@@ -219,35 +242,42 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
                 return constraint
             }(),
 
-            progressView.heightAnchor.constraint(equalToConstant: 5),
-
             buttonStack.topAnchor.constraint(equalTo: view.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             buttonStack.heightAnchor.constraint(equalToConstant: 56),
-        ])
+        ]
+
+        progressView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+
+        setupLargeLayout(buttonStack: buttonStack)
+        applyLayoutVariant(isLarge: false)
 
         view.registerForTraitChanges([UITraitTabAccessoryEnvironment.self]) { (view: UIView, _) in
             view.setNeedsUpdateConstraints()
         }
     }
 
+    /// The large screen layout is used when the accessory is hosted in a regular width window.
+    private var wantsLargeLayout: Bool {
+        forcedLargeLayout ?? (hostTabBarController != nil && view.window?.traitCollection.horizontalSizeClass == .regular)
+    }
+
     override func updateViewConstraints() {
-        if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
-            let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
-            skipBackBtnWidthConstraint.constant = 47
-            playPauseBtnWidthConstraint.constant = 47
-            skipFwdBtnWidthConstraint.constant = 47
+        if #available(iOS 26.0, *), let glassProgressView {
+            applyLayoutVariant(isLarge: wantsLargeLayout)
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
-            accessoryEnvironmentConstraints = [
-                {
-                    let constraint = glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52)
-                    constraint.priority = UILayoutPriority(750)
-                    return constraint
-                }(),
-                glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
-            ]
-            NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
+            accessoryEnvironmentConstraints = []
+            if !isLargeLayoutApplied, let glassButtonStack {
+                let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
+                let progressWidth = glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52)
+                progressWidth.priority = UILayoutPriority(750)
+                accessoryEnvironmentConstraints = [
+                    progressWidth,
+                    glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
+                ]
+                NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
+            }
             updateAccessoryPreferredWidth()
         }
         super.updateViewConstraints()
@@ -263,7 +293,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard hostTabBarController != nil,
               view.window?.traitCollection.horizontalSizeClass == .regular,
               accessoryWindowWidth > 0 else { return }
-        let constraint = view.widthAnchor.constraint(equalToConstant: min(max(accessoryWindowWidth * 0.6, 560), 800))
+        let constraint = view.widthAnchor.constraint(equalToConstant: min(780, max(accessoryWindowWidth - 32, 560)))
         constraint.priority = UILayoutPriority(999)
         constraint.isActive = true
         accessoryWidthConstraint = constraint
@@ -276,7 +306,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             view.setNeedsUpdateConstraints()
         }
 
-        guard let timeLeftHost = timeLeftHostingController?.view else {
+        guard !isLargeLayoutApplied, let timeLeftHost = timeLeftHostingController?.view else {
             return
         }
 
@@ -284,6 +314,170 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let buttonSkipMinX = skipBackBtn.convert(skipBackBtn.bounds, to: view).minX
 
         timeLeftHost.alpha = timeLeftMaxX > buttonSkipMinX + 12 ? 0 : 1
+    }
+
+    /// Builds the views that only the large screen layout shows. The views both layouts
+    /// share are moved between the two by `applyLayoutVariant`.
+    @available(iOS 26.0, *)
+    private func setupLargeLayout(buttonStack: UIStackView) {
+        let subtitle = UILabel()
+        subtitle.font = .font(ofSize: 11, weight: .regular, scalingWith: .caption2, maxSizeCategory: .extraExtraLarge)
+        subtitle.adjustsFontForContentSizeCategory = true
+        subtitle.textColor = .label
+        subtitle.lineBreakMode = .byTruncatingTail
+        subtitle.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        subtitleLabel = subtitle
+        let subtitleVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: subtitle)
+
+        let infoStack = UIStackView(arrangedSubviews: [subtitleVibrancy])
+        infoStack.axis = .vertical
+        infoStack.alignment = .fill
+        infoStack.spacing = 1
+        infoStack.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        infoStack.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        largeInfoStack = infoStack
+
+        let elapsed = makeTimeLabel()
+        let remaining = makeTimeLabel()
+        elapsedLabel = elapsed
+        remainingLabel = remaining
+        let elapsedVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: elapsed)
+        let remainingVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: remaining)
+        for wrapper in [elapsedVibrancy, remainingVibrancy] {
+            wrapper.setContentHuggingPriority(.required, for: .horizontal)
+            wrapper.setContentCompressionResistancePriority(.required, for: .horizontal)
+        }
+
+        let transcript = makeTrailingButton(image: UIImage(named: "transcript")?.withRenderingMode(.alwaysTemplate), label: L10n.transcript, action: #selector(transcriptTapped))
+        let bookmark = makeTrailingButton(image: Self.bookmarkGlyph(), label: L10n.addBookmark, action: #selector(bookmarkTapped))
+        transcriptButton = transcript
+
+        // The artwork, the title, the playback buttons and the progress bar are shared with the
+        // compact layout and inserted by `applyLayoutVariant`.
+        let row = UIStackView(arrangedSubviews: [infoStack, elapsedVibrancy, remainingVibrancy, transcript, bookmark])
+        row.translatesAutoresizingMaskIntoConstraints = false
+        row.axis = .horizontal
+        row.alignment = .center
+        row.spacing = 8
+        row.setCustomSpacing(18, after: remainingVibrancy)
+        row.setCustomSpacing(4, after: transcript)
+        largeRow = row
+
+        largeConstraints = [
+            row.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 17),
+            row.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
+            row.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            infoStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.22),
+            buttonStack.heightAnchor.constraint(equalToConstant: 50),
+        ]
+    }
+
+    @available(iOS 26.0, *)
+    private func makeTimeLabel() -> UILabel {
+        let label = UILabel()
+        label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: .monospacedDigitSystemFont(ofSize: 11, weight: .regular), maximumPointSize: 15)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = .label
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        return label
+    }
+
+    /// The bookmark asset's line is thicker than the transcript's, so draw it with the same 2pt line.
+    private static func bookmarkGlyph() -> UIImage {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 4.45, y: 20.6))
+        path.addLine(to: CGPoint(x: 4.45, y: 5.5))
+        path.addArc(withCenter: CGPoint(x: 6.95, y: 5.5), radius: 2.5, startAngle: .pi, endAngle: 1.5 * .pi, clockwise: true)
+        path.addLine(to: CGPoint(x: 17.05, y: 3))
+        path.addArc(withCenter: CGPoint(x: 17.05, y: 5.5), radius: 2.5, startAngle: 1.5 * .pi, endAngle: 0, clockwise: true)
+        path.addLine(to: CGPoint(x: 19.55, y: 20.6))
+        path.addLine(to: CGPoint(x: 13.2, y: 15))
+        path.addQuadCurve(to: CGPoint(x: 10.8, y: 15), controlPoint: CGPoint(x: 12, y: 14))
+        path.close()
+        path.lineWidth = 2
+        path.lineJoinStyle = .round
+
+        return UIGraphicsImageRenderer(size: CGSize(width: 24, height: 24)).image { _ in
+            UIColor.black.setStroke()
+            path.stroke()
+        }.withRenderingMode(.alwaysTemplate)
+    }
+
+    @available(iOS 26.0, *)
+    private func makeTrailingButton(image: UIImage?, label: String, action: Selector) -> UIButton {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image, for: .normal)
+        button.tintColor = .label
+        button.isPointerInteractionEnabled = true
+        button.accessibilityLabel = label
+        button.addTarget(self, action: action, for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 44),
+            button.heightAnchor.constraint(equalToConstant: 44),
+        ])
+        return button
+    }
+
+    /// Moves the views both layouts share into the compact or the large screen layout.
+    @available(iOS 26.0, *)
+    private func applyLayoutVariant(isLarge: Bool) {
+        guard let glassButtonStack, let compactTextStack, let compactBottomRow, let largeRow, let largeInfoStack,
+              let titleVibrancy, let timeLeftVibrancy, let glassProgressView else { return }
+        let isInstalled = largeRow.superview != nil || compactTextStack.superview != nil
+        guard isLarge != isLargeLayoutApplied || !isInstalled else { return }
+
+        isLargeLayoutApplied = isLarge
+        NSLayoutConstraint.deactivate(compactConstraints + largeConstraints)
+
+        for shared in [podcastArtwork, glassButtonStack, glassProgressView, titleVibrancy, timeLeftVibrancy] as [UIView] {
+            shared.removeFromSuperview()
+        }
+        compactTextStack.removeFromSuperview()
+        largeRow.removeFromSuperview()
+
+        let buttonWidth: CGFloat
+        if isLarge {
+            buttonWidth = 40
+            podcastArtworkWidthConstraint.constant = 40
+            podcastArtworkHeightConstraint.constant = 40
+            podcastArtwork.layer.cornerRadius = 8
+            episodeTitleLabel?.font = .font(ofSize: 12, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge)
+
+            largeInfoStack.insertArrangedSubview(titleVibrancy, at: 0)
+            largeRow.insertArrangedSubview(podcastArtwork, at: 0)
+            largeRow.insertArrangedSubview(glassButtonStack, at: 2)
+            largeRow.insertArrangedSubview(glassProgressView, at: 4)
+            largeRow.setCustomSpacing(10, after: podcastArtwork)
+            largeRow.setCustomSpacing(12, after: largeInfoStack)
+            largeRow.setCustomSpacing(14, after: glassButtonStack)
+            view.addSubview(largeRow)
+            NSLayoutConstraint.activate(largeConstraints)
+        } else {
+            buttonWidth = 47
+            podcastArtworkWidthConstraint.constant = 32
+            podcastArtworkHeightConstraint.constant = 32
+            podcastArtwork.layer.cornerRadius = 6
+            episodeTitleLabel?.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge)
+
+            compactTextStack.insertArrangedSubview(titleVibrancy, at: 0)
+            compactBottomRow.insertArrangedSubview(glassProgressView, at: 0)
+            compactBottomRow.insertArrangedSubview(timeLeftVibrancy, at: 1)
+            view.addSubview(podcastArtwork)
+            view.addSubview(compactTextStack)
+            view.addSubview(glassButtonStack)
+            NSLayoutConstraint.activate(compactConstraints)
+        }
+
+        skipBackBtnWidthConstraint.constant = buttonWidth
+        playPauseBtnWidthConstraint.constant = buttonWidth
+        skipFwdBtnWidthConstraint.constant = buttonWidth
+
+        updateTranscriptAvailabilityUI()
+        updateTitle()
+        playbackProgressDidChange()
     }
 
     deinit {
@@ -305,6 +499,59 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func setForcedInlineLayout(_ inline: Bool) {
         forcedInlineLayout = inline
         view.setNeedsUpdateConstraints()
+    }
+
+    /// Forces the large screen layout on or off, bypassing the window's size class. Used by the
+    /// zoom transition to make the snapshot clone match the real mini player.
+    func setForcedLargeLayout(_ large: Bool) {
+        forcedLargeLayout = large
+        if #available(iOS 26.0, *) {
+            applyLayoutVariant(isLarge: large)
+        }
+        view.setNeedsUpdateConstraints()
+    }
+
+    @objc private func transcriptTapped() {
+        guard isTranscriptAvailable else {
+            Toast.show(TranscriptError.notAvailable.localizedDescription)
+            return
+        }
+
+        openFullScreenPlayer { [weak self] in
+            guard let player = self?.fullScreenPlayer else { return }
+            if !player.showTranscriptTab() {
+                player.nowPlayingItem.displayTranscript = true
+            }
+        }
+    }
+
+    @objc private func bookmarkTapped() {
+        let action = PlayerAction.addBookmark
+        guard action.isUnlocked else {
+            action.paidFeature?.presentUpgradeController(from: self, source: .bookmarksShelfAction)
+            return
+        }
+
+        PlaybackManager.shared.bookmark(source: .miniPlayer)
+    }
+
+    @objc private func transcriptAvailabilityDidChange(_ notification: Notification) {
+        guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
+              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+              episodeUuid == PlaybackManager.shared.currentEpisode?.uuid else { return }
+
+        isTranscriptAvailable = isAvailable
+        updateTranscriptAvailabilityUI()
+    }
+
+    @objc private func playbackTrackDidChange() {
+        isTranscriptAvailable = false
+        updateTranscriptAvailabilityUI()
+        (PlaybackManager.shared.currentEpisode as? Episode)?.checkTranscriptAvailability()
+    }
+
+    private func updateTranscriptAvailabilityUI() {
+        transcriptButton?.alpha = isTranscriptAvailable ? 1 : 0.4
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
@@ -434,6 +681,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackStateDidChange))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackStateDidChange))
+        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackDidChange))
+        addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(transcriptAvailabilityDidChange(_:)))
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(playbackProgressDidChange))
         addCustomObserver(Constants.Notifications.chapterSelectionChanged, selector: #selector(playbackProgressDidChange))
         addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(playbackStateDidChange))
@@ -511,6 +760,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         if episodeTitleLabel.text != newTitle {
             episodeTitleLabel.text = newTitle
+        }
+
+        let newSubtitle = episode.subTitle()
+        if subtitleLabel?.text != newSubtitle {
+            subtitleLabel?.text = newSubtitle
         }
     }
 
@@ -619,8 +873,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             glassProgressView?.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
+        let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
+
+        if isLargeLayoutApplied {
+            elapsedLabel?.text = TimeFormatter.shared.playTimeFormat(time: currentTime)
+            remainingLabel?.text = remaining > 0 ? TimeFormatter.shared.playTimeFormat(time: remaining) : ""
+        }
+
         if let timeLeftModel {
-            let remaining = max(0, duration - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime))
             let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
             if timeLeftModel.text != newText {
                 let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled
