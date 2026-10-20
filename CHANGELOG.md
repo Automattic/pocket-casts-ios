@@ -1,5 +1,6 @@
 8.24
 -----
+- Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
 
 
