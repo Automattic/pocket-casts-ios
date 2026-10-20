@@ -128,7 +128,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         reloadTable()
     }
 
-
     // MARK: - UITableView Methods
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -296,14 +295,16 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         settingsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: settingsViewController, action: #selector(closeTapped))
         settingsViewController.selectedRow = .general
 
-        let splitViewController = UISplitViewController(style: .doubleColumn)
+        let splitViewController = SettingsSplitViewController(style: .doubleColumn)
         splitViewController.preferredDisplayMode = .oneBesideSecondary
         splitViewController.preferredSplitBehavior = .tile
         splitViewController.presentsWithGesture = false
         splitViewController.modalPresentationStyle = .formSheet
         splitViewController.delegate = settingsViewController
         splitViewController.setViewController(SJUIUtils.navController(for: settingsViewController), for: .primary)
-        splitViewController.setViewController(SJUIUtils.navController(for: GeneralSettingsViewController()), for: .secondary)
+        let generalSettingsViewController = GeneralSettingsViewController()
+        generalSettingsViewController.tracksShownEvent = false
+        splitViewController.setViewController(SJUIUtils.navController(for: generalSettingsViewController), for: .secondary)
 
         let present = {
             navigationController.present(splitViewController, animated: animated) {
@@ -326,6 +327,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         dismiss(animated: true)
     }
 }
+
+/// The sheet that shows the Settings list and the selected page side by side.
+final class SettingsSplitViewController: UISplitViewController {}
 
 extension SettingsViewController: UISplitViewControllerDelegate {
     func splitViewControllerDidCollapse(_ svc: UISplitViewController) {

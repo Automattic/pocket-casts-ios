@@ -65,10 +65,10 @@ class ThemeableTable: UITableView {
         updateSeparatorInset(margin: margin)
     }
 
-    /// System section footers start at the left separator inset rather than the margins, so with a left safe area,
-    /// e.g. in the secondary column of a split view, they need it to line up with the rows.
+    /// System section footers start at the left separator inset rather than the margins, so with a left safe area
+    /// that the window doesn't have, e.g. in the secondary column of a split view, they need it to line up with the rows.
     private func updateSeparatorInset(margin: CGFloat) {
-        if safeAreaInsets.left > 0 {
+        if safeAreaInsets.left > (window?.safeAreaInsets.left ?? 0) {
             if separatorInsetWithoutLeftSafeArea == nil {
                 separatorInsetWithoutLeftSafeArea = separatorInset
             }

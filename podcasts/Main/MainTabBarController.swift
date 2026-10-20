@@ -742,6 +742,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         presentedViewController?.dismiss(animated: true, completion: completion)
     }
 
+    func dismissSettingsSheet() {
+        guard let settingsSheet = selectedViewController?.presentedViewController as? SettingsSplitViewController else { return }
+        settingsSheet.dismiss(animated: false)
+    }
+
     func showOnboardingFlow(flow: OnboardingFlow.Flow?, source: PlusUpgradeViewSource?) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
