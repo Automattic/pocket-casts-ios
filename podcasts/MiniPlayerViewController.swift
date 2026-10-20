@@ -80,7 +80,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var transcriptButton: UIButton?
     private var compactConstraints: [NSLayoutConstraint] = []
     private var largeConstraints: [NSLayoutConstraint] = []
-    private var isTranscriptAvailable = false
+    private(set) var isTranscriptAvailable = false
 
     /// True while the large screen layout (title and podcast, elapsed and remaining
     /// time around the progress bar, transcript and bookmark buttons) is installed.
@@ -131,7 +131,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             setupCorners()
         }
         addUINotificationObservers()
-        playbackTrackDidChange()
         playbackStateDidChange()
         themeChanged()
     }
@@ -451,6 +450,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             largeRow.insertArrangedSubview(glassButtonStack, at: 2)
             largeRow.insertArrangedSubview(glassProgressView, at: 4)
             largeRow.setCustomSpacing(10, after: podcastArtwork)
+            checkTranscriptAvailability()
             largeRow.setCustomSpacing(12, after: largeInfoStack)
             largeRow.setCustomSpacing(14, after: glassButtonStack)
             view.addSubview(largeRow)
@@ -518,10 +518,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         openFullScreenPlayer { [weak self] in
-            guard let player = self?.fullScreenPlayer else { return }
-            if !player.showTranscriptTab() {
-                player.nowPlayingItem.displayTranscript = true
-            }
+            self?.fullScreenPlayer?.nowPlayingItem.openTranscript()
         }
     }
 
@@ -547,7 +544,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @objc private func playbackTrackDidChange() {
         isTranscriptAvailable = false
         updateTranscriptAvailabilityUI()
+        checkTranscriptAvailability()
+    }
+
+    /// Only the hosted mini player in the large screen layout shows the transcript button, so it is the only one to look it up.
+    private func checkTranscriptAvailability() {
+        guard isLargeLayoutApplied, hostTabBarController != nil else { return }
         (PlaybackManager.shared.currentEpisode as? Episode)?.checkTranscriptAvailability()
+    }
+
+    /// Lets the zoom transition clone show the button the way the live mini player does.
+    func copyTranscriptAvailability(from other: MiniPlayerViewController) {
+        isTranscriptAvailable = other.isTranscriptAvailable
+        updateTranscriptAvailabilityUI()
     }
 
     private func updateTranscriptAvailabilityUI() {

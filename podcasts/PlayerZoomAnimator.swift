@@ -455,10 +455,11 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // layout flavor that matches the live mini player.
         clone.setForcedInlineLayout(isInline)
         clone.setForcedLargeLayout(isLarge)
+        clone.copyTranscriptAvailability(from: miniPlayer)
         if let artworkImage, let artworkImageView = clone.podcastArtwork?.imageView {
             artworkImageView.image = artworkImage
         } else {
-            clone.podcastArtwork?.isHidden = true
+            clone.podcastArtwork?.alpha = 0
         }
         cloneView.isUserInteractionEnabled = false
         cloneView.frame = frame
