@@ -4,14 +4,6 @@ import UIKit
 
 class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayoutDelegate, UICollectionViewDataSource, DiscoverSummaryProtocol, TinyPageControlDelegate {
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var showAllButton: ThemeableUIButton! {
-        didSet {
-            showAllButton.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
-            showAllButton.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .title1)
-            showAllButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            showAllButton.titleLabel?.numberOfLines = 2
-        }
-    }
 
     @IBOutlet var titleLabel: ThemeableLabel! {
         didSet {
@@ -20,6 +12,33 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
             titleLabel.numberOfLines = 2
         }
     }
+
+    private let chevronImageView: ThemeableImageView = {
+        let imageView = ThemeableImageView(frame: .zero)
+        imageView.image = UIImage(named: "chevron-small-right")
+        imageView.imageStyle = .primaryIcon02
+        imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        return imageView
+    }()
+
+    // Soaks up the leftover width in `titleRow` so the chevron hugs the text instead of
+    // drifting into the middle of the row when the title doesn't fill the available width.
+    private let titleRowSpacer: UIView = {
+        let view = UIView()
+        view.setContentHuggingPriority(UILayoutPriority(1), for: .horizontal)
+        return view
+    }()
+
+    private let titleRow: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
     @IBOutlet var pageControl: TinyPageControl! {
         didSet {
             pageControl.delegate = self
@@ -82,8 +101,32 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         gridLayout.scrollDirection = .horizontal
         gridLayout.itemSpacing = cellSpacing
 
-        showAllButton.setLetterSpacing(0.6)
+        setUpTitleRow()
         updateSize()
+    }
+
+    private func setUpTitleRow() {
+        guard let titleLabelSuperview = titleLabel.superview else { return }
+
+        titleRow.addArrangedSubview(titleLabel)
+        titleRow.addArrangedSubview(chevronImageView)
+        titleRow.addArrangedSubview(titleRowSpacer)
+        titleRow.isAccessibilityElement = true
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(titleRowTapped))
+        titleRow.addGestureRecognizer(tapGestureRecognizer)
+
+        titleLabelSuperview.addSubview(titleRow)
+        NSLayoutConstraint.activate([
+            titleRow.leadingAnchor.constraint(equalTo: titleLabelSuperview.layoutMarginsGuide.leadingAnchor, constant: 16),
+            titleRow.trailingAnchor.constraint(lessThanOrEqualTo: titleLabelSuperview.layoutMarginsGuide.trailingAnchor, constant: -16),
+            titleRow.topAnchor.constraint(equalTo: titleLabelSuperview.topAnchor, constant: 30),
+            collectionView.topAnchor.constraint(equalTo: titleRow.bottomAnchor, constant: 16)
+        ])
+    }
+
+    @objc private func titleRowTapped() {
+        showAll()
     }
 
     override func viewDidLayoutSubviews() {
@@ -293,7 +336,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         self.delegate = delegate
     }
 
-    @IBAction func showAllClicked(_ sender: Any) {
+    private func showAll() {
         guard let delegate, let item else { return }
 
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)

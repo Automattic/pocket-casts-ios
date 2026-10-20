@@ -62,19 +62,21 @@ struct HorizontalCollectionListRowView: View {
 
     private var header: some View {
         HStack(alignment: .center) {
-            Text(model.type)
-                .foregroundStyle(theme.primaryText01)
-                .font(size: 22, style: .title, weight: .bold)
-                .lineLimit(2)
-            Spacer()
             Button {
                 model.showCollection()
             } label: {
-                Text(L10n.discoverShowAll.localizedUppercase)
-                    .foregroundStyle(theme.primaryInteractive01)
-                    .font(size: 13, style: .title, weight: .bold)
-                    .kerning(0.6)
+                HStack(spacing: 4) {
+                    Text(model.type)
+                        .foregroundStyle(theme.primaryText01)
+                        .font(size: 22, style: .title, weight: .bold)
+                        .lineLimit(2)
+                    Image("chevron-small-right")
+                        .renderingMode(.template)
+                        .foregroundStyle(theme.primaryIcon02)
+                }
             }
+            .buttonStyle(.plain)
+            Spacer()
         }
         .padding(16)
     }
