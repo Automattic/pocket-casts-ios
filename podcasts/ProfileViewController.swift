@@ -637,7 +637,12 @@ private extension ProfileViewController {
         let tintColor: UIColor? = LiquidGlass.isEnabled ? .label : nil
         let inbox = UIImage(named: "whatsnew_inbox")
         if showsDot {
-            whatsNewButton.image = inbox?.withUnreadDot(color: ThemeColor.support05(), iconColor: tintColor ?? AppTheme.navBarIconsColor())
+            // The dot image bakes the colour in, so resolve `.label` against the active theme rather than
+            // the system appearance: the window's interface style follows the theme, and may not have
+            // changed yet when a theme change lands here.
+            let traits = UITraitCollection(userInterfaceStyle: Theme.isDarkTheme ? .dark : .light)
+            let iconColor = (tintColor ?? AppTheme.navBarIconsColor()).resolvedColor(with: traits)
+            whatsNewButton.image = inbox?.withUnreadDot(color: ThemeColor.support05(), iconColor: iconColor)
         } else {
             whatsNewButton.image = inbox
         }
