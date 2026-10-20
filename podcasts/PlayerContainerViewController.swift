@@ -113,6 +113,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
         if usesLargeScreenLayout {
+            item.usesLargeScreenStyle = true
             item.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
         }
         item.scrollViewHandler = self
@@ -435,6 +436,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
         transcriptsItem.didMove(toParent: transcriptParent)
+        if #available(iOS 27.1, *) {
+            updateLargeScreenTranscriptBackground()
+        }
         transcriptsItem.willBeAddedToPlayer()
         transcriptsItem.themeDidChange()
         transcriptsItem.showGeneratedTranscriptsPremiumOverlay = { [weak self] in
@@ -475,7 +479,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     private func configureTranscriptView() {
         transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
-        transcriptContainerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        transcriptContainerView.backgroundColor = usesLargeScreenLayout ? .clear : PlayerColorHelper.playerBackgroundColor01()
 
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
