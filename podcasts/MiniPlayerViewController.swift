@@ -65,6 +65,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private var glassButtonStack: UIStackView?
     private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
+    private var accessoryWidthConstraint: NSLayoutConstraint?
+    private var accessoryWindowWidth: CGFloat = 0
 
     /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
     private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
@@ -246,12 +248,33 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
+            updateAccessoryPreferredWidth()
         }
         super.updateViewConstraints()
     }
 
+    /// On regular width the system stretches an accessory that states no preferred width across the
+    /// whole bar, so ask for a centered pill like the system apps do.
+    @available(iOS 26.0, *)
+    private func updateAccessoryPreferredWidth() {
+        accessoryWidthConstraint?.isActive = false
+        accessoryWidthConstraint = nil
+        accessoryWindowWidth = view.window?.bounds.width ?? 0
+        guard hostTabBarController != nil,
+              view.window?.traitCollection.horizontalSizeClass == .regular,
+              accessoryWindowWidth > 0 else { return }
+        let constraint = view.widthAnchor.constraint(equalToConstant: min(max(accessoryWindowWidth * 0.6, 560), 800))
+        constraint.priority = UILayoutPriority(999)
+        constraint.isActive = true
+        accessoryWidthConstraint = constraint
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        if let windowWidth = view.window?.bounds.width, windowWidth != accessoryWindowWidth {
+            view.setNeedsUpdateConstraints()
+        }
 
         guard let timeLeftHost = timeLeftHostingController?.view else {
             return
