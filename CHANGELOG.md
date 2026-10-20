@@ -1,6 +1,7 @@
 8.24
 -----
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
+- Fix Settings copy saying "phone" or "iPhone" on iPad [#5462](https://github.com/Automattic/pocket-casts-ios/pull/5462)
 
 
 8.23
