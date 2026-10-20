@@ -37,6 +37,8 @@
     <string>Chiudi</string>
     <key>accessibility_episode_playback</key>
     <string>Riproduzione episodio</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Segui %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tocca per nascondere i dettagli del filtro</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>Tocca per visualizzare o configurare l'account</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordinamento e opzioni</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Smetti di seguire %1$@</string>
     <key>account</key>
     <string>Account</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Puoi disconnetterti in qualsiasi momento da Impostazioni.</string>
     <string>TV e film</string>
     <key>discover_change_region</key>
     <string>Modifica regione, al momento è %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Cancella la categoria</string>
     <key>discover_episode_fail_to_load</key>
     <string>Impossibile caricare l'episodio</string>
     <key>discover_featured</key>
@@ -1343,6 +1349,8 @@ che hai ascoltato è stato
     <string>Crea cartella</string>
     <key>folder_create_new</key>
     <string>Crea nuova cartella</string>
+    <key>folder_create_skip</key>
+    <string>Salta</string>
     <key>folder_delete</key>
     <string>Elimina cartella</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +1970,10 @@ AGGIORNAMENTI</string>
     <string>Riproduci casualmente gli episodi con Pocket Casts Plus e molto altro ancora</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Ascolta dal tuo orologio con Pocket Casts Plus e molto altro ancora</string>
+    <key>pcasts_import_message</key>
+    <string>Questa azione sostituirà i podcast e le impostazioni con il contenuto di questo file e Pocket Casts verrà chiuso.</string>
+    <key>pcasts_import_title</key>
+    <string>Importa podcast e impostazioni</string>
     <key>phone</key>
     <string>Telefono</string>
     <key>play</key>
@@ -2261,8 +2273,10 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Sfoglia i podcast</string>
     <key>playlist_manual_create_error_message</key>
     <string>Si è verificato un errore durante la creazione della playlist.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Scegli gli episodi dai podcast che segui. In alternativa, scorri verso sinistra su qualsiasi episodio per aggiungerlo mentre procedi.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Scorri verso sinistra su un episodio per aggiungerlo alla tua playlist.</string>
+    <string>Trova un podcast che ti piace, quindi scorri verso sinistra su qualsiasi episodio per aggiungerlo.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Inizia a creare la tua playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2288,7 +2302,7 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <key>playlist_play_all_sheet_button_title</key>
     <string>Sostituisci e riproduci</string>
     <key>playlist_play_all_sheet_description</key>
-    <string>Riproducendo questo brano, sostituirai la tua attuale coda Successivo.</string>
+    <string>La riproduzione di questo elemento sostituirà l'attuale Successivo. Salva come playlist per mantenerlo.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Sostituire la tua coda Successivo?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -4274,6 +4288,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Riproduci facilmente un episodio casuale senza cambiare l'ordine della coda.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Introduzione a Shuffle</string>
+    <key>up_next_shuffle_button</key>
+    <string>Mischia</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Riproduzione casuale attiva. Riproduce gli episodi in ordine casuale.</string>
     <key>up_next_sort_duration_tooltip_body</key>

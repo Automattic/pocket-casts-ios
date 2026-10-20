@@ -2261,8 +2261,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Podcasts durchsuchen</string>
     <key>playlist_manual_create_error_message</key>
     <string>Beim Erstellen deiner Playlist ist leider ein Fehler aufgetreten.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Wische bei einer Folge nach links, um sie zu deiner Playlist hinzuzufügen.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Erstelle deine Playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Aktuelle Warteschlange ersetzen?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Ersetzen und abspielen</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>Wenn du sie abspielst, wird deine aktuelle Warteschlange „Als Nächstes“ damit ersetzt.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Deine Warteschlange „Als Nächstes“ ersetzen?</string>
     <key>playlist_play_all_sheet_toggle</key>

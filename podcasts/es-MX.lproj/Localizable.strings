@@ -2261,8 +2261,6 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Buscar podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Se ha producido un error al crear tu playlist.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Desliza hacia la izquierda en un episodio para añadirlo a tu playlist.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Empieza a crear tu playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>¿Reemplazar Up Next actual?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Reemplazar y reproducir</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>Si reproduces esto, reemplazará a la cola Siguiente actual.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>¿Reemplazar la cola Siguiente?</string>
     <key>playlist_play_all_sheet_toggle</key>

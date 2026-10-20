@@ -37,6 +37,8 @@
     <string>Dispensar</string>
     <key>accessibility_episode_playback</key>
     <string>Reprodução do episódio</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Seguir %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Toque para ocultar os detalhes do filtro</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>Toque para ver ou configurar a conta</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordem e opções</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Deixar de seguir %1$@</string>
     <key>account</key>
     <string>Conta</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>TV e cinema</string>
     <key>discover_change_region</key>
     <string>Mudar região (atualmente %1$@)</string>
+    <key>discover_clear_category</key>
+    <string>Apagar categoria</string>
     <key>discover_episode_fail_to_load</key>
     <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
@@ -1343,6 +1349,8 @@ que você ouviu foi
     <string>Criar pasta</string>
     <key>folder_create_new</key>
     <string>Criar nova pasta</string>
+    <key>folder_create_skip</key>
+    <string>Pular</string>
     <key>folder_delete</key>
     <string>Excluir pasta</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +1970,10 @@ ATUALIZAÇÕES</string>
     <string>Ouça seus episódios no modo aleatório e muito mais com o Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Ouça usando seu relógio e muito mais com o Pocket Casts Plus</string>
+    <key>pcasts_import_message</key>
+    <string>Isso substituirá seus podcasts e configurações pelo conteúdo desse arquivo, e o Pocket Casts será fechado.</string>
+    <key>pcasts_import_title</key>
+    <string>Importar podcasts e configurações</string>
     <key>phone</key>
     <string>Telefone</string>
     <key>play</key>
@@ -2261,8 +2273,10 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Procurar podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Ocorreu um erro ao criar sua playlist.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Escolha episódios dos podcasts que você segue. Se preferir, deslize um episódio para a esquerda para adicioná-lo conforme assiste.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Passe o dedo para a esquerda em um episódio para adicioná-lo à sua playlist.</string>
+    <string>Encontre um podcast do qual você goste e deslize um episódio para a esquerda para adicioná-lo.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Comece a criar sua playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2288,7 +2302,7 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <key>playlist_play_all_sheet_button_title</key>
     <string>Substituir e reproduzir</string>
     <key>playlist_play_all_sheet_description</key>
-    <string>Reproduzir isto substituirá sua lista de Próximos atual.</string>
+    <string>Reproduzir isso substituirá sua lista de Próximos atual. Salve como uma playlist para mantê-la.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Substituir lista de Próximos?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -4274,6 +4288,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>É fácil reproduzir um episódio aleatório sem mudar a ordem da sua fila.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Apresentamos a ordem aleatória</string>
+    <key>up_next_shuffle_button</key>
+    <string>Aleatório</string>
     <key>up_next_shuffle_toast_message</key>
     <string>A ordem aleatória está ativada. Os episódios serão reproduzidos aleatoriamente.</string>
     <key>up_next_sort_duration_tooltip_body</key>

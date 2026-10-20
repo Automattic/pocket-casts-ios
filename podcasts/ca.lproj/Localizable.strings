@@ -37,6 +37,8 @@
     <string>Descarta</string>
     <key>accessibility_episode_playback</key>
     <string>Reproducció de l'episodi</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Segueix %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Toca per a amagar la informació del filtre</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>Prem per a veure o configurar el compte</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordre i opcions</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Deixa de seguir %1$@</string>
     <key>account</key>
     <string>Compte</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Cine i televisió</string>
     <key>discover_change_region</key>
     <string>Canvia la regió. Actualment %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Treu la categoria</string>
     <key>discover_episode_fail_to_load</key>
     <string>No s'ha pogut carregar l'episodi</string>
     <key>discover_featured</key>
@@ -1339,6 +1345,8 @@ Ens veiem el 2024!</string>
     <string>Crea una carpeta</string>
     <key>folder_create_new</key>
     <string>Crea una carpeta nova</string>
+    <key>folder_create_skip</key>
+    <string>Omet</string>
     <key>folder_delete</key>
     <string>Esborra la carpeta</string>
     <key>folder_delete_prompt_msg</key>
@@ -1956,6 +1964,10 @@ ACTUALITZACIONS</string>
     <string>Barreja els teus episodis amb Pocket Casts Plus, i més</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Escolta des del teu rellotge amb Pocket Casts Plus, i més</string>
+    <key>pcasts_import_message</key>
+    <string>Això substituirà els teus pòdcasts i la configuració pel contingut d'aquest fitxer, i Pocket Casts es tancarà.</string>
+    <key>pcasts_import_title</key>
+    <string>Importa pòdcasts i configuració</string>
     <key>phone</key>
     <string>Telèfon</string>
     <key>play</key>
@@ -2255,8 +2267,10 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Navega pels pòdcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Alguna cosa ha anat malament mentre es creava la teva llista de reproducció.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Tria episodis dels pòdcasts que segueixes. O llisca cap a l'esquerra sobre qualsevol episodi per afegir-lo sobre la marxa.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Llisca cap a l’esquerra en un episodi per a afegir-lo a la teva llista de reproducció.</string>
+    <string>Cerca un pòdcast que t'agradi i llisca cap a l'esquerra sobre qualsevol episodi per afegir-lo.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Comença a crear la teva llista de reproducció</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2282,7 +2296,7 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>playlist_play_all_sheet_button_title</key>
     <string>Substitueix i reprodueix</string>
     <key>playlist_play_all_sheet_description</key>
-    <string>Reproduir això substituirà la cua actual de «Tot seguit».</string>
+    <string>Reproduir això substituirà la cua actual de «Tot seguit». Desa-ho com a llista de reproducció per conservar-ho.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Substituir «Tot seguit»?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -4266,6 +4280,8 @@ Prem el botó de sota per a tornar a iniciar sessió al teu compte de Pocket Cas
     <string>Reprodueix fàcilment un episodi aleatori sense canviar l'ordre de la cua.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Presentem la reproducció aleatòria</string>
+    <key>up_next_shuffle_button</key>
+    <string>Reprodueix aleatòriament</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle està activat. Els episodis es reproduiran en ordre aleatori.</string>
     <key>up_next_sort_duration_tooltip_body</key>
