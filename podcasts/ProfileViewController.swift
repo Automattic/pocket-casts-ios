@@ -127,7 +127,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var whatsNewButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(whatsNewTapped))
+        let button = UIBarButtonItem(image: UIImage(named: "whatsnew_inbox"), style: .plain, target: self, action: #selector(whatsNewTapped))
         button.accessibilityLabel = L10n.whatsNew
         button.accessibilityIdentifier = "What's New"
         return button
@@ -634,14 +634,28 @@ private extension ProfileViewController {
         guard FeatureFlag.whatsNewFeed.enabled else { return }
 
         let showsDot = WhatsNewManager.shared.showsDotOnWhatsNewButton()
+        let tintColor: UIColor? = LiquidGlass.isEnabled ? .label : nil
+        let inbox = UIImage(named: "whatsnew_inbox")
         if showsDot {
-            let configuration = UIImage.SymbolConfiguration(paletteColors: [ThemeColor.support05(), AppTheme.navBarIconsColor()])
-            whatsNewButton.image = UIImage(systemName: "bell.badge", withConfiguration: configuration)?.withRenderingMode(.alwaysOriginal)
+            whatsNewButton.image = inbox?.withUnreadDot(color: ThemeColor.support05(), iconColor: tintColor ?? AppTheme.navBarIconsColor())
         } else {
-            whatsNewButton.image = UIImage(systemName: "bell")
+            whatsNewButton.image = inbox
         }
-        whatsNewButton.tintColor = LiquidGlass.isEnabled ? .label : nil
+        whatsNewButton.tintColor = tintColor
         whatsNewButton.accessibilityValue = showsDot ? L10n.badgeNew : nil
+    }
+}
+
+private extension UIImage {
+    /// Draws the template image in `iconColor` with a dot of `color` over its top-right corner, as a
+    /// fixed-colour image, since the inbox has no `.badge` symbol variant the way the bell did.
+    func withUnreadDot(color: UIColor, iconColor: UIColor, diameter: CGFloat = 8) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { context in
+            withTintColor(iconColor).draw(in: CGRect(origin: .zero, size: size))
+            color.setFill()
+            context.cgContext.fillEllipse(in: CGRect(x: size.width - diameter, y: 0, width: diameter, height: diameter))
+        }.withRenderingMode(.alwaysOriginal)
     }
 }
 
