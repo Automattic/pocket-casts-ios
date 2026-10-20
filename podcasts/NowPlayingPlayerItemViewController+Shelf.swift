@@ -359,6 +359,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             sheetController.prefersGrabberVisible = false
         }
 
+        viewController.applyPlayerSheetSeparation()
         present(viewController, animated: true, completion: nil)
     }
 
@@ -645,5 +646,18 @@ extension NowPlayingPlayerItemViewController: @preconcurrency AVRoutePickerViewD
         }
 
         shelfButtonTapped(.routePicker)
+    }
+}
+
+extension UIViewController {
+    func applyPlayerSheetSeparation() {
+        guard traitCollection.userInterfaceIdiom == .pad else { return }
+
+        let cornerRadius: CGFloat = 28
+        sheetPresentationController?.preferredCornerRadius = cornerRadius
+        view.layer.cornerRadius = cornerRadius
+        view.layer.cornerCurve = .continuous
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
     }
 }
