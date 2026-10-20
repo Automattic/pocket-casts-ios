@@ -37,6 +37,8 @@
     <string>Avfärda</string>
     <key>accessibility_episode_playback</key>
     <string>Uppspelning av avsnitt</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Följ %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tryck för att dölja filterinformation</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>Tryck för att visa eller konfigurera konto</string>
     <key>accessibility_sort_and_options</key>
     <string>Sortering och Alternativ</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Sluta följa %1$@</string>
     <key>account</key>
     <string>Konto</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>TV och film</string>
     <key>discover_change_region</key>
     <string>Ändra region, för närvarande %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Rensa kategori</string>
     <key>discover_episode_fail_to_load</key>
     <string>Det gick inte att ladda avsnittet</string>
     <key>discover_featured</key>
@@ -1343,6 +1349,8 @@ du lyssnade på var
     <string>Skapa mapp</string>
     <key>folder_create_new</key>
     <string>Skapa ny mapp</string>
+    <key>folder_create_skip</key>
+    <string>Hoppa över</string>
     <key>folder_delete</key>
     <string>Ta bort mapp</string>
     <key>folder_delete_prompt_msg</key>
@@ -2261,8 +2269,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Bläddra bland podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Något gick fel när din spellista skapades.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Börja bygga din spellista</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2293,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Ersätt nuvarande Nästa?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Byt ut och spela upp</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>Om du spelar upp det här kommer din nuvarande Nästa att ersättas.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Byt ut din Nästa?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -4274,6 +4278,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Spela enkelt upp ett slumpmässigt avsnitt utan att ändra ordningen på din kö.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Vi introducerar slumpmässig uppspelning</string>
+    <key>up_next_shuffle_button</key>
+    <string>Blanda</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
     <key>up_next_sort_duration_tooltip_body</key>

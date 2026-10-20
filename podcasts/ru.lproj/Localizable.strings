@@ -2261,8 +2261,6 @@ Pocket Casts на полную мощность.</string>
     <string>Просмотр подкастов</string>
     <key>playlist_manual_create_error_message</key>
     <string>Что-то пошло не так при создании плейлиста.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Смахните выпуск влево, чтобы добавить его в плейлист.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Начните создавать плей-лист</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Pocket Casts на полную мощность.</string>
     <string>Заменить текущий список «Следующие»?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Заменить и воспроизвести</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>При запуске он заменит текущий список «Следующие».</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Заменить список «Следующие»?</string>
     <key>playlist_play_all_sheet_toggle</key>

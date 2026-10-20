@@ -2261,8 +2261,6 @@ Pocket Casts。</string>
     <string>浏览播客</string>
     <key>playlist_manual_create_error_message</key>
     <string>很抱歉，创建您的播放列表时出现错误。</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>向左滑动剧集即可将其添加到您的播放列表。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>开始构建您的播放列表</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Pocket Casts。</string>
     <string>替换当前的“接下来播放”？</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>替换并播放</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>播放此内容将替换您当前的“接下来播放”。</string>
     <key>playlist_play_all_sheet_title</key>
     <string>替换您的“接下来播放”？</string>
     <key>playlist_play_all_sheet_toggle</key>

@@ -2261,8 +2261,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストを参照</string>
     <key>playlist_manual_create_error_message</key>
     <string>プレイリストの作成中にエラーが発生しました。</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>エピソードを左にスワイプしてプレイリストに追加します。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>プレイリストの作成を開始</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>現在の「次のエピソード」を置き換えますか ?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>置換して再生</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>これを再生すると、現在の「次のエピソード」が置き換えられます。</string>
     <key>playlist_play_all_sheet_title</key>
     <string>「次のエピソード」を置き換えますか ?</string>
     <key>playlist_play_all_sheet_toggle</key>
