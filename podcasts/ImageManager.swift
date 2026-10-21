@@ -153,10 +153,10 @@ class ImageManager {
 
     // MARK: - Subscribed Podcast Images
 
-    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool, displaySize: CGSize? = nil) {
+    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor: ImageProcessor = displaySize.map { DownsamplingImageProcessor(size: $0) } ?? DefaultImageProcessor.default
+        let processor = DefaultImageProcessor.default
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode])
     }
 
@@ -474,7 +474,6 @@ class ImageManager {
 
         let libraryGridUrl = podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: libraryGridUrl.cacheKey)
-        subscribedPodcastsCache.clearMemoryCache()
 
         let pageUrl = podcastUrl(imageSize: .page, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
