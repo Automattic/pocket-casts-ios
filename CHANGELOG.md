@@ -5,6 +5,7 @@
 - Show a wider mini player with elapsed and remaining time, transcript and bookmark buttons on iPad and other large screens [#5477](https://github.com/Automattic/pocket-casts-ios/pull/5477)
 - Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
 - Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
+- Fix the Playback Effects sheet being cut off in right-to-left languages [#5487](https://github.com/Automattic/pocket-casts-ios/pull/5487)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
 - Replace the bell icon on the Profile tab's What's New button with an inbox icon [#5460](https://github.com/Automattic/pocket-casts-ios/pull/5460)
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
