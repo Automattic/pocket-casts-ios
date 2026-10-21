@@ -56,7 +56,7 @@ enum PodcastFinishedAction: Int {
 }
 
 enum PodcastThumbnailSize {
-    case list, grid, page, detail
+    case list, grid, libraryGrid, page, detail
 }
 
 enum PodcastLicensing: Int32 {

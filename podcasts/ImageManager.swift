@@ -153,11 +153,11 @@ class ImageManager {
 
     // MARK: - Subscribed Podcast Images
 
-    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
+    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool, displaySize: CGSize? = nil) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor = DefaultImageProcessor.default
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
+        let processor: ImageProcessor = displaySize.map { DownsamplingImageProcessor(size: $0) } ?? DefaultImageProcessor.default
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode])
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -173,7 +173,7 @@ class ImageManager {
             // for larger images, avoid really obvious reload flashes by keeping whatever image is there currently while loading a new one
             let placeholder = (imageView.image != nil && size == .page) ? imageView.image : placeHolderImage(size)
             let processor = DefaultImageProcessor.default
-            imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
+            imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode], progressBlock: nil) { [weak self] result in
                 switch result {
                 case .failure:
                     if size == .page {
@@ -427,6 +427,7 @@ class ImageManager {
         var urls = [URL]()
         urls.append(podcastUrl(imageSize: .list, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .grid, uuid: podcastUuid))
+        urls.append(podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .page, uuid: podcastUuid))
 
         return urls
@@ -470,6 +471,10 @@ class ImageManager {
 
         let gridUrl = podcastUrl(imageSize: .grid, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: gridUrl.cacheKey)
+
+        let libraryGridUrl = podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid)
+        subscribedPodcastsCache.removeImage(forKey: libraryGridUrl.cacheKey)
+        subscribedPodcastsCache.clearMemoryCache()
 
         let pageUrl = podcastUrl(imageSize: .page, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
@@ -546,7 +551,7 @@ class ImageManager {
         }
         let name: String
         switch size {
-        case .grid:
+        case .grid, .libraryGrid:
             name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
             name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
@@ -596,6 +601,13 @@ class ImageManager {
             let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
 
             return Int(round(shortestSide * UIScreen.main.scale / 3.0))
+        case .libraryGrid:
+            let screenWidth = UIScreen.main.bounds.width
+            let screenHeight = UIScreen.main.bounds.height
+            let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
+            let columns: CGFloat = shortestSide > 600 ? 6 : 3
+
+            return Int(round(shortestSide * UIScreen.main.scale / columns))
         case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
