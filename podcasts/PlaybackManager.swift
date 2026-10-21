@@ -158,15 +158,15 @@ class PlaybackManager: ServerPlaybackDelegate {
     var isPlaying: Bool {
         if aboutToPlay.value { return true }
 
-        return player?.playing() ?? false
+        return player?.isPlaying ?? false
     }
 
     var isBuffering: Bool {
-        player?.buffering() ?? false
+        player?.isBuffering ?? false
     }
 
     func futureBufferAvailable() -> TimeInterval {
-        player?.futureBufferAvailable() ?? 0
+        player?.futureBufferAvailable ?? 0
     }
 
     func recordUpNextUserInteraction() {
@@ -385,7 +385,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     var isReadyToPlay: Bool {
-        player?.isReadyToPlay() ?? false
+        player?.isReadyToPlay ?? false
     }
 
     func skipBack() {
@@ -565,7 +565,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
 
-        if let player, player.isReadyToPlay() {
+        if let player, player.isReadyToPlay {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
@@ -628,7 +628,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         if seekingTo >= 0, seekingTo <= duration(), !isPlaying { return seekingTo }
 
-        let playerTime = !aboutToPlay.value ? player?.currentTime() ?? 0 : 0
+        let playerTime = !aboutToPlay.value ? player?.currentTime ?? 0 : 0
 
         if playerTime <= 0 {
             let startFromTime = startFromTimeForCurrentEpisode()
@@ -643,7 +643,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         if let player, !aboutToPlay.value, !isBuffering {
             let episodeDuration = currentEpisode.duration
-            let playerDuration = player.duration()
+            let playerDuration = player.duration
             return (playerDuration > 0) ? playerDuration : episodeDuration
         }
 
@@ -940,7 +940,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if let player {
             // in order for things like Picture in Picture to work properly, an audio session needs to be activated. If the UI is asking for the internal AVPlayer, then make sure we do this
             activateAudioSession(completion: nil)
-            return player.internalPlayerForVideoPlayback()
+            return player.internalPlayerForVideoPlayback
         }
         setAudioSessionVideoProperties()
 
@@ -1354,7 +1354,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playerDidCalculateDuration() {
-        guard let episode = currentEpisode, let playerDuration = player?.duration(), !episode.downloading() else { return }
+        guard let episode = currentEpisode, let playerDuration = player?.duration, !episode.downloading() else { return }
 
         let currentDuration = episode.duration
 
@@ -1745,8 +1745,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let player, let episode = currentEpisode else { return }
 
         StatsManager.shared.addTotalListeningTime(updateTimerInterval)
-        if player.playbackRate() > 1 {
-            StatsManager.shared.addTimeSavedVariableSpeed((updateTimerInterval * player.playbackRate()) - updateTimerInterval)
+        if player.playbackRate > 1 {
+            StatsManager.shared.addTimeSavedVariableSpeed((updateTimerInterval * player.playbackRate) - updateTimerInterval)
         }
 
         // check for outro skipping
@@ -1794,7 +1794,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         }
 
-        if !player.buffering() {
+        if !player.isBuffering {
             updateChapterInfo()
         }
     }
@@ -1843,7 +1843,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// is stopped. Reporting `nil` here is interpreted as a rate of `0`, which holds the
     /// timeline in place while paused. See PCIOS-274.
     private var nowPlayingPlaybackRate: Double? {
-        isPlaying ? player?.playbackRate() : nil
+        isPlaying ? player?.playbackRate : nil
     }
 
     @objc private func updateNowPlayingInfo() {
@@ -2276,7 +2276,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let reason = changeReason.uintValue
         if let currEpisode = currentEpisode, playingOverAirplay() && playerSwitchRequired() {
-            let wasPlaying = player?.shouldBePlaying() ?? false
+            let wasPlaying = player?.shouldBePlaying ?? false
             let autoPlay: Bool
             if FeatureFlag.dontAutoplayOnRouteChange.enabled {
                 // When flag is enabled: only autoplay if we were already playing
@@ -2300,7 +2300,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private var isPlayRequestPending: Bool {
-        aboutToPlay.value && !(player?.shouldBePlaying() ?? false)
+        aboutToPlay.value && !(player?.shouldBePlaying ?? false)
     }
 
     private func logRouteChange(userInfo: [AnyHashable: Any]) {
@@ -2351,7 +2351,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
             if let player {
-                wasPlayingBeforeInterruption = player.shouldBePlaying()
+                wasPlayingBeforeInterruption = player.shouldBePlaying
                 player.interruptionDidStart()
             }
 

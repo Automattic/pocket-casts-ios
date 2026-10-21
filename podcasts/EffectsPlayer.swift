@@ -59,11 +59,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         self.episode = episode
     }
 
-    func isReadyToPlay() -> Bool {
+    var isReadyToPlay: Bool {
         audioReadTask != nil && audioPlayTask != nil
     }
 
-    func playing() -> Bool {
+    var isPlaying: Bool {
         if aboutToPlay.value { return true }
 
         if let player {
@@ -213,7 +213,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         PlaybackManager.shared.playerDidRequestTermination()
     }
 
-    func playbackRate() -> Double {
+    var playbackRate: Double {
         playbackSpeed
     }
 
@@ -246,7 +246,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         }
     }
 
-    func currentTime() -> TimeInterval {
+    var currentTime: TimeInterval {
         if seeking {
             return lastSeekTime
         }
@@ -266,7 +266,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         return nil
     }
 
-    func duration() -> TimeInterval {
+    var duration: TimeInterval {
         if let audioFile {
             return (Double(cachedFrameCount) / audioFile.fileFormat.sampleRate)
         }
@@ -302,7 +302,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         audioPlayTask?.shutdown()
         playBufferManager?.removeAll()
 
-        if playing() {
+        if isPlaying {
             player?.pause()
         }
 
@@ -311,24 +311,24 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         engine?.stop()
     }
 
-    func supportsGoogleCast() -> Bool {
+    var supportsGoogleCast: Bool {
         false
     }
 
     // we only ever play downloaded content, so we're never buffering or worry about future buffer
-    func buffering() -> Bool {
+    var isBuffering: Bool {
         false
     }
 
-    func futureBufferAvailable() -> TimeInterval {
-        duration() - currentTime()
+    var futureBufferAvailable: TimeInterval {
+        duration - currentTime
     }
 
-    func shouldBePlaying() -> Bool {
+    var shouldBePlaying: Bool {
         shouldKeepPlaying.value
     }
 
-    func internalPlayerForVideoPlayback() -> AVPlayer? {
+    var internalPlayerForVideoPlayback: AVPlayer? {
         nil
     }
 
