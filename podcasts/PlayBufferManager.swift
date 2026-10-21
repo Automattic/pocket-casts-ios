@@ -42,8 +42,4 @@ class PlayBufferManager {
     func bufferLength() -> Int {
         playBuffer.count()
     }
-
-    func averageSampleCount() -> AVAudioFrameCount {
-        playBuffer.averageSampleCount()
-    }
 }

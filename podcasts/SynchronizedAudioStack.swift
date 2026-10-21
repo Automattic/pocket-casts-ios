@@ -51,12 +51,4 @@ class SynchronizedAudioStack {
             state.itemQueueCount
         }
     }
-
-    func averageSampleCount() -> AVAudioFrameCount {
-        state.withLock { state in
-            if state.itemQueueCount == 0 || state.samplesStored == 0 { return 0 }
-
-            return state.samplesStored / UInt32(state.itemQueueCount)
-        }
-    }
 }
