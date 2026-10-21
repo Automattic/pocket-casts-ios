@@ -224,9 +224,9 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        sleepTimerActiveView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        sleepTimerOffView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        applyPlayerSheetBackground()
+        sleepTimerActiveView.backgroundColor = .clear
+        sleepTimerOffView.backgroundColor = .clear
 
         plusFiveBtn.layer.borderColor = PlayerColorHelper.podcastInteractive03(for: .dark).cgColor
         plusFiveBtn.setTitleColor(PlayerColorHelper.podcastInteractive05(for: .dark), for: .normal)

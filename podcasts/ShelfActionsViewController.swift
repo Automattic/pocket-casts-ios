@@ -160,8 +160,8 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
     }
 
     @objc private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        actionsTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        applyPlayerSheetBackground()
+        actionsTable.backgroundColor = .clear
         headingView.backgroundColor = PlayerColorHelper.playerBackgroundColor02()
         actionsTable.reloadData()
     }

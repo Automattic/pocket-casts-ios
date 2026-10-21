@@ -359,7 +359,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             sheetController.prefersGrabberVisible = false
         }
 
-        viewController.applyPlayerSheetSeparation()
+        viewController.applyPlayerSheetBackground()
         present(viewController, animated: true, completion: nil)
     }
 
@@ -650,14 +650,15 @@ extension NowPlayingPlayerItemViewController: @preconcurrency AVRoutePickerViewD
 }
 
 extension UIViewController {
-    func applyPlayerSheetSeparation() {
-        guard traitCollection.userInterfaceIdiom == .pad else { return }
+    func applyPlayerSheetBackground() {
+        let color = PlayerColorHelper.playerBackgroundColor01()
+        guard #available(iOS 26.1, *) else {
+            view.backgroundColor = color
+            return
+        }
 
-        let cornerRadius: CGFloat = 28
-        sheetPresentationController?.preferredCornerRadius = cornerRadius
-        view.layer.cornerRadius = cornerRadius
-        view.layer.cornerCurve = .continuous
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
+        view.backgroundColor = .clear
+        let effect = UIColorEffect(color: color)
+        sheetPresentationController?.detents.forEach { $0.backgroundEffect = effect }
     }
 }
