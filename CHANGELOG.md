@@ -8,6 +8,7 @@
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
+- Fix the Podcasts grid lagging while scrolling, especially on iPad [#5481](https://github.com/Automattic/pocket-casts-ios/pull/5481)
 
 
 8.23
