@@ -813,8 +813,6 @@ public enum AnalyticsEvent: String {
     // MARK: - Welcome View
 
     case welcomeShown
-    case welcomeImportTapped
-    case welcomeDiscoverTapped
     case welcomeDismissed
 
     // MARK: - Import
