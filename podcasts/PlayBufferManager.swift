@@ -35,11 +35,11 @@ class PlayBufferManager {
         playBuffer.removeAll()
     }
 
-    func canPop() -> Bool {
+    var canPop: Bool {
         playBuffer.canPop()
     }
 
-    func bufferLength() -> Int {
+    var bufferLength: Int {
         playBuffer.count()
     }
 }
