@@ -10,6 +10,7 @@
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
+- Fix pocketcasts.com podcast links with a trailing slash showing "Unable to load podcast details" instead of the podcast page [#5489](https://github.com/Automattic/pocket-casts-ios/pull/5489)
 
 
 8.23
