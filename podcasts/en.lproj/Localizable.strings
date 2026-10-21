@@ -3739,9 +3739,6 @@
 /* The description for the Pocket Casts Newsletter */
 "pocket_casts_newsletter_description" = "Receive news, app updates, themed playlists, interviews, and more.";
 
-/* The heading shown for the Pocket Casts Newsletter */
-"pocket_casts_welcome_newsletter_title" = "Get the Newsletter";
-
 /* Title for page one of the 7.20 what's new dialog. */
 "whats_new_page_one_title_7_20" = "Folders";
 
@@ -4270,29 +4267,8 @@
 /* Subtitle when displaying the user episode completion rate, all in lowercase. */
 "eoy_year_completion_rate" = "completion rate";
 
-/* Title of the view displayed after a user successfully upgrades to plus */
-"welcome_plus_title" = "Thank you, now let's get you listening!";
-
-/* Title of the view displayed after a user successfully creates an account */
-"welcome_new_account_title" = "Welcome, now let's get you listening!";
-
-/* Title of a section informing the user they can import their podcasts from another app */
-"welcome_import_title" = "Import your podcasts";
-
-/* Description of a section informing the user they can import their podcasts from another app */
-"welcome_import_description" = "Coming from another app? Bring your podcasts with you.";
-
 /* Title of a button prompting the user to import their podcasts */
 "welcome_import_button" = "Import Podcasts";
-
-/* Title of a section informing the user they can find new podcasts in the discover section */
-"welcome_discover_title" = "Discover something new";
-
-/* Description of a section informing the user they can find new podcasts in the discover section */
-"welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
-
-/* Title of a button prompting the user find new podcasts in discover */
-"welcome_discover_button" = "Find My Next Podcast";
 
 /* Label that informs the user they have a free account */
 "account_details_free_account" = "Free Account";
