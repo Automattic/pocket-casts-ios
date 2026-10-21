@@ -37,6 +37,12 @@ class ImageManager {
         return subscribedPodcastsCache
     }()
 
+    private let downsampledImageCache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.totalCostLimit = 100.megabytes
+        return cache
+    }()
+
     // user episode image cache
     private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
 
@@ -156,13 +162,55 @@ class ImageManager {
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool, displaySize: CGSize? = nil) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        var options: KingfisherOptionsInfo = [.targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode]
         if let displaySize {
-            options += [.processor(DownsamplingImageProcessor(size: displaySize)), .scaleFactor(imageView.traitCollection.displayScale), .cacheOriginalImage, .cacheMemoryOnly]
-        } else {
-            options.append(.processor(DefaultImageProcessor.default))
+            loadDownsampledImage(url: url, imageView: imageView, displaySize: displaySize, placeholder: placeholderImage)
+            return
         }
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: options)
+        let processor = DefaultImageProcessor.default
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode])
+    }
+
+    private func loadDownsampledImage(url: URL, imageView: UIImageView, displaySize: CGSize, placeholder: UIImage?) {
+        let scale = imageView.traitCollection.displayScale
+        let key = "\(url.cacheKey)#\(Int(displaySize.width))x\(Int(displaySize.height))@\(scale)" as NSString
+
+        imageView.downsampleTask?.cancel()
+        imageView.downsampleTask = nil
+
+        if let thumbnail = downsampledImageCache.object(forKey: key) {
+            imageView.image = thumbnail
+            return
+        }
+        imageView.image = placeholder
+
+        imageView.downsampleTask = Task.detached(priority: .userInitiated) { [weak self, weak imageView] in
+            guard let self, let data = await self.originalImageData(for: url), !Task.isCancelled else { return }
+            let processor = DownsamplingImageProcessor(size: displaySize)
+            guard let thumbnail = processor.process(item: .data(data), options: KingfisherParsedOptionsInfo([.scaleFactor(scale)])), !Task.isCancelled else { return }
+            self.downsampledImageCache.setObject(thumbnail, forKey: key, cost: Int(thumbnail.size.width * thumbnail.size.height * thumbnail.scale * thumbnail.scale) * 4)
+            await MainActor.run { [weak imageView] in
+                guard let imageView, !Task.isCancelled else { return }
+                UIView.transition(with: imageView, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve) {
+                    imageView.image = thumbnail
+                }
+            }
+        }
+    }
+
+    private func originalImageData(for url: URL) async -> Data? {
+        let cache = subscribedPodcastsCache
+        if let data = try? cache.diskStorage.value(forKey: url.cacheKey) {
+            return data
+        }
+        let data: Data? = await withCheckedContinuation { continuation in
+            ImageDownloader.default.downloadImage(with: url) { result in
+                continuation.resume(returning: try? result.get().originalData)
+            }
+        }
+        if let data {
+            try? cache.diskStorage.store(value: data, forKey: url.cacheKey)
+        }
+        return data
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -446,6 +494,7 @@ class ImageManager {
             cache.clearMemoryCache()
             cache.clearDiskCache()
         }
+        downsampledImageCache.removeAllObjects()
     }
 
     func clearPodcastCache(recacheWhenDone: Bool) {
@@ -453,6 +502,7 @@ class ImageManager {
         DataManager.shared.setAllPodcastImageVersions(to: 0)
 
         subscribedPodcastsCache.clearMemoryCache()
+        downsampledImageCache.removeAllObjects()
         subscribedPodcastsCache.clearDiskCache { [weak self] in
             guard let strongSelf = self else { return }
 
@@ -469,7 +519,7 @@ class ImageManager {
         DataManager.shared.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
         NotificationCenter.default.post(name: Constants.Notifications.podcastUpdated, object: podcastUuid)
 
-        subscribedPodcastsCache.clearMemoryCache()
+        downsampledImageCache.removeAllObjects()
 
         // list and card are the same image, so card is not in the list below
         let listUrl = podcastUrl(imageSize: .list, uuid: podcastUuid)
@@ -617,5 +667,14 @@ private extension UIImage {
         default:
             return pngData()
         }
+    }
+}
+
+private var downsampleTaskKey: UInt8 = 0
+
+private extension UIImageView {
+    var downsampleTask: Task<Void, Never>? {
+        get { objc_getAssociatedObject(self, &downsampleTaskKey) as? Task<Void, Never> }
+        set { objc_setAssociatedObject(self, &downsampleTaskKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 }
