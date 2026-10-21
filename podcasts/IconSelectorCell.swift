@@ -219,7 +219,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             collectionView.register(UINib(nibName: "ThemeAbstractCell", bundle: nil), forCellWithReuseIdentifier: themeAbstractCellId)
             collectionView.style = .primaryUi02
             collectionView.allowsMultipleSelection = false
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
     }
 
@@ -258,9 +258,23 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     var peekWidth = 30 as CGFloat
     var cellWidth: CGFloat {
         let widthAvailable = collectionView.safeAreaLayoutGuide.layoutFrame.width
-        let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
-        let calculatedWidth = min(maxWidth, (widthAvailable - peekWidth - (itemSpacing * (numVisibleColoumns + 1))) / numVisibleColoumns)
-        return calculatedWidth
+        return Self.cellWidth(
+            widthAvailable: widthAvailable,
+            leadingInset: collectionView.contentInset.left,
+            maxCellWidth: maxCellWidth,
+            peekWidth: peekWidth,
+            itemSpacing: itemSpacing,
+            numVisibleColumns: numVisibleColoumns
+        )
+    }
+
+    static func cellWidth(widthAvailable: CGFloat, leadingInset: CGFloat, maxCellWidth: CGFloat, peekWidth: CGFloat, itemSpacing: CGFloat, numVisibleColumns: CGFloat) -> CGFloat {
+        let calculatedWidth = (widthAvailable - peekWidth - (itemSpacing * (numVisibleColumns + 1))) / numVisibleColumns
+        guard maxCellWidth > 0, calculatedWidth > maxCellWidth else { return calculatedWidth }
+
+        let contentWidth = widthAvailable - leadingInset
+        let columns = max(1, (contentWidth / maxCellWidth - 0.5).rounded(.up))
+        return contentWidth / (columns + 0.5)
     }
 
     weak var delegate: IconSelectorCellDelegate?
