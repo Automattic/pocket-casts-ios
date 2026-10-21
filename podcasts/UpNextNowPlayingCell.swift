@@ -108,7 +108,7 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         if let episode {
             duration = episode.duration
-            currentTime = PlaybackManager.shared.currentTime()
+            currentTime = PlaybackManager.shared.currentTime
         }
         else {
             duration = 1

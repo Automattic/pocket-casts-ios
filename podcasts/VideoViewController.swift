@@ -316,11 +316,11 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     @objc private func progressUpdated() {
         if timeSlider.isScrubbing() || PlaybackManager.shared.isSeeking { return }
 
-        updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
+        updateUpTo(upTo: PlaybackManager.shared.currentTime, duration: PlaybackManager.shared.duration, moveSlider: true)
     }
 
     @objc private func trackChanged() {
-        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
+        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo else {
             dismiss(animated: true, completion: nil)
             return
         }

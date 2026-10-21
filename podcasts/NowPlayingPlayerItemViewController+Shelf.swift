@@ -40,7 +40,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #endif
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects.effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering(), videoRendering: PlaybackManager.shared.shouldRenderVideo()) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects.effectsEnabled(), sleepTimerOn: PlaybackManager.shared.isSleepTimerActive, episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering, videoRendering: PlaybackManager.shared.shouldRenderVideo) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -86,7 +86,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         case .sleepTimer:
             let sleepBtn = SleepTimerButton(frame: CGRect.zero)
             sleepBtn.isPointerInteractionEnabled = true
-            let sleepTimerActive = PlaybackManager.shared.sleepTimerActive()
+            let sleepTimerActive = PlaybackManager.shared.isSleepTimerActive
             sleepBtn.tintColor = sleepTimerActive ? activeShelfButtonTintColor : ThemeColor.playerContrast02()
             sleepBtn.sleepTimerOn = sleepTimerActive
             sleepBtn.addTarget(self, action: #selector(sleepBtnTapped(_:)), for: .touchUpInside)
@@ -199,7 +199,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             addToShelf(on: button)
 #endif
         case .videoToggle:
-            let renderingVideo = PlaybackManager.shared.shouldRenderVideo()
+            let renderingVideo = PlaybackManager.shared.shouldRenderVideo
             let button = UIButton(frame: CGRect.zero)
             button.isPointerInteractionEnabled = true
             button.imageView?.tintColor = ThemeColor.playerContrast02()

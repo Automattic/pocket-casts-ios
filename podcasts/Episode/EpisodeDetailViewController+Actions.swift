@@ -167,8 +167,8 @@ extension EpisodeDetailViewController {
     func updateProgress() {
         var progress: CGFloat = 0
         if PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid) {
-            let currentTime = PlaybackManager.shared.currentTime()
-            let duration = PlaybackManager.shared.duration()
+            let currentTime = PlaybackManager.shared.currentTime
+            let duration = PlaybackManager.shared.duration
             if currentTime > 0, duration > 0 {
                 progress = min(1, CGFloat(currentTime / duration))
             }

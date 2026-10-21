@@ -144,9 +144,9 @@ class MainEpisodeActionView: UIView {
         // don't update the progress of episodes that are downloading
         if playingEpisode.downloading() { return }
 
-        let currentTime = PlaybackManager.shared.currentTime()
+        let currentTime = PlaybackManager.shared.currentTime
         var duration = playingEpisode.duration
-        let playerDuration = PlaybackManager.shared.duration()
+        let playerDuration = PlaybackManager.shared.duration
 
         // just use the bigger of the two durations, being either the playable one or the one on the episode
         if playerDuration > duration {

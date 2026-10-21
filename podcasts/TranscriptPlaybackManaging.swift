@@ -7,7 +7,7 @@ protocol TranscriptPlaybackManaging {
     var isPlayingEpisode: Bool { get }
     var canSeek: Bool { get }
 
-    func currentTime() -> TimeInterval
+    var currentTime: TimeInterval { get }
     func seekTo(time: TimeInterval)
 }
 
@@ -48,11 +48,11 @@ struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
         self.podcastUUID = podcastUUID
     }
 
-    func currentTime() -> TimeInterval {
+    var currentTime: TimeInterval {
         guard PlaybackManager.shared.isCurrentEpisode(uuid: _episodeUUID) else {
             return 0
         }
-        return PlaybackManager.shared.currentTime()
+        return PlaybackManager.shared.currentTime
     }
 
     func seekTo(time: TimeInterval) {

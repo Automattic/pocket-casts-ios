@@ -57,7 +57,7 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     func scrollToCurrentlyPlayingChapter(animated: Bool) {
-        let currentChapter = PlaybackManager.shared.currentChapters()
+        let currentChapter = PlaybackManager.shared.currentChapters
 
         guard let index = playbackManager.index(for: currentChapter) else {
             return
