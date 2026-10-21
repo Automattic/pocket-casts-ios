@@ -359,6 +359,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             sheetController.prefersGrabberVisible = false
         }
 
+        viewController.applyPlayerSheetBackground()
         present(viewController, animated: true, completion: nil)
     }
 
@@ -645,5 +646,19 @@ extension NowPlayingPlayerItemViewController: @preconcurrency AVRoutePickerViewD
         }
 
         shelfButtonTapped(.routePicker)
+    }
+}
+
+extension UIViewController {
+    func applyPlayerSheetBackground() {
+        let color = PlayerColorHelper.playerBackgroundColor01()
+        guard #available(iOS 26.1, *) else {
+            view.backgroundColor = color
+            return
+        }
+
+        view.backgroundColor = .clear
+        let effect = UIColorEffect(color: color)
+        sheetPresentationController?.detents.forEach { $0.backgroundEffect = effect }
     }
 }

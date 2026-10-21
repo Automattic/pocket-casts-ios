@@ -40,7 +40,7 @@ struct SharingFooterView: View {
                     withAnimation {
                         option = .clipShare(episode, clipTime, style)
                     }
-                }).buttonStyle(BasicButtonStyle(textColor: color.luminance() < 0.5 ? .white : .black, backgroundColor: color))
+                }).buttonStyle(BasicButtonStyle(textColor: ThemeColor.primaryInteractive02(for: .dark).color, backgroundColor: ThemeColor.primaryInteractive01(for: .dark).color))
             }
             .padding(.horizontal, 16)
             .onAppear {

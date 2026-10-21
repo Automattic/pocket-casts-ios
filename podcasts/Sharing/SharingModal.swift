@@ -125,9 +125,9 @@ enum SharingModal {
             Analytics.track(.shareScreenCloseButtonTapped)
             viewController.dismiss(animated: true)
         }
-        .background(Color(PlayerColorHelper.playerBackgroundColor01()))
 
         let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
+        hostingController.applyPlayerSheetBackground()
         viewController.present(hostingController, animated: true)
     }
 }

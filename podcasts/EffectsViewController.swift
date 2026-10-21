@@ -455,7 +455,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        applyPlayerSheetBackground()
         headingView.backgroundColor = PlayerColorHelper.playerBackgroundColor02()
         volumeBoostSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
         trimSilenceSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
