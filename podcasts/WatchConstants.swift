@@ -35,7 +35,6 @@ public enum WatchConstants {
 
         public static let podcastSettings = "podcastSettings"
         public static let podcastUuid = "uuid"
-        public static let podcastCustomPosition = "podcastCustomPosition"
         public static let podcastAutoArchivePlayedAfter = "podcastAutoArchivePlayedAfter"
         public static let podcastOverrideGlobalArchive = "podcastOverrideGlobalArchive"
 

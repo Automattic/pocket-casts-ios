@@ -6,12 +6,6 @@ enum DBUtils {
         return Date(timeIntervalSince1970: value)
     }
 
-    static func nullIfNil(value: Any?) -> Any {
-        guard let value else { return NSNull() }
-
-        return value
-    }
-
     static func valuesQuestionMarks(amount: Int) -> String {
         if amount == 0 { return "" }
         if amount == 1 { return "(?)" }
