@@ -11,12 +11,8 @@ final class PlayerLargeScreenLayout {
     let arrangementController = UIArrangementViewController()
     let playerPane = PlayerArrangementPaneViewController()
     let tabsPane = PlayerArrangementPaneViewController()
-    let background = PlayerArtworkBackgroundView()
     let grabber = PlayerGrabberView()
     let divider = UIView()
-    /// A copy of the background under the transcript that covers Now Playing.
-    let transcriptBackground = PlayerArtworkBackgroundView()
-    var transcriptBackgroundConstraints: [NSLayoutConstraint] = []
 
     /// Whether the tabs are next to Now Playing rather than paged after it.
     var isSplit = false
@@ -60,10 +56,6 @@ extension PlayerContainerViewController {
         let layout = PlayerLargeScreenLayout()
         largeScreenLayoutStorage = layout
 
-        layout.background.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(layout.background, at: 0)
-        layout.background.anchorToAllSidesOf(view: view)
-
         let arrangementController = layout.arrangementController
         arrangementController.setViewController(layout.playerPane, for: .primary)
         arrangementController.setViewController(layout.tabsPane, for: .secondary)
@@ -74,7 +66,7 @@ extension PlayerContainerViewController {
         arrangementController.updateArrangement(arrangement)
         addChild(arrangementController)
         arrangementController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(arrangementController.view, aboveSubview: layout.background)
+        view.insertSubview(arrangementController.view, aboveSubview: artworkBackground)
         arrangementController.view.anchorToAllSidesOf(view: view)
         arrangementController.didMove(toParent: self)
 
@@ -85,7 +77,6 @@ extension PlayerContainerViewController {
         }
         mainScrollView.removeFromSuperview()
         closeBtn.removeFromSuperview()
-        tabsView.fadesEdgesWithMask = true
 
         layout.grabber.accessibilityLabel = closeBtn.accessibilityLabel
         layout.grabber.accessibilityIdentifier = closeBtn.accessibilityIdentifier
@@ -98,7 +89,6 @@ extension PlayerContainerViewController {
             layout?.divider.isHidden = update.hinge?.status == .partiallyOpen
         })
 
-        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(largeScreenArtworkDidLoad))
         addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(largeScreenTranscriptAvailabilityDidChange(_:)))
 
         // Now Playing is a child of the player pane in both layouts.
@@ -106,25 +96,6 @@ extension PlayerContainerViewController {
         layout.playerPane.addChild(nowPlayingItem)
         applyLargeScreenLayout(isSplit: false)
         nowPlayingItem.didMove(toParent: layout.playerPane)
-    }
-
-    /// Lines the transcript's copy of the player background up with the original, once the
-    /// transcript is on screen and they share a view hierarchy.
-    func updateLargeScreenTranscriptBackground() {
-        guard let layout = largeScreenLayout,
-              layout.transcriptBackgroundConstraints.isEmpty,
-              transcriptContainerView.window != nil,
-              layout.transcriptBackground.superview != nil else { return }
-
-        let background = layout.background
-        let copy = layout.transcriptBackground
-        layout.transcriptBackgroundConstraints = [
-            copy.leadingAnchor.constraint(equalTo: background.leadingAnchor),
-            copy.topAnchor.constraint(equalTo: background.topAnchor),
-            copy.widthAnchor.constraint(equalTo: background.widthAnchor),
-            copy.heightAnchor.constraint(equalTo: background.heightAnchor)
-        ]
-        NSLayoutConstraint.activate(layout.transcriptBackgroundConstraints)
     }
 
     /// Splits Now Playing and the tabs when the arrangement shows both views, and pages them otherwise.
@@ -149,7 +120,6 @@ extension PlayerContainerViewController {
         if isSplit != layout.isSplit {
             applyLargeScreenLayout(isSplit: isSplit)
         }
-        updateLargeScreenTranscriptBackground()
         keepLargeScreenTabInView()
     }
 
@@ -226,14 +196,7 @@ extension PlayerContainerViewController {
             transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor)
         ]
 
-        // The transcript covers Now Playing with a copy of the player background, not a solid color.
-        NSLayoutConstraint.deactivate(layout.transcriptBackgroundConstraints)
-        layout.transcriptBackgroundConstraints = []
-        layout.transcriptBackground.translatesAutoresizingMaskIntoConstraints = false
-        transcriptContainerView.clipsToBounds = true
-        transcriptContainerView.backgroundColor = .clear
-        transcriptContainerView.insertSubview(layout.transcriptBackground, at: 0)
-        layout.background.addCopy(layout.transcriptBackground)
+        coverWithTranscriptBackground()
 
         NSLayoutConstraint.activate(constraints)
         layout.constraints = constraints
@@ -423,7 +386,7 @@ extension PlayerContainerViewController {
               let transcriptTab = layout.transcriptTab, let transcriptView = transcriptTab.view else { return }
 
         let paywall = GeneratedTranscriptsPremiumOverlay(playbackManager: PlaybackManager.shared)
-        paywall.largeScreenBackground = layout.background
+        paywall.largeScreenBackground = artworkBackground
         paywall.view.translatesAutoresizingMaskIntoConstraints = false
         paywall.dismissTranscript = { [weak self] in
             guard let self, let index = self.tabsView.tabs.firstIndex(of: .transcript), index + 1 < self.tabsView.tabs.count else { return }
@@ -483,13 +446,8 @@ extension PlayerContainerViewController {
     func updateLargeScreenColors() {
         guard let layout = largeScreenLayout else { return }
 
-        layout.background.update(episode: PlaybackManager.shared.currentEpisode, tintColor: PlayerColorHelper.playerBackgroundColor01())
         layout.grabber.updateColors()
         layout.divider.backgroundColor = ThemeColor.playerContrast05()
-    }
-
-    @objc private func largeScreenArtworkDidLoad() {
-        largeScreenLayout?.background.reloadArtwork(for: PlaybackManager.shared.currentEpisode)
     }
 
     /// The height of the header with the tabs, below the top safe area.
