@@ -153,11 +153,16 @@ class ImageManager {
 
     // MARK: - Subscribed Podcast Images
 
-    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
+    func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool, displaySize: CGSize? = nil) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor = DefaultImageProcessor.default
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode])
+        var options: KingfisherOptionsInfo = [.targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode]
+        if let displaySize {
+            options += [.processor(DownsamplingImageProcessor(size: displaySize)), .scaleFactor(imageView.traitCollection.displayScale), .cacheOriginalImage, .cacheMemoryOnly]
+        } else {
+            options.append(.processor(DefaultImageProcessor.default))
+        }
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: options)
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -427,7 +432,6 @@ class ImageManager {
         var urls = [URL]()
         urls.append(podcastUrl(imageSize: .list, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .grid, uuid: podcastUuid))
-        urls.append(podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .page, uuid: podcastUuid))
 
         return urls
@@ -465,15 +469,14 @@ class ImageManager {
         DataManager.shared.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
         NotificationCenter.default.post(name: Constants.Notifications.podcastUpdated, object: podcastUuid)
 
+        subscribedPodcastsCache.clearMemoryCache()
+
         // list and card are the same image, so card is not in the list below
         let listUrl = podcastUrl(imageSize: .list, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: listUrl.cacheKey)
 
         let gridUrl = podcastUrl(imageSize: .grid, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: gridUrl.cacheKey)
-
-        let libraryGridUrl = podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid)
-        subscribedPodcastsCache.removeImage(forKey: libraryGridUrl.cacheKey)
 
         let pageUrl = podcastUrl(imageSize: .page, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
@@ -550,7 +553,7 @@ class ImageManager {
         }
         let name: String
         switch size {
-        case .grid, .libraryGrid:
+        case .grid:
             name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
             name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
@@ -600,13 +603,6 @@ class ImageManager {
             let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
 
             return Int(round(shortestSide * UIScreen.main.scale / 3.0))
-        case .libraryGrid:
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-            let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
-            let columns: CGFloat = shortestSide > 600 ? 6 : 3
-
-            return Int(round(shortestSide * UIScreen.main.scale / columns))
         case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
