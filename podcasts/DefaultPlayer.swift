@@ -180,15 +180,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
     }
 
-    func isReadyToPlay() -> Bool {
+    var isReadyToPlay: Bool {
         player != nil
     }
 
-    func playing() -> Bool {
+    var isPlaying: Bool {
         (player?.rate ?? 0) != 0
     }
 
-    func buffering() -> Bool {
+    var isBuffering: Bool {
         guard let player else { return false }
 
         if let item = player.currentItem {
@@ -198,10 +198,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         return true
     }
 
-    func futureBufferAvailable() -> TimeInterval {
+    var futureBufferAvailable: TimeInterval {
         guard let loadedTimeRanges = player?.currentItem?.loadedTimeRanges else { return 0 }
 
-        let upTo = currentTime()
+        let upTo = currentTime
         for range in loadedTimeRanges {
             let rangeBuferred = range.timeRangeValue
             if (CMTimeGetSeconds(rangeBuferred.start) + CMTimeGetSeconds(rangeBuferred.duration)) > upTo {
@@ -230,7 +230,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         player?.pause()
     }
 
-    func playbackRate() -> Double {
+    var playbackRate: Double {
         if let rate = player?.rate, rate > 0 {
             return Double(rate)
         }
@@ -241,7 +241,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     func setPlaybackRate(_ rate: Double) {
         requiredPlaybackRate = rate
 
-        if playing() {
+        if isPlaying {
             performSetPlaybackRate()
         }
     }
@@ -254,7 +254,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         player?.seek(to: timeToSeekTo, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: { finished in
             if finished {
-                if !self.playing(), self.shouldKeepPlaying {
+                if !self.isPlaying, self.shouldKeepPlaying {
                     self.play(completion: nil)
                 }
                 completion?()
@@ -262,7 +262,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         })
     }
 
-    func currentTime() -> TimeInterval {
+    var currentTime: TimeInterval {
         if let time = player?.currentTime() {
             return CMTimeGetSeconds(time)
         }
@@ -270,7 +270,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         return 0
     }
 
-    func duration() -> TimeInterval {
+    var duration: TimeInterval {
         guard let duration = player?.currentItem?.duration, !duration.isIndefinite else {
             return -1
         }
@@ -280,7 +280,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func endPlayback(permanent: Bool) {
         shouldKeepPlaying = false
-        if playing() {
+        if isPlaying {
             player?.pause()
         }
         cleanupPlayer()
@@ -302,11 +302,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         volumeBoostEnabled = effects.volumeBoost
     }
 
-    func supportsGoogleCast() -> Bool {
+    var supportsGoogleCast: Bool {
         false
     }
 
-    func shouldBePlaying() -> Bool {
+    var shouldBePlaying: Bool {
         shouldKeepPlaying
     }
 
@@ -320,7 +320,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // we don't need to do anything here, iOS handles this
     }
 
-    func internalPlayerForVideoPlayback() -> AVPlayer? {
+    var internalPlayerForVideoPlayback: AVPlayer? {
         player
     }
 
@@ -769,7 +769,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         // there's a bug that when playing over AirPlay to a HomePod, seeking in stream that's already where you are up to sometimes doesn't work, this is a weird workaround for that case
         // https://github.com/shiftyjelly/pocketcasts-ios/issues/1936 is worth a read if you ever come here thinking you want to change this code
-        if round(startingTime) != round(currentTime()) {
+        if round(startingTime) != round(currentTime) {
             seekTo(startingTime, completion: nil)
         }
 
@@ -793,7 +793,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                         return
                     }
 
-                    if !self.buffering() || !self.shouldKeepPlaying {
+                    if !self.isBuffering || !self.shouldKeepPlaying {
                         self.endBackgroundTask()
                         timer.invalidate()
                     }
@@ -912,8 +912,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 let duration = CMTimeGetSeconds(itemThatFinished.duration)
                 let upTo = CMTimeGetSeconds(itemThatFinished.currentTime())
 
-                let buffered = self.futureBufferAvailable()
-                let isBuffering = self.buffering()
+                let buffered = self.futureBufferAvailable
+                let isBuffering = self.isBuffering
 
                 // Check if this is a spurious notification (more than 5% away from end)
                 // If it is, we do not want to reset shouldKeepPlaying and will let the player continue on its way
