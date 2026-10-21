@@ -344,7 +344,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         // when this is called, the engine has detected an interruption like a route change. Because this happens on things like bluetooth connect, and not just disconnect, we deal with it here.
         // The audio engine has shut down at this point, so we call pause to destroy all our current state and play to restore it all if we should still be playing
-        if shouldKeepPlaying.value, !PlaybackManager.shared.interruptionInProgress() {
+        if shouldKeepPlaying.value, !PlaybackManager.shared.isInterruptionInProgress {
             PlaybackManager.shared.pause(userInitiated: false)
             PlaybackManager.shared.play(userInitiated: false)
         } else if !shouldKeepPlaying.value {

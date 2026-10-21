@@ -477,7 +477,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// Shows the current chapter's embedded artwork when available, falling
     /// back to the episode artwork otherwise — matching the full screen player.
     private func updateArtwork(for episode: BaseEpisode, forceReload: Bool = false) {
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         if PlaybackManager.shared.chapterCount() != 0, let artwork = chapters.artwork {
             showingChapterArtwork = true
             podcastArtwork.setImageManually(image: artwork, size: .list)
@@ -501,7 +501,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode) {
         guard let episodeTitleLabel, let episode else { return }
 
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         let newTitle: String?
         if PlaybackManager.shared.chapterCount() != 0, chapters.visibleChapter != nil, !chapters.title.isEmpty {
             newTitle = chapters.title
@@ -543,7 +543,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// called when video is detected at runtime (via `videoPlaybackEngineSwitched`).
     private func autoOpenFullScreenPlayerIfNeeded(for episode: BaseEpisode) {
         let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-        if shouldOpenAutomatically || PlaybackManager.shared.isCurrentEpisodeVideo(), lastEpisodeUuidAutoOpened != episode.uuid {
+        if shouldOpenAutomatically || PlaybackManager.shared.isCurrentEpisodeVideo, lastEpisodeUuidAutoOpened != episode.uuid {
             lastEpisodeUuidAutoOpened = episode.uuid
 
             // we called show mini player above, which might have spent time animating itself into view, so give that time to finish
@@ -594,8 +594,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @objc private func playbackProgressDidChange() {
         if playerOpenState == .open { return } // don't update the mini player while the full screen player is open
 
-        let currentTime = PlaybackManager.shared.currentTime()
-        let duration = PlaybackManager.shared.duration()
+        let currentTime = PlaybackManager.shared.currentTime
+        let duration = PlaybackManager.shared.duration
 
         var progress: CGFloat = 0
         if currentTime > 0, duration > 0 {
@@ -607,7 +607,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playbackProgressView.progress = progress
         playbackProgressView.indeterminant = isIndeterminate
 
-        let amountBuffered = PlaybackManager.shared.futureBufferAvailable()
+        let amountBuffered = PlaybackManager.shared.futureBufferAvailable
         if amountBuffered > 0 {
             playbackProgressView.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }

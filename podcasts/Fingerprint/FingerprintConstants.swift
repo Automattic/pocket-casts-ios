@@ -79,7 +79,7 @@ enum FingerprintConstants {
     /// matches whose nearby reference windows also score decently).
     static let driftScoreDominanceGap: Float = 0.05
 
-    /// Distance ahead of `PlaybackManager.currentTime()` within which the streaming
+    /// Distance ahead of `PlaybackManager.currentTime` within which the streaming
     /// fingerprint loop runs at full speed. Beyond this lead, the loop still
     /// processes every chunk (so coverage still grows to EOF), but it sleeps
     /// `outsideLookaheadSleepSeconds` between chunks to bound peak CPU usage.

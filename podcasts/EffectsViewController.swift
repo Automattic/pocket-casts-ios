@@ -362,8 +362,8 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func updateControls() {
-        let volumeBoostAvailable = PlaybackManager.shared.volumeBoostAvailable()
-        trimSilenceSwitch.isEnabled = PlaybackManager.shared.silenceRemovalAvailable()
+        let volumeBoostAvailable = PlaybackManager.shared.isVolumeBoostAvailable
+        trimSilenceSwitch.isEnabled = PlaybackManager.shared.isSilenceRemovalAvailable
         volumeBoostSwitch.isEnabled = volumeBoostAvailable
 
         let effects = PlaybackManager.shared.effects
@@ -393,7 +393,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     private func updateRemoveSilenceViews() {
         let effects = PlaybackManager.shared.effects
         // When the effect isn't available (e.g. HLS) show it as off rather than on-but-disabled.
-        let isEnabled = PlaybackManager.shared.silenceRemovalAvailable() && effects.trimSilence.isEnabled()
+        let isEnabled = PlaybackManager.shared.isSilenceRemovalAvailable && effects.trimSilence.isEnabled()
         trimSilenceSwitch.isOn = isEnabled
 
         trimSilenceSpeedsToLabelConstraint.isActive = isEnabled

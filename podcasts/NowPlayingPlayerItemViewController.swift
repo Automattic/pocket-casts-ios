@@ -613,7 +613,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            if let previous = PlaybackManager.shared.previousPlayableChapter() {
+            if let previous = PlaybackManager.shared.previousPlayableChapter {
                 PlaybackManager.shared.trackChapterSkippedIfNeeded(to: previous)
                 GeneratedChapterSeeker.seek(
                     to: previous,
@@ -636,7 +636,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            guard let next = PlaybackManager.shared.nextPlayableChapter() else {
+            guard let next = PlaybackManager.shared.nextPlayableChapter else {
                 // No next chapter — respect the producer's end of the last chapter
                 // (the same fallback `skipToNextChapter` makes). This isn't a
                 // chapter start, so there's nothing to fingerprint-resolve.
@@ -701,7 +701,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     #endif
 
     @objc private func chapterLinkTapped() {
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
         #if APPCLIP
@@ -731,7 +731,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func showVideo(rotatesToLandscape: Bool) {
         guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
-        if PlaybackManager.shared.shouldRenderVideo() {
+        if PlaybackManager.shared.shouldRenderVideo {
             let videoController = VideoViewController()
             videoController.rotatesToLandscape = rotatesToLandscape
             videoController.orientationAtPresentation = view.window?.windowScene?.interfaceOrientation ?? .portrait

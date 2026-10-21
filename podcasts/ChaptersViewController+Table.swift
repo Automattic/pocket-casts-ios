@@ -25,7 +25,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
         if let chapter = isTogglingChapters ? PlaybackManager.shared.chapterAt(index: indexPath.row) : PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             var state = PlayerChapterCell.ChapterPlayState.played
-            let currentChapters = PlaybackManager.shared.currentChapters()
+            let currentChapters = PlaybackManager.shared.currentChapters
 
             if chapter.index == currentChapters.index {
                 state = PlaybackManager.shared.isPlaying ? .currentlyPlaying : .currentlyPaused
@@ -41,7 +41,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 }
             }
 
-            chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters().index - 1 || chapter.index == PlaybackManager.shared.currentChapters().index || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
+            chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters.index - 1 || chapter.index == PlaybackManager.shared.currentChapters.index || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
         }
 
         chapterCell.setResolving(indexPath == resolvingIndexPath)
@@ -64,7 +64,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         }
 
         if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
-            if chapter.index == PlaybackManager.shared.currentChapters().index {
+            if chapter.index == PlaybackManager.shared.currentChapters.index {
                 containerDelegate?.scrollToNowPlaying()
                 // Android also emits the selection event when the tapped chapter is
                 // already playing, so keep parity even though nothing seeks here.

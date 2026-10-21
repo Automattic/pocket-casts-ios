@@ -841,7 +841,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             // We're going to be very explicit about the trigger for this to prevent triggering it when we don't want to
 
             // Only apply the logic when playing over AirPlay
-            guard PlaybackManager.shared.playingOverAirplay(), let self else { return }
+            guard PlaybackManager.shared.isPlayingOverAirplay, let self else { return }
 
             // We'll keep track of the previous statuses and compare against them in the check below
             defer {
