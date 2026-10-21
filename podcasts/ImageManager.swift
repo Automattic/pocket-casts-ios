@@ -37,11 +37,9 @@ class ImageManager {
         return subscribedPodcastsCache
     }()
 
-    // downsampled grid images, kept apart from the originals so they can be dropped all at once
-    private let downsampledImageCache: ImageCache = {
-        let cache = ImageCache(name: "downsampledPodcastImages")
-        cache.memoryStorage.config.totalCostLimit = 100.megabytes
-        cache.diskStorage.config.sizeLimit = UInt(100.megabytes)
+    private let thumbnailCache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.totalCostLimit = 100.megabytes
         return cache
     }()
 
@@ -164,19 +162,39 @@ class ImageManager {
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool, displaySize: CGSize? = nil) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        var options: KingfisherOptionsInfo = [.transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode]
         if let displaySize {
-            options += [
-                .processor(DownsamplingImageProcessor(size: displaySize)),
-                .scaleFactor(imageView.traitCollection.displayScale),
-                .targetCache(downsampledImageCache),
-                .originalCache(subscribedPodcastsCache),
-                .cacheOriginalImage
-            ]
-        } else {
-            options += [.processor(DefaultImageProcessor.default), .targetCache(subscribedPodcastsCache)]
+            loadThumbnail(url: url, imageView: imageView, displaySize: displaySize, placeholder: placeholderImage)
+            return
         }
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: options)
+        let processor = DefaultImageProcessor.default
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime)), .backgroundDecode])
+    }
+
+    private func loadThumbnail(url: URL, imageView: UIImageView, displaySize: CGSize, placeholder: UIImage?) {
+        let scale = imageView.traitCollection.displayScale
+        let pixelSize = CGSize(width: displaySize.width * scale, height: displaySize.height * scale)
+        let key = "\(url.cacheKey)#\(Int(pixelSize.width))x\(Int(pixelSize.height))" as NSString
+
+        imageView.thumbnailDownload?.cancel()
+        imageView.thumbnailKey = key
+
+        if let thumbnail = thumbnailCache.object(forKey: key) {
+            imageView.image = thumbnail
+            return
+        }
+        imageView.image = placeholder
+
+        // The original is kept on disk only. The thumbnail cache above holds what the grid shows.
+        imageView.thumbnailDownload = KingfisherManager.shared.retrieveImage(with: url, options: [.targetCache(subscribedPodcastsCache), .memoryCacheExpiration(.expired)]) { [weak self, weak imageView] result in
+            guard case .success(let value) = result else { return }
+            Task { @MainActor in
+                guard let thumbnail = await value.image.byPreparingThumbnail(ofSize: pixelSize), let self, let imageView, imageView.thumbnailKey == key else { return }
+                self.thumbnailCache.setObject(thumbnail, forKey: key, cost: Int(pixelSize.width * pixelSize.height) * 4)
+                UIView.transition(with: imageView, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve) {
+                    imageView.image = thumbnail
+                }
+            }
+        }
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -423,7 +441,9 @@ class ImageManager {
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh])
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh]) { [weak self] _, _, _ in
+            self?.thumbnailCache.removeAllObjects()
+        }
         prefetcher.start()
     }
 
@@ -455,11 +475,12 @@ class ImageManager {
 
     /// Clears every image cache, memory and disk. Used by tvOS logout.
     func clearAllImageCaches() {
-        let caches = [searchImageCache, subscribedPodcastsCache, downsampledImageCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
+        let caches = [searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
         for cache in caches {
             cache.clearMemoryCache()
             cache.clearDiskCache()
         }
+        thumbnailCache.removeAllObjects()
     }
 
     func clearPodcastCache(recacheWhenDone: Bool) {
@@ -467,10 +488,10 @@ class ImageManager {
         DataManager.shared.setAllPodcastImageVersions(to: 0)
 
         subscribedPodcastsCache.clearMemoryCache()
-        downsampledImageCache.clearMemoryCache()
-        downsampledImageCache.clearDiskCache()
         subscribedPodcastsCache.clearDiskCache { [weak self] in
             guard let strongSelf = self else { return }
+
+            strongSelf.thumbnailCache.removeAllObjects()
 
             if recacheWhenDone {
                 strongSelf.cacheAllPodcastImages()
@@ -485,9 +506,6 @@ class ImageManager {
         DataManager.shared.setPodcastImageVersion(podcastUuid: podcastUuid, version: 0)
         NotificationCenter.default.post(name: Constants.Notifications.podcastUpdated, object: podcastUuid)
 
-        downsampledImageCache.clearMemoryCache()
-        downsampledImageCache.clearDiskCache()
-
         // list and card are the same image, so card is not in the list below
         let listUrl = podcastUrl(imageSize: .list, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: listUrl.cacheKey)
@@ -498,6 +516,8 @@ class ImageManager {
         let pageUrl = podcastUrl(imageSize: .page, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
             guard let strongSelf = self else { return }
+
+            strongSelf.thumbnailCache.removeAllObjects()
 
             if recacheWhenDone {
                 strongSelf.cacheImages(podcastUuid: podcastUuid)
@@ -634,5 +654,20 @@ private extension UIImage {
         default:
             return pngData()
         }
+    }
+}
+
+private var thumbnailDownloadKey: UInt8 = 0
+private var thumbnailKeyKey: UInt8 = 0
+
+private extension UIImageView {
+    var thumbnailDownload: DownloadTask? {
+        get { objc_getAssociatedObject(self, &thumbnailDownloadKey) as? DownloadTask }
+        set { objc_setAssociatedObject(self, &thumbnailDownloadKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    var thumbnailKey: NSString? {
+        get { objc_getAssociatedObject(self, &thumbnailKeyKey) as? NSString }
+        set { objc_setAssociatedObject(self, &thumbnailKeyKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 }
