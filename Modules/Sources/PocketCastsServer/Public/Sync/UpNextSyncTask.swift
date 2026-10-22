@@ -36,15 +36,20 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
         // Skip sync when protected data is unavailable to prevent reading incorrect
         // UserDefaults values (which may return defaults instead of actual stored values)
         // This can happen when the app launches in background before first unlock after reboot
-        if FeatureFlag.skipSyncWhenProtectedDataUnavailable.enabled {
-            if let isAvailable = UserDefaults.isProtectedDataAvailable(), !isAvailable {
-                FileLog.shared.addMessage("UpNextSyncTask: Skipped - protected data not available")
-                return
-            }
+        if Self.shouldSkipSync() {
+            FileLog.shared.addMessage("UpNextSyncTask: Skipped - protected data not available")
+            return
         }
 
         logProtectedDataAvailable()
         super.main()
+    }
+
+    static func shouldSkipSync(isProtectedDataAvailable: Bool? = UserDefaults.isProtectedDataAvailable(), defaults: UserDefaults = .standard) -> Bool {
+        guard FeatureFlag.skipSyncWhenProtectedDataUnavailable.enabled, isProtectedDataAvailable == false else {
+            return false
+        }
+        return defaults.string(forKey: ServerConstants.UserDefaults.upNextServerLastModified) == nil
     }
 
     override func apiTokenAcquired(token: String) {
