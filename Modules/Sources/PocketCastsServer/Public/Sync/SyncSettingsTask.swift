@@ -29,6 +29,12 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             if ServerSettings.showWhatsNewDotNeedsSyncing() {
                 settingsRequest.settings.showWhatsNewDot.value = ServerSettings.showWhatsNewDot()
             }
+            if ServerSettings.globalPlaybackSpeedNeedsSyncing() {
+                settingsRequest.settings.playbackSpeed.value = ServerSettings.globalPlaybackSpeed()
+            }
+            if ServerSettings.autoArchiveIncludesStarredNeedsSyncing() {
+                settingsRequest.settings.autoArchiveIncludesStarred.value = ServerSettings.autoArchiveIncludesStarred()
+            }
             if SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() {
                 settingsRequest.settings.freeGiftAcknowledgement.value = SubscriptionHelper.subscriptionGiftAcknowledgement()
             }
@@ -84,6 +90,17 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
                 ServerSettings.setShowWhatsNewDot(settings.showWhatsNewDot.value.value, syncChange: false)
             }
 
+            if settings.playbackSpeed.changed.value {
+                let speed = settings.playbackSpeed.value.value
+                if speed > 0, speed != ServerSettings.globalPlaybackSpeed() {
+                    ServerSettings.setGlobalPlaybackSpeed(speed, syncChange: false)
+                }
+            }
+
+            if settings.autoArchiveIncludesStarred.changed.value {
+                ServerSettings.setAutoArchiveIncludesStarred(settings.autoArchiveIncludesStarred.value.value, syncChange: false)
+            }
+
             if settings.freeGiftAcknowledgement.changed.value {
                 let acknowledgement = settings.freeGiftAcknowledgement.value.value
                 SubscriptionHelper.setSubscriptionGiftAcknowledgement(acknowledgement)
@@ -102,6 +119,8 @@ class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
             ServerSettings.disableAiChaptersSynced()
             ServerSettings.showWhatsNewDotSynced()
             ServerSettings.setHomeGridSortOrderSynced()
+            ServerSettings.globalPlaybackSpeedSynced()
+            ServerSettings.autoArchiveIncludesStarredSynced()
             SubscriptionHelper.subscriptionGiftAcknowledgementSynced()
         } catch {
             FileLog.shared.addMessage("SyncSettingsTask decoding response failed \(error.localizedDescription)")

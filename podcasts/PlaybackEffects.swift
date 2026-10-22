@@ -52,7 +52,7 @@ class PlaybackEffects {
         effects.trimSilence = convertToTrimSilenceAmount(Int32(removeSilenceAmount))
         effects.volumeBoost = UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost)
 
-        savedSpeed = UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed)
+        savedSpeed = ServerSettings.globalPlaybackSpeed()
 
         var roundedSpeed = round(savedSpeed * 10.0) / 10.0
         if roundedSpeed < 0.5 {

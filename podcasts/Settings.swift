@@ -356,13 +356,12 @@ class Settings: NSObject {
         }
     }
 
-    static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
     class func archiveStarredEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        ServerSettings.autoArchiveIncludesStarred()
     }
 
     class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
-        UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
+        ServerSettings.setAutoArchiveIncludesStarred(archive, syncChange: userInitiated)
 
         guard userInitiated else { return }
         trackValueToggled(.settingsAutoArchiveIncludeStarredToggled, enabled: archive)
