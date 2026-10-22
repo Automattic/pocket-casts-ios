@@ -899,7 +899,7 @@
 "feedback_continue_with_mail" = "Open Default Mail App";
 
 /* Error message for when the user has a mail app configured that's not the default mail app. */
-"feedback_mail_not_configured_msg" = "To send a debug attachment, the Apple Mail app has to be configured on this device. What would you like to do?";
+"feedback_mail_not_configured_msg" = "To send a debug attachment, the Apple Mail app has to be configured on your phone. What would you like to do?";
 
 /* Error title for when the user has a mail app configured that's not the default mail app. */
 "feedback_mail_not_configured_title" = "Mail Not Configured";
@@ -2675,7 +2675,7 @@
 "settings_general_play_back_actions" = "Extra Playback Actions";
 
 /* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
-"settings_general_play_back_actions_subtitle" = "Adds a star option to your lock screen.";
+"settings_general_play_back_actions_subtitle_device" = "Adds a star option to your lock screen.";
 
 /* Section header for the general settings that are more player related. */
 "settings_general_player_header" = "PLAYER";
@@ -2888,7 +2888,7 @@
 "settings_storage_usage" = "USAGE";
 
 /* Footer note on the Storage & Data Use screen explaining why the system may report higher storage than the app does. '%1$@' is a placeholder for the device model name, e.g. 'iPhone' or 'iPad'. */
-"settings_storage_usage_footer" = "This may differ from the storage shown in your %1$@ Settings. Your device manages cached data automatically and frees it up when needed.";
+"settings_storage_usage_footer_device" = "This may differ from the storage shown in your %1$@ Settings. Your device manages cached data automatically and frees it up when needed.";
 
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
@@ -2990,7 +2990,7 @@
 "settings_status_refresh_service_description" = "The service used to find new episodes.";
 
 /* Failure message for a service check. */
-"settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock the domain %1$@";
+"settings_status_service_ad_blocker_help_singular_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock the domain %1$@";
 
 /* Title for the service being checked, in this case, the Pocket Cast's Account Service. */
 "settings_status_account_service" = "Account Service";
@@ -3011,7 +3011,7 @@
 "settings_status_host_description" = "Podcast authors host episode files in various hosting providers not managed by Pocket Casts.";
 
 /* Failure message for the podcast host check. */
-"settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+"settings_status_host_failure_message_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
 
 /* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
 "troubleshooting_title" = "Troubleshooting";
@@ -4805,7 +4805,7 @@
 "auto_restart_sleep_timer_description" = "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.";
 
 /* Description of the option to shake to restart sleep timer */
-"shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your device.";
+"shake_to_restart_sleep_timer_description_device" = "If on, the sleep timer will restart when you shake your device.";
 
 /* Title of a screen that display Folders history */
 "folders_history" = "Folders History";
