@@ -109,6 +109,7 @@ actor PlaylistMetadataLoader {
     }
 
     private var countTasks: [String: InFlightTask<Int>] = [:]
+    private var latestCountRequests: [String: (id: UUID, updateDate: Date?)] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
     private let dataManager: DataManager
@@ -146,15 +147,27 @@ actor PlaylistMetadataLoader {
             return await inFlight.task.value
         }
 
+        // A request with older rules must not replace the newer one
+        if let latestDate = latestCountRequests[playlistID]?.updateDate,
+           let date = playlist.playlistUpdateDate,
+           date < latestDate {
+            if let inFlight = countTasks[playlistID] {
+                return await inFlight.task.value
+            }
+            return await getEpisodesCount(for: playlist)
+        }
+
         // Start new fetch task
         let taskID = UUID()
         let task = Task {
             let newCount = await getEpisodesCount(for: playlist)
 
-            if let current = countTasks[playlistID], current.id != taskID {
+            guard latestCountRequests[playlistID]?.id == taskID else {
                 return newCount
             }
-            countTasks[playlistID] = nil
+            if countTasks[playlistID]?.id == taskID {
+                countTasks[playlistID] = nil
+            }
 
             // Check if the count actually changed
             if let cached = cache.counts[playlistID], cached.count == newCount {
@@ -173,6 +186,7 @@ actor PlaylistMetadataLoader {
             return newCount
         }
         countTasks[playlistID] = InFlightTask(id: taskID, updateDate: playlist.playlistUpdateDate, task: task)
+        latestCountRequests[playlistID] = (taskID, playlist.playlistUpdateDate)
         return await task.value
     }
 
@@ -216,6 +230,7 @@ actor PlaylistMetadataLoader {
     func cancelLoadCount(for playlistID: String) {
         countTasks[playlistID]?.task.cancel()
         countTasks[playlistID] = nil
+        latestCountRequests[playlistID] = nil
     }
 
     func cancelLoadImages(for playlistID: String) {
