@@ -1265,7 +1265,7 @@ extension MainTabBarController {
     @objc func refreshUpNextTabBadge() {
         guard #available(iOS 26.0, *) else { return }
 
-        // Clamping lives in `composeUpNextTabImage`; track the true count here.
+        // Track the true count here; `composeUpNextTabImage` shows "99+" past 99.
         let count = PlaybackManager.shared.queue.upNextCount()
         let previous = previousUpNextCount
         previousUpNextCount = count

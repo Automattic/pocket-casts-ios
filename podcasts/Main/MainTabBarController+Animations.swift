@@ -12,18 +12,18 @@ extension MainTabBarController {
     /// are punched out as transparent cutouts so the count reads light against
     /// the tinted pill — the "active tab" counterpart to the resting badge.
     static func composeUpNextTabImage(count: Int, isSelected: Bool = false) -> UIImage? {
-        let clamped = min(99, max(1, count))
+        let badgeCount = max(1, count)
 
         // Fixed at the widest (3-digit) size so the tab image never resizes.
         let canvasSize = CGSize(
-            width: ceil(upNextBadgeLayout(count: 99, origin: .zero).size.width),
+            width: ceil(upNextBadgeLayout(count: 100, origin: .zero).size.width),
             height: 26)
-        let content = upNextBadgeLayout(count: clamped, origin: .zero).size
+        let content = upNextBadgeLayout(count: badgeCount, origin: .zero).size
         let origin = CGPoint(
             x: ((canvasSize.width - content.width) / 2).rounded(),
             y: ((canvasSize.height - content.height) / 2).rounded()
         )
-        let layout = upNextBadgeLayout(count: clamped, origin: origin)
+        let layout = upNextBadgeLayout(count: badgeCount, origin: origin)
         let secondaryShadeAlpha: CGFloat = isSelected ? 0.45 : 0.9
         let capsuleFillAlpha: CGFloat = isSelected ? 0.93 : 0.08
 
@@ -31,7 +31,7 @@ extension MainTabBarController {
             UIColor.black.withAlphaComponent(capsuleFillAlpha).setFill()
             UIBezierPath(roundedRect: layout.capsule, cornerRadius: layout.capsule.height / 2).fill()
 
-            let countAsStr = "\(clamped)" as NSString
+            let countAsStr = UnplayedBadge.text(forCount: badgeCount) as NSString
             let textAttributes: [NSAttributedString.Key: Any] = [.font: layout.font, .foregroundColor: UIColor.black]
             let textSize = countAsStr.size(withAttributes: textAttributes)
             let textOrigin = CGPoint(
@@ -77,7 +77,7 @@ extension MainTabBarController {
         // Matches the full player's Up Next button (UpNextButton): 13pt for
         // 1–2 digits, 11pt once it spills to 3.
         let font = UIFont.monospacedDigitSystemFont(ofSize: count > 99 ? 11 : 13, weight: .bold)
-        let textWidth = ("\(count)" as NSString).size(withAttributes: [.font: font]).width
+        let textWidth = (UnplayedBadge.text(forCount: count) as NSString).size(withAttributes: [.font: font]).width
         // A stadium shape: floor at a circle for a single digit, but let two or
         // more digits stretch into the oblong pill the design calls for.
         let capsuleWidth = max(height, (textWidth + horizontalPadding * 2).rounded())
