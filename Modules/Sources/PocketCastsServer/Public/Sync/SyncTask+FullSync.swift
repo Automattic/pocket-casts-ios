@@ -76,6 +76,8 @@ extension SyncTask {
 
         if let localPodcast = DataManager.shared.findPodcast(uuid: uuid), lastSyncAt == localPodcast.fullSyncLastSyncAt {
             FileLog.shared.addMessage("Skipping processing of podcast \(uuid) in full sync, already done previously")
+            localPodcast.folderUuid = podcast.folderUuid
+            DataManager.shared.save(podcast: localPodcast)
             return
         }
 
