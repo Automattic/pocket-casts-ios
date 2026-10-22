@@ -37,12 +37,9 @@ class ImageManager {
         return subscribedPodcastsCache
     }()
 
-    private let thumbnailCache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        // Like Nuke's default: 15% of the physical memory, capped at 768 MB.
+    private let thumbnailCache: ThumbnailCache = {
         let physicalMemory = Double(ProcessInfo.processInfo.physicalMemory)
-        cache.totalCostLimit = min(Int(physicalMemory * 0.15), 768.megabytes)
-        return cache
+        return ThumbnailCache(totalCostLimit: min(Int(physicalMemory * 0.15), 512.megabytes))
     }()
 
     // user episode image cache
@@ -180,7 +177,7 @@ class ImageManager {
         imageView.thumbnailDownload?.cancel()
         imageView.thumbnailKey = key
 
-        if let thumbnail = thumbnailCache.object(forKey: key) {
+        if let thumbnail = thumbnailCache.image(forKey: key) {
             imageView.image = thumbnail
             return
         }
@@ -191,7 +188,7 @@ class ImageManager {
             guard case .success(let value) = result else { return }
             Task { @MainActor in
                 guard let thumbnail = await value.image.byPreparingThumbnail(ofSize: pixelSize), let self, let imageView, imageView.thumbnailKey == key else { return }
-                self.thumbnailCache.setObject(thumbnail, forKey: key, cost: Int(pixelSize.width * pixelSize.height) * 4)
+                self.thumbnailCache.setImage(thumbnail, forKey: key, cost: Int(pixelSize.width * pixelSize.height) * 4)
                 UIView.transition(with: imageView, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve) {
                     imageView.image = thumbnail
                 }
@@ -444,7 +441,7 @@ class ImageManager {
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
         let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh]) { [weak self] _, _, _ in
-            self?.thumbnailCache.removeAllObjects()
+            self?.thumbnailCache.removeAll()
         }
         prefetcher.start()
     }
@@ -482,7 +479,7 @@ class ImageManager {
             cache.clearMemoryCache()
             cache.clearDiskCache()
         }
-        thumbnailCache.removeAllObjects()
+        thumbnailCache.removeAll()
     }
 
     func clearPodcastCache(recacheWhenDone: Bool) {
@@ -493,7 +490,7 @@ class ImageManager {
         subscribedPodcastsCache.clearDiskCache { [weak self] in
             guard let strongSelf = self else { return }
 
-            strongSelf.thumbnailCache.removeAllObjects()
+            strongSelf.thumbnailCache.removeAll()
 
             if recacheWhenDone {
                 strongSelf.cacheAllPodcastImages()
@@ -519,7 +516,7 @@ class ImageManager {
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
             guard let strongSelf = self else { return }
 
-            strongSelf.thumbnailCache.removeAllObjects()
+            strongSelf.thumbnailCache.removeAll()
 
             if recacheWhenDone {
                 strongSelf.cacheImages(podcastUuid: podcastUuid)
@@ -656,6 +653,34 @@ private extension UIImage {
         default:
             return pngData()
         }
+    }
+}
+
+private final class ThumbnailCache {
+    private let cache = NSCache<NSString, UIImage>()
+    private var observer: NSObjectProtocol?
+
+    init(totalCostLimit: Int) {
+        cache.totalCostLimit = totalCostLimit
+        observer = NotificationCenter.default.addObserver(forName: UIApplication.didReceiveMemoryWarningNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.removeAll()
+        }
+    }
+
+    deinit {
+        observer.map(NotificationCenter.default.removeObserver)
+    }
+
+    func image(forKey key: NSString) -> UIImage? {
+        cache.object(forKey: key)
+    }
+
+    func setImage(_ image: UIImage, forKey key: NSString, cost: Int) {
+        cache.setObject(image, forKey: key, cost: cost)
+    }
+
+    func removeAll() {
+        cache.removeAllObjects()
     }
 }
 
