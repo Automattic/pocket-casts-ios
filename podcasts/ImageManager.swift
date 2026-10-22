@@ -39,7 +39,9 @@ class ImageManager {
 
     private let thumbnailCache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
-        cache.totalCostLimit = 100.megabytes
+        // Like Nuke's default: 15% of the physical memory, capped at 768 MB.
+        let physicalMemory = Double(ProcessInfo.processInfo.physicalMemory)
+        cache.totalCostLimit = min(Int(physicalMemory * 0.15), 768.megabytes)
         return cache
     }()
 
