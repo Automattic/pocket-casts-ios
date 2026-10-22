@@ -38,7 +38,7 @@ class AudioPlayTask {
 
                 if !strongSelf.cancelled.value {
                     strongSelf.scheduleNextBuffer()
-                    if strongSelf.bufferManager.bufferLength() <= strongSelf.bufferManager.lowBufferPoint {
+                    if strongSelf.bufferManager.bufferLength <= strongSelf.bufferManager.lowBufferPoint {
                         strongSelf.bufferManager.bufferSemaphore.signal()
                     }
                 }
@@ -58,7 +58,7 @@ class AudioPlayTask {
     }
 
     private func scheduleNextBuffer() {
-        while !cancelled.value, bufferManager.bufferLength() == 0 {
+        while !cancelled.value, bufferManager.bufferLength == 0 {
             // if the read thread has gotten to the end of the file and we haven't scheduled anything in the last second, playback is done
             if bufferManager.readToEOFSuccessfully.value, Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
                 if !bufferManager.haveNotifiedPlayer.value {

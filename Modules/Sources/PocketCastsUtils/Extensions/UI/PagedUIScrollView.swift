@@ -12,13 +12,28 @@ public class PagedUIScrollView: UIScrollView {
         Double(bounds.width)
     }
 
+    private var isRightToLeft: Bool {
+        effectiveUserInterfaceLayoutDirection == .rightToLeft
+    }
+
+    private var lastLayoutWidths: (page: Double, content: Double)?
+
+    private var lastSettledPage = 0
+
+    override public var contentOffset: CGPoint {
+        didSet {
+            guard let lastLayoutWidths, lastLayoutWidths.page == pageWidth, lastLayoutWidths.content == Double(contentSize.width) else { return }
+            lastSettledPage = currentPage
+        }
+    }
+
     /// Calculates the current visible page based on the content offset
     public var currentPage: Int {
         let offset = round(contentOffset.x / pageWidth)
 
         guard isPagingEnabled, offset.isNumeric else { return 0 }
 
-        return Int(offset)
+        return mirroredPage(Int(offset))
     }
 
     public var totalPages: Int {
@@ -34,9 +49,26 @@ public class PagedUIScrollView: UIScrollView {
         guard isPagingEnabled else { return }
 
         var offset = contentOffset
-        offset.x = pageWidth * Double(page)
+        offset.x = pageWidth * Double(mirroredPage(page))
 
         setContentOffset(offset, animated: animated)
+    }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+
+        let widths = (page: pageWidth, content: Double(contentSize.width))
+        guard isRightToLeft, isPagingEnabled, widths.page > 0, widths.content > 0 else { return }
+        guard lastLayoutWidths?.page != widths.page || lastLayoutWidths?.content != widths.content else { return }
+
+        lastLayoutWidths = widths
+        var offset = contentOffset
+        offset.x = widths.page * Double(mirroredPage(lastSettledPage))
+        super.contentOffset = offset
+    }
+
+    private func mirroredPage(_ page: Int) -> Int {
+        isRightToLeft ? max(pageViews.count - 1 - page, 0) : page
     }
 
     /// Adds the view as a new page aligned after previous last page

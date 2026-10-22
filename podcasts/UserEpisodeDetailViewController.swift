@@ -85,9 +85,6 @@ class UserEpisodeDetailViewController: UIViewController {
         }
     }
 
-    @IBOutlet var containerViewToErrorViewConstraint: NSLayoutConstraint!
-    @IBOutlet var containerViewToImageViewConstraint: NSLayoutConstraint!
-
     @IBOutlet var uploadStatusImage: UIImageView!
     @IBOutlet var uploadProgressIndicator: ProgressPieView!
     var episode: UserEpisode

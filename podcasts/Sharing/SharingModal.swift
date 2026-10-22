@@ -90,7 +90,7 @@ enum SharingModal {
 
         let timeInterval: Double
         if PlaybackManager.shared.currentEpisode?.uuid == episode?.uuid {
-            timeInterval = PlaybackManager.shared.currentTime()
+            timeInterval = PlaybackManager.shared.currentTime
         } else {
             timeInterval = episode?.playedUpTo ?? 0
         }

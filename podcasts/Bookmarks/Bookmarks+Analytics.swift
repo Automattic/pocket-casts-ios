@@ -7,6 +7,7 @@ enum BookmarkAnalyticsSource: String, AnalyticsDescribable {
     case podcasts = "podcast_screen"
     case episodes = "episode_details"
     case player
+    case miniPlayer = "mini_player"
     case files
     case headphones
     case whatsNew = "whats_new"

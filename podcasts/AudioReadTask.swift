@@ -354,7 +354,7 @@ class AudioReadTask {
 
     private func scheduleForPlayback(buffer: BufferedAudio) {
         // the play task will signal us when it needs more buffer, but it will keep signalling as long as the buffer is low, so keep calling wait until we get below the high point
-        while !cancelled.value, bufferManager.bufferLength() >= bufferManager.highBufferPoint {
+        while !cancelled.value, bufferManager.bufferLength >= bufferManager.highBufferPoint {
             bufferManager.bufferSemaphore.wait()
         }
 

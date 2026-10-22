@@ -25,7 +25,7 @@ class BackgroundShakeObserver {
     }
 
     @objc private func appMovedToBackground() {
-        if PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer {
+        if PlaybackManager.shared.isSleepTimerActive && Settings.shakeToRestartSleepTimer {
             startObserving()
         }
     }
@@ -35,7 +35,7 @@ class BackgroundShakeObserver {
     }
 
     @objc private func sleepTimerChanged() {
-        if !PlaybackManager.shared.sleepTimerActive() {
+        if !PlaybackManager.shared.isSleepTimerActive {
             stopObserving()
         }
     }

@@ -222,7 +222,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var episodeUuidsInQueue: [BaseEpisode] {
-        PlaybackManager.shared.allEpisodeUuidsInQueue()
+        PlaybackManager.shared.allEpisodeUuidsInQueue
     }
 
     func clearUpNext() {
@@ -237,8 +237,8 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     var playbackProgress: CGFloat {
-        let currentTime = PlaybackManager.shared.currentTime()
-        let duration = PlaybackManager.shared.duration()
+        let currentTime = PlaybackManager.shared.currentTime
+        let duration = PlaybackManager.shared.duration
 
         guard duration > 0 else { return 0 }
         return currentTime / duration
@@ -257,7 +257,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingTitle(forEpisode episode: BaseEpisode) -> String? {
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         guard
             let chapter = chapters.visibleChapter,
             PlaybackManager.shared.chapterCount() != 0,
@@ -275,7 +275,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingTimeRemaining(forEpisode episode: BaseEpisode) -> String {
-        let timeRemaining = max(0, PlaybackManager.shared.duration() - PlaybackManager.shared.currentTime())
+        let timeRemaining = max(0, PlaybackManager.shared.duration - PlaybackManager.shared.currentTime)
         return TimeFormatter.shared.playTimeFormat(time: timeRemaining, showSeconds: true)
     }
 

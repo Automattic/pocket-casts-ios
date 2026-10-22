@@ -284,7 +284,7 @@ extension PlayerAction {
         case .addToPlaylist:
             return L10n.playlistManualEpisodeAddToPlaylist
         case .videoToggle:
-            return PlaybackManager.shared.shouldRenderVideo() ? L10n.playerActionHideVideo : L10n.playerActionShowVideo
+            return PlaybackManager.shared.shouldRenderVideo ? L10n.playerActionHideVideo : L10n.playerActionShowVideo
         }
     }
 
@@ -331,7 +331,7 @@ extension PlayerAction {
         case .addToPlaylist:
             return "playlist-add-episode"
         case .videoToggle:
-            return PlaybackManager.shared.shouldRenderVideo() ? "video_off" : "video_on"
+            return PlaybackManager.shared.shouldRenderVideo ? "video_off" : "video_on"
         }
     }
 
@@ -367,7 +367,7 @@ extension PlayerAction {
         case .addToPlaylist:
             return "playlist-add-episode"
         case .videoToggle:
-            return PlaybackManager.shared.shouldRenderVideo() ? "video_off" : "video_on"
+            return PlaybackManager.shared.shouldRenderVideo ? "video_off" : "video_on"
         }
     }
 
@@ -376,7 +376,7 @@ extension PlayerAction {
         case .starEpisode, .shareEpisode:
             return episode is Episode
         case .videoToggle:
-            return PlaybackManager.shared.canToggleVideoRendering()
+            return PlaybackManager.shared.canToggleVideoRendering
         default:
             return true
         }
