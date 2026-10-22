@@ -41,7 +41,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         }
     }
 
-    @IBOutlet var collectionViewHeader: UICollectionReusableView!
     static let headerId = "DiscoverCollectionHeader"
     static let gridCellId = "LargeListCell"
     static let descriptiveCellId = "DescriptiveCollectionCell"
@@ -82,7 +81,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         }
 
         if item.source != nil && item.isAuthenticated == false {
-            customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
+            customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare(_:)))
         }
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
@@ -220,10 +219,11 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         isStatusBarLight ? .lightContent : AppTheme.defaultStatusBarStyle()
     }
 
-    @objc func handleShare() {
+    @objc func handleShare(_ sender: UIBarButtonItem) {
         guard let source = item.source, let url = URL(string: source)?.deletingPathExtension() else { return }
         Analytics.track(.discoverListShareTapped)
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = sender
         present(activityViewController, animated: true)
     }
 

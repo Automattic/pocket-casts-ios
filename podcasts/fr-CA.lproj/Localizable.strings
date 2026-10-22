@@ -2261,8 +2261,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Parcourir les podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Toutes nos excuses, un problème est survenu lors de la création de votre liste de lecture.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre playlist.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Commencer à créer votre playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Remplacer la file d’attente actuelle ?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Remplacer et lire</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>Cette lecture remplacera votre file d’attente actuelle.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Remplacer votre file d’attente ?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2319,12 +2315,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Tous les podcasts auxquels vous êtes abonné(e)</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Enregistrer la règle intelligente</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Les épisodes marqués d’une étoile peuvent toujours apparaître s’ils correspondent à vos autres règles.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Incluez uniquement les épisodes marqués d’une étoile qui correspondent à vos autres règles.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Épisodes marqués d’une étoile</string>
     <key>playlist_smart_rules_title</key>
     <string>Règles intelligentes</string>
     <key>playlists</key>

@@ -76,7 +76,7 @@ extension CarPlaySceneDelegate {
         guard chapterCount > 0 else { return }
 
         var chapterItems = [CPListItem]()
-        let currentChapters = PlaybackManager.shared.currentChapters()
+        let currentChapters = PlaybackManager.shared.currentChapters
         for i in 0 ... chapterCount {
             guard let chapter = PlaybackManager.shared.chapterAt(index: i) else { continue }
 

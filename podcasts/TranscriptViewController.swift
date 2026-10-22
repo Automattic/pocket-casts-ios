@@ -179,8 +179,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.generatedTranscripts.enabled, value {
             // A tab has no row of buttons above the banner.
             let bannerTop = isPlayerTab ? -44.0 : 0.0
-            transcriptViewTopConstraint?.constant = 80.0 + topMargin + bannerTop
-            topGradientTopConstraint?.constant = 100.0 + topMargin + bannerTop
+            transcriptViewTopConstraint?.constant = 104.0 + topMargin + bannerTop
+            topGradientTopConstraint?.constant = 124.0 + topMargin + bannerTop
             topGradientHeightConstraint?.constant = 30.0
         } else {
             transcriptViewTopConstraint?.constant = 0.0 + topMargin
@@ -968,7 +968,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     @objc private func updateTranscriptPosition() {
         guard let transcript else { return }
 
-        let rawTime = playbackManager.currentTime()
+        let rawTime = playbackManager.currentTime
 
         // Highlighting is opt-in: only paint while playback is confidently on
         // matched content. Off it — dynamic ads, unmatched audio, regions not yet
@@ -1136,7 +1136,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
 
-        let fromPosition = playbackManager.currentTime()
+        let fromPosition = playbackManager.currentTime
         playbackManager.seekTo(time: seekTime)
         syncedSeeksCount += 1
         track(.syncedTranscriptsSeekUsed, properties: [

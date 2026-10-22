@@ -253,7 +253,7 @@ class ChapterManager {
             .compactMap { Int($0) }
             .forEach { self.chapters[safe: $0]?.shouldPlay = false }
 
-        updateCurrentChapter(time: PlaybackManager.shared.currentTime())
+        updateCurrentChapter(time: PlaybackManager.shared.currentTime)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastChaptersDidUpdate)
     }

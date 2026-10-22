@@ -181,7 +181,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
         let autoAddCandidates = DataManager.shared.autoAddCandidates.candidates()
 
         if !autoAddCandidates.isEmpty {
-            let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
+            let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount ?? 0
             FileLog.shared.addMessage("Checking for auto add to up next episodes in \(autoAddCandidates.count) podcasts that have been updated with auto add to up next turned on limit is \(upNextLimit) starting count is \(startingCount)")
         }
 
@@ -196,7 +196,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
             guard let episode = DataManager.shared.findEpisode(uuid: episodeUuid), !episode.played(), !episode.archived, let inUpNext = ServerConfig.shared.playbackDelegate?.inUpNext(episode: episode), inUpNext == false else { continue }
 
-            let currentCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
+            let currentCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount ?? 0
             if currentCount < upNextLimit {
                 FileLog.shared.addMessage("Current Up Next count \(currentCount) is less than the limit, adding \(episode.displayableTitle()) to the \(toTop ? "top" : "bottom") of Up Next")
                 ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: false, toTop: toTop)

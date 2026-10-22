@@ -11,7 +11,6 @@ final class PlayerLargeScreenLayout {
     let arrangementController = UIArrangementViewController()
     let playerPane = PlayerArrangementPaneViewController()
     let tabsPane = PlayerArrangementPaneViewController()
-    let background = PlayerArtworkBackgroundView()
     let grabber = PlayerGrabberView()
     let divider = UIView()
 
@@ -57,10 +56,6 @@ extension PlayerContainerViewController {
         let layout = PlayerLargeScreenLayout()
         largeScreenLayoutStorage = layout
 
-        layout.background.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(layout.background, at: 0)
-        layout.background.anchorToAllSidesOf(view: view)
-
         let arrangementController = layout.arrangementController
         arrangementController.setViewController(layout.playerPane, for: .primary)
         arrangementController.setViewController(layout.tabsPane, for: .secondary)
@@ -71,7 +66,7 @@ extension PlayerContainerViewController {
         arrangementController.updateArrangement(arrangement)
         addChild(arrangementController)
         arrangementController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(arrangementController.view, aboveSubview: layout.background)
+        view.insertSubview(arrangementController.view, aboveSubview: artworkBackground)
         arrangementController.view.anchorToAllSidesOf(view: view)
         arrangementController.didMove(toParent: self)
 
@@ -82,7 +77,6 @@ extension PlayerContainerViewController {
         }
         mainScrollView.removeFromSuperview()
         closeBtn.removeFromSuperview()
-        tabsView.fadesEdgesWithMask = true
 
         layout.grabber.accessibilityLabel = closeBtn.accessibilityLabel
         layout.grabber.accessibilityIdentifier = closeBtn.accessibilityIdentifier
@@ -95,7 +89,6 @@ extension PlayerContainerViewController {
             layout?.divider.isHidden = update.hinge?.status == .partiallyOpen
         })
 
-        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(largeScreenArtworkDidLoad))
         addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(largeScreenTranscriptAvailabilityDidChange(_:)))
 
         // Now Playing is a child of the player pane in both layouts.
@@ -202,6 +195,8 @@ extension PlayerContainerViewController {
             transcriptContainerView.trailingAnchor.constraint(equalTo: playerSafeArea.trailingAnchor),
             transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor)
         ]
+
+        coverWithTranscriptBackground()
 
         NSLayoutConstraint.activate(constraints)
         layout.constraints = constraints
@@ -391,7 +386,7 @@ extension PlayerContainerViewController {
               let transcriptTab = layout.transcriptTab, let transcriptView = transcriptTab.view else { return }
 
         let paywall = GeneratedTranscriptsPremiumOverlay(playbackManager: PlaybackManager.shared)
-        paywall.largeScreenBackground = layout.background
+        paywall.largeScreenBackground = artworkBackground
         paywall.view.translatesAutoresizingMaskIntoConstraints = false
         paywall.dismissTranscript = { [weak self] in
             guard let self, let index = self.tabsView.tabs.firstIndex(of: .transcript), index + 1 < self.tabsView.tabs.count else { return }
@@ -451,13 +446,8 @@ extension PlayerContainerViewController {
     func updateLargeScreenColors() {
         guard let layout = largeScreenLayout else { return }
 
-        layout.background.update(episode: PlaybackManager.shared.currentEpisode, tintColor: PlayerColorHelper.playerBackgroundColor01())
         layout.grabber.updateColors()
         layout.divider.backgroundColor = ThemeColor.playerContrast05()
-    }
-
-    @objc private func largeScreenArtworkDidLoad() {
-        largeScreenLayout?.background.reloadArtwork(for: PlaybackManager.shared.currentEpisode)
     }
 
     /// The height of the header with the tabs, below the top safe area.

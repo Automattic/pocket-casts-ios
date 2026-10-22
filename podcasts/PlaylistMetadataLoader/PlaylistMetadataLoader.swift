@@ -40,15 +40,8 @@ actor PlaylistMetadataLoader {
     // MARK: - Publisher
 
     /// Thread-safe subject for publishing metadata updates.
-    /// Access via `updatesPublisher` for subscribing to changes.
     /// Marked nonisolated(unsafe) because PassthroughSubject is internally thread-safe.
     nonisolated(unsafe) private let updatesSubject = PassthroughSubject<MetadataUpdate, Never>()
-
-    /// Publisher that emits metadata updates when counts or images change.
-    /// Subscribe to receive updates for specific playlists.
-    nonisolated var updatesPublisher: AnyPublisher<MetadataUpdate, Never> {
-        updatesSubject.eraseToAnyPublisher()
-    }
 
     /// Convenience publisher for count updates only.
     /// Emits (playlistID, count) tuples when a playlist's count changes.
@@ -115,21 +108,6 @@ actor PlaylistMetadataLoader {
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-
-    static func gridArtworkItems<T>(
-        from episodes: [T],
-        limit: Int,
-        imageManager: ImageManager = .shared,
-        podcastUuid: (T) -> String
-    ) -> [PlaylistArtworkView.ImageItem] {
-        let distinctEpisodes = distinctPodcasts(from: episodes, limit: limit, podcastUuid: podcastUuid)
-
-        return distinctEpisodes.map { episode in
-            let uuid = podcastUuid(episode)
-            let url = imageManager.podcastUrl(imageSize: .grid, uuid: uuid)
-            return PlaylistArtworkView.ImageItem(id: uuid, url: url)
-        }
-    }
 
     init(
         dataManager: DataManager = .shared,

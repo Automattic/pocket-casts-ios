@@ -2261,8 +2261,6 @@ Pocket Casts Plus</string>
     <string>瀏覽 Podcast</string>
     <key>playlist_manual_create_error_message</key>
     <string>很抱歉，建立播放清單時發生錯誤。</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>對單集左滑，即可新增至播放清單。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>著手建立自己的播放清單</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2287,8 +2285,6 @@ Pocket Casts Plus</string>
     <string>要取代目前的「接下來播放」嗎？</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>取代並播放</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>若播放此內容，將取代目前的「接下來播放」。</string>
     <key>playlist_play_all_sheet_title</key>
     <string>要取代「接下來播放」嗎？</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2319,12 +2315,6 @@ Pocket Casts Plus</string>
     <string>所有追蹤的 Podcast</string>
     <key>playlist_smart_rule_save_button</key>
     <string>儲存智慧規則</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>如果標星號的單集符合其他規則，仍會顯示出來。</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>只包含符合其他規則的標星號單集。</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>標星號的單集</string>
     <key>playlist_smart_rules_title</key>
     <string>智慧規則</string>
     <key>playlists</key>

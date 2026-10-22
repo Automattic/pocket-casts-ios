@@ -189,11 +189,11 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     @objc func progressUpdated(animated: Bool = true) {
-        guard let chapter, chapter == PlaybackManager.shared.currentChapters().visibleChapter else { return }
+        guard let chapter, chapter == PlaybackManager.shared.currentChapters.visibleChapter else { return }
 
         layoutIfNeeded()
 
-        let lapsedTime = PlaybackManager.shared.currentTime() - chapter.effectiveStartTime
+        let lapsedTime = PlaybackManager.shared.currentTime - chapter.effectiveStartTime
         // Clamp to [0, 1]: the playhead can sit before a generated chapter's
         // resolved start (detection uses the raw start), which would otherwise
         // give a negative width.

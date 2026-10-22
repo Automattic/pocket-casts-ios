@@ -33,7 +33,7 @@ class FadeOutManager {
             let volumeMultiplier = pow(M_E, -fadeVelocity * normalizedTime) * (1 - normalizedTime)
             let newVolume = toVolume - (toVolume - fromVolume) * volumeMultiplier
 
-            player?.playing() == true ? player?.setVolume(Float(newVolume)) : timer?.invalidate()
+            player?.isPlaying == true ? player?.setVolume(Float(newVolume)) : timer?.invalidate()
 
             currentChange += 1
         }

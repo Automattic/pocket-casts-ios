@@ -281,7 +281,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 2))
-            view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
+            view.backgroundColor = .clear
             return view
         }
         return nil

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "welcome-icon.svg",
+      "filename" : "whatsnew_inbox.svg",
       "idiom" : "universal"
     }
   ],
@@ -10,6 +10,7 @@
     "version" : 1
   },
   "properties" : {
+    "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
 }

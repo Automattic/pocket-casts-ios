@@ -81,7 +81,7 @@ class AnalyticsCoordinator {
         if let episode = PlaybackManager.shared.currentEpisode, EpisodeManager.willPlayViaHLS(episode) {
             return true
         }
-        return PlaybackManager.shared.isCurrentEpisodeVideo()
+        return PlaybackManager.shared.isCurrentEpisodeVideo
     }
 
     var currentAnalyticsSource: AnalyticsSource {
