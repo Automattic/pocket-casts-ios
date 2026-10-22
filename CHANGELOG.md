@@ -44,6 +44,7 @@
 - Show Now Playing and its Transcript, Details, Chapters, and Bookmarks tabs side by side on iPad and unfolded iPhone Duo on iOS 27.1 and later [#5432](https://github.com/Automattic/pocket-casts-ios/pull/5432)
 - Fix the player scrubber, its time labels, and the skip buttons being out of order in right-to-left languages. They now stay left to right in the full and mini player, and row chevrons in Profile and Settings point the right way [#5437](https://github.com/Automattic/pocket-casts-ios/pull/5437)
 - Improve VoiceOver in Discover, Up Next, Select Theme and the mini player: Follow buttons name their podcast, explicit badges and the selected category are announced, and the shuffle, back and theme buttons have proper labels [#5438](https://github.com/Automattic/pocket-casts-ios/pull/5438)
+- Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 
 8.22
 -----
