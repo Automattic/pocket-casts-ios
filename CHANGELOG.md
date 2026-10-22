@@ -11,6 +11,7 @@
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
 - Fix the episode card's Details and Bookmarks tabs showing the opposite page in right-to-left languages [#5488](https://github.com/Automattic/pocket-casts-ios/pull/5488)
+- Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 
 
 8.23
