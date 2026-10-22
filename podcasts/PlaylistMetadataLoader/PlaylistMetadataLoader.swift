@@ -102,7 +102,13 @@ actor PlaylistMetadataLoader {
 
     private var cache = Cache()
 
-    private var countTasks: [String: Task<Int, Never>] = [:]
+    private struct InFlightTask<Value: Sendable> {
+        let id: UUID
+        let updateDate: Date?
+        let task: Task<Value, Never>
+    }
+
+    private var countTasks: [String: InFlightTask<Int>] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
     private let dataManager: DataManager
@@ -136,14 +142,18 @@ actor PlaylistMetadataLoader {
         let playlistID = playlist.uuid
 
         // Avoid duplicate fetches
-        if let task = countTasks[playlistID] {
-            return await task.value
+        if let inFlight = countTasks[playlistID], inFlight.updateDate == playlist.playlistUpdateDate {
+            return await inFlight.task.value
         }
 
         // Start new fetch task
+        let taskID = UUID()
         let task = Task {
             let newCount = await getEpisodesCount(for: playlist)
 
+            if let current = countTasks[playlistID], current.id != taskID {
+                return newCount
+            }
             countTasks[playlistID] = nil
 
             // Check if the count actually changed
@@ -162,7 +172,7 @@ actor PlaylistMetadataLoader {
 
             return newCount
         }
-        countTasks[playlistID] = task
+        countTasks[playlistID] = InFlightTask(id: taskID, updateDate: playlist.playlistUpdateDate, task: task)
         return await task.value
     }
 
@@ -204,7 +214,7 @@ actor PlaylistMetadataLoader {
     }
 
     func cancelLoadCount(for playlistID: String) {
-        countTasks[playlistID]?.cancel()
+        countTasks[playlistID]?.task.cancel()
         countTasks[playlistID] = nil
     }
 
