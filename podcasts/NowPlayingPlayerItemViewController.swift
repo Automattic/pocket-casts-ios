@@ -289,6 +289,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         setUpArtworkImageView()
         letTitleInfoGrow()
         limitShelfWidth()
+        limitArtworkSize()
         if usesLargeScreenStyle {
             playPauseBtn.useSymbolImage(pointSize: 120, scalesToFit: true)
         }
@@ -488,6 +489,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfStackView.layoutMarginsGuide.trailingAnchor.constraint(greaterThanOrEqualTo: shelfBg.trailingAnchor, constant: trailing.constant),
             preferredWidth
         ])
+    }
+
+    /// Keeps the artwork in the large screen player from growing out of proportion to the controls
+    /// on a wide Now Playing, as on iPad. The slot stays square and centered.
+    private func limitArtworkSize() {
+        guard usesLargeScreenStyle else { return }
+
+        episodeImage.widthAnchor.constraint(lessThanOrEqualToConstant: 560).isActive = true
     }
 
     /// Gives each shelf button the same space on both sides in the large screen player, where the
