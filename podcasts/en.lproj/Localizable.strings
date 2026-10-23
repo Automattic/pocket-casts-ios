@@ -31,6 +31,24 @@
 /* A common string used throughout the app. Accessibility hint to inform that the control opens a menu for more options. */
 "accessibility_more_actions" = "More actions";
 
+/* Accessibility label for the mini player's artwork, which opens the full size player */
+"accessibility_mini_player" = "Player";
+
+/* Accessibility hint for the mini player's artwork. Tapping it opens the full size player */
+"accessibility_mini_player_hint" = "Tap to open full size player";
+
+/* Accessibility label for the button that closes the full size player */
+"accessibility_close_player" = "Close player";
+
+/* Accessibility label for the button that opens the Up Next queue from the player */
+"accessibility_up_next_list" = "Up Next List";
+
+/* Accessibility label for the large podcast artwork shown in the full size player */
+"accessibility_podcast_artwork" = "Podcast Artwork";
+
+/* Accessibility label for the button that opens the actions menu for the episodes on the podcast page */
+"accessibility_episode_actions" = "Episode Actions";
+
 /* A common string used throughout the app. An accessibility label to inform the user the completed percentage of a given task. '%1$@' is a placeholder for the localized spelled out number for Voice Over */
 "accessibility_percent_complete_format" = "%1$@ percent completed";
 

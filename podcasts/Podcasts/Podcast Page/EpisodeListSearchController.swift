@@ -152,9 +152,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UITextFiel
 
         infoLabel.attributedText = info
         overflowButton.isEnabled = isOverflowButtonEnabled
-        if let overflowAccessibilityLabel {
-            overflowButton.accessibilityLabel = overflowAccessibilityLabel
-        }
+        overflowButton.accessibilityLabel = overflowAccessibilityLabel ?? L10n.accessibilityEpisodeActions
         updateActionButton()
         updateClearButton()
         updateLoadingIndicator()
