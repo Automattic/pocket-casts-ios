@@ -6,6 +6,7 @@
 - Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
 - Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
+- Fix the Chapters header turning dark when the list is scrolled [#5507](https://github.com/Automattic/pocket-casts-ios/pull/5507)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
 - Replace the bell icon on the Profile tab's What's New button with an inbox icon [#5460](https://github.com/Automattic/pocket-casts-ios/pull/5460)
 - Fix Up Next still offering Select Episodes and Clear Up Next after the queue is emptied [#5492](https://github.com/Automattic/pocket-casts-ios/pull/5492)
