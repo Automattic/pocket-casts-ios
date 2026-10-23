@@ -109,7 +109,6 @@ struct Constants {
     enum UserDefaults {
         static let globalRemoveSilence = "GlobalRemSilenceSetting"
         static let globalVolumeBoost = "GlobalVolBoostSetting"
-        static let globalPlaybackSpeed = "SJGlobalSpeedSetting"
         static let episodeFinishedAction = "SJPodcastFinishedAction"
         static let appId = "SJUniqueAppId"
 

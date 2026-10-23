@@ -1033,7 +1033,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if effects.isGlobal {
             UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
             UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
-            UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            ServerSettings.setGlobalPlaybackSpeed(effects.playbackSpeed)
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed

@@ -217,6 +217,49 @@ public class ServerSettings {
         }
     }
 
+    // MARK: Global Playback Speed
+
+    public class func setGlobalPlaybackSpeed(_ value: Double, syncChange: Bool = true) {
+        let hasChanged = value != globalPlaybackSpeed()
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.globalPlaybackSpeedKey)
+        if syncChange, hasChanged {
+            UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.globalPlaybackSpeedNeedsSyncKey)
+        }
+    }
+
+    public class func globalPlaybackSpeed() -> Double {
+        UserDefaults.standard.double(forKey: ServerConstants.UserDefaults.globalPlaybackSpeedKey)
+    }
+
+    public class func globalPlaybackSpeedNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.globalPlaybackSpeedNeedsSyncKey)
+    }
+
+    public class func globalPlaybackSpeedSynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.globalPlaybackSpeedNeedsSyncKey)
+    }
+
+    // MARK: Auto Archive Includes Starred
+
+    public class func setAutoArchiveIncludesStarred(_ value: Bool, syncChange: Bool = true) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.autoArchiveIncludesStarredKey)
+        if syncChange {
+            UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.autoArchiveIncludesStarredNeedsSyncKey)
+        }
+    }
+
+    public class func autoArchiveIncludesStarred() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.autoArchiveIncludesStarredKey)
+    }
+
+    public class func autoArchiveIncludesStarredNeedsSyncing() -> Bool {
+        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.autoArchiveIncludesStarredNeedsSyncKey)
+    }
+
+    public class func autoArchiveIncludesStarredSynced() {
+        UserDefaults.standard.set(false, forKey: ServerConstants.UserDefaults.autoArchiveIncludesStarredNeedsSyncKey)
+    }
+
     // MARK: Date of Latest UnsentSubscription Purchase Receipt
 
     private static let iapUnverifiedPurchaseReceipDatetKey = "SJIapDateUnverifiedPurchaseReceipt"
