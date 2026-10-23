@@ -392,6 +392,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
             DispatchQueue.main.sync {
                 if strongSelf.gridLayout != Settings.libraryType {
+                    strongSelf.gridItems = newData
                     strongSelf.podcastsCollectionView.reloadData()
                     strongSelf.gridLayout = Settings.libraryType
                 } else {
