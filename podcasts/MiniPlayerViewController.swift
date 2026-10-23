@@ -125,6 +125,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
+        setupAccessibility()
+
         if #available(iOS 26.0, *) {
             setupLiquidGlassLayout()
         } else {
@@ -133,6 +135,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addUINotificationObservers()
         playbackStateDidChange()
         themeChanged()
+    }
+
+    private func setupAccessibility() {
+        for artworkView in [podcastArtwork, podcastArtwork.superview] {
+            artworkView?.accessibilityLabel = L10n.accessibilityMiniPlayer
+            artworkView?.accessibilityHint = L10n.accessibilityMiniPlayerHint
+        }
+        skipBackBtn.accessibilityLabel = L10n.skipBack
+        skipFwdBtn.accessibilityLabel = L10n.skipForward
+        upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
     }
 
     private func setupCorners() {
