@@ -629,12 +629,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         navController.popViewController(animated: false)
-        let settingViewController = SettingsViewController()
-        navController.pushViewController(settingViewController, animated: row == nil)
+        SettingsViewController.open(from: navController, animated: row == nil) { settingsViewController in
+            guard let row else { return }
 
-        guard let row else { return }
-
-        settingViewController.selectRow(row)
+            settingsViewController.selectRow(row)
+        }
     }
 
     func showSettingsAppearance(showThemeSelection: Bool = false) {
@@ -642,12 +641,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
 
-            navController.pushViewController(SettingsViewController(), animated: false)
-            let appearanceViewController = AppearanceViewController()
-            navController.pushViewController(appearanceViewController, animated: !showThemeSelection)
-            if showThemeSelection {
-                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
-                    Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
+            SettingsViewController.open(from: navController, animated: false) { settingsViewController in
+                let appearanceViewController = AppearanceViewController()
+                settingsViewController.show(appearanceViewController, for: .appearance, animated: !showThemeSelection)
+                if showThemeSelection {
+                    appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
+                        Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
+                    }
                 }
             }
         }
@@ -677,8 +677,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
-            navController.pushViewController(SettingsViewController(), animated: false)
-            navController.pushViewController(HeadphoneSettingsViewController(), animated: true)
+            SettingsViewController.open(from: navController, animated: false) { settingsViewController in
+                settingsViewController.show(HeadphoneSettingsViewController(), for: .headphoneControls)
+            }
         }
     }
 
@@ -693,10 +694,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
-            navController.pushViewController(SettingsViewController(), animated: false)
-            let generalSettingsController = GeneralSettingsViewController()
-            generalSettingsController.scrollToRow = row
-            navController.pushViewController(generalSettingsController, animated: true)
+            SettingsViewController.open(from: navController, animated: false) { settingsViewController in
+                let generalSettingsController = GeneralSettingsViewController()
+                generalSettingsController.scrollToRow = row
+                settingsViewController.show(generalSettingsController, for: .general)
+            }
         }
     }
 
@@ -744,6 +746,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func dismissPresentedViewController(completion: (() -> Void)? = nil) {
         presentedViewController?.dismiss(animated: true, completion: completion)
+    }
+
+    func dismissSettingsSheet() {
+        guard let settingsSheet = selectedViewController?.presentedViewController as? SettingsSplitViewController else { return }
+        settingsSheet.dismiss(animated: false)
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?, source: PlusUpgradeViewSource?) {
