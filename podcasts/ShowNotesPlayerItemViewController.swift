@@ -45,6 +45,15 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     private var showNotesWebView: WKWebView!
     private var safariViewController: SFSafariViewController?
+    private var webViewInsetConstraints: [NSLayoutConstraint] = []
+
+    /// Moves the show notes in from both sides.
+    var webViewHorizontalInset: CGFloat = 0 {
+        didSet {
+            webViewInsetConstraints.first?.constant = webViewHorizontalInset
+            webViewInsetConstraints.last?.constant = -webViewHorizontalInset
+        }
+    }
 
     @IBOutlet var showNotesHolderView: UIView!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
@@ -75,7 +84,14 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
         showNotesWebView.translatesAutoresizingMaskIntoConstraints = false
         showNotesHolderView.addSubview(showNotesWebView)
-        showNotesWebView.anchorToAllSidesOf(view: showNotesHolderView)
+        webViewInsetConstraints = [
+            showNotesWebView.leadingAnchor.constraint(equalTo: showNotesHolderView.leadingAnchor, constant: webViewHorizontalInset),
+            showNotesWebView.trailingAnchor.constraint(equalTo: showNotesHolderView.trailingAnchor, constant: -webViewHorizontalInset)
+        ]
+        NSLayoutConstraint.activate(webViewInsetConstraints + [
+            showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor),
+            showNotesWebView.bottomAnchor.constraint(equalTo: showNotesHolderView.bottomAnchor)
+        ])
 
         showNotesWebView.scrollView.indicatorStyle = .white
         showNotesWebView.allowsLinkPreview = true
