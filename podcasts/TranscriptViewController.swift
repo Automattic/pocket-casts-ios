@@ -830,8 +830,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func updateTextMargins() {
         let readableFrame = view.readableContentGuide.layoutFrame
         guard !readableFrame.isEmpty else { return }
-        let leftMargin = readableFrame.minX + Sizes.textMargin
-        let rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
+        var leftMargin = readableFrame.minX + Sizes.textMargin
+        var rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
+        if isPlayerTab {
+            let margin = PlayerTabsView.largeScreenTitleInset - transcriptView.textContainer.lineFragmentPadding
+            leftMargin = margin
+            rightMargin = margin
+        }
         var topInset = 0.75 * Sizes.topGradientHeight
         if FeatureFlag.generatedTranscripts.enabled,
            transcriptManager?.hasGeneratedTranscripts == true {
