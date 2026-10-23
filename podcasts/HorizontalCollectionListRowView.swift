@@ -62,19 +62,26 @@ struct HorizontalCollectionListRowView: View {
 
     private var header: some View {
         HStack(alignment: .center) {
-            Text(model.type)
-                .foregroundStyle(theme.primaryText01)
-                .font(size: 22, style: .title, weight: .bold)
-                .lineLimit(2)
-            Spacer()
             Button {
                 model.showCollection()
             } label: {
-                Text(L10n.discoverShowAll.localizedUppercase)
-                    .foregroundStyle(theme.primaryInteractive01)
-                    .font(size: 13, style: .title, weight: .bold)
-                    .kerning(0.6)
+                HStack(spacing: 0) {
+                    Text(model.type)
+                        .foregroundStyle(theme.primaryText01)
+                        .font(size: 22, style: .title, weight: .bold)
+                        .lineLimit(2)
+                    Image("chevron-small-right")
+                        .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                        .foregroundStyle(theme.primaryIcon03)
+                        // Nudges the glyph to look optically centered against the text's cap height/line height.
+                        .offset(y: 2)
+                }
             }
+            .buttonStyle(.plain)
+            Spacer()
         }
         .padding(16)
     }
