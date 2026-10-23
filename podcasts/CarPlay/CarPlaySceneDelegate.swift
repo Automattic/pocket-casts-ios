@@ -27,8 +27,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
                 return
             }
 
-            // Open on the loaded episode, playing or paused, with the tabs behind it.
-            if PlaybackManager.shared.currentEpisode != nil {
+            // Open on the playing episode, with the tabs behind it.
+            if PlaybackManager.shared.isPlaying {
                 interfaceController?.showNowPlaying()
             }
         }

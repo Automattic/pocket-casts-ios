@@ -8,7 +8,7 @@
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
 - Fix the player, mini player and podcast page announcing some controls in English with VoiceOver in other languages [#5503](https://github.com/Automattic/pocket-casts-ios/pull/5503)
 - Fix the Login button on the login landing not being translated [#5501](https://github.com/Automattic/pocket-casts-ios/pull/5501)
-- CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
+- CarPlay opens on Now Playing when an episode is playing, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
 - Add deep links to the Stats, Files, Starred, Bookmarks, Listening History and Help screens in Profile [#5491](https://github.com/Automattic/pocket-casts-ios/pull/5491)
 - Fix several right-to-left layout issues: text alignment in Discover, the Podcasts list and Podcast Settings, the half rating star, the player chapter arrows and episode swipe actions [#5510](https://github.com/Automattic/pocket-casts-ios/pull/5510)
 - Fix Up Next changes made while the phone is locked not syncing to other devices until the next unlocked sync [#5498](https://github.com/Automattic/pocket-casts-ios/pull/5498)
