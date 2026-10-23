@@ -8,6 +8,7 @@
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
 - Fix the Login button on the login landing not being translated [#5501](https://github.com/Automattic/pocket-casts-ios/pull/5501)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
+- Fix Up Next changes made while the phone is locked not syncing to other devices until the next unlocked sync [#5498](https://github.com/Automattic/pocket-casts-ios/pull/5498)
 - Replace the bell icon on the Profile tab's What's New button with an inbox icon [#5460](https://github.com/Automattic/pocket-casts-ios/pull/5460)
 - Fix Up Next still offering Select Episodes and Clear Up Next after the queue is emptied [#5492](https://github.com/Automattic/pocket-casts-ios/pull/5492)
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
