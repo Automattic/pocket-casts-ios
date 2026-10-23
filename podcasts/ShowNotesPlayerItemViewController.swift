@@ -57,9 +57,12 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
     }
 
     private var episode: Episode?
+    private var chipsStack: UIStackView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupChipsStack()
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ShowNotesPlayerItemViewController, _) in
             controller.updateSize()
@@ -266,10 +269,39 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, @preconcurren
 
     // MARK: - Dynamic type
 
+    private func setupChipsStack() {
+        guard let row = dateImageView.superview else { return }
+
+        let dateChip = UIStackView(arrangedSubviews: [dateImageView, publishedDate])
+        let durationChip = UIStackView(arrangedSubviews: [durationImageView, duration])
+        for chip in [dateChip, durationChip] {
+            chip.spacing = 6
+            chip.alignment = .center
+        }
+
+        let chipsStack = UIStackView(arrangedSubviews: [dateChip, durationChip])
+        chipsStack.spacing = 14
+        chipsStack.translatesAutoresizingMaskIntoConstraints = false
+        row.addSubview(chipsStack)
+        NSLayoutConstraint.activate([
+            chipsStack.leadingAnchor.constraint(equalTo: row.leadingAnchor, constant: 20),
+            chipsStack.trailingAnchor.constraint(lessThanOrEqualTo: row.trailingAnchor, constant: -20),
+            chipsStack.topAnchor.constraint(equalTo: row.topAnchor),
+            chipsStack.bottomAnchor.constraint(equalTo: row.bottomAnchor)
+        ])
+        self.chipsStack = chipsStack
+    }
+
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let size = max(metric.scaledValue(for: 24), 24)
         durationImageView.updateSizeConstraints(to: size)
         dateImageView.updateSizeConstraints(to: size)
+
+        let isStacked = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        chipsStack?.axis = isStacked ? .vertical : .horizontal
+        chipsStack?.alignment = isStacked ? .leading : .fill
+        publishedDate.numberOfLines = isStacked ? 0 : 1
+        duration.numberOfLines = isStacked ? 0 : 1
     }
 }
