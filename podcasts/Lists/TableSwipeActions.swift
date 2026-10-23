@@ -84,3 +84,10 @@ struct TableSwipeAction {
         self.handler = handler
     }
 }
+
+extension SwipeActionsOrientation {
+    var resolvedForLayoutDirection: SwipeActionsOrientation {
+        guard UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft else { return self }
+        return self == .left ? .right : .left
+    }
+}
