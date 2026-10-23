@@ -22,6 +22,7 @@
 - Fix the episode card's Details and Bookmarks tabs showing the opposite page in right-to-left languages [#5488](https://github.com/Automattic/pocket-casts-ios/pull/5488)
 - Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 - Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
+- Show episode titles in the CarPlay Up Next row, so queued episodes from the same podcast can be told apart [#PR]
 
 
 8.23
