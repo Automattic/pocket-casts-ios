@@ -29,6 +29,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
+            skipBackBtn.accessibilityLabel = L10n.skipBack
             skipBackBtn.semanticContentAttribute = .playback
         }
     }
@@ -36,6 +37,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipFwdBtn: SkipButton! {
         didSet {
             skipFwdBtn.skipBack = false
+            skipFwdBtn.accessibilityLabel = L10n.skipForward
             skipFwdBtn.semanticContentAttribute = .playback
             skipFwdBtn.longPressed = { [weak self] in
                 self?.skipForwardLongPressed()
@@ -53,6 +55,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var episodeImage: UIImageView! {
         didSet {
+            episodeImage.accessibilityLabel = L10n.accessibilityPodcastArtwork
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
