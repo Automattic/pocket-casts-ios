@@ -11,10 +11,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     #if APPCLIP
-    @IBOutlet var upNextBtn: UIButton!
+    @IBOutlet var upNextBtn: UIButton! {
+        didSet {
+            upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
+        }
+    }
     #else
     @IBOutlet var upNextBtn: UpNextButton! {
         didSet {
+            upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
             upNextBtn.themeOverride = .dark
             upNextBtn.iconColor = AppTheme.colorForStyle(.playerContrast01)
         }
@@ -159,6 +164,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     @IBOutlet var closeBtn: ThemeableUIButton! {
         didSet {
             closeBtn.style = .playerContrast02
+            closeBtn.accessibilityLabel = L10n.accessibilityClosePlayer
         }
     }
 

@@ -11,9 +11,6 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewHandler?.scrollViewDidScroll?(scrollView)
-        if usesLargeScreenStyle {
-            updateHeaderColor()
-        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -123,18 +120,6 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        shouldShowDeselectChaptersHeader ? 44 : CGFloat.leastNonzeroMagnitude
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        shouldShowDeselectChaptersHeader ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return header
     }
 
     var shouldShowDeselectChaptersHeader: Bool {

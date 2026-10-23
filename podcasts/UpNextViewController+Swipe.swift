@@ -6,7 +6,7 @@ import SwipeCellKit
 
 extension UpNextViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        switch orientation {
+        switch orientation.resolvedForLayoutDirection {
         case .left:
             let moveToTopAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
                 guard let self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
@@ -101,7 +101,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
 
-        switch orientation {
+        switch orientation.resolvedForLayoutDirection {
         case .left:
             options.expansionStyle = .selection
         case .right:

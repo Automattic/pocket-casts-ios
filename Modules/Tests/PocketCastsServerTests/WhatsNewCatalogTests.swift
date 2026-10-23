@@ -233,6 +233,7 @@ final class WhatsNewCatalogTests: XCTestCase {
             "open_discover": .openDiscover,
             "open_networks": .openNetworks,
             "open_playlists": .openPlaylists,
+            "open_files": .openFiles,
             "open_podcasts": .openPodcasts,
             "open_profile": .openProfile,
             "open_settings": .openSettings,
