@@ -472,16 +472,20 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToProfile(row: ProfileViewController.TableRow? = nil, animated: Bool) {
-        switchToTab(.profile)
-        guard let navController = selectedViewController as? UINavigationController else {
-            return
+        guard let miniPlayer = NavigationManager.shared.miniPlayer, miniPlayer.playerOpenState != .animating else { return }
+
+        miniPlayer.closeFullScreenPlayer { [weak self] in
+            guard let self, switchToTab(.profile),
+                  let navController = selectedViewController as? UINavigationController else {
+                return
+            }
+            navController.popToRootViewController(animated: animated && row == nil)
+            guard let profileViewController = navController.topViewController as? ProfileViewController,
+                let row else {
+                return
+            }
+            profileViewController.navigateToRow(row)
         }
-        navController.popToRootViewController(animated: animated)
-        guard let profileViewController = navController.topViewController as? ProfileViewController,
-            let row else {
-            return
-        }
-        profileViewController.navigateToRow(row)
     }
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool) {

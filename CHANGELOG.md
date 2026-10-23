@@ -9,6 +9,7 @@
 - Fix the player, mini player and podcast page announcing some controls in English with VoiceOver in other languages [#5503](https://github.com/Automattic/pocket-casts-ios/pull/5503)
 - Fix the Login button on the login landing not being translated [#5501](https://github.com/Automattic/pocket-casts-ios/pull/5501)
 - CarPlay opens on Now Playing when an episode is playing or paused, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
+- Add deep links to the Stats, Files, Starred, Bookmarks, Listening History and Help screens in Profile [#5491](https://github.com/Automattic/pocket-casts-ios/pull/5491)
 - Fix Up Next changes made while the phone is locked not syncing to other devices until the next unlocked sync [#5498](https://github.com/Automattic/pocket-casts-ios/pull/5498)
 - Replace the bell icon on the Profile tab's What's New button with an inbox icon [#5460](https://github.com/Automattic/pocket-casts-ios/pull/5460)
 - Fix Up Next still offering Select Episodes and Clear Up Next after the queue is emptied [#5492](https://github.com/Automattic/pocket-casts-ios/pull/5492)

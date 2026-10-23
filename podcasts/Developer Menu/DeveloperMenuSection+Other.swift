@@ -114,6 +114,7 @@ private extension WhatsNewAction.Kind {
     static let all: [Self] = [
         .createPlaylist,
         .openDiscover,
+        .openFiles,
         .openNetworks,
         .openPlaylists,
         .openPodcasts,

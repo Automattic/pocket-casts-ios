@@ -63,7 +63,13 @@ class NavigationManager {
     static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
     static let profileRowKey = "profileRow"
+    static let profileRowStatsKey = "stats"
     static let profileRowDownloadsKey = "downloads"
+    static let profileRowFilesKey = "files"
+    static let profileRowStarredKey = "starred"
+    static let profileRowBookmarksKey = "bookmarks"
+    static let profileRowListeningHistoryKey = "history"
+    static let profileRowHelpKey = "help"
     static let profileRowEndOfYearKey = "playback"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
@@ -298,11 +304,25 @@ class NavigationManager {
             mainController?.navigateToProfile(row: nil, animated: animated)
             return
         }
-        if row == NavigationManager.profileRowDownloadsKey {
+        switch row {
+        case NavigationManager.profileRowStatsKey:
+            mainController?.navigateToProfile(row: .allStats, animated: animated)
+        case NavigationManager.profileRowDownloadsKey:
             mainController?.navigateToProfile(row: .downloaded, animated: animated)
-        }
-        if row == NavigationManager.profileRowEndOfYearKey {
+        case NavigationManager.profileRowFilesKey:
+            mainController?.navigateToProfile(row: .uploadedFiles, animated: animated)
+        case NavigationManager.profileRowStarredKey:
+            mainController?.navigateToProfile(row: .starred, animated: animated)
+        case NavigationManager.profileRowBookmarksKey:
+            mainController?.navigateToProfile(row: .bookmarks, animated: animated)
+        case NavigationManager.profileRowListeningHistoryKey:
+            mainController?.navigateToProfile(row: .listeningHistory, animated: animated)
+        case NavigationManager.profileRowHelpKey:
+            mainController?.navigateToProfile(row: .help, animated: animated)
+        case NavigationManager.profileRowEndOfYearKey:
             mainController?.navigateToProfile(row: .endOfYearPrompt, animated: animated)
+        default:
+            break
         }
     }
 
