@@ -23,7 +23,7 @@ struct PlaylistCellView: View {
         switch viewModel.displayType {
         case .check:
             let displayCount = isSelected ? viewModel.episodesCount + viewModel.additionalEpisodesCount : viewModel.episodesCount
-            return L10n.playlistEpisodesCount(displayCount)
+            return L10n.playlistEpisodeCount(displayCount)
         case .toggle, .count, .plain:
             if viewModel.isSmartPlaylist() {
                 return L10n.smartPlaylist
@@ -117,7 +117,7 @@ struct PlaylistCellView: View {
         case .count:
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
-                    .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
+                    .accessibilityLabel(L10n.playlistEpisodeCount(viewModel.episodesCount))
             }
             .padding(.trailing, 8.0)
         case .toggle:

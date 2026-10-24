@@ -20,7 +20,7 @@ struct NewPlaylistCellView: View {
     private var subtitle: String? {
         switch viewModel.displayType {
         case .check:
-            return L10n.playlistEpisodesCount(viewModel.episodesCount)
+            return L10n.playlistEpisodeCount(viewModel.episodesCount)
         case .toggle, .count, .plain:
             if viewModel.isSmartPlaylist {
                 return L10n.smartPlaylist
@@ -92,7 +92,7 @@ struct NewPlaylistCellView: View {
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
                     .lineLimit(1)
-                    .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
+                    .accessibilityLabel(L10n.playlistEpisodeCount(viewModel.episodesCount))
             }
         default:
             EmptyView()
