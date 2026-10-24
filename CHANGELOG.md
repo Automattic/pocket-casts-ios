@@ -19,6 +19,7 @@
 - Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
+- Fix the Playlists tab keeping the old episode count after a smart rule edit [#5495](https://github.com/Automattic/pocket-casts-ios/pull/5495)
 - Fix the episode card's Details and Bookmarks tabs showing the opposite page in right-to-left languages [#5488](https://github.com/Automattic/pocket-casts-ios/pull/5488)
 - Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 - Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
