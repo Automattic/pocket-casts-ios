@@ -24,6 +24,7 @@
 - Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
 - Fix German capitalization, singular and plural wording, number formatting and untranslated texts in smart playlist rules, playlists, bookmarks, folders, Auto Download, the player, Discover categories and Import [#5511](https://github.com/Automattic/pocket-casts-ios/pull/5511)
 - Fix text breaking mid-word, truncating or not scaling in the Profile, Stats, Create Folder, empty states, episode card, player Details, playlists, paywall and other screens at the largest text sizes [#5512](https://github.com/Automattic/pocket-casts-ios/pull/5512)
+- Fix the Apple Watch staying locked as Plus only after buying Plus on the iPhone, or keeping the previous account's Plus after switching accounts [#5516](https://github.com/Automattic/pocket-casts-ios/pull/5516)
 
 
 8.23
