@@ -190,16 +190,29 @@ class WatchSyncManager {
             let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
             let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
 
+            let action = WatchSyncDecision.loginDetailsAction(isLoggedIn: SyncManager.isUserLoggedIn(),
+                                                              watchUsername: ServerSettings.syncingEmail() ?? "",
+                                                              phoneUsername: username)
+            if action == .switchAccount {
+                // Sign out before saving the new credentials, signout clears them along with the previous account's token and data
+                FileLog.shared.addMessage("Phone is signed in to a different account, signing in again")
+                SyncManager.signout()
+            }
+
             ServerSettings.setSyncingEmail(email: username)
             ServerSettings.saveSyncingPassword(password)
             ServerSettings.setRefreshToken(refreshToken)
 
-            if SyncManager.isUserLoggedIn(), username.isEmpty {
+            switch action {
+            case .signOut:
                 FileLog.shared.addMessage("Logging out as phone has logged out ")
                 SyncManager.signout()
                 WKApplication.shared().visibleInterfaceController?.popToRootController()
-            } else if !SyncManager.isUserLoggedIn() {
+            case .logIn, .switchAccount:
                 self.login()
+            case .recheckSubscription:
+                FileLog.shared.addMessage("Login details changed on phone, checking subscription status")
+                self.checkSubscriptionStatus()
             }
         }, errorHandler: { error in
             FileLog.shared.addMessage("Failed to get login details: \(error?.localizedDescription ?? "No error information")")
