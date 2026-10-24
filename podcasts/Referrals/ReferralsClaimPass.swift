@@ -8,7 +8,7 @@ class ReferralClaimPassModel: ObservableObject {
     let referralURL: URL?
     let coordinator: ReferralsCoordinator
     var canClaimPass: Bool
-    var presentationController: UIViewController?
+    weak var presentationController: UIViewController?
     var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
