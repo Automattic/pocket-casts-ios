@@ -107,7 +107,7 @@ struct SourceInterfaceNavigationView: View {
 
     @ViewBuilder
     var refreshAccountSection: some View {
-        if !model.isLoggedIn {
+        if !model.isLoggedIn || !model.isPlusUser {
             Section {
                 Button(action: {
                     model.refreshAccountTapped()

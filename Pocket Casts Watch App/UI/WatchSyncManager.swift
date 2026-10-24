@@ -186,25 +186,56 @@ class WatchSyncManager {
         }
 
         SessionManager.shared.requestLoginDetails(replyHandler: { response in
-            let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
-            let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
-            let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
-
-            ServerSettings.setSyncingEmail(email: username)
-            ServerSettings.saveSyncingPassword(password)
-            ServerSettings.setRefreshToken(refreshToken)
-
-            if SyncManager.isUserLoggedIn(), username.isEmpty {
-                FileLog.shared.addMessage("Logging out as phone has logged out ")
-                SyncManager.signout()
-                WKApplication.shared().visibleInterfaceController?.popToRootController()
-            } else if !SyncManager.isUserLoggedIn() {
-                self.login()
+            // Switching accounts stops playback, so handle the reply on the main queue
+            DispatchQueue.main.async {
+                self.applyLoginDetails(response)
             }
         }, errorHandler: { error in
             FileLog.shared.addMessage("Failed to get login details: \(error?.localizedDescription ?? "No error information")")
         })
         return true
+    }
+
+    private func applyLoginDetails(_ response: [String: Any]) {
+        let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
+        let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
+        let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
+
+        let action = WatchSyncDecision.loginDetailsAction(isLoggedIn: SyncManager.isUserLoggedIn(),
+                                                          watchUsername: ServerSettings.syncingEmail() ?? "",
+                                                          phoneUsername: username)
+        if action == .switchAccount {
+            // Before saving the new credentials, signout clears them along with the previous account's token
+            clearPreviousAccount()
+        }
+
+        ServerSettings.setSyncingEmail(email: username)
+        ServerSettings.saveSyncingPassword(password)
+        ServerSettings.setRefreshToken(refreshToken)
+
+        switch action {
+        case .signOut:
+            FileLog.shared.addMessage("Logging out as phone has logged out ")
+            SyncManager.signout()
+            WKApplication.shared().visibleInterfaceController?.popToRootController()
+        case .logIn, .switchAccount:
+            login()
+        case .recheckSubscription:
+            FileLog.shared.addMessage("Login details changed on phone, checking subscription status")
+            checkSubscriptionStatus()
+        }
+    }
+
+    /// Signs out and deletes the previous account's podcasts, episodes, Up Next, playlists and downloads before the watch
+    /// signs in to the phone's new account. Otherwise the new account's first sync would merge them into it: the login
+    /// Up Next sync keeps local episodes the server doesn't have, and the full sync marks local podcasts and playlists unsynced.
+    private func clearPreviousAccount() {
+        FileLog.shared.addMessage("Phone is signed in to a different account, clearing the watch and signing in again")
+        SyncManager.signout()
+        PlaybackManager.shared.endPlayback(saveCurrentEpisode: false)
+        // After endPlayback, which can save an empty Up Next replace that would otherwise wipe the new account's queue on its next sync
+        DataManager.shared.deleteAllData()
+        DownloadManager.shared.removeAllDownloadedFiles()
     }
 
     @objc func checkSubscriptionStatus() {
