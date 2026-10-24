@@ -10,6 +10,13 @@ class TopLevelSettingsCell: ThemeableCell {
     }
     @IBOutlet var plusIndicator: UIImageView!
 
+    var showsPlusIndicator = false {
+        didSet {
+            plusIndicator.isHidden = !showsPlusIndicator
+            updateSize()
+        }
+    }
+
     private var disclosureImageView: TintableImageView?
 
     private let baseSettingsImageSize: CGFloat = 24
@@ -56,7 +63,7 @@ class TopLevelSettingsCell: ThemeableCell {
         let iconSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
         settingsImage.updateSizeConstraints(to: iconSize)
 
-        plusIndicator.updateSizeConstraints(to: iconSize)
+        plusIndicator.updateSizeConstraints(to: plusIndicator.isHidden ? 0 : iconSize)
 
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImageView?.frame.size = CGSize(width: disclosureSize, height: disclosureSize)

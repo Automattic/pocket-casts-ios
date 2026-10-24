@@ -5,6 +5,7 @@ struct NewPlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: NewPlaylistCellViewModel
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 56
 
     private var title: String {
@@ -65,9 +66,14 @@ struct NewPlaylistCellView: View {
                     subtitleView(text: subtitle)
                         .lineLimit(2)
                 }
+                if dynamicTypeSize.isAccessibilitySize {
+                    accesoryView()
+                }
             }
             Spacer()
-            accesoryView()
+            if !dynamicTypeSize.isAccessibilitySize {
+                accesoryView()
+            }
         }
         .accessibilityElement(children: .combine)
         .background(.clear)

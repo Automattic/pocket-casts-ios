@@ -9,7 +9,7 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard isMultiSelectEnabled == false, let episode = uploadedEpisodes[safe: indexPath.row] else { return nil }
 
-        switch orientation {
+        switch orientation.resolvedForLayoutDirection {
         case .left:
             let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
             return actions.swipeKitActions()

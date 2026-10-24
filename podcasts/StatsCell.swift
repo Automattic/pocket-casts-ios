@@ -10,6 +10,19 @@ class StatsCell: ThemeableCell {
         }
     }
 
+    @IBOutlet var nameBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var nameMaxWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var valueLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var valueTopConstraint: NSLayoutConstraint!
+
+    private lazy var stackedConstraints = [
+        statName.bottomAnchor.constraint(equalTo: statValue.topAnchor),
+        statValue.leadingAnchor.constraint(equalTo: statName.leadingAnchor),
+        statName.trailingAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.trailingAnchor)
+    ]
+
+    private lazy var sideBySideValueAlignment = statValue.textAlignment
+
     override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
@@ -45,5 +58,12 @@ class StatsCell: ThemeableCell {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let size = max(metric.scaledValue(for: 24), 24)
         statsIcon.updateSizeConstraints(to: size)
+
+        let isStacked = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        let sideBySideAlignment = sideBySideValueAlignment
+        let sideBySideConstraints: [NSLayoutConstraint] = [nameBottomConstraint, nameMaxWidthConstraint, valueLeadingConstraint, valueTopConstraint]
+        NSLayoutConstraint.deactivate(isStacked ? sideBySideConstraints : stackedConstraints)
+        NSLayoutConstraint.activate(isStacked ? stackedConstraints : sideBySideConstraints)
+        statValue.textAlignment = isStacked ? .natural : sideBySideAlignment
     }
 }

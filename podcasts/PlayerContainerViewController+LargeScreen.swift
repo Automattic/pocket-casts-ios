@@ -173,7 +173,7 @@ extension PlayerContainerViewController {
                 layout.divider.bottomAnchor.constraint(equalTo: tabsHostView.bottomAnchor),
                 layout.divider.leadingAnchor.constraint(equalTo: tabsHostView.leadingAnchor),
                 layout.divider.widthAnchor.constraint(equalToConstant: 1),
-                tabsView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16)
+                tabsView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: PlayerTabsView.largeScreenLeadingMargin)
             ]
         } else {
             headerView.addSubview(closeBtn)
@@ -248,11 +248,18 @@ extension PlayerContainerViewController {
         let host = layout.isSplit ? layout.tabsPane : layout.playerPane
         var previousPage: UIView? = layout.isSplit ? nil : nowPlayingItem.view
         finalScrollViewConstraint?.isActive = false
-        for (_, item) in tabs {
+        for (tab, item) in tabs {
             guard let page = item.view else { continue }
 
             item.usesLargeScreenStyle = true
+            item.additionalSafeAreaInsets = .zero
             item.willBeAddedToPlayer()
+            if layout.isSplit, let margin = largeScreenContentMargin(of: tab) {
+                let inset = PlayerTabsView.largeScreenTitleInset - margin
+                item.additionalSafeAreaInsets.left += inset
+                item.additionalSafeAreaInsets.right += inset
+            }
+            (item as? ShowNotesPlayerItemViewController)?.webViewHorizontalInset = layout.isSplit ? 4 : 0
             host.addChild(item)
             mainScrollView.addSubview(page)
             NSLayoutConstraint.activate([
@@ -274,6 +281,16 @@ extension PlayerContainerViewController {
 
         host.view.layoutIfNeeded()
         keepLargeScreenTabInView()
+    }
+
+    /// The distance from the edge of a tab's page to its content, which the pages lay out with
+    /// themselves. The transcript sets its own margin.
+    private func largeScreenContentMargin(of tab: PlayerTabs) -> CGFloat? {
+        switch tab {
+        case .showNotes, .chapters: 20
+        case .bookmarks: 16
+        case .nowPlaying, .transcript: nil
+        }
     }
 
     /// The tab to select after rebuilding the tabs. Next to Now Playing, it's the one picked for
