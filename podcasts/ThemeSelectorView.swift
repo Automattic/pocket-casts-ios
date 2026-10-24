@@ -49,9 +49,9 @@ struct ThemeSelectorView: View {
 struct ThemePreviewView: View {
     @EnvironmentObject var theme: Theme
 
-    @State var themeType: Theme.ThemeType
-    @State var isSelected: Bool
-    @State var isLocked: Bool
+    let themeType: Theme.ThemeType
+    let isSelected: Bool
+    let isLocked: Bool
 
     var body: some View {
         VStack {
