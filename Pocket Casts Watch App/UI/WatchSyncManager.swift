@@ -194,7 +194,9 @@ class WatchSyncManager {
                                                               watchUsername: ServerSettings.syncingEmail() ?? "",
                                                               phoneUsername: username)
             if action == .switchAccount {
-                // Sign out before saving the new credentials, signout clears them along with the previous account's token and data
+                // Sign out before saving the new credentials, signout clears them along with the previous account's
+                // token and subscription status. Local podcasts and playlists stay and are merged into the new account
+                // on its first full sync, the same as on the phone, whose sign out doesn't clear them either.
                 FileLog.shared.addMessage("Phone is signed in to a different account, signing in again")
                 SyncManager.signout()
             }
