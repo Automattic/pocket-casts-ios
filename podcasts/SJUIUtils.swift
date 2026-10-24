@@ -25,11 +25,26 @@ enum SJUIUtils {
         return navController
     }
 
+    static func formSheetNavController(for controller: UIViewController, presentedFrom presenter: UIViewController, navStyle: ThemeStyle = .secondaryUi01, titleStyle: ThemeStyle = .secondaryText01, iconStyle: ThemeStyle = .primaryIcon01, themeOverride: Theme.ThemeType? = nil) -> PCNavigationController {
+        let navController = popupNavController(for: controller, navStyle: navStyle, titleStyle: titleStyle, iconStyle: iconStyle, themeOverride: themeOverride)
+        if presenter.isInRegularSizeWindow {
+            navController.modalPresentationStyle = .formSheet
+        }
+        return navController
+    }
+
     private static func createDialog(title: String, message: String?) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: L10n.ok, style: .default, handler: nil)
         alert.addAction(okAction)
 
         return alert
+    }
+}
+
+extension UIViewController {
+    var isInRegularSizeWindow: Bool {
+        guard let windowTraits = view.window?.traitCollection else { return false }
+        return windowTraits.horizontalSizeClass == .regular && windowTraits.verticalSizeClass == .regular
     }
 }

@@ -1,6 +1,7 @@
 8.24
 -----
 - Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
+- Open Change Email, Change Password and the Account upgrade screen as sheets on iPad and other large screens [#5469](https://github.com/Automattic/pocket-casts-ios/pull/5469)
 - Show the standard iPad tab bar and a centered mini player on iPad [#5472](https://github.com/Automattic/pocket-casts-ios/pull/5472)
 - Show a wider mini player with elapsed and remaining time, transcript and bookmark buttons on iPad and other large screens [#5477](https://github.com/Automattic/pocket-casts-ios/pull/5477)
 - Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
