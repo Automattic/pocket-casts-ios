@@ -25,7 +25,6 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
         cell.hidesArtwork = false
         cell.playlist = .files
-        cell.delegate = self
         let episode: BaseEpisode = uploadedEpisodes[indexPath.row] as BaseEpisode
         cell.populateFrom(episode: episode, tintColor: ThemeColor.primaryIcon01(), podcastUuid: episode.parentIdentifier())
         cell.shouldShowSelect = isMultiSelectEnabled

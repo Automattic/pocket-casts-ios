@@ -117,7 +117,6 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
             cell.episodeImageLeadConstraint.constant = 16.0
             cell.playlist = .filter(uuid: viewModel.playlist.uuid)
-            cell.delegate = self
             if let listEpisode = itemAtRow as? ListEpisode {
                 cell.populateFrom(episode: listEpisode.episode, tintColor: nil, playlistUuid: viewModel.playlist.uuid)
                 cell.shouldShowSelect = isMultiSelectEnabled

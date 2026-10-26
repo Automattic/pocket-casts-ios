@@ -66,7 +66,7 @@ enum SwipeActionsHelper {
         }
 
         if PlaybackManager.shared.inUpNext(episode: episode) {
-            let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
+            let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.removeIfPlayingOrQueued(episode: loadedEpisode, fireNotification: true, userInitiated: true)
                     Self.performAction(.upNextRemove, handler: swipeHandler, willBeRemoved: false)
@@ -76,7 +76,7 @@ enum SwipeActionsHelper {
             })
             tableSwipeActions.addAction(removeFromUpNextAction)
         } else {
-            let addTopAction = TableSwipeAction(indexPath: indexPath, title: L10n.playNext, removesFromList: false, backgroundColor: ThemeColor.support04(), icon: UIImage(named: "list_playnext"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
+            let addTopAction = TableSwipeAction(indexPath: indexPath, title: L10n.playNext, removesFromList: false, backgroundColor: ThemeColor.support04(), icon: UIImage(named: "list_playnext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
                     Self.performAction(.upNextAddTop, handler: swipeHandler, willBeRemoved: false)
@@ -85,7 +85,7 @@ enum SwipeActionsHelper {
                 return true
             })
 
-            let addBottomAction = TableSwipeAction(indexPath: indexPath, title: L10n.playLast, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "list_playlast"), tableView: tableView, hidesWhenSelected: true, handler: { _ -> Bool in
+            let addBottomAction = TableSwipeAction(indexPath: indexPath, title: L10n.playLast, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "list_playlast"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.shared.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
                     Self.performAction(.upNextAddBottom, handler: swipeHandler, willBeRemoved: false)
@@ -145,7 +145,7 @@ enum SwipeActionsHelper {
         }
 
         if let episode = episode as? Episode {
-            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
+            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { indexPath -> Bool in
                     swipeHandler.share(episode: episode, at: indexPath)
                     Self.performAction(.share, handler: swipeHandler, willBeRemoved: false)
                 return true
@@ -153,7 +153,7 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(shareAction)
 
             if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
-                let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: addToPlaylistSwipeBackground, icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
+                let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: addToPlaylistSwipeBackground, icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
                     swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
                     Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
                     return true
